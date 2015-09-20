@@ -112,7 +112,7 @@
         <location filename="../src/gui/aboutdialog.cpp" line="206"></location>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation>左、右，%1、%2</translation>
+        <translation>Left, Right, %1, %2</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"></location>
@@ -195,7 +195,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"></location>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation>將給定 MIME 類型的資料，轉送到命令的標準輸入 (要停用則留白)</translation>
+        <translation>將給定 MIME 分類的資料，轉送到命令的標準輸入 (要停用則留白)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"></location>
@@ -289,7 +289,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="173"></location>
         <source>Paste as Plain Text</source>
-        <translation>作為純文字貼上</translation>
+        <translation>轉為純文字貼上</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="179"></location>
@@ -304,7 +304,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="191"></location>
         <source>Copy URL (web address) to other tab</source>
-        <translation>複製 URL（網站位址）到另一分頁</translation>
+        <translation>複製 URL (網站位址) 到另一分頁</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="198"></location>
@@ -314,7 +314,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="206"></location>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation>從 URL 建立 QR 碼（需要 qrencode）</translation>
+        <translation>從 URL 建立 QR 碼 (需要 qrencode)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="215"></location>
@@ -377,7 +377,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1805"></location>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation>真想 &lt;strong&gt;放棄更改&lt;/strong&gt; 嗎？</translation>
+        <translation>真想 &lt;strong&gt;放棄變更&lt;/strong&gt; 嗎？</translation>
     </message>
 </context>
 <context>
@@ -528,7 +528,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="65"></location>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation>Command contains list of programs with arguments which will be executed. 例如:</translation>
+        <translation>命令含有將要執行的程式(連同參元)清單。例如:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="69"></location>
@@ -582,22 +582,22 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="53"></location>
         <source>Type of Action</source>
-        <translation>動作類型</translation>
+        <translation>啟動方式</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="74"></location>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation>如果剪貼簿有新內容，自動執行命令</translation>
+        <translation>如果剪貼簿有新內容，即自動執行命令</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="77"></location>
         <source>Auto&amp;matic</source>
-        <translation>自動的(&amp;M)</translation>
+        <translation>自動(&amp;M)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="84"></location>
         <source>Show command in context menu of matching items</source>
-        <translation>在相合項的右鍵功能表中顯示命令</translation>
+        <translation>若項目內容符合先決條件，則於右鍵功能表中顯示命令</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="87"></location>
@@ -612,13 +612,13 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="131"></location>
         <source>Match Items</source>
-        <translation>相合項</translation>
+        <translation type="unfinished">先決條件</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="155"></location>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation>這個 MIME 類型的資料會傳到命令的標準輸入。
+        <translation>有此 MIME 分類的資料會傳到命令的標準輸入。
 要停用此功能則留白。</translation>
     </message>
     <message>
@@ -629,7 +629,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="176"></location>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;命令僅用於，由視窗標題文字符合字串類型式的視窗，複製到剪貼簿的項目 (留白，則不限視窗標題)。在 OS X 上，視窗標題為應用程式名稱之後加破折號 ("-") 然後視窗標題。例如 &amp;quot;Safari - GitHub&amp;quot;。&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;命令僅用於，從視窗標題文字符合字串類型式的視窗，複製到剪貼簿的項目 (留白，則不限視窗標題)。在 OS X 上，視窗標題為應用程式名稱之後加破折號 ("-") 然後視窗標題。例如 &amp;quot;Safari - GitHub&amp;quot;。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="183"></location>
@@ -639,7 +639,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="193"></location>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;命令僅用於文字符合此字串類型式的項目（要用於任何項目，則留白）。&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;例如:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL 符合後面類型   &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  PDF 檔名符合後面類型    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  單一字元符合後面類型    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  遠端多媒體符合後面類型    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;命令僅用於文字有符合此字串類型式的項目（要不限項目，則留白）。&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;例如:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL 符合後面類型   &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  PDF 檔名符合後面類型    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  單一字元符合後面類型    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  遠端多媒體符合後面類型    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="206"></location>
@@ -660,18 +660,18 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation>&lt;p&gt;轉換器命令成功了才用上命令。&lt;/p&gt;
+        <translation>&lt;p&gt;轉換器命令成功執行了才用上命令。&lt;/p&gt;
 
 &lt;p&gt;項目文字傳到轉換器命令的 &lt;b&gt;標準輸入&lt;/b&gt;。該項目 &lt;b&gt;只在轉換器命令的結束碼為 0 時，才被挑出&lt;/b&gt;。&lt;/p&gt;
 
-&lt;p&gt; &lt;b&gt;%1&lt;/b&gt; 表作為參元傳送的項目文字，&lt;b&gt;%2&lt;/b&gt; 至 &lt;b&gt;%9&lt;/b&gt; 表合於字串類型式（部分括在括弧中）的參元。&lt;/p&gt;
+&lt;p&gt; &lt;b&gt;%1&lt;/b&gt; 表作為參元傳送的項目文字，&lt;b&gt;%2&lt;/b&gt; 至 &lt;b&gt;%9&lt;/b&gt; 表合於字串類型式 (部分括在括弧中) 的參元。&lt;/p&gt;
 
 &lt;p&gt;使用 &lt;b&gt;|&lt;/b&gt; 聯接命令 (標準輸出傳給下一個命令)。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="251"></location>
         <source>Comman&amp;d</source>
-        <translation>命令</translation>
+        <translation>命令(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="267"></location>
@@ -693,9 +693,9 @@ Leave empty to disable this.</source>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation>刪除相合項目
+        <translation type="unfinished">刪除相合項目
 
-說明: 如果這自動套用，其他自動命令都不會執行。</translation>
+注意: 如果這自動套用，其他自動命令都不會執行。</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="317"></location>
@@ -705,12 +705,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"></location>
         <source>Menu Action</source>
-        <translation>功能表動作</translation>
+        <translation>功能表</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="348"></location>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation>命令經項目之右鍵功能表啟動後隱藏窗格</translation>
+        <translation>經項目之右鍵功能表啟動命令後，隱藏窗格</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"></location>
@@ -730,7 +730,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="427"></location>
         <source>Show action dialog before executing the command</source>
-        <translation>執行命令之前顯示動作對話框</translation>
+        <translation>執行命令前，顯示動作對話框</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="430"></location>
@@ -740,12 +740,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"></location>
         <source>Change item, don't create any new items</source>
-        <translation>變更項目，而不建立新項目</translation>
+        <translation>變更項目內容，而不[由輸出另]建立新項目</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="440"></location>
         <source>Tr&amp;ansform</source>
-        <translation>轉換(&amp;A)</translation>
+        <translation>轉變(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="457"></location>
@@ -1027,7 +1027,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="97"></location>
         <source>Show &amp;Clipboard Content</source>
-        <translation>顯示剪貼簿內容(&amp;C)</translation>
+        <translation>顯示剪貼簿歷史內容(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="98"></location>
@@ -1037,7 +1037,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="99"></location>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation>開/關剪貼簿內容之儲存(&amp;T)</translation>
+        <translation>開/關剪貼簿歷史之儲存(&amp;T)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="100"></location>
@@ -1107,7 +1107,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="121"></location>
         <source>&amp;Show Content...</source>
-        <translation>顯示內容(&amp;S)...</translation>
+        <translation>顯示[項目]內容(&amp;S)...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="122"></location>
@@ -1380,7 +1380,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="191"></location>
         <source>Clipboard Manipulation</source>
-        <translation>剪貼簿內容編輯</translation>
+        <translation>剪貼簿歷史編輯</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="203"></location>
@@ -1405,7 +1405,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="223"></location>
         <source>Save clipboard in history</source>
-        <translation>儲存剪貼簿內容到歷史紀錄</translation>
+        <translation>儲存剪貼簿歷史</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="226"></location>
@@ -1420,7 +1420,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="239"></location>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation>(&amp;3) 用滑鼠自動貼上剪貼簿內容</translation>
+        <translation type="unfinished">(&amp;3) 用滑鼠自動貼上剪貼簿內容</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="251"></location>
@@ -1523,12 +1523,12 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="505"></location>
         <source>Maximum &amp;number of items in history:</source>
-        <translation>歷史記錄中的項目數量最大值(&amp;N):</translation>
+        <translation>歷史記錄中的項目數量上限(&amp;N):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="517"></location>
         <source>Maximum number of items in each tab</source>
-        <translation>每一分頁中的項目數量最大值</translation>
+        <translation>每一分頁中的項目數量上限</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="545"></location>
@@ -1558,7 +1558,7 @@ Set to 0 not to unload tabs.</source>
     gvim -f %1
     xterm -e vim %1</source>
         <translation>外部編輯器命令 (%1 表要編輯的檔)。
-  例子: 
+  範例: 
     gedit %1
     notepad %1
     gvim-f %1
@@ -1567,7 +1567,7 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="609"></location>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation>儲存剪貼簿內容之分頁(&amp;B):</translation>
+        <translation>儲存剪貼簿歷史之分頁(&amp;B):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="619"></location>
@@ -1645,12 +1645,12 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="779"></location>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation>顯示通知區圖示功能表中的剪貼簿目前內容的命令</translation>
+        <translation>顯示通知區圖示功能表中的剪貼簿目前歷史的命令</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="782"></location>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>剪貼簿內容的顯示命令(&amp;W)</translation>
+        <translation>顯示剪貼簿[歷史]的命令(&amp;W)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="791"></location>
@@ -1665,7 +1665,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="828"></location>
         <source>Show items from current tab in content menu</source>
-        <translation>顯示內容功能表中的目前分頁的項目</translation>
+        <translation type="unfinished">顯示右鍵功能表中的目前分頁的項目</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="831"></location>
@@ -1759,7 +1759,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>如有新的剪貼簿內容或項目複製到剪貼簿 (僅當主窗關閉)，顯示通知多久 (以秒為單位)。
+        <translation>如有新的剪貼簿[歷史]項目複製到系統剪貼簿 (僅當copyq主窗關閉)，顯示通知多久 (以秒為單位)。
 
 設為 0 來停用此功能。
 
@@ -1775,7 +1775,7 @@ Set to -1 to keep visible until clicked.</source>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation>顯示新剪貼簿內容所用的行數。
+        <translation>顯示新剪貼簿[歷史]的[項目]數。
 
 設為 0，則停用此功能。</translation>
     </message>
@@ -1807,12 +1807,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1218"></location>
         <source>Maximum &amp;width:</source>
-        <translation>最大寬度(&amp;W):</translation>
+        <translation>寬度上限(&amp;W):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1230"></location>
         <source>Maximum width for notification in screen points</source>
-        <translation>螢幕點中的通知的最大寬度</translation>
+        <translation>螢幕點中的通知的寬度上限</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1255"></location>
@@ -1822,7 +1822,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1267"></location>
         <source>Maximum height for notification in screen points</source>
-        <translation>螢幕點中的通知的最大高度</translation>
+        <translation>螢幕點中的通知的高度上限</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1328"></location>
@@ -1903,7 +1903,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="105"></location>
         <source>Paste clipboard as plain text</source>
-        <translation>將剪貼簿內容轉為純文字貼上</translation>
+        <translation>將剪貼簿[歷史]內容轉為純文字貼上</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="107"></location>
@@ -1918,12 +1918,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="111"></location>
         <source>Paste and copy next</source>
-        <translation>貼上與複製下一個</translation>
+        <translation>貼上並複製下一個</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="113"></location>
         <source>Paste and copy previous</source>
-        <translation>貼上與複製上一個</translation>
+        <translation>貼上並複製上一個</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="76"></location>
@@ -2036,7 +2036,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"></location>
         <source>Move lines into themselves.</source>
-        <translation type="unfinished"></translation>
+        <translation>將行移到它本身是個錯誤。</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"></location>
@@ -2056,7 +2056,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"></location>
         <source>"%1" %2 %3L, %4C written.</source>
-        <translation type="unfinished">"%1" %2 %3L, %4C 已寫。</translation>
+        <translation>"%1" %2 %3行, %4字元已寫。</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"></location>
@@ -2066,7 +2066,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"></location>
         <source>"%1" %2L, %3C</source>
-        <translation type="unfinished">"%1" %2L, %3C</translation>
+        <translation>"%1" %2行, %3字元</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"></location>
@@ -2139,7 +2139,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"></location>
         <source>Recursive mapping</source>
-        <translation type="unfinished">遞迴映射</translation>
+        <translation>遞迴定義按鍵</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"></location>
@@ -2162,7 +2162,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="995"></location>
         <source>Failed to create synchronization directory "%1"!</source>
-        <translation type="unfinished">無法建立同步的目錄 "%1"！</translation>
+        <translation>無法建立同步目錄 "%1"！</translation>
     </message>
 </context>
 <context>
@@ -2229,7 +2229,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="23"></location>
         <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation>選擇格式已儲存到歷史紀錄。可從下面例子加入格式或輸入其他格式(每行一種)。</translation>
+        <translation>選擇格式已儲存到歷史紀錄。可從下面範例加入格式或手工輸入其他格式(每行一種)。</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"></location>
@@ -2239,7 +2239,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="45"></location>
         <source>&amp;Examples (double click to add to active formats):</source>
-        <translation>例子(按兩次以加到目前格式)(&amp;E):</translation>
+        <translation>範例(按兩次以加到目前格式)(&amp;E):</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="70"></location>
@@ -2294,7 +2294,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="164"></location>
         <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation>會(以給定的顯示方式)儲存到歷史紀錄的剪貼簿 mime 類型清單</translation>
+        <translation>會(以給定的顯示方式)儲存到歷史紀錄的剪貼簿的 MIME 分類清單</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="181"></location>
@@ -2365,7 +2365,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="236"></location>
         <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished">要分享加密項目到其他電腦或session，會需要公開的金鑰與私密的金鑰:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(於安全所在保存此私密金鑰。)&lt;/li&gt;&lt;/ul&gt;</translation>
+        <translation>要分享加密項目到其他電腦或 Copyq 工作(session)，會需要公開的金鑰與私密的金鑰:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(於安全所在保存此私密金鑰。)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="301"></location>
@@ -2391,7 +2391,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="469"></location>
         <source>Decrypt and Copy</source>
-        <translation>解密與複製</translation>
+        <translation>解密並複製</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="477"></location>
@@ -2486,8 +2486,8 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="81"></location>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;指定會自動加密與解密的分頁名稱(每行一個)。&lt;/p&gt;
-&lt;p&gt;Set unload tab interval in History tab 以安全地從記憶體卸載解密的項目。&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;指定會自動加密與解密的分頁名稱(每行一個)。&lt;/p&gt;
+&lt;p&gt;於歷史紀錄分頁設定多久即卸載分頁，以安全地從記憶體卸載解密的項目。&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2564,7 +2564,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"></location>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation type="unfinished"></translation>
+        <translation>SVG 除外的所支援的圖片格式的編輯器命令。</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"></location>
@@ -2701,7 +2701,8 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"></location>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;以指定&lt;strong&gt;路徑&lt;/strong&gt;的目錄同步&lt;strong&gt;分頁&lt;/strong&gt;內容。&lt;/p&gt;
+&lt;p&gt;設成&lt;strong&gt;空路徑&lt;/strong&gt;就不會儲存&lt;strong&gt;分頁&lt;/strong&gt;中的項目。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"></location>
@@ -2716,13 +2717,14 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"></location>
         <source>Files to Item Data Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>項目資料格式檔</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"></location>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt;將 MIME 分類設成 &lt;strong&gt;-&lt;/strong&gt; (短橫線) 以忽略檔案。會忽略其他未知或隱藏檔。&lt;/p&gt;
+&lt;p&gt;例如，載入 &lt;strong&gt;txt&lt;/strong&gt; 副檔名作為 &lt;strong&gt;text/plain&lt;/strong&gt; MIME 分類。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"></location>
@@ -2732,7 +2734,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"></location>
         <source>Item MIME Type</source>
-        <translation>MIME 類型的項目</translation>
+        <translation type="unfinished">屬某 MIME 分類的項目</translation>
     </message>
 </context>
 <context>
@@ -2750,7 +2752,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="149"></location>
         <source>Tag as %1</source>
-        <translation>上標籤 %1</translation>
+        <translation>加上標籤 %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="155"></location>
@@ -2784,7 +2786,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"></location>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>可在命令對話框中加入與自訂，用來加入、移除標籤的功能表項目。</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="28"></location>
@@ -2812,7 +2814,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="69"></location>
         <source>Display plain text and simple HTML items.</source>
-        <translation>顯示純文字項目和簡單 HTML 項目。</translation>
+        <translation>顯示純文字項目和 HTML 項目。</translation>
     </message>
 </context>
 <context>
@@ -2830,7 +2832,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"></location>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation>高度上限 (Pixen) (0 則無上限):</translation>
+        <translation>高度上限 (以 Pixen 為單位) (0 則無上限):</translation>
     </message>
 </context>
 <context>
@@ -2908,12 +2910,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="866"></location>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation>啟用剪貼簿內容之儲存(&amp;E)</translation>
+        <translation>啟用剪貼簿[歷史]之儲存(&amp;E)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="867"></location>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation>停用剪貼簿內容之儲存(&amp;D)</translation>
+        <translation>停用剪貼簿[歷史]之儲存(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1081"></location>
@@ -2986,12 +2988,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2458"></location>
         <source>Remove All Tabs in Group?</source>
-        <translation type="unfinished"></translation>
+        <translation>移除群組中的所有分頁？</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2459"></location>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>想移除群組 &lt;strong&gt;%1&lt;/strong&gt; 中的&lt;strong&gt;所有分頁&lt;/strong&gt;？</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2504"></location>
@@ -3001,7 +3003,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2505"></location>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>想要移除分頁 &lt;strong&gt;%1&lt;/strong&gt;？</translation>
     </message>
 </context>
 <context>
@@ -3009,7 +3011,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/notification.cpp" line="47"></location>
         <source>CopyQ Inspect Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ 檢視通知</translation>
     </message>
     <message>
         <location filename="../src/gui/notification.cpp" line="69"></location>
@@ -3097,10 +3099,8 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="384"></location>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%1 (%n 行)</numerusform>
+        </translation></message>
     <message>
         <location filename="../src/common/common.cpp" line="395"></location>
         <source>&lt;IMAGE&gt;</source>
@@ -3151,10 +3151,8 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/notificationdaemon.cpp" line="88"></location>
         <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n 行 &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+        </translation></message>
     <message>
         <location filename="../src/gui/notificationdaemon.cpp" line="91"></location>
         <source>%1</source>
@@ -3164,28 +3162,29 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="187"></location>
         <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>項目檔 %1 毀損，或某些 CopyQ 外掛不存在！</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="229"></location>
         <source>No plugins loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>外掛未載入</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="431"></location>
         <source>Loading plugin: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>載入外掛: %1</translation>
     </message>
     <message>
         <location filename="../src/item/serialize.cpp" line="174"></location>
         <source>Data deserialization failed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>無法反系列化資料: %1</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="166"></location>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, '-' or '_'!</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyq 工作名稱至多指允許 16 個字元
+可以是字母、數字、'-' 或 '_'！</translation>
     </message>
 </context>
 <context>
@@ -3193,7 +3192,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="62"></location>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">顯示主窗；可加上名稱(NAME)，以開啟指定分頁。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="63"></location>
@@ -3201,7 +3200,7 @@ which can be letters, digits, '-' or '_'!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="153"></location>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"></location>
         <source>NAME</source>
-        <translation type="unfinished">NAME(名稱)</translation>
+        <translation>NAME</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="65"></location>
@@ -3226,12 +3225,12 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="73"></location>
         <source>Disable or enable clipboard content storing.</source>
-        <translation>停用或啟用剪貼不知儲存。</translation>
+        <translation>停用或啟用剪貼簿之儲存。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="76"></location>
         <source>Print clipboard content.</source>
-        <translation type="unfinished">Print clipboard content. (列印剪貼簿內容。)</translation>
+        <translation>印出剪貼簿[歷史]。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="77"></location>
@@ -3247,13 +3246,14 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="80"></location>
         <source>Print X11 selection content.</source>
-        <translation type="unfinished"></translation>
+        <translation>印出 X11 選取的內容。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="84"></location>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">將剪貼簿內容貼到目前窗
+(在某些應用程式可能不會作用)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="86"></location>
@@ -3265,7 +3265,7 @@ which can be letters, digits, '-' or '_'!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="104"></location>
         <location filename="../src/scriptable/commandhelp.cpp" line="108"></location>
         <source>TEXT</source>
-        <translation>TEXT(文字)</translation>
+        <translation>TEXT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="88"></location>
@@ -3280,18 +3280,17 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="126"></location>
         <location filename="../src/scriptable/commandhelp.cpp" line="127"></location>
         <source>DATA</source>
-        <translation>DATA(資料)</translation>
+        <translation>DATA</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="94"></location>
         <source>Print number of items in history.</source>
-        <translation>Print number of items in history.
-列印歷史記錄中的項數。</translation>
+        <translation>印出歷史記錄的項數。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"></location>
         <source>Copy item in the row to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>複製目前行中項目到剪貼簿。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"></location>
@@ -3299,32 +3298,32 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"></location>
         <location filename="../src/scriptable/commandhelp.cpp" line="124"></location>
         <source>ROW</source>
-        <translation type="unfinished">ROW(橫行)</translation>
+        <translation>ROW</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="99"></location>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>將目前分頁的下一項複製到剪貼簿。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="101"></location>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>將目前分頁的上一項複製到剪貼簿。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="103"></location>
         <source>Add text into clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>將文字(TEXT)加入剪貼簿。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="106"></location>
         <source>Insert text into given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>將文字(TEXT)插入指定行(ROW)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="110"></location>
         <source>Remove items in given rows.</source>
-        <translation type="unfinished"></translation>
+        <translation>移除各指定行(ROWS)的項目。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"></location>
@@ -3332,35 +3331,37 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"></location>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"></location>
         <source>ROWS</source>
-        <translation>ROWS(橫行)</translation>
+        <translation>ROWS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="113"></location>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">編輯既存或新增項目。
+值 -1 表目前剪貼簿中的文字。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="118"></location>
         <source>Set separator for items on output.</source>
-        <translation>輸出時放入項目分隔號。</translation>
+        <translation>輸出時於項目間放入分隔號(SEPARATOR)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="119"></location>
         <location filename="../src/scriptable/commandhelp.cpp" line="136"></location>
         <source>SEPARATOR</source>
-        <translation type="unfinished">SEPARATOR(分隔號)</translation>
+        <translation>SEPARATOR</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="121"></location>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">印出剪貼簿或項目的原始資料(MIME)到行(ROW)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="123"></location>
         <source>
 Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">
+將原始資料(raw data)寫入指定行。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="130"></location>
@@ -3372,12 +3373,14 @@ Write raw data to given row.</source>
         <source>
 Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+對各指定行(ROWS)的項目文字執行程式(PROGRAM)。
+程式後的 %1 是參元，以傳送文字。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="136"></location>
         <source>PROGRAM</source>
-        <translation type="unfinished"></translation>
+        <translation>PROGRAM</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="138"></location>
@@ -3389,17 +3392,17 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"></location>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>TITLE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="140"></location>
         <source>MESSAGE</source>
-        <translation>MESSAGE(訊息)</translation>
+        <translation>MESSAGE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="141"></location>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation>TIME</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="144"></location>
@@ -3411,7 +3414,7 @@ Show tray popup message for TIME milliseconds.</source>
         <source>Run command on tab with given name.
 Tab is created if it doesn't exist.
 Default is the first tab.</source>
-        <translation>對指定名稱的分頁執行命令。
+        <translation>對指定名稱(NAME)的分頁執行命令(COMMAND)。
 若分頁不存在，則建立分頁。
 預設值是第一個分頁。</translation>
     </message>
@@ -3420,7 +3423,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"></location>
         <location filename="../src/scriptable/scriptable.cpp" line="60"></location>
         <source>COMMAND</source>
-        <translation>COMMAND(命令)</translation>
+        <translation>COMMAND</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="152"></location>
@@ -3430,28 +3433,28 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="155"></location>
         <source>Rename tab.</source>
-        <translation>重新命名分頁。</translation>
+        <translation>將分頁名稱(NAME)改成新名稱(NEW_NAME)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="157"></location>
         <source>NEW_NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>NEW_NAME</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="160"></location>
         <source>Export items to file.</source>
-        <translation>匯出項目至檔案。</translation>
+        <translation>匯出項目至檔案(FILE)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="161"></location>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"></location>
         <source>FILE_NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>FILE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="163"></location>
         <source>Import items from file.</source>
-        <translation>從檔案匯入項目。</translation>
+        <translation>從檔案(FILE)匯入項目。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="167"></location>
@@ -3461,68 +3464,73 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="169"></location>
         <source>Get option value.</source>
-        <translation>取得選項值。</translation>
+        <translation>取得選項值(OPTION)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="170"></location>
         <location filename="../src/scriptable/commandhelp.cpp" line="173"></location>
         <source>OPTION</source>
-        <translation>OPTION(選項)</translation>
+        <translation>OPTION</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="172"></location>
         <source>Set option value.</source>
-        <translation>設定選項值。</translation>
+        <translation>設定指定選項(OPTION)的值(VALUE)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="174"></location>
         <source>VALUE</source>
-        <translation>VALUE(值)</translation>
+        <translation>VALUE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="177"></location>
         <source>
 Evaluate ECMAScript program.
 Arguments are accessible using with "arguments(0..N)".</source>
-        <translation type="unfinished"></translation>
+        <translation>
+取得 ECMAScript 程式(SCRIPT)的值(value)。
+用  "arguments(0..N)" 使用參元。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"></location>
         <source>SCRIPT</source>
-        <translation>SCRIPT(隨譯即行碼)</translation>
+        <translation>SCRIPT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="180"></location>
         <source>ARGUMENTS</source>
-        <translation>ARGUMENTS(參元)</translation>
+        <translation>ARGUMENTS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="182"></location>
         <source>
 Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+以指定的 copyq 工作(SESSION)，啟動或連到應用程式個例。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="183"></location>
         <source>SESSION</source>
-        <translation type="unfinished"></translation>
+        <translation>SESSION</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="185"></location>
         <source>
 Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">
+印出某命令(COMMAND)或所有命令的說明。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"></location>
         <source>
 Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">
+印出程式與程式庫的版本(version)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="191"></location>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation type="unfinished"></translation>
+        <translation>執行應用程式測試 (附加 "--help" 參元可得更多資訊)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="60"></location>
@@ -3537,28 +3545,28 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="62"></location>
         <source>  COMMANDs:</source>
-        <translation>  COMMANDs(命令):</translation>
+        <translation>  命令:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="67"></location>
         <source>NOTES:</source>
-        <translation>NOTES(注意事項):</translation>
+        <translation>注意事項:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="68"></location>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">  - 用短橫線參元 (-) 從標準輸入讀取資料。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="69"></location>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">  - 用雙短橫線參元 (--) 讀取後面所有參元，而不展開脫逸字串如 \n, \t 等。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="71"></location>
         <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">  - 用 "?" 印出所有可用的 MIME 分類 (預設值是 "text/plain")。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="76"></location>
@@ -3569,12 +3577,12 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="317"></location>
         <location filename="../src/scriptable/scriptableworker.cpp" line="150"></location>
         <source>Name "%1" doesn't refer to a function.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">名稱 "%1" 不指涉一函應(function)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="381"></location>
         <source>Built with: </source>
-        <translation>以...組譯: </translation>
+        <translation type="unfinished">以...組譯: </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="409"></location>
@@ -3650,7 +3658,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="328"></location>
         <source>There is command overriding this shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>有命令覆蓋此快鍵。</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="329"></location>
@@ -3665,7 +3673,9 @@ Print version of program and libraries.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>分頁名稱不可留白，且必須是唯一。&lt;br /&gt;
+分頁 &lt;b&gt;注意(&amp;amp;T)&lt;/b&gt;可用&lt;b&gt;Alt+t&lt;/b&gt;開啟。&lt;br /&gt;
+於樹狀檢視分頁版面，用 &lt;b&gt;/&lt;/b&gt; 作為路徑分隔號。</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"></location>
