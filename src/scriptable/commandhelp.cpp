@@ -90,8 +90,8 @@ QList<CommandHelp> commandHelp()
                .addArg(Scriptable::tr("DATA"))
                .addArg("[" + Scriptable::tr("MIME") + " " + Scriptable::tr("DATA") + "]...")
             << CommandHelp()
-            << CommandHelp("length, count, size",
-                           Scriptable::tr("Print number of items in history."))
+            << CommandHelp("count",
+                           Scriptable::tr("Print amount of items in current tab."))
             << CommandHelp("select",
                            Scriptable::tr("Copy item in the row to clipboard."))
                .addArg("[" + Scriptable::tr("ROW") + "=0]")

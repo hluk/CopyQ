@@ -156,9 +156,9 @@ Returns path to icon for tab.
 
 Sets icon for tab.
 
-###### length(), size(), count()
+###### count(), length(), size()
 
-Returns number of items in current tab.
+Returns amount of items in current tab.
 
 ###### select(row)
 
