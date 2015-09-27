@@ -110,7 +110,8 @@ HEADERS += \
     gui/filtercompleter.h \
     tests/tests_common.h \
     common/sleeptimer.h \
-    tests/test_utils.h
+    tests/test_utils.h \
+    gui/filedialog.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -187,7 +188,8 @@ SOURCES += \
     gui/commandaction.cpp \
     gui/addcommanddialog.cpp \
     common/commandtester.cpp \
-    gui/filtercompleter.cpp
+    gui/filtercompleter.cpp \
+    gui/filedialog.cpp
 
 macx {
     # Copy the custom Info.plist to the app bundle
