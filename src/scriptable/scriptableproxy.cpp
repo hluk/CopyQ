@@ -26,6 +26,7 @@
 #include "common/mimetypes.h"
 #include "common/settings.h"
 #include "gui/configurationmanager.h"
+#include "gui/filedialog.h"
 #include "gui/mainwindow.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
@@ -181,7 +182,7 @@ QWidget *createFileNameEdit(const QString &name, const QFile &file, QWidget *par
 
     QPushButton *browseButton = new QPushButton("...");
 
-    QFileDialog *dialog = new QFileDialog(w, name, file.fileName());
+    FileDialog *dialog = new FileDialog(w, name, file.fileName());
     QObject::connect( browseButton, SIGNAL(clicked()),
                       dialog, SLOT(exec()) );
     QObject::connect( dialog, SIGNAL(fileSelected(QString)),
