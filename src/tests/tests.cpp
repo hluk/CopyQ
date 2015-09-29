@@ -1670,6 +1670,7 @@ bool Tests::hasTab(const QString &tabName)
 int runTests(int argc, char *argv[])
 {
     QRegExp onlyPlugins;
+    bool runPluginTests = true;
 
     if (argc > 1) {
         QString arg = argv[1];
@@ -1679,6 +1680,10 @@ int runTests(int argc, char *argv[])
             onlyPlugins.setCaseSensitivity(Qt::CaseInsensitive);
             --argc;
             ++argv;
+        } else {
+            // Omit plugin tests if specific core tests requested.
+            const QString lastArg(argv[argc - 1]);
+            runPluginTests = lastArg.startsWith("-");
         }
     }
 
@@ -1692,15 +1697,17 @@ int runTests(int argc, char *argv[])
         exitCode = QTest::qExec(&tc, argc, argv);
     }
 
-    ItemFactory itemFactory;
-    foreach( const ItemLoaderInterfacePtr &loader, itemFactory.loaders() ) {
-        if ( loader->id().contains(onlyPlugins) ) {
-            QScopedPointer<QObject> pluginTests( loader->tests(test) );
-            if ( !pluginTests.isNull() ) {
-                test->setupTest(loader->id(), pluginTests->property("CopyQ_test_settings"));
-                const int pluginTestsExitCode = QTest::qExec(pluginTests.data(), argc, argv);
-                exitCode = qMax(exitCode, pluginTestsExitCode);
-                test->stopServer();
+    if (runPluginTests) {
+        ItemFactory itemFactory;
+        foreach( const ItemLoaderInterfacePtr &loader, itemFactory.loaders() ) {
+            if ( loader->id().contains(onlyPlugins) ) {
+                QScopedPointer<QObject> pluginTests( loader->tests(test) );
+                if ( !pluginTests.isNull() ) {
+                    test->setupTest(loader->id(), pluginTests->property("CopyQ_test_settings"));
+                    const int pluginTestsExitCode = QTest::qExec(pluginTests.data(), argc, argv);
+                    exitCode = qMax(exitCode, pluginTestsExitCode);
+                    test->stopServer();
+                }
             }
         }
     }
