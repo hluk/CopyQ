@@ -195,7 +195,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"></location>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation>將給定 MIME 分類的資料，轉送到命令的標準輸入 (要停用則留白)</translation>
+        <translation>將指定 MIME 類型的資料，轉送到命令的標準輸入 (要停用則留白)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"></location>
@@ -367,7 +367,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="508"></location>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation>正在搜尋 %p%...</translation>
+        <translation>搜尋 %p%...</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1804"></location>
@@ -618,7 +618,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="155"></location>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation>有此 MIME 分類的資料會傳到命令的標準輸入。
+        <translation>有此 MIME 類型的資料會傳到命令的標準輸入。
 要停用此功能則留白。</translation>
     </message>
     <message>
@@ -649,7 +649,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"></location>
         <source>&amp;Filter:</source>
-        <translation>轉換器(&amp;F):</translation>
+        <translation>處理器(&amp;F):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="226"></location>
@@ -660,9 +660,9 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation>&lt;p&gt;轉換器命令成功執行了才用上命令。&lt;/p&gt;
+        <translation>&lt;p&gt;處理器命令成功執行了才用上命令。&lt;/p&gt;
 
-&lt;p&gt;項目文字傳到轉換器命令的 &lt;b&gt;標準輸入&lt;/b&gt;。該項目 &lt;b&gt;只在轉換器命令的結束碼為 0 時，才被挑出&lt;/b&gt;。&lt;/p&gt;
+&lt;p&gt;項目文字傳到處理器命令的 &lt;b&gt;標準輸入&lt;/b&gt;。該項目 &lt;b&gt;只在處理器命令的結束碼為 0 時，才被挑出&lt;/b&gt;。&lt;/p&gt;
 
 &lt;p&gt; &lt;b&gt;%1&lt;/b&gt; 表作為參元傳送的項目文字，&lt;b&gt;%2&lt;/b&gt; 至 &lt;b&gt;%9&lt;/b&gt; 表合於字串類型式 (部分括在括弧中) 的參元。&lt;/p&gt;
 
@@ -1370,12 +1370,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="181"></location>
         <source>Save and restore history of item filters</source>
-        <translation>儲存和還原項目轉換器的歷史記錄</translation>
+        <translation>儲存和還原項目處理器的歷史記錄</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="184"></location>
         <source>Save Filter History</source>
-        <translation>儲存轉換器歷史</translation>
+        <translation>儲存處理器歷史</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="191"></location>
@@ -2071,7 +2071,7 @@ Set to 0 to disable.</source>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"></location>
         <source>%n lines filtered.</source>
-        <translation><numerusform>%n 行已轉換。</numerusform>
+        <translation><numerusform>%n 行已處理。</numerusform>
         </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6093"></location>
@@ -2162,7 +2162,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="995"></location>
         <source>Failed to create synchronization directory "%1"!</source>
-        <translation>無法建立同步目錄 "%1"！</translation>
+        <translation>無法建立同步(雙向更新)用的目錄 "%1"！</translation>
     </message>
 </context>
 <context>
@@ -2229,7 +2229,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="23"></location>
         <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation>選擇格式已儲存到歷史紀錄。可從下面範例加入格式或手工輸入其他格式(每行一種)。</translation>
+        <translation>選擇可用來儲存到歷史紀錄的格式。可從下面範例加入格式或手工輸入其他格式(每行一種)。</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"></location>
@@ -2294,7 +2294,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="164"></location>
         <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation>會(以指定的顯示方式)儲存到歷史紀錄的剪貼的 MIME 分類清單</translation>
+        <translation>會(以指定的顯示方式)儲存到歷史紀錄的剪貼的 MIME 類型清單</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="181"></location>
@@ -2657,7 +2657,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1409"></location>
         <source>Failed to synchronize tab "%1" with directory "%2"!</source>
-        <translation>無法將分頁 "%1" 與目錄  "%2" 同步！</translation>
+        <translation>無法同步(雙向更新)分頁 "%1" 與目錄 "%2"！</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1457"></location>
@@ -2667,27 +2667,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1458"></location>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation>真要 &lt;strong&gt;移除項目與它連結的檔案&lt;/strong&gt;？</translation>
+        <translation>真要 &lt;strong&gt;移除項目與它同步的檔案&lt;/strong&gt;？</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1630"></location>
         <source>Open Directory for Synchronization</source>
-        <translation>開啟用來同步的目錄</translation>
+        <translation>開啟與分頁同步(雙向更新)的目錄</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1649"></location>
         <source>Failed to create synchronization directory</source>
-        <translation>無法建立用來同步的目錄</translation>
+        <translation>無法建立用來同步(雙向更新)的目錄</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="100"></location>
         <source>Synchronize</source>
-        <translation>同步</translation>
+        <translation>同步(雙向更新)</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="102"></location>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation>將項目與備註與磁碟上的目錄同步。</translation>
+        <translation>項目、備註與磁碟上的目錄同步(雙向更新)。</translation>
     </message>
 </context>
 <context>
@@ -2695,13 +2695,13 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"></location>
         <source>Synchronization Tabs and Directories</source>
-        <translation>將分頁與目錄同步</translation>
+        <translation>分頁與目錄同步(雙向更新)</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"></location>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;以指定&lt;strong&gt;路徑&lt;/strong&gt;的目錄同步&lt;strong&gt;分頁&lt;/strong&gt;內容。&lt;/p&gt;
+        <translation>&lt;p&gt;&lt;strong&gt;分頁&lt;/strong&gt;內容與指定&lt;strong&gt;路徑&lt;/strong&gt;的目錄同步(雙向更新)。&lt;/p&gt;
 &lt;p&gt;設成&lt;strong&gt;空路徑&lt;/strong&gt;就不會儲存&lt;strong&gt;分頁&lt;/strong&gt;中的項目。&lt;/p&gt;</translation>
     </message>
     <message>
@@ -2717,14 +2717,14 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"></location>
         <source>Files to Item Data Formats</source>
-        <translation>項目資料格式檔</translation>
+        <translation type="unfinished">項目檔的資料格式</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"></location>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;將 MIME 分類設成 &lt;strong&gt;-&lt;/strong&gt; (短橫線) 以忽略檔案。會忽略其他未知或隱藏檔。&lt;/p&gt;
-&lt;p&gt;例如，載入 &lt;strong&gt;txt&lt;/strong&gt; 副檔名作為 &lt;strong&gt;text/plain&lt;/strong&gt; MIME 分類。&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;將 MIME 類型設成 &lt;strong&gt;-&lt;/strong&gt; (短橫線) 以忽略檔案。會忽略其他未知或隱藏檔。&lt;/p&gt;
+&lt;p&gt;例如，以 &lt;strong&gt;text/plain&lt;/strong&gt; MIME 類型，載入副檔名為 &lt;strong&gt;txt&lt;/strong&gt;的檔。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"></location>
@@ -2734,7 +2734,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"></location>
         <source>Item MIME Type</source>
-        <translation type="unfinished">屬某 MIME 分類的項目</translation>
+        <translation type="unfinished">項目的 MIME 類型</translation>
     </message>
 </context>
 <context>
@@ -3129,13 +3129,13 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="413"></location>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation>Backspace(向左刪除鍵)</translation>
+        <translation>Backspace</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="415"></location>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation>Delete(刪除鍵)</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location filename="../src/common/log.cpp" line="155"></location>
@@ -3354,7 +3354,7 @@ Value -1 is for current text in clipboard.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="121"></location>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation type="unfinished">印出剪貼簿或項目的(MIME)原始資料到行(ROW)。</translation>
+        <translation type="unfinished">印出剪貼簿或項目的原始資料(raw data)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="123"></location>
@@ -3566,7 +3566,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="71"></location>
         <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
-        <translation>  - 用 "?" 印出所有可用的 MIME 分類 (預設值是 "text/plain")。</translation>
+        <translation>  - 用 "?" 印出所有可用的 MIME 類型 (預設值是 "text/plain")。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="76"></location>
