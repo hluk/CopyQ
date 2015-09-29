@@ -825,7 +825,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                <item>
                 <widget class="QCheckBox" name="checkBoxMenuTabIsCurrent">
                  <property name="toolTip">
-                  <string>Show items from current tab in content menu</string>
+                  <string>Show items from current tab in tray menu</string>
                  </property>
                  <property name="text">
                   <string>Show cu&amp;rrent tab in menu,</string>
