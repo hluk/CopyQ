@@ -4,7 +4,9 @@ CopyQ Scripting
 CopyQ provides scripting capabilities to automatically handle clipboard changes,
 organize items, change settings and much more.
 
-In addition to features provided by Qt Script there are following [functions](#functions), [types](#types) and [useful MIME types](#mime-types).
+In addition to features provided by Qt Script there are following
+[functions](#functions), [types](#types), [objects](#objects) and
+[useful MIME types](#mime-types).
 
 Functions
 ---------
@@ -451,6 +453,14 @@ var bytes = f.readAll()
 
 Wrapper around [QDir](http://doc.qt.io/qt-5/qdir.html).
 
+Objects
+-------
+
+###### arguments (Array)
+
+Array for accessing arguments passed to current function or the script
+(`argument[0]` is the script itself).
+
 ###### Item (Object)
 
 Type is `Object` and each property is MIME type with data.
@@ -481,7 +491,7 @@ Type is `Object` and properties are:
 - `error` - error string (set only if an error occurred)
 - `redirect` - URL for redirection (set only if redirection is needed)
 - `headers` - reply headers (array of pairs with header name and header content)
- 
+
 MIME Types
 ----------
 
