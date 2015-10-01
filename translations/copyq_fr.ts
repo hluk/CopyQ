@@ -1754,7 +1754,7 @@ CTRL et touche haut ou Bas.</translation>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"></location>
         <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation>Modifié des actions et des raccourci général...</translation>
+        <translation>Modifier les actions et les raccourcis globaux...</translation>
     </message>
 </context>
 <context>
@@ -2531,9 +2531,9 @@ Nastav na 0 pro vypnutí.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>Autorisé à la touche Entrée pour sauvegarder l'élément modifié et Ctrl + Entrée pour créer une nouvelle ligne.
+        <translation>Autoriser la touche Entrée pour sauvegarder l'élément modifié et Ctrl + Entrée pour créer une nouvelle ligne.
 
-Remarque: les éléments modifiés peuvent être enregistrés l'aide de F2, quel que soit l'option.</translation>
+Remarque: les éléments modifiés peuvent être enregistrés à l'aide de F2, quel que soit l'option.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="727"></location>
@@ -4754,7 +4754,8 @@ qui peuvent être des lettres, des chiffres, des '-' ou '_' !</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="113"></location>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation>Modifie un éléments existants ou nouveaux.Valeur -1 est pour le texte actuel dans le presse-papiers.</translation>
+        <translation>Modifier un élément existants ou nouveau.
+Valeur -1 pour le texte actuel dans le presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="121"></location>
