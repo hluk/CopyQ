@@ -214,4 +214,7 @@ void setDefaultTabItemCounterStyle(QWidget *widget);
 
 void setComboBoxItems(QComboBox *comboBox, const QStringList &items);
 
+/// Temporarily (~1s) blocks saving geometry of the @a window.
+void blockSavingGeometry(QWidget *window);
+
 #endif // CONFIGURATIONMANAGER_H

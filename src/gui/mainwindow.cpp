@@ -1579,11 +1579,6 @@ void MainWindow::showWindow()
     if ( isWindowVisible() )
         return;
 
-#ifdef COPYQ_WS_X11
-    /* Re-initialize window in window manager so it can popup on current workspace. */
-    hide();
-#endif
-
     cm->restoreWindowGeometry(this);
 
     updateFocusWindows();

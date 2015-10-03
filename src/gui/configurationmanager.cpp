@@ -43,6 +43,7 @@
 #include <QMimeData>
 #include <QSettings>
 #include <QTimer>
+#include <QTimerEvent>
 #include <QTranslator>
 
 #ifdef Q_OS_WIN
@@ -54,6 +55,8 @@
 #endif
 
 namespace {
+
+static const char propertyGeometryGuardCount[] = "CopyQ_geometry_guard_count";
 
 class PluginItem : public ItemOrderList::Item {
 public:
@@ -102,6 +105,55 @@ bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &it
 
     return !saveWithCurrent;
 }
+
+class WindowGeometryGuard : public QObject {
+public:
+    static void create(QWidget *window)
+    {
+        new WindowGeometryGuard(window);
+    }
+
+    static bool isGuarded(QWidget *window)
+    {
+        return guardCount(window) > 0;
+    }
+
+protected:
+    void timerEvent(QTimerEvent *event)
+    {
+        if (m_timerIdToDeleteGuard == event->timerId())
+            deleteLater();
+    }
+
+private:
+    static int guardCount(QWidget *window)
+    {
+        return window->property(propertyGeometryGuardCount).toInt();
+    }
+
+    explicit WindowGeometryGuard(QWidget *window)
+        : QObject(window)
+        , m_window(window)
+    {
+        m_timerIdToDeleteGuard = startTimer(1000);
+        setIgnoreGeometryChanges(true);
+    }
+
+    ~WindowGeometryGuard()
+    {
+        setIgnoreGeometryChanges(false);
+    }
+
+    void setIgnoreGeometryChanges(bool ignore)
+    {
+        const int count = guardCount(m_window) + (ignore ? 1 : -1);
+        Q_ASSERT(count >= 0);
+        m_window->setProperty(propertyGeometryGuardCount, count);
+    }
+
+    QWidget *m_window;
+    int m_timerIdToDeleteGuard;
+};
 
 } // namespace
 
@@ -297,7 +349,7 @@ void ConfigurationManager::registerWindowGeometry(QWidget *window)
 
 void ConfigurationManager::saveWindowGeometry(QWidget *window)
 {
-    if ( window->property("CopyQ_ignore_geometry_changes").toBool() )
+    if ( WindowGeometryGuard::isGuarded(window) )
         return;
 
     bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
@@ -306,10 +358,12 @@ void ConfigurationManager::saveWindowGeometry(QWidget *window)
 
 void ConfigurationManager::restoreWindowGeometry(QWidget *window)
 {
-    if ( window->property("CopyQ_ignore_geometry_changes").toBool() )
+    if ( WindowGeometryGuard::isGuarded(window) )
         return;
 
-    window->setProperty("CopyQ_ignore_geometry_changes", true);
+    moveToCurrentWorkspace(window);
+
+    WindowGeometryGuard::create(window);
 
     bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
     ::restoreWindowGeometry(window, openOnCurrentScreen);
@@ -907,8 +961,6 @@ void ConfigurationManager::restoreWindowGeometryOnTimer()
 
     bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
     ::restoreWindowGeometry(window, openOnCurrentScreen);
-
-    window->setProperty("CopyQ_ignore_geometry_changes", false);
 }
 
 QIcon getIconFromResources(const QString &iconName)
@@ -963,4 +1015,9 @@ void setComboBoxItems(QComboBox *comboBox, const QStringList &items)
     const int currentIndex = comboBox->findText(text);
     if (currentIndex != -1)
         comboBox->setCurrentIndex(currentIndex);
+}
+
+void blockSavingGeometry(QWidget *window)
+{
+    WindowGeometryGuard::create(window);
 }
