@@ -259,53 +259,27 @@ QVariant config(const QString &name, const QString &value)
     return QVariant();
 }
 
-class WindowGeometryGuard : public QObject {
-public:
-    static void create(QWidget *window, const QRect &rect)
-    {
-        new WindowGeometryGuard(window, rect);
+void setGeometryWithoutSave(QWidget *window, const QRect &geometry)
+{
+    blockSavingGeometry(window);
+
+    int x = pointsToPixels(geometry.x());
+    int y = pointsToPixels(geometry.y());
+    if (x < 0 || y < 0) {
+        const QPoint mousePos = QCursor::pos();
+        if (geometry.x() < 0)
+            x = mousePos.x();
+        if (geometry.y() < 0)
+            y = mousePos.y();
     }
 
-    bool eventFilter(QObject *, QEvent *event)
-    {
-       if (event->type() == QEvent::Hide || event->type() == QEvent::FocusOut)
-           deleteLater();
-       return false;
-    }
+    const int w = pointsToPixels(geometry.width());
+    const int h = pointsToPixels(geometry.height());
+    if (w > 0 && h > 0)
+        window->resize(w, h);
 
-private:
-    WindowGeometryGuard(QWidget *window, const QRect &rect)
-        : QObject(window)
-        , m_window(window)
-    {
-        int x = pointsToPixels(rect.x());
-        int y = pointsToPixels(rect.y());
-        if (x < 0 || y < 0) {
-            const QPoint mousePos = QCursor::pos();
-            if (rect.x() < 0)
-                x = mousePos.x();
-            if (rect.y() < 0)
-                y = mousePos.y();
-        }
-
-        m_window->setProperty("CopyQ_ignore_geometry_changes", true);
-
-        const int w = pointsToPixels(rect.width());
-        const int h = pointsToPixels(rect.height());
-        if (w > 0 && h > 0)
-            m_window->resize(w, h);
-        moveWindowOnScreen(m_window, QPoint(x, y));
-
-        m_window->installEventFilter(this);
-    }
-
-    ~WindowGeometryGuard()
-    {
-        m_window->setProperty("CopyQ_ignore_geometry_changes", false);
-    }
-
-    QWidget *m_window;
-};
+    moveWindowOnScreen(window, QPoint(x, y));
+}
 
 } // namespace
 
@@ -363,7 +337,7 @@ void ScriptableProxyHelper::showWindow()
 
 void ScriptableProxyHelper::showWindowAt(const QRect &rect)
 {
-    WindowGeometryGuard::create(m_wnd, rect);
+    setGeometryWithoutSave(m_wnd, rect);
     showWindow();
 }
 
@@ -476,8 +450,9 @@ void ScriptableProxyHelper::showBrowser(const QString &tabName)
 
 void ScriptableProxyHelper::showBrowserAt(const QString &tabName, const QRect &rect)
 {
-    WindowGeometryGuard::create(m_wnd, rect);
+    setGeometryWithoutSave(m_wnd, rect);
     showBrowser(tabName);
+    QCoreApplication::processEvents();
 }
 
 void ScriptableProxyHelper::showBrowser()
