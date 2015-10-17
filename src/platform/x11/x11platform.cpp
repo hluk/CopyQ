@@ -178,7 +178,7 @@ void X11Platform::setAutostartEnabled(bool enable)
         return;
     }
 
-    QRegExp re("^Hidden\\s*=\\s*");
+    QRegExp re("^(Hidden|X-GNOME-Autostart-enabled)\\s*=\\s*");
 
     while ( !desktopFile.atEnd() ) {
         QString line = QString::fromUtf8(desktopFile.readLine());
@@ -197,6 +197,11 @@ void X11Platform::setAutostartEnabled(bool enable)
 
     desktopFile2.write("Hidden=");
     desktopFile2.write(enable ? "False" : "True");
+    desktopFile2.write("\n");
+
+    desktopFile2.write("X-GNOME-Autostart-enabled=");
+    desktopFile2.write(enable ? "true" : "false");
+    desktopFile2.write("\n");
 
     QFile::remove(filename);
     desktopFile2.rename(filename);
