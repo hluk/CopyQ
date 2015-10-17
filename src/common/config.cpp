@@ -77,6 +77,15 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
     const QString optionName = geometryOptionName(w, false, openOnCurrentScreen);
     w->restoreGeometry( geometryOptionValue(optionName) );
+
+    // Ensure whole window is visible.
+    const QRect screen = QApplication::desktop()->availableGeometry(-1);
+    const int width = qBound(10, w->width(), screen.width());
+    const int height = qBound(10, w->height(), screen.height());
+    const int x = qBound(screen.left(), w->x(), screen.right() - width);
+    const int y = qBound(screen.top(), w->y(), screen.bottom() - height);
+    w->move(x, y);
+    w->resize(width, height);
 }
 
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
