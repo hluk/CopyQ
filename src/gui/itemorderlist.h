@@ -42,6 +42,7 @@ public:
     class Item {
         friend class ItemOrderList;
     public:
+        virtual ~Item() {}
         virtual QVariant data() const { return QVariant(); }
     private:
         virtual QWidget *createWidget(QWidget *parent) const = 0;
