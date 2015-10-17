@@ -459,7 +459,7 @@ Objects
 ###### arguments (Array)
 
 Array for accessing arguments passed to current function or the script
-(`argument[0]` is the script itself).
+(`arguments[0]` is the script itself).
 
 ###### Item (Object)
 
