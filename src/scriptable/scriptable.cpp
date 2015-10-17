@@ -446,7 +446,7 @@ void Scriptable::showAt()
     if (tabName.isEmpty())
         m_proxy->showWindowAt(rect);
     else
-        m_proxy->showBrowserAt(toString(argument(0)), rect);
+        m_proxy->showBrowserAt(tabName, rect);
 
     sendWindowActivationCommandToClient( m_proxy->mainWinId() );
 }
