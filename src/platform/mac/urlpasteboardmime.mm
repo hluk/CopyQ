@@ -24,6 +24,8 @@
 #import <CoreServices/CoreServices.h>
 #import <Cocoa/Cocoa.h>
 
+#import <QUrl>
+
 /*
  * Much of this code is based on the Qt code here:
  *  https://www.qt.gitorious.org/qt/qt/source/src/gui/kernel/qmime_mac.cpp#L765
