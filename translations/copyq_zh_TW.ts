@@ -2748,7 +2748,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"></location>
         <source>Item MIME Type</source>
-        <translation type="unfinished">項目的 MIME 類型</translation>
+        <translation>項目的 MIME 類型</translation>
     </message>
 </context>
 <context>
