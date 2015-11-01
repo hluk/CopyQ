@@ -2243,17 +2243,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="23"></location>
         <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation>選擇可用來儲存到歷史紀錄的格式。可從下面範例加入格式或手工輸入其他格式(每行一種)。</translation>
+        <translation>選擇一筆歷史項目的(一個以上的)儲存格式。可從下面範例加入格式或手工輸入其他格式(每行一種)。</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"></location>
         <source>Active &amp;Formats:</source>
-        <translation>目前格式(&amp;F):</translation>
+        <translation>啟用的格式(&amp;F):</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="45"></location>
         <source>&amp;Examples (double click to add to active formats):</source>
-        <translation>範例(按兩次以加到目前格式)(&amp;E):</translation>
+        <translation>範例(按兩次以加到啟用的格式)(&amp;E):</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="70"></location>
@@ -2731,14 +2731,14 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"></location>
         <source>Files to Item Data Formats</source>
-        <translation type="unfinished">項目檔的資料格式</translation>
+        <translation>項目檔對應到項目資料格式</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"></location>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;將 MIME 類型設成 &lt;strong&gt;-&lt;/strong&gt; (短橫線) 以忽略檔案。會忽略其他未知或隱藏檔。&lt;/p&gt;
-&lt;p&gt;例如，以 &lt;strong&gt;text/plain&lt;/strong&gt; MIME 類型，載入副檔名為 &lt;strong&gt;txt&lt;/strong&gt;的檔。&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;將 MIME 類型設成 &lt;strong&gt;-&lt;/strong&gt; (短橫線) 以忽略[有此類型的資料的雙向更新]。會忽略其他未知[副檔名與類型的檔案]或隱藏檔。&lt;/p&gt;
+&lt;p&gt;例如，設定  &lt;strong&gt;txt&lt;/strong&gt; (副檔名) 的檔對應 &lt;strong&gt;text/plain&lt;/strong&gt; (MIME 項目類型) 的項目。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"></location>
@@ -3376,14 +3376,14 @@ Value -1 is for current text in clipboard.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="121"></location>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation type="unfinished">印出剪貼簿或項目的原始資料(raw data)。</translation>
+        <translation type="unfinished">印出歷史項目的原始資料(raw data)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="123"></location>
         <source>
 Write raw data to given row.</source>
         <translation type="unfinished">
-將原始資料(raw data)寫入指定行。</translation>
+將原始資料(raw data)寫入指定項目所在行(row)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="130"></location>
