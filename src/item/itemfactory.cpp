@@ -142,6 +142,8 @@ public:
             setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
             setMaximumSize(0, 0);
         }
+
+        setContextMenuPolicy(Qt::NoContextMenu);
     }
 
     QWidget *createEditor(QWidget *parent) const
