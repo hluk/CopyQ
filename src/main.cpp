@@ -21,6 +21,7 @@
 #include "app/clipboardclient.h"
 #include "app/clipboardmonitor.h"
 #include "app/clipboardserver.h"
+#include "common/common.h"
 #include "common/log.h"
 #include "platform/platformnativeinterface.h"
 #include "scriptable/scriptable.h"
@@ -132,7 +133,7 @@ QString getSessionName(const QStringList &arguments, int *skipArguments)
         return firstArgument.mid( firstArgument.indexOf('=') + 1 );
     }
 
-    return QString::fromUtf8( qgetenv("COPYQ_SESSION_NAME") );
+    return getTextData( qgetenv("COPYQ_SESSION_NAME") );
 }
 
 } // namespace

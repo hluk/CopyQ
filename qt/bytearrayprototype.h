@@ -69,6 +69,7 @@ public slots:
     void truncate(int pos);
     QString toLatin1String() const;
     QScriptValue valueOf() const;
+    int size() const;
 
 private:
     QByteArray *thisByteArray() const;

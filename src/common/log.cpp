@@ -52,9 +52,15 @@ int getLogLevel()
 #endif
 }
 
+QString envString(const char *varName)
+{
+    const QByteArray bytes = qgetenv(varName);
+    return QString::fromUtf8( bytes.constData(), bytes.size() );
+}
+
 QString getLogFileName()
 {
-    const QString fileName = QString::fromUtf8( qgetenv("COPYQ_LOG_FILE") );
+    const QString fileName = envString("COPYQ_LOG_FILE");
     return QDir::fromNativeSeparators(fileName);
 }
 
@@ -117,7 +123,7 @@ private:
 
 const QString sessionName()
 {
-    const QString session = QString::fromUtf8(qgetenv("COPYQ_SESSION_NAME"));
+    const QString session = envString("COPYQ_SESSION_NAME");
     return session.isEmpty() ? QString() : "CopyQ_" + session;
 }
 

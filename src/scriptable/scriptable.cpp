@@ -238,7 +238,7 @@ QString Scriptable::toString(const QScriptValue &value) const
 {
     QByteArray *bytes = getByteArray(value);
     return (bytes == NULL) ? value.toString()
-                           : QString::fromUtf8( bytes->data() );
+                           : getTextData(*bytes);
 }
 
 bool Scriptable::toInt(const QScriptValue &value, int &number) const
@@ -672,7 +672,7 @@ void Scriptable::edit()
         if ( toInt(value, row) ) {
             const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(row, mimeText)
                                               : m_proxy->getClipboardData(mimeText);
-            text.append( QString::fromUtf8(bytes) );
+            text.append( getTextData(bytes) );
         } else {
             text.append( toString(value) );
         }
@@ -752,11 +752,11 @@ void Scriptable::action()
             text.append(sep);
         else
             anyRows = true;
-        text.append( QString::fromUtf8(m_proxy->browserItemData(row, mimeText)) );
+        text.append( getTextData(m_proxy->browserItemData(row, mimeText)) );
     }
 
     if (!anyRows) {
-        text = QString::fromUtf8( m_proxy->getClipboardData(mimeText) );
+        text = getTextData( m_proxy->getClipboardData(mimeText) );
     }
 
     const QVariantMap data = createDataMap(mimeText, text);

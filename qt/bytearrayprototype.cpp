@@ -132,4 +132,9 @@ QScriptValue ByteArrayPrototype::valueOf() const
 {
     return thisObject().data();
 }
+
+int ByteArrayPrototype::size() const
+{
+    return thisByteArray()->size();
+}
 //! [2]

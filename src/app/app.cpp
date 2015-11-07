@@ -19,6 +19,7 @@
 
 #include "app.h"
 
+#include "common/common.h"
 #include "common/log.h"
 #include "common/settings.h"
 #include "platform/platformnativeinterface.h"
@@ -69,7 +70,7 @@ void initTests()
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
 
-    const QString testId = QString::fromUtf8( qgetenv("COPYQ_TEST_ID") );
+    const QString testId = getTextData( qgetenv("COPYQ_TEST_ID") );
     qApp->setProperty("CopyQ_test_id", testId);
 }
 
@@ -158,7 +159,7 @@ void installTranslator()
     // 3. custom translations
     const QByteArray customPath = qgetenv("COPYQ_TRANSLATION_PREFIX");
     if ( !customPath.isEmpty() ) {
-        const QString customDir = QDir::fromNativeSeparators( QString::fromUtf8(customPath) );
+        const QString customDir = QDir::fromNativeSeparators( getTextData(customPath) );
         installTranslator("copyq_" + locale, customDir);
         translationDirectories.prepend(customDir);
     }

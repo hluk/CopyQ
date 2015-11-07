@@ -19,6 +19,7 @@
 
 #include "action.h"
 
+#include "common/common.h"
 #include "common/mimetypes.h"
 #include "item/serialize.h"
 
@@ -377,7 +378,7 @@ void Action::actionOutput()
     const QByteArray output = p->readAll();
 
     if (hasTextOutput()) {
-        m_lastOutput.append( QString::fromUtf8(output) );
+        m_lastOutput.append( getTextData(output) );
         if ( !m_lastOutput.isEmpty() && !m_sep.isEmpty() ) {
             // Split to items.
             QStringList items;
@@ -399,7 +400,7 @@ void Action::actionErrorOutput()
     QProcess *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
 
-    m_errstr.append( QString::fromUtf8(p->readAllStandardError()) );
+    m_errstr.append( getTextData(p->readAllStandardError()) );
 }
 
 void Action::writeInput()

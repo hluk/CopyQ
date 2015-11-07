@@ -61,6 +61,8 @@ uint hash(const QVariantMap &data);
 
 QByteArray getUtf8Data(const QMimeData &data, const QString &format);
 
+QString getTextData(const QByteArray &data);
+
 /**
  * Get given text format from data; null string if not available.
  * Assumes that text data is UTF8 encoded.

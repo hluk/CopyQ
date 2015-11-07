@@ -210,9 +210,15 @@ QByteArray getUtf8Data(const QMimeData &data, const QString &format)
     return data.data(format);
 }
 
+QString getTextData(const QByteArray &bytes)
+{
+    // QString::fromUtf8(bytes) ends string at first '\0'.
+    return QString::fromUtf8( bytes.constData(), bytes.size() );
+}
+
 QString getTextData(const QVariantMap &data, const QString &mime)
 {
-    return data.contains(mime) ? QString::fromUtf8( data[mime].toByteArray() ) : QString();
+    return getTextData( data.value(mime).toByteArray() );
 }
 
 QString getTextData(const QVariantMap &data)

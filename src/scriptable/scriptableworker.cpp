@@ -82,7 +82,7 @@ void ScriptableWorker::run()
             QString indent = isEval ? QString("EVAL:")
                                     : (QString::number(i - Arguments::Rest + 1) + " ");
             foreach (const QByteArray &line, m_args.at(i).split('\n')) {
-                SCRIPT_LOG( indent + QString::fromUtf8(line) );
+                SCRIPT_LOG( indent + getTextData(line) );
                 indent = "  ";
             }
         }
@@ -94,7 +94,7 @@ void ScriptableWorker::run()
     if (ok)
         data = Action::data(id);
 
-    const QString currentPath = QString::fromUtf8(m_args.at(Arguments::CurrentPath));
+    const QString currentPath = getTextData(m_args.at(Arguments::CurrentPath));
 
     QScriptEngine engine;
     ScriptableProxy proxy(m_wnd, data);
@@ -133,11 +133,11 @@ void ScriptableWorker::run()
         SCRIPT_LOG("Error: bad command syntax");
         exitCode = CommandBadSyntax;
     } else {
-        const QString cmd = QString::fromUtf8( m_args.at(Arguments::Rest) );
+        const QString cmd = getTextData( m_args.at(Arguments::Rest) );
 
 #ifdef HAS_TESTS
         if ( cmd == "flush" && m_args.length() == Arguments::Rest + 2 ) {
-            log( "flush ID: " + QString::fromUtf8(m_args.at(Arguments::Rest + 1)), LogAlways );
+            log( "flush ID: " + getTextData(m_args.at(Arguments::Rest + 1)), LogAlways );
             scriptable.sendMessageToClient(QByteArray(), CommandFinished);
             return;
         }

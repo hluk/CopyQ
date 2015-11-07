@@ -113,7 +113,7 @@ QString tags(const QModelIndex &index)
 {
     const QByteArray tagsData =
             index.data(contentType::data).toMap().value(mimeTags).toByteArray();
-    return QString::fromUtf8(tagsData);
+    return getTextData(tagsData);
 }
 
 QString toScriptString(const QString &text)

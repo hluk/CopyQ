@@ -545,7 +545,7 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
             if (exitStatus != QProcess::NormalExit)
                 error = error.arg(m_gpgProcess->errorString());
             else if (exitCode != 0)
-                error = error.arg(QString::fromUtf8(m_gpgProcess->readAllStandardError()));
+                error = error.arg(getTextData(m_gpgProcess->readAllStandardError()));
             else if ( m_gpgProcess->error() != QProcess::UnknownError )
                 error = error.arg(m_gpgProcess->errorString());
             else if ( !keysExist() )

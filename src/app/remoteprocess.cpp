@@ -131,7 +131,7 @@ void RemoteProcess::onMessageReceived(const QByteArray &message, int messageCode
         m_timerPongTimeout.stop();
         m_timerPing.start();
     } else if (messageCode == MonitorLog) {
-        log( QString::fromUtf8(message).trimmed(), LogNote );
+        log( getTextData(message).trimmed(), LogNote );
     } else if (messageCode == MonitorClipboardChanged) {
         emit newMessage(message);
     } else {

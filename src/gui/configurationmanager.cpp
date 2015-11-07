@@ -789,7 +789,7 @@ QStringList ConfigurationManager::savedTabs() const
     foreach (const QString fileName, files) {
         if ( fileName.contains(re) ) {
             const QString tabName =
-                    QString::fromUtf8(QByteArray::fromBase64(re.cap(1).toUtf8()));
+                    getTextData(QByteArray::fromBase64(re.cap(1).toUtf8()));
             if ( !tabName.isEmpty() && !tabs.contains(tabName) )
                 tabs.append(tabName);
         }
