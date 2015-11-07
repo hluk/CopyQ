@@ -33,7 +33,18 @@
 
 #include <qt_windows.h>
 
+#include <stdio.h>
+#include <fcntl.h>
+#include <io.h>
+
 namespace {
+
+void setBinaryStdin()
+{
+    const int result = _setmode( _fileno( stdin ), _O_BINARY );
+    if (result == -1)
+        log("Failed to set binary stdin.", LogError);
+}
 
 void migrateDirectory(const QString oldPath, const QString newPath)
 {
@@ -122,6 +133,7 @@ QApplication *WinPlatform::createMonitorApplication(int &argc, char **argv)
 
 QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
 {
+    setBinaryStdin();
     return new QCoreApplication(argc, argv);
 }
 

@@ -23,8 +23,6 @@
 #include "app.h"
 #include "client.h"
 
-#include <QFile>
-
 class InputReader : public QObject
 {
     Q_OBJECT
@@ -62,10 +60,9 @@ private slots:
     void sendInput();
 
 private:
-    void startInputReader(bool sendInputAfterFinished);
+    void startInputReader();
     void abortInputReader();
     bool isInputReaderFinished() const;
-    QByteArray fetchInput();
 
     QThread *m_inputReaderThread;
     QByteArray m_input;

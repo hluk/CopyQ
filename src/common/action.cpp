@@ -20,6 +20,7 @@
 #include "action.h"
 
 #include "common/common.h"
+#include "common/log.h"
 #include "common/mimetypes.h"
 #include "item/serialize.h"
 

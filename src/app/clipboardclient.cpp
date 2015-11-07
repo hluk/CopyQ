@@ -60,10 +60,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
             window->raise();
     } else if (messageCode == CommandReadInput) {
         COPYQ_LOG("Sending standard input.");
-        if (isInputReaderFinished())
-            sendInput();
-        else
-            startInputReader(true);
+        startInputReader();
     } else {
         QFile f;
         f.open((messageCode == CommandSuccess || messageCode == CommandFinished) ? stdout : stderr, QIODevice::WriteOnly);
@@ -93,6 +90,8 @@ void ClipboardClient::onDisconnected()
 void ClipboardClient::setInput(const QByteArray &input)
 {
     m_input = input;
+    sendInput();
+    abortInputReader();
 }
 
 void ClipboardClient::sendInput()
@@ -101,10 +100,15 @@ void ClipboardClient::sendInput()
         sendMessage(m_input, 0);
 }
 
-void ClipboardClient::startInputReader(bool sendInputAfterFinished)
+void ClipboardClient::startInputReader()
 {
     if ( wasClosed() || m_inputReaderThread )
         return;
+
+    if ( isInputReaderFinished() ) {
+        sendInput();
+        return;
+    }
 
     InputReader *reader = new InputReader;
     m_inputReaderThread = new QThread(this);
@@ -112,9 +116,6 @@ void ClipboardClient::startInputReader(bool sendInputAfterFinished)
     connect( m_inputReaderThread, SIGNAL(started()), reader, SLOT(readInput()) );
     connect( m_inputReaderThread, SIGNAL(finished()), reader, SLOT(deleteLater()) );
     connect( reader, SIGNAL(inputRead(QByteArray)), this, SLOT(setInput(QByteArray)) );
-    if (sendInputAfterFinished)
-        connect( reader, SIGNAL(inputRead(QByteArray)), this, SLOT(sendInput()) );
-    connect( reader, SIGNAL(inputRead(QByteArray)), m_inputReaderThread, SLOT(quit()) );
     m_inputReaderThread->start();
 }
 
@@ -132,16 +133,4 @@ void ClipboardClient::abortInputReader()
 bool ClipboardClient::isInputReaderFinished() const
 {
     return m_inputReaderThread && m_inputReaderThread->isFinished();
-}
-
-QByteArray ClipboardClient::fetchInput()
-{
-    if ( !isInputReaderFinished() ) {
-        startInputReader(false);
-
-        while ( !wasClosed() && !isInputReaderFinished() )
-            QCoreApplication::processEvents();
-    }
-
-    return m_input;
 }
