@@ -1635,6 +1635,20 @@ void Tests::executeCommand()
         , "");
 }
 
+void Tests::settingsCommand()
+{
+    RUN("config" << "clipboard_tab" << "TEST", "");
+    RUN("config" << "clipboard_tab", "TEST\n");
+
+    RUN("settings" << "test_variable", "");
+    RUN("settings" << "test_variable" << "TEST VALUE", "");
+    RUN("settings" << "test_variable", "TEST VALUE\n");
+    RUN("settings" << "test_variable" << "TEST VALUE 2", "");
+    RUN("settings" << "test_variable", "TEST VALUE 2\n");
+
+    RUN("config" << "clipboard_tab", "TEST\n");
+}
+
 void Tests::fileClass()
 {
     RUN("eval" <<

@@ -44,6 +44,9 @@ bool needsUpdate(const Settings &newSettings, const QSettings &oldSettings)
 
 void copySettings(const QSettings &from, QSettings *to)
 {
+    Q_ASSERT(from.group().isEmpty());
+    Q_ASSERT(to->group().isEmpty());
+
     to->clear();
 
     foreach ( const QString &key, from.allKeys() )
@@ -103,8 +106,9 @@ Settings::~Settings()
         sync();
 
         beginSave();
-        QSettings settings;
-        copySettings(*this, &settings);
+        const QSettings from(format(), scope(), organizationName(), applicationName());
+        QSettings to;
+        copySettings(from, &to);
         endSave();
     }
 }

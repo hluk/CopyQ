@@ -111,6 +111,8 @@ private slots:
 
     void executeCommand();
 
+    void settingsCommand();
+
     void fileClass();
     void dirClass();
 
