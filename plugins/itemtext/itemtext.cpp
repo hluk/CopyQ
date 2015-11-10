@@ -44,6 +44,14 @@ const char optionMaximumHeight[] = "max_height";
 
 const char mimeRichText[] = "text/richtext";
 
+// Some applications insert \0 teminator at the end of text data.
+// It needs to be removed because QTextBrowser can render the character.
+void removeTrailingNull(QString *text)
+{
+    if ( text->endsWith(QChar(0)) )
+        text->chop(1);
+}
+
 bool getRichText(const QModelIndex &index, QString *text)
 {
     if ( index.data(contentType::hasHtml).toBool() ) {
@@ -57,10 +65,6 @@ bool getRichText(const QModelIndex &index, QString *text)
 
     const QByteArray data = dataMap[mimeRichText].toByteArray();
     *text = QString::fromUtf8(data);
-
-    // Remove trailing null character.
-    if ( text->endsWith(QChar(0)) )
-        text->resize(text->size() - 1);
 
     return true;
 }
@@ -77,11 +81,7 @@ bool getText(const QModelIndex &index, QString *text)
 
 QString normalizeText(QString text)
 {
-    // Some applications insert \0 teminator at the end of text data.
-    // It needs to be removed because QTextBrowser can render the character.
-    if (text.endsWith("\0"))
-        text.chop(1);
-
+    removeTrailingNull(&text);
     return text.left(defaultMaxBytes);
 }
 
