@@ -79,14 +79,54 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBoxInMenu">
-        <property name="toolTip">
-         <string>Show command in context menu of matching items</string>
-        </property>
-        <property name="text">
-         <string>In M&amp;enu</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QCheckBox" name="checkBoxInMenu">
+          <property name="toolTip">
+           <string>Show command in context menu of matching items</string>
+          </property>
+          <property name="text">
+           <string>In M&amp;enu</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="labelShortcut">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>&amp;Shortcut:</string>
+          </property>
+          <property name="buddy">
+           <cstring>shortcutButton</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ShortcutButton" name="shortcutButton" native="true">
+          <property name="focusPolicy">
+           <enum>Qt::WheelFocus</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -352,46 +392,6 @@ Note: If this is applied automatically, no other automatic commands are executed
         </property>
        </widget>
       </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>&amp;Shortcut:</string>
-          </property>
-          <property name="buddy">
-           <cstring>shortcutButton</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="ShortcutButton" name="shortcutButton" native="true">
-          <property name="focusPolicy">
-           <enum>Qt::WheelFocus</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
      </layout>
     </widget>
    </item>
@@ -551,7 +551,6 @@ Note: If this is applied automatically, no other automatic commands are executed
   <tabstop>lineEditName</tabstop>
   <tabstop>buttonIcon</tabstop>
   <tabstop>checkBoxAutomatic</tabstop>
-  <tabstop>checkBoxInMenu</tabstop>
   <tabstop>shortcutButtonGlobalShortcut</tabstop>
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
@@ -561,7 +560,6 @@ Note: If this is applied automatically, no other automatic commands are executed
   <tabstop>comboBoxCopyToTab</tabstop>
   <tabstop>checkBoxIgnore</tabstop>
   <tabstop>checkBoxHideWindow</tabstop>
-  <tabstop>shortcutButton</tabstop>
   <tabstop>checkBoxWait</tabstop>
   <tabstop>checkBoxTransform</tabstop>
   <tabstop>comboBoxOutputFormat</tabstop>

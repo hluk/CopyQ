@@ -233,6 +233,8 @@ void CommandWidget::updateWidgets()
     ui->groupBoxCommand->setVisible(copyOrExecute || globalShortcut);
     ui->groupBoxAction->setVisible(copyOrExecute);
     ui->groupBoxInMenu->setVisible(inMenu);
+    ui->shortcutButton->setEnabled(inMenu);
+    ui->labelShortcut->setEnabled(inMenu);
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->commandEdit->isEmpty());
 
     ui->widgetSpacer->setVisible(ui->groupBoxCommand->isHidden());
