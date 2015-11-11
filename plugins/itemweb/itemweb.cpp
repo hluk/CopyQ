@@ -46,7 +46,7 @@ const char optionMaximumHeight[] = "max_height";
 bool getHtml(const QModelIndex &index, QString *text)
 {
     *text = index.data(contentType::html).toString();
-    if ( text->isNull() )
+    if ( text->isEmpty() )
         return false;
 
     // Remove trailing null character.
