@@ -1,3 +1,11 @@
+v2.5.0
+- Smarter tab name matching (ignore key hints '&')
+- Fixed omit passing global shortcuts to widgets
+- Fixed autostart option on Ubuntu
+- Fixed window geometry saving and restoring
+- Fixed reading binary input on Windows
+- Fixed clearing configuration
+
 v2.4.9
 - Added new light theme
 - Added scriptable function focused() to test main window focus
