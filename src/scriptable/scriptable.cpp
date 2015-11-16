@@ -662,7 +662,7 @@ void Scriptable::edit()
 {
     QScriptValue value;
     QString text;
-    int row;
+    int row = -1;
 
     const int len = argumentCount();
     for ( int i = 0; i < len; ++i ) {

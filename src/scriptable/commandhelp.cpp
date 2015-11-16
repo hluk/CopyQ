@@ -112,7 +112,7 @@ QList<CommandHelp> commandHelp()
             << CommandHelp("edit",
                            Scriptable::tr("Edit items or edit new one.\n"
                                           "Value -1 is for current text in clipboard."))
-               .addArg("[" + Scriptable::tr("ROWS") + "...]")
+               .addArg("[" + Scriptable::tr("ROW") + "=-1...]")
             << CommandHelp()
             << CommandHelp("separator",
                            Scriptable::tr("Set separator for items on output."))
