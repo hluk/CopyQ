@@ -44,6 +44,8 @@ public:
     bool isValid() const;
 
 private:
+    bool hasFocus();
+
     void sendKeyPress(int modifier, int key);
 
     Window m_window;

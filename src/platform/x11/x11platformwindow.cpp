@@ -251,15 +251,23 @@ bool X11PlatformWindow::isValid() const
     return m_window != 0L;
 }
 
+bool X11PlatformWindow::hasFocus()
+{
+    Q_ASSERT( isValid() );
+    return getCurrentWindow(d.display()) != m_window;
+}
+
 void X11PlatformWindow::sendKeyPress(int modifier, int key)
 {
     Q_ASSERT( isValid() );
 
-    raise();
-    usleep(150000);
+    if (hasFocus()) {
+        raise();
+        usleep(150000);
 
-    if (getCurrentWindow(d.display()) != m_window)
-        return;
+        if (hasFocus())
+            return;
+    }
 
 #ifdef HAS_X11TEST
     simulateKeyPress(d.display(), QList<int>() << modifier, key);
