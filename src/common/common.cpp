@@ -561,10 +561,10 @@ void moveToCurrentWorkspace(QWidget *w)
 {
 #ifdef COPYQ_WS_X11
     /* Re-initialize window in window manager so it can popup on current workspace. */
-    const bool wasVisible = w->isVisible();
-    w->hide();
-    if (wasVisible)
+    if (w->isVisible()) {
+        w->hide();
         w->show();
+    }
 #else
     Q_UNUSED(w);
 #endif
