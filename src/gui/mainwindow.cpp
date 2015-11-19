@@ -1866,8 +1866,7 @@ void MainWindow::setClipboard(const QVariantMap &data)
 {
     setClipboard(data, QClipboard::Clipboard);
 #ifdef COPYQ_WS_X11
-    if ( cm->value("copy_clipboard").toBool() )
-        setClipboard(data, QClipboard::Selection);
+    setClipboard(data, QClipboard::Selection);
 #endif
 }
 
