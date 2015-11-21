@@ -139,6 +139,15 @@ int indexOfKeyHint(const QString &name)
     return -1;
 }
 
+
+QString escapeHtmlSpaces(const QString &str)
+{
+    QString str2 = str;
+    return str2
+            .replace(' ', "&nbsp;")
+            .replace('\n', "<br />");
+}
+
 } // namespace
 
 QString quoteString(const QString &str)
@@ -153,9 +162,9 @@ QString quoteString(const QString &str)
 QString escapeHtml(const QString &str)
 {
 #if QT_VERSION < 0x050000
-    return Qt::escape(str).replace('\n', "<br />");
+    return escapeHtmlSpaces(Qt::escape(str));
 #else
-    return str.toHtmlEscaped().replace('\n', "<br />");
+    return escapeHtmlSpaces(str.toHtmlEscaped());
 #endif
 }
 
@@ -348,39 +357,53 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     if (maxWidthPixels <= 0)
         maxWidthPixels = smallIconSize() * 20;
 
-    const int oldLines = text.count('\n');
+    QStringList lines = text.split('\n');
 
-    QString newText = text;
-    newText.remove(QRegExp("^\\s+"));
+    // Ignore empty lines at beginning.
+    const QRegExp reNonEmpty(".*\\S.*");
+    const int firstLine = qMax(0, lines.indexOf(reNonEmpty));
+    const int lastLine = qMax(0, lines.lastIndexOf(reNonEmpty, firstLine + maxLines - 1));
 
-    const int newLines = newText.count('\n');
+    // If empty lines are at beginning, prepend triple dot.
+    if (firstLine != 0)
+        lines[firstLine].prepend("...");
 
-    int lines = 0;
-    QString result;
-    foreach ( QString line, newText.split('\n') ) {
-        if (++lines > maxLines) {
-            result.append( QString("...") );
-            break;
-        }
+    // If there are too many lines, append triple dot.
+    if (lastLine + 1 != lines.size())
+        lines[lastLine].append("...");
 
-        // Show triple-dot in middle if text is too long.
-        QFontMetrics fm(font);
-        const int formatWidth = format.isEmpty() ? 0 : fm.width(format.arg(QString()));
-        line = fm.elidedText(line.simplified(), Qt::ElideMiddle, maxWidthPixels - formatWidth);
+    lines = lines.mid(firstLine, lastLine - firstLine + 1);
 
-        if ( !line.isEmpty() ) {
-            if ( !result.isEmpty() )
-                result.append('\n');
-            result.append(line);
+    QFontMetrics fm(font);
+    const int formatWidth = format.isEmpty() ? 0 : fm.width(format.arg(QString()));
+
+    // Remove redundant spaces from single line text.
+    if (lines.size() == 1)
+        lines[0] = lines[0].simplified();
+
+    // Find common indentation.
+    int commonIndent = lines.value(0).size();
+    const QRegExp reNonSpace("\\S");
+    for (int i = 0; i < lines.size(); ++i) {
+        const int lineIndent = lines[i].indexOf(reNonSpace);
+        if (lineIndent != -1 && lineIndent < commonIndent) {
+            commonIndent = lineIndent;
+            if (commonIndent == 0)
+                break;
         }
     }
+
+    // Remove common indentation each line and elide text if too long.
+    for (int i = 0; i < lines.size(); ++i) {
+        QString &line = lines[i];
+        line = fm.elidedText(line.mid(commonIndent), Qt::ElideMiddle, maxWidthPixels - formatWidth);
+    }
+
+    QString result = lines.join("\n");
 
     // Escape all ampersands.
     if (escapeAmpersands)
         result.replace( QChar('&'), QString("&&") );
-
-    if (newLines < oldLines && result != "...")
-        result.prepend("...");
 
     return format.isEmpty() ? result : format.arg(result);
 }
