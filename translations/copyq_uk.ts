@@ -159,7 +159,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"></location>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"></location>
