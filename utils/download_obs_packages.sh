@@ -18,6 +18,8 @@ pkg_deb_i386="i386/${pkg}${xdeb_i386}"
 pkg_rpm="x86_64/${project}-${version}-${rpm_version}${xrpm}"
 
 packages=(
+    "${pkg}_Ubuntu_15.10${xdeb_i386}   $url/xUbuntu_15.10/${pkg_deb_i386}"
+    "${pkg}_Ubuntu_15.10${xdeb}        $url/xUbuntu_15.10/${pkg_deb}"
     "${pkg}_Ubuntu_15.04${xdeb_i386}   $url/xUbuntu_15.04/${pkg_deb_i386}"
     "${pkg}_Ubuntu_15.04${xdeb}        $url/xUbuntu_15.04/${pkg_deb}"
     "${pkg}_Ubuntu_14.10${xdeb_i386}   $url/xUbuntu_14.10/${pkg_deb_i386}"
