@@ -4,7 +4,7 @@
     <id>copyq.desktop</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0+</project_license>
-    
+
     <name>CopyQ</name>
     <summary>Advanced clipboard manager</summary>
 
@@ -33,6 +33,11 @@
     <categories>
         <category>Utility</category>
     </categories>
+
+    <kudos>
+        <kudo>HiDpiIcon</kudo>
+        <kudo>ModernToolkit</kudo>
+    </kudos>
 
     <updatecontact>hluk_at_email.cz</updatecontact>
 </component>
