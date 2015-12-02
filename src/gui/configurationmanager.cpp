@@ -155,6 +155,19 @@ private:
     int m_timerIdToDeleteGuard;
 };
 
+QString nativeLanguageName(const QString &localeName)
+{
+    // Traditional Chinese
+    if (localeName == "zh_TW")
+        return QString::fromUtf8("\xe6\xad\xa3\xe9\xab\x94\xe4\xb8\xad\xe6\x96\x87");
+
+    // Simplified Chinese
+    if (localeName == "zh_CN")
+        return QString::fromUtf8("\xe7\xae\x80\xe4\xbd\x93\xe4\xb8\xad\xe6\x96\x87");
+
+    return QLocale(localeName).nativeLanguageName();
+}
+
 } // namespace
 
 // singleton
@@ -459,9 +472,9 @@ void ConfigurationManager::initLanguages()
         foreach ( const QString &item, QDir(path).entryList(QStringList("copyq_*.qm")) ) {
             const int i = item.indexOf('_');
             const QString locale = item.mid(i + 1, item.lastIndexOf('.') - i - 1);
-            const QString language = QLocale(locale).nativeLanguageName();
+            const QString language = nativeLanguageName(locale);
 
-            if ( !languages.contains(language) ) {
+            if (!language.isEmpty()) {
                 languages.insert(language);
                 const int index = ui->comboBoxLanguage->count();
                 ui->comboBoxLanguage->addItem(language);
