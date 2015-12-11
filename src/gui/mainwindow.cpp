@@ -1185,6 +1185,16 @@ ClipboardBrowser *MainWindow::clipboardTab()
     return m_options.clipboardTab.isEmpty() ? NULL : tab(m_options.clipboardTab);
 }
 
+void MainWindow::onEscape()
+{
+    if ( browseMode() ) {
+        hideWindow();
+        getBrowser()->setCurrent(0);
+    } else {
+        resetStatus();
+    }
+}
+
 int MainWindow::findTabIndex(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -1291,22 +1301,30 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if (m_options.hideTabs && key == Qt::Key_Alt)
         setHideTabs(false);
 
-    if (browseMode() && m_options.viMode) {
-        if (c->handleViKey(event))
+    if (m_options.viMode) {
+        if (modifiers == Qt::ControlModifier && key == Qt::Key_BracketLeft) {
+            onEscape();
             return;
-        switch(key) {
-        case Qt::Key_Slash:
-            enterBrowseMode(false);
-            event->accept();
-            return;
-        case Qt::Key_H:
-            previousTab();
-            event->accept();
-            return;
-        case Qt::Key_L:
-            nextTab();
-            event->accept();
-            return;
+        }
+
+        if (browseMode()) {
+            if (c->handleViKey(event))
+                return;
+
+            switch(key) {
+            case Qt::Key_Slash:
+                enterBrowseMode(false);
+                event->accept();
+                return;
+            case Qt::Key_H:
+                previousTab();
+                event->accept();
+                return;
+            case Qt::Key_L:
+                nextTab();
+                event->accept();
+                return;
+            }
         }
     }
 
@@ -1389,12 +1407,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 #endif // Q_OS_MAC
 
         case Qt::Key_Escape:
-            if ( browseMode() ) {
-                hideWindow();
-                getBrowser()->setCurrent(0);
-            } else {
-                resetStatus();
-            }
+            onEscape();
             break;
 
         default:

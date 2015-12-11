@@ -551,6 +551,8 @@ private:
 
     ClipboardBrowser *clipboardTab();
 
+    void onEscape();
+
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 
