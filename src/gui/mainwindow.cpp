@@ -261,6 +261,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_trayTab(NULL)
     , m_commandDialog(NULL)
     , m_canUpdateTitleFromScript(true)
+    , m_iconSnip(false)
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -295,8 +296,8 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(tabCloseRequested(int)) );
     connect( ui->searchBar, SIGNAL(filterChanged(QRegExp)),
              this, SLOT(onFilterChanged(QRegExp)) );
-    connect( m_actionHandler, SIGNAL(hasRunningActionChanged()),
-             this, SLOT(updateIcon()) );
+    connect( m_actionHandler, SIGNAL(runningActionsCountChanged()),
+             this, SLOT(onRunningActionsCountChanged()) );
     connect( qApp, SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()) );
 
@@ -530,13 +531,8 @@ void MainWindow::updateIcon()
 {
     AppIconFlags flags = m_clipboardStoringDisabled ? AppIconDisabled : AppIconNormal;
 
-    // Show running icon for some minimal time (nice snip effect with default icon).
-    if ( hasRunningAction() || m_timerTrayIconSnip.isActive() ) {
+    if (m_iconSnip)
         flags |= AppIconRunning;
-
-        if ( !m_timerTrayIconSnip.isActive() )
-            m_timerTrayIconSnip.start(250);
-    }
 
     const QIcon icon = appIcon(flags);
 
@@ -546,8 +542,11 @@ void MainWindow::updateIcon()
 
 void MainWindow::updateIconTimeout()
 {
-    if ( !hasRunningAction() )
+    if ( m_iconSnip != hasRunningAction() ) {
+        m_iconSnip = !m_iconSnip;
+        m_timerTrayIconSnip.start(250);
         updateIcon();
+    }
 }
 
 void MainWindow::updateContextMenuTimeout()
@@ -581,6 +580,15 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveToBottom, this, SLOT(moveToBottom()) );
 
     updateToolBar();
+}
+
+void MainWindow::onRunningActionsCountChanged()
+{
+    if ( !m_timerTrayIconSnip.isActive() ) {
+        m_iconSnip = !m_iconSnip;
+        m_timerTrayIconSnip.start(250);
+        updateIcon();
+    }
 }
 
 void MainWindow::onAboutToQuit()

@@ -444,6 +444,8 @@ private slots:
 
     void updateContextMenuTimeout();
 
+    void onRunningActionsCountChanged();
+
     void onAboutToQuit();
 
     void onCommandDialogSaved();
@@ -597,6 +599,8 @@ private:
     QList<Command> m_automaticCommands;
     QPointer<Action> m_currentAutomaticCommand;
     bool m_canUpdateTitleFromScript;
+
+    bool m_iconSnip;
 };
 
 #endif // MAINWINDOW_H

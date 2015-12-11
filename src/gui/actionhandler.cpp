@@ -39,7 +39,6 @@ ActionHandler::ActionHandler(MainWindow *mainWindow)
     , m_wnd(mainWindow)
     , m_actionCounter(0)
     , m_activeActionDialog(new ProcessManagerDialog(mainWindow))
-    , m_hasRunningAction(false)
 {
     Q_ASSERT(mainWindow);
 }
@@ -108,11 +107,7 @@ void ActionHandler::action(Action *action)
 void ActionHandler::actionStarted(Action *action)
 {
     m_activeActionDialog->actionStarted(action);
-
-    if (!m_hasRunningAction) {
-        m_hasRunningAction = true;
-        emit hasRunningActionChanged();
-    }
+    emit runningActionsCountChanged();
 }
 
 void ActionHandler::closeAction(Action *action)
@@ -155,10 +150,7 @@ void ActionHandler::closeAction(Action *action)
     Q_ASSERT(m_actionCounter > 0);
     --m_actionCounter;
 
-    m_hasRunningAction = hasRunningAction();
-
-    if (!m_hasRunningAction)
-        emit hasRunningActionChanged();
+    emit runningActionsCountChanged();
 
     action->deleteLater();
 }
