@@ -22,7 +22,6 @@
 
 #include <QMenu>
 #include <QPointer>
-#include <QTimer>
 
 class QModelIndex;
 
@@ -55,13 +54,8 @@ signals:
     /** Emitted if numbered action triggered. */
     void clipboardItemActionTriggered(uint clipboardItemHash, bool omitPaste);
 
-protected:
-    void paintEvent(QPaintEvent *event);
-
 private slots:
     void onClipboardItemActionTriggered();
-    void onActionHovered(QAction *action);
-    void updateTooltip();
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -73,8 +67,6 @@ private:
     QPointer<QAction> m_clipboardItemActionsSeparator;
     QPointer<QAction> m_customActionsSeparator;
     int m_clipboardItemActionCount;
-
-    QTimer m_timerShowTooltip;
 
     bool m_omitPaste;
 };
