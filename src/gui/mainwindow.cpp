@@ -1316,7 +1316,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
 
         if (browseMode()) {
-            if (c->handleViKey(event))
+            if (handleViKey(event, c))
                 return;
 
             switch(key) {
@@ -1520,6 +1520,7 @@ void MainWindow::loadSettings()
 
     // Vi mode
     m_options.viMode = cm->value("vi").toBool();
+    m_trayMenu->setViModeEnabled(m_options.viMode);
 
     m_options.transparency = qMax( 0, qMin(100, cm->value("transparency").toInt()) );
     m_options.transparencyFocused = qMax( 0, qMin(100, cm->value("transparency_focused").toInt()) );

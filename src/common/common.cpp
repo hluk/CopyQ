@@ -29,6 +29,7 @@
 #include <QDesktopWidget>
 #include <QDir>
 #include <QImage>
+#include <QKeyEvent>
 #include <QLocale>
 #include <QMimeData>
 #include <QObject>
@@ -599,4 +600,50 @@ void moveToCurrentWorkspace(QWidget *w)
 #else
     Q_UNUSED(w);
 #endif
+}
+
+bool handleViKey(QKeyEvent *event, QObject *eventReceiver)
+{
+    int key = event->key();
+    Qt::KeyboardModifiers mods = event->modifiers();
+
+    switch ( key ) {
+    case Qt::Key_G:
+        key = mods & Qt::ShiftModifier ? Qt::Key_End : Qt::Key_Home;
+        mods = mods & ~Qt::ShiftModifier;
+        break;
+    case Qt::Key_J:
+        key = Qt::Key_Down;
+        break;
+    case Qt::Key_K:
+        key = Qt::Key_Up;
+        break;
+    case Qt::Key_F:
+    case Qt::Key_D:
+    case Qt::Key_B:
+    case Qt::Key_U:
+        if (mods & Qt::ControlModifier) {
+            key = (key == Qt::Key_F || key == Qt::Key_D) ? Qt::Key_PageDown : Qt::Key_PageUp;
+            mods = mods & ~Qt::ControlModifier;
+        } else {
+            return false;
+        }
+        break;
+    case Qt::Key_BracketLeft:
+        if (mods & Qt::ControlModifier) {
+            key = Qt::Key_Escape;
+            mods = mods & ~Qt::ControlModifier;
+        } else {
+            return false;
+        }
+        break;
+    default:
+        return false;
+    }
+
+    QKeyEvent event2(QEvent::KeyPress, key, mods, event->text());
+    QCoreApplication::sendEvent(eventReceiver, &event2);
+    event->accept();
+
+    return true;
 }

@@ -69,6 +69,7 @@ TrayMenu::TrayMenu(QWidget *parent)
     , m_customActionsSeparator()
     , m_clipboardItemActionCount(0)
     , m_omitPaste(false)
+    , m_viMode(false)
 {
     connect( this, SIGNAL(hovered(QAction*)),
              this, SLOT(onActionHovered(QAction*)) );
@@ -164,6 +165,11 @@ void TrayMenu::setActiveFirstEnabledAction()
         setActiveAction(action);
 }
 
+void TrayMenu::setViModeEnabled(bool enabled)
+{
+    m_viMode = enabled;
+}
+
 void TrayMenu::keyPressEvent(QKeyEvent *event)
 {
     int k = event->key();
@@ -172,6 +178,8 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
     if (event->modifiers() == Qt::KeypadModifier && Qt::Key_0 <= k && k <= Qt::Key_9) {
         // Allow keypad digit to activate appropriate item in context menu.
         event->setModifiers(Qt::NoModifier);
+    } else if ( m_viMode && handleViKey(event, this) ) {
+        return;
     } else {
         // Movement in tray menu.
         switch (k) {

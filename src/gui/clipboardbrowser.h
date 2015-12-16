@@ -133,11 +133,6 @@ class ClipboardBrowser : public QListView
         bool maybeCloseEditor();
 
         /**
-         * Handle key for Vi mode.
-         */
-        bool handleViKey(QKeyEvent *event);
-
-        /**
          * Get data of selected item, NULL if none or multiple items selected.
          */
         QVariantMap getSelectedItemData() const;

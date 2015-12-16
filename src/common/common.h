@@ -29,6 +29,7 @@
 class QAction;
 class QByteArray;
 class QIODevice;
+class QKeyEvent;
 class QMimeData;
 class QPoint;
 class QString;
@@ -162,5 +163,10 @@ QString removeKeyHint(QString &name);
 void moveWindowOnScreen(QWidget *w, const QPoint &pos);
 
 void moveToCurrentWorkspace(QWidget *w);
+
+/**
+ * Handle key for Vi mode.
+ */
+bool handleViKey(QKeyEvent *event, QObject *eventReceiver);
 
 #endif // COMMON_H

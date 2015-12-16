@@ -1333,7 +1333,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         return;
 
     // translate keys for vi mode
-    if (ConfigurationManager::instance()->value("vi").toBool() && handleViKey(event))
+    if (m_sharedData->viMode && handleViKey(event, this))
         return;
 
     const int key = event->key();
@@ -1811,44 +1811,6 @@ bool ClipboardBrowser::maybeCloseEditor()
         }
         delete m_editor;
     }
-
-    return true;
-}
-
-bool ClipboardBrowser::handleViKey(QKeyEvent *event)
-{
-    int key = event->key();
-    Qt::KeyboardModifiers mods = event->modifiers();
-
-    switch ( key ) {
-    case Qt::Key_G:
-        key = mods & Qt::ShiftModifier ? Qt::Key_End : Qt::Key_Home;
-        mods = mods & ~Qt::ShiftModifier;
-        break;
-    case Qt::Key_J:
-        key = Qt::Key_Down;
-        break;
-    case Qt::Key_K:
-        key = Qt::Key_Up;
-        break;
-    case Qt::Key_F:
-    case Qt::Key_D:
-    case Qt::Key_B:
-    case Qt::Key_U:
-        if (mods & Qt::ControlModifier) {
-            key = (key == Qt::Key_F || key == Qt::Key_D) ? Qt::Key_PageDown : Qt::Key_PageUp;
-            mods = mods & ~Qt::ControlModifier;
-        } else {
-            return false;
-        }
-        break;
-    default:
-        return false;
-    }
-
-    QKeyEvent event2(QEvent::KeyPress, key, mods, event->text());
-    keyPressEvent(&event2);
-    event->accept();
 
     return true;
 }

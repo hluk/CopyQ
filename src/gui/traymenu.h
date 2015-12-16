@@ -50,6 +50,9 @@ public:
     /** Select first enabled menu item. */
     void setActiveFirstEnabledAction();
 
+    /** Handle Vi shortcuts. */
+    void setViModeEnabled(bool enabled);
+
 signals:
     /** Emitted if numbered action triggered. */
     void clipboardItemActionTriggered(uint clipboardItemHash, bool omitPaste);
@@ -69,6 +72,7 @@ private:
     int m_clipboardItemActionCount;
 
     bool m_omitPaste;
+    bool m_viMode;
 };
 
 #endif // TRAYMENU_H
