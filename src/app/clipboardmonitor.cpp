@@ -82,8 +82,12 @@ void ClipboardMonitor::onClipboardChanged(PlatformClipboard::Mode mode)
         return;
     }
 
-    if (mode != PlatformClipboard::Clipboard)
-        data.insert(mimeClipboardMode, PlatformClipboard::Selection ? "selection" : "find buffer");
+    if (mode != PlatformClipboard::Clipboard) {
+        const QString modeName = mode == PlatformClipboard::Selection
+                ? "selection"
+                : "find buffer";
+        data.insert(mimeClipboardMode, modeName);
+    }
 
     // add window title of clipboard owner
     if ( !data.contains(mimeOwner) && !data.contains(mimeWindowTitle) ) {
