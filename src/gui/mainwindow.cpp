@@ -242,6 +242,45 @@ bool isClipboardDataHidden(const QVariantMap &data)
     return data.value(mimeHidden).toByteArray() == "1";
 }
 
+#ifdef COPYQ_WS_X11
+bool needSyncClipboardToSelection(const QVariantMap &data)
+{
+    return isClipboardData(data)
+            && ConfigurationManager::instance()->value("copy_clipboard").toBool()
+            && !clipboardContains(QClipboard::Selection, data);
+}
+
+bool needSyncSelectionToClipboard(const QVariantMap &data)
+{
+    return !isClipboardData(data)
+            && ConfigurationManager::instance()->value("copy_selection").toBool()
+            && !clipboardContains(QClipboard::Clipboard, data);
+}
+
+bool needStore(const QVariantMap &data)
+{
+    const QString optionName =
+            isClipboardData(data) ? "check_clipboard" : "check_selection";
+    return ConfigurationManager::instance()->value(optionName).toBool();
+}
+#else
+bool needSyncClipboardToSelection(const QVariantMap &data)
+{
+    return false;
+}
+
+bool needSyncSelectionToClipboard(const QVariantMap &data)
+{
+    return false;
+}
+
+bool needStore(const QVariantMap &data)
+{
+    return isClipboardData(data)
+            && ConfigurationManager::instance()->value("check_clipboard").toBool();
+}
+#endif
+
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -1778,26 +1817,18 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
 
 void MainWindow::updateFirstItem(const QVariantMap &data)
 {
-    bool isClipboard = isClipboardData(data);
-
-#ifdef COPYQ_WS_X11
     // Synchronize clipboard and X11 selection.
-    if ( isClipboard && cm->value("copy_clipboard").toBool() && !clipboardContains(QClipboard::Selection, data) )
+    if (needSyncClipboardToSelection(data))
         emit changeClipboard(data, QClipboard::Selection);
 
-    if ( !isClipboard && cm->value("copy_selection").toBool() && !clipboardContains(QClipboard::Clipboard, data) )
+    if (needSyncSelectionToClipboard(data))
         emit changeClipboard(data, QClipboard::Clipboard);
 
-    if ( !isClipboard && !cm->value("check_selection").toBool() )
-        return;
-#endif
-
-    if ( isClipboard && !cm->value("check_clipboard").toBool() )
-        return;
-
-    ClipboardBrowser *c = clipboardTab();
-    if ( c && c->isLoaded() )
-        c->addUnique(data);
+    if (needStore(data)) {
+        ClipboardBrowser *c = clipboardTab();
+        if ( c && c->isLoaded() )
+            c->addUnique(data);
+    }
 }
 
 void MainWindow::setExitAfterClosed()
@@ -1832,16 +1863,23 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
         }
     }
 
-    // Clear window title and tooltip.
-    if (isClipboard)
+    // Add new clipboard to the first tab (if configured so).
+    if ( needSyncClipboardToSelection(data)
+            || needSyncSelectionToClipboard(data)
+            || needStore(data) )
+    {
+        commands.append(automaticCommand("Add Item from Clipboard", "updateFirst()"));
+    }
+
+    if (isClipboard) {
+        // First, clear window title and tooltip.
         commands.prepend(automaticCommand("Reset Window Title" ,"updateTitle('')"));
 
-    // Add new clipboard to the first tab (if configured so).
-    commands.append(automaticCommand("Add Item from Clipboard", "updateFirst()"));
-
-    // Set window title, tooltip and show notification.
-    if (isClipboard)
+        // Lastly, set window title, tooltip and show notification.
+        // This may not be executed if any previous user-defined automatic
+        // command chooses to ignore clipboard content.
         commands.append(automaticCommand("Set Window Title", "updateTitle()"));
+    }
 
     abortAutomaticCommands();
     m_automaticCommandTester.setCommands(commands, data);

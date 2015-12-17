@@ -345,7 +345,7 @@ void ClipboardServer::doCommand(const Arguments &args, ClientSocket *client)
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
 {
-    if ( m_wnd->isClipboardStoringDisabled() )
+    if ( !m_wnd->isMonitoringEnabled() )
         return;
 
     QVariantMap data;

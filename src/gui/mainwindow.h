@@ -245,9 +245,6 @@ public:
     /** Return true only if monitoring is enabled. */
     bool isMonitoringEnabled() const;
 
-    /** Return true if clipboard storing was disabled. */
-    bool isClipboardStoringDisabled() const { return m_clipboardStoringDisabled; }
-
     /** Abort execution of automatic commands. */
     void abortAutomaticCommands();
 
