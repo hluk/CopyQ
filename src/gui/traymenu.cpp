@@ -71,8 +71,6 @@ TrayMenu::TrayMenu(QWidget *parent)
     , m_omitPaste(false)
     , m_viMode(false)
 {
-    connect( this, SIGNAL(hovered(QAction*)),
-             this, SLOT(onActionHovered(QAction*)) );
 }
 
 void TrayMenu::toggle()
