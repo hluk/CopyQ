@@ -30,7 +30,6 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QSettings>
-#include <QWidget>
 
 #include <qt_windows.h>
 
@@ -103,28 +102,6 @@ void migrateConfigToAppDir()
     }
 }
 
-/**
- * Invisible window which exits application if closed.
- *
- * Used as workaround for "taskkill".
- */
-class DummyWindow : public QWidget
-{
-public:
-    DummyWindow()
-        : QWidget(NULL, Qt::ToolTip)
-    {
-        resize(1, 1);
-        move(-100000, -100000);
-        show();
-    }
-
-    void closeEvent(QCloseEvent *)
-    {
-        QCoreApplication::exit();
-    }
-};
-
 } // namespace
 
 PlatformPtr createPlatformNativeInterface()
@@ -146,9 +123,7 @@ PlatformWindowPtr WinPlatform::getCurrentWindow()
 
 QApplication *WinPlatform::createServerApplication(int &argc, char **argv)
 {
-    QApplication *app = new QApplication(argc, argv);
-    new DummyWindow();
-    return app;
+    return new QApplication(argc, argv);
 }
 
 QApplication *WinPlatform::createMonitorApplication(int &argc, char **argv)
