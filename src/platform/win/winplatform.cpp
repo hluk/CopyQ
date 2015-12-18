@@ -102,6 +102,54 @@ void migrateConfigToAppDir()
     }
 }
 
+BOOL ctrlHandler(DWORD fdwCtrlType)
+{
+    switch (fdwCtrlType) {
+    case CTRL_C_EVENT:
+        COPYQ_LOG("Terminating application on signal.");
+        QCoreApplication::exit();
+        return TRUE;
+
+    case CTRL_CLOSE_EVENT:
+        COPYQ_LOG("Terminating application on close event.");
+        QCoreApplication::exit();
+        return TRUE;
+
+    case CTRL_BREAK_EVENT:
+        COPYQ_LOG("Terminating application on break event.");
+        QCoreApplication::exit();
+        return TRUE;
+
+    case CTRL_LOGOFF_EVENT:
+        COPYQ_LOG("Terminating application on log off.");
+        QCoreApplication::exit();
+        return TRUE;
+
+    case CTRL_SHUTDOWN_EVENT:
+        COPYQ_LOG("Terminating application on shut down.");
+        QCoreApplication::exit();
+        return TRUE;
+
+    default:
+        return FALSE;
+    }
+}
+
+void installControlHandler()
+{
+    if ( !SetConsoleCtrlHandler(reinterpret_cast<PHANDLER_ROUTINE>(ctrlHandler), TRUE) )
+        log("Failed to set Windows control handler.", LogError);
+}
+
+template <typename Application>
+Application *createApplication(int &argc, char **argv)
+{
+    Application *app = new Application(argc, argv);
+    installControlHandler();
+    setBinaryStdin();
+    return app;
+}
+
 } // namespace
 
 PlatformPtr createPlatformNativeInterface()
@@ -123,18 +171,17 @@ PlatformWindowPtr WinPlatform::getCurrentWindow()
 
 QApplication *WinPlatform::createServerApplication(int &argc, char **argv)
 {
-    return new QApplication(argc, argv);
+    return createApplication<QApplication>(argc, argv);
 }
 
 QApplication *WinPlatform::createMonitorApplication(int &argc, char **argv)
 {
-    return new QApplication(argc, argv);
+    return createApplication<QApplication>(argc, argv);
 }
 
 QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
 {
-    setBinaryStdin();
-    return new QCoreApplication(argc, argv);
+    return createApplication<QCoreApplication>(argc, argv);
 }
 
 void WinPlatform::loadSettings()
