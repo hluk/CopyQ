@@ -7,7 +7,6 @@ SET WindowsRoot=C:\Windows\SysWOW64
 
 mkdir "%DestDir%"
 copy "%Root%\%BuildConf%\copyq.exe" "%DestDir%"
-copy "%Root%\%BuildConf%\copyq.com" "%DestDir%"
 
 copy "%Source%\AUTHORS" "%DestDir%"
 copy "%Source%\LICENSE" "%DestDir%"

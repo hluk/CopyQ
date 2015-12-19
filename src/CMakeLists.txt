@@ -65,45 +65,14 @@ endif()
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 set(copyq_COMPILE
+    ${copyq_COMPILE}
     ${copyq_SOURCES}
     ${copyq_FORMS_HEADERS}
     ${copyq_RESOURCES_RCC}
     ${copyq_QM}
     )
 
-if (WIN32)
-    # Create separate binaries for GUI and console under Windows.
-
-    # GUI (copyq.exe)
-    add_executable(copyq WIN32 ${copyq_COMPILE} ${copyq_RC})
-
-    if (MSVC)
-        set_target_properties(copyq PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
-    endif()
-
-    # console (copyq.com)
-    add_executable(copyqcon platform/win/main.cpp)
-    set_target_properties(copyqcon PROPERTIES OUTPUT_NAME "copyq" SUFFIX ".com")
-
-    # Qt modules for console app
-    if (WITH_QT5)
-        qt5_use_modules(copyqcon Core)
-    else()
-        include(${QT_USE_FILE})
-    endif()
-
-    # macros definitions for preprocessor and moc
-    set_target_properties(copyqcon PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
-
-    # link console app
-    target_link_libraries(copyqcon ${QT_LIBRARIES})
-
-    # install console app
-    install(TARGETS copyqcon DESTINATION bin)
-else()
-    # Single binary for console and GUI.
-    add_executable(copyq ${copyq_COMPILE})
-endif()
+add_executable(copyq ${copyq_COMPILE})
 
 if (APPLE)
     # On Macs we must ensure Carbon and Cocoa are linked
@@ -143,6 +112,7 @@ endif()
 set_target_properties(copyq PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
 
 # link
+set_target_properties(copyq PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS}")
 target_link_libraries(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
 
 # install
