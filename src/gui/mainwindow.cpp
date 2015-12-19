@@ -404,6 +404,8 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    COPYQ_LOG("Got main window close event.");
+
     if ( closeMinimizes() ) {
         event->ignore();
         showMinimized();
@@ -1829,12 +1831,6 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
         if ( c && c->isLoaded() )
             c->addUnique(data);
     }
-}
-
-void MainWindow::setExitAfterClosed()
-{
-    m_minimizeUnsupported = true;
-    QApplication::setQuitOnLastWindowClosed(true);
 }
 
 QString syncCommand(const QString &type)

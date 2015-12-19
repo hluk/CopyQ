@@ -253,8 +253,6 @@ public:
     /** Update the first item in the first tab. */
     void updateFirstItem(const QVariantMap &data);
 
-    void setExitAfterClosed();
-
 public slots:
     /** Close main window and exit the application. */
     void exit();

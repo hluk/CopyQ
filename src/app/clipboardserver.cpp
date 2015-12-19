@@ -278,15 +278,15 @@ void ClipboardServer::onAboutToQuit()
 
 void ClipboardServer::onCommitData(QSessionManager &sessionManager)
 {
-    bool cancel = sessionManager.allowsInteraction() && !askToQuit();
+    COPYQ_LOG("Got commit data request from session manager.");
+
+    const bool cancel = sessionManager.allowsInteraction() && !askToQuit();
     sessionManager.release();
 
-    if (cancel) {
+    if (cancel)
         sessionManager.cancel();
-    } else {
+    else
         m_wnd->saveTabs();
-        m_wnd->setExitAfterClosed();
-    }
 }
 
 void ClipboardServer::maybeQuit()
