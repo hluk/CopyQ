@@ -171,7 +171,7 @@ QString escapeHtml(const QString &str)
 
 bool isMainThread()
 {
-    return QThread::currentThread() == QApplication::instance()->thread();
+    return QThread::currentThread() == qApp->thread();
 }
 
 const QMimeData *clipboardData(QClipboard::Mode mode)
@@ -315,7 +315,7 @@ QMimeData* createMimeData(const QVariantMap &data)
 
 #ifdef HAS_TESTS
     // Don't set clipboard owner if monitor is only used to set clipboard for tests.
-    if ( !QCoreApplication::instance()->property("CopyQ_testing").toBool() )
+    if ( !qApp->property("CopyQ_testing").toBool() )
 #endif
         newClipboardData->setData( mimeOwner, qgetenv("COPYQ_SESSION_NAME") );
 

@@ -65,7 +65,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 
 #ifdef HAS_TESTS
     if ( serverName == QString("copyq_TEST") )
-        QCoreApplication::instance()->setProperty("CopyQ_testing", true);
+        qApp->setProperty("CopyQ_testing", true);
 #endif
 
     if ( !startClientSocket(serverName, argc, argv) )

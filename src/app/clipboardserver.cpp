@@ -132,7 +132,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     connect( server, SIGNAL(newConnection(Arguments,ClientSocket*)),
              this, SLOT(doCommand(Arguments,ClientSocket*)) );
 
-    connect( QCoreApplication::instance(), SIGNAL(aboutToQuit()),
+    connect( qApp, SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()));
 
     connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
@@ -162,7 +162,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     // run clipboard monitor
     startMonitoring();
 
-    QCoreApplication::instance()->installEventFilter(this);
+    qApp->installEventFilter(this);
 
     server->start();
 

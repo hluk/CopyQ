@@ -41,7 +41,7 @@ const int dummyItemMaxChars = 4096;
 bool findPluginDir(QDir *pluginsDir)
 {
 #if defined(COPYQ_WS_X11)
-    pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
+    pluginsDir->setPath( qApp->applicationDirPath() );
     if ( pluginsDir->dirName() == QString("bin")
          && pluginsDir->cdUp()
          && (pluginsDir->cd("lib64") || pluginsDir->cd("lib"))
@@ -49,7 +49,7 @@ bool findPluginDir(QDir *pluginsDir)
     {
         // OK, installed in /usr/local/bin or /usr/bin.
     } else {
-        pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
+        pluginsDir->setPath( qApp->applicationDirPath() );
         if ( pluginsDir->cd("plugins") ) {
             // OK, plugins in same directory as executable.
             pluginsDir->cd("copyq");
@@ -59,7 +59,7 @@ bool findPluginDir(QDir *pluginsDir)
     }
 
 #elif defined(Q_OS_MAC)
-    pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
+    pluginsDir->setPath( qApp->applicationDirPath() );
     if (pluginsDir->dirName() != "MacOS") {
         return false;
     }
@@ -71,7 +71,7 @@ bool findPluginDir(QDir *pluginsDir)
         // OK, found it in the bundle
         COPYQ_LOG("Found plugins in application bundle");
     } else if (
-            pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() ),
+            pluginsDir->setPath( qApp->applicationDirPath() ),
             pluginsDir->cdUp() // Contents
             && pluginsDir->cdUp() // copyq.app
             && pluginsDir->cdUp() // repo root
@@ -82,7 +82,7 @@ bool findPluginDir(QDir *pluginsDir)
     }
 
 #else
-    pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
+    pluginsDir->setPath( qApp->applicationDirPath() );
     if ( !pluginsDir->cd("plugins") )
         return false;
 #endif
