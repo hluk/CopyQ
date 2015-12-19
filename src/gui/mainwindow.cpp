@@ -264,12 +264,12 @@ bool needStore(const QVariantMap &data)
     return ConfigurationManager::instance()->value(optionName).toBool();
 }
 #else
-bool needSyncClipboardToSelection(const QVariantMap &data)
+bool needSyncClipboardToSelection(const QVariantMap &)
 {
     return false;
 }
 
-bool needSyncSelectionToClipboard(const QVariantMap &data)
+bool needSyncSelectionToClipboard(const QVariantMap &)
 {
     return false;
 }
