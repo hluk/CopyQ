@@ -5,8 +5,10 @@
 
 ; Path with build
 #define Root "C:\dev\build-copyq-Desktop-Release"
+
 ; Path with source code
 #define Source "C:\dev\copyq"
+
 ; Path for output installation file
 #define Output "C:\dev"
 
@@ -20,15 +22,22 @@
 
 ; Choose path to Qt installation.
 #if Qt == 4
-# define QtRoot "C:\Qt\4.8.7"
+# if Toolchain == "MSVC10"
+#   define QtRoot "C:\Qt\4.8.7"
+# else
+#   define QtRoot "C:\Qt\4.8.7-mingw"
+# endif
 #else
 # define QtRoot "C:\Qt\5.2.0"
 #endif
 
+; msbuild generates Release and Debug subfolders
+;#define BuildConf "Release"
+#define BuildConf ""
+
 ; MSVC
 #if Toolchain == "MSVC10"
 # define WindowsRoot "C:\Windows\SysWOW64"
-# define BuildConf "Release"
 #endif
 
 ; To make changes permanent you can the settings above into a custom file.
