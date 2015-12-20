@@ -29,13 +29,59 @@
 
 #include "filterlineedit.h"
 
+#include "common/config.h"
 #include "gui/configurationmanager.h"
 #include "gui/icons.h"
 #include "gui/filtercompleter.h"
 
 #include <QMenu>
 #include <QPainter>
+#include <QSettings>
 #include <QTimer>
+
+namespace {
+
+const char optionFilterHistory[] = "filter_history";
+
+class FilterHistory {
+public:
+    FilterHistory()
+        : m_settings( getConfigurationFilePath("-filter.ini"), QSettings::IniFormat )
+    {
+    }
+
+    QStringList history() const
+    {
+        return m_settings.value(optionFilterHistory).toStringList();
+    }
+
+    void setHistory(const QStringList &history)
+    {
+        m_settings.setValue(optionFilterHistory, history);
+    }
+
+private:
+    QSettings m_settings;
+};
+
+// Compatibility with version 2.5.0 and below
+void restoreOldFilterHistory()
+{
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    const QVariant oldHistoryValue = cm->value(optionFilterHistory);
+    if (oldHistoryValue.isValid()) {
+        const QStringList oldHistory = oldHistoryValue.toStringList();
+        if (!oldHistory.isEmpty()) {
+            FilterHistory filterHistory;
+            QStringList newHistory = filterHistory.history() + oldHistory;
+            newHistory.removeDuplicates();
+            filterHistory.setHistory(newHistory);
+        }
+        cm->removeValue(optionFilterHistory);
+    }
+}
+
+} // namespace
 
 /*!
     \class Utils::FilterLineEdit
@@ -121,11 +167,12 @@ void FilterLineEdit::loadSettings()
     if ( cm->value("save_filter_history").toBool() ) {
         if ( !completer() ) {
             FilterCompleter::installCompleter(this);
-            completer()->setProperty( "history", cm->value("filter_history") );
+            restoreOldFilterHistory();
+            completer()->setProperty( "history", FilterHistory().history() );
         }
     } else {
         FilterCompleter::removeCompleter(this);
-        cm->setValue("filter_history", QString());
+        FilterHistory().setHistory(QStringList());
     }
 }
 
@@ -134,9 +181,8 @@ void FilterLineEdit::hideEvent(QHideEvent *event)
     FancyLineEdit::hideEvent(event);
 
     if (completer()) {
-        ConfigurationManager *cm = ConfigurationManager::instance();
         const QStringList history = completer()->property("history").toStringList();
-        cm->setValue("filter_history", history);
+        FilterHistory().setHistory(history);
     }
 }
 

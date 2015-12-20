@@ -652,6 +652,11 @@ void ConfigurationManager::setValue(const QString &name, const QVariant &value)
     }
 }
 
+void ConfigurationManager::removeValue(const QString &name)
+{
+    Settings().remove("Options/" + name);
+}
+
 QStringList ConfigurationManager::options() const
 {
     QStringList options;

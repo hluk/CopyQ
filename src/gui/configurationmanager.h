@@ -71,6 +71,8 @@ public:
     QVariant value(const QString &name) const;
     /** Set @a value for option with given @a name. */
     void setValue(const QString &name, const QVariant &value);
+    /** Remove option with given @a name. */
+    void removeValue(const QString &name);
 
     /** Return list of options that can be set or view using command line. */
     QStringList options() const;
