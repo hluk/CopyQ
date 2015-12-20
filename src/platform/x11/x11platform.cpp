@@ -24,7 +24,6 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDir>
-#include <QKeySequence>
 #include <QRegExp>
 #include <QVariant>
 #include <QWidget>
@@ -234,24 +233,4 @@ PlatformClipboardPtr X11Platform::clipboard()
         return PlatformClipboardPtr();
 
     return PlatformClipboardPtr(new X11PlatformClipboard(d));
-}
-
-int X11Platform::keyCode(const QKeyEvent &event)
-{
-    if (d->display()) {
-        quint32 keyCode = event.nativeScanCode();
-
-        int keysyms_per_keycode_return;
-        KeySym *keysym = XGetKeyboardMapping(d->display(), keyCode, 1, &keysyms_per_keycode_return);
-        char *text = XKeysymToString(*keysym);
-        XFree(keysym);
-
-        if (text) {
-            const QKeySequence shortcut(text, QKeySequence::NativeText);
-            if (!shortcut.isEmpty())
-                return shortcut[0];
-        }
-    }
-
-    return PlatformNativeInterface::keyCode(event);
 }
