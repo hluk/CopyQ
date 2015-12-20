@@ -30,7 +30,7 @@
 
 namespace {
 
-bool isNonModifierKey(int key)
+bool isModifierKey(int key)
 {
     switch(key) {
     case Qt::Key_Control:
@@ -43,10 +43,19 @@ bool isNonModifierKey(int key)
     case Qt::Key_Hyper_L:
     case Qt::Key_Hyper_R:
     case Qt::Key_unknown:
-        return false;
-    default:
         return true;
+    default:
+        return false;
     }
+}
+
+bool isShiftModifierAllowed(const QString &text)
+{
+    // Taken from QKeySequenceEdit code.
+    return text.isEmpty()
+        || !text.at(0).isPrint()
+        || text.at(0).isLetterOrNumber()
+        || text.at(0).isSpace();
 }
 
 } // namespace
@@ -88,7 +97,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
         COPYQ_LOG(QString("Shortcut key press: %1").arg(keyEvent->key()));
 
         const int key = createPlatformNativeInterface()->keyCode(*keyEvent);
-        Qt::KeyboardModifiers mods = getModifiers(*keyEvent);
+        const int mods = getModifiers(*keyEvent);
 
         if (mods == Qt::NoModifier) {
             if (key == Qt::Key_Tab)
@@ -104,17 +113,20 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
         }
 
         event->accept();
-        processKey(key, mods);
 
-        if ( isNonModifierKey(key) )
+        if ( isModifierKey(keyEvent->key()) ) {
+            processKey(0, mods);
+        } else {
+            processKey(key, mods);
             accept();
+        }
 
         return false;
     } else if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         COPYQ_LOG(QString("Shortcut key release: %1").arg(keyEvent->key()));
 
-        Qt::KeyboardModifiers mods = getModifiers(*keyEvent);
+        const int mods = getModifiers(*keyEvent);
 
         processKey(0, mods);
 
@@ -130,32 +142,20 @@ void ShortcutDialog::onResetButtonClicked()
     accept();
 }
 
-void ShortcutDialog::processKey(int key, Qt::KeyboardModifiers mods)
+void ShortcutDialog::processKey(int key, int mods)
 {
-    int keys = 0;
-    if ( isNonModifierKey(key) )
-        keys = key;
-
-    if (mods & Qt::ControlModifier)
-        keys += Qt::CTRL;
-    if (mods & Qt::ShiftModifier)
-        keys += Qt::SHIFT;
-    if (mods & Qt::AltModifier)
-        keys += Qt::ALT;
-    if (mods & Qt::MetaModifier)
-        keys += Qt::META;
-
-    m_shortcut = QKeySequence(keys);
+    m_shortcut = QKeySequence(mods | key);
     QString shortcut = m_shortcut.toString(QKeySequence::NativeText);
     COPYQ_LOG(QString("Shortcut: %1").arg(m_shortcut.toString()));
 
     ui->lineEditShortcut->setText(shortcut);
 }
 
-Qt::KeyboardModifiers ShortcutDialog::getModifiers(const QKeyEvent &event)
+int ShortcutDialog::getModifiers(const QKeyEvent &event)
 {
     int key = event.key();
-    Qt::KeyboardModifiers mods = event.modifiers();
+    const Qt::KeyboardModifiers mods = event.modifiers();
+    int result = 0;
 
     if (key == Qt::Key_Meta || key == Qt::Key_Super_L || key == Qt::Key_Super_R
             || key == Qt::Key_Hyper_L || key == Qt::Key_Hyper_R)
@@ -163,10 +163,15 @@ Qt::KeyboardModifiers ShortcutDialog::getModifiers(const QKeyEvent &event)
         m_metaPressed = (event.type() == QEvent::KeyPress);
         COPYQ_LOG(QString("Shortcut \"Meta\" key %1.").arg(m_metaPressed ? "pressed" : "released"));
     }
-    if (m_metaPressed)
-        mods |= Qt::MetaModifier;
-    else
-        mods &= ~Qt::MetaModifier;
 
-    return mods;
+    if ( (mods & Qt::ShiftModifier) && isShiftModifierAllowed(event.text()) )
+        result |= Qt::SHIFT;
+    if (mods & Qt::ControlModifier)
+        result |= Qt::CTRL;
+    if (mods & Qt::AltModifier)
+        result |= Qt::ALT;
+    if (m_metaPressed || mods & Qt::MetaModifier)
+        result |= Qt::META;
+
+    return result;
 }
