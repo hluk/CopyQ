@@ -90,11 +90,12 @@ bool Settings::canModifySettings()
 }
 
 Settings::Settings()
-    : QSettings(
+    : m_settings(
           QSettings::defaultFormat(),
           QSettings::UserScope,
           QCoreApplication::organizationName(),
           QCoreApplication::applicationName() + "-bak" )
+    , m_changed(false)
 {
     Q_ASSERT( isMainThread() );
 }
@@ -102,13 +103,12 @@ Settings::Settings()
 Settings::~Settings()
 {
     // Only main application is allowed to change settings.
-    if (canModifySettings()) {
-        sync();
+    if (canModifySettings() && m_changed) {
+        m_settings.sync();
 
         beginSave();
-        const QSettings from(format(), scope(), organizationName(), applicationName());
         QSettings to;
-        copySettings(from, &to);
+        copySettings(m_settings, &to);
         endSave();
     }
 }
@@ -123,17 +123,17 @@ void Settings::restore()
     if ( isLastSaveUnfinished() ) {
         log("Restoring application settings", LogWarning);
 
-        if ( isEmpty(appSettings) ) {
+        if ( appSettings.isEmpty() ) {
             log("Cannot restore application settings", LogError);
         } else {
             QSettings settings;
-            copySettings(appSettings, &settings);
+            copySettings(appSettings.m_settings, &settings);
         }
 
         endSave();
     } else {
         const QSettings settings;
         if ( needsUpdate(appSettings, settings) )
-            copySettings(settings, &appSettings);
+            copySettings(settings, &appSettings.m_settings);
     }
 }

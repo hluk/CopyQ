@@ -891,11 +891,11 @@ void ConfigurationManager::apply()
     // (i.e. clicked OK or Apply in configuration dialog).
     if (m_optionWidgetsLoaded) {
         settings.beginGroup("Shortcuts");
-        tabShortcuts()->saveShortcuts(settings);
+        tabShortcuts()->saveShortcuts(*settings.settingsData());
         settings.endGroup();
 
         settings.beginGroup("Theme");
-        tabAppearance()->saveTheme(settings);
+        tabAppearance()->saveTheme(*settings.settingsData());
         settings.endGroup();
 
         // save settings for each plugin
@@ -906,7 +906,7 @@ void ConfigurationManager::apply()
                 QWidget *w = ui->itemOrderListPlugins->widget(i);
                 if (w) {
                     PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
-                    pluginWidget->applySettings(&settings, isPluginEnabled);
+                    pluginWidget->applySettings(settings.settingsData(), isPluginEnabled);
                     itemFactory()->setLoaderEnabled(pluginWidget->loader(), isPluginEnabled);
                 }
             }

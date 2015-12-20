@@ -46,7 +46,7 @@
  *   - copies settings from copy to real application settings and flushes it,
  *   - deletes special file.
  */
-class Settings : public QSettings
+class Settings
 {
 public:
     static bool isEmpty(const QSettings &settings);
@@ -57,6 +57,65 @@ public:
     ~Settings();
 
     static void restore();
+
+    bool isEmpty() const { return isEmpty(m_settings); }
+
+    QVariant value(const QString &name) const { return m_settings.value(name); }
+
+    void setValue(const QString &name, const QVariant &value) {
+        m_changed = true;
+        m_settings.setValue(name, value);
+    }
+
+    void remove(const QString &name) {
+        m_changed = true;
+        m_settings.remove(name);
+    }
+
+    void clear() {
+        m_changed = true;
+        m_settings.clear();
+    }
+
+    void beginGroup(const QString &prefix) {
+        m_settings.beginGroup(prefix);
+    }
+
+    void endGroup() {
+        m_settings.endGroup();
+    }
+
+    int beginReadArray(const QString &prefix) {
+        return m_settings.beginReadArray(prefix);
+    }
+
+    void beginWriteArray(const QString &prefix, int size = -1) {
+        m_changed = true;
+        m_settings.beginWriteArray(prefix, size);
+    }
+
+    void endArray() {
+        m_settings.endArray();
+    }
+
+    void setArrayIndex(int i) {
+        m_settings.setArrayIndex(i);
+    }
+
+    QString fileName() const {
+        return m_settings.fileName();
+    }
+
+    QSettings *settingsData() {
+        m_changed = true;
+        return &m_settings;
+    }
+
+private:
+    QSettings m_settings;
+
+    /// True only if QSetting data changed and need to be synced.
+    bool m_changed;
 };
 
 

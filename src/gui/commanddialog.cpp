@@ -600,5 +600,5 @@ CommandDialog::Commands loadCommands(bool onlyEnabled)
 void saveCommands(const CommandDialog::Commands &commands)
 {
     Settings settings;
-    saveCommands(commands, &settings);
+    saveCommands(commands, settings.settingsData());
 }
