@@ -108,6 +108,8 @@ Settings::~Settings()
 
         beginSave();
         QSettings to;
+        while ( !m_settings.group().isEmpty() )
+            m_settings.endGroup();
         copySettings(m_settings, &to);
         endSave();
     }
