@@ -54,6 +54,9 @@ public:
     bool enabled;
     Qt::Key key;
     Qt::KeyboardModifiers mods;
+    quint32 nativeKey;
+    quint32 nativeMods;
+    bool registered;
 
     bool setShortcut(const QKeySequence& shortcut);
     bool unsetShortcut();

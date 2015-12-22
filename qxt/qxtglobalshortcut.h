@@ -53,6 +53,8 @@ public:
 
     bool isEnabled() const;
 
+    bool isValid() const;
+
 public Q_SLOTS:
     void setEnabled(bool enabled = true);
     void setDisabled(bool disabled = true);
