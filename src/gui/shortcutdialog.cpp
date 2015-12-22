@@ -20,6 +20,7 @@
 #include "shortcutdialog.h"
 #include "ui_shortcutdialog.h"
 
+#include "common/common.h"
 #include "common/log.h"
 #include "gui/configurationmanager.h"
 #include "gui/icons.h"
@@ -75,6 +76,8 @@ ShortcutDialog::ShortcutDialog(QWidget *parent)
     connect(resetButton, SIGNAL(clicked()), SLOT(onResetButtonClicked()));
 
     ui->lineEditShortcut->installEventFilter(this);
+
+    setAttribute(Qt::WA_InputMethodEnabled, false);
 }
 
 ShortcutDialog::~ShortcutDialog()
@@ -97,7 +100,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
         COPYQ_LOG(QString("Shortcut key press: %1").arg(keyEvent->key()));
 
         const int key = createPlatformNativeInterface()->keyCode(*keyEvent);
-        const int mods = getModifiers(*keyEvent);
+        const int mods = getModifiers(*keyEvent, key != keyEvent->key());
 
         if (mods == Qt::NoModifier) {
             if (key == Qt::Key_Tab)
@@ -126,7 +129,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         COPYQ_LOG(QString("Shortcut key release: %1").arg(keyEvent->key()));
 
-        const int mods = getModifiers(*keyEvent);
+        const int mods = getModifiers(*keyEvent, true);
 
         processKey(0, mods);
 
@@ -145,13 +148,18 @@ void ShortcutDialog::onResetButtonClicked()
 void ShortcutDialog::processKey(int key, int mods)
 {
     m_shortcut = QKeySequence(mods | key);
+
+    // WORKAROUND: Qt has convert some keys to upper case which
+    //             breaks some shortcuts on some keyboard layouts.
+    m_shortcut = QKeySequence(portableShortcutText(m_shortcut));
+
     QString shortcut = m_shortcut.toString(QKeySequence::NativeText);
     COPYQ_LOG(QString("Shortcut: %1").arg(m_shortcut.toString()));
 
     ui->lineEditShortcut->setText(shortcut);
 }
 
-int ShortcutDialog::getModifiers(const QKeyEvent &event)
+int ShortcutDialog::getModifiers(const QKeyEvent &event, bool forceAllowShiftModifier)
 {
     int key = event.key();
     const Qt::KeyboardModifiers mods = event.modifiers();
@@ -164,7 +172,7 @@ int ShortcutDialog::getModifiers(const QKeyEvent &event)
         COPYQ_LOG(QString("Shortcut \"Meta\" key %1.").arg(m_metaPressed ? "pressed" : "released"));
     }
 
-    if ( (mods & Qt::ShiftModifier) && isShiftModifierAllowed(event.text()) )
+    if ( (mods & Qt::ShiftModifier) && (forceAllowShiftModifier || isShiftModifierAllowed(event.text())) )
         result |= Qt::SHIFT;
     if (mods & Qt::ControlModifier)
         result |= Qt::CTRL;

@@ -150,14 +150,7 @@ PlatformClipboardPtr WinPlatform::clipboard()
 int WinPlatform::keyCode(const QKeyEvent &event)
 {
     const quint32 vk = event.nativeVirtualKey();
-
-    if (vk >= '0' && vk <= '9')
-        return Qt::Key_0 + vk - '0';
-
-    if (vk >= 'A' && vk <= 'Z')
-        return Qt::Key_A + vk - 'A';
-
-    return PlatformNativeInterface::keyCode(event);
+    return MapVirtualKeyW(vk, MAPVK_VK_TO_CHAR);
 }
 
 QStringList WinPlatform::getCommandLineArguments(int, char**)

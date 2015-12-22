@@ -464,10 +464,17 @@ QString shortcutToRemove()
 #endif
 }
 
+QString portableShortcutText(const QKeySequence &shortcut)
+{
+    // WORKAROUND: Qt has convert some keys to upper case which
+    //             breaks some shortcuts on some keyboard layouts.
+    return shortcut.toString(QKeySequence::PortableText).toLower();
+}
+
 QString toPortableShortcutText(const QString &shortcutNativeText)
 {
-    return QKeySequence(shortcutNativeText, QKeySequence::NativeText)
-            .toString(QKeySequence::PortableText);
+    return portableShortcutText(
+                QKeySequence(shortcutNativeText, QKeySequence::NativeText));
 }
 
 void renameToUnique(QString *name, const QStringList &names)

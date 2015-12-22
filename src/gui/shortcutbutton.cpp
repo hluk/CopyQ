@@ -163,10 +163,10 @@ void ShortcutButton::addShortcut(QPushButton *shortcutButton)
     if (dialog->exec() == QDialog::Accepted) {
         const QKeySequence shortcut = dialog->shortcut();
         if ( shortcut.isEmpty() || shortcuts().contains(shortcut) ) {
-            if (shortcutButton != NULL && shortcutForButton(*shortcutButton) != shortcut ) {
-                const QString shortcut = shortcutButton->text();
+            const QKeySequence oldShortcut = shortcutForButton(*shortcutButton);
+            if (shortcutButton != NULL && oldShortcut != shortcut ) {
                 delete shortcutButton;
-                emit shortcutRemoved(shortcut);
+                emit shortcutRemoved(oldShortcut);
             }
         } else {
             if (shortcutButton != NULL) {

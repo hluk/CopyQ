@@ -127,8 +127,8 @@ public:
             return;
 
         QStringList shortcutNames;
-        foreach (const QKeySequence &shortcut, shortcuts() )
-            shortcutNames.append( shortcut.toString(QKeySequence::PortableText) );
+        foreach (const QKeySequence &shortcut, shortcuts())
+            shortcutNames.append(portableShortcutText(shortcut));
         settings.setValue(m_settingsKey, shortcutNames);
     }
 

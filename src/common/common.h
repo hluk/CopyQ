@@ -30,6 +30,7 @@ class QAction;
 class QByteArray;
 class QIODevice;
 class QKeyEvent;
+class QKeySequence;
 class QMimeData;
 class QPoint;
 class QString;
@@ -133,6 +134,8 @@ QString textLabelForData(const QVariantMap &data, const QFont &font = QFont(),
  * Shortcut to remove items, formats etc.
  */
 QString shortcutToRemove();
+
+QString portableShortcutText(const QKeySequence &shortcut);
 
 QString toPortableShortcutText(const QString &shortcutNativeText);
 

@@ -49,7 +49,7 @@ private slots:
 private:
     void processKey(int key, int mods);
 
-    int getModifiers(const QKeyEvent &event);
+    int getModifiers(const QKeyEvent &event, bool forceAllowShiftModifier);
 
     Ui::ShortcutDialog *ui;
     QKeySequence m_shortcut;

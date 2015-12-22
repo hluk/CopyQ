@@ -20,6 +20,7 @@
 #include "commandwidget.h"
 #include "ui_commandwidget.h"
 
+#include "common/common.h"
 #include "common/command.h"
 #include "common/mimetypes.h"
 #include "gui/configurationmanager.h"
@@ -45,7 +46,7 @@ QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enable
     QStringList shortcutTexts;
 
     foreach (const QKeySequence &shortcut, shortcuts)
-        shortcutTexts.append(shortcut.toString(QKeySequence::PortableText));
+        shortcutTexts.append(portableShortcutText(shortcut));
 
     if (!enabled && !shortcutTexts.isEmpty())
         shortcutTexts.append(globalShortcutsDisabled);
