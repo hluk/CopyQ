@@ -243,21 +243,21 @@ You can set up the command in preferences.</source>
 <context>
     <name>ActionHandler</name>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="125"/>
+        <location filename="../src/gui/actionhandler.cpp" line="120"/>
         <source>Error: %1
 </source>
         <translation>Błąd: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="128"/>
+        <location filename="../src/gui/actionhandler.cpp" line="123"/>
         <source>Exit code: %1
 </source>
         <translation>Kod wyjścia: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="148"/>
+        <location filename="../src/gui/actionhandler.cpp" line="143"/>
         <source>Command %1</source>
         <translation>Polecenie %1</translation>
     </message>
@@ -386,7 +386,7 @@ You can set up the command in preferences.</source>
         <translation>Nie można połączyć się z serwerem! Uruchom serwer CopyQ.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="86"/>
+        <location filename="../src/app/clipboardclient.cpp" line="83"/>
         <source>Connection lost!</source>
         <translation>Połączenie zerwane!</translation>
     </message>
@@ -593,48 +593,48 @@ You can set up the command in preferences.</source>
         <translation>Automatycznie</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="84"/>
+        <location filename="../src/ui/commandwidget.ui" line="86"/>
         <source>Show command in context menu of matching items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="87"/>
+        <location filename="../src/ui/commandwidget.ui" line="89"/>
         <source>In M&amp;enu</source>
         <translation>W Menu</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="96"/>
+        <location filename="../src/ui/commandwidget.ui" line="136"/>
         <source>&amp;Global Shortcut:</source>
         <translation>Skrót globalny:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="131"/>
+        <location filename="../src/ui/commandwidget.ui" line="171"/>
         <source>Match Items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="155"/>
+        <location filename="../src/ui/commandwidget.ui" line="195"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="166"/>
+        <location filename="../src/ui/commandwidget.ui" line="206"/>
         <source>F&amp;ormat:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="251"/>
+        <location filename="../src/ui/commandwidget.ui" line="291"/>
         <source>Comman&amp;d</source>
         <translation>Polecenie</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="290"/>
+        <location filename="../src/ui/commandwidget.ui" line="330"/>
         <source>Co&amp;py to tab:</source>
         <translation>Kopiuj do karty:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="348"/>
+        <location filename="../src/ui/commandwidget.ui" line="388"/>
         <source>Hide window after command is activated from context menu of an item</source>
         <translation type="unfinished"></translation>
     </message>
@@ -654,32 +654,32 @@ Leave empty to disable this.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="176"/>
+        <location filename="../src/ui/commandwidget.ui" line="216"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="183"/>
+        <location filename="../src/ui/commandwidget.ui" line="223"/>
         <source>&amp;Window:</source>
         <translation>&amp;Okno:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="193"/>
+        <location filename="../src/ui/commandwidget.ui" line="233"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="206"/>
+        <location filename="../src/ui/commandwidget.ui" line="246"/>
         <source>&amp;Content:</source>
         <translation>Zawartość:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="216"/>
+        <location filename="../src/ui/commandwidget.ui" line="256"/>
         <source>&amp;Filter:</source>
         <translation>Filtr:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="226"/>
+        <location filename="../src/ui/commandwidget.ui" line="266"/>
         <source>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
 &lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
@@ -690,39 +690,39 @@ Leave empty to disable this.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="267"/>
+        <location filename="../src/ui/commandwidget.ui" line="307"/>
         <source>Action</source>
         <translation>Akcja</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="300"/>
+        <location filename="../src/ui/commandwidget.ui" line="340"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="312"/>
+        <location filename="../src/ui/commandwidget.ui" line="352"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="317"/>
+        <location filename="../src/ui/commandwidget.ui" line="357"/>
         <source>&amp;Remove Item</source>
         <translation>Usuń element</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="327"/>
+        <location filename="../src/ui/commandwidget.ui" line="367"/>
         <source>Menu Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="351"/>
+        <location filename="../src/ui/commandwidget.ui" line="391"/>
         <source>&amp;Hide main window after activation</source>
         <translation>Ukryj główne okno po aktywacji</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="366"/>
+        <location filename="../src/ui/commandwidget.ui" line="102"/>
         <source>&amp;Shortcut:</source>
         <translation>Skrót:</translation>
     </message>
@@ -1821,7 +1821,7 @@ Set to 0 to disable.</source>
         <translation>Wygląd</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="82"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="85"/>
         <source>Cannot save tab %1 to %2 (%3)!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1907,38 +1907,38 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="76"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="79"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
         <translation type="unfinished">&amp;schowek</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="282"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="347"/>
         <source>Cannot create directory for settings %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="616"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="688"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="691"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="763"/>
         <source>Reset preferences?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="692"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="764"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="862"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="934"/>
         <source>Restart Required</source>
         <translation>Wymagane ponowne uruchomienie</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="863"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="935"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Język zostanie zmieniony po ponownym uruchomieniu.</translation>
     </message>
@@ -2837,164 +2837,164 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="355"/>
+        <location filename="../src/gui/mainwindow.cpp" line="395"/>
         <source>Exit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="356"/>
+        <location filename="../src/gui/mainwindow.cpp" line="396"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="391"/>
+        <location filename="../src/gui/mainwindow.cpp" line="433"/>
         <source>&amp;File</source>
         <translation>&amp;Plik</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="434"/>
+        <location filename="../src/gui/mainwindow.cpp" line="476"/>
         <source>&amp;Edit</source>
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="458"/>
+        <location filename="../src/gui/mainwindow.cpp" line="500"/>
         <source>&amp;Item</source>
         <translation>&amp;Element</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="462"/>
+        <location filename="../src/gui/mainwindow.cpp" line="504"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Karty</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="487"/>
+        <location filename="../src/gui/mainwindow.cpp" line="529"/>
         <source>&amp;Help</source>
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2058"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2108"/>
         <source>&amp;Show/Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2062"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2112"/>
         <source>Open action dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="500"/>
+        <location filename="../src/gui/mainwindow.cpp" line="542"/>
         <source>&amp;New Tab</source>
         <translation type="unfinished">&amp;Nowa karta</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="502"/>
+        <location filename="../src/gui/mainwindow.cpp" line="544"/>
         <source>Rename &amp;Group %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="504"/>
+        <location filename="../src/gui/mainwindow.cpp" line="546"/>
         <source>Re&amp;name Tab %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="506"/>
+        <location filename="../src/gui/mainwindow.cpp" line="548"/>
         <source>Re&amp;move Tab %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="508"/>
+        <location filename="../src/gui/mainwindow.cpp" line="550"/>
         <source>Remove Group %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="510"/>
+        <location filename="../src/gui/mainwindow.cpp" line="552"/>
         <source>&amp;Change Tab Icon</source>
         <translation type="unfinished">Zmień ikonę ka&amp;rty</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="878"/>
+        <location filename="../src/gui/mainwindow.cpp" line="927"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="879"/>
+        <location filename="../src/gui/mainwindow.cpp" line="928"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1276"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1335"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1112"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1161"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1096"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1145"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1099"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1148"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2079"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2129"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2270"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2328"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2320"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2378"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2278"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2328"/>
         <source>CopyQ Error Saving File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2279"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2329"/>
         <source>Cannot save file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2333"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2383"/>
         <source>CopyQ Error Opening File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2334"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2384"/>
         <source>Cannot open file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2482"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2532"/>
         <source>Remove All Tabs in Group?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2483"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2533"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2528"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2578"/>
         <source>Remove Tab?</source>
         <translation>Usunąć kartę?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2529"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2579"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Czy chcesz usunąć kartę &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -3083,13 +3083,13 @@ Set to 0 to disable.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="390"/>
+        <location filename="../src/common/common.cpp" line="422"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="396"/>
+        <location filename="../src/common/common.cpp" line="428"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -3099,48 +3099,48 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="405"/>
+        <location filename="../src/common/common.cpp" line="438"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="407"/>
+        <location filename="../src/common/common.cpp" line="440"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="409"/>
+        <location filename="../src/common/common.cpp" line="442"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="411"/>
+        <location filename="../src/common/common.cpp" line="444"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="423"/>
+        <location filename="../src/common/common.cpp" line="461"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="425"/>
+        <location filename="../src/common/common.cpp" line="463"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/log.cpp" line="155"/>
+        <location filename="../src/common/log.cpp" line="161"/>
         <source>warning: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/log.cpp" line="157"/>
+        <location filename="../src/common/log.cpp" line="163"/>
         <source>ERROR: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3161,17 +3161,17 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="187"/>
+        <location filename="../src/item/itemfactory.cpp" line="189"/>
         <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="229"/>
+        <location filename="../src/item/itemfactory.cpp" line="231"/>
         <source>No plugins loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="431"/>
+        <location filename="../src/item/itemfactory.cpp" line="433"/>
         <source>Loading plugin: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3181,7 +3181,7 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="166"/>
+        <location filename="../src/main.cpp" line="167"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation type="unfinished"></translation>
@@ -3275,6 +3275,7 @@ Set clipboard content.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="107"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="115"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="124"/>
         <source>ROW</source>
@@ -3307,7 +3308,6 @@ Set clipboard content.</source>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="115"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>ROWS</source>
@@ -3629,7 +3629,7 @@ Print version of program and libraries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutdialog.cpp" line="65"/>
+        <location filename="../src/gui/shortcutdialog.cpp" line="66"/>
         <source>Remove Shortcut</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3685,7 +3685,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="153"/>
+        <location filename="../src/gui/traymenu.cpp" line="110"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
         <translation type="unfinished"></translation>
@@ -3694,12 +3694,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>Utils::FilterLineEdit</name>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="72"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="118"/>
         <source>Regular Expression</source>
         <translation>Wyrażenie regularne</translation>
     </message>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="75"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="121"/>
         <source>Case Insensitive</source>
         <translation>Rozróżnianie liter małych i wielkich</translation>
     </message>
@@ -3707,17 +3707,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="346"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="320"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Karta o podanej nazwie nie istnieje!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="351"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="325"/>
         <source>Tab name cannot be empty!</source>
         <translation>Nazwa karty nie może być pusta!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="437"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="411"/>
         <source>Tab with given name already exists!</source>
         <translation>Karta o podanej nazwie już istnieje!</translation>
     </message>
