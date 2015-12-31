@@ -1,5 +1,5 @@
-include("./common.pri")
 
+include("./common.pri")
 TEMPLATE = subdirs
 
 # generate cache file for build
@@ -17,6 +17,7 @@ TRANSLATIONS = \
     translations/copyq_hu.ts \
     translations/copyq_it.ts \
     translations/copyq_ja.ts \
+    translations/copyq_nl.ts \
     translations/copyq_pl.ts \
     translations/copyq_pt_BR.ts \
     translations/copyq_ru.ts \
