@@ -445,6 +445,10 @@ void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 
     const QMap<QxtGlobalShortcut*, Command>::const_iterator it =
             m_shortcutActions.find(shortcut);
-    if ( it != m_shortcutActions.end() )
-        m_wnd->action(QVariantMap(), it.value());
+    if ( it != m_shortcutActions.end() ) {
+        QVariantMap data;
+        const QString shortcutText = portableShortcutText(shortcut->shortcut());
+        data.insert(mimeShortcut, shortcutText.toUtf8());
+        m_wnd->action(data, it.value());
+    }
 }
