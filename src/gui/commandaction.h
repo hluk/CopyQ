@@ -44,6 +44,9 @@ public:
 signals:
     void triggerCommand(const Command &command, const QVariantMap &data, int type);
 
+protected:
+    bool event(QEvent *event);
+
 private slots:
     void onTriggered();
 
@@ -51,6 +54,7 @@ private:
     Command m_command;
     Type m_type;
     ClipboardBrowser *m_browser;
+    QString m_triggeredShortcut;
 };
 
 #endif // COMMANDACTION_H

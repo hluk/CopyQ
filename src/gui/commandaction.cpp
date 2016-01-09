@@ -20,9 +20,12 @@
 #include "commandaction.h"
 
 #include "common/common.h"
+#include "common/mimetypes.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
+
+#include <QShortcutEvent>
 
 CommandAction::CommandAction(
         const Command &command,
@@ -59,6 +62,16 @@ const Command &CommandAction::command() const
     return m_command;
 }
 
+bool CommandAction::event(QEvent *event)
+{
+    if (event->type() == QEvent::Shortcut) {
+        QShortcutEvent *shortcutEvent = static_cast<QShortcutEvent*>(event);
+        m_triggeredShortcut = portableShortcutText(shortcutEvent->key());
+    }
+
+    return QAction::event(event);
+}
+
 void CommandAction::onTriggered()
 {
     Command command = m_command;
@@ -72,6 +85,11 @@ void CommandAction::onTriggered()
             dataMap = cloneData(*data);
     } else {
         dataMap = m_browser->getSelectedItemData();
+    }
+
+    if (!m_triggeredShortcut.isEmpty()) {
+        dataMap.insert(mimeShortcut, m_triggeredShortcut);
+        m_triggeredShortcut.clear();
     }
 
     emit triggerCommand(command, dataMap, m_type);
