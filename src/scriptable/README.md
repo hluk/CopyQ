@@ -568,3 +568,12 @@ If set to `1`, the clipboard content will be hidden in GUI.
 E.g. if you run following, window title and tool tip will be cleared.
 
     copyq copy application/x-copyq-hidden 1 plain/text "This is secret"
+
+###### application/x-copyq-shortcut
+
+Application or global shortcut which activated the command.
+
+    copyq:
+    var shortcut = data("application/x-copyq-shortcut")
+    popup("Shortcut Pressed", shortcut)
+
