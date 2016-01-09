@@ -1153,6 +1153,20 @@ QScriptValue Scriptable::networkPost()
     return NetworkReply::post(url, postData, this);
 }
 
+QScriptValue Scriptable::env()
+{
+    const QString name = arg(0);
+    const QByteArray value = qgetenv(name.toUtf8().constData());
+    return newByteArray(value);
+}
+
+QScriptValue Scriptable::setEnv()
+{
+    const QString name = arg(0);
+    const QByteArray value = makeByteArray(argument(1));
+    return qputenv(name.toUtf8().constData(), value);
+}
+
 void Scriptable::setInput(const QByteArray &bytes)
 {
     m_input = newByteArray(bytes);

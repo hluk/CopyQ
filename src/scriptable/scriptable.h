@@ -218,6 +218,9 @@ public slots:
     QScriptValue networkGet();
     QScriptValue networkPost();
 
+    QScriptValue env();
+    QScriptValue setEnv();
+
 public slots:
     void setInput(const QByteArray &bytes);
 

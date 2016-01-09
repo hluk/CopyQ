@@ -1669,6 +1669,18 @@ void Tests::dirClass()
     RUN("eval" << "Dir().homePath()" , QDir::homePath() + "\n");
 }
 
+void Tests::setEnvCommand()
+{
+    RUN("eval" <<
+        "\n var name = 'COPYQ_ENV_TEST'"
+        "\n if (setEnv(name, 'OK'))"
+        "\n   print(env(name))"
+        "\n else"
+        "\n   print('FAILED')"
+        , "OK"
+        );
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);

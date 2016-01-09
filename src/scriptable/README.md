@@ -420,6 +420,16 @@ Sends HTTP POST request.
 
 Returns reply.
 
+###### ByteArray env(name)
+
+Returns value of environment variable with given name.
+
+###### bool setEnv(name, value)
+
+Sets environment variable with given name to given value.
+
+Returns true only if the variable was set.
+
 Types
 -----
 
