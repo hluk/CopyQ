@@ -301,6 +301,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_commandDialog(NULL)
     , m_canUpdateTitleFromScript(true)
     , m_iconSnip(false)
+    , m_wasMaximized(false)
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -1502,6 +1503,8 @@ bool MainWindow::event(QEvent *event)
         m_lastWindow.clear();
         updateWindowTransparency();
         setHideTabs(m_options.hideTabs);
+    } else if (type == QEvent::Hide) {
+        m_wasMaximized = isMaximized();
     }
 
     return QMainWindow::event(event);
@@ -1646,7 +1649,10 @@ void MainWindow::showWindow()
 
     updateFocusWindows();
 
-    showNormal();
+    if (m_wasMaximized)
+        showMaximized();
+    else
+        showNormal();
     raise();
     activateWindow();
 

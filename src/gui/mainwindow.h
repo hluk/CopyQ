@@ -596,6 +596,8 @@ private:
     bool m_canUpdateTitleFromScript;
 
     bool m_iconSnip;
+
+    bool m_wasMaximized;
 };
 
 #endif // MAINWINDOW_H
