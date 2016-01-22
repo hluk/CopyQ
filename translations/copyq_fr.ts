@@ -1683,7 +1683,7 @@ CTRL et touche haut ou Bas.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="158"></location>
         <source>&amp;Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Onglet précédent</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="159"></location>
