@@ -1673,7 +1673,7 @@ CTRL et touche haut ou Bas.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="156"></location>
         <source>Ne&amp;xt Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Onglet Suivant</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="157"></location>
