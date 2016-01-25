@@ -139,7 +139,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"></location>
         <source>Reset search or hide window</source>
-        <translation>Réinitialiser la recherche ou cacher la fenêtre</translation>
+        <translation>Réinitialiser la recherche ou masquer la fenêtre</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"></location>
