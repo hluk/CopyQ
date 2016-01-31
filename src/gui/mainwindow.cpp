@@ -1649,7 +1649,7 @@ void MainWindow::showWindow()
 
     updateFocusWindows();
 
-    if (m_wasMaximized)
+    if (m_wasMaximized || isMaximized())
         showMaximized();
     else
         showNormal();
