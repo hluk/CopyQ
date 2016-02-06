@@ -144,8 +144,8 @@ void ShortcutDialog::processKey(int key, int mods)
     //             breaks some shortcuts on some keyboard layouts.
     m_shortcut = QKeySequence(portableShortcutText(m_shortcut));
 
-    QString shortcut = m_shortcut.toString(QKeySequence::NativeText);
-    COPYQ_LOG(QString("Shortcut: %1").arg(m_shortcut.toString()));
+    const QString shortcut = m_shortcut.toString();
+    COPYQ_LOG(QString("Shortcut: %1").arg(shortcut));
 
     ui->lineEditShortcut->setText(shortcut);
 }
