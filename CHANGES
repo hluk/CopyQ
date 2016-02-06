@@ -1,3 +1,13 @@
+v2.6.0
+- Show item notes in tray and window title
+- Removed broken console executable on Windows
+- Dutch translation
+- Added env() and setEnv() to access and modify environment variables
+- Access shortcut which activated command
+- Fixed closing the application at shutdown on Windows
+- Fixed some global shortcuts on Windows
+- Fixed capturing some shortcuts
+
 v2.5.0
 - Smarter tab name matching (ignore key hints '&')
 - Fixed omit passing global shortcuts to widgets
