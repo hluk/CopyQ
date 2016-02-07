@@ -295,7 +295,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_sharedData(new ClipboardBrowserShared)
     , m_lastWindow()
     , m_notifications(NULL)
-    , m_minimizeUnsupported(false)
     , m_actionHandler(new ActionHandler(this))
     , m_trayTab(NULL)
     , m_commandDialog(NULL)
@@ -419,6 +418,11 @@ void MainWindow::showEvent(QShowEvent *event)
 {
     m_timerShowWindow.start();
     QMainWindow::showEvent(event);
+}
+
+void MainWindow::hideEvent(QHideEvent *event)
+{
+    QMainWindow::hideEvent(event);
 }
 
 void MainWindow::createMenu()
@@ -953,7 +957,7 @@ void MainWindow::setHideTabs(bool hide)
 
 bool MainWindow::closeMinimizes() const
 {
-    return !m_tray && !m_minimizeUnsupported;
+    return !m_tray;
 }
 
 NotificationDaemon *MainWindow::notificationDaemon()
@@ -1186,18 +1190,8 @@ void MainWindow::initTray()
         createTrayIfSupported();
     }
 
-    if (!m_tray) {
-        if (m_timerMinimizing.interval() == 0) {
-            // Check if window manager can minimize window properly.
-            // If window is activated while minimizing, assume that minimizing is not supported.
-            initSingleShotTimer( &m_timerMinimizing, 1000 );
-            QApplication::processEvents();
-            m_timerMinimizing.start();
-            showMinimized();
-        } else if (isHidden() && !isMinimized()) {
-            showMinimized();
-        }
-    }
+    if (closeMinimizes() && isHidden() && !isMinimized())
+        showMinimized();
 }
 
 void MainWindow::runNextAutomaticCommand()
@@ -1490,13 +1484,6 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency(false);
         setHideTabs(m_options.hideTabs);
     } else if (type == QEvent::WindowActivate) {
-        if ( m_timerMinimizing.isActive() ) {
-            // Window manager ignores window minimizing -- hide it instead.
-            m_minimizeUnsupported = true;
-            hide();
-            return true;
-        }
-
         updateWindowTransparency();
     } else if (type == QEvent::WindowDeactivate) {
         m_timerShowWindow.start();
@@ -1639,9 +1626,6 @@ void MainWindow::loadSettings()
 
 void MainWindow::showWindow()
 {
-    if ( m_timerMinimizing.isActive() )
-        return;
-
     if ( isWindowVisible() )
         return;
 

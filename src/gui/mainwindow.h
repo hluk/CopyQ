@@ -400,6 +400,8 @@ protected:
 
     void showEvent(QShowEvent *event);
 
+    void hideEvent(QHideEvent *event);
+
 #if QT_VERSION < 0x050000
 #   ifdef COPYQ_WS_X11
     bool x11Event(XEvent *event);
@@ -514,8 +516,7 @@ private:
      * Return true if window should be minimized instead of closed/hidden.
      *
      * If tray icon is not available, window should be minimized so that it can be opened with
-     * mouse. Some window managers (dwm, wmfs etc.) doesn't support minimizing, in that case
-     * window can be hidden instead.
+     * mouse.
      */
     bool closeMinimizes() const;
 
@@ -573,11 +574,8 @@ private:
     QTimer m_timerShowWindow;
     QTimer m_timerTrayAvailable;
     QTimer m_timerTrayIconSnip;
-    QTimer m_timerMinimizing;
 
     NotificationDaemon *m_notifications;
-
-    bool m_minimizeUnsupported;
 
     ActionHandler *m_actionHandler;
 
