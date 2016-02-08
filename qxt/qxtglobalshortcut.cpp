@@ -94,6 +94,7 @@ bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
     key = shortcut.isEmpty() ? Qt::Key(0) : Qt::Key(keyCode);
     mods = shortcut.isEmpty() ? Qt::KeyboardModifiers(0) : Qt::KeyboardModifiers(xkeyCode & allMods);
 
+
     nativeKey = nativeKeycode(key);
     nativeMods = nativeModifiers(mods);
 
