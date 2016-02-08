@@ -160,26 +160,29 @@ void ShortcutButton::addShortcut(QPushButton *shortcutButton)
     ShortcutDialog *dialog = new ShortcutDialog(parent);
     dialog->setExpectModifier(m_expectModifier);
 
-    if (dialog->exec() == QDialog::Accepted) {
-        const QKeySequence shortcut = dialog->shortcut();
-        if ( shortcut.isEmpty() || shortcuts().contains(shortcut) ) {
-            const QKeySequence oldShortcut = shortcutForButton(*shortcutButton);
-            if (shortcutButton != NULL && oldShortcut != shortcut ) {
-                delete shortcutButton;
-                emit shortcutRemoved(oldShortcut);
-            }
-        } else {
-            if (shortcutButton != NULL) {
-                const QKeySequence oldShortuct = shortcutForButton(*shortcutButton);
-                if (oldShortuct != shortcut) {
-                    emit shortcutRemoved(oldShortuct);
-                    setButtonShortcut(shortcutButton, shortcut);
-                    emit shortcutAdded(shortcut);
-                }
-            } else {
-                addShortcut(shortcut);
-            }
+    if (dialog->exec() == QDialog::Rejected)
+        return;
+
+    const QKeySequence newShortcut = dialog->shortcut();
+    const QKeySequence oldShortcut = shortcutButton
+            ? shortcutForButton(*shortcutButton)
+            : QKeySequence();
+
+    if (oldShortcut == newShortcut)
+        return;
+
+    // Remove shortcut button if shortcut is removed, unrecognized or already set.
+    if ( newShortcut.isEmpty() || shortcuts().contains(newShortcut) ) {
+        if (shortcutButton) {
+            delete shortcutButton;
+            emit shortcutRemoved(oldShortcut);
         }
+    } else if (shortcutButton) {
+        emit shortcutRemoved(oldShortcut);
+        setButtonShortcut(shortcutButton, newShortcut);
+        emit shortcutAdded(newShortcut);
+    } else {
+        addShortcut(newShortcut);
     }
 }
 
