@@ -3703,7 +3703,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="411"></location>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab met deze naam bestaat al!</translation>
     </message>
 </context>
 </TS>
