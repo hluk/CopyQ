@@ -35,7 +35,7 @@
 namespace {
 
 #ifdef HAS_X11TEST
-void FakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
+void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
 {
     XTestFakeKeyEvent(display, keyCode, isPress, CurrentTime);
     XSync(display, False);
@@ -45,7 +45,7 @@ void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool
 {
     foreach (int modCode, modCodes) {
         KeyCode keyCode = XKeysymToKeycode(display, modCode);
-        FakeKeyEvent(display, keyCode, keyDown);
+        fakeKeyEvent(display, keyCode, keyDown);
     }
 }
 
@@ -76,21 +76,21 @@ void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int
 
     // Release currently pressed modifiers.
     foreach (KeyCode mod, modsToRelease)
-        FakeKeyEvent(display, mod, False);
+        fakeKeyEvent(display, mod, False);
 
     simulateModifierKeyPress(display, modCodes, True);
 
     KeyCode keyCode = XKeysymToKeycode(display, key);
 
-    FakeKeyEvent(display, keyCode, True);
+    fakeKeyEvent(display, keyCode, True);
     usleep(50000); // This is needed to paste into URL bar in Chrome.
-    FakeKeyEvent(display, keyCode, False);
+    fakeKeyEvent(display, keyCode, False);
 
     simulateModifierKeyPress(display, modCodes, False);
 
     // Press modifiers again.
     foreach (KeyCode mod, modsToRelease)
-        FakeKeyEvent(display, mod, True);
+        fakeKeyEvent(display, mod, True);
 
     XSync(display, False);
 }

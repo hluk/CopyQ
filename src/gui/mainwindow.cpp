@@ -2034,16 +2034,16 @@ void MainWindow::createTrayIfSupported()
 
 void MainWindow::updateFocusWindows()
 {
-    if ( isActiveWindow() || (!m_options.activateFocuses() && !m_options.activatePastes()) )
+    if ( isActiveWindow() )
+        return;
+
+    if ( !m_options.activateFocuses() && !m_options.activatePastes() )
         return;
 
     PlatformPtr platform = createPlatformNativeInterface();
-
-    if ( m_options.activatePastes() || m_options.activateFocuses() ) {
-        PlatformWindowPtr lastWindow = platform->getCurrentWindow();
-        if (lastWindow)
-            m_lastWindow = lastWindow;
-    }
+    PlatformWindowPtr lastWindow = platform->getCurrentWindow();
+    if (lastWindow)
+        m_lastWindow = lastWindow;
 }
 
 void MainWindow::enterSearchMode(const QString &txt)
