@@ -65,6 +65,12 @@ void migrateDirectory(const QString oldPath, const QString newPath)
     }
 }
 
+void migrateConfig(const QSettings &oldSettings, Settings &newSettings)
+{
+    foreach ( const QString &key, oldSettings.allKeys() )
+        newSettings.setValue(key, oldSettings.value(key));
+}
+
 void migrateConfigToAppDir()
 {
     const QString path = QCoreApplication::applicationDirPath() + "/config";
@@ -93,12 +99,22 @@ void migrateConfigToAppDir()
             migrateDirectory(oldConfigPath + "/themes", newConfigPath + "/themes");
 
             // Migrate rest of the configuration from the system registry.
-            foreach ( const QString &key, oldSettings.allKeys() )
-                newSettings.setValue(key, oldSettings.value(key));
+            migrateConfig(oldSettings, newSettings);
         }
     } else {
         COPYQ_LOG( QString("Cannot use \"%1\" directory to save user configuration and items.")
                    .arg(path) );
+
+        QSettings oldSettings;
+
+        QSettings::setDefaultFormat(QSettings::IniFormat);
+        Settings newSettings;
+
+        // Move settings from Windows registry.
+        if (newSettings.isEmpty()) {
+            COPYQ_LOG("Moving configuration from Windows registry.");
+            migrateConfig(oldSettings, newSettings);
+        }
     }
 }
 
