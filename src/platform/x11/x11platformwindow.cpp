@@ -34,6 +34,28 @@
 
 namespace {
 
+const int waitForModsReleaseMs = 25;
+const int maxWaitForModsReleaseMs = 2000;
+
+class KeyPressTester {
+public:
+    explicit KeyPressTester(Display *display)
+        : m_display(display)
+    {
+        XQueryKeymap(m_display, m_keyMap);
+    }
+
+    bool isPressed(int key) const
+    {
+        const KeyCode keyCode = XKeysymToKeycode(m_display, key);
+        return (m_keyMap[keyCode >> 3] >> (keyCode & 7)) & 1;
+    }
+
+private:
+    Display *m_display;
+    char m_keyMap[32];
+};
+
 #ifdef HAS_X11TEST
 void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
 {
@@ -49,48 +71,49 @@ void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool
     }
 }
 
-bool isPressed(KeyCode keyCode, const char keyMap[32])
+bool isModifierPressed(Display *display)
 {
-    return (keyMap[keyCode >> 3] >> (keyCode & 7)) & 1;
+    KeyPressTester tester(display);
+    return tester.isPressed(XK_Shift_L)
+        || tester.isPressed(XK_Shift_R)
+        || tester.isPressed(XK_Control_L)
+        || tester.isPressed(XK_Control_R)
+        || tester.isPressed(XK_Meta_L)
+        || tester.isPressed(XK_Meta_R)
+        || tester.isPressed(XK_Alt_L)
+        || tester.isPressed(XK_Alt_R)
+        || tester.isPressed(XK_Super_L)
+        || tester.isPressed(XK_Super_R)
+        || tester.isPressed(XK_Hyper_L)
+        || tester.isPressed(XK_Hyper_R);
+}
+
+bool waitForModifiersReleased(Display *display)
+{
+    for (int ms = 0; ms < maxWaitForModsReleaseMs; ms += waitForModsReleaseMs) {
+        if (!isModifierPressed(display))
+            return true;
+        usleep(waitForModsReleaseMs * 1000);
+    }
+
+    return false;
 }
 
 void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int key)
 {
-    // Find modifiers to release.
-    static QList<int> mods = QList<int>()
-            << XK_Shift_L << XK_Shift_R
-            << XK_Control_L << XK_Control_R
-            << XK_Meta_L << XK_Meta_R
-            << XK_Alt_L << XK_Alt_R
-            << XK_Super_L << XK_Super_R
-            << XK_Hyper_L << XK_Hyper_R;
-
-    char keyMap[32];
-    XQueryKeymap(display, keyMap);
-
-    QList<KeyCode> modsToRelease;
-    foreach (int mod, mods) {
-        if ( isPressed(XKeysymToKeycode(display, mod), keyMap) )
-            modsToRelease << XKeysymToKeycode(display, mod);
-    }
-
-    // Release currently pressed modifiers.
-    foreach (KeyCode mod, modsToRelease)
-        fakeKeyEvent(display, mod, False);
+    // Wait for user to release modifiers.
+    if (!waitForModifiersReleased(display))
+        return;
 
     simulateModifierKeyPress(display, modCodes, True);
 
-    KeyCode keyCode = XKeysymToKeycode(display, key);
+    const KeyCode keyCode = XKeysymToKeycode(display, key);
 
     fakeKeyEvent(display, keyCode, True);
     usleep(50000); // This is needed to paste into URL bar in Chrome.
     fakeKeyEvent(display, keyCode, False);
 
     simulateModifierKeyPress(display, modCodes, False);
-
-    // Press modifiers again.
-    foreach (KeyCode mod, modsToRelease)
-        fakeKeyEvent(display, mod, True);
 
     XSync(display, False);
 }
