@@ -641,7 +641,6 @@ void MainWindow::onAboutToQuit()
 {
     cm->disconnect();
     cm->saveMainWindowState( objectName(), saveState() );
-    ui->tabWidget->saveTabInfo();
     hideWindow();
     if (m_tray)
         m_tray->hide();
@@ -2328,6 +2327,7 @@ void MainWindow::saveTabs()
 {
     for( int i = 0; i < ui->tabWidget->count(); ++i )
         getBrowser(i)->saveUnsavedItems();
+    ui->tabWidget->saveTabInfo();
 }
 
 bool MainWindow::loadTab(const QString &fileName)
