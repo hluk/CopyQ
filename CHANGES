@@ -1,3 +1,8 @@
+v2.6.1
+- Moved configuration from registry on Windows
+- Fixed shortcuts on Windows
+- Fixed window geometry restoring
+
 v2.6.0
 - Show item notes in tray and window title
 - Removed broken console executable on Windows
