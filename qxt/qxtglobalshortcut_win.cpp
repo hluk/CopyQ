@@ -189,7 +189,13 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
         return VK_VOLUME_MUTE;
 
     default:
-        const int vk = VkKeyScanW(key);
+        // Try to get virtual key from current keyboard layout or US.
+        const HKL layout = GetKeyboardLayout(0);
+        int vk = VkKeyScanEx(key, layout);
+        if (vk == -1) {
+            const HKL layoutUs = GetKeyboardLayout(0x409);
+            vk = VkKeyScanEx(key, layoutUs);
+        }
         return vk == -1 ? 0 : vk;
     }
 }
