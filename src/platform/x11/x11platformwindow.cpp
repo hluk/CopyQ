@@ -225,6 +225,9 @@ void X11PlatformWindow::raise()
 {
     Q_ASSERT( isValid() );
 
+    if (hasFocus())
+        return;
+
     XEvent e;
     memset(&e, 0, sizeof(e));
     e.type = ClientMessage;
