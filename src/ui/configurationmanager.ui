@@ -373,6 +373,16 @@
                     </property>
                    </widget>
                   </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxHideWindow">
+                    <property name="toolTip">
+                     <string>Hide main window when closed</string>
+                    </property>
+                    <property name="text">
+                     <string>Hide &amp;main window</string>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </widget>
                </item>
@@ -546,8 +556,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>536</width>
-            <height>595</height>
+            <width>526</width>
+            <height>322</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -825,8 +835,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>536</width>
-            <height>595</height>
+            <width>453</width>
+            <height>170</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1030,8 +1040,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>536</width>
-            <height>595</height>
+            <width>409</width>
+            <height>295</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">

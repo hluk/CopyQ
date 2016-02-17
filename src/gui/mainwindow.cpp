@@ -408,7 +408,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     if ( closeMinimizes() ) {
         event->ignore();
-        showMinimized();
+        minimizeWindow();
     } else {
         QMainWindow::closeEvent(event);
     }
@@ -1190,7 +1190,7 @@ void MainWindow::initTray()
     }
 
     if (closeMinimizes() && isHidden() && !isMinimized())
-        showMinimized();
+        minimizeWindow();
 }
 
 void MainWindow::runNextAutomaticCommand()
@@ -1570,6 +1570,8 @@ void MainWindow::loadSettings()
     ui->toolBar->setToolButtonStyle(hideToolBarLabels ? Qt::ToolButtonIconOnly
                                                       : Qt::ToolButtonTextUnderIcon);
 
+    m_options.hideMainWindow = cm->value("hide_main_window").toBool();
+
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
 
@@ -1658,9 +1660,17 @@ void MainWindow::showWindow()
 void MainWindow::hideWindow()
 {
     if ( closeMinimizes() )
-        showMinimized();
+        minimizeWindow();
     else
         hide();
+}
+
+void MainWindow::minimizeWindow()
+{
+    if (m_options.hideMainWindow)
+        hide();
+    else
+        showMinimized();
 }
 
 bool MainWindow::toggleVisible()

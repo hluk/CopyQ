@@ -70,6 +70,7 @@ struct MainWindowOptions {
         , transparency(0)
         , transparencyFocused(0)
         , hideTabs(false)
+        , hideMainWindow(false)
         , itemActivationCommands(ActivateCloses)
         , clearFirstTab(false)
         , trayItemPaste(true)
@@ -93,6 +94,8 @@ struct MainWindowOptions {
     int transparencyFocused;
 
     bool hideTabs;
+
+    bool hideMainWindow;
 
     int itemActivationCommands;
 
@@ -199,6 +202,8 @@ public:
     void showWindow();
     /** Hide window to tray or minimize if tray is not available. */
     void hideWindow();
+    /** Minimize window (hide if option is set). */
+    void minimizeWindow();
     /** Show window and given tab and give focus to the tab. */
     void showBrowser(int index);
     /** Enter browse mode and reset search. */
