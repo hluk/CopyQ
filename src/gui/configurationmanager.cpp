@@ -436,6 +436,7 @@ void ConfigurationManager::initTabIcons()
     IconFactory *f = iconFactory();
 
     tw->setTabIcon( tw->indexOf(ui->tabGeneral), f->getIcon("", IconWrench) );
+    tw->setTabIcon( tw->indexOf(ui->tabLayout), f->getIcon("", IconColumns) );
     tw->setTabIcon( tw->indexOf(ui->tabHistory), f->getIcon("", IconListAlt) );
     tw->setTabIcon( tw->indexOf(ui->tabItems), f->getIcon("", IconThList) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), f->getIcon("", IconInbox) );

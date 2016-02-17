@@ -73,6 +73,7 @@ enum IconId {
     IconSave = 0xf0c7,
     IconBars = 0xf0c9,
     IconListOl = 0xf0cb,
+    IconColumns = 0xf0db,
     IconSortDown = 0xf0dd,
     IconSortUp = 0xf0de,
     IconUndo = 0xf0e2,

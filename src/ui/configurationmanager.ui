@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>578</width>
-    <height>626</height>
+    <width>576</width>
+    <height>695</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -46,8 +46,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>526</width>
-            <height>555</height>
+            <width>536</width>
+            <height>595</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -244,7 +244,138 @@
               </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_12">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabLayout">
+      <attribute name="title">
+       <string>&amp;Layout</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QScrollArea" name="scrollArea_5">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_6">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>536</width>
+            <height>595</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_23">
+           <item>
+            <spacer name="horizontalSpacer_26">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <item>
+              <spacer name="verticalSpacer_11">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_16">
+               <item>
+                <widget class="QGroupBox" name="groupBox_9">
+                 <property name="title">
+                  <string>Show/Hide</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_6">
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxHideTabs">
+                    <property name="toolTip">
+                     <string>Hide tabs (press Alt key to show)</string>
+                    </property>
+                    <property name="text">
+                     <string>Hi&amp;de tabs</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxHideToolbar">
+                    <property name="toolTip">
+                     <string>Hide toolbar</string>
+                    </property>
+                    <property name="text">
+                     <string>Hide too&amp;lbar</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxHideToolbarLabels">
+                    <property name="text">
+                     <string>Hide tool&amp;bar labels</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxDisableTray">
+                    <property name="toolTip">
+                     <string>Don't show tray icon; minimize window when closed</string>
+                    </property>
+                    <property name="text">
+                     <string>Disabl&amp;e tray</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
                <item>
                 <widget class="QGroupBox" name="groupBox_6">
                  <property name="title">
@@ -361,56 +492,10 @@ Note: This is not be supported on all systems.</string>
                  </layout>
                 </widget>
                </item>
-               <item>
-                <widget class="QGroupBox" name="groupBox_4">
-                 <property name="title">
-                  <string>Show/Hide</string>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_5">
-                  <item>
-                   <widget class="QCheckBox" name="checkBoxHideTabs">
-                    <property name="toolTip">
-                     <string>Hide tabs (press Alt key to show)</string>
-                    </property>
-                    <property name="text">
-                     <string>Hi&amp;de tabs</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBoxHideToolbar">
-                    <property name="toolTip">
-                     <string>Hide toolbar</string>
-                    </property>
-                    <property name="text">
-                     <string>Hide too&amp;lbar</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBoxHideToolbarLabels">
-                    <property name="text">
-                     <string>Hide tool&amp;bar labels</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBoxDisableTray">
-                    <property name="toolTip">
-                     <string>Don't show tray icon; minimize window when closed</string>
-                    </property>
-                    <property name="text">
-                     <string>Disabl&amp;e tray</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
               </layout>
              </item>
              <item>
-              <spacer name="verticalSpacer">
+              <spacer name="verticalSpacer_12">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -425,7 +510,7 @@ Note: This is not be supported on all systems.</string>
             </layout>
            </item>
            <item>
-            <spacer name="horizontalSpacer_12">
+            <spacer name="horizontalSpacer_30">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -461,8 +546,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>477</width>
-            <height>335</height>
+            <width>536</width>
+            <height>595</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -740,8 +825,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>443</width>
-            <height>172</height>
+            <width>536</width>
+            <height>595</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -945,8 +1030,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>409</width>
-            <height>320</height>
+            <width>536</width>
+            <height>595</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1420,15 +1505,16 @@ Set to 0 to disable.</string>
   <tabstop>checkBoxSel</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxCopySel</tabstop>
-  <tabstop>checkBoxTabTree</tabstop>
-  <tabstop>checkBoxShowTabItemCount</tabstop>
-  <tabstop>spinBoxTransparencyFocused</tabstop>
-  <tabstop>spinBoxTransparencyUnfocused</tabstop>
+  <tabstop>scrollArea</tabstop>
   <tabstop>checkBoxHideTabs</tabstop>
   <tabstop>checkBoxHideToolbar</tabstop>
   <tabstop>checkBoxHideToolbarLabels</tabstop>
   <tabstop>checkBoxDisableTray</tabstop>
-  <tabstop>scrollArea</tabstop>
+  <tabstop>checkBoxTabTree</tabstop>
+  <tabstop>checkBoxShowTabItemCount</tabstop>
+  <tabstop>spinBoxTransparencyFocused</tabstop>
+  <tabstop>spinBoxTransparencyUnfocused</tabstop>
+  <tabstop>scrollArea_5</tabstop>
   <tabstop>comboBoxClipboardTab</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>spinBoxExpireTab</tabstop>
