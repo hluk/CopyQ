@@ -225,9 +225,6 @@ void X11PlatformWindow::raise()
 {
     Q_ASSERT( isValid() );
 
-    if (hasFocus())
-        return;
-
     XEvent e;
     memset(&e, 0, sizeof(e));
     e.type = ClientMessage;
@@ -280,18 +277,18 @@ bool X11PlatformWindow::isValid() const
 bool X11PlatformWindow::hasFocus()
 {
     Q_ASSERT( isValid() );
-    return getCurrentWindow(d.display()) != m_window;
+    return getCurrentWindow(d.display()) == m_window;
 }
 
 void X11PlatformWindow::sendKeyPress(int modifier, int key)
 {
     Q_ASSERT( isValid() );
 
-    if (hasFocus()) {
+    if (!hasFocus()) {
         raise();
         usleep(150000);
 
-        if (hasFocus())
+        if (!hasFocus())
             return;
     }
 

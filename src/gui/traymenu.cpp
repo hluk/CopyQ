@@ -85,10 +85,12 @@ void TrayMenu::toggle()
     raise();
     activateWindow();
 
-    QApplication::processEvents();
-    PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(winId());
-    if (window)
-        window->raise();
+    if (!isActiveWindow()) {
+        QApplication::processEvents();
+        PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(winId());
+        if (window)
+            window->raise();
+    }
 }
 
 void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent)
