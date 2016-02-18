@@ -1597,27 +1597,27 @@ CTRL og op eller ned pil.</translation>
         <translation>(&amp;3) Indsæt Udklipsholder med musen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="251"/>
+        <location filename="../src/ui/configurationmanager.ui" line="392"/>
         <source>Layout and Transparency</source>
         <translation>Layout og gennemsigtighed</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="260"/>
+        <location filename="../src/ui/configurationmanager.ui" line="401"/>
         <source>Show tree with tabs instead of tab bar</source>
         <translation type="unfinished">Vis træ med faner i stedet for fanebjælken</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="263"/>
+        <location filename="../src/ui/configurationmanager.ui" line="404"/>
         <source>Tab T&amp;ree</source>
         <translation type="unfinished">Fane t&amp;ræ</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="270"/>
+        <location filename="../src/ui/configurationmanager.ui" line="411"/>
         <source>&amp;Focused transparency:</source>
         <translation>Gennemsigtighed når &amp;fokus:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="282"/>
+        <location filename="../src/ui/configurationmanager.ui" line="423"/>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
@@ -1626,12 +1626,12 @@ Note: This is not be supported on all systems.</source>
 Bemærk: Dette er ikke understøttes på alle systemer.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="312"/>
+        <location filename="../src/ui/configurationmanager.ui" line="453"/>
         <source>&amp;Unfocused transparency:</source>
         <translation>&amp;Ufokuseret gennemsigtighed:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="324"/>
+        <location filename="../src/ui/configurationmanager.ui" line="465"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
@@ -1640,62 +1640,77 @@ Note: This is not be supported on all systems.</source>
 Bemærk: Dette er ikke understøttes på alle systemer.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="354"/>
+        <location filename="../src/ui/configurationmanager.ui" line="495"/>
         <source>Show number of items in tabs</source>
         <translation type="unfinished">Vis antallet af elementer i faner</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="357"/>
+        <location filename="../src/ui/configurationmanager.ui" line="498"/>
         <source>Sho&amp;w Item Count</source>
         <translation>Vis element antal</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="367"/>
+        <location filename="../src/ui/configurationmanager.ui" line="336"/>
         <source>Show/Hide</source>
         <translation>Vis/Skjul</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="373"/>
+        <location filename="../src/ui/configurationmanager.ui" line="282"/>
+        <source>&amp;Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="342"/>
         <source>Hide tabs (press Alt key to show)</source>
         <translation>Skjul faner (tryk på Alt-tasten for at vise)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="376"/>
+        <location filename="../src/ui/configurationmanager.ui" line="345"/>
         <source>Hi&amp;de tabs</source>
         <translation>Skjul faner</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="383"/>
+        <location filename="../src/ui/configurationmanager.ui" line="352"/>
         <source>Hide toolbar</source>
         <translation>Skjul værktøjslinjen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="386"/>
+        <location filename="../src/ui/configurationmanager.ui" line="355"/>
         <source>Hide too&amp;lbar</source>
         <translation>Skjul værktøjslinjen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="393"/>
+        <location filename="../src/ui/configurationmanager.ui" line="362"/>
         <source>Hide tool&amp;bar labels</source>
         <translation>Skjul værktøjslinjeetiketter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="400"/>
+        <location filename="../src/ui/configurationmanager.ui" line="369"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
         <translation>Vis ikke bakke ikon; minimer vindue når lukket</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="403"/>
+        <location filename="../src/ui/configurationmanager.ui" line="372"/>
         <source>Disabl&amp;e tray</source>
         <translation type="unfinished">Deaktiv&amp;er skuffe</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="609"/>
+        <location filename="../src/ui/configurationmanager.ui" line="379"/>
+        <source>Hide main window when closed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="382"/>
+        <source>Hide &amp;main window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="704"/>
         <source>Ta&amp;b for storing clipboard:</source>
         <translation>Fane til lagring udklipsholderen:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="619"/>
+        <location filename="../src/ui/configurationmanager.ui" line="714"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
@@ -1704,87 +1719,87 @@ Leave empty to disable automatic storing.</source>
 Lad være tom for at deaktivere automatisk lagring.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="651"/>
+        <location filename="../src/ui/configurationmanager.ui" line="746"/>
         <source>Move item to the top of the list after it is activated</source>
         <translation>Flyt elementet til toppen af listen efter det er aktiveret</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="654"/>
+        <location filename="../src/ui/configurationmanager.ui" line="749"/>
         <source>Move item to the t&amp;op</source>
         <translation>Flyt elementet til t&amp;oppen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="661"/>
+        <location filename="../src/ui/configurationmanager.ui" line="756"/>
         <source>Close main window after item is activated</source>
         <translation>Luk hovedvinduet, når elememtet er blevet aktiveret</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="671"/>
+        <location filename="../src/ui/configurationmanager.ui" line="766"/>
         <source>Focus last window after item is activated</source>
         <translation>Fokus på sidste vindue efter element er aktiveret</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="681"/>
+        <location filename="../src/ui/configurationmanager.ui" line="776"/>
         <source>Paste to current window after item is activated</source>
         <translation>Indsæt i det aktuelle vindue, når elementet er aktiveret</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="779"/>
+        <location filename="../src/ui/configurationmanager.ui" line="874"/>
         <source>Show command for current clipboard content in tray menu</source>
         <translation type="unfinished">Vis kommando for nuværende udklipsholder indhold i skuffemenuen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="828"/>
+        <location filename="../src/ui/configurationmanager.ui" line="923"/>
         <source>Show items from current tab in tray menu</source>
         <translation>Vis elementer fra aktuel fane i skuffemenuen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="831"/>
+        <location filename="../src/ui/configurationmanager.ui" line="926"/>
         <source>Show cu&amp;rrent tab in menu,</source>
         <translation>Vis aktuelle fane i menuen,</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="838"/>
+        <location filename="../src/ui/configurationmanager.ui" line="933"/>
         <source>or &amp;choose other tab:</source>
         <translation>eller vælg en anden fane:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="879"/>
+        <location filename="../src/ui/configurationmanager.ui" line="974"/>
         <source>Paste item to current window after selecting it in menu</source>
         <translation>Indsæt element i det aktuelle vindue efter det er valgt i menuen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="892"/>
+        <location filename="../src/ui/configurationmanager.ui" line="987"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
         <translation>Vis billedeksempel som menupunkt ikon</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1053"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1148"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
         <translation>Int&amp;erval i sekunder til at vise meddelelser:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1156"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1251"/>
         <source>Notification distance from left or right screen edge in screen points</source>
         <translation>Afstand til underretning fra venstre eller højre skærmkant i skærmpunkter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1193"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1288"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
         <translation>Afstand til underretning fra toppen eller bunden i skærmpunkter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1230"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1325"/>
         <source>Maximum width for notification in screen points</source>
         <translation>Maksimal bredde for underretning i skærmpunkter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1267"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1362"/>
         <source>Maximum height for notification in screen points</source>
         <translation>Maksimal højde for underretning i skærmpunkter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="448"/>
+        <location filename="../src/ui/configurationmanager.ui" line="543"/>
         <source>&amp;History</source>
         <translation>&amp;Historik</translation>
     </message>
@@ -1794,22 +1809,22 @@ Lad være tom for at deaktivere automatisk lagring.</translation>
         <translation>Sprog:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="505"/>
+        <location filename="../src/ui/configurationmanager.ui" line="600"/>
         <source>Maximum &amp;number of items in history:</source>
         <translation>Maksimalt antal af elementer i historik:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="517"/>
+        <location filename="../src/ui/configurationmanager.ui" line="612"/>
         <source>Maximum number of items in each tab</source>
         <translation>Maksimalt antal af elementer i hver fane</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="545"/>
+        <location filename="../src/ui/configurationmanager.ui" line="640"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
         <translation>Fjern fane efter interval i min&amp;utter:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="557"/>
+        <location filename="../src/ui/configurationmanager.ui" line="652"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
@@ -1818,12 +1833,12 @@ Set to 0 not to unload tabs.</source>
 Sæt til 0 for ikke at fjerne faner.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="584"/>
+        <location filename="../src/ui/configurationmanager.ui" line="679"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
         <translation>Ekstern &amp;editor kommando (%1 er filen det skal redigeres):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="594"/>
+        <location filename="../src/ui/configurationmanager.ui" line="689"/>
         <source>External editor command (%1 is file to edit).
   Examples:
     gedit %1
@@ -1838,7 +1853,7 @@ Sæt til 0 for ikke at fjerne faner.</translation>
     xterm -e vim %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="633"/>
+        <location filename="../src/ui/configurationmanager.ui" line="728"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
@@ -1847,12 +1862,12 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
 Bemærk: Redigeret elementer kan gemmes med F2der bort fra denne mulighed.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="638"/>
+        <location filename="../src/ui/configurationmanager.ui" line="733"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
         <translation>Gem redigeret element med Ctrl+Retur og opret en ny linje med Returtasten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="645"/>
+        <location filename="../src/ui/configurationmanager.ui" line="740"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
         <translation type="unfinished">Når elementer er aktiveret (Dobbeltklik eller Enter-tasten), kopier
  det til Udklipsholder og…</translation>
@@ -1870,37 +1885,37 @@ Bemærk: Redigeret elementer kan gemmes med F2der bort fra denne mulighed.</tran
         <translation type="vanished">Luk hovedvinduet, når elememtet er blevet aktiveret.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="664"/>
+        <location filename="../src/ui/configurationmanager.ui" line="759"/>
         <source>&amp;Close main window</source>
         <translation>Luk hovedvinduet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="674"/>
+        <location filename="../src/ui/configurationmanager.ui" line="769"/>
         <source>&amp;Focus last window</source>
         <translation>&amp;Fokus på sidste vindue</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="684"/>
+        <location filename="../src/ui/configurationmanager.ui" line="779"/>
         <source>&amp;Paste to current window</source>
         <translation>Indsæt i det aktuelle vindue</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="727"/>
+        <location filename="../src/ui/configurationmanager.ui" line="822"/>
         <source>&amp;Tray</source>
         <translation>Skuffe</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="782"/>
+        <location filename="../src/ui/configurationmanager.ui" line="877"/>
         <source>Sho&amp;w commands for clipboard content</source>
         <translation>Vis kommandoer til klippebordsindhold</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="791"/>
+        <location filename="../src/ui/configurationmanager.ui" line="886"/>
         <source>N&amp;umber of items in tray menu:</source>
         <translation>Antallet af elementer i skuffemenu:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="801"/>
+        <location filename="../src/ui/configurationmanager.ui" line="896"/>
         <source>Number of items in tray menu</source>
         <translation>Antal elementer i skuffemenuen</translation>
     </message>
@@ -1917,67 +1932,67 @@ Bemærk: Redigeret elementer kan gemmes med F2der bort fra denne mulighed.</tran
         <translation type="vanished">eller vælg en anden fane:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="854"/>
+        <location filename="../src/ui/configurationmanager.ui" line="949"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
         <translation type="unfinished">Navnet på fanen til at vise i skuffe menuen (tom for den første fane)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="882"/>
+        <location filename="../src/ui/configurationmanager.ui" line="977"/>
         <source>&amp;Paste activated item to current window</source>
         <translation>Indsæt aktiveret element i det aktuelle vindue</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="889"/>
+        <location filename="../src/ui/configurationmanager.ui" line="984"/>
         <source>Show image preview next to menu items</source>
         <translation>Vis billedeksempel ved siden af menupunkter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="932"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1027"/>
         <source>&amp;Notifications</source>
         <translation>Meddelelser</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="989"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1084"/>
         <source>&amp;Notification position:</source>
         <translation>Meddelelse placering:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1001"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1096"/>
         <source>Position on screen for notifications</source>
         <translation>Position på skærmen for meddelelser</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1005"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1100"/>
         <source>Top</source>
         <translation>Top</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1010"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1105"/>
         <source>Bottom</source>
         <translation>Bund</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1015"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1110"/>
         <source>Top Right</source>
         <translation>Øverst til højre</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1020"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1115"/>
         <source>Bottom Right</source>
         <translation>Nederst til højre</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1025"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1120"/>
         <source>Bottom Left</source>
         <translation>Nederst til venstre</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1030"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1125"/>
         <source>Top Left</source>
         <translation>Øverst til venstre</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1065"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1160"/>
         <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
@@ -1986,12 +2001,12 @@ Set to -1 to keep visible until clicked.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1097"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1192"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
         <translation>Antallet af linjer i udklipsholder meddelelse:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1109"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1204"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
@@ -2000,47 +2015,47 @@ Set to 0 to disable.</source>
 Sæt til 0 for at deaktivere.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1138"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1233"/>
         <source>Notification Geometry (in screen points)</source>
         <translation type="unfinished">Meddelelsesgeometri (i skærmpunkter)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1144"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1239"/>
         <source>Ho&amp;rizontal offset:</source>
         <translation>Ho&amp;risontal forskydning:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1181"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1276"/>
         <source>&amp;Vertical offset:</source>
         <translation>&amp;Vertikal forskydning:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1218"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1313"/>
         <source>Maximum &amp;width:</source>
         <translation>Maksimal bredde:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1255"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1350"/>
         <source>Ma&amp;ximum height:</source>
         <translation>Maksimal højde:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1328"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1423"/>
         <source>&amp;Items</source>
         <translation>Elementer</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1340"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1435"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
         <translation type="unfinished">Visningsformat af valgte emne i historik kan ændres ved at trykke på &lt;b&gt;Ctrl + Venstre&lt;/ b&gt; eller &lt;b Ctrl + højre / b&gt;. Du kan ændre prioriteten for formater til visning ved at omfordele emner nedenfor.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1358"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1453"/>
         <source>&amp;Shortcuts</source>
         <translation>Genveje</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1368"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1463"/>
         <source>&amp;Appearance</source>
         <translation>Udseende</translation>
     </message>
@@ -2210,27 +2225,27 @@ Sæt til 0 for at deaktivere.</translation>
         <translation type="unfinished">Kan ikke oprette mappe til indstillinger for %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="688"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="690"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Ugyldig værdi for indstillingen &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="763"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="765"/>
         <source>Reset preferences?</source>
         <translation>Nulstil indstillinger?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="764"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="766"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation type="unfinished">Denne handling vil nulstille alle dine præferencer (i alle faner) til standard værdier. &lt; br / &gt; &lt; br / &gt; vil du virkelig ønsker at &lt;strong&gt;nulstille alle indstillinger&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="934"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="936"/>
         <source>Restart Required</source>
         <translation>Genstart er nødvendig</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="935"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="937"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Sprog vil blive ændret, når programmet genstartes.</translation>
     </message>
@@ -3151,82 +3166,82 @@ Sæt til 0 for at deaktivere.</translation>
         <translation>Vil du &lt;strong&gt;afslutte&lt;/strong&gt; CopyQ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="433"/>
+        <location filename="../src/gui/mainwindow.cpp" line="438"/>
         <source>&amp;File</source>
         <translation>&amp;Fil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="476"/>
+        <location filename="../src/gui/mainwindow.cpp" line="481"/>
         <source>&amp;Edit</source>
         <translation>R&amp;ediger</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="500"/>
+        <location filename="../src/gui/mainwindow.cpp" line="505"/>
         <source>&amp;Item</source>
         <translation>Element</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="504"/>
+        <location filename="../src/gui/mainwindow.cpp" line="509"/>
         <source>&amp;Tabs</source>
         <translation>Faner</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="529"/>
+        <location filename="../src/gui/mainwindow.cpp" line="534"/>
         <source>&amp;Help</source>
         <translation>&amp;Hjælp</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2108"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2107"/>
         <source>&amp;Show/Hide</source>
         <translation>Vi&amp;s/Skjul</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2112"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2111"/>
         <source>Open action dialog</source>
         <translation>Åben handlingsdialog</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="542"/>
+        <location filename="../src/gui/mainwindow.cpp" line="547"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Ny fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="544"/>
+        <location filename="../src/gui/mainwindow.cpp" line="549"/>
         <source>Rename &amp;Group %1</source>
         <translation>Omdøb &amp;gruppen %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="546"/>
+        <location filename="../src/gui/mainwindow.cpp" line="551"/>
         <source>Re&amp;name Tab %1</source>
         <translation>Omdøb fa&amp;nen %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="548"/>
+        <location filename="../src/gui/mainwindow.cpp" line="553"/>
         <source>Re&amp;move Tab %1</source>
         <translation>Fjern fanen %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="550"/>
+        <location filename="../src/gui/mainwindow.cpp" line="555"/>
         <source>Remove Group %1</source>
         <translation>Fjern gruppen %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="552"/>
+        <location filename="../src/gui/mainwindow.cpp" line="557"/>
         <source>&amp;Change Tab Icon</source>
         <translation>Ændre faneikon</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="927"/>
+        <location filename="../src/gui/mainwindow.cpp" line="931"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation type="unfinished">Aktiver udklipsholder lagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="928"/>
+        <location filename="../src/gui/mainwindow.cpp" line="932"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation type="unfinished">&amp;Deaktivere Udklipsholder lagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1335"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1329"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ fejl</translation>
@@ -3236,7 +3251,7 @@ Sæt til 0 for at deaktivere.</translation>
         <translation type="vanished">Udklipsholder</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1161"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1165"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -3244,36 +3259,36 @@ Sæt til 0 for at deaktivere.</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1145"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1149"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1148"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1152"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2129"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2128"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>Udklipsholder: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2320"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2319"/>
         <location filename="../src/gui/mainwindow.cpp" line="2378"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ elementer (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2328"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2327"/>
         <source>CopyQ Error Saving File</source>
         <translation>CopyQ fejl under lagring af fil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2329"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2328"/>
         <source>Cannot save file %1!</source>
         <translation>Kan ikke gemme fil %1!</translation>
     </message>
@@ -3913,7 +3928,7 @@ Udskriv programversion og biblioteker.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1230"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1244"/>
         <source>Failed to set clipboard!</source>
         <translation type="unfinished">Indstilling af Udklipsholder mislykkedes!</translation>
     </message>
