@@ -239,7 +239,9 @@ public slots:
 
     void setCurrentTab(const QString &tabName);
 
-    QString currentTab();
+    void setTab(const QString &tabName);
+
+    QString tab();
 
     int currentItem();
     bool selectItems(const QList<int> &items);
@@ -366,7 +368,9 @@ public:
     PROXY_METHOD_1(QVariantMap, browserItemData, int)
 
     PROXY_METHOD_VOID_1(setCurrentTab, const QString &)
-    PROXY_METHOD_0(QString, currentTab)
+
+    PROXY_METHOD_VOID_1(setTab, const QString &)
+    PROXY_METHOD_0(QString, tab)
 
     PROXY_METHOD_0(int, currentItem)
     PROXY_METHOD_1(bool, selectItems, const QList<int> &)

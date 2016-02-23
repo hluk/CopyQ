@@ -566,7 +566,7 @@ QScriptValue Scriptable::tab()
     if ( name.isNull() )
         return toScriptValue( m_proxy->tabs(), this );
 
-    m_proxy->setCurrentTab(name);
+    m_proxy->setTab(name);
     return applyRest(1);
 }
 
@@ -771,7 +771,7 @@ void Scriptable::action()
         command.output = mimeText;
         command.input = mimeText;
         command.wait = false;
-        command.outputTab = m_proxy->currentTab();
+        command.outputTab = m_proxy->tab();
         command.sep = ((i + 1) < argumentCount()) ? toString( argument(i + 1) )
                                                   : QString('\n');
         m_proxy->action(data, command);
@@ -916,6 +916,12 @@ void Scriptable::keys()
 QScriptValue Scriptable::testSelected()
 {
     return m_proxy->testSelected();
+}
+
+void Scriptable::setCurrentTab()
+{
+    const QString tabName = arg(0);
+    m_proxy->setCurrentTab(tabName);
 }
 
 QScriptValue Scriptable::selectItems()

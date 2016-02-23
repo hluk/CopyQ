@@ -686,10 +686,17 @@ QVariantMap ScriptableProxyHelper::browserItemData(int arg1)
 
 void ScriptableProxyHelper::setCurrentTab(const QString &tabName)
 {
+    ClipboardBrowser *c = fetchBrowser(tabName);
+    if (c)
+        m_wnd->setCurrentTab(c);
+}
+
+void ScriptableProxyHelper::setTab(const QString &tabName)
+{
     m_tabName = tabName;
 }
 
-QString ScriptableProxyHelper::currentTab()
+QString ScriptableProxyHelper::tab()
 {
     BROWSER_INVOKE(tabName(), QString());
 }

@@ -284,6 +284,10 @@ Aborts script evaluation.
 
 Aborts script evaluation with nonzero exit code.
 
+###### setCurrentTab(tabName)
+
+Set tab as current (focus tab without showing main window).
+
 ###### selectItems(row, ...)
 
 Selects items in current tab.

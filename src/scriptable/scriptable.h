@@ -173,6 +173,8 @@ public slots:
     void keys();
     QScriptValue testSelected();
 
+    void setCurrentTab();
+
     QScriptValue selectItems();
     QScriptValue selectitems() { return selectItems(); }
 
