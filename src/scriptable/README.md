@@ -49,9 +49,11 @@ Shows tab with given geometry.
 
 Hides main window.
 
-###### toggle()
+###### bool toggle()
 
 Shows or hides main window.
+
+Returns true only if main window is being shown.
 
 ###### menu()
 
@@ -281,6 +283,10 @@ Aborts script evaluation.
 ###### fail()
 
 Aborts script evaluation with nonzero exit code.
+
+###### setCurrentTab(tabName)
+
+Set tab as current (focus tab without showing main window).
 
 ###### selectItems(row, ...)
 

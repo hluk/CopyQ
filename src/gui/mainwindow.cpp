@@ -1685,19 +1685,32 @@ bool MainWindow::toggleVisible()
     return true;
 }
 
-void MainWindow::showBrowser(const ClipboardBrowser *browser)
+void MainWindow::setCurrentTab(const ClipboardBrowser *browser)
 {
     int i = 0;
     for( ; i < ui->tabWidget->count() && getBrowser(i) != browser; ++i ) {}
-    showBrowser(i);
+    setCurrentTab(i);
+}
+
+void MainWindow::showBrowser(const ClipboardBrowser *browser)
+{
+    setCurrentTab(browser);
+    showWindow();
+}
+
+bool MainWindow::setCurrentTab(int index)
+{
+    if ( index < 0 || ui->tabWidget->count() <= index )
+        return false;
+
+    ui->tabWidget->setCurrentIndex(index);
+    return true;
 }
 
 void MainWindow::showBrowser(int index)
 {
-    if ( index >= 0 && index < ui->tabWidget->count() ) {
+    if (setCurrentTab(index))
         showWindow();
-        ui->tabWidget->setCurrentIndex(index);
-    }
 }
 
 void MainWindow::onTrayActionTriggered(uint clipboardItemHash, bool omitPaste)

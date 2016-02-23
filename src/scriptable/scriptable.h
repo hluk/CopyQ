@@ -104,7 +104,7 @@ public slots:
     void show();
     void showAt();
     void hide();
-    void toggle();
+    QScriptValue toggle();
     void menu();
     void exit();
     void disable();
@@ -172,6 +172,8 @@ public slots:
 
     void keys();
     QScriptValue testSelected();
+
+    void setCurrentTab();
 
     QScriptValue selectItems();
     QScriptValue selectitems() { return selectItems(); }

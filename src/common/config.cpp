@@ -79,16 +79,8 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
     const QString optionName = geometryOptionName(w, false, openOnCurrentScreen);
     const QByteArray geometry = geometryOptionValue(optionName);
-    if (w->saveGeometry() != geometry) {
+    if (w->saveGeometry() != geometry)
         w->restoreGeometry(geometry);
-
-        COPYQ_LOG(QString("Restored \"%1\" window geometry %2,%3,%4x%5.")
-                  .arg(optionName)
-                  .arg(w->width())
-                  .arg(w->height())
-                  .arg(w->x())
-                  .arg(w->y()));
-    }
 }
 
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
@@ -96,10 +88,4 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     const QString optionName = geometryOptionName(w, true, openOnCurrentScreen);
     QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
     geometrySettings.setValue( optionName, w->saveGeometry() );
-    COPYQ_LOG(QString("Saved \"%1\" window geometry %2,%3,%4x%5.")
-              .arg(optionName)
-              .arg(w->width())
-              .arg(w->height())
-              .arg(w->x())
-              .arg(w->y()));
 }

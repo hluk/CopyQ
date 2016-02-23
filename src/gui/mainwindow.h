@@ -204,6 +204,8 @@ public:
     void hideWindow();
     /** Minimize window (hide if option is set). */
     void minimizeWindow();
+    /** Set current tab. */
+    bool setCurrentTab(int index);
     /** Show window and given tab and give focus to the tab. */
     void showBrowser(int index);
     /** Enter browse mode and reset search. */
@@ -303,6 +305,9 @@ public slots:
 
     /** Activate current item. */
     void activateCurrentItem();
+
+    /** Set current tab. */
+    void setCurrentTab(const ClipboardBrowser *browser);
 
     /** Show window and given tab and give focus to the tab. */
     void showBrowser(const ClipboardBrowser *browser);
