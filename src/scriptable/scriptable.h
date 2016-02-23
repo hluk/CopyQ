@@ -104,7 +104,7 @@ public slots:
     void show();
     void showAt();
     void hide();
-    void toggle();
+    QScriptValue toggle();
     void menu();
     void exit();
     void disable();

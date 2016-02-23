@@ -49,9 +49,11 @@ Shows tab with given geometry.
 
 Hides main window.
 
-###### toggle()
+###### bool toggle()
 
 Shows or hides main window.
+
+Returns true only if main window is being shown.
 
 ###### menu()
 

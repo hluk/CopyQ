@@ -456,10 +456,14 @@ void Scriptable::hide()
     m_proxy->close();
 }
 
-void Scriptable::toggle()
+QScriptValue Scriptable::toggle()
 {
-    if ( m_proxy->toggleVisible() )
+    if ( m_proxy->toggleVisible() ) {
         sendWindowActivationCommandToClient( m_proxy->mainWinId() );
+        return true;
+    }
+
+    return false;
 }
 
 void Scriptable::menu()
