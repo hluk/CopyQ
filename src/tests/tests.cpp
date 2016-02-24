@@ -556,11 +556,11 @@ void Tests::showHide()
     waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "true\n");
 
-    RUN("toggle", "");
+    RUN("toggle", "false\n");
     waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "false\n");
 
-    RUN("toggle", "");
+    RUN("toggle", "true\n");
     waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "true\n");
 
