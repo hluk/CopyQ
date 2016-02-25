@@ -16,23 +16,39 @@
     You should have received a copy of the GNU General Public License
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef WINDOWGEOMETRYGUARD_H
+#define WINDOWGEOMETRYGUARD_H
 
-#ifndef CONFIG_H
-#define CONFIG_H
+#include <QObject>
+#include <QWidget>
+#include <QTimer>
 
-class QString;
-class QVariant;
-class QWidget;
+class WindowGeometryGuard : public QObject
+{
+    Q_OBJECT
 
-QString getConfigurationFilePath(const QString &suffix);
+public:
+    static void create(QWidget *window);
+    static void blockUntilHidden(QWidget *window);
 
-QString settingsDirectoryPath();
+    bool eventFilter(QObject *object, QEvent *event);
 
-QVariant geometryOptionValue(const QString &optionName);
-void setGeometryOptionValue(const QString &optionName, const QVariant &value);
+private:
+    explicit WindowGeometryGuard(QWidget *window);
 
-void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen);
+    bool lockWindowGeometry();
 
-void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen);
+private slots:
+    void saveWindowGeometry();
+    void restoreWindowGeometry();
+    void unlockWindowGeometry();
+    void fixGeometry();
 
-#endif // CONFIG_H
+private:
+    QWidget *m_window;
+
+    QTimer m_timerSaveGeometry;
+    QTimer m_timerUnlockGeometry;
+};
+
+#endif // WINDOWGEOMETRYGUARD_H

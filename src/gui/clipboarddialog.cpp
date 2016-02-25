@@ -26,6 +26,7 @@
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/windowgeometryguard.h"
 
 #include <QListWidgetItem>
 #include <QUrl>
@@ -120,7 +121,7 @@ void ClipboardDialog::init()
     ui->horizontalLayout->setStretchFactor(1, 1);
     ui->listWidgetFormats->setCurrentRow(0);
 
-    ConfigurationManager::instance()->registerWindowGeometry(this);
+    WindowGeometryGuard::create(this);
 
     ui->actionRemove_Format->setIcon( getIcon("list-remove", IconRemove) );
     ui->actionRemove_Format->setShortcut(shortcutToRemove());

@@ -22,9 +22,9 @@
 
 #include "common/action.h"
 #include "common/common.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfont.h"
 #include "gui/icons.h"
+#include "gui/windowgeometryguard.h"
 
 #include <QDateTime>
 #include <QPushButton>
@@ -93,7 +93,8 @@ ProcessManagerDialog::ProcessManagerDialog(QWidget *parent)
     , ui(new Ui::ProcessManagerDialog)
 {
     ui->setupUi(this);
-    ConfigurationManager::instance()->registerWindowGeometry(this);
+
+    WindowGeometryGuard::create(this);
 
     QTableWidget *t = ui->tableWidgetCommands;
     t->setColumnCount(tableCommandsColumns::count);

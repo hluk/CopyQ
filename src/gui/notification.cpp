@@ -23,6 +23,7 @@
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/windowgeometryguard.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -47,9 +48,9 @@ void showNotificationInspectDialog(
     dialog->setObjectName("InspectNotificationDialog");
     dialog->setWindowTitle( Notification::tr("CopyQ Inspect Notification") );
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->registerWindowGeometry( dialog.data() );
+    WindowGeometryGuard::create( dialog.data() );
 
+    ConfigurationManager *cm = ConfigurationManager::instance();
     if ( cm->value("always_on_top").toBool() )
         dialog->setWindowFlags( dialog->windowFlags() ^ Qt::WindowStaysOnTopHint );
 

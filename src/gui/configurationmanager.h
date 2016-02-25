@@ -117,16 +117,6 @@ public:
     ItemFactory *itemFactory() const { return m_itemFactory; }
     IconFactory *iconFactory() const { return m_iconFactory.data(); }
 
-    /**
-     * Register window for saving and restoring geometry.
-     */
-    void registerWindowGeometry(QWidget *window);
-
-    void saveWindowGeometry(QWidget *window);
-    void restoreWindowGeometry(QWidget *window);
-
-    bool eventFilter(QObject *object, QEvent *event);
-
     QByteArray mainWindowState(const QString &mainWindowObjectName);
     void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state);
 
@@ -154,8 +144,6 @@ private slots:
 
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
     void on_spinBoxTrayItems_valueChanged(int value);
-
-    void restoreWindowGeometryOnTimer();
 
 private:
     explicit ConfigurationManager(QWidget *parent);
@@ -215,8 +203,5 @@ QIcon getIcon(const QVariant &iconOrIconId);
 void setDefaultTabItemCounterStyle(QWidget *widget);
 
 void setComboBoxItems(QComboBox *comboBox, const QStringList &items);
-
-/// Temporarily (~1s) blocks saving geometry of the @a window.
-void blockSavingGeometry(QWidget *window);
 
 #endif // CONFIGURATIONMANAGER_H

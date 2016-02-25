@@ -42,8 +42,6 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QSettings>
-#include <QTimer>
-#include <QTimerEvent>
 #include <QTranslator>
 
 #ifdef Q_OS_WIN
@@ -55,8 +53,6 @@
 #endif
 
 namespace {
-
-static const char propertyGeometryGuardCount[] = "CopyQ_geometry_guard_count";
 
 class PluginItem : public ItemOrderList::Item {
 public:
@@ -105,55 +101,6 @@ bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &it
 
     return !saveWithCurrent;
 }
-
-class WindowGeometryGuard : public QObject {
-public:
-    static void create(QWidget *window)
-    {
-        new WindowGeometryGuard(window);
-    }
-
-    static bool isGuarded(QWidget *window)
-    {
-        return guardCount(window) > 0;
-    }
-
-protected:
-    void timerEvent(QTimerEvent *event)
-    {
-        if (m_timerIdToDeleteGuard == event->timerId())
-            deleteLater();
-    }
-
-private:
-    static int guardCount(QWidget *window)
-    {
-        return window->property(propertyGeometryGuardCount).toInt();
-    }
-
-    explicit WindowGeometryGuard(QWidget *window)
-        : QObject(window)
-        , m_window(window)
-    {
-        m_timerIdToDeleteGuard = startTimer(1000);
-        setIgnoreGeometryChanges(true);
-    }
-
-    ~WindowGeometryGuard()
-    {
-        setIgnoreGeometryChanges(false);
-    }
-
-    void setIgnoreGeometryChanges(bool ignore)
-    {
-        const int count = guardCount(m_window) + (ignore ? 1 : -1);
-        Q_ASSERT(count >= 0);
-        m_window->setProperty(propertyGeometryGuardCount, count);
-    }
-
-    QWidget *m_window;
-    int m_timerIdToDeleteGuard;
-};
 
 QString nativeLanguageName(const QString &localeName)
 {
@@ -354,61 +301,16 @@ bool ConfigurationManager::createItemDirectory()
     return true;
 }
 
-void ConfigurationManager::registerWindowGeometry(QWidget *window)
-{
-    window->installEventFilter(this);
-    restoreWindowGeometry(window);
-}
-
-void ConfigurationManager::saveWindowGeometry(QWidget *window)
-{
-    if ( WindowGeometryGuard::isGuarded(window) )
-        return;
-
-    bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
-    ::saveWindowGeometry(window, openOnCurrentScreen);
-}
-
-void ConfigurationManager::restoreWindowGeometry(QWidget *window)
-{
-    if ( WindowGeometryGuard::isGuarded(window) )
-        return;
-
-    moveToCurrentWorkspace(window);
-
-    WindowGeometryGuard::create(window);
-
-    bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
-    ::restoreWindowGeometry(window, openOnCurrentScreen);
-
-    QTimer *timer = new QTimer(window);
-    initSingleShotTimer( timer, 250, this, SLOT(restoreWindowGeometryOnTimer()) );
-    connect( timer, SIGNAL(timeout()), timer, SLOT(deleteLater()) );
-    timer->start();
-}
-
-bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
-{
-    // Restore and save geometry of widgets passed to registerWindowGeometry().
-    if ( event->type() == QEvent::Move || event->type() == QEvent::Resize ) {
-        QWidget *window = qobject_cast<QWidget*>(object);
-        saveWindowGeometry(window);
-    }
-
-    return false;
-}
-
 QByteArray ConfigurationManager::mainWindowState(const QString &mainWindowObjectName)
 {
     const QString optionName = "Options/" + mainWindowObjectName + "_state";
-    return geometryOptionValue(optionName);
+    return geometryOptionValue(optionName).toByteArray();
 }
 
 void ConfigurationManager::saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state)
 {
     const QString optionName = "Options/" + mainWindowObjectName + "_state";
-    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
-    geometrySettings.setValue(optionName, state);
+    setGeometryOptionValue(optionName, state);
 }
 
 QString ConfigurationManager::defaultTabName() const
@@ -875,7 +777,6 @@ ConfigurationManager *ConfigurationManager::createInstance(QWidget *parent)
     Q_ASSERT(m_Instance == NULL);
     m_Instance = new ConfigurationManager(parent);
     m_Instance->loadSettings();
-    m_Instance->registerWindowGeometry(m_Instance);
     return m_Instance;
 }
 
@@ -971,18 +872,6 @@ void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
 }
 
-void ConfigurationManager::restoreWindowGeometryOnTimer()
-{
-    QObject *timer = sender();
-    Q_ASSERT(timer);
-
-    QWidget *window = qobject_cast<QWidget*>(timer->parent());
-    Q_ASSERT(window);
-
-    bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
-    ::restoreWindowGeometry(window, openOnCurrentScreen);
-}
-
 QIcon getIconFromResources(const QString &iconName)
 {
     Q_ASSERT( !iconName.isEmpty() );
@@ -1035,9 +924,4 @@ void setComboBoxItems(QComboBox *comboBox, const QStringList &items)
     const int currentIndex = comboBox->findText(text);
     if (currentIndex != -1)
         comboBox->setCurrentIndex(currentIndex);
-}
-
-void blockSavingGeometry(QWidget *window)
-{
-    WindowGeometryGuard::create(window);
 }

@@ -44,6 +44,7 @@
 #include "gui/tabdialog.h"
 #include "gui/tabwidget.h"
 #include "gui/traymenu.h"
+#include "gui/windowgeometryguard.h"
 #include "item/clipboardmodel.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
@@ -309,7 +310,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget->addToolBars(this);
     addToolBar(Qt::RightToolBarArea, ui->toolBar);
 
-    cm->registerWindowGeometry(this);
+    WindowGeometryGuard::create(cm);
+    WindowGeometryGuard::create(this);
     restoreState( cm->mainWindowState(objectName()) );
 
     updateIcon();
@@ -1630,7 +1632,7 @@ void MainWindow::showWindow()
     if ( isWindowVisible() )
         return;
 
-    cm->restoreWindowGeometry(this);
+    moveToCurrentWorkspace(this);
 
     updateFocusWindows();
 

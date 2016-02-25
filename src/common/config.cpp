@@ -51,6 +51,11 @@ QString geometryOptionName(const QWidget *widget, bool save, bool openOnCurrentS
     return optionName;
 }
 
+QString getGeometryConfigurationFilePath()
+{
+    return getConfigurationFilePath("_geometry.ini");
+}
+
 } // namespace
 
 QString getConfigurationFilePath(const QString &suffix)
@@ -68,17 +73,22 @@ QString settingsDirectoryPath()
     return QDir::cleanPath( getConfigurationFilePath("") + "/.." );
 }
 
-QByteArray geometryOptionValue(const QString &optionName)
+QVariant geometryOptionValue(const QString &optionName)
 {
-    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
-    QVariant geometry = geometrySettings.value(optionName);
-    return geometry.toByteArray();
+    const QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
+    return geometrySettings.value(optionName);
+}
+
+void setGeometryOptionValue(const QString &optionName, const QVariant &value)
+{
+    QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
+    geometrySettings.setValue(optionName, value);
 }
 
 void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
     const QString optionName = geometryOptionName(w, false, openOnCurrentScreen);
-    const QByteArray geometry = geometryOptionValue(optionName);
+    const QByteArray geometry = geometryOptionValue(optionName).toByteArray();
     if (w->saveGeometry() != geometry)
         w->restoreGeometry(geometry);
 }
@@ -86,6 +96,6 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
     const QString optionName = geometryOptionName(w, true, openOnCurrentScreen);
-    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
+    QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
     geometrySettings.setValue( optionName, w->saveGeometry() );
 }
