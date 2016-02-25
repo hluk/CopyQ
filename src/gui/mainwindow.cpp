@@ -310,7 +310,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget->addToolBars(this);
     addToolBar(Qt::RightToolBarArea, ui->toolBar);
 
-    WindowGeometryGuard::create(cm);
     WindowGeometryGuard::create(this);
     restoreState( cm->mainWindowState(objectName()) );
 

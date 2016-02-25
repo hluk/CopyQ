@@ -30,6 +30,7 @@
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/pluginwidget.h"
+#include "gui/windowgeometryguard.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
 #include "item/itemfactory.h"
@@ -777,6 +778,7 @@ ConfigurationManager *ConfigurationManager::createInstance(QWidget *parent)
     Q_ASSERT(m_Instance == NULL);
     m_Instance = new ConfigurationManager(parent);
     m_Instance->loadSettings();
+    WindowGeometryGuard::create(m_Instance);
     return m_Instance;
 }
 
