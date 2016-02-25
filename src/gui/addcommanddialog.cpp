@@ -26,6 +26,7 @@
 #include "item/itemfactory.h"
 #include "gui/configurationmanager.h"
 #include "gui/icons.h"
+#include "gui/windowgeometryguard.h"
 
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
@@ -313,7 +314,7 @@ AddCommandDialog::AddCommandDialog(QWidget *parent)
     ui->listViewCommands->setModel(m_filterModel);
     ui->listViewCommands->setCurrentIndex(m_filterModel->index(0, 0));
 
-    ConfigurationManager::instance()->registerWindowGeometry(this);
+    WindowGeometryGuard::create(this);
 }
 
 AddCommandDialog::~AddCommandDialog()

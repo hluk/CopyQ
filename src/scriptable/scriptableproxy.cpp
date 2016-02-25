@@ -28,6 +28,7 @@
 #include "gui/configurationmanager.h"
 #include "gui/filedialog.h"
 #include "gui/mainwindow.h"
+#include "gui/windowgeometryguard.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
 
@@ -261,7 +262,7 @@ QVariant config(const QString &name, const QString &value)
 
 void setGeometryWithoutSave(QWidget *window, const QRect &geometry)
 {
-    blockSavingGeometry(window);
+    WindowGeometryGuard::blockUntilHidden(window);
 
     int x = pointsToPixels(geometry.x());
     int y = pointsToPixels(geometry.y());

@@ -23,6 +23,7 @@
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/windowgeometryguard.h"
 #include "scriptable/commandhelp.h"
 
 #include <QDialog>
@@ -142,7 +143,7 @@ void CommandHelpButton::showHelp()
     if (!m_help) {
         m_help = new QDialog(this);
         m_help->setObjectName("commandHelpDialog");
-        ConfigurationManager::instance()->registerWindowGeometry(m_help);
+        WindowGeometryGuard::create(m_help);
 
         QTextBrowser *browser = new QTextBrowser(this);
         QVBoxLayout *layout = createLayout(m_help);

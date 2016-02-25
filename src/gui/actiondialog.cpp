@@ -27,6 +27,7 @@
 #include "common/mimetypes.h"
 #include "item/serialize.h"
 #include "gui/configurationmanager.h"
+#include "gui/windowgeometryguard.h"
 
 #include <QFile>
 #include <QMessageBox>
@@ -86,7 +87,7 @@ ActionDialog::ActionDialog(QWidget *parent)
     on_comboBoxOutputFormat_editTextChanged(QString());
     loadSettings();
 
-    ConfigurationManager::instance()->registerWindowGeometry(this);
+    WindowGeometryGuard::create(this);
 }
 
 ActionDialog::~ActionDialog()
