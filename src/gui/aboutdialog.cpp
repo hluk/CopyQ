@@ -22,7 +22,6 @@
 
 #include "common/common.h"
 #include "common/version.h"
-#include "gui/windowgeometryguard.h"
 
 namespace {
 
@@ -86,8 +85,6 @@ AboutDialog::AboutDialog(QWidget *parent)
 {
     ui->setupUi(this);
     ui->textBrowser->setText( aboutPage() );
-
-    WindowGeometryGuard::create(this);
 }
 
 AboutDialog::~AboutDialog()

@@ -16,34 +16,27 @@
     You should have received a copy of the GNU General Public License
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef LOGDIALOG_H
+#define LOGDIALOG_H
 
-#ifndef LOG_H
-#define LOG_H
+#include <QDialog>
 
-#include <QByteArray>
+namespace Ui {
+class LogDialog;
+}
 
-class QString;
+class LogDialog : public QDialog
+{
+    Q_OBJECT
 
-enum LogLevel {
-    LogAlways,
-    LogError,
-    LogWarning,
-    LogNote,
-    LogDebug,
-    LogTrace
+public:
+    explicit LogDialog(QWidget *parent = NULL);
+    ~LogDialog();
+
+private:
+    void decorateLog();
+
+    Ui::LogDialog *ui;
 };
 
-QString readLogFile();
-
-void createSessionMutex();
-
-bool hasLogLevel(LogLevel level);
-
-#define COPYQ_LOG(msg) do { if ( hasLogLevel(LogDebug) ) log(msg, LogDebug); } while (false)
-#define COPYQ_LOG_VERBOSE(msg) do { if ( hasLogLevel(LogTrace) ) log(msg, LogTrace); } while (false)
-
-QString createLogMessage(const QString &text, const LogLevel level);
-
-void log(const QString &text, const LogLevel level = LogNote);
-
-#endif // LOG_H
+#endif // LOGDIALOG_H

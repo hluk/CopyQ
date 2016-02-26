@@ -267,6 +267,9 @@ public slots:
     /** Load settings. */
     void loadSettings();
 
+    /** Open log dialog. */
+    void openLogDialog();
+
     /** Open about dialog. */
     void openAboutDialog();
 

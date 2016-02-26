@@ -49,7 +49,7 @@ namespace {
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
     const QRegExp scriptExceptionError("Script \\d\\+: Error:");
-    static const QRegExp re(scriptExceptionError.pattern() + "|(?!\\bX )warning:|(?!\\bX )error:|ASSERT", Qt::CaseInsensitive);
+    static const QRegExp re(scriptExceptionError.pattern() + "|^CopyQ Warning|^CopyQ ERROR|ASSERT", Qt::CaseInsensitive);
     int from = 0;
     bool skipScriptException = flag == TestInterface::ReadErrorsWithoutScriptException;
     const QString output = QString::fromUtf8(stderrData);
@@ -149,8 +149,9 @@ public:
             return "Server is already running.";
 
         if ( isAnyServerRunning() ) {
-            return "Other test server is running."
-                   "Please close the other test session before running new one.";
+            qWarning() << "closing existing test session";
+            run(Args("exit"));
+            waitForAnyServerToQuit();
         }
 
         m_server.reset(new QProcess);
@@ -177,6 +178,17 @@ public:
         return QByteArray();
     }
 
+    QByteArray waitForAnyServerToQuit()
+    {
+        SleepTimer t(8000);
+        while ( isAnyServerRunning() && t.sleep() ) {}
+
+        if ( isAnyServerRunning() )
+            return "Unable to stop server!" + readServerErrors(ReadAllStderr);
+
+        return QByteArray();
+    }
+
     QByteArray stopServer()
     {
         QByteArray errors;
@@ -189,10 +201,7 @@ public:
         if ( !m_server.isNull() && !closeProcess(m_server.data()) )
             return "Failed to close server properly!" + readServerErrors(ReadAllStderr);
 
-        if ( isServerRunning() || isAnyServerRunning() )
-            return "Unable to stop server!" + readServerErrors(ReadAllStderr);
-
-        return readServerErrors();
+        return waitForAnyServerToQuit();
     }
 
     bool isServerRunning()

@@ -110,17 +110,20 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_clientThreads()
     , m_ignoreKeysTimer()
 {
-    Server *server = new Server( clipboardServerName(), this );
-    bool serverStarted = server->isListening();
-    restoreSettings(serverStarted);
+    const QString serverName = clipboardServerName();
+    Server *server = new Server(serverName, this);
 
-    if (!serverStarted) {
+    if ( server->isListening() ) {
+        ::createSessionMutex();
+        restoreSettings(true);
+        COPYQ_LOG("Server \"" + serverName + "\" started.");
+    } else {
+        restoreSettings(false);
+        COPYQ_LOG("Server \"" + serverName + "\" already running!");
         log( tr("CopyQ server is already running."), LogWarning );
         exit(0);
         return;
     }
-
-    createSessionMutex();
 
     QApplication::setQuitOnLastWindowClosed(false);
 

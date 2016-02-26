@@ -69,6 +69,7 @@ enum Id {
     Tabs_NextTab,
     Tabs_PreviousTab,
 
+    Help_ShowLog,
     Help_Help
 };
 
