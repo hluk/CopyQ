@@ -15,6 +15,7 @@ matrix:
 
 cache:
     apt: true
+    ccache: true
     directories:
     - $HOME/.wheelhouse
 
