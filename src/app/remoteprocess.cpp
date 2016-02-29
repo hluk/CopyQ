@@ -56,6 +56,7 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
     Server *server = new Server(newServerName, this);
     if ( !server->isListening() ) {
+        log("Failed to start monitor server \"" + newServerName + "\"!", LogError);
         delete server;
         onConnectionError();
         return;

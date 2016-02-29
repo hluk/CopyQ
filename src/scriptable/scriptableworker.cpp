@@ -146,10 +146,9 @@ void ScriptableWorker::run()
         QScriptValue fn = engine.globalObject().property(cmd);
         if ( !fn.isFunction() ) {
             SCRIPT_LOG("Error: unknown command");
-            response = createLogMessage("CopyQ client",
-                                        Scriptable::tr("Name \"%1\" doesn't refer to a function.")
-                                        .arg(cmd),
-                                        LogError).toUtf8();
+            const QString msg =
+                    Scriptable::tr("Name \"%1\" doesn't refer to a function.").arg(cmd);
+            response = createLogMessage(msg, LogError).toUtf8();
             exitCode = CommandError;
         } else {
             /* Special arguments:
@@ -182,7 +181,7 @@ void ScriptableWorker::run()
                 SCRIPT_LOG( QString("Error: Exception in command \"%1\": %2")
                              .arg(cmd, exceptionText) );
 
-                response = createLogMessage("CopyQ client", exceptionText, LogError).toUtf8();
+                response = createLogMessage(exceptionText, LogError).toUtf8();
                 exitCode = CommandError;
             } else {
                 response = serializeScriptValue(result);

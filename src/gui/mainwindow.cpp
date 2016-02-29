@@ -39,6 +39,7 @@
 #include "gui/iconfactory.h"
 #include "gui/iconselectdialog.h"
 #include "gui/icons.h"
+#include "gui/logdialog.h"
 #include "gui/notification.h"
 #include "gui/notificationdaemon.h"
 #include "gui/tabdialog.h"
@@ -55,7 +56,6 @@
 #endif
 
 #include <QAction>
-#include <QBitmap>
 #include <QCloseEvent>
 #include <QFile>
 #include <QFileDialog>
@@ -68,7 +68,6 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QToolBar>
-#include <QPainter>
 
 namespace {
 
@@ -281,6 +280,18 @@ bool needStore(const QVariantMap &data)
             && ConfigurationManager::instance()->value("check_clipboard").toBool();
 }
 #endif
+
+template <typename Dialog>
+Dialog *openDialog(QWidget *dialogParent)
+{
+    QScopedPointer<Dialog> dialog( new Dialog(dialogParent) );
+    WindowGeometryGuard::create( dialog.data() );
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
+    dialog->setWindowIcon(appIcon());
+    dialog->activateWindow();
+    dialog->show();
+    return dialog.take();
+}
 
 } // namespace
 
@@ -533,6 +544,7 @@ void MainWindow::createMenu()
 
     // Help
     menu = menubar->addMenu(tr("&Help"));
+    createAction( Actions::Help_ShowLog, SLOT(openLogDialog()), menu );
     createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
 }
 
@@ -2162,24 +2174,21 @@ void MainWindow::clearTrayMenu()
     m_trayMenu->clearAllActions();
 }
 
+void MainWindow::openLogDialog()
+{
+    openDialog<LogDialog>(this);
+}
+
 void MainWindow::openAboutDialog()
 {
-    QScopedPointer<AboutDialog> aboutDialog( new AboutDialog(this) );
-    aboutDialog->setAttribute(Qt::WA_DeleteOnClose, true);
-    aboutDialog->setWindowIcon(appIcon());
-    aboutDialog->activateWindow();
-    aboutDialog->show();
-    aboutDialog.take();
+    openDialog<AboutDialog>(this);
 }
 
 void MainWindow::showClipboardContent()
 {
-    QScopedPointer<ClipboardDialog> clipboardDialog(new ClipboardDialog(this));
-    connect( clipboardDialog.data(), SIGNAL(changeClipboard(QVariantMap)),
+    ClipboardDialog *clipboardDialog = openDialog<ClipboardDialog>(this);
+    connect( clipboardDialog, SIGNAL(changeClipboard(QVariantMap)),
              this, SLOT(setClipboard(QVariantMap)) );
-    clipboardDialog->setAttribute(Qt::WA_DeleteOnClose, true);
-    clipboardDialog->show();
-    clipboardDialog.take();
 }
 
 void MainWindow::showProcessManagerDialog()

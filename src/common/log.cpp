@@ -28,7 +28,16 @@
 #include <QSystemSemaphore>
 #include <QtGlobal>
 
+#if QT_VERSION < 0x050000
+#   include <QDesktopServices>
+#else
+#   include <QStandardPaths>
+#endif
+
 namespace {
+
+const int logFileSize = 128 * 1024;
+const int logFileCount = 4;
 
 int getLogLevel()
 {
@@ -58,12 +67,6 @@ QString envString(const char *varName)
     return QString::fromUtf8( bytes.constData(), bytes.size() );
 }
 
-QString getLogFileName()
-{
-    const QString fileName = envString("COPYQ_LOG_FILE");
-    return QDir::fromNativeSeparators(fileName);
-}
-
 /// System-wide mutex
 class SystemMutex {
 public:
@@ -88,7 +91,12 @@ public:
         return m_semaphore.release();
     }
 
-    QString error() const { return m_semaphore.errorString(); }
+    QString error() const
+    {
+        return m_semaphore.error() == QSystemSemaphore::NoError
+                ? QString()
+                : m_semaphore.errorString();
+    }
 
 private:
     QSystemSemaphore m_semaphore;
@@ -121,28 +129,114 @@ private:
     bool m_locked;
 };
 
-const QString sessionName()
+void initSessionMutex(QSystemSemaphore::AccessMode accessMode)
 {
-    const QString session = envString("COPYQ_SESSION_NAME");
-    return session.isEmpty() ? QString() : "CopyQ_" + session;
+    const QString mutexName = QCoreApplication::applicationName() + "_mutex";
+    sessionMutex = SystemMutexPtr(new SystemMutex(mutexName, accessMode));
+
+    const QString error = sessionMutex->error();
+    const bool create = accessMode == QSystemSemaphore::Create;
+    if ( !error.isEmpty() ) {
+        const QString action = create ? "create" : "open";
+        log("Failed to " + action + " session mutex: " + error, LogError);
+    } else {
+        COPYQ_LOG( QString(create ? "Created" : "Opened")
+                   + " session mutex: " + mutexName );
+    }
 }
 
 const SystemMutexPtr &getSessionMutex()
 {
-    if (sessionMutex.isNull()) {
-        const QString session = sessionName();
-        if (!session.isEmpty())
-            sessionMutex = SystemMutexPtr(new SystemMutex(session, QSystemSemaphore::Open));
-    }
+    if (sessionMutex.isNull())
+        initSessionMutex(QSystemSemaphore::Open);
 
     return sessionMutex;
 }
 
+QString logLevelLabel(const LogLevel level)
+{
+    switch(level) {
+    case LogWarning:
+        return "Warning";
+    case LogError:
+        return "ERROR";
+    case LogDebug:
+        return "DEBUG";
+    case LogTrace:
+        return "TRACE";
+    default:
+        return "";
+    }
+}
+
+QString getDefaultLogFilePath()
+{
+#if QT_VERSION < 0x050000
+    return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+#else
+    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+#endif
+}
+
+QString readLogFile(const QString &fileName)
+{
+    QFile f(fileName);
+    if ( !f.open(QIODevice::ReadOnly) )
+        return QString();
+
+    const QByteArray content = f.readAll();
+
+    return QString::fromUtf8(content);
+}
+
+QString logFileName()
+{
+    const QString fileName = envString("COPYQ_LOG_FILE");
+    if (!fileName.isEmpty())
+        return QDir::fromNativeSeparators(fileName);
+
+    const QString path = getDefaultLogFilePath();
+    QDir dir(path);
+    dir.mkpath(".");
+
+    return path + "/copyq.log";
+}
+
+QString logFileName(int i)
+{
+    if (i <= 0)
+        return logFileName();
+    return logFileName() + "." + QString::number(i);
+}
+
+void rotateLogFiles()
+{
+    for (int i = logFileCount - 1; i > 0; --i) {
+        const QString sourceFileName = logFileName(i - 1);
+        const QString targetFileName = logFileName(i);
+        QFile::remove(targetFileName);
+        QFile::rename(sourceFileName, targetFileName);
+    }
+}
+
 } // namespace
+
+QString readLogFile()
+{
+    SystemMutexLocker lock(getSessionMutex());
+
+    const QString fileName = logFileName();
+    QString content = fileName + "\n\n";
+
+    for (int i = 0; i < logFileCount; ++i)
+        content.append( readLogFile(logFileName(i)) );
+
+    return content;
+}
 
 void createSessionMutex()
 {
-    sessionMutex = SystemMutexPtr(new SystemMutex(sessionName(), QSystemSemaphore::Create));
+    initSessionMutex(QSystemSemaphore::Create);
 }
 
 bool hasLogLevel(LogLevel level)
@@ -151,24 +245,12 @@ bool hasLogLevel(LogLevel level)
     return currentLogLevel >= level;
 }
 
-QString createLogMessage(const QString &label, const QString &text, const LogLevel level)
+QString createLogMessage(const QString &text, const LogLevel level)
 {
-    QString levelId;
+    const QString timeStamp =
+            QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz]");
 
-    if (level == LogNote)
-        levelId = QString(" %1");
-    else if (level == LogWarning)
-        levelId = QObject::tr("warning: %1");
-    else if (level == LogError)
-        levelId = QObject::tr("ERROR: %1");
-    else if (level == LogDebug)
-        levelId = QString("DEBUG: %1");
-    else if (level == LogTrace)
-        levelId = QString("TRACE: %1");
-    else
-        levelId = QString("%1");
-
-    return label + " " + levelId.arg(text) + "\n";
+    return "CopyQ " + logLevelLabel(level) + timeStamp + ": " + text + "\n";
 }
 
 void log(const QString &text, const LogLevel level)
@@ -178,21 +260,20 @@ void log(const QString &text, const LogLevel level)
 
     SystemMutexLocker lock(getSessionMutex());
 
-    // Always print time at debug log level.
-    const QString label = hasLogLevel(LogDebug)
-            ? QDateTime::currentDateTime().toString("CopyQ [yyyy-MM-dd hh:mm:ss.zzz]")
-            : QString("CopyQ");
+    const QByteArray msg = createLogMessage(text, level).toUtf8();
 
-    const QString msg = createLogMessage(label, text, level);
+    QFile f( logFileName() );
+    const bool writtenToLogFile = f.open(QIODevice::Append) && f.write(msg);
+    if (writtenToLogFile)
+        f.close();
 
-    // Log to file or stderr.
-    static const QString logFileName = getLogFileName();
-    QFile f;
-    if ( logFileName.isEmpty() ) {
-        f.open(stderr, QIODevice::WriteOnly);
-    } else {
-        f.setFileName(logFileName);
-        f.open(QIODevice::Append);
+    // Log to file and if needed to stderr.
+    if ( !writtenToLogFile || level <= LogWarning ) {
+        QFile ferr;
+        ferr.open(stderr, QIODevice::WriteOnly);
+        ferr.write(msg);
     }
-    f.write( msg.toUtf8() );
+
+    if ( writtenToLogFile && f.size() > logFileSize )
+        rotateLogFiles();
 }

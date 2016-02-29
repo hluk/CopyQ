@@ -158,6 +158,8 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::Tabs_PreviousTab, tr("&Previous Tab"),
                   "previous_tab", tr("Left"), "go-previous", IconArrowLeft );
 
+    w->addAction( Actions::Help_ShowLog, tr("&Show Log"), "show-log", tr("F12"),
+                  "help-about", IconExclamationSign );
     w->addAction( Actions::Help_Help, tr("&Help"), "help", QKeySequence::HelpContents,
                   "help-about", IconQuestionSign );
 }
