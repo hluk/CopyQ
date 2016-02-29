@@ -450,11 +450,12 @@ private slots:
 
     /** Update tray and window icon depending on current state. */
     void updateIcon();
-    void updateIconTimeout();
+    void updateIconSnipTimeout();
 
     void updateContextMenuTimeout();
 
-    void onRunningActionsCountChanged();
+    /** Update icon snip animation. */
+    void updateIconSnip();
 
     void onAboutToQuit();
 

@@ -21,7 +21,6 @@
 #define ICONFACTORY_H
 
 #include <QColor>
-#include <QFlags>
 #include <QFont>
 #include <QHash>
 #include <QPalette>
@@ -31,13 +30,10 @@ class QIcon;
 class QPixmap;
 class QPainter;
 
-enum AppIconFlag {
+enum AppIconType {
     AppIconNormal,
-    AppIconRunning,
-    AppIconDisabled
+    AppIconRunning
 };
-Q_DECLARE_FLAGS(AppIconFlags, AppIconFlag)
-Q_DECLARE_OPERATORS_FOR_FLAGS(AppIconFlags)
 
 class IconFactory
 {
@@ -55,7 +51,7 @@ public:
     QPixmap createPixmap(ushort id, const QColor &color, int size);
 
     /// Return app icon (color is calculated from session name).
-    QIcon appIcon(AppIconFlags flags = AppIconNormal);
+    QIcon appIcon(AppIconType iconType = AppIconNormal);
 
     QObject *activePaintDevice() const { return m_activePaintDevice; }
     void setActivePaintDevice(QObject *device) { m_activePaintDevice = device; }

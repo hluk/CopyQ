@@ -255,9 +255,9 @@ QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
     return pixmap;
 }
 
-QIcon IconFactory::appIcon(AppIconFlags flags)
+QIcon IconFactory::appIcon(AppIconType iconType)
 {
-    const bool running = flags.testFlag(AppIconRunning);
+    const bool running = iconType == AppIconRunning;
     const QString suffix = running ? "-busy" : "-normal";
     const QString sessionName = qApp->property("CopyQ_session_name").toString();
 
@@ -277,13 +277,6 @@ QIcon IconFactory::appIcon(AppIconFlags flags)
         }
 
         icon.addPixmap(pix);
-    }
-
-    if (flags.testFlag(AppIconDisabled)) {
-        QIcon disabledIcon;
-        foreach (const QSize &size, icon.availableSizes())
-            disabledIcon.addPixmap(icon.pixmap(size, QIcon::Disabled));
-        return disabledIcon;
     }
 
     return icon;

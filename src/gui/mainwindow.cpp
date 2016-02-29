@@ -79,9 +79,9 @@ const QIcon iconTabRename() { return getIconFromResources("tab_rename"); }
 
 const int clipboardNotificationId = 0;
 
-QIcon appIcon(AppIconFlags flags = AppIconNormal)
+QIcon appIcon(AppIconType iconType = AppIconNormal)
 {
-    return ConfigurationManager::instance()->iconFactory()->appIcon(flags);
+    return ConfigurationManager::instance()->iconFactory()->appIcon(iconType);
 }
 
 bool canPaste()
@@ -348,7 +348,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( ui->searchBar, SIGNAL(filterChanged(QRegExp)),
              this, SLOT(onFilterChanged(QRegExp)) );
     connect( m_actionHandler, SIGNAL(runningActionsCountChanged()),
-             this, SLOT(onRunningActionsCountChanged()) );
+             this, SLOT(updateIconSnip()) );
     connect( qApp, SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()) );
 
@@ -368,7 +368,7 @@ MainWindow::MainWindow(QWidget *parent)
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
     initSingleShotTimer( &m_timerShowWindow, 250 );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
-    initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconTimeout()) );
+    initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
 
     // notify window if configuration changes
     connect( cm, SIGNAL(configurationChanged()),
@@ -588,21 +588,16 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
 
 void MainWindow::updateIcon()
 {
-    AppIconFlags flags = m_clipboardStoringDisabled ? AppIconDisabled : AppIconNormal;
-
-    if (m_iconSnip)
-        flags |= AppIconRunning;
-
-    const QIcon icon = appIcon(flags);
-
+    const QIcon icon = appIcon(m_iconSnip ? AppIconRunning : AppIconNormal);
     setWindowIcon(icon);
     updateTrayIcon();
 }
 
-void MainWindow::updateIconTimeout()
+void MainWindow::updateIconSnipTimeout()
 {
-    if ( m_iconSnip != hasRunningAction() ) {
-        m_iconSnip = !m_iconSnip;
+    const bool shouldSnip = hasRunningAction() || m_clipboardStoringDisabled;
+    if (m_iconSnip != shouldSnip) {
+        m_iconSnip = shouldSnip;
         m_timerTrayIconSnip.start(250);
         updateIcon();
     }
@@ -641,7 +636,7 @@ void MainWindow::updateContextMenuTimeout()
     updateToolBar();
 }
 
-void MainWindow::onRunningActionsCountChanged()
+void MainWindow::updateIconSnip()
 {
     if ( !m_timerTrayIconSnip.isActive() ) {
         m_iconSnip = !m_iconSnip;
@@ -939,7 +934,7 @@ void MainWindow::updateMonitoringActions()
 {
     if ( !m_actionToggleClipboardStoring.isNull() ) {
         m_actionToggleClipboardStoring->setIcon(
-                    appIcon(m_clipboardStoringDisabled ? AppIconNormal : AppIconDisabled) );
+                    getIcon("", m_clipboardStoringDisabled ? IconCheck : IconBan));
         m_actionToggleClipboardStoring->setText( m_clipboardStoringDisabled
                                                  ? tr("&Enable Clipboard Storing")
                                                  : tr("&Disable Clipboard Storing") );
@@ -1990,7 +1985,7 @@ void MainWindow::disableClipboardStoring(bool disable)
     m_clipboardStoringDisabled = disable;
 
     updateMonitoringActions();
-    updateIcon();
+    updateIconSnip();
 
     if (m_clipboardStoringDisabled)
         clearTitle();
