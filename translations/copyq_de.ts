@@ -445,7 +445,7 @@ You can set up the command in preferences.</source>
     </message>
     <message>
         <source>&amp;Action...</source>
-        <translation type="vanished">&amp;Ausführen...</translation>
+        <translation>&amp;Aktion...</translation>
     </message>
     <message>
         <source>&amp;Next to Clipboard</source>
@@ -1540,7 +1540,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="129"></location>
         <source>&amp;Action...</source>
-        <translation>&amp;Ausführen...</translation>
+        <translation>&amp;Aktion...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="129"></location>
@@ -4224,7 +4224,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     </message>
     <message>
         <source>&amp;Action...</source>
-        <translation type="vanished">&amp;Ausführen...</translation>
+        <translation>&amp;Aktion...</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2111"></location>
