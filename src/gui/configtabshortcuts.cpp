@@ -127,7 +127,7 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::Item_EditWithEditor, tr("E&dit with editor"),
                   "editor", tr("Ctrl+E"), "accessories-text-editor", IconPencil );
     w->addAction( Actions::Item_Action, tr("&Action..."), "system-run", tr("F5"),
-                  "action", IconCog );
+                  "action", IconBolt );
     w->addAction( Actions::Item_NextFormat, tr("Next Format"), "format-next", tr("Ctrl+Right"),
                   "go-next", IconArrowRight );
     w->addAction( Actions::Item_PreviousFormat, tr("Previous Format"), "format-previous", tr("Ctrl+Left"),

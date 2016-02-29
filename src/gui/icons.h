@@ -79,6 +79,7 @@ enum IconId {
     IconSortDown = 0xf0dd,
     IconSortUp = 0xf0de,
     IconUndo = 0xf0e2,
+    IconBolt = 0xf0e7,
     IconPaste = 0xf0ea,
     IconAngleDoubleUp = 0xf102,
     IconAngleDoubleDown = 0xf103,
