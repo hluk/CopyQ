@@ -1565,8 +1565,11 @@ void MainWindow::loadSettings()
     updateWindowTransparency();
 
     // tab bar position
-    ui->tabWidget->setTreeModeEnabled(cm->value("tab_tree").toBool());
+    const bool tabTreeEnabled = cm->value("tab_tree").toBool();
+    ui->tabWidget->setTreeModeEnabled(tabTreeEnabled);
     ui->tabWidget->setTabItemCountVisible(cm->value("show_tab_item_count").toBool());
+    if (tabTreeEnabled)
+        appearance->decorateScrollArea(ui->tabWidget->tabTree());
 
     m_options.hideTabs = cm->value("hide_tabs").toBool();
     setHideTabs(m_options.hideTabs);

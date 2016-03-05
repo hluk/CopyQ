@@ -29,6 +29,7 @@
 #include "item/itemeditor.h"
 #include "item/itemdelegate.h"
 
+#include <QAbstractScrollArea>
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QFontDialog>
@@ -230,11 +231,7 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
     QPalette p;
     QColor color;
 
-    // scrollbars
-    Qt::ScrollBarPolicy scrollbarPolicy = themeValue("show_scrollbars").toBool()
-            ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff;
-    c->setVerticalScrollBarPolicy(scrollbarPolicy);
-    c->setHorizontalScrollBarPolicy(scrollbarPolicy);
+    decorateScrollArea(c);
 
     Theme unfocusedTheme = this->unfocusedTheme();
 
@@ -396,6 +393,16 @@ void ConfigTabAppearance::decorateToolBar(QWidget *toolBar) const
     } else {
         toolBar->setStyleSheet(QString());
     }
+}
+
+void ConfigTabAppearance::decorateScrollArea(QAbstractScrollArea *scrollArea) const
+{
+    const Qt::ScrollBarPolicy scrollbarPolicy =
+            themeValue("show_scrollbars").toBool()
+            ? Qt::ScrollBarAsNeeded
+            : Qt::ScrollBarAlwaysOff;
+    scrollArea->setVerticalScrollBarPolicy(scrollbarPolicy);
+    scrollArea->setHorizontalScrollBarPolicy(scrollbarPolicy);
 }
 
 QString ConfigTabAppearance::getToolTipStyleSheet() const

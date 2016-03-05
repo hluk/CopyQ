@@ -24,6 +24,7 @@
 #include <QMap>
 #include <QWidget>
 
+class QAbstractScrollArea;
 class QMainWindow;
 class QMimeData;
 class QPoint;
@@ -85,6 +86,8 @@ public:
     void loadTabInfo();
 
     void updateTabs();
+
+    QAbstractScrollArea *tabTree();
 
 public slots:
     void setCurrentIndex(int tabIndex);

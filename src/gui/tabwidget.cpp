@@ -279,6 +279,11 @@ void TabWidget::updateTabs()
     }
 }
 
+QAbstractScrollArea *TabWidget::tabTree()
+{
+    return m_tabTree;
+}
+
 void TabWidget::setCurrentIndex(int tabIndex)
 {
     QWidget *w = currentWidget();

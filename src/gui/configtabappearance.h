@@ -29,6 +29,7 @@ class ConfigTabAppearance;
 
 class ClipboardBrowser;
 class Option;
+class QAbstractScrollArea;
 class QSettings;
 
 class ConfigTabAppearance : public QWidget
@@ -55,6 +56,9 @@ public:
 
     /** Decorate tool bar. */
     void decorateToolBar(QWidget *toolBar) const;
+
+    /** Decorate scroll area (toggle scroll bar). */
+    void decorateScrollArea(QAbstractScrollArea *scrollArea) const;
 
     /** Return stylesheet for tooltips. */
     QString getToolTipStyleSheet() const;
