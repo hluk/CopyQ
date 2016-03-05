@@ -229,7 +229,7 @@ QString readLogFile()
     QString content = fileName + "\n\n";
 
     for (int i = 0; i < logFileCount; ++i)
-        content.append( readLogFile(logFileName(i)) );
+        content.prepend( readLogFile(logFileName(i)) );
 
     return content;
 }
