@@ -165,7 +165,7 @@ QString logLevelLabel(const LogLevel level)
     case LogTrace:
         return "TRACE";
     default:
-        return "";
+        return "Note";
     }
 }
 

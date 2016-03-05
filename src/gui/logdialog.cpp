@@ -70,21 +70,22 @@ void LogDialog::decorateLog()
 
     QTextDocument *doc = ui->textBrowserLog->document();
 
-    QRegExp rePrefix("^CopyQ .*: ");
+    const QString prefix = "CopyQ ";
+    QRegExp rePrefix("^" + prefix + ".*: ");
     rePrefix.setMinimal(true);
 
     for ( QTextCursor tc = doc->find(rePrefix);
           !tc.isNull();
           tc = doc->find(rePrefix, tc) )
     {
-        const QString text = tc.selectedText();
+        const QString text = tc.selectedText().mid( prefix.size() );
         const QTextCharFormat &format =
                     text.contains("ERROR") ? errorLogLevelFormat
                   : text.contains("warning") ? warningLogLevelFormat
                   : text.contains("DEBUG") ? debugLogLevelFormat
                   : text.contains("TRACE") ? traceLogLevelFormat
                   : normalFormat;
-        tc.setCharFormat(format);
+        tc.insertText(text, format);
     }
 
     QTextCharFormat stringFormat;
