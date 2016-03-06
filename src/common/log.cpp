@@ -225,11 +225,11 @@ QString readLogFile()
 {
     SystemMutexLocker lock(getSessionMutex());
 
-    const QString fileName = logFileName();
-    QString content = fileName + "\n\n";
-
+    QString content;
     for (int i = 0; i < logFileCount; ++i)
         content.prepend( readLogFile(logFileName(i)) );
+
+    content.prepend(logFileName() + "\n\n");
 
     return content;
 }
