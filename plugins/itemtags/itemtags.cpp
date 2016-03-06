@@ -235,6 +235,7 @@ ItemTags::ItemTags(ItemWidget *childItem, const Tags &tags)
     , m_childItem(childItem)
 {
     QBoxLayout *tagLayout = new QHBoxLayout(m_tagWidget);
+    tagLayout->setMargin(0);
     addTagButtons(tagLayout, tags);
 
     m_childItem->widget()->setObjectName("item_child");
