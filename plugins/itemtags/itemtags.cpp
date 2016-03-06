@@ -49,6 +49,7 @@ const char propertyColor[] = "CopyQ_color";
 namespace tagsTableColumns {
 enum {
     name,
+    styleSheet,
     color,
     icon
 };
@@ -194,10 +195,6 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
         QColor fg = QColor::fromHsl(
                     bg.hue(), bg.saturation(), qBound(0, fgLightness, 255), bg.alpha());
 
-        const int i = tag.name.indexOf(';');
-        const QString name = tag.name.left(i);
-        const QString style = tag.name.mid(i + 1);
-
         if (tag.icon.size() > 1) {
             QPixmap icon(tag.icon);
             tagWidget->setPixmap(icon);
@@ -212,7 +209,7 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
             qSwap(fg, bg);
         } else {
             tagWidget->setFont(font);
-            tagWidget->setText(name);
+            tagWidget->setText(tag.name);
         }
 
         const QColor borderColor = bg.darker(150);
@@ -224,7 +221,7 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
                     ";border: " + borderWidth + " solid " + serializeColor(borderColor) +
                     ";border-radius: " + radius +
                     ";padding: " + borderWidth +
-                    ";" + style
+                    ";" + tag.styleSheet
                     );
     }
 }
@@ -325,6 +322,7 @@ QVariantMap ItemTagsLoader::applySettings()
                     cellWidgetProperty(t, row, tagsTableColumns::color, propertyColor).value<QColor>();
             tag.color = serializeColor(color);
             tag.icon = cellWidgetProperty(t, row, tagsTableColumns::icon, "currentIcon").toString();
+            tag.styleSheet = t->item(row, tagsTableColumns::styleSheet)->text();
             tags.append(serializeTag(tag));
             m_tags.append(tag);
         }
@@ -361,6 +359,7 @@ QWidget *ItemTagsLoader::createSettingsWidget(QWidget *parent)
 
     QTableWidget *t = ui->tableWidget;
     setHeaderSectionResizeMode(t, tagsTableColumns::name, QHeaderView::Stretch);
+    setHeaderSectionResizeMode(t, tagsTableColumns::styleSheet, QHeaderView::Stretch);
     setFixedColumnSize(t, tagsTableColumns::color);
     setFixedColumnSize(t, tagsTableColumns::icon);
 
@@ -540,7 +539,8 @@ QString ItemTagsLoader::serializeTag(const ItemTagsLoader::Tag &tag)
 {
     return escapeTagField(tag.name)
             + ";;" + escapeTagField(tag.color)
-            + ";;" + escapeTagField(tag.icon);
+            + ";;" + escapeTagField(tag.icon)
+            + ";;" + escapeTagField(tag.styleSheet);
 }
 
 ItemTagsLoader::Tag ItemTagsLoader::deserializeTag(const QString &tagText)
@@ -551,6 +551,7 @@ ItemTagsLoader::Tag ItemTagsLoader::deserializeTag(const QString &tagText)
     tag.name = unescapeTagField(tagFields.value(0));
     tag.color = unescapeTagField(tagFields.value(1));
     tag.icon = unescapeTagField(tagFields.value(2));
+    tag.styleSheet = unescapeTagField(tagFields.value(3));
 
     return tag;
 }
@@ -564,8 +565,10 @@ ItemTagsLoader::Tags ItemTagsLoader::toTags(const QString &tagsContent)
         bool userTagFound = false;
 
         foreach (const Tag &userTag, m_tags) {
-            if (userTag.name == tagName) {
+            const QRegExp re(userTag.name);
+            if (re.exactMatch(tagName)) {
                 tags.append(userTag);
+                tags.last().name = tagName;
                 userTagFound = true;
                 break;
             }
@@ -590,6 +593,7 @@ void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
 
     t->insertRow(row);
     t->setItem( row, tagsTableColumns::name, new QTableWidgetItem(tag.name) );
+    t->setItem( row, tagsTableColumns::styleSheet, new QTableWidgetItem(tag.styleSheet) );
     t->setItem( row, tagsTableColumns::color, new QTableWidgetItem() );
     t->setItem( row, tagsTableColumns::icon, new QTableWidgetItem() );
 

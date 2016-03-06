@@ -30,6 +30,11 @@
      </column>
      <column>
       <property name="text">
+       <string>Style Sheet</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>Color</string>
       </property>
      </column>

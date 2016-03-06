@@ -43,6 +43,7 @@ public:
         QString name;
         QString color;
         QString icon;
+        QString styleSheet;
     };
 
     typedef QVector<Tag> Tags;
