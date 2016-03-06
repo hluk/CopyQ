@@ -102,8 +102,10 @@ public:
     QString errorString() const { return m_errorString; }
 
     void setData(const QVariantMap &data);
+    const QVariantMap &data() const;
 
     static QVariantMap data(quintptr id);
+    static void setData(quintptr id, const QVariantMap &data);
 
 public slots:
     /** Terminate (kill) process. */
@@ -124,6 +126,7 @@ signals:
                  const QString &outputTabName);
     void newItem(const QByteArray &data, const QString &format,
                  const QModelIndex &index);
+    void dataChanged(const QVariantMap &data);
 
 private slots:
     void actionError(QProcess::ProcessError error);

@@ -317,11 +317,28 @@ void Action::setData(const QVariantMap &data)
     m_data = data;
 }
 
+const QVariantMap &Action::data() const
+{
+    return m_data;
+}
+
 QVariantMap Action::data(quintptr id)
 {
     const QMutexLocker lock(&actionsLock);
     const int i = actions.indexOf(reinterpret_cast<Action*>(id));
-    return i != -1 ? actions[i]->m_data : QVariantMap();
+    const Action *action = actions.value(i);
+    return action ? action->m_data : QVariantMap();
+}
+
+void Action::setData(quintptr id, const QVariantMap &data)
+{
+    const QMutexLocker lock(&actionsLock);
+    const int i = actions.indexOf(reinterpret_cast<Action*>(id));
+    Action *action = actions.value(i);
+    if (action && action->m_data != data) {
+        action->m_data = data;
+        emit action->dataChanged(data);
+    }
 }
 
 void Action::actionError(QProcess::ProcessError)

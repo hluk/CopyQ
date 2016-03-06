@@ -88,10 +88,10 @@ void ScriptableWorker::run()
         }
     }
 
-    bool ok;
-    const quintptr id = m_args.at(Arguments::ActionId).toULongLong(&ok);
+    bool hasData;
+    const quintptr id = m_args.at(Arguments::ActionId).toULongLong(&hasData);
     QVariantMap data;
-    if (ok)
+    if (hasData)
         data = Action::data(id);
 
     const QString currentPath = getTextData(m_args.at(Arguments::CurrentPath));
@@ -189,6 +189,9 @@ void ScriptableWorker::run()
             }
         }
     }
+
+    if (exitCode == CommandFinished && hasData)
+        Action::setData(id, scriptable.data());
 
     scriptable.sendMessageToClient(response, exitCode);
 

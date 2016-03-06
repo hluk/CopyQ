@@ -47,6 +47,8 @@ public:
 
     const QVariantMap &data() const;
 
+    void setData(const QVariantMap &data);
+
 public slots:
     void start();
 

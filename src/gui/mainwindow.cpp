@@ -775,6 +775,11 @@ void MainWindow::automaticCommandFinished()
         runNextAutomaticCommand();
 }
 
+void MainWindow::automaticCommandDataChanged(const QVariantMap &data)
+{
+    m_automaticCommandTester.setData(data);
+}
+
 void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
 {
     CommandAction *act = NULL;
@@ -1215,10 +1220,13 @@ void MainWindow::runNextAutomaticCommand()
     if (!command.tab.isEmpty())
         addToTab(data, command.tab);
 
-    if (m_currentAutomaticCommand)
+    if (m_currentAutomaticCommand) {
         connect(m_currentAutomaticCommand, SIGNAL(destroyed()), SLOT(automaticCommandFinished()));
-    else
+        connect(m_currentAutomaticCommand, SIGNAL(dataChanged(QVariantMap)),
+                SLOT(automaticCommandDataChanged(QVariantMap)));
+    } else {
         automaticCommandFinished();
+    }
 }
 
 bool MainWindow::isWindowVisible() const
@@ -2011,6 +2019,8 @@ void MainWindow::abortAutomaticCommands()
         COPYQ_LOG("Aborting automatic commands (current is \"" + m_currentAutomaticCommand->name() + "\")");
         disconnect(m_currentAutomaticCommand, SIGNAL(destroyed()),
                    this, SLOT(automaticCommandFinished()));
+        disconnect(m_currentAutomaticCommand, SIGNAL(dataChanged(QVariantMap)),
+                   this, SLOT(automaticCommandDataChanged(QVariantMap)));
     }
 }
 

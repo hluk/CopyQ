@@ -272,6 +272,21 @@ Returns standard input passed to the script.
 
 Returns data for command (item data, clipboard data or text from action dialog).
 
+###### ByteArray setData(mimeType, data)
+
+Modifies data passed to automatic commands.
+
+Next automatic command will get updated data.
+
+This is also data used to create new item.
+
+E.g. following automatic command will add creation time data and tag to new items.
+
+    copyq:
+    var timeFormat = 'yyyy-MM-dd hh:mm:ss'
+    setData('application/x-copyq-user-copy-time', dateString(timeFormat))
+    setData('application/x-copyq-tags', 'copied: ' + time)
+
 ###### print(value)
 
 Prints value to standard output.

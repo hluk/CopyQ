@@ -475,6 +475,7 @@ private slots:
 
     void automaticCommandTestFinished(const Command &command, bool passed);
     void automaticCommandFinished();
+    void automaticCommandDataChanged(const QVariantMap &data);
 
     void enableActionForCommand(QMenu *menu, const Command &command, bool enable);
     void addCommandsToItemMenu(const Command &command, bool enable);

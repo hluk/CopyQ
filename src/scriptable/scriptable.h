@@ -97,6 +97,8 @@ public:
 
     bool isAborted() const { return m_abort; }
 
+    const QVariantMap &data() const { return m_data; }
+
 public slots:
     QScriptValue version();
     QScriptValue help();
@@ -166,6 +168,7 @@ public slots:
     QScriptValue str(const QScriptValue &value);
     QScriptValue input();
     QScriptValue data(const QScriptValue &value);
+    QScriptValue setData();
     void print(const QScriptValue &value);
     void abort();
     void fail();

@@ -65,6 +65,11 @@ const QVariantMap &CommandTester::data() const
     return m_data;
 }
 
+void CommandTester::setData(const QVariantMap &data)
+{
+    m_data = data;
+}
+
 void CommandTester::start()
 {
     if (!m_action)

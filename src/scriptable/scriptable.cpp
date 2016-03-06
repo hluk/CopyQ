@@ -870,6 +870,12 @@ QScriptValue Scriptable::data(const QScriptValue &value)
     return newByteArray( m_data.value(toString(value)).toByteArray() );
 }
 
+QScriptValue Scriptable::setData()
+{
+    const QString mime = arg(0);
+    return toItemData( argument(1), mime, &m_data );
+}
+
 void Scriptable::print(const QScriptValue &value)
 {
     sendMessageToClient(makeByteArray(value), CommandSuccess);
