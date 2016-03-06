@@ -47,7 +47,8 @@ public:
 
     const QVariantMap &data() const;
 
-    void setData(const QVariantMap &data);
+    /** Start next test after action finishes and update data from action. */
+    void waitForAction(Action *action);
 
 public slots:
     void start();
@@ -57,16 +58,17 @@ signals:
 
 private slots:
     void actionFinished();
+    void setData(const QVariantMap &data);
 
 private:
     void startNext();
     void commandPassed(bool passed);
-    bool maybeFinish();
 
     QList<Command> m_commands;
     QVariantMap m_data;
     Action *m_action;
     bool m_abort;
+    bool m_restart;
 };
 
 #endif // COMMANDTESTER_H

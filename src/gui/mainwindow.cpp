@@ -750,34 +750,10 @@ void MainWindow::action()
 
 void MainWindow::automaticCommandTestFinished(const Command &command, bool passed)
 {
-    if (!passed)
-        return;
-
-    m_automaticCommands.append(command);
-
-    if (!m_currentAutomaticCommand)
-        runNextAutomaticCommand();
-}
-
-void MainWindow::automaticCommandFinished()
-{
-    Q_ASSERT(!m_currentAutomaticCommand);
-
-    if (!m_automaticCommands.isEmpty()) {
-        const Command command = m_automaticCommands.takeFirst();
-        if (command.remove || command.transform) {
-            abortAutomaticCommands();
-            COPYQ_LOG("Clipboard ignored by \"" + command.name + "\"");
-        }
-    }
-
-    if (!m_automaticCommands.isEmpty())
-        runNextAutomaticCommand();
-}
-
-void MainWindow::automaticCommandDataChanged(const QVariantMap &data)
-{
-    m_automaticCommandTester.setData(data);
+    if (passed)
+        runAutomaticCommand(command);
+    else
+        m_automaticCommandTester.start();
 }
 
 void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
@@ -820,11 +796,13 @@ void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, boo
 void MainWindow::addCommandsToItemMenu(const Command &command, bool passed)
 {
     enableActionForCommand(m_menuItem, command, passed);
+    m_itemMenuCommandTester.start();
 }
 
 void MainWindow::addCommandsToTrayMenu(const Command &command, bool passed)
 {
     enableActionForCommand(m_trayMenu, command, passed);
+    m_trayMenuCommandTester.start();
 }
 
 void MainWindow::nextItemFormat()
@@ -1201,14 +1179,16 @@ void MainWindow::initTray()
         minimizeWindow();
 }
 
-void MainWindow::runNextAutomaticCommand()
+void MainWindow::runAutomaticCommand(const Command &command)
 {
-    Q_ASSERT(!m_automaticCommands.isEmpty());
     Q_ASSERT(!m_currentAutomaticCommand);
 
-    const Command &command = m_automaticCommands.first();
-
     const QVariantMap &data = m_automaticCommandTester.data();
+
+    if (command.remove || command.transform) {
+        COPYQ_LOG("Clipboard ignored by \"" + command.name + "\"");
+        m_automaticCommandTester.abort();
+    }
 
     if ( command.input.isEmpty()
          || command.input == mimeItems
@@ -1220,13 +1200,10 @@ void MainWindow::runNextAutomaticCommand()
     if (!command.tab.isEmpty())
         addToTab(data, command.tab);
 
-    if (m_currentAutomaticCommand) {
-        connect(m_currentAutomaticCommand, SIGNAL(destroyed()), SLOT(automaticCommandFinished()));
-        connect(m_currentAutomaticCommand, SIGNAL(dataChanged(QVariantMap)),
-                SLOT(automaticCommandDataChanged(QVariantMap)));
-    } else {
-        automaticCommandFinished();
-    }
+    if (m_currentAutomaticCommand)
+        m_automaticCommandTester.waitForAction(m_currentAutomaticCommand);
+    else
+        m_automaticCommandTester.start();
 }
 
 bool MainWindow::isWindowVisible() const
@@ -1903,15 +1880,11 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
         commands.append(automaticCommand("Set Window Title", "updateTitle()"));
     }
 
-    abortAutomaticCommands();
+    m_automaticCommandTester.abort();
     m_automaticCommandTester.setCommands(commands, data);
 
-    if (m_currentAutomaticCommand) {
-        connect(m_currentAutomaticCommand, SIGNAL(destroyed()),
-                &m_automaticCommandTester, SLOT(start()), Qt::UniqueConnection);
-    } else {
+    if (!m_currentAutomaticCommand)
         m_automaticCommandTester.start();
-    }
 }
 
 void MainWindow::nextTab()
@@ -2012,16 +1985,10 @@ void MainWindow::toggleClipboardStoring()
 
 void MainWindow::abortAutomaticCommands()
 {
-    m_automaticCommands.clear();
     m_automaticCommandTester.abort();
 
-    if (m_currentAutomaticCommand) {
+    if (m_currentAutomaticCommand)
         COPYQ_LOG("Aborting automatic commands (current is \"" + m_currentAutomaticCommand->name() + "\")");
-        disconnect(m_currentAutomaticCommand, SIGNAL(destroyed()),
-                   this, SLOT(automaticCommandFinished()));
-        disconnect(m_currentAutomaticCommand, SIGNAL(dataChanged(QVariantMap)),
-                   this, SLOT(automaticCommandDataChanged(QVariantMap)));
-    }
 }
 
 QStringList MainWindow::tabs() const

@@ -474,8 +474,6 @@ private slots:
     void action();
 
     void automaticCommandTestFinished(const Command &command, bool passed);
-    void automaticCommandFinished();
-    void automaticCommandDataChanged(const QVariantMap &data);
 
     void enableActionForCommand(QMenu *menu, const Command &command, bool enable);
     void addCommandsToItemMenu(const Command &command, bool enable);
@@ -558,7 +556,7 @@ private:
 
     void initTray();
 
-    void runNextAutomaticCommand();
+    void runAutomaticCommand(const Command &command);
 
     bool isWindowVisible() const;
 
@@ -604,7 +602,7 @@ private:
     CommandTester m_trayMenuCommandTester;
     CommandTester m_automaticCommandTester;
 
-    QList<Command> m_automaticCommands;
+    bool m_stopAutomaticCommands;
     QPointer<Action> m_currentAutomaticCommand;
     bool m_canUpdateTitleFromScript;
 

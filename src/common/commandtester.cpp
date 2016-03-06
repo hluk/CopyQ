@@ -30,6 +30,7 @@ CommandTester::CommandTester(QObject *parent)
     : QObject(parent)
     , m_action(NULL)
     , m_abort(false)
+    , m_restart(false)
 {
 }
 
@@ -37,9 +38,8 @@ void CommandTester::abort()
 {
     m_commands.clear();
     m_data.clear();
-
-    if (m_action)
-        m_abort = true;
+    m_abort = true;
+    m_restart = false;
 }
 
 void CommandTester::setCommands(
@@ -65,14 +65,19 @@ const QVariantMap &CommandTester::data() const
     return m_data;
 }
 
-void CommandTester::setData(const QVariantMap &data)
+void CommandTester::waitForAction(Action *action)
 {
-    m_data = data;
+    connect(action, SIGNAL(destroyed()),
+            this, SLOT(start()));
+    connect(action, SIGNAL(dataChanged(QVariantMap)),
+            this, SLOT(setData(QVariantMap)));
 }
 
 void CommandTester::start()
 {
-    if (!m_action)
+    if (m_action)
+        m_restart = true;
+    else
         startNext();
 }
 
@@ -85,13 +90,17 @@ void CommandTester::actionFinished()
     m_action->deleteLater();
     m_action = NULL;
 
-    if (m_abort) {
-        start();
-    } else {
+    if (!m_abort)
         commandPassed(passed);
-        if (!maybeFinish())
-            startNext();
-    }
+
+    if (m_restart)
+        start();
+}
+
+void CommandTester::setData(const QVariantMap &data)
+{
+    if (!m_abort)
+        m_data = data;
 }
 
 void CommandTester::startNext()
@@ -99,17 +108,16 @@ void CommandTester::startNext()
     Q_ASSERT(!m_action);
 
     m_abort = false;
+    m_restart = false;
 
-    if (!maybeFinish()) {
-        Command *command = &m_commands[0];
+    if (!hasCommands())
+        return;
 
-        while (command->matchCmd.isEmpty()) {
-            commandPassed(true);
-            if (maybeFinish())
-                return;
-            command = &m_commands[0];
-        }
+    Command *command = &m_commands[0];
 
+    if (command->matchCmd.isEmpty()) {
+        commandPassed(true);
+    } else {
         m_action = new Action(this);
 
         const QString text = getTextData(m_data);
@@ -129,9 +137,4 @@ void CommandTester::commandPassed(bool passed)
     Q_ASSERT(hasCommands());
     const Command command = m_commands.takeFirst();
     emit commandPassed(command, passed);
-}
-
-bool CommandTester::maybeFinish()
-{
-    return !hasCommands();
 }
