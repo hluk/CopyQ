@@ -1579,18 +1579,32 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
 
 void ClipboardBrowser::addUnique(const QVariantMap &data)
 {
-    QVariantMap newData = data;
-
-    if ( select(hash(newData), MoveToTop) ) {
+    if ( select(hash(data), MoveToTop) ) {
         COPYQ_LOG("New item: Moving existing to top");
         return;
     }
 
-    bool reselectFirst = false;
+    QVariantMap newData = data;
 
+    // Don't store internal formats.
+    newData.remove(mimeWindowTitle);
+    newData.remove(mimeOwner);
+    newData.remove(mimeClipboardMode);
+    newData.remove(mimeCurrentTab);
+    newData.remove(mimeSelectedItems);
+    newData.remove(mimeCurrentItem);
+    newData.remove(mimeHidden);
+    newData.remove(mimeShortcut);
+
+#ifdef COPYQ_WS_X11
     // When selecting text under X11, clipboard data may change whenever selection changes.
     // Instead of adding item for each selection change, this updates previously added item.
-    if ( newData.contains(mimeText) ) {
+    if ( !isClipboardData(data)
+         && newData.contains(mimeText)
+         // Don't update edited item.
+         && (!editing() || currentIndex().row() != 0)
+         )
+    {
         const QModelIndex firstIndex = model()->index(0, 0);
         const QVariantMap previousData = itemData(firstIndex);
 
@@ -1605,26 +1619,22 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
             foreach (const QString &format, formatsToAdd)
                 newData.insert(format, previousData[format]);
 
-            // Remove merged item (if it's not edited).
-            if (!editing() || currentIndex().row() != 0) {
-                reselectFirst = currentIndex().row() == 0;
-                model()->removeRow(0);
+            if ( add(newData) ) {
+                const bool reselectFirst = !editing() && currentIndex().row() == 1;
+                model()->removeRow(1);
+
+                if (reselectFirst)
+                    setCurrent(0);
             }
+
+            return;
         }
     }
+#endif
 
     COPYQ_LOG("New item: Adding");
 
-    // Don't store internal formats.
-    foreach (const QString &format, newData.keys()) {
-        if ( format.startsWith(COPYQ_MIME_PREFIX) )
-            newData.remove(format);
-    }
-
     add(newData);
-
-    if (reselectFirst)
-        setCurrent(0);
 }
 
 void ClipboardBrowser::loadSettings()

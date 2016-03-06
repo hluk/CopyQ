@@ -232,11 +232,6 @@ void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
     }
 }
 
-bool isClipboardData(const QVariantMap &data)
-{
-    return data.value(mimeClipboardMode).toByteArray().isEmpty();
-}
-
 bool isClipboardDataHidden(const QVariantMap &data)
 {
     return data.value(mimeHidden).toByteArray() == "1";

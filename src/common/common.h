@@ -153,6 +153,8 @@ QString dataToText(const QByteArray &bytes, const QString &mime);
 
 bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data);
 
+bool isClipboardData(const QVariantMap &data);
+
 int smallIconSize();
 
 QPoint toScreen(const QPoint &pos, int w = 0, int h = 0);

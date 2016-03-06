@@ -562,6 +562,11 @@ bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data)
     return true;
 }
 
+bool isClipboardData(const QVariantMap &data)
+{
+    return data.value(mimeClipboardMode).toByteArray().isEmpty();
+}
+
 int smallIconSize()
 {
     return QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
