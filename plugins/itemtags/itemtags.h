@@ -32,7 +32,7 @@ namespace Ui {
 class ItemTagsSettings;
 }
 
-class QLabel;
+class QTableWidgetItem;
 
 class ItemTags : public QWidget, public ItemWidget
 {
@@ -44,6 +44,7 @@ public:
         QString color;
         QString icon;
         QString styleSheet;
+        QString match;
     };
 
     typedef QVector<Tag> Tags;
@@ -111,6 +112,8 @@ public:
 
 private slots:
     void onColorButtonClicked();
+    void onTableWidgetItemChanged(QTableWidgetItem *item);
+    void onTableWidgetItemChanged();
 
 private:
     typedef ItemTags::Tag Tag;
@@ -123,9 +126,13 @@ private:
 
     void addTagToSettingsTable(const Tag &tag = Tag());
 
+    Tag tagFromTable(int row);
+
     QVariantMap m_settings;
     Tags m_tags;
     QScopedPointer<Ui::ItemTagsSettings> ui;
+
+    bool m_blockDataChange;
 };
 
 #endif // ITEMTAGS_H
