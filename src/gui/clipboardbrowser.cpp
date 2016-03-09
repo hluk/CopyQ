@@ -19,6 +19,7 @@
 
 #include "clipboardbrowser.h"
 
+#include "common/appconfig.h"
 #include "common/action.h"
 #include "common/common.h"
 #include "common/contenttype.h"
@@ -159,14 +160,14 @@ ClipboardBrowserShared::ClipboardBrowserShared()
 
 void ClipboardBrowserShared::loadFromConfiguration()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    editor = cm->value("editor").toString();
-    maxItems = cm->value("maxitems").toInt();
-    textWrap = cm->value("text_wrap").toBool();
-    viMode = cm->value("vi").toBool();
-    saveOnReturnKey = !cm->value("edit_ctrl_return").toBool();
-    moveItemOnReturnKey = cm->value("move").toBool();
-    minutesToExpire = cm->value("expire_tab").toInt();
+    AppConfig appConfig;
+    editor = appConfig.option("editor").toString();
+    maxItems = appConfig.option("maxitems").toInt();
+    textWrap = appConfig.option("text_wrap").toBool();
+    viMode = appConfig.option("vi").toBool();
+    saveOnReturnKey = !appConfig.option("edit_ctrl_return").toBool();
+    moveItemOnReturnKey = appConfig.option("move").toBool();
+    minutesToExpire = appConfig.option("expire_tab").toInt();
 }
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserSharedPtr &sharedData)

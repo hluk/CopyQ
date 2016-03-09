@@ -19,6 +19,7 @@
 
 #include "scriptable.h"
 
+#include "common/appconfig.h"
 #include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/contenttype.h"
@@ -249,10 +250,9 @@ QVariant config(const QString &name, const QString &value)
 
     if ( cm->options().contains(name) ) {
         if ( value.isNull() )
-            return cm->value(name).toString(); // return option value
+            return AppConfig().option(name).toString(); // return option value
 
-        // set option
-        cm->setValue(name, value);
+        AppConfig().setOption(name, value);
 
         return QString();
     }

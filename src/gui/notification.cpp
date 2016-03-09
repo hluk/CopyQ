@@ -19,6 +19,7 @@
 
 #include "gui/notification.h"
 
+#include "common/appconfig.h"
 #include "common/common.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
@@ -50,11 +51,10 @@ void showNotificationInspectDialog(
 
     WindowGeometryGuard::create( dialog.data() );
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    if ( cm->value("always_on_top").toBool() )
+    if ( AppConfig().isOptionOn("always_on_top") )
         dialog->setWindowFlags( dialog->windowFlags() ^ Qt::WindowStaysOnTopHint );
 
-    IconFactory *iconFactory = cm->iconFactory();
+    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
     dialog->setWindowIcon( iconFactory->appIcon() );
 
     QTextEdit *editor = new QTextEdit(dialog.data());

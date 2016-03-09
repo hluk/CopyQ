@@ -67,13 +67,6 @@ public:
     /** Load settings from default file. */
     void loadSettings();
 
-    /** Return value for option with given @a name. */
-    QVariant value(const QString &name) const;
-    /** Set @a value for option with given @a name. */
-    void setValue(const QString &name, const QVariant &value);
-    /** Remove option with given @a name. */
-    void removeValue(const QString &name);
-
     /** Return list of options that can be set or view using command line. */
     QStringList options() const;
     /** Return tooltip text for option with given @a name. */
@@ -118,8 +111,6 @@ public:
     IconFactory *iconFactory() const { return m_iconFactory.data(); }
 
     QString defaultTabName() const;
-
-    QStringList tabs() const;
 
     void initTabComboBox(QComboBox *comboBox) const;
 
@@ -179,6 +170,8 @@ private:
     void initTabComboBox(QComboBox *comboBox, const QStringList &tabs) const;
     void updateTabComboBoxes(const QStringList &tabs);
     void updateTabComboBoxes();
+
+    QStringList tabs() const;
 
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;

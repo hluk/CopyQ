@@ -29,6 +29,7 @@
 
 #include "filterlineedit.h"
 
+#include "common/appconfig.h"
 #include "common/config.h"
 #include "gui/configurationmanager.h"
 #include "gui/icons.h"
@@ -67,8 +68,7 @@ private:
 // Compatibility with version 2.5.0 and below
 void restoreOldFilterHistory()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    const QVariant oldHistoryValue = cm->value(optionFilterHistory);
+    const QVariant oldHistoryValue = AppConfig().option(optionFilterHistory);
     if (oldHistoryValue.isValid()) {
         const QStringList oldHistory = oldHistoryValue.toStringList();
         if (!oldHistory.isEmpty()) {
@@ -77,7 +77,7 @@ void restoreOldFilterHistory()
             newHistory.removeDuplicates();
             filterHistory.setHistory(newHistory);
         }
-        cm->removeValue(optionFilterHistory);
+        AppConfig().removeOption(optionFilterHistory);
     }
 }
 
@@ -143,15 +143,13 @@ QRegExp FilterLineEdit::filter() const
 
 void FilterLineEdit::loadSettings()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
+    AppConfig appConfig;
 
-    QVariant val;
+    const bool filterRegEx = appConfig.option("filter_regular_expression", true);
+    m_actionRe->setChecked(filterRegEx);
 
-    val = cm->value("filter_regular_expression");
-    m_actionRe->setChecked(!val.isValid() || val.toBool());
-
-    val = cm->value("filter_case_insensitive");
-    m_actionCaseInsensitive->setChecked(!val.isValid() || val.toBool());
+    const bool filterCaseSensitive = appConfig.option("filter_case_insensitive", true);
+    m_actionCaseInsensitive->setChecked(filterCaseSensitive);
 
     // KDE has custom icons for this. Notice that icon namings are counter intuitive.
     // If these icons are not available we use the freedesktop standard name before
@@ -164,7 +162,7 @@ void FilterLineEdit::loadSettings()
     QIcon icon2 = getIcon("edit-find", IconSearch);
     setButtonIcon(Left, icon2);
 
-    if ( cm->value("save_filter_history").toBool() ) {
+    if ( appConfig.option("save_filter_history").toBool() ) {
         if ( !completer() ) {
             FilterCompleter::installCompleter(this);
             restoreOldFilterHistory();
@@ -193,9 +191,9 @@ void FilterLineEdit::onTextChanged()
 
 void FilterLineEdit::onMenuAction()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->setValue("filter_regular_expression", m_actionRe->isChecked());
-    cm->setValue("filter_case_insensitive", m_actionCaseInsensitive->isChecked());
+    AppConfig appConfig;
+    appConfig.setOption("filter_regular_expression", m_actionRe->isChecked());
+    appConfig.setOption("filter_case_insensitive", m_actionCaseInsensitive->isChecked());
 
     const QRegExp re = filter();
     if ( !re.isEmpty() )

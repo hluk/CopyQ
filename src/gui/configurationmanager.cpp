@@ -20,6 +20,7 @@
 #include "configurationmanager.h"
 #include "ui_configurationmanager.h"
 
+#include "common/appconfig.h"
 #include "common/command.h"
 #include "common/common.h"
 #include "common/config.h"
@@ -304,13 +305,8 @@ bool ConfigurationManager::createItemDirectory()
 
 QString ConfigurationManager::defaultTabName() const
 {
-    const QString tab = value("clipboard_tab").toString();
+    const QString tab = AppConfig().option("clipboard_tab").toString();
     return tab.isEmpty() ? defaultClipboardTabName() : tab;
-}
-
-QStringList ConfigurationManager::tabs() const
-{
-    return value("tabs").toStringList();
 }
 
 void ConfigurationManager::initTabComboBox(QComboBox *comboBox) const
@@ -398,7 +394,7 @@ void ConfigurationManager::updateAutostart()
 void ConfigurationManager::setAutostartEnable()
 {
     PlatformPtr platform = createPlatformNativeInterface();
-    platform->setAutostartEnabled( value("autostart").toBool() );
+    platform->setAutostartEnabled( AppConfig().option("autostart").toBool() );
 }
 
 void ConfigurationManager::initOptions()
@@ -519,43 +515,12 @@ void ConfigurationManager::updateTabComboBoxes()
     updateTabComboBoxes( tabs() );
 }
 
-QVariant ConfigurationManager::value(const QString &name) const
-{
-    if ( m_options.contains(name) )
-        return m_options[name].value();
-    return QSettings().value("Options/" + name);
-}
-
-void ConfigurationManager::setValue(const QString &name, const QVariant &value)
-{
-    const QString key = "Options/" + name;
-
-    if ( m_options.contains(name) ) {
-        if ( m_options[name].value() == value )
-            return;
-
-        m_options[name].setValue(value);
-
-        // Save the retrieved option value since option widget can modify it (e.g. int in range).
-        Settings().setValue( key, m_options[name].value() );
-
-        emit configurationChanged();
-    } else if ( QSettings().value(key) != value ) {
-        Settings().setValue(key, value);
-    }
-}
-
-void ConfigurationManager::removeValue(const QString &name)
-{
-    Settings().remove("Options/" + name);
-}
-
 QStringList ConfigurationManager::options() const
 {
     QStringList options;
     foreach ( const QString &option, m_options.keys() ) {
-        if ( value(option).canConvert(QVariant::String) &&
-             !optionToolTip(option).isEmpty() )
+        if ( m_options[option].value().canConvert(QVariant::String)
+             && !optionToolTip(option).isEmpty() )
         {
             options.append(option);
         }
@@ -593,7 +558,7 @@ void ConfigurationManager::loadSettings()
     tabAppearance()->loadTheme(settings);
     settings.endGroup();
 
-    tabAppearance()->setEditor( value("editor").toString() );
+    tabAppearance()->setEditor( AppConfig().option("editor").toString() );
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
@@ -674,7 +639,7 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
     Q_ASSERT( !tabs.contains(QString()) );
     Q_ASSERT( tabs.toSet().size() == tabs.size() );
 
-    setValue("tabs", tabs);
+    AppConfig().setOption("tabs", tabs);
 
     updateTabComboBoxes(tabs);
 
@@ -814,7 +779,7 @@ void ConfigurationManager::apply()
         }
     }
 
-    tabAppearance()->setEditor( value("editor").toString() );
+    tabAppearance()->setEditor( AppConfig().option("editor").toString() );
 
     setAutostartEnable();
 
@@ -914,4 +879,9 @@ void setComboBoxItems(QComboBox *comboBox, const QStringList &items)
     const int currentIndex = comboBox->findText(text);
     if (currentIndex != -1)
         comboBox->setCurrentIndex(currentIndex);
+}
+
+QStringList ConfigurationManager::tabs() const
+{
+    return AppConfig().option("tabs").toStringList();
 }

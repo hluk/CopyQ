@@ -20,6 +20,7 @@
 #include "clipboardserver.h"
 
 #include "app/remoteprocess.h"
+#include "common/appconfig.h"
 #include "common/arguments.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
@@ -226,7 +227,7 @@ void ClipboardServer::loadMonitorSettings()
     QVariantMap settings;
     settings["formats"] = cm->itemFactory()->formatsToSave();
 #ifdef COPYQ_WS_X11
-    settings["check_selection"] = cm->value("check_selection");
+    settings["check_selection"] = AppConfig().option("check_selection");
 #endif
 
     QByteArray settingsData;

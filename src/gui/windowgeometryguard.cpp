@@ -19,9 +19,9 @@
 
 #include "windowgeometryguard.h"
 
+#include "common/appconfig.h"
 #include "common/common.h"
 #include "common/config.h"
-#include "gui/configurationmanager.h"
 
 #include <QEvent>
 #include <QMoveEvent>
@@ -34,8 +34,7 @@ const char propertyGeometryLockedUntilHide[] = "CopyQ_geometry_locked_until_hide
 
 bool openOnCurrentScreen()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    return cm->value("open_windows_on_current_screen").toBool();
+    return AppConfig().isOptionOn("open_windows_on_current_screen");
 }
 
 } // namespace

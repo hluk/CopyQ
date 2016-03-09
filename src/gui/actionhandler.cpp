@@ -19,13 +19,13 @@
 
 #include "actionhandler.h"
 
+#include "common/appconfig.h"
 #include "common/action.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "gui/actiondialog.h"
-#include "gui/configurationmanager.h"
 #include "gui/processmanagerdialog.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/mainwindow.h"
@@ -136,7 +136,7 @@ void ActionHandler::closeAction(Action *action)
 
     if ( !msg.isEmpty() ) {
         const int maxWidthPoints =
-                ConfigurationManager::instance()->value("notification_maximum_width").toInt();
+                AppConfig().option("notification_maximum_width").toInt();
         const QString command = action->command()
                 .replace("copyq eval --", "copyq:");
         const QString name = QString(command).replace('\n', " ");

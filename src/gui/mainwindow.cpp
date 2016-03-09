@@ -21,6 +21,7 @@
 #include "ui_mainwindow.h"
 
 #include "common/action.h"
+#include "common/appconfig.h"
 #include "common/common.h"
 #include "common/command.h"
 #include "common/config.h"
@@ -242,14 +243,14 @@ bool isClipboardDataHidden(const QVariantMap &data)
 bool needSyncClipboardToSelection(const QVariantMap &data)
 {
     return isClipboardData(data)
-            && ConfigurationManager::instance()->value("copy_clipboard").toBool()
+            && AppConfig().isOptionOn("copy_clipboard")
             && !clipboardContains(QClipboard::Selection, data);
 }
 
 bool needSyncSelectionToClipboard(const QVariantMap &data)
 {
     return !isClipboardData(data)
-            && ConfigurationManager::instance()->value("copy_selection").toBool()
+            && AppConfig().isOptionOn("copy_selection")
             && !clipboardContains(QClipboard::Clipboard, data);
 }
 
@@ -257,7 +258,7 @@ bool needStore(const QVariantMap &data)
 {
     const QString optionName =
             isClipboardData(data) ? "check_clipboard" : "check_selection";
-    return ConfigurationManager::instance()->value(optionName).toBool();
+    return AppConfig().isOptionOn(optionName);
 }
 #else
 bool needSyncClipboardToSelection(const QVariantMap &)
@@ -273,7 +274,7 @@ bool needSyncSelectionToClipboard(const QVariantMap &)
 bool needStore(const QVariantMap &data)
 {
     return isClipboardData(data)
-            && ConfigurationManager::instance()->value("check_clipboard").toBool();
+            && AppConfig().isOptionOn("check_clipboard");
 }
 #endif
 
@@ -878,7 +879,8 @@ void MainWindow::updateNotifications()
     notificationDaemon()->setNotificationOpacity( appearance->themeColor("notification_bg").alphaF() );
     notificationDaemon()->setNotificationStyleSheet( appearance->getNotificationStyleSheet() );
 
-    int id = cm->value("notification_position").toInt();
+    AppConfig appConfig;
+    int id = appConfig.option("notification_position").toInt();
     NotificationDaemon::Position position;
     switch (id) {
     case 0: position = NotificationDaemon::Top; break;
@@ -890,12 +892,12 @@ void MainWindow::updateNotifications()
     }
     m_notifications->setPosition(position);
 
-    const int x = cm->value("notification_horizontal_offset").toInt();
-    const int y = cm->value("notification_vertical_offset").toInt();
+    const int x = appConfig.option("notification_horizontal_offset").toInt();
+    const int y = appConfig.option("notification_vertical_offset").toInt();
     m_notifications->setOffset(x, y);
 
-    const int w = cm->value("notification_maximum_width").toInt();
-    const int h = cm->value("notification_maximum_height").toInt();
+    const int w = appConfig.option("notification_maximum_width").toInt();
+    const int h = appConfig.option("notification_maximum_height").toInt();
     m_notifications->setMaximumSize(w, h);
 
     m_notifications->updateInterval(0, m_options.itemPopupInterval);
@@ -1162,7 +1164,7 @@ void MainWindow::updateTrayIcon()
 
 void MainWindow::initTray()
 {
-    if ( cm->value("disable_tray").toBool() ) {
+    if ( AppConfig().isOptionOn("disable_tray") ) {
         if (m_tray) {
             // Hide tray on Ubuntu (buggy sni-qt)
             m_tray->hide();
@@ -1530,39 +1532,41 @@ void MainWindow::loadSettings()
     appearance->decorateToolBar(ui->toolBar);
     appearance->decorateMainWindow(this);
 
-    m_options.confirmExit = cm->value("confirm_exit").toBool();
+    AppConfig appConfig;
+
+    m_options.confirmExit = appConfig.isOptionOn("confirm_exit");
 
     // always on top window hint
-    bool alwaysOnTop = cm->value("always_on_top").toBool();
+    bool alwaysOnTop = appConfig.isOptionOn("always_on_top");
     setAlwaysOnTop(this, alwaysOnTop);
     setAlwaysOnTop(m_commandDialog.data(), alwaysOnTop);
 
     // Vi mode
-    m_options.viMode = cm->value("vi").toBool();
+    m_options.viMode = appConfig.isOptionOn("vi");
     m_trayMenu->setViModeEnabled(m_options.viMode);
 
-    m_options.transparency = qMax( 0, qMin(100, cm->value("transparency").toInt()) );
-    m_options.transparencyFocused = qMax( 0, qMin(100, cm->value("transparency_focused").toInt()) );
+    m_options.transparency = appConfig.optionInRange("transparency", 0, 100);
+    m_options.transparencyFocused = appConfig.optionInRange("transparency_focused", 0, 100);
     updateWindowTransparency();
 
     // tab bar position
-    const bool tabTreeEnabled = cm->value("tab_tree").toBool();
+    const bool tabTreeEnabled = appConfig.isOptionOn("tab_tree");
     ui->tabWidget->setTreeModeEnabled(tabTreeEnabled);
-    ui->tabWidget->setTabItemCountVisible(cm->value("show_tab_item_count").toBool());
+    ui->tabWidget->setTabItemCountVisible(appConfig.isOptionOn("show_tab_item_count"));
     if (tabTreeEnabled)
         appearance->decorateScrollArea(ui->tabWidget->tabTree());
 
-    m_options.hideTabs = cm->value("hide_tabs").toBool();
+    m_options.hideTabs = appConfig.isOptionOn("hide_tabs");
     setHideTabs(m_options.hideTabs);
 
-    bool hideToolbar = cm->value("hide_toolbar").toBool();
+    bool hideToolbar = appConfig.isOptionOn("hide_toolbar");
     ui->toolBar->clear();
     ui->toolBar->setHidden(hideToolbar);
-    bool hideToolBarLabels = cm->value("hide_toolbar_labels").toBool();
+    bool hideToolBarLabels = appConfig.isOptionOn("hide_toolbar_labels");
     ui->toolBar->setToolButtonStyle(hideToolBarLabels ? Qt::ToolButtonIconOnly
                                                       : Qt::ToolButtonTextUnderIcon);
 
-    m_options.hideMainWindow = cm->value("hide_main_window").toBool();
+    m_options.hideMainWindow = appConfig.isOptionOn("hide_main_window");
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
@@ -1584,22 +1588,22 @@ void MainWindow::loadSettings()
     updateContextMenu();
 
     m_options.itemActivationCommands = ActivateNoCommand;
-    if ( cm->value("activate_closes").toBool() )
+    if ( appConfig.isOptionOn("activate_closes") )
         m_options.itemActivationCommands |= ActivateCloses;
-    if ( cm->value("activate_focuses").toBool() )
+    if ( appConfig.isOptionOn("activate_focuses") )
         m_options.itemActivationCommands |= ActivateFocuses;
-    if ( cm->value("activate_pastes").toBool() )
+    if ( appConfig.isOptionOn("activate_pastes") )
         m_options.itemActivationCommands |= ActivatePastes;
 
-    m_options.trayItems = cm->value("tray_items").toInt();
-    m_options.trayItemPaste = cm->value("tray_item_paste").toBool();
-    m_options.trayCommands = cm->value("tray_commands").toBool();
-    m_options.trayCurrentTab = cm->value("tray_tab_is_current").toBool();
-    m_options.trayTabName = cm->value("tray_tab").toString();
-    m_options.trayImages = cm->value("tray_images").toBool();
-    m_options.itemPopupInterval = cm->value("item_popup_interval").toInt();
-    m_options.clipboardNotificationLines = cm->value("clipboard_notification_lines").toInt();
-    m_options.clipboardTab = cm->value("clipboard_tab").toString();
+    m_options.trayItems = appConfig.optionInRange("tray_items", 0, 99);
+    m_options.trayItemPaste = appConfig.isOptionOn("tray_item_paste");
+    m_options.trayCommands = appConfig.isOptionOn("tray_commands");
+    m_options.trayCurrentTab = appConfig.isOptionOn("tray_tab_is_current");
+    m_options.trayTabName = appConfig.option("tray_tab").toString();
+    m_options.trayImages = appConfig.isOptionOn("tray_images");
+    m_options.itemPopupInterval = appConfig.option("item_popup_interval").toInt();
+    m_options.clipboardNotificationLines = appConfig.option("clipboard_notification_lines").toInt();
+    m_options.clipboardTab = appConfig.option("clipboard_tab").toString();
 
     m_trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
@@ -2187,6 +2191,8 @@ void MainWindow::openPreferences()
     if ( !isEnabled() )
         return;
 
+    if ( !cm->isVisible() )
+        cm->loadSettings();
     cm->exec();
 }
 

@@ -113,7 +113,8 @@ HEADERS += \
     tests/test_utils.h \
     gui/filedialog.h \
     gui/windowgeometryguard.h \
-    gui/logdialog.h
+    gui/logdialog.h \
+    common/appconfig.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -193,7 +194,8 @@ SOURCES += \
     gui/filtercompleter.cpp \
     gui/filedialog.cpp \
     gui/windowgeometryguard.cpp \
-    gui/logdialog.cpp
+    gui/logdialog.cpp \
+    common/appconfig.cpp
 
 macx {
     # Copy the custom Info.plist to the app bundle
