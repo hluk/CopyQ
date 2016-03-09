@@ -20,6 +20,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+class QByteArray;
 class QString;
 class QVariant;
 class QWidget;
@@ -34,5 +35,9 @@ void setGeometryOptionValue(const QString &optionName, const QVariant &value);
 void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen);
 
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen);
+
+QByteArray mainWindowState(const QString &mainWindowObjectName);
+
+void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state);
 
 #endif // CONFIG_H

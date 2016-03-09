@@ -302,18 +302,6 @@ bool ConfigurationManager::createItemDirectory()
     return true;
 }
 
-QByteArray ConfigurationManager::mainWindowState(const QString &mainWindowObjectName)
-{
-    const QString optionName = "Options/" + mainWindowObjectName + "_state";
-    return geometryOptionValue(optionName).toByteArray();
-}
-
-void ConfigurationManager::saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state)
-{
-    const QString optionName = "Options/" + mainWindowObjectName + "_state";
-    setGeometryOptionValue(optionName, state);
-}
-
 QString ConfigurationManager::defaultTabName() const
 {
     const QString tab = value("clipboard_tab").toString();

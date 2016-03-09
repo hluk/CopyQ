@@ -99,3 +99,15 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
     geometrySettings.setValue( optionName, w->saveGeometry() );
 }
+
+QByteArray mainWindowState(const QString &mainWindowObjectName)
+{
+    const QString optionName = "Options/" + mainWindowObjectName + "_state";
+    return geometryOptionValue(optionName).toByteArray();
+}
+
+void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state)
+{
+    const QString optionName = "Options/" + mainWindowObjectName + "_state";
+    setGeometryOptionValue(optionName, state);
+}

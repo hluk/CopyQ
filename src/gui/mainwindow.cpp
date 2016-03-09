@@ -23,6 +23,7 @@
 #include "common/action.h"
 #include "common/common.h"
 #include "common/command.h"
+#include "common/config.h"
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -317,7 +318,7 @@ MainWindow::MainWindow(QWidget *parent)
     addToolBar(Qt::RightToolBarArea, ui->toolBar);
 
     WindowGeometryGuard::create(this);
-    restoreState( cm->mainWindowState(objectName()) );
+    restoreState( mainWindowState(objectName()) );
 
     updateIcon();
 
@@ -643,7 +644,7 @@ void MainWindow::updateIconSnip()
 void MainWindow::onAboutToQuit()
 {
     cm->disconnect();
-    cm->saveMainWindowState( objectName(), saveState() );
+    saveMainWindowState( objectName(), saveState() );
     hideWindow();
     if (m_tray)
         m_tray->hide();

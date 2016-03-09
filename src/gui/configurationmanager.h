@@ -117,9 +117,6 @@ public:
     ItemFactory *itemFactory() const { return m_itemFactory; }
     IconFactory *iconFactory() const { return m_iconFactory.data(); }
 
-    QByteArray mainWindowState(const QString &mainWindowObjectName);
-    void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state);
-
     QString defaultTabName() const;
 
     QStringList tabs() const;
