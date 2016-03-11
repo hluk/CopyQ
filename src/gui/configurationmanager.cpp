@@ -128,18 +128,18 @@ ConfigurationManager *ConfigurationManager::instance()
     return m_Instance;
 }
 
-ConfigurationManager::ConfigurationManager(QWidget *parent)
+ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ConfigurationManager)
     , m_options()
     , m_tabIcons()
-    , m_itemFactory(new ItemFactory(this))
+    , m_itemFactory(itemFactory)
     , m_optionWidgetsLoaded(false)
 {
     ui->setupUi(this);
     setWindowIcon(appIcon());
 
-    if ( !itemFactory()->hasLoaders() )
+    if ( !m_itemFactory->hasLoaders() )
         ui->tabItems->deleteLater();
 
     initOptions();
@@ -177,13 +177,13 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
     if ( file.exists() ) {
         COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
         if ( file.open(QIODevice::ReadOnly) )
-            loader = itemFactory()->loadItems(&model, &file);
+            loader = m_itemFactory->loadItems(&model, &file);
         saveItemsWithOther(model, &loader);
     } else {
         COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
         if ( file.open(QIODevice::WriteOnly) ) {
             file.close();
-            loader = itemFactory()->initializeTab(&model);
+            loader = m_itemFactory->initializeTab(&model);
             saveItems(model, loader);
         }
     }
@@ -239,7 +239,7 @@ bool ConfigurationManager::saveItems(const ClipboardModel &model,
 bool ConfigurationManager::saveItemsWithOther(ClipboardModel &model,
                                               ItemLoaderInterfacePtr *loader)
 {
-    if ( !needToSaveItemsAgain(model, *itemFactory(), *loader) )
+    if ( !needToSaveItemsAgain(model, *m_itemFactory, *loader) )
         return false;
 
     model.setDisabled(true);
@@ -248,7 +248,7 @@ bool ConfigurationManager::saveItemsWithOther(ClipboardModel &model,
                .arg(model.property("tabName").toString()) );
 
     (*loader)->uninitializeTab(&model);
-    *loader = itemFactory()->initializeTab(&model);
+    *loader = m_itemFactory->initializeTab(&model);
     if ( *loader && saveItems(model, *loader) ) {
         model.setDisabled(false);
         return true;
@@ -331,16 +331,16 @@ void ConfigurationManager::initTabIcons()
 
 void ConfigurationManager::initPluginWidgets()
 {
-    if (!itemFactory()->hasLoaders())
+    if (!m_itemFactory->hasLoaders())
         return;
 
     ui->itemOrderListPlugins->clearItems();
 
-    foreach ( const ItemLoaderInterfacePtr &loader, itemFactory()->loaders() ) {
+    foreach ( const ItemLoaderInterfacePtr &loader, m_itemFactory->loaders() ) {
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
         const QIcon icon = getIcon(loader->icon());
         ui->itemOrderListPlugins->appendItem(
-                    loader->name(), itemFactory()->isLoaderEnabled(loader), false, icon, pluginItem );
+                    loader->name(), m_itemFactory->isLoaderEnabled(loader), false, icon, pluginItem );
     }
 }
 
@@ -553,7 +553,7 @@ void ConfigurationManager::loadSettings()
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
-    foreach ( const ItemLoaderInterfacePtr &loader, itemFactory()->loaders() ) {
+    foreach ( const ItemLoaderInterfacePtr &loader, m_itemFactory->loaders() ) {
         settings.beginGroup(loader->id());
 
         QVariantMap s;
@@ -561,7 +561,7 @@ void ConfigurationManager::loadSettings()
             s[name] = settings.value(name);
         }
         loader->loadSettings(s);
-        itemFactory()->setLoaderEnabled( loader, settings.value("enabled", true).toBool() );
+        m_itemFactory->setLoaderEnabled( loader, settings.value("enabled", true).toBool() );
 
         settings.endGroup();
     }
@@ -570,7 +570,7 @@ void ConfigurationManager::loadSettings()
     // load plugin priority
     const QStringList pluginPriority =
             settings.value("plugin_priority", QStringList()).toStringList();
-    itemFactory()->setPluginPriority(pluginPriority);
+    m_itemFactory->setPluginPriority(pluginPriority);
 
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 
@@ -715,10 +715,10 @@ void ConfigurationManager::setVisible(bool visible)
     }
 }
 
-ConfigurationManager *ConfigurationManager::createInstance(QWidget *parent)
+ConfigurationManager *ConfigurationManager::createInstance(ItemFactory *itemFactory, QWidget *parent)
 {
     Q_ASSERT(m_Instance == NULL);
-    m_Instance = new ConfigurationManager(parent);
+    m_Instance = new ConfigurationManager(itemFactory, parent);
     m_Instance->loadSettings();
     WindowGeometryGuard::create(m_Instance);
     return m_Instance;
@@ -746,7 +746,7 @@ void ConfigurationManager::apply()
         settings.endGroup();
 
         // save settings for each plugin
-        if ( itemFactory()->hasLoaders() ) {
+        if ( m_itemFactory->hasLoaders() ) {
             settings.beginGroup("Plugins");
             for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
                 bool isPluginEnabled = ui->itemOrderListPlugins->isItemChecked(i);
@@ -754,7 +754,7 @@ void ConfigurationManager::apply()
                 if (w) {
                     PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
                     pluginWidget->applySettings(settings.settingsData(), isPluginEnabled);
-                    itemFactory()->setLoaderEnabled(pluginWidget->loader(), isPluginEnabled);
+                    m_itemFactory->setLoaderEnabled(pluginWidget->loader(), isPluginEnabled);
                 }
             }
             settings.endGroup();
@@ -764,7 +764,7 @@ void ConfigurationManager::apply()
             for (int i = 0; i <  ui->itemOrderListPlugins->itemCount(); ++i)
                 pluginPriority.append( ui->itemOrderListPlugins->itemLabel(i) );
             settings.setValue("plugin_priority", pluginPriority);
-            itemFactory()->setPluginPriority(pluginPriority);
+            m_itemFactory->setPluginPriority(pluginPriority);
         }
     }
 
@@ -797,7 +797,7 @@ void ConfigurationManager::done(int result)
 
     if (!isVisible()) {
         m_optionWidgetsLoaded = false;
-        if ( itemFactory()->hasLoaders() )
+        if ( m_itemFactory->hasLoaders() )
             ui->itemOrderListPlugins->clearItems();
 
         ui->comboBoxLanguage->clear();

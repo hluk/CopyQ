@@ -29,7 +29,6 @@
 #include "gui/commandwidget.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
-#include "item/itemfactory.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QFileDialog>
@@ -48,9 +47,10 @@ const QIcon iconPasteCommands() { return getIcon("edit-paste", IconPaste); }
 
 class CommandItem : public ItemOrderList::Item {
 public:
-    CommandItem(const Command &command, CommandDialog *cmdDialog)
+    CommandItem(const Command &command, const QStringList &formats, CommandDialog *cmdDialog)
         : m_command(command)
         , m_cmdDialog(cmdDialog)
+        , m_formats(formats)
     {
     }
 
@@ -60,6 +60,7 @@ private:
     QWidget *createWidget(QWidget *parent) const
     {
         CommandWidget *cmdWidget = new CommandWidget(parent);
+        cmdWidget->setFormats(m_formats);
         cmdWidget->setCommand(m_command);
 
         QObject::connect( cmdWidget, SIGNAL(iconChanged(QString)),
@@ -74,6 +75,7 @@ private:
 
     Command m_command;
     CommandDialog *m_cmdDialog;
+    QStringList m_formats;
 };
 
 void loadCommand(const QSettings &settings, bool onlyEnabled, CommandDialog::Commands *commands)
@@ -233,9 +235,12 @@ QString commandsToPaste()
 
 Q_DECLARE_METATYPE(Command)
 
-CommandDialog::CommandDialog(QWidget *parent)
+CommandDialog::CommandDialog(
+        const Commands &pluginCommands, const QStringList &formats, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CommandDialog)
+    , m_pluginCommands(pluginCommands)
+    , m_formats(formats)
 {
     ui->setupUi(this);
     ui->pushButtonLoadCommands->setIcon(iconLoadCommands());
@@ -396,7 +401,7 @@ void CommandDialog::onFinished(int result)
 
 void CommandDialog::on_itemOrderListCommands_addButtonClicked()
 {
-    AddCommandDialog *addCommandDialog = new AddCommandDialog(this);
+    AddCommandDialog *addCommandDialog = new AddCommandDialog(m_pluginCommands, this);
     addCommandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
     connect(addCommandDialog, SIGNAL(addCommands(QList<Command>)), SLOT(onAddCommands(QList<Command>)));
     addCommandDialog->show();
@@ -486,7 +491,7 @@ void CommandDialog::onClipboardChanged()
 
 void CommandDialog::addCommandWithoutSave(const Command &command, int targetRow)
 {
-    ItemOrderList::ItemPtr item(new CommandItem(command, this));
+    ItemOrderList::ItemPtr item(new CommandItem(command, m_formats, this));
     ui->itemOrderListCommands->insertItem(
                 command.name, command.enable, command.automatic,
                 getCommandIcon(command.icon), item, targetRow);

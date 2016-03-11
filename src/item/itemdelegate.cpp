@@ -21,7 +21,6 @@
 
 #include "common/client_server.h"
 #include "common/contenttype.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
@@ -51,9 +50,10 @@ int itemMargin()
 
 } // namespace
 
-ItemDelegate::ItemDelegate(QAbstractItemView *view, QWidget *parent)
+ItemDelegate::ItemDelegate(QAbstractItemView *view, ItemFactory *itemFactory, QWidget *parent)
     : QItemDelegate(parent)
     , m_view(view)
+    , m_itemFactory(itemFactory ? itemFactory : new ItemFactory(this))
     , m_saveOnReturnKey(true)
     , m_re()
     , m_maxSize(2048, 2048 * 8)
@@ -145,7 +145,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
     ItemWidget *w = m_cache[n];
     if (w == NULL) {
-        w = ConfigurationManager::instance()->itemFactory()->createItem(index, m_view->viewport());
+        w = m_itemFactory->createItem(index, m_view->viewport());
         setIndexWidget(index, w);
     }
 
@@ -188,8 +188,7 @@ bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
 {
     ItemWidget *w = m_cache[index.row()];
     if (w != NULL) {
-        ItemWidget *w2 =
-                ConfigurationManager::instance()->itemFactory()->otherItemLoader(index, w, next);
+        ItemWidget *w2 = m_itemFactory->otherItemLoader(index, w, next);
         if (w2 != NULL) {
             setIndexWidget(index, w2);
             return true;

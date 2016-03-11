@@ -102,14 +102,6 @@ CommandWidget::CommandWidget(QWidget *parent)
     // Add tab names to combo boxes.
     cm->initTabComboBox(ui->comboBoxCopyToTab);
     cm->initTabComboBox(ui->comboBoxOutputTab);
-
-    // Add formats to combo boxex.
-    QStringList formats = cm->itemFactory()->formatsToSave();
-    formats.prepend(mimeText);
-    formats.removeDuplicates();
-
-    setComboBoxItems(ui->comboBoxInputFormat, formats);
-    setComboBoxItems(ui->comboBoxOutputFormat, formats);
 }
 
 CommandWidget::~CommandWidget()
@@ -174,6 +166,12 @@ void CommandWidget::setCommand(const Command &c)
                 ui->checkBoxGlobalShortcut);
     ui->comboBoxCopyToTab->setEditText(c.tab);
     ui->comboBoxOutputTab->setEditText(c.outputTab);
+}
+
+void CommandWidget::setFormats(const QStringList &formats)
+{
+    setComboBoxItems(ui->comboBoxInputFormat, formats);
+    setComboBoxItems(ui->comboBoxOutputFormat, formats);
 }
 
 void CommandWidget::on_lineEditName_textChanged(const QString &name)

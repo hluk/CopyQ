@@ -34,6 +34,7 @@
 #include <QVariantMap>
 
 class ItemEditorWidget;
+class ItemFactory;
 class QProgressBar;
 class QPushButton;
 
@@ -46,7 +47,7 @@ Q_DECLARE_FLAGS(SelectActions, SelectAction)
 Q_DECLARE_OPERATORS_FOR_FLAGS(SelectActions)
 
 struct ClipboardBrowserShared {
-    ClipboardBrowserShared();
+    explicit ClipboardBrowserShared(ItemFactory *itemFactory = NULL);
 
     void loadFromConfiguration();
 
@@ -57,6 +58,8 @@ struct ClipboardBrowserShared {
     bool saveOnReturnKey;
     bool moveItemOnReturnKey;
     int minutesToExpire;
+
+    ItemFactory *itemFactory;
 };
 typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 
@@ -80,8 +83,7 @@ class ClipboardBrowser : public QListView
                 QPointer<ClipboardBrowser> c;
         };
 
-        explicit ClipboardBrowser(QWidget *parent = NULL,
-                                  const ClipboardBrowserSharedPtr &sharedData = ClipboardBrowserSharedPtr());
+        explicit ClipboardBrowser(QWidget *parent = NULL, const ClipboardBrowserSharedPtr &sharedData = ClipboardBrowserSharedPtr());
         /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
         /** Load settings. */

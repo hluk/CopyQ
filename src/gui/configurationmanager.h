@@ -107,8 +107,6 @@ public:
 
     void setVisible(bool visible);
 
-    ItemFactory *itemFactory() const { return m_itemFactory; }
-
     QString defaultTabName() const;
 
     void initTabComboBox(QComboBox *comboBox) const;
@@ -123,7 +121,7 @@ signals:
     void error(const QString &error);
 
 protected:
-    static ConfigurationManager *createInstance(QWidget *parent);
+    static ConfigurationManager *createInstance(ItemFactory *itemFactory, QWidget *parent);
 
 private slots:
     void apply();
@@ -133,7 +131,7 @@ private slots:
     void on_spinBoxTrayItems_valueChanged(int value);
 
 private:
-    explicit ConfigurationManager(QWidget *parent);
+    explicit ConfigurationManager(ItemFactory *itemFactory, QWidget *parent);
 
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);

@@ -44,6 +44,9 @@ public:
     /** Set current command. */
     void setCommand(const Command &command);
 
+    /** Set formats for format selection combo boxes. */
+    void setFormats(const QStringList &formats);
+
 signals:
     void iconChanged(const QString &iconString);
 

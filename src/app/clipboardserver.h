@@ -34,6 +34,7 @@
 
 class Arguments;
 class ClientSocket;
+class ItemFactory;
 class RemoteProcess;
 class QxtGlobalShortcut;
 class QSessionManager;
@@ -129,6 +130,7 @@ private:
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QThreadPool m_clientThreads;
     QTimer m_ignoreKeysTimer;
+    ItemFactory *m_itemFactory;
 };
 
 #endif // CLIPBOARDSERVER_H

@@ -20,6 +20,8 @@
 #ifndef COMMANDDIALOG_H
 #define COMMANDDIALOG_H
 
+#include "common/command.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -27,7 +29,6 @@ class CommandDialog;
 }
 
 class QAbstractButton;
-struct Command;
 
 class CommandDialog : public QDialog
 {
@@ -36,7 +37,9 @@ class CommandDialog : public QDialog
 public:
     typedef QList<Command> Commands;
 
-    explicit CommandDialog(QWidget *parent = NULL);
+    CommandDialog(
+            const Commands &pluginCommands, const QStringList &formats,
+            QWidget *parent = NULL);
     ~CommandDialog();
 
     /** Return enabled commands. */
@@ -88,6 +91,9 @@ private:
 
     Ui::CommandDialog *ui;
     Commands m_savedCommands;
+
+    Commands m_pluginCommands;
+    QStringList m_formats;
 };
 
 CommandDialog::Commands loadCommands(bool onlyEnabled = true);

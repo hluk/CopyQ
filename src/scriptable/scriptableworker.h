@@ -33,7 +33,9 @@ class ClientSocket;
 class ScriptableWorker : public QRunnable
 {
 public:
-    ScriptableWorker(MainWindow *mainWindow, const Arguments &args, ClientSocket *socket);
+    ScriptableWorker(
+            MainWindow *mainWindow, const Arguments &args, ClientSocket *socket,
+            const QString &pluginScript);
 
     void run();
 

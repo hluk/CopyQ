@@ -24,8 +24,6 @@
 #include "common/clientsocket.h"
 #include "common/commandstatus.h"
 #include "common/log.h"
-#include "gui/configurationmanager.h"
-#include "item/itemfactory.h"
 #include "../qt/bytearrayclass.h"
 
 #include <QApplication>
@@ -60,13 +58,14 @@ QByteArray serializeScriptValue(const QScriptValue &value)
 
 } // namespace
 
-ScriptableWorker::ScriptableWorker(MainWindow *mainWindow,
-                                   const Arguments &args, ClientSocket *socket)
+ScriptableWorker::ScriptableWorker(
+        MainWindow *mainWindow, const Arguments &args, ClientSocket *socket,
+        const QString &pluginScript)
     : QRunnable()
     , m_wnd(mainWindow)
     , m_args(args)
     , m_socket(socket)
-    , m_pluginScript(ConfigurationManager::instance()->itemFactory()->scripts())
+    , m_pluginScript(pluginScript)
 {
     if ( hasLogLevel(LogDebug) )
         m_id = m_socket->property("id").toString();

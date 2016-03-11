@@ -253,16 +253,14 @@ QList<Command> defaultCommands()
     c->remove = true;
     c->shortcuts.append( toPortableShortcutText(shortcutToRemove()) );
 
-    commands << ConfigurationManager::instance()->itemFactory()->commands();
-
     return commands;
 }
 
 class CommandModel : public QAbstractListModel {
 public:
-    explicit CommandModel(QObject *parent = NULL)
+    explicit CommandModel(const QList<Command> &commands, QObject *parent = NULL)
         : QAbstractListModel(parent)
-        , m_commands(defaultCommands())
+        , m_commands(commands)
     {
     }
 
@@ -301,7 +299,7 @@ private:
 
 } // namespace
 
-AddCommandDialog::AddCommandDialog(QWidget *parent)
+AddCommandDialog::AddCommandDialog(const QList<Command> &pluginCommands, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddCommandDialog)
     , m_filterModel(new QSortFilterProxyModel(this))
@@ -310,7 +308,7 @@ AddCommandDialog::AddCommandDialog(QWidget *parent)
 
     ui->filterLineEdit->loadSettings();
 
-    QAbstractItemModel *model = new CommandModel(m_filterModel);
+    QAbstractItemModel *model = new CommandModel(defaultCommands() + pluginCommands, m_filterModel);
     m_filterModel->setSourceModel(model);
     ui->listViewCommands->setModel(m_filterModel);
     ui->listViewCommands->setCurrentIndex(m_filterModel->index(0, 0));

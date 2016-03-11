@@ -147,7 +147,7 @@ private:
     bool m_currentSelected;
 };
 
-ClipboardBrowserShared::ClipboardBrowserShared()
+ClipboardBrowserShared::ClipboardBrowserShared(ItemFactory *itemFactory)
     : editor()
     , maxItems(100)
     , textWrap(true)
@@ -155,6 +155,7 @@ ClipboardBrowserShared::ClipboardBrowserShared()
     , saveOnReturnKey(false)
     , moveItemOnReturnKey(false)
     , minutesToExpire(0)
+    , itemFactory(itemFactory)
 {
 }
 
@@ -176,7 +177,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_tabName()
     , m_lastFiltered(-1)
     , m(this)
-    , d(this)
+    , d(this, sharedData ? sharedData->itemFactory : NULL)
     , m_invalidateCache(false)
     , m_expireAfterEditing(false)
     , m_editor(NULL)
@@ -238,7 +239,7 @@ bool ClipboardBrowser::isFiltered(int row) const
         return false;
 
     const QModelIndex ind = m.index(row);
-    return !ConfigurationManager::instance()->itemFactory()->matches( ind, d.searchExpression() );
+    return m_sharedData->itemFactory && !m_sharedData->itemFactory->matches( ind, d.searchExpression() );
 }
 
 bool ClipboardBrowser::hideFiltered(int row)

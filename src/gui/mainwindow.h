@@ -125,7 +125,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = NULL);
+    explicit MainWindow(ItemFactory *itemFactory, QWidget *parent = NULL);
     ~MainWindow();
 
     /** Return true if in browse mode (i.e. search field is hidden). */

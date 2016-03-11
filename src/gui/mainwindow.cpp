@@ -39,6 +39,7 @@
 #include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
+#include "gui/iconfactory.h"
 #include "gui/iconselectdialog.h"
 #include "gui/icons.h"
 #include "gui/logdialog.h"
@@ -49,6 +50,7 @@
 #include "gui/traymenu.h"
 #include "gui/windowgeometryguard.h"
 #include "item/clipboardmodel.h"
+#include "item/itemfactory.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
@@ -287,16 +289,16 @@ Dialog *openDialog(QWidget *dialogParent)
 
 } // namespace
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     : QMainWindow(parent)
-    , cm(ConfigurationManager::createInstance(this))
+    , cm(ConfigurationManager::createInstance(itemFactory, this))
     , ui(new Ui::MainWindow)
     , m_menuItem(NULL)
     , m_trayMenu( new TrayMenu(this) )
     , m_tray(NULL)
     , m_clipboardStoringDisabled(false)
     , m_actionToggleClipboardStoring()
-    , m_sharedData(new ClipboardBrowserShared)
+    , m_sharedData(new ClipboardBrowserShared(itemFactory))
     , m_lastWindow()
     , m_notifications(NULL)
     , m_actionHandler(new ActionHandler(this))
@@ -2200,7 +2202,12 @@ void MainWindow::openCommands()
         m_commandDialog->show();
         m_commandDialog->activateWindow();
     } else {
-        m_commandDialog = new CommandDialog(cm);
+        const QList<Command> pluginCommands = m_sharedData->itemFactory->commands();
+        QStringList formats = m_sharedData->itemFactory->formatsToSave();
+        formats.prepend(mimeText);
+        formats.removeDuplicates();
+
+        m_commandDialog = new CommandDialog(pluginCommands, formats, cm);
         if (windowFlags() & Qt::WindowStaysOnTopHint)
             setAlwaysOnTop(m_commandDialog.data(), true);
         m_commandDialog->setAttribute(Qt::WA_DeleteOnClose, true);

@@ -25,6 +25,7 @@
 
 class Item;
 class ItemEditorWidget;
+class ItemFactory;
 class ItemWidget;
 class QAbstractItemView;
 
@@ -44,7 +45,7 @@ class ItemDelegate : public QItemDelegate
     Q_OBJECT
 
     public:
-        explicit ItemDelegate(QAbstractItemView *view, QWidget *parent = NULL);
+        explicit ItemDelegate(QAbstractItemView *view, ItemFactory *itemFactory, QWidget *parent = NULL);
 
         ~ItemDelegate();
 
@@ -128,7 +129,8 @@ class ItemDelegate : public QItemDelegate
         int rowNumberWidth() const;
         int rowNumberHeight() const;
 
-        QAbstractItemView  *m_view;
+        QAbstractItemView *m_view;
+        ItemFactory *m_itemFactory;
         bool m_saveOnReturnKey;
         QRegExp m_re;
         QSize m_maxSize;
