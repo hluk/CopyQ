@@ -29,6 +29,13 @@ class QString;
 class AppConfig
 {
 public:
+    enum Category {
+        OptionsCategory,
+        ThemeCategory
+    };
+
+    explicit AppConfig(Category category = OptionsCategory);
+
     QVariant option(const QString &name) const;
 
     template <typename T>

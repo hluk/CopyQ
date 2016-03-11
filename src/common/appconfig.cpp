@@ -21,27 +21,24 @@
 
 #include <QString>
 
-namespace {
-
-QString optionKey(const QString &name)
-{
-    return "Options/" + name;
-}
-
-} // namespace
-
 QVariant AppConfig::option(const QString &name) const
 {
-    return m_settings.value(optionKey(name));
+    return m_settings.value(name);
+}
+
+AppConfig::AppConfig(AppConfig::Category category)
+{
+    m_settings.beginGroup(
+                category == OptionsCategory ? "Options" : "Themes");
 }
 
 void AppConfig::setOption(const QString &name, const QVariant &value)
 {
     if ( option(name) != value )
-        m_settings.setValue( optionKey(name), value );
+        m_settings.setValue(name, value);
 }
 
 void AppConfig::removeOption(const QString &name)
 {
-    m_settings.remove(optionKey(name));
+    m_settings.remove(name);
 }

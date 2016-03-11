@@ -19,6 +19,7 @@
 
 #include "iconfactory.h"
 
+#include "common/appconfig.h"
 #include "gui/icons.h"
 #include "gui/iconfont.h"
 
@@ -29,6 +30,7 @@
 #include <QIcon>
 #include <QPainter>
 #include <QPixmap>
+#include <QPointer>
 #include <QVariant>
 #include <QWidget>
 
@@ -46,6 +48,8 @@ const char imagesRecourcePath[] = ":/images/";
 
 /// Up to this value of background lightness, icon color will be lighter.
 const int lightThreshold = 100;
+
+QPointer<QObject> activePaintDevice;
 
 QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
 {
@@ -135,6 +139,18 @@ QColor getDefaultIconColor(const QColor &color)
     return c;
 }
 
+bool loadIconFont()
+{
+    static bool iconFontLoaded = QFontDatabase::addApplicationFont(":/images/fontawesome-webfont.ttf") != -1;
+    return iconFontLoaded;
+}
+
+bool useSystemIcons()
+{
+    return !loadIconFont()
+            || AppConfig(AppConfig::ThemeCategory).isOptionOn("use_system_icons");
+}
+
 class IconEngine : public QtIconEngine
 {
 public:
@@ -155,7 +171,7 @@ public:
 
     QPixmap createPixmap(const QSize &size, QIcon::Mode mode, QIcon::State state, QPainter *painter = NULL)
     {
-        if ( m_iconId == 0 || m_factory->useSystemIcons() ) {
+        if ( m_iconId == 0 || useSystemIcons()) {
             // Tint tab icons.
             if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
                 QPixmap pixmap(m_iconName);
@@ -179,23 +195,22 @@ public:
         return pixmap;
     }
 
-    static QIcon createIcon(ushort iconId, const QString &iconName, IconFactory *factory)
+    static QIcon createIcon(ushort iconId, const QString &iconName)
     {
-        return QIcon( new IconEngine(iconId, iconName, factory) );
+        return QIcon( new IconEngine(iconId, iconName) );
     }
 
 private:
-    IconEngine(ushort iconId, const QString &iconName, IconFactory *factory)
+    IconEngine(ushort iconId, const QString &iconName)
         : m_iconId(iconId)
         , m_iconName(iconName)
-        , m_factory(factory)
     {
     }
 
     QColor color(QPainter *painter, QIcon::Mode mode)
     {
         QWidget *parent = painter ? dynamic_cast<QWidget*>(painter->device())
-                                  : qobject_cast<QWidget*>(m_factory->activePaintDevice());
+                                  : qobject_cast<QWidget*>(activePaintDevice);
 
         const bool selected = (mode == QIcon::Active || mode == QIcon::Selected);
         QColor color = parent ? getDefaultIconColor(*parent, selected) : Qt::darkGray;
@@ -208,54 +223,57 @@ private:
 
     ushort m_iconId;
     QString m_iconName;
-    IconFactory *m_factory;
 };
 
 } // namespace
 
-IconFactory::IconFactory()
-    : m_useSystemIcons(true)
-    , m_iconFontLoaded(false)
+QIcon getIcon(const QString &themeName, unsigned short id)
 {
-    m_iconFontLoaded = QFontDatabase::addApplicationFont(":/images/fontawesome-webfont.ttf") != -1;
-}
-
-QIcon IconFactory::getIcon(const QString &themeName, ushort id)
-{
-    return m_iconFontLoaded || !themeName.isEmpty()
-            ? IconEngine::createIcon(m_iconFontLoaded ? id : 0, themeName, this)
+    return loadIconFont() || !themeName.isEmpty()
+            ? IconEngine::createIcon(loadIconFont() ? id : 0, themeName)
             : QIcon();
 }
 
-QIcon IconFactory::getIconFromResources(const QString &iconName)
+QIcon getIcon(const QVariant &iconOrIconId)
 {
-    return IconEngine::createIcon(0, imagesRecourcePath + iconName, this);
+    if (iconOrIconId.canConvert(QVariant::UInt))
+        return getIcon( QString(), iconOrIconId.value<ushort>() );
+
+    if (iconOrIconId.canConvert(QVariant::Icon))
+        return iconOrIconId.value<QIcon>();
+
+    return QIcon();
 }
 
-QIcon IconFactory::iconFromFile(const QString &fileName)
+QIcon getIconFromResources(const QString &iconName)
+{
+    return IconEngine::createIcon(0, imagesRecourcePath + iconName);
+}
+
+QIcon iconFromFile(const QString &fileName)
 {
     if ( fileName.isEmpty() )
         return QIcon();
 
     ushort unicode = fileName.at(0).unicode();
     if (fileName.size() == 1 && unicode >= IconFirst && unicode <= IconLast)
-        return m_iconFontLoaded ? IconEngine::createIcon(unicode, "", this) : QIcon();
+        return loadIconFont() ? IconEngine::createIcon(unicode, "") : QIcon();
 
     return QIcon(fileName);
 }
 
-QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
+QPixmap createPixmap(unsigned short id, const QColor &color, int size)
 {
     QPixmap pixmap(size, size);
     pixmap.fill(Qt::transparent);
 
-    if (m_iconFontLoaded)
+    if (loadIconFont())
         drawFontIcon(&pixmap, id, size, size, color);
 
     return pixmap;
 }
 
-QIcon IconFactory::appIcon(AppIconType iconType)
+QIcon appIcon(AppIconType iconType)
 {
     const bool running = iconType == AppIconRunning;
     const QString suffix = running ? "-busy" : "-normal";
@@ -280,6 +298,11 @@ QIcon IconFactory::appIcon(AppIconType iconType)
     }
 
     return icon;
+}
+
+void setActivePaintDevice(QObject *device)
+{
+    activePaintDevice = device;
 }
 
 QColor getDefaultIconColor(const QWidget &widget, bool selected)

@@ -134,11 +134,10 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
     , m_options()
     , m_tabIcons()
     , m_itemFactory(new ItemFactory(this))
-    , m_iconFactory(new IconFactory)
     , m_optionWidgetsLoaded(false)
 {
     ui->setupUi(this);
-    setWindowIcon(iconFactory()->appIcon());
+    setWindowIcon(appIcon());
 
     if ( !itemFactory()->hasLoaders() )
         ui->tabItems->deleteLater();
@@ -320,16 +319,14 @@ void ConfigurationManager::initTabIcons()
     if ( !tw->tabIcon(0).isNull() )
         return;
 
-    IconFactory *f = iconFactory();
-
-    tw->setTabIcon( tw->indexOf(ui->tabGeneral), f->getIcon("", IconWrench) );
-    tw->setTabIcon( tw->indexOf(ui->tabLayout), f->getIcon("", IconColumns) );
-    tw->setTabIcon( tw->indexOf(ui->tabHistory), f->getIcon("", IconListAlt) );
-    tw->setTabIcon( tw->indexOf(ui->tabItems), f->getIcon("", IconThList) );
-    tw->setTabIcon( tw->indexOf(ui->tabTray), f->getIcon("", IconInbox) );
-    tw->setTabIcon( tw->indexOf(ui->tabNotifications), f->getIcon("", IconInfoSign) );
-    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), f->getIcon("", IconKeyboard) );
-    tw->setTabIcon( tw->indexOf(ui->tabAppearance), f->getIcon("", IconPicture) );
+    tw->setTabIcon( tw->indexOf(ui->tabGeneral), getIcon("", IconWrench) );
+    tw->setTabIcon( tw->indexOf(ui->tabLayout), getIcon("", IconColumns) );
+    tw->setTabIcon( tw->indexOf(ui->tabHistory), getIcon("", IconListAlt) );
+    tw->setTabIcon( tw->indexOf(ui->tabItems), getIcon("", IconThList) );
+    tw->setTabIcon( tw->indexOf(ui->tabTray), getIcon("", IconInbox) );
+    tw->setTabIcon( tw->indexOf(ui->tabNotifications), getIcon("", IconInfoSign) );
+    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), getIcon("", IconKeyboard) );
+    tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconPicture) );
 }
 
 void ConfigurationManager::initPluginWidgets()
@@ -487,12 +484,6 @@ void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultVa
     m_options[optionKey] = Option(defaultValue);
 }
 
-void ConfigurationManager::updateIcons()
-{
-    iconFactory()->setUseSystemIcons(
-                tabAppearance()->themeValue("use_system_icons").toBool() );
-}
-
 void ConfigurationManager::initTabComboBox(QComboBox *comboBox, const QStringList &tabs) const
 {
     setComboBoxItems(comboBox, tabs);
@@ -596,8 +587,6 @@ void ConfigurationManager::loadSettings()
     setTabs( tabs() );
 
     updateAutostart();
-
-    updateIcons();
 }
 
 void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
@@ -711,7 +700,7 @@ void ConfigurationManager::setIconNameForTabName(const QString &name, const QStr
 QIcon ConfigurationManager::getIconForTabName(const QString &tabName) const
 {
     const QString fileName = getIconNameForTabName(tabName);
-    return fileName.isEmpty() ? QIcon() : iconFactory()->iconFromFile(fileName);
+    return fileName.isEmpty() ? QIcon() : iconFromFile(fileName);
 }
 
 void ConfigurationManager::setVisible(bool visible)
@@ -794,8 +783,6 @@ void ConfigurationManager::apply()
     }
 
     emit configurationChanged();
-
-    updateIcons();
 }
 
 void ConfigurationManager::done(int result)
@@ -825,28 +812,6 @@ void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
 void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
 {
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
-}
-
-QIcon getIconFromResources(const QString &iconName)
-{
-    Q_ASSERT( !iconName.isEmpty() );
-    return ConfigurationManager::instance()->iconFactory()->getIconFromResources(iconName);
-}
-
-QIcon getIcon(const QString &themeName, ushort iconId)
-{
-    return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId);
-}
-
-QIcon getIcon(const QVariant &iconOrIconId)
-{
-    if (iconOrIconId.canConvert(QVariant::UInt))
-        return getIcon( QString(), iconOrIconId.value<ushort>() );
-
-    if (iconOrIconId.canConvert(QVariant::Icon))
-        return iconOrIconId.value<QIcon>();
-
-    return QIcon();
 }
 
 void setDefaultTabItemCounterStyle(QWidget *widget)

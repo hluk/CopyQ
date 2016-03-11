@@ -430,7 +430,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
             }
         }
     } else if (type == QEvent::Paint) {
-        ConfigurationManager::instance()->iconFactory()->setActivePaintDevice(object);
+        setActivePaintDevice(object);
     }
 
     return false;

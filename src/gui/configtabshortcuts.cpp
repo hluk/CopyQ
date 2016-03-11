@@ -22,7 +22,7 @@
 
 #include "common/client_server.h"
 #include "common/common.h"
-#include "gui/configurationmanager.h"
+#include "gui/iconfactory.h"
 #include "gui/icons.h"
 
 ConfigTabShortcuts::ConfigTabShortcuts(QWidget *parent)

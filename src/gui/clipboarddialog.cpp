@@ -23,7 +23,6 @@
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"
@@ -116,7 +115,7 @@ void ClipboardDialog::init()
     ui = new Ui::ClipboardDialog;
     ui->setupUi(this);
 
-    setWindowIcon( ConfigurationManager::instance()->iconFactory()->appIcon() );
+    setWindowIcon(appIcon());
 
     ui->horizontalLayout->setStretchFactor(1, 1);
     ui->listWidgetFormats->setCurrentRow(0);

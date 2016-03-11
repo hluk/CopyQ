@@ -22,7 +22,6 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "gui/clipboardbrowser.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 
 #include <QShortcutEvent>
@@ -47,8 +46,7 @@ CommandAction::CommandAction(
 
     setText( elideText(name, browser->font()) );
 
-    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-    setIcon( iconFactory->iconFromFile(m_command.icon) );
+    setIcon( iconFromFile(m_command.icon) );
     if (m_command.icon.size() == 1)
         setProperty( "CopyQ_icon_id", m_command.icon[0].unicode() );
 

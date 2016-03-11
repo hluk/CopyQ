@@ -108,7 +108,6 @@ public:
     void setVisible(bool visible);
 
     ItemFactory *itemFactory() const { return m_itemFactory; }
-    IconFactory *iconFactory() const { return m_iconFactory.data(); }
 
     QString defaultTabName() const;
 
@@ -165,8 +164,6 @@ private:
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
 
-    void updateIcons();
-
     void initTabComboBox(QComboBox *comboBox, const QStringList &tabs) const;
     void updateTabComboBoxes(const QStringList &tabs);
     void updateTabComboBoxes();
@@ -179,16 +176,9 @@ private:
     QHash<QString, QString> m_tabIcons;
 
     ItemFactory *m_itemFactory;
-    QScopedPointer<IconFactory> m_iconFactory;
 
     bool m_optionWidgetsLoaded;
 };
-
-QIcon getIconFromResources(const QString &iconName);
-
-QIcon getIcon(const QString &themeName, ushort iconId);
-
-QIcon getIcon(const QVariant &iconOrIconId);
 
 void setDefaultTabItemCounterStyle(QWidget *widget);
 

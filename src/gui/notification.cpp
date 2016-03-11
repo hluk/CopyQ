@@ -54,8 +54,7 @@ void showNotificationInspectDialog(
     if ( AppConfig().isOptionOn("always_on_top") )
         dialog->setWindowFlags( dialog->windowFlags() ^ Qt::WindowStaysOnTopHint );
 
-    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-    dialog->setWindowIcon( iconFactory->appIcon() );
+    dialog->setWindowIcon( appIcon() );
 
     QTextEdit *editor = new QTextEdit(dialog.data());
     editor->setReadOnly(true);
@@ -71,7 +70,7 @@ void showNotificationInspectDialog(
     QObject::connect( buttons, SIGNAL(rejected()), dialog.data(), SLOT(close()) );
 
     QPushButton *copyButton = new QPushButton( Notification::tr("&Copy"), buttons );
-    const QIcon icon = iconFactory->getIcon("clipboard", IconPaste);
+    const QIcon icon = getIcon("clipboard", IconPaste);
     copyButton->setIcon(icon);
     QObject::connect( copyButton, SIGNAL(clicked()), editor, SLOT(selectAll()) );
     QObject::connect( copyButton, SIGNAL(clicked()), editor, SLOT(copy()) );
@@ -179,9 +178,8 @@ void Notification::setClickToShowEnabled(bool enabled)
 void Notification::updateIcon()
 {
     const QColor color = getDefaultIconColor(*this);
-    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
     const int height = m_msgLabel->fontMetrics().lineSpacing() * 1.2;
-    const QPixmap pixmap = iconFactory->createPixmap(m_icon, color, height);
+    const QPixmap pixmap = createPixmap(m_icon, color, height);
     m_iconLabel->setPixmap(pixmap);
     m_iconLabel->resize(pixmap.size());
 }

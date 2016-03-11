@@ -27,7 +27,6 @@
 #include "common/settings.h"
 #include "gui/addcommanddialog.h"
 #include "gui/commandwidget.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "item/itemfactory.h"
@@ -215,7 +214,7 @@ void saveCommands(const CommandDialog::Commands &commands, QSettings *settings)
 
 QIcon getCommandIcon(const QString &iconString)
 {
-    return ConfigurationManager::instance()->iconFactory()->iconFromFile(iconString);
+    return iconFromFile(iconString);
 }
 
 QString commandsToPaste()

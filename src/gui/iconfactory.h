@@ -20,47 +20,34 @@
 #ifndef ICONFACTORY_H
 #define ICONFACTORY_H
 
-#include <QColor>
-#include <QFont>
-#include <QHash>
-#include <QPalette>
-#include <QPointer>
-
+class QColor;
 class QIcon;
 class QPixmap;
 class QPainter;
+class QObject;
+class QString;
+class QVariant;
+class QWidget;
 
 enum AppIconType {
     AppIconNormal,
     AppIconRunning
 };
 
-class IconFactory
-{
-public:
-    IconFactory();
+QIcon getIcon(const QString &themeName, unsigned short id);
 
-    QIcon getIcon(const QString &themeName, ushort id);
-    QIcon getIconFromResources(const QString &iconName);
+QIcon getIcon(const QVariant &iconOrIconId);
 
-    void setUseSystemIcons(bool enable) { m_useSystemIcons = enable; }
-    bool useSystemIcons() const { return m_useSystemIcons || !m_iconFontLoaded; }
+QIcon getIconFromResources(const QString &iconName);
 
-    QIcon iconFromFile(const QString &fileName);
+QIcon iconFromFile(const QString &fileName);
 
-    QPixmap createPixmap(ushort id, const QColor &color, int size);
+QPixmap createPixmap(unsigned short id, const QColor &color, int size);
 
-    /// Return app icon (color is calculated from session name).
-    QIcon appIcon(AppIconType iconType = AppIconNormal);
+/// Return app icon (color is calculated from session name).
+QIcon appIcon(AppIconType iconType = AppIconNormal);
 
-    QObject *activePaintDevice() const { return m_activePaintDevice; }
-    void setActivePaintDevice(QObject *device) { m_activePaintDevice = device; }
-
-private:
-    bool m_useSystemIcons;
-    bool m_iconFontLoaded;
-    QPointer<QObject> m_activePaintDevice;
-};
+void setActivePaintDevice(QObject *device);
 
 QColor getDefaultIconColor(const QWidget &widget, bool selected = false);
 

@@ -81,11 +81,6 @@ const QIcon iconTabRename() { return getIconFromResources("tab_rename"); }
 
 const int clipboardNotificationId = 0;
 
-QIcon appIcon(AppIconType iconType = AppIconNormal)
-{
-    return ConfigurationManager::instance()->iconFactory()->appIcon(iconType);
-}
-
 bool canPaste()
 {
     return !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier);

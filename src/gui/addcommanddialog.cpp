@@ -25,6 +25,7 @@
 #include "common/mimetypes.h"
 #include "item/itemfactory.h"
 #include "gui/configurationmanager.h"
+#include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"
 
