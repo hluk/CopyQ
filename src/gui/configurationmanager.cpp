@@ -183,7 +183,7 @@ void ConfigurationManager::updateAutostart()
     PlatformPtr platform = createPlatformNativeInterface();
 
     if ( platform->canAutostart() ) {
-        bind("autostart", ui->checkBoxAutostart, platform->isAutostartEnabled());
+        bind<Config::autostart>(ui->checkBoxAutostart);
     } else {
         ui->checkBoxAutostart->hide();
     }
@@ -192,61 +192,61 @@ void ConfigurationManager::updateAutostart()
 void ConfigurationManager::setAutostartEnable()
 {
     PlatformPtr platform = createPlatformNativeInterface();
-    platform->setAutostartEnabled( AppConfig().option("autostart").toBool() );
+    platform->setAutostartEnabled( AppConfig().option<Config::autostart>() );
 }
 
 void ConfigurationManager::initOptions()
 {
     /* general options */
-    bind("autostart", ui->checkBoxAutostart, false);
-    bind("clipboard_tab", ui->comboBoxClipboardTab->lineEdit(), defaultClipboardTabName());
-    bind("maxitems", ui->spinBoxItems, 200);
-    bind("expire_tab", ui->spinBoxExpireTab, 0);
-    bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
-    bind("item_popup_interval", ui->spinBoxNotificationPopupInterval, 0);
-    bind("notification_position", ui->comboBoxNotificationPosition, 3);
-    bind("clipboard_notification_lines", ui->spinBoxClipboardNotificationLines, 0);
-    bind("notification_horizontal_offset", ui->spinBoxNotificationHorizontalOffset, 10);
-    bind("notification_vertical_offset", ui->spinBoxNotificationVerticalOffset, 10);
-    bind("notification_maximum_width", ui->spinBoxNotificationMaximumWidth, 300);
-    bind("notification_maximum_height", ui->spinBoxNotificationMaximumHeight, 100);
-    bind("edit_ctrl_return", ui->checkBoxEditCtrlReturn, true);
-    bind("move", ui->checkBoxMove, true);
-    bind("check_clipboard", ui->checkBoxClip, true);
-    bind("confirm_exit", ui->checkBoxConfirmExit, true);
-    bind("vi", ui->checkBoxViMode, false);
-    bind("save_filter_history", ui->checkBoxSaveFilterHistory, false);
-    bind("always_on_top", ui->checkBoxAlwaysOnTop, false);
-    bind("open_windows_on_current_screen", ui->checkBoxOpenWindowsOnCurrentScreen, true);
-    bind("transparency_focused", ui->spinBoxTransparencyFocused, 0);
-    bind("transparency", ui->spinBoxTransparencyUnfocused, 0);
-    bind("hide_tabs", ui->checkBoxHideTabs, false);
-    bind("hide_toolbar", ui->checkBoxHideToolbar, false);
-    bind("hide_toolbar_labels", ui->checkBoxHideToolbarLabels, true);
-    bind("disable_tray", ui->checkBoxDisableTray, false);
-    bind("hide_main_window", ui->checkBoxHideWindow, false);
-    bind("tab_tree", ui->checkBoxTabTree, false);
-    bind("show_tab_item_count", ui->checkBoxShowTabItemCount, false);
-    bind("text_wrap", ui->checkBoxTextWrap, true);
+    bind<Config::autostart>(ui->checkBoxAutostart);
+    bind<Config::clipboard_tab>(ui->comboBoxClipboardTab->lineEdit());
+    bind<Config::maxitems>(ui->spinBoxItems);
+    bind<Config::expire_tab>(ui->spinBoxExpireTab);
+    bind<Config::editor>(ui->lineEditEditor);
+    bind<Config::item_popup_interval>(ui->spinBoxNotificationPopupInterval);
+    bind<Config::notification_position>(ui->comboBoxNotificationPosition);
+    bind<Config::clipboard_notification_lines>(ui->spinBoxClipboardNotificationLines);
+    bind<Config::notification_horizontal_offset>(ui->spinBoxNotificationHorizontalOffset);
+    bind<Config::notification_vertical_offset>(ui->spinBoxNotificationVerticalOffset);
+    bind<Config::notification_maximum_width>(ui->spinBoxNotificationMaximumWidth);
+    bind<Config::notification_maximum_height>(ui->spinBoxNotificationMaximumHeight);
+    bind<Config::edit_ctrl_return>(ui->checkBoxEditCtrlReturn);
+    bind<Config::move>(ui->checkBoxMove);
+    bind<Config::check_clipboard>(ui->checkBoxClip);
+    bind<Config::confirm_exit>(ui->checkBoxConfirmExit);
+    bind<Config::vi>(ui->checkBoxViMode);
+    bind<Config::save_filter_history>(ui->checkBoxSaveFilterHistory);
+    bind<Config::always_on_top>(ui->checkBoxAlwaysOnTop);
+    bind<Config::open_windows_on_current_screen>(ui->checkBoxOpenWindowsOnCurrentScreen);
+    bind<Config::transparency_focused>(ui->spinBoxTransparencyFocused);
+    bind<Config::transparency>(ui->spinBoxTransparencyUnfocused);
+    bind<Config::hide_tabs>(ui->checkBoxHideTabs);
+    bind<Config::hide_toolbar>(ui->checkBoxHideToolbar);
+    bind<Config::hide_toolbar_labels>(ui->checkBoxHideToolbarLabels);
+    bind<Config::disable_tray>(ui->checkBoxDisableTray);
+    bind<Config::hide_main_window>(ui->checkBoxHideWindow);
+    bind<Config::tab_tree>(ui->checkBoxTabTree);
+    bind<Config::show_tab_item_count>(ui->checkBoxShowTabItemCount);
+    bind<Config::text_wrap>(ui->checkBoxTextWrap);
 
-    bind("activate_closes", ui->checkBoxActivateCloses, true);
-    bind("activate_focuses", ui->checkBoxActivateFocuses, false);
-    bind("activate_pastes", ui->checkBoxActivatePastes, false);
+    bind<Config::activate_closes>(ui->checkBoxActivateCloses);
+    bind<Config::activate_focuses>(ui->checkBoxActivateFocuses);
+    bind<Config::activate_pastes>(ui->checkBoxActivatePastes);
 
-    bind("tray_items", ui->spinBoxTrayItems, 5);
-    bind("tray_item_paste", ui->checkBoxPasteMenuItem, true);
-    bind("tray_commands", ui->checkBoxTrayShowCommands, true);
-    bind("tray_tab_is_current", ui->checkBoxMenuTabIsCurrent, true);
-    bind("tray_images", ui->checkBoxTrayImages, true);
-    bind("tray_tab", ui->comboBoxMenuTab->lineEdit(), "");
+    bind<Config::tray_items>(ui->spinBoxTrayItems);
+    bind<Config::tray_item_paste>(ui->checkBoxPasteMenuItem);
+    bind<Config::tray_commands>(ui->checkBoxTrayShowCommands);
+    bind<Config::tray_tab_is_current>(ui->checkBoxMenuTabIsCurrent);
+    bind<Config::tray_images>(ui->checkBoxTrayImages);
+    bind<Config::tray_tab>(ui->comboBoxMenuTab->lineEdit());
 
     /* other options */
-    bind("command_history_size", 100);
+    bind<Config::command_history_size>();
 #ifdef COPYQ_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
-    bind("check_selection", ui->checkBoxSel, false);
-    bind("copy_clipboard", ui->checkBoxCopyClip, false);
-    bind("copy_selection", ui->checkBoxCopySel, false);
+    bind<Config::check_selection>(ui->checkBoxSel);
+    bind<Config::copy_clipboard>(ui->checkBoxCopyClip);
+    bind<Config::copy_selection>(ui->checkBoxCopySel);
 #else
     ui->checkBoxCopySel->hide();
     ui->checkBoxSel->hide();
@@ -254,33 +254,45 @@ void ConfigurationManager::initOptions()
 #endif
 
     // values of last submitted action
-    bind("action_has_input", false);
-    bind("action_has_output", false);
-    bind("action_separator", "\\n");
-    bind("action_output_tab", "");
+    bind<Config::action_has_input>();
+    bind<Config::action_has_output>();
+    bind<Config::action_separator>();
+    bind<Config::action_output_tab>();
 }
 
-void ConfigurationManager::bind(const char *optionKey, QCheckBox *obj, bool defaultValue)
+template <typename Config, typename Widget>
+void ConfigurationManager::bind(Widget *obj)
+{
+    bind(Config::name(), obj, Config::defaultValue());
+}
+
+template <typename Config>
+void ConfigurationManager::bind()
+{
+    bind(Config::name(), QVariant::fromValue(Config::defaultValue()));
+}
+
+void ConfigurationManager::bind(const QString &optionKey, QCheckBox *obj, bool defaultValue)
 {
     m_options[optionKey] = Option(defaultValue, "checked", obj);
 }
 
-void ConfigurationManager::bind(const char *optionKey, QSpinBox *obj, int defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, QSpinBox *obj, int defaultValue)
 {
     m_options[optionKey] = Option(defaultValue, "value", obj);
 }
 
-void ConfigurationManager::bind(const char *optionKey, QLineEdit *obj, const QString &defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, QLineEdit *obj, const QString &defaultValue)
 {
     m_options[optionKey] = Option(defaultValue, "text", obj);
 }
 
-void ConfigurationManager::bind(const char *optionKey, QComboBox *obj, int defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, QComboBox *obj, int defaultValue)
 {
     m_options[optionKey] = Option(defaultValue, "currentIndex", obj);
 }
 
-void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, const QVariant &defaultValue)
 {
     m_options[optionKey] = Option(defaultValue);
 }
@@ -339,7 +351,7 @@ void ConfigurationManager::loadSettings()
     ui->configTabAppearance->loadTheme(settings);
     settings.endGroup();
 
-    ui->configTabAppearance->setEditor( AppConfig().option("editor").toString() );
+    ui->configTabAppearance->setEditor( AppConfig().option<Config::editor>() );
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
@@ -460,7 +472,7 @@ void ConfigurationManager::apply()
         }
     }
 
-    ui->configTabAppearance->setEditor( AppConfig().option("editor").toString() );
+    ui->configTabAppearance->setEditor( AppConfig().option<Config::editor>() );
 
     setAutostartEnable();
 
@@ -503,10 +515,4 @@ void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
 void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
 {
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
-}
-
-QString defaultClipboardTabName()
-{
-    return ConfigurationManager::tr(
-                "&clipboard", "Default name of the tab that automatically stores new clipboard content");
 }

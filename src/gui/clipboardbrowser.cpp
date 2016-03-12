@@ -162,13 +162,13 @@ ClipboardBrowserShared::ClipboardBrowserShared(ItemFactory *itemFactory)
 void ClipboardBrowserShared::loadFromConfiguration()
 {
     AppConfig appConfig;
-    editor = appConfig.option("editor").toString();
-    maxItems = appConfig.option("maxitems").toInt();
-    textWrap = appConfig.option("text_wrap").toBool();
-    viMode = appConfig.option("vi").toBool();
-    saveOnReturnKey = !appConfig.option("edit_ctrl_return").toBool();
-    moveItemOnReturnKey = appConfig.option("move").toBool();
-    minutesToExpire = appConfig.option("expire_tab").toInt();
+    editor = appConfig.option<Config::editor>();
+    maxItems = appConfig.option<Config::maxitems>();
+    textWrap = appConfig.option<Config::text_wrap>();
+    viMode = appConfig.option<Config::vi>();
+    saveOnReturnKey = !appConfig.option<Config::edit_ctrl_return>();
+    moveItemOnReturnKey = appConfig.option<Config::move>();
+    minutesToExpire = appConfig.option<Config::expire_tab>();
 }
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserSharedPtr &sharedData)
@@ -435,7 +435,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
     // Hide scrollbars while editing.
     Qt::ScrollBarPolicy scrollbarPolicy = Qt::ScrollBarAlwaysOff;
     if (!active) {
-        scrollbarPolicy = AppConfig(AppConfig::ThemeCategory).isOptionOn("show_scrollbars")
+        scrollbarPolicy = AppConfig(AppConfig::ThemeCategory).isOptionOn("show_scrollbars", true)
                 ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff;
     }
     setVerticalScrollBarPolicy(scrollbarPolicy);

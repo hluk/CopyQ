@@ -19,7 +19,14 @@
 
 #include "appconfig.h"
 
+#include <QObject>
 #include <QString>
+
+QString defaultClipboardTabName()
+{
+    return QObject::tr(
+                "&clipboard", "Default name of the tab that automatically stores new clipboard content");
+}
 
 QVariant AppConfig::option(const QString &name) const
 {

@@ -585,9 +585,9 @@ QVariant ScriptableProxyHelper::config(const QString &name, const QString &value
 
     if ( m_wnd->hasUserOption(name) ) {
         if ( value.isNull() )
-            return m_wnd->getUserOptionDescription(name);
+            return m_wnd->getUserOptionValue(name);
 
-        m_wnd->setUserOption(name, value);
+        m_wnd->setUserOptionValue(name, value);
         return QString();
     }
 

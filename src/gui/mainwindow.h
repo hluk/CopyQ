@@ -265,10 +265,10 @@ public:
     QString getUserOptionsDescription() const;
 
     /// Get description for an user option (used by config() command).
-    QString getUserOptionDescription(const QString &name) const;
+    QString getUserOptionValue(const QString &name) const;
 
     /// Set value of user option (used by config() command).
-    void setUserOption(const QString &name, const QString &value);
+    void setUserOptionValue(const QString &name, const QString &value);
 
     /// Return true only if user option is available (used by config() command).
     bool hasUserOption(const QString &name) const;

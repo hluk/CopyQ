@@ -51,7 +51,7 @@ QHash<QString, QString> tabIcons()
 
 QStringList tabs()
 {
-    QStringList tabs = AppConfig().option("tabs").toStringList();
+    QStringList tabs = AppConfig().option<Config::tabs>();
     tabs.removeAll(QString());
     return tabs;
 }

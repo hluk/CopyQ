@@ -98,11 +98,18 @@ private:
     void setAutostartEnable();
 
     void initOptions();
-    void bind(const char *optionKey, QCheckBox *obj, bool defaultValue);
-    void bind(const char *optionKey, QSpinBox  *obj, int defaultValue);
-    void bind(const char *optionKey, QLineEdit *obj, const QString &defaultValue);
-    void bind(const char *optionKey, QComboBox *obj, int defaultValue);
-    void bind(const char *optionKey, const QVariant &defaultValue);
+
+    template <typename Config, typename Widget>
+    void bind(Widget *obj);
+
+    template <typename Config>
+    void bind();
+
+    void bind(const QString &optionKey, QCheckBox *obj, bool defaultValue);
+    void bind(const QString &optionKey, QSpinBox  *obj, int defaultValue);
+    void bind(const QString &optionKey, QLineEdit *obj, const QString &defaultValue);
+    void bind(const QString &optionKey, QComboBox *obj, int defaultValue);
+    void bind(const QString &optionKey, const QVariant &defaultValue);
 
     void updateTabComboBoxes();
 
@@ -113,7 +120,5 @@ private:
 
     bool m_optionWidgetsLoaded;
 };
-
-QString defaultClipboardTabName();
 
 #endif // CONFIGURATIONMANAGER_H

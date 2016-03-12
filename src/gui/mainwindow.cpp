@@ -240,22 +240,22 @@ bool isClipboardDataHidden(const QVariantMap &data)
 bool needSyncClipboardToSelection(const QVariantMap &data)
 {
     return isClipboardData(data)
-            && AppConfig().isOptionOn("copy_clipboard")
+            && AppConfig().option<Config::copy_clipboard>()
             && !clipboardContains(QClipboard::Selection, data);
 }
 
 bool needSyncSelectionToClipboard(const QVariantMap &data)
 {
     return !isClipboardData(data)
-            && AppConfig().isOptionOn("copy_selection")
+            && AppConfig().option<Config::copy_selection>()
             && !clipboardContains(QClipboard::Clipboard, data);
 }
 
 bool needStore(const QVariantMap &data)
 {
-    const QString optionName =
-            isClipboardData(data) ? "check_clipboard" : "check_selection";
-    return AppConfig().isOptionOn(optionName);
+    return isClipboardData(data)
+            ? AppConfig().option<Config::check_clipboard>()
+            : AppConfig().option<Config::check_selection>();
 }
 #else
 bool needSyncClipboardToSelection(const QVariantMap &)
@@ -271,7 +271,7 @@ bool needSyncSelectionToClipboard(const QVariantMap &)
 bool needStore(const QVariantMap &data)
 {
     return isClipboardData(data)
-            && AppConfig().isOptionOn("check_clipboard");
+            && AppConfig().option<Config::check_clipboard>();
 }
 #endif
 
@@ -289,7 +289,7 @@ Dialog *openDialog(QWidget *dialogParent)
 
 QString defaultTabName()
 {
-    const QString tab = AppConfig().option("clipboard_tab").toString();
+    const QString tab = AppConfig().option<Config::clipboard_tab>();
     return tab.isEmpty() ? defaultClipboardTabName() : tab;
 }
 
@@ -876,7 +876,7 @@ void MainWindow::updateNotifications()
     notificationDaemon()->setNotificationStyleSheet( theme.getNotificationStyleSheet() );
 
     AppConfig appConfig;
-    int id = appConfig.option("notification_position").toInt();
+    int id = appConfig.option<Config::notification_position>();
     NotificationDaemon::Position position;
     switch (id) {
     case 0: position = NotificationDaemon::Top; break;
@@ -888,12 +888,12 @@ void MainWindow::updateNotifications()
     }
     m_notifications->setPosition(position);
 
-    const int x = appConfig.option("notification_horizontal_offset").toInt();
-    const int y = appConfig.option("notification_vertical_offset").toInt();
+    const int x = appConfig.option<Config::notification_horizontal_offset>();
+    const int y = appConfig.option<Config::notification_vertical_offset>();
     m_notifications->setOffset(x, y);
 
-    const int w = appConfig.option("notification_maximum_width").toInt();
-    const int h = appConfig.option("notification_maximum_height").toInt();
+    const int w = appConfig.option<Config::notification_maximum_width>();
+    const int h = appConfig.option<Config::notification_maximum_height>();
     m_notifications->setMaximumSize(w, h);
 
     m_notifications->updateInterval(0, m_options.itemPopupInterval);
@@ -1155,7 +1155,7 @@ void MainWindow::updateTrayIcon()
 
 void MainWindow::initTray()
 {
-    if ( AppConfig().isOptionOn("disable_tray") ) {
+    if ( AppConfig().option<Config::disable_tray>() ) {
         if (m_tray) {
             // Hide tray on Ubuntu (buggy sni-qt)
             m_tray->hide();
@@ -1574,39 +1574,39 @@ void MainWindow::loadSettings()
 
     AppConfig appConfig;
 
-    m_options.confirmExit = appConfig.isOptionOn("confirm_exit");
+    m_options.confirmExit = appConfig.option<Config::confirm_exit>();
 
     // always on top window hint
-    bool alwaysOnTop = appConfig.isOptionOn("always_on_top");
+    bool alwaysOnTop = appConfig.option<Config::always_on_top>();
     setAlwaysOnTop(this, alwaysOnTop);
     setAlwaysOnTop(m_commandDialog.data(), alwaysOnTop);
 
     // Vi mode
-    m_options.viMode = appConfig.isOptionOn("vi");
+    m_options.viMode = appConfig.option<Config::vi>();
     m_trayMenu->setViModeEnabled(m_options.viMode);
 
-    m_options.transparency = appConfig.optionInRange("transparency", 0, 100);
-    m_options.transparencyFocused = appConfig.optionInRange("transparency_focused", 0, 100);
+    m_options.transparency = appConfig.option<Config::transparency>();
+    m_options.transparencyFocused = appConfig.option<Config::transparency_focused>();
     updateWindowTransparency();
 
     // tab bar position
-    const bool tabTreeEnabled = appConfig.isOptionOn("tab_tree");
+    const bool tabTreeEnabled = appConfig.option<Config::tab_tree>();
     ui->tabWidget->setTreeModeEnabled(tabTreeEnabled);
-    ui->tabWidget->setTabItemCountVisible(appConfig.isOptionOn("show_tab_item_count"));
+    ui->tabWidget->setTabItemCountVisible(appConfig.option<Config::show_tab_item_count>());
     if (tabTreeEnabled)
         theme.decorateScrollArea(ui->tabWidget->tabTree());
 
-    m_options.hideTabs = appConfig.isOptionOn("hide_tabs");
+    m_options.hideTabs = appConfig.option<Config::hide_tabs>();
     setHideTabs(m_options.hideTabs);
 
-    bool hideToolbar = appConfig.isOptionOn("hide_toolbar");
+    bool hideToolbar = appConfig.option<Config::hide_toolbar>();
     ui->toolBar->clear();
     ui->toolBar->setHidden(hideToolbar);
-    bool hideToolBarLabels = appConfig.isOptionOn("hide_toolbar_labels");
+    bool hideToolBarLabels = appConfig.option<Config::hide_toolbar_labels>();
     ui->toolBar->setToolButtonStyle(hideToolBarLabels ? Qt::ToolButtonIconOnly
                                                       : Qt::ToolButtonTextUnderIcon);
 
-    m_options.hideMainWindow = appConfig.isOptionOn("hide_main_window");
+    m_options.hideMainWindow = appConfig.option<Config::hide_main_window>();
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
@@ -1628,22 +1628,22 @@ void MainWindow::loadSettings()
     updateContextMenu();
 
     m_options.itemActivationCommands = ActivateNoCommand;
-    if ( appConfig.isOptionOn("activate_closes") )
+    if ( appConfig.option<Config::activate_closes>() )
         m_options.itemActivationCommands |= ActivateCloses;
-    if ( appConfig.isOptionOn("activate_focuses") )
+    if ( appConfig.option<Config::activate_focuses>() )
         m_options.itemActivationCommands |= ActivateFocuses;
-    if ( appConfig.isOptionOn("activate_pastes") )
+    if ( appConfig.option<Config::activate_pastes>() )
         m_options.itemActivationCommands |= ActivatePastes;
 
-    m_options.trayItems = appConfig.optionInRange("tray_items", 0, 99);
-    m_options.trayItemPaste = appConfig.isOptionOn("tray_item_paste");
-    m_options.trayCommands = appConfig.isOptionOn("tray_commands");
-    m_options.trayCurrentTab = appConfig.isOptionOn("tray_tab_is_current");
-    m_options.trayTabName = appConfig.option("tray_tab").toString();
-    m_options.trayImages = appConfig.isOptionOn("tray_images");
-    m_options.itemPopupInterval = appConfig.option("item_popup_interval").toInt();
-    m_options.clipboardNotificationLines = appConfig.option("clipboard_notification_lines").toInt();
-    m_options.clipboardTab = appConfig.option("clipboard_tab").toString();
+    m_options.trayItems = appConfig.option<Config::tray_items>();
+    m_options.trayItemPaste = appConfig.option<Config::tray_item_paste>();
+    m_options.trayCommands = appConfig.option<Config::tray_commands>();
+    m_options.trayCurrentTab = appConfig.option<Config::tray_tab_is_current>();
+    m_options.trayTabName = appConfig.option<Config::tray_tab>();
+    m_options.trayImages = appConfig.option<Config::tray_images>();
+    m_options.itemPopupInterval = appConfig.option<Config::item_popup_interval>();
+    m_options.clipboardNotificationLines = appConfig.option<Config::clipboard_notification_lines>();
+    m_options.clipboardTab = appConfig.option<Config::clipboard_tab>();
 
     m_trayMenu->setStyleSheet( theme.getToolTipStyleSheet() );
 
@@ -1898,15 +1898,16 @@ QString MainWindow::getUserOptionsDescription() const
     return opts;
 }
 
-QString MainWindow::getUserOptionDescription(const QString &name) const
+QString MainWindow::getUserOptionValue(const QString &name) const
 {
     ConfigurationManager configurationManager(m_sharedData->itemFactory);
     return configurationManager.optionValue(name);
 }
 
-void MainWindow::setUserOption(const QString &name, const QString &value)
+void MainWindow::setUserOptionValue(const QString &name, const QString &value)
 {
     AppConfig().setOption(name, value);
+    emit configurationChanged();
 }
 
 bool MainWindow::hasUserOption(const QString &name) const
@@ -2277,7 +2278,7 @@ void MainWindow::openPreferences()
     // notify window if configuration changes
     connect( &configurationManager, SIGNAL(configurationChanged()),
              this, SIGNAL(configurationChanged()) );
-    connect( &configurationManager, SIGNAL(configurationChanged()),
+    connect( this, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
     connect( &configurationManager, SIGNAL(error(QString)),
              this, SLOT(showError(QString)) );

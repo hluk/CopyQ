@@ -218,7 +218,6 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
     // Limit the loaded number of items to model's maximum.
     const QVariant maxItems = model->property("maxItems");
     Q_ASSERT( maxItems.isValid() );
-    Q_ASSERT( maxItems.toInt() > 0 );
     length = qMin( length, maxItems.toInt() ) - model->rowCount();
 
     if ( length != 0 && !model->insertRows(0, length) )
