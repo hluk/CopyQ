@@ -33,6 +33,7 @@
 #include "item/itemeditor.h"
 #include "item/itemeditorwidget.h"
 #include "item/itemfactory.h"
+#include "item/itemstore.h"
 #include "item/itemwidget.h"
 
 #include <QApplication>
@@ -824,14 +825,12 @@ void ClipboardBrowser::onTabNameChanged(const QString &tabName)
         return;
     }
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
     // Just move last saved file if tab is not loaded yet.
-    if ( isLoaded() && cm->saveItemsWithOther(m, m_itemLoader) ) {
+    if ( isLoaded() && saveItemsWithOther(m, m_itemLoader, m_sharedData->itemFactory) ) {
         m_timerSave.stop();
-        cm->removeItems(m_tabName);
+        removeItems(m_tabName);
     } else {
-        cm->moveItems(m_tabName, tabName);
+        moveItems(m_tabName, tabName);
     }
 
     m_tabName = tabName;
@@ -1689,7 +1688,7 @@ void ClipboardBrowser::loadItemsAgain()
     m_timerSave.stop();
 
     m.blockSignals(true);
-    m_itemLoader = ConfigurationManager::instance()->loadItems(m);
+    m_itemLoader = ::loadItems(m, m_sharedData->itemFactory);
     m.blockSignals(false);
 
     // Show lock button if model is disabled.
@@ -1723,7 +1722,7 @@ bool ClipboardBrowser::saveItems()
     if ( !isLoaded() || tabName().isEmpty() )
         return false;
 
-    ConfigurationManager::instance()->saveItems(m, m_itemLoader);
+    ::saveItems(m, m_itemLoader);
     return true;
 }
 
@@ -1750,7 +1749,8 @@ void ClipboardBrowser::purgeItems()
 {
     if ( tabName().isEmpty() )
         return;
-    ConfigurationManager::instance()->removeItems(tabName());
+
+    removeItems(tabName());
     m_timerSave.stop();
 }
 
@@ -1806,7 +1806,7 @@ bool ClipboardBrowser::editing() const
 
 bool ClipboardBrowser::isLoaded() const
 {
-    return ( m_itemLoader && !m.isDisabled() ) || tabName().isEmpty();
+    return !m_sharedData->itemFactory || ( m_itemLoader && !m.isDisabled() ) || tabName().isEmpty();
 }
 
 bool ClipboardBrowser::maybeCloseEditor()

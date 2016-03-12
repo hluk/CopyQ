@@ -74,25 +74,6 @@ public:
     /** Return tooltip text for option with given @a name. */
     QString optionToolTip(const QString &name) const;
 
-    /** Load items from configuration file. */
-    ItemLoaderInterface *loadItems(
-            ClipboardModel &model //!< Model for items.
-            );
-    /** Save items to configuration file. */
-    bool saveItems(const ClipboardModel &model //!< Model containing items to save.
-            , ItemLoaderInterface *loader);
-    /** Save items with other plugin with higher priority than current one (@a loader). */
-    bool saveItemsWithOther(ClipboardModel &model //!< Model containing items to save.
-            , ItemLoaderInterface *loader);
-    /** Remove configuration file for items. */
-    void removeItems(const QString &tabName //!< See ClipboardBrowser::getID().
-            );
-    /** Move configuration file for items. */
-    void moveItems(
-            const QString &oldId, //!< See ClipboardBrowser::getID().
-            const QString &newId //!< See ClipboardBrowser::getID().
-            );
-
     ConfigTabAppearance *tabAppearance() const;
 
     ConfigTabShortcuts *tabShortcuts() const;
@@ -125,13 +106,6 @@ private:
 
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
-
-    /**
-     * @return File name for data file with items.
-     */
-    QString itemFileName(const QString &id) const;
-
-    bool createItemDirectory();
 
     void initTabIcons();
 
