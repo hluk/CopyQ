@@ -88,15 +88,6 @@ QString nativeLanguageName(const QString &localeName)
 
 } // namespace
 
-// singleton
-ConfigurationManager *ConfigurationManager::m_Instance = 0;
-
-ConfigurationManager *ConfigurationManager::instance()
-{
-    Q_ASSERT(m_Instance != NULL);
-    return m_Instance;
-}
-
 ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ConfigurationManager)
@@ -120,7 +111,6 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
 
 ConfigurationManager::~ConfigurationManager()
 {
-    m_Instance = NULL;
     delete ui;
 }
 
@@ -424,15 +414,6 @@ void ConfigurationManager::setVisible(bool visible)
         initLanguages();
         m_optionWidgetsLoaded = true;
     }
-}
-
-ConfigurationManager *ConfigurationManager::createInstance(ItemFactory *itemFactory, QWidget *parent)
-{
-    Q_ASSERT(m_Instance == NULL);
-    m_Instance = new ConfigurationManager(itemFactory, parent);
-    m_Instance->loadSettings();
-    WindowGeometryGuard::create(m_Instance);
-    return m_Instance;
 }
 
 void ConfigurationManager::apply()

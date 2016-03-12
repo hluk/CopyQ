@@ -297,7 +297,7 @@ QString defaultTabName()
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     : QMainWindow(parent)
-    , cm(ConfigurationManager::createInstance(itemFactory, this))
+    , cm(NULL)
     , ui(new Ui::MainWindow)
     , m_menuItem(NULL)
     , m_trayMenu( new TrayMenu(this) )
@@ -370,16 +370,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerShowWindow, 250 );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
     initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
-
-    // notify window if configuration changes
-    connect( cm, SIGNAL(configurationChanged()),
-             this, SIGNAL(configurationChanged()) );
-    connect( cm, SIGNAL(configurationChanged()),
-             this, SLOT(loadSettings()) );
-    connect( cm, SIGNAL(error(QString)),
-             this, SLOT(showError(QString)) );
-    connect( cm, SIGNAL(openCommandDialogRequest()),
-             this, SLOT(openCommands()) );
 
     // browse mode by default
     enterBrowseMode();
@@ -650,7 +640,9 @@ void MainWindow::updateIconSnip()
 
 void MainWindow::onAboutToQuit()
 {
-    cm->disconnect();
+    if (cm)
+        cm->disconnect();
+
     saveMainWindowState( objectName(), saveState() );
     hideWindow();
     if (m_tray)
@@ -1896,11 +1888,13 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
 
 QString MainWindow::getUserOptionsDescription() const
 {
-    QStringList options = cm->options();
+    ConfigurationManager configurationManager(m_sharedData->itemFactory);
+
+    QStringList options = configurationManager.options();
     options.sort();
     QString opts;
     foreach (const QString &option, options)
-        opts.append( option + "\n  " + cm->optionToolTip(option).replace('\n', "\n  ") + '\n' );
+        opts.append( option + "\n  " + configurationManager.optionToolTip(option).replace('\n', "\n  ") + '\n' );
     return opts;
 }
 
@@ -1917,7 +1911,8 @@ void MainWindow::setUserOption(const QString &name, const QString &value)
 
 bool MainWindow::hasUserOption(const QString &name) const
 {
-    return cm->options().contains(name);
+    ConfigurationManager configurationManager(m_sharedData->itemFactory);
+    return configurationManager.options().contains(name);
 }
 
 QString syncCommand(const QString &type)
@@ -2270,9 +2265,28 @@ void MainWindow::openPreferences()
     if ( !isEnabled() )
         return;
 
-    if ( !cm->isVisible() )
-        cm->loadSettings();
-    cm->exec();
+    if (cm) {
+        cm->activateWindow();
+        return;
+    }
+
+    ConfigurationManager configurationManager(m_sharedData->itemFactory, this);
+    configurationManager.loadSettings();
+    WindowGeometryGuard::create(&configurationManager);
+
+    // notify window if configuration changes
+    connect( &configurationManager, SIGNAL(configurationChanged()),
+             this, SIGNAL(configurationChanged()) );
+    connect( &configurationManager, SIGNAL(configurationChanged()),
+             this, SLOT(loadSettings()) );
+    connect( &configurationManager, SIGNAL(error(QString)),
+             this, SLOT(showError(QString)) );
+    connect( &configurationManager, SIGNAL(openCommandDialogRequest()),
+             this, SLOT(openCommands()) );
+
+    cm = &configurationManager;
+    configurationManager.exec();
+    cm = NULL;
 }
 
 void MainWindow::openCommands()
@@ -2289,7 +2303,11 @@ void MainWindow::openCommands()
         formats.prepend(mimeText);
         formats.removeDuplicates();
 
-        m_commandDialog = new CommandDialog(pluginCommands, formats, cm);
+        QWidget *parent = this;
+        if (cm)
+            parent = cm;
+
+        m_commandDialog = new CommandDialog(pluginCommands, formats, parent);
         if (windowFlags() & Qt::WindowStaysOnTopHint)
             setAlwaysOnTop(m_commandDialog.data(), true);
         m_commandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
@@ -2298,7 +2316,7 @@ void MainWindow::openCommands()
         connect(m_commandDialog, SIGNAL(commandsSaved()), this, SLOT(onCommandDialogSaved()));
     }
 
-    if (cm->isVisible())
+    if (cm && cm->isVisible())
         m_commandDialog->setWindowModality(Qt::ApplicationModal);
 }
 

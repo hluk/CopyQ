@@ -24,15 +24,11 @@
 
 #include <QDialog>
 #include <QHash>
-#include <QScopedPointer>
 
 namespace Ui {
     class ConfigurationManager;
 }
 
-class ClipboardModel;
-class ConfigTabShortcuts;
-class IconFactory;
 class ItemFactory;
 class Option;
 class QAbstractButton;
@@ -40,8 +36,6 @@ class QCheckBox;
 class QComboBox;
 class QLineEdit;
 class QListWidgetItem;
-class QMainWindow;
-class QSettings;
 class QSpinBox;
 
 /**
@@ -52,16 +46,10 @@ class ConfigurationManager : public QDialog
 {
     Q_OBJECT
 
-    friend class MainWindow;
-
 public:
+    explicit ConfigurationManager(ItemFactory *itemFactory, QWidget *parent = NULL);
+
     ~ConfigurationManager();
-
-    /** Return singleton instance. */
-    static ConfigurationManager *instance();
-
-    /** Destroy singleton instance. */
-    static void drop();
 
     /** Load settings from default file. */
     void loadSettings();
@@ -86,9 +74,6 @@ signals:
 
     void openCommandDialogRequest();
 
-protected:
-    static ConfigurationManager *createInstance(ItemFactory *itemFactory, QWidget *parent);
-
 private slots:
     void apply();
     void on_buttonBox_clicked(QAbstractButton* button);
@@ -97,8 +82,6 @@ private slots:
     void on_spinBoxTrayItems_valueChanged(int value);
 
 private:
-    explicit ConfigurationManager(ItemFactory *itemFactory, QWidget *parent);
-
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
 
@@ -123,7 +106,6 @@ private:
 
     void updateTabComboBoxes();
 
-    static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
     QHash<QString, Option> m_options;
 
