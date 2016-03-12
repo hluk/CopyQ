@@ -395,6 +395,7 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
     switch( ui->buttonBox->buttonRole(button) ) {
     case QDialogButtonBox::ApplyRole:
         apply();
+        emit configurationChanged();
         break;
     case QDialogButtonBox::AcceptRole:
         accept();
@@ -505,14 +506,13 @@ void ConfigurationManager::apply()
         QMessageBox::information( this, tr("Restart Required"),
                                   tr("Language will be changed after application is restarted.") );
     }
-
-    emit configurationChanged();
 }
 
 void ConfigurationManager::done(int result)
 {
     if (result == QDialog::Accepted) {
         apply();
+        emit configurationChanged();
     } else {
         loadSettings();
     }
