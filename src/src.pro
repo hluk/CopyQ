@@ -116,7 +116,8 @@ HEADERS += \
     gui/logdialog.h \
     common/appconfig.h \
     gui/tabicons.h \
-    item/itemstore.h
+    item/itemstore.h \
+    gui/theme.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -199,7 +200,8 @@ SOURCES += \
     gui/logdialog.cpp \
     common/appconfig.cpp \
     gui/tabicons.cpp \
-    item/itemstore.cpp
+    item/itemstore.cpp \
+    gui/theme.cpp
 
 macx {
     # Copy the custom Info.plist to the app bundle

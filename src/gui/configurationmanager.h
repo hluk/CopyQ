@@ -31,7 +31,6 @@ namespace Ui {
 }
 
 class ClipboardModel;
-class ConfigTabAppearance;
 class ConfigTabShortcuts;
 class IconFactory;
 class ItemFactory;
@@ -73,8 +72,6 @@ public:
     QString optionValue(const QString &name) const;
     /** Return tooltip text for option with given @a name. */
     QString optionToolTip(const QString &name) const;
-
-    ConfigTabAppearance *tabAppearance() const;
 
     ConfigTabShortcuts *tabShortcuts() const;
 

@@ -35,7 +35,6 @@
 #include "gui/clipboarddialog.h"
 #include "gui/commandaction.h"
 #include "gui/commanddialog.h"
-#include "gui/configtabappearance.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
@@ -48,6 +47,7 @@
 #include "gui/tabdialog.h"
 #include "gui/tabicons.h"
 #include "gui/tabwidget.h"
+#include "gui/theme.h"
 #include "gui/traymenu.h"
 #include "gui/windowgeometryguard.h"
 #include "item/clipboardmodel.h"
@@ -875,9 +875,9 @@ void MainWindow::updateNotifications()
     if (m_notifications == NULL)
         m_notifications = new NotificationDaemon(this);
 
-    const ConfigTabAppearance *appearance = cm->tabAppearance();
-    notificationDaemon()->setNotificationOpacity( appearance->themeColor("notification_bg").alphaF() );
-    notificationDaemon()->setNotificationStyleSheet( appearance->getNotificationStyleSheet() );
+    const Theme theme;
+    notificationDaemon()->setNotificationOpacity( theme.color("notification_bg").alphaF() );
+    notificationDaemon()->setNotificationStyleSheet( theme.getNotificationStyleSheet() );
 
     AppConfig appConfig;
     int id = appConfig.option("notification_position").toInt();
@@ -1526,9 +1526,9 @@ void MainWindow::loadSettings()
 {
     COPYQ_LOG("Loading configuration");
 
-    ConfigTabAppearance *appearance = cm->tabAppearance();
-    appearance->decorateToolBar(ui->toolBar);
-    appearance->decorateMainWindow(this);
+    const Theme theme;
+    theme.decorateToolBar(ui->toolBar);
+    theme.decorateMainWindow(this);
 
     AppConfig appConfig;
 
@@ -1552,7 +1552,7 @@ void MainWindow::loadSettings()
     ui->tabWidget->setTreeModeEnabled(tabTreeEnabled);
     ui->tabWidget->setTabItemCountVisible(appConfig.isOptionOn("show_tab_item_count"));
     if (tabTreeEnabled)
-        appearance->decorateScrollArea(ui->tabWidget->tabTree());
+        theme.decorateScrollArea(ui->tabWidget->tabTree());
 
     m_options.hideTabs = appConfig.isOptionOn("hide_tabs");
     setHideTabs(m_options.hideTabs);
@@ -1603,7 +1603,7 @@ void MainWindow::loadSettings()
     m_options.clipboardNotificationLines = appConfig.option("clipboard_notification_lines").toInt();
     m_options.clipboardTab = appConfig.option("clipboard_tab").toString();
 
-    m_trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
+    m_trayMenu->setStyleSheet( theme.getToolTipStyleSheet() );
 
     initTray();
 

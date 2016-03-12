@@ -37,6 +37,7 @@ class ItemEditorWidget;
 class ItemFactory;
 class QProgressBar;
 class QPushButton;
+class Theme;
 
 enum SelectAction {
     NoSelectAction,
@@ -237,6 +238,9 @@ class ClipboardBrowser : public QListView
         void otherItemLoader(bool next);
 
         void move(int key);
+
+        /// Decorate browser and items with @a theme.
+        void decorate(const Theme &theme);
 
     public slots:
         /**

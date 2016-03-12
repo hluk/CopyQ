@@ -26,6 +26,7 @@
 #include "common/option.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfont.h"
+#include "gui/theme.h"
 #include "item/itemeditor.h"
 #include "item/itemdelegate.h"
 
@@ -47,135 +48,10 @@
 #   endif
 #endif
 
-namespace {
-
-QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
-{
-    QFont font;
-    if (!fontString.isEmpty())
-        font.fromString(fontString);
-
-    qreal size = font.pointSizeF() * scale;
-    QString sizeUnits = "pt";
-    if (size < 0.0) {
-        size = font.pixelSize() * scale;
-        sizeUnits = "px";
-    }
-
-    QString result;
-    result.append( QString(";font-family: \"%1\"").arg(font.family()) );
-    result.append( QString(";font:%1 %2 %3%4")
-                   .arg(font.style() == QFont::StyleItalic
-                        ? "italic" : font.style() == QFont::StyleOblique ? "oblique" : "normal")
-                   .arg(font.bold() ? "bold" : "")
-                   .arg(size)
-                   .arg(sizeUnits)
-                   );
-    result.append( QString(";text-decoration:%1 %2 %3")
-                   .arg(font.strikeOut() ? "line-through" : "")
-                   .arg(font.underline() ? "underline" : "")
-                   .arg(font.overline() ? "overline" : "")
-                   );
-    // QFont::weight -> CSS
-    // (normal) 50 -> 400
-    // (bold)   75 -> 700
-    int w = font.weight() * 12 - 200;
-    result.append( QString(";font-weight:%1").arg(w) );
-
-    result.append(";");
-
-    return result;
-}
-
-QString serializeColor(const QColor &color)
-{
-    if (color.alpha() == 255)
-        return color.name();
-
-    return QString("rgba(%1,%2,%3,%4)")
-            .arg(color.red())
-            .arg(color.green())
-            .arg(color.blue())
-            .arg(color.alpha());
-}
-
-QColor deserializeColor(const QString &colorName)
-{
-    if ( colorName.startsWith("rgba(") ) {
-        QStringList list = colorName.mid(5, colorName.indexOf(')') - 5).split(',');
-        int r = list.value(0).toInt();
-        int g = list.value(1).toInt();
-        int b = list.value(2).toInt();
-        int a = list.value(3).toDouble() * 255;
-
-        return QColor(r, g, b, a > 255 ? a / 255 : a);
-    }
-
-    return QColor(colorName);
-}
-
-int normalizeColorValue(int value)
-{
-    return qBound(0, value, 255);
-}
-
-QColor evalColor(const QString &expression, const QHash<QString, Option> &theme, int maxRecursion = 8);
-
-void addColor(const QString &color, float multiply, int *r, int *g, int *b, int *a,
-              const QHash<QString, Option> &theme, int maxRecursion)
-{
-    if (color.isEmpty())
-        return;
-
-    QColor toAdd;
-    float x = multiply;
-
-    if (color.at(0).isDigit()) {
-        bool ok;
-        x = multiply * color.toFloat(&ok);
-        if (!ok)
-            return;
-        toAdd = QColor(Qt::black);
-    } else if ( color.startsWith('#') || color.startsWith("rgba(") ) {
-        toAdd = deserializeColor(color);
-    } else {
-        if (maxRecursion > 0)
-            toAdd = evalColor(theme.value(color).value().toString(), theme, maxRecursion - 1);
-    }
-
-    *r = normalizeColorValue(*r + x * toAdd.red());
-    *g = normalizeColorValue(*g + x * toAdd.green());
-    *b = normalizeColorValue(*b + x * toAdd.blue());
-    if (multiply > 0.0)
-        *a = normalizeColorValue(*a + x * toAdd.alpha());
-}
-
-QColor evalColor(const QString &expression, const QHash<QString, Option> &theme, int maxRecursion)
-{
-    int r = 0;
-    int g = 0;
-    int b = 0;
-    int a = 0;
-
-    QStringList addList = QString(expression).remove(' ').split('+');
-    foreach (const QString &add, addList) {
-        QStringList subList = add.split('-');
-        float multiply = 1;
-        foreach (const QString &sub, subList) {
-            addColor(sub, multiply, &r, &g, &b, &a, theme, maxRecursion);
-            multiply = -1;
-        }
-    }
-
-    return QColor(r, g, b, a);
-}
-
-} // namespace
-
 ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ConfigTabAppearance)
-    , m_theme()
+    , m_theme(ui)
     , m_editor()
 {
     ui->setupUi(this);
@@ -222,225 +98,7 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
             connect(button, SIGNAL(clicked()), SLOT(onColorButtonClicked()));
     }
 
-    initThemeOptions();
-}
-
-void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
-{
-    QFont font;
-    QPalette p;
-    QColor color;
-
-    decorateScrollArea(c);
-
-    Theme unfocusedTheme = this->unfocusedTheme();
-
-    // colors and font
-    c->setStyleSheet(
-        "ClipboardBrowser,#item,#item_child{"
-          + getFontStyleSheet( themeValue("font").toString() ) +
-          "color:" + themeColorString("fg") + ";"
-          "background:" + themeColorString("bg") + ";"
-        "}"
-
-        "ClipboardBrowser::item:alternate{"
-          "color:" + themeColorString("alt_fg") + ";"
-          "background:" + themeColorString("alt_bg") + ";"
-        "}"
-
-        "ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{"
-          "color:" + themeColorString("sel_fg") + ";"
-          "background:" + themeColorString("sel_bg") + ";"
-        "}"
-
-        "#item,#item #item_child{background:transparent}"
-        "#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{background:transparent}"
-
-        // Desaturate selected item background if item list is not focused.
-        "ClipboardBrowser::item:selected:!active{"
-          "background:" + serializeColor( evalColor("sel_bg", unfocusedTheme) ) + ";"
-          + themeStyleSheet("sel_item_css", unfocusedTheme) +
-        "}"
-
-        "ClipboardBrowser::item:focus{"
-          + themeStyleSheet("cur_item_css") +
-        "}"
-
-        + getToolTipStyleSheet() +
-
-        // Allow user to change CSS.
-        "ClipboardBrowser{" + themeStyleSheet("item_css") + "}"
-        "ClipboardBrowser::item:alternate{" + themeStyleSheet("alt_item_css") + "}"
-        "ClipboardBrowser::item:selected{" + themeStyleSheet("sel_item_css") + "}"
-
-        "#item_child[CopyQ_item_type=\"notes\"] {"
-          + getFontStyleSheet( themeValue("notes_font").toString() ) +
-        "}"
-    );
-
-    // search style
-    ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );
-    font = themeFont("find_font");
-    color = themeColor("find_bg");
-    p.setColor(QPalette::Base, color);
-    color = themeColor("find_fg");
-    p.setColor(QPalette::Text, color);
-    d->setSearchStyle(font, p);
-
-    // editor style
-    font = themeFont("edit_font");
-    color = themeColor("edit_bg");
-    p.setColor(QPalette::Base, color);
-    color = themeColor("edit_fg");
-    p.setColor(QPalette::Text, color);
-    d->setEditorStyle(font, p);
-
-    // number style
-    d->setRowNumberVisibility(themeValue("show_number").toBool());
-    font = themeFont("num_font");
-    color = themeColor("num_fg");
-    p.setColor(QPalette::Text, color);
-    d->setNumberStyle(font, p);
-
-    d->setFontAntialiasing( themeValue("font_antialiasing").toBool() );
-
-    bool ok;
-    const int itemSpacing = themeValue("item_spacing").toInt(&ok);
-    c->setSpacing( ok ? itemSpacing : c->fontMetrics().lineSpacing() / 6 );
-
-    c->invalidateItemCache();
-}
-
-void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
-{
-    if ( !m_theme.value("style_main_window").value().toBool() ) {
-        mainWindow->setStyleSheet(QString());
-        return;
-    }
-
-    const int iconSize = iconFontSizePixels();
-    mainWindow->setStyleSheet(
-        "MainWindow{background:" + themeColorString("bg") + "}"
-
-        "#searchBar{"
-        + themeStyleSheet("search_bar") +
-        "}"
-
-        "#searchBar:focus{"
-        + themeStyleSheet("search_bar_focused") +
-        "}"
-
-        "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
-        "#tab_bar::tab:selected{" + themeStyleSheet("tab_bar_tab_selected_css") + "}"
-        "#tab_bar::tab:!selected{" + themeStyleSheet("tab_bar_tab_unselected_css") + "}"
-        "#tab_bar #tab_item_counter{" + themeStyleSheet("tab_bar_item_counter") + "}"
-        "#tab_bar #tab_item_counter[CopyQ_selected=\"true\"]{"
-        + themeStyleSheet("tab_bar_sel_item_counter") +
-        "}"
-
-        "#tab_bar QToolButton{" + themeStyleSheet("tab_bar_scroll_buttons_css") + "}"
-
-        "#tab_tree, #tab_tree_item{" + themeStyleSheet("tab_tree_css") + "}"
-
-        // GTK has incorrect background for branches
-        "#tab_tree::branch:selected{background:" + themeColorString("bg") + "}"
-
-        "#tab_tree::item:selected"
-        ",#tab_tree_item[CopyQ_selected=\"true\"]"
-        "{"
-        + themeStyleSheet("tab_tree_sel_item_css") +
-        "}"
-
-        "#tab_tree_item[CopyQ_selected=\"false\"]"
-        ",#tab_tree_item[CopyQ_selected=\"true\"]"
-        "{background:transparent}"
-
-        "#tab_tree #tab_item_counter{" + themeStyleSheet("tab_tree_item_counter") + "}"
-        "#tab_tree #tab_item_counter[CopyQ_selected=\"true\"]{"
-        + themeStyleSheet("tab_tree_sel_item_counter") +
-        "}"
-
-        // Remove border in toolbars.
-        "QToolBar{border:none}"
-        "QToolBar QToolButton{color:" + themeColorString("fg") + "}"
-
-        // Remove icon border in menus.
-        "#menu_bar QMenu::item:selected{border:none}"
-        "#menu_bar QMenu::item{"
-          ";padding:0.2em 1em 0.2em 1em"
-          ";padding-left:" + QString::number(iconSize * 2) + "px}"
-        "#menu_bar QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
-
-        "#menu_bar QMenu {" + themeStyleSheet("menu_css") + "}"
-        "#menu_bar, #menu_bar::item, #menu_bar QMenu, #menu_bar QMenu::item, #menu_bar QMenu::separator {"
-          + themeStyleSheet("menu_bar_css") + "}"
-        "#menu_bar::item:selected, #menu_bar QMenu::item:selected {"
-          + themeStyleSheet("menu_bar_selected_css") + "}"
-        "#menu_bar::item:disabled, #menu_bar QMenu::item:disabled {"
-          + themeStyleSheet("menu_bar_disabled_css") + "}"
-
-        + themeStyleSheet("css")
-    );
-}
-
-void ConfigTabAppearance::decorateToolBar(QWidget *toolBar) const
-{
-    if ( m_theme.value("style_main_window").value().toBool() ) {
-        toolBar->setStyleSheet(
-            "QToolBar{" + themeStyleSheet("tool_bar_css") + "}"
-            "QToolButton{" + themeStyleSheet("tool_button_css") + "}"
-                    );
-    } else {
-        toolBar->setStyleSheet(QString());
-    }
-}
-
-void ConfigTabAppearance::decorateScrollArea(QAbstractScrollArea *scrollArea) const
-{
-    const Qt::ScrollBarPolicy scrollbarPolicy =
-            themeValue("show_scrollbars").toBool()
-            ? Qt::ScrollBarAsNeeded
-            : Qt::ScrollBarAlwaysOff;
-    scrollArea->setVerticalScrollBarPolicy(scrollbarPolicy);
-    scrollArea->setHorizontalScrollBarPolicy(scrollbarPolicy);
-}
-
-QString ConfigTabAppearance::getToolTipStyleSheet() const
-{
-    const QString fg = themeColorString("notes_fg");
-    return QString("#item QToolTip, QMenu QToolTip {")
-            + getFontStyleSheet( themeValue("notes_font").toString() )
-            + ";background:" + themeColorString("notes_bg")
-            + ";color:" + fg
-            // Reseting border helps in some cases to set correct backgroung color.
-            + ";border:1px solid " + fg
-            + ";" + themeStyleSheet("notes_css")
-            + "}";
-}
-
-QString ConfigTabAppearance::getNotificationStyleSheet() const
-{
-    // Notification style sheet.
-    QColor notificationBg = themeColor("notification_bg");
-    // Notification opacity should be set with NotificationDaemon::setNotificationOpacity().
-    notificationBg.setAlpha(255);
-
-    const QString fontString = themeValue("notification_font").toString();
-
-    return "Notification{"
-           "background:" + serializeColor(notificationBg) + ";"
-           "}"
-           "Notification QWidget{"
-           "color:" + themeColorString("notification_fg") + ";"
-           + getFontStyleSheet(fontString) +
-           "}"
-           "Notification #NotificationTitle{"
-           + getFontStyleSheet(fontString, 1.2) +
-           "}"
-           "Notification #NotificationTip{"
-           "font-style: italic"
-           "}"
-           ;
+    m_theme.resetTheme();
 }
 
 void ConfigTabAppearance::showEvent(QShowEvent *event)
@@ -459,23 +117,15 @@ ConfigTabAppearance::~ConfigTabAppearance()
 
 void ConfigTabAppearance::loadTheme(QSettings &settings)
 {
-    resetTheme();
-    updateTheme(settings, &m_theme);
+    m_theme.loadTheme(settings);
     updateStyle();
 }
 
-void ConfigTabAppearance::saveTheme(QSettings &settings) const
+void ConfigTabAppearance::saveTheme(QSettings &settings)
 {
-    QStringList keys = m_theme.keys();
-    keys.sort();
-
-    foreach (const QString &key, keys)
-        settings.setValue( key, themeValue(key) );
-}
-
-QVariant ConfigTabAppearance::themeValue(const QString &name) const
-{
-    return themeValue(name, m_theme);
+    m_theme.saveTheme(settings);
+    settings.sync();
+    updateThemes();
 }
 
 void ConfigTabAppearance::onFontButtonClicked()
@@ -498,8 +148,6 @@ void ConfigTabAppearance::on_pushButtonLoadTheme_clicked()
         QSettings settings(filename, QSettings::IniFormat);
         loadTheme(settings);
     }
-
-    updateThemes();
 }
 
 void ConfigTabAppearance::on_pushButtonSaveTheme_clicked()
@@ -511,15 +159,12 @@ void ConfigTabAppearance::on_pushButtonSaveTheme_clicked()
             filename.append(".ini");
         QSettings settings(filename, QSettings::IniFormat);
         saveTheme(settings);
-        settings.sync();
     }
-
-    updateThemes();
 }
 
 void ConfigTabAppearance::on_pushButtonResetTheme_clicked()
 {
-    resetTheme();
+    m_theme.resetTheme();
     updateStyle();
 }
 
@@ -538,7 +183,6 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
     {
         QSettings settings(tmpfile.fileName(), QSettings::IniFormat);
         saveTheme(settings);
-        settings.sync();
     }
 
     QByteArray data = readTemporaryFileContent(tmpfile);
@@ -612,17 +256,6 @@ void ConfigTabAppearance::onThemeModified(const QByteArray &bytes)
     loadTheme(settings);
 }
 
-void ConfigTabAppearance::updateTheme(QSettings &settings, QHash<QString, Option> *theme)
-{
-    foreach ( const QString &key, theme->keys() ) {
-        if ( settings.contains(key) ) {
-            QVariant value = settings.value(key);
-            if ( value.isValid() )
-                (*theme)[key].setValue(value);
-        }
-    }
-}
-
 void ConfigTabAppearance::updateThemes()
 {
     // Add themes in combo box.
@@ -669,7 +302,7 @@ void ConfigTabAppearance::updateStyle()
 
 void ConfigTabAppearance::fontButtonClicked(QObject *button)
 {
-    QFont font = themeFontFromString( button->property("VALUE").toString() );
+    QFont font = m_theme.themeFontFromString( button->property("VALUE").toString() );
     QFontDialog dialog(font, this);
     if ( dialog.exec() == QDialog::Accepted ) {
         font = dialog.selectedFont();
@@ -737,11 +370,11 @@ void ConfigTabAppearance::updateFontButtons()
         const QString colorButtonName = "pushButtonColor" + re.cap(1);
 
         QPushButton *buttonFg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Fg");
-        QColor colorFg = (buttonFg == NULL) ? themeColor("fg")
+        QColor colorFg = (buttonFg == NULL) ? m_theme.color("fg")
                                             : evalColor( buttonFg->property("VALUE").toString(), m_theme );
 
         QPushButton *buttonBg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Bg");
-        QColor colorBg = (buttonBg == NULL) ? themeColor("bg")
+        QColor colorBg = (buttonBg == NULL) ? m_theme.color("bg")
                                             : evalColor( buttonBg->property("VALUE").toString(), m_theme );
 
         pix.fill(colorBg);
@@ -749,7 +382,7 @@ void ConfigTabAppearance::updateFontButtons()
         QPainter painter(&pix);
         painter.setPen(colorFg);
 
-        QFont font = themeFontFromString( button->property("VALUE").toString() );
+        QFont font = m_theme.themeFontFromString( button->property("VALUE").toString() );
         painter.setFont(font);
         painter.drawText( QRect(0, 0, iconSize.width(), iconSize.height()), Qt::AlignCenter,
                           tr("Abc", "Preview text for font settings in appearance dialog") );
@@ -757,210 +390,6 @@ void ConfigTabAppearance::updateFontButtons()
         button->setIcon(pix);
         button->setIconSize(iconSize);
     }
-}
-
-QFont ConfigTabAppearance::themeFontFromString(const QString &fontString) const
-{
-    QFont font;
-    font.fromString(fontString);
-    if ( !themeValue("font_antialiasing").toBool() )
-        font.setStyleStrategy(QFont::NoAntialias);
-    return font;
-}
-
-QColor ConfigTabAppearance::themeColor(const QString &name) const
-{
-    return themeColor(name, m_theme);
-}
-
-QFont ConfigTabAppearance::themeFont(const QString &name) const
-{
-    return themeFontFromString( themeValue(name).toString() );
-}
-
-QString ConfigTabAppearance::themeColorString(const QString &name) const
-{
-    return serializeColor( themeColor(name) );
-}
-
-QString ConfigTabAppearance::themeStyleSheet(const QString &name) const
-{
-    return themeStyleSheet(name, m_theme);
-}
-
-QString ConfigTabAppearance::themeStyleSheet(const QString &name, const ConfigTabAppearance::Theme &theme) const
-{
-    QString css = themeValue(name).toString();
-    int i = 0;
-
-    forever {
-        i = css.indexOf("${", i);
-        if (i == -1)
-            break;
-        int j = css.indexOf('}', i + 2);
-        if (j == -1)
-            break;
-
-        const QString var = css.mid(i + 2, j - i - 2);
-
-        const QString colorName = serializeColor( evalColor(var, theme) );
-        css.replace(i, j - i + 1, colorName);
-        i += colorName.size();
-    }
-
-    return css;
-}
-
-ConfigTabAppearance::Theme ConfigTabAppearance::unfocusedTheme() const
-{
-    QColor bg = themeColor("bg");
-    QColor unfocusedSelectedBg = themeColor("sel_bg");
-    unfocusedSelectedBg.setRgb(
-                (bg.red() + unfocusedSelectedBg.red()) / 2,
-                (bg.green() + unfocusedSelectedBg.green()) / 2,
-                (bg.blue() + unfocusedSelectedBg.blue()) / 2
-                );
-    QHash<QString, Option> unfocusedTheme = m_theme;
-    unfocusedTheme["sel_bg"] = Option(serializeColor(unfocusedSelectedBg));
-    return unfocusedTheme;
-}
-
-void ConfigTabAppearance::initThemeOptions()
-{
-    resetTheme();
-
-    m_theme["use_system_icons"] = Option(false, "checked", ui->checkBoxSystemIcons);
-    m_theme["font_antialiasing"] = Option(true, "checked", ui->checkBoxAntialias);
-    m_theme["style_main_window"] = Option(false, "checked", ui->checkBoxStyleMainWindow);
-}
-
-void ConfigTabAppearance::resetTheme()
-{
-    QString name;
-    QPalette p;
-    name = serializeColor( p.color(QPalette::Base) );
-    m_theme["bg"]          = Option(name, "VALUE", ui->pushButtonColorBg);
-    m_theme["edit_bg"]     = Option(name, "VALUE", ui->pushButtonColorEditorBg);
-    name = serializeColor( p.color(QPalette::Text) );
-    m_theme["fg"]          = Option(name, "VALUE", ui->pushButtonColorFg);
-    m_theme["edit_fg"]     = Option(name, "VALUE", ui->pushButtonColorEditorFg);
-    name = serializeColor( p.color(QPalette::Text).lighter(400) );
-    m_theme["num_fg"]      = Option(name, "VALUE", ui->pushButtonColorNumberFg);
-    name = serializeColor( p.color(QPalette::AlternateBase) );
-    m_theme["alt_bg"]      = Option(name, "VALUE", ui->pushButtonColorAltBg);
-    name = serializeColor( p.color(QPalette::Highlight) );
-    m_theme["sel_bg"]      = Option(name, "VALUE", ui->pushButtonColorSelBg);
-    name = serializeColor( p.color(QPalette::HighlightedText) );
-    m_theme["sel_fg"]      = Option(name, "VALUE", ui->pushButtonColorSelFg);
-    m_theme["find_bg"]     = Option("#ff0", "VALUE", ui->pushButtonColorFoundBg);
-    m_theme["find_fg"]     = Option("#000", "VALUE", ui->pushButtonColorFoundFg);
-    name = serializeColor( p.color(QPalette::ToolTipBase) );
-    m_theme["notes_bg"]  = Option(name, "VALUE", ui->pushButtonColorNotesBg);
-    name = serializeColor( p.color(QPalette::ToolTipText) );
-    m_theme["notes_fg"]  = Option(name, "VALUE", ui->pushButtonColorNotesFg);
-    m_theme["notification_bg"]  = Option("#333", "VALUE", ui->pushButtonColorNotificationBg);
-    m_theme["notification_fg"]  = Option("#ddd", "VALUE", ui->pushButtonColorNotificationFg);
-
-    m_theme["font"]        = Option("", "VALUE", ui->pushButtonFont);
-    m_theme["edit_font"]   = Option("", "VALUE", ui->pushButtonEditorFont);
-    m_theme["find_font"]   = Option("", "VALUE", ui->pushButtonFoundFont);
-    m_theme["num_font"]    = Option("", "VALUE", ui->pushButtonNumberFont);
-    m_theme["notes_font"]  = Option("", "VALUE", ui->pushButtonNotesFont);
-    m_theme["notification_font"]  = Option("", "VALUE", ui->pushButtonNotificationFont);
-    m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
-    m_theme["show_scrollbars"] = Option(true, "checked", ui->checkBoxScrollbars);
-
-    m_theme["css"] = Option("");
-    m_theme["menu_css"] = Option(
-                "\n    ;border-top: 0.08em solid ${bg + #333}"
-                "\n    ;border-left: 0.08em solid ${bg + #333}"
-                "\n    ;border-bottom: 0.08em solid ${bg - #333}"
-                "\n    ;border-right: 0.08em solid ${bg - #333}"
-                );
-    m_theme["menu_bar_css"] = Option(
-                "\n    ;background: ${bg}"
-                "\n    ;color: ${fg}"
-                );
-    m_theme["menu_bar_selected_css"] = Option(
-                "\n    ;background: ${sel_bg}"
-                "\n    ;color: ${sel_fg}"
-                );
-    m_theme["menu_bar_disabled_css"] = Option(
-                "\n    ;color: ${bg - #666}"
-                );
-
-    m_theme["item_css"] = Option("");
-    m_theme["alt_item_css"] = Option("");
-    m_theme["sel_item_css"] = Option("");
-    m_theme["cur_item_css"] = Option(
-                "\n    ;border: 0.1em solid ${sel_bg}"
-                );
-    m_theme["item_spacing"] = Option("");
-    m_theme["notes_css"] = Option("");
-
-    m_theme["tab_bar_css"] = Option(
-                "\n    ;background: ${bg - #222}"
-                );
-    m_theme["tab_bar_tab_selected_css"] = Option(
-                "\n    ;padding: 0.5em"
-                "\n    ;background: ${bg}"
-                "\n    ;border: 0.05em solid ${bg}"
-                "\n    ;color: ${fg}"
-                );
-    m_theme["tab_bar_tab_unselected_css"] = Option(
-                "\n    ;border: 0.05em solid ${bg}"
-                "\n    ;padding: 0.5em"
-                "\n    ;background: ${bg - #222}"
-                "\n    ;color: ${fg - #333}"
-                );
-    m_theme["tab_bar_scroll_buttons_css"] = Option(
-                "\n    ;background: ${bg - #222}"
-                "\n    ;color: ${fg}"
-                "\n    ;border: 0"
-                );
-    m_theme["tab_bar_item_counter"] = Option(
-                "\n    ;color: ${fg - #044 + #400}"
-                "\n    ;font-size: 6pt"
-                );
-    m_theme["tab_bar_sel_item_counter"] = Option(
-                "\n    ;color: ${sel_bg - #044 + #400}"
-                );
-
-    m_theme["tab_tree_css"] = Option(
-                "\n    ;color: ${fg}"
-                "\n    ;background-color: ${bg}"
-                );
-    m_theme["tab_tree_sel_item_css"] = Option(
-                "\n    ;color: ${sel_fg}"
-                "\n    ;background-color: ${sel_bg}"
-                "\n    ;border-radius: 2px"
-                );
-    m_theme["tab_tree_item_counter"] = Option(
-                "\n    ;color: ${fg - #044 + #400}"
-                "\n    ;font-size: 6pt"
-                );
-    m_theme["tab_tree_sel_item_counter"] = Option(
-                "\n    ;color: ${sel_fg - #044 + #400}"
-                );
-
-    m_theme["tool_bar_css"] = Option(
-                "\n    ;color: ${fg}"
-                "\n    ;background-color: ${bg}"
-                "\n    ;border: 0"
-                );
-    m_theme["tool_button_css"] = Option(
-                "\n    ;background-color: transparent"
-                );
-
-    m_theme["search_bar"] = Option(
-                "\n    ;background: ${edit_bg}"
-                "\n    ;color: ${edit_fg}"
-                "\n    ;border: 1px solid ${alt_bg}"
-                "\n    ;margin: 2px"
-                );
-    m_theme["search_bar_focused"] = Option(
-                "\n    ;border: 1px solid ${sel_bg}"
-                );
 }
 
 QString ConfigTabAppearance::defaultUserThemePath() const
@@ -971,24 +400,10 @@ QString ConfigTabAppearance::defaultUserThemePath() const
     return QDir::cleanPath(settings.fileName() + "/../themes");
 }
 
-QVariant ConfigTabAppearance::themeValue(const QString &name, const QHash<QString, Option> &theme) const
-{
-    return theme[name].value();
-}
-
-QColor ConfigTabAppearance::themeColor(const QString &name, const QHash<QString, Option> &theme) const
-{
-    return evalColor( themeValue(name, theme).toString(), theme );
-}
-
 QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
 {
-    QHash<QString, Option> theme;
-    foreach (const QString &key, m_theme.keys())
-        theme[key].setValue( m_theme[key].value() );
-
     QSettings settings(fileName, QSettings::IniFormat);
-    updateTheme(settings, &theme);
+    Theme theme(settings);
 
     QPixmap pix(16, 16);
     pix.fill(Qt::black);
@@ -997,15 +412,15 @@ QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
 
     QRect rect(1, 1, 14, 5);
     p.setPen(Qt::NoPen);
-    p.setBrush( themeColor("sel_bg", theme) );
+    p.setBrush( theme.color("sel_bg") );
     p.drawRect(rect);
 
     rect.translate(0, 5);
-    p.setBrush( themeColor("bg", theme) );
+    p.setBrush( theme.color("bg") );
     p.drawRect(rect);
 
     rect.translate(0, 5);
-    p.setBrush( themeColor("alt_bg", theme) );
+    p.setBrush( theme.color("alt_bg") );
     p.drawRect(rect);
 
     QLine line;
@@ -1014,13 +429,13 @@ QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
     QPen pen;
     p.setOpacity(0.6);
 
-    pen.setColor( themeColor("sel_fg", theme) );
+    pen.setColor( theme.color("sel_fg") );
     pen.setDashPattern(QVector<qreal>() << 2 << 1 << 1 << 1 << 3 << 1 << 2 << 10);
     p.setPen(pen);
     p.drawLine(line);
 
     line.translate(0, 5);
-    pen.setColor( themeColor("fg", theme) );
+    pen.setColor( theme.color("fg") );
     pen.setDashPattern(QVector<qreal>() << 2 << 1 << 4 << 10);
     p.setPen(pen);
     p.drawLine(line);
@@ -1036,5 +451,5 @@ QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
 void ConfigTabAppearance::decoratePreview()
 {
     if ( isVisible() )
-        decorateBrowser(ui->clipboardBrowserPreview);
+        ui->clipboardBrowserPreview->decorate(m_theme);
 }

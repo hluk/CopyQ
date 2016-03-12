@@ -20,6 +20,8 @@
 #ifndef CONFIGTABAPPEARANCE_H
 #define CONFIGTABAPPEARANCE_H
 
+#include "gui/theme.h"
+
 #include <QHash>
 #include <QWidget>
 
@@ -28,6 +30,7 @@ class ConfigTabAppearance;
 }
 
 class ClipboardBrowser;
+class ItemDelegate;
 class Option;
 class QAbstractScrollArea;
 class QSettings;
@@ -43,36 +46,9 @@ public:
     /** Load theme from settings file. */
     void loadTheme(QSettings &settings);
     /** Save theme to settings file. */
-    void saveTheme(QSettings &settings) const;
-
-    /** Return value for theme option with given @a name. */
-    QVariant themeValue(const QString &name) const;
-
-    /** Set fonts and color for ClipboardBrowser object. */
-    void decorateBrowser(ClipboardBrowser *c) const;
-
-    /** Decorate main window. */
-    void decorateMainWindow(QWidget *mainWindow) const;
-
-    /** Decorate tool bar. */
-    void decorateToolBar(QWidget *toolBar) const;
-
-    /** Decorate scroll area (toggle scroll bar). */
-    void decorateScrollArea(QAbstractScrollArea *scrollArea) const;
-
-    /** Return stylesheet for tooltips. */
-    QString getToolTipStyleSheet() const;
-
-    /** Return stylesheet for notifications. */
-    QString getNotificationStyleSheet() const;
+    void saveTheme(QSettings &settings);
 
     void setEditor(const QString &editor) { m_editor = editor; }
-
-    /** Return parsed color. */
-    QColor themeColor(const QString &name) const;
-
-    /** Return parsed font. */
-    QFont themeFont(const QString &name) const;
 
 protected:
     void showEvent(QShowEvent *event);
@@ -95,8 +71,6 @@ private slots:
     void onThemeModified(const QByteArray &bytes);
 
 private:
-    typedef QHash<QString, Option> Theme;
-    void updateTheme(QSettings &settings, Theme *theme);
     void updateThemes();
     void updateStyle();
 
@@ -106,21 +80,7 @@ private:
     void updateColorButtons();
     void updateFontButtons();
 
-    QFont themeFontFromString(const QString &fontString) const;
-
-    /** Return parsed color name. */
-    QString themeColorString(const QString &name) const;
-    /** Return style sheet with given @a name. */
-    QString themeStyleSheet(const QString &name) const;
-    QString themeStyleSheet(const QString &name, const Theme &theme) const;
-
-    Theme unfocusedTheme() const;
-
-    void initThemeOptions();
-    void resetTheme();
     QString defaultUserThemePath() const;
-    QVariant themeValue(const QString &name, const Theme &theme) const;
-    QColor themeColor(const QString &name, const Theme &theme) const;
     QIcon createThemeIcon(const QString &fileName);
 
     void decoratePreview();

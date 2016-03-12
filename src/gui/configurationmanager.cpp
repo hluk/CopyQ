@@ -355,10 +355,10 @@ void ConfigurationManager::loadSettings()
     settings.endGroup();
 
     settings.beginGroup("Theme");
-    tabAppearance()->loadTheme(settings);
+    ui->configTabAppearance->loadTheme(settings);
     settings.endGroup();
 
-    tabAppearance()->setEditor( AppConfig().option("editor").toString() );
+    ui->configTabAppearance->setEditor( AppConfig().option("editor").toString() );
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
@@ -422,11 +422,6 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
     }
 }
 
-ConfigTabAppearance *ConfigurationManager::tabAppearance() const
-{
-    return ui->configTabAppearance;
-}
-
 ConfigTabShortcuts *ConfigurationManager::tabShortcuts() const
 {
     return ui->configTabShortcuts;
@@ -471,7 +466,7 @@ void ConfigurationManager::apply()
         settings.endGroup();
 
         settings.beginGroup("Theme");
-        tabAppearance()->saveTheme(*settings.settingsData());
+        ui->configTabAppearance->saveTheme(*settings.settingsData());
         settings.endGroup();
 
         // save settings for each plugin
@@ -497,7 +492,7 @@ void ConfigurationManager::apply()
         }
     }
 
-    tabAppearance()->setEditor( AppConfig().option("editor").toString() );
+    ui->configTabAppearance->setEditor( AppConfig().option("editor").toString() );
 
     setAutostartEnable();
 

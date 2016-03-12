@@ -26,10 +26,9 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "gui/clipboarddialog.h"
-#include "gui/configtabappearance.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/theme.h"
 #include "item/itemeditor.h"
 #include "item/itemeditorwidget.h"
 #include "item/itemfactory.h"
@@ -436,8 +435,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
     // Hide scrollbars while editing.
     Qt::ScrollBarPolicy scrollbarPolicy = Qt::ScrollBarAlwaysOff;
     if (!active) {
-        const ConfigTabAppearance *appearance = ConfigurationManager::instance()->tabAppearance();
-        scrollbarPolicy = appearance->themeValue("show_scrollbars").toBool()
+        scrollbarPolicy = AppConfig(AppConfig::ThemeCategory).isOptionOn("show_scrollbars")
                 ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff;
     }
     setVerticalScrollBarPolicy(scrollbarPolicy);
@@ -1640,11 +1638,9 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
 
 void ClipboardBrowser::loadSettings()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
     expire();
 
-    cm->tabAppearance()->decorateBrowser(this);
+    decorate( Theme() );
 
     // restore configuration
     m.setMaxItems(m_sharedData->maxItems);
@@ -1781,6 +1777,12 @@ void ClipboardBrowser::move(int key)
 {
     m.moveItemsWithKeyboard(selectedIndexes(), key);
     scrollTo( currentIndex() );
+}
+
+void ClipboardBrowser::decorate(const Theme &theme)
+{
+    theme.decorateBrowser(this, &d);
+    invalidateItemCache();
 }
 
 void ClipboardBrowser::invalidateItemCache()
