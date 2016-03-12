@@ -91,25 +91,13 @@ public:
             const QString &newId //!< See ClipboardBrowser::getID().
             );
 
-    /** Set available tab names (for combo boxes). */
-    void setTabs(const QStringList &tabs);
-
-    /** Return list of saved tabs (ordered by "tabs" option if possible). */
-    QStringList savedTabs() const;
-
     ConfigTabAppearance *tabAppearance() const;
 
     ConfigTabShortcuts *tabShortcuts() const;
 
-    QString getIconNameForTabName(const QString &tabName) const;
-    void setIconNameForTabName(const QString &name, const QString &icon);
-    QIcon getIconForTabName(const QString &tabName) const;
-
     void setVisible(bool visible);
 
     QString defaultTabName() const;
-
-    void initTabComboBox(QComboBox *comboBox) const;
 
 public slots:
     void done(int result);
@@ -162,24 +150,15 @@ private:
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
 
-    void initTabComboBox(QComboBox *comboBox, const QStringList &tabs) const;
-    void updateTabComboBoxes(const QStringList &tabs);
     void updateTabComboBoxes();
-
-    QStringList tabs() const;
 
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
     QHash<QString, Option> m_options;
-    QHash<QString, QString> m_tabIcons;
 
     ItemFactory *m_itemFactory;
 
     bool m_optionWidgetsLoaded;
 };
-
-void setDefaultTabItemCounterStyle(QWidget *widget);
-
-void setComboBoxItems(QComboBox *comboBox, const QStringList &items);
 
 #endif // CONFIGURATIONMANAGER_H

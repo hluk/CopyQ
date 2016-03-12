@@ -23,10 +23,10 @@
 #include "common/common.h"
 #include "common/command.h"
 #include "common/mimetypes.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/shortcutdialog.h"
+#include "gui/tabicons.h"
 #include "item/itemfactory.h"
 
 #include <QAction>
@@ -97,11 +97,9 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->checkBoxAutomatic->setIcon(iconClipboard());
     ui->checkBoxInMenu->setIcon(iconMenu());
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
     // Add tab names to combo boxes.
-    cm->initTabComboBox(ui->comboBoxCopyToTab);
-    cm->initTabComboBox(ui->comboBoxOutputTab);
+    initTabComboBox(ui->comboBoxCopyToTab);
+    initTabComboBox(ui->comboBoxOutputTab);
 }
 
 CommandWidget::~CommandWidget()

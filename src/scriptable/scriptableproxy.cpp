@@ -29,6 +29,7 @@
 #include "gui/configurationmanager.h"
 #include "gui/filedialog.h"
 #include "gui/mainwindow.h"
+#include "gui/tabicons.h"
 #include "gui/windowgeometryguard.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
@@ -434,7 +435,7 @@ QString ScriptableProxyHelper::removeTab(const QString &arg1)
 QString ScriptableProxyHelper::tabIcon(const QString &tabName)
 {
     INVOKE(tabIcon(tabName));
-    return ConfigurationManager::instance()->getIconNameForTabName(tabName);
+    return getIconNameForTabName(tabName);
 }
 
 void ScriptableProxyHelper::setTabIcon(const QString &tabName, const QString &icon)

@@ -114,7 +114,8 @@ HEADERS += \
     gui/filedialog.h \
     gui/windowgeometryguard.h \
     gui/logdialog.h \
-    common/appconfig.h
+    common/appconfig.h \
+    gui/tabicons.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -195,7 +196,8 @@ SOURCES += \
     gui/filedialog.cpp \
     gui/windowgeometryguard.cpp \
     gui/logdialog.cpp \
-    common/appconfig.cpp
+    common/appconfig.cpp \
+    gui/tabicons.cpp
 
 macx {
     # Copy the custom Info.plist to the app bundle

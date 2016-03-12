@@ -46,6 +46,7 @@
 #include "gui/notification.h"
 #include "gui/notificationdaemon.h"
 #include "gui/tabdialog.h"
+#include "gui/tabicons.h"
 #include "gui/tabwidget.h"
 #include "gui/traymenu.h"
 #include "gui/windowgeometryguard.h"
@@ -1014,11 +1015,9 @@ QAction *MainWindow::addTrayAction(Actions::Id id)
 
 void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
 {
-    const QString icon = cm->getIconNameForTabName(oldName);
-    if ( !icon.isEmpty() ) {
-        cm->setIconNameForTabName(oldName, QString());
-        cm->setIconNameForTabName(newName, icon);
-    }
+    const QString icon = getIconNameForTabName(oldName);
+    if ( !icon.isEmpty() )
+        setIconNameForTabName(newName, icon);
 }
 
 QAction *MainWindow::addItemAction(Actions::Id id, QObject *receiver, const char *slot)
@@ -1571,7 +1570,7 @@ void MainWindow::loadSettings()
     m_sharedData->loadFromConfiguration();
 
     // create tabs
-    QStringList tabs = cm->savedTabs();
+    QStringList tabs = savedTabs();
     foreach (const QString &name, tabs) {
         bool settingsLoaded;
         ClipboardBrowser *c = createTab(name, MatchExactTabName, &settingsLoaded);
@@ -1771,7 +1770,7 @@ void MainWindow::tabChanged(int current, int)
 
 void MainWindow::saveTabPositions()
 {
-    cm->setTabs( ui->tabWidget->tabs() );
+    setTabs( ui->tabWidget->tabs() );
 }
 
 void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
@@ -2607,7 +2606,7 @@ void MainWindow::setTabIcon()
 
 void MainWindow::setTabIcon(const QString &tabName)
 {
-    IconSelectDialog dialog( cm->getIconNameForTabName(tabName), this );
+    IconSelectDialog dialog( getIconNameForTabName(tabName), this );
 
     if ( dialog.exec() == QDialog::Accepted )
         setTabIcon(tabName, dialog.selectedIcon());
@@ -2616,7 +2615,7 @@ void MainWindow::setTabIcon(const QString &tabName)
 void MainWindow::setTabIcon(const QString &tabName, const QString &icon)
 {
     if ( tabs().contains(tabName) || ui->tabWidget->isTabGroup(tabName) ) {
-        cm->setIconNameForTabName(tabName, icon);
+        setIconNameForTabName(tabName, icon);
         ui->tabWidget->updateTabIcon(tabName);
     }
 }

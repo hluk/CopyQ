@@ -21,9 +21,9 @@
 
 #include "common/common.h"
 #include "common/mimetypes.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/iconfont.h"
+#include "gui/tabicons.h"
 
 #include <QApplication>
 #include <QLabel>
@@ -318,7 +318,7 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
         item->setData(0, DataIndex, -1);
         item->setData(0, DataText, text);
 
-        const QIcon icon = ConfigurationManager::instance()->getIconForTabName( getTabPath(item) );
+        const QIcon icon = getIconForTabName( getTabPath(item) );
         item->setIcon(0, icon);
 
         labelItem(item);
@@ -492,7 +492,7 @@ void TabTree::updateTabIcon(const QString &tabName)
     if (!item)
         return;
 
-    const QIcon icon = ConfigurationManager::instance()->getIconForTabName(tabName);
+    const QIcon icon = getIconForTabName(tabName);
     item->setIcon(0, icon);
     updateItemSize(item);
     updateSize();

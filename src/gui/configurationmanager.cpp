@@ -31,6 +31,7 @@
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/pluginwidget.h"
+#include "gui/tabicons.h"
 #include "gui/windowgeometryguard.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
@@ -132,7 +133,6 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     : QDialog(parent)
     , ui(new Ui::ConfigurationManager)
     , m_options()
-    , m_tabIcons()
     , m_itemFactory(itemFactory)
     , m_optionWidgetsLoaded(false)
 {
@@ -308,11 +308,6 @@ QString ConfigurationManager::defaultTabName() const
     return tab.isEmpty() ? defaultClipboardTabName() : tab;
 }
 
-void ConfigurationManager::initTabComboBox(QComboBox *comboBox) const
-{
-    initTabComboBox(comboBox, tabs());
-}
-
 void ConfigurationManager::initTabIcons()
 {
     QTabWidget *tw = ui->tabWidget;
@@ -484,26 +479,10 @@ void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultVa
     m_options[optionKey] = Option(defaultValue);
 }
 
-void ConfigurationManager::initTabComboBox(QComboBox *comboBox, const QStringList &tabs) const
-{
-    setComboBoxItems(comboBox, tabs);
-
-    for (int i = 1; i < comboBox->count(); ++i) {
-        const QString tabName = comboBox->itemText(i);
-        const QIcon icon = getIconForTabName(tabName);
-        comboBox->setItemIcon(i, icon);
-    }
-}
-
-void ConfigurationManager::updateTabComboBoxes(const QStringList &tabs)
-{
-    initTabComboBox(ui->comboBoxClipboardTab, tabs);
-    initTabComboBox(ui->comboBoxMenuTab, tabs);
-}
-
 void ConfigurationManager::updateTabComboBoxes()
 {
-    updateTabComboBoxes( tabs() );
+    initTabComboBox(ui->comboBoxClipboardTab);
+    initTabComboBox(ui->comboBoxMenuTab);
 }
 
 QStringList ConfigurationManager::options() const
@@ -574,17 +553,7 @@ void ConfigurationManager::loadSettings()
 
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 
-    if (m_tabIcons.isEmpty()) {
-        const int size = settings.beginReadArray("Tabs");
-        for(int i = 0; i < size; ++i) {
-            settings.setArrayIndex(i);
-            m_tabIcons.insert(settings.value("name").toString(),
-                              settings.value("icon").toString());
-        }
-        settings.endArray();
-    }
-
-    setTabs( tabs() );
+    updateTabComboBoxes();
 
     updateAutostart();
 }
@@ -623,46 +592,6 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
     }
 }
 
-void ConfigurationManager::setTabs(const QStringList &tabs)
-{
-    Q_ASSERT( !tabs.contains(QString()) );
-    Q_ASSERT( tabs.toSet().size() == tabs.size() );
-
-    AppConfig().setOption("tabs", tabs);
-
-    updateTabComboBoxes(tabs);
-
-    foreach ( const QString &tabName, m_tabIcons.keys() ) {
-        const QRegExp re(QRegExp::escape(tabName) + "(?:|/.*)$");
-        if ( tabs.indexOf(re) == -1 )
-            m_tabIcons.remove(tabName);
-    }
-}
-
-QStringList ConfigurationManager::savedTabs() const
-{
-    QStringList tabs = this->tabs();
-    tabs.removeAll(QString());
-
-    const QString configPath = settingsDirectoryPath();
-
-    QStringList files = QDir(configPath).entryList(QStringList("*_tab_*.dat"));
-    files.append( QDir(configPath).entryList(QStringList("*_tab_*.dat.tmp")) );
-
-    QRegExp re("_tab_([^.]*)");
-
-    foreach (const QString fileName, files) {
-        if ( fileName.contains(re) ) {
-            const QString tabName =
-                    getTextData(QByteArray::fromBase64(re.cap(1).toUtf8()));
-            if ( !tabName.isEmpty() && !tabs.contains(tabName) )
-                tabs.append(tabName);
-        }
-    }
-
-    return tabs;
-}
-
 ConfigTabAppearance *ConfigurationManager::tabAppearance() const
 {
     return ui->configTabAppearance;
@@ -671,36 +600,6 @@ ConfigTabAppearance *ConfigurationManager::tabAppearance() const
 ConfigTabShortcuts *ConfigurationManager::tabShortcuts() const
 {
     return ui->configTabShortcuts;
-}
-
-QString ConfigurationManager::getIconNameForTabName(const QString &tabName) const
-{
-    return m_tabIcons.value(tabName);
-}
-
-void ConfigurationManager::setIconNameForTabName(const QString &name, const QString &icon)
-{
-    m_tabIcons[name] = icon;
-
-    Settings settings;
-    settings.beginWriteArray("Tabs");
-    int i = 0;
-
-    foreach ( const QString &tabName, m_tabIcons.keys() ) {
-        settings.setArrayIndex(i++);
-        settings.setValue("name", tabName);
-        settings.setValue("icon", m_tabIcons[tabName]);
-    }
-
-    settings.endArray();
-
-    updateTabComboBoxes();
-}
-
-QIcon ConfigurationManager::getIconForTabName(const QString &tabName) const
-{
-    const QString fileName = getIconNameForTabName(tabName);
-    return fileName.isEmpty() ? QIcon() : iconFromFile(fileName);
 }
 
 void ConfigurationManager::setVisible(bool visible)
@@ -812,41 +711,4 @@ void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
 void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
 {
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
-}
-
-void setDefaultTabItemCounterStyle(QWidget *widget)
-{
-    QFont font = widget->font();
-    const qreal pointSize = font.pointSizeF();
-    if (pointSize > 0.0)
-        font.setPointSizeF(pointSize * 0.7);
-    else
-        font.setPixelSize(font.pixelSize() * 0.7);
-    widget->setFont(font);
-
-    QPalette pal = widget->palette();
-    const QPalette::ColorRole role = widget->foregroundRole();
-    QColor color = pal.color(role);
-    color.setAlpha( qMax(50, color.alpha() - 100) );
-    color.setRed( qMin(255, color.red() + 120) );
-    pal.setColor(role, color);
-    widget->setPalette(pal);
-}
-
-void setComboBoxItems(QComboBox *comboBox, const QStringList &items)
-{
-    const QString text = comboBox->currentText();
-    comboBox->clear();
-    comboBox->addItem(QString());
-    comboBox->addItems(items);
-    comboBox->setEditText(text);
-
-    const int currentIndex = comboBox->findText(text);
-    if (currentIndex != -1)
-        comboBox->setCurrentIndex(currentIndex);
-}
-
-QStringList ConfigurationManager::tabs() const
-{
-    return AppConfig().option("tabs").toStringList();
 }
