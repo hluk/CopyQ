@@ -23,7 +23,6 @@
 #include "common/command.h"
 #include "common/common.h"
 #include "gui/commanddialog.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/iconfont.h"
 #include "gui/icons.h"

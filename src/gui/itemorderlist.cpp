@@ -20,7 +20,6 @@
 #include "gui/itemorderlist.h"
 #include "ui_itemorderlist.h"
 
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 

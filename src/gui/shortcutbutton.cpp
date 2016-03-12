@@ -19,7 +19,6 @@
 
 #include "gui/shortcutbutton.h"
 
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/shortcutdialog.h"

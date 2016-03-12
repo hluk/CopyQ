@@ -22,7 +22,6 @@
 
 #include "common/common.h"
 #include "common/log.h"
-#include "gui/configurationmanager.h"
 #include "gui/icons.h"
 #include "platform/platformnativeinterface.h"
 

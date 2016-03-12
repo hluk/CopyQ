@@ -21,13 +21,13 @@
 
 #include "common/appconfig.h"
 #include "common/common.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"
 
 #include <QApplication>
 #include <QClipboard>
+#include <QDialog>
 #include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QIcon>

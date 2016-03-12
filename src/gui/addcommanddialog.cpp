@@ -24,7 +24,6 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "item/itemfactory.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"
@@ -77,42 +76,42 @@ void createGlobalShortcut(const QString &name, const QString &script, IconId ico
     c->cmd = "copyq: " + script;
     c->icon = QString(QChar(icon));
     QString shortcutNativeText =
-            ConfigurationManager::tr("Ctrl+Shift+1", "Global shortcut for some predefined commands");
+            AddCommandDialog::tr("Ctrl+Shift+1", "Global shortcut for some predefined commands");
     c->globalShortcuts = s.isEmpty() ? QStringList(toPortableShortcutText(shortcutNativeText)) : s;
 }
 
 void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QStringList())
 {
     if (id == GlobalActionToggleMainWindow)
-        createGlobalShortcut( ConfigurationManager::tr("Show/hide main window"), "toggle()", IconListAlt, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Show/hide main window"), "toggle()", IconListAlt, s, c );
     else if (id == GlobalActionShowTray)
-        createGlobalShortcut( ConfigurationManager::tr("Show the tray menu"), "menu()", IconInbox, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Show the tray menu"), "menu()", IconInbox, s, c );
     else if (id == GlobalActionShowMainWindowUnderMouseCursor)
-        createGlobalShortcut( ConfigurationManager::tr("Show main window under mouse cursor"), "showAt()", IconListAlt, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Show main window under mouse cursor"), "showAt()", IconListAlt, s, c );
     else if (id == GlobalActionEditClipboard)
-        createGlobalShortcut( ConfigurationManager::tr("Edit clipboard"), "edit(-1)", IconEdit, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Edit clipboard"), "edit(-1)", IconEdit, s, c );
     else if (id == GlobalActionEditFirstItem)
-        createGlobalShortcut( ConfigurationManager::tr("Edit first item"), "edit(0)", IconEdit, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Edit first item"), "edit(0)", IconEdit, s, c );
     else if (id == GlobalActionCopySecondItem)
-        createGlobalShortcut( ConfigurationManager::tr("Copy second item"), "select(1)", IconCopy, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Copy second item"), "select(1)", IconCopy, s, c );
     else if (id == GlobalActionShowActionDialog)
-        createGlobalShortcut( ConfigurationManager::tr("Show action dialog"), "action()", IconCog, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Show action dialog"), "action()", IconCog, s, c );
     else if (id == GlobalActionCreateItem)
-        createGlobalShortcut( ConfigurationManager::tr("Create new item"), "edit()", IconAsterisk, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Create new item"), "edit()", IconAsterisk, s, c );
     else if (id == GlobalActionCopyNextItem)
-        createGlobalShortcut( ConfigurationManager::tr("Copy next item"), "next()", IconArrowDown, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Copy next item"), "next()", IconArrowDown, s, c );
     else if (id == GlobalActionCopyPreviousItem)
-        createGlobalShortcut( ConfigurationManager::tr("Copy previous item"), "previous()", IconArrowUp, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Copy previous item"), "previous()", IconArrowUp, s, c );
     else if (id == GlobalActionPasteAsPlainText)
-        createGlobalShortcut( ConfigurationManager::tr("Paste clipboard as plain text"), pasteAsPlainTextScript("clipboard()"), IconPaste, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Paste clipboard as plain text"), pasteAsPlainTextScript("clipboard()"), IconPaste, s, c );
     else if (id == GlobalActionDisableClipboardStoring)
-        createGlobalShortcut( ConfigurationManager::tr("Disable clipboard storing"), "disable()", IconEyeSlash, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Disable clipboard storing"), "disable()", IconEyeSlash, s, c );
     else if (id == GlobalActionEnableClipboardStoring)
-        createGlobalShortcut( ConfigurationManager::tr("Enable clipboard storing"), "enable()", IconEyeOpen, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Enable clipboard storing"), "enable()", IconEyeOpen, s, c );
     else if (id == GlobalActionPasteAndCopyNext)
-        createGlobalShortcut( ConfigurationManager::tr("Paste and copy next"), "paste(); next()", IconArrowCircleODown, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Paste and copy next"), "paste(); next()", IconArrowCircleODown, s, c );
     else if (id == GlobalActionPasteAndCopyPrevious)
-        createGlobalShortcut( ConfigurationManager::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleOUp, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleOUp, s, c );
     else
         Q_ASSERT(false);
 }

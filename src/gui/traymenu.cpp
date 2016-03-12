@@ -21,7 +21,6 @@
 
 #include "common/contenttype.h"
 #include "common/common.h"
-#include "gui/configurationmanager.h"
 #include "gui/icons.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"

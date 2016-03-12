@@ -22,7 +22,6 @@
 #include "common/contenttype.h"
 #include "item/itemwidget.h"
 
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 
