@@ -499,6 +499,11 @@ QStringList ConfigurationManager::options() const
     return options;
 }
 
+QString ConfigurationManager::optionValue(const QString &name) const
+{
+    return m_options.value(name).value().toString();
+}
+
 QString ConfigurationManager::optionToolTip(const QString &name) const
 {
     return m_options[name].tooltip();

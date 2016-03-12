@@ -19,14 +19,12 @@
 
 #include "scriptable.h"
 
-#include "common/appconfig.h"
 #include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
-#include "gui/configurationmanager.h"
 #include "gui/filedialog.h"
 #include "gui/mainwindow.h"
 #include "gui/tabicons.h"
@@ -233,32 +231,6 @@ QWidget *createWidget(const QString &name, const QVariant &value, QWidget *paren
 
         return label(Qt::Horizontal, name, createLineEdit(value, parent));
     }
-}
-
-QVariant config(const QString &name, const QString &value)
-{
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
-    if ( name.isNull() ) {
-        // print options
-        QStringList options = cm->options();
-        options.sort();
-        QString opts;
-        foreach (const QString &option, options)
-            opts.append( option + "\n  " + cm->optionToolTip(option).replace('\n', "\n  ") + '\n' );
-        return opts;
-    }
-
-    if ( cm->options().contains(name) ) {
-        if ( value.isNull() )
-            return AppConfig().option(name).toString(); // return option value
-
-        AppConfig().setOption(name, value);
-
-        return QString();
-    }
-
-    return QVariant();
 }
 
 void setGeometryWithoutSave(QWidget *window, const QRect &geometry)
@@ -604,10 +576,22 @@ bool ScriptableProxyHelper::saveTab(const QString &arg1)
     return m_wnd->saveTab(arg1, i);
 }
 
-QVariant ScriptableProxyHelper::config(const QString &arg1, const QString &arg2)
+QVariant ScriptableProxyHelper::config(const QString &name, const QString &value)
 {
-    INVOKE(config(arg1, arg2));
-    return ::config(arg1, arg2);
+    INVOKE(config(name, value));
+
+    if ( name.isNull() )
+        return m_wnd->getUserOptionsDescription();
+
+    if ( m_wnd->hasUserOption(name) ) {
+        if ( value.isNull() )
+            return m_wnd->getUserOptionDescription(name);
+
+        m_wnd->setUserOption(name, value);
+        return QString();
+    }
+
+    return QVariant();
 }
 
 QByteArray ScriptableProxyHelper::getClipboardData(const QString &mime, QClipboard::Mode mode)

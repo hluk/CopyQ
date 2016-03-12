@@ -223,7 +223,7 @@ public slots:
     bool loadTab(const QString &arg1);
     bool saveTab(const QString &arg1);
 
-    QVariant config(const QString &arg1, const QString &arg2);
+    QVariant config(const QString &name, const QString &value);
 
     QByteArray getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
 

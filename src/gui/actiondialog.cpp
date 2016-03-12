@@ -107,7 +107,7 @@ void ActionDialog::setInputData(const QVariantMap &data)
 
 void ActionDialog::restoreHistory()
 {
-    const int maxCount = AppConfig().option("command_history_size").toInt();
+    const int maxCount = AppConfig().option<Config::command_history_size>();
     ui->comboBoxCommands->setMaxCount(maxCount);
 
     QFile file( dataFilename() );

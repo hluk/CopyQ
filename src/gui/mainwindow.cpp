@@ -1839,6 +1839,32 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
     }
 }
 
+QString MainWindow::getUserOptionsDescription() const
+{
+    QStringList options = cm->options();
+    options.sort();
+    QString opts;
+    foreach (const QString &option, options)
+        opts.append( option + "\n  " + cm->optionToolTip(option).replace('\n', "\n  ") + '\n' );
+    return opts;
+}
+
+QString MainWindow::getUserOptionDescription(const QString &name) const
+{
+    ConfigurationManager configurationManager(m_sharedData->itemFactory);
+    return configurationManager.optionValue(name);
+}
+
+void MainWindow::setUserOption(const QString &name, const QString &value)
+{
+    AppConfig().setOption(name, value);
+}
+
+bool MainWindow::hasUserOption(const QString &name) const
+{
+    return cm->options().contains(name);
+}
+
 QString syncCommand(const QString &type)
 {
     return "try {"

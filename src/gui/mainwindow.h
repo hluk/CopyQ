@@ -260,6 +260,18 @@ public:
     /** Update the first item in the first tab. */
     void updateFirstItem(const QVariantMap &data);
 
+    /// Get description for all user options (used by config() command).
+    QString getUserOptionsDescription() const;
+
+    /// Get description for an user option (used by config() command).
+    QString getUserOptionDescription(const QString &name) const;
+
+    /// Set value of user option (used by config() command).
+    void setUserOption(const QString &name, const QString &value);
+
+    /// Return true only if user option is available (used by config() command).
+    bool hasUserOption(const QString &name) const;
+
 public slots:
     /** Close main window and exit the application. */
     void exit();

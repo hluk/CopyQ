@@ -136,7 +136,7 @@ void ActionHandler::closeAction(Action *action)
 
     if ( !msg.isEmpty() ) {
         const int maxWidthPoints =
-                AppConfig().option("notification_maximum_width").toInt();
+                AppConfig().option<Config::notification_maximum_width>();
         const QString command = action->command()
                 .replace("copyq eval --", "copyq:");
         const QString name = QString(command).replace('\n', " ");
