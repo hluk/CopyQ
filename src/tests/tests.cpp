@@ -1734,7 +1734,7 @@ int runTests(int argc, char *argv[])
 
     if (runPluginTests) {
         ItemFactory itemFactory;
-        foreach( const ItemLoaderInterfacePtr &loader, itemFactory.loaders() ) {
+        foreach( const ItemLoaderInterface *loader, itemFactory.loaders() ) {
             if ( loader->id().contains(onlyPlugins) ) {
                 QScopedPointer<QObject> pluginTests( loader->tests(test) );
                 if ( !pluginTests.isNull() ) {

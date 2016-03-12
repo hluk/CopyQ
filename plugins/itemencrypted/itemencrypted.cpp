@@ -253,7 +253,7 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-bool ItemEncryptedLoader::canLoadItems(QFile *file)
+bool ItemEncryptedLoader::canLoadItems(QFile *file) const
 {
     QDataStream stream(file);
 
@@ -264,7 +264,7 @@ bool ItemEncryptedLoader::canLoadItems(QFile *file)
             && (header == dataFileHeader || header == dataFileHeaderV2);
 }
 
-bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model)
+bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model) const
 {
     const QString tabName = model.property("tabName").toString();
 

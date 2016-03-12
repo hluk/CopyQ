@@ -23,7 +23,6 @@
 #include "tests/testinterface.h"
 
 #include <QRegExp>
-#include <QSharedPointer>
 #include <QStringList>
 #include <QtPlugin>
 #include <QVariantMap>
@@ -219,12 +218,12 @@ public:
     /**
      * @return true only if items can be loaded
      */
-    virtual bool canLoadItems(QFile *file);
+    virtual bool canLoadItems(QFile *file) const;
 
     /**
      * @return true only if items can be saved
      */
-    virtual bool canSaveItems(const QAbstractItemModel &model);
+    virtual bool canSaveItems(const QAbstractItemModel &model) const;
 
     /**
      * Load items.
@@ -310,8 +309,6 @@ public:
      */
     virtual QList<Command> commands() const;
 };
-
-typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)
 

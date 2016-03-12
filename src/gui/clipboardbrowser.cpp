@@ -173,7 +173,7 @@ void ClipboardBrowserShared::loadFromConfiguration()
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserSharedPtr &sharedData)
     : QListView(parent)
-    , m_itemLoader()
+    , m_itemLoader(NULL)
     , m_tabName()
     , m_lastFiltered(-1)
     , m(this)
@@ -827,7 +827,7 @@ void ClipboardBrowser::onTabNameChanged(const QString &tabName)
     ConfigurationManager *cm = ConfigurationManager::instance();
 
     // Just move last saved file if tab is not loaded yet.
-    if ( isLoaded() && cm->saveItemsWithOther(m, &m_itemLoader) ) {
+    if ( isLoaded() && cm->saveItemsWithOther(m, m_itemLoader) ) {
         m_timerSave.stop();
         cm->removeItems(m_tabName);
     } else {
@@ -900,7 +900,7 @@ void ClipboardBrowser::onEditorCancel()
 
 void ClipboardBrowser::onModelUnloaded()
 {
-    m_itemLoader.clear();
+    m_itemLoader = NULL;
 }
 
 void ClipboardBrowser::onEditorNeedsChangeClipboard()

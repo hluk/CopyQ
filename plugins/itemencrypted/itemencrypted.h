@@ -73,9 +73,9 @@ public:
 
     virtual QWidget *createSettingsWidget(QWidget *parent);
 
-    virtual bool canLoadItems(QFile *file);
+    virtual bool canLoadItems(QFile *file) const;
 
-    virtual bool canSaveItems(const QAbstractItemModel &model);
+    virtual bool canSaveItems(const QAbstractItemModel &model) const;
 
     virtual bool loadItems(QAbstractItemModel *model, QFile *file);
 

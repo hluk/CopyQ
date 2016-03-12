@@ -35,10 +35,10 @@ class PluginWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit PluginWidget(const ItemLoaderInterfacePtr &loader, QWidget *parent = 0);
+    explicit PluginWidget(ItemLoaderInterface *loader, QWidget *parent = 0);
     ~PluginWidget();
 
-    ItemLoaderInterfacePtr loader() const { return m_loader; }
+    ItemLoaderInterface *loader() const { return m_loader; }
 
     void applySettings(QSettings *settings, bool isPluginEnabled);
 
@@ -49,7 +49,7 @@ private:
     void init();
 
     Ui::PluginWidget *ui;
-    ItemLoaderInterfacePtr m_loader;
+    ItemLoaderInterface *m_loader;
 };
 
 #endif // PLUGINWIDGET_H

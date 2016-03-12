@@ -58,7 +58,7 @@ namespace {
 
 class PluginItem : public ItemOrderList::Item {
 public:
-    explicit PluginItem(const ItemLoaderInterfacePtr &loader)
+    explicit PluginItem(ItemLoaderInterface *loader)
         : m_loader(loader)
     {
     }
@@ -69,7 +69,7 @@ private:
         return new PluginWidget(m_loader, parent);
     }
 
-    ItemLoaderInterfacePtr m_loader;
+    ItemLoaderInterface *m_loader;
 };
 
 QString defaultClipboardTabName()
@@ -88,16 +88,16 @@ void printItemFileError(const QString &id, const QString &fileName, const QFile 
 }
 
 bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &itemFactory,
-                          const ItemLoaderInterfacePtr &currentLoader)
+                          const ItemLoaderInterface *currentLoader)
 {
     if (!currentLoader)
         return false;
 
     bool saveWithCurrent = true;
-    foreach ( const ItemLoaderInterfacePtr &loader, itemFactory.loaders() ) {
+    foreach ( ItemLoaderInterface *loader, itemFactory.loaders() ) {
         if ( itemFactory.isLoaderEnabled(loader) && loader->canSaveItems(model) )
             return loader != currentLoader;
-        else if (loader == currentLoader)
+        if (loader == currentLoader)
             saveWithCurrent = false;
     }
 
@@ -153,10 +153,10 @@ ConfigurationManager::~ConfigurationManager()
     delete ui;
 }
 
-ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
+ItemLoaderInterface *ConfigurationManager::loadItems(ClipboardModel &model)
 {
     if ( !createItemDirectory() )
-        return ItemLoaderInterfacePtr();
+        return NULL;
 
     const QString tabName = model.property("tabName").toString();
     const QString fileName = itemFileName(tabName);
@@ -170,7 +170,7 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
             tmpFile.rename(fileName);
     }
 
-    ItemLoaderInterfacePtr loader;
+    ItemLoaderInterface *loader = NULL;
 
     model.setDisabled(true);
 
@@ -178,7 +178,7 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
         COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
         if ( file.open(QIODevice::ReadOnly) )
             loader = m_itemFactory->loadItems(&model, &file);
-        saveItemsWithOther(model, &loader);
+        saveItemsWithOther(model, loader);
     } else {
         COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
         if ( file.open(QIODevice::WriteOnly) ) {
@@ -202,8 +202,8 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
     return loader;
 }
 
-bool ConfigurationManager::saveItems(const ClipboardModel &model,
-                                     const ItemLoaderInterfacePtr &loader)
+bool ConfigurationManager::saveItems(
+        const ClipboardModel &model, ItemLoaderInterface *loader)
 {
     const QString tabName = model.property("tabName").toString();
     const QString fileName = itemFileName(tabName);
@@ -236,10 +236,10 @@ bool ConfigurationManager::saveItems(const ClipboardModel &model,
     return true;
 }
 
-bool ConfigurationManager::saveItemsWithOther(ClipboardModel &model,
-                                              ItemLoaderInterfacePtr *loader)
+bool ConfigurationManager::saveItemsWithOther(
+        ClipboardModel &model, ItemLoaderInterface *loader)
 {
-    if ( !needToSaveItemsAgain(model, *m_itemFactory, *loader) )
+    if ( !needToSaveItemsAgain(model, *m_itemFactory, loader) )
         return false;
 
     model.setDisabled(true);
@@ -247,9 +247,9 @@ bool ConfigurationManager::saveItemsWithOther(ClipboardModel &model,
     COPYQ_LOG( QString("Tab \"%1\": Saving items using other plugin")
                .arg(model.property("tabName").toString()) );
 
-    (*loader)->uninitializeTab(&model);
-    *loader = m_itemFactory->initializeTab(&model);
-    if ( *loader && saveItems(model, *loader) ) {
+    loader->uninitializeTab(&model);
+    loader = m_itemFactory->initializeTab(&model);
+    if ( loader && saveItems(model, loader) ) {
         model.setDisabled(false);
         return true;
     } else {
@@ -336,7 +336,7 @@ void ConfigurationManager::initPluginWidgets()
 
     ui->itemOrderListPlugins->clearItems();
 
-    foreach ( const ItemLoaderInterfacePtr &loader, m_itemFactory->loaders() ) {
+    foreach ( ItemLoaderInterface *loader, m_itemFactory->loaders() ) {
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
         const QIcon icon = getIcon(loader->icon());
         ui->itemOrderListPlugins->appendItem(
@@ -553,7 +553,7 @@ void ConfigurationManager::loadSettings()
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
-    foreach ( const ItemLoaderInterfacePtr &loader, m_itemFactory->loaders() ) {
+    foreach ( ItemLoaderInterface *loader, m_itemFactory->loaders() ) {
         settings.beginGroup(loader->id());
 
         QVariantMap s;

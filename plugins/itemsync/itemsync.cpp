@@ -1371,13 +1371,13 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-bool ItemSyncLoader::canLoadItems(QFile *file)
+bool ItemSyncLoader::canLoadItems(QFile *file) const
 {
     QDataStream stream(file);
     return readConfigHeader(&stream);
 }
 
-bool ItemSyncLoader::canSaveItems(const QAbstractItemModel &model)
+bool ItemSyncLoader::canSaveItems(const QAbstractItemModel &model) const
 {
     return m_tabPaths.contains(model.property("tabName").toString());
 }

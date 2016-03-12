@@ -410,7 +410,7 @@ class ClipboardBrowser : public QListView
 
         void refilterItems();
 
-        ItemLoaderInterfacePtr m_itemLoader;
+        ItemLoaderInterface *m_itemLoader;
         QString m_tabName;
         int m_lastFiltered;
         ClipboardModel m;

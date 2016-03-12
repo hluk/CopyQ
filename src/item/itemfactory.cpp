@@ -90,7 +90,7 @@ bool findPluginDir(QDir *pluginsDir)
     return pluginsDir->isReadable();
 }
 
-bool priorityLessThan(const ItemLoaderInterfacePtr &lhs, const ItemLoaderInterfacePtr &rhs)
+bool priorityLessThan(const ItemLoaderInterface *lhs, const ItemLoaderInterface *rhs)
 {
     return lhs->priority() > rhs->priority();
 }
@@ -100,12 +100,12 @@ class PluginSorter {
 public:
     PluginSorter(const QStringList &pluginNames) : m_order(pluginNames) {}
 
-    int value(const ItemLoaderInterfacePtr &item) const
+    int value(const ItemLoaderInterface *item) const
     {
         return m_order.indexOf( item->name() );
     }
 
-    bool operator()(const ItemLoaderInterfacePtr &lhs, const ItemLoaderInterfacePtr &rhs) const
+    bool operator()(const ItemLoaderInterface *lhs, const ItemLoaderInterface *rhs) const
     {
         const int l = value(lhs);
         const int r = value(rhs);
@@ -176,9 +176,9 @@ public:
         return new DummyItem(index, parent);
     }
 
-    bool canLoadItems(QFile *) { return true; }
+    bool canLoadItems(QFile *) const { return true; }
 
-    bool canSaveItems(const QAbstractItemModel &) { return true; }
+    bool canSaveItems(const QAbstractItemModel &) const { return true; }
 
     bool loadItems(QAbstractItemModel *model, QFile *file)
     {
@@ -233,10 +233,11 @@ ItemFactory::ItemFactory(QObject *parent)
 
 ItemFactory::~ItemFactory()
 {
+    // Plugins are unloaded at application exit.
 }
 
-ItemWidget *ItemFactory::createItem(const ItemLoaderInterfacePtr &loader,
-                                    const QModelIndex &index, QWidget *parent)
+ItemWidget *ItemFactory::createItem(
+        ItemLoaderInterface *loader, const QModelIndex &index, QWidget *parent)
 {
     ItemWidget *item = loader->create(index, parent);
 
@@ -257,7 +258,7 @@ ItemWidget *ItemFactory::createItem(const ItemLoaderInterfacePtr &loader,
 
 ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent)
 {
-    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+    foreach ( ItemLoaderInterface *loader, enabledLoaders() ) {
         ItemWidget *item = createItem(loader, index, parent);
         if (item != NULL)
             return item;
@@ -270,7 +271,7 @@ QStringList ItemFactory::formatsToSave() const
 {
     QStringList formats;
 
-    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+    foreach ( const ItemLoaderInterface *loader, enabledLoaders() ) {
         foreach ( const QString &format, loader->formatsToSave() ) {
             if ( !formats.contains(format) )
                 formats.append(format);
@@ -293,7 +294,7 @@ void ItemFactory::setPluginPriority(const QStringList &pluginNames)
     qSort( m_loaders.begin(), m_loaders.end(), PluginSorter(pluginNames) );
 }
 
-void ItemFactory::setLoaderEnabled(const ItemLoaderInterfacePtr &loader, bool enabled)
+void ItemFactory::setLoaderEnabled(ItemLoaderInterface *loader, bool enabled)
 {
     if (enabled)
         m_disabledLoaders.remove(loader);
@@ -301,37 +302,37 @@ void ItemFactory::setLoaderEnabled(const ItemLoaderInterfacePtr &loader, bool en
         m_disabledLoaders.insert(loader);
 }
 
-bool ItemFactory::isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const
+bool ItemFactory::isLoaderEnabled(const ItemLoaderInterface *loader) const
 {
     return !m_disabledLoaders.contains(loader);
 }
 
-ItemLoaderInterfacePtr ItemFactory::loadItems(QAbstractItemModel *model, QFile *file)
+ItemLoaderInterface *ItemFactory::loadItems(QAbstractItemModel *model, QFile *file)
 {
-    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+    foreach ( ItemLoaderInterface *loader, enabledLoaders() ) {
         file->seek(0);
         if ( loader->canLoadItems(file) ) {
             file->seek(0);
-            return loader->loadItems(model, file) ? loader : ItemLoaderInterfacePtr();
+            return loader->loadItems(model, file) ? loader : NULL;
         }
     }
 
-    return ItemLoaderInterfacePtr();
+    return NULL;
 }
 
-ItemLoaderInterfacePtr ItemFactory::initializeTab(QAbstractItemModel *model)
+ItemLoaderInterface *ItemFactory::initializeTab(QAbstractItemModel *model)
 {
-    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+    foreach ( ItemLoaderInterface *loader, enabledLoaders() ) {
         if ( loader->canSaveItems(*model) )
-            return loader->initializeTab(model) ? loader : ItemLoaderInterfacePtr();
+            return loader->initializeTab(model) ? loader : NULL;
     }
 
-    return ItemLoaderInterfacePtr();
+    return NULL;
 }
 
 bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
 {
-    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+    foreach ( const ItemLoaderInterface *loader, enabledLoaders() ) {
         const QVariantMap data = index.data(contentType::data).toMap();
         foreach (const QString &format, data.keys()) {
             if (format.indexOf(re) != -1)
@@ -349,7 +350,7 @@ QString ItemFactory::scripts() const
 {
     QString script = "var plugins = {}\n";
 
-    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() )
+    foreach ( const ItemLoaderInterface *loader, enabledLoaders() )
         script.append( loader->script() + '\n' );
 
     return script;
@@ -359,7 +360,7 @@ QList<Command> ItemFactory::commands() const
 {
     QList<Command> commands;
 
-    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+    foreach ( const ItemLoaderInterface *loader, enabledLoaders() ) {
         QList <Command> subCommands = loader->commands();
 
         for (int i = 0; i < subCommands.size(); ++i)
@@ -387,12 +388,12 @@ ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *c
     Q_ASSERT(current->widget() != NULL);
 
     QWidget *w = current->widget();
-    ItemLoaderInterfacePtr currentLoader = m_loaderChildren[w];
-    if ( currentLoader.isNull() )
+    ItemLoaderInterface *currentLoader = m_loaderChildren[w];
+    if (!currentLoader)
         return NULL;
 
 
-    const QList<ItemLoaderInterfacePtr> loaders = enabledLoaders();
+    const ItemLoaderList loaders = enabledLoaders();
 
     const int currentIndex = loaders.indexOf(currentLoader);
     Q_ASSERT(currentIndex != -1);
@@ -438,7 +439,7 @@ bool ItemFactory::loadPlugins()
                 if (loader == NULL)
                     pluginLoader.unload();
                 else
-                    addLoader( ItemLoaderInterfacePtr(loader) );
+                    addLoader(loader);
             }
         }
     }
@@ -448,11 +449,11 @@ bool ItemFactory::loadPlugins()
     return true;
 }
 
-QList<ItemLoaderInterfacePtr> ItemFactory::enabledLoaders() const
+ItemLoaderList ItemFactory::enabledLoaders() const
 {
-    QList<ItemLoaderInterfacePtr> enabledLoaders;
+    ItemLoaderList enabledLoaders;
 
-    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+    foreach (ItemLoaderInterface *loader, m_loaders) {
         if ( isLoaderEnabled(loader) )
             enabledLoaders.append(loader);
     }
@@ -465,7 +466,7 @@ QList<ItemLoaderInterfacePtr> ItemFactory::enabledLoaders() const
 ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &index)
 {
     for ( int i = 0; i < m_loaders.size(); ++i ) {
-        const ItemLoaderInterfacePtr &loader = m_loaders[i];
+        ItemLoaderInterface *loader = m_loaders[i];
         if ( isLoaderEnabled(loader) ) {
             ItemWidget *newItem = loader->transform(item, index);
             if (newItem != NULL)
@@ -476,7 +477,7 @@ ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &inde
     return item;
 }
 
-void ItemFactory::addLoader(const ItemLoaderInterfacePtr &loader)
+void ItemFactory::addLoader(ItemLoaderInterface *loader)
 {
     m_loaders.append(loader);
     const QObject *signaler = loader->signaler();

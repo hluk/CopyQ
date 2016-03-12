@@ -22,7 +22,7 @@
 
 #include <QSettings>
 
-PluginWidget::PluginWidget(const ItemLoaderInterfacePtr &loader, QWidget *parent)
+PluginWidget::PluginWidget(ItemLoaderInterface *loader, QWidget *parent)
     : QWidget(parent)
     , ui(NULL)
     , m_loader(loader)

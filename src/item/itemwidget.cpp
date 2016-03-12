@@ -188,12 +188,12 @@ ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *) const
     return NULL;
 }
 
-bool ItemLoaderInterface::canLoadItems(QFile *)
+bool ItemLoaderInterface::canLoadItems(QFile *) const
 {
     return false;
 }
 
-bool ItemLoaderInterface::canSaveItems(const QAbstractItemModel &)
+bool ItemLoaderInterface::canSaveItems(const QAbstractItemModel &) const
 {
     return false;
 }

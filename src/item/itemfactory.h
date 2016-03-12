@@ -36,6 +36,8 @@ class QWidget;
 struct Command;
 struct CommandMenu;
 
+typedef QVector<ItemLoaderInterface *> ItemLoaderList;
+
 /**
  * Loads item plugins (loaders) and instantiates ItemWidget objects using appropriate
  * ItemLoaderInterface::create().
@@ -55,8 +57,8 @@ public:
     /**
      * Instantiate ItemWidget using given @a loader if possible.
      */
-    ItemWidget *createItem(const ItemLoaderInterfacePtr &loader,
-                           const QModelIndex &index, QWidget *parent);
+    ItemWidget *createItem(
+            ItemLoaderInterface *loader, const QModelIndex &index, QWidget *parent);
 
     /**
      * Instantiate ItemWidget using appropriate loader or creates simple ItemWidget (DummyItem).
@@ -76,7 +78,7 @@ public:
     /**
      * Return list of loaders.
      */
-    const QVector<ItemLoaderInterfacePtr> &loaders() const { return m_loaders; }
+    const ItemLoaderList &loaders() const { return m_loaders; }
 
     /**
      * Sort loaders by priority.
@@ -91,12 +93,12 @@ public:
     /**
      * Enable or disable instantiation of ItemWidget objects using @a loader.
      */
-    void setLoaderEnabled(const ItemLoaderInterfacePtr &loader, bool enabled);
+    void setLoaderEnabled(ItemLoaderInterface *loader, bool enabled);
 
     /**
      * Return true if @a loader is enabled.
      */
-    bool isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const;
+    bool isLoaderEnabled(const ItemLoaderInterface *loader) const;
 
     /**
      * Return true if no plugins were loaded.
@@ -107,13 +109,13 @@ public:
      * Load items using a plugin.
      * @return true only if any plugin (ItemLoaderInterface::loadItems()) returned true
      */
-    ItemLoaderInterfacePtr loadItems(QAbstractItemModel *model, QFile *file);
+    ItemLoaderInterface *loadItems(QAbstractItemModel *model, QFile *file);
 
     /**
      * Initialize tab.
      * @return true only if any plugin (ItemLoaderInterface::initializeTab()) returned true
      */
-    ItemLoaderInterfacePtr initializeTab(QAbstractItemModel *model);
+    ItemLoaderInterface *initializeTab(QAbstractItemModel *model);
 
     /**
      * Return true only if any plugin (ItemLoaderInterface::matches()) returns true;
@@ -143,17 +145,17 @@ private:
     bool loadPlugins();
 
     /** Return enabled plugins with dummy item loader. */
-    QList<ItemLoaderInterfacePtr> enabledLoaders() const;
+    ItemLoaderList enabledLoaders() const;
 
     /** Calls ItemLoaderInterface::transform() for all plugins in reverse order. */
     ItemWidget *transformItem(ItemWidget *item, const QModelIndex &index);
 
-    void addLoader(const ItemLoaderInterfacePtr &loader);
+    void addLoader(ItemLoaderInterface *loader);
 
-    QVector<ItemLoaderInterfacePtr> m_loaders;
-    ItemLoaderInterfacePtr m_dummyLoader;
-    QSet<ItemLoaderInterfacePtr> m_disabledLoaders;
-    QMap<QObject *, ItemLoaderInterfacePtr> m_loaderChildren;
+    ItemLoaderList m_loaders;
+    ItemLoaderInterface *m_dummyLoader;
+    QSet<const ItemLoaderInterface *> m_disabledLoaders;
+    QMap<QObject *, ItemLoaderInterface *> m_loaderChildren;
 };
 
 #endif // ITEMFACTORY_H

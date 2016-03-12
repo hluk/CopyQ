@@ -73,15 +73,15 @@ public:
     QString optionToolTip(const QString &name) const;
 
     /** Load items from configuration file. */
-    ItemLoaderInterfacePtr loadItems(
+    ItemLoaderInterface *loadItems(
             ClipboardModel &model //!< Model for items.
             );
     /** Save items to configuration file. */
     bool saveItems(const ClipboardModel &model //!< Model containing items to save.
-            , const ItemLoaderInterfacePtr &loader);
+            , ItemLoaderInterface *loader);
     /** Save items with other plugin with higher priority than current one (@a loader). */
     bool saveItemsWithOther(ClipboardModel &model //!< Model containing items to save.
-            , ItemLoaderInterfacePtr *loader);
+            , ItemLoaderInterface *loader);
     /** Remove configuration file for items. */
     void removeItems(const QString &tabName //!< See ClipboardBrowser::getID().
             );
