@@ -403,6 +403,8 @@ signals:
     void stopItemMenuCommandTester();
     void stopTrayMenuCommandTester();
 
+    void configurationChanged();
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);

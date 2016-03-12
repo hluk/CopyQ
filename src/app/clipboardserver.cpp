@@ -30,7 +30,6 @@
 #include "gui/clipboardbrowser.h"
 #include "gui/commanddialog.h"
 #include "gui/configtabshortcuts.h"
-#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/mainwindow.h"
 #include "item/itemfactory.h"
@@ -152,7 +151,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     loadSettings();
 
     // notify window if configuration changes
-    connect( ConfigurationManager::instance(), SIGNAL(configurationChanged()),
+    connect( m_wnd, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 
 #ifndef NO_GLOBAL_SHORTCUTS

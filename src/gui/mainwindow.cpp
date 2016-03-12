@@ -366,6 +366,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     // notify window if configuration changes
     connect( cm, SIGNAL(configurationChanged()),
+             this, SIGNAL(configurationChanged()) );
+    connect( cm, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
     connect( cm, SIGNAL(error(QString)),
              this, SLOT(showError(QString)) );
