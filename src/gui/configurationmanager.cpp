@@ -73,12 +73,6 @@ private:
     ItemLoaderInterface *m_loader;
 };
 
-QString defaultClipboardTabName()
-{
-    return ConfigurationManager::tr(
-                "&clipboard", "Default name of the tab that automatically stores new clipboard content");
-}
-
 QString nativeLanguageName(const QString &localeName)
 {
     // Traditional Chinese
@@ -125,12 +119,6 @@ ConfigurationManager::~ConfigurationManager()
 {
     m_Instance = NULL;
     delete ui;
-}
-
-QString ConfigurationManager::defaultTabName() const
-{
-    const QString tab = AppConfig().option("clipboard_tab").toString();
-    return tab.isEmpty() ? defaultClipboardTabName() : tab;
 }
 
 void ConfigurationManager::initTabIcons()
@@ -536,4 +524,10 @@ void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
 void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
 {
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
+}
+
+QString defaultClipboardTabName()
+{
+    return ConfigurationManager::tr(
+                "&clipboard", "Default name of the tab that automatically stores new clipboard content");
 }

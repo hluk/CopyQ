@@ -288,6 +288,12 @@ Dialog *openDialog(QWidget *dialogParent)
     return dialog.take();
 }
 
+QString defaultTabName()
+{
+    const QString tab = AppConfig().option("clipboard_tab").toString();
+    return tab.isEmpty() ? defaultClipboardTabName() : tab;
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -1579,7 +1585,7 @@ void MainWindow::loadSettings()
     }
 
     if ( ui->tabWidget->count() == 0 )
-        addTab( cm->defaultTabName() );
+        addTab( defaultTabName() );
 
     ui->tabWidget->updateTabs();
 
@@ -1882,7 +1888,7 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
         return;
 
     QList<Command> commands;
-    const QString tabName = cm->defaultTabName();
+    const QString tabName = defaultTabName();
     foreach (const Command &command, m_commands) {
         if (command.automatic && canExecuteCommand(command, data, tabName)) {
             commands.append(command);

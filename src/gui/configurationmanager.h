@@ -77,8 +77,6 @@ public:
 
     void setVisible(bool visible);
 
-    QString defaultTabName() const;
-
 public slots:
     void done(int result);
 
@@ -133,5 +131,7 @@ private:
 
     bool m_optionWidgetsLoaded;
 };
+
+QString defaultClipboardTabName();
 
 #endif // CONFIGURATIONMANAGER_H
