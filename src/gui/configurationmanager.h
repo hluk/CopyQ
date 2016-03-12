@@ -73,8 +73,6 @@ public:
     /** Return tooltip text for option with given @a name. */
     QString optionToolTip(const QString &name) const;
 
-    ConfigTabShortcuts *tabShortcuts() const;
-
     void setVisible(bool visible);
 
 public slots:
@@ -85,6 +83,8 @@ signals:
     void configurationChanged();
 
     void error(const QString &error);
+
+    void openCommandDialogRequest();
 
 protected:
     static ConfigurationManager *createInstance(ItemFactory *itemFactory, QWidget *parent);

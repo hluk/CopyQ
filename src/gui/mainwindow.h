@@ -22,9 +22,11 @@
 
 #include "common/commandtester.h"
 #include "gui/clipboardbrowser.h"
+#include "gui/menuitems.h"
 
 #include "platform/platformnativeinterface.h"
 
+#include <QAction>
 #include <QClipboard>
 #include <QMainWindow>
 #include <QPointer>
@@ -35,7 +37,6 @@ class ActionHandler;
 class CommandDialog;
 class ConfigurationManager;
 class NotificationDaemon;
-class QAction;
 class QModelIndex;
 class TrayMenu;
 struct Command;
@@ -550,13 +551,13 @@ private:
     /** Return notification daemon (create if doesn't exist). */
     NotificationDaemon *notificationDaemon();
 
-    QAction *createAction(Actions::Id id, const char *slot, QMenu *menu);
+    QAction *createAction(int id, const char *slot, QMenu *menu);
 
-    QAction *addTrayAction(Actions::Id id);
+    QAction *addTrayAction(int id);
 
     void updateTabIcon(const QString &newName, const QString &oldName);
 
-    QAction *addItemAction(Actions::Id id, QObject *receiver, const char *slot);
+    QAction *addItemAction(int id, QObject *receiver, const char *slot);
 
     void addCommandsToMenu(QMenu *menu, const QVariantMap &data);
 
@@ -577,6 +578,14 @@ private:
     ClipboardBrowser *clipboardTab();
 
     void onEscape();
+
+    /** Disable shortcuts for all default actions. */
+    void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
+
+    void updateActionShortcuts(int id);
+    void updateActionShortcuts();
+
+    QAction *actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context);
 
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
@@ -623,6 +632,11 @@ private:
     bool m_iconSnip;
 
     bool m_wasMaximized;
+
+    QList<QKeySequence> m_disabledShortcuts;
+
+    QVector< QPointer<QAction> > m_actions;
+    MenuItems m_menuItems;
 };
 
 #endif // MAINWINDOW_H

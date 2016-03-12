@@ -26,6 +26,7 @@
 #include "gui/iconfactory.h"
 #include "gui/iconfont.h"
 #include "gui/icons.h"
+#include "gui/menuitems.h"
 #include "gui/shortcutbutton.h"
 
 #include <QList>
@@ -46,171 +47,12 @@ enum Columns {
 };
 }
 
+QString uiText(QString text)
+{
+    return text.remove('&');
+}
+
 } // namespace
-
-class MenuAction : public QObject {
-    Q_OBJECT
-
-public:
-    MenuAction(
-            const QString &text, const QKeySequence &shortcut, const QString &settingsKey,
-            QTableWidget *table, const QString &iconName, ushort iconId,
-            const QList<QKeySequence> &disabledShortcuts)
-        : QObject()
-        , m_iconName(iconName)
-        , m_iconId(iconId)
-        , m_text(text)
-        , m_settingsKey(settingsKey)
-        , m_tableItem(NULL)
-        , m_shortcutButton(new ShortcutButton(table))
-        , m_action()
-        , m_disabledShortcuts(disabledShortcuts)
-    {
-        const int row = table->rowCount();
-        table->insertRow(row);
-
-        QTableWidgetItem *tableItem = new QTableWidgetItem();
-        table->setItem(row, Columns::Empty, tableItem);
-        tableItem->setFlags(Qt::NoItemFlags);
-
-        m_tableItem = new QTableWidgetItem();
-        table->setItem(row, Columns::Icon, m_tableItem);
-        m_tableItem->setFlags(Qt::ItemIsEnabled);
-
-        tableItem = new QTableWidgetItem(uiText());
-        table->setItem(row, Columns::Text, tableItem);
-        tableItem->setFlags(Qt::ItemIsEnabled);
-
-        table->setCellWidget(row, Columns::Shortcut, m_shortcutButton);
-
-        m_shortcutButton->setDefaultShortcut(shortcut);
-        m_shortcutButton->installEventFilter(this);
-
-        connect( m_shortcutButton, SIGNAL(shortcutAdded(QKeySequence)),
-                 this, SLOT(onShortcutAdded(QKeySequence)) );
-        connect( m_shortcutButton, SIGNAL(shortcutRemoved(QKeySequence)),
-                 this, SLOT(onShortcutRemoved(QKeySequence)) );
-    }
-
-    ~MenuAction()
-    {
-        delete m_action;
-    }
-
-    void updateIcons()
-    {
-        if ( m_tableItem->icon().isNull() )
-            m_tableItem->setIcon( getIcon(m_iconName, m_iconId) );
-    }
-
-    void loadShortcuts(QSettings &settings)
-    {
-        if ( m_settingsKey.isEmpty() )
-            return;
-
-        QVariant shortcutNames = settings.value(m_settingsKey);
-        if ( shortcutNames.isValid() ) {
-            m_shortcutButton->clearShortcuts();
-            foreach ( const QString &shortcut, shortcutNames.toStringList() )
-                m_shortcutButton->addShortcut(shortcut);
-        } else {
-            m_shortcutButton->resetShortcuts();
-        }
-
-        updateActionShortcuts();
-    }
-
-    void saveShortcuts(QSettings &settings) const
-    {
-        if ( m_settingsKey.isEmpty() )
-            return;
-
-        QStringList shortcutNames;
-        foreach (const QKeySequence &shortcut, shortcuts())
-            shortcutNames.append(portableShortcutText(shortcut));
-        settings.setValue(m_settingsKey, shortcutNames);
-    }
-
-    QAction *action(QWidget *parent, Qt::ShortcutContext context)
-    {
-        if ( m_action.isNull() ) {
-            m_action = new QAction(m_text, NULL);
-            m_action->setIcon( getIcon(m_iconName, m_iconId) );
-            updateActionShortcuts();
-        }
-
-        if (parent != NULL)
-            parent->addAction(m_action);
-
-        if (parent != NULL)
-            m_action->setShortcutContext(context);
-        return m_action;
-    }
-
-    void checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguousShortcuts,
-                                 const QIcon &warningIcon, const QString &warningToolTip) const
-    {
-        m_shortcutButton->checkAmbiguousShortcuts(ambiguousShortcuts, warningIcon, warningToolTip);
-    }
-
-    QList<QKeySequence> shortcuts() const { return m_shortcutButton->shortcuts(); }
-
-    QString uiText() const
-    {
-        QString label = m_text;
-        label.remove('&');
-        return label;
-    }
-
-    int tableRow() const
-    {
-        return m_tableItem->row();
-    }
-
-    QWidget *shortcutButton() { return m_shortcutButton; }
-
-    void updateActionShortcuts()
-    {
-        if ( m_action.isNull() )
-            return;
-
-        QList<QKeySequence> enabledShortcuts;
-        foreach (const QKeySequence& shortcut, shortcuts()) {
-            if ( !m_disabledShortcuts.contains(shortcut) )
-                enabledShortcuts.append(shortcut);
-        }
-        m_action->setShortcuts(enabledShortcuts);
-    }
-
-signals:
-    void shortcutAdded(const QKeySequence &shortcut);
-    void shortcutRemoved(const QKeySequence &shortcut);
-
-private slots:
-    void onShortcutAdded(const QKeySequence &shortcut)
-    {
-        if ( !m_action.isNull() )
-            updateActionShortcuts();
-        emit shortcutAdded(shortcut);
-    }
-
-    void onShortcutRemoved(const QKeySequence &shortcut)
-    {
-        if ( !m_action.isNull() )
-            updateActionShortcuts();
-        emit shortcutRemoved(shortcut);
-    }
-
-private:
-    QString m_iconName;
-    ushort m_iconId;
-    QString m_text;
-    QString m_settingsKey;
-    QTableWidgetItem *m_tableItem;
-    ShortcutButton *m_shortcutButton;
-    QPointer<QAction> m_action;
-    const QList<QKeySequence> &m_disabledShortcuts;
-};
 
 ShortcutsWidget::ShortcutsWidget(QWidget *parent)
     : QWidget(parent)
@@ -237,70 +79,78 @@ ShortcutsWidget::~ShortcutsWidget()
 
 void ShortcutsWidget::loadShortcuts(QSettings &settings)
 {
-    foreach (const MenuActionPtr &action, m_actions) {
-        action->loadShortcuts(settings);
+    MenuItems items = menuItems();
+    ::loadShortcuts(&items, settings);
+
+    m_actions.clear();
+    m_shortcuts.clear();
+
+    QTableWidget *table = ui->tableWidget;
+    while (table->rowCount() > 0)
+        table->removeRow(0);
+
+
+    foreach (const MenuItem &item, items) {
+        MenuAction action;
+        action.iconName = item.iconName;
+        action.iconId = item.iconId;
+        action.text = item.text;
+        action.settingsKey = item.settingsKey;
+
+        const int row = table->rowCount();
+        table->insertRow(row);
+
+        QTableWidgetItem *tableItem = new QTableWidgetItem();
+        table->setItem(row, Columns::Empty, tableItem);
+        tableItem->setFlags(Qt::NoItemFlags);
+
+        tableItem = new QTableWidgetItem();
+        action.tableItem = tableItem;
+        table->setItem(row, Columns::Icon, tableItem);
+        tableItem->setFlags(Qt::ItemIsEnabled);
+
+        tableItem = new QTableWidgetItem(uiText(action.text));
+        table->setItem(row, Columns::Text, tableItem);
+        tableItem->setFlags(Qt::ItemIsEnabled);
+
+        action.shortcutButton = new ShortcutButton(table);
+        table->setCellWidget(row, Columns::Shortcut, action.shortcutButton);
+        action.shortcutButton->setDefaultShortcut(item.defaultShortcut);
+        foreach (const QKeySequence &shortcut, item.shortcuts)
+            action.shortcutButton->addShortcut(shortcut);
+
+        action.iconId = item.iconId;
+        m_actions.append(action);
+
+        m_shortcuts << item.shortcuts;
+        m_timerCheckAmbiguous.start();
+
+        connect( action.shortcutButton, SIGNAL(shortcutAdded(QKeySequence)),
+                 this, SLOT(onShortcutAdded(QKeySequence)) );
+        connect( action.shortcutButton, SIGNAL(shortcutRemoved(QKeySequence)),
+                 this, SLOT(onShortcutRemoved(QKeySequence)) );
     }
 }
 
 void ShortcutsWidget::saveShortcuts(QSettings &settings) const
 {
-    foreach (const MenuActionPtr &action, m_actions) {
-        action->saveShortcuts(settings);
+    foreach (const MenuAction &action, m_actions) {
+        if ( action.settingsKey.isEmpty() ) {
+            QStringList shortcutNames;
+            foreach (const QKeySequence &shortcut, action.shortcutButton->shortcuts())
+                shortcutNames.append(portableShortcutText(shortcut));
+            settings.setValue(action.settingsKey, shortcutNames);
+        }
     }
-}
-
-void ShortcutsWidget::addAction(
-        int id, const QString &text, const QString &settingsKey, const QKeySequence &shortcut,
-        const QString &iconName, ushort iconId)
-{
-    Q_ASSERT(!hasAction(id));
-
-    MenuAction *action = new MenuAction(
-                text, shortcut, settingsKey, ui->tableWidget, iconName, iconId, m_disabledShortcuts);
-    m_actions.insert( id, MenuActionPtr(action) );
-    m_shortcuts << action->shortcuts();
-    m_timerCheckAmbiguous.start();
-
-    connect( action, SIGNAL(shortcutAdded(QKeySequence)),
-             this, SLOT(onShortcutAdded(QKeySequence)) );
-    connect( action, SIGNAL(shortcutRemoved(QKeySequence)),
-             this, SLOT(onShortcutRemoved(QKeySequence)) );
-}
-
-void ShortcutsWidget::addAction(
-        int id, const QString &text, const QString &settingsKey, const QString &shortcutNativeText,
-        const QString &iconName, ushort iconId)
-{
-    const QKeySequence shortcut(shortcutNativeText, QKeySequence::NativeText);
-    addAction(id, text, settingsKey, shortcut, iconName, iconId);
-}
-
-QAction *ShortcutsWidget::action(int id, QWidget *parent, Qt::ShortcutContext context)
-{
-    return action(id)->action(parent, context);
-}
-
-QList<QKeySequence> ShortcutsWidget::shortcuts(int id) const
-{
-    return action(id)->shortcuts();
-}
-
-void ShortcutsWidget::setDisabledShortcuts(const QList<QKeySequence> &shortcuts)
-{
-    m_disabledShortcuts = shortcuts;
-    foreach ( const MenuActionPtr &action, m_actions )
-        action->updateActionShortcuts();
-}
-
-const QList<QKeySequence> &ShortcutsWidget::disabledShortcuts() const
-{
-    return m_disabledShortcuts;
 }
 
 void ShortcutsWidget::showEvent(QShowEvent *event)
 {
-    foreach ( const MenuActionPtr &menuAction, m_actions.values() )
-        menuAction->updateIcons();
+    for (int i = 0; i < m_actions.size(); ++i) {
+        MenuAction &action = m_actions[i];
+        if ( action.tableItem->icon().isNull() )
+            action.tableItem->setIcon( getIcon(action.iconName, action.iconId) );
+    }
 
     QWidget::showEvent(event);
     ui->tableWidget->resizeColumnToContents(Columns::Text);
@@ -343,9 +193,9 @@ void ShortcutsWidget::checkAmbiguousShortcuts()
         }
     }
 
-    foreach ( const MenuActionPtr &action, m_actions ) {
-        action->checkAmbiguousShortcuts(commandShortcuts, iconOverriden, toolTipOverriden);
-        action->checkAmbiguousShortcuts(ambiguousShortcuts, iconAmbiguous, toolTipAmbiguous);
+    foreach ( const MenuAction &action, m_actions ) {
+        action.shortcutButton->checkAmbiguousShortcuts(commandShortcuts, iconOverriden, toolTipOverriden);
+        action.shortcutButton->checkAmbiguousShortcuts(ambiguousShortcuts, iconAmbiguous, toolTipAmbiguous);
     }
 }
 
@@ -353,10 +203,10 @@ void ShortcutsWidget::on_lineEditFilter_textChanged(const QString &text)
 {
     const QString needle = text.toLower();
 
-    foreach ( const MenuActionPtr &action, m_actions ) {
-        bool found = action->uiText().toLower().contains(needle);
+    foreach ( const MenuAction &action, m_actions ) {
+        bool found = uiText(action.text).toLower().contains(needle);
         if (!found) {
-                foreach ( const QKeySequence &shortcut, action->shortcuts() ) {
+                foreach ( const QKeySequence &shortcut, action.shortcutButton->shortcuts() ) {
                     if ( shortcut.toString(QKeySequence::NativeText).toLower().contains(needle) ) {
                         found = true;
                         break;
@@ -364,18 +214,10 @@ void ShortcutsWidget::on_lineEditFilter_textChanged(const QString &text)
                 }
         }
 
-        const int row = action->tableRow();
+        const int row = action.tableItem->row();
         if (found)
             ui->tableWidget->showRow(row);
         else
             ui->tableWidget->hideRow(row);
     }
 }
-
-MenuAction *ShortcutsWidget::action(int id) const
-{
-    Q_ASSERT(hasAction(id));
-    return m_actions[id].data();
-}
-
-#include "shortcutswidget.moc"

@@ -28,53 +28,6 @@ class ConfigTabShortcuts;
 
 class QSettings;
 
-namespace Actions {
-
-enum Id {
-    File_New,
-    File_ImportTab,
-    File_ExportTab,
-    File_Preferences,
-    File_Commands,
-    File_ShowClipboardContent,
-    File_ToggleClipboardStoring,
-    File_ProcessManager,
-    File_Exit,
-
-    Edit_SortSelectedItems,
-    Edit_ReverseSelectedItems,
-    Edit_PasteItems,
-    Edit_CopySelectedItems,
-    Edit_FindItems,
-
-    Item_MoveToClipboard,
-    Item_ShowContent,
-    Item_Remove,
-    Item_Edit,
-    Item_EditNotes,
-    Item_EditWithEditor,
-    Item_Action,
-    Item_NextFormat,
-    Item_PreviousFormat,
-
-    Item_MoveUp,
-    Item_MoveDown,
-    Item_MoveToTop,
-    Item_MoveToBottom,
-
-    Tabs_NewTab,
-    Tabs_RenameTab,
-    Tabs_RemoveTab,
-    Tabs_ChangeTabIcon,
-    Tabs_NextTab,
-    Tabs_PreviousTab,
-
-    Help_ShowLog,
-    Help_Help
-};
-
-} // Actions
-
 class ConfigTabShortcuts : public QWidget
 {
     Q_OBJECT
@@ -88,28 +41,11 @@ public:
     void loadShortcuts(QSettings &settings);
     /** Save shortcuts to settings file. */
     void saveShortcuts(QSettings &settings) const;
-    /** Load system-wide shortcuts from settings file. */
-    void loadGlobalShortcuts(QSettings &settings);
-    /** Save system-wide shortcuts to settings file. */
-    void saveGlobalShortcuts(QSettings &settings) const;
-
-    /** Return action with given @a id, set context and return the action. */
-    QAction *action(Actions::Id id, QWidget *parent, Qt::ShortcutContext context);
-
-    /** Return list of shortcuts defined for given @a id. */
-    QList<QKeySequence> shortcuts(Actions::Id id) const;
-
-    /** Disable shortcuts for all actions. */
-    void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
-
-    const QList<QKeySequence> &disabledShortcuts() const;
 
 signals:
     void openCommandDialogRequest();
 
 private:
-    void initShortcuts();
-
     Ui::ConfigTabShortcuts *ui;
 };
 

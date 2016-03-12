@@ -35,7 +35,6 @@
 #include "gui/clipboarddialog.h"
 #include "gui/commandaction.h"
 #include "gui/commanddialog.h"
-#include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/iconfactory.h"
@@ -314,6 +313,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_canUpdateTitleFromScript(true)
     , m_iconSnip(false)
     , m_wasMaximized(false)
+    , m_menuItems(menuItems())
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -378,7 +378,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, SLOT(loadSettings()) );
     connect( cm, SIGNAL(error(QString)),
              this, SLOT(showError(QString)) );
-    connect( cm->tabShortcuts(), SIGNAL(openCommandDialogRequest()),
+    connect( cm, SIGNAL(openCommandDialogRequest()),
              this, SLOT(openCommands()) );
 
     // browse mode by default
@@ -613,7 +613,7 @@ void MainWindow::updateContextMenuTimeout()
     if (c->editing())
         return;
 
-    cm->tabShortcuts()->setDisabledShortcuts(QList<QKeySequence>());
+    setDisabledShortcuts(QList<QKeySequence>());
 
     addCommandsToMenu(m_menuItem, c->getSelectedItemData());
 
@@ -780,11 +780,9 @@ void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, boo
         act->setEnabled(true);
 
         if (menu == m_menuItem) {
-            QList<QKeySequence> shortcuts = act->shortcuts();
-            if (!shortcuts.isEmpty()) {
-                shortcuts << cm->tabShortcuts()->disabledShortcuts();
-                cm->tabShortcuts()->setDisabledShortcuts(shortcuts);
-            }
+            const QList<QKeySequence> shortcuts = act->shortcuts();
+            if (!shortcuts.isEmpty())
+                setDisabledShortcuts(m_disabledShortcuts + shortcuts);
 
             updateToolBar();
         }
@@ -1001,20 +999,18 @@ ClipboardBrowser *MainWindow::createTab(
     return c;
 }
 
-QAction *MainWindow::createAction(Actions::Id id, const char *slot, QMenu *menu)
+QAction *MainWindow::createAction(int id, const char *slot, QMenu *menu)
 {
-    ConfigTabShortcuts *shortcuts = cm->tabShortcuts();
-    QAction *act = shortcuts->action(id, this, Qt::WindowShortcut);
+    QAction *act = actionForMenuItem(id, this, Qt::WindowShortcut);
     connect(act, SIGNAL(triggered()),
             this, slot, Qt::UniqueConnection);
     menu->addAction(act);
     return act;
 }
 
-QAction *MainWindow::addTrayAction(Actions::Id id)
+QAction *MainWindow::addTrayAction(int id)
 {
-    ConfigTabShortcuts *shortcuts = cm->tabShortcuts();
-    QAction *act = shortcuts->action(id, m_trayMenu, Qt::WindowShortcut);
+    QAction *act = actionForMenuItem(id, m_trayMenu, Qt::WindowShortcut);
     m_trayMenu->addAction(act);
     return act;
 }
@@ -1026,9 +1022,9 @@ void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
         setIconNameForTabName(newName, icon);
 }
 
-QAction *MainWindow::addItemAction(Actions::Id id, QObject *receiver, const char *slot)
+QAction *MainWindow::addItemAction(int id, QObject *receiver, const char *slot)
 {
-    QAction *act = cm->tabShortcuts()->action(id, getBrowser(), Qt::WidgetShortcut);
+    QAction *act = actionForMenuItem(id, getBrowser(), Qt::WidgetShortcut);
     connect( act, SIGNAL(triggered()), receiver, slot, Qt::UniqueConnection );
     m_menuItem->addAction(act);
     return act;
@@ -1060,7 +1056,7 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
     CommandAction::Type type = (menu == m_menuItem)
             ? CommandAction::ItemCommand : CommandAction::ClipboardCommand;
 
-    QList<QKeySequence> usedShortcuts = cm->tabShortcuts()->disabledShortcuts();
+    QList<QKeySequence> usedShortcuts = m_disabledShortcuts;
 
     foreach (const Command &command, commands) {
         QString name = command.name;
@@ -1093,7 +1089,7 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
                 this, SLOT(onCommandActionTriggered(Command,QVariantMap,int)));
     }
 
-    cm->tabShortcuts()->setDisabledShortcuts(usedShortcuts);
+    setDisabledShortcuts(usedShortcuts);
 
     if (menu == m_menuItem) {
         m_itemMenuCommandTester.setCommands(disabledCommands, addSelectionData(*c, data));
@@ -1111,8 +1107,7 @@ void MainWindow::updateToolBar()
     if ( ui->toolBar->isHidden() )
         return;
 
-    ConfigTabShortcuts *shortcuts = cm->tabShortcuts();
-    QAction *act = shortcuts->action(Actions::File_New, this, Qt::WindowShortcut);
+    QAction *act = actionForMenuItem(Actions::File_New, this, Qt::WindowShortcut);
     ui->toolBar->addAction(act);
 
     foreach ( QAction *action, m_menuItem->actions() ) {
@@ -1231,6 +1226,55 @@ void MainWindow::onEscape()
     } else {
         resetStatus();
     }
+}
+
+void MainWindow::setDisabledShortcuts(const QList<QKeySequence> &shortcuts)
+{
+    m_disabledShortcuts = shortcuts;
+    updateActionShortcuts();
+}
+
+void MainWindow::updateActionShortcuts(int id)
+{
+    Q_ASSERT(id < m_actions.size());
+    Q_ASSERT(id < m_menuItems.size());
+
+    QAction *action = m_actions[id];
+    if (!action)
+        return;
+
+    QList<QKeySequence> shortcuts = m_menuItems[id].shortcuts;
+    foreach (const QKeySequence &shortcut, m_disabledShortcuts)
+        shortcuts.removeAll(shortcut);
+
+    action->setShortcuts(shortcuts);
+}
+
+void MainWindow::updateActionShortcuts()
+{
+    for (int id = 0; id < m_actions.size(); ++id)
+        updateActionShortcuts(id);
+}
+
+QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context)
+{
+    Q_ASSERT(id < m_menuItems.size());
+
+    m_actions.resize(m_menuItems.size());
+
+    QPointer<QAction> &action = m_actions[id];
+    const MenuItem &item = m_menuItems[id];
+
+    if (!action) {
+        action = new QAction(item.text, parent);
+        action->setShortcutContext(context);
+        parent->addAction(action);
+    }
+
+    action->setIcon( getIcon(item.iconName, item.iconId) );
+    updateActionShortcuts(id);
+
+    return action;
 }
 
 int MainWindow::findTabIndex(const QString &name)
@@ -1621,6 +1665,11 @@ void MainWindow::loadSettings()
     ui->searchBar->loadSettings();
 
     m_lastWindow.clear();
+
+    QSettings settings;
+    settings.beginGroup("Shortcuts");
+    loadShortcuts(&m_menuItems, settings);
+    settings.endGroup();
 
     COPYQ_LOG("Configuration loaded");
 }

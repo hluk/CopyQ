@@ -21,18 +21,27 @@
 #define SHORTCUTSWIDGET_H
 
 #include <QIcon>
-#include <QMap>
 #include <QSharedPointer>
-#include <QWidget>
 #include <QTimer>
+#include <QVector>
+#include <QWidget>
 
 namespace Ui {
 class ShortcutsWidget;
 }
 
+class ShortcutButton;
 class QSettings;
+class QTableWidgetItem;
 
-class MenuAction;
+struct MenuAction {
+    QString iconName;
+    ushort iconId;
+    QString text;
+    QString settingsKey;
+    QTableWidgetItem *tableItem;
+    ShortcutButton *shortcutButton;
+};
 
 /**
  * Widget with list of modifiable shortcuts and filter field.
@@ -51,29 +60,6 @@ public:
     /** Save shortcuts to settings file. */
     void saveShortcuts(QSettings &settings) const;
 
-    /** Create action with @a id (must be unique) and add it to the list. */
-    void addAction(
-            int id, const QString &text, const QString &settingsKey,
-            const QKeySequence &shortcut, const QString &iconName, ushort iconId = 0);
-
-    void addAction(
-            int id, const QString &text, const QString &settingsKey,
-            const QString &shortcutNativeText, const QString &iconName, ushort iconId = 0);
-
-    /** Return true if action with given @a id is in the list. */
-    bool hasAction(int id) const { return m_actions.contains(id); }
-
-    /** Return action with given @a id (must exist), set context and return the action. */
-    QAction *action(int id, QWidget *parent, Qt::ShortcutContext context);
-
-    /** Return list of shortcuts defined for given @a id (must exist). */
-    QList<QKeySequence> shortcuts(int id) const;
-    /** Disable shortcuts for actions that are currently in list. */
-
-    void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
-
-    const QList<QKeySequence> &disabledShortcuts() const;
-
 protected:
     void showEvent(QShowEvent *event);
 
@@ -85,15 +71,11 @@ private slots:
     void on_lineEditFilter_textChanged(const QString &text);
 
 private:
-    MenuAction *action(int id) const;
-
     Ui::ShortcutsWidget *ui;
     QTimer m_timerCheckAmbiguous;
 
-    typedef QSharedPointer<MenuAction> MenuActionPtr;
-    QMap<int, MenuActionPtr> m_actions;
+    QVector<MenuAction> m_actions;
     QList<QKeySequence> m_shortcuts;
-    QList<QKeySequence> m_disabledShortcuts;
 };
 
 #endif // SHORTCUTSWIDGET_H

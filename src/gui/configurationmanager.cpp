@@ -113,6 +113,9 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     initOptions();
 
     connect(m_itemFactory, SIGNAL(error(QString)), SIGNAL(error(QString)));
+
+    connect( ui->configTabShortcuts, SIGNAL(openCommandDialogRequest()),
+             this, SIGNAL(openCommandDialogRequest()));
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -339,7 +342,7 @@ void ConfigurationManager::loadSettings()
     settings.endGroup();
 
     settings.beginGroup("Shortcuts");
-    tabShortcuts()->loadShortcuts(settings);
+    ui->configTabShortcuts->loadShortcuts(settings);
     settings.endGroup();
 
     settings.beginGroup("Theme");
@@ -411,11 +414,6 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
     }
 }
 
-ConfigTabShortcuts *ConfigurationManager::tabShortcuts() const
-{
-    return ui->configTabShortcuts;
-}
-
 void ConfigurationManager::setVisible(bool visible)
 {
     QDialog::setVisible(visible);
@@ -451,7 +449,7 @@ void ConfigurationManager::apply()
     // (i.e. clicked OK or Apply in configuration dialog).
     if (m_optionWidgetsLoaded) {
         settings.beginGroup("Shortcuts");
-        tabShortcuts()->saveShortcuts(*settings.settingsData());
+        ui->configTabShortcuts->saveShortcuts(*settings.settingsData());
         settings.endGroup();
 
         settings.beginGroup("Theme");
