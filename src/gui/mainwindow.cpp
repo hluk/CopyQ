@@ -2171,8 +2171,12 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
     QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
     connect( actionDialog.data(), SIGNAL(saveCommand(Command)),
              this, SLOT(onSaveCommand(Command)) );
+
     actionDialog->setWindowIcon(appIcon(AppIconRunning));
     actionDialog->setInputData( addSelectionData(*browser(), data) );
+
+    actionDialog->setOutputIndex(getBrowser()->currentIndex());
+
     actionDialog->show();
     return stealFocus(*actionDialog.take());
 }

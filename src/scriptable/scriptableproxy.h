@@ -29,6 +29,7 @@
 #include <QSystemTrayIcon>
 
 class MainWindow;
+class QPersistentModelIndex;
 
 struct NamedValue {
     NamedValue() {}
@@ -261,6 +262,7 @@ public slots:
 
     void updateFirstItem(const QVariantMap &data);
     void updateTitle(const QVariantMap &data);
+    void setSelectedItemsData(const QString &mime, const QVariant &value);
 
     void filter(const QString &text);
 
@@ -275,6 +277,7 @@ private:
     QByteArray itemData(int i, const QString &mime);
 
     bool canUseSelectedItems() const;
+    QList<QPersistentModelIndex> selectedIndexes() const;
 
     MainWindow* m_wnd;
     QVariant v; ///< Last return value retrieved.
@@ -387,6 +390,7 @@ public:
 
     PROXY_METHOD_VOID_1(updateFirstItem, const QVariantMap &)
     PROXY_METHOD_VOID_1(updateTitle, const QVariantMap &)
+    PROXY_METHOD_VOID_2(setSelectedItemsData, const QString &, const QVariant &)
 
     PROXY_METHOD_VOID_1(filter, const QString &)
 

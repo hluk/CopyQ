@@ -67,7 +67,7 @@ public:
     const QStringList &inputFormats() const { return m_inputFormats; }
 
     /** Return output format. */
-    QString outputFormat() const { return m_outputFormat; }
+    const QString &outputFormat() const { return m_outputFormat; }
     void setOutputFormat(const QString &outputItemFormat) { m_outputFormat = outputItemFormat; }
 
     /// Set separator for items on standard output.

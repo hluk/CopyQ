@@ -873,7 +873,13 @@ QScriptValue Scriptable::data(const QScriptValue &value)
 QScriptValue Scriptable::setData()
 {
     const QString mime = arg(0);
-    return toItemData( argument(1), mime, &m_data );
+    if ( !toItemData(argument(1), mime, &m_data) )
+        return false;
+
+    if ( m_data.value(mimeSelectedItems).isValid() )
+        m_proxy->setSelectedItemsData(mime, m_data.value(mime));
+
+    return true;
 }
 
 void Scriptable::print(const QScriptValue &value)

@@ -170,7 +170,7 @@ void ActionDialog::createAction()
 
     QScopedPointer<Action> act( new Action() );
     act->setCommand(cmd, m_capturedTexts);
-    if (input.isEmpty())
+    if (input.isEmpty() && !inputFormat.isEmpty())
         act->setInput(m_data, inputFormat);
     else
         act->setInput(input.toUtf8());

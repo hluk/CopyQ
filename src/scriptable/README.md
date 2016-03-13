@@ -274,11 +274,11 @@ Returns data for command (item data, clipboard data or text from action dialog).
 
 ###### ByteArray setData(mimeType, data)
 
-Modifies data passed to automatic commands.
+Modifies data passed to automatic commands or selected items if run from menu or using shortcut.
 
 Next automatic command will get updated data.
 
-This is also data used to create new item.
+This is also the data used to create new item from clipboard.
 
 E.g. following automatic command will add creation time data and tag to new items.
 
@@ -286,6 +286,11 @@ E.g. following automatic command will add creation time data and tag to new item
     var timeFormat = 'yyyy-MM-dd hh:mm:ss'
     setData('application/x-copyq-user-copy-time', dateString(timeFormat))
     setData('application/x-copyq-tags', 'copied: ' + time)
+
+E.g. following menu command will add tag to selected items.
+
+    copyq:
+    setData('application/x-copyq-tags', 'Important')
 
 ###### print(value)
 

@@ -743,9 +743,7 @@ QList<int> ScriptableProxyHelper::selectedItems()
         return QList<int>();
 
     QList<int> selectedRows;
-    const QList<QPersistentModelIndex> selected =
-            m_actionData.value(mimeSelectedItems)
-            .value< QList<QPersistentModelIndex> >();
+    const QList<QPersistentModelIndex> selected = selectedIndexes();
     foreach (const QPersistentModelIndex &index, selected) {
         if (index.isValid())
             selectedRows.append(index.row());
@@ -977,6 +975,19 @@ void ScriptableProxyHelper::updateTitle(const QVariantMap &data)
         m_wnd->updateTitle(data);
 }
 
+void ScriptableProxyHelper::setSelectedItemsData(const QString &mime, const QVariant &value)
+{
+    const QList<QPersistentModelIndex> selected = selectedIndexes();
+    foreach (const QPersistentModelIndex &index, selected) {
+        ClipboardBrowser *c = m_wnd->browserForItem(index);
+        if (c) {
+            QVariantMap data = c->model()->data(index, contentType::data).toMap();
+            data[mime] = value;
+            c->model()->setData(index, data, contentType::data);
+        }
+    }
+}
+
 void ScriptableProxyHelper::filter(const QString &text)
 {
     m_wnd->setFilter(text);
@@ -1025,6 +1036,12 @@ bool ScriptableProxyHelper::canUseSelectedItems() const
 {
     return m_tabName.isEmpty()
             || m_tabName == m_actionData.value(mimeCurrentTab).toString();
+}
+
+QList<QPersistentModelIndex> ScriptableProxyHelper::selectedIndexes() const
+{
+    return m_actionData.value(mimeSelectedItems)
+            .value< QList<QPersistentModelIndex> >();
 }
 
 } // namespace detail

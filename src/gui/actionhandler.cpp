@@ -123,7 +123,7 @@ void ActionHandler::closeAction(Action *action)
         msg += tr("Exit code: %1\n").arg(action->exitCode()) + action->errorOutput();
         icon = QSystemTrayIcon::Warning;
     } else if ( !action->inputFormats().isEmpty() ) {
-        QModelIndex index = action->index();
+        const QModelIndex index = action->index();
         ClipboardBrowser *c = m_wnd->browserForItem(index);
         if (c) {
             QStringList removeFormats = action->inputFormats();
