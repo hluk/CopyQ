@@ -535,7 +535,6 @@ Tests::Tests(const TestInterfacePtr &test, QObject *parent)
 
 void Tests::initTestCase()
 {
-    TEST(m_test->init());
 }
 
 void Tests::cleanupTestCase()

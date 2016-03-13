@@ -322,6 +322,21 @@ QString ConfigurationManager::optionValue(const QString &name) const
     return m_options.value(name).value().toString();
 }
 
+bool ConfigurationManager::setOptionValue(const QString &name, const QString &value)
+{
+    if ( !m_options.contains(name) )
+        return false;
+
+    const QString oldValue = optionValue(name);
+    m_options[name].setValue(value);
+    if ( optionValue(name) == oldValue )
+        return false;
+
+    AppConfig().setOption(name, m_options[name].value());
+    emit configurationChanged();
+    return true;
+}
+
 QString ConfigurationManager::optionToolTip(const QString &name) const
 {
     return m_options[name].tooltip();

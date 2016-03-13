@@ -352,6 +352,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, SLOT(updateIconSnip()) );
     connect( qApp, SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()) );
+    connect( this, SIGNAL(configurationChanged()),
+             this, SLOT(loadSettings()) );
 
     connect(&m_itemMenuCommandTester, SIGNAL(commandPassed(Command,bool)),
             SLOT(addCommandsToItemMenu(Command,bool)));
@@ -1901,13 +1903,16 @@ QString MainWindow::getUserOptionsDescription() const
 QString MainWindow::getUserOptionValue(const QString &name) const
 {
     ConfigurationManager configurationManager(m_sharedData->itemFactory);
+    configurationManager.loadSettings();
     return configurationManager.optionValue(name);
 }
 
 void MainWindow::setUserOptionValue(const QString &name, const QString &value)
 {
-    AppConfig().setOption(name, value);
-    emit configurationChanged();
+    ConfigurationManager configurationManager(m_sharedData->itemFactory);
+    configurationManager.loadSettings();
+    if ( configurationManager.setOptionValue(name, value) )
+        emit configurationChanged();
 }
 
 bool MainWindow::hasUserOption(const QString &name) const
@@ -2278,8 +2283,6 @@ void MainWindow::openPreferences()
     // notify window if configuration changes
     connect( &configurationManager, SIGNAL(configurationChanged()),
              this, SIGNAL(configurationChanged()) );
-    connect( this, SIGNAL(configurationChanged()),
-             this, SLOT(loadSettings()) );
     connect( &configurationManager, SIGNAL(error(QString)),
              this, SLOT(showError(QString)) );
     connect( &configurationManager, SIGNAL(openCommandDialogRequest()),

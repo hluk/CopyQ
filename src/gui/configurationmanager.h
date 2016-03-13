@@ -56,8 +56,13 @@ public:
 
     /** Return list of options that can be set or view using command line. */
     QStringList options() const;
+
     /** Return value of an option. */
     QString optionValue(const QString &name) const;
+
+    /** Set value of an option and returns true only if the value changes. */
+    bool setOptionValue(const QString &name, const QString &value);
+
     /** Return tooltip text for option with given @a name. */
     QString optionToolTip(const QString &name) const;
 
