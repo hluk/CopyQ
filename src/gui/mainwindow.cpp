@@ -998,7 +998,7 @@ ClipboardBrowser *MainWindow::createTab(
     if (i != -1)
         return getBrowser(i);
 
-    ClipboardBrowser *c = new ClipboardBrowser(this, m_sharedData);
+    ClipboardBrowser *c = new ClipboardBrowser(m_sharedData, this);
     c->setTabName(name);
     c->loadSettings();
 

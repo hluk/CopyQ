@@ -31,6 +31,7 @@ class ConfigTabAppearance;
 
 class ClipboardBrowser;
 class ItemDelegate;
+class ItemFactory;
 class Option;
 class QAbstractScrollArea;
 class QSettings;
@@ -49,6 +50,8 @@ public:
     void saveTheme(QSettings &settings);
 
     void setEditor(const QString &editor) { m_editor = editor; }
+
+    void createPreview(ItemFactory *itemFactory);
 
 protected:
     void showEvent(QShowEvent *event);
@@ -88,6 +91,8 @@ private:
     Ui::ConfigTabAppearance *ui;
     Theme m_theme;
     QString m_editor;
+
+    ClipboardBrowser *m_preview;
 };
 
 #endif // CONFIGTABAPPEARANCE_H

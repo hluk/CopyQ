@@ -48,7 +48,7 @@ Q_DECLARE_FLAGS(SelectActions, SelectAction)
 Q_DECLARE_OPERATORS_FOR_FLAGS(SelectActions)
 
 struct ClipboardBrowserShared {
-    explicit ClipboardBrowserShared(ItemFactory *itemFactory = NULL);
+    explicit ClipboardBrowserShared(ItemFactory *itemFactory);
 
     void loadFromConfiguration();
 
@@ -84,7 +84,7 @@ class ClipboardBrowser : public QListView
                 QPointer<ClipboardBrowser> c;
         };
 
-        explicit ClipboardBrowser(QWidget *parent = NULL, const ClipboardBrowserSharedPtr &sharedData = ClipboardBrowserSharedPtr());
+        explicit ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent = NULL);
         /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
         /** Load settings. */

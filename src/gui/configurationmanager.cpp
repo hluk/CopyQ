@@ -108,6 +108,8 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     connect( ui->configTabShortcuts, SIGNAL(openCommandDialogRequest()),
              this, SIGNAL(openCommandDialogRequest()));
 
+    ui->configTabAppearance->createPreview(itemFactory);
+
     loadSettings();
 }
 

@@ -21,6 +21,8 @@
 
 #include "ui_configtabappearance.h"
 
+#include "item/itemdelegate.h"
+
 #include "gui/iconfont.h"
 
 #include <QListView>
