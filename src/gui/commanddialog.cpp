@@ -297,7 +297,7 @@ CommandDialog::Commands CommandDialog::commands(bool onlyEnabled, bool onlySaved
                 Q_ASSERT(commandWidget);
                 c = commandWidget->command();
             } else {
-                c = ui->itemOrderListCommands->item(i)->data().value<Command>();
+                c = ui->itemOrderListCommands->data(i).value<Command>();
             }
 
             c.enable = ui->itemOrderListCommands->isItemChecked(i);
@@ -452,8 +452,7 @@ void CommandDialog::on_pushButtonPasteCommands_clicked()
 void CommandDialog::on_lineEditFilterCommands_textChanged(const QString &text)
 {
     for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
-        ItemOrderList::ItemPtr item = ui->itemOrderListCommands->item(i);
-        const Command c = item->data().value<Command>();
+        const Command c = ui->itemOrderListCommands->data(i).value<Command>();
         bool show = text.isEmpty() || QString(c.name).remove('&').contains(text, Qt::CaseInsensitive)
                 || c.cmd.contains(text, Qt::CaseInsensitive);
         ui->itemOrderListCommands->setItemWidgetVisible(i, show);

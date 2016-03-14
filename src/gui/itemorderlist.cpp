@@ -99,9 +99,9 @@ QWidget *ItemOrderList::widget(int row) const
     return m_items[listItem(row)].widget;
 }
 
-ItemOrderList::ItemPtr ItemOrderList::item(int row) const
+QVariant ItemOrderList::data(int row) const
 {
-    return m_items[listItem(row)].item;
+    return m_items[listItem(row)].item->data();
 }
 
 int ItemOrderList::itemCount() const

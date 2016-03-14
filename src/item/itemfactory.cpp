@@ -102,7 +102,8 @@ public:
 
     int value(const ItemLoaderInterface *item) const
     {
-        return m_order.indexOf( item->name() );
+        const int i = m_order.indexOf( item->id() );
+        return i == -1 ? m_order.indexOf( item->name() ) : i;
     }
 
     bool operator()(const ItemLoaderInterface *lhs, const ItemLoaderInterface *rhs) const

@@ -293,6 +293,32 @@ QString defaultTabName()
     return tab.isEmpty() ? defaultClipboardTabName() : tab;
 }
 
+void loadItemFactorySettings(ItemFactory *itemFactory)
+{
+    QSettings settings;
+
+    // load settings for each plugin
+    settings.beginGroup("Plugins");
+    foreach ( ItemLoaderInterface *loader, itemFactory->loaders() ) {
+        settings.beginGroup(loader->id());
+
+        QVariantMap s;
+        foreach (const QString &name, settings.allKeys()) {
+            s[name] = settings.value(name);
+        }
+        loader->loadSettings(s);
+        itemFactory->setLoaderEnabled( loader, settings.value("enabled", true).toBool() );
+
+        settings.endGroup();
+    }
+    settings.endGroup();
+
+    // load plugin priority
+    const QStringList pluginPriority =
+            settings.value("plugin_priority", QStringList()).toStringList();
+    itemFactory->setPluginPriority(pluginPriority);
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -361,6 +387,9 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
             SLOT(addCommandsToTrayMenu(Command,bool)));
     connect(&m_automaticCommandTester, SIGNAL(commandPassed(Command,bool)),
             SLOT(automaticCommandTestFinished(Command,bool)));
+
+    connect(itemFactory, SIGNAL(error(QString)),
+            this, SLOT(showError(QString)));
 
     m_commands = loadCommands();
     loadSettings();
@@ -1570,6 +1599,8 @@ void MainWindow::loadSettings()
 {
     COPYQ_LOG("Loading configuration");
 
+    loadItemFactorySettings(m_sharedData->itemFactory);
+
     const Theme theme;
     theme.decorateToolBar(ui->toolBar);
     theme.decorateMainWindow(this);
@@ -1890,7 +1921,7 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
 
 QString MainWindow::getUserOptionsDescription() const
 {
-    ConfigurationManager configurationManager(m_sharedData->itemFactory);
+    ConfigurationManager configurationManager;
 
     QStringList options = configurationManager.options();
     options.sort();
@@ -1902,22 +1933,20 @@ QString MainWindow::getUserOptionsDescription() const
 
 QString MainWindow::getUserOptionValue(const QString &name) const
 {
-    ConfigurationManager configurationManager(m_sharedData->itemFactory);
-    configurationManager.loadSettings();
+    ConfigurationManager configurationManager;
     return configurationManager.optionValue(name);
 }
 
 void MainWindow::setUserOptionValue(const QString &name, const QString &value)
 {
-    ConfigurationManager configurationManager(m_sharedData->itemFactory);
-    configurationManager.loadSettings();
+    ConfigurationManager configurationManager;
     if ( configurationManager.setOptionValue(name, value) )
         emit configurationChanged();
 }
 
 bool MainWindow::hasUserOption(const QString &name) const
 {
-    ConfigurationManager configurationManager(m_sharedData->itemFactory);
+    ConfigurationManager configurationManager;
     return configurationManager.options().contains(name);
 }
 
@@ -2277,7 +2306,6 @@ void MainWindow::openPreferences()
     }
 
     ConfigurationManager configurationManager(m_sharedData->itemFactory, this);
-    configurationManager.loadSettings();
     WindowGeometryGuard::create(&configurationManager);
 
     // notify window if configuration changes

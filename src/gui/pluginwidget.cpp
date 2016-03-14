@@ -20,47 +20,13 @@
 #include "pluginwidget.h"
 #include "ui_pluginwidget.h"
 
-#include <QSettings>
+#include "item/itemwidget.h"
 
 PluginWidget::PluginWidget(ItemLoaderInterface *loader, QWidget *parent)
     : QWidget(parent)
-    , ui(NULL)
+    , ui(new Ui::PluginWidget)
     , m_loader(loader)
 {
-}
-
-PluginWidget::~PluginWidget()
-{
-    delete ui;
-}
-
-void PluginWidget::applySettings(QSettings *settings, bool isPluginEnabled)
-{
-    settings->beginGroup(m_loader->id());
-
-    if (ui) {
-        QVariantMap s = m_loader->applySettings();
-        foreach (const QString &name, s.keys())
-            settings->setValue(name, s[name]);
-    }
-
-    settings->setValue("enabled", isPluginEnabled);
-
-    settings->endGroup();
-}
-
-void PluginWidget::showEvent(QShowEvent *event)
-{
-    init();
-    QWidget::showEvent(event);
-}
-
-void PluginWidget::init()
-{
-    if (ui)
-        return;
-
-    ui = new Ui::PluginWidget;
     ui->setupUi(this);
 
     const QString author = m_loader->author();
@@ -80,4 +46,9 @@ void PluginWidget::init()
         ui->verticalLayout->insertWidget(2, loaderSettings);
         ui->verticalLayout->setStretch(2, 1);
     }
+}
+
+PluginWidget::~PluginWidget()
+{
+    delete ui;
 }

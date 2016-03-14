@@ -64,6 +64,8 @@ public:
     {
     }
 
+    QVariant data() const { return m_loader->id(); }
+
 private:
     QWidget *createWidget(QWidget *parent) const
     {
@@ -92,21 +94,21 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     : QDialog(parent)
     , ui(new Ui::ConfigurationManager)
     , m_options()
-    , m_itemFactory(itemFactory)
-    , m_optionWidgetsLoaded(false)
 {
     ui->setupUi(this);
     setWindowIcon(appIcon());
 
-    if ( !m_itemFactory->hasLoaders() )
-        ui->tabItems->deleteLater();
+    if ( itemFactory && itemFactory->hasLoaders() )
+        initPluginWidgets(itemFactory);
+    else
+        ui->tabItems->hide();
 
     initOptions();
 
-    connect(m_itemFactory, SIGNAL(error(QString)), SIGNAL(error(QString)));
-
     connect( ui->configTabShortcuts, SIGNAL(openCommandDialogRequest()),
              this, SIGNAL(openCommandDialogRequest()));
+
+    loadSettings();
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -130,18 +132,15 @@ void ConfigurationManager::initTabIcons()
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconPicture) );
 }
 
-void ConfigurationManager::initPluginWidgets()
+void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)
 {
-    if (!m_itemFactory->hasLoaders())
-        return;
-
     ui->itemOrderListPlugins->clearItems();
 
-    foreach ( ItemLoaderInterface *loader, m_itemFactory->loaders() ) {
+    foreach ( ItemLoaderInterface *loader, itemFactory->loaders() ) {
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
         const QIcon icon = getIcon(loader->icon());
         ui->itemOrderListPlugins->appendItem(
-                    loader->name(), m_itemFactory->isLoaderEnabled(loader), false, icon, pluginItem );
+                    loader->name(), itemFactory->isLoaderEnabled(loader), false, icon, pluginItem );
     }
 }
 
@@ -368,27 +367,6 @@ void ConfigurationManager::loadSettings()
 
     ui->configTabAppearance->setEditor( AppConfig().option<Config::editor>() );
 
-    // load settings for each plugin
-    settings.beginGroup("Plugins");
-    foreach ( ItemLoaderInterface *loader, m_itemFactory->loaders() ) {
-        settings.beginGroup(loader->id());
-
-        QVariantMap s;
-        foreach (const QString &name, settings.allKeys()) {
-            s[name] = settings.value(name);
-        }
-        loader->loadSettings(s);
-        m_itemFactory->setLoaderEnabled( loader, settings.value("enabled", true).toBool() );
-
-        settings.endGroup();
-    }
-    settings.endGroup();
-
-    // load plugin priority
-    const QStringList pluginPriority =
-            settings.value("plugin_priority", QStringList()).toStringList();
-    m_itemFactory->setPluginPriority(pluginPriority);
-
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 
     updateTabComboBoxes();
@@ -437,9 +415,7 @@ void ConfigurationManager::setVisible(bool visible)
 
     if (visible) {
         initTabIcons();
-        initPluginWidgets();
         initLanguages();
-        m_optionWidgetsLoaded = true;
     }
 }
 
@@ -455,37 +431,46 @@ void ConfigurationManager::apply()
 
     // Save configuration without command line alternatives only if option widgets are initialized
     // (i.e. clicked OK or Apply in configuration dialog).
-    if (m_optionWidgetsLoaded) {
-        settings.beginGroup("Shortcuts");
-        ui->configTabShortcuts->saveShortcuts(*settings.settingsData());
-        settings.endGroup();
+    settings.beginGroup("Shortcuts");
+    ui->configTabShortcuts->saveShortcuts(*settings.settingsData());
+    settings.endGroup();
 
-        settings.beginGroup("Theme");
-        ui->configTabAppearance->saveTheme(*settings.settingsData());
-        settings.endGroup();
+    settings.beginGroup("Theme");
+    ui->configTabAppearance->saveTheme(*settings.settingsData());
+    settings.endGroup();
 
-        // save settings for each plugin
-        if ( m_itemFactory->hasLoaders() ) {
-            settings.beginGroup("Plugins");
-            for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
-                bool isPluginEnabled = ui->itemOrderListPlugins->isItemChecked(i);
-                QWidget *w = ui->itemOrderListPlugins->widget(i);
-                if (w) {
-                    PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
-                    pluginWidget->applySettings(settings.settingsData(), isPluginEnabled);
-                    m_itemFactory->setLoaderEnabled(pluginWidget->loader(), isPluginEnabled);
-                }
-            }
-            settings.endGroup();
+    // Save settings for each plugin.
+    settings.beginGroup("Plugins");
 
-            // save plugin priority
-            QStringList pluginPriority;
-            for (int i = 0; i <  ui->itemOrderListPlugins->itemCount(); ++i)
-                pluginPriority.append( ui->itemOrderListPlugins->itemLabel(i) );
-            settings.setValue("plugin_priority", pluginPriority);
-            m_itemFactory->setPluginPriority(pluginPriority);
+    QStringList pluginPriority;
+
+    for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
+        const QString loaderId = ui->itemOrderListPlugins->data(i).toString();
+        Q_ASSERT(!loaderId.isEmpty());
+
+        pluginPriority.append(loaderId);
+
+        settings.beginGroup(loaderId);
+
+        QWidget *w = ui->itemOrderListPlugins->widget(i);
+        if (w) {
+            PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
+            ItemLoaderInterface *loader = pluginWidget->loader();
+            const QVariantMap s = loader->applySettings();
+            foreach (const QString &name, s.keys())
+                settings.setValue(name, s[name]);
         }
+
+        const bool isPluginEnabled = ui->itemOrderListPlugins->isItemChecked(i);
+        settings.setValue("enabled", isPluginEnabled);
+
+        settings.endGroup();
     }
+
+    settings.endGroup();
+
+    if (!pluginPriority.isEmpty())
+        settings.setValue("plugin_priority", pluginPriority);
 
     ui->configTabAppearance->setEditor( AppConfig().option<Config::editor>() );
 
@@ -507,19 +492,9 @@ void ConfigurationManager::done(int result)
     if (result == QDialog::Accepted) {
         apply();
         emit configurationChanged();
-    } else {
-        loadSettings();
     }
 
     QDialog::done(result);
-
-    if (!isVisible()) {
-        m_optionWidgetsLoaded = false;
-        if ( m_itemFactory->hasLoaders() )
-            ui->itemOrderListPlugins->clearItems();
-
-        ui->comboBoxLanguage->clear();
-    }
 }
 
 void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)

@@ -47,12 +47,9 @@ class ConfigurationManager : public QDialog
     Q_OBJECT
 
 public:
-    explicit ConfigurationManager(ItemFactory *itemFactory, QWidget *parent = NULL);
+    explicit ConfigurationManager(ItemFactory *itemFactory = NULL, QWidget *parent = NULL);
 
     ~ConfigurationManager();
-
-    /** Load settings from default file. */
-    void loadSettings();
 
     /** Return list of options that can be set or view using command line. */
     QStringList options() const;
@@ -87,12 +84,15 @@ private slots:
     void on_spinBoxTrayItems_valueChanged(int value);
 
 private:
+    /** Load settings from default file. */
+    void loadSettings();
+
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
 
     void initTabIcons();
 
-    void initPluginWidgets();
+    void initPluginWidgets(ItemFactory *itemFactory);
 
     void initLanguages();
 
@@ -120,10 +120,6 @@ private:
 
     Ui::ConfigurationManager *ui;
     QHash<QString, Option> m_options;
-
-    ItemFactory *m_itemFactory;
-
-    bool m_optionWidgetsLoaded;
 };
 
 #endif // CONFIGURATIONMANAGER_H
