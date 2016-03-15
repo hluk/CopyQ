@@ -319,6 +319,14 @@ void loadItemFactorySettings(ItemFactory *itemFactory)
     itemFactory->setPluginPriority(pluginPriority);
 }
 
+bool isItemActivationShortcut(const QKeySequence &shortcut)
+{
+    return (shortcut[0] == Qt::Key_Return || shortcut[0] == Qt::Key_Enter)
+            && shortcut[1] == 0
+            && shortcut[2] == 0
+            && shortcut[3] == 0;
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -1081,6 +1089,9 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
 
     QList<QKeySequence> usedShortcuts = m_disabledShortcuts;
 
+    if (menu == m_menuItem)
+        m_activateCurrentItemAction = NULL;
+
     foreach (const Command &command, commands) {
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, menu);
@@ -1100,6 +1111,14 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
                     if (act->isEnabled())
                         usedShortcuts.append(shortcut);
                     uniqueShortcuts.append(shortcut);
+
+                    if (menu == m_menuItem
+                            && m_activateCurrentItemAction.isNull()
+                            && isItemActivationShortcut(shortcut))
+                    {
+                        m_activateCurrentItemAction = act;
+                        menu->setDefaultAction(act);
+                    }
                 }
             }
 
@@ -2041,6 +2060,11 @@ void MainWindow::setClipboard(const QVariantMap &data)
 
 void MainWindow::activateCurrentItem()
 {
+    if ( !m_activateCurrentItemAction.isNull() ) {
+        m_activateCurrentItemAction->trigger();
+        return;
+    }
+
     // Copy current item or selection to clipboard.
     ClipboardBrowser *c = browser();
 

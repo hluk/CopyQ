@@ -305,6 +305,9 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
           ";padding-left:" + QString::number(iconSize * 2) + "px}"
         "#menu_bar QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
 
+        // Keep default item highlighted (removing icon border resets the style).
+        "#menu_bar QMenu::item:default{font-weight:bold}"
+
         "#menu_bar QMenu {" + themeStyleSheet("menu_css") + "}"
         "#menu_bar, #menu_bar::item, #menu_bar QMenu, #menu_bar QMenu::item, #menu_bar QMenu::separator {"
           + themeStyleSheet("menu_bar_css") + "}"

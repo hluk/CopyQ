@@ -602,6 +602,7 @@ private:
 
     ClipboardBrowserSharedPtr m_sharedData;
     QList<Command> m_commands;
+    QPointer<QAction> m_activateCurrentItemAction;
 
     PlatformWindowPtr m_lastWindow;
 
