@@ -333,13 +333,16 @@ ItemLoaderInterface *ItemFactory::initializeTab(QAbstractItemModel *model)
 
 bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
 {
-    foreach ( const ItemLoaderInterface *loader, enabledLoaders() ) {
+    // Match formats if the filter expression contains single '/'.
+    if (re.pattern().count('/') == 1) {
         const QVariantMap data = index.data(contentType::data).toMap();
         foreach (const QString &format, data.keys()) {
-            if (format.indexOf(re) != -1)
+            if (re.exactMatch(format))
                 return true;
         }
+    }
 
+    foreach ( const ItemLoaderInterface *loader, enabledLoaders() ) {
         if ( isLoaderEnabled(loader) && loader->matches(index, re) )
             return true;
     }
