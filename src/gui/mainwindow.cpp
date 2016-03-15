@@ -49,7 +49,6 @@
 #include "gui/theme.h"
 #include "gui/traymenu.h"
 #include "gui/windowgeometryguard.h"
-#include "item/clipboardmodel.h"
 #include "item/itemfactory.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
@@ -2465,10 +2464,9 @@ bool MainWindow::saveTab(const QString &fileName, int tab_index)
 
     int i = tab_index >= 0 ? tab_index : ui->tabWidget->currentIndex();
     ClipboardBrowser *c = browser(i);
-    ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
 
     out << QByteArray("CopyQ v2") << c->tabName();
-    serializeData(*model, &out);
+    serializeData(*c->model(), &out);
 
     file.close();
 
@@ -2522,9 +2520,8 @@ bool MainWindow::loadTab(const QString &fileName)
     renameToUnique(&tabName, ui->tabWidget->tabs());
 
     ClipboardBrowser *c = createTab(tabName, MatchExactTabName);
-    ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
 
-    deserializeData(model, &in);
+    deserializeData(c->model(), &in);
 
     c->loadItems();
     c->saveItems();
