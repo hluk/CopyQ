@@ -23,6 +23,8 @@
 #include "common/common.h"
 #include "common/config.h"
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QEvent>
 #include <QMoveEvent>
 #include <QVariant>
@@ -60,7 +62,8 @@ bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
 
     case QEvent::Move:
     case QEvent::Resize:
-        m_timerSaveGeometry.start();
+        if ( !isWindowGeometryLocked() && m_window->isVisible() )
+            m_timerSaveGeometry.start();
         break;
 
     case QEvent::Hide:
@@ -78,6 +81,8 @@ WindowGeometryGuard::WindowGeometryGuard(QWidget *window)
     : QObject(window)
     , m_window(window)
 {
+    connect( QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(restoreWindowGeometry()) );
+    connect( QApplication::desktop(), SIGNAL(workAreaResized(int)), this, SLOT(restoreWindowGeometry()) );
     initSingleShotTimer(&m_timerSaveGeometry, 250, this, SLOT(saveWindowGeometry()));
     initSingleShotTimer(&m_timerUnlockGeometry, 250, this, SLOT(unlockWindowGeometry()));
 
@@ -85,12 +90,15 @@ WindowGeometryGuard::WindowGeometryGuard(QWidget *window)
     restoreWindowGeometry();
 }
 
+bool WindowGeometryGuard::isWindowGeometryLocked() const
+{
+    return m_window->property(propertyGeometryLocked).toBool()
+        || m_window->property(propertyGeometryLockedUntilHide).toBool();
+}
+
 bool WindowGeometryGuard::lockWindowGeometry()
 {
-    if ( m_window->property(propertyGeometryLocked).toBool() )
-        return false;
-
-    if ( m_window->property(propertyGeometryLockedUntilHide).toBool() )
+    if ( isWindowGeometryLocked() )
         return false;
 
     m_window->setProperty(propertyGeometryLocked, true);
@@ -120,11 +128,4 @@ void WindowGeometryGuard::restoreWindowGeometry()
 void WindowGeometryGuard::unlockWindowGeometry()
 {
     m_window->setProperty(propertyGeometryLocked, false);
-}
-
-void WindowGeometryGuard::fixGeometry()
-{
-    const QPoint pos = m_window->pos();
-    const QPoint frame = m_window->geometry().topLeft() - pos;
-    m_window->move(pos - frame);
 }

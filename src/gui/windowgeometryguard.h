@@ -36,13 +36,14 @@ public:
 private:
     explicit WindowGeometryGuard(QWidget *window);
 
+    bool isWindowGeometryLocked() const;
+
     bool lockWindowGeometry();
 
 private slots:
     void saveWindowGeometry();
     void restoreWindowGeometry();
     void unlockWindowGeometry();
-    void fixGeometry();
 
 private:
     QWidget *m_window;
