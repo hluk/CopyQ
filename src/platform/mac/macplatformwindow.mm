@@ -146,7 +146,7 @@ namespace {
             return title;
         }
 
-        uint32_t windowid[1] = {wid};
+        uint32_t windowid[1] = {static_cast<uint32_t>(wid)};
         CFArrayRef windowArray = CFArrayCreate ( NULL, (const void **)windowid, 1 ,NULL);
         NSArray *array = (__bridge NSArray*) CGWindowListCreateDescriptionFromArray(windowArray);
 
