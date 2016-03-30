@@ -154,20 +154,21 @@ Command dummyTagCommand()
     return c;
 }
 
-void addTagCommands(const QString &tagName, QList<Command> *commands)
+void addTagCommands(const QString &tagName, const QString &match, QList<Command> *commands)
 {
     Command c;
 
-    const QString tagString = toScriptString(tagName);
+    const QString name = !tagName.isEmpty() ? tagName : match;
+    const QString tagString = toScriptString(name);
 
     c = dummyTagCommand();
-    c.name = ItemTagsLoader::tr("Tag as %1").arg(quoteString(tagName));
+    c.name = ItemTagsLoader::tr("Tag as %1").arg(quoteString(name));
     c.matchCmd = "copyq: plugins.itemtags.hasTag(" + tagString + ") && fail()";
     c.cmd = "copyq: plugins.itemtags.tag(" + tagString + ")";
     commands->append(c);
 
     c = dummyTagCommand();
-    c.name = ItemTagsLoader::tr("Remove tag %1").arg(quoteString(tagName));
+    c.name = ItemTagsLoader::tr("Remove tag %1").arg(quoteString(name));
     c.matchCmd = "copyq: plugins.itemtags.hasTag(" + tagString + ") || fail()";
     c.cmd = "copyq: plugins.itemtags.untag(" + tagString + ")";
     commands->append(c);
@@ -575,10 +576,10 @@ QList<Command> ItemTagsLoader::commands() const
     QList<Command> commands;
 
     if (m_tags.isEmpty()) {
-        addTagCommands(tr("Important", "Tag name for example command"), &commands);
+        addTagCommands(tr("Important", "Tag name for example command"), QString(), &commands);
     } else {
         foreach (const Tag &tag, m_tags)
-            addTagCommands(tag.name, &commands);
+            addTagCommands(tag.name, tag.match, &commands);
     }
 
     Command c;
