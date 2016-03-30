@@ -230,12 +230,12 @@
         <translation>以後面名稱儲存分頁中的項目(要儲存於目前分頁則留白)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="276"/>
+        <location filename="../src/gui/actiondialog.cpp" line="274"/>
         <source>Command saved</source>
         <translation>所儲存的命令</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="277"/>
+        <location filename="../src/gui/actiondialog.cpp" line="275"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>命令已儲存，能從項目功能表取用
@@ -270,6 +270,87 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
         <translation>CopyQ 增加命令</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="79"/>
+        <source>Ctrl+Shift+1</source>
+        <comment>Global shortcut for some predefined commands</comment>
+        <translation type="unfinished">Ctrl+Shift+1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="86"/>
+        <source>Show/hide main window</source>
+        <translation type="unfinished">顯示/隱藏主窗</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="88"/>
+        <source>Show the tray menu</source>
+        <translation type="unfinished">顯示通知區圖示功能表</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="90"/>
+        <source>Show main window under mouse cursor</source>
+        <translation type="unfinished">在滑鼠游標下顯示主窗</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="92"/>
+        <source>Edit clipboard</source>
+        <translation type="unfinished">編輯剪貼</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="94"/>
+        <source>Edit first item</source>
+        <translation type="unfinished">編輯第一項</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="96"/>
+        <source>Copy second item</source>
+        <translation type="unfinished">複製第二項</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="98"/>
+        <source>Show action dialog</source>
+        <translation type="unfinished">顯示動作對話框</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="100"/>
+        <source>Create new item</source>
+        <translation type="unfinished">新建項目</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="102"/>
+        <source>Copy next item</source>
+        <translation type="unfinished">複製下一項</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="104"/>
+        <source>Copy previous item</source>
+        <translation type="unfinished">複製上一項</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="106"/>
+        <source>Paste clipboard as plain text</source>
+        <translation type="unfinished">將剪貼轉為純文字貼上</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="108"/>
+        <source>Disable clipboard storing</source>
+        <translation type="unfinished">停用剪貼歷史之儲存</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="110"/>
+        <source>Enable clipboard storing</source>
+        <translation type="unfinished">啟用剪貼歷史之儲存</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="112"/>
+        <source>Paste and copy next</source>
+        <translation type="unfinished">貼上並複製下一個</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="114"/>
+        <source>Paste and copy previous</source>
+        <translation type="unfinished">貼上並複製上一個</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="134"/>
@@ -364,18 +445,18 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardBrowser</name>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="508"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="509"/>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
         <translation>搜尋 %p%...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1805"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1819"/>
         <source>Discard Changes?</source>
         <translation>放棄變更？</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1806"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1820"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>真想 &lt;strong&gt;放棄變更&lt;/strong&gt; 嗎？</translation>
     </message>
@@ -416,12 +497,12 @@ You can set up the command in preferences.</source>
         <translation>移除格式</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="54"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="53"/>
         <source>CopyQ Item Content</source>
         <translation>CopyQ 項目內容</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="84"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="83"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
         <translation>&lt;strong&gt;大小：&lt;/strong&gt; %1 bytes</translation>
@@ -435,22 +516,22 @@ You can set up the command in preferences.</source>
         <translation>CopyQ 伺服器已運作。</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="309"/>
+        <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Cancel Active Commands</source>
         <translation>取消目前命令</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="310"/>
+        <location filename="../src/app/clipboardserver.cpp" line="309"/>
         <source>Cancel active commands and exit?</source>
         <translation>取消目前命令並結束？</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="313"/>
+        <location filename="../src/app/clipboardserver.cpp" line="312"/>
         <source>Cancel Exiting</source>
         <translation>取消結束</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="314"/>
+        <location filename="../src/app/clipboardserver.cpp" line="313"/>
         <source>Exit Anyway</source>
         <translation>結束</translation>
     </message>
@@ -493,32 +574,32 @@ You can set up the command in preferences.</source>
         <translation>貼上命令 [Ctrl+V]</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="329"/>
+        <location filename="../src/gui/commanddialog.cpp" line="333"/>
         <source>Unsaved Changes</source>
         <translation>未儲存的變更</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="329"/>
+        <location filename="../src/gui/commanddialog.cpp" line="333"/>
         <source>Command dialog has unsaved changes.</source>
         <translation>命令對話方塊有未儲存的變更。</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="416"/>
+        <location filename="../src/gui/commanddialog.cpp" line="420"/>
         <source>Open Files with Commands</source>
         <translation>以命令開啟檔案</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="417"/>
+        <location filename="../src/gui/commanddialog.cpp" line="421"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>命令 (*.ini);; CopyQ 設定 (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="426"/>
+        <location filename="../src/gui/commanddialog.cpp" line="430"/>
         <source>Save Selected Commands</source>
         <translation>儲存所選命令</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="427"/>
+        <location filename="../src/gui/commanddialog.cpp" line="431"/>
         <source>Commands (*.ini)</source>
         <translation>命令 (*.ini)</translation>
     </message>
@@ -526,43 +607,43 @@ You can set up the command in preferences.</source>
 <context>
     <name>CommandHelpButton</name>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="66"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="65"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
         <translation>命令含有將要執行的程式(連同參元)清單。例如:</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="70"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="69"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
         <translation>項目文會替換程式參元 %1，符合字串類型式的文字則替換參元 %2 至 %9。</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="74"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
         <translation>字元 %1 可將標準輸出傳給下一個程式。</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="80"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="79"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
         <translation>以下語法可用來將命令的其餘部分作為單一參元傳遞。</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="83"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
         <translation>這產生同於 %1 的輸出；於較長命令更有用。</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
         <source>Functions listed below can be used as in following commands.</source>
         <translation>下面列出的函數可以後面範例命令的方式使用。</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="91"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
         <translation>&amp;clipboard</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="127"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="126"/>
         <source>Show command help (F1)</source>
         <translation>顯示命令説明 (F1)</translation>
     </message>
@@ -911,66 +992,66 @@ Note: If this is applied automatically, no other automatic commands are executed
         <translation>預覽:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="182"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="108"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>項目</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="186"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="111"/>
         <source>Search string is %1.</source>
         <translation>搜尋的字串為 %1。</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="187"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="112"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>選一項目然後
 按 F2 來編輯。</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="189"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="114"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
         <translation>選擇項目並同時按 CTRL 和向上或向下鍵移動它們。</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="191"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="116"/>
         <source>Remove item with Delete key.</source>
         <translation>用 Delete 鍵刪除項目。</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="193"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="118"/>
         <source>Example item %1</source>
         <translation>示例項目 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="198"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="123"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>一些雜記 (Shift+F2 編輯)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="488"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="156"/>
         <source>Open Theme File</source>
         <translation>開啟主題檔</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="500"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="166"/>
         <source>Save Theme File As</source>
         <translation>主題檔儲存為</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="522"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="185"/>
         <source>No External Editor</source>
         <translation>不使用外部編輯器</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="523"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="186"/>
         <source>Set external editor command first!</source>
         <translation>首先設定外部編輯器命令！</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="748"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="399"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>測試</translation>
@@ -979,320 +1060,253 @@ CTRL and up or down key.</source>
 <context>
     <name>ConfigTabShortcuts</name>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="81"/>
         <source>&amp;New Item</source>
-        <translation>新項目(&amp;N)</translation>
+        <translation type="vanished">新項目(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="83"/>
         <source>&amp;Import Tab...</source>
-        <translation>匯入分頁(&amp;I)...</translation>
+        <translation type="vanished">匯入分頁(&amp;I)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="83"/>
         <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
+        <translation type="vanished">Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="85"/>
         <source>&amp;Export Tab...</source>
-        <translation>匯出分頁(&amp;E)...</translation>
+        <translation type="vanished">匯出分頁(&amp;E)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="87"/>
         <source>&amp;Preferences...</source>
-        <translation>偏好(&amp;P)...</translation>
+        <translation type="vanished">偏好(&amp;P)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="87"/>
-        <location filename="../src/tests/tests.cpp" line="1467"/>
+        <location filename="../src/tests/tests.cpp" line="1466"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="91"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation>命令與全局快鍵(&amp;O)...</translation>
+        <translation type="vanished">命令與全局快鍵(&amp;O)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="93"/>
         <source>C&amp;ommands...</source>
-        <translation>命令(&amp;O)...</translation>
+        <translation type="vanished">命令(&amp;O)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="95"/>
         <source>F6</source>
-        <translation>F6</translation>
+        <translation type="vanished">F6</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="97"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation>顯示剪貼歷史內容(&amp;C)</translation>
+        <translation type="vanished">顯示剪貼歷史內容(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="98"/>
         <source>Ctrl+Shift+C</source>
-        <translation>Ctrl+Shift+C</translation>
+        <translation type="vanished">Ctrl+Shift+C</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="99"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation>開/關剪貼歷史之儲存(&amp;T)</translation>
+        <translation type="vanished">開/關剪貼歷史之儲存(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="100"/>
         <source>Ctrl+Shift+X</source>
-        <translation>Ctrl+Shift+X</translation>
+        <translation type="vanished">Ctrl+Shift+X</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="101"/>
         <source>P&amp;rocess Manager</source>
-        <translation>程序管理器(&amp;R)</translation>
+        <translation type="vanished">程序管理器(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="102"/>
         <source>Ctrl+Shift+Z</source>
-        <translation>Ctrl+Shift+Z</translation>
+        <translation type="vanished">Ctrl+Shift+Z</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="103"/>
         <source>E&amp;xit</source>
-        <translation>離開(&amp;X)</translation>
+        <translation type="vanished">離開(&amp;X)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="103"/>
         <source>Ctrl+Q</source>
-        <translation>Ctrl+Q</translation>
+        <translation type="vanished">Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="106"/>
         <source>&amp;Sort Selected Items</source>
-        <translation>排序所選項(&amp;S)</translation>
+        <translation type="vanished">排序所選項(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="107"/>
         <source>Ctrl+Shift+S</source>
-        <translation>Ctrl+Shift+S</translation>
+        <translation type="vanished">Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="109"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation>反排所選項(&amp;R)</translation>
+        <translation type="vanished">反排所選項(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
         <source>Ctrl+Shift+R</source>
-        <translation>Ctrl+Shift+R</translation>
+        <translation type="vanished">Ctrl+Shift+R</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="112"/>
         <source>&amp;Paste Items</source>
-        <translation>插入項目到歷史(&amp;P)</translation>
+        <translation type="vanished">插入項目到歷史(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="114"/>
         <source>&amp;Copy Selected Items</source>
-        <translation>複製所選歷史項目(&amp;C)</translation>
+        <translation type="vanished">複製所選歷史項目(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="116"/>
         <source>&amp;Find</source>
-        <translation>尋找(&amp;F)</translation>
+        <translation type="vanished">尋找(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="119"/>
         <source>Move to &amp;Clipboard</source>
-        <translation>移到剪貼簿(&amp;C)</translation>
+        <translation type="vanished">移到剪貼簿(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="121"/>
         <source>&amp;Show Content...</source>
-        <translation>顯示[項目]內容(&amp;S)...</translation>
+        <translation type="vanished">顯示[項目]內容(&amp;S)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="122"/>
         <source>F4</source>
-        <translation>F4</translation>
+        <translation type="vanished">F4</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
         <source>&amp;Edit</source>
-        <translation>編輯(&amp;E)</translation>
+        <translation type="vanished">編輯(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
         <source>F2</source>
-        <translation>F2</translation>
+        <translation type="vanished">F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="125"/>
         <source>Edit &amp;Notes</source>
-        <translation>編輯備註(&amp;N)</translation>
+        <translation type="vanished">編輯備註(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="126"/>
         <source>Shift+F2</source>
-        <translation>Shift+F2</translation>
+        <translation type="vanished">Shift+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="127"/>
         <source>E&amp;dit with editor</source>
-        <translation>以編輯器編輯(&amp;D)</translation>
+        <translation type="vanished">以編輯器編輯(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="128"/>
         <source>Ctrl+E</source>
-        <translation>Ctrl+E</translation>
+        <translation type="vanished">Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
         <source>&amp;Action...</source>
-        <translation>動作(&amp;A)...</translation>
+        <translation type="vanished">動作(&amp;A)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
         <source>F5</source>
-        <translation>F5</translation>
+        <translation type="vanished">F5</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Next Format</source>
-        <translation>下一格式</translation>
+        <translation type="vanished">下一格式</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Ctrl+Right</source>
-        <translation>Ctrl+Right</translation>
+        <translation type="vanished">Ctrl+Right</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
         <source>Previous Format</source>
-        <translation>上一格式</translation>
+        <translation type="vanished">上一格式</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
         <source>Ctrl+Left</source>
-        <translation>Ctrl+Left</translation>
+        <translation type="vanished">Ctrl+Left</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="136"/>
         <source>&amp;Remove</source>
-        <translation>移除(&amp;R)</translation>
+        <translation type="vanished">移除(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="139"/>
         <source>Move Up</source>
-        <translation>移上</translation>
+        <translation type="vanished">移上</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="140"/>
         <source>Ctrl+Up</source>
-        <translation>Ctrl+Up</translation>
+        <translation type="vanished">Ctrl+Up</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="141"/>
         <source>Move Down</source>
-        <translation>移下</translation>
+        <translation type="vanished">移下</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="142"/>
         <source>Ctrl+Down</source>
-        <translation>Ctrl+Down</translation>
+        <translation type="vanished">Ctrl+Down</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="143"/>
         <source>Move to Top</source>
-        <translation>移至首</translation>
+        <translation type="vanished">移至首</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="144"/>
         <source>Ctrl+Home</source>
-        <translation>Ctrl+Home</translation>
+        <translation type="vanished">Ctrl+Home</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="145"/>
         <source>Move to Bottom</source>
-        <translation>移至尾</translation>
+        <translation type="vanished">移至尾</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="146"/>
         <source>Ctrl+End</source>
-        <translation>Ctrl+End</translation>
+        <translation type="vanished">Ctrl+End</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="148"/>
         <source>&amp;New Tab</source>
-        <translation>新增分頁(&amp;N)</translation>
+        <translation type="vanished">新增分頁(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="149"/>
         <source>Ctrl+T</source>
-        <translation>Ctrl+T</translation>
+        <translation type="vanished">Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="150"/>
         <source>R&amp;ename Tab</source>
-        <translation>重新命名分頁(&amp;E)</translation>
+        <translation type="vanished">重新命名分頁(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="151"/>
         <source>Ctrl+F2</source>
-        <translation>Ctrl+F2</translation>
+        <translation type="vanished">Ctrl+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="152"/>
         <source>Re&amp;move Tab</source>
-        <translation>移除分頁(&amp;M)</translation>
+        <translation type="vanished">移除分頁(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="153"/>
         <source>Ctrl+W</source>
-        <translation>Ctrl+W</translation>
+        <translation type="vanished">Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="154"/>
         <source>&amp;Change Tab Icon</source>
-        <translation>變更分頁圖示(&amp;C)</translation>
+        <translation type="vanished">變更分頁圖示(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="155"/>
         <source>Ctrl+Shift+T</source>
-        <translation>Ctrl+Shift+T</translation>
+        <translation type="vanished">Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="156"/>
         <source>Ne&amp;xt Tab</source>
-        <translation>下一分頁</translation>
+        <translation type="vanished">下一分頁</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="157"/>
         <source>Right</source>
-        <translation>Right</translation>
+        <translation type="vanished">Right</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="158"/>
         <source>&amp;Previous Tab</source>
-        <translation>上一分頁</translation>
+        <translation type="vanished">上一分頁</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="159"/>
         <source>Left</source>
-        <translation>Left</translation>
+        <translation type="vanished">Left</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="161"/>
-        <source>&amp;Show Log</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="161"/>
         <source>F12</source>
-        <translation type="unfinished">F12</translation>
+        <translation type="obsolete">F12</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="163"/>
         <source>&amp;Help</source>
-        <translation>說明(&amp;H)</translation>
+        <translation type="vanished">說明(&amp;H)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
@@ -1874,124 +1888,105 @@ Set to 0 to disable.</source>
         <translation>外觀(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="79"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation>Ctrl+Shift+1</translation>
+        <translation type="vanished">Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="86"/>
         <source>Show/hide main window</source>
-        <translation>顯示/隱藏主窗</translation>
+        <translation type="vanished">顯示/隱藏主窗</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="88"/>
         <source>Show the tray menu</source>
-        <translation>顯示通知區圖示功能表</translation>
+        <translation type="vanished">顯示通知區圖示功能表</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="90"/>
         <source>Show main window under mouse cursor</source>
-        <translation>在滑鼠游標下顯示主窗</translation>
+        <translation type="vanished">在滑鼠游標下顯示主窗</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="92"/>
         <source>Edit clipboard</source>
-        <translation>編輯剪貼</translation>
+        <translation type="vanished">編輯剪貼</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="94"/>
         <source>Edit first item</source>
-        <translation>編輯第一項</translation>
+        <translation type="vanished">編輯第一項</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="96"/>
         <source>Copy second item</source>
-        <translation>複製第二項</translation>
+        <translation type="vanished">複製第二項</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="98"/>
         <source>Show action dialog</source>
-        <translation>顯示動作對話框</translation>
+        <translation type="vanished">顯示動作對話框</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="100"/>
         <source>Create new item</source>
-        <translation>新建項目</translation>
+        <translation type="vanished">新建項目</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="102"/>
         <source>Copy next item</source>
-        <translation>複製下一項</translation>
+        <translation type="vanished">複製下一項</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="104"/>
         <source>Copy previous item</source>
-        <translation>複製上一項</translation>
+        <translation type="vanished">複製上一項</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="106"/>
         <source>Paste clipboard as plain text</source>
-        <translation>將剪貼轉為純文字貼上</translation>
+        <translation type="vanished">將剪貼轉為純文字貼上</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="108"/>
         <source>Disable clipboard storing</source>
-        <translation>停用剪貼歷史之儲存</translation>
+        <translation type="vanished">停用剪貼歷史之儲存</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="110"/>
         <source>Enable clipboard storing</source>
-        <translation>啟用剪貼歷史之儲存</translation>
+        <translation type="vanished">啟用剪貼歷史之儲存</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="112"/>
         <source>Paste and copy next</source>
-        <translation>貼上並複製下一個</translation>
+        <translation type="vanished">貼上並複製下一個</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="114"/>
         <source>Paste and copy previous</source>
-        <translation>貼上並複製上一個</translation>
+        <translation type="vanished">貼上並複製上一個</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="76"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation>&amp;clipboard</translation>
+        <translation type="vanished">&amp;clipboard</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="82"/>
         <source>Cannot save tab %1 to %2 (%3)!</source>
-        <translation>無法儲存分頁 %1 到 %2 (%3)！</translation>
+        <translation type="vanished">無法儲存分頁 %1 到 %2 (%3)！</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="295"/>
         <source>Cannot create directory for settings %1!</source>
-        <translation>無法建立設定目錄 %1！</translation>
+        <translation type="vanished">無法建立設定目錄 %1！</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="593"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="355"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>選項 &quot;%1&quot; 的值無效</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="668"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="398"/>
         <source>Reset preferences?</source>
         <translation>設回偏好？</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="669"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="399"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>此動作將所有(所有分頁的)偏好回復到預設值。&lt;br /&gt;&lt;br /&gt; 真的要&lt;strong&gt;回復所有偏好&lt;/strong&gt;？</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="839"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="487"/>
         <source>Restart Required</source>
         <translation>必須重新啟動</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="840"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="488"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>重新啟動應用程式，才會更改語言。</translation>
     </message>
@@ -2357,44 +2352,44 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemEditorWidget</name>
     <message>
-        <location filename="../src/item/itemeditorwidget.cpp" line="208"/>
+        <location filename="../src/item/itemeditorwidget.cpp" line="207"/>
         <source>Save</source>
         <translation>儲存</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditorwidget.cpp" line="210"/>
+        <location filename="../src/item/itemeditorwidget.cpp" line="209"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
         <translation>儲存項目 (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditorwidget.cpp" line="211"/>
+        <location filename="../src/item/itemeditorwidget.cpp" line="210"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditorwidget.cpp" line="215"/>
+        <location filename="../src/item/itemeditorwidget.cpp" line="214"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditorwidget.cpp" line="217"/>
+        <location filename="../src/item/itemeditorwidget.cpp" line="216"/>
         <source>Cancel Editing and Revert Changes</source>
         <translation>取消編輯，復原變更</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditorwidget.cpp" line="218"/>
+        <location filename="../src/item/itemeditorwidget.cpp" line="217"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
         <translation>Esc</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditorwidget.cpp" line="226"/>
+        <location filename="../src/item/itemeditorwidget.cpp" line="225"/>
         <source>Undo</source>
         <translation>復原</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditorwidget.cpp" line="233"/>
+        <location filename="../src/item/itemeditorwidget.cpp" line="232"/>
         <source>Redo</source>
         <translation>重複</translation>
     </message>
@@ -2779,43 +2774,43 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemTagsLoader</name>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="126"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="141"/>
         <source>Add a Tag</source>
         <translation>新增標籤</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="131"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="146"/>
         <source>Remove a Tag</source>
         <translation>移除標籤</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="149"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="165"/>
         <source>Tag as %1</source>
         <translation>加上標籤 %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="155"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Remove tag %1</source>
         <translation>移除標籤 %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="496"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="579"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>重要</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="517"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="600"/>
         <source>Clear all tags</source>
         <translation>移除所有標籤</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="88"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="90"/>
         <source>Tags</source>
         <translation>標籤</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="90"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="92"/>
         <source>Display tags for items.</source>
         <translation>顯示項目的標籤。</translation>
     </message>
@@ -2828,17 +2823,32 @@ Set to 0 to disable.</source>
         <translation>可在命令對話框中加入與自訂，用來加入、移除標籤的功能表項目。</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtagssettings.ui" line="28"/>
+        <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
+        <source>More info is available on &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wiki page&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
         <translation>標籤名稱</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtagssettings.ui" line="33"/>
+        <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
+        <source>Match</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
+        <source>Style Sheet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
         <translation>顏色</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
+        <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
         <translation>圖示</translation>
     </message>
@@ -2890,94 +2900,94 @@ Set to 0 to disable.</source>
         <translation>CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="407"/>
+        <location filename="../src/gui/mainwindow.cpp" line="438"/>
         <source>Exit?</source>
         <translation>結束？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="408"/>
+        <location filename="../src/gui/mainwindow.cpp" line="439"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>想要 &lt;strong&gt;結束&lt;/strong&gt; CopyQ？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="450"/>
+        <location filename="../src/gui/mainwindow.cpp" line="481"/>
         <source>&amp;File</source>
         <translation>檔案(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="493"/>
+        <location filename="../src/gui/mainwindow.cpp" line="524"/>
         <source>&amp;Edit</source>
         <translation>編輯(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="517"/>
+        <location filename="../src/gui/mainwindow.cpp" line="548"/>
         <source>&amp;Item</source>
         <translation>項目(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="521"/>
+        <location filename="../src/gui/mainwindow.cpp" line="552"/>
         <source>&amp;Tabs</source>
         <translation>分頁(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="546"/>
+        <location filename="../src/gui/mainwindow.cpp" line="577"/>
         <source>&amp;Help</source>
         <translation>說明(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="560"/>
+        <location filename="../src/gui/mainwindow.cpp" line="591"/>
         <source>&amp;New Tab</source>
         <translation>新增分頁(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="562"/>
+        <location filename="../src/gui/mainwindow.cpp" line="593"/>
         <source>Rename &amp;Group %1</source>
         <translation>重新命名群組 %1(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="564"/>
+        <location filename="../src/gui/mainwindow.cpp" line="595"/>
         <source>Re&amp;name Tab %1</source>
         <translation>重新命名分頁 %1(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="566"/>
+        <location filename="../src/gui/mainwindow.cpp" line="597"/>
         <source>Re&amp;move Tab %1</source>
         <translation>移除分頁 %1(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="568"/>
+        <location filename="../src/gui/mainwindow.cpp" line="599"/>
         <source>Remove Group %1</source>
         <translation>移除群組 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="570"/>
+        <location filename="../src/gui/mainwindow.cpp" line="601"/>
         <source>&amp;Change Tab Icon</source>
         <translation>變更圖示(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="939"/>
+        <location filename="../src/gui/mainwindow.cpp" line="954"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>啟用剪貼歷史之儲存(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="940"/>
+        <location filename="../src/gui/mainwindow.cpp" line="955"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>停用剪貼歷史之儲存(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1157"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1178"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1160"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1181"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1173"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1194"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -2985,70 +2995,70 @@ Set to 0 to disable.</source>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1337"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1409"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>Copyq 出錯</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2128"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2240"/>
         <source>&amp;Show/Hide</source>
         <translation>顯示/隱藏(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2132"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2244"/>
         <source>Open action dialog</source>
         <translation>開啟動作對話框</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2149"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2261"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>剪貼簿內容(&amp;C): %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2337"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2396"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2479"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2537"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ 項目 (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2345"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2487"/>
         <source>CopyQ Error Saving File</source>
         <translation>Copyq 於儲存檔案時出錯</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2346"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2488"/>
         <source>Cannot save file %1!</source>
         <translation>無法儲存檔案 %1！</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2401"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2542"/>
         <source>CopyQ Error Opening File</source>
         <translation>Copyq 於開啟檔案時出錯</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2402"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2543"/>
         <source>Cannot open file %1!</source>
         <translation>無法開啟檔案 %1！</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2550"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2691"/>
         <source>Remove All Tabs in Group?</source>
         <translation>移除群組中的所有分頁？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2551"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2692"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>想移除群組 &lt;strong&gt;%1&lt;/strong&gt; 中的&lt;strong&gt;所有分頁&lt;/strong&gt;？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2596"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2737"/>
         <source>Remove Tab?</source>
         <translation>移除分頁？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2597"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2738"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>想要移除分頁 &lt;strong&gt;%1&lt;/strong&gt;？</translation>
     </message>
@@ -3056,17 +3066,17 @@ Set to 0 to disable.</source>
 <context>
     <name>Notification</name>
     <message>
-        <location filename="../src/gui/notification.cpp" line="49"/>
+        <location filename="../src/gui/notification.cpp" line="50"/>
         <source>CopyQ Inspect Notification</source>
         <translation>CopyQ 檢視通知</translation>
     </message>
     <message>
-        <location filename="../src/gui/notification.cpp" line="73"/>
+        <location filename="../src/gui/notification.cpp" line="72"/>
         <source>&amp;Copy</source>
         <translation>複製(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/notification.cpp" line="124"/>
+        <location filename="../src/gui/notification.cpp" line="123"/>
         <source>Right click to show</source>
         <translation>按右鍵以顯示</translation>
     </message>
@@ -3209,17 +3219,17 @@ Set to 0 to disable.</source>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="189"/>
+        <location filename="../src/item/itemfactory.cpp" line="190"/>
         <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation>項目檔 %1 毀損，或某些 CopyQ 外掛不存在！</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="231"/>
+        <location filename="../src/item/itemfactory.cpp" line="232"/>
         <source>No plugins loaded</source>
         <translation>外掛未載入</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="433"/>
+        <location filename="../src/item/itemfactory.cpp" line="438"/>
         <source>Loading plugin: %1</source>
         <translation>載入外掛: %1</translation>
     </message>
@@ -3234,6 +3244,337 @@ Set to 0 to disable.</source>
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Copyq 工作名稱至多指允許 16 個字元
 可以是字母、數字、&apos;-&apos; 或 &apos;_&apos;！</translation>
+    </message>
+    <message>
+        <location filename="../src/common/appconfig.cpp" line="27"/>
+        <source>&amp;clipboard</source>
+        <comment>Default name of the tab that automatically stores new clipboard content</comment>
+        <translation type="unfinished">&amp;clipboard</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="60"/>
+        <source>&amp;New Item</source>
+        <translation type="unfinished">新項目(&amp;N)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="62"/>
+        <source>&amp;Import Tab...</source>
+        <translation type="unfinished">匯入分頁(&amp;I)...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="62"/>
+        <source>Ctrl+I</source>
+        <translation type="unfinished">Ctrl+I</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="64"/>
+        <source>&amp;Export Tab...</source>
+        <translation type="unfinished">匯出分頁(&amp;E)...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="66"/>
+        <source>&amp;Preferences...</source>
+        <translation type="unfinished">偏好(&amp;P)...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="66"/>
+        <source>Ctrl+P</source>
+        <translation type="unfinished">Ctrl+P</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="70"/>
+        <source>C&amp;ommands/Global Shortcuts...</source>
+        <translation type="unfinished">命令與全局快鍵(&amp;O)...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="72"/>
+        <source>C&amp;ommands...</source>
+        <translation type="unfinished">命令(&amp;O)...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="74"/>
+        <source>F6</source>
+        <translation type="unfinished">F6</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="76"/>
+        <source>Show &amp;Clipboard Content</source>
+        <translation type="unfinished">顯示剪貼歷史內容(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="77"/>
+        <source>Ctrl+Shift+C</source>
+        <translation type="unfinished">Ctrl+Shift+C</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="78"/>
+        <source>&amp;Toggle Clipboard Storing</source>
+        <translation type="unfinished">開/關剪貼歷史之儲存(&amp;T)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="79"/>
+        <source>Ctrl+Shift+X</source>
+        <translation type="unfinished">Ctrl+Shift+X</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="80"/>
+        <source>P&amp;rocess Manager</source>
+        <translation type="unfinished">程序管理器(&amp;R)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="81"/>
+        <source>Ctrl+Shift+Z</source>
+        <translation type="unfinished">Ctrl+Shift+Z</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="82"/>
+        <source>E&amp;xit</source>
+        <translation type="unfinished">離開(&amp;X)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="82"/>
+        <source>Ctrl+Q</source>
+        <translation type="unfinished">Ctrl+Q</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="85"/>
+        <source>&amp;Sort Selected Items</source>
+        <translation type="unfinished">排序所選項(&amp;S)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="86"/>
+        <source>Ctrl+Shift+S</source>
+        <translation type="unfinished">Ctrl+Shift+S</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="88"/>
+        <source>&amp;Reverse Selected Items</source>
+        <translation type="unfinished">反排所選項(&amp;R)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="89"/>
+        <source>Ctrl+Shift+R</source>
+        <translation type="unfinished">Ctrl+Shift+R</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="91"/>
+        <source>&amp;Paste Items</source>
+        <translation type="unfinished">插入項目到歷史(&amp;P)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="93"/>
+        <source>&amp;Copy Selected Items</source>
+        <translation type="unfinished">複製所選歷史項目(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="95"/>
+        <source>&amp;Find</source>
+        <translation type="unfinished">尋找(&amp;F)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="98"/>
+        <source>Move to &amp;Clipboard</source>
+        <translation type="unfinished">移到剪貼簿(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="100"/>
+        <source>&amp;Show Content...</source>
+        <translation type="unfinished">顯示[項目]內容(&amp;S)...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="101"/>
+        <source>F4</source>
+        <translation type="unfinished">F4</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="102"/>
+        <source>&amp;Remove</source>
+        <translation type="unfinished">移除(&amp;R)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="104"/>
+        <source>&amp;Edit</source>
+        <translation type="unfinished">編輯(&amp;E)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="104"/>
+        <source>F2</source>
+        <translation type="unfinished">F2</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="106"/>
+        <source>Edit &amp;Notes</source>
+        <translation type="unfinished">編輯備註(&amp;N)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="107"/>
+        <source>Shift+F2</source>
+        <translation type="unfinished">Shift+F2</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="108"/>
+        <source>E&amp;dit with editor</source>
+        <translation type="unfinished">以編輯器編輯(&amp;D)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="109"/>
+        <source>Ctrl+E</source>
+        <translation type="unfinished">Ctrl+E</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="110"/>
+        <source>&amp;Action...</source>
+        <translation type="unfinished">動作(&amp;A)...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="110"/>
+        <source>F5</source>
+        <translation type="unfinished">F5</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <source>Next Format</source>
+        <translation type="unfinished">下一格式</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <source>Ctrl+Right</source>
+        <translation type="unfinished">Ctrl+Right</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
+        <source>Previous Format</source>
+        <translation type="unfinished">上一格式</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
+        <source>Ctrl+Left</source>
+        <translation type="unfinished">Ctrl+Left</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="117"/>
+        <source>Move Up</source>
+        <translation type="unfinished">移上</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="118"/>
+        <source>Ctrl+Up</source>
+        <translation type="unfinished">Ctrl+Up</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="119"/>
+        <source>Move Down</source>
+        <translation type="unfinished">移下</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="120"/>
+        <source>Ctrl+Down</source>
+        <translation type="unfinished">Ctrl+Down</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="121"/>
+        <source>Move to Top</source>
+        <translation type="unfinished">移至首</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="122"/>
+        <source>Ctrl+Home</source>
+        <translation type="unfinished">Ctrl+Home</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="123"/>
+        <source>Move to Bottom</source>
+        <translation type="unfinished">移至尾</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="124"/>
+        <source>Ctrl+End</source>
+        <translation type="unfinished">Ctrl+End</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="126"/>
+        <source>&amp;New Tab</source>
+        <translation type="unfinished">新增分頁(&amp;N)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="127"/>
+        <source>Ctrl+T</source>
+        <translation type="unfinished">Ctrl+T</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="128"/>
+        <source>R&amp;ename Tab</source>
+        <translation type="unfinished">重新命名分頁(&amp;E)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="129"/>
+        <source>Ctrl+F2</source>
+        <translation type="unfinished">Ctrl+F2</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="130"/>
+        <source>Re&amp;move Tab</source>
+        <translation type="unfinished">移除分頁(&amp;M)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="131"/>
+        <source>Ctrl+W</source>
+        <translation type="unfinished">Ctrl+W</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="132"/>
+        <source>&amp;Change Tab Icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="133"/>
+        <source>Ctrl+Shift+T</source>
+        <translation type="unfinished">Ctrl+Shift+T</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="134"/>
+        <source>Ne&amp;xt Tab</source>
+        <translation type="unfinished">下一分頁</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="135"/>
+        <source>Right</source>
+        <translation type="unfinished">Right</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="136"/>
+        <source>&amp;Previous Tab</source>
+        <translation type="unfinished">上一分頁</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="137"/>
+        <source>Left</source>
+        <translation type="unfinished">Left</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="139"/>
+        <source>&amp;Show Log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="139"/>
+        <source>F12</source>
+        <translation type="unfinished">F12</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <source>&amp;Help</source>
+        <translation type="unfinished">說明(&amp;H)</translation>
+    </message>
+    <message>
+        <location filename="../src/item/itemstore.cpp" line="45"/>
+        <source>Cannot create directory for settings %1!</source>
+        <translation type="unfinished">無法建立設定目錄 %1！</translation>
+    </message>
+    <message>
+        <location filename="../src/item/itemstore.cpp" line="57"/>
+        <source>Cannot save tab %1 to %2 (%3)!</source>
+        <translation type="unfinished">無法儲存分頁 %1 到 %2 (%3)！</translation>
     </message>
 </context>
 <context>
@@ -3628,7 +3969,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="317"/>
-        <location filename="../src/scriptable/scriptableworker.cpp" line="150"/>
+        <location filename="../src/scriptable/scriptableworker.cpp" line="149"/>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
         <translation>名稱 &quot;%1&quot; 未指涉一函應(function)。</translation>
     </message>
@@ -3665,7 +4006,7 @@ Print version of program and libraries.</source>
         <translation>無效選項 &quot;%1&quot;！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1254"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1266"/>
         <source>Failed to set clipboard!</source>
         <translation>無法設定剪貼簿！</translation>
     </message>
@@ -3673,7 +4014,7 @@ Print version of program and libraries.</source>
 <context>
     <name>ShortcutButton</name>
     <message>
-        <location filename="../src/gui/shortcutbutton.cpp" line="49"/>
+        <location filename="../src/gui/shortcutbutton.cpp" line="48"/>
         <source>Add shortcut</source>
         <translation>新增快鍵</translation>
     </message>
@@ -3696,7 +4037,7 @@ Print version of program and libraries.</source>
         <translation>點按此，然後按下鍵的組合</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutdialog.cpp" line="66"/>
+        <location filename="../src/gui/shortcutdialog.cpp" line="65"/>
         <source>Remove Shortcut</source>
         <translation>刪除快鍵</translation>
     </message>
@@ -3709,12 +4050,12 @@ Print version of program and libraries.</source>
         <translation>尋找(&amp;F):</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="328"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="177"/>
         <source>There is command overriding this shortcut.</source>
         <translation>有命令覆蓋此快鍵。</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="329"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="178"/>
         <source>Shortcut already exists!</source>
         <translation>快鍵已存在！</translation>
     </message>
@@ -3754,7 +4095,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="112"/>
+        <location filename="../src/gui/traymenu.cpp" line="111"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
         <translation>&amp;%1. %2</translation>
@@ -3776,17 +4117,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="321"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="294"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>有給定名稱的項目不存在！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="326"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="299"/>
         <source>Tab name cannot be empty!</source>
         <translation>分頁名稱不可空白！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="412"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="385"/>
         <source>Tab with given name already exists!</source>
         <translation>有給定名稱的分頁已存在！</translation>
     </message>
