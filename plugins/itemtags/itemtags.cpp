@@ -61,6 +61,24 @@ enum {
 };
 }
 
+class ElidedLabel : public QLabel
+{
+public:
+    explicit ElidedLabel(const QString &text, QWidget *parent = NULL)
+        : QLabel(text, parent)
+    {
+    }
+
+protected:
+    void paintEvent(QPaintEvent *)
+    {
+        QPainter p(this);
+        QFontMetrics fm = fontMetrics();
+        const QString elidedText = fm.elidedText(text(), Qt::ElideMiddle, rect().width());
+        p.drawText(rect(), Qt::AlignCenter, elidedText);
+    }
+};
+
 bool isTagValid(const ItemTags::Tag &tag)
 {
     return !tag.name.isEmpty()
@@ -217,8 +235,7 @@ void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &fo
     }
 
     if (!tag.name.isEmpty()) {
-        QLabel *label = new QLabel(tag.name, tagWidget);
-        label->setAlignment(Qt::AlignCenter);
+        ElidedLabel *label = new ElidedLabel(tag.name, tagWidget);
         label->setFont(font);
         layout->addWidget(label);
     }
