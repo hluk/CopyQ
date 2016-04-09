@@ -20,12 +20,21 @@
 #include "platform/platformcommon.h"
 #include "winplatformwindow.h"
 
+#include "common/log.h"
+
 #include <QApplication>
 #include <QElapsedTimer>
 #include <QString>
 #include <QVector>
 
 namespace {
+
+QString windowTitle(HWND window)
+{
+    WCHAR buf[1024];
+    GetWindowTextW(window, buf, 1024);
+    return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
+}
 
 INPUT createInput(WORD key, DWORD flags = 0)
 {
@@ -41,16 +50,42 @@ INPUT createInput(WORD key, DWORD flags = 0)
     return input;
 }
 
+QString windowLogText(QString text, HWND window)
+{
+    const QString windowInfo =
+            QString("%1").arg(reinterpret_cast<quintptr>(window))
+            + " \"" + windowTitle(window) + "\"";
+
+    text.prepend("Window " + windowInfo + ": ");
+
+    const DWORD lastError = GetLastError();
+    if (lastError != 0)
+        text.append( QString(" (last error is %1)").arg(GetLastError()) );
+
+    return text;
+}
+
+void logWindow(const char *text, HWND window)
+{
+    COPYQ_LOG( windowLogText(text, window) );
+}
+
 bool raiseWindow(HWND window)
 {
-    if (!IsWindowVisible(window))
+    if (!IsWindowVisible(window)) {
+        logWindow("Failed to raise: IsWindowVisible() == false", window);
         return false;
+    }
 
-    if (!SetForegroundWindow(window))
+    if (!SetForegroundWindow(window)) {
+        logWindow("Failed to raise:  SetForegroundWindow() == false", window);
         return false;
+    }
 
     SetWindowPos(window, HWND_TOP, 0, 0, 0, 0,
                  SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+
+    logWindow("Raised", window);
 
     return true;
 }
@@ -69,9 +104,7 @@ WinPlatformWindow::WinPlatformWindow(HWND window)
 
 QString WinPlatformWindow::getTitle()
 {
-    WCHAR buf[1024];
-    GetWindowTextW(m_window, buf, 1024);
-    return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
+    return windowTitle(m_window);
 }
 
 void WinPlatformWindow::raise()
@@ -132,5 +165,10 @@ void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key)
            << createInput(modifier, KEYEVENTF_KEYUP);
 
     QVector<INPUT> input = input1 + input2;
-    SendInput( input.size(), input.data(), sizeof(INPUT) );
+    const UINT numberOfAddedEvents = SendInput( input.size(), input.data(), sizeof(INPUT) );
+
+    if (numberOfAddedEvents == 0u)
+        logWindow("Failed to paste", m_window);
+    else
+        logWindow("Paste successful", m_window);
 }
