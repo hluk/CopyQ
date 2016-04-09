@@ -135,7 +135,7 @@ void ShortcutsWidget::loadShortcuts(QSettings &settings)
 void ShortcutsWidget::saveShortcuts(QSettings &settings) const
 {
     foreach (const MenuAction &action, m_actions) {
-        if ( action.settingsKey.isEmpty() ) {
+        if ( !action.settingsKey.isEmpty() ) {
             QStringList shortcutNames;
             foreach (const QKeySequence &shortcut, action.shortcutButton->shortcuts())
                 shortcutNames.append(portableShortcutText(shortcut));
