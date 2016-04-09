@@ -166,6 +166,62 @@ Application *createApplication(int &argc, char **argv)
     return app;
 }
 
+QString windowClass(HWND window)
+{
+    WCHAR buf[32];
+    GetClassNameW(window, buf, 32);
+    return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
+}
+
+HWND getLastVisibleActivePopUpOfWindow(HWND window)
+{
+    HWND currentWindow = window;
+
+    for (int i = 0; i < 50; ++i) {
+        HWND lastPopUp = GetLastActivePopup(currentWindow);
+
+        if (IsWindowVisible(lastPopUp))
+            return lastPopUp;
+
+        if (lastPopUp == currentWindow)
+            return NULL;
+
+        currentWindow = lastPopUp;
+    }
+
+    return NULL;
+}
+
+bool isAltTabWindow(HWND window)
+{
+    if (!window || window == GetShellWindow())
+        return false;
+
+    HWND root = GetAncestor(window, GA_ROOTOWNER);
+
+    if (getLastVisibleActivePopUpOfWindow(root) != window)
+        return false;
+
+    const QString cls = windowClass(window);
+    return !cls.isEmpty()
+            && cls != "Shell_TrayWnd"
+            && cls != "DV2ControlHost"
+            && cls != "MsgrIMEWindowClass"
+            && cls != "SysShadow"
+            && cls != "Button"
+            && !cls.startsWith("WMP9MediaBarFlyout");
+}
+
+HWND currentWindow;
+BOOL CALLBACK getCurrentWindowProc(HWND window, LPARAM)
+{
+    if (!isAltTabWindow(window))
+        return TRUE;
+
+    currentWindow = window;
+    return FALSE;
+}
+
 } // namespace
 
 PlatformPtr createPlatformNativeInterface()
@@ -181,8 +237,9 @@ PlatformWindowPtr WinPlatform::getWindow(WId winId)
 
 PlatformWindowPtr WinPlatform::getCurrentWindow()
 {
-    HWND window = GetForegroundWindow();
-    return PlatformWindowPtr( window ? new WinPlatformWindow(window) : NULL );
+    currentWindow = NULL;
+    EnumWindows(getCurrentWindowProc, 0);
+    return PlatformWindowPtr( currentWindow ? new WinPlatformWindow(currentWindow) : NULL );
 }
 
 QApplication *WinPlatform::createServerApplication(int &argc, char **argv)
