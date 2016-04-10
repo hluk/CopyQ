@@ -1824,7 +1824,13 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
     if ( reason == QSystemTrayIcon::MiddleClick ) {
         toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
-        toggleVisible();
+        // Like toggleVisible() but hide window if visible and not focused
+        // (this seems better behavior when using mouse).
+        if (!isMinimized() && isVisible())
+            hideWindow();
+        else
+            showWindow();
+
     }
 #endif // Q_OS_MAC
 }
