@@ -139,7 +139,12 @@ void ShortcutsWidget::saveShortcuts(QSettings &settings) const
             QStringList shortcutNames;
             foreach (const QKeySequence &shortcut, action.shortcutButton->shortcuts())
                 shortcutNames.append(portableShortcutText(shortcut));
-            settings.setValue(action.settingsKey, shortcutNames);
+
+            // Workaround for QTBUG-51237 (saving empty list results in invalid value).
+            if (shortcutNames.isEmpty())
+                settings.setValue(action.settingsKey, QString());
+            else
+                settings.setValue(action.settingsKey, shortcutNames);
         }
     }
 }
