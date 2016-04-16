@@ -29,8 +29,9 @@
 #include <Qt>
 
 class QApplication;
-class QCoreApplication;
 class QByteArray;
+class QCoreApplication;
+class QDir;
 class QWidget;
 
 typedef QSharedPointer<PlatformWindow> PlatformWindowPtr;
@@ -54,6 +55,11 @@ public:
      * Get currently focused window (NULL if failed or not implemented).
      */
     virtual PlatformWindowPtr getCurrentWindow() = 0;
+
+    /**
+     * Return true only if window titles can be retrieved using PlatformWindow::getTitle().
+     */
+    virtual bool canGetWindowTitle() { return false; }
 
     /**
      * Return true automatic the application start at system startup is supported.
@@ -128,6 +134,11 @@ public:
 
         return arguments;
     }
+
+    /**
+     * Find directory with plugins and return true on success.
+     */
+    virtual bool findPluginDir(QDir *pluginsDir) = 0;
 };
 
 /**

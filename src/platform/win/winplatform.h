@@ -36,6 +36,8 @@ public:
 
     PlatformWindowPtr getCurrentWindow();
 
+    bool canGetWindowTitle() { return true; }
+
     /** Setting application autostart is not implemented for Windows (works just from installer). */
     bool canAutostart() { return false; }
 

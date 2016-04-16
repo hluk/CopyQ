@@ -26,6 +26,7 @@
 #include "common/mimetypes.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QCoreApplication>
 #include <QDir>
@@ -40,54 +41,8 @@ const int dummyItemMaxChars = 4096;
 
 bool findPluginDir(QDir *pluginsDir)
 {
-#if defined(COPYQ_WS_X11)
-    pluginsDir->setPath( qApp->applicationDirPath() );
-    if ( pluginsDir->dirName() == QString("bin")
-         && pluginsDir->cdUp()
-         && (pluginsDir->cd("lib64") || pluginsDir->cd("lib"))
-         && pluginsDir->cd("copyq") )
-    {
-        // OK, installed in /usr/local/bin or /usr/bin.
-    } else {
-        pluginsDir->setPath( qApp->applicationDirPath() );
-        if ( pluginsDir->cd("plugins") ) {
-            // OK, plugins in same directory as executable.
-            pluginsDir->cd("copyq");
-        } else {
-            return false;
-        }
-    }
-
-#elif defined(Q_OS_MAC)
-    pluginsDir->setPath( qApp->applicationDirPath() );
-    if (pluginsDir->dirName() != "MacOS") {
-        return false;
-    }
-
-    if ( pluginsDir->cdUp() // Contents
-            && pluginsDir->cd("Plugins")
-            && pluginsDir->cd("copyq"))
-    {
-        // OK, found it in the bundle
-        COPYQ_LOG("Found plugins in application bundle");
-    } else if (
-            pluginsDir->setPath( qApp->applicationDirPath() ),
-            pluginsDir->cdUp() // Contents
-            && pluginsDir->cdUp() // copyq.app
-            && pluginsDir->cdUp() // repo root
-            && pluginsDir->cd("plugins")) {
-        COPYQ_LOG("Found plugins in build tree");
-    } else {
-        return false;
-    }
-
-#else
-    pluginsDir->setPath( qApp->applicationDirPath() );
-    if ( !pluginsDir->cd("plugins") )
-        return false;
-#endif
-
-    return pluginsDir->isReadable();
+    return createPlatformNativeInterface()->findPluginDir(pluginsDir)
+            && pluginsDir->isReadable();
 }
 
 bool priorityLessThan(const ItemLoaderInterface *lhs, const ItemLoaderInterface *rhs)

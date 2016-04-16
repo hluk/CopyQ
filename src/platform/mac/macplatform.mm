@@ -175,6 +175,35 @@ PlatformClipboardPtr MacPlatform::clipboard()
     return PlatformClipboardPtr(new MacClipboard());
 }
 
+bool MacPlatform::findPluginDir(QDir *pluginsDir)
+{
+    pluginsDir->setPath( qApp->applicationDirPath() );
+    if (pluginsDir->dirName() != "MacOS") {
+        return false;
+    }
+
+    if ( pluginsDir->cdUp() // Contents
+            && pluginsDir->cd("Plugins")
+            && pluginsDir->cd("copyq"))
+    {
+        // OK, found it in the bundle
+        COPYQ_LOG("Found plugins in application bundle");
+        return true;
+    }
+
+    pluginsDir->setPath( qApp->applicationDirPath() );
+
+    if ( pluginsDir->cdUp() // Contents
+            && pluginsDir->cdUp() // copyq.app
+            && pluginsDir->cdUp() // repo root
+            && pluginsDir->cd("plugins")) {
+        COPYQ_LOG("Found plugins in build tree");
+        return true;
+    }
+
+    return false;
+}
+
 PlatformWindowPtr MacPlatform::getCurrentWindow()
 {
     NSRunningApplication *runningApp = [[NSWorkspace sharedWorkspace] frontmostApplication];

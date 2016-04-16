@@ -51,6 +51,11 @@ class QWidget;
 #   define NO_GLOBAL_SHORTCUTS
 #endif
 
+#ifdef COPYQ_WS_X11
+// QClipboard::supportsSelection() must return true.
+#   define HAS_MOUSE_SELECTIONS
+#endif
+
 QString quoteString(const QString &str);
 
 QString escapeHtml(const QString &str);

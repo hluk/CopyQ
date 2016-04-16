@@ -234,3 +234,27 @@ PlatformClipboardPtr X11Platform::clipboard()
 
     return PlatformClipboardPtr(new X11PlatformClipboard(d));
 }
+
+bool X11Platform::findPluginDir(QDir *pluginsDir)
+{
+    pluginsDir->setPath( qApp->applicationDirPath() );
+
+    if ( pluginsDir->dirName() == QString("bin")
+         && pluginsDir->cdUp()
+         && (pluginsDir->cd("lib64") || pluginsDir->cd("lib"))
+         && pluginsDir->cd("copyq") )
+    {
+        // OK, installed in /usr/local/bin or /usr/bin.
+        return true;
+    }
+
+    pluginsDir->setPath( qApp->applicationDirPath() );
+
+    if ( pluginsDir->cd("plugins") ) {
+        // OK, plugins in same directory as executable.
+        pluginsDir->cd("copyq");
+        return true;
+    }
+
+    return false;
+}

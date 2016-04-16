@@ -27,6 +27,7 @@
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
@@ -234,15 +235,15 @@ QList<Command> defaultCommands()
     c->remove = true;
     c->automatic = true;
 
-#if defined(COPYQ_WS_X11) || defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    c = newCommand(&commands);
-    c->name = AddCommandDialog::tr("Ignore *\"Password\"* window");
-    c->wndre = QRegExp(AddCommandDialog::tr("Password"));
-    c->icon = QString(QChar(IconAsterisk));
-    c->remove = true;
-    c->automatic = true;
-    c->cmd = "copyq ignore";
-#endif
+    if ( createPlatformNativeInterface()->canGetWindowTitle() ) {
+        c = newCommand(&commands);
+        c->name = AddCommandDialog::tr("Ignore *\"Password\"* window");
+        c->wndre = QRegExp(AddCommandDialog::tr("Password"));
+        c->icon = QString(QChar(IconAsterisk));
+        c->remove = true;
+        c->automatic = true;
+        c->cmd = "copyq ignore";
+    }
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Move to Trash");

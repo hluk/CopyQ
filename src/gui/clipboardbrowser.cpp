@@ -1595,7 +1595,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
     newData.remove(mimeHidden);
     newData.remove(mimeShortcut);
 
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
     // When selecting text under X11, clipboard data may change whenever selection changes.
     // Instead of adding item for each selection change, this updates previously added item.
     if ( !isClipboardData(data)

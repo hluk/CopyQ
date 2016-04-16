@@ -192,7 +192,7 @@ uint hash(const QVariantMap &data)
         // Skip some special data.
         if (mime == mimeWindowTitle || mime == mimeOwner)
             continue;
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
         if (mime == mimeClipboardMode)
             continue;
 #endif
@@ -304,7 +304,7 @@ QVariantMap cloneData(const QMimeData &data)
 QMimeData* createMimeData(const QVariantMap &data)
 {
     QStringList copyFormats = data.keys();
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
     copyFormats.removeOne(mimeClipboardMode);
 #endif
 
@@ -491,7 +491,7 @@ bool containsAnyData(const QVariantMap &data)
         if (mime != mimeOwner
                 && mime != mimeWindowTitle
                 && mime != mimeHidden
-        #ifdef COPYQ_WS_X11
+        #ifdef HAS_MOUSE_SELECTIONS
                 && mime != mimeClipboardMode
         #endif
                 && mime != mimeItems)

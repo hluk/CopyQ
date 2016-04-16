@@ -33,6 +33,7 @@ public:
     PlatformWindowPtr getWindow(WId winId);
     PlatformWindowPtr getCurrentWindow();
 
+    bool canGetWindowTitle() { return true; }
     bool canAutostart() { return true; }
     bool isAutostartEnabled();
     void setAutostartEnabled(bool);
@@ -46,6 +47,8 @@ public:
     void loadSettings() {}
 
     PlatformClipboardPtr clipboard();
+
+    bool findPluginDir(QDir *pluginsDir);
 };
 
 #endif // MACPLATFORM_H

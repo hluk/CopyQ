@@ -533,7 +533,7 @@ QScriptValue Scriptable::clipboard()
 
 QScriptValue Scriptable::selection()
 {
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
     const QString &mime = arg(0, mimeText);
     return newByteArray( m_proxy->getClipboardData(mime, QClipboard::Selection) );
 #else
@@ -548,7 +548,7 @@ QScriptValue Scriptable::copy()
 
 QScriptValue Scriptable::copySelection()
 {
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
     return copy(QClipboard::Selection);
 #else
     return QScriptValue();
@@ -1311,7 +1311,7 @@ void Scriptable::nextToClipboard(int where)
         return;
 
     setClipboard(data, QClipboard::Clipboard);
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
     setClipboard(data, QClipboard::Selection);
 #endif
 }

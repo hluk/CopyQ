@@ -23,6 +23,7 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QDir>
 
 PlatformPtr createPlatformNativeInterface()
 {
@@ -47,4 +48,10 @@ QCoreApplication *DummyPlatform::createClientApplication(int &argc, char **argv)
 PlatformClipboardPtr DummyPlatform::clipboard()
 {
     return PlatformClipboardPtr(new DummyClipboard());
+}
+
+bool DummyPlatform::findPluginDir(QDir *pluginsDir)
+{
+    pluginsDir->setPath( qApp->applicationDirPath() );
+    return pluginsDir->cd("plugins");
 }

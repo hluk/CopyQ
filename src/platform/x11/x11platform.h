@@ -43,6 +43,8 @@ public:
 
     bool serialize(WId winId, QByteArray *data);
 
+    bool canGetWindowTitle() { return true; }
+
     bool canAutostart();
 
     /**
@@ -68,6 +70,8 @@ public:
     void loadSettings() {}
 
     PlatformClipboardPtr clipboard();
+
+    bool findPluginDir(QDir *pluginsDir);
 
 private:
     QSharedPointer<X11DisplayGuard> d;

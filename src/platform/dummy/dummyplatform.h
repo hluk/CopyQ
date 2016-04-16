@@ -32,6 +32,8 @@ public:
 
     PlatformWindowPtr getCurrentWindow() { return PlatformWindowPtr(); }
 
+    bool canGetWindowTitle() { return false; }
+
     bool canAutostart() { return false; }
 
     bool isAutostartEnabled() { return false; }
@@ -47,6 +49,8 @@ public:
     void loadSettings() {}
 
     PlatformClipboardPtr clipboard();
+
+    bool findPluginDir(QDir *pluginsDir);
 };
 
 #endif // DUMMYPLATFORM_H

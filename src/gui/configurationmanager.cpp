@@ -243,7 +243,7 @@ void ConfigurationManager::initOptions()
 
     /* other options */
     bind<Config::command_history_size>();
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
     /* X11 clipboard selection monitoring and synchronization */
     bind<Config::check_selection>(ui->checkBoxSel);
     bind<Config::copy_clipboard>(ui->checkBoxCopyClip);

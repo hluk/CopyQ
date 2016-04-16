@@ -224,7 +224,7 @@ void ClipboardServer::loadMonitorSettings()
 
     QVariantMap settings;
     settings["formats"] = m_itemFactory->formatsToSave();
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
     settings["check_selection"] = AppConfig().option<Config::check_selection>();
 #endif
 

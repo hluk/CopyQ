@@ -19,6 +19,7 @@
 
 #include "commandhelp.h"
 
+#include "common/common.h"
 #include "scriptable/scriptable.h"
 
 CommandHelp::CommandHelp()
@@ -75,7 +76,7 @@ QList<CommandHelp> commandHelp()
             << CommandHelp("clipboard",
                            Scriptable::tr("Print clipboard content."))
                .addArg("[" + Scriptable::tr("MIME") + "]")
-           #ifdef COPYQ_WS_X11
+           #ifdef HAS_MOUSE_SELECTIONS
             << CommandHelp("selection",
                            Scriptable::tr("Print X11 selection content."))
                .addArg("[" + Scriptable::tr("MIME") + "]")

@@ -28,6 +28,7 @@
 #include "gui/shortcutdialog.h"
 #include "gui/tabicons.h"
 #include "item/itemfactory.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QAction>
 #include <QFontMetrics>
@@ -100,14 +101,13 @@ CommandWidget::CommandWidget(QWidget *parent)
     // Add tab names to combo boxes.
     initTabComboBox(ui->comboBoxCopyToTab);
     initTabComboBox(ui->comboBoxOutputTab);
+
+    if ( !createPlatformNativeInterface()->canGetWindowTitle() )
+        ui->lineEditWindow->hide();
 }
 
 CommandWidget::~CommandWidget()
 {
-#if !defined(COPYQ_WS_X11) && !defined(Q_OS_WIN)
-    ui->lineEditWindow->hide();
-    ui->labelWindow->hide();
-#endif
     delete ui;
 }
 

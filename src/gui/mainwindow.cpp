@@ -235,7 +235,7 @@ bool isClipboardDataHidden(const QVariantMap &data)
     return data.value(mimeHidden).toByteArray() == "1";
 }
 
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
 bool needSyncClipboardToSelection(const QVariantMap &data)
 {
     return isClipboardData(data)
@@ -2058,7 +2058,7 @@ void MainWindow::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
 void MainWindow::setClipboard(const QVariantMap &data)
 {
     setClipboard(data, QClipboard::Clipboard);
-#ifdef COPYQ_WS_X11
+#ifdef HAS_MOUSE_SELECTIONS
     setClipboard(data, QClipboard::Selection);
 #endif
 }
