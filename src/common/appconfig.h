@@ -39,6 +39,7 @@ struct Config {
 
 struct autostart : Config<bool> {
     static QString name() { return "autostart"; }
+    static Value defaultValue();
 };
 
 struct maxitems : Config<int> {

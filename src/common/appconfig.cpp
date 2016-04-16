@@ -29,6 +29,11 @@ Config::Config<QString>::Value Config::editor::defaultValue()
     return createPlatformNativeInterface()->defaultEditorCommand();
 }
 
+Config::Config<bool>::Value Config::autostart::defaultValue()
+{
+    return createPlatformNativeInterface()->isAutostartEnabled();
+}
+
 QString defaultClipboardTabName()
 {
     return QObject::tr(
