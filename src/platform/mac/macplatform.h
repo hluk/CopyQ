@@ -51,6 +51,8 @@ public:
     bool findPluginDir(QDir *pluginsDir);
 
     QString defaultEditorCommand();
+
+    QString translationPrefix();
 };
 
 #endif // MACPLATFORM_H

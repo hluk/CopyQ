@@ -53,6 +53,8 @@ public:
     bool findPluginDir(QDir *pluginsDir);
 
     QString defaultEditorCommand();
+
+    QString translationPrefix();
 };
 
 #endif // DUMMYPLATFORM_H

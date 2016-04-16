@@ -209,6 +209,11 @@ QString MacPlatform::defaultEditorCommand()
     return "open -t %1";
 }
 
+QString MacPlatform::translationPrefix()
+{
+    return QCoreApplication::applicationDirPath() + "/../Resources/translations";
+}
+
 PlatformWindowPtr MacPlatform::getCurrentWindow()
 {
     NSRunningApplication *runningApp = [[NSWorkspace sharedWorkspace] frontmostApplication];

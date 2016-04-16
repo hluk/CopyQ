@@ -263,3 +263,8 @@ QString X11Platform::defaultEditorCommand()
 {
     return "gedit %1";
 }
+
+QString X11Platform::translationPrefix()
+{
+    return QString();
+}

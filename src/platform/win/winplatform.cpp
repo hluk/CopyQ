@@ -308,3 +308,8 @@ QString WinPlatform::defaultEditorCommand()
 {
     return "notepad %1";
 }
+
+QString WinPlatform::translationPrefix()
+{
+    return QCoreApplication::applicationDirPath() + "/translations";
+}

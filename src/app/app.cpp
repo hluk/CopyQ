@@ -34,16 +34,6 @@
 #include <QTranslator>
 #include <QVariant>
 
-#ifndef COPYQ_TRANSLATION_PREFIX
-#   ifdef Q_OS_WIN
-#       define COPYQ_TRANSLATION_PREFIX QCoreApplication::applicationDirPath() + "/translations"
-#   elif defined(Q_OS_MAC)
-#       define COPYQ_TRANSLATION_PREFIX QCoreApplication::applicationDirPath() + "/../Resources/translations"
-#   else
-#       define COPYQ_TRANSLATION_PREFIX ""
-#   endif
-#endif
-
 namespace {
 
 #ifdef HAS_TESTS
@@ -140,21 +130,21 @@ void installTranslator()
     if (locale.isEmpty())
         locale = QLocale::system().name();
 
-    QStringList translationDirectories;
 #ifdef COPYQ_TRANSLATION_PREFIX
-    translationDirectories.prepend(COPYQ_TRANSLATION_PREFIX);
+    const QString translationPrefix = COPYQ_TRANSLATION_PREFIX;
+#else
+    const QString translationPrefix = createPlatformNativeInterface()->translationPrefix();
 #endif
 
+    QStringList translationDirectories;
+    translationDirectories.prepend(translationPrefix);
+
     // 1. Qt translations
-#ifdef COPYQ_TRANSLATION_PREFIX
-    installTranslator("qt_" + locale, COPYQ_TRANSLATION_PREFIX);
-#endif
+    installTranslator("qt_" + locale, translationPrefix);
     installTranslator("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 
     // 2. installed translations
-#ifdef COPYQ_TRANSLATION_PREFIX
-    installTranslator("copyq_" + locale, COPYQ_TRANSLATION_PREFIX);
-#endif
+    installTranslator("copyq_" + locale, translationPrefix);
 
     // 3. custom translations
     const QByteArray customPath = qgetenv("COPYQ_TRANSLATION_PREFIX");

@@ -60,3 +60,8 @@ QString DummyPlatform::defaultEditorCommand()
 {
     return "gedit %1";
 }
+
+QString DummyPlatform::translationPrefix()
+{
+    return QString();
+}

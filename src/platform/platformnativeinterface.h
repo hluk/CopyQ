@@ -144,6 +144,16 @@ public:
      * Default editor command (e.g. "notepad %1"; "%1" will be replaced with file name to edit).
      */
     virtual QString defaultEditorCommand() = 0;
+
+    /**
+     * Path to translations.
+     *
+     * Can be overridden by preprocessor flag COPYQ_TRANSLATION_PREFIX.
+     *
+     * Custom translation prefix can be added by setting COPYQ_TRANSLATION_PREFIX
+     * environment variable.
+     */
+    virtual QString translationPrefix() = 0;
 };
 
 /**

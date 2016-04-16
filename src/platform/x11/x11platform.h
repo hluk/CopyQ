@@ -75,6 +75,8 @@ public:
 
     QString defaultEditorCommand();
 
+    QString translationPrefix();
+
 private:
     QSharedPointer<X11DisplayGuard> d;
 };

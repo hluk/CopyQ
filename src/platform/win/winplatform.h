@@ -60,6 +60,8 @@ public:
     QStringList getCommandLineArguments(int, char**);
 
     QString defaultEditorCommand();
+
+    QString translationPrefix();
 };
 
 #endif // WINPLATFORM_H
