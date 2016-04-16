@@ -204,6 +204,11 @@ bool MacPlatform::findPluginDir(QDir *pluginsDir)
     return false;
 }
 
+QString MacPlatform::defaultEditorCommand()
+{
+    return "open -t %1";
+}
+
 PlatformWindowPtr MacPlatform::getCurrentWindow()
 {
     NSRunningApplication *runningApp = [[NSWorkspace sharedWorkspace] frontmostApplication];

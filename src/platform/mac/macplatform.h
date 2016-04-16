@@ -49,6 +49,8 @@ public:
     PlatformClipboardPtr clipboard();
 
     bool findPluginDir(QDir *pluginsDir);
+
+    QString defaultEditorCommand();
 };
 
 #endif // MACPLATFORM_H

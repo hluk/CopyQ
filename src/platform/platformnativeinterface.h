@@ -139,6 +139,11 @@ public:
      * Find directory with plugins and return true on success.
      */
     virtual bool findPluginDir(QDir *pluginsDir) = 0;
+
+    /**
+     * Default editor command (e.g. "notepad %1"; "%1" will be replaced with file name to edit).
+     */
+    virtual QString defaultEditorCommand() = 0;
 };
 
 /**

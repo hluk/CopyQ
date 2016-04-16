@@ -303,3 +303,8 @@ QStringList WinPlatform::getCommandLineArguments(int, char**)
 
     return result;
 }
+
+QString WinPlatform::defaultEditorCommand()
+{
+    return "notepad %1";
+}

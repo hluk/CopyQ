@@ -258,3 +258,8 @@ bool X11Platform::findPluginDir(QDir *pluginsDir)
 
     return false;
 }
+
+QString X11Platform::defaultEditorCommand()
+{
+    return "gedit %1";
+}

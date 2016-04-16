@@ -73,6 +73,8 @@ public:
 
     bool findPluginDir(QDir *pluginsDir);
 
+    QString defaultEditorCommand();
+
 private:
     QSharedPointer<X11DisplayGuard> d;
 };

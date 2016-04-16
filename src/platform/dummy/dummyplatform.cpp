@@ -55,3 +55,8 @@ bool DummyPlatform::findPluginDir(QDir *pluginsDir)
     pluginsDir->setPath( qApp->applicationDirPath() );
     return pluginsDir->cd("plugins");
 }
+
+QString DummyPlatform::defaultEditorCommand()
+{
+    return "gedit %1";
+}

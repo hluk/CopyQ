@@ -58,6 +58,8 @@ public:
     int keyCode(const QKeyEvent &event);
 
     QStringList getCommandLineArguments(int, char**);
+
+    QString defaultEditorCommand();
 };
 
 #endif // WINPLATFORM_H

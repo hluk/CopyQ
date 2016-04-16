@@ -26,14 +26,6 @@
 
 class QString;
 
-#ifdef Q_OS_WIN
-#   define DEFAULT_EDITOR "notepad %1"
-#elif defined(Q_OS_MAC)
-#   define DEFAULT_EDITOR "open -t %1"
-#else
-#   define DEFAULT_EDITOR "gedit %1"
-#endif
-
 QString defaultClipboardTabName();
 
 namespace Config {
@@ -66,7 +58,7 @@ struct expire_tab : Config<bool> {
 
 struct editor : Config<QString> {
     static QString name() { return "editor"; }
-    static Value defaultValue() { return DEFAULT_EDITOR; }
+    static Value defaultValue();
 };
 
 struct item_popup_interval : Config<int> {

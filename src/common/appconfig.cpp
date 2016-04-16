@@ -19,8 +19,15 @@
 
 #include "appconfig.h"
 
+#include "platform/platformnativeinterface.h"
+
 #include <QObject>
 #include <QString>
+
+Config::Config<QString>::Value Config::editor::defaultValue()
+{
+    return createPlatformNativeInterface()->defaultEditorCommand();
+}
 
 QString defaultClipboardTabName()
 {
