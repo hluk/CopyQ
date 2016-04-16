@@ -29,6 +29,7 @@
 
 #include <QApplication>
 #include <QCoreApplication>
+#include <QDir>
 #include <QGuiApplication>
 #include <QScopedPointer>
 
