@@ -48,7 +48,7 @@
 #include <QThread>
 
 #ifdef NO_GLOBAL_SHORTCUTS
-struct QxtGlobalShortcut {};
+class QxtGlobalShortcut {};
 #else
 #include "../qxt/qxtglobalshortcut.h"
 #endif
@@ -443,6 +443,9 @@ void ClipboardServer::loadSettings()
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 {
+#ifdef NO_GLOBAL_SHORTCUTS
+    Q_UNUSED(shortcut);
+#else
     m_ignoreKeysTimer.start();
 
     const QMap<QxtGlobalShortcut*, Command>::const_iterator it =
@@ -453,4 +456,5 @@ void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
         data.insert(mimeShortcut, shortcutText.toUtf8());
         m_wnd->action(data, it.value());
     }
+#endif
 }
