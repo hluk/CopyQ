@@ -29,6 +29,7 @@
 #include "gui/theme.h"
 #include "item/itemeditor.h"
 #include "item/itemdelegate.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QAbstractScrollArea>
 #include <QColorDialog>
@@ -40,13 +41,18 @@
 #include <QSettings>
 #include <QTemporaryFile>
 
-#ifndef COPYQ_THEME_PREFIX
-#   ifdef Q_OS_WIN
-#       define COPYQ_THEME_PREFIX QApplication::applicationDirPath() + "/themes"
-#   else
-#       define COPYQ_THEME_PREFIX ""
-#   endif
+namespace {
+
+QString themePrefix()
+{
+#ifdef COPYQ_THEME_PREFIX
+    return COPYQ_THEME_PREFIX;
+#else
+    return createPlatformNativeInterface()->themePrefix();
 #endif
+}
+
+} // namespace
 
 ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     : QWidget(parent)
@@ -241,7 +247,7 @@ void ConfigTabAppearance::on_comboBoxThemes_activated(const QString &text)
 
     QString fileName = defaultUserThemePath() + "/" + text + ".ini";
     if ( !QFile(fileName).exists() ) {
-        fileName = COPYQ_THEME_PREFIX;
+        fileName = themePrefix();
         if ( fileName.isEmpty() || !QFile(fileName).exists() )
             return;
         fileName.append("/" + text + ".ini");
@@ -273,30 +279,33 @@ void ConfigTabAppearance::updateThemes()
     ui->comboBoxThemes->clear();
     ui->comboBoxThemes->addItem(QString());
 
-    const QStringList nameFilters("*.ini");
+    const QString userThemesPath = defaultUserThemePath();
+    QDir themesDir(userThemesPath);
+    if ( themesDir.mkpath(".") )
+        addThemes(userThemesPath);
+
+    const QByteArray customThemsPath = qgetenv("COPYQ_THEME_PREFIX");
+    if ( !customThemsPath.isEmpty() )
+        addThemes(QString::fromLocal8Bit(customThemsPath));
+
+    const QString themesPath = themePrefix();
+    if ( !themesPath.isEmpty() )
+        addThemes(themesPath);
+}
+
+void ConfigTabAppearance::addThemes(const QString &path)
+{
     const QDir::Filters filters = QDir::Files | QDir::Readable;
+    const QStringList nameFilters("*.ini");
 
-    QDir themesDir( defaultUserThemePath() );
-    if ( themesDir.mkpath(".") ) {
-        foreach ( const QFileInfo &fileInfo,
-                  themesDir.entryInfoList(nameFilters, filters, QDir::Name) )
-        {
-            const QIcon icon = createThemeIcon( themesDir.absoluteFilePath(fileInfo.fileName()) );
-            ui->comboBoxThemes->addItem( icon, fileInfo.baseName() );
-        }
-    }
-
-    const QString themesPath(COPYQ_THEME_PREFIX);
-    if ( !themesPath.isEmpty() ) {
-        QDir dir(themesPath);
-        foreach ( const QFileInfo &fileInfo,
-                  dir.entryList(nameFilters, filters, QDir::Name) )
-        {
-            const QString name = fileInfo.baseName();
-            if ( ui->comboBoxThemes->findText(name) == -1 ) {
-                const QIcon icon = createThemeIcon( dir.absoluteFilePath(fileInfo.fileName()) );
-                ui->comboBoxThemes->addItem(icon, name);
-            }
+    QDir dir(path);
+    foreach ( const QFileInfo &fileInfo,
+              dir.entryList(nameFilters, filters, QDir::Name) )
+    {
+        const QString name = fileInfo.baseName();
+        if ( ui->comboBoxThemes->findText(name) == -1 ) {
+            const QIcon icon = createThemeIcon( dir.absoluteFilePath(fileInfo.fileName()) );
+            ui->comboBoxThemes->addItem(icon, name);
         }
     }
 }

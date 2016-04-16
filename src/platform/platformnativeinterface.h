@@ -154,6 +154,18 @@ public:
      * environment variable.
      */
     virtual QString translationPrefix() = 0;
+
+    /**
+     * Path to installed themes.
+     *
+     * Can be overridden by preprocessor flag COPYQ_THEME_PREFIX.
+     *
+     * Custom translation prefix can be added by setting COPYQ_TRANSLATION_PREFIX
+     * environment variable.
+     *
+     * Note: Customized themes are saved to settings path.
+     */
+    virtual QString themePrefix() { return QString(); }
 };
 
 /**

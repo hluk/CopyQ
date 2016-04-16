@@ -64,6 +64,8 @@ public:
     QString defaultEditorCommand();
 
     QString translationPrefix();
+
+    QString themePrefix();
 };
 
 #endif // WINPLATFORM_H

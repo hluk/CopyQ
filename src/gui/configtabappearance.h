@@ -75,6 +75,7 @@ private slots:
 
 private:
     void updateThemes();
+    void addThemes(const QString &path);
     void updateStyle();
 
     void fontButtonClicked(QObject *button);

@@ -319,3 +319,8 @@ QString WinPlatform::translationPrefix()
 {
     return QCoreApplication::applicationDirPath() + "/translations";
 }
+
+QString WinPlatform::themePrefix()
+{
+    return QApplication::applicationDirPath() + "/themes";
+}
