@@ -304,6 +304,12 @@ QStringList WinPlatform::getCommandLineArguments(int, char**)
     return result;
 }
 
+bool WinPlatform::findPluginDir(QDir *pluginsDir)
+{
+    pluginsDir->setPath( qApp->applicationDirPath() );
+    return pluginsDir->cd("plugins");
+}
+
 QString WinPlatform::defaultEditorCommand()
 {
     return "notepad %1";

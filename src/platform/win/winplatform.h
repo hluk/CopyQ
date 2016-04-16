@@ -59,6 +59,8 @@ public:
 
     QStringList getCommandLineArguments(int, char**);
 
+    bool findPluginDir(QDir *pluginsDir);
+
     QString defaultEditorCommand();
 
     QString translationPrefix();
