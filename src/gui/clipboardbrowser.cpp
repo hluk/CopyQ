@@ -707,6 +707,8 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
             m.removeRow(row);
     }
 
+    delayedSaveItems();
+
     return rows.last();
 }
 
@@ -1256,6 +1258,8 @@ void ClipboardBrowser::removeRow(int row)
     Q_ASSERT(m_itemLoader);
     m_itemLoader->itemsRemovedByUser(QList<QModelIndex>() << indexToRemove);
     m.removeRow(row);
+
+    delayedSaveItems();
 
     if (removingCurrent)
         setCurrentIndex( index(qMin(row, length() - 1)) );
