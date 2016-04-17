@@ -17,8 +17,8 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef X11DISPLAY_H
-#define X11DISPLAY_H
+#ifndef X11PLATFORM_H
+#define X11PLATFORM_H
 
 #include "platform/platformnativeinterface.h"
 
@@ -81,4 +81,4 @@ private:
     QSharedPointer<X11DisplayGuard> d;
 };
 
-#endif // X11DISPLAY_H
+#endif // X11PLATFORM_H

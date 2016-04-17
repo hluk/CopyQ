@@ -90,6 +90,9 @@ X11Platform::~X11Platform()
 
 PlatformWindowPtr X11Platform::getWindow(WId winId)
 {
+    if (!d->display())
+        return PlatformWindowPtr();
+
     QScopedPointer<X11PlatformWindow> window(new X11PlatformWindow(*d, winId));
     return PlatformWindowPtr(window->isValid() ? window.take() : NULL);
 }
@@ -229,9 +232,6 @@ QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)
 
 PlatformClipboardPtr X11Platform::clipboard()
 {
-    if (!d->display())
-        return PlatformClipboardPtr();
-
     return PlatformClipboardPtr(new X11PlatformClipboard(d));
 }
 

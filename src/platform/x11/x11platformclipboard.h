@@ -33,7 +33,7 @@ class X11PlatformClipboard : public DummyClipboard
 {
     Q_OBJECT
 public:
-    X11PlatformClipboard(const QSharedPointer<X11DisplayGuard> &d);
+    explicit X11PlatformClipboard(const QSharedPointer<X11DisplayGuard> &d);
 
     void loadSettings(const QVariantMap &settings);
 
