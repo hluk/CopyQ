@@ -45,7 +45,7 @@ public:
 
     bool hasCommands() const;
 
-    const QVariantMap &data() const;
+    QVariantMap data() const;
 
     /** Start next test after action finishes and update data from action. */
     void waitForAction(Action *action);

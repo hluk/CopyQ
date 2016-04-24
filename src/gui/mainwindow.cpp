@@ -1226,7 +1226,7 @@ void MainWindow::runAutomaticCommand(const Command &command)
 {
     Q_ASSERT(!m_currentAutomaticCommand);
 
-    const QVariantMap &data = m_automaticCommandTester.data();
+    const QVariantMap data = m_automaticCommandTester.data();
 
     if (command.remove || command.transform) {
         COPYQ_LOG("Clipboard ignored by \"" + command.name + "\"");

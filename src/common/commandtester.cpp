@@ -60,7 +60,7 @@ bool CommandTester::hasCommands() const
     return !m_commands.isEmpty();
 }
 
-const QVariantMap &CommandTester::data() const
+QVariantMap CommandTester::data() const
 {
     return m_data;
 }
