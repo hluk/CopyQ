@@ -2183,7 +2183,7 @@ void MainWindow::createTrayIfSupported()
 
 void MainWindow::updateFocusWindows()
 {
-    if ( isActiveWindow() )
+    if ( isActiveWindow() || m_trayMenu->isActiveWindow() )
         return;
 
     if ( !m_options.activateFocuses() && !m_options.activatePastes() )
