@@ -203,6 +203,8 @@ bool isAltTabWindow(HWND window)
         return false;
 
     const QString cls = windowClass(window);
+	COPYQ_LOG( QString("cls: \"%1\"")
+                   .arg(cls) );
     return !cls.isEmpty()
             && cls != "Shell_TrayWnd"
             && cls != "DV2ControlHost"
