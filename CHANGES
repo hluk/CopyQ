@@ -1,3 +1,14 @@
+v2.7.0
+- Log accessible from GUI
+- Performance and memory usage improvements
+- Added scriptable function to set current tab (setCurrentTab())
+- Added scriptable function to modify new items (setData())
+- Appearance fixes
+- Simplified window management
+- Improved pasting to current window on Windows
+- Window geometry fixes
+- Command with Enter shortcut overrides item activate action
+
 v2.6.1
 - Moved configuration from registry on Windows
 - Fixed shortcuts on Windows
