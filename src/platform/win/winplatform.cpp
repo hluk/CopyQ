@@ -239,8 +239,9 @@ PlatformWindowPtr WinPlatform::getWindow(WId winId)
 
 PlatformWindowPtr WinPlatform::getCurrentWindow()
 {
-    currentWindow = NULL;
-    EnumWindows(getCurrentWindowProc, 0);
+    currentWindow = GetForegroundWindow();
+    if (!isAltTabWindow(currentWindow))
+        EnumWindows(getCurrentWindowProc, 0);
     return PlatformWindowPtr( currentWindow ? new WinPlatformWindow(currentWindow) : NULL );
 }
 
