@@ -3920,28 +3920,28 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="488"></location>
         <source>Terminating server.
 </source>
-        <translation>正在终止服务
+        <translation>正在终止服务器。
 </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1266"></location>
         <source>Failed to set clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>设置剪贴板失败！</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="799"></location>
         <source>Cannot save to file "%1"!</source>
-        <translation type="unfinished"></translation>
+        <translation>无法保存文件“%1”！</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="810"></location>
         <source>Cannot import file "%1"!</source>
-        <translation type="unfinished"></translation>
+        <translation>无法导入文件“%1”！</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="822"></location>
         <source>Invalid option "%1"!</source>
-        <translation type="unfinished"></translation>
+        <translation>无效选项“%1”！</translation>
     </message>
 </context>
 <context>
@@ -3949,7 +3949,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="48"></location>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>新增快捷键</translation>
     </message>
 </context>
 <context>
@@ -3957,7 +3957,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"></location>
         <source>CopyQ New Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ 新建快捷键</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"></location>
