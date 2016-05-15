@@ -3877,7 +3877,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="67"></location>
         <source>NOTES:</source>
-        <translation type="unfinished"></translation>
+        <translation>注意事项：</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="68"></location>
@@ -3914,13 +3914,14 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="409"></location>
         <source>Command not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>命令未找到！</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="488"></location>
         <source>Terminating server.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>正在终止服务
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1266"></location>
