@@ -172,6 +172,7 @@ App::App(QCoreApplication *application,
         const QString &sessionName)
     : m_app(application)
     , m_exitCode(0)
+    , m_started(false)
     , m_closed(false)
 {
     QString session("copyq");
@@ -222,6 +223,8 @@ int App::exec()
         return m_exitCode;
     }
 
+    m_started = true;
+
     return m_app->exec();
 }
 
@@ -229,6 +232,9 @@ void App::exit(int exitCode)
 {
     if ( wasClosed() )
         return;
+
+    if (!m_started)
+        ::exit(exitCode);
 
     QCoreApplication::exit(exitCode);
     m_exitCode = exitCode;
