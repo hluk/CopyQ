@@ -199,6 +199,9 @@ App::App(QCoreApplication *application,
 
 App::~App()
 {
+    // Workaround for delivering events to destroyed sockets and other objects.
+    if (m_started)
+        QCoreApplication::processEvents();
 }
 
 void App::restoreSettings(bool canModifySettings)
