@@ -285,72 +285,72 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="88"></location>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar o menu de notificações</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="90"></location>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar janela principal sob o cursor do mouse</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="92"></location>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="94"></location>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar o primeiro item</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="96"></location>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar o segundo item</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="98"></location>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar o diálogo de ação</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="100"></location>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>Criar novo item</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="102"></location>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar o próximo item</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="104"></location>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar o item anterior</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="106"></location>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>Colar área de transferência como texto simples</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="108"></location>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Desabilitar armazenamento de área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="110"></location>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitar armazenamento de área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="112"></location>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colar e copiar próxima</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="114"></location>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colar e copiar anterior</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="134"></location>
@@ -365,7 +365,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="166"></location>
         <source>Open in &amp;Browser</source>
-        <translation>Abrir Navegador</translation>
+        <translation>Abrir no Navegador</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="174"></location>
