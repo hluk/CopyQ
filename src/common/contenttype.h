@@ -54,7 +54,10 @@ enum {
     hasNotes,
     text,
     html,
-    notes
+    notes,
+
+    /// Item color (string expression as used in themes).
+    color
 };
 
 }

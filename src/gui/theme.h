@@ -55,6 +55,9 @@ public:
     /** Return parsed font. */
     QFont font(const QString &name) const;
 
+    /** Returt evaluated color expression. */
+    QColor evalColorExpression(const QString &expr) const;
+
     /** Set fonts and color for ClipboardBrowser object. */
     void decorateBrowser(QListView *c, ItemDelegate *d) const;
 

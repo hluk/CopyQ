@@ -32,3 +32,4 @@ const char mimeSelectedItems[] = COPYQ_MIME_PREFIX "selected-items";
 const char mimeCurrentItem[] = COPYQ_MIME_PREFIX "current-item";
 const char mimeHidden[] = COPYQ_MIME_PREFIX "hidden";
 const char mimeShortcut[] = COPYQ_MIME_PREFIX "shortcut";
+const char mimeColor[] = COPYQ_MIME_PREFIX "color";

@@ -21,6 +21,7 @@
 
 #include "common/client_server.h"
 #include "common/contenttype.h"
+#include "common/mimetypes.h"
 #include "gui/iconfactory.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
@@ -303,6 +304,20 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     /* render background (selected, alternate, ...) */
     QStyle *style = m_view->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_view);
+
+    // Colorize item.
+    const QString colorExpr = index.data(contentType::color).toString();
+    if (!colorExpr.isEmpty())
+    {
+        const QColor color = m_theme.evalColorExpression(colorExpr);
+        if (color.isValid())
+        {
+            painter->save();
+            painter->setCompositionMode(QPainter::CompositionMode_Multiply);
+            painter->fillRect(option.rect, color);
+            painter->restore();
+        }
+    }
 
     /* render number */
     if (m_showRowNumber) {

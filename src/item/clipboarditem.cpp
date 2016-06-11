@@ -24,6 +24,7 @@
 #include "common/mimetypes.h"
 #include "item/serialize.h"
 
+#include <QBrush>
 #include <QByteArray>
 #include <QString>
 #include <QStringList>
@@ -151,6 +152,8 @@ QVariant ClipboardItem::data(int role) const
             return getTextData(m_data, mimeHtml);
         } else if (role == contentType::notes) {
             return getTextData(m_data, mimeItemNotes);
+        } else if (role == contentType::color) {
+            return getTextData(m_data, mimeColor);
         }
     }
 

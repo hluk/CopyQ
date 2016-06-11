@@ -34,5 +34,6 @@ extern const char mimeSelectedItems[];
 extern const char mimeCurrentItem[];
 extern const char mimeHidden[];
 extern const char mimeShortcut[];
+extern const char mimeColor[];
 
 #endif // MIMETYPES_H

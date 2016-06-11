@@ -161,6 +161,11 @@ QFont Theme::font(const QString &name) const
     return themeFontFromString( value(name).toString() );
 }
 
+QColor Theme::evalColorExpression(const QString &expr) const
+{
+    return evalColor( expr, *this );
+}
+
 void Theme::decorateBrowser(QListView *c, ItemDelegate *d) const
 {
     decorateScrollArea(c);

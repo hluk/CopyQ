@@ -20,6 +20,8 @@
 #ifndef ITEMDELEGATE_H
 #define ITEMDELEGATE_H
 
+#include "gui/theme.h"
+
 #include <QItemDelegate>
 #include <QRegExp>
 
@@ -149,6 +151,8 @@ class ItemDelegate : public QItemDelegate
         bool m_antialiasing;
 
         QList<ItemWidget*> m_cache;
+
+        Theme m_theme;
 };
 
 #endif
