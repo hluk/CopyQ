@@ -78,20 +78,9 @@ QStringList getDefaultEncryptCommandArgumentsEscaped()
     return args;
 }
 
-void startGpgProcess(QProcess *p, const QStringList &args, bool importPrivateKey = false)
+void startGpgProcess(QProcess *p, const QStringList &args)
 {
     KeyPairPaths keys;
-
-    if (importPrivateKey) {
-        p->start("gpg", getDefaultEncryptCommandArguments(keys.pub) << "--import" << keys.sec);
-        if (!p->waitForFinished(5000)) {
-            p->terminate();
-            if ( !p->waitForFinished(5000) )
-                p->kill();
-            return;
-        }
-    }
-
     p->start("gpg", getDefaultEncryptCommandArguments(keys.pub) + args);
 }
 
@@ -108,6 +97,22 @@ bool verifyProcess(QProcess *p)
     }
 
     return true;
+}
+
+bool importGpgKey()
+{
+    KeyPairPaths keys;
+
+    QProcess p;
+    p.start("gpg", getDefaultEncryptCommandArguments(keys.pub) << "--import" << keys.sec);
+    if (!p.waitForFinished(5000)) {
+        p.terminate();
+        if ( !p.waitForFinished(5000) )
+            p.kill();
+        return false;
+    }
+
+    return verifyProcess(&p);
 }
 
 QByteArray readGpgOutput(const QStringList &args, const QByteArray &input = QByteArray())
@@ -302,8 +307,14 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
         return false;
     }
 
+    if (!importGpgKey())
+    {
+        COPYQ_LOG("ItemEncrypted ERROR: Failte to import GPG key");
+        return false;
+    }
+
     QProcess p;
-    startGpgProcess( &p, QStringList("--decrypt"), true );
+    startGpgProcess( &p, QStringList("--decrypt") );
 
     char encryptedBytes[4096];
 
@@ -562,6 +573,7 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
     m_gpgProcessStatus = GpgNotRunning;
 
     if ( oldStatus == GpgGeneratingKeys && error.isEmpty() ) {
+        importGpgKey();
         setPassword();
     } else {
         updateUi();
