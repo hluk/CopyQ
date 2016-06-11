@@ -39,9 +39,9 @@
 
 namespace {
 
-void setBinaryStdin()
+void setBinaryFor(FILE *f)
 {
-    const int result = _setmode( _fileno( stdin ), _O_BINARY );
+    const int result = _setmode( _fileno(f), _O_BINARY );
     if (result == -1)
         log("Failed to set binary stdin.", LogError);
 }
@@ -162,7 +162,8 @@ Application *createApplication(int &argc, char **argv)
 {
     Application *app = new Application(argc, argv);
     installControlHandler();
-    setBinaryStdin();
+    setBinaryFor(stdin);
+    setBinaryFor(stdout);
     return app;
 }
 
