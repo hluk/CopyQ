@@ -1146,8 +1146,6 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         selected.append(index);
     }
 
-    qSort(selected);
-
     QVariantMap data = copyIndexes(selected);
     index = selected.first();
 
