@@ -275,7 +275,7 @@ class ClipboardBrowser : public QListView
         void showItemContent();
 
         /** Item modified in external editor. */
-        void itemModified(const QByteArray &bytes, const QString &mime);
+        void itemModified(const QByteArray &bytes, const QString &mime, const QModelIndex &index);
         /** Called if editor was closed. */
         void closeExternalEditor(QObject *editor);
 

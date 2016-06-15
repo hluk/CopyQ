@@ -87,6 +87,11 @@ ItemEditor::~ItemEditor()
     }
 }
 
+void ItemEditor::setIndex(const QModelIndex &index)
+{
+    m_index = index;
+}
+
 bool ItemEditor::start()
 {
     // create temp file
@@ -139,7 +144,7 @@ void ItemEditor::close()
 {
     // check if file was modified before closing
     if ( m_modified || fileModified() )
-        emit fileModified(m_data, m_mime);
+        emit fileModified(m_data, m_mime, m_index);
 
     if (m_editor && m_editor->exitCode() != 0 ) {
         emitError( tr("editor exit code is %1").arg(m_editor->exitCode()) );
@@ -194,7 +199,7 @@ void ItemEditor::onTimer()
         // Wait until file is fully overwritten.
         if ( !fileModified() ) {
             m_modified = false;
-            emit fileModified(m_data, m_mime);
+            emit fileModified(m_data, m_mime, m_index);
             m_hash = qHash(m_data);
         }
     } else {

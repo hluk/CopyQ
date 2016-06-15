@@ -23,8 +23,10 @@
 #include <QDateTime>
 #include <QFileInfo>
 #include <QObject>
+#include <QPersistentModelIndex>
 #include <QString>
 
+class QModelIndex;
 class QProcess;
 class QTimer;
 
@@ -36,6 +38,11 @@ class ItemEditor : public QObject
         ItemEditor(const QByteArray &data, const QString &mime, const QString &editor,
                    QObject *parent = NULL);
         ~ItemEditor();
+
+        /**
+         * Set index to edited item (will be emitted with fileModified()).
+         */
+        void setIndex(const QModelIndex &index);
 
     public slots:
         /**
@@ -50,8 +57,9 @@ class ItemEditor : public QObject
          * File was modified.
          * @param data  modified data
          * @param mime  MIME type of the data
+         * @param index  index of edited item or invalid
          */
-        void fileModified(const QByteArray &data, const QString &mime);
+        void fileModified(const QByteArray &data, const QString &mime, const QModelIndex &index);
 
         /**
          * Editor was closed.
@@ -93,6 +101,8 @@ class ItemEditor : public QObject
         QDateTime m_lastmodified;
         qint64 m_lastSize;
         bool m_modified;
+
+        QPersistentModelIndex m_index;
 };
 
 #endif // ITEMEDITOR_H

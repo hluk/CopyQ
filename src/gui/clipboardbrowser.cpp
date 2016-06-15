@@ -254,11 +254,11 @@ bool ClipboardBrowser::hideFiltered(int row)
 
 bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
 {
-    connect( editor, SIGNAL(fileModified(QByteArray,QString)),
-             this, SLOT(itemModified(QByteArray,QString)) );
+    connect( editor, SIGNAL(fileModified(QByteArray,QString,QModelIndex)),
+             this, SLOT(itemModified(QByteArray,QString,QModelIndex)) );
 
     if (changeClipboard) {
-        connect( editor, SIGNAL(fileModified(QByteArray,QString)),
+        connect( editor, SIGNAL(fileModified(QByteArray,QString,QModelIndex)),
                  this, SLOT(onEditorNeedsChangeClipboard(QByteArray,QString)) );
     }
 
@@ -1220,7 +1220,11 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
     if (editor == NULL) {
         const QVariantMap data = itemData(index);
         if ( data.contains(mimeText) )
-            editor = new ItemEditor(data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this);
+        {
+            ItemEditor *itemEditor = new ItemEditor(data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this);
+            itemEditor->setIndex(index);
+            editor = itemEditor;
+        }
     }
 
     return editor != NULL && startEditor(editor);
@@ -1275,11 +1279,15 @@ void ClipboardBrowser::editNotes()
     editItem(ind, true);
 }
 
-void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime)
+void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime, const QModelIndex &index)
 {
     // add new item
     if ( !bytes.isEmpty() ) {
-        add( createDataMap(mime, bytes) );
+        const QVariantMap dataMap = createDataMap(mime, bytes);
+        if (index.isValid())
+            m.setData(index, dataMap, contentType::updateData);
+        else
+            add(dataMap);
         saveItems();
     }
 }
