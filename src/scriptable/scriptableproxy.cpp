@@ -471,7 +471,7 @@ QVariantMap ScriptableProxyHelper::nextItem(int where)
     if (!index.isValid())
         return QVariantMap();
 
-    c->setCurrentIndex(index);
+    c->selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
     return ::itemData(index);
 }
 

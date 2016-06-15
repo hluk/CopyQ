@@ -1565,8 +1565,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
         setRowHidden(newRow, true);
     } else if (!keepUserSelection) {
         // Select new item if clipboard is not focused and the item is not filtered-out.
-        clearSelection();
-        setCurrent(newRow);
+        selectionModel()->setCurrentIndex(index(newRow), QItemSelectionModel::ClearAndSelect);
     }
 
     // list size limit
