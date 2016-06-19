@@ -603,3 +603,12 @@ Application or global shortcut which activated the command.
     var shortcut = data("application/x-copyq-shortcut")
     popup("Shortcut Pressed", shortcut)
 
+###### application/x-copyq-color
+
+Item color (same as the one used by themes).
+
+Examples:
+        #ffff00
+        rgba(255,255,0,0.5)
+        bg - #000099
+
