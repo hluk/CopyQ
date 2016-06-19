@@ -1,3 +1,11 @@
+v2.7.1
+- Colorize items with command
+- Drag'n'drop items in selection order
+- Fixed item selection with "next" and "previous" commands
+- Fixed encrypting/decrypting items on Windows
+- Fixed occasional client crashes at exit
+- Fixed editor command on OS X
+
 v2.7.0
 - Log accessible from GUI
 - Performance and memory usage improvements
