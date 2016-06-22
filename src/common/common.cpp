@@ -630,6 +630,9 @@ bool handleViKey(QKeyEvent *event, QObject *eventReceiver)
     case Qt::Key_K:
         key = Qt::Key_Up;
         break;
+    case Qt::Key_L:
+        key = Qt::Key_Return;
+        break;
     case Qt::Key_F:
     case Qt::Key_D:
     case Qt::Key_B:
