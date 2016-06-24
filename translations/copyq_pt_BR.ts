@@ -1427,26 +1427,30 @@ CTRL e para cima ou para baixo chave.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="411"></location>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparência &amp;focalizada:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="423"></location>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparência da janela principal se focada.
+
+Nota: Isso não é suportado em todos os sistemas.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="453"></location>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparência &amp;não focada:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="465"></location>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparência da janela principal se não focada.
+
+Nota: Isso pode não ser suportado em todos os sistemas.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="495"></location>
@@ -1471,22 +1475,22 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="345"></location>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Es&amp;conder separadores</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="352"></location>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Esconder barra de ferramentas</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="355"></location>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Esconder barra de ferr&amp;amentas</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="362"></location>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Esconder etiquetas da barra de ferr&amp;amentas</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="369"></location>
@@ -1501,52 +1505,52 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="746"></location>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mover item para o topo da lista depois de ser ativado</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="749"></location>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"></translation>
+        <translation>Mover item para o t&amp;opo</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="756"></location>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Fechar janela principal depois do item ser ativado</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="766"></location>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Focar última janela depois do item ser ativado</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="776"></location>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Colar para janela atual depois do item ser ativado</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="874"></location>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar comando para o conteúdo atual da área de transferência no menu tray</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="923"></location>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar itens da aba atual no menu tray</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="926"></location>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar aba atu&amp;al no menu,</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="933"></location>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>ou &amp;selecione outra aba:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="974"></location>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Colar item na janela atual depois de selecioná-lo no menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="987"></location>
@@ -3982,7 +3986,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="299"></location>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>O nome da aba não pode estar vazio!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="385"></location>
