@@ -375,7 +375,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="180"></location>
         <source>Shift+Return</source>
-        <translation type="unfinished">Shift + Return</translation>
+        <translation>Shift + Enter</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="183"></location>
