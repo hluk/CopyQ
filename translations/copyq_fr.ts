@@ -1126,7 +1126,7 @@ Laissez vide pour le désactiver.</translation>
 Note: If this is applied automatically, no other automatic commands are executed.</source>
         <translation>Supprimer l'élément trouvé
 
-Remarque: Si cette option est automatiquement appliqué, aucune autre commande automatique ne sera effectué.</translation>
+Remarque: Si cette option est automatiquement appliqué, aucune autre commande automatique ne sera effectuée.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="357"></location>
@@ -2590,7 +2590,7 @@ Remarque: les éléments modifiés peuvent être enregistrés à l'aide de F2, q
     </message>
     <message>
         <source>Show items from current tab in content menu</source>
-        <translation type="vanished">Afficher les articles de l'onglet courant dans le menu contextuel</translation>
+        <translation>Afficher les éléments de l'onglet courant dans le menu de l'icône</translation>
     </message>
     <message>
         <source>Show c&amp;urrent tab in menu,</source>
@@ -5457,7 +5457,7 @@ Affiche la version du programme et de ses librairies.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="317"></location>
         <location filename="../src/scriptable/scriptableworker.cpp" line="149"></location>
         <source>Name "%1" doesn't refer to a function.</source>
-        <translation>Le nom "%1" ne fait pas référence à une fonction.</translation>
+        <translation>Le nom "%1" ne se réfère pas à une fonction.</translation>
     </message>
     <message>
         <source>Build with: </source>
