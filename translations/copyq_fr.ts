@@ -412,7 +412,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="159"></location>
         <source>Ignore items with no or single character</source>
-        <translation>Ignorer les éléments qui n'ont pas ou qui n'ont que un seul caractère</translation>
+        <translation>Ignorer les éléments d'un seul caractère ou moins</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="166"></location>
