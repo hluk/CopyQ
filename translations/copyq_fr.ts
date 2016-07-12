@@ -1124,9 +1124,9 @@ Laissez vide pour le désactiver.</translation>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation>Supprimer l'élément trouvé↵
-↵
-Remarque: Si cette option est automatiquement appliqué, aucun autre commandes automatiques sont effectués.</translation>
+        <translation>Supprimer l'élément trouvé
+
+Remarque: Si cette option est automatiquement appliqué, aucune autre commande automatique ne sera effectué.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="357"></location>
