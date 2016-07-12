@@ -144,7 +144,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="208"></location>
         <source>Escape</source>
-        <translation>Echappe</translation>
+        <translation>Sortir</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="209"></location>
