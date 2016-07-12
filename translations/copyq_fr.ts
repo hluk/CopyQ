@@ -397,12 +397,12 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="112"></location>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller/copier suivant</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="114"></location>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller/copier précédent</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="134"></location>
@@ -2278,7 +2278,7 @@ Situé à -1 pour garder visible jusqu'à ce que vous cliquiez dessus.</translat
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="282"></location>
         <source>&amp;Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Disposition</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="372"></location>
@@ -2293,7 +2293,7 @@ Situé à -1 pour garder visible jusqu'à ce que vous cliquiez dessus.</translat
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="382"></location>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Cacher la fenêtre principale</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="704"></location>
@@ -3965,7 +3965,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"></location>
         <source>More info is available on &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki page&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Plus d'info sur la &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;page wiki&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"></location>
@@ -3975,12 +3975,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"></location>
         <source>Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Égale</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"></location>
         <source>Style Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Style de la feuille</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"></location>
@@ -4048,7 +4048,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"></location>
         <source>CopyQ Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal de CopyQ</translation>
     </message>
 </context>
 <context>
@@ -4704,332 +4704,332 @@ qui peuvent être des lettres, des chiffres, des '-' ou '_' !</translation>
         <location filename="../src/common/appconfig.cpp" line="27"></location>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>presse-papier</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"></location>
         <source>&amp;New Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau élément</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"></location>
         <source>&amp;Import Tab...</source>
-        <translation type="unfinished"></translation>
+        <translation>Onglet import...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"></location>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="64"></location>
         <source>&amp;Export Tab...</source>
-        <translation type="unfinished"></translation>
+        <translation>Onglet Export...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"></location>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished">&amp;Préférences...</translation>
+        <translation>&amp;Préférences...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"></location>
         <source>Ctrl+P</source>
-        <translation type="unfinished">Ctrl+P</translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"></location>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="unfinished">C&amp;ommandes/Raccourcis Général...</translation>
+        <translation>C&amp;ommandes/Raccourcis Général...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"></location>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished">C&amp;ommandes...</translation>
+        <translation>C&amp;ommandes...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"></location>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"></location>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer le contenu du presse-papier</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="77"></location>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished">Ctrl+Maj+C</translation>
+        <translation>Ctrl+Maj+C</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"></location>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="unfinished">&amp;Basculer le partage du Presse-papiers</translation>
+        <translation>&amp;Basculer le partage du Presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"></location>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished">Ctrl+Maj+X</translation>
+        <translation>Ctrl+Maj+X</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"></location>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished">Gestionnaire d'actions</translation>
+        <translation>Gestionnaire d'actions</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"></location>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished">Ctrl+Shift+Z</translation>
+        <translation>Ctrl+Maj+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"></location>
         <source>E&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"></location>
         <source>Ctrl+Q</source>
-        <translation type="unfinished">Ctrl+Q</translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="85"></location>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Trier les éléments sélectionnés</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"></location>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished">Ctrl+Maj+S</translation>
+        <translation>Ctrl+Maj+S</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"></location>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Inverser les éléments sélectionnés</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="89"></location>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished">Ctrl+Maj+R</translation>
+        <translation>Ctrl+Maj+R</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"></location>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller les éléments</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"></location>
         <source>&amp;Copy Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier les éléments sélectionnés</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="95"></location>
         <source>&amp;Find</source>
-        <translation type="unfinished">&amp;Recherche</translation>
+        <translation>&amp;Recherche</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"></location>
         <source>Move to &amp;Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplacer dans le presse-papier</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"></location>
         <source>&amp;Show Content...</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer le contenu...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"></location>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"></location>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Enlever</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"></location>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"></location>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"></location>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished">Éditer des &amp;Notes</translation>
+        <translation>Éditer des &amp;Notes</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"></location>
         <source>Shift+F2</source>
-        <translation type="unfinished">Maj+F2</translation>
+        <translation>Maj+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"></location>
         <source>E&amp;dit with editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer avec l'éditeur</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"></location>
         <source>Ctrl+E</source>
-        <translation type="unfinished">Ctrl+E</translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"></location>
         <source>&amp;Action...</source>
-        <translation type="unfinished"></translation>
+        <translation>Action...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"></location>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"></location>
         <source>Next Format</source>
-        <translation type="unfinished">Format suivant</translation>
+        <translation>Format suivant</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"></location>
         <source>Ctrl+Right</source>
-        <translation type="unfinished">Ctrl+Flèche vers la droite</translation>
+        <translation>Ctrl+Flèche vers la droite</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"></location>
         <source>Previous Format</source>
-        <translation type="unfinished">Format précédent</translation>
+        <translation>Format précédent</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"></location>
         <source>Ctrl+Left</source>
-        <translation type="unfinished">Ctrl+Flèche vers la gauche</translation>
+        <translation>Ctrl+Flèche vers la gauche</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"></location>
         <source>Move Up</source>
-        <translation type="unfinished">Monter</translation>
+        <translation>Monter</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="118"></location>
         <source>Ctrl+Up</source>
-        <translation type="unfinished">Ctrl+Flèche vers le haut</translation>
+        <translation>Ctrl+Flèche vers le haut</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"></location>
         <source>Move Down</source>
-        <translation type="unfinished">Descendre</translation>
+        <translation>Descendre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"></location>
         <source>Ctrl+Down</source>
-        <translation type="unfinished">Ctrl+Flèche vers le bas</translation>
+        <translation>Ctrl+Flèche vers le bas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"></location>
         <source>Move to Top</source>
-        <translation type="unfinished">Monter tout en haut</translation>
+        <translation>Monter en premier</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"></location>
         <source>Ctrl+Home</source>
-        <translation type="unfinished">Ctrl+Home</translation>
+        <translation>Ctrl+Home</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"></location>
         <source>Move to Bottom</source>
-        <translation type="unfinished">Descendre tout en bas</translation>
+        <translation>Descendre en dernier</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="124"></location>
         <source>Ctrl+End</source>
-        <translation type="unfinished">Ctrl+Fin</translation>
+        <translation>Ctrl+Fin</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"></location>
         <source>&amp;New Tab</source>
-        <translation type="unfinished">&amp;Nouveau Onglet</translation>
+        <translation>&amp;Nouvel Onglet</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"></location>
         <source>Ctrl+T</source>
-        <translation type="unfinished">Ctrl+T</translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"></location>
         <source>R&amp;ename Tab</source>
-        <translation type="unfinished">R&amp;enomer l'onglet</translation>
+        <translation>R&amp;enomer l'onglet</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"></location>
         <source>Ctrl+F2</source>
-        <translation type="unfinished">Ctrl+F2</translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="130"></location>
         <source>Re&amp;move Tab</source>
-        <translation type="unfinished">Supprimer l'onglet</translation>
+        <translation>Supprimer l'onglet</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"></location>
         <source>Ctrl+W</source>
-        <translation type="unfinished">Ctrl+W</translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"></location>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished">&amp;Changer l’icône de l'onglet</translation>
+        <translation>&amp;Changer l’icône de l'onglet</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"></location>
         <source>Ctrl+Shift+T</source>
-        <translation type="unfinished">Ctrl+Shift+T</translation>
+        <translation>Ctrl+Maj+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"></location>
         <source>Ne&amp;xt Tab</source>
-        <translation type="unfinished">&amp;Onglet Suivant</translation>
+        <translation>&amp;Onglet Suivant</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"></location>
         <source>Right</source>
-        <translation type="unfinished">à Droite</translation>
+        <translation>à Droite</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="136"></location>
         <source>&amp;Previous Tab</source>
-        <translation type="unfinished">&amp;Onglet précédent</translation>
+        <translation>&amp;Onglet précédent</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"></location>
         <source>Left</source>
-        <translation type="unfinished">à Gauche</translation>
+        <translation>à Gauche</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"></location>
         <source>&amp;Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer journal</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"></location>
         <source>F12</source>
-        <translation type="unfinished">F12</translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"></location>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Aide</translation>
+        <translation>&amp;Aide</translation>
     </message>
     <message>
         <location filename="../src/item/itemstore.cpp" line="45"></location>
         <source>Cannot create directory for settings %1!</source>
-        <translation type="unfinished">Impossible la création du répertoire pour les paramètres %1 !</translation>
+        <translation>Impossible de créer le répertoire pour les paramètres %1 !</translation>
     </message>
     <message>
         <location filename="../src/item/itemstore.cpp" line="57"></location>
         <source>Cannot save tab %1 to %2 (%3)!</source>
-        <translation type="unfinished">Vous ne pouvez pas enregistrer l'onglet %1 à %2 (%3) !</translation>
+        <translation>Vous ne pouvez pas enregistrer l'onglet %1 à %2 (%3) !</translation>
     </message>
 </context>
 <context>
