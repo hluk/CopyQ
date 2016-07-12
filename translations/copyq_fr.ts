@@ -108,7 +108,7 @@
         <location filename="../src/gui/aboutdialog.cpp" line="185"></location>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
-        <translation>Palette de couleurs utilisée par les thèmes</translation>
+        <translation>Palette de couleurs utilisée pour les thèmes</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="179"></location>
@@ -119,7 +119,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="191"></location>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation>Les raccourcis de l'application peuvent être modifiés dans la boite de dialogue des Préférences.</translation>
+        <translation>Les raccourcis de l'application peuvent être changés dans les Réglages.</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="194"></location>
