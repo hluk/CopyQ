@@ -952,7 +952,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="507"></location>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation>将条目存入指名的标签页（留空则存入首个标签页）</translation>
+        <translation>将条目存入指定的标签页（留空则存入首个标签页）</translation>
     </message>
 </context>
 <context>
@@ -1621,7 +1621,7 @@ Leave empty to disable automatic storing.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="923"></location>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>在托盘菜单中显示当前标签页条目</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="926"></location>
@@ -1636,12 +1636,12 @@ Leave empty to disable automatic storing.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="974"></location>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>在菜单中选中条目后粘贴到当前窗口</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="987"></location>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"></translation>
+        <translation>在菜单粘贴条目中使用预览图像作为图标(&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1148"></location>
