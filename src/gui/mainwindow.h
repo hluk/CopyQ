@@ -66,6 +66,7 @@ struct MainWindowOptions {
         , trayTabName()
         , trayItems(5)
         , trayImages(true)
+        , trayMenuOpenOnLeftClick(false)
         , itemPopupInterval(0)
         , clipboardNotificationLines(0)
         , transparency(0)
@@ -89,6 +90,7 @@ struct MainWindowOptions {
     QString trayTabName;
     int trayItems;
     bool trayImages;
+    bool trayMenuOpenOnLeftClick;
     int itemPopupInterval;
     int clipboardNotificationLines;
     int transparency;

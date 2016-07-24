@@ -217,6 +217,11 @@ struct tray_images : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
+struct tray_menu_open_on_left_click : Config<bool> {
+    static QString name() { return "tray_menu_open_on_left_click"; }
+    static Value defaultValue() { return false; }
+};
+
 struct tray_tab : Config<QString> {
     static QString name() { return "tray_tab"; }
 };

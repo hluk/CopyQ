@@ -1692,6 +1692,7 @@ void MainWindow::loadSettings()
     m_options.trayCurrentTab = appConfig.option<Config::tray_tab_is_current>();
     m_options.trayTabName = appConfig.option<Config::tray_tab>();
     m_options.trayImages = appConfig.option<Config::tray_images>();
+    m_options.trayMenuOpenOnLeftClick = appConfig.option<Config::tray_menu_open_on_left_click>();
     m_options.itemPopupInterval = appConfig.option<Config::item_popup_interval>();
     m_options.clipboardNotificationLines = appConfig.option<Config::clipboard_notification_lines>();
     m_options.clipboardTab = appConfig.option<Config::clipboard_tab>();
@@ -1821,7 +1822,9 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
     // Don't do this on OS X, we only ever get "Trigger"
     Q_UNUSED(reason);
 #else
-    if ( reason == QSystemTrayIcon::MiddleClick ) {
+    if ( reason == QSystemTrayIcon::MiddleClick
+         || (m_options.trayMenuOpenOnLeftClick && reason == QSystemTrayIcon::Trigger) )
+    {
         toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
         // Like toggleVisible() but hide window if visible and not focused
