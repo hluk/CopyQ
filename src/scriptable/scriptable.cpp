@@ -23,6 +23,7 @@
 #include "common/command.h"
 #include "common/commandstatus.h"
 #include "common/common.h"
+#include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/sleeptimer.h"
 #include "common/version.h"
@@ -39,6 +40,7 @@
 #include <QDesktopServices>
 #include <QElapsedTimer>
 #include <QFile>
+#include <QMap>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -823,6 +825,99 @@ QScriptValue Scriptable::config()
 
     const QString output = result.toString();
     return output.isEmpty() ? QScriptValue() : output;
+}
+
+QScriptValue Scriptable::info()
+{
+    typedef QMap<QString, QString> InfoMap;
+    InfoMap info;
+    info.insert("config", QSettings().fileName());
+    info.insert("exe", QCoreApplication::applicationFilePath());
+    info.insert("log", logFileName());
+
+    info.insert("plugins",
+#ifdef COPYQ_PLUGIN_PREFIX
+                COPYQ_PLUGIN_PREFIX
+#else
+                m_proxy->pluginsPath()
+#endif
+                );
+
+    info.insert("themes",
+#ifdef COPYQ_THEME_PREFIX
+                COPYQ_THEME_PREFIX
+#else
+                m_proxy->themesPath()
+#endif
+                );
+
+    info.insert("translations",
+#ifdef COPYQ_TRANSLATION_PREFIX
+                COPYQ_TRANSLATION_PREFIX
+#else
+                m_proxy->translationsPath()
+#endif
+                );
+
+    info.insert("themes(custom)", qgetenv("COPYQ_THEME_PREFIX"));
+    info.insert("translations(custom)", qgetenv("COPYQ_TRANSLATION_PREFIX"));
+
+    info.insert("icons",
+#ifdef COPYQ_ICON_PREFIX
+                COPYQ_ICON_PREFIX
+#else
+                QString()
+#endif
+                );
+
+    info.insert("desktop",
+#ifdef COPYQ_DESKTOP_PREFIX
+                COPYQ_DESKTOP_PREFIX
+#else
+                QString()
+#endif
+                );
+
+    info.insert("has-mouse-selection",
+#ifdef HAS_MOUSE_SELECTIONS
+                "1"
+#else
+                "0"
+#endif
+                );
+
+    info.insert("has-global-shortcuts",
+#ifdef NO_GLOBAL_SHORTCUTS
+                "0"
+#else
+                "1"
+#endif
+                );
+
+    info.insert("platform",
+#ifdef COPYQ_WS_X11
+                "Linux/X11"
+#elif defined(Q_OS_WIN)
+                "Windows"
+#elif defined(Q_OS_MAC)
+                "OS X"
+#elif defined(Q_OS_LINUX)
+                "Linux"
+#else
+                "?"
+#endif
+                );
+
+    const QString name = arg(0);
+    if (!name.isEmpty())
+        return info.value(name);
+
+    QString result;
+    for (InfoMap::const_iterator it = info.begin(); it != info.end(); ++it)
+        result.append(QString("%1: %2\n").arg(it.key(), it.value()));
+    result.chop(1);
+
+    return result;
 }
 
 QScriptValue Scriptable::eval()

@@ -189,24 +189,11 @@ QString readLogFile(const QString &fileName)
     return QString::fromUtf8(content);
 }
 
-QString logFileName()
-{
-    const QString fileName = envString("COPYQ_LOG_FILE");
-    if (!fileName.isEmpty())
-        return QDir::fromNativeSeparators(fileName);
-
-    const QString path = getDefaultLogFilePath();
-    QDir dir(path);
-    dir.mkpath(".");
-
-    return path + "/copyq.log";
-}
-
 QString logFileName(int i)
 {
     if (i <= 0)
-        return logFileName();
-    return logFileName() + "." + QString::number(i);
+        return ::logFileName();
+    return ::logFileName() + "." + QString::number(i);
 }
 
 void rotateLogFiles()
@@ -220,6 +207,19 @@ void rotateLogFiles()
 }
 
 } // namespace
+
+QString logFileName()
+{
+    const QString fileName = envString("COPYQ_LOG_FILE");
+    if (!fileName.isEmpty())
+        return QDir::fromNativeSeparators(fileName);
+
+    const QString path = getDefaultLogFilePath();
+    QDir dir(path);
+    dir.mkpath(".");
+
+    return path + "/copyq.log";
+}
 
 QString readLogFile()
 {

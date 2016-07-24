@@ -978,6 +978,31 @@ void ScriptableProxyHelper::filter(const QString &text)
     m_wnd->setFilter(text);
 }
 
+QString ScriptableProxyHelper::pluginsPath()
+{
+    INVOKE(pluginsPath());
+
+    QDir dir;
+    if (createPlatformNativeInterface()->findPluginDir(&dir))
+        return dir.absolutePath();
+
+    return QString();
+}
+
+QString ScriptableProxyHelper::themesPath()
+{
+    INVOKE(themesPath());
+
+    return createPlatformNativeInterface()->themePrefix();
+}
+
+QString ScriptableProxyHelper::translationsPath()
+{
+    INVOKE(translationsPath());
+
+    return createPlatformNativeInterface()->translationPrefix();
+}
+
 ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tabName)
 {
     if (tabName.isEmpty()) {

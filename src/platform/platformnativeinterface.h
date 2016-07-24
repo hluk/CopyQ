@@ -160,7 +160,7 @@ public:
      *
      * Can be overridden by preprocessor flag COPYQ_THEME_PREFIX.
      *
-     * Custom translation prefix can be added by setting COPYQ_TRANSLATION_PREFIX
+     * Custom theme prefix can be added by setting COPYQ_THEME_PREFIX
      * environment variable.
      *
      * Note: Customized themes are saved to settings path.

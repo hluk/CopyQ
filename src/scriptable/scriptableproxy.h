@@ -266,6 +266,10 @@ public slots:
 
     void filter(const QString &text);
 
+    QString pluginsPath();
+    QString themesPath();
+    QString translationsPath();
+
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
 
@@ -393,6 +397,10 @@ public:
     PROXY_METHOD_VOID_2(setSelectedItemsData, const QString &, const QVariant &)
 
     PROXY_METHOD_VOID_1(filter, const QString &)
+
+    PROXY_METHOD_0(QString, pluginsPath)
+    PROXY_METHOD_0(QString, themesPath)
+    PROXY_METHOD_0(QString, translationsPath)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.

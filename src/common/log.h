@@ -33,6 +33,8 @@ enum LogLevel {
     LogTrace
 };
 
+QString logFileName();
+
 QString readLogFile();
 
 void createSessionMutex();

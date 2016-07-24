@@ -160,6 +160,8 @@ public slots:
 
     QScriptValue config();
 
+    QScriptValue info();
+
     QScriptValue eval();
 
     QScriptValue currentPath();

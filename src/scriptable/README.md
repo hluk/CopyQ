@@ -252,6 +252,16 @@ Returns value of given option.
 
 Sets option.
 
+###### String info([pathName])
+
+Returns paths and flags used by the application.
+
+E.g. following command prints path to configuration file.
+
+```bash
+copyq info config
+```
+
 ###### Value eval(script)
 
 Evaluates script and returns result.
