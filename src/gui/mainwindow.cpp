@@ -2068,7 +2068,9 @@ void MainWindow::setClipboard(const QVariantMap &data)
 
 void MainWindow::activateCurrentItem()
 {
-    if ( !m_activateCurrentItemAction.isNull() ) {
+    if ( !m_activateCurrentItemAction.isNull()
+         && QApplication::queryKeyboardModifiers() == Qt::NoModifier )
+    {
         m_activateCurrentItemAction->trigger();
         return;
     }
