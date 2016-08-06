@@ -96,7 +96,7 @@ text/richtext</string>
         </item>
         <item>
          <property name="text">
-          <string>List of URI (e.g. copied files)</string>
+          <string>List of URI (e.g. copied files, URLs)</string>
          </property>
          <property name="toolTip">
           <string notr="true">text/uri-list</string>
