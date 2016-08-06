@@ -127,6 +127,7 @@ void createGlobalShortcut(GlobalAction id, QList<Command> *commands)
 QList<Command> defaultCommands()
 {
     static const QRegExp reURL("^(https?|ftps?|file)://");
+    static const QRegExp reNotURL("^(?!(http|ftp)s?://)");
 
     QList<Command> commands;
     Command *c;
@@ -230,6 +231,7 @@ QList<Command> defaultCommands()
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore copied files");
+    c->re   = reNotURL;
     c->icon = QString(QChar(IconExclamationSign));
     c->input = mimeUriList;
     c->remove = true;
