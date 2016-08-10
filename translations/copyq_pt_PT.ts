@@ -1450,7 +1450,7 @@ Nota: Itens editados pode ser guardados com F2 Edited items can be saved with F2
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="822"></location>
         <source>&amp;Tray</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Tray</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="874"></location>
