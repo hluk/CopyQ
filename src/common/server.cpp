@@ -103,7 +103,8 @@ Server::Server(const QString &name, QObject *parent)
 {
     if ( createSystemMutex(name, this) && !serverIsRunning(name) ) {
         QLocalServer::removeServer(name);
-        m_server->listen(name);
+        if ( !m_server->listen(name) )
+            log("Failed to create server: " + m_server->errorString(), LogError);
     }
 
     qRegisterMetaType<Arguments>("Arguments");
