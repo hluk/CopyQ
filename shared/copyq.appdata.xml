@@ -23,6 +23,7 @@
     <url type="help">https://github.com/hluk/CopyQ/wiki</url>
     <url type="faq">https://github.com/hluk/CopyQ/wiki/FAQ</url>
     <url type="donation">https://www.bountysource.com/teams/copyq</url>
+    <url type="translate">https://hosted.weblate.org/engage/copyq/</url>
 
     <screenshots>
         <screenshot type="default">
@@ -38,6 +39,14 @@
         <kudo>HiDpiIcon</kudo>
         <kudo>ModernToolkit</kudo>
     </kudos>
+
+    <keywords>
+      <keyword>clipboard</keyword>
+      <keyword>clipboard-manager</keyword>
+      <keyword>clipboard-history</keyword>
+      <keyword>notes</keyword>
+      <keyword>copy-and-paste</keyword>
+    </keywords>
 
     <updatecontact>hluk_at_email.cz</updatecontact>
 </component>
