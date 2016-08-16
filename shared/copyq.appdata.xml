@@ -48,5 +48,6 @@
       <keyword>copy-and-paste</keyword>
     </keywords>
 
-    <updatecontact>hluk_at_email.cz</updatecontact>
+    <update_contact>hluk_at_email.cz</update_contact>
+    <developer_name>Lukas Holecek</developer_name>
 </component>
