@@ -50,8 +50,8 @@ namespace {
 
         // 0x000008 is a hack to fix pasting in Emacs?
         // https://github.com/TermiT/Flycut/pull/18
-        CGEventSetFlags(VDown,kCGEventFlagMaskCommand|0x000008);
-        CGEventSetFlags(VUp,kCGEventFlagMaskCommand|0x000008);
+        CGEventSetFlags(VDown,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
+        CGEventSetFlags(VUp,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
 
         CGEventPost(kCGHIDEventTap, commandDown);
         CGEventPost(kCGHIDEventTap, VDown);
