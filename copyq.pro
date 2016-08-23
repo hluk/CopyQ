@@ -9,6 +9,7 @@ DEFINES += QT_NO_CAST_TO_ASCII
 SUBDIRS += src \
            plugins
 TRANSLATIONS = \
+    translations/copyq_ar.ts \
     translations/copyq_cs.ts \
     translations/copyq_da.ts \
     translations/copyq_de.ts \
