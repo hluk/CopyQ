@@ -32,6 +32,7 @@
 #include <QKeyEvent>
 #include <QLocale>
 #include <QMimeData>
+#include <QMovie>
 #include <QObject>
 #include <QPoint>
 #include <QStyle>
@@ -95,7 +96,15 @@ bool setImageData(const QVariantMap &data, const QString &mime, QMimeData *mimeD
     if ( imageFormat.isEmpty() )
         return false;
 
-    const QImage image = QImage::fromData( data.value(mime).toByteArray(), imageFormat.toUtf8().constData() );
+    QByteArray bytes = data.value(mime).toByteArray();
+
+    // Omit converting animated images to static ones.
+    QBuffer buffer(&bytes);
+    QMovie animatedImage( &buffer, imageFormat.toUtf8().constData() );
+    if ( animatedImage.frameCount() > 1 )
+        return false;
+
+    const QImage image = QImage::fromData( bytes, imageFormat.toUtf8().constData() );
     if ( image.isNull() )
         return false;
 
