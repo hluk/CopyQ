@@ -58,17 +58,24 @@ public:
      * Instantiate ItemWidget using given @a loader if possible.
      */
     ItemWidget *createItem(
-            ItemLoaderInterface *loader, const QModelIndex &index, QWidget *parent);
+            ItemLoaderInterface *loader, const QModelIndex &index, QWidget *parent,
+            bool antialiasing, bool transform = true);
 
     /**
      * Instantiate ItemWidget using appropriate loader or creates simple ItemWidget (DummyItem).
      */
-    ItemWidget *createItem(const QModelIndex &index, QWidget *parent);
+    ItemWidget *createItem(
+            const QModelIndex &index, QWidget *parent, bool antialiasing,
+            bool transform = true);
+
+    ItemWidget *createSimpleItem(
+            const QModelIndex &index, QWidget *parent, bool antialiasing);
 
     /**
      * Uses next/previous item loader to instantiate ItemWidget.
      */
-    ItemWidget *otherItemLoader(const QModelIndex &index, ItemWidget *current, bool next);
+    ItemWidget *otherItemLoader(
+            const QModelIndex &index, ItemWidget *current, bool next, bool antialiasing);
 
     /**
      * Formats to save in history, union of enabled ItemLoaderInterface objects.

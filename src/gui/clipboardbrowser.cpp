@@ -154,6 +154,7 @@ ClipboardBrowserShared::ClipboardBrowserShared(ItemFactory *itemFactory)
     , viMode(false)
     , saveOnReturnKey(false)
     , moveItemOnReturnKey(false)
+    , showSimpleItems(false)
     , minutesToExpire(0)
     , itemFactory(itemFactory)
 {
@@ -168,6 +169,7 @@ void ClipboardBrowserShared::loadFromConfiguration()
     viMode = appConfig.option<Config::vi>();
     saveOnReturnKey = !appConfig.option<Config::edit_ctrl_return>();
     moveItemOnReturnKey = appConfig.option<Config::move>();
+    showSimpleItems = appConfig.option<Config::show_simple_items>();
     minutesToExpire = appConfig.option<Config::expire_tab>();
 }
 
@@ -189,6 +191,8 @@ ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, 
     , m_spinLock(0)
     , m_scrollSaver()
 {
+    setObjectName("ClipboardBrowser");
+
     setLayoutMode(QListView::Batched);
     setBatchSize(1);
     setFrameShape(QFrame::NoFrame);
@@ -1671,6 +1675,8 @@ void ClipboardBrowser::loadSettings()
         d.loadEditorSettings(m_editor);
         setEditorWidget(m_editor);
     }
+
+    d.setShowSimpleItems(m_sharedData->showSimpleItems);
 }
 
 void ClipboardBrowser::loadItems()
@@ -1786,6 +1792,21 @@ void ClipboardBrowser::move(int key)
 {
     m.moveItemsWithKeyboard(selectedIndexes(), key);
     scrollTo( currentIndex() );
+}
+
+QWidget *ClipboardBrowser::currentItemWidget()
+{
+    if (!isLoaded())
+        return NULL;
+
+    const QModelIndex index = currentIndex();
+    ItemWidget *itemWidget =
+            m_sharedData->itemFactory->createItem(index, this, d.fontAntialiasing(), false);
+    QWidget *w = itemWidget->widget();
+
+    d.highlightMatches(itemWidget);
+
+    return w;
 }
 
 void ClipboardBrowser::decorate(const Theme &theme)

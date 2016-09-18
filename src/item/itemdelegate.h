@@ -79,6 +79,9 @@ class ItemDelegate : public QItemDelegate
         /** Show/hide item number. */
         void setRowNumberVisibility(bool show);
 
+        /** Show simple items (single line describing content). */
+        void setShowSimpleItems(bool showSimpleItems);
+
         /** Return cached item, create it if it doesn't exist. */
         ItemWidget *cache(const QModelIndex &index);
 
@@ -93,6 +96,9 @@ class ItemDelegate : public QItemDelegate
 
         /** Enable/disable font antialiasing. */
         void setFontAntialiasing(bool enable) { m_antialiasing = enable; }
+
+        /** Return true only if font is antialiased. */
+        bool fontAntialiasing() const { return m_antialiasing; }
 
         /** Update row position. */
         void updateRowPosition(int row, int y);
@@ -109,6 +115,8 @@ class ItemDelegate : public QItemDelegate
 
         /** Load settings for @a editor. */
         void loadEditorSettings(ItemEditorWidget *editor);
+
+        void highlightMatches(ItemWidget *itemWidget) const;
 
     public slots:
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
@@ -149,6 +157,7 @@ class ItemDelegate : public QItemDelegate
         bool m_showRowNumber;
         QPalette m_rowNumberPalette;
         bool m_antialiasing;
+        bool m_createSimpleItems;
 
         QList<ItemWidget*> m_cache;
 

@@ -168,63 +168,7 @@ QColor Theme::evalColorExpression(const QString &expr) const
 
 void Theme::decorateBrowser(QListView *c, ItemDelegate *d) const
 {
-    decorateScrollArea(c);
-
-    const QColor bg = color("bg");
-    QColor unfocusedSelectedBg = color("sel_bg");
-    unfocusedSelectedBg.setRgb(
-                (bg.red() + unfocusedSelectedBg.red()) / 2,
-                (bg.green() + unfocusedSelectedBg.green()) / 2,
-                (bg.blue() + unfocusedSelectedBg.blue()) / 2
-                );
-
-    Theme unfocusedTheme;
-    foreach ( const QString &key, m_theme.keys() )
-        unfocusedTheme.m_theme[key] = Option(m_theme[key].value());
-    unfocusedTheme.m_theme["sel_bg"].setValue( serializeColor(unfocusedSelectedBg) );
-
-    // colors and font
-    c->setStyleSheet(
-        "ClipboardBrowser,#item,#item_child{"
-          + getFontStyleSheet( value("font").toString() ) +
-          "color:" + themeColorString("fg") + ";"
-          "background:" + themeColorString("bg") + ";"
-        "}"
-
-        "ClipboardBrowser::item:alternate{"
-          "color:" + themeColorString("alt_fg") + ";"
-          "background:" + themeColorString("alt_bg") + ";"
-        "}"
-
-        "ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{"
-          "color:" + themeColorString("sel_fg") + ";"
-          "background:" + themeColorString("sel_bg") + ";"
-        "}"
-
-        "#item,#item #item_child{background:transparent}"
-        "#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{background:transparent}"
-
-        // Desaturate selected item background if item list is not focused.
-        "ClipboardBrowser::item:selected:!active{"
-          "background:" + serializeColor( evalColor("sel_bg", unfocusedTheme) ) + ";"
-          + unfocusedTheme.themeStyleSheet("sel_item_css") +
-        "}"
-
-        "ClipboardBrowser::item:focus{"
-          + themeStyleSheet("cur_item_css") +
-        "}"
-
-        + getToolTipStyleSheet() +
-
-        // Allow user to change CSS.
-        "ClipboardBrowser{" + themeStyleSheet("item_css") + "}"
-        "ClipboardBrowser::item:alternate{" + themeStyleSheet("alt_item_css") + "}"
-        "ClipboardBrowser::item:selected{" + themeStyleSheet("sel_item_css") + "}"
-
-        "#item_child[CopyQ_item_type=\"notes\"] {"
-          + getFontStyleSheet( value("notes_font").toString() ) +
-        "}"
-    );
+    decorateBrowser(c);
 
     QPalette p;
 
@@ -345,6 +289,11 @@ void Theme::decorateScrollArea(QAbstractScrollArea *scrollArea) const
             : Qt::ScrollBarAlwaysOff;
     scrollArea->setVerticalScrollBarPolicy(scrollbarPolicy);
     scrollArea->setHorizontalScrollBarPolicy(scrollbarPolicy);
+}
+
+void Theme::decorateItemPreview(QAbstractScrollArea *itemPreview) const
+{
+    decorateBrowser(itemPreview);
 }
 
 QString Theme::getToolTipStyleSheet() const
@@ -530,6 +479,67 @@ void Theme::resetTheme()
     m_theme["use_system_icons"] = Option(false, "checked", ui ? ui->checkBoxSystemIcons : NULL);
     m_theme["font_antialiasing"] = Option(true, "checked", ui ? ui->checkBoxAntialias : NULL);
     m_theme["style_main_window"] = Option(false, "checked", ui ? ui->checkBoxStyleMainWindow : NULL);
+}
+
+void Theme::decorateBrowser(QAbstractScrollArea *c) const
+{
+    decorateScrollArea(c);
+
+    const QColor bg = color("bg");
+    QColor unfocusedSelectedBg = color("sel_bg");
+    unfocusedSelectedBg.setRgb(
+                (bg.red() + unfocusedSelectedBg.red()) / 2,
+                (bg.green() + unfocusedSelectedBg.green()) / 2,
+                (bg.blue() + unfocusedSelectedBg.blue()) / 2
+                );
+
+    Theme unfocusedTheme;
+    foreach ( const QString &key, m_theme.keys() )
+        unfocusedTheme.m_theme[key] = Option(m_theme[key].value());
+    unfocusedTheme.m_theme["sel_bg"].setValue( serializeColor(unfocusedSelectedBg) );
+
+    // colors and font
+    c->setStyleSheet(
+        "#ClipboardBrowser,#item,#item_child{"
+          + getFontStyleSheet( value("font").toString() ) +
+          "color:" + themeColorString("fg") + ";"
+          "background:" + themeColorString("bg") + ";"
+        "}"
+
+        "#ClipboardBrowser::item:alternate{"
+          "color:" + themeColorString("alt_fg") + ";"
+          "background:" + themeColorString("alt_bg") + ";"
+        "}"
+
+        "#ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{"
+          "color:" + themeColorString("sel_fg") + ";"
+          "background:" + themeColorString("sel_bg") + ";"
+        "}"
+
+        "#item,#item #item_child{background:transparent}"
+        "#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{background:transparent}"
+
+        // Desaturate selected item background if item list is not focused.
+        "#ClipboardBrowser::item:selected:!active{"
+          "background:" + serializeColor( evalColor("sel_bg", unfocusedTheme) ) + ";"
+          + unfocusedTheme.themeStyleSheet("sel_item_css") +
+        "}"
+
+        "#ClipboardBrowser::item:focus{"
+          + themeStyleSheet("cur_item_css") +
+        "}"
+
+        + getToolTipStyleSheet() +
+
+        // Allow user to change CSS.
+        "#ClipboardBrowser{" + themeStyleSheet("item_css") + "}"
+        "#ClipboardBrowser::item:alternate{" + themeStyleSheet("alt_item_css") + "}"
+        "#ClipboardBrowser::item:selected{" + themeStyleSheet("sel_item_css") + "}"
+
+        "#item_child[CopyQ_item_type=\"notes\"] {"
+          + getFontStyleSheet( value("notes_font").toString() ) +
+        "}"
+    );
 }
 
 bool Theme::isMainWindowThemeEnabled() const

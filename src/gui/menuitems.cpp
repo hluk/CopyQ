@@ -99,6 +99,8 @@ MenuItems menuItems()
                   "move_to_clipboard", QKeySequence(), "clipboard", IconPaste );
     addMenuItem( items, Actions::Item_ShowContent, QObject::tr("&Show Content..."),
                   "show_item_content", QObject::tr("F4"), "dialog-information", IconInfoSign );
+    addMenuItem( items, Actions::Item_ShowPreview, QObject::tr("&Show Preview"),
+                 "show_item_preview", QObject::tr("F7"), "document-print-preview", IconEyeOpen );
     addMenuItem( items, Actions::Item_Remove, QObject::tr("&Remove"),
                   "delete_item",  shortcutToRemove(), "list-remove", IconRemove );
     addMenuItem( items, Actions::Item_Edit, QObject::tr("&Edit"), "edit", QObject::tr("F2"),

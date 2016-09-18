@@ -50,6 +50,26 @@ bool priorityLessThan(const ItemLoaderInterface *lhs, const ItemLoaderInterface 
     return lhs->priority() > rhs->priority();
 }
 
+void trySetPixmap(QLabel *label, const QVariantMap &data)
+{
+    static const QStringList imageFormats = QStringList()
+            << QString("image/svg+xml")
+            << QString("image/png")
+            << QString("image/bmp")
+            << QString("image/jpeg")
+            << QString("image/gif");
+
+    foreach (const QString &format, imageFormats) {
+        QPixmap pixmap;
+        if (pixmap.loadFromData(data.value(format).toByteArray())) {
+            const int height = label->contentsRect().height();
+            label->setPixmap(pixmap.scaledToHeight(height, Qt::SmoothTransformation));
+            break;
+        }
+    }
+}
+
+
 /** Sort plugins by prioritized list of names. */
 class PluginSorter {
 public:
@@ -85,21 +105,17 @@ public:
         : QLabel(parent)
         , ItemWidget(this)
         , m_hasText(false)
+        , m_data(index.data(contentType::data).toMap())
     {
-        if ( index.data(contentType::hasText).toBool() ) {
-            m_hasText = true;
-            setMargin(0);
-            setWordWrap(true);
-            setTextFormat(Qt::PlainText);
-            setText( index.data(contentType::text).toString().left(dummyItemMaxChars) );
-            setTextInteractionFlags(Qt::TextSelectableByMouse);
-            setFocusPolicy(Qt::NoFocus);
-        } else {
-            setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-            setMaximumSize(0, 0);
-        }
-
+        m_hasText = index.data(contentType::hasText).toBool();
+        setMargin(0);
+        setWordWrap(true);
+        setTextFormat(Qt::PlainText);
+        setTextInteractionFlags(Qt::TextSelectableByMouse);
+        setFocusPolicy(Qt::NoFocus);
+        setFixedHeight(sizeHint().height());
         setContextMenuPolicy(Qt::NoContextMenu);
+        trySetPixmap(this, m_data);
     }
 
     QWidget *createEditor(QWidget *parent) const
@@ -107,14 +123,22 @@ public:
         return m_hasText ? ItemWidget::createEditor(parent) : NULL;
     }
 
-    virtual void updateSize(const QSize &maximumSize, int idealWidth)
+    virtual void updateSize(const QSize &, int idealWidth)
     {
-        if (m_hasText)
-            ItemWidget::updateSize(maximumSize, idealWidth);
+        setFixedWidth(idealWidth);
+
+        if (!pixmap()) {
+            const int width = contentsRect().width();
+            const QString label =
+                    textLabelForData(m_data, font(), QString(), false, width, 1);
+            setText(label);
+        }
     }
 
 private:
     bool m_hasText;
+    QVariantMap m_data;
+    QString m_imageFormat;
 };
 
 class DummyLoader : public ItemLoaderInterface
@@ -193,16 +217,26 @@ ItemFactory::~ItemFactory()
 }
 
 ItemWidget *ItemFactory::createItem(
-        ItemLoaderInterface *loader, const QModelIndex &index, QWidget *parent)
+        ItemLoaderInterface *loader, const QModelIndex &index,
+        QWidget *parent, bool antialiasing, bool transform)
 {
     ItemWidget *item = loader->create(index, parent);
 
     if (item != NULL) {
-        item = transformItem(item, index);
+        if (transform)
+            item = transformItem(item, index);
         QWidget *w = item->widget();
         QString notes = index.data(contentType::notes).toString();
         if (!notes.isEmpty())
             w->setToolTip(notes);
+
+        if (!antialiasing) {
+            QFont f = w->font();
+            f.setStyleStrategy(QFont::NoAntialias);
+            w->setFont(f);
+            foreach (QWidget *child, w->findChildren<QWidget *>("item_child"))
+                child->setFont(f);
+        }
 
         m_loaderChildren[w] = loader;
         connect(w, SIGNAL(destroyed(QObject*)), SLOT(loaderChildDestroyed(QObject*)));
@@ -212,15 +246,22 @@ ItemWidget *ItemFactory::createItem(
     return NULL;
 }
 
-ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent)
+ItemWidget *ItemFactory::createItem(
+        const QModelIndex &index, QWidget *parent, bool antialiasing, bool transform)
 {
     foreach ( ItemLoaderInterface *loader, enabledLoaders() ) {
-        ItemWidget *item = createItem(loader, index, parent);
+        ItemWidget *item = createItem(loader, index, parent, antialiasing, transform);
         if (item != NULL)
             return item;
     }
 
     return NULL;
+}
+
+ItemWidget *ItemFactory::createSimpleItem(
+        const QModelIndex &index, QWidget *parent, bool antialiasing)
+{
+    return createItem(m_dummyLoader, index, parent, antialiasing);
 }
 
 QStringList ItemFactory::formatsToSave() const
@@ -342,7 +383,8 @@ void ItemFactory::loaderChildDestroyed(QObject *obj)
     m_loaderChildren.remove(obj);
 }
 
-ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *current, bool next)
+ItemWidget *ItemFactory::otherItemLoader(
+        const QModelIndex &index, ItemWidget *current, bool next, bool antialiasing)
 {
     Q_ASSERT(current->widget() != NULL);
 
@@ -365,7 +407,7 @@ ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *c
         else if (i < 0)
             i = size - 1;
 
-        ItemWidget *item = createItem(loaders[i], index, w->parentWidget());
+        ItemWidget *item = createItem(loaders[i], index, w->parentWidget(), antialiasing);
         if (item != NULL)
             return item;
     }

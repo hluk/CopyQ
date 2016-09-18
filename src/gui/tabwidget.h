@@ -46,15 +46,18 @@ public:
     /** Return true only if tree mode is enabled and tab is tab group. */
     bool isTabGroup(const QString &tab) const;
 
+    /** Return true only if tab froup is selected in tree mode. */
+    bool isTabGroupSelected() const;
+
     /** Return true only if tree mode is enabled. */
     bool isTreeModeEnabled() const;
 
-    /** Return current tab (-1 if current is group in tree). */
+    /** Return current tab. */
     int currentIndex() const;
 
-    QWidget *widget(int tabIndex);
+    QWidget *widget(int tabIndex) const;
 
-    QWidget *currentWidget() { return widget( currentIndex() ); }
+    QWidget *currentWidget() const { return widget( currentIndex() ); }
 
     /** Return number of tabs. */
     int count() const;

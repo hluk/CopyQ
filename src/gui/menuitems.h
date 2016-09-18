@@ -46,6 +46,7 @@ enum Id {
 
     Item_MoveToClipboard,
     Item_ShowContent,
+    Item_ShowPreview,
     Item_Remove,
     Item_Edit,
     Item_EditNotes,

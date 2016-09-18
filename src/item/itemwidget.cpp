@@ -33,7 +33,10 @@
 #include <QMouseEvent>
 #include <QPalette>
 #include <QTextEdit>
+#include <QTextFormat>
 #include <QWidget>
+
+#include <QDebug>
 
 namespace {
 

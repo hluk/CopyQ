@@ -98,6 +98,12 @@ bool TabWidget::isTabGroup(const QString &tab) const
     return isTreeModeEnabled() && m_tabTree->isTabGroup( m_tabTree->findTreeItem(tab) );
 }
 
+bool TabWidget::isTabGroupSelected() const
+{
+    QWidget *w = currentWidget();
+    return isTreeModeEnabled() && w != NULL && w->isHidden();
+}
+
 bool TabWidget::isTreeModeEnabled() const
 {
     return m_tabTree != NULL;
@@ -108,7 +114,7 @@ int TabWidget::currentIndex() const
     return m_stackedWidget->currentIndex();
 }
 
-QWidget *TabWidget::widget(int tabIndex)
+QWidget *TabWidget::widget(int tabIndex) const
 {
     return m_stackedWidget->widget(tabIndex);
 }
@@ -287,7 +293,7 @@ QAbstractScrollArea *TabWidget::tabTree()
 void TabWidget::setCurrentIndex(int tabIndex)
 {
     QWidget *w = currentWidget();
-    const int current = (isTreeModeEnabled() && w != NULL && w->isHidden()) ? -1 : currentIndex();
+    const int current = isTabGroupSelected() ? -1 : currentIndex();
 
     if (tabIndex == current)
         return;

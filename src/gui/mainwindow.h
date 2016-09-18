@@ -471,6 +471,9 @@ private slots:
 
     void updateContextMenuTimeout();
 
+    void updateItemPreview();
+    void setItemPreviewVisible(bool visible);
+
     /** Update icon snip animation. */
     void updateIconSnip();
 
@@ -635,6 +638,8 @@ private:
     bool m_iconSnip;
 
     bool m_wasMaximized;
+
+    bool m_showItemPreview;
 
     QList<QKeySequence> m_disabledShortcuts;
 

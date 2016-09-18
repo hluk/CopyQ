@@ -58,6 +58,7 @@ struct ClipboardBrowserShared {
     bool viMode;
     bool saveOnReturnKey;
     bool moveItemOnReturnKey;
+    bool showSimpleItems;
     int minutesToExpire;
 
     ItemFactory *itemFactory;
@@ -238,6 +239,8 @@ class ClipboardBrowser : public QListView
         void otherItemLoader(bool next);
 
         void move(int key);
+
+        QWidget *currentItemWidget();
 
         /// Decorate browser and items with @a theme.
         void decorate(const Theme &theme);

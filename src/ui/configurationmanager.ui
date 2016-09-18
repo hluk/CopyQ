@@ -735,6 +735,18 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
               </widget>
              </item>
              <item>
+              <widget class="QCheckBox" name="checkBoxShowSimpleItems">
+               <property name="toolTip">
+                <string>Show single line description of each item.
+
+Use Item Preview to display whole items.</string>
+               </property>
+               <property name="text">
+                <string>Sho&amp;w simple items</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QGroupBox" name="groupBox_3">
                <property name="title">
                 <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
@@ -1530,6 +1542,7 @@ Set to 0 to disable.</string>
   <tabstop>spinBoxExpireTab</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
+  <tabstop>checkBoxShowSimpleItems</tabstop>
   <tabstop>checkBoxMove</tabstop>
   <tabstop>checkBoxActivateCloses</tabstop>
   <tabstop>checkBoxActivateFocuses</tabstop>

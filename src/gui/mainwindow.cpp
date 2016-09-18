@@ -346,9 +346,11 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_canUpdateTitleFromScript(true)
     , m_iconSnip(false)
     , m_wasMaximized(false)
+    , m_showItemPreview(false)
     , m_menuItems(menuItems())
 {
     ui->setupUi(this);
+
     menuBar()->setObjectName("menu_bar");
     createMenu();
 
@@ -636,9 +638,11 @@ void MainWindow::updateIconSnipTimeout()
 
 void MainWindow::updateContextMenuTimeout()
 {
+    updateItemPreview();
+
     ClipboardBrowser *c = getBrowser();
 
-    if (c->editing())
+    if (ui->tabWidget->isTabGroupSelected() || c->editing())
         return;
 
     setDisabledShortcuts(QList<QKeySequence>());
@@ -649,6 +653,8 @@ void MainWindow::updateContextMenuTimeout()
 
     addItemAction( Actions::Item_MoveToClipboard, c, SLOT(moveToClipboard()) );
     addItemAction( Actions::Item_ShowContent, c, SLOT(showItemContent()) );
+    QAction *togglePreviewAction =
+            addItemAction( Actions::Item_ShowPreview, this, SLOT(updateItemPreview()) );
     addItemAction( Actions::Item_Remove, c, SLOT(remove()) );
     addItemAction( Actions::Item_Edit, c, SLOT(editSelected()) );
     addItemAction( Actions::Item_EditNotes, c, SLOT(editNotes()) );
@@ -664,7 +670,34 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveToTop, this, SLOT(moveToTop()) );
     addItemAction( Actions::Item_MoveToBottom, this, SLOT(moveToBottom()) );
 
+    togglePreviewAction->setCheckable(true);
+    togglePreviewAction->setChecked( ui->dockWidgetItemPreview->isVisible() );
+    connect( togglePreviewAction, SIGNAL(toggled(bool)),
+             this, SLOT(setItemPreviewVisible(bool)), Qt::UniqueConnection );
+
     updateToolBar();
+}
+
+void MainWindow::updateItemPreview()
+{
+    ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !browser()->editing());
+
+    QWidget *w = ui->dockWidgetItemPreview->isVisible() && !ui->tabWidget->isTabGroupSelected()
+            ? browser()->currentItemWidget()
+            : NULL;
+
+    ui->scrollAreaItemPreview->setVisible(w != NULL);
+    ui->scrollAreaItemPreview->setWidget(w);
+    if (w)
+        w->show();
+}
+
+void MainWindow::setItemPreviewVisible(bool visible)
+{
+    if (!browser()->editing())
+        m_showItemPreview = visible;
+
+    ui->dockWidgetItemPreview->toggleViewAction()->setVisible(visible);
 }
 
 void MainWindow::updateIconSnip()
@@ -776,6 +809,7 @@ void MainWindow::updateContextMenu()
         action->deleteLater();
 
     m_menuItem->clear();
+    ui->toolBar->clear();
     m_timerUpdateContextMenu.start();
 }
 
@@ -1055,7 +1089,8 @@ void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
 QAction *MainWindow::addItemAction(int id, QObject *receiver, const char *slot)
 {
     QAction *act = actionForMenuItem(id, getBrowser(), Qt::WidgetShortcut);
-    connect( act, SIGNAL(triggered()), receiver, slot, Qt::UniqueConnection );
+    if (slot)
+        connect( act, SIGNAL(triggered()), receiver, slot, Qt::UniqueConnection );
     m_menuItem->addAction(act);
     return act;
 }
@@ -1163,6 +1198,15 @@ void MainWindow::updateToolBar()
                     + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
             QAction *act = ui->toolBar->addAction( icon, label, action, SIGNAL(triggered()) );
             act->setToolTip(tooltip);
+
+            if ( action->isCheckable() ) {
+                act->setCheckable(true);
+                act->setChecked(action->isChecked());
+                connect( act, SIGNAL(triggered(bool)),
+                         action, SLOT(setChecked(bool)) );
+                connect( action, SIGNAL(toggled(bool)),
+                         act, SLOT(setChecked(bool)) );
+            }
         }
     }
 }
@@ -1622,6 +1666,8 @@ void MainWindow::loadSettings()
     const Theme theme;
     theme.decorateToolBar(ui->toolBar);
     theme.decorateMainWindow(this);
+    ui->scrollAreaItemPreview->setObjectName("ClipboardBrowser");
+    theme.decorateItemPreview(ui->scrollAreaItemPreview);
 
     AppConfig appConfig;
 
@@ -1714,6 +1760,8 @@ void MainWindow::loadSettings()
     settings.beginGroup("Shortcuts");
     loadShortcuts(&m_menuItems, settings);
     settings.endGroup();
+
+    ui->dockWidgetItemPreview->setStyleSheet( browser()->styleSheet() );
 
     COPYQ_LOG("Configuration loaded");
 }
@@ -1854,23 +1902,22 @@ void MainWindow::tabChanged(int current, int)
 
     if (currentIsTabGroup) {
         m_actionHandler->setCurrentTab(QString());
-        return;
-    }
+    } else {
+        // update item menu (necessary for keyboard shortcuts to work)
+        ClipboardBrowser *c = getBrowser();
 
-    // update item menu (necessary for keyboard shortcuts to work)
-    ClipboardBrowser *c = getBrowser();
+        c->filterItems( ui->searchBar->filter() );
 
-    c->filterItems( ui->searchBar->filter() );
-
-    if ( current >= 0 ) {
-        if( !c->currentIndex().isValid() && isVisible() ) {
-            c->setCurrent(0);
+        if ( current >= 0 ) {
+            if( !c->currentIndex().isValid() && isVisible() ) {
+                c->setCurrent(0);
+            }
         }
+
+        setTabOrder(ui->searchBar, c);
+
+        m_actionHandler->setCurrentTab(c->tabName());
     }
-
-    setTabOrder(ui->searchBar, c);
-
-    m_actionHandler->setCurrentTab(c->tabName());
 
     updateContextMenu();
 }
@@ -2163,6 +2210,7 @@ void MainWindow::onFilterChanged(const QRegExp &re)
 {
     enterBrowseMode( re.isEmpty() );
     browser()->filterItems(re);
+    updateItemPreview();
 }
 
 void MainWindow::createTrayIfSupported()

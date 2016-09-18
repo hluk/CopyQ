@@ -70,6 +70,9 @@ public:
     /** Decorate scroll area (toggle scroll bar). */
     void decorateScrollArea(QAbstractScrollArea *scrollArea) const;
 
+    /** Decorate item preview. */
+    void decorateItemPreview(QAbstractScrollArea *itemPreview) const;
+
     /** Return stylesheet for tooltips. */
     QString getToolTipStyleSheet() const;
 
@@ -83,6 +86,8 @@ public:
     void resetTheme();
 
 private:
+    void decorateBrowser(QAbstractScrollArea *c) const;
+
     bool isMainWindowThemeEnabled() const;
 
     /** Return style sheet with given @a name. */
