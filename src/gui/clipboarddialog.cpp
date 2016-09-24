@@ -28,7 +28,11 @@
 #include "gui/windowgeometryguard.h"
 
 #include <QListWidgetItem>
+#include <QScrollBar>
 #include <QUrl>
+
+// Limit number of characters to load at once - performance reasons.
+static const int batchLoadCharacters = 4096;
 
 ClipboardDialog::ClipboardDialog(QWidget *parent)
     : QDialog(parent)
@@ -66,17 +70,29 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
 {
     ui->actionRemove_Format->setEnabled(current != NULL);
 
-    QTextEdit *edit = ui->textEditContent;
-    QString mime = current ? current->text() : QString();
+    const QString mime = current ? current->text() : QString();
+    const bool hasImage = mime.startsWith(QString("image")) ;
 
-    edit->clear();
+    ui->textEdit->clear();
+    ui->textEdit->setVisible(!hasImage);
+    ui->scrollAreaImage->setVisible(hasImage);
+
+    if (hasImage)
+        ui->labelContent->setBuddy(ui->scrollAreaImage);
+    else
+        ui->labelContent->setBuddy(ui->textEdit);
+
     const QByteArray bytes = m_data.value(mime).toByteArray();
-    if ( mime.startsWith(QString("image")) ) {
-        edit->document()->addResource( QTextDocument::ImageResource,
-                                       QUrl("data://1"), bytes );
-        edit->setHtml( QString("<img src=\"data://1\" />") );
+
+    m_timerTextLoad.stop();
+
+    if (hasImage) {
+        QPixmap pix;
+        pix.loadFromData( bytes, mime.toLatin1() );
+        ui->labelImage->setPixmap(pix);
     } else {
-        edit->setPlainText( dataToText(bytes, mime) );
+        m_textToShow = dataToText(bytes, mime);
+        addText();
     }
 
     ui->labelProperties->setText(
@@ -108,6 +124,19 @@ void ClipboardDialog::onDataChanged(const QModelIndex &topLeft, const QModelInde
     }
 }
 
+void ClipboardDialog::addText()
+{
+    const int scrollValue = ui->textEdit->verticalScrollBar()->value();
+
+    ui->textEdit->appendPlainText( m_textToShow.left(batchLoadCharacters) );
+    m_textToShow.remove(0, batchLoadCharacters);
+
+    if ( !m_textToShow.isEmpty() )
+        m_timerTextLoad.start();
+
+    ui->textEdit->verticalScrollBar()->setValue(scrollValue);
+}
+
 void ClipboardDialog::init()
 {
     Q_ASSERT(!ui);
@@ -125,6 +154,8 @@ void ClipboardDialog::init()
     ui->actionRemove_Format->setIcon( getIcon("list-remove", IconRemove) );
     ui->actionRemove_Format->setShortcut(shortcutToRemove());
     ui->listWidgetFormats->addAction(ui->actionRemove_Format);
+
+    on_listWidgetFormats_currentItemChanged(NULL, NULL);
 }
 
 void ClipboardDialog::setData(const QVariantMap &data)
@@ -144,4 +175,6 @@ void ClipboardDialog::setData(const QVariantMap &data)
             }
         }
     }
+
+    initSingleShotTimer(&m_timerTextLoad, 10, this, SLOT(addText()));
 }

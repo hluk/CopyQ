@@ -24,6 +24,7 @@
 #include <QPersistentModelIndex>
 #include <QPointer>
 #include <QVariantMap>
+#include <QTimer>
 
 class QListWidgetItem;
 
@@ -59,6 +60,8 @@ private slots:
 
     void onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
+    void addText();
+
 private:
     void init();
 
@@ -68,6 +71,8 @@ private:
     QPointer<QAbstractItemModel> m_model;
     QPersistentModelIndex m_index;
     QVariantMap m_data;
+    QString m_textToShow;
+    QTimer m_timerTextLoad;
 };
 
 #endif // CLIPBOARDDIALOG_H
