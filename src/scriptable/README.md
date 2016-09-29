@@ -142,7 +142,14 @@ Returns array of with tab names.
 
 ###### tab(tabName)
 
-Sets current tab name.
+Sets current tab for the script.
+
+E.g. following script selects third item (index is 2) from tab "Notes".
+
+```js
+tab('Notes')
+select(2)
+```
 
 ###### removeTab(tabName)
 
@@ -316,7 +323,7 @@ Aborts script evaluation with nonzero exit code.
 
 ###### setCurrentTab(tabName)
 
-Set tab as current (focus tab without showing main window).
+Focus tab without showing main window.
 
 ###### selectItems(row, ...)
 
