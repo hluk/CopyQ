@@ -200,7 +200,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>Criar itens da saída standart do programa (deixar vazio para inativar)</translation>
+        <translation>Criar itens da saída padrão do programa (deixar vazio para inativar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -222,7 +222,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation>Saída &amp;tab:</translation>
+        <translation>Guia Saída:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -414,8 +414,8 @@ Você pode configurar o comando nas preferências.</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="242"/>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>Ignorar janela * &quot;Password&quot; *</translation>
+        <source>Ignore *"Password"* window</source>
+        <translation>Ignorar janela * "Password" *</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="243"/>
@@ -724,7 +724,7 @@ Deixe em branco para desabilitar esta.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"/>
-        <source>Change item, don&apos;t create any new items</source>
+        <source>Change item, don't create any new items</source>
         <translation>Alterar item, não crie novos itens</translation>
     </message>
     <message>
@@ -749,8 +749,8 @@ Deixe em branco para desabilitar esta.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="233"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt; Use o comando apenas para itens cujo texto de um jogo de expressão regular (deixe em branco para combinar com qualquer coisa).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Exemplos:&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Jogo URL &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; nomes de arquivos PDF Jogo &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; combinar o caráter único &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Jogo multimídia remotas &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt; Use o comando apenas para itens cujo texto de um jogo de expressão regular (deixe em branco para combinar com qualquer coisa).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Exemplos:&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Jogo URL &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; nomes de arquivos PDF Jogo &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; combinar o caráter único &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Jogo multimídia remotas &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="246"/>
@@ -1061,23 +1061,23 @@ CTRL e para cima ou para baixo chave.</translation>
     <name>ConfigTabShortcuts</name>
     <message>
         <source>&amp;New Item</source>
-        <translation type="vanished">Novo Item</translation>
+        <translation>Novo Item</translation>
     </message>
     <message>
         <source>&amp;Import Tab...</source>
-        <translation type="vanished">Importar aba...</translation>
+        <translation>Importar aba...</translation>
     </message>
     <message>
         <source>Ctrl+I</source>
-        <translation type="vanished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <source>&amp;Export Tab...</source>
-        <translation type="vanished">Exportar aba...</translation>
+        <translation>Exportar aba...</translation>
     </message>
     <message>
         <source>&amp;Preferences...</source>
-        <translation type="vanished">Preferências...</translation>
+        <translation>Preferências...</translation>
     </message>
     <message>
         <location filename="../src/tests/tests.cpp" line="1466"/>
@@ -1086,91 +1086,91 @@ CTRL e para cima ou para baixo chave.</translation>
     </message>
     <message>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="vanished">Comandos / Atalhos Globais...</translation>
+        <translation>Comandos / Atalhos Globais...</translation>
     </message>
     <message>
         <source>C&amp;ommands...</source>
-        <translation type="vanished">Comandos...</translation>
+        <translation>Comandos...</translation>
     </message>
     <message>
         <source>F6</source>
-        <translation type="vanished">F6</translation>
+        <translation>F6</translation>
     </message>
     <message>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="vanished">Mostrar área de transferência conteúdo</translation>
+        <translation>Mostrar área de transferência conteúdo</translation>
     </message>
     <message>
         <source>Ctrl+Shift+C</source>
-        <translation type="vanished">Ctrl+Shift+C</translation>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="vanished">Alternar Clipboard Armazenando</translation>
+        <translation>Alternar Clipboard Armazenando</translation>
     </message>
     <message>
         <source>Ctrl+Shift+X</source>
-        <translation type="vanished">Ctrl+Shift+X</translation>
+        <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
         <source>P&amp;rocess Manager</source>
-        <translation type="vanished">Gerenciar processo</translation>
+        <translation>Gerenciar processo</translation>
     </message>
     <message>
         <source>Ctrl+Shift+Z</source>
-        <translation type="vanished">Ctrl+Shift+Z</translation>
+        <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
-        <translation type="vanished">Saída</translation>
+        <translation>Saída</translation>
     </message>
     <message>
         <source>Ctrl+Q</source>
-        <translation type="vanished">Ctrl+Q</translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <source>&amp;Sort Selected Items</source>
-        <translation type="vanished">Itens de classificação selecionada</translation>
+        <translation>Itens de classificação selecionada</translation>
     </message>
     <message>
         <source>Ctrl+Shift+S</source>
-        <translation type="vanished">Ctrl+Shift+S</translation>
+        <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="vanished">Inverta itens selecionados</translation>
+        <translation>Inverta itens selecionados</translation>
     </message>
     <message>
         <source>Ctrl+Shift+R</source>
-        <translation type="vanished">Ctrl+Shift+R</translation>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <source>&amp;Paste Items</source>
-        <translation type="vanished">Colar itens</translation>
+        <translation>Colar itens</translation>
     </message>
     <message>
         <source>&amp;Copy Selected Items</source>
-        <translation type="vanished">Copie itens selecionados</translation>
+        <translation>Copie itens selecionados</translation>
     </message>
     <message>
         <source>&amp;Find</source>
-        <translation type="vanished">Encontrar</translation>
+        <translation>Encontrar</translation>
     </message>
     <message>
         <source>Move to &amp;Clipboard</source>
-        <translation type="vanished">Mover-se para a área de transferência</translation>
+        <translation>Mover-se para a área de transferência</translation>
     </message>
     <message>
         <source>&amp;Show Content...</source>
-        <translation type="vanished">Mostrar Conteúdo...</translation>
+        <translation>Mostrar Conteúdo...</translation>
     </message>
     <message>
         <source>F4</source>
-        <translation type="vanished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <source>&amp;Edit</source>
-        <translation type="vanished">Editar</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <source>F2</source>
@@ -1178,95 +1178,95 @@ CTRL e para cima ou para baixo chave.</translation>
     </message>
     <message>
         <source>Shift+F2</source>
-        <translation type="vanished">Shift+F2</translation>
+        <translation>Shift+F2</translation>
     </message>
     <message>
         <source>Edit &amp;Notes</source>
-        <translation type="vanished">Editar notas</translation>
+        <translation>Editar notas</translation>
     </message>
     <message>
         <source>E&amp;dit with editor</source>
-        <translation type="vanished">Editar com o editor</translation>
+        <translation>Editar com o editor</translation>
     </message>
     <message>
         <source>Ctrl+E</source>
-        <translation type="vanished">Ctrl+E</translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <source>&amp;Action...</source>
-        <translation type="vanished">Ação...</translation>
+        <translation>Ação...</translation>
     </message>
     <message>
         <source>F5</source>
-        <translation type="vanished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <source>Next Format</source>
-        <translation type="vanished">Próximo formato</translation>
+        <translation>Próximo formato</translation>
     </message>
     <message>
         <source>Ctrl+Right</source>
-        <translation type="vanished">CTRL + seta à direita</translation>
+        <translation>CTRL + seta à direita</translation>
     </message>
     <message>
         <source>Previous Format</source>
-        <translation type="vanished">Formato anterior</translation>
+        <translation>Formato anterior</translation>
     </message>
     <message>
         <source>Ctrl+Left</source>
-        <translation type="vanished">CTRL + seta à esquerda</translation>
+        <translation>CTRL + seta à esquerda</translation>
     </message>
     <message>
         <source>&amp;Remove</source>
-        <translation type="vanished">Remover</translation>
+        <translation>Remover</translation>
     </message>
     <message>
         <source>Move Up</source>
-        <translation type="vanished">Mover para cima</translation>
+        <translation>Mover para cima</translation>
     </message>
     <message>
         <source>Ctrl+Up</source>
-        <translation type="vanished">CTRL + seta para cima</translation>
+        <translation>CTRL + seta para cima</translation>
     </message>
     <message>
         <source>Move Down</source>
-        <translation type="vanished">Mover para baixo</translation>
+        <translation>Mover para baixo</translation>
     </message>
     <message>
         <source>Ctrl+Down</source>
-        <translation type="vanished">CTRL + seta para baixo</translation>
+        <translation>CTRL + seta para baixo</translation>
     </message>
     <message>
         <source>&amp;New Tab</source>
-        <translation type="vanished">Nova Aba</translation>
+        <translation>Nova Aba</translation>
     </message>
     <message>
         <source>Ctrl+T</source>
-        <translation type="vanished">Ctrl+T</translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <source>Ctrl+F2</source>
-        <translation type="vanished">Ctrl+F2</translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <source>R&amp;ename Tab</source>
-        <translation type="vanished">Renomear Aba</translation>
+        <translation>Renomear Aba</translation>
     </message>
     <message>
         <source>Re&amp;move Tab</source>
-        <translation type="vanished">Remover Aba</translation>
+        <translation>Remover Aba</translation>
     </message>
     <message>
         <source>Ctrl+W</source>
-        <translation type="vanished">Ctrl+W</translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <source>&amp;Change Tab Icon</source>
-        <translation type="vanished">Alterar ícone Aba</translation>
+        <translation>Alterar ícone Aba</translation>
     </message>
     <message>
         <source>Ctrl+Shift+T</source>
-        <translation type="vanished">Ctrl+Shift+T</translation>
+        <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
         <source>F12</source>
@@ -1274,12 +1274,12 @@ CTRL e para cima ou para baixo chave.</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation type="vanished">Ajuda</translation>
+        <translation>Ajuda</translation>
     </message>
     <message>
         <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
 &lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt; Modificar quaisquer atalhos de aplicativos para ações em menus aqui. &lt;/p&gt;
+        <translation>&lt;p&gt; Modificar quaisquer atalhos de aplicativos para ações em menus aqui. &lt;/p&gt;
 &lt;p&gt; Se for suportado em seu sistema, &lt;b&gt; atalhos globais &lt;/b&gt; (atalhos de todo o sistema) pode ser definido em diálogo comandos (&lt;b&gt; Arquivo / Comandos ... &lt;/b&gt; item de menu). &lt;/p&gt;</translation>
     </message>
     <message>
@@ -1372,11 +1372,11 @@ CTRL e para cima ou para baixo chave.</translation>
     </message>
     <message>
         <source>Langua&amp;ge:</source>
-        <translation type="vanished">Linguagem:</translation>
+        <translation>Linguagem:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it&apos;s too long to fit on line</source>
+        <source>Break text if it's too long to fit on line</source>
         <translation>Quebre o texto se for muito grande para caber na linha</translation>
     </message>
     <message>
@@ -1494,7 +1494,7 @@ Nota: Isso pode não ser suportado em todos os sistemas.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="369"/>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <source>Don't show tray icon; minimize window when closed</source>
         <translation type="unfinished">Não mostrar ícone na bandeja; minimize quando sem uso</translation>
     </message>
     <message>
@@ -1851,7 +1851,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="355"/>
-        <source>Invalid value for option &quot;%1&quot;</source>
+        <source>Invalid value for option "%1"</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1908,7 +1908,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark &quot;%1&quot; not set.</source>
+        <source>Mark "%1" not set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1956,27 +1956,27 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
+        <source>File "%1" exists (add ! to override)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
+        <source>Cannot open file "%1" for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
+        <source>"%1" %2 %3L, %4C written.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
+        <source>Cannot open file "%1" for reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
+        <source>"%1" %2L, %3C</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
@@ -2084,7 +2084,7 @@ Set to 0 to disable.</source>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="995"/>
-        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
+        <source>Failed to create synchronization directory "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2287,7 +2287,7 @@ Set to 0 to disable.</source>
     <name>ItemEncryptedLoader</name>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="241"/>
-        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2579,7 +2579,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1409"/>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
+        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2711,7 +2711,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
-        <source>More info is available on &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wiki page&lt;/a&gt;.</source>
+        <source>More info is available on &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki page&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3089,7 +3089,7 @@ Set to 0 to disable.</source>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="91"/>
-        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -3125,7 +3125,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/main.cpp" line="167"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
+which can be letters, digits, '-' or '_'!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3629,7 +3629,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
         <source>PROGRAM</source>
-        <translation type="unfinished"></translation>
+        <translation>programa</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
@@ -3640,27 +3640,27 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="140"/>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>TÍTULO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
         <source>MESSAGE</source>
-        <translation type="unfinished"></translation>
+        <translation>MENSAGEM</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="142"/>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation>TEMPO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>List available tab names.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista de nomes de abas disponíveis</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn&apos;t exist.
+Tab is created if it doesn't exist.
 Default is the first tab.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3675,12 +3675,12 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="154"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="157"/>
         <source>NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>NOME</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar janela principal e opcionalmente abrir uma aba com o nome informado</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="95"/>
@@ -3692,17 +3692,17 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
         <location filename="../src/scriptable/scriptable.cpp" line="62"/>
         <source>COMMAND</source>
-        <translation type="unfinished"></translation>
+        <translation>COMANDO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
         <source>Remove tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover aba</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>Rename tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Renomear aba</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
@@ -3712,7 +3712,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="161"/>
         <source>Export items to file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportar itens para arquivo.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3723,50 +3723,50 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Import items from file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar itens do arquivo</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>List all options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Listar todas as opções</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="170"/>
         <source>Get option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obter valor da opção</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="171"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="174"/>
         <source>OPTION</source>
-        <translation type="unfinished"></translation>
+        <translation>OPÇÃO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
         <source>Set option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Defina um valor para a opção</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>VALUE</source>
-        <translation type="unfinished"></translation>
+        <translation>VALOR</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
+Arguments are accessible using with "arguments(0..N)".</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
         <source>SCRIPT</source>
-        <translation type="unfinished"></translation>
+        <translation>SCRIPT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
         <source>ARGUMENTS</source>
-        <translation type="unfinished"></translation>
+        <translation>ARGUMENTOS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
@@ -3777,7 +3777,7 @@ Starts or connects to application instance with given session name.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>SESSION</source>
-        <translation type="unfinished"></translation>
+        <translation>SESSÃO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
@@ -3794,22 +3794,22 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="62"/>
         <source>Usage: copyq [%1]</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo de Uso: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="63"/>
         <source>Starts server if no command is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inicia o servidor se nenhum comando for especificado.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="64"/>
         <source>  COMMANDs:</source>
-        <translation type="unfinished"></translation>
+        <translation> COMANDOS:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="69"/>
         <source>NOTES:</source>
-        <translation type="unfinished"></translation>
+        <translation>NOTAS:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="70"/>
@@ -3824,7 +3824,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="73"/>
-        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
+        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3835,24 +3835,24 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="319"/>
         <location filename="../src/scriptable/scriptableworker.cpp" line="149"/>
-        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
+        <source>Name "%1" doesn't refer to a function.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="383"/>
         <source>Built with: </source>
-        <translation type="unfinished"></translation>
+        <translation>Feito com: </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="411"/>
         <source>Command not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando não encontrado</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="490"/>
         <source>Terminating server.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Finalizando servidor</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1361"/>
@@ -3861,18 +3861,18 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="801"/>
-        <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <source>Cannot save to file "%1"!</source>
+        <translation>Não foi possível salvar o arquivo "%1"!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="812"/>
-        <source>Cannot import file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <source>Cannot import file "%1"!</source>
+        <translation>Não foi possível importar o arquivo "%1"!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="824"/>
-        <source>Invalid option &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <source>Invalid option "%1"!</source>
+        <translation>Opção inválida "%1"!</translation>
     </message>
 </context>
 <context>
@@ -3880,7 +3880,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="48"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar atalho</translation>
     </message>
 </context>
 <context>
@@ -3892,7 +3892,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3903,7 +3903,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="65"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover atalho</translation>
     </message>
 </context>
 <context>
@@ -3916,12 +3916,12 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="182"/>
         <source>There is command overriding this shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Há um comando sobrescrevendo esse atalho.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Atalho já existe!</translation>
     </message>
 </context>
 <context>
@@ -3968,20 +3968,20 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="118"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Expressão Regular</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="121"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Case Insensitive</translation>
     </message>
 </context>
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="294"/>
-        <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished"></translation>
+        <source>Tab with given name doesn't exist!</source>
+        <translation>Aba com o nome informado não existe!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="299"/>
