@@ -364,16 +364,6 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QCheckBox" name="checkBoxDisableTray">
-                    <property name="toolTip">
-                     <string>Don't show tray icon; minimize window when closed</string>
-                    </property>
-                    <property name="text">
-                     <string>Disabl&amp;e tray</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <widget class="QCheckBox" name="checkBoxHideWindow">
                     <property name="toolTip">
                      <string>Hide main window when closed</string>
@@ -879,6 +869,16 @@ Use Item Preview to display whole items.</string>
                 </size>
                </property>
               </spacer>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxDisableTray">
+               <property name="toolTip">
+                <string>Don't show tray icon; minimize window when closed</string>
+               </property>
+               <property name="text">
+                <string>Disabl&amp;e tray</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QCheckBox" name="checkBoxTrayShowCommands">
@@ -1531,7 +1531,6 @@ Set to 0 to disable.</string>
   <tabstop>checkBoxHideTabs</tabstop>
   <tabstop>checkBoxHideToolbar</tabstop>
   <tabstop>checkBoxHideToolbarLabels</tabstop>
-  <tabstop>checkBoxDisableTray</tabstop>
   <tabstop>checkBoxTabTree</tabstop>
   <tabstop>checkBoxShowTabItemCount</tabstop>
   <tabstop>spinBoxTransparencyFocused</tabstop>
@@ -1548,6 +1547,7 @@ Set to 0 to disable.</string>
   <tabstop>checkBoxActivateFocuses</tabstop>
   <tabstop>checkBoxActivatePastes</tabstop>
   <tabstop>scrollArea_2</tabstop>
+  <tabstop>checkBoxDisableTray</tabstop>
   <tabstop>checkBoxTrayShowCommands</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
   <tabstop>checkBoxMenuTabIsCurrent</tabstop>
