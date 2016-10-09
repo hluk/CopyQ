@@ -1,11 +1,21 @@
 # Configuration file for AppVeyor CI
-os: Default Azure
-
 configuration: Release
 
 environment:
-  CMAKE_PREFIX_PATH: C:\Qt\5.4\msvc2013_opengl
-  CMAKE_GENERATOR: Visual Studio 12
+  VC_VARS_PATH: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat
+
+  matrix:
+    - QTDIR: C:\Qt\5.7\msvc2015
+      CMAKE_GENERATOR: Visual Studio 14 2015
+      VC_VARS_ARCH: x86
+    - QTDIR: C:\Qt\5.7\msvc2015_64
+      CMAKE_GENERATOR: Visual Studio 14 2015 Win64
+      VC_VARS_ARCH: amd64
+
+install:
+- set PATH=%QTDIR%\bin;%PATH%
+- set CMAKE_PREFIX_PATH=%QTDIR%\lib\cmake
+- call "%VC_VARS_PATH%" %VC_VARS_ARCH%
 
 before_build:
 - utils\appveyor-before-build.bat
