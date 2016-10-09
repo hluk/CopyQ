@@ -71,20 +71,31 @@ if(WITH_TESTS)
     endif()
 endif()
 
-find_package(Git)
-if(GIT_FOUND)
-    execute_process(COMMAND
-        "${GIT_EXECUTABLE}" describe
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-        RESULT_VARIABLE copyq_git_describe_result
-        OUTPUT_VARIABLE copyq_git_describe_output
-        ERROR_QUIET
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-    if(copyq_git_describe_result EQUAL 0)
-        message(STATUS "Building CopyQ version ${copyq_git_describe_output}.")
-        add_definitions( -DCOPYQ_VERSION="${copyq_git_describe_output}" )
+# Get application version.
+if (EXISTS "version.txt")
+    file(STRINGS "version.txt" copyq_version)
+endif()
+
+if (NOT copyq_version)
+    find_package(Git)
+    if(GIT_FOUND)
+        execute_process(COMMAND
+            "${GIT_EXECUTABLE}" describe
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+            RESULT_VARIABLE copyq_git_describe_result
+            OUTPUT_VARIABLE copyq_git_describe_output
+            ERROR_QUIET
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+        if(copyq_git_describe_result EQUAL 0)
+            set(copyq_version "${copyq_git_describe_output}")
+        endif()
     endif()
+endif()
+
+if (copyq_version)
+    message(STATUS "Building CopyQ version ${copyq_version}.")
+    add_definitions( -DCOPYQ_VERSION="${copyq_version}" )
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
