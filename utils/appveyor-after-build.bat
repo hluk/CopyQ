@@ -1,23 +1,25 @@
-set Root="%APPVEYOR_BUILD_FOLDER%\build"
 set QtRoot="%QTDIR%"
 set Source="%APPVEYOR_BUILD_FOLDER%"
-set BuildConf=Release
-set DestDir=Bundle\copyq
+set Destination=Bundle\copyq
+set BuildRoot="%APPVEYOR_BUILD_FOLDER%\build"
 
-mkdir "%DestDir%"
-xcopy /F "%Root%\%BuildConf%\copyq.exe" "%DestDir%"
+if [%VC_VARS_ARCH%] == [] (set Build="%BuildRoot%") else (set Build="%BuildRoot%\Release")
+if [%VC_VARS_ARCH%] == [] (set BuildPlugins="%BuildRoot%\plugins") else (set BuildPlugins="%BuildRoot%\plugins\Release")
 
-xcopy /F "%Source%\AUTHORS" "%DestDir%"
-xcopy /F "%Source%\LICENSE" "%DestDir%"
-xcopy /F "%Source%\README.md" "%DestDir%"
+mkdir "%Destination%"
+xcopy /F "%Build%\copyq.exe" "%Destination%"
 
-mkdir "%DestDir%\themes"
-xcopy /F "%Source%\shared\themes\*" "%DestDir%\themes"
+xcopy /F "%Source%\AUTHORS" "%Destination%"
+xcopy /F "%Source%\LICENSE" "%Destination%"
+xcopy /F "%Source%\README.md" "%Destination%"
 
-mkdir "%DestDir%\translations"
-xcopy /F "%Root%\src\*.qm" "%DestDir%\translations"
+mkdir "%Destination%\themes"
+xcopy /F "%Source%\shared\themes\*" "%Destination%\themes"
 
-mkdir "%DestDir%\plugins"
-xcopy /F "%Root%\plugins\%BuildConf%\*.dll" "%DestDir%\plugins"
+mkdir "%Destination%\translations"
+xcopy /F "%BuildRoot%\src\*.qm" "%Destination%\translations"
 
-%QTDIR%\bin\windeployqt --no-translations --no-compiler-runtime --no-system-d3d-compiler --no-angle --no-opengl-sw %DestDir%\copyq.exe
+mkdir "%Destination%\plugins"
+xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins"
+
+%QTDIR%\bin\windeployqt --release --no-translations --no-system-d3d-compiler --no-angle --no-opengl-sw %Destination%\copyq.exe
