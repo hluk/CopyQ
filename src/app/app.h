@@ -20,7 +20,6 @@
 #ifndef APP_H
 #define APP_H
 
-#include <QScopedPointer>
 #include <QString>
 
 class QCoreApplication;
@@ -55,7 +54,7 @@ public:
     bool wasClosed() const;
 
 private:
-    QScopedPointer<QCoreApplication> m_app;
+    QCoreApplication *m_app;
     int m_exitCode;
     bool m_started;
     bool m_closed;

@@ -31,6 +31,7 @@
 #include <QDir>
 #include <QLibraryInfo>
 #include <QLocale>
+#include <QScopedPointer>
 #include <QTranslator>
 #include <QVariant>
 
@@ -192,16 +193,15 @@ App::App(QCoreApplication *application,
 #endif
 
 #ifdef Q_OS_UNIX
-    if ( !UnixSignalHandler::create(m_app.data()) )
+    if ( !UnixSignalHandler::create(m_app) )
         log( QString("Failed to create handler for Unix signals!"), LogError );
 #endif
 }
 
 App::~App()
 {
-    // Workaround for delivering events to destroyed sockets and other objects.
-    if (m_started)
-        QCoreApplication::processEvents();
+    m_app->deleteLater();
+    m_app = NULL;
 }
 
 void App::restoreSettings(bool canModifySettings)
