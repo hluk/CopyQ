@@ -59,9 +59,9 @@ Returns true only if main window is being shown.
 
 Opens context menu.
 
-###### menu()
+###### menu(tabName)
 
-Shows context menu for tab.
+Shows context menu for given tab.
 
 ###### exit()
 
