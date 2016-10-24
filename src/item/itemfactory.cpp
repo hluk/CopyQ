@@ -37,8 +37,6 @@
 
 namespace {
 
-const int dummyItemMaxChars = 4096;
-
 bool findPluginDir(QDir *pluginsDir)
 {
     return createPlatformNativeInterface()->findPluginDir(pluginsDir)
