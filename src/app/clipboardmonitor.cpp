@@ -68,8 +68,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
         qApp->setProperty("CopyQ_testing", true);
 #endif
 
-    if ( !startClientSocket(serverName, argc, argv) )
-        exit(1);
+    startClientSocket(serverName, argc, argv);
 }
 
 void ClipboardMonitor::onClipboardChanged(PlatformClipboard::Mode mode)
@@ -147,4 +146,9 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
 void ClipboardMonitor::onDisconnected()
 {
     exit(0);
+}
+
+void ClipboardMonitor::onConnectionFailed()
+{
+    exit(1);
 }

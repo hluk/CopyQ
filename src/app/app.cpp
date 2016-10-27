@@ -200,8 +200,8 @@ App::App(QCoreApplication *application,
 
 App::~App()
 {
-    m_app->deleteLater();
-    m_app = NULL;
+    QCoreApplication::processEvents();
+    exit();
 }
 
 void App::restoreSettings(bool canModifySettings)

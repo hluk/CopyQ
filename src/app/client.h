@@ -33,7 +33,7 @@ public:
     virtual ~Client() {}
 
 protected:
-    bool startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc = 0);
+    void startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc = 0);
 
     void sendMessage(const QByteArray &message, int messageCode);
 
@@ -46,6 +46,9 @@ private slots:
 
     /** Server connection closed. */
     virtual void onDisconnected() = 0;
+
+    /** Called if connection cannot be estabilished. */
+    virtual void onConnectionFailed() = 0;
 };
 
 #endif // CLIENT_H

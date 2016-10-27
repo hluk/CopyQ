@@ -45,10 +45,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
 {
     restoreSettings();
 
-    if ( !startClientSocket(clipboardServerName(), argc, argv, skipArgc) ) {
-        log( tr("Cannot connect to server! Start CopyQ server first."), LogError );
-        exit(1);
-    }
+    startClientSocket(clipboardServerName(), argc, argv, skipArgc);
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
@@ -84,6 +81,12 @@ void ClipboardClient::onDisconnected()
 
     abortInputReader();
 
+    exit(1);
+}
+
+void ClipboardClient::onConnectionFailed()
+{
+    log( tr("Cannot connect to server! Start CopyQ server first."), LogError );
     exit(1);
 }
 

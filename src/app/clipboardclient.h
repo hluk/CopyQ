@@ -55,6 +55,8 @@ private slots:
 
     void onDisconnected();
 
+    void onConnectionFailed();
+
     void setInput(const QByteArray &input);
 
     void sendInput();

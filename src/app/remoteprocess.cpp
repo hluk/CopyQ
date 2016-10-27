@@ -111,6 +111,7 @@ void RemoteProcess::onNewConnection(const Arguments &, ClientSocket *socket)
 
     if ( socket->isClosed() ) {
         onConnectionError();
+        socket->deleteLater();
     } else {
         m_state = Connected;
 

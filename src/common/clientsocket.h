@@ -33,14 +33,16 @@ class ClientSocket : public QObject
 public:
     ClientSocket();
 
+    explicit ClientSocket(const QString &serverName, QObject *parent = NULL);
+
     explicit ClientSocket(QLocalSocket *socket, QObject *parent = NULL);
 
     ~ClientSocket();
 
-    /// Start emiting messageReceived(). This method is thread-safe.
+public slots:
+    /// Start emiting messageReceived().
     void start();
 
-public slots:
     /** Send message to client. */
     void sendMessage(
             const QByteArray &message, //!< Message for client.
@@ -55,6 +57,7 @@ public slots:
 signals:
     void messageReceived(const QByteArray &message, int messageCode);
     void disconnected();
+    void connectionFailed();
 
 private slots:
     void onReadyRead();
@@ -65,7 +68,7 @@ private:
     /// Receive arguments from client.
     Arguments readArguments();
 
-    QPointer<QLocalSocket> m_socket;
+    QLocalSocket *m_socket;
     bool m_deleteAfterDisconnected;
     bool m_closed;
 };

@@ -145,6 +145,9 @@ void Server::onNewConnection()
                      clientSocket.data(), SLOT(close()) );
             connect( this, SIGNAL(destroyed()),
                      clientSocket.data(), SLOT(deleteAfterDisconnected()) );
+            connect( clientSocket.data(), SIGNAL(disconnected()),
+                     clientSocket.data(), SLOT(deleteAfterDisconnected()) );
+
             emit newConnection( args, clientSocket.take() );
         }
     }

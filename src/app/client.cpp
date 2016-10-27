@@ -25,7 +25,6 @@
 
 #include <QCoreApplication>
 #include <QDataStream>
-#include <QLocalSocket>
 #include <QThread>
 
 Client::Client(QObject *parent)
@@ -38,40 +37,35 @@ void Client::sendMessage(const QByteArray &message, int messageCode)
     emit sendMessageRequest(message, messageCode);
 }
 
-bool Client::startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc)
+void Client::startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc)
 {
-    QLocalSocket *localSocket = new QLocalSocket(this);
-    localSocket->connectToServer(serverName);
-    if ( !localSocket->waitForConnected(4000) )
-        return false;
-
     Arguments arguments(
                 createPlatformNativeInterface()->getCommandLineArguments(argc, argv)
                 .mid(skipArgc) );
 
-    ClientSocket *socket = new ClientSocket(localSocket);
-
-    QThread *t = new QThread;
-    connect(socket, SIGNAL(destroyed()), t, SLOT(quit()));
-    connect(t, SIGNAL(finished()), t, SLOT(deleteLater()));
-    socket->moveToThread(t);
-    t->start();
+    ClientSocket *socket = new ClientSocket(serverName);
 
     connect( socket, SIGNAL(messageReceived(QByteArray,int)),
              this, SLOT(onMessageReceived(QByteArray,int)) );
     connect( socket, SIGNAL(disconnected()),
              this, SLOT(onDisconnected()) );
+    connect( socket, SIGNAL(connectionFailed()),
+             this, SLOT(onConnectionFailed()) );
+
+    connect( socket, SIGNAL(disconnected()),
+             socket, SLOT(deleteAfterDisconnected()) );
+    connect( socket, SIGNAL(connectionFailed()),
+             socket, SLOT(deleteAfterDisconnected()) );
     connect( qApp, SIGNAL(aboutToQuit()),
              socket, SLOT(deleteAfterDisconnected()) );
+
     connect( this, SIGNAL(sendMessageRequest(QByteArray,int)),
              socket, SLOT(sendMessage(QByteArray,int)) );
+
+    socket->start();
 
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << arguments;
     sendMessage(msg, 0);
-
-    socket->start();
-
-    return true;
 }

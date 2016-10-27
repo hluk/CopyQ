@@ -87,10 +87,19 @@ bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
 
 ClientSocket::ClientSocket()
     : QObject()
-    , m_socket()
+    , m_socket(NULL)
     , m_deleteAfterDisconnected(false)
     , m_closed(true)
 {
+}
+
+ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
+    : QObject(parent)
+    , m_socket(new QLocalSocket(this))
+    , m_deleteAfterDisconnected(false)
+    , m_closed(false)
+{
+    m_socket->connectToServer(serverName);
 }
 
 ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
@@ -99,35 +108,43 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
     , m_deleteAfterDisconnected(false)
     , m_closed(false)
 {
-    m_socket->setParent(this);
-    connect( m_socket.data(), SIGNAL(stateChanged(QLocalSocket::LocalSocketState)),
-             this, SLOT(onStateChanged(QLocalSocket::LocalSocketState)) );
-    connect( m_socket.data(), SIGNAL(error(QLocalSocket::LocalSocketError)),
-             this, SLOT(onError(QLocalSocket::LocalSocketError)) );
-
-    onStateChanged(m_socket->state());
-
-    if ( hasLogLevel(LogDebug) ) {
-        setProperty("id", m_socket->socketDescriptor());
-        SOCKET_LOG("Creating socket.");
-    }
+    socket->setParent(this);
 }
 
 ClientSocket::~ClientSocket()
 {
     SOCKET_LOG("Destroying socket.");
+    close();
 }
 
 void ClientSocket::start()
 {
-    QMetaObject::invokeMethod(this, "onReadyRead", Qt::QueuedConnection);
+    if ( !m_socket || !m_socket->waitForConnected(4000) )
+    {
+        emit connectionFailed();
+        return;
+    }
+
+    if ( hasLogLevel(LogDebug) ) {
+        setProperty("id", m_socket->socketDescriptor());
+        SOCKET_LOG("Creating socket.");
+    }
+
+    connect( m_socket, SIGNAL(stateChanged(QLocalSocket::LocalSocketState)),
+             this, SLOT(onStateChanged(QLocalSocket::LocalSocketState)), Qt::UniqueConnection );
+    connect( m_socket, SIGNAL(error(QLocalSocket::LocalSocketError)),
+             this, SLOT(onError(QLocalSocket::LocalSocketError)), Qt::UniqueConnection );
+
+    onStateChanged(m_socket->state());
+
+    onReadyRead();
 }
 
 void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
 {
     SOCKET_LOG( QString("Sending message to client (exit code: %1).").arg(messageCode) );
 
-    if ( m_socket.isNull() ) {
+    if (!m_socket) {
         SOCKET_LOG("Cannot send message to client. Socket is already deleted.");
     } else if (m_closed) {
         SOCKET_LOG("Client disconnected!");
@@ -145,8 +162,9 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
 
 void ClientSocket::deleteAfterDisconnected()
 {
-    if ( m_socket.isNull() ) {
+    if (!m_socket) {
         SOCKET_LOG("Socket is already deleted.");
+        deleteLater();
     } else if (m_closed) {
         SOCKET_LOG("Delete after disconnected.");
         deleteLater();
@@ -158,9 +176,11 @@ void ClientSocket::deleteAfterDisconnected()
 
 void ClientSocket::close()
 {
-    if ( !m_socket.isNull() ) {
+    if (m_socket) {
         SOCKET_LOG("Disconnecting socket.");
         m_socket->disconnectFromServer();
+        m_socket->deleteLater();
+        m_socket = NULL;
     }
 }
 
@@ -171,7 +191,7 @@ bool ClientSocket::isClosed() const
 
 void ClientSocket::onReadyRead()
 {
-    if ( m_socket.isNull() ) {
+    if (!m_socket) {
         SOCKET_LOG("Cannot read message from client. Socket is already deleted.");
         return;
     }

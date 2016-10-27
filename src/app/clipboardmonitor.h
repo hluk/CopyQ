@@ -48,6 +48,8 @@ private slots:
 
     void onDisconnected();
 
+    void onConnectionFailed();
+
 private:
     PlatformClipboardPtr m_clipboard;
     QStringList m_formats;

@@ -119,7 +119,7 @@ void ScriptableWorker::run()
             return;
         }
 
-        m_socket->start();
+        QMetaObject::invokeMethod(m_socket, "start", Qt::QueuedConnection);
     }
 
     QObject::connect( &scriptable, SIGNAL(requestApplicationQuit()),
