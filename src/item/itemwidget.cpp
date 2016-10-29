@@ -168,9 +168,9 @@ void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
         model->setData(index, QString());
 
         QVariantMap data;
-        data["text/plain"] = textEdit->toPlainText();
+        data["text/plain"] = textEdit->toPlainText().toUtf8();
         if ( containsRichText(*textEdit->document()) )
-            data["text/html"] = textEdit->toHtml();
+            data["text/html"] = textEdit->toHtml().toUtf8();
         model->setData(index, data, contentType::updateData);
 
         textEdit->document()->setModified(false);
