@@ -73,10 +73,18 @@ void migrateConfig(const QSettings &oldSettings, Settings &newSettings)
 
 void migrateConfigToAppDir()
 {
-    const QString path = QCoreApplication::applicationDirPath() + "/config";
+    const QString appDir = QCoreApplication::applicationDirPath();
+    const QString path = appDir + "/config";
+    const QString uninstPath = appDir + "/unins000.exe";
     QDir dir(path);
 
-    if ( dir.mkpath("copyq") && dir.isReadable() && QFileInfo(path).isWritable() ) {
+    if ( !QFile::exists(uninstPath)
+         && QFileInfo(appDir).isWritable()
+         && dir.mkpath("copyq")
+         && dir.cd("copyq")
+         && dir.isReadable()
+         && QFileInfo(dir.absolutePath()).isWritable() )
+    {
         QSettings oldSettings;
         const QString oldConfigFileName =
                 QSettings(QSettings::IniFormat, QSettings::UserScope,
