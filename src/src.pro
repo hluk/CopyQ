@@ -96,6 +96,7 @@ HEADERS += \
     common/commandstatus.h \
     common/monitormessagecode.h \
     common/settings.h \
+    common/temporarysettings.h \
     common/config.h \
     gui/processmanagerdialog.h \
     gui/iconselectdialog.h \
@@ -183,6 +184,7 @@ SOURCES += \
     common/mimetypes.cpp \
     common/log.cpp \
     common/settings.cpp \
+    common/temporarysettings.cpp \
     common/config.cpp \
     gui/processmanagerdialog.cpp \
     gui/iconselectdialog.cpp \

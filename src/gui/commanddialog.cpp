@@ -25,6 +25,7 @@
 #include "common/config.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
+#include "common/temporarysettings.h"
 #include "gui/addcommanddialog.h"
 #include "gui/commandwidget.h"
 #include "gui/iconfactory.h"
@@ -367,9 +368,6 @@ void CommandDialog::onCommandDropped(const QString &text, int row)
     if ( !openTemporaryFile(&tmpfile) )
         return;
 
-    if ( !tmpfile.open() )
-        return;
-
     tmpfile.write(text.toUtf8());
     tmpfile.flush();
 
@@ -538,19 +536,11 @@ QString CommandDialog::serializeSelectedCommands()
     if ( commands.isEmpty() )
         return QString();
 
-    QTemporaryFile tmpfile;
-    if ( !openTemporaryFile(&tmpfile) )
-        return QString();
-
-    if ( !tmpfile.open() )
-        return QString();
-
-    QSettings commandsSettings(tmpfile.fileName(), QSettings::IniFormat);
-    saveCommands(commands, &commandsSettings);
-    commandsSettings.sync();
+    TemporarySettings commandsSettings;
+    saveCommands(commands, commandsSettings.settings());
 
     // Replace ugly '\n' with indented lines.
-    const QString data = getTextData(readTemporaryFileContent(tmpfile));
+    const QString data = getTextData(commandsSettings.content());
     QString commandData;
     commandData.reserve(data.size());
     QRegExp re("^(\\d+\\\\)?Command=\"");

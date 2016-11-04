@@ -24,6 +24,7 @@
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
 #include "common/option.h"
+#include "common/temporarysettings.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfont.h"
 #include "gui/theme.h"
@@ -193,16 +194,10 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
         return;
     }
 
-    QTemporaryFile tmpfile;
-    if ( !openTemporaryFile(&tmpfile) )
-        return;
+    TemporarySettings settings;
+    saveTheme(*settings.settings());
 
-    {
-        QSettings settings(tmpfile.fileName(), QSettings::IniFormat);
-        saveTheme(settings);
-    }
-
-    QByteArray data = readTemporaryFileContent(tmpfile);
+    QByteArray data = settings.content();
     // keep ini file user friendly
     data.replace("\\n",
 #ifdef Q_OS_WIN
@@ -261,9 +256,6 @@ void ConfigTabAppearance::onThemeModified(const QByteArray &bytes)
 {
     QTemporaryFile tmpfile;
     if ( !openTemporaryFile(&tmpfile) )
-        return;
-
-    if ( !tmpfile.open() )
         return;
 
     tmpfile.write(bytes);
