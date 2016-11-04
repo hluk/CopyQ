@@ -19,8 +19,8 @@
 
 #include "temporarysettings.h"
 
-#include "common.h"
-#include "log.h"
+#include "common/common.h"
+#include "common/log.h"
 
 #include <QTemporaryFile>
 
@@ -31,7 +31,7 @@ QString temporaryFileName()
     QTemporaryFile tmpfile;
     if ( !openTemporaryFile(&tmpfile) )
     {
-        log("Failed to create temporary settings file", LogLevel::LogError);
+        log("Failed to create temporary settings file", LogError);
         return QString();
     }
 
@@ -67,7 +67,7 @@ QByteArray TemporarySettings::content()
 
     QFile file(m_settings->fileName());
     if (!file.open(QIODevice::ReadOnly)) {
-        log("Failed to open temporary settings file", LogLevel::LogError);
+        log("Failed to open temporary settings file", LogError);
         return QByteArray();
     }
 
