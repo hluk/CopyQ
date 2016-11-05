@@ -272,7 +272,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/addcommanddialog.cpp" line="80"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation type="unfinished">Ctrl+Shift+1</translation>
+        <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="87"/>
@@ -372,7 +372,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="182"/>
         <source>Shift+Return</source>
-        <translation type="unfinished">Shift+Return</translation>
+        <translation>Shift+Return</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="185"/>
@@ -3161,7 +3161,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>Right</source>
-        <translation>Dešinė </translation>
+        <translation>Dešinė</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
