@@ -195,10 +195,37 @@ public:
         return pixmap;
     }
 
+    // QIconEngine doesn't seem to work in menus on OS X.
+#ifdef Q_OS_MAC
+    void updateIcon(QIcon *icon, const QSize &size, QIcon::Mode mode)
+    {
+        icon->addPixmap( createPixmap(size, mode, QIcon::Off), mode, QIcon::Off );
+    }
+
+    void updateIcon(QIcon *icon, int extent)
+    {
+        const QSize size(extent, extent);
+        updateIcon(icon, size, QIcon::Normal);
+        updateIcon(icon, size, QIcon::Disabled);
+        updateIcon(icon, size, QIcon::Active);
+    }
+
+    static QIcon createIcon(ushort iconId, const QString &iconName)
+    {
+        IconEngine iconEngine(iconId, iconName);
+        QIcon icon;
+        iconEngine.updateIcon(&icon, 16);
+        iconEngine.updateIcon(&icon, 32);
+        iconEngine.updateIcon(&icon, 64);
+        iconEngine.updateIcon(&icon, 128);
+        return icon;
+    }
+#else
     static QIcon createIcon(ushort iconId, const QString &iconName)
     {
         return QIcon( new IconEngine(iconId, iconName) );
     }
+#endif
 
 private:
     IconEngine(ushort iconId, const QString &iconName)
