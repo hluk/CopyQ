@@ -176,7 +176,7 @@ QList<CommandHelp> commandHelp()
             << CommandHelp()
             << CommandHelp("eval, -e",
                            Scriptable::tr("\nEvaluate ECMAScript program.\n"
-                                          "Arguments are accessible using with \"arguments(0..N)\"."))
+                                          "Arguments are accessible using with \"arguments[0..N]\"."))
                .addArg("[" + Scriptable::tr("SCRIPT") + "]")
                .addArg("[" + Scriptable::tr("ARGUMENTS") + "]...")
             << CommandHelp("session, -s, --session",
