@@ -6,54 +6,54 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>CopyQ About</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ apie</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="131"/>
         <source>Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Iškarpinės tvarkyklė</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="136"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorius</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="137"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>El. paštas</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="138"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Svetainė</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="139"/>
         <source>Wiki</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiki</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="140"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Paremti</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="150"/>
         <source>Development</source>
-        <translation type="unfinished"></translation>
+        <translation>Kūrimas</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Biblioteka naudota programoje</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="179"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Nemokama web paremta vertimo tvarkymo sistema</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="181"/>
@@ -65,18 +65,18 @@
         <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Biblioteka naudota programoje</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
-        <translation type="unfinished"></translation>
+        <translation>Spalvų paletė naudota temoms</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="189"/>
         <source>Keyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Klaviatūra</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="191"/>
@@ -132,12 +132,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Escape</source>
-        <translation type="unfinished"></translation>
+        <translation>Išeiti</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Delete item</source>
-        <translation type="unfinished"></translation>
+        <translation>Ištrinti elementą</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
@@ -147,7 +147,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"/>
@@ -162,12 +162,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Edit Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Keisti elementą</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>F2</source>
-        <translation type="unfinished"></translation>
+        <translation>F2</translation>
     </message>
 </context>
 <context>
@@ -180,7 +180,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>Komanda:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
@@ -216,7 +216,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
@@ -246,7 +246,8 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/actionhandler.cpp" line="120"/>
         <source>Error: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Klaida: %1
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="123"/>
@@ -257,7 +258,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="143"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Komanda %1</translation>
     </message>
 </context>
 <context>
@@ -271,7 +272,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/addcommanddialog.cpp" line="80"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="87"/>
@@ -296,12 +297,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="95"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>Keisti pirmąjį elementą</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="97"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopijuoti antrąjį elementą</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="99"/>
@@ -311,17 +312,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="101"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>Sukurti naują elementą</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="103"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopijuoti sekantį elementą</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="105"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopijuoti buvusį elementą</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="107"/>
@@ -341,17 +342,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="113"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>Įklijuoti ir kopijuoti sekantį</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="115"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Įklijuoti ir kopijuoti ankstesnį</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="136"/>
         <source>New command</source>
-        <translation type="unfinished"></translation>
+        <translation>Nauja komanda</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="161"/>
@@ -361,7 +362,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Atidaryti naršyklėje</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="176"/>
@@ -371,7 +372,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="182"/>
         <source>Shift+Return</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Shift+Return</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="185"/>
@@ -406,27 +407,27 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="233"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignoruoti kopijuotus failus</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="242"/>
-        <source>Ignore *&quot;Password&quot;* window</source>
+        <source>Ignore *"Password"* window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="243"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Slaptažodis</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="251"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Perkelti į šiukšlinę</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="254"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(šiukšlinė)</translation>
     </message>
 </context>
 <context>
@@ -485,12 +486,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"></translation>
+        <translation>Turinys:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti formatą</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="57"/>
@@ -719,7 +720,7 @@ Leave empty to disable this.</source>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="233"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -807,7 +808,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"/>
-        <source>Change item, don&apos;t create any new items</source>
+        <source>Change item, don't create any new items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1075,7 +1076,7 @@ CTRL and up or down key.</source>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it&apos;s too long to fit on line</source>
+        <source>Break text if it's too long to fit on line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1412,7 +1413,7 @@ Use Item Preview to display whole items.</source>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="876"/>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <source>Don't show tray icon; minimize window when closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1618,7 +1619,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="356"/>
-        <source>Invalid value for option &quot;%1&quot;</source>
+        <source>Invalid value for option "%1"</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1675,7 +1676,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark &quot;%1&quot; not set.</source>
+        <source>Mark "%1" not set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1724,27 +1725,27 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
+        <source>File "%1" exists (add ! to override)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
+        <source>Cannot open file "%1" for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
+        <source>"%1" %2 %3L, %4C written.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
+        <source>Cannot open file "%1" for reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
+        <source>"%1" %2L, %3C</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
@@ -1856,7 +1857,7 @@ Set to 0 to disable.</source>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="995"/>
-        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
+        <source>Failed to create synchronization directory "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2059,7 +2060,7 @@ Set to 0 to disable.</source>
     <name>ItemEncryptedLoader</name>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="241"/>
-        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2327,7 +2328,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="47"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="54"/>
@@ -2350,7 +2351,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1409"/>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
+        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2482,7 +2483,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
-        <source>More info is available on &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wiki page&lt;/a&gt;.</source>
+        <source>More info is available on &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki page&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2547,7 +2548,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>CopyQ Log</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ žurnalas</translation>
     </message>
 </context>
 <context>
@@ -2555,12 +2556,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="440"/>
         <source>Exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Išeiti?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="441"/>
@@ -2570,52 +2571,52 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="483"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>Failas</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="526"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Keisti</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="550"/>
         <source>&amp;Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementas</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="554"/>
         <source>&amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Kortelės</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="579"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Pagalba</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="593"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Nauja kortelė</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="595"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pervadinti grupę %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="597"/>
         <source>Re&amp;name Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pervadinti kortelę %2</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="599"/>
         <source>Re&amp;move Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti kortelę %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="601"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti grupę %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="603"/>
@@ -2649,13 +2650,14 @@ Set to 0 to disable.</source>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
-        <translation type="unfinished"></translation>
+        <translation>Iškarpinė:
+%1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1453"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ klaida</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2299"/>
@@ -2702,7 +2704,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2750"/>
         <source>Remove All Tabs in Group?</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti visas grupės korteles?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2751"/>
@@ -2712,7 +2714,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2796"/>
         <source>Remove Tab?</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti kortelę?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2797"/>
@@ -2730,7 +2732,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/notification.cpp" line="72"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopijuoti</translation>
     </message>
     <message>
         <location filename="../src/gui/notification.cpp" line="123"/>
@@ -2748,49 +2750,49 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="60"/>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Pradėta</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Užbaigta</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="64"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Pavadinimas</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="66"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Būsena</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="153"/>
         <source>Runnning</source>
-        <translation type="unfinished"></translation>
+        <translation>Veikia</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepavyko</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="173"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Pradedama</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="288"/>
         <source>Terminate</source>
-        <translation type="unfinished"></translation>
+        <translation>Sustabdyti</translation>
     </message>
 </context>
 <context>
@@ -2798,7 +2800,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="308"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacija</translation>
     </message>
 </context>
 <context>
@@ -2859,12 +2861,12 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="472"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ištrinti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Naujas elementas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2884,7 +2886,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuostatos...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
@@ -2899,7 +2901,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished"></translation>
+        <translation>Komandos...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
@@ -2939,7 +2941,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Išeiti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
@@ -2969,7 +2971,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Įklijuoti elementus</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
@@ -2979,7 +2981,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="95"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"></translation>
+        <translation>Rasti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
@@ -2989,7 +2991,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>&amp;Show Content...</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti turinį...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
@@ -2999,7 +3001,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>&amp;Show Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti peržiūrą</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
@@ -3044,7 +3046,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>&amp;Action...</source>
-        <translation type="unfinished"></translation>
+        <translation>Veiksmas...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
@@ -3054,7 +3056,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>Next Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Kitas formatas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
@@ -3064,7 +3066,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Previous Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Ankstesnis formatas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
@@ -3124,7 +3126,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>R&amp;ename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Pervadinti kortelę</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
@@ -3134,7 +3136,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>Re&amp;move Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti kortelę</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
@@ -3154,27 +3156,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="136"/>
         <source>Ne&amp;xt Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekanti kortelė</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Dešinė </translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>&amp;Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Ankstesnė kortelė</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Kairė</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti žurnalą</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
@@ -3188,7 +3190,7 @@ Set to 0 to disable.</source>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="91"/>
-        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -3235,7 +3237,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/main.cpp" line="167"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
+which can be letters, digits, '-' or '_'!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3457,7 +3459,7 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn&apos;t exist.
+Tab is created if it doesn't exist.
 Default is the first tab.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3529,7 +3531,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
+Arguments are accessible using with "arguments(0..N)".</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3603,7 +3605,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="73"/>
-        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
+        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3614,7 +3616,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="319"/>
         <location filename="../src/scriptable/scriptableworker.cpp" line="149"/>
-        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
+        <source>Name "%1" doesn't refer to a function.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3635,17 +3637,17 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="801"/>
-        <source>Cannot save to file &quot;%1&quot;!</source>
+        <source>Cannot save to file "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="812"/>
-        <source>Cannot import file &quot;%1&quot;!</source>
+        <source>Cannot import file "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="824"/>
-        <source>Invalid option &quot;%1&quot;!</source>
+        <source>Invalid option "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3671,7 +3673,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3759,7 +3761,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <name>detail::ScriptableProxyHelper</name>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="294"/>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
