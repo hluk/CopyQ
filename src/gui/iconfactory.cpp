@@ -252,6 +252,12 @@ private:
     QString m_iconName;
 };
 
+void updateIcon(QIcon *icon, const QPixmap &pix, int extent)
+{
+    if (pix.height() > extent)
+        icon->addPixmap( pix.scaledToHeight(extent, Qt::SmoothTransformation) );
+}
+
 } // namespace
 
 QIcon getIcon(const QString &themeName, unsigned short id)
@@ -322,6 +328,12 @@ QIcon appIcon(AppIconType iconType)
         }
 
         icon.addPixmap(pix);
+
+        // This makes the icon smoother on some systems.
+        updateIcon(&icon, pix, 48);
+        updateIcon(&icon, pix, 32);
+        updateIcon(&icon, pix, 24);
+        updateIcon(&icon, pix, 16);
     }
 
     return icon;
