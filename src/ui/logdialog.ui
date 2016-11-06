@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTextBrowser" name="textBrowserLog">
+     <property name="lineWrapMode">
+      <enum>QTextEdit::NoWrap</enum>
+     </property>
      <property name="readOnly">
       <bool>true</bool>
      </property>

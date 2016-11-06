@@ -34,8 +34,6 @@ public:
     ~LogDialog();
 
 private:
-    void decorateLog();
-
     Ui::LogDialog *ui;
 };
 

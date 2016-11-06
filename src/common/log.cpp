@@ -153,22 +153,6 @@ const SystemMutexPtr &getSessionMutex()
     return sessionMutex;
 }
 
-QString logLevelLabel(const LogLevel level)
-{
-    switch(level) {
-    case LogWarning:
-        return "Warning";
-    case LogError:
-        return "ERROR";
-    case LogDebug:
-        return "DEBUG";
-    case LogTrace:
-        return "TRACE";
-    default:
-        return "Note";
-    }
-}
-
 QString getDefaultLogFilePath()
 {
 #if QT_VERSION < 0x050000
@@ -243,6 +227,22 @@ bool hasLogLevel(LogLevel level)
 {
     static const int currentLogLevel = getLogLevel();
     return currentLogLevel >= level;
+}
+
+QString logLevelLabel(LogLevel level)
+{
+    switch(level) {
+    case LogWarning:
+        return "Warning";
+    case LogError:
+        return "ERROR";
+    case LogDebug:
+        return "DEBUG";
+    case LogTrace:
+        return "TRACE";
+    default:
+        return "Note";
+    }
 }
 
 QString createLogMessage(const QString &text, const LogLevel level)
