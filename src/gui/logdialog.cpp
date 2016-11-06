@@ -106,7 +106,7 @@ private:
 class LogDecorator : public Decorator
 {
 public:
-    explicit LogDecorator(QObject *parent)
+    LogDecorator(QFont font, QObject *parent)
         : Decorator(QRegExp("^.*: "), parent)
         , m_labelNote(logLevelLabel(LogNote))
         , m_labelError(logLevelLabel(LogError))
@@ -114,7 +114,7 @@ public:
         , m_labelDebug(logLevelLabel(LogDebug))
         , m_labelTrace(logLevelLabel(LogTrace))
     {
-        QFont boldFont;
+        QFont boldFont = font;
         boldFont.setBold(true);
 
         QTextCharFormat normalFormat;
@@ -198,7 +198,7 @@ LogDialog::LogDialog(QWidget *parent)
     QFont font("Monospace");
     ui->textBrowserLog->setFont(font);
 
-    m_logDecorator = new LogDecorator(this);
+    m_logDecorator = new LogDecorator(ui->textBrowserLog->font(), this);
     m_stringDecorator = new StringDecorator(this);
 
     addFilterCheckBox(ui->layoutFilters, LogError, SLOT(showError(bool)));
