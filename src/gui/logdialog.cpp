@@ -22,37 +22,65 @@
 #include "common/common.h"
 #include "common/log.h"
 
+#include <QCheckBox>
 #include <QElapsedTimer>
 #include <QRegExp>
+#include <QTextBlock>
 #include <QTextCharFormat>
+#include <QTextBlockFormat>
 #include <QTextCursor>
 #include <QTimer>
 
 namespace {
+
+void addFilterCheckBox(QLayout *layout, LogLevel level, const char *slot)
+{
+    QWidget *parent = layout->parentWidget();
+    QCheckBox *checkBox = new QCheckBox(parent);
+    checkBox->setText(logLevelLabel(level));
+    checkBox->setChecked(true);
+    QObject::connect(checkBox, SIGNAL(toggled(bool)), parent, slot);
+    layout->addWidget(checkBox);
+}
+
+void showLogLines(QString *content, bool show, LogLevel level)
+{
+    if (show)
+        return;
+
+    const QString label = logLevelLabel(level);
+    QRegExp re("\n" + label + "[^\n]*");
+    content->remove(re);
+}
+
+} // namespace
 
 /// Decorates document in batches so it doesn't block UI.
 class Decorator : public QObject
 {
     Q_OBJECT
 public:
-    Decorator(QTextDocument *document, const QRegExp &re, QObject *parent)
+    Decorator(const QRegExp &re, QObject *parent)
         : QObject(parent)
-        , m_tc(document)
         , m_re(re)
     {
-        m_tc.movePosition(QTextCursor::End);
+        initSingleShotTimer(&m_timerDecorate, 0, this, SLOT(decorateBatch()));
     }
 
     /// Start decorating.
-    void decorate()
+    void decorate(QTextDocument *document)
     {
-        initSingleShotTimer(&m_timerDecorate, 0, this, SLOT(decorateBatch()));
+        m_tc = QTextCursor(document);
+        m_tc.movePosition(QTextCursor::End);
         decorateBatch();
     }
 
 private slots:
     void decorateBatch()
     {
+        if (m_tc.isNull())
+            return;
+
         QElapsedTimer t;
         t.start();
 
@@ -75,20 +103,18 @@ private:
     QRegExp m_re;
 };
 
-} // namespace
-
 class LogDecorator : public Decorator
 {
 public:
-    LogDecorator(QTextDocument *document, QObject *parent)
-        : Decorator(document, QRegExp("^.*: "), parent)
+    explicit LogDecorator(QObject *parent)
+        : Decorator(QRegExp("^.*: "), parent)
         , m_labelNote(logLevelLabel(LogNote))
         , m_labelError(logLevelLabel(LogError))
         , m_labelWarning(logLevelLabel(LogWarning))
         , m_labelDebug(logLevelLabel(LogDebug))
         , m_labelTrace(logLevelLabel(LogTrace))
     {
-        QFont boldFont = document->defaultFont();
+        QFont boldFont;
         boldFont.setBold(true);
 
         QTextCharFormat normalFormat;
@@ -143,8 +169,8 @@ private:
 class StringDecorator : public Decorator
 {
 public:
-    StringDecorator(QTextDocument *document, QObject *parent)
-        : Decorator(document, QRegExp("\"[^\"]*\"|'[^']*'"), parent)
+    explicit StringDecorator(QObject *parent)
+        : Decorator(QRegExp("\"[^\"]*\"|'[^']*'"), parent)
     {
         m_stringFormat.setForeground(Qt::darkGreen);
     }
@@ -161,30 +187,83 @@ private:
 LogDialog::LogDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::LogDialog)
+    , m_showError(true)
+    , m_showWarning(true)
+    , m_showNote(true)
+    , m_showDebug(true)
+    , m_showTrace(true)
 {
     ui->setupUi(this);
 
     QFont font("Monospace");
     ui->textBrowserLog->setFont(font);
 
-    QString content = readLogFile();
-    content.replace("\nCopyQ ", "\n");
-    ui->textBrowserLog->setPlainText(content);
+    m_logDecorator = new LogDecorator(this);
+    m_stringDecorator = new StringDecorator(this);
 
-    ui->textBrowserLog->moveCursor(QTextCursor::End);
+    addFilterCheckBox(ui->layoutFilters, LogError, SLOT(showError(bool)));
+    addFilterCheckBox(ui->layoutFilters, LogWarning, SLOT(showWarning(bool)));
+    addFilterCheckBox(ui->layoutFilters, LogNote, SLOT(showNote(bool)));
+    addFilterCheckBox(ui->layoutFilters, LogDebug, SLOT(showDebug(bool)));
+    addFilterCheckBox(ui->layoutFilters, LogTrace, SLOT(showTrace(bool)));
+    ui->layoutFilters->addStretch(1);
 
-    QTextDocument *doc = ui->textBrowserLog->document();
-
-    Decorator *logDecorator = new LogDecorator(doc, this);
-    logDecorator->decorate();
-
-    Decorator *stringDecorator = new StringDecorator(doc, this);
-    stringDecorator->decorate();
+    updateLog();
 }
 
 LogDialog::~LogDialog()
 {
     delete ui;
+}
+
+void LogDialog::updateLog()
+{
+    QString content = readLogFile();
+    content.replace("\nCopyQ ", "\n");
+
+    showLogLines(&content, m_showError, LogError);
+    showLogLines(&content, m_showWarning, LogWarning);
+    showLogLines(&content, m_showNote, LogNote);
+    showLogLines(&content, m_showDebug, LogDebug);
+    showLogLines(&content, m_showTrace, LogTrace);
+
+    ui->textBrowserLog->setPlainText(content);
+
+    ui->textBrowserLog->moveCursor(QTextCursor::End);
+
+    QTextDocument *doc = ui->textBrowserLog->document();
+    m_logDecorator->decorate(doc);
+    m_stringDecorator->decorate(doc);
+}
+
+void LogDialog::showError(bool show)
+{
+    m_showError = show;
+    updateLog();
+}
+
+void LogDialog::showWarning(bool show)
+{
+    m_showWarning = show;
+    updateLog();
+}
+
+void LogDialog::showNote(bool show)
+{
+    m_showNote = show;
+    updateLog();
+}
+
+void LogDialog::showDebug(bool show)
+{
+    m_showDebug = show;
+    updateLog();
+}
+
+void LogDialog::showTrace(bool show)
+{
+    m_showTrace = show;
+    updateLog();
 }
 
 #include "logdialog.moc"
