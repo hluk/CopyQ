@@ -250,7 +250,9 @@ QString createLogMessage(const QString &text, const LogLevel level)
     const QString timeStamp =
             QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz]");
 
-    return "CopyQ " + logLevelLabel(level) + timeStamp + ": " + text + "\n";
+    const QString label = "CopyQ " + logLevelLabel(level) + timeStamp + ": ";
+
+    return label + QString(text).replace("\n", "\n" + label + "   ") + "\n";
 }
 
 void log(const QString &text, const LogLevel level)

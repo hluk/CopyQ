@@ -78,12 +78,10 @@ void ScriptableWorker::run()
                 && m_args.at(Arguments::Rest) == "eval";
 
         for (int i = Arguments::Rest + (isEval ? 1 : 0); i < m_args.length(); ++i) {
-            QString indent = isEval ? QString("EVAL:")
-                                    : (QString::number(i - Arguments::Rest + 1) + " ");
-            foreach (const QByteArray &line, m_args.at(i).split('\n')) {
-                SCRIPT_LOG( indent + getTextData(line) );
-                indent = "  ";
-            }
+            const QString indent = isEval
+                    ? QString("EVAL:")
+                    : (QString::number(i - Arguments::Rest + 1) + " ");
+            SCRIPT_LOG( indent + getTextData(m_args.at(i)) );
         }
     }
 
