@@ -50,6 +50,11 @@ void startWritingInput(const QByteArray &input, QPointer<QProcess> p)
 
     p->write(input);
     p->closeWriteChannel();
+
+    if (!input.isEmpty()) {
+        while ( p && !p->waitForBytesWritten(0) )
+            QCoreApplication::processEvents();
+    }
 }
 
 template <typename Entry, typename Container>
