@@ -68,6 +68,8 @@ private:
 
     QThread *m_inputReaderThread;
     QByteArray m_input;
+    bool m_inputFinished;
+    bool m_sendInputAfterFinished;
 };
 
 #endif // CLIPBOARDCLIENT_H
