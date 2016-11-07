@@ -42,14 +42,10 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
     : Client()
     , App(createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
     , m_inputReaderThread(NULL)
-    , m_inputFinished(false)
-    , m_sendInputAfterFinished(false)
 {
     restoreSettings();
 
     startClientSocket(clipboardServerName(), argc, argv, skipArgc);
-
-    startInputReader();
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
@@ -61,10 +57,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
             window->raise();
     } else if (messageCode == CommandReadInput) {
         COPYQ_LOG("Sending standard input.");
-        if (m_inputFinished)
-            sendInput();
-        else
-            m_sendInputAfterFinished = true;
+        startInputReader();
     } else {
         QFile f;
         f.open((messageCode == CommandSuccess || messageCode == CommandFinished) ? stdout : stderr, QIODevice::WriteOnly);
@@ -100,11 +93,8 @@ void ClipboardClient::onConnectionFailed()
 void ClipboardClient::setInput(const QByteArray &input)
 {
     m_input = input;
-    m_inputFinished = true;
-    if (m_sendInputAfterFinished) {
-        sendInput();
-        abortInputReader();
-    }
+    sendInput();
+    abortInputReader();
 }
 
 void ClipboardClient::sendInput()
