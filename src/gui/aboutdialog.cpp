@@ -175,9 +175,9 @@ QString AboutDialog::aboutPage()
 
             // libraries
             + helpLib("Qt", tr("Library used in the application", "Qt library description"),
-                      "Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies)", "https://www.qt.io/")
+                      "The Qt Toolkit is Copyright (C) 2016 The Qt Company Ltd. and other contributors.", "https://www.qt.io/")
             + helpLib("Weblate", tr("Free web-based translation management system", "Weblate description"),
-                      "Copyright (c) 2012 - 2013 Michal &#268;iha&#345;", "https://weblate.org")
+                      "Copyright (c) 2012 - 2016 Michal &#268;iha&#345;", "https://weblate.org")
             + helpLib("Font Awesome", tr("Iconic font used in the application", "Font Awesome description"),
                       "Created & Maintained by Dave Gandy", "https://fortawesome.github.io/Font-Awesome/")
             + helpLib("LibQxt", tr("Library used in the application", "LibQxt library description"),
