@@ -1352,10 +1352,10 @@ bool Scriptable::setClipboard(QVariantMap &data, QClipboard::Mode mode)
     m_proxy->setClipboard(data, mode);
 
     // Wait for clipboard to be set.
-    for (int i = 0; i < 30; ++i) {
-        waitFor(100);
+    for (int i = 0; i < 200; ++i) {
         if ( clipboardContains(mode, m_proxy, mime, id) )
             return true;
+        waitFor(10);
     }
 
     throwError( tr("Failed to set clipboard!") );
