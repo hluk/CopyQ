@@ -157,6 +157,8 @@ QString getDefaultLogFilePath()
 {
 #if QT_VERSION < 0x050000
     return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
+#elif QT_VERSION < 0x050400
+    return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
 #else
     return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 #endif
