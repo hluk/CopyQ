@@ -32,6 +32,8 @@
 
 namespace {
 
+const int bufferSize = 4096;
+
 void startProcess(QProcess *process, const QStringList &args)
 {
     QString executable = args.value(0);
@@ -48,13 +50,20 @@ void startWritingInput(const QByteArray &input, QPointer<QProcess> p)
     if (!p)
         return;
 
-    p->write(input);
-    p->closeWriteChannel();
-
     if (!input.isEmpty()) {
-        while ( p && !p->waitForBytesWritten(0) )
-            QCoreApplication::processEvents();
+        // Write input in batches, otherwise on Windows with Qt 5
+        // the application can be blocked when writing huge amount of data.
+        for (int pos = 0; pos < input.size(); pos += bufferSize) {
+            p->write(input.mid(pos, bufferSize));
+            while ( p->waitForBytesWritten(0) ) {
+                QCoreApplication::processEvents();
+                if (!p)
+                    return;
+            }
+        }
     }
+
+    p->closeWriteChannel();
 }
 
 template <typename Entry, typename Container>
