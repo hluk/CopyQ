@@ -32,14 +32,18 @@ namespace {
 
 bool readBytes(QLocalSocket *socket, qint64 size, QByteArray *bytes)
 {
-    qint64 avail, read = 0;
+    qint64 remaining = size;
     bytes->clear();
-    while (read < size) {
+    while (remaining > 0) {
         if ( socket->bytesAvailable() == 0 && !socket->waitForReadyRead(4000) )
             return false;
-        avail = qMin( socket->bytesAvailable(), size-read );
+
+        const qint64 avail = qMin( socket->bytesAvailable(), remaining );
+        if (avail == 0)
+            return false;
+
         bytes->append( socket->read(avail) );
-        read += avail;
+        remaining -= avail;
     }
 
     return true;
