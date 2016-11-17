@@ -183,11 +183,13 @@ void ItemText::updateSize(const QSize &maximumSize, int idealWidth)
         m_textDocument.setDefaultTextOption(option);
     }
 
-    const int h = m_textDocument.size().height();
-    setFixedHeight(0 < m_maximumHeight && m_maximumHeight < h ? m_maximumHeight : h);
-
     const QRectF rect = m_textDocument.documentLayout()->frameBoundingRect(m_textDocument.rootFrame());
     setFixedWidth(rect.right());
+
+    QTextCursor tc(&m_textDocument);
+    tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+    const int h = cursorRect(tc).bottom() + 4 * logicalDpiY() / 96.0;
+    setFixedHeight(0 < m_maximumHeight && m_maximumHeight < h ? m_maximumHeight : h);
 }
 
 bool ItemText::eventFilter(QObject *, QEvent *event)
