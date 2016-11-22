@@ -1,3 +1,17 @@
+v2.8.0
+- Insert images in editor
+- Show simple items options
+- Item preview window
+- Move to Qt 5 on Windows and newer Linux distros
+- Faster item content listing
+- Simple filter for Log dialog
+- Smooth icons on OS X
+- Fixed system icons
+- Fixed pasting animated images
+- Fixed occasional crashes when finalizing commands with Qt 5
+- Fixed opening log speed on Windows
+- Lithuanian translation
+
 v2.7.1
 - Colorize items with command
 - Drag'n'drop items in selection order
