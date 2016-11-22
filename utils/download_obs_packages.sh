@@ -17,41 +17,46 @@ pkg_deb="amd64/${pkg}${xdeb}"
 pkg_deb_i386="i386/${pkg}${xdeb_i386}"
 pkg_rpm="x86_64/${project}-${version}-${rpm_version}${xrpm}"
 
-packages=(
-    "${pkg}_Ubuntu_16.10${xdeb_i386}   $url/xUbuntu_16.10/${pkg_deb_i386}"
-    "${pkg}_Ubuntu_16.10${xdeb}        $url/xUbuntu_16.10/${pkg_deb}"
-    "${pkg}_Ubuntu_16.04${xdeb_i386}   $url/xUbuntu_16.04/${pkg_deb_i386}"
-    "${pkg}_Ubuntu_16.04${xdeb}        $url/xUbuntu_16.04/${pkg_deb}"
-    "${pkg}_Ubuntu_15.10${xdeb_i386}   $url/xUbuntu_15.10/${pkg_deb_i386}"
-    "${pkg}_Ubuntu_15.10${xdeb}        $url/xUbuntu_15.10/${pkg_deb}"
-    "${pkg}_Ubuntu_15.04${xdeb_i386}   $url/xUbuntu_15.04/${pkg_deb_i386}"
-    "${pkg}_Ubuntu_15.04${xdeb}        $url/xUbuntu_15.04/${pkg_deb}"
-    "${pkg}_Ubuntu_14.10${xdeb_i386}   $url/xUbuntu_14.10/${pkg_deb_i386}"
-    "${pkg}_Ubuntu_14.10${xdeb}        $url/xUbuntu_14.10/${pkg_deb}"
-    "${pkg}_Ubuntu_14.04${xdeb_i386}   $url/xUbuntu_14.04/${pkg_deb_i386}"
-    "${pkg}_Ubuntu_14.04${xdeb}        $url/xUbuntu_14.04/${pkg_deb}"
-    "${pkg}_Ubuntu_12.04${xdeb_i386}   $url/xUbuntu_12.04/${pkg_deb_i386}"
-    "${pkg}_Ubuntu_12.04${xdeb}        $url/xUbuntu_12.04/${pkg_deb}"
-    "${pkg}_openSUSE_Tumbleweed${xrpm} $url/openSUSE_Tumbleweed/${pkg_rpm}"
-    "${pkg}_Fedora_24${xrpm}           $url/Fedora_24/${pkg_rpm}"
-    "${pkg}_Debian_8.0${xdeb_i386}     $url/Debian_8.0/${pkg_deb_i386}"
-    "${pkg}_Debian_8.0${xdeb}          $url/Debian_8.0/${pkg_deb}"
-    "${pkg}_Debian_7.0${xdeb_i386}     $url/Debian_7.0/${pkg_deb_i386}"
-    "${pkg}_Debian_7.0${xdeb}          $url/Debian_7.0/${pkg_deb}"
-)
+failed=""
 
 die () {
     echo "ERROR: $*"
     exit 1
 }
 
+fetch_package () {
+    name=$1
+    package_url=$2
+    wget -c "$package_url" -O "$name" || failed="$failed\n$package_url"
+}
+
 if [ -z "$version" ]; then
     die "First argument must be version package version!"
 fi
 
-for package in "${packages[@]}"; do
-    name=$(sed 's/\s.*//' <<< "$package")
-    url=$(sed 's/.*\s//' <<< "$package")
-    wget -c "$url" -O "$name" || exit 2
-done
+fetch_package "${pkg}_Ubuntu_16.10${xdeb_i386}"   "$url/xUbuntu_16.10/${pkg_deb_i386}"
+fetch_package "${pkg}_Ubuntu_16.10${xdeb}"        "$url/xUbuntu_16.10/${pkg_deb}"
+fetch_package "${pkg}_Ubuntu_16.04${xdeb_i386}"   "$url/xUbuntu_16.04/${pkg_deb_i386}"
+fetch_package "${pkg}_Ubuntu_16.04${xdeb}"        "$url/xUbuntu_16.04/${pkg_deb}"
+fetch_package "${pkg}_Ubuntu_15.10${xdeb_i386}"   "$url/xUbuntu_15.10/${pkg_deb_i386}"
+fetch_package "${pkg}_Ubuntu_15.10${xdeb}"        "$url/xUbuntu_15.10/${pkg_deb}"
+fetch_package "${pkg}_Ubuntu_15.04${xdeb_i386}"   "$url/xUbuntu_15.04/${pkg_deb_i386}"
+fetch_package "${pkg}_Ubuntu_15.04${xdeb}"        "$url/xUbuntu_15.04/${pkg_deb}"
+fetch_package "${pkg}_Ubuntu_14.10${xdeb_i386}"   "$url/xUbuntu_14.10/${pkg_deb_i386}"
+fetch_package "${pkg}_Ubuntu_14.10${xdeb}"        "$url/xUbuntu_14.10/${pkg_deb}"
+fetch_package "${pkg}_Ubuntu_14.04${xdeb_i386}"   "$url/xUbuntu_14.04/${pkg_deb_i386}"
+fetch_package "${pkg}_Ubuntu_14.04${xdeb}"        "$url/xUbuntu_14.04/${pkg_deb}"
+fetch_package "${pkg}_Ubuntu_12.04${xdeb_i386}"   "$url/xUbuntu_12.04/${pkg_deb_i386}"
+fetch_package "${pkg}_Ubuntu_12.04${xdeb}"        "$url/xUbuntu_12.04/${pkg_deb}"
+fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pkg_rpm}"
+fetch_package "${pkg}_Fedora_24${xrpm}"           "$url/Fedora_24/${pkg_rpm}"
+fetch_package "${pkg}_Debian_8.0${xdeb_i386}"     "$url/Debian_8.0/${pkg_deb_i386}"
+fetch_package "${pkg}_Debian_8.0${xdeb}"          "$url/Debian_8.0/${pkg_deb}"
+fetch_package "${pkg}_Debian_7.0${xdeb_i386}"     "$url/Debian_7.0/${pkg_deb_i386}"
+fetch_package "${pkg}_Debian_7.0${xdeb}"          "$url/Debian_7.0/${pkg_deb}"
+
+if [ -n "$failed" ]; then
+    echo -e "Failed packages:$failed"
+    exit 2
+fi
 
