@@ -23,6 +23,8 @@
 #include "common/client_server.h"
 #include "common/log.h"
 
+#include <QCoreApplication>
+#include <QElapsedTimer>
 #include <QDataStream>
 
 #define SOCKET_LOG(text) \
@@ -35,8 +37,10 @@ bool readBytes(QLocalSocket *socket, qint64 size, QByteArray *bytes)
     qint64 remaining = size;
     bytes->clear();
     while (remaining > 0) {
-        if ( socket->bytesAvailable() == 0 && !socket->waitForReadyRead(4000) )
-            return false;
+        QElapsedTimer t;
+        t.start();
+        while ( t.elapsed() < 4000 && socket->bytesAvailable() == 0 && !socket->waitForReadyRead(0) )
+            QCoreApplication::processEvents();
 
         const qint64 avail = qMin( socket->bytesAvailable(), remaining );
         if (avail == 0)
