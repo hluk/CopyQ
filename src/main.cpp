@@ -36,7 +36,45 @@
 
 Q_DECLARE_METATYPE(QByteArray*)
 
+#if QT_VERSION < 0x050000
+#   define INSTALL_MESSAGE_HANDLER qInstallMsgHandler
+#else
+#   define INSTALL_MESSAGE_HANDLER qInstallMessageHandler
+#endif
+
 namespace {
+
+#if QT_VERSION < 0x050000
+void messageHandler(QtMsgType type, const char *msg)
+{
+    const QString message = msg;
+#else
+void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    const QString message = QString("%1 (%2:%3, %4)")
+            .arg(msg, context.file, QString::number(context.line), context.function);
+#endif
+
+    switch (type) {
+    case QtDebugMsg:
+        log("QtDebug: " + message, LogDebug);
+        break;
+#if QT_VERSION >= 0x050000
+    case QtInfoMsg:
+        log("QtInfo: " + message, LogDebug);
+        break;
+#endif
+    case QtWarningMsg:
+        log("QtWarning: " + message, LogDebug);
+        break;
+    case QtCriticalMsg:
+        log("QtCritical: " + message, LogError);
+        break;
+    case QtFatalMsg:
+        log("QtFatal: " + message, LogError);
+        abort();
+    }
+}
 
 int evaluate(const QString &functionName, const QStringList &arguments, int argc, char **argv)
 {
@@ -140,6 +178,8 @@ QString getSessionName(const QStringList &arguments, int *skipArguments)
 
 int main(int argc, char **argv)
 {
+    INSTALL_MESSAGE_HANDLER(messageHandler);
+
     const QStringList arguments =
             createPlatformNativeInterface()->getCommandLineArguments(argc, argv);
 
