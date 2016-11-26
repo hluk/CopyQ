@@ -1341,6 +1341,14 @@ void MainWindow::updateActionShortcuts()
         updateActionShortcuts(id);
 }
 
+void MainWindow::pasteClipboard(PlatformWindowPtr window)
+{
+    // Wait for clipboard to be set (and message sent to clipboard monitor process).
+    QApplication::processEvents(QEventLoop::WaitForMoreEvents, 50);
+
+    window->pasteClipboard();
+}
+
 QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context)
 {
     Q_ASSERT(id < m_menuItems.size());
@@ -1858,10 +1866,10 @@ void MainWindow::onTrayActionTriggered(uint clipboardItemHash, bool omitPaste)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
 
-    if ( c->select(clipboardItemHash, MoveToClipboard) && m_lastWindow && !omitPaste && canPaste() ) {
-        QApplication::processEvents();
-        m_lastWindow->pasteClipboard();
-    }
+    PlatformWindowPtr lastWindow = m_lastWindow;
+
+    if ( c->select(clipboardItemHash, MoveToClipboard) && lastWindow && !omitPaste && canPaste() )
+        pasteClipboard(lastWindow);
 }
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
@@ -2144,10 +2152,8 @@ void MainWindow::activateCurrentItem()
         if (m_options.activateFocuses())
             lastWindow->raise();
 
-        if (m_options.activatePastes() && canPaste()) {
-            QApplication::processEvents();
-            lastWindow->pasteClipboard();
-        }
+        if (m_options.activatePastes() && canPaste())
+            pasteClipboard(lastWindow);
     }
 }
 

@@ -590,6 +590,8 @@ private:
     void updateActionShortcuts(int id);
     void updateActionShortcuts();
 
+    void pasteClipboard(PlatformWindowPtr window);
+
     QAction *actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context);
 
     ConfigurationManager *cm;
