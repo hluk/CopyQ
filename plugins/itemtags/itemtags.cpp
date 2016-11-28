@@ -520,10 +520,17 @@ QString ItemTagsLoader::script() const
         "\n" "mime: '" + QString(mimeTags) + "',"
         "\n" "userTags: [" + userTags + "],"
 
-        "\n" "tags: function(row) {"
-        "\n" "  return str(read(this.mime, row))"
-        "\n" "    .split(/\\s*,\\s*/)"
-        "\n" "    .filter(function(x) {return x != ''})"
+        "\n" "tags: function(args) {"
+        "\n" "  var rows = this._rowsOrSelected(args)"
+        "\n" "  var tags = []"
+        "\n" "  for (var i in rows) {"
+        "\n" "    var row = rows[i]"
+        "\n" "    var itemTags = str(read(this.mime, row))"
+        "\n" "      .split(/\\s*,\\s*/)"
+        "\n" "      .filter(function(x) {return x != ''})"
+        "\n" "    tags = tags.concat(itemTags)"
+        "\n" "  }"
+        "\n" "  return tags"
         "\n" "},"
 
         "\n" "_rowsOrSelected: function(args) {"
@@ -534,14 +541,18 @@ QString ItemTagsLoader::script() const
 
         "\n" "_tagUntag: function(add, args) {"
         "\n" "  var tagName = args[0]"
+        "\n" "  var rows = this._rowsOrSelected(args)"
+        "\n" "  "
         "\n" "  if (!tagName) {"
         "\n" "    title = add ? " + addTagString + " : " + removeTagString +
-        "\n" "    tagName = dialog('.title', title, 'Tag', this.userTags)"
+        "\n" "    tagList = add ? this.userTags : this.tags(rows)"
+        "\n" "    if (tagList.length > 0)"
+        "\n" "      tagList.unshift(tagList[0])"
+        "\n" "    tagName = dialog('.title', title, 'Tag', tagList)"
         "\n" "    if (!tagName)"
         "\n" "      return;"
         "\n" "  }"
         "\n" "  "
-        "\n" "  var rows = this._rowsOrSelected(args)"
         "\n" "  for (var i in rows) {"
         "\n" "    var row = rows[i]"
         "\n" "    tags = this.tags(row)"
@@ -600,22 +611,22 @@ QList<Command> ItemTagsLoader::commands() const
     }
 
     Command c;
+    const QString hasTagMatchCommand = "copyq: plugins.itemtags.hasTag() || fail()";
 
     c = dummyTagCommand();
     c.name = addTagText();
-    c.matchCmd = "copyq: plugins.itemtags.tag()";
-    c.cmd.clear();
+    c.cmd = "copyq: plugins.itemtags.tag()";
     commands.append(c);
 
     c = dummyTagCommand();
     c.name = removeTagText();
-    c.matchCmd = "copyq: plugins.itemtags.untag()";
-    c.cmd.clear();
+    c.matchCmd = hasTagMatchCommand;
+    c.cmd = "copyq: plugins.itemtags.untag()";
     commands.append(c);
 
     c = dummyTagCommand();
     c.name = tr("Clear all tags");
-    c.matchCmd = "copyq: plugins.itemtags.hasTag() || fail()";
+    c.matchCmd = hasTagMatchCommand;
     c.cmd = "copyq: plugins.itemtags.clearTags()";
     commands.append(c);
 
