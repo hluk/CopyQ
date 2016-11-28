@@ -25,6 +25,7 @@ SolidCompression=yes
 SetupIconFile={#Source}\src\images\icon.ico
 WizardImageFile=logo.bmp
 WizardSmallImageFile=logo-small.bmp
+CloseApplications=force
 
 [Languages]
 Name: en; MessagesFile: "compiler:Default.isl"
