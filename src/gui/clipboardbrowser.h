@@ -337,7 +337,7 @@ class ClipboardBrowser : public QListView
         /** Immediate update if possible. */
         void doUpdateCurrentPage();
 
-        void expire();
+        void expire(bool force = false);
 
         void onEditorDestroyed();
 

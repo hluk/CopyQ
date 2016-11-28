@@ -866,19 +866,17 @@ void ClipboardBrowser::doUpdateCurrentPage()
     m_timerUpdate.stop();
 }
 
-void ClipboardBrowser::expire()
+void ClipboardBrowser::expire(bool force)
 {
     if (editing()) {
         m_expireAfterEditing = true;
     } else {
         m_expireAfterEditing = false;
 
-        saveUnsavedItems();
-
-        m.unloadItems();
-
-        if ( isVisible() )
-            loadItems();
+        if ( force || !isVisible() ) {
+            saveUnsavedItems();
+            m.unloadItems();
+        }
     }
 }
 
@@ -1651,7 +1649,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
 
 void ClipboardBrowser::loadSettings()
 {
-    expire();
+    expire(true);
 
     decorate( Theme() );
 
@@ -1669,14 +1667,15 @@ void ClipboardBrowser::loadSettings()
 
     m_timerExpire.setInterval(60000 * m_sharedData->minutesToExpire);
 
-    restartExpiring();
-
     if (m_editor) {
         d.loadEditorSettings(m_editor);
         setEditorWidget(m_editor);
     }
 
     d.setShowSimpleItems(m_sharedData->showSimpleItems);
+
+    if (isVisible())
+        loadItems();
 }
 
 void ClipboardBrowser::loadItems()
