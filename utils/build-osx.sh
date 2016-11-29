@@ -11,6 +11,18 @@ cd build
 make
 make package_plugins
 make package_translations
-/usr/local/opt/qt5/bin/macdeployqt copyq.app -dmg
+
+# Create CopyQ.dmg
+/usr/local/opt/qt5/bin/macdeployqt CopyQ.app -verbose=2 -dmg
+
+executable="CopyQ.app/Contents/MacOS/copyq"
+
+# Fix dependencies
+git clone https://github.com/iltommi/macdeployqtfix.git
+python macdeployqtfix/macdeployqtfix.py "$executable" /usr/local/Cellar/qt5
+
+# Test the deployed app
+"$executable" --help
+"$executable" --version
 
 cd "$root"
