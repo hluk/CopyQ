@@ -176,7 +176,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation>CopyQ Kommando-dialog</translation>
+        <translation>CopyQ Kommandodialog</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -270,7 +270,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation>CopyQ Legg til  Kommandoer</translation>
+        <translation>CopyQ Legg til Kommandoer</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="80"/>
@@ -311,7 +311,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="99"/>
         <source>Show action dialog</source>
-        <translation>Vis kommando-dialogen</translation>
+        <translation>Vis kommandodialogen</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="101"/>
@@ -391,47 +391,47 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="201"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opprett miniatyrbilde (trenger ImageMagic)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="209"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opprett QR-kode fra URL (trenger qrencode)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="218"/>
         <source>Add to &amp;TODO tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til i &amp;TODO-fane</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="225"/>
         <source>Move to &amp;TODO tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt til &amp;TODO-fane</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="233"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer kopierte filer</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="242"/>
         <source>Ignore *"Password"* window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer *"Passord"* vindu</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="243"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passord</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="251"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt til papirkurven</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="254"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(papirkurv)</translation>
     </message>
 </context>
 <context>
@@ -440,7 +440,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <location filename="../src/common/clientsocket.cpp" line="217"/>
         <location filename="../src/common/clientsocket.cpp" line="275"/>
         <source>Failed to read message from client!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke lese melding fra klient!</translation>
     </message>
 </context>
 <context>
@@ -449,17 +449,17 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="513"/>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="unfinished"></translation>
+        <translation>Søker %p%...</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1848"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Forkast Endringer?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1849"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ønsker du virkelig å &lt;strong&gt;forkaste endringer&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -467,12 +467,12 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="80"/>
         <source>Connection lost!</source>
-        <translation type="unfinished"></translation>
+        <translation>Mistet forbindelsen!</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="89"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke koble til server! Start CopyQ server først.</translation>
     </message>
 </context>
 <context>
@@ -480,33 +480,33 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>CopyQ Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Utklippstavle-innhold</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
         <source>&amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Formater:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"></translation>
+        <translation>Innh&amp;old:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern Format</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="57"/>
         <source>CopyQ Item Content</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Element-innhold</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;Størrelse:&lt;/strong&gt; %1 bytes</translation>
     </message>
 </context>
 <context>
@@ -514,27 +514,27 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="123"/>
         <source>CopyQ server is already running.</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ serveren kjører allerede.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Cancel Active Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt Aktive Kommandoer</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="309"/>
         <source>Cancel active commands and exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt aktive kommandoer og avslutte?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="312"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt Avslutting</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="313"/>
         <source>Exit Anyway</source>
-        <translation type="unfinished"></translation>
+        <translation>Avslutt Alikevel</translation>
     </message>
 </context>
 <context>
@@ -542,67 +542,67 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Kommandoer</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definer nye kommandoer som enten kan aktiveres automatisk ved nytt innhold på utklippstavlen eller av bruker fra menyen eller system-snarvei.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Finn:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="62"/>
         <source>&amp;Load Commands...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Last Kommandoer...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="72"/>
         <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre Markerte Kommandoer...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
         <source>Copy Selected [Ctrl+C]</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier Valgte [Ctrl+C]</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
         <source>Paste Commands [Ctrl+V]</source>
-        <translation type="unfinished"></translation>
+        <translation>Lim inn Kommandoer [Ctrl+V]</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="334"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ulagrede Endringer</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="334"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommandodialogen har ulagrede endringer.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="418"/>
         <source>Open Files with Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne Filer med Kommandoer</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="419"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommandoer (*.ini);; CopyQ Konfigurasjon (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="428"/>
         <source>Save Selected Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre Valgte Kommandoer</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="429"/>
         <source>Commands (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommandoer (*.ini)</translation>
     </message>
 </context>
 <context>
@@ -610,43 +610,43 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="65"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommando inneholder liste over programmer med argumenter som vil bli utført. For eksempel:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="69"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Program-argument %1 blir erstattet av element-teksten, og %2 t.o.m %9 av tekst avledet av regulært uttrykk.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tegnet %1 kan brukes til å sende standard uttdata til neste program.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="79"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Følgende syntaks kan brukes til å sende resten av kommandoen som en enkelt parameter.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dette gir samme utdata som %1 men er mer nyttig for lengre kommandoer.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Funksjonene i listen nedenfor kan brukes i følgende kommandoer.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>utklippstavle</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="126"/>
         <source>Show command help (F1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis kommando-hjelp (F1)</translation>
     </message>
 </context>
 <context>
@@ -654,88 +654,89 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Navn:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommandonavnet som vises i menyen</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="53"/>
         <source>Type of Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Handlingstype</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="74"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation type="unfinished"></translation>
+        <translation>Kjør kommandoen automatisk hvis utklippstavlen har nytt innhold</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="77"/>
         <source>Auto&amp;matic</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto&amp;matisk</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="86"/>
         <source>Show command in context menu of matching items</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis kommando i kontekstmenyen til samsvarende elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="89"/>
         <source>In M&amp;enu</source>
-        <translation type="unfinished"></translation>
+        <translation>I M&amp;eny</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="102"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Snarvei:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="136"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Global Snarvei:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="171"/>
         <source>Match Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Finn Samsvarende Elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="195"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Data av denne MIME-typen vil bli sendt til kommandoens standard inndata
+(tom for å deaktivere).</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="206"/>
         <source>F&amp;ormat:</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormat:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt; Bruk kommandoen kun for elementer kopiert til utklippstavlen fra vindu med tittel-tekst som samsvarer med dette regulære utrykket (ingen for å matche alle vinduer). På OS X vil dette være programnavnet fulgt av en bindestrek (&amp;quot;-&amp;quot;) og vinduets tittel. F.eks. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="223"/>
         <source>&amp;Window:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vindu:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="233"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Bruk kommandoen kun for elementer hvis tekst samsvarer med dette regulære uttrykket (tomt for å samsvare med alt).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Eksempler:&lt;/span&gt; &lt;/p&gt; &lt;p&gt;   Match URL    &lt;span style=" font-weight:600;"&gt; ^(https?|ftp)://&lt;/span&gt; &lt;/p&gt; &lt;p&gt;  Samsvar med PDF filnavn    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Samsvar med enkelt tegn    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Samsvar med ekstern multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="246"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>Innhold:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="256"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Filter:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="266"/>
@@ -746,114 +747,122 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Bruk kommandoer bare hvis filterkommandoen lykkes.&lt;/p&gt;
+
+&lt;p&gt;Elementtekst sendes til &lt;b&gt;standard inndata&lt;/b&gt; for filterkommandoen. Elementet &lt;b&gt;matches bare hvis filterkommandoens avslutningskode er 0&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p&gt;Bruk &lt;b&gt;%1&lt;/b&gt; for elementtekst sendt som et argument og &lt;b&gt;%2&lt;/b&gt; til &lt;b&gt;%9&lt;/b&gt; for argumenter avledet av regulære uttrykk (deler omsluttet av paranteser).&lt;/p&gt;
+
+&lt;p&gt;Bruk &lt;b&gt;|&lt;/b&gt; for å lenke kommandoer (send standard uttdata til neste kommando).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="291"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
+        <translation>Komman&amp;do</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="307"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Handling</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="330"/>
         <source>Co&amp;py to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko&amp;pier til fane:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="340"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn på fane som nye elementer skal kopieres til (la være tom for ikke å kopiere)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="352"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern samsvarende elementer
+
+Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer eksekveres.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="357"/>
         <source>&amp;Remove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Fje&amp;rn Element</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="367"/>
         <source>Menu Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Menyhandling</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="388"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul vindu etter at kommando er aktivert fra kontekstmenyen til et element</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="391"/>
         <source>&amp;Hide main window after activation</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul &amp;hovedvinduet etter aktivering</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="401"/>
         <source>Command options</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommandoindstillinger</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="427"/>
         <source>Show action dialog before executing the command</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis handlingsdialog før eksekvering av kommandoen</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="430"/>
         <source>&amp;Wait</source>
-        <translation type="unfinished"></translation>
+        <translation>Vent</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"/>
         <source>Change item, don't create any new items</source>
-        <translation type="unfinished"></translation>
+        <translation>Endre element, ikke opprett nye elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="440"/>
         <source>Tr&amp;ansform</source>
-        <translation type="unfinished"></translation>
+        <translation>Tr&amp;ansformer</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="457"/>
         <source>O&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Utdata:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="467"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opprett elementer fra programmets standard utdata (tom for å deaktivere)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="477"/>
         <source>&amp;Separator:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Separator:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="487"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation type="unfinished"></translation>
+        <translation>Separator som skal samsvares for å splitte utdata i flere elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="490"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="497"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fane for u&amp;tdata:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="507"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre elementer i fane med oppgitt navn (inget for å lagre i første fane)</translation>
     </message>
 </context>
 <context>
@@ -861,191 +870,193 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Bakgrunn</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Notater</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Funnet</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Valgte</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Nummer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigeringsprogram</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrifttype</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternere</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Forgrunn</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Melding</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
         <source>Show &amp;Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis &amp;Nummer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis rullefelt</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>S&amp;crollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Rullefelt</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruk ikoner fra skrivebordsmiljøet hvis mulig</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;ystemikoner</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
         <source>&amp;Antialias</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Antialias</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg farger for faner, verktøyslinjen og menyer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilbakestill Tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Last Tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre Tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger nåværende tema i eksternt redigeringsprogram</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Re&amp;diger Tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Forhåndsvisning:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="115"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>element</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="118"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Søkestrengen er %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="119"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg et element og
+trykk F2 for å redigere.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="121"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg elementer, og flytt dem med
+CTRL og opp- eller ned-tasten.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="123"/>
         <source>Remove item with Delete key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern elementer med slettetasten.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="125"/>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksempel-element %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="130"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Noen tilfeldige notater (Shift+F2 for å redigere)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="163"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne Tema-fil</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="173"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre Tema-fil Som</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="192"/>
         <source>No External Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Inget Eksternt Redigeringsprogram</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="193"/>
         <source>Set external editor command first!</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppgi eksternt redigeringsprogram først!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="400"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Abc</translation>
     </message>
 </context>
 <context>
@@ -1053,12 +1064,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
         <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="unfinished"></translation>
+        <translation>Brukertilpassede Handlinger og Globale Snarveier...</translation>
     </message>
     <message>
         <location filename="../src/tests/tests.cpp" line="1466"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
 </context>
 <context>
@@ -1066,258 +1077,264 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Konfigurasjon</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="33"/>
         <source>&amp;General</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Generelt</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="90"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Språk:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
         <source>Break text if it's too long to fit on line</source>
-        <translation type="unfinished"></translation>
+        <translation>Bryt teksten hvis den er for å lang til å passe på linjen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="121"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekstbryting</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="128"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Behold hovedvinduet over andre vinduer</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="131"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Alltid Øverst</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="138"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver for å åpne vinduer på skjerm med fokus. Deaktiver for å åpne vinduer der de ble lukket sist</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="141"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Å&amp;pne vinduer på skjerm med fokus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="148"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekreft avslutning av programmet</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="151"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekreft Avslutning</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="161"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Starter programmet ved systemstart</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="164"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Autostart</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="171"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Støtte for Vi navigasjons-taster (H, J, K og flere), skråstrek (/) for å søke</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="174"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>Naviger i &amp;Vi stil</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="181"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagrings- og opprettingshistorikk for elementfiltre</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="184"/>
         <source>Save Filter History</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre Filterhistorikk</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="191"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Manipulasjon av Utklippstavle</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="203"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre tekst markert med musen (primærvalg) i historikken</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="206"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;2) Lagre tekst markert med musen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="213"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tillater å lime inn musemarkeringer ved hjelp av snarveier (vanligvis Ctrl+V eller Shift+Insert)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="216"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;4) Lim inn musemarkeringer med tastaturet</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="223"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre utklippstavlen i historikk</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="226"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;1) Lagre utklippstavle</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="236"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tillat å lime inn kopiert innhold på samme måte som musemarkeringer (vanligvis med å trykke på midtre museknapp)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="239"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;3) Lim inn uklippstavle med musen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="282"/>
         <source>&amp;Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Oppsett</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="336"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis/Skjul</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="342"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul faner (trykk Alt-tasten for å vise)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="345"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul faner</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="352"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul verktøyslinjen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="355"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Skju&amp;l verktøyslinjen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="362"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul tekst på verktøyslinjen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="369"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul hovedvinduet når lukket</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="372"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul &amp;hovedvinduet</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="382"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppsett og Gjennomsiktighet</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="391"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis tre med faner i stedet for fanelinje</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="394"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanet&amp;re</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="401"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjennomsiktighet ved &amp;fokus:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="413"/>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hovedvinduets gjennomsiktighet ved fokus.
+
+Merk: Dette støttes ikke av alle systemer.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="443"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ufokusert gjennomsiktighet:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="455"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjennomsiktighet når hovedvinduet ikke har fokus.
+
+Merk: Dette støttes ikke av alle systemer.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="485"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis antall elementer i faner</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="488"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis Antall Elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="533"/>
         <source>&amp;History</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Historikk</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="590"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimalt antall elementer i historikk:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="602"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Makimalt antall elementer i hver fane</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="630"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation>L&amp;ukk fane etter et intervall i minutter:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="642"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern hver fane fra minnet etter et spesifisert antall minutter med inaktivitet.
+
+Sett til 0 for ikke å fjerne faner.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="669"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommando for eksternt redigering (%1 er filen som skal redigeres):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="679"/>
@@ -1327,213 +1344,225 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommando for eksternt redigeringsprogram -
+ (%1 er filen som skal redigeres).
+  Eksempler:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="694"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fane for lagring av utklippstavle:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="704"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn på fane som automatisk lagrer nytt utklippstavle-innhold.
+
+La være tom for å deaktivere automatisk lagring.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="718"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>La være umarkert for å la Enter-tasten lagre redigerte elementer og Ctrl+Enter opprette ny linje.
+
+Merk: Redigerte elementer kan lagres med F2 uansett.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="723"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre redigerte elementer med Ctrl+Enter og opprett ny linje med Enter-tasten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="730"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis beskrivelse på enkeltlinje for hvert element.
+
+Bruk Forhåndsvisning av Element for å vise hele elementer.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="735"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis enkle elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="742"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Etter element er aktivert (dobbelklikk eller Enter-tast), kopier til utklippstavle og...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="748"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt element til toppen av listen etter at det er aktivert</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="751"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt element til t&amp;oppen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="758"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Lukk hovedvinduet etter at element er aktivert</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="761"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Lukk hovedvinduet</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Sett fokus på siste vindu etter at element er aktivert</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fokus på sistse vindu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Lim inn i vindu med fokus etter at element er aktivert</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="781"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>Lim inn i vindu med fokus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="824"/>
         <source>&amp;Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;tatusfelt</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="876"/>
         <source>Don't show tray icon; minimize window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke vis ikon i systemstatusfeltet; minimer vindu nur lukket</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="879"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Deaktiv&amp;er i systemstatusfelt</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="886"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis kommando for nåværende utklippstavle-innhold i systemstatusfelt-menyen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="889"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis kommandoer for utklippstavle-innhold</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="898"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished"></translation>
+        <translation>Antall elementer i systemstat&amp;usfelt-menyen:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="908"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Antall elementer i systemstatusfelt-menyen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="935"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis elementer fra fane med fokus i systemstatusfelt-menyen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="938"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis fane med fokus i menyen,</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="945"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>eller velg en annen fane:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="961"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn på fane som skal vises i systemstatusfelt-meny (tomt for første fane)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="986"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Lim inn element i vindu med fokus etter å ha valgt det i menyen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="989"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>Lim inn aktivert element i vindu med fokus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="996"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished"></translation>
+        <translation>Forhåndsvisning av bilder ved siden av meny-elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="999"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Forhåndsvisning som menyelement-ikon</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1039"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Meldi&amp;nger</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1096"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Plassering av meldi&amp;nger:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1108"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjermposisjon for meldinger</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1112"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Topp</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1117"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Bunn</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1122"/>
         <source>Top Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Høyre Topp</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1127"/>
         <source>Bottom Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Høyre Bunn</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1132"/>
         <source>Bottom Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Venstre Bunn</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1137"/>
         <source>Top Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Venstre Topp</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1160"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished"></translation>
+        <translation>Int&amp;ervall i sekunder for visning av meldinger:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1172"/>
@@ -1542,109 +1571,116 @@ Use Item Preview to display whole items.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Intervall i sekunder for visning av melding om nytt innhold i utklippstavlen eller hvis element er kopiert til utklippstavlen
+(bare hvis hovedvindu er lukket).
+
+Settes til 0 for å deaktivere.
+
+Settes til -1 for å vises til den klikkes på.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1204"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished"></translation>
+        <translation>Antall linjer i melding for utklippstavle:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1216"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Antall linjer som vises for nytt innhold i utklippstavlen.
+
+Settes til 0 for å deaktivere.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1245"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished"></translation>
+        <translation>Meldingsgeometri (i skjermpunkter)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1251"/>
         <source>Ho&amp;rizontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ho&amp;risontal forskyvning:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1263"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Meldingens avstand til skjermens høyre eller venstre kant oppgitt i skjermpunkter</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1288"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vertikal forskyvning:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1300"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Meldingens avstand til skjermens topp eller bunn oppgitt i skjermpunkter</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1325"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimal bredde:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1337"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimal bredde for meldingen oppgitt i skjermpunkter</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1362"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimal høyde:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1374"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimal høyde for meldingen oppgitt i skjermpunkter</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1435"/>
         <source>&amp;Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1447"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visningsformat for valgte elementer i historikken kan endres med å trykke &lt;b&gt;Ctrl+Venstre&lt;/b&gt; eller &lt;b&gt;Ctrl+Høyre&lt;/b&gt;. Du kan endre prioritet eller format som vises ved å reorganisere elementer nedenfor.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1465"/>
         <source>&amp;Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Snarveier</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1475"/>
         <source>&amp;Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Utseende</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="356"/>
         <source>Invalid value for option "%1"</source>
-        <translation type="unfinished"></translation>
+        <translation>Ugyldig verdi for valget "%1"</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="399"/>
         <source>Reset preferences?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilbakestill innstillinger?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="400"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Denne handlingen vil tilbakestille alle dine innstillinger (i alle faner) til standardverdier.&lt;br/&gt;&lt;br/&gt;Ønsker du virkelig å &lt;strong&gt;tilbakestille alle innstillinger&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="491"/>
         <source>Restart Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Omstart Påkrevd</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="492"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Språk vil bli endret etter at programmet er startet på nytt.</translation>
     </message>
 </context>
 <context>
@@ -1652,17 +1688,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="194"/>
         <source>Use Vim-style Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruk Vim-stil Redigering</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="196"/>
         <source>Read .vimrc</source>
-        <translation type="unfinished"></translation>
+        <translation>Les .vimrc</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="198"/>
         <source>Path to .vimrc</source>
-        <translation type="unfinished"></translation>
+        <translation>Sti til .vimrc</translation>
     </message>
 </context>
 <context>
@@ -1671,162 +1707,152 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="153"/>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="161"/>
         <source>Unknown option: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukjent valg: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="156"/>
         <source>Argument must be positive: %1=%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Argumentet må være positivt: %1=%2</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
         <source>Mark "%1" not set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Merke %1 er ikke satt.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
         <source>%1%2%</source>
-        <translation type="unfinished"></translation>
+        <translation>%1%2%</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3540"/>
         <source>%1All</source>
-        <translation type="unfinished"></translation>
+        <translation>%1Alle</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3554"/>
         <source>Not implemented in FakeVim.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke implementert i FakeVim.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5719"/>
         <source>Unknown option:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukjent valg:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5730"/>
         <source>Invalid argument:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ugyldig argument:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
         <source>Trailing characters:</source>
-        <translation type="unfinished"></translation>
+        <translation>Etterfølgende tegn:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
         <source>Move lines into themselves.</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytte linjer inn i seg selv.</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
         <source>%n lines moved.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n linje flyttet.</numerusform>
+        <numerusform>%n linjer flyttet.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
         <source>File "%1" exists (add ! to override)</source>
-        <translation type="unfinished"></translation>
+        <translation>Filen "%1" eksisterer (tilføy ! for å overstyre)</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
         <source>Cannot open file "%1" for writing</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke åpne filen "%1" for skriving</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
         <source>"%1" %2 %3L, %4C written.</source>
-        <translation type="unfinished"></translation>
+        <translation>"%1" %2 %3L, %4C skrevet.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
         <source>Cannot open file "%1" for reading</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke åpne filen "%1" for lesing</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
         <source>"%1" %2L, %3C</source>
-        <translation type="unfinished"></translation>
+        <translation>"%1" %2L, %3C</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
         <source>%n lines filtered.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n linje filtrert.</numerusform>
+        <numerusform>%n linjer filtrert.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6093"/>
         <source>Cannot open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke åpne filen %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6259"/>
         <source>Invalid regular expression: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Uglyldig regulært uttrykk: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6295"/>
         <source>Pattern not found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Mønster ikke funnet: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation type="unfinished"></translation>
+        <translation>Søket nådde BUNN, fortsett fra TOPP.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6300"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation type="unfinished"></translation>
+        <translation>Søket nådde TOPP, fortsett fra BUNN.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
         <source>Search hit BOTTOM without match for: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Søket traff BUNN uten treff for: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6306"/>
         <source>Search hit TOP without match for: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Søket traff TOPP uten treff for: %1</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
         <source>%n lines indented.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n linje innrykket.</numerusform>
+        <numerusform>%n linjer innrykket.</numerusform>
+        </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
         <source>%n lines %1ed %2 time.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n linje %1et %2 gang(er).</numerusform>
+        <numerusform>%n linjer %1et %2 gang(er).</numerusform>
+        </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n linje kopiert.</numerusform>
+        <numerusform>%n linjer kopiert.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
         <source>Already at oldest change.</source>
-        <translation type="unfinished"></translation>
+        <translation>Allerede ved eldste endring.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7749"/>
         <source>Already at newest change.</source>
-        <translation type="unfinished"></translation>
+        <translation>Allerede ved nyeste endring.</translation>
     </message>
 </context>
 <context>
@@ -1834,22 +1860,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"/>
         <source>Recursive mapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Rekursiv tilordning</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv Alt-V, Alt-V for å forlate FakeVim-modus.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
         <source> [New] </source>
-        <translation type="unfinished"></translation>
+        <translation> [Ny] </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
         <source>Not an editor command: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke en redigeringskommando: %1</translation>
     </message>
 </context>
 <context>
@@ -1857,7 +1883,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="995"/>
         <source>Failed to create synchronization directory "%1"!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke opprette synkroniseringsmappen "%1"!</translation>
     </message>
 </context>
 <context>
@@ -1866,7 +1892,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/filtercompleter.cpp" line="175"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Ned</translation>
     </message>
 </context>
 <context>
@@ -1874,13 +1900,13 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="36"/>
         <source>Select Icon...</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg ikon…</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="73"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation type="unfinished"></translation>
+        <translation>…</translation>
     </message>
 </context>
 <context>
@@ -1888,22 +1914,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="37"/>
         <source>CopyQ Select Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Velg Ikon</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="67"/>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bla gjennom...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="113"/>
         <source>Open Icon file</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne Ikonfil</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="114"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bildefiler (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -1911,12 +1937,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="68"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Data</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="70"/>
         <source>Various data to save.</source>
-        <translation type="unfinished"></translation>
+        <translation>Forskjellig data som skal lagres.</translation>
     </message>
 </context>
 <context>
@@ -1924,77 +1950,77 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="23"/>
         <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation type="unfinished"></translation>
+        <translation>Velg format for lagring i historikk. Du kan legge til et format fra eksempler nedenfor eller skrive inn andre (en pr. linje).</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"/>
         <source>Active &amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktive &amp;formater:</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="45"/>
         <source>&amp;Examples (double click to add to active formats):</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Eksempler (Dobbeltklik for å legge til i aktive formater):</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="70"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="74"/>
         <source>Unformatted simple text</source>
-        <translation type="unfinished"></translation>
+        <translation>Uformatert enkel tekst</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="82"/>
         <source>Formatted text, web pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Formatert tekst, websider</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="91"/>
         <source>XML</source>
-        <translation type="unfinished"></translation>
+        <translation>XML</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="99"/>
         <source>List of URI (e.g. copied files, URLs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste over URI (f.eks. kopierte filer, URL'er)</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="108"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilder</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="112"/>
         <source>Bitmap image</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitmap-bilde</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="120"/>
         <source>Vector graphics</source>
-        <translation type="unfinished"></translation>
+        <translation>Vektorgrafikk</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="129"/>
         <source>Web image formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Web-bildeformater</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="139"/>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>Andre</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="164"/>
         <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste over utklippstavle MIME-typer som vil lagres i historikk (i gitt visnings-rekkefølge)</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="181"/>
         <source>&amp;Maximum number of characters per format to display:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maksimum antall tegn per format som skal vises:</translation>
     </message>
 </context>
 <context>
@@ -2002,12 +2028,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="150"/>
         <source>editor exit code is %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigeringsprogrammets avslutningskode er %1</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="193"/>
         <source>Editor command: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigeringskommando: %1</translation>
     </message>
 </context>
 <context>
@@ -2015,44 +2041,44 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="207"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="209"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre element (&lt;strong&gt;F2&lt;/strong&gt;</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="210"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="214"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="216"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt Redigering og Tilbakestill Endringer</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="217"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="225"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilbakestill</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="232"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjør Om</translation>
     </message>
 </context>
 <context>
@@ -2060,104 +2086,104 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="241"/>
         <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>For å dele krypterte elementer til andre datamaskiner eller sesjoner trenger du offentlige og private nøkkelfiler:&lt;ul&gt;&lt;li&gt; %1&lt;/li&gt;&lt;li&gt; %2&lt;br /&gt; (Ta vare på denne hemmelige nøkkelen på et trygt sted.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="306"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>GnuPG må være installert for å se krypterte faner.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="458"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypter (krever GnuPG)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="465"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="476"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="469"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Dekrypter</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="480"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Dekrypter og Kopier</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="488"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="555"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Feil: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="563"/>
         <source>Failed to generate keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke generere nøkler.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="580"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Ferdig</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="597"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Opretter nye nøkler (kan ta et par minutter)…</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="598"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="601"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="600"/>
         <source>Setting new password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppretter nytt passord...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="603"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypteringsnøkler &lt;strong&gt;må genereres&lt;/strong&gt; før elementkryptering kan brukes.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="605"/>
         <source>Generate New Keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>Opprett nye nøkler...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="607"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Endre Passord...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="613"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kryptering mislyktes!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="618"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Dekryptering mislyktes!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="63"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Kryptering</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="65"/>
         <source>Encrypt items and tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypter elementer og faner.</translation>
     </message>
 </context>
 <context>
@@ -2165,23 +2191,24 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>For å kryptere og dekryptere elementer tilføy relevante kommandoer under fanen Kommandoer.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="53"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Deler Krypterte Elementer og Faner</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="75"/>
         <source>Encrypted Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypterte Faner</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="81"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Speisifiser navn på faner (en per linje) som vil bli automatisk kryptert og dekryptert.&lt;/p&gt;
+&lt;p&gt;Sett intervall for lukking av faner i Historikk-fanen for å trygt laste krypterte elementer ut av minnet.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2189,17 +2216,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="73"/>
         <source>FakeVim</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="75"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim udvidelsen er en del av Qt Creator</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="77"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Emuler Vim-redigeringsprogrammet ved redigering av elementer.</translation>
     </message>
 </context>
 <context>
@@ -2207,12 +2234,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver FakeVim for redigering av elementer</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sti til Konfigurasjonsfilen:</translation>
     </message>
 </context>
 <context>
@@ -2220,12 +2247,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="65"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Bilder</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="67"/>
         <source>Display images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis bilder.</translation>
     </message>
 </context>
 <context>
@@ -2233,42 +2260,42 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimal Bildebredde:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimum bredde på bilder vist i historikk (sett til 0 for original størrelse)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimal Bilde&amp;høyde:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimum høyde på bilder vist i historikk (sett til 0 for original størrelse)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommando for b&amp;ilderedigering:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigeringskommando for støttede billdeformater bortset fra SVG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;SVG redigeringskommando:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigeringskommando for SVG-billdeformat.</translation>
     </message>
 </context>
 <context>
@@ -2276,12 +2303,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="90"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Notater</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="92"/>
         <source>Display notes for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis notater for elementer.</translation>
     </message>
 </context>
 <context>
@@ -2289,27 +2316,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Plassering av Notater</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>A&amp;bove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Over Element</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>B&amp;elow Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Unde&amp;r Element</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>&amp;Icon Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Kun &amp;Ikon</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis Verktøytips</translation>
     </message>
 </context>
 <context>
@@ -2317,27 +2344,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="34"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg Til</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="37"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="47"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Fje&amp;rn</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="54"/>
         <source>&amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Opp</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="61"/>
         <source>&amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne&amp;d</translation>
     </message>
 </context>
 <context>
@@ -2346,42 +2373,42 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsync.cpp" line="201"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished"></translation>
+        <translation>Bla Gjennom...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1409"/>
         <source>Failed to synchronize tab "%1" with directory "%2"!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke synkronisere fanen "%1" med katalogen "%2"!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1457"/>
         <source>Remove Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjerne elementer?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1458"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ønsker du virkelig å &lt;strong&gt;fjerne elementer og tilhørende filer&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1630"/>
         <source>Open Directory for Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne mappe for synkronisering</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1649"/>
         <source>Failed to create synchronization directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke opprette synkroniseringskatalog</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="100"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Synkroniser</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="102"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation type="unfinished"></translation>
+        <translation>Synkroniser elementer og notater med en mappe på disken.</translation>
     </message>
 </context>
 <context>
@@ -2389,44 +2416,46 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
         <source>Synchronization Tabs and Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Synkronisering av Faner og Kataloger</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Synkroniser innholdet av&lt;strong&gt;fane&lt;/strong&gt; med mappe med oppgitt &lt;strong&gt;sti&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Sett sti til &lt;strong&gt;tomi&lt;/strong&gt; for å ikke lagre elementer i &lt;strong&gt;fanen&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanenavn</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Sti</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
         <source>Files to Item Data Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Dataformat for Fil til Element</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Angi MIME -typen til &lt;strong&gt;-&lt;/strong&gt; (bindestrek) for å ignorere filer. Alle andre ukjente eller skjulte filer blir ignorert.&lt;/p&gt;
+&lt;p&gt;Eksempel: Les &lt;strong&gt;txt&lt;/strong&gt; -filtype som &lt;strong&gt;text/plain&lt;/strong&gt; MIME-type.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Utvidelser</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item MIME Type</source>
-        <translation type="unfinished"></translation>
+        <translation>MIME-type for Element</translation>
     </message>
 </context>
 <context>
@@ -2434,43 +2463,43 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="159"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til Etikett</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="164"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern en Etikett</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="183"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Angi etiketten %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="189"/>
         <source>Remove tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern etiketten %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="611"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"></translation>
+        <translation>Viktig</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="632"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern alle etiketter</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="90"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiketter</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="92"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis etiketten til elementer.</translation>
     </message>
 </context>
 <context>
@@ -2478,37 +2507,37 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Menyelementene for å legge til og fjerne brukerdefinerte etiketter kan legges til og tilpasses i Kommandodialogen.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki page&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mere info er tilgjengelig på &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki-side&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn på Etikett</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Samsvar</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Stilark</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Farge</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikon</translation>
     </message>
 </context>
 <context>
@@ -2516,12 +2545,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="67"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="69"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis klartekst og enkle HTML-elementer.</translation>
     </message>
 </context>
 <context>
@@ -2529,17 +2558,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre og vis HTML og rikt tekstformat</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimalt antall linjer som skal vises (0 for å vise alle):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimal høyde i piksler (0 for ubegrenset):</translation>
     </message>
 </context>
 <context>
@@ -2547,7 +2576,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>CopyQ Log</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Logg</translation>
     </message>
 </context>
 <context>
@@ -2555,169 +2584,170 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="440"/>
         <source>Exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Avslutte?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="441"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vil du &lt;strong&gt;avslutte&lt;/strong&gt; CopyQ?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="483"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="526"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>R&amp;ediger</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="550"/>
         <source>&amp;Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Element</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="554"/>
         <source>&amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Faner</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="579"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hjelp</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="593"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ny Fane</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="595"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gi Nytt navn til &amp;Gruppe %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="597"/>
         <source>Re&amp;name Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gi Nytt Navn til Fane %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="599"/>
         <source>Re&amp;move Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern Fane %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="601"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern Gruppe %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="603"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Endre Faneikon</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="988"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiv&amp;er Lagring av Utklippstavle</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="989"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Deaktiv&amp;er Lagring av Utklippstavle</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1222"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1225"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1238"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
-        <translation type="unfinished"></translation>
+        <translation>Utklippstavle:
+%1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1461"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Feil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2305"/>
         <source>&amp;Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi&amp;s/Skjul</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2309"/>
         <source>Open action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne handlingsdialog</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2326"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
-        <translation type="unfinished"></translation>
+        <translation>Utklippstavle: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2544"/>
         <location filename="../src/gui/mainwindow.cpp" line="2602"/>
         <source>CopyQ Items (*.cpq)</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Elementer (*.cpq)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2552"/>
         <source>CopyQ Error Saving File</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Fejl ved Lagring av Fil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2553"/>
         <source>Cannot save file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke lagre filen %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2607"/>
         <source>CopyQ Error Opening File</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Feil ved Åpning av Fil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2608"/>
         <source>Cannot open file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke åpne filen %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2756"/>
         <source>Remove All Tabs in Group?</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjerne alle faner i gruppen?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2757"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vil du fjerne &lt;strong&gt;alle faner&lt;/strong&gt; i gruppen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2802"/>
         <source>Remove Tab?</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern Fane?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2803"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vil du fjerne fanen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -2725,17 +2755,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/notification.cpp" line="50"/>
         <source>CopyQ Inspect Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Inspeksjonsmelding</translation>
     </message>
     <message>
         <location filename="../src/gui/notification.cpp" line="72"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier</translation>
     </message>
     <message>
         <location filename="../src/gui/notification.cpp" line="123"/>
         <source>Right click to show</source>
-        <translation type="unfinished"></translation>
+        <translation>Høyreklikk for å vise</translation>
     </message>
 </context>
 <context>
@@ -2743,54 +2773,54 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/processmanagerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Prosess-styrer</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="60"/>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Startet</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Avsluttet</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="64"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="66"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Status</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="153"/>
         <source>Runnning</source>
-        <translation type="unfinished"></translation>
+        <translation>Kjører</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Mislykkes</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="173"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Starter</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="288"/>
         <source>Terminate</source>
-        <translation type="unfinished"></translation>
+        <translation>Avslutt</translation>
     </message>
 </context>
 <context>
@@ -2798,7 +2828,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="308"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informasjon</translation>
     </message>
 </context>
 <context>
@@ -2807,434 +2837,431 @@ Set to 0 to disable.</source>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;utklippstavle</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="431"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;SKJULT&gt;</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/common/common.cpp" line="437"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%1 (%n linje)</numerusform>
+        <numerusform>%1 (%n linjer)</numerusform>
+        </translation></message>
     <message>
         <location filename="../src/common/common.cpp" line="447"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;BILDE&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="449"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;FILER&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="451"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;TOM&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="453"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;DATA&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="470"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tilbaketast</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="472"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation type="unfinished"></translation>
+        <translation>Slett</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nytt Element</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>&amp;Import Tab...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Importer Fane...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="64"/>
         <source>&amp;Export Tab...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Eksporter Fane...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Innstillinger...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="unfinished"></translation>
+        <translation>K&amp;ommandoer/Globale Snarveier...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished"></translation>
+        <translation>K&amp;ommandoer...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
         <source>F6</source>
-        <translation type="unfinished"></translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis Utlippstavlens Innhold</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="77"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Veksle Utklipps&amp;tavle-lagring</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>P&amp;rosess-styrer</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Avslutt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="85"/>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sorter Valgte Elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Reverser Valgte Elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="89"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Lim Inn Elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
         <source>&amp;Copy Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier Valgte Elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="95"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Finn</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
         <source>Move to &amp;Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt til Utklippsatavle</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>&amp;Show Content...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi&amp;s Innhold...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>F4</source>
-        <translation type="unfinished"></translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>&amp;Show Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Forhånd&amp;svis</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>F7</source>
-        <translation type="unfinished"></translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Fje&amp;rn</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>R&amp;ediger</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>F2</source>
-        <translation type="unfinished"></translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger &amp;Notater</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>Shift+F2</source>
-        <translation type="unfinished"></translation>
+        <translation>Shift+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>E&amp;dit with editor</source>
-        <translation type="unfinished"></translation>
+        <translation>R&amp;ediger med redigeringsprogram</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>&amp;Action...</source>
-        <translation type="unfinished"></translation>
+        <translation>H&amp;andling...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>F5</source>
-        <translation type="unfinished"></translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>Next Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Neste Format</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>Ctrl+Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Høyre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Previous Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Forrige Format</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Ctrl+Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Venstre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt Opp</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Opp</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt Ned</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Ctrl+Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Ned</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt til Toppen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="124"/>
         <source>Ctrl+Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Home</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="125"/>
         <source>Move to Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytt til Bunnen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>Ctrl+End</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+End</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ny Fane</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>R&amp;ename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Gi Fan&amp;e Nytt Navn</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+F2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>Re&amp;move Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern Fane</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Endre Faneikon</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Ctrl+Shift+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="136"/>
         <source>Ne&amp;xt Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Neste Fane</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Høyre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>&amp;Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Fo&amp;rrige Fane</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Venstre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi&amp;s Logg</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>F12</source>
-        <translation type="unfinished"></translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hjelp</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="91"/>
         <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n linje &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+        <numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n linjer &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+        </translation></message>
     <message>
         <location filename="../src/gui/notificationdaemon.cpp" line="94"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="167"/>
         <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementfilen %1 er korrupt, eller så mangler CopyQ noen utvidelser!</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="209"/>
         <source>No plugins loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen udvidelser lastet</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="433"/>
         <source>Loading plugin: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Laster utvidelse: %1</translation>
     </message>
     <message>
         <location filename="../src/item/itemstore.cpp" line="45"/>
         <source>Cannot create directory for settings %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke opprette katalog for innstillinger %1!</translation>
     </message>
     <message>
         <location filename="../src/item/itemstore.cpp" line="57"/>
         <source>Cannot save tab %1 to %2 (%3)!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke lagre fane %1 til %2 (%3)!</translation>
     </message>
     <message>
         <location filename="../src/item/serialize.cpp" line="174"/>
         <source>Data deserialization failed: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Deserialisering av data mislyktes: %1</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="207"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, '-' or '_'!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sesjonsnavnet må inneholde høyst 16 tegn
+som kan bestå av bokstaver, tall, '-' eeler '_'!</translation>
     </message>
 </context>
 <context>
@@ -3242,7 +3269,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis hovedvinduet og eventuelt åpne fanen med oppgitt navn.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="64"/>
@@ -3250,37 +3277,37 @@ which can be letters, digits, '-' or '_'!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="154"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="157"/>
         <source>NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>NAVN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="66"/>
         <source>Hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjul hovedvindu.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
         <source>Show or hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis eller skjul hovedvindu.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="70"/>
         <source>Open context menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne kontekstmeny.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
         <source>Exit server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avslutt server.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
         <source>Disable or enable clipboard content storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Deaktiver eller aktiver lagring av utklippstavlens innhold.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="77"/>
         <source>Print clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv ut utklippstavlens innhold.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="78"/>
@@ -3291,36 +3318,38 @@ which can be letters, digits, '-' or '_'!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="126"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
         <source>MIME</source>
-        <translation type="unfinished"></translation>
+        <translation>MIME</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
         <source>Print X11 selection content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv ut innhold fra X11-markering.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>Lim inn utklippstavle til vindu med fokus
+(virker kanskje ikke med noen programmer).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="87"/>
         <source>Set clipboard text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sett utklippstavle-tekst.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="88"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="105"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="109"/>
         <source>TEXT</source>
-        <translation type="unfinished"></translation>
+        <translation>TEKST</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
         <source>
 Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Angi utklippstavle-innhold.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
@@ -3328,17 +3357,17 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
         <source>DATA</source>
-        <translation type="unfinished"></translation>
+        <translation>DATA</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="95"/>
         <source>Print amount of items in current tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv ut mengden av elementer i åpen fane.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier elementer i raden til utklippstavle.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
@@ -3347,309 +3376,323 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
         <source>ROW</source>
-        <translation type="unfinished"></translation>
+        <translation>RAD</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier neste element fra åpen fane til utklippstavle.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="102"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier forrige element fra åpen fane til utklippstavle.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="104"/>
         <source>Add text into clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg tekst til utklippstavle.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="107"/>
         <source>Insert text into given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sett tekst inn i gitt rad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
         <source>Remove items in given rows.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern elementer i gitt rad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="112"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="132"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>ROWS</source>
-        <translation type="unfinished"></translation>
+        <translation>RADER</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rediger elementer eller rediger nytt.
+Verdien -1 er for nåværende tekst i utklippstavle.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="119"/>
         <source>Set separator for items on output.</source>
-        <translation type="unfinished"></translation>
+        <translation>Angi separator for elementer i utdata.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="120"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
         <source>SEPARATOR</source>
-        <translation type="unfinished"></translation>
+        <translation>SEPARATOR</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv ut rådata fra utklippstavle eller element i rad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="124"/>
         <source>
 Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Skriv rådata til gitt rad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <source>Show action dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis handlingsdialog.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
         <source>
 Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Kjør PROGRAM på element-tekst i radene.
+Bruk %1 i PROGRAM for å sende tekst som argument.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
         <source>PROGRAM</source>
-        <translation type="unfinished"></translation>
+        <translation>PROGRAM</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>
 Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Vis systemstatusfelt-melding i TIME milisekunder.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="140"/>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>TITTEL</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
         <source>MESSAGE</source>
-        <translation type="unfinished"></translation>
+        <translation>MELDING</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="142"/>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation>TID</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>List available tab names.</source>
-        <translation type="unfinished"></translation>
+        <translation>List opp tilgjengelige fanenavn.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn't exist.
 Default is the first tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kjør kommandoen på fanen med oppgitt navn.
+Fanen opprettes hvis den ikke eksisterer.
+Standard er første fane.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
         <location filename="../src/scriptable/scriptable.cpp" line="62"/>
         <source>COMMAND</source>
-        <translation type="unfinished"></translation>
+        <translation>KOMMANDO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
         <source>Remove tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern fanen.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>Rename tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gi fanen nytt navn.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
         <source>NEW_NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>NYTT_NAVN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="161"/>
         <source>Export items to file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksporter elementer til fil.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
         <source>FILE_NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>FIL_NAVN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Import items from file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Importer elementer fra fil.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>List all options.</source>
-        <translation type="unfinished"></translation>
+        <translation>List opp parametre.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="170"/>
         <source>Get option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Få parameterverdi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="171"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="174"/>
         <source>OPTION</source>
-        <translation type="unfinished"></translation>
+        <translation>VALG</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
         <source>Set option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Angi parameterverdi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>VALUE</source>
-        <translation type="unfinished"></translation>
+        <translation>VERDI</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
         <source>
 Evaluate ECMAScript program.
 Arguments are accessible using with "arguments[0..N]".</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Evaluer program for ECMAScript.
+Argumenter er tilgjengelige via "arguments[0..N]".</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
         <source>SCRIPT</source>
-        <translation type="unfinished"></translation>
+        <translation>SCRIPT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
         <source>ARGUMENTS</source>
-        <translation type="unfinished"></translation>
+        <translation>ARGUMENTER</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
         <source>
 Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Starter eller kobler til programforekomst med gitt sesjonsnavn.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>SESSION</source>
-        <translation type="unfinished"></translation>
+        <translation>SESJON</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
         <source>
 Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Skriv ut hjelp for KOMMANDO eller alle kommandoer.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
         <source>
 Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Skriv ut programversjon og biblioteker.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation type="unfinished"></translation>
+        <translation>Kjør programtest (tilføy --hjelp argumentet for mere info).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="62"/>
         <source>Usage: copyq [%1]</source>
-        <translation type="unfinished"></translation>
+        <translation>Bruk: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="63"/>
         <source>Starts server if no command is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Start server hvis ingen kommando er spesifisert.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="64"/>
         <source>  COMMANDs:</source>
-        <translation type="unfinished"></translation>
+        <translation>  KOMMANDOer:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="69"/>
         <source>NOTES:</source>
-        <translation type="unfinished"></translation>
+        <translation>NOTATER:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="70"/>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Bruk bindestrek-argument (-) for å lese data fra standard inndata.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="71"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Bruk dobbelt bindestrek-argument (--) for å lese alle etterfølgende argumenter uten
+     ekspanderende escape-sekvenser (som \n, \t og andre).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="73"/>
         <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Bruk ? for MIME til å skrive ut tilgjengelige MIME-typer (standard er "text\plain").</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="78"/>
         <source>Invalid number of arguments!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ugyldig antall argumenter!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="319"/>
         <location filename="../src/scriptable/scriptableworker.cpp" line="147"/>
         <source>Name "%1" doesn't refer to a function.</source>
-        <translation type="unfinished"></translation>
+        <translation>Navnet "%1" refererer ikke til en funksjon.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="383"/>
         <source>Built with: </source>
-        <translation type="unfinished"></translation>
+        <translation>Bygget med: </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="411"/>
         <source>Command not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommandoen ble ikke funnet!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="490"/>
         <source>Terminating server.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Avslutter serveren.
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="801"/>
         <source>Cannot save to file "%1"!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke lagre filen "%1"!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="812"/>
         <source>Cannot import file "%1"!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke importere filen "%1"!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="824"/>
         <source>Invalid option "%1"!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ugyldig parameter "%1"!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1361"/>
         <source>Failed to set clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>Angi utklippstavle feilet!</translation>
     </message>
 </context>
 <context>
@@ -3657,7 +3700,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="48"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til snarvei</translation>
     </message>
 </context>
 <context>
@@ -3665,22 +3708,22 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>CopyQ New Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Ny Snarvei</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Trykk hvilken som helst tastekombinasjon. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; for å avbryte.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation type="unfinished"></translation>
+        <translation>Klikk her og trykk hvilken som helst tastekombinasjon</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="65"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern Snarvei</translation>
     </message>
 </context>
 <context>
@@ -3688,17 +3731,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Finn:</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="182"/>
         <source>There is command overriding this shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det er en kommando som overstyrer denne snarveien.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Snarveien finnes allerede!</translation>
     </message>
 </context>
 <context>
@@ -3708,27 +3751,29 @@ Print version of program and libraries.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanenavn skal være unike og ikke tomme.&lt;br/&gt; 
+Fanen &lt;b&gt;No&amp;amp;tater&lt;/b&gt; kan åpnes ved hjelp av &lt;b&gt;Alt+t&lt;/b&gt;&lt;br/&gt; 
+Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Navn:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="35"/>
         <source>CopyQ New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Ny Fane</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="38"/>
         <source>CopyQ Rename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Gi Fane Nytt Navn</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="41"/>
         <source>CopyQ Rename Tab Group</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Gi Fanegruppe Nytt Navn</translation>
     </message>
 </context>
 <context>
@@ -3737,7 +3782,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <location filename="../src/gui/traymenu.cpp" line="111"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;%1. %2</translation>
     </message>
 </context>
 <context>
@@ -3745,12 +3790,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="118"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Regulært Uttrykk</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="121"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke skill små og store bokstaver</translation>
     </message>
 </context>
 <context>
@@ -3758,17 +3803,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="294"/>
         <source>Tab with given name doesn't exist!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanen med oppgitt navn eksisterer ikke!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="299"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanenavnet kan ikke være tomt!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="385"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanen med angitt navn eksisterer allerede!</translation>
     </message>
 </context>
 </TS>
