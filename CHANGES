@@ -1,3 +1,11 @@
+v2.8.1
+- All Qt messages are logged
+- Fixed and improved commands for Tags plugin
+- Fixed removing last items when changing item limit
+- Fixed library paths for OS X
+- Fixed pasting items on Windows
+- Fixed copying from script on Windows
+
 v2.8.0
 - Insert images in editor
 - Show simple items options
