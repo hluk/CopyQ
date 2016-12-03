@@ -59,7 +59,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
     case QtDebugMsg:
         log("QtDebug: " + message, LogDebug);
         break;
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= 0x050500
     case QtInfoMsg:
         log("QtInfo: " + message, LogDebug);
         break;
