@@ -110,8 +110,8 @@ void migrateConfigToAppDir()
             migrateConfig(oldSettings, newSettings);
         }
     } else {
-        COPYQ_LOG( QString("Cannot use \"%1\" directory to save user configuration and items.")
-                   .arg(path) );
+        log( QString("Ignoring configuration in \"%1\" (https://github.com/hluk/CopyQ/issues/583).")
+             .arg(path), LogWarning );
 
         QSettings oldSettings;
 
@@ -271,7 +271,11 @@ QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
 
 void WinPlatform::loadSettings()
 {
-    migrateConfigToAppDir();
+    static bool migrated = false;
+    if (!migrated) {
+        migrateConfigToAppDir();
+        migrated = true;
+    }
 }
 
 PlatformClipboardPtr WinPlatform::clipboard()
