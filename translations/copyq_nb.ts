@@ -65,7 +65,7 @@
         <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation>Biblioteker brukt i programmet</translation>
+        <translation>Bibliotek brukt i programmet</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="185"/>
@@ -86,7 +86,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="194"/>
         <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation>Globale (systemomfattende) snarveier kan endres i dialogen for Kommando\Globale snarveier
+        <translation>Globale (systemomfattende) snarveier kan endres i dialogen 'Kommando\Globale snarveier'
 (standard snarvei F6).</translation>
     </message>
     <message>
@@ -176,7 +176,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation>CopyQ Kommandodialog</translation>
+        <translation>CopyQ Handlingsdialog</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -311,7 +311,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="99"/>
         <source>Show action dialog</source>
-        <translation>Vis kommandodialogen</translation>
+        <translation>Vis handlingsdialogen</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="101"/>
@@ -371,7 +371,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="176"/>
         <source>Paste as Plain Text</source>
-        <translation>Lim Inn som Ren Tekst</translation>
+        <translation>Lim inn som Ren Tekst</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="182"/>
@@ -454,7 +454,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1848"/>
         <source>Discard Changes?</source>
-        <translation>Forkast Endringer?</translation>
+        <translation>Forkaste Endringer?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1849"/>
@@ -547,7 +547,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation>Definer nye kommandoer som enten kan aktiveres automatisk ved nytt innhold på utklippstavlen eller av bruker fra menyen eller system-snarvei.</translation>
+        <translation>Definer nye kommandoer som enten kan aktiveres automatisk ved nytt innhold på utklippstavlen, eller av bruker fra menyen eller system-snarvei.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
@@ -562,7 +562,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="72"/>
         <source>Sa&amp;ve Selected Commands...</source>
-        <translation>Lagre Markerte Kommandoer...</translation>
+        <translation>Lagre Valgte Kommandoer...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
@@ -610,7 +610,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="65"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation>Kommando inneholder liste over programmer med argumenter som vil bli utført. For eksempel:</translation>
+        <translation>Kommandofeltet inneholder liste over programmer med argumenter som vil bli utført. For eksempel:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="69"/>
@@ -630,7 +630,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation>Dette gir samme utdata som %1 men er mer nyttig for lengre kommandoer.</translation>
+        <translation>Dette gir samme utdata som %1men er mer nyttig for lengre kommandoer.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
@@ -699,7 +699,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="171"/>
         <source>Match Items</source>
-        <translation>Finn Samsvarende Elementer</translation>
+        <translation>Element Må Samsvare Med</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="195"/>
@@ -726,7 +726,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="233"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Bruk kommandoen kun for elementer hvis tekst samsvarer med dette regulære uttrykket (tomt for å samsvare med alt).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Eksempler:&lt;/span&gt; &lt;/p&gt; &lt;p&gt;   Match URL    &lt;span style=" font-weight:600;"&gt; ^(https?|ftp)://&lt;/span&gt; &lt;/p&gt; &lt;p&gt;  Samsvar med PDF filnavn    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Samsvar med enkelt tegn    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Samsvar med ekstern multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Bruk kommandoen kun for elementer hvis tekst samsvarer med dette regulære uttrykket (tomt for å samsvare med alt).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Eksempler:&lt;/span&gt; &lt;/p&gt; &lt;p&gt;   Samsvar med URL    &lt;span style=" font-weight:600;"&gt; ^(https?|ftp)://&lt;/span&gt; &lt;/p&gt; &lt;p&gt;  Samsvar med PDF filnavn    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Samsvar med enkelt tegn    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Samsvar med ekstern multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="246"/>
@@ -749,7 +749,7 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
         <translation>&lt;p&gt;Bruk kommandoer bare hvis filterkommandoen lykkes.&lt;/p&gt;
 
-&lt;p&gt;Elementtekst sendes til &lt;b&gt;standard inndata&lt;/b&gt; for filterkommandoen. Elementet &lt;b&gt;matches bare hvis filterkommandoens avslutningskode er 0&lt;/b&gt;.&lt;/p&gt;
+&lt;p&gt;Elementtekst sendes til &lt;b&gt;standard inndata&lt;/b&gt; for filterkommandoen. Elementet &lt;b&gt;samsvares bare hvis filterkommandoens avslutningskode er 0&lt;/b&gt;.&lt;/p&gt;
 
 &lt;p&gt;Bruk &lt;b&gt;%1&lt;/b&gt; for elementtekst sendt som et argument og &lt;b&gt;%2&lt;/b&gt; til &lt;b&gt;%9&lt;/b&gt; for argumenter avledet av regulære uttrykk (deler omsluttet av paranteser).&lt;/p&gt;
 
@@ -807,7 +807,7 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
     <message>
         <location filename="../src/ui/commandwidget.ui" line="401"/>
         <source>Command options</source>
-        <translation>Kommandoindstillinger</translation>
+        <translation>Kommandoinnstillinger</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="427"/>
@@ -1281,7 +1281,7 @@ Merk: Dette støttes ikke av alle systemer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="443"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation>&amp;Ufokusert gjennomsiktighet:</translation>
+        <translation>Gjennomsiktighet &amp;uten fokus:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="455"/>
@@ -1334,7 +1334,7 @@ Sett til 0 for ikke å fjerne faner.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="669"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation>Kommando for eksternt redigering (%1 er filen som skal redigeres):</translation>
+        <translation>Kommando for ekstern redigering (%1 er filen som skal redigeres):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="679"/>
@@ -1427,7 +1427,7 @@ Bruk Forhåndsvisning av Element for å vise hele elementer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>&amp;Focus last window</source>
-        <translation>&amp;Fokus på sistse vindu</translation>
+        <translation>&amp;Fokus på siste vindu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
@@ -1447,7 +1447,7 @@ Bruk Forhåndsvisning av Element for å vise hele elementer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="876"/>
         <source>Don't show tray icon; minimize window when closed</source>
-        <translation>Ikke vis ikon i systemstatusfeltet; minimer vindu nur lukket</translation>
+        <translation>Ikke vis ikon i systemstatusfeltet; minimer vindu når lukket</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="879"/>
@@ -1477,12 +1477,12 @@ Bruk Forhåndsvisning av Element for å vise hele elementer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="935"/>
         <source>Show items from current tab in tray menu</source>
-        <translation>Vis elementer fra fane med fokus i systemstatusfelt-menyen</translation>
+        <translation>Vis elementer fra aktiv fane i systemstatusfelt-menyen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="938"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>Vis fane med fokus i menyen,</translation>
+        <translation>Vis aktiv fane i menyen,</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="945"/>
@@ -1512,7 +1512,7 @@ Bruk Forhåndsvisning av Element for å vise hele elementer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="999"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation>Forhåndsvisning som menyelement-ikon</translation>
+        <translation>Forhåndsvis bilder som menyelement-ikon</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1039"/>
@@ -1865,7 +1865,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation>Skriv Alt-V, Alt-V for å forlate FakeVim-modus.</translation>
+        <translation>Skriv Alt-V, Alt-V for å avslutte FakeVim-modus.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
@@ -1950,7 +1950,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="23"/>
         <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation>Velg format for lagring i historikk. Du kan legge til et format fra eksempler nedenfor eller skrive inn andre (en pr. linje).</translation>
+        <translation>Velg format for lagring i historikk. Du kan legge til et format fra eksempler nedenfor eller skrive inn andre (et pr. linje).</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"/>
@@ -2086,7 +2086,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="241"/>
         <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation>For å dele krypterte elementer til andre datamaskiner eller sesjoner trenger du offentlige og private nøkkelfiler:&lt;ul&gt;&lt;li&gt; %1&lt;/li&gt;&lt;li&gt; %2&lt;br /&gt; (Ta vare på denne hemmelige nøkkelen på et trygt sted.)&lt;/li&gt;&lt;/ul&gt;</translation>
+        <translation>For å dele krypterte elementer til andre datamaskiner eller sesjoner trenger du offentlige og private nøkkelfiler:&lt;ul&gt;&lt;li&gt; %1&lt;/li&gt;&lt;li&gt; %2&lt;br /&gt; (Ta vare på den hemmelige nøkkelen på et trygt sted.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="306"/>
@@ -2196,7 +2196,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="53"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation>Deler Krypterte Elementer og Faner</translation>
+        <translation>Deling av Krypterte Elementer og Faner</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="75"/>
@@ -2422,8 +2422,8 @@ Settes til 0 for å deaktivere.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Synkroniser innholdet av&lt;strong&gt;fane&lt;/strong&gt; med mappe med oppgitt &lt;strong&gt;sti&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Sett sti til &lt;strong&gt;tomi&lt;/strong&gt; for å ikke lagre elementer i &lt;strong&gt;fanen&lt;/strong&gt;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Synkroniser innholdet av &lt;strong&gt;fane&lt;/strong&gt; med mappe med oppgitt &lt;strong&gt;sti&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Sett sti til &lt;strong&gt;tom&lt;/strong&gt; for å ikke lagre elementer i &lt;strong&gt;fanen&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
@@ -2444,7 +2444,7 @@ Settes til 0 for å deaktivere.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Angi MIME -typen til &lt;strong&gt;-&lt;/strong&gt; (bindestrek) for å ignorere filer. Alle andre ukjente eller skjulte filer blir ignorert.&lt;/p&gt;
+        <translation>&lt;p&gt;Angi MIME -typen som &lt;strong&gt;-&lt;/strong&gt; (bindestrek) for å ignorere filer. Alle andre ukjente eller skjulte filer blir ignorert.&lt;/p&gt;
 &lt;p&gt;Eksempel: Les &lt;strong&gt;txt&lt;/strong&gt; -filtype som &lt;strong&gt;text/plain&lt;/strong&gt; MIME-type.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -2522,7 +2522,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation>Samsvar</translation>
+        <translation>Samsvar med</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
@@ -2558,7 +2558,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation>Lagre og vis HTML og rikt tekstformat</translation>
+        <translation>Lagre og vis HTML og rikt tekstformat (RTF)</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
@@ -2712,7 +2712,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2552"/>
         <source>CopyQ Error Saving File</source>
-        <translation>CopyQ Fejl ved Lagring av Fil</translation>
+        <translation>CopyQ Feil ved Lagring av Fil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2553"/>
@@ -2773,7 +2773,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/ui/processmanagerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation>CopyQ Prosess-styrer</translation>
+        <translation>CopyQ Prosessmanager</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="60"/>
@@ -2956,7 +2956,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>P&amp;rocess Manager</source>
-        <translation>P&amp;rosess-styrer</translation>
+        <translation>P&amp;rosessmanager</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
@@ -3011,7 +3011,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
         <source>Move to &amp;Clipboard</source>
-        <translation>Flytt til Utklippsatavle</translation>
+        <translation>Flytt til Utklippstavle</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
@@ -3287,7 +3287,7 @@ som kan bestå av bokstaver, tall, '-' eeler '_'!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
         <source>Show or hide main window.</source>
-        <translation>Vis eller skjul hovedvindu.</translation>
+        <translation>Veksler visning av hovedvindu.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="70"/>
@@ -3362,7 +3362,7 @@ Angi utklippstavle-innhold.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="95"/>
         <source>Print amount of items in current tab.</source>
-        <translation>Skriv ut mengden av elementer i åpen fane.</translation>
+        <translation>Skriv ut antallet av elementer i åpen fane.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
@@ -3414,7 +3414,7 @@ Angi utklippstavle-innhold.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation>Rediger elementer eller rediger nytt.
+        <translation>Rediger elementer eller rediger et nytt.
 Verdien -1 er for nåværende tekst i utklippstavle.</translation>
     </message>
     <message>
@@ -3541,7 +3541,7 @@ Standard er første fane.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="170"/>
         <source>Get option value.</source>
-        <translation>Få parameterverdi.</translation>
+        <translation>Hent parameterverdi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="171"/>
@@ -3677,7 +3677,7 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="801"/>
         <source>Cannot save to file "%1"!</source>
-        <translation>Kan ikke lagre filen "%1"!</translation>
+        <translation>Kan ikke lagre til filen "%1"!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="812"/>
@@ -3752,7 +3752,7 @@ Skriv ut programversjon og biblioteker.</translation>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Fanenavn skal være unike og ikke tomme.&lt;br/&gt; 
-Fanen &lt;b&gt;No&amp;amp;tater&lt;/b&gt; kan åpnes ved hjelp av &lt;b&gt;Alt+t&lt;/b&gt;&lt;br/&gt; 
+Fanen &lt;b&gt;No&amp;amp;tater&lt;/b&gt;&amp;amp; kan åpnes ved hjelp av &lt;b&gt;Alt+t&lt;/b&gt;&lt;br/&gt; 
 Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</translation>
     </message>
     <message>
@@ -3795,7 +3795,7 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="121"/>
         <source>Case Insensitive</source>
-        <translation>Ikke skill små og store bokstaver</translation>
+        <translation>Ikke skill mellom små og store bokstaver</translation>
     </message>
 </context>
 <context>
