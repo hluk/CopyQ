@@ -27,7 +27,7 @@ xcopy /F "%BuildRoot%\src\*.qm" "%Destination%\translations"
 mkdir "%Destination%\plugins"
 xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins"
 
-%QTDIR%\bin\windeployqt --release --no-translations --no-system-d3d-compiler --no-angle --no-opengl-sw "%APPVEYOR_BUILD_FOLDER%/%Name%/copyq.exe"
+%QTDIR%\bin\windeployqt --release --no-system-d3d-compiler --no-angle --no-opengl-sw "%APPVEYOR_BUILD_FOLDER%/%Name%/copyq.exe"
 
 7z a "%Name%.zip" -r "%Destination%"
 
