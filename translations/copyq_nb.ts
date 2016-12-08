@@ -955,7 +955,7 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation>Velg farger for faner, verktøyslinjen og menyer</translation>
+        <translation>Bruk farger for faner, verktøyslinjen og menyer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
@@ -3362,7 +3362,7 @@ Angi utklippstavle-innhold.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="95"/>
         <source>Print amount of items in current tab.</source>
-        <translation>Skriv ut antallet av elementer i åpen fane.</translation>
+        <translation>Skriv ut antall elementer i åpen fane.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
