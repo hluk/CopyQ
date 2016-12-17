@@ -238,6 +238,9 @@ void ClientSocket::onReadyRead()
 
 void ClientSocket::onError(QLocalSocket::LocalSocketError error)
 {
+    if (error == QLocalSocket::SocketTimeoutError)
+        return;
+
     if (error == QLocalSocket::PeerClosedError
         || (error == QLocalSocket::ConnectionError
             && m_socket->errorString().startsWith("QLocalSocketPrivate::completeAsyncRead")) )
