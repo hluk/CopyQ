@@ -32,15 +32,18 @@
 
 namespace {
 
-bool readBytes(QLocalSocket *socket, qint64 size, QByteArray *bytes)
+bool readBytes(QPointer<QLocalSocket> socket, qint64 size, QByteArray *bytes)
 {
     qint64 remaining = size;
     bytes->clear();
     while (remaining > 0) {
         QElapsedTimer t;
         t.start();
-        while ( t.elapsed() < 4000 && socket->bytesAvailable() == 0 && !socket->waitForReadyRead(0) )
+        while ( t.elapsed() < 4000 && socket->bytesAvailable() == 0 && !socket->waitForReadyRead(0) ) {
             QCoreApplication::processEvents();
+            if (!socket)
+                return false;
+        }
 
         const qint64 avail = qMin( socket->bytesAvailable(), remaining );
         if (avail == 0)
@@ -215,7 +218,8 @@ void ClientSocket::onReadyRead()
 
         if ( !readMessage(m_socket, &msg) ) {
             log( tr("Failed to read message from client!"), LogError );
-            m_socket->abort();
+            if (m_socket)
+                m_socket->abort();
             onStateChanged(QLocalSocket::UnconnectedState);
             return;
         }
