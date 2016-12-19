@@ -316,6 +316,8 @@ QIcon appIcon(AppIconType iconType)
 
     if (sessionName.isEmpty())
         icon = QIcon::fromTheme("copyq" + suffix);
+    else
+        icon = QIcon::fromTheme("copyq-" + sessionName + "-" + suffix);
 
     if (icon.isNull()) {
         const QString resourceSuffix = running ? "-running" : "";
