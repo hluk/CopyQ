@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="131"/>
         <source>Clipboard Manager</source>
-        <translation>Klembord Manager</translation>
+        <translation>Klembordbeheerder</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="136"/>
@@ -21,12 +21,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="137"/>
         <source>E-mail</source>
-        <translation>E-mail</translation>
+        <translation>E-mailadres</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="138"/>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation>Website</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="139"/>
@@ -36,42 +36,42 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="140"/>
         <source>Donate</source>
-        <translation>Doneer</translation>
+        <translation>Doneren</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="150"/>
         <source>Development</source>
-        <translation>Ontwikkelaars</translation>
+        <translation>Ontwikkeling</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation>Library gebruikt in deze toepassing</translation>
+        <translation>Bibliotheek die wordt gebruikt in deze applicatie</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="179"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
-        <translation>Gratis webgebaseerde Translation Management System</translation>
+        <translation>Gratis webgebaseerd vertaalbeheersysteem</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation>Iconische lettertype dat wordt gebruikt in deze toepassing</translation>
+        <translation>Iconisch lettertype dat wordt gebruikt in deze applicatie</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation>Library gebruikt in deze toepassing</translation>
+        <translation>Bibliotheek die wordt gebruikt in deze applicatie</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
-        <translation>Kleurenpalet gebruikt voor thema&apos;s</translation>
+        <translation>Kleurenpalet dat wordt gebruikt voor thema's</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="189"/>
@@ -81,22 +81,22 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="191"/>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation>Snelkoppelingen van deze toepassingen kunnen worden gewijzigd in het dialoogvenster &apos;Voorkeuren&apos;.</translation>
+        <translation>Applicatie-snelkoppelingen kunnen worden gewijzigd in het Voorkeuren-venster.</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="194"/>
         <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation>Algemene sneltoetsen (system-wide shortcuts) kunnen worden ingesteld in het Command venster (standaard sneltoets is F6).</translation>
+        <translation>Algemene sneltoetsen (systeembreed) kunnen worden ingesteld in het Opdracht-venster (standaard sneltoets is F6).</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="197"/>
         <source>Type any text to search the clipboard history.</source>
-        <translation>Om te zoeken door uw klembord geschiedenis, begint u met typen.</translation>
+        <translation>Begin met typen om de klembordgeschiedenis te doorzoeken.</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="201"/>
         <source>Item list navigation</source>
-        <translation>Item lijst navigatie</translation>
+        <translation>Itemlijst-navigatie</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="201"/>
@@ -106,7 +106,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="202"/>
         <source>Tab navigation</source>
-        <translation>Tabblad navigatie</translation>
+        <translation>Tabblad-navigatie</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="203"/>
@@ -117,22 +117,22 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Move selected items</source>
-        <translation>Verplaats geselecteerde items</translation>
+        <translation>Geselecteerde items verplaatsen</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation>Ctrl + pijl omhoog/omlaag, Ctrl + Home/End</translation>
+        <translation>Ctrl + pijltje omhoog/omlaag, Ctrl + Home/End</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Reset search or hide window</source>
-        <translation>Zoekopdracht opnieuw instellen of venster verbergen</translation>
+        <translation>Zoekopdracht wissen of venster verbergen</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Escape</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="209"/>
@@ -142,17 +142,17 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Put selected items into clipboard</source>
-        <translation>Zet geselecteerde items naar het Klembord</translation>
+        <translation>Plaats geselecteerde items op het klembord</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Change item display format</source>
-        <translation>Item weergave wijzigen</translation>
+        <translation>Itemweergave wijzigen</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"/>
@@ -167,7 +167,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>F2</source>
-        <translation type="unfinished"></translation>
+        <translation>F2</translation>
     </message>
 </context>
 <context>
@@ -175,32 +175,32 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation>CopyQ Actie venster</translation>
+        <translation>CopyQ Actie-venster</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>Op&amp;dracht:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard &amp;invoer:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard ui&amp;tvoer opslaan:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gegevens van MIME-type versturen naar standaard invoer van opdracht (laat leeg om uit te schakelen)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>Items maken van standaard output van het programma (laat leeg om niet te gebruiken)</translation>
+        <translation>Items creëren vanuit standaard uitvoer van de applicatie (laat leeg om uit te schakelen)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -222,24 +222,24 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitvoer-&amp;tabblad:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>Items opslaan in de tabblad met de gegeven naam (laat leeg om op te slaan in de huidige tabblad)</translation>
+        <translation>Items opslaan op het tabblad met de opgegeven naam (laat leeg om op te slaan op het huidige tabblad)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="274"/>
         <source>Command saved</source>
-        <translation type="unfinished">Command saved</translation>
+        <translation>De opdracht is opgeslagen</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="275"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>De opdracht was opgeslagen en kan worden geopend vanuit het item menu.
-U kunt de opdracht in Voorkeuren instellen.</translation>
+        <translation>De opdracht is opgeslagen en kan worden geopend vanuit het item-menu.
+U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     </message>
 </context>
 <context>
@@ -255,7 +255,7 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
         <location filename="../src/gui/actionhandler.cpp" line="123"/>
         <source>Exit code: %1
 </source>
-        <translation type="unfinished">Exit code: %1
+        <translation>Afsluitcode: %1
 </translation>
     </message>
     <message>
@@ -269,88 +269,88 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation>CopyQ Opdrachten toevoegen</translation>
+        <translation>CopyQ - Opdrachten toevoegen</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="80"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="87"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdvenster weergeven/verbergen</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="89"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeemvakmenu weergeven</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="91"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdvenster weergeven onder muisaanwijzer</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="93"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Klembord bewerken</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="95"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>Eerste item bewerken</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="97"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>Tweede item kopiëren</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="99"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Actie-venster weergeven</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="101"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuw item creëren</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="103"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>Volgende item kopiëren</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="105"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorige item kopiëren</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="107"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>Klembordinhoud plakken als platte tekst</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="109"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Klembordopslag uitschakelen</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="111"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Klembordopslag inschakelen</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="113"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>Plakken en volgende kopiëren</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="115"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Plakken en vorige kopiëren</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="136"/>
@@ -360,12 +360,12 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="161"/>
         <source>Ignore items with no or single character</source>
-        <translation>Items negeren met geen of maar één teken</translation>
+        <translation>Items negeren met geen of slechts één teken</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
         <source>Open in &amp;Browser</source>
-        <translation>Openen in &amp;Browser</translation>
+        <translation>Openen in &amp;webbrowser</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="176"/>
@@ -380,32 +380,32 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="185"/>
         <source>Autoplay videos</source>
-        <translation>Video&apos;s automatisch afspelen</translation>
+        <translation>Video's automatisch afspelen</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="194"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation>URL (webadres) naar andere tabblad kopiëren</translation>
+        <translation>URL (webadres) naar ander tabblad kopiëren</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="201"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation>Thumbnail maken (vereist ImageMagick)</translation>
+        <translation>Miniatuurvoorbeeld creëren (vereist ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="209"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation>QR Code maken van URL (vereist qrencode)</translation>
+        <translation>QR-code creëren uit URL (vereist qrencode)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="218"/>
         <source>Add to &amp;TODO tab</source>
-        <translation>Toevoegen aan &amp;TODO tabblad</translation>
+        <translation>Toevoegen aan tabblad &amp;NOGTEDOEN</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="225"/>
         <source>Move to &amp;TODO tab</source>
-        <translation>Verplaats naar &amp;TODO tabblad</translation>
+        <translation>Verplaatsen naar tabblad &amp;NOGTEDOEN</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="233"/>
@@ -414,23 +414,23 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="242"/>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <source>Ignore *"Password"* window</source>
+        <translation>*"Wachtwoord"*-venster negeren</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="243"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="251"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Verplaatsen naar prullenbak</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="254"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(prullenbak)</translation>
     </message>
 </context>
 <context>
@@ -439,7 +439,7 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
         <location filename="../src/common/clientsocket.cpp" line="217"/>
         <location filename="../src/common/clientsocket.cpp" line="275"/>
         <source>Failed to read message from client!</source>
-        <translation type="unfinished"></translation>
+        <translation>Het lezen van het applicatiebericht is mislukt!</translation>
     </message>
 </context>
 <context>
@@ -448,17 +448,17 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="513"/>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met zoeken naar %p%...</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1848"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wijzigingen verwerpen?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1849"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Weet u zeker dat u de &lt;strong&gt;wijzigingen wilt verwerpen&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -466,12 +466,12 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="89"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het verbinden met de server is mislukt. Start de CopyQ-server.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="80"/>
         <source>Connection lost!</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinding verbroken!</translation>
     </message>
 </context>
 <context>
@@ -479,33 +479,33 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>CopyQ Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ-klembordinhoud</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
         <source>&amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Opmaak:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"></translation>
+        <translation>I&amp;nhoud:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Opmaak verwijderen</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="57"/>
         <source>CopyQ Item Content</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ-iteminhoud</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;Grootte:&lt;/strong&gt; %1 bytes</translation>
     </message>
 </context>
 <context>
@@ -513,27 +513,27 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="123"/>
         <source>CopyQ server is already running.</source>
-        <translation type="unfinished"></translation>
+        <translation>De CopyQ-server draait al.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Cancel Active Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Actieve opdrachten annuleren</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="309"/>
         <source>Cancel active commands and exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wilt u de actieve opdrachten annuleren en afsluiten?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="312"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Afsluiten annuleren</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="313"/>
         <source>Exit Anyway</source>
-        <translation type="unfinished"></translation>
+        <translation>Tóch afsluiten</translation>
     </message>
 </context>
 <context>
@@ -541,67 +541,67 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ-opdrachten</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geef nieuwe opdrachten op die óf automatisch kunnen worden opgeroepen bij nieuwe klembordinhoud óf door de gebruiker vanuit het menu of middels systeemsneltoets.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zoeken:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="62"/>
         <source>&amp;Load Commands...</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdrachten &amp;laden...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="72"/>
         <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="unfinished"></translation>
+        <translation>Geselecteerde opdrachten op&amp;slaan...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
         <source>Copy Selected [Ctrl+C]</source>
-        <translation type="unfinished"></translation>
+        <translation>Selectie kopiëren [Ctrl+C]</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
         <source>Paste Commands [Ctrl+V]</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdrachten plakken [Ctrl+V]</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="334"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet-opgeslagen wijzigingen</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="334"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het Opdracht-venster bevat niet-opgeslagen wijzigingen.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="418"/>
         <source>Open Files with Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestanden openen met opdrachten</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="419"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdrachten (*.ini);; CopyQ-configuratie (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="428"/>
         <source>Save Selected Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Geselecteerde opdrachten opslaan</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="429"/>
         <source>Commands (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdrachten (*.ini)</translation>
     </message>
 </context>
 <context>
@@ -609,22 +609,22 @@ U kunt de opdracht in Voorkeuren instellen.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="65"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>De opdracht bevat een lijst van applicaties met argumenten die zullen worden uitgevoerd. Bijvoorbeeld:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="69"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Applicatie-argument %1 zal worden vervangen door itemtekst en %2 tot %9 door teksten die worden opgevangen door reguliere expressies.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Teken %1 kan worden gebruikt om standaard uitvoer door te sturen naar de volgende applicatie.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="79"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation>De volgende syntax kan worden gebruikt om de rest van de opdracht door te sturen als één parameter.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
@@ -723,7 +723,7 @@ Leave empty to disable this.</source>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="233"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -811,7 +811,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"/>
-        <source>Change item, don&apos;t create any new items</source>
+        <source>Change item, don't create any new items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -827,7 +827,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="467"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished">Items maken van standaard output van het programma (laat leeg om niet te gebruiken)</translation>
+        <translation>Items creëren vanuit standaard uitvoer van de applicatie (laat leeg om uit te schakelen)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="477"/>
@@ -842,7 +842,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="490"/>
         <source>\n</source>
-        <translation type="unfinished">\n</translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="497"/>
@@ -1083,7 +1083,7 @@ CTRL and up or down key.</source>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it&apos;s too long to fit on line</source>
+        <source>Break text if it's too long to fit on line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1282,7 +1282,7 @@ Note: This is not be supported on all systems.</source>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="876"/>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <source>Don't show tray icon; minimize window when closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1626,7 +1626,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="356"/>
-        <source>Invalid value for option &quot;%1&quot;</source>
+        <source>Invalid value for option "%1"</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1683,7 +1683,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark &quot;%1&quot; not set.</source>
+        <source>Mark "%1" not set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1731,27 +1731,27 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
+        <source>File "%1" exists (add ! to override)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
+        <source>Cannot open file "%1" for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
+        <source>"%1" %2 %3L, %4C written.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
+        <source>Cannot open file "%1" for reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
+        <source>"%1" %2L, %3C</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
@@ -1859,7 +1859,7 @@ Set to 0 to disable.</source>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="995"/>
-        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
+        <source>Failed to create synchronization directory "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2062,7 +2062,7 @@ Set to 0 to disable.</source>
     <name>ItemEncryptedLoader</name>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="241"/>
-        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2099,8 +2099,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="555"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Fout: %1
- {1?}</translation>
+        <translation>Fout: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="563"/>
@@ -2354,7 +2353,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1409"/>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
+        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2486,7 +2485,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
-        <source>More info is available on &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wiki page&lt;/a&gt;.</source>
+        <source>More info is available on &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki page&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2860,7 +2859,7 @@ Set to 0 to disable.</source>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="91"/>
-        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -2896,7 +2895,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/main.cpp" line="207"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
+which can be letters, digits, '-' or '_'!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3013,7 +3012,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished">&amp;Items plakken</translation>
+        <translation>&amp;Items plakken</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
@@ -3459,7 +3458,7 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn&apos;t exist.
+Tab is created if it doesn't exist.
 Default is the first tab.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3531,7 +3530,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
+Arguments are accessible using with "arguments[0..N]".</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3605,7 +3604,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="73"/>
-        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
+        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3616,7 +3615,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="319"/>
         <location filename="../src/scriptable/scriptableworker.cpp" line="147"/>
-        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
+        <source>Name "%1" doesn't refer to a function.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3637,17 +3636,17 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="801"/>
-        <source>Cannot save to file &quot;%1&quot;!</source>
+        <source>Cannot save to file "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="812"/>
-        <source>Cannot import file &quot;%1&quot;!</source>
+        <source>Cannot import file "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="824"/>
-        <source>Invalid option &quot;%1&quot;!</source>
+        <source>Invalid option "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3673,7 +3672,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3761,7 +3760,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <name>detail::ScriptableProxyHelper</name>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="294"/>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3772,7 +3771,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="385"/>
         <source>Tab with given name already exists!</source>
-        <translation>Tab met deze naam bestaat al!</translation>
+        <translation>Er bestaat al een tabblad met deze naam!</translation>
     </message>
 </context>
 </TS>
