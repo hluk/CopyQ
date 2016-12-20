@@ -629,23 +629,23 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dit geeft dezelfde uitvoer als %1 maar is handiger voor langere opdrachten.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>De onderstaande functies kunnen worden gebruik in de volgende opdrachten.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;klembord</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="126"/>
         <source>Show command help (F1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdrachthulp weergeven (F1)</translation>
     </message>
 </context>
 <context>
@@ -653,73 +653,74 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Naam:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdrachtnaam als weergegeven in menu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="53"/>
         <source>Type of Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Actietype</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="74"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdracht automatisch uitvoeren bij nieuwe klembordinhoud</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="77"/>
         <source>Auto&amp;matic</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto&amp;matisch</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="86"/>
         <source>Show command in context menu of matching items</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdracht weergeven in rechtermuisknopmenu van overeenkomende items</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="89"/>
         <source>In M&amp;enu</source>
-        <translation type="unfinished"></translation>
+        <translation>In m&amp;enu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="102"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Snelkoppeling:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="136"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>Al&amp;gemene snelkoppeling:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="171"/>
         <source>Match Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Items overeen laten komen</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="195"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gegevens van dit MIME-type zullen worden verstuurd naar de standaard invoer van deze opdracht.
+Laat leeg om uit te schakelen.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="206"/>
         <source>F&amp;ormat:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Opmaak:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Opdracht alleen gebruiken voor naar het klembord gekopieerde items, afkomstig uit een venster met titeltekst die overeenkomt met deze reguliere expressie (laat leeg om elk venster overeen te laten komen). Op OS X omvat dit de applicatienaam, gevolgd door een streepje (&amp;quot;-&amp;quot;) en de venstertitel. Bijv.: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="223"/>
         <source>&amp;Window:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Venster:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="233"/>
@@ -729,12 +730,12 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="246"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Inhoud:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="256"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Filteren:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="266"/>
@@ -750,12 +751,12 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="291"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
+        <translation>Op&amp;dracht</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="307"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Actie</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="330"/>
