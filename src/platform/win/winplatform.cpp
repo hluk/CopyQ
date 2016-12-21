@@ -271,11 +271,7 @@ QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
 
 void WinPlatform::loadSettings()
 {
-    static bool migrated = false;
-    if (!migrated) {
-        migrateConfigToAppDir();
-        migrated = true;
-    }
+    migrateConfigToAppDir();
 }
 
 PlatformClipboardPtr WinPlatform::clipboard()

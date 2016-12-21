@@ -208,7 +208,8 @@ void App::restoreSettings(bool canModifySettings)
 {
     m_app->setProperty("CopyQ_server", canModifySettings);
 
-    createPlatformNativeInterface()->loadSettings();
+    if (canModifySettings)
+        createPlatformNativeInterface()->loadSettings();
 
     Settings::restore();
 
