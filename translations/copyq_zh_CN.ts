@@ -1713,7 +1713,8 @@ Leave empty to disable automatic storing.</source>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>从内存中卸载每一个标签页于指定间隔时间(分钟)。
+设置为 0 不卸载标签页。</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="669"/>
@@ -1728,7 +1729,12 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>外部编辑器命令行(%1 代表需编辑的文件)。
+例如：
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="718"/>
