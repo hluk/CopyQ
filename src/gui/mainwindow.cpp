@@ -1898,6 +1898,13 @@ bool MainWindow::toggleMenu(ClipboardBrowser *browser)
 {
     m_trayTab = browser;
     m_trayMenu->toggle();
+
+    // Try to steal focus.
+    m_trayMenu->raise();
+    m_trayMenu->activateWindow();
+    QApplication::setActiveWindow(m_trayMenu);
+    stealFocus(*m_trayMenu);
+
     m_trayTab = NULL;
     return m_trayMenu->isVisible();
 }

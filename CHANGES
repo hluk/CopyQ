@@ -1,3 +1,8 @@
+v2.8.2
+- Fixed focusing tray menu from command
+- Fixed dialog button translation on Windows
+- Fixed passing big data to commands
+
 v2.8.1
 - All Qt messages are logged
 - Fixed and improved commands for Tags plugin
