@@ -761,69 +761,71 @@ Laat leeg om uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="330"/>
         <source>Co&amp;py to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko&amp;piëren naar tabblad:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="340"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam van tabblad waar nieuwe items naar toe moeten worden gekopieerd (laat leeg om niet te kopiëren)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="352"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Overeenkomend item verwijderen
+
+Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatische opdrachten uitgevoerd.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="357"/>
         <source>&amp;Remove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Item &amp;verwijderen</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="367"/>
         <source>Menu Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Menu-actie</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="388"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation type="unfinished"></translation>
+        <translation>Venster verbergen nadat de opdracht is geactiveerd via het item-rechtermuisknopmenu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="391"/>
         <source>&amp;Hide main window after activation</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdvenster &amp;verbergen na activatie</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="401"/>
         <source>Command options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdrachtopties</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="427"/>
         <source>Show action dialog before executing the command</source>
-        <translation type="unfinished"></translation>
+        <translation>Actievenster weergeven voordat de opdracht wordt uitgevoerd</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="430"/>
         <source>&amp;Wait</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Wachten</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"/>
         <source>Change item, don't create any new items</source>
-        <translation type="unfinished"></translation>
+        <translation>Item wijzigen; geen nieuwe items creëren</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="440"/>
         <source>Tr&amp;ansform</source>
-        <translation type="unfinished"></translation>
+        <translation>Tr&amp;ansformeren</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="457"/>
         <source>O&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uitvoer:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="467"/>
@@ -833,12 +835,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="477"/>
         <source>&amp;Separator:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Scheidingsteken:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="487"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation type="unfinished"></translation>
+        <translation>Overeen te komend scheidingsteken voor het splitsen van uitvoer naar meerdere items</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="490"/>
@@ -848,12 +850,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="497"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitvoer&amp;tabblad:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="507"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Items opslaan op tabblad met de volgende naam (laat leeg om op te slaan op eerste tabblad)</translation>
     </message>
 </context>
 <context>
@@ -861,191 +863,193 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Achtergrond</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Notities</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Gevonden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Geselecteerd</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Nummer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normaal</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewerker</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Lettertype</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternatief</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorgrond</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Notificatie</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
         <source>Show &amp;Number</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nummer weergeven</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Scrollbalken weergeven</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>S&amp;crollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;crollbalken</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"></translation>
+        <translation>Pictogrammen van bureaubladomgeving gebruiken indien mogelijk</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;ysteempictogrammen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
         <source>&amp;Antialias</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Anti-kartelvorming</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
+        <translation>Kleuren in&amp;stellen voor tabbladen, werkbalk en menu's</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaa&amp;rdwaarden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Thema:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Thema &amp;laden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Thema op&amp;slaan</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidig thema bewerken in externe tekstverwerker</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Thema b&amp;ewerken</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorbeeld:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="115"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>item</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="118"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>De zoekopdracht is %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="119"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een item en
+druk op F2 om te bewerken.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="121"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer items en verplaats ze met
+CTRL en pijltje omhoog/omlaag.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="123"/>
         <source>Remove item with Delete key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder een item met de Delete-toets.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="125"/>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorbeelditem %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="130"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Enkele willekeurige notities (Shift+F2 om te bewerken)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="163"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>Themabestand openen</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="173"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"></translation>
+        <translation>Themabestand opslaan als</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="192"/>
         <source>No External Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen externe tekstverwerker</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="193"/>
         <source>Set external editor command first!</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel eerst de opdracht voor de externe tekstverwerker in!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="400"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Abc</translation>
     </message>
 </context>
 <context>
@@ -1053,12 +1057,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
         <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aangepaste a&amp;cties en algemene sneltoetsen...</translation>
     </message>
     <message>
         <location filename="../src/tests/tests.cpp" line="1466"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <source>&amp;Paste Items</source>
@@ -1070,37 +1074,37 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ-instellingen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="33"/>
         <source>&amp;General</source>
-        <translation type="unfinished"></translation>
+        <translation>Al&amp;gemeen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="90"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Taa&amp;l:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
         <source>Break text if it's too long to fit on line</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst afbreken als deze niet op één regel past</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="121"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"></translation>
+        <translation>Lange tekst &amp;omslaan</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="128"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdvenster altijd boven andere vensters weergeven</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="131"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Alti&amp;jd bovenop</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="138"/>
