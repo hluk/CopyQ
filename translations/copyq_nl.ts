@@ -1317,29 +1317,31 @@ Let op: dit wordt niet op alle systemen ondersteund.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="590"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximaal aa&amp;ntal items in geschiedenis:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="602"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximum aantal items per tabblad</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="630"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabblad in slaapsta&amp;nd zetten na (in minuten):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="642"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Elk tabblad uit het geheugen verwijderen na een opgegeven aantal minuten van inactiviteit.
+
+Stel in op 0 om tabbladen nooit in de slaapstand te zetten.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="669"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Externe t&amp;ekstverwerker-opdracht (%1 is het te bewerken bestand):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="679"/>
@@ -1349,43 +1351,54 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Externe tekstverwerker-opdracht (%1 is het te bewerken bestand).
+  Voorbeelden:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="694"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta&amp;bblad voor het bewaren van het klembord:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="704"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam van het tabblad dat automatisch nieuwe klembordinhoud zal bewaren.
+
+Laat leeg om automatische opslag uit te schakelen.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="718"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vink niet aan om de Enter-toets in te stellen voor het opslaan van een bewerkt item en Ctrl+Enter voor het creëren van een nieuwe regel.
+
+Let op: bewerkte items kunnen sowieso altijd worden opgeslagen met de F2-toets.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="723"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Enter instellen om bestanden op te slaan en Enter om nieuwe regel te creëren</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="730"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Enkele regelomschrijving weergeven voor elk item.
+
+Gebruik Itemvoorbeeld om gehele items weer te geven.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="735"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpele items &amp;weergeven</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="742"/>
