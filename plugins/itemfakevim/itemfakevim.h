@@ -54,6 +54,8 @@ protected:
 
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
+    virtual void setTagged(bool tagged);
+
 private:
     QScopedPointer<ItemWidget> m_childItem;
     QString m_sourceFileName;

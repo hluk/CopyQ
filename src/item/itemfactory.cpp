@@ -135,6 +135,11 @@ public:
         }
     }
 
+    void setTagged(bool tagged)
+    {
+        setVisible( !tagged || (m_hasText && !m_data.contains(mimeHidden)) );
+    }
+
 private:
     bool m_hasText;
     QVariantMap m_data;

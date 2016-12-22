@@ -1449,6 +1449,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     if ( baseName.isEmpty() || re.exactMatch(baseName) )
         return NULL;
 
+    itemWidget->setTagged(true);
     return new ItemSync(baseName, iconForItem(index, m_formatSettings), itemWidget);
 }
 
