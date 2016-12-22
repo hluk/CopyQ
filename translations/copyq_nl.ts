@@ -1109,206 +1109,210 @@ CTRL en pijltje omhoog/omlaag.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="138"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel in om vensters te openen op het huidige scherm. Schakel uit om vensters te openen op het scherm waar ze het laatst gesloten zijn</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="141"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Vensters o&amp;penen op huidig scherm</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="148"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Om bevestiging vragen bij afsluiten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="151"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Om bevestiging vragen bij af&amp;sluiten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="161"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch opstarten na inloggen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="164"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Automatisch opstarten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="171"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Ondersteuning voor Vi-navigatietoetsen (H, J, K, L enz.), schuine streep (/) om te zoeken</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="174"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>Navigatie in &amp;Vi-stijl</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="181"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Geschiedenis van itemfilters opslaan en herstellen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="184"/>
         <source>Save Filter History</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtergeschiedenis opslaan</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="191"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Klembordmanipulatie</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="203"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Geselecteerde tekst (primaire selectie) opslaan in geschiedenis</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="206"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;2) Geselecteerde tekst opslaan</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="213"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished"></translation>
+        <translation>Muisselecties plakken via sneltoets (meestal Ctrl+V of Shift+Insert)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="216"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;4) Muisselectie plakken via toetsenbord</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="223"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Klembord bewaren in geschiedenis</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="226"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;1) Klembord bewaren</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="236"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gekopieerde inhoud plakken op dezelfde manier als muisselecties (meestal door de middelste muisknop te gebruiken)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="239"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;3) Klembord plakken met muis</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="382"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Uiterlijk en doorzichtigheid</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="391"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Boomstructuur met tabbladen weergeven i.p.v. tabbladbalk</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="394"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished"></translation>
+        <translation>Boomst&amp;ructuur met tabbladen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="401"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Doorzichtigheid bij &amp;focus:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="413"/>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Doorzichtigheid van het hoofdvenster indien gefocust.
+
+Let op: dit wordt niet op alle systemen ondersteund.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="443"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Doorzichtigheid bij ontfoc&amp;us:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="455"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Doorzichtigheid van het hoofdvenster indien ontfocust.
+
+Let op: dit wordt niet op alle systemen ondersteund.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="485"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Itemaantal weergeven op tabbladen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="488"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Itemaantal &amp;weergeven</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="336"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Weergeven/Verbergen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="282"/>
         <source>&amp;Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Uiter&amp;lijk</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="342"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabbladen verbergen (druk op de Alt-toets om ze te weergeven)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="345"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabbla&amp;den verbergen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="352"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkbalk verbergen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="355"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkba&amp;lk verbergen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="362"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkba&amp;lk-labels verbergen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="876"/>
         <source>Don't show tray icon; minimize window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeemvakpictogram verbergen; minimaliseer venster na sluiten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="879"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Systeemvakpictogram verberg&amp;en</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="369"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdvenster verbergen na sluiten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="372"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdvenster &amp;verbergen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="533"/>
         <source>&amp;History</source>
-        <translation type="unfinished"></translation>
+        <translation>Gesc&amp;hiedenis</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="590"/>
