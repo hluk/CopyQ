@@ -1444,10 +1444,12 @@ void ItemSyncLoader::uninitializeTab(QAbstractItemModel *model)
 
 ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
 {
+    static const QRegExp re("copyq_\\d*");
     const QString baseName = getBaseName(index);
-    if ( baseName.isEmpty() )
+    if ( baseName.isEmpty() || re.exactMatch(baseName) )
         return NULL;
 
+    itemWidget->setTagged(true);
     return new ItemSync(baseName, iconForItem(index, m_formatSettings), itemWidget);
 }
 

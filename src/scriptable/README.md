@@ -321,6 +321,10 @@ E.g. following menu command will add tag to selected items.
     copyq:
     setData('application/x-copyq-tags', 'Important')
 
+###### ByteArray removeData(mimeType)
+
+Remove given data type from item.
+
 ###### print(value)
 
 Prints value to standard output.
@@ -618,7 +622,7 @@ Current item when invoking command from main window.
 
 ###### application/x-copyq-hidden
 
-If set to `1`, the clipboard content will be hidden in GUI.
+If set to `1`, the clipboard or item content will be hidden in GUI (notes and tags will be visible).
 
 E.g. if you run following, window title and tool tip will be cleared.
 

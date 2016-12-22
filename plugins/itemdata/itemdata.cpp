@@ -162,6 +162,9 @@ ItemDataLoader::~ItemDataLoader()
 
 ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) const
 {
+    if ( index.data(contentType::isHidden).toBool() )
+        return NULL;
+
     const QStringList formats = index.data(contentType::data).toMap().keys();
     if ( emptyIntersection(formats, formatsToSave()) )
         return NULL;

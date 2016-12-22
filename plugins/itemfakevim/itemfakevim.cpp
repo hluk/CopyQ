@@ -541,6 +541,11 @@ QObject *ItemFakeVim::createExternalEditor(const QModelIndex &index, QWidget *pa
     return m_childItem->createExternalEditor(index, parent);
 }
 
+void ItemFakeVim::setTagged(bool tagged)
+{
+    return m_childItem->setTagged(tagged);
+}
+
 ItemFakeVimLoader::ItemFakeVimLoader()
     : m_enabled(false)
 {

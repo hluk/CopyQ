@@ -113,7 +113,9 @@ public:
         setFocusPolicy(Qt::NoFocus);
         setFixedHeight(sizeHint().height());
         setContextMenuPolicy(Qt::NoContextMenu);
-        trySetPixmap(this, m_data);
+
+        if ( !index.data(contentType::isHidden).toBool() )
+            trySetPixmap(this, m_data);
     }
 
     QWidget *createEditor(QWidget *parent) const
@@ -131,6 +133,11 @@ public:
                     textLabelForData(m_data, font(), QString(), false, width, 1);
             setText(label);
         }
+    }
+
+    void setTagged(bool tagged)
+    {
+        setVisible( !tagged || (m_hasText && !m_data.contains(mimeHidden)) );
     }
 
 private:

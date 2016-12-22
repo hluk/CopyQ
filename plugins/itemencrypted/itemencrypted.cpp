@@ -188,6 +188,11 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
         encryptMimeData( createDataMap(mimeText, textEdit->toPlainText()), index, model );
 }
 
+void ItemEncrypted::setTagged(bool tagged)
+{
+    setVisible(!tagged);
+}
+
 ItemEncryptedLoader::ItemEncryptedLoader()
     : ui()
     , m_settings()

@@ -119,6 +119,13 @@ public:
      */
     virtual void setCurrent(bool current);
 
+    /**
+     * Mark item as tagged/untagged.
+     *
+     * Used to hide unimportant data when notes or tags are present.
+     */
+    virtual void setTagged(bool) {}
+
 protected:
     /**
      * Highlight matching text with given font and color.

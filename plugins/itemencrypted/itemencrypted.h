@@ -44,6 +44,8 @@ public:
 
     virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
                               const QModelIndex &index) const;
+
+    void setTagged(bool tagged);
 };
 
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface

@@ -474,6 +474,7 @@ ItemWidget *ItemTagsLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     if ( tags.isEmpty() )
         return NULL;
 
+    itemWidget->setTagged(true);
     return new ItemTags(itemWidget, tags);
 }
 

@@ -325,6 +325,7 @@ ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QModelIndex
 
     const QByteArray icon = index.data(contentType::data).toMap().value(mimeIcon).toByteArray();
 
+    itemWidget->setTagged(true);
     return new ItemNotes( itemWidget, text, icon,
                           m_settings["notes_at_bottom"].toBool(),
                           m_settings["icon_only"].toBool(),
