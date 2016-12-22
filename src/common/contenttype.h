@@ -57,7 +57,10 @@ enum {
     notes,
 
     /// Item color (string expression as used in themes).
-    color
+    color,
+
+    /// If true, hide content of item (not notes, tags etc.).
+    isHidden
 };
 
 }

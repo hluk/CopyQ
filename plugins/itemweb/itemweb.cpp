@@ -213,6 +213,9 @@ ItemWebLoader::~ItemWebLoader()
 
 ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) const
 {
+    if ( index.data(contentType::isHidden).toBool() )
+        return NULL;
+
     QString html;
     if ( getHtml(index, &html) )
         return new ItemWeb(html, m_settings.value(optionMaximumHeight, 0).toInt(), parent);

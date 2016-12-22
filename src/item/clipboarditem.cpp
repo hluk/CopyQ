@@ -154,6 +154,8 @@ QVariant ClipboardItem::data(int role) const
             return getTextData(m_data, mimeItemNotes);
         } else if (role == contentType::color) {
             return getTextData(m_data, mimeColor);
+        } else if (role == contentType::isHidden) {
+            return m_data.contains(mimeHidden);
         }
     }
 

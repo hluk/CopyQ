@@ -113,7 +113,9 @@ public:
         setFocusPolicy(Qt::NoFocus);
         setFixedHeight(sizeHint().height());
         setContextMenuPolicy(Qt::NoContextMenu);
-        trySetPixmap(this, m_data);
+
+        if ( !index.data(contentType::isHidden).toBool() )
+            trySetPixmap(this, m_data);
     }
 
     QWidget *createEditor(QWidget *parent) const

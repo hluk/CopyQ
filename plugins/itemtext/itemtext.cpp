@@ -207,6 +207,9 @@ ItemTextLoader::~ItemTextLoader()
 
 ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) const
 {
+    if ( index.data(contentType::isHidden).toBool() )
+        return NULL;
+
     QString text;
     bool isRichText = m_settings.value(optionUseRichText, true).toBool()
             && getRichText(index, &text);

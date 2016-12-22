@@ -618,7 +618,7 @@ Current item when invoking command from main window.
 
 ###### application/x-copyq-hidden
 
-If set to `1`, the clipboard content will be hidden in GUI.
+If set to `1`, the clipboard or item content will be hidden in GUI (notes and tags will be visible).
 
 E.g. if you run following, window title and tool tip will be cleared.
 

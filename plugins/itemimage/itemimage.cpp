@@ -89,6 +89,9 @@ ItemImage::ItemImage(const QPixmap &pix, const QString &imageEditor, const QStri
 
 QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *parent) const
 {
+    if ( index.data(contentType::isHidden).toBool() )
+        return NULL;
+
     QString mime;
     QByteArray data;
     if ( !getImageData(index, &data, &mime) )
