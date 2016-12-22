@@ -321,6 +321,10 @@ E.g. following menu command will add tag to selected items.
     copyq:
     setData('application/x-copyq-tags', 'Important')
 
+###### ByteArray removeData(mimeType)
+
+Remove given data type from item.
+
 ###### print(value)
 
 Prints value to standard output.

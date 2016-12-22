@@ -967,7 +967,10 @@ void ScriptableProxyHelper::setSelectedItemsData(const QString &mime, const QVar
         ClipboardBrowser *c = m_wnd->browserForItem(index);
         if (c) {
             QVariantMap data = c->model()->data(index, contentType::data).toMap();
-            data[mime] = value;
+            if (value.isValid())
+                data[mime] = value;
+            else
+                data.remove(mime);
             c->model()->setData(index, data, contentType::data);
         }
     }

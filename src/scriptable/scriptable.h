@@ -171,6 +171,7 @@ public slots:
     QScriptValue input();
     QScriptValue data(const QScriptValue &value);
     QScriptValue setData();
+    QScriptValue removeData();
     void print(const QScriptValue &value);
     void abort();
     void fail();

@@ -977,6 +977,13 @@ QScriptValue Scriptable::setData()
     return true;
 }
 
+QScriptValue Scriptable::removeData()
+{
+    const QString mime = arg(0);
+    m_proxy->setSelectedItemsData(mime, QVariant());
+    return true;
+}
+
 void Scriptable::print(const QScriptValue &value)
 {
     sendMessageToClient(makeByteArray(value), CommandSuccess);
