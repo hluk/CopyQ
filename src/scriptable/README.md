@@ -111,22 +111,34 @@ Returns clipboard data for MIME type (default is text).
 
 Same as `clipboard()` for Linux/X11 mouse selection.
 
-###### ByteArray copy(...)
+###### bool copy(text)
 
-Sets clipboard content.
+Sets clipboard plain text.
 
-Argument is either text or MIME types followed by data.
+Exception is thrown if clipboard fails to be set.
+
+###### bool copy(mimeType, data, [mimeType, data]...)
+
+Sets clipboard data.
+
+Exception is thrown if clipboard fails to be set.
 
 Example (set both text and rich text):
 
 ```js
 copy('text/plain', 'Hello, World!',
-     'text/html', '<p>Hello, World!</p>'
+     'text/html', '<p>Hello, World!</p>')
 ```
+
+###### bool copy()
+
+Sends `Ctrl+C` to current window.
+
+Returns true only if clipboard has changed.
 
 ###### ByteArray copySelection(...)
 
-Same as `copy()` for Linux/X11 mouse selection.
+Same as `copy(...)` for Linux/X11 mouse selection.
 
 ###### paste()
 
