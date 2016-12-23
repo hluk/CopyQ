@@ -3969,8 +3969,7 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="490"/>
         <source>Terminating server.
 </source>
-        <translation>正在终止服务器。
-</translation>
+        <translation>服务终止中</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1361"/>
