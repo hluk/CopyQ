@@ -211,7 +211,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>从程序的标准输出中创建条目（留空则禁用）</translation>
+        <translation>从程序的标准输出中创建条目(留空则禁用)</translation>
     </message>
     <message>
         <source>Send data of given MIME type to standard input of command (leave empty to disable).</source>
@@ -219,7 +219,7 @@
     </message>
     <message>
         <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation type="vanished">从程序的标准输出中创建条目（留空则禁用）。</translation>
+        <translation>从程序的标准输出中创建条目(留空则禁用)。</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -802,7 +802,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="467"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>从程序的标准输出创建条目（留空则禁用）</translation>
+        <translation>从程序的标准输出创建条目(留空则禁用)</translation>
     </message>
     <message>
         <source>&amp;Format:</source>
@@ -3609,7 +3609,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
         <source>Print X11 selection content.</source>
-        <translation>输出 X11 选择的内容。</translation>
+        <translation>打印 X11 所选择的内容。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
@@ -3969,7 +3969,8 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="490"/>
         <source>Terminating server.
 </source>
-        <translation>服务终止中</translation>
+        <translation>正在终止服务器。
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1361"/>
