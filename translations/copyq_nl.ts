@@ -1403,87 +1403,87 @@ Gebruik Itemvoorbeeld om gehele items weer te geven.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="742"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Na het activeren van een item (dubbelklik of Enter-toets), kopieer het naar het klembord en ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="748"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Item naar bovenkant van de lijst verplaatsen na activeren</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="751"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"></translation>
+        <translation>Item naar b&amp;oven verplaatsen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="758"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdvenster sluiten na activeren van item</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="761"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdvenster &amp;sluiten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatstgebruikte venster focussen na activeren van item</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished"></translation>
+        <translation>Laatstgebruikte venster &amp;focussen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Plakken in huidig venster na activeren van item</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="781"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Plakken in huidig venster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="824"/>
         <source>&amp;Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Sys&amp;teemvak</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="886"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdracht voor huidige klembordinhoud weergeven in systeemvakmenu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="889"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdrachten voor klembordinhoud &amp;weergeven</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="898"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aa&amp;ntal items in systeemvakmenu:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="908"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Aantal items in systeemvakmenu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="935"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Items van huidig tabblad weergeven in systeemvakmenu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="938"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidig tabblad wee&amp;rgeven in systeemvakmenu,</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="945"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>of &amp;kies een ander tabblad:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="961"/>
