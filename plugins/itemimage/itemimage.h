@@ -59,7 +59,7 @@ public:
 
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
-    virtual int priority() const { return 10; }
+    virtual int priority() const { return 15; }
 
     virtual QString id() const { return "itemimage"; }
     virtual QString name() const { return tr("Images"); }
