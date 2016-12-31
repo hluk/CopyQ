@@ -1062,7 +1062,17 @@ void ClipboardBrowser::dragMoveEvent(QDragMoveEvent *event)
     if ( formats.size() == 1 && formats[0].startsWith("application/x-q") )
         return;
 
-    event->acceptProposedAction();
+    // Default drop action in item list should be "move."
+    if ( event->possibleActions().testFlag(Qt::MoveAction)
+         && event->mimeData()->hasFormat(mimeItems)
+         && !event->keyboardModifiers().testFlag(Qt::ControlModifier) )
+    {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+    } else {
+        event->acceptProposedAction();
+    }
+
     m_dragTargetRow = getDropRow(event->pos());
     update();
 }
@@ -1160,8 +1170,10 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
     foreach (const QModelIndex &index, selected)
         indexesToRemove.append(index);
 
-    // start dragging (doesn't block event loop)
-    Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
+    // Start dragging (doesn't block event loop).
+    // Default action is "copy" which works for most apps,
+    // "move" action is used only in item list by default.
+    Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 
     if (dropAction == Qt::MoveAction) {
         selected.clear();
