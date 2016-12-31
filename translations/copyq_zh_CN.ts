@@ -3425,7 +3425,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>Ctrl+Right</source>
-        <translation>Ctrl+Right</translation>
+        <translation>Ctrl + →</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
@@ -3435,7 +3435,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Ctrl+Left</source>
-        <translation>Ctrl+Left</translation>
+        <translation>Ctrl + ←</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
@@ -3445,7 +3445,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Up</source>
-        <translation>Ctrl+Up</translation>
+        <translation>Ctrl + ↑</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
@@ -3455,7 +3455,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Ctrl+Down</source>
-        <translation>Ctrl+Down</translation>
+        <translation>Ctrl + ↓</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
@@ -3525,7 +3525,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>Right</source>
-        <translation>Right</translation>
+        <translation>右</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
@@ -3535,7 +3535,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"/>
         <source>Left</source>
-        <translation>Left</translation>
+        <translation>左</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
