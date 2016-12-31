@@ -642,6 +642,22 @@ void ClipboardBrowser::refilterItems()
     scrollTo(currentIndex());
 }
 
+void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
+{
+    // Default drop action in item list should be "move."
+    if ( event->possibleActions().testFlag(Qt::MoveAction)
+         && event->mimeData()->hasFormat(mimeItems)
+         && !event->keyboardModifiers().testFlag(Qt::ControlModifier) )
+    {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+    } else {
+        event->acceptProposedAction();
+    }
+
+    m_dragTargetRow = getDropRow(event->pos());
+}
+
 bool ClipboardBrowser::hasUserSelection() const
 {
     return isActiveWindow() || editing() || selectionModel()->selectedRows().count() > 1;
@@ -1062,29 +1078,19 @@ void ClipboardBrowser::dragMoveEvent(QDragMoveEvent *event)
     if ( formats.size() == 1 && formats[0].startsWith("application/x-q") )
         return;
 
-    // Default drop action in item list should be "move."
-    if ( event->possibleActions().testFlag(Qt::MoveAction)
-         && event->mimeData()->hasFormat(mimeItems)
-         && !event->keyboardModifiers().testFlag(Qt::ControlModifier) )
-    {
-        event->setDropAction(Qt::MoveAction);
-        event->accept();
-    } else {
-        event->acceptProposedAction();
-    }
-
-    m_dragTargetRow = getDropRow(event->pos());
+    processDragAndDropEvent(event);
     update();
 }
 
 void ClipboardBrowser::dropEvent(QDropEvent *event)
 {
-    event->accept();
+    processDragAndDropEvent(event);
+
     if (event->dropAction() == Qt::MoveAction && event->source() == this)
         return; // handled in mouseMoveEvent()
 
     const QVariantMap data = cloneData( *event->mimeData() );
-    paste( data, getDropRow(event->pos()) );
+    paste(data, m_dragTargetRow);
     m_dragTargetRow = -1;
 }
 

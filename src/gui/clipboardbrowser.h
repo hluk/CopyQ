@@ -417,6 +417,8 @@ class ClipboardBrowser : public QListView
 
         void refilterItems();
 
+        void processDragAndDropEvent(QDropEvent *event);
+
         ItemLoaderInterface *m_itemLoader;
         QString m_tabName;
         int m_lastFiltered;
