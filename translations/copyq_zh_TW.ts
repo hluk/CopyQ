@@ -290,12 +290,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="91"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished">在滑鼠游標下顯示主窗</translation>
+        <translation>在滑鼠游標下顯示主窗</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="93"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished">編輯剪貼</translation>
+        <translation>編輯系統剪貼簿內容</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="95"/>
@@ -315,7 +315,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="101"/>
         <source>Create new item</source>
-        <translation type="unfinished">新建項目</translation>
+        <translation>新建項目到系統剪貼簿</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="103"/>
@@ -330,7 +330,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="107"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished">將剪貼轉為純文字貼上</translation>
+        <translation>將剪貼轉為純文字貼上</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="109"/>
@@ -340,12 +340,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="111"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished">啟用剪貼歷史之儲存</translation>
+        <translation>啟用剪貼歷史之儲存</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="113"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished">貼上並複製下一個</translation>
+        <translation>貼上並複製下一個</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="115"/>
@@ -1158,7 +1158,7 @@ CTRL and up or down key.</source>
     </message>
     <message>
         <source>Move to &amp;Clipboard</source>
-        <translation type="vanished">移到剪貼簿(&amp;C)</translation>
+        <translation>移到系統剪貼簿(&amp;C)</translation>
     </message>
     <message>
         <source>&amp;Show Content...</source>
@@ -3392,7 +3392,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
         <source>Move to &amp;Clipboard</source>
-        <translation type="unfinished">移到剪貼簿(&amp;C)</translation>
+        <translation>移到系統剪貼簿(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
@@ -3412,7 +3412,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>F7</source>
-        <translation type="unfinished">F7</translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
@@ -3482,7 +3482,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Up</source>
-        <translation type="unfinished">移上</translation>
+        <translation>移上</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"/>
@@ -3492,7 +3492,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move Down</source>
-        <translation type="unfinished">移下</translation>
+        <translation>移下</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
@@ -3502,7 +3502,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Top</source>
-        <translation type="unfinished">移至首</translation>
+        <translation>移至首</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="124"/>
@@ -3512,7 +3512,7 @@ which can be letters, digits, '-' or '_'!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="125"/>
         <source>Move to Bottom</source>
-        <translation type="unfinished">移至尾</translation>
+        <translation>移至尾</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
