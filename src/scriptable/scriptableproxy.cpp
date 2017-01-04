@@ -495,9 +495,24 @@ void ScriptableProxyHelper::browserRemoveRows(QList<int> rows)
 
     qSort( rows.begin(), rows.end(), qGreater<int>() );
 
+    QModelIndexList indexes;
+    indexes.reserve(rows.size());
+
     ClipboardBrowser::Lock lock(c);
-    foreach (int row, rows)
-        c->removeRow(row);
+    foreach (int row, rows) {
+        const QModelIndex indexToRemove = c->index(row);
+        if ( indexToRemove.isValid() )
+            indexes.append(indexToRemove);
+    }
+
+    const QPersistentModelIndex currentIndex = c->currentIndex();
+
+    const int lastRow = c->removeIndexes(indexes);
+
+    if ( !currentIndex.isValid() ) {
+        const int currentRow = qMin(lastRow, c->length() - 1);
+        c->setCurrent(currentRow);
+    }
 }
 
 void ScriptableProxyHelper::browserEditRow(int arg1)
