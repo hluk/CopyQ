@@ -705,10 +705,11 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
 
 int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
 {
-    if ( indexes.isEmpty() )
+    Q_ASSERT(m_itemLoader);
+
+    if ( indexes.isEmpty() || !m_itemLoader->canRemoveItems(indexes) )
         return -1;
 
-    Q_ASSERT(m_itemLoader);
     m_itemLoader->itemsRemovedByUser(indexes);
 
     QList<int> rows;
@@ -1269,24 +1270,6 @@ void ClipboardBrowser::showItemContent()
     }
 }
 
-void ClipboardBrowser::removeRow(int row)
-{
-    const QModelIndex indexToRemove = index(row);
-    if ( !indexToRemove.isValid() )
-        return;
-
-    bool removingCurrent = indexToRemove == currentIndex();
-
-    Q_ASSERT(m_itemLoader);
-    m_itemLoader->itemsRemovedByUser(QList<QModelIndex>() << indexToRemove);
-    m.removeRow(row);
-
-    delayedSaveItems();
-
-    if (removingCurrent)
-        setCurrentIndex( index(qMin(row, length() - 1)) );
-}
-
 void ClipboardBrowser::editNotes()
 {
     QModelIndex ind = currentIndex();
@@ -1525,12 +1508,9 @@ void ClipboardBrowser::editSelected()
 void ClipboardBrowser::remove()
 {
     const QModelIndexList toRemove = selectedIndexes();
-    Q_ASSERT(m_itemLoader);
-    if ( !toRemove.isEmpty() && m_itemLoader->canRemoveItems(toRemove) ) {
-        const int lastRow = removeIndexes(toRemove);
-        if (lastRow != -1)
-            setCurrent(lastRow);
-    }
+    const int currentRow = removeIndexes(toRemove);
+    if (currentRow != -1)
+        setCurrent(currentRow);
 }
 
 bool ClipboardBrowser::select(uint itemHash, SelectActions selectActions)
