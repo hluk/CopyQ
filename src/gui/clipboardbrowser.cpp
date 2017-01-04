@@ -723,10 +723,8 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
     qSort( rows.begin(), rows.end(), qGreater<int>() );
 
     ClipboardBrowser::Lock lock(this);
-    foreach (int row, rows) {
-        if ( !isRowHidden(row) )
-            m.removeRow(row);
-    }
+    foreach (int row, rows)
+        m.removeRow(row);
 
     delayedSaveItems();
 
