@@ -337,7 +337,8 @@ QString Theme::getNotificationStyleSheet() const
 QFont Theme::themeFontFromString(const QString &fontString) const
 {
     QFont font;
-    font.fromString(fontString);
+    if ( !fontString.isEmpty() )
+        font.fromString(fontString);
     if ( !isAntialiasingEnabled() )
         font.setStyleStrategy(QFont::NoAntialias);
     return font;
