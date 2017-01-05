@@ -289,7 +289,7 @@ QIcon iconFromFile(const QString &fileName)
         return QIcon();
 
     ushort unicode = fileName.at(0).unicode();
-    if (fileName.size() == 1 && unicode >= IconFirst && unicode <= IconLast)
+    if (fileName.size() == 1 && unicode >= IconFirst)
         return loadIconFont() ? IconEngine::createIcon(unicode, "") : QIcon();
 
     return QIcon(fileName);

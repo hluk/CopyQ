@@ -53,16 +53,7 @@ IconSelectDialog::IconSelectDialog(const QString &defaultIcon, QWidget *parent)
     m_iconList->addItem( QString("") );
     m_iconList->item(0)->setSizeHint(size);
 
-    for (ushort i = IconFirst; i <= IconLast; ++i) {
-        QChar c(i);
-        if ( fm.inFont(c) ) {
-            const QString icon(c);
-            QListWidgetItem *item = new QListWidgetItem(icon, m_iconList);
-            item->setSizeHint(size);
-            if (defaultIcon == icon)
-                m_iconList->setCurrentRow(m_iconList->count() - 1);
-        }
-    }
+    addIcons();
 
     QPushButton *browseButton = new QPushButton(tr("Browse..."), this);
     if ( m_selectedIcon.size() > 2 )
@@ -125,4 +116,18 @@ void IconSelectDialog::onAcceptCurrent()
         onIconListItemActivated(index);
     else
         reject();
+}
+
+void IconSelectDialog::addIcons()
+{
+#include "add_icons.h"
+}
+
+void IconSelectDialog::addIcon(ushort unicode)
+{
+    const QString icon(unicode);
+    QListWidgetItem *item = new QListWidgetItem(icon, m_iconList);
+    item->setSizeHint( m_iconList->gridSize() );
+    if (m_selectedIcon == icon)
+        m_iconList->setCurrentRow(m_iconList->count() - 1);
 }

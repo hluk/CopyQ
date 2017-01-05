@@ -48,6 +48,9 @@ private slots:
     void onAcceptCurrent();
 
 private:
+    void addIcons();
+    void addIcon(ushort unicode);
+
     QListWidget *m_iconList;
     QString m_selectedIcon;
 };
