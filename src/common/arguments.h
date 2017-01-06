@@ -60,8 +60,8 @@ public:
     /** Total number of arguments. */
     int length() const { return m_args.size(); }
 
-    /** Check for emptiness. */
-    bool isEmpty() const { return m_args.empty(); }
+    /** Return true only if no arguments are available. */
+    bool isEmpty() const { return length() <= Rest; }
 
     /** Clear arguments. */
     void removeAllArguments();

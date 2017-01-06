@@ -126,7 +126,7 @@ void ScriptableWorker::run()
     QByteArray response;
     int exitCode;
 
-    if ( m_args.length() <= Arguments::Rest ) {
+    if ( m_args.isEmpty() ) {
         SCRIPT_LOG("Error: bad command syntax");
         exitCode = CommandBadSyntax;
     } else {
