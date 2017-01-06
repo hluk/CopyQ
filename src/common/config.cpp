@@ -110,8 +110,16 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     QByteArray geometry = geometryOptionValue(optionName + tag).toByteArray();
 
     // If geometry for screen resolution doesn't exist, use last saved one.
-    if (geometry.isEmpty())
+    if (geometry.isEmpty()) {
         geometry = geometryOptionValue(optionName).toByteArray();
+
+        // If geometry for the screen doesn't exist, move window to the middle of the screen.
+        if (geometry.isEmpty()) {
+            const QRect availableGeometry = QApplication::desktop()->availableGeometry(QCursor::pos());
+            w->move( availableGeometry.center() - w->rect().center() );
+            geometry = w->saveGeometry();
+        }
+    }
 
     if (w->saveGeometry() != geometry) {
         w->restoreGeometry(geometry);
