@@ -45,7 +45,7 @@ void startProcess(QProcess *process, const QStringList &args)
     process->start(executable, args.mid(1), QIODevice::ReadWrite);
 }
 
-void startWritingInput(const QByteArray &input, QPointer<QProcess> p)
+void startWritingInput(const QByteArray input, QPointer<QProcess> p)
 {
     if (!p)
         return;
@@ -57,7 +57,7 @@ void startWritingInput(const QByteArray &input, QPointer<QProcess> p)
             p->write(input.mid(pos, bufferSize));
             do {
                 QCoreApplication::processEvents();
-                if (!p)
+                if (!p || p->state() == QProcess::NotRunning)
                     return;
             } while ( p->waitForBytesWritten(0) );
         }

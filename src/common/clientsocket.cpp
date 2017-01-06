@@ -32,7 +32,7 @@
 
 namespace {
 
-bool readBytes(QPointer<QLocalSocket> socket, qint64 size, QByteArray *bytes)
+bool readBytes(QPointer<QLocalSocket> &socket, qint64 size, QByteArray *bytes)
 {
     qint64 remaining = size;
     bytes->clear();
@@ -56,7 +56,7 @@ bool readBytes(QPointer<QLocalSocket> socket, qint64 size, QByteArray *bytes)
     return true;
 }
 
-bool readMessage(QLocalSocket *socket, QByteArray *msg)
+bool readMessage(QPointer<QLocalSocket> socket, QByteArray *msg)
 {
     QByteArray bytes;
     quint32 len;
@@ -72,7 +72,10 @@ bool readMessage(QLocalSocket *socket, QByteArray *msg)
         }
     }
 
-    COPYQ_LOG("ERROR: Incorrect message!");
+    if (socket || socket->state() == QLocalSocket::UnconnectedState)
+        log("ERROR: Socket disconnected before receiving message", LogError);
+    else
+        log("ERROR: Incorrect message!", LogError);
 
     return false;
 }
