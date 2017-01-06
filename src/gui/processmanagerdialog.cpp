@@ -150,7 +150,7 @@ void ProcessManagerDialog::actionStarted(Action *action)
     SortingGuard sortGuard(t);
 
     QTableWidgetItem *statusItem = t->item(row, tableCommandsColumns::status);
-    statusItem->setText(tr("Runnning"));
+    statusItem->setText(tr("Running"));
     statusItem->setData(statusItemData::status, QProcess::Running);
     updateTable();
 }
