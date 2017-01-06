@@ -55,11 +55,11 @@ void startWritingInput(const QByteArray &input, QPointer<QProcess> p)
         // the application can be blocked when writing huge amount of data.
         for (int pos = 0; pos < input.size(); pos += bufferSize) {
             p->write(input.mid(pos, bufferSize));
-            while ( p->waitForBytesWritten(0) ) {
+            do {
                 QCoreApplication::processEvents();
                 if (!p)
                     return;
-            }
+            } while ( p->waitForBytesWritten(0) );
         }
     }
 
