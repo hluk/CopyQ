@@ -275,8 +275,13 @@ void Action::start()
         m_processes.append(new QProcess(this));
         m_processes.last()->setProcessEnvironment(env);
 
+#if QT_VERSION < 0x050600
         connect( m_processes.last(), SIGNAL(error(QProcess::ProcessError)),
                  SLOT(actionError(QProcess::ProcessError)) );
+#else
+        connect( m_processes.last(), SIGNAL(errorOccurred(QProcess::ProcessError)),
+                 SLOT(actionError(QProcess::ProcessError)) );
+#endif
         connect( m_processes.last(), SIGNAL(readyReadStandardError()),
                  SLOT(actionErrorOutput()) );
     }
