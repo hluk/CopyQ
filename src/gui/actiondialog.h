@@ -66,10 +66,6 @@ public:
     Command command() const;
 
 public slots:
-    /** Create action from dialog's content. */
-    void createAction();
-
-    void accept();
     void done(int r);
 
 signals:
@@ -83,6 +79,9 @@ signals:
     void closed(ActionDialog *self);
 
 private slots:
+    /** Create action from dialog's content. */
+    void createAction();
+
     void on_buttonBox_clicked(QAbstractButton* button);
     void on_comboBoxCommands_currentIndexChanged(int index);
     void on_comboBoxInputFormat_currentIndexChanged(const QString &format);
@@ -92,7 +91,7 @@ private slots:
 
 private:
     QVariant createCurrentItemData();
-    void saveItemData();
+    void saveCurrentCommandToHistory();
 
     Ui::ActionDialog *ui;
     QVariantMap m_data;
