@@ -512,9 +512,9 @@ bool containsAnyData(const QVariantMap &data)
     return false;
 }
 
-bool openTemporaryFile(QTemporaryFile *file)
+bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
 {
-    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
+    const QString tmpFileName = "CopyQ.XXXXXX" + suffix;
     const QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
 
     file->setFileTemplate(tmpPath);

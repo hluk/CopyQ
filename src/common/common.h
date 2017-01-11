@@ -23,6 +23,7 @@
 #include <QClipboard>
 #include <QFont>
 #include <QFontMetrics>
+#include <QString>
 #include <QtGlobal> // Q_WS_*
 #include <QVariantMap>
 
@@ -33,7 +34,6 @@ class QKeyEvent;
 class QKeySequence;
 class QMimeData;
 class QPoint;
-class QString;
 class QStringList;
 class QTemporaryFile;
 class QTimer;
@@ -146,7 +146,7 @@ QString toPortableShortcutText(const QString &shortcutNativeText);
 
 void renameToUnique(QString *name, const QStringList &names);
 
-bool openTemporaryFile(QTemporaryFile *file);
+bool openTemporaryFile(QTemporaryFile *file, const QString &suffix = ".ini");
 
 int pointsToPixels(int points);
 

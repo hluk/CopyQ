@@ -46,9 +46,54 @@
 #include <QPainter>
 #include <QProcess>
 #include <QScrollBar>
+#include <QTemporaryFile>
+#include <QUrl>
 #include <QElapsedTimer>
 
 namespace {
+
+/// Save drag'n'drop image data in temporary file (required by some applications).
+class TemporaryDragAndDropImage : public QObject {
+public:
+    /// Return temporary image file for data or NULL if file cannot be created.
+    static TemporaryDragAndDropImage *create(QMimeData *mimeData, QObject *parent)
+    {
+        if ( !mimeData->hasImage() || mimeData->hasFormat(mimeUriList) )
+            return NULL;
+
+        return new TemporaryDragAndDropImage(mimeData, parent);
+    }
+
+    /// Remove temporary image file after an interval (allows target application to read all data).
+    void drop()
+    {
+        m_timerRemove.start();
+    }
+
+private:
+    TemporaryDragAndDropImage(QMimeData *mimeData, QObject *parent)
+        : QObject(parent)
+    {
+        // Save image as PNG.
+        const QImage image = mimeData->imageData().value<QImage>();
+        openTemporaryFile(&m_file, ".png");
+        image.save(&m_file, "PNG");
+        m_file.flush();
+
+        // Add URI to temporary file to drag'n'drop data.
+        const QUrl url = QUrl::fromLocalFile( m_file.fileName() );
+        const QByteArray localUrl = url.toString().toUtf8();
+        mimeData->setData( mimeUriList, localUrl );
+
+        // Set interval to wait before removing temporary file after data were dropped.
+        const int transferRateBytesPerSecond = 100000;
+        const int removeAfterDropSeconds = 5 + static_cast<int>(m_file.size()) / transferRateBytesPerSecond;
+        initSingleShotTimer( &m_timerRemove, removeAfterDropSeconds * 1000, this, SLOT(deleteLater()) );
+    }
+
+    QTimer m_timerRemove;
+    QTemporaryFile m_file;
+};
 
 bool alphaSort(const QModelIndex &lhs, const QModelIndex &rhs)
 {
@@ -1170,6 +1215,9 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
     drag->setMimeData( createMimeData(data) );
     drag->setPixmap( renderItemPreview(selected, 150, 150) );
 
+    TemporaryDragAndDropImage *temporaryImage =
+            TemporaryDragAndDropImage::create(drag->mimeData(), this);
+
     // Save persistent indexes so after the items are dropped (and added) these indexes remain valid.
     QList<QPersistentModelIndex> indexesToRemove;
     foreach (const QModelIndex &index, selected)
@@ -1208,6 +1256,9 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
     update();
 
     event->accept();
+
+    if (temporaryImage)
+        temporaryImage->drop();
 }
 
 bool ClipboardBrowser::openEditor()
