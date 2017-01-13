@@ -234,6 +234,117 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
             } // for k
         } // for j
     } // for i
+
+    // The code above fails to translate keys like semicolon with Qt 5.7.1.
+    // Last resort is to try mapping the rest of the keys directly.
+    switch (key)
+    {
+    case Qt::Key_A:
+        return kVK_ANSI_A;
+    case Qt::Key_S:
+        return kVK_ANSI_S;
+    case Qt::Key_D:
+        return kVK_ANSI_D;
+    case Qt::Key_F:
+        return kVK_ANSI_F;
+    case Qt::Key_H:
+        return kVK_ANSI_H;
+    case Qt::Key_G:
+        return kVK_ANSI_G;
+    case Qt::Key_Z:
+        return kVK_ANSI_Z;
+    case Qt::Key_X:
+        return kVK_ANSI_X;
+    case Qt::Key_C:
+        return kVK_ANSI_C;
+    case Qt::Key_V:
+        return kVK_ANSI_V;
+    case Qt::Key_B:
+        return kVK_ANSI_B;
+    case Qt::Key_Q:
+        return kVK_ANSI_Q;
+    case Qt::Key_W:
+        return kVK_ANSI_W;
+    case Qt::Key_E:
+        return kVK_ANSI_E;
+    case Qt::Key_R:
+        return kVK_ANSI_R;
+    case Qt::Key_Y:
+        return kVK_ANSI_Y;
+    case Qt::Key_T:
+        return kVK_ANSI_T;
+    case Qt::Key_1:
+        return kVK_ANSI_1;
+    case Qt::Key_2:
+        return kVK_ANSI_2;
+    case Qt::Key_3:
+        return kVK_ANSI_3;
+    case Qt::Key_4:
+        return kVK_ANSI_4;
+    case Qt::Key_6:
+        return kVK_ANSI_6;
+    case Qt::Key_5:
+        return kVK_ANSI_5;
+    case Qt::Key_Equal:
+        return kVK_ANSI_Equal;
+    case Qt::Key_9:
+        return kVK_ANSI_9;
+    case Qt::Key_7:
+        return kVK_ANSI_7;
+    case Qt::Key_Minus:
+        return kVK_ANSI_Minus;
+    case Qt::Key_8:
+        return kVK_ANSI_8;
+    case Qt::Key_0:
+        return kVK_ANSI_0;
+    case Qt::Key_BracketRight:
+        return kVK_ANSI_RightBracket;
+    case Qt::Key_O:
+        return kVK_ANSI_O;
+    case Qt::Key_U:
+        return kVK_ANSI_U;
+    case Qt::Key_BracketLeft:
+        return kVK_ANSI_LeftBracket;
+    case Qt::Key_I:
+        return kVK_ANSI_I;
+    case Qt::Key_P:
+        return kVK_ANSI_P;
+    case Qt::Key_L:
+        return kVK_ANSI_L;
+    case Qt::Key_J:
+        return kVK_ANSI_J;
+    case Qt::Key_QuoteDbl:
+        return kVK_ANSI_Quote;
+    case Qt::Key_K:
+        return kVK_ANSI_K;
+    case Qt::Key_Semicolon:
+        return kVK_ANSI_Semicolon;
+    case Qt::Key_Backslash:
+        return kVK_ANSI_Backslash;
+    case Qt::Key_Comma:
+        return kVK_ANSI_Comma;
+    case Qt::Key_Slash:
+        return kVK_ANSI_Slash;
+    case Qt::Key_N:
+        return kVK_ANSI_N;
+    case Qt::Key_M:
+        return kVK_ANSI_M;
+    case Qt::Key_Period:
+        return kVK_ANSI_Period;
+    case Qt::Key_Dead_Grave:
+        return kVK_ANSI_Grave;
+    case Qt::Key_Asterisk:
+        return kVK_ANSI_KeypadMultiply;
+    case Qt::Key_Plus:
+        return kVK_ANSI_KeypadPlus;
+    case Qt::Key_Clear:
+        return kVK_ANSI_KeypadClear;
+    case Qt::Key_Escape:
+        return kVK_Escape;
+    default:
+        ;
+    }
+
     return 0;
 }
 
