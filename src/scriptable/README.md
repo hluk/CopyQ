@@ -442,6 +442,22 @@ print('Amount: ' + result['Enter Amount'] + '\n')
 print('File: ' + result['Choose File'] + '\n')
 ```
 
+Editable combo box can be created by passing array.
+The first value in the array is current text.
+
+```js
+var text = dialog('Select', ['', 'a', 'b', 'c'])
+```
+
+List can be created by prefixing name/label with `.list:` and passing array.
+
+```js
+var items = ['a', 'b', 'c']
+var selected_index = dialog('.list:Select', items)
+if (selected_index)
+    print('Selected item: ' + items[selected_index])
+```
+
 ###### Array settings()
 
 Returns array with names of all custom options.

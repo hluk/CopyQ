@@ -45,6 +45,7 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QLineEdit>
+#include <QListWidget>
 #include <QMimeData>
 #include <QPushButton>
 #include <QShortcut>
@@ -143,6 +144,18 @@ void installShortcutToCloseDialog(QWidget *dialog, QWidget *shortcutParent, int 
 
 QWidget *createListWidget(const QString &name, const QStringList &itemsWithCurrent, QWidget *parent)
 {
+    const QString listPrefix = ".list:";
+    if ( name.startsWith(listPrefix) ) {
+        const QStringList items = itemsWithCurrent;
+        QListWidget *w = createAndSetWidget<QListWidget>("currentRow", QVariant(), parent);
+        w->addItems(items);
+        w->setCurrentRow(0);
+        w->setAlternatingRowColors(true);
+        installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
+        installShortcutToCloseDialog(parent, w, Qt::Key_Return);
+        return label(Qt::Vertical, name.mid(listPrefix.length()), w);
+    }
+
     const QString currentText = itemsWithCurrent.value(0);
     const QStringList items = itemsWithCurrent.mid(1);
     QComboBox *w = createAndSetWidget<QComboBox>("currentText", QVariant(), parent);
