@@ -26,6 +26,7 @@
 #include "common/mimetypes.h"
 #include "common/settings.h"
 #include "gui/filedialog.h"
+#include "gui/iconfactory.h"
 #include "gui/mainwindow.h"
 #include "gui/tabicons.h"
 #include "gui/windowgeometryguard.h"
@@ -85,6 +86,18 @@ QByteArray serializeWindow(WId winId)
 {
     QByteArray data;
     return createPlatformNativeInterface()->serialize(winId, &data) ? data : QByteArray();
+}
+
+/// Load icon from icon font, path or theme.
+QIcon loadIcon(const QString &idPathOrName)
+{
+    if (idPathOrName.size() == 1)
+        return createPixmap(idPathOrName[0].unicode(), Qt::white, 64);
+
+    if ( QFile::exists(idPathOrName) )
+        return QIcon(idPathOrName);
+
+    return QIcon::fromTheme(idPathOrName);
 }
 
 QWidget *label(Qt::Orientation orientation, const QString &name, QWidget *w)
@@ -900,6 +913,7 @@ NamedValueList ScriptableProxyHelper::inputDialog(const NamedValueList &values)
 {
     INVOKE(inputDialog(values));
     QDialog dialog;
+    QIcon icon;
     QVBoxLayout layout(&dialog);
     QWidgetList widgets;
     widgets.reserve(values.size());
@@ -911,7 +925,7 @@ NamedValueList ScriptableProxyHelper::inputDialog(const NamedValueList &values)
         if (value.name == ".title")
             dialog.setWindowTitle( value.value.toString() );
         else if (value.name == ".icon")
-            dialog.setWindowIcon( QIcon(value.value.toString()) );
+            icon = loadIcon(value.value.toString());
         else if (value.name == ".style")
             styleSheet = value.value.toString();
         else if (value.name == ".height")
@@ -947,6 +961,10 @@ NamedValueList ScriptableProxyHelper::inputDialog(const NamedValueList &values)
     connect( &buttons, SIGNAL(accepted()), &dialog, SLOT(accept()) );
     connect( &buttons, SIGNAL(rejected()), &dialog, SLOT(reject()) );
     layout.addWidget(&buttons);
+
+    if (icon.isNull())
+        icon = appIcon();
+    dialog.setWindowIcon(icon);
 
     dialog.show();
     dialog.raise();

@@ -412,7 +412,7 @@ Arguments are names and associated values.
 Special arguments:
 
 - '.title' - dialog title
-- '.icon' - dilog icon
+- '.icon' - dialog icon (see below for more info)
 - '.style' - Qt style sheet for dialog
 - '.height', '.width', '.x', '.y' - dialog geometry
 - '.label' - dialog message (can contain basic HTML)
@@ -456,6 +456,18 @@ var items = ['a', 'b', 'c']
 var selected_index = dialog('.list:Select', items)
 if (selected_index)
     print('Selected item: ' + items[selected_index])
+```
+
+Icon for custom dialog can be set from icon font, file path or theme.
+Icons from icon font can be copied from icon selection dialog in Command dialog or
+dialog for setting tab icon (in menu 'Tabs/Change Tab Icon').
+
+```js
+var search = dialog(
+  '.title', 'Search',
+  '.icon', 'search', // Set icon 'search' from theme.
+  'Search', ''
+  )
 ```
 
 ###### Array settings()
