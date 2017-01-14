@@ -151,6 +151,7 @@ QWidget *createListWidget(const QString &name, const QStringList &itemsWithCurre
     w->setCurrentIndex(items.indexOf(currentText));
     w->lineEdit()->setText(currentText);
     w->lineEdit()->selectAll();
+    w->setMaximumWidth( pointsToPixels(400) );
     installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
     installShortcutToCloseDialog(parent, w, Qt::Key_Return);
     return label(Qt::Horizontal, name, w);
