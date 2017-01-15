@@ -70,29 +70,40 @@ public:
         m_timerRemove.start();
     }
 
+    ~TemporaryDragAndDropImage()
+    {
+        if ( m_filePath.isEmpty() )
+            QFile::remove(m_filePath);
+    }
+
 private:
     TemporaryDragAndDropImage(QMimeData *mimeData, QObject *parent)
         : QObject(parent)
     {
         // Save image as PNG.
         const QImage image = mimeData->imageData().value<QImage>();
-        openTemporaryFile(&m_file, ".png");
-        image.save(&m_file, "PNG");
-        m_file.flush();
+
+        QTemporaryFile imageFile;
+        openTemporaryFile(&imageFile, ".png");
+        image.save(&imageFile, "PNG");
+
+        m_filePath = imageFile.fileName();
+        imageFile.setAutoRemove(false);
+        imageFile.close();
 
         // Add URI to temporary file to drag'n'drop data.
-        const QUrl url = QUrl::fromLocalFile( m_file.fileName() );
+        const QUrl url = QUrl::fromLocalFile(m_filePath);
         const QByteArray localUrl = url.toString().toUtf8();
         mimeData->setData( mimeUriList, localUrl );
 
         // Set interval to wait before removing temporary file after data were dropped.
         const int transferRateBytesPerSecond = 100000;
-        const int removeAfterDropSeconds = 5 + static_cast<int>(m_file.size()) / transferRateBytesPerSecond;
+        const int removeAfterDropSeconds = 5 + static_cast<int>(imageFile.size()) / transferRateBytesPerSecond;
         initSingleShotTimer( &m_timerRemove, removeAfterDropSeconds * 1000, this, SLOT(deleteLater()) );
     }
 
     QTimer m_timerRemove;
-    QTemporaryFile m_file;
+    QString m_filePath;
 };
 
 bool alphaSort(const QModelIndex &lhs, const QModelIndex &rhs)
