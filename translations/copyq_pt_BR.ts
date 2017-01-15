@@ -3024,7 +3024,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="153"/>
-        <source>Runnning</source>
+        <source>Running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -4553,7 +4553,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="153"/>
-        <source>Runnning</source>
+        <source>Running</source>
         <translation>Ejecutando</translation>
     </message>
     <message>

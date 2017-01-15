@@ -4532,7 +4532,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="153"/>
-        <source>Runnning</source>
+        <source>Running</source>
         <translation>En cours d’exécution</translation>
     </message>
     <message>

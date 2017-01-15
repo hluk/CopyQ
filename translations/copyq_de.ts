@@ -4725,7 +4725,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="153"/>
-        <source>Runnning</source>
+        <source>Running</source>
         <translation>Wird ausgeführt</translation>
     </message>
     <message>

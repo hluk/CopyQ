@@ -2799,7 +2799,7 @@ Settes til 0 for å deaktivere.</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="153"/>
-        <source>Runnning</source>
+        <source>Running</source>
         <translation>Kjører</translation>
     </message>
     <message>
