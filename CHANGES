@@ -1,4 +1,9 @@
 v2.8.2
+- Simplify appearance of items with notes and tags
+- Support for drag'n'dropping images to more applications
+- Added list widget for custom dialog
+- Fixed opening windows on current screen
+- Fixed tray icon appearance on Linux
 - Fixed focusing tray menu from command
 - Fixed dialog button translation on Windows
 - Fixed passing big data to commands
