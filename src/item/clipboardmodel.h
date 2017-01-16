@@ -23,7 +23,7 @@
 #include "item/clipboarditem.h"
 
 #include <QAbstractListModel>
-#include <QVector>
+#include <QList>
 
 /**
  * Container with clipboard items.
@@ -39,22 +39,24 @@ public:
 
     ClipboardItem &operator [](int i)
     {
-        return m_items[toIndex(i)];
+        return m_items[i];
     }
 
     const ClipboardItem &operator [](int i) const
     {
-        return m_items[toIndex(i)];
+        return m_items[i];
     }
 
     void insert(int row, const ClipboardItem &item)
     {
-        m_items.insert(toIndex(row) + 1, item);
+        m_items.insert(row, item);
     }
 
     void remove(int row, int count)
     {
-        m_items.remove(toIndex(row) + 1 - count, count);
+        const QList<ClipboardItem>::iterator from = m_items.begin() + row;
+        const QList<ClipboardItem>::iterator to = from + count;
+        m_items.erase(from, to);
     }
 
     int size() const
@@ -64,11 +66,9 @@ public:
 
     void move(int from, int to)
     {
-        const int from2 = toIndex(from);
-        const int to2 = toIndex(to);
-        const ClipboardItem item = m_items[from2];
-        m_items.remove(from2);
-        m_items.insert(to2, item);
+        const ClipboardItem item = m_items[from];
+        m_items.removeAt(from);
+        m_items.insert(to, item);
     }
 
     void reserve(int maxItems)
@@ -78,16 +78,15 @@ public:
 
     void resize(int size)
     {
-        m_items.resize(size);
+        if (size < this->size())
+            remove(size, this->size());
+
+        while (size > this->size())
+            m_items.append(ClipboardItem());
     }
 
 private:
-    int toIndex(int row) const
-    {
-        return size() - row - 1;
-    }
-
-    QVector<ClipboardItem> m_items;
+    QList<ClipboardItem> m_items;
 };
 
 /**
