@@ -264,6 +264,7 @@ ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, 
     initSingleShotTimer( &m_timerUpdate, 10, this, SLOT(doUpdateCurrentPage()) );
     initSingleShotTimer( &m_timerFilter, 10, this, SLOT(filterItems()) );
     initSingleShotTimer( &m_timerExpire, 0, this, SLOT(expire()) );
+    initSingleShotTimer( &m_timerEmitItemCount, 0, this, SLOT(emitItemCount()) );
 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -714,6 +715,12 @@ void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
     m_dragTargetRow = getDropRow(event->pos());
 }
 
+void ClipboardBrowser::emitItemCount()
+{
+    if (isLoaded())
+        emit itemCountChanged( tabName(), length() );
+}
+
 bool ClipboardBrowser::hasUserSelection() const
 {
     return isActiveWindow() || editing() || selectionModel()->selectedRows().count() > 1;
@@ -889,8 +896,8 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 
 void ClipboardBrowser::onItemCountChanged()
 {
-    if (isLoaded())
-        emit itemCountChanged( tabName(), length() );
+    if (!m_timerEmitItemCount.isActive())
+        m_timerEmitItemCount.start();
 }
 
 void ClipboardBrowser::onTabNameChanged(const QString &tabName)
