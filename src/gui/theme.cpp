@@ -275,6 +275,7 @@ void Theme::decorateToolBar(QWidget *toolBar) const
         toolBar->setStyleSheet(
             "QToolBar{" + themeStyleSheet("tool_bar_css") + "}"
             "QToolButton{" + themeStyleSheet("tool_button_css") + "}"
+            "QToolButton:hover{" + themeStyleSheet("tool_button_selected_css") + "}"
                     );
     } else {
         toolBar->setStyleSheet(QString());
@@ -465,6 +466,10 @@ void Theme::resetTheme()
                 );
     m_theme["tool_button_css"] = Option(
                 "\n    ;background-color: transparent"
+                );
+    m_theme["tool_button_selected_css"] = Option(
+                "\n    ;background: ${sel_bg}"
+                "\n    ;color: ${sel_fg}"
                 );
 
     m_theme["search_bar"] = Option(
