@@ -25,6 +25,7 @@ TRANSLATIONS = \
     translations/copyq_pt_PT.ts \
     translations/copyq_pt_BR.ts \
     translations/copyq_ru.ts \
+    translations/copyq_sk.ts \
     translations/copyq_sv.ts \
     translations/copyq_tr.ts \
     translations/copyq_uk.ts \
