@@ -41,6 +41,8 @@ public:
      */
     void addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent);
 
+    void clearClipboardItems();
+
     /** Add custom action. */
     void addCustomAction(QAction *action);
 
@@ -57,6 +59,8 @@ signals:
     /** Emitted if numbered action triggered. */
     void clipboardItemActionTriggered(uint clipboardItemHash, bool omitPaste);
 
+    void searchRequest(const QString &text);
+
 private slots:
     void onClipboardItemActionTriggered();
 
@@ -66,6 +70,8 @@ protected:
 
 private:
     void resetSeparators();
+    void search(const QString &text);
+    void addSearchMenuItem(const QString &text);
 
     QPointer<QAction> m_clipboardItemActionsSeparator;
     QPointer<QAction> m_customActionsSeparator;
@@ -73,6 +79,8 @@ private:
 
     bool m_omitPaste;
     bool m_viMode;
+
+    QString m_searchText;
 };
 
 #endif // TRAYMENU_H

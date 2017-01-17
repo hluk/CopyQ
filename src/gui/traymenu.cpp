@@ -22,6 +22,7 @@
 #include "common/contenttype.h"
 #include "common/common.h"
 #include "gui/icons.h"
+#include "gui/iconfactory.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 
@@ -94,14 +95,17 @@ void TrayMenu::toggle()
 
 void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent)
 {
-    QAction *act;
+    resetSeparators();
+
+    // Show search text at top of the menu.
+    if ( m_clipboardItemActionCount == 0 && m_searchText.isEmpty() )
+        addSearchMenuItem( m_viMode ? tr("Press '/' to search") : tr("Type to search") );
 
     const QVariantMap data = index.data(contentType::data).toMap();
-    act = addAction(QString());
+    QAction *act = addAction(QString());
 
     act->setData(index.data(contentType::hash));
 
-    resetSeparators();
     insertAction(m_clipboardItemActionsSeparator, act);
 
     QString format;
@@ -110,8 +114,10 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
     if (m_clipboardItemActionCount < 10) {
         format = tr("&%1. %2",
                     "Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)")
-                .arg(m_clipboardItemActionCount++);
+                .arg(m_clipboardItemActionCount);
     }
+
+    m_clipboardItemActionCount++;
 
     const QString label = textLabelForData( data, act->font(), format, true );
     act->setText(label);
@@ -145,6 +151,22 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
         setActiveAction(act);
 }
 
+void TrayMenu::clearClipboardItems()
+{
+    resetSeparators();
+
+    foreach ( QAction *action, actions() ) {
+        if (action->isSeparator())
+            break;
+        removeAction(action);
+    }
+    m_clipboardItemActionCount = 0;
+
+    // Show search text at top of the menu.
+    if ( !m_searchText.isEmpty() )
+        addSearchMenuItem(m_searchText);
+}
+
 void TrayMenu::addCustomAction(QAction *action)
 {
     resetSeparators();
@@ -155,6 +177,7 @@ void TrayMenu::clearAllActions()
 {
     clear();
     m_clipboardItemActionCount = 0;
+    m_searchText.clear();
 }
 
 void TrayMenu::setActiveFirstEnabledAction()
@@ -171,17 +194,17 @@ void TrayMenu::setViModeEnabled(bool enabled)
 
 void TrayMenu::keyPressEvent(QKeyEvent *event)
 {
-    int k = event->key();
+    const int key = event->key();
     m_omitPaste = false;
 
-    if (event->modifiers() == Qt::KeypadModifier && Qt::Key_0 <= k && k <= Qt::Key_9) {
+    if (event->modifiers() == Qt::KeypadModifier && Qt::Key_0 <= key && key <= Qt::Key_9) {
         // Allow keypad digit to activate appropriate item in context menu.
         event->setModifiers(Qt::NoModifier);
-    } else if ( m_viMode && handleViKey(event, this) ) {
+    } else if ( m_viMode && m_searchText.isEmpty() && handleViKey(event, this) ) {
         return;
     } else {
         // Movement in tray menu.
-        switch (k) {
+        switch (key) {
         case Qt::Key_PageDown:
         case Qt::Key_End: {
             QAction *action = lastEnabledAction(this);
@@ -198,6 +221,26 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
         }
         case Qt::Key_Escape:
             close();
+            break;
+        case Qt::Key_Backspace:
+        case Qt::Key_Delete:
+            search(QString());
+            break;
+        case Qt::Key_Alt:
+            return;
+        default:
+            // Type text for search.
+            if ( (m_clipboardItemActionCount > 0 || !m_searchText.isEmpty())
+                 && (!m_viMode || !m_searchText.isEmpty() || key == Qt::Key_Slash)
+                 && !event->modifiers().testFlag(Qt::AltModifier)
+                 && !event->modifiers().testFlag(Qt::ControlModifier) )
+            {
+                const QString txt = event->text();
+                if ( !txt.isEmpty() && txt[0].isPrint() ) {
+                    search(m_searchText + txt);
+                    return;
+                }
+            }
             break;
         }
     }
@@ -221,6 +264,20 @@ void TrayMenu::resetSeparators()
 
     if ( m_clipboardItemActionsSeparator.isNull() )
         m_clipboardItemActionsSeparator = insertSeparator(m_customActionsSeparator);
+}
+
+void TrayMenu::search(const QString &text)
+{
+    m_searchText = text;
+    emit searchRequest(m_viMode ? m_searchText.mid(1) : m_searchText);
+}
+
+void TrayMenu::addSearchMenuItem(const QString &text)
+{
+    const QIcon icon = getIcon("edit-find", IconSearch);
+    QAction *searchAction = new QAction(icon, text, this);
+    searchAction->setEnabled(false);
+    insertAction(m_clipboardItemActionsSeparator, searchAction);
 }
 
 void TrayMenu::onClipboardItemActionTriggered()

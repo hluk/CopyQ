@@ -365,6 +365,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     // signals & slots
     connect( m_trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
+    connect( m_trayMenu, SIGNAL(searchRequest(QString)),
+             this, SLOT(addTrayMenuItems(QString)) );
     connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
              this, SLOT(onTrayActionTriggered(uint,bool)) );
     connect( ui->tabWidget, SIGNAL(currentChanged(int,int)),
@@ -2304,8 +2306,6 @@ void MainWindow::updateTrayMenuItems()
     if (m_options.trayItemPaste)
         m_lastWindow = createPlatformNativeInterface()->getCurrentWindow();
 
-    ClipboardBrowser *c = getTabForTrayMenu();
-
     clearTrayMenu();
 
     QAction *act = m_trayMenu->addAction(
@@ -2319,13 +2319,7 @@ void MainWindow::updateTrayMenuItems()
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
 
-    // Add items.
-    const int len = (c != NULL) ? qMin( m_options.trayItems, c->length() ) : 0;
-    const int current = c->currentIndex().row();
-    for ( int i = 0; i < len; ++i ) {
-        const QModelIndex index = c->model()->index(i, 0);
-        m_trayMenu->addClipboardItemAction(index, m_options.trayImages, i == current);
-    }
+    addTrayMenuItems(QString());
 
     // Add commands.
     if (m_options.trayCommands) {
@@ -2345,6 +2339,30 @@ void MainWindow::updateTrayMenuItems()
 
     if (m_trayMenu->activeAction() == NULL)
         m_trayMenu->setActiveFirstEnabledAction();
+}
+
+void MainWindow::addTrayMenuItems(const QString &searchText)
+{
+    m_trayMenu->clearClipboardItems();
+
+    ClipboardBrowser *c = getTabForTrayMenu();
+    if (!c)
+        return;
+
+    const int current = c->currentIndex().row();
+    int itemCount = 0;
+    for ( int i = 0; i < c->length() && itemCount < m_options.trayItems; ++i ) {
+        const QModelIndex index = c->model()->index(i, 0);
+        if ( !searchText.isEmpty() ) {
+            const QString itemText = index.data(contentType::text).toString().toLower();
+            if ( !itemText.contains(searchText.toLower()) )
+                continue;
+        }
+        m_trayMenu->addClipboardItemAction(index, m_options.trayImages, i == current);
+        ++itemCount;
+    }
+
+    m_trayMenu->setActiveFirstEnabledAction();
 }
 
 void MainWindow::clearTrayMenu()

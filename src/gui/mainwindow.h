@@ -447,6 +447,7 @@ protected:
 private slots:
     ClipboardBrowser *getTabForTrayMenu();
     void updateTrayMenuItems();
+    void addTrayMenuItems(const QString &searchText);
     void clearTrayMenu();
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
     void onTrayActionTriggered(uint clipboardItemHash, bool omitPaste);
