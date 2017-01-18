@@ -34,6 +34,7 @@
 
 RemoteProcess::RemoteProcess(QObject *parent)
     : QObject(parent)
+    , m_pongRetry(false)
     , m_state(Unconnected)
 {
     initSingleShotTimer( &m_timerPing, 8000, this, SLOT(ping()) );
@@ -165,11 +166,17 @@ void RemoteProcess::ping()
         writeMessage( QByteArray(), MonitorPing );
         m_timerPing.stop();
         m_timerPongTimeout.start();
+        m_pongRetry = true;
     }
 }
 
 void RemoteProcess::pongTimeout()
 {
-    log( "Remote process: Connection timeout!", LogError );
-    onConnectionError();
+    if (m_pongRetry) {
+        m_timerPongTimeout.start();
+        m_pongRetry = false;
+    } else {
+        log( "Remote process: Connection timeout!", LogError );
+        onConnectionError();
+    }
 }

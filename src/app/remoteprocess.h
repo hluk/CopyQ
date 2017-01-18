@@ -87,6 +87,7 @@ private slots:
 private:
     QTimer m_timerPing;
     QTimer m_timerPongTimeout;
+    bool m_pongRetry;
     enum State {
         Unconnected,
         Connecting,
