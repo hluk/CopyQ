@@ -294,6 +294,12 @@ void ClipboardBrowser::closeExternalEditor(QObject *editor)
     editor->deleteLater();
 }
 
+void ClipboardBrowser::emitItemCount()
+{
+    if (isLoaded())
+        emit itemCountChanged( tabName(), length() );
+}
+
 bool ClipboardBrowser::isFiltered(int row) const
 {
     if ( d.searchExpression().isEmpty() || !m_itemLoader)
@@ -713,12 +719,6 @@ void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
     }
 
     m_dragTargetRow = getDropRow(event->pos());
-}
-
-void ClipboardBrowser::emitItemCount()
-{
-    if (isLoaded())
-        emit itemCountChanged( tabName(), length() );
 }
 
 bool ClipboardBrowser::hasUserSelection() const
