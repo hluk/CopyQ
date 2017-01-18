@@ -61,9 +61,15 @@ private slots:
     void onStateChanged(QLocalSocket::LocalSocketState state);
 
 private:
+    void error(const QString &errorMessage);
+
     QLocalSocket *m_socket;
     bool m_deleteAfterDisconnected;
     bool m_closed;
+
+    bool m_hasMessageLength;
+    quint32 m_messageLength;
+    QByteArray m_message;
 };
 
 #endif // CLIENTSOCKET_H

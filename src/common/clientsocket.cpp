@@ -32,52 +32,31 @@
 
 namespace {
 
-bool readBytes(QPointer<QLocalSocket> &socket, qint64 size, QByteArray *bytes)
-{
-    qint64 remaining = size;
-    bytes->clear();
-    while (remaining > 0) {
-        QElapsedTimer t;
-        t.start();
-        while ( t.elapsed() < 4000 && socket->bytesAvailable() == 0 && !socket->waitForReadyRead(0) ) {
-            QCoreApplication::processEvents();
-            if (!socket)
-                return false;
-        }
-
-        const qint64 avail = qMin( socket->bytesAvailable(), remaining );
-        if (avail == 0)
-            return false;
-
-        bytes->append( socket->read(avail) );
-        remaining -= avail;
-    }
-
-    return true;
-}
-
-bool readMessage(QPointer<QLocalSocket> socket, QByteArray *msg)
+template <typename T>
+int doStreamDataSize(T value)
 {
     QByteArray bytes;
-    quint32 len;
-
-    COPYQ_LOG_VERBOSE("Reading message.");
-
-    if ( readBytes(socket, sizeof(len), &bytes) ) {
-        QDataStream(bytes) >> len;
-
-        if ( readBytes(socket, len, msg) ) {
-            COPYQ_LOG_VERBOSE( QString("Message read (%1 bytes).").arg(msg->size()) );
-            return true;
-        }
+    {
+        QDataStream dataStream(&bytes, QIODevice::WriteOnly);
+        dataStream << value;
     }
+    return bytes.length();
+}
 
-    if (!socket || socket->state() == QLocalSocket::UnconnectedState)
-        log("ERROR: Socket disconnected before receiving message", LogError);
-    else
-        log("ERROR: Incorrect message!", LogError);
+template <typename T>
+int streamDataSize(T value)
+{
+    static int size = doStreamDataSize(value);
+    return size;
+}
 
-    return false;
+template <typename T>
+bool readValue(T *value, QByteArray *message)
+{
+    QDataStream stream(*message);
+    stream >> *value;
+    message->remove(0, streamDataSize(*value));
+    return stream.status() == QDataStream::Ok;
 }
 
 bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
@@ -104,6 +83,7 @@ ClientSocket::ClientSocket()
     , m_socket(NULL)
     , m_deleteAfterDisconnected(false)
     , m_closed(true)
+    , m_hasMessageLength(false)
 {
 }
 
@@ -112,6 +92,7 @@ ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
     , m_socket(new QLocalSocket(this))
     , m_deleteAfterDisconnected(false)
     , m_closed(false)
+    , m_hasMessageLength(false)
 {
     m_socket->connectToServer(serverName);
 }
@@ -121,6 +102,7 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
     , m_socket(socket)
     , m_deleteAfterDisconnected(false)
     , m_closed(false)
+    , m_hasMessageLength(false)
 {
     socket->setParent(this);
 }
@@ -148,6 +130,8 @@ void ClientSocket::start()
              this, SLOT(onStateChanged(QLocalSocket::LocalSocketState)), Qt::UniqueConnection );
     connect( m_socket, SIGNAL(error(QLocalSocket::LocalSocketError)),
              this, SLOT(onError(QLocalSocket::LocalSocketError)), Qt::UniqueConnection );
+    connect( m_socket, SIGNAL(readyRead()),
+             this, SLOT(onReadyRead()), Qt::UniqueConnection );
 
     onStateChanged(m_socket->state());
 
@@ -210,33 +194,36 @@ void ClientSocket::onReadyRead()
         return;
     }
 
-    /* QLocalSocket::waitForReadyRead() seems to re-emit readyRead()
-     * though QIODevice::waitForReadyRead() doesn't do that (very confusing).
-     */
-    disconnect( m_socket, SIGNAL(readyRead()),
-                this, SLOT(onReadyRead()) );
+    const qint64 available = m_socket->bytesAvailable();
+    m_message.append( m_socket->read(available) );
 
-    while (m_socket->bytesAvailable() > 0) {
-        QByteArray msg;
+    while ( !m_message.isEmpty() ) {
+        if (!m_hasMessageLength) {
+            if ( m_message.length() < streamDataSize(m_messageLength) )
+                break;
 
-        if ( !readMessage(m_socket, &msg) ) {
-            log( tr("Failed to read message from client!"), LogError );
-            if (m_socket)
-                m_socket->abort();
-            onStateChanged(QLocalSocket::UnconnectedState);
+            if ( !readValue(&m_messageLength, &m_message) ) {
+                error("Failed to read message length from client!");
+                return;
+            }
+            m_hasMessageLength = true;
+        }
+
+        if ( static_cast<quint32>(m_message.length()) < m_messageLength )
+            break;
+
+        QByteArray msg = m_message.mid(0, m_messageLength);
+        qint32 messageCode;
+        if ( !readValue(&messageCode, &msg) ) {
+            error("Failed to read message code from client!");
             return;
         }
 
-        QDataStream stream(msg);
-        qint32 messageCode;
-        stream >> messageCode;
-        const int i = sizeof(messageCode);
-        const QByteArray data( msg.constData() + i, msg.length() - i );
-        emit messageReceived(data, messageCode);
-    }
+        m_hasMessageLength = false;
+        m_message = m_message.mid(m_messageLength);
 
-    connect( m_socket, SIGNAL(readyRead()),
-             this, SLOT(onReadyRead()) );
+        emit messageReceived(msg, messageCode);
+    }
 }
 
 void ClientSocket::onError(QLocalSocket::LocalSocketError error)
@@ -261,9 +248,20 @@ void ClientSocket::onStateChanged(QLocalSocket::LocalSocketState state)
     if (!m_closed) {
         m_closed = state != QLocalSocket::ConnectedState;
         if (m_closed) {
+            if (m_hasMessageLength)
+                log("ERROR: Socket disconnected before receiving message", LogError);
+
             emit disconnected();
             if (m_deleteAfterDisconnected)
                 deleteLater();
         }
     }
+}
+
+void ClientSocket::error(const QString &errorMessage)
+{
+    log(errorMessage, LogError);
+    if (m_socket)
+        m_socket->abort();
+    onStateChanged(QLocalSocket::UnconnectedState);
 }
