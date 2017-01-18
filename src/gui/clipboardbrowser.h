@@ -280,6 +280,8 @@ class ClipboardBrowser : public QListView
         /** Called if editor was closed. */
         void closeExternalEditor(QObject *editor);
 
+        void emitItemCount();
+
     signals:
         /** Action dialog requested. */
         void requestActionDialog(const QVariantMap &data);
@@ -416,8 +418,6 @@ class ClipboardBrowser : public QListView
         void refilterItems();
 
         void processDragAndDropEvent(QDropEvent *event);
-
-        void emitItemCount();
 
         ItemLoaderInterface *m_itemLoader;
         QString m_tabName;
