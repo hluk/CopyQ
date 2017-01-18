@@ -20,7 +20,6 @@
 #ifndef SCRIPTABLEWORKER_H
 #define SCRIPTABLEWORKER_H
 
-#include "common/arguments.h"
 #include "common/common.h"
 #include "gui/mainwindow.h"
 #include "scriptable/scriptable.h"
@@ -34,14 +33,12 @@ class ScriptableWorker : public QRunnable
 {
 public:
     ScriptableWorker(
-            MainWindow *mainWindow, const Arguments &args, ClientSocket *socket,
-            const QString &pluginScript);
+            MainWindow *mainWindow, ClientSocket *socket, const QString &pluginScript);
 
     void run();
 
 private:
     MainWindow *m_wnd;
-    Arguments m_args;
     ClientSocket *m_socket;
     QString m_pluginScript;
     QString m_id;

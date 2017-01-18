@@ -23,7 +23,6 @@
 #include <QObject>
 #include <QTimer>
 
-class Arguments;
 class ClientSocket;
 class Server;
 class QByteArray;
@@ -79,7 +78,7 @@ signals:
 private slots:
     void ping();
     void pongTimeout();
-    void onNewConnection(const Arguments &args, ClientSocket *socket);
+    void onNewConnection(ClientSocket *socket);
     void onMessageReceived(const QByteArray &message, int messageCode);
     bool checkConnection();
     void onConnectionError();

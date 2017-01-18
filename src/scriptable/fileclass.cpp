@@ -23,9 +23,8 @@
 
 COPYQ_DECLARE_SCRIPTABLE_CLASS(FileClass)
 
-FileClass::FileClass(const QString &currentPath, QScriptEngine *engine)
+FileClass::FileClass(QScriptEngine *engine)
     : ScriptableClass(engine)
-    , m_currentPath(currentPath)
 {
 }
 

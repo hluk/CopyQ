@@ -22,7 +22,6 @@
 
 #include <QObject>
 
-class Arguments;
 class ClientSocket;
 class QLocalServer;
 
@@ -37,7 +36,7 @@ public:
     bool isListening() const;
 
 signals:
-    void newConnection(const Arguments &args, ClientSocket *socket);
+    void newConnection(ClientSocket *socket);
 
 private slots:
     void onNewConnection();

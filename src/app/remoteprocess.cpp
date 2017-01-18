@@ -19,7 +19,6 @@
 
 #include "remoteprocess.h"
 
-#include "common/arguments.h"
 #include "common/common.h"
 #include "common/client_server.h"
 #include "common/clientsocket.h"
@@ -63,8 +62,8 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
         return;
     }
 
-    connect(server, SIGNAL(newConnection(Arguments,ClientSocket*)),
-            this, SLOT(onNewConnection(Arguments,ClientSocket*)));
+    connect(server, SIGNAL(newConnection(ClientSocket*)),
+            this, SLOT(onNewConnection(ClientSocket*)));
     connect(this, SIGNAL(connectionError()),
             server, SLOT(deleteLater()));
 
@@ -97,7 +96,7 @@ bool RemoteProcess::checkConnection() {
     return true;
 }
 
-void RemoteProcess::onNewConnection(const Arguments &, ClientSocket *socket)
+void RemoteProcess::onNewConnection(ClientSocket *socket)
 {
     COPYQ_LOG("Remote process: Started.");
 
@@ -137,6 +136,8 @@ void RemoteProcess::onMessageReceived(const QByteArray &message, int messageCode
         log( getTextData(message).trimmed(), LogNote );
     } else if (messageCode == MonitorClipboardChanged) {
         emit newMessage(message);
+    } else if (messageCode == 0) {
+        // Ignore message with Arguments.
     } else {
         log( QString("Unknown message code %1 from remote process!").arg(messageCode), LogError );
     }

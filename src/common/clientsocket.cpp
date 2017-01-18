@@ -19,13 +19,13 @@
 
 #include "clientsocket.h"
 
-#include "common/arguments.h"
 #include "common/client_server.h"
 #include "common/log.h"
 
 #include <QCoreApplication>
 #include <QElapsedTimer>
 #include <QDataStream>
+#include <QPointer>
 
 #define SOCKET_LOG(text) \
     COPYQ_LOG_VERBOSE( QString("Socket %1: %2").arg(property("id").toInt()).arg(text) )
@@ -266,23 +266,4 @@ void ClientSocket::onStateChanged(QLocalSocket::LocalSocketState state)
                 deleteLater();
         }
     }
-}
-
-Arguments ClientSocket::readArguments()
-{
-    QByteArray msg;
-
-    if ( readMessage(m_socket, &msg) ) {
-        SOCKET_LOG("Message received from client.");
-        QDataStream input(msg);
-        qint32 exitCode;
-        Arguments args;
-        input >> exitCode >> args;
-        if ( input.status() == QDataStream::Ok && exitCode == 0 && !args.isEmpty() )
-            return args;
-    }
-
-    log( tr("Failed to read message from client!"), LogError );
-
-    return Arguments();
 }

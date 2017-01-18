@@ -21,7 +21,6 @@
 
 #include "app/remoteprocess.h"
 #include "common/appconfig.h"
-#include "common/arguments.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
 #include "common/log.h"
@@ -133,8 +132,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     m_itemFactory = new ItemFactory(this);
     m_wnd = new MainWindow(m_itemFactory);
 
-    connect( server, SIGNAL(newConnection(Arguments,ClientSocket*)),
-             this, SLOT(doCommand(Arguments,ClientSocket*)) );
+    connect( server, SIGNAL(newConnection(ClientSocket*)),
+             this, SLOT(doCommand(ClientSocket*)) );
 
     connect( qApp, SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()));
@@ -329,13 +328,13 @@ void ClipboardServer::terminateThreads()
         QApplication::processEvents();
 }
 
-void ClipboardServer::doCommand(const Arguments &args, ClientSocket *client)
+void ClipboardServer::doCommand(ClientSocket *client)
 {
     // Worker object without parent needs to be deleted afterwards!
     // There is no parent so as it's possible to move the worker to another thread.
     // QThreadPool takes ownership and worker will be automatically deleted
     // after run() (see QRunnable::setAutoDelete()).
-    ScriptableWorker *worker = new ScriptableWorker(m_wnd, args, client, m_itemFactory->scripts());
+    ScriptableWorker *worker = new ScriptableWorker(m_wnd, client, m_itemFactory->scripts());
 
     // Terminate worker at application exit.
     connect( this, SIGNAL(terminateClientThreads()),

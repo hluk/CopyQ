@@ -155,7 +155,7 @@ class ScriptableProxyHelper : public QObject
     Q_OBJECT
 public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
-    ScriptableProxyHelper(MainWindow* mainWindow, const QVariantMap &actionData);
+    explicit ScriptableProxyHelper(MainWindow* mainWindow);
 
     const QVariant &value() const;
 
@@ -168,6 +168,8 @@ public:
     static QString tabNameEmptyError();
 
 public slots:
+    void setActionData(const QVariantMap &actionData);
+
     void close();
     void showWindow();
     void showWindowAt(const QRect &rect);
@@ -303,11 +305,13 @@ private:
 class ScriptableProxy
 {
 public:
-    ScriptableProxy(MainWindow *mainWindow, const QVariantMap &actionData);
+    explicit ScriptableProxy(MainWindow *mainWindow);
 
     ~ScriptableProxy();
 
     QObject *signaler() const { return m_helper; }
+
+    PROXY_METHOD_VOID_1(setActionData, const QVariantMap &)
 
     PROXY_METHOD(close)
     PROXY_METHOD(showWindow)

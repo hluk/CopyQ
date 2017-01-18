@@ -286,15 +286,19 @@ void setGeometryWithoutSave(QWidget *window, const QRect &geometry)
 
 namespace detail {
 
-ScriptableProxyHelper::ScriptableProxyHelper(MainWindow *mainWindow, const QVariantMap &actionData)
+ScriptableProxyHelper::ScriptableProxyHelper(MainWindow *mainWindow)
     : QObject(NULL)
     , m_wnd(mainWindow)
     , m_tabName()
     , m_lock()
-    , m_actionData(actionData)
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
     moveToThread(m_wnd->thread());
+}
+
+void ScriptableProxyHelper::setActionData(const QVariantMap &actionData)
+{
+    m_actionData = actionData;
 }
 
 const QVariant &ScriptableProxyHelper::value() const
@@ -1106,8 +1110,8 @@ QList<QPersistentModelIndex> ScriptableProxyHelper::selectedIndexes() const
 
 } // namespace detail
 
-ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, const QVariantMap &actionData)
-    : m_helper(new detail::ScriptableProxyHelper(mainWindow, actionData))
+ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
+    : m_helper(new detail::ScriptableProxyHelper(mainWindow))
 {
     qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
 }

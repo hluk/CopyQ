@@ -80,7 +80,7 @@ int evaluate(const QString &functionName, const QStringList &arguments, int argc
 {
     App app( new QCoreApplication(argc, argv) );
 
-    Scriptable scriptable(NULL, NULL);
+    Scriptable scriptable(NULL);
     QScriptEngine engine;
     engine.setGlobalObject( engine.newQObject(&scriptable) );
 

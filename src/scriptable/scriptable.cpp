@@ -20,6 +20,7 @@
 #include "scriptable.h"
 
 #include "common/action.h"
+#include "common/arguments.h"
 #include "common/command.h"
 #include "common/commandstatus.h"
 #include "common/common.h"
@@ -52,6 +53,9 @@
 
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(QFile*)
+
+#define SCRIPT_LOG(text) \
+    COPYQ_LOG( QString("Script %1: %2").arg(m_id).arg(text) )
 
 namespace {
 
@@ -164,9 +168,30 @@ QByteArray readReply(QNetworkReply *reply, const Scriptable &scriptable)
     return data;
 }
 
+QByteArray serializeScriptValue(const QScriptValue &value)
+{
+    QByteArray data;
+
+    QByteArray *bytes = qscriptvalue_cast<QByteArray*>(value.data());
+
+    if (bytes != NULL) {
+        data = *bytes;
+    } else if ( value.isArray() ) {
+        const quint32 len = value.property("length").toUInt32();
+        for (quint32 i = 0; i < len; ++i)
+            data += serializeScriptValue(value.property(i));
+    } else if ( !value.isUndefined() ) {
+        data = value.toString().toUtf8() + '\n';
+    }
+
+    return data;
+}
+
 } // namespace
 
-Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
+Scriptable::Scriptable(
+        ScriptableProxy *proxy, const QString &pluginScript,
+        const QString &id, QObject *parent)
     : QObject(parent)
     , QScriptable()
     , m_proxy(proxy)
@@ -177,14 +202,14 @@ Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
     , m_inputSeparator("\n")
     , m_input()
     , m_abort(false)
+    , m_argumentsReceived(false)
+    , m_pluginScript(pluginScript)
+    , m_id(id)
 {
 }
 
-void Scriptable::initEngine(
-        QScriptEngine *eng, const QString &currentPath, const QVariantMap &data)
+void Scriptable::initEngine(QScriptEngine *eng)
 {
-    m_data = data;
-
     m_engine = eng;
     QScriptEngine::QObjectWrapOptions opts =
               QScriptEngine::ExcludeChildObjects
@@ -210,10 +235,10 @@ void Scriptable::initEngine(
     m_baClass = new ByteArrayClass(eng);
     addScriptableClass(&obj, m_baClass);
 
-    m_fileClass = new FileClass(currentPath, eng);
+    m_fileClass = new FileClass(eng);
     addScriptableClass(&obj, m_fileClass);
 
-    m_dirClass = new DirClass(currentPath, eng);
+    m_dirClass = new DirClass(eng);
     addScriptableClass(&obj, m_dirClass);
 }
 
@@ -1293,7 +1318,118 @@ QScriptValue Scriptable::setEnv()
 
 void Scriptable::setInput(const QByteArray &bytes)
 {
-    m_input = newByteArray(bytes);
+    if (m_argumentsReceived) {
+        m_input = newByteArray(bytes);
+    } else {
+        m_argumentsReceived = true;
+        executeArguments(bytes);
+        abort();
+    }
+}
+
+void Scriptable::executeArguments(const QByteArray &bytes)
+{
+    Arguments args;
+    QDataStream stream(bytes);
+    stream >> args;
+    if ( stream.status() != QDataStream::Ok ) {
+        SCRIPT_LOG("Failed to read client arguments");
+        return;
+    }
+
+    if ( hasLogLevel(LogDebug) ) {
+        const bool isEval = args.length() == Arguments::Rest + 2
+                && args.at(Arguments::Rest) == "eval";
+
+        for (int i = Arguments::Rest + (isEval ? 1 : 0); i < args.length(); ++i) {
+            const QString indent = isEval
+                    ? QString("EVAL:")
+                    : (QString::number(i - Arguments::Rest + 1) + " ");
+            SCRIPT_LOG( indent + getTextData(args.at(i)) );
+        }
+    }
+
+    const QString currentPath = getTextData(args.at(Arguments::CurrentPath));
+    m_fileClass->setCurrentPath(currentPath);
+    m_dirClass->setCurrentPath(currentPath);
+
+    bool hasData;
+    const quintptr id = args.at(Arguments::ActionId).toULongLong(&hasData);
+    if (hasData) {
+        m_data = Action::data(id);
+        m_proxy->setActionData(m_data);
+    }
+
+    QByteArray response;
+    int exitCode;
+
+    if ( args.isEmpty() ) {
+        SCRIPT_LOG("Error: bad command syntax");
+        exitCode = CommandBadSyntax;
+    } else {
+        const QString cmd = getTextData( args.at(Arguments::Rest) );
+
+#ifdef HAS_TESTS
+        if ( cmd == "flush" && args.length() == Arguments::Rest + 2 ) {
+            log( "flush ID: " + getTextData(args.at(Arguments::Rest + 1)), LogAlways );
+            sendMessageToClient(QByteArray(), CommandFinished);
+            return;
+        }
+#endif
+
+        QScriptValue fn = m_engine->globalObject().property(cmd);
+        if ( !fn.isFunction() ) {
+            SCRIPT_LOG("Error: unknown command");
+            const QString msg =
+                    Scriptable::tr("Name \"%1\" doesn't refer to a function.").arg(cmd);
+            response = createLogMessage(msg, LogError).toUtf8();
+            exitCode = CommandError;
+        } else {
+            /* Special arguments:
+             * "-"  read this argument from stdin
+             * "--" read all following arguments without control sequences
+             */
+            QScriptValueList fnArgs;
+            bool readRaw = false;
+            for ( int i = Arguments::Rest + 1; i < args.length(); ++i ) {
+                const QByteArray &arg = args.at(i);
+                if (!readRaw && arg == "--") {
+                    readRaw = true;
+                } else {
+                    const QScriptValue value = readRaw || arg != "-"
+                            ? newByteArray(arg)
+                            : input();
+                    fnArgs.append(value);
+                }
+            }
+
+            m_engine->evaluate(m_pluginScript);
+            QScriptValue result = fn.call(QScriptValue(), fnArgs);
+
+            if ( m_engine->hasUncaughtException() ) {
+                const QString exceptionText =
+                        QString("%1\n--- backtrace ---\n%2\n--- end backtrace ---")
+                        .arg( m_engine->uncaughtException().toString(),
+                              m_engine->uncaughtExceptionBacktrace().join("\n") );
+
+                SCRIPT_LOG( QString("Error: Exception in command \"%1\": %2")
+                            .arg(cmd, exceptionText) );
+
+                response = createLogMessage(exceptionText, LogError).toUtf8();
+                exitCode = CommandError;
+            } else {
+                response = serializeScriptValue(result);
+                exitCode = CommandFinished;
+            }
+        }
+    }
+
+    if (exitCode == CommandFinished && hasData)
+        Action::setData(id, data());
+
+    sendMessageToClient(response, exitCode);
+
+    SCRIPT_LOG("DONE");
 }
 
 QList<int> Scriptable::getRows() const

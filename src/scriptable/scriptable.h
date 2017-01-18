@@ -43,10 +43,11 @@ class Scriptable : public QObject, protected QScriptable
     Q_PROPERTY(QString currentPath READ getCurrentPath WRITE setCurrentPath)
 
 public:
-    Scriptable(ScriptableProxy *proxy, QObject *parent = NULL);
+    explicit Scriptable(
+            ScriptableProxy *proxy, const QString &pluginScript = QString(),
+            const QString &id = QString(), QObject *parent = NULL);
 
-    void initEngine(
-            QScriptEngine *engine, const QString &currentPath, const QVariantMap &data);
+    void initEngine(QScriptEngine *engine);
 
     QScriptValue newByteArray(const QByteArray &bytes);
 
@@ -237,6 +238,7 @@ signals:
     void requestApplicationQuit();
 
 private:
+    void executeArguments(const QByteArray &bytes);
     QList<int> getRows() const;
     QScriptValue copy(QClipboard::Mode mode);
     bool setClipboard(QVariantMap &data, QClipboard::Mode mode);
@@ -252,6 +254,9 @@ private:
     QScriptValue m_input;
     QVariantMap m_data;
     bool m_abort;
+    bool m_argumentsReceived;
+    QString m_pluginScript;
+    QString m_id;
 };
 
 class NetworkReply : public QObject {

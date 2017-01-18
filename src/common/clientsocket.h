@@ -22,14 +22,10 @@
 
 #include <QLocalSocket>
 #include <QObject>
-#include <QPointer>
-
-class Arguments;
 
 class ClientSocket : public QObject
 {
     Q_OBJECT
-    friend class Server;
 public:
     ClientSocket();
 
@@ -65,9 +61,6 @@ private slots:
     void onStateChanged(QLocalSocket::LocalSocketState state);
 
 private:
-    /// Receive arguments from client.
-    Arguments readArguments();
-
     QLocalSocket *m_socket;
     bool m_deleteAfterDisconnected;
     bool m_closed;

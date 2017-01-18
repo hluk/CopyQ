@@ -32,38 +32,10 @@
 
 Q_DECLARE_METATYPE(QByteArray*)
 
-namespace {
-
-#define SCRIPT_LOG(text) \
-    COPYQ_LOG( QString("Script %1: %2").arg(m_id).arg(text) )
-
-QByteArray serializeScriptValue(const QScriptValue &value)
-{
-    QByteArray data;
-
-    QByteArray *bytes = qscriptvalue_cast<QByteArray*>(value.data());
-
-    if (bytes != NULL) {
-        data = *bytes;
-    } else if ( value.isArray() ) {
-        const quint32 len = value.property("length").toUInt32();
-        for (quint32 i = 0; i < len; ++i)
-            data += serializeScriptValue(value.property(i));
-    } else if ( !value.isUndefined() ) {
-        data = value.toString().toUtf8() + '\n';
-    }
-
-    return data;
-}
-
-} // namespace
-
 ScriptableWorker::ScriptableWorker(
-        MainWindow *mainWindow, const Arguments &args, ClientSocket *socket,
-        const QString &pluginScript)
+        MainWindow *mainWindow, ClientSocket *socket, const QString &pluginScript)
     : QRunnable()
     , m_wnd(mainWindow)
-    , m_args(args)
     , m_socket(socket)
     , m_pluginScript(pluginScript)
 {
@@ -73,30 +45,10 @@ ScriptableWorker::ScriptableWorker(
 
 void ScriptableWorker::run()
 {
-    if ( hasLogLevel(LogDebug) ) {
-        bool isEval = m_args.length() == Arguments::Rest + 2
-                && m_args.at(Arguments::Rest) == "eval";
-
-        for (int i = Arguments::Rest + (isEval ? 1 : 0); i < m_args.length(); ++i) {
-            const QString indent = isEval
-                    ? QString("EVAL:")
-                    : (QString::number(i - Arguments::Rest + 1) + " ");
-            SCRIPT_LOG( indent + getTextData(m_args.at(i)) );
-        }
-    }
-
-    bool hasData;
-    const quintptr id = m_args.at(Arguments::ActionId).toULongLong(&hasData);
-    QVariantMap data;
-    if (hasData)
-        data = Action::data(id);
-
-    const QString currentPath = getTextData(m_args.at(Arguments::CurrentPath));
-
     QScriptEngine engine;
-    ScriptableProxy proxy(m_wnd, data);
-    Scriptable scriptable(&proxy);
-    scriptable.initEngine(&engine, currentPath, data);
+    ScriptableProxy proxy(m_wnd);
+    Scriptable scriptable(&proxy, m_pluginScript, m_id);
+    scriptable.initEngine(&engine);
 
     if (m_socket) {
         QObject::connect( proxy.signaler(), SIGNAL(sendMessage(QByteArray,int)),
@@ -113,7 +65,7 @@ void ScriptableWorker::run()
                           m_socket, SLOT(deleteAfterDisconnected()) );
 
         if ( m_socket->isClosed() ) {
-            SCRIPT_LOG("TERMINATED");
+            COPYQ_LOG( QString("Script %1: TERMINATED").arg(m_id) );
             return;
         }
 
@@ -123,74 +75,6 @@ void ScriptableWorker::run()
     QObject::connect( &scriptable, SIGNAL(requestApplicationQuit()),
                       qApp, SLOT(quit()) );
 
-    QByteArray response;
-    int exitCode;
-
-    if ( m_args.isEmpty() ) {
-        SCRIPT_LOG("Error: bad command syntax");
-        exitCode = CommandBadSyntax;
-    } else {
-        const QString cmd = getTextData( m_args.at(Arguments::Rest) );
-
-#ifdef HAS_TESTS
-        if ( cmd == "flush" && m_args.length() == Arguments::Rest + 2 ) {
-            log( "flush ID: " + getTextData(m_args.at(Arguments::Rest + 1)), LogAlways );
-            scriptable.sendMessageToClient(QByteArray(), CommandFinished);
-            return;
-        }
-#endif
-
-        QScriptValue fn = engine.globalObject().property(cmd);
-        if ( !fn.isFunction() ) {
-            SCRIPT_LOG("Error: unknown command");
-            const QString msg =
-                    Scriptable::tr("Name \"%1\" doesn't refer to a function.").arg(cmd);
-            response = createLogMessage(msg, LogError).toUtf8();
-            exitCode = CommandError;
-        } else {
-            /* Special arguments:
-             * "-"  read this argument from stdin
-             * "--" read all following arguments without control sequences
-             */
-            QScriptValueList fnArgs;
-            bool readRaw = false;
-            for ( int i = Arguments::Rest + 1; i < m_args.length(); ++i ) {
-                const QByteArray &arg = m_args.at(i);
-                if (!readRaw && arg == "--") {
-                    readRaw = true;
-                } else {
-                    const QScriptValue value = readRaw || arg != "-"
-                            ? scriptable.newByteArray(arg)
-                            : scriptable.input();
-                    fnArgs.append(value);
-                }
-            }
-
-            engine.evaluate(m_pluginScript);
-            QScriptValue result = fn.call(QScriptValue(), fnArgs);
-
-            if ( engine.hasUncaughtException() ) {
-                const QString exceptionText =
-                        QString("%1\n--- backtrace ---\n%2\n--- end backtrace ---")
-                        .arg( engine.uncaughtException().toString(),
-                              engine.uncaughtExceptionBacktrace().join("\n") );
-
-                SCRIPT_LOG( QString("Error: Exception in command \"%1\": %2")
-                             .arg(cmd, exceptionText) );
-
-                response = createLogMessage(exceptionText, LogError).toUtf8();
-                exitCode = CommandError;
-            } else {
-                response = serializeScriptValue(result);
-                exitCode = CommandFinished;
-            }
-        }
-    }
-
-    if (exitCode == CommandFinished && hasData)
-        Action::setData(id, scriptable.data());
-
-    scriptable.sendMessageToClient(response, exitCode);
-
-    SCRIPT_LOG("DONE");
+    while (!scriptable.isAborted())
+        QCoreApplication::processEvents();
 }

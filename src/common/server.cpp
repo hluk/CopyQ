@@ -19,7 +19,6 @@
 
 #include "server.h"
 
-#include "common/arguments.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
 #include "common/log.h"
@@ -107,7 +106,6 @@ Server::Server(const QString &name, QObject *parent)
             log("Failed to create server: " + m_server->errorString(), LogError);
     }
 
-    qRegisterMetaType<Arguments>("Arguments");
     connect( qApp, SIGNAL(aboutToQuit()), SLOT(close()) );
 }
 
@@ -134,22 +132,19 @@ void Server::onNewConnection()
         log("Client is not connected!", LogError);
         socket->deleteLater();
     } else {
-        QScopedPointer<ClientSocket> clientSocket( new ClientSocket(socket) );
+        ClientSocket *clientSocket = new ClientSocket(socket);
 
-        const Arguments args = clientSocket->readArguments();
-        if ( !args.isEmpty() ) {
-            ++m_socketCount;
-            connect( clientSocket.data(), SIGNAL(destroyed()),
-                     this, SLOT(onSocketClosed()) );
-            connect( this, SIGNAL(destroyed()),
-                     clientSocket.data(), SLOT(close()) );
-            connect( this, SIGNAL(destroyed()),
-                     clientSocket.data(), SLOT(deleteAfterDisconnected()) );
-            connect( clientSocket.data(), SIGNAL(disconnected()),
-                     clientSocket.data(), SLOT(deleteAfterDisconnected()) );
+        ++m_socketCount;
+        connect( clientSocket, SIGNAL(destroyed()),
+                 this, SLOT(onSocketClosed()) );
+        connect( this, SIGNAL(destroyed()),
+                 clientSocket, SLOT(close()) );
+        connect( this, SIGNAL(destroyed()),
+                 clientSocket, SLOT(deleteAfterDisconnected()) );
+        connect( clientSocket, SIGNAL(disconnected()),
+                 clientSocket, SLOT(deleteAfterDisconnected()) );
 
-            emit newConnection( args, clientSocket.take() );
-        }
+        emit newConnection(clientSocket);
     }
 }
 

@@ -32,7 +32,6 @@
 #include <QVariantMap>
 #include <QWidget>
 
-class Arguments;
 class ClientSocket;
 class ItemFactory;
 class RemoteProcess;
@@ -91,7 +90,6 @@ private slots:
      * Execute command in different thread.
      */
     void doCommand(
-            const Arguments &args, //!< Contains command and its arguments.
             ClientSocket *client = NULL //!< For sending responses.
             );
 
