@@ -72,7 +72,7 @@ bool readMessage(QPointer<QLocalSocket> socket, QByteArray *msg)
         }
     }
 
-    if (socket || socket->state() == QLocalSocket::UnconnectedState)
+    if (!socket || socket->state() == QLocalSocket::UnconnectedState)
         log("ERROR: Socket disconnected before receiving message", LogError);
     else
         log("ERROR: Incorrect message!", LogError);
