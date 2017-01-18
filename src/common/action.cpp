@@ -32,8 +32,6 @@
 
 namespace {
 
-const int bufferSize = 4096;
-
 void startProcess(QProcess *process, const QStringList &args)
 {
     QString executable = args.value(0);
@@ -43,27 +41,6 @@ void startProcess(QProcess *process, const QStringList &args)
         executable = QCoreApplication::applicationFilePath();
 
     process->start(executable, args.mid(1), QIODevice::ReadWrite);
-}
-
-void startWritingInput(const QByteArray input, QPointer<QProcess> p)
-{
-    if (!p)
-        return;
-
-    if (!input.isEmpty()) {
-        // Write input in batches, otherwise on Windows with Qt 5
-        // the application can be blocked when writing huge amount of data.
-        for (int pos = 0; pos < input.size(); pos += bufferSize) {
-            p->write(input.mid(pos, bufferSize));
-            do {
-                QCoreApplication::processEvents();
-                if (!p || p->state() == QProcess::NotRunning)
-                    return;
-            } while ( p->waitForBytesWritten(0) );
-        }
-    }
-
-    p->closeWriteChannel();
 }
 
 template <typename Entry, typename Container>
@@ -302,6 +279,8 @@ void Action::start()
     // Writing directly to stdin of a process on Windows can hang the app.
     connect( m_processes.first(), SIGNAL(started()),
              this, SLOT(writeInput()), Qt::QueuedConnection );
+    connect( m_processes.first(), SIGNAL(bytesWritten(qint64)),
+             this, SLOT(onBytesWritten()), Qt::QueuedConnection );
 
     if (m_outputFormat.isEmpty())
         m_processes.last()->closeReadChannel(QProcess::StandardOutput);
@@ -317,8 +296,14 @@ bool Action::waitForStarted(int msecs)
 
 bool Action::waitForFinished(int msecs)
 {
-    QCoreApplication::processEvents();
-    return m_processes.isEmpty() || m_processes.last()->waitForFinished(msecs);
+    for ( int waitMsec = 0;
+          waitMsec < msecs && !m_processes.isEmpty() && !m_processes.last()->waitForFinished(100);
+          waitMsec += 100 )
+    {
+        QCoreApplication::processEvents();
+    }
+
+    return !isRunning();
 }
 
 bool Action::isRunning() const
@@ -437,8 +422,21 @@ void Action::actionErrorOutput()
 
 void Action::writeInput()
 {
-    if (m_processes.value(0) == sender())
-        startWritingInput(m_input, m_processes.value(0));
+    if (m_processes.isEmpty())
+        return;
+
+    QProcess *p = m_processes.first();
+
+    if (m_input.isEmpty())
+        p->closeWriteChannel();
+    else
+        p->write(m_input);
+}
+
+void Action::onBytesWritten()
+{
+    if ( !m_processes.isEmpty() )
+        m_processes.first()->closeWriteChannel();
 }
 
 bool Action::hasTextOutput() const
@@ -456,7 +454,7 @@ void Action::terminate()
         p->terminate();
 
     // if process still running: kill it
-    if ( !m_processes.last()->waitForFinished(5000) )
+    if ( !waitForFinished(5000) )
         m_processes.last()->kill();
 }
 

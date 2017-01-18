@@ -135,6 +135,7 @@ private slots:
     void actionOutput();
     void actionErrorOutput();
     void writeInput();
+    void onBytesWritten();
 
 private:
     static QMutex actionsLock;
