@@ -10,4 +10,5 @@ SUBDIRS  = \
            itemtags \
            itemtext \
            itemsync \
-           itemweb
+           itemweb \
+           itemweb2
