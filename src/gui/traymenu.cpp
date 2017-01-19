@@ -99,7 +99,7 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
 
     // Show search text at top of the menu.
     if ( m_clipboardItemActionCount == 0 && m_searchText.isEmpty() )
-        addSearchMenuItem( m_viMode ? tr("Press '/' to search") : tr("Type to search") );
+        setSearchMenuItem( m_viMode ? tr("Press '/' to search") : tr("Type to search") );
 
     const QVariantMap data = index.data(contentType::data).toMap();
     QAction *act = addAction(QString());
@@ -158,13 +158,14 @@ void TrayMenu::clearClipboardItems()
     foreach ( QAction *action, actions() ) {
         if (action->isSeparator())
             break;
-        removeAction(action);
+        if (action != m_searchAction)
+            removeAction(action);
     }
     m_clipboardItemActionCount = 0;
 
     // Show search text at top of the menu.
     if ( !m_searchText.isEmpty() )
-        addSearchMenuItem(m_searchText);
+        setSearchMenuItem(m_searchText);
 }
 
 void TrayMenu::addCustomAction(QAction *action)
@@ -254,6 +255,25 @@ void TrayMenu::mousePressEvent(QMouseEvent *event)
     QMenu::mousePressEvent(event);
 }
 
+void TrayMenu::showEvent(QShowEvent *event)
+{
+    // If appmenu is used to handle the menu, most events won't be received
+    // so search won't work.
+    // This shows the search menu item only if show event is received.
+    if ( !m_searchAction.isNull() )
+        m_searchAction->setVisible(true);
+
+    QMenu::showEvent(event);
+}
+
+void TrayMenu::hideEvent(QHideEvent *event)
+{
+    QMenu::hideEvent(event);
+
+    if ( !m_searchAction.isNull() )
+        m_searchAction->setVisible(false);
+}
+
 void TrayMenu::resetSeparators()
 {
     if ( m_customActionsSeparator.isNull() ) {
@@ -272,12 +292,18 @@ void TrayMenu::search(const QString &text)
     emit searchRequest(m_viMode ? m_searchText.mid(1) : m_searchText);
 }
 
-void TrayMenu::addSearchMenuItem(const QString &text)
+void TrayMenu::setSearchMenuItem(const QString &text)
 {
-    const QIcon icon = getIcon("edit-find", IconSearch);
-    QAction *searchAction = new QAction(icon, text, this);
-    searchAction->setEnabled(false);
-    insertAction(m_clipboardItemActionsSeparator, searchAction);
+    if ( m_searchAction.isNull() ) {
+        const QIcon icon = getIcon("edit-find", IconSearch);
+        m_searchAction = new QAction(icon, text, this);
+        m_searchAction->setEnabled(false);
+        // Search menu item is hidden by default, see showEvent().
+        m_searchAction->setVisible( isVisible() );
+        insertAction( actions().value(0), m_searchAction );
+    } else {
+        m_searchAction->setText(text);
+    }
 }
 
 void TrayMenu::onClipboardItemActionTriggered()

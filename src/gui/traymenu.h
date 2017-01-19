@@ -68,13 +68,17 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
+    void showEvent(QShowEvent *event);
+    void hideEvent(QHideEvent *event);
+
 private:
     void resetSeparators();
     void search(const QString &text);
-    void addSearchMenuItem(const QString &text);
+    void setSearchMenuItem(const QString &text);
 
     QPointer<QAction> m_clipboardItemActionsSeparator;
     QPointer<QAction> m_customActionsSeparator;
+    QPointer<QAction> m_searchAction;
     int m_clipboardItemActionCount;
 
     bool m_omitPaste;
