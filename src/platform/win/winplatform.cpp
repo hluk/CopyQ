@@ -39,11 +39,9 @@
 
 namespace {
 
-void setBinaryFor(FILE *f)
+void setBinaryFor(int fd)
 {
-    const int result = _setmode( _fileno(f), _O_BINARY );
-    if (result == -1)
-        log("Failed to set binary stdin.", LogError);
+    _setmode(fd, _O_BINARY);
 }
 
 void migrateDirectory(const QString oldPath, const QString newPath)
@@ -170,8 +168,8 @@ Application *createApplication(int &argc, char **argv)
 {
     Application *app = new Application(argc, argv);
     installControlHandler();
-    setBinaryFor(stdin);
-    setBinaryFor(stdout);
+    setBinaryFor(0);
+    setBinaryFor(1);
     return app;
 }
 
