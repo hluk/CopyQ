@@ -185,27 +185,27 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standart girdi:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standart çıktıyı saklayın:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Verilen MIME türünün verilerini komutun standart girdisine gönderin (devre dışı bırakmak için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Programın standart çıkışından öğeleri oluşturun (devre dışı bırakmak için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Yeni öğeler için ayırıcı:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
