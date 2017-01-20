@@ -51,6 +51,8 @@ public:
 
     ItemTags(ItemWidget *childItem, const Tags &tags);
 
+    virtual void setCurrent(bool current);
+
 signals:
     void runCommand(const Command &command);
 

@@ -641,6 +641,12 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     m_label->setPlainText(label);
 }
 
+void ItemSync::setCurrent(bool current)
+{
+    if ( !m_childItem.isNull() )
+        m_childItem->setCurrent(current);
+}
+
 void ItemSync::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
     m_childItem->setHighlight(re, highlightFont, highlightPalette);
