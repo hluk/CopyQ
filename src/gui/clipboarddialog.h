@@ -26,7 +26,9 @@
 #include <QVariantMap>
 #include <QTimer>
 
+class QBuffer;
 class QListWidgetItem;
+class QMovie;
 
 namespace Ui {
     class ClipboardDialog;
@@ -73,6 +75,9 @@ private:
     QVariantMap m_data;
     QString m_textToShow;
     QTimer m_timerTextLoad;
+
+    QBuffer *m_animationBuffer;
+    QMovie *m_animation;
 };
 
 #endif // CLIPBOARDDIALOG_H

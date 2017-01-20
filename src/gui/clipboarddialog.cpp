@@ -27,7 +27,9 @@
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"
 
+#include <QBuffer>
 #include <QListWidgetItem>
+#include <QMovie>
 #include <QScrollBar>
 #include <QUrl>
 
@@ -37,6 +39,8 @@ static const int batchLoadCharacters = 4096;
 ClipboardDialog::ClipboardDialog(QWidget *parent)
     : QDialog(parent)
     , ui(NULL)
+    , m_animationBuffer(NULL)
+    , m_animation(NULL)
 {
     init();
 
@@ -51,6 +55,8 @@ ClipboardDialog::ClipboardDialog(
     , ui(NULL)
     , m_model(model)
     , m_index(index)
+    , m_animationBuffer(NULL)
+    , m_animation(NULL)
 {
     init();
 
@@ -72,6 +78,9 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
 
     const QString mime = current ? current->text() : QString();
     const bool hasImage = mime.startsWith(QString("image")) ;
+    const QByteArray animationFormat =
+            QString(mime).remove(QRegExp("^image/")).toUtf8();
+    const bool hasAnimation = QMovie::supportedFormats().contains(animationFormat);
 
     ui->textEdit->clear();
     ui->textEdit->setVisible(!hasImage);
@@ -86,7 +95,24 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
 
     m_timerTextLoad.stop();
 
-    if (hasImage) {
+    if (hasAnimation) {
+        if (m_animation)
+            m_animation->deleteLater();
+
+        if (m_animationBuffer)
+            m_animationBuffer->deleteLater();
+
+        m_animationBuffer = new QBuffer(this);
+        m_animationBuffer->open(QIODevice::ReadWrite);
+        m_animationBuffer->write(bytes);
+        m_animationBuffer->seek(0);
+
+        m_animation = new QMovie(this);
+        m_animation->setDevice(m_animationBuffer);
+        m_animation->setFormat(animationFormat);
+        ui->labelImage->setMovie(m_animation);
+        m_animation->start();
+    } else if (hasImage) {
         QPixmap pix;
         pix.loadFromData( bytes, mime.toLatin1() );
         ui->labelImage->setPixmap(pix);
