@@ -24,7 +24,10 @@
 #include "item/itemwidget.h"
 
 #include <QLabel>
+#include <QPixmap>
 #include <QScopedPointer>
+
+class QMovie;
 
 namespace Ui {
 class ItemImageSettings;
@@ -35,16 +38,32 @@ class ItemImage : public QLabel, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemImage(const QPixmap &pix, const QString &imageEditor, const QString &svgEditor,
-              QWidget *parent);
+    ItemImage(
+            const QPixmap &pix,
+            const QByteArray &animationData, const QByteArray &animationFormat,
+            const QString &imageEditor, const QString &svgEditor,
+            QWidget *parent);
 
     virtual QWidget *createEditor(QWidget *) const { return NULL; }
 
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
+    virtual void setCurrent(bool current);
+
+protected:
+    void showEvent(QShowEvent *event);
+    void hideEvent(QHideEvent *event);
+
 private:
+    void startAnimation();
+    void stopAnimation();
+
     QString m_editor;
     QString m_svgEditor;
+    QPixmap m_pixmap;
+    QByteArray m_animationData;
+    QByteArray m_animationFormat;
+    QMovie *m_animation;
 };
 
 class ItemImageLoader : public QObject, public ItemLoaderInterface

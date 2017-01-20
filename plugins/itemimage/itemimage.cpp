@@ -23,8 +23,10 @@
 #include "common/contenttype.h"
 #include "item/itemeditor.h"
 
+#include <QBuffer>
 #include <QHBoxLayout>
 #include <QModelIndex>
+#include <QMovie>
 #include <QPixmap>
 #include <QtPlugin>
 #include <QVariant>
@@ -62,6 +64,22 @@ bool getImageData(const QModelIndex &index, QByteArray *data, QString *mime)
     return true;
 }
 
+bool getAnimatedImageData(const QModelIndex &index, QByteArray *data, QByteArray *format)
+{
+    QVariantMap dataMap = index.data(contentType::data).toMap();
+
+    foreach (QByteArray movieFormat, QMovie::supportedFormats()) {
+        const QByteArray mime = "image/" + movieFormat;
+        if (dataMap.contains(mime)) {
+            *format = movieFormat;
+            *data = dataMap[mime].toByteArray();
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
 {
     QString mime;
@@ -76,12 +94,19 @@ bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
 
 } // namespace
 
-ItemImage::ItemImage(const QPixmap &pix, const QString &imageEditor, const QString &svgEditor,
-                     QWidget *parent)
+ItemImage::ItemImage(
+        const QPixmap &pix,
+        const QByteArray &animationData, const QByteArray &animationFormat,
+        const QString &imageEditor, const QString &svgEditor,
+        QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
     , m_editor(imageEditor)
     , m_svgEditor(svgEditor)
+    , m_pixmap(pix)
+    , m_animationData(animationData)
+    , m_animationFormat(animationFormat)
+    , m_animation(NULL)
 {
     setMargin(4);
     setPixmap(pix);
@@ -100,6 +125,52 @@ QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *pare
     const QString &cmd = mime.contains("svg") ? m_svgEditor : m_editor;
 
     return cmd.isEmpty() ? NULL : new ItemEditor(data, mime, cmd, parent);
+}
+
+void ItemImage::setCurrent(bool current)
+{
+    if (current) {
+        if ( !m_animationData.isEmpty() ) {
+            if (!m_animation) {
+                QBuffer *stream = new QBuffer(&m_animationData, this);
+                m_animation = new QMovie(stream, m_animationFormat, this);
+                m_animation->setScaledSize( m_pixmap.size() );
+            }
+
+            if (m_animation) {
+                setMovie(m_animation);
+                startAnimation();
+                m_animation->start();
+            }
+        }
+    } else {
+        stopAnimation();
+        setPixmap(m_pixmap);
+    }
+}
+
+void ItemImage::showEvent(QShowEvent *event)
+{
+    startAnimation();
+    QLabel::showEvent(event);
+}
+
+void ItemImage::hideEvent(QHideEvent *event)
+{
+    QLabel::hideEvent(event);
+    stopAnimation();
+}
+
+void ItemImage::startAnimation()
+{
+    if (movie())
+        movie()->start();
+}
+
+void ItemImage::stopAnimation()
+{
+    if (movie())
+        movie()->stop();
 }
 
 ItemImageLoader::ItemImageLoader()
@@ -126,7 +197,13 @@ ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent) c
         pix = pix.scaledToHeight(h);
     }
 
-    return new ItemImage(pix, m_settings.value("image_editor").toString(),
+    QByteArray animationData;
+    QByteArray animationFormat;
+    getAnimatedImageData(index, &animationData, &animationFormat);
+
+    return new ItemImage(pix,
+                         animationData, animationFormat,
+                         m_settings.value("image_editor").toString(),
                          m_settings.value("svg_editor").toString(), parent);
 }
 
