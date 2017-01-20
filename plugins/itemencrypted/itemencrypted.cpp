@@ -86,33 +86,75 @@ void startGpgProcess(QProcess *p, const QStringList &args)
 
 bool verifyProcess(QProcess *p)
 {
+    const int exitCode = p->exitCode();
     if ( p->exitStatus() != QProcess::NormalExit ) {
-        COPYQ_LOG( "ItemEncrypt ERROR: Failed to run GnuPG: " + p->errorString() );
+        log( "ItemEncrypt ERROR: Failed to run GnuPG: " + p->errorString(), LogError );
         return false;
-    } else if ( p->exitCode() != 0 ) {
+    } else if (exitCode != 0) {
         const QString errors = p->readAllStandardError();
         if ( !errors.isEmpty() )
-            COPYQ_LOG( "ItemEncrypt ERROR: GnuPG stderr:\n" + errors );
+            log( "ItemEncrypt ERROR: GnuPG stderr:\n" + errors, LogError );
         return false;
     }
 
     return true;
 }
 
-bool importGpgKey()
+bool waitOrTerminate(QProcess *p)
+{
+    if (!p->waitForFinished(5000)) {
+        p->terminate();
+        if ( !p->waitForFinished(5000) )
+            p->kill();
+        return false;
+    }
+
+    return true;
+}
+
+QString importGpgKey()
 {
     KeyPairPaths keys;
 
     QProcess p;
     p.start("gpg", getDefaultEncryptCommandArguments(keys.pub) << "--import" << keys.sec);
-    if (!p.waitForFinished(5000)) {
-        p.terminate();
-        if ( !p.waitForFinished(5000) )
-            p.kill();
-        return false;
-    }
+    if ( !waitOrTerminate(&p) )
+        return "Failed to import private key (process timed out).";
 
-    return verifyProcess(&p);
+    if ( !verifyProcess(&p) )
+        return "Failed to import private key (see log).";
+
+    return QString();
+}
+
+QString exportGpgKey()
+{
+    KeyPairPaths keys;
+
+    // Private key already created or exported.
+    if ( QFile::exists(keys.sec) )
+        return QString();
+
+    QProcess p;
+    p.start("gpg", getDefaultEncryptCommandArguments(keys.pub) << "--export-secret-key" << "copyq");
+    if ( !waitOrTerminate(&p) )
+        return "Failed to export private key (process timed out).";
+
+    if ( !verifyProcess(&p) )
+        return "Failed to export private key (see log).";
+
+    QFile secKey(keys.sec);
+    if ( !secKey.open(QIODevice::WriteOnly) )
+        return "Failed to create private key.";
+
+    if ( !secKey.setPermissions(QFile::ReadOwner | QFile::WriteOwner) )
+        return "Failed to set permissions for private key.";
+
+    const QByteArray secKeyData = p.readAllStandardOutput();
+    secKey.write(secKeyData);
+    secKey.close();
+
+    return QString();
 }
 
 QByteArray readGpgOutput(const QStringList &args, const QByteArray &input = QByteArray())
@@ -309,12 +351,6 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
 
     if (m_gpgProcessStatus == GpgNotInstalled) {
         emit error( tr("GnuPG must be installed to view encrypted tabs.") );
-        return false;
-    }
-
-    if (!importGpgKey())
-    {
-        COPYQ_LOG("ItemEncrypted ERROR: Failte to import GPG key");
         return false;
     }
 
@@ -557,7 +593,6 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
 
     if (m_gpgProcess != NULL) {
         if (ui != NULL) {
-            error = tr("Error: %1");
             if (exitStatus != QProcess::NormalExit)
                 error = error.arg(m_gpgProcess->errorString());
             else if (exitCode != 0)
@@ -566,24 +601,26 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
                 error = error.arg(m_gpgProcess->errorString());
             else if ( !keysExist() )
                 error = error.arg( tr("Failed to generate keys.") );
-            else
-                error.clear();
         }
 
         m_gpgProcess->deleteLater();
         m_gpgProcess = NULL;
     }
 
-    GpgProcessStatus oldStatus = m_gpgProcessStatus;
+    // Export and import private key to a file in configuration.
+    if ( m_gpgProcessStatus == GpgGeneratingKeys && error.isEmpty() ) {
+        error = exportGpgKey();
+        if ( error.isEmpty() )
+            error = importGpgKey();
+    }
+
+    if (!error.isEmpty())
+        error = tr("Error: %1").arg(error);
+
     m_gpgProcessStatus = GpgNotRunning;
 
-    if ( oldStatus == GpgGeneratingKeys && error.isEmpty() ) {
-        importGpgKey();
-        setPassword();
-    } else {
-        updateUi();
-        ui->labelInfo->setText( error.isEmpty() ? tr("Done") : error );
-    }
+    updateUi();
+    ui->labelInfo->setText( error.isEmpty() ? tr("Done") : error );
 }
 
 void ItemEncryptedLoader::updateUi()
