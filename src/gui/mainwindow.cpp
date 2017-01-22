@@ -824,7 +824,7 @@ void MainWindow::action()
 
 void MainWindow::automaticCommandTestFinished(const Command &command, bool passed)
 {
-    if (passed)
+    if ( passed && canExecuteCommand(command, m_automaticCommandTester.data(), defaultTabName()) )
         runAutomaticCommand(command);
     else
         m_automaticCommandTester.start();
@@ -2060,7 +2060,7 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
     QList<Command> commands;
     const QString tabName = defaultTabName();
     foreach (const Command &command, m_commands) {
-        if (command.automatic && canExecuteCommand(command, data, tabName)) {
+        if (command.automatic) {
             commands.append(command);
             if ( command.outputTab.isEmpty() )
                 commands.last().outputTab = tabName;
