@@ -229,12 +229,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="274"/>
+        <location filename="../src/gui/actiondialog.cpp" line="247"/>
         <source>Command saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="275"/>
+        <location filename="../src/gui/actiondialog.cpp" line="248"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation type="unfinished"></translation>
@@ -410,7 +410,7 @@ You can set up the command in preferences.</source>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="242"/>
-        <source>Ignore *"Password"* window</source>
+        <source>Ignore *&quot;Password&quot;* window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -430,29 +430,20 @@ You can set up the command in preferences.</source>
     </message>
 </context>
 <context>
-    <name>ClientSocket</name>
-    <message>
-        <location filename="../src/common/clientsocket.cpp" line="220"/>
-        <location filename="../src/common/clientsocket.cpp" line="282"/>
-        <source>Failed to read message from client!</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ClipboardBrowser</name>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="513"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="576"/>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1866"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1913"/>
         <source>Discard Changes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1867"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1914"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -493,12 +484,12 @@ You can set up the command in preferences.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="57"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="63"/>
         <source>CopyQ Item Content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="125"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
         <translation type="unfinished"></translation>
@@ -507,27 +498,27 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="123"/>
+        <location filename="../src/app/clipboardserver.cpp" line="122"/>
         <source>CopyQ server is already running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="308"/>
+        <location filename="../src/app/clipboardserver.cpp" line="307"/>
         <source>Cancel Active Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="309"/>
+        <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Cancel active commands and exit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="312"/>
+        <location filename="../src/app/clipboardserver.cpp" line="311"/>
         <source>Cancel Exiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="313"/>
+        <location filename="../src/app/clipboardserver.cpp" line="312"/>
         <source>Exit Anyway</source>
         <translation type="unfinished"></translation>
     </message>
@@ -719,7 +710,7 @@ Leave empty to disable this.</source>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="233"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -807,7 +798,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"/>
-        <source>Change item, don't create any new items</source>
+        <source>Change item, don&apos;t create any new items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -823,7 +814,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="467"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Programın standart çıkışından öğeleri oluşturun (devre dışı bırakmak için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="477"/>
@@ -1075,7 +1066,7 @@ CTRL and up or down key.</source>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it's too long to fit on line</source>
+        <source>Break text if it&apos;s too long to fit on line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1412,7 +1403,7 @@ Use Item Preview to display whole items.</source>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="876"/>
-        <source>Don't show tray icon; minimize window when closed</source>
+        <source>Don&apos;t show tray icon; minimize window when closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1618,7 +1609,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="356"/>
-        <source>Invalid value for option "%1"</source>
+        <source>Invalid value for option &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1675,7 +1666,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark "%1" not set.</source>
+        <source>Mark &quot;%1&quot; not set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1722,27 +1713,27 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File "%1" exists (add ! to override)</source>
+        <source>File &quot;%1&quot; exists (add ! to override)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file "%1" for writing</source>
+        <source>Cannot open file &quot;%1&quot; for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>"%1" %2 %3L, %4C written.</source>
+        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file "%1" for reading</source>
+        <source>Cannot open file &quot;%1&quot; for reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>"%1" %2L, %3C</source>
+        <source>&quot;%1&quot; %2L, %3C</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
@@ -1845,8 +1836,8 @@ Set to 0 to disable.</source>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="995"/>
-        <source>Failed to create synchronization directory "%1"!</source>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1001"/>
+        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1881,17 +1872,17 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/iconselectdialog.cpp" line="67"/>
+        <location filename="../src/gui/iconselectdialog.cpp" line="58"/>
         <source>Browse...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/iconselectdialog.cpp" line="113"/>
+        <location filename="../src/gui/iconselectdialog.cpp" line="104"/>
         <source>Open Icon file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/iconselectdialog.cpp" line="114"/>
+        <location filename="../src/gui/iconselectdialog.cpp" line="105"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2016,7 +2007,7 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="210"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F2</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="214"/>
@@ -2032,7 +2023,7 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="217"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escape</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="225"/>
@@ -2048,94 +2039,94 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="246"/>
-        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="288"/>
+        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="311"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="353"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="463"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="499"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="470"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="481"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="506"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="517"/>
         <source>Ctrl+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="474"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="510"/>
         <source>Decrypt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="485"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="521"/>
         <source>Decrypt and Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="493"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="529"/>
         <source>Ctrl+Shift+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="560"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="618"/>
         <source>Error: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="568"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="603"/>
         <source>Failed to generate keys.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="585"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="623"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="602"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="639"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="603"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="640"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="643"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="605"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="642"/>
         <source>Setting new password...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="608"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="645"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="610"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="647"/>
         <source>Generate New Keys...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="612"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="649"/>
         <source>Change Password...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="618"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="655"/>
         <source>Encryption failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="623"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="660"/>
         <source>Decryption failed!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2208,12 +2199,12 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemImageLoader</name>
     <message>
-        <location filename="../plugins/itemimage/itemimage.h" line="65"/>
+        <location filename="../plugins/itemimage/itemimage.h" line="84"/>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemimage/itemimage.h" line="67"/>
+        <location filename="../plugins/itemimage/itemimage.h" line="86"/>
         <source>Display images.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2339,37 +2330,37 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="1409"/>
-        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1415"/>
+        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="1459"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1465"/>
         <source>Remove Items?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="1460"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1466"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="1632"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1638"/>
         <source>Open Directory for Synchronization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="1651"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1657"/>
         <source>Failed to create synchronization directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="100"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="102"/>
         <source>Synchronize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="102"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="104"/>
         <source>Synchronize items and notes with a directory on disk.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2442,23 +2433,23 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="612"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="618"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="633"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="639"/>
         <source>Clear all tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="90"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="92"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="92"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="94"/>
         <source>Display tags for items.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2472,7 +2463,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
-        <source>More info is available on &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki page&lt;/a&gt;.</source>
+        <source>More info is available on &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wiki page&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2548,101 +2539,101 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="440"/>
+        <location filename="../src/gui/mainwindow.cpp" line="442"/>
         <source>Exit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="441"/>
+        <location filename="../src/gui/mainwindow.cpp" line="443"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="483"/>
+        <location filename="../src/gui/mainwindow.cpp" line="485"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="526"/>
+        <location filename="../src/gui/mainwindow.cpp" line="528"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="550"/>
+        <location filename="../src/gui/mainwindow.cpp" line="552"/>
         <source>&amp;Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="554"/>
+        <location filename="../src/gui/mainwindow.cpp" line="556"/>
         <source>&amp;Tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="579"/>
+        <location filename="../src/gui/mainwindow.cpp" line="581"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="593"/>
+        <location filename="../src/gui/mainwindow.cpp" line="595"/>
         <source>&amp;New Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="595"/>
+        <location filename="../src/gui/mainwindow.cpp" line="597"/>
         <source>Rename &amp;Group %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="597"/>
+        <location filename="../src/gui/mainwindow.cpp" line="599"/>
         <source>Re&amp;name Tab %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="599"/>
+        <location filename="../src/gui/mainwindow.cpp" line="601"/>
         <source>Re&amp;move Tab %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="601"/>
+        <location filename="../src/gui/mainwindow.cpp" line="603"/>
         <source>Remove Group %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="603"/>
+        <location filename="../src/gui/mainwindow.cpp" line="605"/>
         <source>&amp;Change Tab Icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="988"/>
+        <location filename="../src/gui/mainwindow.cpp" line="990"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="989"/>
+        <location filename="../src/gui/mainwindow.cpp" line="991"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1222"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1224"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1225"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1227"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1238"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1240"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1461"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1463"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation type="unfinished"></translation>
@@ -2658,54 +2649,54 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2333"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2327"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2551"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2609"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2569"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2627"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2559"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2577"/>
         <source>CopyQ Error Saving File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2560"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2578"/>
         <source>Cannot save file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2614"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2632"/>
         <source>CopyQ Error Opening File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2615"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2633"/>
         <source>Cannot open file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2763"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2781"/>
         <source>Remove All Tabs in Group?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2764"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2782"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2809"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2827"/>
         <source>Remove Tab?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2810"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2828"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2892,7 +2883,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
         <source>F6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
@@ -2982,7 +2973,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>F4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -2992,7 +2983,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>F7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
@@ -3007,7 +2998,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>F2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
@@ -3037,7 +3028,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>F5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
@@ -3167,7 +3158,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>F12</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
@@ -3176,7 +3167,7 @@ Set to 0 to disable.</source>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="91"/>
-        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -3221,7 +3212,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/main.cpp" line="207"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, '-' or '_'!</source>
+which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3443,14 +3434,14 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn't exist.
+Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="62"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="66"/>
         <source>COMMAND</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3515,7 +3506,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with "arguments[0..N]".</source>
+Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3557,85 +3548,85 @@ Print version of program and libraries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="62"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="66"/>
         <source>Usage: copyq [%1]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="63"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="67"/>
         <source>Starts server if no command is specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="64"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="68"/>
         <source>  COMMANDs:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="69"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="73"/>
         <source>NOTES:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="70"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="74"/>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="71"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="75"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="73"/>
-        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
+        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
+        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="82"/>
         <source>Invalid number of arguments!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="319"/>
-        <location filename="../src/scriptable/scriptableworker.cpp" line="147"/>
-        <source>Name "%1" doesn't refer to a function.</source>
+        <location filename="../src/scriptable/scriptable.cpp" line="344"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1390"/>
+        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="383"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="408"/>
         <source>Built with: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="411"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="436"/>
         <source>Command not found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="490"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="515"/>
         <source>Terminating server.
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="801"/>
-        <source>Cannot save to file "%1"!</source>
+        <location filename="../src/scriptable/scriptable.cpp" line="826"/>
+        <source>Cannot save to file &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="812"/>
-        <source>Cannot import file "%1"!</source>
+        <location filename="../src/scriptable/scriptable.cpp" line="837"/>
+        <source>Cannot import file &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="824"/>
-        <source>Invalid option "%1"!</source>
+        <location filename="../src/scriptable/scriptable.cpp" line="849"/>
+        <source>Invalid option &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1368"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1510"/>
         <source>Failed to set clipboard!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3657,7 +3648,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3722,7 +3713,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="111"/>
+        <location filename="../src/gui/traymenu.cpp" line="102"/>
+        <source>Press &apos;/&apos; to search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/traymenu.cpp" line="102"/>
+        <source>Type to search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/traymenu.cpp" line="115"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
         <translation type="unfinished"></translation>
@@ -3744,17 +3745,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="294"/>
-        <source>Tab with given name doesn't exist!</source>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="325"/>
+        <source>Tab with given name doesn&apos;t exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="299"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="330"/>
         <source>Tab name cannot be empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="385"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="416"/>
         <source>Tab with given name already exists!</source>
         <translation type="unfinished"></translation>
     </message>
