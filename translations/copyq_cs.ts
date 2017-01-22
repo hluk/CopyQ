@@ -5281,7 +5281,7 @@ Původní volba je první záložka.</translation>
         <source>
 Evaluate ECMAScript program.
 Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
-        <translation type="unfinished">
+        <translation>
 Spustí program v jazyce ECMASctipt.
 Argumenty jsou přístupně pomocí &quot;arguments[0..N]&quot;.</translation>
     </message>
@@ -5642,12 +5642,12 @@ Pouožij &lt;b&gt;/&lt;/b&gt; jako rozdělovník pro cestu ve stromu záložek.<
     <message>
         <location filename="../src/gui/traymenu.cpp" line="102"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Stiskni &apos;/&apos; pro vyhledávání</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="102"/>
         <source>Type to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Začni psát pro vyhledávání</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="115"/>
