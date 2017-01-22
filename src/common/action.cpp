@@ -340,15 +340,18 @@ void Action::setData(quintptr id, const QVariantMap &data)
     }
 }
 
-void Action::actionError(QProcess::ProcessError)
+void Action::actionError(QProcess::ProcessError error)
 {
     QProcess *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
 
-    if (!m_errorString.isEmpty())
-        m_errorString.append("\n");
-    m_errorString.append( p->errorString() );
-    m_failed = true;
+    // Ignore write-to-process error, process can ignore the input.
+    if (error == QProcess::WriteError) {
+        if (!m_errorString.isEmpty())
+            m_errorString.append("\n");
+        m_errorString.append( p->errorString() );
+        m_failed = true;
+    }
 
     if ( !isRunning() ) {
         closeSubCommands();
