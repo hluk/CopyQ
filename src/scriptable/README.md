@@ -323,7 +323,7 @@ E.g. following menu command will add tag to selected items.
 
 ###### ByteArray removeData(mimeType)
 
-Remove given data type from item.
+Same as setData() except it removes given data format.
 
 ###### print(value)
 

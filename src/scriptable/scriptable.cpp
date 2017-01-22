@@ -1005,6 +1005,7 @@ QScriptValue Scriptable::setData()
 QScriptValue Scriptable::removeData()
 {
     const QString mime = arg(0);
+    m_data.remove(mime);
     m_proxy->setSelectedItemsData(mime, QVariant());
     return true;
 }
