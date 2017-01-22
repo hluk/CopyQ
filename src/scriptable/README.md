@@ -325,6 +325,10 @@ E.g. following menu command will add tag to selected items.
 
 Same as setData() except it removes given data format.
 
+###### Array dataFormats()
+
+Returns formats in data passed to automatic commands or selected items if run from menu or using shortcut.
+
 ###### print(value)
 
 Prints value to standard output.

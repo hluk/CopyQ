@@ -985,6 +985,11 @@ QScriptValue Scriptable::input()
     return m_input;
 }
 
+QScriptValue Scriptable::dataFormats()
+{
+    return toScriptValue( m_data.keys(), this );
+}
+
 QScriptValue Scriptable::data(const QScriptValue &value)
 {
     return newByteArray( m_data.value(toString(value)).toByteArray() );
