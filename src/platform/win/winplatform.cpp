@@ -20,7 +20,6 @@
 #include "common/log.h"
 #include "common/settings.h"
 
-#include "platform/dummy/dummyclipboard.h"
 #include "winplatform.h"
 #include "winplatformclipboard.h"
 #include "winplatformwindow.h"

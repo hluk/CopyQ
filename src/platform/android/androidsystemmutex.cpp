@@ -17,11 +17,44 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLATFORMCOMMON_H
-#define PLATFORMCOMMON_H
+#include "platform/platformsystemmutex.h"
 
-class PlatformWindow;
+#include <QString>
 
-bool pasteWithCtrlV(PlatformWindow &window);
+namespace {
 
-#endif // PLATFORMCOMMON_H
+/// TODO: Implement!
+class AndroidPlatformSystemMutex : public PlatformSystemMutex {
+public:
+    explicit AndroidPlatformSystemMutex(const QString &)
+    {
+    }
+
+    bool tryLock()
+    {
+        return true;
+    }
+
+    bool lock()
+    {
+        return true;
+    }
+
+    bool unlock()
+    {
+        return true;
+    }
+
+    QString error() const
+    {
+        return QString();
+    }
+};
+
+} // namespace
+
+PlatformSystemMutexPtr getPlatformSystemMutex(const QString &name)
+{
+    return PlatformSystemMutexPtr(new AndroidPlatformSystemMutex(name));
+}
+

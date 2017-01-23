@@ -6,7 +6,8 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
     platform/win/winplatformclipboard.cpp
     platform/win/winplatformwindow.cpp
     platform/dummy/dummyclipboard.cpp
-    platform/platformcommon.cpp
+    platform/dummy/dummyplatformsystemmutex.cpp
+    platform/common/pastewithctrlv.cpp
     ../qxt/qxtglobalshortcut_win.cpp
     )
 

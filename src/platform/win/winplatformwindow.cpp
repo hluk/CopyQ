@@ -17,7 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "platform/platformcommon.h"
+#include "platform/common/pastewithctrlv.h"
 #include "winplatformwindow.h"
 
 #include "common/log.h"

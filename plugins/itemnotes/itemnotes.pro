@@ -1,10 +1,7 @@
 include(../plugins_common.pri)
 
-HEADERS += itemnotes.h \
-    ../../src/gui/iconwidget.h
-SOURCES += itemnotes.cpp \
-    ../../src/gui/iconfont.cpp \
-    ../../src/gui/iconwidget.cpp
+HEADERS += itemnotes.h
+SOURCES += itemnotes.cpp
 FORMS   += itemnotessettings.ui
-TARGET   = $$qtLibraryTarget(itemnotes)
+TARGET   = itemnotes
 

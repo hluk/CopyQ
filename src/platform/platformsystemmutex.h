@@ -17,38 +17,32 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef PLATFORMSYSTEMMUTEX_H
+#define PLATFORMSYSTEMMUTEX_H
 
-#include "platform/platformsystemmutex.h"
+#include <QSharedPointer>
 
-#include <QObject>
+class QString;
 
-class ClientSocket;
-class QLocalServer;
-
-class Server : public QObject
-{
-    Q_OBJECT
+/// System-wide mutex
+class PlatformSystemMutex {
 public:
-    explicit Server(const QString &name, QObject *parent = NULL);
+    virtual ~PlatformSystemMutex() {}
 
-    void start();
+    /// Try lock mutex (non-blocking).
+    virtual bool tryLock() = 0;
 
-    bool isListening() const;
+    /// Lock mutex (blocking).
+    virtual bool lock() = 0;
 
-signals:
-    void newConnection(ClientSocket *socket);
+    /// Unlock mutex.
+    virtual bool unlock() = 0;
 
-private slots:
-    void onNewConnection();
-    void onSocketClosed();
-    void close();
-
-private:
-    QLocalServer *m_server;
-    int m_socketCount;
-    PlatformSystemMutexPtr m_mutex;
+    virtual QString error() const = 0;
 };
 
-#endif // SERVER_H
+typedef QSharedPointer<PlatformSystemMutex> PlatformSystemMutexPtr;
+
+PlatformSystemMutexPtr getPlatformSystemMutex(const QString &name);
+
+#endif // PLATFORMSYSTEMMUTEX_H

@@ -27,8 +27,6 @@
 #include <QDataStream>
 #include <QLocalServer>
 #include <QLocalSocket>
-#include <QSharedMemory>
-#include <QSystemSemaphore>
 
 namespace {
 
@@ -39,72 +37,23 @@ bool serverIsRunning(const QString &serverName)
     return socket.waitForConnected(-1);
 }
 
-bool tryAttach(QSharedMemory *shmem)
-{
-    if (shmem->attach()) {
-        shmem->detach();
-        return true;
-    }
-
-    return false;
-}
-
-/**
- * Creates and locks system-wide mutex.
- *
- * If mutex cannot be locked, null pointer is returned.
- *
- * Destroying the object unlocks the mutex.
- *
- * Uses existence shared memory resource to check if the mutex is locked.
- * If shared memory (with same name as mutex is created) exists (another
- * process is attached to it), locking fails. Otherwise shared memory is
- * created (and mutex attaches to it).
- *
- * Note: Simple QSystemSemaphore cannot be used because acquiring
- * the semaphore is blocking operation.
- */
-QObject *createSystemMutex(const QString &name, QObject *parent)
-{
-    QSharedMemory *shmem = new QSharedMemory(name, parent);
-
-    QSystemSemaphore createSharedMemoryGuard("shmem_create_" + name, 1);
-    if (createSharedMemoryGuard.acquire()) {
-        /* Dummy attach and dettach operations can invoke shared memory
-         * destruction if the last process attached to shared memory has
-         * crashed and memory was not destroyed.
-         */
-        if (!tryAttach(shmem) || !tryAttach(shmem)) {
-            if (!shmem->create(1)) {
-                log("Failed to create shared memory: "
-                    + shmem->errorString(), LogError);
-            }
-        }
-        createSharedMemoryGuard.release();
-    } else {
-        log("Failed to acquire shared memory lock: "
-            + createSharedMemoryGuard.errorString(), LogError);
-    }
-
-    if (shmem->isAttached())
-        return shmem;
-
-    delete shmem;
-    return NULL;
-}
-
 } // namespace
 
 Server::Server(const QString &name, QObject *parent)
     : QObject(parent)
     , m_server(new QLocalServer(this))
     , m_socketCount(0)
+    , m_mutex(getPlatformSystemMutex(name))
 {
-    if ( createSystemMutex(name, this) && !serverIsRunning(name) ) {
+    if ( m_mutex->tryLock() && !serverIsRunning(name) ) {
         QLocalServer::removeServer(name);
         if ( !m_server->listen(name) )
             log("Failed to create server: " + m_server->errorString(), LogError);
     }
+
+    const QString mutexError = m_mutex->error();
+    if ( !mutexError.isEmpty() )
+        log("Failed to lock system mutex: " + mutexError, LogError);
 
     connect( qApp, SIGNAL(aboutToQuit()), SLOT(close()) );
 }

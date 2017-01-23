@@ -240,3 +240,6 @@ equals(USE_QXT,1) {
     SOURCES += ../qxt/qxtglobalshortcut.cpp
 }
 
+# Keep symbols available for plugins.
+QMAKE_LFLAGS += -rdynamic
+

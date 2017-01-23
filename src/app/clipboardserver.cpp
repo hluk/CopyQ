@@ -113,7 +113,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     Server *server = new Server(serverName, this);
 
     if ( server->isListening() ) {
-        ::createSessionMutex();
         restoreSettings(true);
         COPYQ_LOG("Server \"" + serverName + "\" started.");
     } else {

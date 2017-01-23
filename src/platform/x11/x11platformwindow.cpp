@@ -18,7 +18,7 @@
 */
 
 #include "clipboardspy.h"
-#include "platform/platformcommon.h"
+#include "platform/common/pastewithctrlv.h"
 #include "x11platformwindow.h"
 #include "x11displayguard.h"
 

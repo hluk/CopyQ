@@ -17,38 +17,13 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef PASTEWITHCTRLV
+#define PASTEWITHCTRLV
 
 #include "platform/platformsystemmutex.h"
 
-#include <QObject>
+class PlatformWindow;
 
-class ClientSocket;
-class QLocalServer;
+bool pasteWithCtrlV(PlatformWindow &window);
 
-class Server : public QObject
-{
-    Q_OBJECT
-public:
-    explicit Server(const QString &name, QObject *parent = NULL);
-
-    void start();
-
-    bool isListening() const;
-
-signals:
-    void newConnection(ClientSocket *socket);
-
-private slots:
-    void onNewConnection();
-    void onSocketClosed();
-    void close();
-
-private:
-    QLocalServer *m_server;
-    int m_socketCount;
-    PlatformSystemMutexPtr m_mutex;
-};
-
-#endif // SERVER_H
+#endif // PASTEWITHCTRLV

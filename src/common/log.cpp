@@ -19,13 +19,13 @@
 
 #include "log.h"
 
+#include "platform/platformsystemmutex.h"
+
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QDir>
 #include <QFile>
-#include <QSharedPointer>
 #include <QString>
-#include <QSystemSemaphore>
 #include <QtGlobal>
 
 #if QT_VERSION < 0x050000
@@ -67,49 +67,11 @@ QString envString(const char *varName)
     return QString::fromUtf8( bytes.constData(), bytes.size() );
 }
 
-/// System-wide mutex
-class SystemMutex {
-public:
-    /**
-     * Open system mutex if exists, otherwise create one.
-     * Name of mutex is same as current session of application.
-     */
-    SystemMutex(const QString &name, QSystemSemaphore::AccessMode mode)
-        : m_semaphore(name, 1, mode)
-    {
-    }
-
-    /// Lock mutex (blocking).
-    bool lock()
-    {
-        return m_semaphore.acquire();
-    }
-
-    /// Unlock mutex.
-    bool unlock()
-    {
-        return m_semaphore.release();
-    }
-
-    QString error() const
-    {
-        return m_semaphore.error() == QSystemSemaphore::NoError
-                ? QString()
-                : m_semaphore.errorString();
-    }
-
-private:
-    QSystemSemaphore m_semaphore;
-};
-
-typedef QSharedPointer<SystemMutex> SystemMutexPtr;
-SystemMutexPtr sessionMutex;
-
 /// Lock guard for SystemMutex.
 class SystemMutexLocker {
 public:
     /// Locks mutex (it's possible that the mutex won't be locked because of errors).
-    SystemMutexLocker(const SystemMutexPtr &mutex)
+    SystemMutexLocker(const PlatformSystemMutexPtr &mutex)
         : m_mutex(mutex)
         , m_locked(!m_mutex.isNull() && m_mutex->lock())
     {
@@ -125,33 +87,9 @@ public:
     bool isLocked() const { return m_locked; }
 
 private:
-    SystemMutexPtr m_mutex;
+    PlatformSystemMutexPtr m_mutex;
     bool m_locked;
 };
-
-void initSessionMutex(QSystemSemaphore::AccessMode accessMode)
-{
-    const QString mutexName = QCoreApplication::applicationName() + "_mutex";
-    sessionMutex = SystemMutexPtr(new SystemMutex(mutexName, accessMode));
-
-    const QString error = sessionMutex->error();
-    const bool create = accessMode == QSystemSemaphore::Create;
-    if ( !error.isEmpty() ) {
-        const QString action = create ? "create" : "open";
-        log("Failed to " + action + " session mutex: " + error, LogError);
-    } else {
-        COPYQ_LOG( QString(create ? "Created" : "Opened")
-                   + " session mutex: " + mutexName );
-    }
-}
-
-const SystemMutexPtr &getSessionMutex()
-{
-    if (sessionMutex.isNull())
-        initSessionMutex(QSystemSemaphore::Open);
-
-    return sessionMutex;
-}
 
 QString getDefaultLogFilePath()
 {
@@ -192,6 +130,18 @@ void rotateLogFiles()
     }
 }
 
+PlatformSystemMutexPtr doGetSessionSystemMutex()
+{
+    const QString mutexName = QCoreApplication::applicationName() + "_mutex";
+    return getPlatformSystemMutex(mutexName);
+}
+
+PlatformSystemMutexPtr getSessionSystemMutex()
+{
+    static PlatformSystemMutexPtr sessionMutex = doGetSessionSystemMutex();
+    return sessionMutex;
+}
+
 } // namespace
 
 QString logFileName()
@@ -209,7 +159,7 @@ QString logFileName()
 
 QString readLogFile()
 {
-    SystemMutexLocker lock(getSessionMutex());
+    SystemMutexLocker lock( getSessionSystemMutex() );
 
     QString content;
     for (int i = 0; i < logFileCount; ++i)
@@ -218,11 +168,6 @@ QString readLogFile()
     content.prepend(logFileName() + "\n\n");
 
     return content;
-}
-
-void createSessionMutex()
-{
-    initSessionMutex(QSystemSemaphore::Create);
 }
 
 bool hasLogLevel(LogLevel level)
@@ -262,7 +207,7 @@ void log(const QString &text, const LogLevel level)
     if ( !hasLogLevel(level) )
         return;
 
-    SystemMutexLocker lock(getSessionMutex());
+    SystemMutexLocker lock( getSessionSystemMutex() );
 
     const QByteArray msg = createLogMessage(text, level).toUtf8();
 

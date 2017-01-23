@@ -7,9 +7,13 @@ win32 {
 macx {
     include(mac/macplatform.pri)
 }
-!unix|android:!win32 {
+android {
+    include(android/androidplatform.pri)
+}
+!unix:!win32:!android {
     SOURCES += \
         $$PWD/dummy/dummyplatform.cpp \
+        $$PWD/dummy/dummyplatformsystemmutex.cpp \
         $$PWD/dummy/dummyclipboard.cpp
     HEADERS += \
         $$PWD/dummy/dummyclipboard.h

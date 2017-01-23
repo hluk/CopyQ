@@ -37,8 +37,6 @@ QString logFileName();
 
 QString readLogFile();
 
-void createSessionMutex();
-
 bool hasLogLevel(LogLevel level);
 
 QString logLevelLabel(LogLevel level);
