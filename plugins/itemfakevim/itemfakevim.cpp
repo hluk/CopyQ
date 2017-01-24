@@ -71,7 +71,7 @@ public:
 
         editor->viewport()->installEventFilter(this);
 
-        editor->setStyleSheet("*{background:transparent}");
+        editor->setStyleSheet("QTextEdit{background:transparent}");
     }
 
     ~TextEditWidget()
