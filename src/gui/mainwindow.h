@@ -261,7 +261,7 @@ public:
     QStringList tabs() const;
 
     /** Update the first item in the first tab. */
-    void updateFirstItem(const QVariantMap &data);
+    void updateFirstItem(QVariantMap data);
 
     /// Get description for all user options (used by config() command).
     QString getUserOptionsDescription() const;
@@ -351,7 +351,7 @@ public slots:
      * Run automatic commands and add @a new clipboard to the first tab
      * if commands didn't remove or transform the data.
      */
-    void runAutomaticCommands(const QVariantMap &data);
+    void runAutomaticCommands(QVariantMap data);
 
     /** Set clipboard. */
     void setClipboard(const QVariantMap &data, QClipboard::Mode mode);
@@ -580,8 +580,6 @@ private:
     void runAutomaticCommand(const Command &command);
 
     bool isWindowVisible() const;
-
-    ClipboardBrowser *clipboardTab();
 
     void onEscape();
 

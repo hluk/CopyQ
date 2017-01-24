@@ -677,3 +677,36 @@ Examples:
         rgba(255,255,0,0.5)
         bg - #000099
 
+###### application/x-copyq-output-tab
+
+Valid only in automatic commands.
+
+Name of the tab where to store the clipboard data after all automatic commands are run.
+
+Clear or remove the format to omit storing the data.
+
+E.g. to omit storing the clipboard data use following in an automatic command.
+
+```js
+removeData('application/x-copyq-output-tab')
+```
+
+###### application/x-copyq-sync-to-selection
+
+Valid only in Linux/X11 in automatic commands.
+
+If the format exists the Linux/X11 mouse selection data will be copied to clipboard after all automatic commands are run.
+
+```js
+removeData('application/x-copyq-sync-to-selection')
+```
+
+###### application/x-copyq-sync-to-clipboard
+
+Valid only in Linux/X11 in automatic commands.
+
+If the format exists the clipboard data will be copied to Linux/X11 mouse selection buffer after all automatic commands are run.
+
+```js
+removeData('application/x-copyq-sync-to-clipboard')
+```

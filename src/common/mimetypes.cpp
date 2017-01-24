@@ -33,3 +33,6 @@ const char mimeCurrentItem[] = COPYQ_MIME_PREFIX "current-item";
 const char mimeHidden[] = COPYQ_MIME_PREFIX "hidden";
 const char mimeShortcut[] = COPYQ_MIME_PREFIX "shortcut";
 const char mimeColor[] = COPYQ_MIME_PREFIX "color";
+const char mimeOutputTab[] = COPYQ_MIME_PREFIX "output-tab";
+const char mimeSyncToClipboard[] = COPYQ_MIME_PREFIX "sync-to-clipboard";
+const char mimeSyncToSelection[] = COPYQ_MIME_PREFIX "sync-to-selection";

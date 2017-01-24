@@ -1300,11 +1300,6 @@ bool MainWindow::isWindowVisible() const
     return !isMinimized() && isVisible() && isActiveWindow();
 }
 
-ClipboardBrowser *MainWindow::clipboardTab()
-{
-    return m_options.clipboardTab.isEmpty() ? NULL : tab(m_options.clipboardTab);
-}
-
 void MainWindow::onEscape()
 {
     if ( browseMode() ) {
@@ -1994,18 +1989,22 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
     tab(tabName)->addUnique(data);
 }
 
-void MainWindow::updateFirstItem(const QVariantMap &data)
+void MainWindow::updateFirstItem(QVariantMap data)
 {
+    const bool syncToSelection = data.remove(mimeSyncToSelection) != 0;
+    const bool syncToClipboard = data.remove(mimeSyncToClipboard) != 0;
+    const QString outputTab = getTextData( data.take(mimeOutputTab).toByteArray() );
+
     // Synchronize clipboard and X11 selection.
-    if (needSyncClipboardToSelection(data))
+    if (syncToSelection)
         emit changeClipboard(data, QClipboard::Selection);
 
-    if (needSyncSelectionToClipboard(data))
+    if (syncToClipboard)
         emit changeClipboard(data, QClipboard::Clipboard);
 
-    if (needStore(data)) {
-        ClipboardBrowser *c = clipboardTab();
-        if ( c && c->isLoaded() )
+    if ( !outputTab.isEmpty() ) {
+        ClipboardBrowser *c = tab(outputTab);
+        if ( c->isLoaded() )
             c->addUnique(data);
     }
 }
@@ -2049,7 +2048,7 @@ QString syncCommand(const QString &type)
            "} catch (e) {}";
 }
 
-void MainWindow::runAutomaticCommands(const QVariantMap &data)
+void MainWindow::runAutomaticCommands(QVariantMap data)
 {
     bool isClipboard = isClipboardData(data);
 
@@ -2067,13 +2066,21 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
         }
     }
 
-    // Add new clipboard to the first tab (if configured so).
-    if ( needSyncClipboardToSelection(data)
-            || needSyncSelectionToClipboard(data)
-            || needStore(data) )
-    {
+    const bool storeData = needStore(data);
+    if (storeData)
+        setTextData(&data, m_options.clipboardTab, mimeOutputTab);
+
+    const bool syncClipboardToSelection = needSyncClipboardToSelection(data);
+    if (syncClipboardToSelection)
+        data.insert(mimeSyncToSelection, QByteArray());
+
+    const bool syncSelectionToClipboard = needSyncSelectionToClipboard(data);
+    if (syncSelectionToClipboard)
+        data.insert(mimeSyncToClipboard, QByteArray());
+
+    // Add clipboard data to clipboard tab (if configured) and synchronize clipboard/selection.
+    if (syncClipboardToSelection || syncSelectionToClipboard || storeData)
         commands.append(automaticCommand("Add Item from Clipboard", "updateFirst()"));
-    }
 
     if (isClipboard) {
         // First, clear window title and tooltip.
@@ -2215,7 +2222,7 @@ ClipboardBrowser *MainWindow::getTabForTrayMenu()
         return browser();
 
     if ( m_options.trayTabName.isEmpty() )
-        return clipboardTab();
+        return m_options.clipboardTab.isEmpty() ? NULL : tab(m_options.clipboardTab);
 
     int i = findTabIndex(m_options.trayTabName);
     return i != -1 ? browser(i) : NULL;
