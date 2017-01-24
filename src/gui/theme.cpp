@@ -201,7 +201,6 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
         return;
     }
 
-    const int iconSize = iconFontSizePixels();
     mainWindow->setStyleSheet(
         "MainWindow{background:" + themeColorString("bg") + "}"
 
@@ -247,23 +246,15 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
         "QToolBar{border:none}"
         "QToolBar QToolButton{color:" + themeColorString("fg") + "}"
 
-        // Remove icon border in menus.
-        "#menu_bar QMenu::item:selected{border:none}"
-        "#menu_bar QMenu::item{"
-          ";padding:0.2em 1em 0.2em 1em"
-          ";padding-left:" + QString::number(iconSize * 2) + "px}"
-        "#menu_bar QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
-
-        // Keep default item highlighted (removing icon border resets the style).
-        "#menu_bar QMenu::item:default{font-weight:bold}"
-
-        "#menu_bar QMenu {" + themeStyleSheet("menu_css") + "}"
-        "#menu_bar, #menu_bar::item, #menu_bar QMenu, #menu_bar QMenu::item, #menu_bar QMenu::separator {"
+        "#menu_bar, #menu_bar::item {"
           + themeStyleSheet("menu_bar_css") + "}"
-        "#menu_bar::item:selected, #menu_bar QMenu::item:selected {"
+        "#menu_bar::item:selected {"
           + themeStyleSheet("menu_bar_selected_css") + "}"
-        "#menu_bar::item:disabled, #menu_bar QMenu::item:disabled {"
+        "#menu_bar::item:disabled {"
           + themeStyleSheet("menu_bar_disabled_css") + "}"
+
+        + getMenuStyleSheet("#menu_bar")
+        + getMenuStyleSheet("#centralWidget")
 
         + themeStyleSheet("css")
     );
@@ -579,6 +570,32 @@ QString Theme::themeStyleSheet(const QString &name) const
 QString Theme::themeColorString(const QString &name) const
 {
     return serializeColor( color(name) );
+}
+
+QString Theme::getMenuStyleSheet(const QString &selector) const
+{
+    const int iconSize = iconFontSizePixels();
+    return
+        // Remove icon border in menus.
+        selector + " QMenu::item:selected{border:none}"
+        + selector + " QMenu::item{"
+          ";padding:0.2em 1em 0.2em 1em"
+          ";padding-left:" + QString::number(iconSize * 2) + "px}"
+        + selector + " QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
+
+        // Keep default item highlighted (removing icon border resets the style).
+        + selector + " QMenu::item:default{font-weight:bold}"
+
+        + selector + " QMenu {" + themeStyleSheet("menu_css") + "}"
+
+        + selector + " QMenu,"
+        + selector + " QMenu::item,"
+        + selector + " QMenu::separator {"
+          + themeStyleSheet("menu_bar_css") + "}"
+        + selector + " QMenu::item:selected {"
+          + themeStyleSheet("menu_bar_selected_css") + "}"
+        + selector + "  QMenu::item:disabled {"
+          + themeStyleSheet("menu_bar_disabled_css") + "}";
 }
 
 QString serializeColor(const QColor &color)

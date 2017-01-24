@@ -585,7 +585,7 @@ void MainWindow::createMenu()
 
 void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
 {
-    QMenu menu(this);
+    QMenu menu(ui->tabWidget);
 
     const int tabIndex = ui->tabWidget->tabs().indexOf(tab);
     bool hasTab = tabIndex != -1;
