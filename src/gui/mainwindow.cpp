@@ -480,9 +480,11 @@ void MainWindow::createMenu()
 
     menubar->clear();
     m_trayMenu->clear();
+    ui->toolBarMenu->clear();
 
     // File
     menu = menubar->addMenu( tr("&File") );
+    ui->toolBarMenu->addAction(menu->menuAction());
 
     // - new
     act = createAction( Actions::File_New, SLOT(editNewItem()), menu );
@@ -526,6 +528,7 @@ void MainWindow::createMenu()
 
     // Edit
     menu = menubar->addMenu( tr("&Edit") );
+    ui->toolBarMenu->addAction(menu->menuAction());
 
     // - find
     createAction( Actions::Edit_FindItems, SLOT(findNext()), menu );
@@ -550,10 +553,12 @@ void MainWindow::createMenu()
 
     // Items
     m_menuItem = menubar->addMenu( tr("&Item") );
+    ui->toolBarMenu->addAction(menu->menuAction());
     disableActionWhenTabGroupSelected(m_menuItem, this);
 
     // Tabs
     menu = menubar->addMenu(tr("&Tabs"));
+    ui->toolBarMenu->addAction(menu->menuAction());
 
     // - new tab
     createAction( Actions::Tabs_NewTab, SLOT(newTab()), menu );
@@ -579,6 +584,7 @@ void MainWindow::createMenu()
 
     // Help
     menu = menubar->addMenu(tr("&Help"));
+    ui->toolBarMenu->addAction(menu->menuAction());
     createAction( Actions::Help_ShowLog, SLOT(openLogDialog()), menu );
     createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
 }
@@ -1186,6 +1192,9 @@ void MainWindow::updateToolBar()
         return;
 
     QAction *act = actionForMenuItem(Actions::File_New, this, Qt::WindowShortcut);
+    ui->toolBar->addAction(act);
+
+    act = actionForMenuItem(Actions::File_Preferences, this, Qt::WindowShortcut);
     ui->toolBar->addAction(act);
 
     foreach ( QAction *action, m_menuItem->actions() ) {

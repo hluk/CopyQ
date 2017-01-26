@@ -81,6 +81,9 @@ WindowGeometryGuard::WindowGeometryGuard(QWidget *window)
     : QObject(window)
     , m_window(window)
 {
+#ifdef ANDROID
+    m_window->showMaximized();
+#else
     connect( QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(restoreWindowGeometry()) );
     connect( QApplication::desktop(), SIGNAL(workAreaResized(int)), this, SLOT(restoreWindowGeometry()) );
     initSingleShotTimer(&m_timerSaveGeometry, 250, this, SLOT(saveWindowGeometry()));
@@ -88,6 +91,7 @@ WindowGeometryGuard::WindowGeometryGuard(QWidget *window)
 
     m_window->installEventFilter(this);
     restoreWindowGeometry();
+#endif
 }
 
 bool WindowGeometryGuard::isWindowGeometryLocked() const
