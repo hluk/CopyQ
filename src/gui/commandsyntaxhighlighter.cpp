@@ -84,6 +84,21 @@ QStringList scriptableKeywords()
                ;
 }
 
+QStringList scriptableProperties()
+{
+    QStringList result;
+
+    QMetaObject scriptableMetaObject = Scriptable::staticMetaObject;
+    for (int i = 0; i < scriptableMetaObject.propertyCount(); ++i) {
+        QMetaProperty property = scriptableMetaObject.property(i);
+        result.append(property.name());
+    }
+
+    result.removeOne("objectName");
+
+    return result;
+}
+
 QStringList scriptableFunctions()
 {
     QStringList result;
@@ -94,10 +109,11 @@ QStringList scriptableFunctions()
 
         if (method.methodType() == QMetaMethod::Slot && method.access() == QMetaMethod::Public) {
             const QString name = methodName(method);
-            if (name != "deleteLater")
-                result.append(name);
+            result.append(name);
         }
     }
+
+    result.removeOne("deleteLater");
 
     return result;
 }
@@ -166,6 +182,7 @@ public:
         : QSyntaxHighlighter(parent)
         , m_editor(editor)
         , m_reObjects(createRegExp(scriptableObjects()))
+        , m_reProperties(createRegExp(scriptableProperties()))
         , m_reFunctions(createRegExp(scriptableFunctions()))
         , m_reKeywords(createRegExp(scriptableKeywords()))
         , m_reLabels(commandLabelRegExp())
@@ -181,6 +198,10 @@ protected:
         QTextCharFormat objectsFormat;
         objectsFormat.setForeground(mixColor(m_bgColor, 40, -60, 40));
         highlight(text, m_reObjects, objectsFormat);
+
+        QTextCharFormat propertyFormat;
+        propertyFormat.setForeground(mixColor(m_bgColor, -60, 40, 40));
+        highlight(text, m_reProperties, propertyFormat);
 
         QTextCharFormat functionFormat;
         functionFormat.setForeground(mixColor(m_bgColor, -40, -40, 40));
@@ -314,6 +335,7 @@ private:
 
     QWidget *m_editor;
     QRegExp m_reObjects;
+    QRegExp m_reProperties;
     QRegExp m_reFunctions;
     QRegExp m_reKeywords;
     QRegExp m_reLabels;

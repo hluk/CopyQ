@@ -126,8 +126,8 @@ Exception is thrown if clipboard fails to be set.
 Example (set both text and rich text):
 
 ```js
-copy('text/plain', 'Hello, World!',
-     'text/html', '<p>Hello, World!</p>')
+copy(mimeText, 'Hello, World!',
+     mimeHtml, '<p>Hello, World!</p>')
 ```
 
 ###### bool copy()
@@ -314,7 +314,7 @@ E.g. following automatic command will add creation time data and tag to new item
     copyq:
     var timeFormat = 'yyyy-MM-dd hh:mm:ss'
     setData('application/x-copyq-user-copy-time', dateString(timeFormat))
-    setData('application/x-copyq-tags', 'copied: ' + time)
+    setData(mimeTags, 'copied: ' + time)
 
 E.g. following menu command will add tag to selected items.
 
@@ -570,10 +570,10 @@ Example:
 
 ```js
 var item = {
-    'text/plain': 'Hello, World!',
-    'text/html': '<p>Hello, World!</p>'
+    mimeText: 'Hello, World!',
+    mimeHtml: '<p>Hello, World!</p>'
 }
-write('application/x-copyq-item', pack(item))'
+write(mimeItems, pack(item))'
 ```
 
 ###### FinishedCommand (Object)
@@ -601,41 +601,43 @@ Type of the data is determined by MIME type.
 
 Here is list of some common and builtin (start with `application/x-copyq-`) MIME types.
 
+These MIME types values are assigned to global variables prefixed with `mime`.
+
 Note: Content for following types is UTF-8 encoded.
 
-###### text/plain
+###### mimeText (text/plain)
 
 Data contains plain text content.
 
-###### text/html
+###### mimeHtml (text/html)
 
 Data contains HTML content.
 
-###### text/uri-list
+###### mimeUriList (text/uri-list)
 
 Data contains list of links to files, web pages etc.
 
-###### application/x-copyq-owner-window-title
+###### mimeWindowTitle (application/x-copyq-owner-window-title)
 
 Current window title for copied clipboard.
 
-###### application/x-copyq-item
+###### mimeItems (application/x-copyq-item)
 
 Serialized items.
 
-###### application/x-copyq-item-notes
+###### mimeItemNotes (application/x-copyq-item-notes)
 
 Data contains notes for item.
 
-###### application/x-copyq-owner
+###### mimeOwner (application/x-copyq-owner)
 
 If this type is available, the clipboard was set from CopyQ (from script or copied items).
 
-###### application/x-copyq-clipboard-mode
+###### mimeClipboardMode (application/x-copyq-clipboard-mode)
 
 Contains `selection` if data is from X11 mouse selection.
 
-###### application/x-copyq-current-tab
+###### mimeCurrentTab (application/x-copyq-current-tab)
 
 Current tab name when invoking command from main window.
 
@@ -644,15 +646,15 @@ Following command print the tab name when invoked from main window.
     copyq data application/x-copyq-current-tab
     copyq selectedTab
 
-###### application/x-copyq-selected-items
+###### mimeSelectedItems (application/x-copyq-selected-items)
 
 Selected items when invoking command from main window.
 
-###### application/x-copyq-current-item
+###### mimeCurrentItem (application/x-copyq-current-item)
 
 Current item when invoking command from main window.
 
-###### application/x-copyq-hidden
+###### mimeHidden (application/x-copyq-hidden)
 
 If set to `1`, the clipboard or item content will be hidden in GUI (notes and tags will be visible).
 
@@ -660,15 +662,15 @@ E.g. if you run following, window title and tool tip will be cleared.
 
     copyq copy application/x-copyq-hidden 1 plain/text "This is secret"
 
-###### application/x-copyq-shortcut
+###### mimeShortcut (application/x-copyq-shortcut)
 
 Application or global shortcut which activated the command.
 
     copyq:
-    var shortcut = data("application/x-copyq-shortcut")
+    var shortcut = data(mimeShortcut)
     popup("Shortcut Pressed", shortcut)
 
-###### application/x-copyq-color
+###### mimeColor (application/x-copyq-color)
 
 Item color (same as the one used by themes).
 
@@ -677,7 +679,7 @@ Examples:
         rgba(255,255,0,0.5)
         bg - #000099
 
-###### application/x-copyq-output-tab
+###### mimeOutputTab (application/x-copyq-output-tab)
 
 Valid only in automatic commands.
 
@@ -688,25 +690,25 @@ Clear or remove the format to omit storing the data.
 E.g. to omit storing the clipboard data use following in an automatic command.
 
 ```js
-removeData('application/x-copyq-output-tab')
+removeData(mimeOutputTab)
 ```
 
-###### application/x-copyq-sync-to-selection
+###### mimeSyncToClipboard (application/x-copyq-sync-to-selection)
 
 Valid only in Linux/X11 in automatic commands.
 
 If the format exists the Linux/X11 mouse selection data will be copied to clipboard after all automatic commands are run.
 
 ```js
-removeData('application/x-copyq-sync-to-selection')
+removeData(mimeSyncToClipboard)
 ```
 
-###### application/x-copyq-sync-to-clipboard
+###### mimeSyncToSelection (application/x-copyq-sync-to-clipboard)
 
 Valid only in Linux/X11 in automatic commands.
 
 If the format exists the clipboard data will be copied to Linux/X11 mouse selection buffer after all automatic commands are run.
 
 ```js
-removeData('application/x-copyq-sync-to-clipboard')
+removeData(mimeSyncToSelection)
 ```

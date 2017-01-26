@@ -20,6 +20,7 @@
 #ifndef SCRIPTABLE_H
 #define SCRIPTABLE_H
 
+#include "common/mimetypes.h"
 #include "scriptableproxy.h"
 
 #include <QObject>
@@ -41,6 +42,23 @@ class Scriptable : public QObject, protected QScriptable
     Q_OBJECT
     Q_PROPERTY(QString inputSeparator READ getInputSeparator WRITE setInputSeparator)
     Q_PROPERTY(QString currentPath READ getCurrentPath WRITE setCurrentPath)
+    Q_PROPERTY(QString mimeText READ getMimeText)
+    Q_PROPERTY(QString mimeHtml READ getMimeHtml)
+    Q_PROPERTY(QString mimeUriList READ getMimeUriList)
+    Q_PROPERTY(QString mimeWindowTitle READ getMimeWindowTitle)
+    Q_PROPERTY(QString mimeItems READ getMimeItems)
+    Q_PROPERTY(QString mimeItemNotes READ getMimeItemNotes)
+    Q_PROPERTY(QString mimeOwner READ getMimeOwner)
+    Q_PROPERTY(QString mimeClipboardMode READ getMimeClipboardMode)
+    Q_PROPERTY(QString mimeCurrentTab READ getMimeCurrentTab)
+    Q_PROPERTY(QString mimeSelectedItems READ getMimeSelectedItems)
+    Q_PROPERTY(QString mimeCurrentItem READ getMimeCurrentItem)
+    Q_PROPERTY(QString mimeHidden READ getMimeHidden)
+    Q_PROPERTY(QString mimeShortcut READ getMimeShortcut)
+    Q_PROPERTY(QString mimeColor READ getMimeColor)
+    Q_PROPERTY(QString mimeOutputTab READ getMimeOutputTab)
+    Q_PROPERTY(QString mimeSyncToClipboard READ getMimeSyncToClipboard)
+    Q_PROPERTY(QString mimeSyncToSelection READ getMimeSyncToSelection)
 
 public:
     explicit Scriptable(
@@ -99,6 +117,24 @@ public:
     bool isAborted() const { return m_abort; }
 
     const QVariantMap &data() const { return m_data; }
+
+    QString getMimeText() const { return mimeText; }
+    QString getMimeHtml() const { return mimeHtml; }
+    QString getMimeUriList() const { return mimeUriList; }
+    QString getMimeWindowTitle() const { return mimeWindowTitle; }
+    QString getMimeItems() const { return mimeItems; }
+    QString getMimeItemNotes() const { return mimeItemNotes; }
+    QString getMimeOwner() const { return mimeOwner; }
+    QString getMimeClipboardMode() const { return mimeClipboardMode; }
+    QString getMimeCurrentTab() const { return mimeCurrentTab; }
+    QString getMimeSelectedItems() const { return mimeSelectedItems; }
+    QString getMimeCurrentItem() const { return mimeCurrentItem; }
+    QString getMimeHidden() const { return mimeHidden; }
+    QString getMimeShortcut() const { return mimeShortcut; }
+    QString getMimeColor() const { return mimeColor; }
+    QString getMimeOutputTab() const { return mimeOutputTab; }
+    QString getMimeSyncToClipboard() const { return mimeSyncToClipboard; }
+    QString getMimeSyncToSelection() const { return mimeSyncToSelection; }
 
 public slots:
     QScriptValue version();

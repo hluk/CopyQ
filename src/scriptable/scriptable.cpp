@@ -25,7 +25,6 @@
 #include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/log.h"
-#include "common/mimetypes.h"
 #include "common/sleeptimer.h"
 #include "common/version.h"
 #include "item/serialize.h"
