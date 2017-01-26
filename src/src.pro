@@ -103,6 +103,7 @@ HEADERS += \
     gui/commanddialog.h \
     gui/commandedit.h \
     gui/commandsyntaxhighlighter.h \
+    gui/commandcompleter.h \
     gui/commandhelpbutton.h \
     scriptable/dirclass.h \
     scriptable/dirprototype.h \
@@ -191,6 +192,7 @@ SOURCES += \
     gui/commanddialog.cpp \
     gui/commandedit.cpp \
     gui/commandsyntaxhighlighter.cpp \
+    gui/commandcompleter.cpp \
     gui/commandhelpbutton.cpp \
     scriptable/dirclass.cpp \
     scriptable/dirprototype.cpp \

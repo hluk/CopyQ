@@ -52,93 +52,6 @@ QString methodName(const QMetaMethod &method)
     return name.remove(index, name.length() - index);
 }
 
-QStringList scriptableKeywords()
-{
-    return QStringList()
-            << "break"
-            << "do"
-            << "instanceof"
-            << "typeof"
-            << "case"
-            << "else"
-            << "new"
-            << "var"
-            << "catch"
-            << "finally"
-            << "return"
-            << "void"
-            << "continue"
-            << "for"
-            << "switch"
-            << "while"
-            << "debugger"
-            << "function"
-            << "this"
-            << "with"
-            << "default"
-            << "if"
-            << "throw"
-            << "delete"
-            << "in"
-            << "try"
-               ;
-}
-
-QStringList scriptableProperties()
-{
-    QStringList result;
-
-    QMetaObject scriptableMetaObject = Scriptable::staticMetaObject;
-    for (int i = 0; i < scriptableMetaObject.propertyCount(); ++i) {
-        QMetaProperty property = scriptableMetaObject.property(i);
-        result.append(property.name());
-    }
-
-    result.removeOne("objectName");
-
-    return result;
-}
-
-QStringList scriptableFunctions()
-{
-    QStringList result;
-
-    QMetaObject scriptableMetaObject = Scriptable::staticMetaObject;
-    for (int i = 0; i < scriptableMetaObject.methodCount(); ++i) {
-        QMetaMethod method = scriptableMetaObject.method(i);
-
-        if (method.methodType() == QMetaMethod::Slot && method.access() == QMetaMethod::Public) {
-            const QString name = methodName(method);
-            result.append(name);
-        }
-    }
-
-    result.removeOne("deleteLater");
-
-    return result;
-}
-
-/// Constructors and functions from ECMA specification supported by Qt plus ByteArray.
-QStringList scriptableObjects()
-{
-    QStringList result;
-    result.append("ByteArray");
-    result.append("Dir");
-    result.append("File");
-
-    QScriptEngine engine;
-
-    QScriptValue globalObject = engine.globalObject();
-    QScriptValueIterator it(globalObject);
-
-    while (it.hasNext()) {
-        it.next();
-        result.append(it.name());
-    }
-
-    return result;
-}
-
 QRegExp commandLabelRegExp()
 {
     return QRegExp(
@@ -344,6 +257,92 @@ private:
 };
 
 } // namespace
+
+QStringList scriptableKeywords()
+{
+    return QStringList()
+            << "break"
+            << "do"
+            << "instanceof"
+            << "typeof"
+            << "case"
+            << "else"
+            << "new"
+            << "var"
+            << "catch"
+            << "finally"
+            << "return"
+            << "void"
+            << "continue"
+            << "for"
+            << "switch"
+            << "while"
+            << "debugger"
+            << "function"
+            << "this"
+            << "with"
+            << "default"
+            << "if"
+            << "throw"
+            << "delete"
+            << "in"
+            << "try"
+               ;
+}
+
+QStringList scriptableProperties()
+{
+    QStringList result;
+
+    QMetaObject scriptableMetaObject = Scriptable::staticMetaObject;
+    for (int i = 0; i < scriptableMetaObject.propertyCount(); ++i) {
+        QMetaProperty property = scriptableMetaObject.property(i);
+        result.append(property.name());
+    }
+
+    result.removeOne("objectName");
+
+    return result;
+}
+
+QStringList scriptableFunctions()
+{
+    QStringList result;
+
+    QMetaObject scriptableMetaObject = Scriptable::staticMetaObject;
+    for (int i = 0; i < scriptableMetaObject.methodCount(); ++i) {
+        QMetaMethod method = scriptableMetaObject.method(i);
+
+        if (method.methodType() == QMetaMethod::Slot && method.access() == QMetaMethod::Public) {
+            const QString name = methodName(method);
+            result.append(name);
+        }
+    }
+
+    result.removeOne("deleteLater");
+
+    return result;
+}
+
+QStringList scriptableObjects()
+{
+    QStringList result;
+    result.append("ByteArray");
+    result.append("Dir");
+    result.append("File");
+
+    QScriptEngine engine;
+
+    QScriptValue globalObject = engine.globalObject();
+    QScriptValueIterator it(globalObject);
+
+    while (it.hasNext()) {
+        it.next();
+        result.append(it.name());
+    }
+
+    return result;
+}
 
 void installCommandSyntaxHighlighter(QTextEdit *editor)
 {

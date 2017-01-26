@@ -17,20 +17,30 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef COMMANDSYNTAXHIGHLIGHTER_H
-#define COMMANDSYNTAXHIGHLIGHTER_H
+#ifndef COMMANDCOMPLETER_H
+#define COMMANDCOMPLETER_H
 
+#include <QObject>
+
+class QCompleter;
 class QPlainTextEdit;
-class QStringList;
-class QTextEdit;
 
-QStringList scriptableKeywords();
-QStringList scriptableProperties();
-QStringList scriptableFunctions();
-/// Constructors and functions from ECMA specification supported by Qt plus ByteArray.
-QStringList scriptableObjects();
+class CommandCompleter : public QObject {
+    Q_OBJECT
+public:
+    explicit CommandCompleter(QPlainTextEdit *editor);
 
-void installCommandSyntaxHighlighter(QTextEdit *editor);
-void installCommandSyntaxHighlighter(QPlainTextEdit *editor);
+    bool eventFilter(QObject *watched, QEvent *event);
 
-#endif // COMMANDSYNTAXHIGHLIGHTER_H
+private slots:
+    void updateCompletion();
+    void insertCompletion(const QString &completion);
+
+private:
+    QString textUnderCursor() const;
+
+    QPlainTextEdit *m_editor;
+    QCompleter *m_completer;
+};
+
+#endif // COMMANDCOMPLETER_H

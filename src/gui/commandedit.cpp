@@ -21,6 +21,7 @@
 #include "ui_commandedit.h"
 
 #include "gui/commandsyntaxhighlighter.h"
+#include "gui/commandcompleter.h"
 
 #include <QScriptEngine>
 #include <QTextBlock>
@@ -38,6 +39,8 @@ CommandEdit::CommandEdit(QWidget *parent)
     setFocusProxy(ui->plainTextEditCommand);
 
     installCommandSyntaxHighlighter(ui->plainTextEditCommand);
+
+    new CommandCompleter(ui->plainTextEditCommand);
 }
 
 CommandEdit::~CommandEdit()
