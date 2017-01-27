@@ -35,6 +35,8 @@
 #include <QModelIndex>
 #include <QPluginLoader>
 
+#include <algorithm>
+
 namespace {
 
 bool findPluginDir(QDir *pluginsDir)
@@ -306,7 +308,7 @@ QStringList ItemFactory::formatsToSave() const
 
 void ItemFactory::setPluginPriority(const QStringList &pluginNames)
 {
-    qSort( m_loaders.begin(), m_loaders.end(), PluginSorter(pluginNames) );
+    std::sort( m_loaders.begin(), m_loaders.end(), PluginSorter(pluginNames) );
 }
 
 void ItemFactory::setLoaderEnabled(ItemLoaderInterface *loader, bool enabled)
@@ -463,7 +465,7 @@ bool ItemFactory::loadPlugins()
         }
     }
 
-    qSort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
+    std::sort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
 
     return true;
 }

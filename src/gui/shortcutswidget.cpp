@@ -34,6 +34,8 @@
 #include <QPushButton>
 #include <QSettings>
 
+#include <algorithm>
+
 namespace {
 
 namespace Columns {
@@ -182,7 +184,7 @@ void ShortcutsWidget::checkAmbiguousShortcuts()
     static const QString toolTipOverriden = tr("There is command overriding this shortcut.");
     static const QString toolTipAmbiguous = tr("Shortcut already exists!");
 
-    qSort(m_shortcuts);
+    std::sort( m_shortcuts.begin(), m_shortcuts.end() );
     QList<QKeySequence> ambiguousShortcuts;
     for ( int i = 1; i < m_shortcuts.size(); ++i ) {
         if (m_shortcuts[i] == m_shortcuts[i - 1])

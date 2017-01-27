@@ -72,6 +72,8 @@
 #include <QTimer>
 #include <QToolBar>
 
+#include <algorithm>
+
 namespace {
 
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
@@ -2580,7 +2582,7 @@ void MainWindow::pasteItems()
 
     ClipboardBrowser *c = browser();
     QModelIndexList list = c->selectionModel()->selectedIndexes();
-    qSort(list);
+    std::sort( list.begin(), list.end() );
     const int row = list.isEmpty() ? 0 : list.first().row();
     c->paste( cloneData(*data), row );
 }

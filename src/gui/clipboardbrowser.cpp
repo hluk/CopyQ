@@ -50,6 +50,8 @@
 #include <QUrl>
 #include <QElapsedTimer>
 
+#include <algorithm>
+
 namespace {
 
 /// Save drag'n'drop image data in temporary file (required by some applications).
@@ -736,7 +738,7 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
             rows.append( index.row() );
     }
 
-    qSort( rows.begin(), rows.end(), qGreater<int>() );
+    std::sort( rows.begin(), rows.end(), qGreater<int>() );
 
     ClipboardBrowser::Lock lock(this);
     foreach (int row, rows)

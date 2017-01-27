@@ -53,6 +53,8 @@
 #include <QSpinBox>
 #include <QTextEdit>
 
+#include <algorithm>
+
 #define INVOKE(call) \
     if (isValueUnset()) \
       return setValue(v, (call))
@@ -524,7 +526,7 @@ void ScriptableProxyHelper::browserRemoveRows(QList<int> rows)
     if (!c)
         return;
 
-    qSort( rows.begin(), rows.end(), qGreater<int>() );
+    std::sort( rows.begin(), rows.end(), qGreater<int>() );
 
     QModelIndexList indexes;
     indexes.reserve(rows.size());
@@ -850,7 +852,7 @@ QString ScriptableProxyHelper::testSelected()
     selectedRows.reserve( selectedIndexes.size() );
     foreach (const QModelIndex &index, selectedIndexes)
         selectedRows.append(index.row());
-    qSort(selectedRows);
+    std::sort( selectedRows.begin(), selectedRows.end() );
 
     foreach (int row, selectedRows)
         result.append(QString::number(row));

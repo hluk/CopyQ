@@ -29,6 +29,8 @@
 #include <QDateTime>
 #include <QPushButton>
 
+#include <algorithm>
+
 namespace {
 
 const int maxNumberOfProcesses = 100;
@@ -211,7 +213,7 @@ void ProcessManagerDialog::onDeleteShortcut()
     foreach (QTableWidgetItem *item, selectedItems)
         rows.append( ui->tableWidgetCommands->row(item) );
 
-    qSort( rows.begin(), rows.end(), qGreater<int>() );
+    std::sort( rows.begin(), rows.end(), qGreater<int>() );
 
     int lastRow = -1;
     foreach (int row, rows) {

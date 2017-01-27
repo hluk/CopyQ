@@ -24,6 +24,8 @@
 
 #include <QStringList>
 
+#include <algorithm>
+
 namespace {
 
 QList<QPersistentModelIndex> validIndeces(const QModelIndexList &indexList)
@@ -236,9 +238,9 @@ bool ClipboardModel::moveItemsWithKeyboard(QModelIndexList indexList, int key, i
         list.append( indexList.at(i).row() );
 
     if ( key == Qt::Key_Down || key == Qt::Key_End )
-        qSort( list.begin(), list.end(), qGreater<int>() );
+        std::sort( list.begin(), list.end(), qGreater<int>() );
     else
-        qSort( list.begin(), list.end(), qLess<int>() );
+        std::sort( list.begin(), list.end(), qLess<int>() );
 
     for ( int i = 0, d = 0; i<list.length(); ++i ) {
         from = list.at(i) + d;
@@ -275,7 +277,7 @@ bool ClipboardModel::moveItemsWithKeyboard(QModelIndexList indexList, int key, i
 void ClipboardModel::sortItems(const QModelIndexList &indexList, CompareItems *compare)
 {
     QList<QPersistentModelIndex> list = validIndeces(indexList);
-    qSort( list.begin(), list.end(), compare );
+    std::sort( list.begin(), list.end(), compare );
 
     int targetRow = topMostRow(list);
 
