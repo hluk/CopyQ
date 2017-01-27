@@ -30,6 +30,7 @@
 #include <QPushButton>
 
 #include <algorithm>
+#include <functional>
 
 namespace {
 
@@ -213,7 +214,7 @@ void ProcessManagerDialog::onDeleteShortcut()
     foreach (QTableWidgetItem *item, selectedItems)
         rows.append( ui->tableWidgetCommands->row(item) );
 
-    std::sort( rows.begin(), rows.end(), qGreater<int>() );
+    std::sort( rows.begin(), rows.end(), std::greater<int>() );
 
     int lastRow = -1;
     foreach (int row, rows) {

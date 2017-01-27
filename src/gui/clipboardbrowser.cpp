@@ -51,6 +51,7 @@
 #include <QElapsedTimer>
 
 #include <algorithm>
+#include <functional>
 
 namespace {
 
@@ -738,7 +739,7 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
             rows.append( index.row() );
     }
 
-    std::sort( rows.begin(), rows.end(), qGreater<int>() );
+    std::sort( rows.begin(), rows.end(), std::greater<int>() );
 
     ClipboardBrowser::Lock lock(this);
     foreach (int row, rows)

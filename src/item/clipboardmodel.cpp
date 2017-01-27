@@ -25,6 +25,7 @@
 #include <QStringList>
 
 #include <algorithm>
+#include <functional>
 
 namespace {
 
@@ -238,9 +239,9 @@ bool ClipboardModel::moveItemsWithKeyboard(QModelIndexList indexList, int key, i
         list.append( indexList.at(i).row() );
 
     if ( key == Qt::Key_Down || key == Qt::Key_End )
-        std::sort( list.begin(), list.end(), qGreater<int>() );
+        std::sort( list.begin(), list.end(), std::greater<int>() );
     else
-        std::sort( list.begin(), list.end(), qLess<int>() );
+        std::sort( list.begin(), list.end(), std::less<int>() );
 
     for ( int i = 0, d = 0; i<list.length(); ++i ) {
         from = list.at(i) + d;

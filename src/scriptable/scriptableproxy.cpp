@@ -54,6 +54,7 @@
 #include <QTextEdit>
 
 #include <algorithm>
+#include <functional>
 
 #define INVOKE(call) \
     if (isValueUnset()) \
@@ -526,7 +527,7 @@ void ScriptableProxyHelper::browserRemoveRows(QList<int> rows)
     if (!c)
         return;
 
-    std::sort( rows.begin(), rows.end(), qGreater<int>() );
+    std::sort( rows.begin(), rows.end(), std::greater<int>() );
 
     QModelIndexList indexes;
     indexes.reserve(rows.size());
