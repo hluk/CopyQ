@@ -1,17 +1,30 @@
-os:
-  - linux
-  - osx
-
 language: cpp
 
-compiler:
-  - gcc
-  - clang
-
 matrix:
-  exclude:
+  include:
     - os: osx
+      compiler: clang
+
+    - os: linux
       compiler: gcc
+      env: COMPILER=g++-4.8
+      addons:
+        apt:
+          sources:
+          - ubuntu-toolchain-r-test
+          packages:
+          - g++-4.8
+
+    - os: linux
+      compiler: clang
+      env: COMPILER=clang++-3.6
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+          packages:
+            - clang-3.6
 
 cache:
     apt: true
