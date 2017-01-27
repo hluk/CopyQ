@@ -292,7 +292,7 @@ void ConfigTabAppearance::addThemes(const QString &path)
 
     QDir dir(path);
     foreach ( const QFileInfo &fileInfo,
-              dir.entryList(nameFilters, filters, QDir::Name) )
+              dir.entryInfoList(nameFilters, filters, QDir::Name) )
     {
         const QString name = fileInfo.baseName();
         if ( ui->comboBoxThemes->findText(name) == -1 ) {
