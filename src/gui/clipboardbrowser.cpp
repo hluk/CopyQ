@@ -1261,6 +1261,8 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
                 const int targetRow =
                         sourceRow < m_dragTargetRow ? m_dragTargetRow - 1 : m_dragTargetRow;
                 m.move(sourceRow, targetRow);
+                if (sourceRow > m_dragTargetRow)
+                    ++m_dragTargetRow;
             }
         } else if ( target && target->window() == window()
                     && m_itemLoader->canMoveItems(selected) )
