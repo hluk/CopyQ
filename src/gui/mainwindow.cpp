@@ -82,6 +82,26 @@ const QIcon iconTabRename() { return getIconFromResources("tab_rename"); }
 
 const int clipboardNotificationId = 0;
 
+/// Omit size changes of a widget.
+class WidgetSizeGuard : public QObject {
+public:
+    WidgetSizeGuard(QWidget *guardedObject)
+        : m_guarded(guardedObject)
+    {
+        m_guarded->setFixedSize( m_guarded->size() );
+    }
+
+    ~WidgetSizeGuard()
+    {
+        m_guarded->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+        m_guarded->adjustSize();
+        m_guarded->resize( m_guarded->sizeHint() );
+    }
+
+private:
+    QWidget *m_guarded;
+};
+
 bool canPaste()
 {
     return !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier);
@@ -2380,6 +2400,7 @@ void MainWindow::updateTrayMenuItems()
 
 void MainWindow::addTrayMenuItems(const QString &searchText)
 {
+    WidgetSizeGuard sizeGuard(m_trayMenu);
     m_trayMenu->clearClipboardItems();
 
     ClipboardBrowser *c = getTabForTrayMenu();
