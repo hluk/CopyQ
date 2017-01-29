@@ -288,6 +288,9 @@ void TrayMenu::resetSeparators()
 
 void TrayMenu::search(const QString &text)
 {
+    if (m_searchText == text)
+        return;
+
     m_searchText = text;
     emit searchRequest(m_viMode ? m_searchText.mid(1) : m_searchText);
 }
