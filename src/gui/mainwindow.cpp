@@ -649,7 +649,7 @@ void MainWindow::updateContextMenuTimeout()
 
     setDisabledShortcuts(QList<QKeySequence>());
 
-    addCommandsToMenu(m_menuItem, c->getSelectedItemData());
+    addCommandsToItemMenu(c->getSelectedItemData());
 
     m_menuItem->addSeparator();
 
@@ -832,7 +832,7 @@ void MainWindow::automaticCommandTestFinished(const Command &command, bool passe
         m_automaticCommandTester.start();
 }
 
-void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
+QAction *MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
 {
     CommandAction *act = NULL;
     foreach (CommandAction *action, menu->findChildren<CommandAction*>()) {
@@ -846,30 +846,32 @@ void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, boo
 
     if (enable) {
         act->setEnabled(true);
-
-        if (menu == m_menuItem) {
-            const QList<QKeySequence> shortcuts = act->shortcuts();
-            if (!shortcuts.isEmpty())
-                setDisabledShortcuts(m_disabledShortcuts + shortcuts);
-
-            updateToolBar();
-        }
-    } else {
-        QMenu *menu = qobject_cast<QMenu*>(act->parentWidget());
-        delete act;
-
-        // Remove empty menus.
-        while ( menu && menu->actions().isEmpty() ) {
-            QMenu *parentMenu = qobject_cast<QMenu*>(menu->parentWidget());
-            delete menu;
-            menu = parentMenu;
-        }
+        return act;
     }
+
+    QMenu *parentMenu = qobject_cast<QMenu*>(act->parentWidget());
+    delete act;
+
+    // Remove empty menus.
+    while ( parentMenu && parentMenu->actions().isEmpty() ) {
+        QMenu *parentMenu2 = qobject_cast<QMenu*>(parentMenu->parentWidget());
+        delete parentMenu;
+        parentMenu = parentMenu2;
+    }
+
+    return NULL;
 }
 
 void MainWindow::addCommandsToItemMenu(const Command &command, bool passed)
 {
-    enableActionForCommand(m_menuItem, command, passed);
+    QAction *act = enableActionForCommand(m_menuItem, command, passed);
+    if (act) {
+        const QList<QKeySequence> shortcuts = act->shortcuts();
+        if (!shortcuts.isEmpty())
+            setDisabledShortcuts(m_disabledShortcuts + shortcuts);
+
+        updateToolBar();
+    }
     m_itemMenuCommandTester.start();
 }
 
@@ -1099,85 +1101,110 @@ QAction *MainWindow::addItemAction(int id, QObject *receiver, const char *slot)
     return act;
 }
 
-void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
+QList<Command> MainWindow::commandsForMenu(const QVariantMap &data, const QString &tabName)
 {
-    if ( m_commands.isEmpty() )
-        return;
-
-    ClipboardBrowser *c = (menu == m_menuItem) ? getBrowser() : getTabForTrayMenu();
-    const QString &tabName = c ? c->tabName() : QString();
-
-    QList<Command> disabledCommands;
     QList<Command> commands;
     foreach (const Command &command, m_commands) {
         if ( command.inMenu && !command.name.isEmpty() && canExecuteCommand(command, data, tabName) ) {
             Command cmd = command;
             if ( cmd.outputTab.isEmpty() )
                 cmd.outputTab = tabName;
-
-            bool enabled = cmd.matchCmd.isEmpty();
-            if (!enabled)
-                disabledCommands.append(cmd);
             commands.append(cmd);
         }
     }
 
-    CommandAction::Type type = (menu == m_menuItem)
-            ? CommandAction::ItemCommand : CommandAction::ClipboardCommand;
+    return commands;
+}
+
+void MainWindow::addCommandsToItemMenu(const QVariantMap &data)
+{
+    if ( m_commands.isEmpty() )
+        return;
+
+    ClipboardBrowser *c = getBrowser();
+
+    const QList<Command> commands = commandsForMenu(data, c->tabName());
+
+    const CommandAction::Type type = CommandAction::ItemCommand;
 
     QList<QKeySequence> usedShortcuts = m_disabledShortcuts;
 
-    if (menu == m_menuItem)
-        m_activateCurrentItemAction = NULL;
+    m_activateCurrentItemAction = NULL;
+
+    QList<Command> disabledCommands;
 
     foreach (const Command &command, commands) {
         QString name = command.name;
-        QMenu *currentMenu = createSubMenus(&name, menu);
-        QAction *act = new CommandAction(command, name, type, getBrowser(), currentMenu);
+        QMenu *currentMenu = createSubMenus(&name, m_menuItem);
+        QAction *act = new CommandAction(command, name, type, c, currentMenu);
         currentMenu->addAction(act);
 
         if (!command.matchCmd.isEmpty()) {
             act->setDisabled(true);
+            disabledCommands.append(command);
         }
 
-        if (type == CommandAction::ItemCommand) {
-            QList<QKeySequence> uniqueShortcuts;
+        connect(act, SIGNAL(triggerCommand(Command,QVariantMap,int)),
+                this, SLOT(onCommandActionTriggered(Command,QVariantMap,int)));
 
-            foreach (const QString &shortcutText, command.shortcuts) {
-                const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
-                if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
-                    if (act->isEnabled())
-                        usedShortcuts.append(shortcut);
-                    uniqueShortcuts.append(shortcut);
+        QList<QKeySequence> uniqueShortcuts;
 
-                    if (menu == m_menuItem
-                            && m_activateCurrentItemAction.isNull()
-                            && isItemActivationShortcut(shortcut))
-                    {
-                        m_activateCurrentItemAction = act;
-                        menu->setDefaultAction(act);
-                    }
+        foreach (const QString &shortcutText, command.shortcuts) {
+            const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
+            if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
+                if (act->isEnabled())
+                    usedShortcuts.append(shortcut);
+                uniqueShortcuts.append(shortcut);
+
+                if (m_activateCurrentItemAction.isNull() && isItemActivationShortcut(shortcut)) {
+                    m_activateCurrentItemAction = act;
+                    m_menuItem->setDefaultAction(act);
                 }
             }
+        }
 
-            if (!uniqueShortcuts.isEmpty()) {
-                act->setShortcuts(uniqueShortcuts);
-            }
+        if (!uniqueShortcuts.isEmpty())
+            act->setShortcuts(uniqueShortcuts);
+    }
+
+    setDisabledShortcuts(usedShortcuts);
+
+    m_itemMenuCommandTester.setCommands(disabledCommands, addSelectionData(*c, data));
+    m_itemMenuCommandTester.start();
+}
+
+void MainWindow::addCommandsToTrayMenu(const QVariantMap &data)
+{
+    if ( m_commands.isEmpty() )
+        return;
+
+    ClipboardBrowser *c = getTabForTrayMenu();
+    if (!c)
+        c = getBrowser();
+
+    const QList<Command> commands = commandsForMenu(data, c->tabName());
+
+    const CommandAction::Type type = CommandAction::ClipboardCommand;
+
+    QList<Command> disabledCommands;
+
+    foreach (const Command &command, commands) {
+        QString name = command.name;
+        QMenu *currentMenu = createSubMenus(&name, m_trayMenu);
+        QAction *act = new CommandAction(command, name, type, c, currentMenu);
+        currentMenu->addAction(act);
+
+        if (!command.matchCmd.isEmpty()) {
+            act->setDisabled(true);
+            disabledCommands.append(command);
         }
 
         connect(act, SIGNAL(triggerCommand(Command,QVariantMap,int)),
                 this, SLOT(onCommandActionTriggered(Command,QVariantMap,int)));
     }
 
-    setDisabledShortcuts(usedShortcuts);
-
-    if (menu == m_menuItem) {
-        m_itemMenuCommandTester.setCommands(disabledCommands, addSelectionData(*c, data));
-        m_itemMenuCommandTester.start();
-    } else {
-        m_trayMenuCommandTester.setCommands(disabledCommands, data);
-        m_trayMenuCommandTester.start();
-    }
+    m_trayMenuCommandTester.setCommands(disabledCommands, data);
+    m_trayMenuCommandTester.start();
 }
 
 void MainWindow::updateToolBar()
@@ -2341,7 +2368,7 @@ void MainWindow::updateTrayMenuItems()
         m_trayMenu->addCustomAction(act);
 
         int i = m_trayMenu->actions().size();
-        addCommandsToMenu(m_trayMenu, m_clipboardData);
+        addCommandsToTrayMenu(m_clipboardData);
         QList<QAction *> actions = m_trayMenu->actions();
         for ( ; i < actions.size(); ++i )
             m_trayMenu->addCustomAction(actions[i]);

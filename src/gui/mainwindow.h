@@ -496,7 +496,7 @@ private slots:
 
     void automaticCommandTestFinished(const Command &command, bool passed);
 
-    void enableActionForCommand(QMenu *menu, const Command &command, bool enable);
+    QAction *enableActionForCommand(QMenu *menu, const Command &command, bool enable);
     void addCommandsToItemMenu(const Command &command, bool enable);
     void addCommandsToTrayMenu(const Command &command, bool enable);
 
@@ -565,7 +565,9 @@ private:
 
     QAction *addItemAction(int id, QObject *receiver, const char *slot);
 
-    void addCommandsToMenu(QMenu *menu, const QVariantMap &data);
+    QList<Command> commandsForMenu(const QVariantMap &data, const QString &tabName);
+    void addCommandsToItemMenu(const QVariantMap &data);
+    void addCommandsToTrayMenu(const QVariantMap &data);
 
     void updateToolBar();
 
