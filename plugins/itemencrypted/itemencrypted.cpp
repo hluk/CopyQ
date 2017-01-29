@@ -354,6 +354,8 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
         return false;
     }
 
+    importGpgKey();
+
     QProcess p;
     startGpgProcess( &p, QStringList("--decrypt") );
 
