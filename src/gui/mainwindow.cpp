@@ -811,6 +811,8 @@ void MainWindow::updateContextMenu()
         action->deleteLater();
 
     m_menuItem->clear();
+    // Omit tool bar flickering.
+    ui->toolBar->setUpdatesEnabled(false);
     ui->toolBar->clear();
     m_timerUpdateContextMenu.start();
 }
@@ -1181,6 +1183,7 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
 void MainWindow::updateToolBar()
 {
     ui->toolBar->clear();
+    ui->toolBar->setUpdatesEnabled(true);
 
     if ( ui->toolBar->isHidden() )
         return;
