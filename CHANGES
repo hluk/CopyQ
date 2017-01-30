@@ -1,3 +1,12 @@
+v2.8.3
+- Search items from tray menu
+- Added support for animated gifs (played when selected)
+- Added special formats for automatic commands to sync and store clipboard
+- Added auto-completion for command editor
+- Added scriptable variables for MIME types
+- Fix encryption with new OpenPGP
+- Fix passing big data to commands on Windows
+
 v2.8.2
 - Simplify appearance of items with notes and tags
 - Support for drag'n'dropping images to more applications
