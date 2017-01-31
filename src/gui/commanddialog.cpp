@@ -220,12 +220,17 @@ QIcon getCommandIcon(const QString &iconString)
     return iconFromFile(iconString);
 }
 
+bool hasCommandsToPaste(const QString &text)
+{
+    return text.startsWith("[Command]") || text.startsWith("[Commands]");
+}
+
 QString commandsToPaste()
 {
     const QMimeData *data = clipboardData(QClipboard::Clipboard);
     if (data && data->hasText()) {
         const QString text = data->text().trimmed();
-        if (text.startsWith("[Command]") || text.startsWith("[Commands]"))
+        if (hasCommandsToPaste(text))
             return text;
     }
 
@@ -449,6 +454,13 @@ void CommandDialog::on_pushButtonPasteCommands_clicked()
 
 void CommandDialog::on_lineEditFilterCommands_textChanged(const QString &text)
 {
+    // Omit pasting commands accidentally to filter text field.
+    if (hasCommandsToPaste(text)) {
+        ui->lineEditFilterCommands->clear();
+        onCommandDropped( text, ui->itemOrderListCommands->currentRow() );
+        return;
+    }
+
     for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
         const Command c = ui->itemOrderListCommands->data(i).value<Command>();
         bool show = text.isEmpty() || QString(c.name).remove('&').contains(text, Qt::CaseInsensitive)
