@@ -1764,7 +1764,7 @@ void MainWindow::loadSettings()
     m_sharedData->loadFromConfiguration();
 
     // create tabs
-    QStringList tabs = savedTabs();
+    const QStringList tabs = savedTabs();
     foreach (const QString &name, tabs) {
         bool settingsLoaded;
         ClipboardBrowser *c = createTab(name, MatchExactTabName, &settingsLoaded);
@@ -1774,6 +1774,8 @@ void MainWindow::loadSettings()
 
     if ( ui->tabWidget->count() == 0 )
         addTab( defaultTabName() );
+    else
+        setTabs(tabs); // Save any tabs loaded from new tab files.
 
     ui->tabWidget->updateTabs();
 
@@ -2554,6 +2556,7 @@ ClipboardBrowser *MainWindow::addTab(const QString &name)
     TabWidget *w = ui->tabWidget;
     ClipboardBrowser *c = createTab(name, MatchExactTabName);
     w->setCurrentIndex( w->count()-1 );
+    saveTabPositions();
 
     return c;
 }
