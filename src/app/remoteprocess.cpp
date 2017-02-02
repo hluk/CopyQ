@@ -33,6 +33,7 @@
 
 RemoteProcess::RemoteProcess(QObject *parent)
     : QObject(parent)
+    , m_process(NULL)
     , m_pongRetry(false)
     , m_state(Unconnected)
 {
@@ -42,6 +43,7 @@ RemoteProcess::RemoteProcess(QObject *parent)
 
 RemoteProcess::~RemoteProcess()
 {
+    terminate();
     m_timerPing.stop();
     m_timerPongTimeout.stop();
 }
@@ -73,16 +75,12 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
                .arg(QCoreApplication::applicationFilePath())
                .arg(arguments.join(" ")) );
 
-    qint64 monitorPid;
-    if ( !QProcess::startDetached(QCoreApplication::applicationFilePath(), arguments,
-                                  QString(), &monitorPid) )
-    {
-        log( "Remote process: Failed to start new remote process!", LogError );
-        onConnectionError();
-        return;
-    }
-
-    COPYQ_LOG( QString("Remote process: Started with pid %1.").arg(monitorPid) );
+    terminate();
+    m_process = new QProcess(this);
+    m_process->start(QCoreApplication::applicationFilePath(), arguments, QIODevice::NotOpen);
+    m_process->closeReadChannel(QProcess::StandardOutput);
+    m_process->closeReadChannel(QProcess::StandardError);
+    m_process->closeWriteChannel();
 
     QTimer::singleShot(16000, this, SLOT(checkConnection()));
 }
@@ -149,6 +147,21 @@ void RemoteProcess::onConnectionError()
     m_timerPongTimeout.stop();
     m_state = Unconnected;
     emit connectionError();
+}
+
+void RemoteProcess::terminate()
+{
+    if (!m_process)
+        return;
+
+    if (m_process->state() != QProcess::NotRunning) {
+        m_process->terminate();
+        if (!m_process->waitForFinished(100))
+            m_process->kill();
+    }
+
+    m_process->deleteLater();
+    m_process = NULL;
 }
 
 void RemoteProcess::writeMessage(const QByteArray &msg, int messageCode)

@@ -26,6 +26,7 @@
 class ClientSocket;
 class Server;
 class QByteArray;
+class QProcess;
 class QString;
 
 /**
@@ -84,6 +85,9 @@ private slots:
     void onConnectionError();
 
 private:
+    void terminate();
+
+    QProcess *m_process;
     QTimer m_timerPing;
     QTimer m_timerPongTimeout;
     bool m_pongRetry;
