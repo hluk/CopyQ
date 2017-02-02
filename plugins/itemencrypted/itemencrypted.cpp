@@ -248,7 +248,7 @@ ItemEncryptedLoader::~ItemEncryptedLoader()
     terminateGpgProcess();
 }
 
-ItemWidget *ItemEncryptedLoader::create(const QModelIndex &index, QWidget *parent) const
+ItemWidget *ItemEncryptedLoader::create(const QModelIndex &index, QWidget *parent, bool) const
 {
     const QVariantMap dataMap = index.data(contentType::data).toMap();
     return dataMap.contains(mimeEncryptedData) ? new ItemEncrypted(parent) : NULL;

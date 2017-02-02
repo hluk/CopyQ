@@ -171,7 +171,7 @@ public:
      *
      * @return NULL if index hasn't appropriate data
      */
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const;
 
     /**
      * Simple ID of plugin (e.g. part of plugin file name).

@@ -205,7 +205,7 @@ ItemTextLoader::~ItemTextLoader()
 {
 }
 
-ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) const
+ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {
     if ( index.data(contentType::isHidden).toBool() )
         return NULL;
@@ -217,8 +217,8 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) co
     if ( !isRichText && !getText(index, &text) )
         return NULL;
 
-    const int maxLines = m_settings.value(optionMaximumLines, 0).toInt();
-    const int maxHeight = m_settings.value(optionMaximumHeight, 0).toInt();
+    const int maxLines = preview ? 0 : m_settings.value(optionMaximumLines, 0).toInt();
+    const int maxHeight = preview ? 0 : m_settings.value(optionMaximumHeight, 0).toInt();
     return new ItemText(text, isRichText, maxLines, maxHeight, parent);
 }
 

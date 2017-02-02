@@ -238,7 +238,7 @@ class ClipboardBrowser : public QListView
 
         void move(int key);
 
-        QWidget *currentItemWidget();
+        QWidget *currentItemPreview();
 
         /// Decorate browser and items with @a theme.
         void decorate(const Theme &theme);

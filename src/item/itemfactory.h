@@ -59,14 +59,14 @@ public:
      */
     ItemWidget *createItem(
             ItemLoaderInterface *loader, const QModelIndex &index, QWidget *parent,
-            bool antialiasing, bool transform = true);
+            bool antialiasing, bool transform = true, bool preview = false);
 
     /**
      * Instantiate ItemWidget using appropriate loader or creates simple ItemWidget (DummyItem).
      */
     ItemWidget *createItem(
             const QModelIndex &index, QWidget *parent, bool antialiasing,
-            bool transform = true);
+            bool transform = true, bool preview = false);
 
     ItemWidget *createSimpleItem(
             const QModelIndex &index, QWidget *parent, bool antialiasing);

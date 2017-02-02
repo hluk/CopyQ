@@ -59,7 +59,7 @@ public:
 
     ~ItemEncryptedLoader();
 
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool) const;
 
     virtual QString id() const { return "itemencrypted"; }
     virtual QString name() const { return tr("Encryption"); }

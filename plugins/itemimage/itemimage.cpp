@@ -181,7 +181,7 @@ ItemImageLoader::~ItemImageLoader()
 {
 }
 
-ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent) const
+ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {
     // TODO: Just check if image provided and load it in different thread.
     QPixmap pix;
@@ -189,8 +189,8 @@ ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent) c
         return NULL;
 
     // scale pixmap
-    const int w = m_settings.value("max_image_width", 320).toInt();
-    const int h = m_settings.value("max_image_height", 240).toInt();
+    const int w = preview ? 0 : m_settings.value("max_image_width", 320).toInt();
+    const int h = preview ? 0 : m_settings.value("max_image_height", 240).toInt();
     if ( w > 0 && pix.width() > w && (h <= 0 || pix.width()/w > pix.height()/h) ) {
         pix = pix.scaledToWidth(w);
     } else if (h > 0 && pix.height() > h) {

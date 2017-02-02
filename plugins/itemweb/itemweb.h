@@ -82,7 +82,7 @@ public:
     ItemWebLoader();
     ~ItemWebLoader();
 
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const;
 
     virtual int priority() const { return 10; }
 

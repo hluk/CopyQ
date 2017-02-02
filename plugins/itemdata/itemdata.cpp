@@ -160,7 +160,7 @@ ItemDataLoader::~ItemDataLoader()
 {
 }
 
-ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) const
+ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {
     if ( index.data(contentType::isHidden).toBool() )
         return NULL;
@@ -169,7 +169,8 @@ ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) co
     if ( emptyIntersection(formats, formatsToSave()) )
         return NULL;
 
-    return new ItemData( index, m_settings.value("max_bytes", defaultMaxBytes).toInt(), parent );
+    const int bytes = preview ? 4096 : m_settings.value("max_bytes", defaultMaxBytes).toInt();
+    return new ItemData(index, bytes, parent);
 }
 
 QStringList ItemDataLoader::formatsToSave() const

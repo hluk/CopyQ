@@ -211,14 +211,16 @@ ItemWebLoader::~ItemWebLoader()
 {
 }
 
-ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) const
+ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {
     if ( index.data(contentType::isHidden).toBool() )
         return NULL;
 
     QString html;
-    if ( getHtml(index, &html) )
-        return new ItemWeb(html, m_settings.value(optionMaximumHeight, 0).toInt(), parent);
+    if ( getHtml(index, &html) ) {
+        const int maxHeight = preview ? 0 : m_settings.value(optionMaximumHeight, 0).toInt();
+        return new ItemWeb(html, maxHeight, parent);
+    }
 
     return NULL;
 }

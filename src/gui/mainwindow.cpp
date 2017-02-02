@@ -705,7 +705,7 @@ void MainWindow::updateItemPreview()
     ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !browser()->editing());
 
     QWidget *w = ui->dockWidgetItemPreview->isVisible() && !ui->tabWidget->isTabGroupSelected()
-            ? browser()->currentItemWidget()
+            ? browser()->currentItemPreview()
             : NULL;
 
     ui->scrollAreaItemPreview->setVisible(w != NULL);

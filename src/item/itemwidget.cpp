@@ -259,7 +259,7 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
     return false;
 }
 
-ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *) const
+ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *, bool) const
 {
     return NULL;
 }

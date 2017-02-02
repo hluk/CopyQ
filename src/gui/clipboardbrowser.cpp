@@ -1863,14 +1863,14 @@ void ClipboardBrowser::move(int key)
     scrollTo( currentIndex() );
 }
 
-QWidget *ClipboardBrowser::currentItemWidget()
+QWidget *ClipboardBrowser::currentItemPreview()
 {
     if (!isLoaded())
         return NULL;
 
     const QModelIndex index = currentIndex();
     ItemWidget *itemWidget =
-            m_sharedData->itemFactory->createItem(index, this, d.fontAntialiasing(), false);
+            m_sharedData->itemFactory->createItem(index, this, d.fontAntialiasing(), false, true);
     QWidget *w = itemWidget->widget();
 
     d.highlightMatches(itemWidget);
