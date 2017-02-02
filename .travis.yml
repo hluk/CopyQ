@@ -38,6 +38,7 @@ deploy:
   file: 'build/*.dmg'
   file_glob: true
   skip_cleanup: true
+  overwrite: true
   on:
     condition: "$TRAVIS_OS_NAME = osx"
     tags: true
