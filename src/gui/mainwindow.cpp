@@ -379,6 +379,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     WindowGeometryGuard::create(this);
     restoreState( mainWindowState(objectName()) );
+    // NOTE: QWidget::isVisible() returns false if parent is not visible.
+    m_showItemPreview = !ui->dockWidgetItemPreview->isHidden();
 
     updateIcon();
 
@@ -693,7 +695,7 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveToBottom, this, SLOT(moveToBottom()) );
 
     togglePreviewAction->setCheckable(true);
-    togglePreviewAction->setChecked( ui->dockWidgetItemPreview->isVisible() );
+    togglePreviewAction->setChecked(m_showItemPreview);
     connect( togglePreviewAction, SIGNAL(toggled(bool)),
              this, SLOT(setItemPreviewVisible(bool)), Qt::UniqueConnection );
 
@@ -716,10 +718,8 @@ void MainWindow::updateItemPreview()
 
 void MainWindow::setItemPreviewVisible(bool visible)
 {
-    if (!browser()->editing())
-        m_showItemPreview = visible;
-
-    ui->dockWidgetItemPreview->toggleViewAction()->setVisible(visible);
+    m_showItemPreview = visible;
+    updateItemPreview();
 }
 
 void MainWindow::updateIconSnip()
