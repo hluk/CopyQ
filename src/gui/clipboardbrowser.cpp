@@ -1802,8 +1802,7 @@ bool ClipboardBrowser::saveItems()
     if ( !isLoaded() || tabName().isEmpty() )
         return false;
 
-    ::saveItems(m, m_itemLoader);
-    return true;
+    return ::saveItems(m, m_itemLoader);
 }
 
 void ClipboardBrowser::moveToClipboard()

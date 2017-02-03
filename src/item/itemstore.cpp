@@ -42,7 +42,7 @@ bool createItemDirectory()
 {
     QDir settingsDir( settingsDirectoryPath() );
     if ( !settingsDir.mkpath(".") ) {
-        log( QObject::tr("Cannot create directory for settings %1!")
+        log( QString("Cannot create directory for settings %1!")
              .arg(quoteString(settingsDir.path()) ),
              LogError );
 
@@ -52,13 +52,25 @@ bool createItemDirectory()
     return true;
 }
 
-void printItemFileError(const QString &id, const QString &fileName, const QFile &file)
+void printItemFileError(
+        const QString &action, const QString &id, const QString &fileName, const QFile &file)
 {
-    log( QObject::tr("Cannot save tab %1 to %2 (%3)!")
+    log( QString("Cannot %1 tab %2 to %3 (%4)!")
+         .arg(action)
          .arg( quoteString(id) )
          .arg( quoteString(fileName) )
          .arg( file.errorString() )
          , LogError );
+}
+
+void printSaveItemFileError(const QString &id, const QString &fileName, const QFile &file)
+{
+    printItemFileError("save", id, fileName, file);
+}
+
+void printLoadItemFileError(const QString &id, const QString &fileName, const QFile &file)
+{
+    printItemFileError("load", id, fileName, file);
 }
 
 bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &itemFactory,
@@ -78,6 +90,46 @@ bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &it
     return !saveWithCurrent;
 }
 
+ItemLoaderInterface *loadItems(
+        const QString &tabName, const QString &tabFileName,
+        ClipboardModel &model, ItemFactory *itemFactory)
+{
+    COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
+
+    QFile tabFile(tabFileName);
+    if ( !tabFile.open(QIODevice::ReadOnly) ) {
+        printLoadItemFileError(tabName, tabFileName, tabFile);
+        return NULL;
+    }
+
+    ItemLoaderInterface *loader = itemFactory->loadItems(&model, &tabFile);
+    if (!loader) {
+        log( QString("Tab \"%1\": Failed to load items"), LogError );
+        return NULL;
+    }
+
+    saveItemsWithOther(model, loader, itemFactory);
+
+    return loader;
+}
+
+ItemLoaderInterface *createTab(
+        const QString &tabName, ClipboardModel &model, ItemFactory *itemFactory)
+{
+    COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
+
+    ItemLoaderInterface *loader = itemFactory->initializeTab(&model);
+    if (!loader) {
+        log( QString("Tab \"%1\": Failed to create new tab"), LogError );
+        return NULL;
+    }
+
+    if ( !saveItems(model, loader) )
+        return NULL;
+
+    return loader;
+}
+
 } // namespace
 
 ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
@@ -86,79 +138,80 @@ ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
         return NULL;
 
     const QString tabName = model.property("tabName").toString();
-    const QString fileName = itemFileName(tabName);
+    const QString tabFileName = itemFileName(tabName);
 
-    // Load file with items.
-    QFile file(fileName);
-    if ( !file.exists() ) {
-        // Try to open temporary file if regular file doesn't exist.
-        QFile tmpFile(fileName + ".tmp");
-        if ( tmpFile.exists() )
-            tmpFile.rename(fileName);
-    }
-
-    ItemLoaderInterface *loader = NULL;
-
-    model.setDisabled(true);
-
-    if ( file.exists() ) {
-        COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
-        if ( file.open(QIODevice::ReadOnly) )
-            loader = itemFactory->loadItems(&model, &file);
-        saveItemsWithOther(model, loader, itemFactory);
-    } else {
-        COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
-        if ( file.open(QIODevice::WriteOnly) ) {
-            file.close();
-            loader = itemFactory->initializeTab(&model);
-            saveItems(model, loader);
+    // If tab file doesn't exist, try to restore data from temporary file.
+    if ( !QFile::exists(tabFileName) ) {
+        QFile tmpFile(tabFileName + ".tmp");
+        if ( tmpFile.exists() ) {
+            log( QString("Tab \"%1\": Restoring items (previous save failed)"), LogWarning );
+            if ( !tmpFile.rename(tabFileName) ) {
+                printLoadItemFileError(tabName, tabFileName, tmpFile);
+                return NULL;
+            }
         }
     }
 
-    file.close();
+    model.setDisabled(true);
 
-    if (loader) {
-        COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
-    } else {
+    // Load file with items or create new file.
+    ItemLoaderInterface *loader = QFile::exists(tabFileName)
+            ? loadItems(tabName, tabFileName, model, itemFactory)
+            : createTab(tabName, model, itemFactory);
+
+    if (!loader) {
         model.removeRows(0, model.rowCount());
-        COPYQ_LOG( QString("Tab \"%1\": Disabled").arg(tabName) );
+        return NULL;
     }
 
-    model.setDisabled(!loader);
+    model.setDisabled(false);
+
+    COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
 
     return loader;
 }
 
-bool saveItems(
-        const ClipboardModel &model, ItemLoaderInterface *loader)
+bool saveItems(const ClipboardModel &model, ItemLoaderInterface *loader)
 {
     const QString tabName = model.property("tabName").toString();
-    const QString fileName = itemFileName(tabName);
+    const QString tabFileName = itemFileName(tabName);
 
     if ( !createItemDirectory() )
         return false;
 
     // Save to temp file.
-    QFile file( fileName + ".tmp" );
-    if ( !file.open(QIODevice::WriteOnly) ) {
-        printItemFileError(tabName, fileName, file);
+    QFile tmpFile( tabFileName + ".tmp" );
+    if ( !tmpFile.open(QIODevice::WriteOnly) ) {
+        printSaveItemFileError(tabName, tabFileName, tmpFile);
         return false;
     }
 
     COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(tabName).arg(model.rowCount()) );
 
-    if ( loader->saveItems(model, &file) ) {
-        // Overwrite previous file.
-        QFile oldTabFile(fileName);
-        if (oldTabFile.exists() && !oldTabFile.remove())
-            printItemFileError(tabName, fileName, oldTabFile);
-        else if ( file.rename(fileName) )
-            COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
-        else
-            printItemFileError(tabName, fileName, file);
-    } else {
+    if ( !loader->saveItems(model, &tmpFile) ) {
         COPYQ_LOG( QString("Tab \"%1\": Failed to save items!").arg(tabName) );
+        return false;
     }
+
+    // 1. Safely flush all data to temporary file.
+    tmpFile.flush();
+
+    // 2. Remove old tab file.
+    {
+        QFile oldTabFile(tabFileName);
+        if (oldTabFile.exists() && !oldTabFile.remove()) {
+            printSaveItemFileError(tabName, tabFileName, oldTabFile);
+            return false;
+        }
+    }
+
+    // 3. Overwrite previous file.
+    if ( !tmpFile.rename(tabFileName) ) {
+        printSaveItemFileError(tabName, tabFileName, tmpFile);
+        return false;
+    }
+
+    COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
 
     return true;
 }
