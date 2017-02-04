@@ -88,6 +88,7 @@ class ClipboardBrowser : public QListView
         explicit ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent = NULL);
         /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
+
         /** Load settings. */
         void loadSettings();
 
@@ -349,8 +350,6 @@ class ClipboardBrowser : public QListView
 
         void onEditorNeedsChangeClipboard(const QByteArray &bytes, const QString &mime);
 
-        void filterItems();
-
     private:
         /**
          * Save items to configuration after an interval.
@@ -364,6 +363,7 @@ class ClipboardBrowser : public QListView
          * @return true only if hidden
          */
         bool hideFiltered(int row);
+        bool hideFiltered(const QModelIndex &index);
 
         /**
          * Connects signals and starts external editor.
@@ -378,7 +378,7 @@ class ClipboardBrowser : public QListView
         /**
          * Preload items in given range (relative to current scroll offset).
          */
-        void preload(int minY, int maxY);
+        bool preload(int minY, int maxY);
 
         void setEditorWidget(ItemEditorWidget *widget, bool changeClipboard = false);
 
@@ -400,8 +400,6 @@ class ClipboardBrowser : public QListView
          */
         QModelIndex indexNear(int offset) const;
 
-        void updateSearchProgress();
-
         int getDropRow(const QPoint &position);
 
         void connectModelAndDelegate();
@@ -413,19 +411,15 @@ class ClipboardBrowser : public QListView
         void lock();
         void unlock();
 
-        void refilterItems();
-
         void processDragAndDropEvent(QDropEvent *event);
 
         ItemLoaderInterface *m_itemLoader;
         QString m_tabName;
-        int m_lastFiltered;
         ClipboardModel m;
         ItemDelegate d;
         QTimer m_timerSave;
         QTimer m_timerScroll;
         QTimer m_timerUpdate;
-        QTimer m_timerFilter;
         QTimer m_timerExpire;
         QTimer m_timerEmitItemCount;
 
@@ -438,7 +432,6 @@ class ClipboardBrowser : public QListView
         ClipboardBrowserSharedPtr m_sharedData;
 
         QPushButton *m_loadButton;
-        QProgressBar *m_searchProgress;
 
         int m_dragTargetRow;
         QPoint m_dragStartPosition;
