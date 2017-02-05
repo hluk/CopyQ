@@ -41,7 +41,7 @@ class ItemWeb : public QWebView, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemWeb(const QString &html, int maximumHeight, QWidget *parent);
+    ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *parent);
 
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
@@ -70,6 +70,7 @@ private:
     bool m_copyOnMouseUp;
     int m_maximumHeight;
     QSize m_maximumSize;
+    bool m_preview;
 };
 
 class ItemWebLoader : public QObject, public ItemLoaderInterface

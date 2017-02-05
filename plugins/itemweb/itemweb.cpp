@@ -63,11 +63,12 @@ bool canMouseInteract(const QInputEvent &event)
 
 } // namespace
 
-ItemWeb::ItemWeb(const QString &html, int maximumHeight, QWidget *parent)
+ItemWeb::ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *parent)
     : QWebView(parent)
     , ItemWidget(this)
     , m_copyOnMouseUp(false)
     , m_maximumHeight(maximumHeight)
+    , m_preview(preview)
 {
     QWebFrame *frame = page()->mainFrame();
     frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
@@ -155,7 +156,7 @@ void ItemWeb::onLinkClicked(const QUrl &url)
 
 void ItemWeb::mousePressEvent(QMouseEvent *e)
 {
-    if ( canMouseInteract(*e) ) {
+    if ( m_preview || canMouseInteract(*e) ) {
         QMouseEvent e2(QEvent::MouseButtonPress, e->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
         QCoreApplication::sendEvent( page(), &e2 );
         QWebView::mousePressEvent(e);
@@ -168,7 +169,7 @@ void ItemWeb::mousePressEvent(QMouseEvent *e)
 
 void ItemWeb::mouseMoveEvent(QMouseEvent *e)
 {
-    if ( canMouseInteract(*e) )
+    if ( m_preview || canMouseInteract(*e) )
         QWebView::mousePressEvent(e);
     else
         e->ignore();
@@ -176,7 +177,7 @@ void ItemWeb::mouseMoveEvent(QMouseEvent *e)
 
 void ItemWeb::wheelEvent(QWheelEvent *e)
 {
-    if ( canMouseInteract(*e) )
+    if ( m_preview || canMouseInteract(*e) )
         QWebView::wheelEvent(e);
     else
         e->ignore();
@@ -197,7 +198,7 @@ void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
 
 void ItemWeb::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    if ( canMouseInteract(*e) )
+    if ( m_preview || canMouseInteract(*e) )
         QWebView::mouseDoubleClickEvent(e);
     else
         e->ignore();
@@ -219,7 +220,7 @@ ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent, boo
     QString html;
     if ( getHtml(index, &html) ) {
         const int maxHeight = preview ? 0 : m_settings.value(optionMaximumHeight, 0).toInt();
-        return new ItemWeb(html, maxHeight, parent);
+        return new ItemWeb(html, maxHeight, preview, parent);
     }
 
     return NULL;
