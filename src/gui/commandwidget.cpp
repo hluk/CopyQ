@@ -20,6 +20,7 @@
 #include "commandwidget.h"
 #include "ui_commandwidget.h"
 
+#include "common/appconfig.h"
 #include "common/common.h"
 #include "common/command.h"
 #include "common/mimetypes.h"
@@ -82,6 +83,8 @@ CommandWidget::CommandWidget(QWidget *parent)
     , ui(new Ui::CommandWidget)
 {
     ui->setupUi(this);
+
+    ui->widgetAdvanced->hide();
 
     updateWidgets();
 
@@ -172,6 +175,15 @@ void CommandWidget::setFormats(const QStringList &formats)
     setComboBoxItems(ui->comboBoxOutputFormat, formats);
 }
 
+void CommandWidget::showEvent(QShowEvent *event)
+{
+    AppConfig appConfig;
+    const bool showAdvanced = appConfig.option<Config::show_advanced_command_settings>();
+    ui->checkBoxShowAdvanced->setChecked(showAdvanced);
+
+    QWidget::showEvent(event);
+}
+
 void CommandWidget::on_lineEditName_textChanged(const QString &name)
 {
     emit nameChanged(name);
@@ -180,6 +192,14 @@ void CommandWidget::on_lineEditName_textChanged(const QString &name)
 void CommandWidget::on_buttonIcon_currentIconChanged(const QString &iconString)
 {
     emit iconChanged(iconString);
+}
+
+void CommandWidget::on_checkBoxShowAdvanced_stateChanged(int state)
+{
+    const bool showAdvanced = state == Qt::Checked;
+    AppConfig appConfig;
+    appConfig.setOption(Config::show_advanced_command_settings::name(), showAdvanced);
+    ui->widgetAdvanced->setVisible(showAdvanced);
 }
 
 void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
@@ -225,14 +245,14 @@ void CommandWidget::updateWidgets()
             && ui->shortcutButtonGlobalShortcut->shortcutCount() > 0;
 #endif
 
-    ui->shortcutButtonGlobalShortcut->setEnabled(ui->checkBoxGlobalShortcut->isChecked());
+    ui->widgetGlobalShortcut->setVisible(ui->checkBoxGlobalShortcut->isChecked());
+    ui->widgetMenuShortcut->setVisible(inMenu);
+
     ui->groupBoxMatchItems->setVisible(copyOrExecute);
     ui->groupBoxCommand->setVisible(copyOrExecute || globalShortcut);
     ui->groupBoxAction->setVisible(copyOrExecute);
     ui->groupBoxInMenu->setVisible(inMenu);
-    ui->shortcutButton->setEnabled(inMenu);
-    ui->labelShortcut->setEnabled(inMenu);
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->commandEdit->isEmpty());
 
-    ui->widgetSpacer->setVisible(ui->groupBoxCommand->isHidden());
+    ui->widgetSpacer->setVisible(!ui->groupBoxCommand->isVisible());
 }

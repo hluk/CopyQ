@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>296</width>
-    <height>678</height>
+    <height>770</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -48,470 +48,501 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Type of Action</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_5">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <property name="leftMargin">
-       <number>4</number>
-      </property>
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="rightMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
+    <widget class="QWidget" name="widgetMenuShortcut" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QCheckBox" name="checkBoxAutomatic">
-        <property name="toolTip">
-         <string>Run the command automatically if clipboard has new content</string>
-        </property>
-        <property name="text">
-         <string>Auto&amp;matic</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QCheckBox" name="checkBoxInMenu">
-          <property name="toolTip">
-           <string>Show command in context menu of matching items</string>
-          </property>
-          <property name="text">
-           <string>In M&amp;enu</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="labelShortcut">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>&amp;Shortcut:</string>
-          </property>
-          <property name="buddy">
-           <cstring>shortcutButton</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="ShortcutButton" name="shortcutButton" native="true">
-          <property name="focusPolicy">
-           <enum>Qt::WheelFocus</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QCheckBox" name="checkBoxGlobalShortcut">
-          <property name="text">
-           <string>&amp;Global Shortcut:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="ShortcutButton" name="shortcutButtonGlobalShortcut" native="true">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="focusPolicy">
-           <enum>Qt::WheelFocus</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBoxMatchItems">
-     <property name="title">
-      <string>Match Items</string>
-     </property>
-     <layout class="QFormLayout" name="formLayout_2">
-      <property name="horizontalSpacing">
-       <number>2</number>
-      </property>
-      <property name="verticalSpacing">
-       <number>2</number>
-      </property>
-      <property name="leftMargin">
-       <number>4</number>
-      </property>
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="rightMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
-      <item row="3" column="1">
-       <widget class="QComboBox" name="comboBoxInputFormat">
-        <property name="toolTip">
-         <string>Data of this MIME type will be sent to standard input of command.
-Leave empty to disable this.</string>
-        </property>
-        <property name="editable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>F&amp;ormat:</string>
-        </property>
-        <property name="buddy">
-         <cstring>comboBoxInputFormat</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEditWindow">
-        <property name="toolTip">
-         <string>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="labelWindow">
-        <property name="text">
-         <string>&amp;Window:</string>
-        </property>
-        <property name="buddy">
-         <cstring>lineEditWindow</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEditMatch">
-        <property name="toolTip">
-         <string>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="labelShortcut">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="text">
-         <string>&amp;Content:</string>
+         <string>&amp;Shortcut:</string>
         </property>
         <property name="buddy">
-         <cstring>lineEditMatch</cstring>
+         <cstring>shortcutButton</cstring>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_9">
+      <item>
+       <widget class="ShortcutButton" name="shortcutButton" native="true">
+        <property name="focusPolicy">
+         <enum>Qt::WheelFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+     <zorder>shortcutButton</zorder>
+     <zorder>labelShortcut</zorder>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widgetGlobalShortcut" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="label">
         <property name="text">
-         <string>&amp;Filter:</string>
+         <string>&amp;Global Shortcut:</string>
         </property>
         <property name="buddy">
-         <cstring>lineEditMatchCmd</cstring>
+         <cstring>shortcutButtonGlobalShortcut</cstring>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEditMatchCmd">
-        <property name="toolTip">
-         <string>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
+      <item>
+       <widget class="ShortcutButton" name="shortcutButtonGlobalShortcut" native="true">
+        <property name="focusPolicy">
+         <enum>Qt::WheelFocus</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widgetAdvanced" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout_8">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>Type of Action</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <property name="leftMargin">
+          <number>4</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>4</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="checkBoxAutomatic">
+           <property name="toolTip">
+            <string>Run the command automatically if clipboard has new content</string>
+           </property>
+           <property name="text">
+            <string>Auto&amp;matic</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxInMenu">
+           <property name="toolTip">
+            <string>Show command in context menu of matching items</string>
+           </property>
+           <property name="text">
+            <string>In M&amp;enu</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxGlobalShortcut">
+           <property name="text">
+            <string>Global Shortcut</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBoxMatchItems">
+        <property name="title">
+         <string>Match Items</string>
+        </property>
+        <layout class="QFormLayout" name="formLayout_2">
+         <property name="horizontalSpacing">
+          <number>2</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>2</number>
+         </property>
+         <property name="leftMargin">
+          <number>4</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>4</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="comboBoxInputFormat">
+           <property name="toolTip">
+            <string>Data of this MIME type will be sent to standard input of command.
+Leave empty to disable this.</string>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>F&amp;ormat:</string>
+           </property>
+           <property name="buddy">
+            <cstring>comboBoxInputFormat</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEditWindow">
+           <property name="toolTip">
+            <string>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="labelWindow">
+           <property name="text">
+            <string>&amp;Window:</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEditWindow</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEditMatch">
+           <property name="toolTip">
+            <string>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>&amp;Content:</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEditMatch</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>&amp;Filter:</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEditMatchCmd</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="lineEditMatchCmd">
+           <property name="toolTip">
+            <string>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
 &lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</string>
-        </property>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBoxCommand">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::WheelFocus</enum>
-     </property>
-     <property name="title">
-      <string>Comman&amp;d</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
-       <widget class="CommandEdit" name="commandEdit" native="true">
+       <widget class="QGroupBox" name="groupBoxCommand">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="focusPolicy">
          <enum>Qt::WheelFocus</enum>
         </property>
+        <property name="title">
+         <string>Comman&amp;d</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="CommandEdit" name="commandEdit" native="true">
+           <property name="focusPolicy">
+            <enum>Qt::WheelFocus</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBoxAction">
-     <property name="title">
-      <string>Action</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="leftMargin">
-       <number>4</number>
-      </property>
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="rightMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
       <item>
-       <layout class="QFormLayout" name="formLayout_4">
-        <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       <widget class="QGroupBox" name="groupBoxAction">
+        <property name="title">
+         <string>Action</string>
         </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Co&amp;py to tab:</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBoxCopyToTab</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="comboBoxCopyToTab">
-          <property name="toolTip">
-           <string>Name of tab to copy new items into (leave empty not to copy)</string>
-          </property>
-          <property name="editable">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBoxIgnore">
-        <property name="toolTip">
-         <string>Remove matching item
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="leftMargin">
+          <number>4</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>4</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+         <item>
+          <layout class="QFormLayout" name="formLayout_4">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Co&amp;py to tab:</string>
+             </property>
+             <property name="buddy">
+              <cstring>comboBoxCopyToTab</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="comboBoxCopyToTab">
+             <property name="toolTip">
+              <string>Name of tab to copy new items into (leave empty not to copy)</string>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxIgnore">
+           <property name="toolTip">
+            <string>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</string>
-        </property>
-        <property name="text">
-         <string>&amp;Remove Item</string>
-        </property>
+           </property>
+           <property name="text">
+            <string>&amp;Remove Item</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBoxInMenu">
-     <property name="title">
-      <string>Menu Action</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <property name="leftMargin">
-       <number>4</number>
-      </property>
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="rightMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
       <item>
-       <widget class="QCheckBox" name="checkBoxHideWindow">
-        <property name="toolTip">
-         <string>Hide window after command is activated from context menu of an item</string>
+       <widget class="QGroupBox" name="groupBoxInMenu">
+        <property name="title">
+         <string>Menu Action</string>
         </property>
-        <property name="text">
-         <string>&amp;Hide main window after activation</string>
-        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <property name="leftMargin">
+          <number>4</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>4</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="checkBoxHideWindow">
+           <property name="toolTip">
+            <string>Hide window after command is activated from context menu of an item</string>
+           </property>
+           <property name="text">
+            <string>&amp;Hide main window after activation</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBoxCommandOptions">
-     <property name="title">
-      <string>Command options</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <property name="leftMargin">
-       <number>4</number>
-      </property>
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="rightMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <property name="spacing">
-         <number>16</number>
+       <widget class="QGroupBox" name="groupBoxCommandOptions">
+        <property name="title">
+         <string>Command options</string>
         </property>
-        <item>
-         <widget class="QCheckBox" name="checkBoxWait">
-          <property name="toolTip">
-           <string>Show action dialog before executing the command</string>
-          </property>
-          <property name="text">
-           <string>&amp;Wait</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkBoxTransform">
-          <property name="toolTip">
-           <string>Change item, don't create any new items</string>
-          </property>
-          <property name="text">
-           <string>Tr&amp;ansform</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QFormLayout" name="formLayout">
-        <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-        </property>
-        <property name="verticalSpacing">
-         <number>2</number>
-        </property>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>O&amp;utput:</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBoxOutputFormat</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="comboBoxOutputFormat">
-          <property name="toolTip">
-           <string>Create items from standard output of the program (leave empty to disable)</string>
-          </property>
-          <property name="editable">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="separatorLabel">
-          <property name="text">
-           <string>&amp;Separator:</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEditSeparator</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEditSeparator">
-          <property name="toolTip">
-           <string>Separator to match for splitting the output to multiple items</string>
-          </property>
-          <property name="text">
-           <string>\n</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="labelOutputTab">
-          <property name="text">
-           <string>Output &amp;tab:</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBoxOutputTab</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QComboBox" name="comboBoxOutputTab">
-          <property name="toolTip">
-           <string>Save items in tab with given name (leave empty to save in first tab)</string>
-          </property>
-          <property name="editable">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <property name="leftMargin">
+          <number>4</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>4</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="spacing">
+            <number>16</number>
+           </property>
+           <item>
+            <widget class="QCheckBox" name="checkBoxWait">
+             <property name="toolTip">
+              <string>Show action dialog before executing the command</string>
+             </property>
+             <property name="text">
+              <string>&amp;Wait</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxTransform">
+             <property name="toolTip">
+              <string>Change item, don't create any new items</string>
+             </property>
+             <property name="text">
+              <string>Tr&amp;ansform</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QFormLayout" name="formLayout">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+           </property>
+           <property name="verticalSpacing">
+            <number>2</number>
+           </property>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>O&amp;utput:</string>
+             </property>
+             <property name="buddy">
+              <cstring>comboBoxOutputFormat</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="comboBoxOutputFormat">
+             <property name="toolTip">
+              <string>Create items from standard output of the program (leave empty to disable)</string>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="separatorLabel">
+             <property name="text">
+              <string>&amp;Separator:</string>
+             </property>
+             <property name="buddy">
+              <cstring>lineEditSeparator</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="lineEditSeparator">
+             <property name="toolTip">
+              <string>Separator to match for splitting the output to multiple items</string>
+             </property>
+             <property name="text">
+              <string>\n</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="labelOutputTab">
+             <property name="text">
+              <string>Output &amp;tab:</string>
+             </property>
+             <property name="buddy">
+              <cstring>comboBoxOutputTab</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="comboBoxOutputTab">
+             <property name="toolTip">
+              <string>Save items in tab with given name (leave empty to save in first tab)</string>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -524,6 +555,32 @@ Note: If this is applied automatically, no other automatic commands are executed
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>134</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxShowAdvanced">
+        <property name="text">
+         <string>Show Advanced</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
@@ -550,8 +607,11 @@ Note: If this is applied automatically, no other automatic commands are executed
  <tabstops>
   <tabstop>lineEditName</tabstop>
   <tabstop>buttonIcon</tabstop>
-  <tabstop>checkBoxAutomatic</tabstop>
+  <tabstop>shortcutButton</tabstop>
   <tabstop>shortcutButtonGlobalShortcut</tabstop>
+  <tabstop>checkBoxAutomatic</tabstop>
+  <tabstop>checkBoxInMenu</tabstop>
+  <tabstop>checkBoxGlobalShortcut</tabstop>
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
   <tabstop>lineEditMatchCmd</tabstop>
@@ -565,6 +625,7 @@ Note: If this is applied automatically, no other automatic commands are executed
   <tabstop>comboBoxOutputFormat</tabstop>
   <tabstop>lineEditSeparator</tabstop>
   <tabstop>comboBoxOutputTab</tabstop>
+  <tabstop>checkBoxShowAdvanced</tabstop>
  </tabstops>
  <resources/>
  <connections/>

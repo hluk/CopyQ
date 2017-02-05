@@ -269,6 +269,11 @@ struct tabs : Config<QStringList> {
     static QString name() { return "tabs"; }
 };
 
+struct show_advanced_command_settings : Config<bool> {
+    static QString name() { return "show_advanced_command_settings"; }
+    static Value defaultValue() { return false; }
+};
+
 } // namespace Config
 
 class AppConfig

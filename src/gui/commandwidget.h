@@ -54,10 +54,15 @@ signals:
 
     void automaticChanged(bool automatic);
 
+protected:
+    void showEvent(QShowEvent *event);
+
 private slots:
     void on_lineEditName_textChanged(const QString &name);
 
     void on_buttonIcon_currentIconChanged(const QString &iconString);
+
+    void on_checkBoxShowAdvanced_stateChanged(int state);
 
     void on_checkBoxAutomatic_stateChanged(int);
 
