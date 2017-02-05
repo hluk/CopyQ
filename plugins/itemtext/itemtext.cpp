@@ -104,8 +104,6 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
 
     setContextMenuPolicy(Qt::NoContextMenu);
 
-    viewport()->installEventFilter(this);
-
     if (isRichText)
         m_textDocument.setHtml( normalizeText(text) );
     else
@@ -219,7 +217,13 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent, bo
 
     const int maxLines = preview ? 0 : m_settings.value(optionMaximumLines, 0).toInt();
     const int maxHeight = preview ? 0 : m_settings.value(optionMaximumHeight, 0).toInt();
-    return new ItemText(text, isRichText, maxLines, maxHeight, parent);
+    ItemText *item = new ItemText(text, isRichText, maxLines, maxHeight, parent);
+
+    // Allow faster selection in preview window.
+    if (!preview)
+        item->viewport()->installEventFilter(item);
+
+    return item;
 }
 
 QStringList ItemTextLoader::formatsToSave() const
