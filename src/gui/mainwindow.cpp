@@ -1706,10 +1706,8 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *r
 
 void MainWindow::resetStatus()
 {
-    if ( !ui->searchBar->text().isEmpty() ) {
+    if ( !ui->searchBar->text().isEmpty() )
         ui->searchBar->clear();
-        getBrowser()->clearFilter();
-    }
     enterBrowseMode();
 }
 

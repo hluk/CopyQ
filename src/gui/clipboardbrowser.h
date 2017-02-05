@@ -189,8 +189,6 @@ class ClipboardBrowser : public QListView
         void moveToClipboard(const QModelIndex &ind);
         /** Show only items matching the regular expression. */
         void filterItems(const QRegExp &re);
-        /** Show all items. */
-        void clearFilter() { filterItems( QRegExp() ); }
         /** Open editor. */
         bool openEditor(const QByteArray &textData, bool changeClipboard = false);
         /** Open editor for an item. */
