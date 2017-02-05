@@ -82,9 +82,9 @@ private slots:
     void addShortcut(QPushButton *shortcutButton);
     void setButtonShortcut(QPushButton *shortcutButton, const QKeySequence &shortcut);
 
+private:
     QWidget *shortcutButton(int index) const;
 
-private:
     QKeySequence shortcutForButton(const QWidget &w) const;
 
     QKeySequence m_defaultShortcut;

@@ -49,6 +49,7 @@ ShortcutButton::ShortcutButton(QWidget *parent)
     const int h = m_buttonAddShortcut->sizeHint().height();
     m_buttonAddShortcut->setMaximumSize(h, h);
     m_layout->addWidget(m_buttonAddShortcut);
+    setFocusProxy(m_buttonAddShortcut);
 
     connect( m_buttonAddShortcut, SIGNAL(clicked()),
              this, SLOT(onButtonAddShortcutClicked()) );
@@ -62,7 +63,11 @@ void ShortcutButton::addShortcut(const QKeySequence &shortcut)
         return;
 
     QPushButton *button = new QPushButton(this);
-    m_layout->insertWidget( shortcutCount(), button, 1 );
+    const int buttonIndex = shortcutCount();
+    m_layout->insertWidget(buttonIndex, button, 1);
+
+    setTabOrder(m_buttonAddShortcut, button);
+
     connect( button, SIGNAL(clicked()),
              this, SLOT(onShortcutButtonClicked()) );
     setButtonShortcut(button, shortcut);
