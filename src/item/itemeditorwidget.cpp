@@ -183,9 +183,6 @@ void ItemEditorWidget::initEditor(QWidget *editor)
     setAutoFillBackground(true);
 
     m_toolBar = new QToolBar(this);
-    m_toolBar->setBackgroundRole(QPalette::Base);
-    m_toolBar->setStyleSheet("QToolBar{border:0;background:transparent}"
-                             "QToolButton{background:transparent}");
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
