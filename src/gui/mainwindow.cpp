@@ -72,6 +72,10 @@
 #include <QTimer>
 #include <QToolBar>
 
+#ifdef HAS_TESTS
+#   include <QTest>
+#endif
+
 #include <algorithm>
 
 namespace {
@@ -965,6 +969,43 @@ void MainWindow::setFilter(const QString &text)
 {
     ui->searchBar->setText(text);
 }
+
+void MainWindow::invoke(Callable *callable)
+{
+    (*callable)();
+}
+
+#ifdef HAS_TESTS
+void MainWindow::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget)
+{
+    const QString keys = shortcut.toString();
+
+    if (widget.isNull()) {
+        COPYQ_LOG( QString("Failed to send key \"%1\".").arg(keys) );
+        return;
+    }
+
+    const QString widgetName = QString("%1 in %2")
+            .arg(widget->metaObject()->className())
+            .arg(widget->window()->metaObject()->className());
+
+    showMessage( widgetName, shortcut.toString(),
+                 QSystemTrayIcon::Information, 4000 );
+
+    COPYQ_LOG( QString("Sending key \"%1\" to \"%2\".")
+               .arg(keys)
+               .arg(widgetName) );
+
+    QTest::keyClick( widget.data(),
+                     Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
+                     Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask),
+                     0 );
+
+    COPYQ_LOG( QString("Key \"%1\" sent to \"%2\".")
+               .arg(keys)
+               .arg(widgetName) );
+}
+#endif
 
 void MainWindow::updateNotifications()
 {

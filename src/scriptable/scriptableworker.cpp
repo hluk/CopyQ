@@ -51,7 +51,7 @@ void ScriptableWorker::run()
     scriptable.initEngine(&engine);
 
     if (m_socket) {
-        QObject::connect( proxy.signaler(), SIGNAL(sendMessage(QByteArray,int)),
+        QObject::connect( &proxy, SIGNAL(sendMessage(QByteArray,int)),
                           m_socket, SLOT(sendMessage(QByteArray,int)) );
 
         QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),

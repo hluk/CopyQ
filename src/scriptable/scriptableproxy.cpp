@@ -52,24 +52,41 @@
 #include <QShortcut>
 #include <QSpinBox>
 #include <QTextEdit>
+#include <QThread>
 
-#include <algorithm>
-#include <functional>
+#ifdef HAS_TESTS
+#   include <QTest>
+#endif
 
-#define INVOKE(call) \
-    if (isValueUnset()) \
-      return setValue(v, (call))
+#include <type_traits>
+
+#define ASSERT_MAIN_THREAD() \
+    Q_ASSERT(m_invoked || QThread::currentThread() != qApp->thread()); \
 
 #define BROWSER(call) \
     ClipboardBrowser *c = fetchBrowser(); \
     if (c) \
         (c->call)
 
-#define BROWSER_INVOKE(call, defaultValue) \
-    if (!isValueUnset()) \
-        Q_ASSERT(false); \
-    ClipboardBrowser *c = fetchBrowser(); \
-    return setValue(v, c ? (c->call) : (defaultValue))
+#define INVOKE(call) \
+    ASSERT_MAIN_THREAD(); \
+    if (!m_invoked) { \
+        auto callable = createCallable([&]{ return call; }); \
+        m_invoked = true; \
+        QMetaObject::invokeMethod(m_wnd, "invoke", Qt::BlockingQueuedConnection, Q_ARG(Callable*, &callable)); \
+        m_invoked = false; \
+        return callable.result(); \
+    }
+
+#define INVOKE2(call) \
+    ASSERT_MAIN_THREAD(); \
+    if (!m_invoked) { \
+        auto callable = createCallable([&]{ call; }); \
+        m_invoked = true; \
+        QMetaObject::invokeMethod(m_wnd, "invoke", Qt::BlockingQueuedConnection, Q_ARG(Callable*, &callable)); \
+        m_invoked = false; \
+        return; \
+    }
 
 Q_DECLARE_METATYPE(QFile*)
 
@@ -77,6 +94,34 @@ namespace {
 
 const char propertyWidgetName[] = "CopyQ_widget_name";
 const char propertyWidgetProperty[] = "CopyQ_widget_property";
+
+template <typename T, typename Return>
+class CallableFn : public Callable {
+public:
+    explicit CallableFn(T &&fn) : m_fn(std::forward<T>(fn)) {}
+    void operator()() { m_result = m_fn(); }
+    Return &result() { return m_result; }
+
+private:
+    T m_fn;
+    Return m_result;
+};
+
+template <typename T>
+class CallableFn<T, void> : public Callable {
+public:
+    explicit CallableFn(T &&fn) : m_fn(std::forward<T>(fn)) {}
+    void operator()() { m_fn(); }
+
+private:
+    T m_fn;
+};
+
+template <typename T, typename Return = typename std::result_of<T()>::type>
+CallableFn<T, Return> createCallable(T &&lambda)
+{
+    return CallableFn<T, Return>(std::forward<T>(lambda));
+}
 
 template <typename T>
 T setValue(QVariant &v, const T &value)
@@ -285,71 +330,54 @@ void setGeometryWithoutSave(QWidget *window, const QRect &geometry)
     moveWindowOnScreen(window, QPoint(x, y));
 }
 
+QString tabNotFoundError()
+{
+    return ScriptableProxy::tr("Tab with given name doesn't exist!");
+}
+
+QString tabNameEmptyError()
+{
+    return ScriptableProxy::tr("Tab name cannot be empty!");
+}
+
 } // namespace
 
-namespace detail {
-
-ScriptableProxyHelper::ScriptableProxyHelper(MainWindow *mainWindow)
+ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
     : QObject(NULL)
     , m_wnd(mainWindow)
     , m_tabName()
     , m_lock()
+    , m_invoked(false)
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
     moveToThread(m_wnd->thread());
 }
 
-void ScriptableProxyHelper::setActionData(const QVariantMap &actionData)
+void ScriptableProxy::setActionData(const QVariantMap &actionData)
 {
     m_actionData = actionData;
 }
 
-const QVariant &ScriptableProxyHelper::value() const
+void ScriptableProxy::close()
 {
-    return v;
-}
-
-void ScriptableProxyHelper::unsetValue()
-{
-    v.clear();
-    m_valueUnset = true;
-}
-
-bool ScriptableProxyHelper::isValueUnset()
-{
-    if (!m_valueUnset)
-        return false;
-    m_valueUnset = false;
-    return true;
-}
-
-QString ScriptableProxyHelper::tabNotFoundError()
-{
-    return ScriptableProxyHelper::tr("Tab with given name doesn't exist!");
-}
-
-QString ScriptableProxyHelper::tabNameEmptyError()
-{
-    return ScriptableProxyHelper::tr("Tab name cannot be empty!");
-}
-
-void ScriptableProxyHelper::close()
-{
+    INVOKE2(close());
     m_wnd->close();
 }
 
-void ScriptableProxyHelper::showWindow()
+void ScriptableProxy::showWindow()
 {
+    INVOKE2(showWindow());
     m_wnd->showWindow();
 }
 
-void ScriptableProxyHelper::showWindowAt(const QRect &rect)
+void ScriptableProxy::showWindowAt(const QRect &rect)
 {
+    INVOKE2(showWindowAt(rect));
     setGeometryWithoutSave(m_wnd, rect);
     showWindow();
 }
 
-bool ScriptableProxyHelper::pasteToCurrentWindow()
+bool ScriptableProxy::pasteToCurrentWindow()
 {
     INVOKE(pasteToCurrentWindow());
 
@@ -360,7 +388,7 @@ bool ScriptableProxyHelper::pasteToCurrentWindow()
     return true;
 }
 
-bool ScriptableProxyHelper::copyFromCurrentWindow()
+bool ScriptableProxy::copyFromCurrentWindow()
 {
     INVOKE(copyFromCurrentWindow());
 
@@ -371,40 +399,44 @@ bool ScriptableProxyHelper::copyFromCurrentWindow()
     return true;
 }
 
-void ScriptableProxyHelper::abortAutomaticCommands()
+void ScriptableProxy::abortAutomaticCommands()
 {
+    INVOKE2(abortAutomaticCommands());
+
     m_wnd->abortAutomaticCommands();
 }
 
-bool ScriptableProxyHelper::isMonitoringEnabled()
+bool ScriptableProxy::isMonitoringEnabled()
 {
     INVOKE(isMonitoringEnabled());
     return m_wnd->isMonitoringEnabled();
 }
 
-bool ScriptableProxyHelper::isMainWindowVisible()
+bool ScriptableProxy::isMainWindowVisible()
 {
     INVOKE(isMainWindowVisible());
     return !m_wnd->isMinimized() && m_wnd->isVisible();
 }
 
-bool ScriptableProxyHelper::isMainWindowFocused()
+bool ScriptableProxy::isMainWindowFocused()
 {
     INVOKE(isMainWindowFocused());
     return m_wnd->isActiveWindow();
 }
 
-void ScriptableProxyHelper::disableMonitoring(bool arg1)
+void ScriptableProxy::disableMonitoring(bool arg1)
 {
+    INVOKE2(disableMonitoring(arg1));
     m_wnd->disableClipboardStoring(arg1);
 }
 
-void ScriptableProxyHelper::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
+void ScriptableProxy::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
 {
+    INVOKE2(setClipboard(data, mode));
     m_wnd->setClipboard(data, mode);
 }
 
-QString ScriptableProxyHelper::renameTab(const QString &arg1, const QString &arg2)
+QString ScriptableProxy::renameTab(const QString &arg1, const QString &arg2)
 {
     INVOKE(renameTab(arg1, arg2));
 
@@ -423,7 +455,7 @@ QString ScriptableProxyHelper::renameTab(const QString &arg1, const QString &arg
     return QString();
 }
 
-QString ScriptableProxyHelper::removeTab(const QString &arg1)
+QString ScriptableProxy::removeTab(const QString &arg1)
 {
     INVOKE(removeTab(arg1));
 
@@ -438,61 +470,69 @@ QString ScriptableProxyHelper::removeTab(const QString &arg1)
     return QString();
 }
 
-QString ScriptableProxyHelper::tabIcon(const QString &tabName)
+QString ScriptableProxy::tabIcon(const QString &tabName)
 {
     INVOKE(tabIcon(tabName));
     return getIconNameForTabName(tabName);
 }
 
-void ScriptableProxyHelper::setTabIcon(const QString &tabName, const QString &icon)
+void ScriptableProxy::setTabIcon(const QString &tabName, const QString &icon)
 {
+    INVOKE2(setTabIcon(tabName, icon));
     m_wnd->setTabIcon(tabName, icon);
 }
 
-void ScriptableProxyHelper::showBrowser(const QString &tabName)
+void ScriptableProxy::showBrowser(const QString &tabName)
 {
+    INVOKE2(showBrowser(tabName));
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (c)
         m_wnd->showBrowser(c);
 }
 
-void ScriptableProxyHelper::showBrowserAt(const QString &tabName, const QRect &rect)
+void ScriptableProxy::showBrowserAt(const QString &tabName, const QRect &rect)
 {
+    INVOKE2(showBrowserAt(tabName, rect));
     setGeometryWithoutSave(m_wnd, rect);
     showBrowser(tabName);
     QCoreApplication::processEvents();
 }
 
-void ScriptableProxyHelper::showBrowser()
+void ScriptableProxy::showBrowser()
 {
+    INVOKE2(showBrowser());
     showBrowser(m_tabName);
 }
 
-void ScriptableProxyHelper::action(const QVariantMap &arg1, const Command &arg2)
+void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
 {
+    INVOKE2(action(arg1, arg2));
     m_wnd->action(arg1, arg2);
 }
 
-void ScriptableProxyHelper::showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4)
+void ScriptableProxy::showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4)
 {
+    INVOKE2(showMessage(arg1, arg2, arg3, arg4));
     m_wnd->showMessage(arg1, arg2, arg3, arg4);
 }
 
-void ScriptableProxyHelper::browserLock()
+void ScriptableProxy::browserLock()
 {
+    INVOKE2(browserLock());
     Q_ASSERT(m_lock.isNull());
     ClipboardBrowser *c = fetchBrowser();
     if (c)
         m_lock.reset( new ClipboardBrowser::Lock(c) );
 }
 
-void ScriptableProxyHelper::browserUnlock()
+void ScriptableProxy::browserUnlock()
 {
+    INVOKE2(browserUnlock());
     Q_ASSERT(!m_lock.isNull());
     m_lock.reset();
 }
 
-QVariantMap ScriptableProxyHelper::nextItem(int where)
+QVariantMap ScriptableProxy::nextItem(int where)
 {
     INVOKE(nextItem(where));
     ClipboardBrowser *c = fetchBrowser();
@@ -509,25 +549,28 @@ QVariantMap ScriptableProxyHelper::nextItem(int where)
     return ::itemData(index);
 }
 
-void ScriptableProxyHelper::browserMoveToClipboard(int arg1)
+void ScriptableProxy::browserMoveToClipboard(int arg1)
 {
+    INVOKE2(browserMoveToClipboard(arg1));
     ClipboardBrowser *c = fetchBrowser();
     if (c)
         c->moveToClipboard(c->index(arg1));
 }
 
-void ScriptableProxyHelper::browserSetCurrent(int arg1)
+void ScriptableProxy::browserSetCurrent(int arg1)
 {
+    INVOKE2(browserSetCurrent(arg1));
     BROWSER(setCurrent(arg1));
 }
 
-void ScriptableProxyHelper::browserRemoveRows(QList<int> rows)
+void ScriptableProxy::browserRemoveRows(QList<int> rows)
 {
+    INVOKE2(browserRemoveRows(rows));
     ClipboardBrowser *c = fetchBrowser();
     if (!c)
         return;
 
-    std::sort( rows.begin(), rows.end(), std::greater<int>() );
+    qSort( rows.begin(), rows.end(), qGreater<int>() );
 
     QModelIndexList indexes;
     indexes.reserve(rows.size());
@@ -549,72 +592,74 @@ void ScriptableProxyHelper::browserRemoveRows(QList<int> rows)
     }
 }
 
-void ScriptableProxyHelper::browserEditRow(int arg1)
+void ScriptableProxy::browserEditRow(int arg1)
 {
+    INVOKE2(browserEditRow(arg1));
     BROWSER(editRow(arg1));
 }
 
-void ScriptableProxyHelper::browserEditNew(const QString &arg1, bool changeClipboard)
+void ScriptableProxy::browserEditNew(const QString &arg1, bool changeClipboard)
 {
+    INVOKE2(browserEditNew(arg1, changeClipboard));
     BROWSER(editNew(arg1, changeClipboard));
 }
 
-QStringList ScriptableProxyHelper::tabs()
+QStringList ScriptableProxy::tabs()
 {
     INVOKE(tabs());
     return m_wnd->tabs();
 }
 
-bool ScriptableProxyHelper::toggleVisible()
+bool ScriptableProxy::toggleVisible()
 {
     INVOKE(toggleVisible());
     return m_wnd->toggleVisible();
 }
 
-bool ScriptableProxyHelper::toggleMenu(const QString &tabName)
+bool ScriptableProxy::toggleMenu(const QString &tabName)
 {
     INVOKE(toggleMenu(tabName));
     ClipboardBrowser *c = fetchBrowser(tabName);
     return c && m_wnd->toggleMenu(c);
 }
 
-bool ScriptableProxyHelper::toggleMenu()
+bool ScriptableProxy::toggleMenu()
 {
     INVOKE(toggleMenu());
     return m_wnd->toggleMenu();
 }
 
-QByteArray ScriptableProxyHelper::mainWinId()
+QByteArray ScriptableProxy::mainWinId()
 {
     INVOKE(mainWinId());
     return serializeWindow(m_wnd->winId());
 }
 
-QByteArray ScriptableProxyHelper::trayMenuWinId()
+QByteArray ScriptableProxy::trayMenuWinId()
 {
     INVOKE(trayMenuWinId());
     return serializeWindow(m_wnd->trayMenu()->winId());
 }
 
-int ScriptableProxyHelper::findTabIndex(const QString &arg1)
+int ScriptableProxy::findTabIndex(const QString &arg1)
 {
     INVOKE(findTabIndex(arg1));
     return m_wnd->findTabIndex(arg1);
 }
 
-QByteArray ScriptableProxyHelper::openActionDialog(const QVariantMap &arg1)
+QByteArray ScriptableProxy::openActionDialog(const QVariantMap &arg1)
 {
     INVOKE(openActionDialog(arg1));
     return serializeWindow(m_wnd->openActionDialog(arg1));
 }
 
-bool ScriptableProxyHelper::loadTab(const QString &arg1)
+bool ScriptableProxy::loadTab(const QString &arg1)
 {
     INVOKE(loadTab(arg1));
     return m_wnd->loadTab(arg1);
 }
 
-bool ScriptableProxyHelper::saveTab(const QString &arg1)
+bool ScriptableProxy::saveTab(const QString &arg1)
 {
     INVOKE(saveTab(arg1));
     ClipboardBrowser *c = fetchBrowser();
@@ -625,7 +670,7 @@ bool ScriptableProxyHelper::saveTab(const QString &arg1)
     return m_wnd->saveTab(arg1, i);
 }
 
-QVariant ScriptableProxyHelper::config(const QString &name, const QString &value)
+QVariant ScriptableProxy::config(const QString &name, const QString &value)
 {
     INVOKE(config(name, value));
 
@@ -643,7 +688,7 @@ QVariant ScriptableProxyHelper::config(const QString &name, const QString &value
     return QVariant();
 }
 
-QByteArray ScriptableProxyHelper::getClipboardData(const QString &mime, QClipboard::Mode mode)
+QByteArray ScriptableProxy::getClipboardData(const QString &mime, QClipboard::Mode mode)
 {
     INVOKE(getClipboardData(mime, mode));
     const QMimeData *data = clipboardData(mode);
@@ -656,22 +701,28 @@ QByteArray ScriptableProxyHelper::getClipboardData(const QString &mime, QClipboa
     return cloneData(*data, QStringList(mime)).value(mime).toByteArray();
 }
 
-int ScriptableProxyHelper::browserLength()
+int ScriptableProxy::browserLength()
 {
-    BROWSER_INVOKE(length(), 0);
+    INVOKE(browserLength());
+    ClipboardBrowser *c = fetchBrowser();
+    return c ? c->length() : 0;
 }
 
-bool ScriptableProxyHelper::browserOpenEditor(const QByteArray &arg1, bool changeClipboard)
+bool ScriptableProxy::browserOpenEditor(const QByteArray &arg1, bool changeClipboard)
 {
-    BROWSER_INVOKE(openEditor(arg1, changeClipboard), false);
+    INVOKE(browserOpenEditor(arg1, changeClipboard));
+    ClipboardBrowser *c = fetchBrowser();
+    return c && c->openEditor(arg1, changeClipboard);
 }
 
-bool ScriptableProxyHelper::browserAdd(const QString &arg1)
+bool ScriptableProxy::browserAdd(const QString &arg1)
 {
-    BROWSER_INVOKE(add(arg1), false);
+    INVOKE(browserAdd(arg1));
+    ClipboardBrowser *c = fetchBrowser();
+    return c && c->add(arg1);
 }
 
-bool ScriptableProxyHelper::browserAdd(const QStringList &texts)
+bool ScriptableProxy::browserAdd(const QStringList &texts)
 {
     INVOKE(browserAdd(texts));
     ClipboardBrowser *c = fetchBrowser();
@@ -687,12 +738,14 @@ bool ScriptableProxyHelper::browserAdd(const QStringList &texts)
     return true;
 }
 
-bool ScriptableProxyHelper::browserAdd(const QVariantMap &arg1, int arg2)
+bool ScriptableProxy::browserAdd(const QVariantMap &arg1, int arg2)
 {
-    BROWSER_INVOKE(add(arg1, arg2), false);
+    INVOKE(browserAdd(arg1, arg2));
+    ClipboardBrowser *c = fetchBrowser();
+    return c && c->add(arg1, arg2);
 }
 
-bool ScriptableProxyHelper::browserChange(const QVariantMap &data, int row)
+bool ScriptableProxy::browserChange(const QVariantMap &data, int row)
 {
     INVOKE(browserChange(data, row));
     ClipboardBrowser *c = fetchBrowser();
@@ -707,36 +760,39 @@ bool ScriptableProxyHelper::browserChange(const QVariantMap &data, int row)
     return c->model()->setData(index, itemData, contentType::data);
 }
 
-QByteArray ScriptableProxyHelper::browserItemData(int arg1, const QString &arg2)
+QByteArray ScriptableProxy::browserItemData(int arg1, const QString &arg2)
 {
     INVOKE(browserItemData(arg1, arg2));
     return itemData(arg1, arg2);
 }
 
-QVariantMap ScriptableProxyHelper::browserItemData(int arg1)
+QVariantMap ScriptableProxy::browserItemData(int arg1)
 {
     INVOKE(browserItemData(arg1));
     return itemData(arg1);
 }
 
-void ScriptableProxyHelper::setCurrentTab(const QString &tabName)
+void ScriptableProxy::setCurrentTab(const QString &tabName)
 {
+    INVOKE2(setCurrentTab(tabName));
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (c)
         m_wnd->setCurrentTab(c);
 }
 
-void ScriptableProxyHelper::setTab(const QString &tabName)
+void ScriptableProxy::setTab(const QString &tabName)
 {
     m_tabName = tabName;
 }
 
-QString ScriptableProxyHelper::tab()
+QString ScriptableProxy::tab()
 {
-    BROWSER_INVOKE(tabName(), QString());
+    INVOKE(tab());
+    ClipboardBrowser *c = fetchBrowser();
+    return c ? c->tabName() : QString();
 }
 
-int ScriptableProxyHelper::currentItem()
+int ScriptableProxy::currentItem()
 {
     INVOKE(currentItem());
     if (!canUseSelectedItems())
@@ -747,7 +803,7 @@ int ScriptableProxyHelper::currentItem()
     return current.isValid() ? current.row() : -1;
 }
 
-bool ScriptableProxyHelper::selectItems(const QList<int> &items)
+bool ScriptableProxy::selectItems(const QList<int> &items)
 {
     INVOKE(selectItems(items));
     ClipboardBrowser *c = fetchBrowser();
@@ -769,7 +825,7 @@ bool ScriptableProxyHelper::selectItems(const QList<int> &items)
     return true;
 }
 
-QList<int> ScriptableProxyHelper::selectedItems()
+QList<int> ScriptableProxy::selectedItems()
 {
     INVOKE(selectedItems());
 
@@ -787,7 +843,7 @@ QList<int> ScriptableProxyHelper::selectedItems()
 }
 
 #ifdef HAS_TESTS
-QString ScriptableProxyHelper::sendKeys(const QString &keys)
+QString ScriptableProxy::sendKeys(const QString &keys)
 {
     INVOKE(sendKeys(keys));
 
@@ -821,7 +877,7 @@ QString ScriptableProxyHelper::sendKeys(const QString &keys)
             return QString("Cannot parse key \"%1\"!").arg(keys);
 
         // Don't stop when modal window is open.
-        QMetaObject::invokeMethod( this, "keyClick", Qt::QueuedConnection,
+        QMetaObject::invokeMethod( m_wnd, "keyClick", Qt::QueuedConnection,
                                    Q_ARG(const QKeySequence &, shortcut),
                                    Q_ARG(const QPointer<QWidget> &, w)
                                    );
@@ -830,7 +886,7 @@ QString ScriptableProxyHelper::sendKeys(const QString &keys)
     return QString();
 }
 
-QString ScriptableProxyHelper::testSelected()
+QString ScriptableProxy::testSelected()
 {
     INVOKE(testSelected());
 
@@ -853,70 +909,33 @@ QString ScriptableProxyHelper::testSelected()
     selectedRows.reserve( selectedIndexes.size() );
     foreach (const QModelIndex &index, selectedIndexes)
         selectedRows.append(index.row());
-    std::sort( selectedRows.begin(), selectedRows.end() );
+    qSort(selectedRows);
 
     foreach (int row, selectedRows)
         result.append(QString::number(row));
 
     return browser->tabName() + " " + result.join(" ");
 }
-
-void ScriptableProxyHelper::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget)
-{
-    const QString keys = shortcut.toString();
-
-    if (widget.isNull()) {
-        COPYQ_LOG( QString("Failed to send key \"%1\".").arg(keys) );
-        return;
-    }
-
-    const QString widgetName = QString("%1 in %2")
-            .arg(widget->metaObject()->className())
-            .arg(widget->window()->metaObject()->className());
-
-    m_wnd->showMessage( widgetName, shortcut.toString(),
-                        QSystemTrayIcon::Information, 4000 );
-
-    COPYQ_LOG( QString("Sending key \"%1\" to \"%2\".")
-               .arg(keys)
-               .arg(widgetName) );
-
-    QTest::keyClick( widget.data(),
-                     Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
-            Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask), 0 );
-
-    COPYQ_LOG( QString("Key \"%1\" sent to \"%2\".")
-               .arg(keys)
-               .arg(widgetName) );
-}
 #else // HAS_TESTS
-#define INVOKE_NO_TESTS(value) \
-    Q_ASSERT(isValueUnset()); \
-    return setValue(v, (value))
-
-QString ScriptableProxyHelper::sendKeys(const QString &)
+QString ScriptableProxy::sendKeys(const QString &)
 {
-    INVOKE_NO_TESTS(QString());
+    return QString();
 }
 
-QString ScriptableProxyHelper::testSelected()
+QString ScriptableProxy::testSelected()
 {
-    INVOKE_NO_TESTS(QString());
-}
-
-void ScriptableProxyHelper::keyClick(const QKeySequence &, const QPointer<QWidget> &)
-{
+    return QString();
 }
 #endif // HAS_TESTS
 
-QString ScriptableProxyHelper::currentWindowTitle()
+QString ScriptableProxy::currentWindowTitle()
 {
     INVOKE(currentWindowTitle());
     PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
     return window ? window->getTitle() : QString();
 }
 
-NamedValueList ScriptableProxyHelper::inputDialog(const NamedValueList &values)
+NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
 {
     INVOKE(inputDialog(values));
     QDialog dialog;
@@ -996,26 +1015,30 @@ NamedValueList ScriptableProxyHelper::inputDialog(const NamedValueList &values)
     return result;
 }
 
-void ScriptableProxyHelper::setUserValue(const QString &key, const QVariant &value)
+void ScriptableProxy::setUserValue(const QString &key, const QVariant &value)
 {
+    INVOKE2(setUserValue(key, value));
     Settings settings;
     settings.beginGroup("script");
     settings.setValue(key, value);
 }
 
-void ScriptableProxyHelper::updateFirstItem(const QVariantMap &data)
+void ScriptableProxy::updateFirstItem(const QVariantMap &data)
 {
+    INVOKE2(updateFirstItem(data));
     m_wnd->updateFirstItem(data);
 }
 
-void ScriptableProxyHelper::updateTitle(const QVariantMap &data)
+void ScriptableProxy::updateTitle(const QVariantMap &data)
 {
+    INVOKE2(updateTitle(data));
     if (m_wnd->canUpdateTitleFromScript())
         m_wnd->updateTitle(data);
 }
 
-void ScriptableProxyHelper::setSelectedItemsData(const QString &mime, const QVariant &value)
+void ScriptableProxy::setSelectedItemsData(const QString &mime, const QVariant &value)
 {
+    INVOKE2(setSelectedItemsData(mime, value));
     const QList<QPersistentModelIndex> selected = selectedIndexes();
     foreach (const QPersistentModelIndex &index, selected) {
         ClipboardBrowser *c = m_wnd->browserForItem(index);
@@ -1030,12 +1053,13 @@ void ScriptableProxyHelper::setSelectedItemsData(const QString &mime, const QVar
     }
 }
 
-void ScriptableProxyHelper::filter(const QString &text)
+void ScriptableProxy::filter(const QString &text)
 {
+    INVOKE2(filter(text));
     m_wnd->setFilter(text);
 }
 
-QString ScriptableProxyHelper::pluginsPath()
+QString ScriptableProxy::pluginsPath()
 {
     INVOKE(pluginsPath());
 
@@ -1046,22 +1070,24 @@ QString ScriptableProxyHelper::pluginsPath()
     return QString();
 }
 
-QString ScriptableProxyHelper::themesPath()
+QString ScriptableProxy::themesPath()
 {
     INVOKE(themesPath());
 
     return createPlatformNativeInterface()->themePrefix();
 }
 
-QString ScriptableProxyHelper::translationsPath()
+QString ScriptableProxy::translationsPath()
 {
     INVOKE(translationsPath());
 
     return createPlatformNativeInterface()->translationPrefix();
 }
 
-ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tabName)
+ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
 {
+    ASSERT_MAIN_THREAD();
+
     if (tabName.isEmpty()) {
         const QString defaultTabName = m_actionData.value(mimeCurrentTab).toString();
         if (!defaultTabName.isEmpty())
@@ -1076,16 +1102,20 @@ ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tab
     return c->isLoaded() ? c : NULL;
 }
 
-ClipboardBrowser *ScriptableProxyHelper::fetchBrowser() { return fetchBrowser(m_tabName); }
+ClipboardBrowser *ScriptableProxy::fetchBrowser() { return fetchBrowser(m_tabName); }
 
-QVariantMap ScriptableProxyHelper::itemData(int i)
+QVariantMap ScriptableProxy::itemData(int i)
 {
+    ASSERT_MAIN_THREAD();
+
     ClipboardBrowser *c = fetchBrowser();
     return c ? ::itemData(c->index(i)) : QVariantMap();
 }
 
-QByteArray ScriptableProxyHelper::itemData(int i, const QString &mime)
+QByteArray ScriptableProxy::itemData(int i, const QString &mime)
 {
+    ASSERT_MAIN_THREAD();
+
     const QVariantMap data = itemData(i);
     if ( data.isEmpty() )
         return QByteArray();
@@ -1099,24 +1129,14 @@ QByteArray ScriptableProxyHelper::itemData(int i, const QString &mime)
     return data.value(mime).toByteArray();
 }
 
-bool ScriptableProxyHelper::canUseSelectedItems() const
+bool ScriptableProxy::canUseSelectedItems() const
 {
     return m_tabName.isEmpty()
             || m_tabName == m_actionData.value(mimeCurrentTab).toString();
 }
 
-QList<QPersistentModelIndex> ScriptableProxyHelper::selectedIndexes() const
+QList<QPersistentModelIndex> ScriptableProxy::selectedIndexes() const
 {
     return m_actionData.value(mimeSelectedItems)
             .value< QList<QPersistentModelIndex> >();
 }
-
-} // namespace detail
-
-ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
-    : m_helper(new detail::ScriptableProxyHelper(mainWindow))
-{
-    qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
-}
-
-ScriptableProxy::~ScriptableProxy() { delete m_helper; }

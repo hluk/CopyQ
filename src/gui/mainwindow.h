@@ -109,6 +109,12 @@ struct MainWindowOptions {
     QString clipboardTab;
 };
 
+class Callable {
+public:
+    virtual ~Callable() {}
+    virtual void operator()() = 0;
+};
+
 /**
  * Application's main window.
  *
@@ -404,6 +410,12 @@ public slots:
 
     /** Set text for filtering items. */
     void setFilter(const QString &text);
+
+    void invoke(Callable *callable);
+
+#ifdef HAS_TESTS
+    void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget);
+#endif
 
 signals:
     /** Request clipboard change. */
