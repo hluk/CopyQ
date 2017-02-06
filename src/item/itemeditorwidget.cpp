@@ -27,8 +27,12 @@
 
 #include <QAbstractItemModel>
 #include <QAction>
+#include <QColorDialog>
+#include <QFontDialog>
 #include <QIcon>
 #include <QPlainTextEdit>
+#include <QTextCharFormat>
+#include <QTextCursor>
 #include <QToolBar>
 #include <QVBoxLayout>
 
@@ -38,6 +42,17 @@ const QIcon iconSave() { return getIcon("document-save", IconSave); }
 const QIcon iconCancel() { return getIcon("document-revert", IconRemove); }
 const QIcon iconUndo() { return getIcon("edit-undo", IconUndo); }
 const QIcon iconRedo() { return getIcon("edit-redo", IconRepeat); }
+
+const QIcon iconFont() { return getIcon("preferences-desktop-font", IconFont); }
+const QIcon iconBold() { return getIcon("format-text-bold", IconBold); }
+const QIcon iconItalic() { return getIcon("format-text-italic", IconItalic); }
+const QIcon iconUnderline() { return getIcon("format-text-underline", IconUnderline); }
+const QIcon iconStrikethrough() { return getIcon("format-text-strikethrough", IconStrikethrough); }
+
+const QIcon iconForeground() { return getIcon(IconSquareO); }
+const QIcon iconBackground() { return getIcon(IconSquare); }
+
+const QIcon iconEraseStyle() { return getIcon(IconEraser); }
 
 } // namespace
 
@@ -154,6 +169,91 @@ void ItemEditorWidget::saveAndExit()
     emit invalidate();
 }
 
+void ItemEditorWidget::setFont()
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format = tc.charFormat();
+
+    QFontDialog dialog(this);
+    dialog.setCurrentFont( format.font() );
+
+    if ( dialog.exec() == QDialog::Accepted ) {
+        const QFont font = dialog.selectedFont();
+        format.setFont(font);
+        tc.setCharFormat(format);
+    }
+}
+
+void ItemEditorWidget::toggleBoldText()
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format = tc.charFormat();
+    const int weight = format.fontWeight() == QFont::Bold ? QFont::Normal : QFont::Bold;
+    format.setFontWeight(weight);
+    tc.setCharFormat(format);
+}
+
+void ItemEditorWidget::toggleItalicText()
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format = tc.charFormat();
+    format.setFontItalic( !format.fontItalic() );
+    tc.setCharFormat(format);
+}
+
+void ItemEditorWidget::toggleUnderlineText()
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format = tc.charFormat();
+    format.setFontUnderline( !format.fontUnderline() );
+    tc.setCharFormat(format);
+}
+
+void ItemEditorWidget::toggleStrikethroughText()
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format = tc.charFormat();
+    format.setFontStrikeOut( !format.fontStrikeOut() );
+    tc.setCharFormat(format);
+}
+
+void ItemEditorWidget::setForeground()
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format = tc.charFormat();
+
+    QColorDialog dialog(this);
+    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel);
+    dialog.setCurrentColor( format.foreground().color() );
+
+    if ( dialog.exec() == QDialog::Accepted ) {
+        const QColor color = dialog.selectedColor();
+        format.setForeground(color);
+        tc.setCharFormat(format);
+    }
+}
+
+void ItemEditorWidget::setBackground()
+{
+    QTextCursor tc = textCursor();
+    QTextCharFormat format = tc.charFormat();
+
+    QColorDialog dialog(this);
+    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel);
+    dialog.setCurrentColor( format.background().color() );
+
+    if ( dialog.exec() == QDialog::Accepted ) {
+        const QColor color = dialog.selectedColor();
+        format.setBackground(color);
+        tc.setCharFormat(format);
+    }
+}
+
+void ItemEditorWidget::eraseStyle()
+{
+    textCursor().setCharFormat( QTextCharFormat() );
+}
+
 QWidget *ItemEditorWidget::createEditor(const ItemWidget *itemWidget)
 {
     QWidget *editor = itemWidget->createEditor(this);
@@ -215,6 +315,55 @@ void ItemEditorWidget::initMenuItems()
     connect( act, SIGNAL(triggered()),
              this, SIGNAL(cancel()) );
 
+    m_toolBar->addSeparator();
+
+    act = new QAction( iconFont(), tr("Font"), m_editor );
+    m_toolBar->addAction(act);
+    connect( act, SIGNAL(triggered()),
+             this, SLOT(setFont()) );
+
+    act = new QAction( iconBold(), tr("Bold"), m_editor );
+    m_toolBar->addAction(act);
+    act->setShortcut( QKeySequence::Bold );
+    connect( act, SIGNAL(triggered()),
+             this, SLOT(toggleBoldText()) );
+
+    act = new QAction( iconItalic(), tr("Italic"), m_editor );
+    m_toolBar->addAction(act);
+    act->setShortcut( QKeySequence::Italic );
+    connect( act, SIGNAL(triggered()),
+             this, SLOT(toggleItalicText()) );
+
+    act = new QAction( iconUnderline(), tr("Underline"), m_editor );
+    m_toolBar->addAction(act);
+    act->setShortcut( QKeySequence::Underline );
+    connect( act, SIGNAL(triggered()),
+             this, SLOT(toggleUnderlineText()) );
+
+    act = new QAction( iconStrikethrough(), tr("Strikethrough"), m_editor );
+    m_toolBar->addAction(act);
+    connect( act, SIGNAL(triggered()),
+             this, SLOT(toggleStrikethroughText()) );
+
+    m_toolBar->addSeparator();
+
+    act = new QAction( iconForeground(), tr("Foreground"), m_editor );
+    m_toolBar->addAction(act);
+    connect( act, SIGNAL(triggered()),
+             this, SLOT(setForeground()) );
+
+    act = new QAction( iconBackground(), tr("Background"), m_editor );
+    m_toolBar->addAction(act);
+    connect( act, SIGNAL(triggered()),
+             this, SLOT(setBackground()) );
+
+    m_toolBar->addSeparator();
+
+    act = new QAction( iconEraseStyle(), tr("Erase Style"), m_editor );
+    m_toolBar->addAction(act);
+    connect( act, SIGNAL(triggered()),
+             this, SLOT(eraseStyle()) );
+
     QPlainTextEdit *plainTextEdit = qobject_cast<QPlainTextEdit*>(m_editor);
     if (plainTextEdit != NULL) {
         plainTextEdit->setFrameShape(QFrame::NoFrame);
@@ -233,4 +382,21 @@ void ItemEditorWidget::initMenuItems()
         connect( act, SIGNAL(triggered()), plainTextEdit, SLOT(redo()) );
         connect( plainTextEdit, SIGNAL(redoAvailable(bool)), act, SLOT(setEnabled(bool)) );
     }
+}
+
+QTextCursor ItemEditorWidget::textCursor() const
+{
+    QPlainTextEdit *plainTextEdit = qobject_cast<QPlainTextEdit*>(m_editor);
+    if (!plainTextEdit)
+        plainTextEdit = m_editor->findChild<QPlainTextEdit*>();
+    if (plainTextEdit)
+        return plainTextEdit->textCursor();
+
+    QTextEdit *textEdit = qobject_cast<QTextEdit*>(m_editor);
+    if (!textEdit)
+        textEdit = m_editor->findChild<QTextEdit*>();
+    if (textEdit)
+        return textEdit->textCursor();
+
+    return QTextCursor();
 }

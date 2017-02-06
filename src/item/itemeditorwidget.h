@@ -26,6 +26,7 @@
 class ItemWidget;
 class QAbstractItemModel;
 class QPlainTextEdit;
+class QTextCursor;
 class QToolBar;
 
 /**
@@ -64,10 +65,20 @@ private slots:
     void onItemWidgetDestroyed();
     void saveAndExit();
 
+    void setFont();
+    void toggleBoldText();
+    void toggleItalicText();
+    void toggleUnderlineText();
+    void toggleStrikethroughText();
+    void setForeground();
+    void setBackground();
+    void eraseStyle();
+
 private:
     QWidget *createEditor(const ItemWidget *itemWidget);
     void initEditor(QWidget *editor);
     void initMenuItems();
+    QTextCursor textCursor() const;
 
     ItemWidget *m_itemWidget;
     QPersistentModelIndex m_index;
