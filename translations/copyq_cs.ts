@@ -932,7 +932,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="189"/>
         <source>Global Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Globální zkratka</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="234"/>
@@ -1184,7 +1184,7 @@ Poznámka: Pokud je akce provedena automaticky, žádné následující příkaz
     <message>
         <location filename="../src/ui/commandwidget.ui" line="579"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokročilé volby</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="525"/>
@@ -3523,42 +3523,42 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="320"/>
         <source>Font</source>
-        <translation type="unfinished">Písmo</translation>
+        <translation>Písmo</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="325"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Tučné</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="331"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Kurzíva</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="337"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Podtržené</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="343"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Přeškrtnuté</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="350"/>
         <source>Foreground</source>
-        <translation type="unfinished">Popředí</translation>
+        <translation>Popředí</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="355"/>
         <source>Background</source>
-        <translation type="unfinished">Pozadí</translation>
+        <translation>Pozadí</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="362"/>
         <source>Erase Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Vymazat styl</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="371"/>
