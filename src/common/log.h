@@ -20,8 +20,6 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <QByteArray>
-
 class QString;
 
 enum LogLevel {
