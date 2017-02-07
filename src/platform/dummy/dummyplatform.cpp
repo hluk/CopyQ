@@ -30,6 +30,11 @@ PlatformPtr createPlatformNativeInterface()
     return PlatformPtr(new DummyPlatform);
 }
 
+QCoreApplication *DummyPlatform::createConsoleApplication(int &argc, char **argv)
+{
+    return new QCoreApplication(argc, argv);
+}
+
 QApplication *DummyPlatform::createServerApplication(int &argc, char **argv)
 {
     return new QApplication(argc, argv);
