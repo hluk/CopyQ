@@ -28,7 +28,7 @@ class ItemFakeVimTests : public QObject
 {
     Q_OBJECT
 public:
-    explicit ItemFakeVimTests(const TestInterfacePtr &test, QObject *parent = NULL);
+    explicit ItemFakeVimTests(const TestInterfacePtr &test, QObject *parent = nullptr);
 
     static QString fileNameToSource();
 

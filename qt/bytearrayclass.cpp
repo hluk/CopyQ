@@ -106,14 +106,14 @@ QScriptClass::QueryFlags ByteArrayClass::queryProperty(const QScriptValue &objec
 {
     QByteArray *ba = qscriptvalue_cast<QByteArray*>(object.data());
     if (!ba)
-        return 0;
+        return nullptr;
     if (name == length) {
         return flags;
     } else {
         bool isArrayIndex;
         qint32 pos = name.toArrayIndex(&isArrayIndex);
         if (!isArrayIndex)
-            return 0;
+            return nullptr;
         *id = pos;
         if ((flags & HandlesReadAccess) && (pos >= ba->size()))
             flags &= ~HandlesReadAccess;

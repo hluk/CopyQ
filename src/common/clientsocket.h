@@ -29,9 +29,9 @@ class ClientSocket : public QObject
 public:
     ClientSocket();
 
-    explicit ClientSocket(const QString &serverName, QObject *parent = NULL);
+    explicit ClientSocket(const QString &serverName, QObject *parent = nullptr);
 
-    explicit ClientSocket(QLocalSocket *socket, QObject *parent = NULL);
+    explicit ClientSocket(QLocalSocket *socket, QObject *parent = nullptr);
 
     ~ClientSocket();
 

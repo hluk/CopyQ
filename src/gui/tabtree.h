@@ -29,7 +29,7 @@ class TabTree : public QTreeWidget
 {
     Q_OBJECT
 public:
-    explicit TabTree(QWidget *parent = NULL);
+    explicit TabTree(QWidget *parent = nullptr);
 
     /** Create tab in @a path with given @a index. */
     void insertTab(const QString &path, int index, bool selected);
@@ -37,10 +37,10 @@ public:
     /** Remove tab with given @a index. */
     void removeTab(int index);
 
-    /** Return item with given @a index or NULL if it doesn't exist. */
+    /** Return item with given @a index or nullptr if it doesn't exist. */
     QTreeWidgetItem *findTreeItem(int index) const;
 
-    /** Return item with given @a path or NULL if it doesn't exist. */
+    /** Return item with given @a path or nullptr if it doesn't exist. */
     QTreeWidgetItem *findTreeItem(const QString &path) const;
 
     /** Get tab index for @a item (-1 if it's a group). */

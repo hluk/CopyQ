@@ -28,7 +28,7 @@ class ItemTagsTests : public QObject
 {
     Q_OBJECT
 public:
-    explicit ItemTagsTests(const TestInterfacePtr &test, QObject *parent = NULL);
+    explicit ItemTagsTests(const TestInterfacePtr &test, QObject *parent = nullptr);
 
     static QStringList testTags();
 

@@ -30,7 +30,7 @@ class IconSelectDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit IconSelectDialog(const QString &defaultIcon, QWidget *parent = NULL);
+    explicit IconSelectDialog(const QString &defaultIcon, QWidget *parent = nullptr);
 
     const QString &selectedIcon() const { return m_selectedIcon; }
 

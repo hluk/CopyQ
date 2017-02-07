@@ -153,17 +153,17 @@ struct X11WindowProperty {
         if ( XGetWindowProperty(display, w, property, longOffset, longLength, false,
                                 reqType, &type, &format, &len, &remain, &data) != Success )
         {
-            data = NULL;
+            data = nullptr;
         }
     }
 
     ~X11WindowProperty()
     {
-        if (data != NULL)
+        if (data != nullptr)
             XFree(data);
     }
 
-    bool isValid() const { return data != NULL; }
+    bool isValid() const { return data != nullptr; }
 
     Atom type;
     int format;

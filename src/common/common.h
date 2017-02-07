@@ -150,7 +150,7 @@ bool openTemporaryFile(QTemporaryFile *file, const QString &suffix = ".ini");
 
 int pointsToPixels(int points);
 
-void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object = NULL, const char *slot = NULL);
+void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object = nullptr, const char *slot = nullptr);
 
 QString dataToText(const QByteArray &bytes, const QString &mime);
 

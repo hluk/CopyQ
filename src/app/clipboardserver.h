@@ -90,7 +90,7 @@ private slots:
      * Execute command in different thread.
      */
     void doCommand(
-            ClientSocket *client = NULL //!< For sending responses.
+            ClientSocket *client = nullptr //!< For sending responses.
             );
 
     /** New message from monitor process. */

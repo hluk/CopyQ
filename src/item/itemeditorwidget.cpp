@@ -61,21 +61,21 @@ ItemEditorWidget::ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &in
     : QWidget(parent)
     , m_itemWidget(itemWidget)
     , m_index(index)
-    , m_editor(NULL)
-    , m_noteEditor(NULL)
-    , m_toolBar(NULL)
+    , m_editor(nullptr)
+    , m_noteEditor(nullptr)
+    , m_toolBar(nullptr)
     , m_saveOnReturnKey(false)
 {
-    m_noteEditor = editNotes ? new QPlainTextEdit(parent) : NULL;
+    m_noteEditor = editNotes ? new QPlainTextEdit(parent) : nullptr;
     QWidget *editor = editNotes ? m_noteEditor : createEditor(itemWidget);
 
-    if (editor == NULL) {
-        m_itemWidget = NULL;
+    if (editor == nullptr) {
+        m_itemWidget = nullptr;
     } else {
         connect( m_itemWidget->widget(), SIGNAL(destroyed()),
                  this, SLOT(onItemWidgetDestroyed()) );
         initEditor(editor);
-        if (m_noteEditor != NULL)
+        if (m_noteEditor != nullptr)
             m_noteEditor->setPlainText( index.data(contentType::notes).toString() );
         else
             itemWidget->setEditorData(editor, index);
@@ -86,13 +86,13 @@ bool ItemEditorWidget::isValid() const
 {
     if ( !m_index.isValid() )
         return false;
-    return (m_itemWidget != NULL && m_editor != NULL) || m_noteEditor != NULL;
+    return (m_itemWidget != nullptr && m_editor != nullptr) || m_noteEditor != nullptr;
 }
 
 void ItemEditorWidget::commitData(QAbstractItemModel *model) const
 {
     if ( hasChanges() ) {
-        if (m_noteEditor != NULL) {
+        if (m_noteEditor != nullptr) {
             model->setData(m_index, m_noteEditor->toPlainText(), contentType::notes);
             m_noteEditor->document()->setModified(false);
         } else {
@@ -105,9 +105,9 @@ bool ItemEditorWidget::hasChanges() const
 {
     if ( !m_index.isValid() )
         return false;
-    if (m_noteEditor != NULL)
+    if (m_noteEditor != nullptr)
         return m_noteEditor->document()->isModified();
-    return m_itemWidget != NULL && m_itemWidget->hasChanges(m_editor);
+    return m_itemWidget != nullptr && m_itemWidget->hasChanges(m_editor);
 }
 
 void ItemEditorWidget::setEditorPalette(const QPalette &palette)
@@ -159,7 +159,7 @@ bool ItemEditorWidget::eventFilter(QObject *object, QEvent *event)
 
 void ItemEditorWidget::onItemWidgetDestroyed()
 {
-    m_itemWidget = NULL;
+    m_itemWidget = nullptr;
     emit invalidate();
 }
 
@@ -365,7 +365,7 @@ void ItemEditorWidget::initMenuItems()
              this, SLOT(eraseStyle()) );
 
     QPlainTextEdit *plainTextEdit = qobject_cast<QPlainTextEdit*>(m_editor);
-    if (plainTextEdit != NULL) {
+    if (plainTextEdit != nullptr) {
         plainTextEdit->setFrameShape(QFrame::NoFrame);
 
         act = new QAction( iconUndo(), tr("Undo"), m_editor );

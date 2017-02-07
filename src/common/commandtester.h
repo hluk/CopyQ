@@ -33,7 +33,7 @@ class CommandTester : public QObject
 {
     Q_OBJECT
 public:
-    explicit CommandTester(QObject *parent = NULL);
+    explicit CommandTester(QObject *parent = nullptr);
 
     /// Stop current processing and clear commands and data.
     void abort();

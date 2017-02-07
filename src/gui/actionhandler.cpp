@@ -170,14 +170,14 @@ void ActionHandler::addItems(const QStringList &items, const QString &tabName)
     if (m_lastAction) {
         if (m_lastAction == sender())
             c->setCurrent(items.size() - 1);
-        m_lastAction = NULL;
+        m_lastAction = nullptr;
     }
 }
 
 void ActionHandler::addItems(const QStringList &items, const QModelIndex &index)
 {
     ClipboardBrowser *c = m_wnd->browserForItem(index);
-    if (c == NULL)
+    if (c == nullptr)
         return;
 
     QVariantMap dataMap;
@@ -193,14 +193,14 @@ void ActionHandler::addItem(const QByteArray &data, const QString &format, const
     if (m_lastAction) {
         if (m_lastAction == sender())
             c->setCurrent(0);
-        m_lastAction = NULL;
+        m_lastAction = nullptr;
     }
 }
 
 void ActionHandler::addItem(const QByteArray &data, const QString &format, const QModelIndex &index)
 {
     ClipboardBrowser *c = m_wnd->browserForItem(index);
-    if (c == NULL)
+    if (c == nullptr)
         return;
 
     QVariantMap dataMap;

@@ -37,7 +37,7 @@ class ItemEditorWidget : public QWidget
     Q_OBJECT
 public:
     ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &index, bool editNotes,
-                     QWidget *parent = NULL);
+                     QWidget *parent = nullptr);
 
     bool isValid() const;
 

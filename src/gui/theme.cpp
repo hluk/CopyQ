@@ -105,7 +105,7 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
 } // namespace
 
 Theme::Theme()
-    : ui(NULL)
+    : ui(nullptr)
 {
     QSettings settings;
     settings.beginGroup("Theme");
@@ -114,7 +114,7 @@ Theme::Theme()
 }
 
 Theme::Theme(QSettings &settings)
-    : ui(NULL)
+    : ui(nullptr)
 {
     loadTheme(settings);
 }
@@ -346,36 +346,36 @@ void Theme::resetTheme()
     QString name;
     QPalette p;
     name = serializeColor( p.color(QPalette::Base) );
-    m_theme["bg"]          = Option(name, "VALUE", ui ? ui->pushButtonColorBg : NULL);
-    m_theme["edit_bg"]     = Option(name, "VALUE", ui ? ui->pushButtonColorEditorBg : NULL);
+    m_theme["bg"]          = Option(name, "VALUE", ui ? ui->pushButtonColorBg : nullptr);
+    m_theme["edit_bg"]     = Option(name, "VALUE", ui ? ui->pushButtonColorEditorBg : nullptr);
     name = serializeColor( p.color(QPalette::Text) );
-    m_theme["fg"]          = Option(name, "VALUE", ui ? ui->pushButtonColorFg : NULL);
-    m_theme["edit_fg"]     = Option(name, "VALUE", ui ? ui->pushButtonColorEditorFg : NULL);
+    m_theme["fg"]          = Option(name, "VALUE", ui ? ui->pushButtonColorFg : nullptr);
+    m_theme["edit_fg"]     = Option(name, "VALUE", ui ? ui->pushButtonColorEditorFg : nullptr);
     name = serializeColor( p.color(QPalette::Text).lighter(400) );
-    m_theme["num_fg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorNumberFg : NULL);
+    m_theme["num_fg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorNumberFg : nullptr);
     name = serializeColor( p.color(QPalette::AlternateBase) );
-    m_theme["alt_bg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorAltBg : NULL);
+    m_theme["alt_bg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorAltBg : nullptr);
     name = serializeColor( p.color(QPalette::Highlight) );
-    m_theme["sel_bg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorSelBg : NULL);
+    m_theme["sel_bg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorSelBg : nullptr);
     name = serializeColor( p.color(QPalette::HighlightedText) );
-    m_theme["sel_fg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorSelFg : NULL);
-    m_theme["find_bg"]     = Option("#ff0", "VALUE", ui ? ui->pushButtonColorFoundBg : NULL);
-    m_theme["find_fg"]     = Option("#000", "VALUE", ui ? ui->pushButtonColorFoundFg : NULL);
+    m_theme["sel_fg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorSelFg : nullptr);
+    m_theme["find_bg"]     = Option("#ff0", "VALUE", ui ? ui->pushButtonColorFoundBg : nullptr);
+    m_theme["find_fg"]     = Option("#000", "VALUE", ui ? ui->pushButtonColorFoundFg : nullptr);
     name = serializeColor( p.color(QPalette::ToolTipBase) );
-    m_theme["notes_bg"]  = Option(name, "VALUE", ui ? ui->pushButtonColorNotesBg : NULL);
+    m_theme["notes_bg"]  = Option(name, "VALUE", ui ? ui->pushButtonColorNotesBg : nullptr);
     name = serializeColor( p.color(QPalette::ToolTipText) );
-    m_theme["notes_fg"]  = Option(name, "VALUE", ui ? ui->pushButtonColorNotesFg : NULL);
-    m_theme["notification_bg"]  = Option("#333", "VALUE", ui ? ui->pushButtonColorNotificationBg : NULL);
-    m_theme["notification_fg"]  = Option("#ddd", "VALUE", ui ? ui->pushButtonColorNotificationFg : NULL);
+    m_theme["notes_fg"]  = Option(name, "VALUE", ui ? ui->pushButtonColorNotesFg : nullptr);
+    m_theme["notification_bg"]  = Option("#333", "VALUE", ui ? ui->pushButtonColorNotificationBg : nullptr);
+    m_theme["notification_fg"]  = Option("#ddd", "VALUE", ui ? ui->pushButtonColorNotificationFg : nullptr);
 
-    m_theme["font"]        = Option("", "VALUE", ui ? ui->pushButtonFont : NULL);
-    m_theme["edit_font"]   = Option("", "VALUE", ui ? ui->pushButtonEditorFont : NULL);
-    m_theme["find_font"]   = Option("", "VALUE", ui ? ui->pushButtonFoundFont : NULL);
-    m_theme["num_font"]    = Option("", "VALUE", ui ? ui->pushButtonNumberFont : NULL);
-    m_theme["notes_font"]  = Option("", "VALUE", ui ? ui->pushButtonNotesFont : NULL);
-    m_theme["notification_font"]  = Option("", "VALUE", ui ? ui->pushButtonNotificationFont : NULL);
-    m_theme["show_number"] = Option(true, "checked", ui ? ui->checkBoxShowNumber : NULL);
-    m_theme["show_scrollbars"] = Option(true, "checked", ui ? ui->checkBoxScrollbars : NULL);
+    m_theme["font"]        = Option("", "VALUE", ui ? ui->pushButtonFont : nullptr);
+    m_theme["edit_font"]   = Option("", "VALUE", ui ? ui->pushButtonEditorFont : nullptr);
+    m_theme["find_font"]   = Option("", "VALUE", ui ? ui->pushButtonFoundFont : nullptr);
+    m_theme["num_font"]    = Option("", "VALUE", ui ? ui->pushButtonNumberFont : nullptr);
+    m_theme["notes_font"]  = Option("", "VALUE", ui ? ui->pushButtonNotesFont : nullptr);
+    m_theme["notification_font"]  = Option("", "VALUE", ui ? ui->pushButtonNotificationFont : nullptr);
+    m_theme["show_number"] = Option(true, "checked", ui ? ui->checkBoxShowNumber : nullptr);
+    m_theme["show_scrollbars"] = Option(true, "checked", ui ? ui->checkBoxScrollbars : nullptr);
 
     m_theme["css"] = Option("");
     m_theme["menu_css"] = Option(
@@ -473,9 +473,9 @@ void Theme::resetTheme()
                 "\n    ;border: 1px solid ${sel_bg}"
                 );
 
-    m_theme["use_system_icons"] = Option(false, "checked", ui ? ui->checkBoxSystemIcons : NULL);
-    m_theme["font_antialiasing"] = Option(true, "checked", ui ? ui->checkBoxAntialias : NULL);
-    m_theme["style_main_window"] = Option(false, "checked", ui ? ui->checkBoxStyleMainWindow : NULL);
+    m_theme["use_system_icons"] = Option(false, "checked", ui ? ui->checkBoxSystemIcons : nullptr);
+    m_theme["font_antialiasing"] = Option(true, "checked", ui ? ui->checkBoxAntialias : nullptr);
+    m_theme["style_main_window"] = Option(false, "checked", ui ? ui->checkBoxStyleMainWindow : nullptr);
 }
 
 void Theme::decorateBrowser(QAbstractScrollArea *c) const

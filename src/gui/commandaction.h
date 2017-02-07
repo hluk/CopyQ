@@ -37,7 +37,7 @@ public:
             const QString &name,
             Type type,
             ClipboardBrowser *browser,
-            QObject *parent = NULL);
+            QObject *parent = nullptr);
 
     const Command &command() const;
 

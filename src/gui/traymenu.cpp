@@ -46,7 +46,7 @@ QAction *firstEnabledAction(QMenu *menu)
             return action;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 QAction *lastEnabledAction(QMenu *menu)
@@ -58,7 +58,7 @@ QAction *lastEnabledAction(QMenu *menu)
             return actions[i];
     }
 
-    return NULL;
+    return nullptr;
 }
 
 } // namespace
@@ -184,7 +184,7 @@ void TrayMenu::clearAllActions()
 void TrayMenu::setActiveFirstEnabledAction()
 {
     QAction *action = firstEnabledAction(this);
-    if (action != NULL)
+    if (action != nullptr)
         setActiveAction(action);
 }
 
@@ -209,14 +209,14 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
         case Qt::Key_PageDown:
         case Qt::Key_End: {
             QAction *action = lastEnabledAction(this);
-            if (action != NULL)
+            if (action != nullptr)
                 setActiveAction(action);
             break;
         }
         case Qt::Key_PageUp:
         case Qt::Key_Home: {
             QAction *action = firstEnabledAction(this);
-            if (action != NULL)
+            if (action != nullptr)
                 setActiveAction(action);
             break;
         }
@@ -277,8 +277,8 @@ void TrayMenu::hideEvent(QHideEvent *event)
 void TrayMenu::resetSeparators()
 {
     if ( m_customActionsSeparator.isNull() ) {
-        QAction *firstAction = actions().value(0, NULL);
-        m_customActionsSeparator = firstAction != NULL ? insertSeparator(firstAction)
+        QAction *firstAction = actions().value(0, nullptr);
+        m_customActionsSeparator = firstAction != nullptr ? insertSeparator(firstAction)
                                                        : addSeparator();
     }
 
@@ -312,7 +312,7 @@ void TrayMenu::setSearchMenuItem(const QString &text)
 void TrayMenu::onClipboardItemActionTriggered()
 {
     QAction *act = qobject_cast<QAction *>(sender());
-    Q_ASSERT(act != NULL);
+    Q_ASSERT(act != nullptr);
 
     QVariant actionData = act->data();
     Q_ASSERT( actionData.isValid() );

@@ -46,7 +46,7 @@ public:
         TopLeft = Top | Left
     };
 
-    explicit NotificationDaemon(QObject *parent = NULL);
+    explicit NotificationDaemon(QObject *parent = nullptr);
 
     /** Create new notification or update one with same @a id (if non-negative). */
     void create(

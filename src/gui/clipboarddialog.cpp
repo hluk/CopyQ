@@ -38,9 +38,9 @@ static const int batchLoadCharacters = 4096;
 
 ClipboardDialog::ClipboardDialog(QWidget *parent)
     : QDialog(parent)
-    , ui(NULL)
-    , m_animationBuffer(NULL)
-    , m_animation(NULL)
+    , ui(nullptr)
+    , m_animationBuffer(nullptr)
+    , m_animation(nullptr)
 {
     init();
 
@@ -52,11 +52,11 @@ ClipboardDialog::ClipboardDialog(QWidget *parent)
 ClipboardDialog::ClipboardDialog(
         const QPersistentModelIndex &index, QAbstractItemModel *model, QWidget *parent)
     : QDialog(parent)
-    , ui(NULL)
+    , ui(nullptr)
     , m_model(model)
     , m_index(index)
-    , m_animationBuffer(NULL)
-    , m_animation(NULL)
+    , m_animationBuffer(nullptr)
+    , m_animation(nullptr)
 {
     init();
 
@@ -74,7 +74,7 @@ ClipboardDialog::~ClipboardDialog()
 void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
         QListWidgetItem *current, QListWidgetItem *)
 {
-    ui->actionRemove_Format->setEnabled(current != NULL);
+    ui->actionRemove_Format->setEnabled(current != nullptr);
 
     const QString mime = current ? current->text() : QString();
     const bool hasImage = mime.startsWith(QString("image")) ;
@@ -181,7 +181,7 @@ void ClipboardDialog::init()
     ui->actionRemove_Format->setShortcut(shortcutToRemove());
     ui->listWidgetFormats->addAction(ui->actionRemove_Format);
 
-    on_listWidgetFormats_currentItemChanged(NULL, NULL);
+    on_listWidgetFormats_currentItemChanged(nullptr, nullptr);
 }
 
 void ClipboardDialog::setData(const QVariantMap &data)

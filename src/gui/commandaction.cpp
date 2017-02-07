@@ -77,7 +77,7 @@ void CommandAction::onTriggered()
 
     if (m_type == ClipboardCommand) {
         const QMimeData *data = clipboardData();
-        if (data == NULL)
+        if (data == nullptr)
             setTextData( &dataMap, m_browser->selectedText() );
         else
             dataMap = cloneData(*data);

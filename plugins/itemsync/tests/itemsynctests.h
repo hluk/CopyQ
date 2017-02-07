@@ -28,7 +28,7 @@ class ItemSyncTests : public QObject
 {
     Q_OBJECT
 public:
-    explicit ItemSyncTests(const TestInterfacePtr &test, QObject *parent = NULL);
+    explicit ItemSyncTests(const TestInterfacePtr &test, QObject *parent = nullptr);
 
     static QString testTab(int i);
 

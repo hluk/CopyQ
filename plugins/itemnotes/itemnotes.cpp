@@ -71,11 +71,11 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
                      bool notesAtBottom, bool showIconOnly, bool showToolTip)
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
-    , m_notes(NULL)
-    , m_icon(NULL)
+    , m_notes(nullptr)
+    , m_icon(nullptr)
     , m_childItem(childItem)
     , m_notesAtBottom(notesAtBottom)
-    , m_timerShowToolTip(NULL)
+    , m_timerShowToolTip(nullptr)
     , m_toolTipText()
 {
     m_childItem->widget()->setObjectName("item_child");
@@ -147,7 +147,7 @@ void ItemNotes::setCurrent(bool current)
 {
     ItemWidget::setCurrent(current);
 
-    if (m_timerShowToolTip == NULL)
+    if (m_timerShowToolTip == nullptr)
         return;
 
     QToolTip::hideText();
@@ -162,7 +162,7 @@ void ItemNotes::highlight(const QRegExp &re, const QFont &highlightFont, const Q
 {
     m_childItem->setHighlight(re, highlightFont, highlightPalette);
 
-    if (m_notes != NULL) {
+    if (m_notes != nullptr) {
         QList<QTextEdit::ExtraSelection> selections;
 
         if ( !re.isEmpty() ) {
@@ -200,7 +200,7 @@ void ItemNotes::highlight(const QRegExp &re, const QFont &highlightFont, const Q
 
 QWidget *ItemNotes::createEditor(QWidget *parent) const
 {
-    return m_childItem.isNull() ? NULL : m_childItem->createEditor(parent);
+    return m_childItem.isNull() ? nullptr : m_childItem->createEditor(parent);
 }
 
 void ItemNotes::setEditorData(QWidget *editor, const QModelIndex &index) const
@@ -250,7 +250,7 @@ void ItemNotes::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
 
     // Decorate notes.
-    if (m_notes != NULL) {
+    if (m_notes != nullptr) {
         QPainter p(this);
 
         QColor c = p.pen().color();
@@ -321,7 +321,7 @@ ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QModelIndex
 {
     const QString text = index.data(contentType::notes).toString();
     if ( text.isEmpty() )
-        return NULL;
+        return nullptr;
 
     const QByteArray icon = index.data(contentType::data).toMap().value(mimeIcon).toByteArray();
 

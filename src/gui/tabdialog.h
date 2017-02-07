@@ -42,7 +42,7 @@ public:
         TabGroupRename
     } TabDialogType;
 
-    explicit TabDialog(TabDialogType type, QWidget *parent = NULL);
+    explicit TabDialog(TabDialogType type, QWidget *parent = nullptr);
     ~TabDialog();
 
     /** Set tab index to rename (emitted parameter of accepted()). */

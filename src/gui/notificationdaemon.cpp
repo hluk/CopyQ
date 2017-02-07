@@ -215,17 +215,17 @@ Notification *NotificationDaemon::findNotification(int id)
             return notification;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 Notification *NotificationDaemon::createNotification(int id)
 {
-    Notification *notification = NULL;
+    Notification *notification = nullptr;
     if (id >= 0)
         notification = findNotification(id);
 
     const int newId = (id >= 0) ? id : -(++m_lastId);
-    if (notification == NULL) {
+    if (notification == nullptr) {
         notification = new Notification(newId);
         connect(this, SIGNAL(destroyed()), notification, SLOT(deleteLater()));
         connect( notification, SIGNAL(closeNotification(Notification*)),

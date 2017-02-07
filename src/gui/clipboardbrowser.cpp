@@ -58,11 +58,11 @@ namespace {
 /// Save drag'n'drop image data in temporary file (required by some applications).
 class TemporaryDragAndDropImage : public QObject {
 public:
-    /// Return temporary image file for data or NULL if file cannot be created.
+    /// Return temporary image file for data or nullptr if file cannot be created.
     static TemporaryDragAndDropImage *create(QMimeData *mimeData, QObject *parent)
     {
         if ( !mimeData->hasImage() || mimeData->hasFormat(mimeUriList) )
-            return NULL;
+            return nullptr;
 
         return new TemporaryDragAndDropImage(mimeData, parent);
     }
@@ -234,15 +234,15 @@ void ClipboardBrowserShared::loadFromConfiguration()
 
 ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent)
     : QListView(parent)
-    , m_itemLoader(NULL)
+    , m_itemLoader(nullptr)
     , m_tabName()
     , m(this)
     , d(this, sharedData->itemFactory)
     , m_invalidateCache(false)
     , m_expireAfterEditing(false)
-    , m_editor(NULL)
+    , m_editor(nullptr)
     , m_sharedData(sharedData)
-    , m_loadButton(NULL)
+    , m_loadButton(nullptr)
     , m_dragTargetRow(-1)
     , m_dragStartPosition()
     , m_spinLock(0)
@@ -467,7 +467,7 @@ bool ClipboardBrowser::preload(int minY, int maxY)
 
 void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClipboard)
 {
-    bool active = editor != NULL;
+    bool active = editor != nullptr;
 
     if (m_editor != editor) {
         m_editor = editor;
@@ -521,7 +521,7 @@ void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes, bool c
         return;
 
     ItemEditorWidget *editor = d.createCustomEditor(this, index, editNotes);
-    if (editor != NULL) {
+    if (editor != nullptr) {
         if ( editor->isValid() )
             setEditorWidget(editor, changeClipboard);
         else
@@ -655,7 +655,7 @@ void ClipboardBrowser::unlock()
 
         m_scrollSaver->restore();
         if (m_spinLock == 1)
-            m_scrollSaver.reset(NULL);
+            m_scrollSaver.reset(nullptr);
     }
 
     --m_spinLock;
@@ -910,14 +910,14 @@ void ClipboardBrowser::expire(bool force)
 
 void ClipboardBrowser::onEditorDestroyed()
 {
-    setEditorWidget(NULL);
+    setEditorWidget(nullptr);
     // Set the focus back on the browser
     setFocus();
 }
 
 void ClipboardBrowser::onEditorSave()
 {
-    Q_ASSERT(m_editor != NULL);
+    Q_ASSERT(m_editor != nullptr);
     m_editor->commitData(&m);
     saveItems();
 }
@@ -929,7 +929,7 @@ void ClipboardBrowser::onEditorCancel()
 
 void ClipboardBrowser::onModelUnloaded()
 {
-    m_itemLoader = NULL;
+    m_itemLoader = nullptr;
 }
 
 void ClipboardBrowser::onEditorNeedsChangeClipboard()
@@ -970,7 +970,7 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 
     updateItemMaximumSize();
 
-    if (m_loadButton != NULL)
+    if (m_loadButton != nullptr)
         m_loadButton->resize( event->size() );
 
     updateEditorGeometry();
@@ -1214,7 +1214,7 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
 
     ItemWidget *item = d.cache(index);
     QObject *editor = item->createExternalEditor(index, this);
-    if (editor == NULL) {
+    if (editor == nullptr) {
         const QVariantMap data = itemData(index);
         if ( data.contains(mimeText) )
         {
@@ -1224,7 +1224,7 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
         }
     }
 
-    return editor != NULL && startEditor(editor);
+    return editor != nullptr && startEditor(editor);
 }
 
 void ClipboardBrowser::addItems(const QStringList &items)
@@ -1686,14 +1686,14 @@ void ClipboardBrowser::loadItemsAgain()
     // Show lock button if model is disabled.
     if ( !m.isDisabled() ) {
         delete m_loadButton;
-        m_loadButton = NULL;
+        m_loadButton = nullptr;
         d.rowsInserted(QModelIndex(), 0, m.rowCount());
         scheduleDelayedItemsLayout();
         updateCurrentPage();
         setCurrent(0);
         onItemCountChanged();
         emit updateContextMenu();
-    } else if (m_loadButton == NULL) {
+    } else if (m_loadButton == nullptr) {
         Q_ASSERT(length() == 0 && "Disabled model should be empty");
         m_loadButton = new QPushButton(this);
         m_loadButton->setFlat(true);
@@ -1775,7 +1775,7 @@ void ClipboardBrowser::move(int key)
 QWidget *ClipboardBrowser::currentItemPreview()
 {
     if (!isLoaded())
-        return NULL;
+        return nullptr;
 
     const QModelIndex index = currentIndex();
     ItemWidget *itemWidget =
@@ -1811,7 +1811,7 @@ void ClipboardBrowser::setTabName(const QString &id)
 
 bool ClipboardBrowser::editing() const
 {
-    return m_editor != NULL;
+    return m_editor != nullptr;
 }
 
 bool ClipboardBrowser::isLoaded() const

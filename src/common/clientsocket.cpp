@@ -80,7 +80,7 @@ bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
 
 ClientSocket::ClientSocket()
     : QObject()
-    , m_socket(NULL)
+    , m_socket(nullptr)
     , m_deleteAfterDisconnected(false)
     , m_closed(true)
     , m_hasMessageLength(false)
@@ -178,7 +178,7 @@ void ClientSocket::close()
         SOCKET_LOG("Disconnecting socket.");
         m_socket->disconnectFromServer();
         m_socket->deleteLater();
-        m_socket = NULL;
+        m_socket = nullptr;
     }
 }
 

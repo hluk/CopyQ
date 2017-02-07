@@ -28,7 +28,7 @@ class Client : public QObject
 {
     Q_OBJECT
 public:
-    explicit Client(QObject *parent = NULL);
+    explicit Client(QObject *parent = nullptr);
 
     virtual ~Client() {}
 

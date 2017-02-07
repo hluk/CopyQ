@@ -30,7 +30,7 @@ class FilePrototype : public QObject, public QScriptable
 {
     Q_OBJECT
 public:
-    explicit FilePrototype(QObject *parent = NULL);
+    explicit FilePrototype(QObject *parent = nullptr);
 
 public slots:
     bool open();

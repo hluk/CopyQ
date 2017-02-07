@@ -39,7 +39,7 @@ class ItemSync : public QWidget, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemSync(const QString &label, const QString &icon, ItemWidget *childItem = NULL);
+    ItemSync(const QString &label, const QString &icon, ItemWidget *childItem = nullptr);
 
     virtual void setCurrent(bool current);
 

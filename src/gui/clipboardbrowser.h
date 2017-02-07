@@ -85,7 +85,7 @@ class ClipboardBrowser : public QListView
                 QPointer<ClipboardBrowser> c;
         };
 
-        explicit ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent = NULL);
+        explicit ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent = nullptr);
         /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
 
@@ -138,7 +138,7 @@ class ClipboardBrowser : public QListView
         bool maybeCloseEditor();
 
         /**
-         * Get data of selected item, NULL if none or multiple items selected.
+         * Get data of selected item, nullptr if none or multiple items selected.
          */
         QVariantMap getSelectedItemData() const;
 

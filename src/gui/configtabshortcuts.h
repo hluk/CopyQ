@@ -33,7 +33,7 @@ class ConfigTabShortcuts : public QWidget
     Q_OBJECT
 
 public:
-    explicit ConfigTabShortcuts(QWidget *parent = NULL);
+    explicit ConfigTabShortcuts(QWidget *parent = nullptr);
 
     ~ConfigTabShortcuts();
 

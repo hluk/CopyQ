@@ -36,7 +36,7 @@ void FileDialog::exec()
     const QString fileName =
             QFileDialog::getSaveFileName(
                 m_parent, m_caption, m_defaultPath,
-                /* filter = */ QString(), /* selectedFilter = */ NULL,
+                /* filter = */ QString(), /* selectedFilter = */ nullptr,
                 QFileDialog::DontConfirmOverwrite | QFileDialog::ReadOnly);
     if (!fileName.isEmpty())
         emit fileSelected(fileName);

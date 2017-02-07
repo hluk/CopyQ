@@ -37,10 +37,10 @@ namespace {
 
 const char propertySelectedItem[] = "CopyQ_selected";
 
-inline void reset(ItemWidget **ptr, ItemWidget *value = NULL)
+inline void reset(ItemWidget **ptr, ItemWidget *value = nullptr)
 {
     delete *ptr;
-    *ptr = value != NULL ? value : NULL;
+    *ptr = value != nullptr ? value : nullptr;
 }
 
 int itemMargin()
@@ -82,7 +82,7 @@ QSize ItemDelegate::sizeHint(const QModelIndex &index) const
     int row = index.row();
     if ( row < m_cache.size() ) {
         const ItemWidget *w = m_cache[row];
-        if (w != NULL) {
+        if (w != nullptr) {
             QWidget *ww = w->widget();
             return QSize( ww->width() + 2 * m_hMargin + rowNumberWidth(),
                           qMax(ww->height() + 2 * m_vMargin, rowNumberHeight()) );
@@ -138,7 +138,7 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
 {
     for( int i = start; i <= end; ++i )
-        m_cache.insert(i, NULL);
+        m_cache.insert(i, nullptr);
 }
 
 ItemWidget *ItemDelegate::cache(const QModelIndex &index)
@@ -146,7 +146,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     int n = index.row();
 
     ItemWidget *w = m_cache[n];
-    if (w == NULL) {
+    if (w == nullptr) {
         QWidget *parent = m_view->viewport();
         w = m_createSimpleItems
                 ? m_itemFactory->createSimpleItem(index, parent, m_antialiasing)
@@ -159,7 +159,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
 bool ItemDelegate::hasCache(const QModelIndex &index) const
 {
-    return m_cache[index.row()] != NULL;
+    return m_cache[index.row()] != nullptr;
 }
 
 void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
@@ -169,7 +169,7 @@ void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
     m_idealWidth = idealWidth - margins;
 
     for(auto w : m_cache) {
-        if (w != NULL)
+        if (w != nullptr)
             w->updateSize(m_maxSize, m_idealWidth);
     }
 }
@@ -177,23 +177,23 @@ void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
 void ItemDelegate::updateRowPosition(int row, int y)
 {
     ItemWidget *w = m_cache[row];
-    if (w != NULL)
+    if (w != nullptr)
         w->widget()->move( QPoint(rowNumberWidth() + m_hMargin, y + m_vMargin) );
 }
 
 void ItemDelegate::setRowVisible(int row, bool visible)
 {
     ItemWidget *w = m_cache[row];
-    if (w != NULL)
+    if (w != nullptr)
         w->widget()->setVisible(visible);
 }
 
 bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
 {
     ItemWidget *w = m_cache[index.row()];
-    if (w != NULL) {
+    if (w != nullptr) {
         ItemWidget *w2 = m_itemFactory->otherItemLoader(index, w, next, m_antialiasing);
-        if (w2 != NULL) {
+        if (w2 != nullptr) {
             setIndexWidget(index, w2);
             return true;
         }
@@ -226,7 +226,7 @@ void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 {
     reset(&m_cache[index.row()], w);
-    if (w == NULL)
+    if (w == nullptr)
         return;
 
     QWidget *ww = w->widget();
@@ -303,7 +303,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 {
     int row = index.row();
     ItemWidget *w = m_cache[row];
-    if (w == NULL)
+    if (w == nullptr)
         return;
 
     const QRect &rect = option.rect;

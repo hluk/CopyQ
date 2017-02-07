@@ -32,7 +32,7 @@ class LogDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit LogDialog(QWidget *parent = NULL);
+    explicit LogDialog(QWidget *parent = nullptr);
     ~LogDialog();
 
 private slots:

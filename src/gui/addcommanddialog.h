@@ -34,7 +34,7 @@ class AddCommandDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddCommandDialog(const QList<Command> &pluginCommands, QWidget *parent = NULL);
+    explicit AddCommandDialog(const QList<Command> &pluginCommands, QWidget *parent = nullptr);
     ~AddCommandDialog();
 
 public slots:

@@ -27,7 +27,7 @@ class IconSelectButton : public QPushButton
     Q_OBJECT
     Q_PROPERTY(QString currentIcon READ currentIcon WRITE setCurrentIcon NOTIFY currentIconChanged)
 public:
-    explicit IconSelectButton(QWidget *parent = NULL);
+    explicit IconSelectButton(QWidget *parent = nullptr);
 
     const QString &currentIcon() const { return m_currentIcon; }
 

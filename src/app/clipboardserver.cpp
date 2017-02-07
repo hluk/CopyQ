@@ -85,7 +85,7 @@ int fromPixels(int pixels, const QWidget *widget)
 
 bool areIconsTooSmall()
 {
-    const int idealIconSize = fromPixels(16, NULL);
+    const int idealIconSize = fromPixels(16, nullptr);
     return smallIconSize() < idealIconSize;
 }
 
@@ -103,8 +103,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     : QObject()
     , App(createPlatformNativeInterface()->createServerApplication(argc, argv),
           sessionName)
-    , m_wnd(NULL)
-    , m_monitor(NULL)
+    , m_wnd(nullptr)
+    , m_monitor(nullptr)
     , m_shortcutActions()
     , m_clientThreads()
     , m_ignoreKeysTimer()
@@ -182,14 +182,14 @@ ClipboardServer::~ClipboardServer()
 
 void ClipboardServer::stopMonitoring()
 {
-    if (m_monitor == NULL)
+    if (m_monitor == nullptr)
         return;
 
     COPYQ_LOG("Clipboard Monitor: Terminating");
 
     m_monitor->disconnect();
     delete m_monitor;
-    m_monitor = NULL;
+    m_monitor = nullptr;
 
     COPYQ_LOG("Clipboard Monitor: Terminated");
 }
@@ -198,7 +198,7 @@ void ClipboardServer::startMonitoring()
 {
     COPYQ_LOG("Starting monitor.");
 
-    if ( m_monitor == NULL ) {
+    if ( m_monitor == nullptr ) {
         m_monitor = new RemoteProcess(this);
         connect( m_monitor, SIGNAL(newMessage(QByteArray)),
                  this, SLOT(newMonitorMessage(QByteArray)) );
@@ -236,7 +236,7 @@ void ClipboardServer::loadMonitorSettings()
 
 bool ClipboardServer::isMonitoring()
 {
-    return m_monitor != NULL && m_monitor->isConnected();
+    return m_monitor != nullptr && m_monitor->isConnected();
 }
 
 void ClipboardServer::removeGlobalShortcuts()
@@ -421,7 +421,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
         QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
         if (keyevent->key() == Qt::Key_Escape) {
             QMenu *menu = qobject_cast<QMenu*>(object);
-            if (menu != NULL) {
+            if (menu != nullptr) {
                 menu->close();
                 m_wnd->enterBrowseMode(m_wnd->browseMode());
             }

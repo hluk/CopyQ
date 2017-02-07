@@ -74,7 +74,7 @@ QByteArray getClipboard(const QString &mime = QString("text/plain"))
 {
     QApplication::processEvents();
     const QMimeData *data = QApplication::clipboard()->mimeData();
-    return (data != NULL) ? data->data(mime) : QByteArray();
+    return (data != nullptr) ? data->data(mime) : QByteArray();
 }
 
 bool waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString("text/plain"))
@@ -132,8 +132,8 @@ QByteArray decorateOutput(const QByteArray &label, const QByteArray &stderrOutpu
 class TestInterfaceImpl : public TestInterface {
 public:
     TestInterfaceImpl()
-        : m_server(NULL)
-        , m_monitor(NULL)
+        : m_server(nullptr)
+        , m_monitor(nullptr)
         , m_env(QProcessEnvironment::systemEnvironment())
     {
     }
@@ -192,7 +192,7 @@ public:
     QByteArray stopServer()
     {
         QByteArray errors;
-        const int exitCode = run(Args("exit"), NULL, &errors);
+        const int exitCode = run(Args("exit"), nullptr, &errors);
         if ( !testStderr(errors) || exitCode != 0 ) {
             return "Command 'exit' failed."
                     + printClienAndServerStderr(errors, exitCode);
@@ -206,11 +206,11 @@ public:
 
     bool isServerRunning()
     {
-        return m_server != NULL && m_server->state() == QProcess::Running && isAnyServerRunning();
+        return m_server != nullptr && m_server->state() == QProcess::Running && isAnyServerRunning();
     }
 
-    int run(const QStringList &arguments, QByteArray *stdoutData = NULL,
-            QByteArray *stderrData = NULL, const QByteArray &in = QByteArray())
+    int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
+            QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray())
     {
         QProcess p;
         if (!startTestProcess(&p, arguments))
@@ -220,11 +220,11 @@ public:
             return -2;
         p.closeWriteChannel();
 
-        if (stdoutData != NULL || stderrData != NULL) {
-            if (stdoutData != NULL) {
+        if (stdoutData != nullptr || stderrData != nullptr) {
+            if (stdoutData != nullptr) {
                 stdoutData->clear();
             }
-            if (stderrData != NULL) {
+            if (stderrData != nullptr) {
                 stderrData->clear();
             }
 
@@ -234,9 +234,9 @@ public:
                 QByteArray out = p.readAllStandardOutput();
                 QByteArray err = p.readAllStandardError();
 
-                if (stdoutData != NULL)
+                if (stdoutData != nullptr)
                     stdoutData->append(out);
-                if (stderrData != NULL)
+                if (stderrData != nullptr)
                     stderrData->append(err);
             } while ( p.state() == QProcess::Running && t.sleep() );
         }
@@ -244,12 +244,12 @@ public:
         if ( !closeProcess(&p) )
             return -3;
 
-        if (stderrData != NULL) {
+        if (stderrData != nullptr) {
             stderrData->append(p.readAllStandardError());
             stderrData->replace('\r', "");
         }
 
-        if (stdoutData != NULL) {
+        if (stdoutData != nullptr) {
             stdoutData->append(p.readAllStandardOutput());
             stdoutData->replace('\r', "");
         }
@@ -329,7 +329,7 @@ public:
 
     QByteArray setClipboard(const QByteArray &bytes, const QString &mime)
     {
-        if (m_monitor == NULL) {
+        if (m_monitor == nullptr) {
             m_monitor.reset(new RemoteProcess);
             const QString name = "copyq_TEST";
             m_monitor->start( name, QStringList("monitor") << name );
@@ -1046,7 +1046,7 @@ void Tests::insertRemoveItems()
     RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "abc,ghi,,,");
 
     QByteArray in("ABC");
-    QCOMPARE( run(Args(args) << "insert" << "1" << "-", NULL, NULL, in), 0);
+    QCOMPARE( run(Args(args) << "insert" << "1" << "-", nullptr, nullptr, in), 0);
     RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "abc,ABC,ghi,,");
 }
 

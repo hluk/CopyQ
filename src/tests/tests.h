@@ -37,7 +37,7 @@ class Tests : public QObject
     Q_OBJECT
 
 public:
-    explicit Tests(const TestInterfacePtr &test, QObject *parent = NULL);
+    explicit Tests(const TestInterfacePtr &test, QObject *parent = nullptr);
 
 private slots:
     void initTestCase();
@@ -120,8 +120,8 @@ private slots:
 
 private:
     void clearServerErrors();
-    int run(const QStringList &arguments, QByteArray *stdoutData = NULL,
-            QByteArray *stderrData = NULL, const QByteArray &in = QByteArray());
+    int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
+            QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray());
     bool hasTab(const QString &tabName);
 
     TestInterfacePtr m_test;

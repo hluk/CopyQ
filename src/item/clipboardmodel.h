@@ -108,7 +108,7 @@ public:
     /** Return true if @a lhs is less than @a rhs. */
     typedef bool CompareItems(const QModelIndex &lhs, const QModelIndex &rhs);
 
-    explicit ClipboardModel(QObject *parent = NULL);
+    explicit ClipboardModel(QObject *parent = nullptr);
 
     /** Return number of items in model. */
     int rowCount(const QModelIndex &parent = QModelIndex()) const;

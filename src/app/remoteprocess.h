@@ -36,7 +36,7 @@ class RemoteProcess : public QObject
 {
     Q_OBJECT
 public:
-    explicit RemoteProcess(QObject *parent = NULL);
+    explicit RemoteProcess(QObject *parent = nullptr);
 
     ~RemoteProcess();
 

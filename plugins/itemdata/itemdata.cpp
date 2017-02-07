@@ -163,11 +163,11 @@ ItemDataLoader::~ItemDataLoader()
 ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {
     if ( index.data(contentType::isHidden).toBool() )
-        return NULL;
+        return nullptr;
 
     const QStringList formats = index.data(contentType::data).toMap().keys();
     if ( emptyIntersection(formats, formatsToSave()) )
-        return NULL;
+        return nullptr;
 
     const int bytes = preview ? 4096 : m_settings.value("max_bytes", defaultMaxBytes).toInt();
     return new ItemData(index, bytes, parent);
@@ -182,7 +182,7 @@ QStringList ItemDataLoader::formatsToSave() const
 
 QVariantMap ItemDataLoader::applySettings()
 {
-    Q_ASSERT(ui != NULL);
+    Q_ASSERT(ui != nullptr);
     m_settings["formats"] = ui->plainTextEditFormats->toPlainText().split( QRegExp("[;,\\s]+") );
     m_settings["max_bytes"] = ui->spinBoxMaxChars->value();
     return  m_settings;

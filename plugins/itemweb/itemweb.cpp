@@ -215,7 +215,7 @@ ItemWebLoader::~ItemWebLoader()
 ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {
     if ( index.data(contentType::isHidden).toBool() )
-        return NULL;
+        return nullptr;
 
     QString html;
     if ( getHtml(index, &html) ) {
@@ -223,7 +223,7 @@ ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent, boo
         return new ItemWeb(html, maxHeight, preview, parent);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 QStringList ItemWebLoader::formatsToSave() const

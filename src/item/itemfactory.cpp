@@ -135,7 +135,7 @@ public:
 
     QWidget *createEditor(QWidget *parent) const
     {
-        return m_hasText ? ItemWidget::createEditor(parent) : NULL;
+        return m_hasText ? ItemWidget::createEditor(parent) : nullptr;
     }
 
     virtual void updateSize(const QSize &, int idealWidth)
@@ -242,7 +242,7 @@ ItemWidget *ItemFactory::createItem(
 {
     ItemWidget *item = loader->create(index, parent, preview);
 
-    if (item != NULL) {
+    if (item != nullptr) {
         if (transform)
             item = transformItem(item, index);
         QWidget *w = item->widget();
@@ -263,7 +263,7 @@ ItemWidget *ItemFactory::createItem(
         return item;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 ItemWidget *ItemFactory::createItem(
@@ -271,11 +271,11 @@ ItemWidget *ItemFactory::createItem(
 {
     for ( auto loader : enabledLoaders() ) {
         ItemWidget *item = createItem(loader, index, parent, antialiasing, transform, preview);
-        if (item != NULL)
+        if (item != nullptr)
             return item;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 ItemWidget *ItemFactory::createSimpleItem(
@@ -330,21 +330,21 @@ ItemLoaderInterface *ItemFactory::loadItems(QAbstractItemModel *model, QFile *fi
         file->seek(0);
         if ( loader->canLoadItems(file) ) {
             file->seek(0);
-            return loader->loadItems(model, file) ? loader : NULL;
+            return loader->loadItems(model, file) ? loader : nullptr;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 ItemLoaderInterface *ItemFactory::initializeTab(QAbstractItemModel *model)
 {
     for ( auto loader : enabledLoaders() ) {
         if ( loader->canSaveItems(*model) )
-            return loader->initializeTab(model) ? loader : NULL;
+            return loader->initializeTab(model) ? loader : nullptr;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
@@ -406,12 +406,12 @@ void ItemFactory::loaderChildDestroyed(QObject *obj)
 ItemWidget *ItemFactory::otherItemLoader(
         const QModelIndex &index, ItemWidget *current, bool next, bool antialiasing)
 {
-    Q_ASSERT(current->widget() != NULL);
+    Q_ASSERT(current->widget() != nullptr);
 
     QWidget *w = current->widget();
     ItemLoaderInterface *currentLoader = m_loaderChildren[w];
     if (!currentLoader)
-        return NULL;
+        return nullptr;
 
 
     const ItemLoaderList loaders = enabledLoaders();
@@ -428,11 +428,11 @@ ItemWidget *ItemFactory::otherItemLoader(
             i = size - 1;
 
         ItemWidget *item = createItem(loaders[i], index, w->parentWidget(), antialiasing);
-        if (item != NULL)
+        if (item != nullptr)
             return item;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool ItemFactory::loadPlugins()
@@ -453,11 +453,11 @@ bool ItemFactory::loadPlugins()
             QPluginLoader pluginLoader(path);
             QObject *plugin = pluginLoader.instance();
             log( QObject::tr("Loading plugin: %1").arg(path), LogNote );
-            if (plugin == NULL) {
+            if (plugin == nullptr) {
                 log( pluginLoader.errorString(), LogError );
             } else {
                 ItemLoaderInterface *loader = qobject_cast<ItemLoaderInterface *>(plugin);
-                if (loader == NULL)
+                if (loader == nullptr)
                     pluginLoader.unload();
                 else
                     addLoader(loader);
@@ -489,7 +489,7 @@ ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &inde
     for (auto loader : m_loaders) {
         if ( isLoaderEnabled(loader) ) {
             ItemWidget *newItem = loader->transform(item, index);
-            if (newItem != NULL)
+            if (newItem != nullptr)
                 item = newItem;
         }
     }

@@ -29,7 +29,7 @@ class TrayMenu : public QMenu
 {
     Q_OBJECT
 public:
-    explicit TrayMenu(QWidget *parent = NULL);
+    explicit TrayMenu(QWidget *parent = nullptr);
 
     /** Show/hide menu. */
     void toggle();

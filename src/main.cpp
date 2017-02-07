@@ -80,7 +80,7 @@ int evaluate(const QString &functionName, const QStringList &arguments, int argc
 {
     App app( createPlatformNativeInterface()->createConsoleApplication(argc, argv) );
 
-    Scriptable scriptable(NULL);
+    Scriptable scriptable(nullptr);
     QScriptEngine engine;
     engine.setGlobalObject( engine.newQObject(&scriptable) );
 

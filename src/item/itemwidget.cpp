@@ -108,7 +108,7 @@ ItemWidget::ItemWidget(QWidget *widget)
     : m_re()
     , m_widget(widget)
 {
-    Q_ASSERT(widget != NULL);
+    Q_ASSERT(widget != nullptr);
 
     // Object name for style sheet.
     widget->setObjectName("item");
@@ -147,7 +147,7 @@ QWidget *ItemWidget::createEditor(QWidget *parent) const
 void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     QTextEdit *textEdit = qobject_cast<QTextEdit *>(editor);
-    if (textEdit != NULL) {
+    if (textEdit != nullptr) {
         if ( index.data(contentType::hasHtml).toBool() ) {
             const QString html = index.data(contentType::html).toString();
             textEdit->setHtml(html);
@@ -163,7 +163,7 @@ void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
                               const QModelIndex &index) const
 {
     QTextEdit *textEdit = qobject_cast<QTextEdit*>(editor);
-    if (textEdit != NULL) {
+    if (textEdit != nullptr) {
         // Clear text.
         model->setData(index, QString());
 
@@ -180,12 +180,12 @@ void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
 bool ItemWidget::hasChanges(QWidget *editor) const
 {
     QTextEdit *textEdit = (qobject_cast<QTextEdit *>(editor));
-    return textEdit != NULL && textEdit->document() && textEdit->document()->isModified();
+    return textEdit != nullptr && textEdit->document() && textEdit->document()->isModified();
 }
 
 QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const
 {
-    return NULL;
+    return nullptr;
 }
 
 void ItemWidget::updateSize(const QSize &maximumSize, int idealWidth)
@@ -261,7 +261,7 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
 
 ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *, bool) const
 {
-    return NULL;
+    return nullptr;
 }
 
 bool ItemLoaderInterface::canLoadItems(QFile *) const
@@ -295,7 +295,7 @@ void ItemLoaderInterface::uninitializeTab(QAbstractItemModel *)
 
 ItemWidget *ItemLoaderInterface::transform(ItemWidget *, const QModelIndex &)
 {
-    return NULL;
+    return nullptr;
 }
 
 bool ItemLoaderInterface::canRemoveItems(const QList<QModelIndex> &)
@@ -324,12 +324,12 @@ bool ItemLoaderInterface::matches(const QModelIndex &, const QRegExp &) const
 
 QObject *ItemLoaderInterface::tests(const TestInterfacePtr &) const
 {
-    return NULL;
+    return nullptr;
 }
 
 const QObject *ItemLoaderInterface::signaler() const
 {
-    return NULL;
+    return nullptr;
 }
 
 QString ItemLoaderInterface::script() const

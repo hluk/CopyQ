@@ -58,7 +58,7 @@ QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enable
 
 void deserializeShortcuts(
         const QStringList &serializedShortcuts, ShortcutButton *shortcutButton,
-        QCheckBox *checkBoxEnabled = NULL
+        QCheckBox *checkBoxEnabled = nullptr
         )
 {
     shortcutButton->resetShortcuts();

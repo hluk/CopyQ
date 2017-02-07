@@ -50,7 +50,7 @@ TemporarySettings::~TemporarySettings()
 {
     const QString fileName = m_settings->fileName();
     delete m_settings;
-    m_settings = NULL;
+    m_settings = nullptr;
 
     if (!fileName.isEmpty())
         QFile::remove(fileName);

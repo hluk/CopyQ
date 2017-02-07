@@ -31,7 +31,7 @@ class ShortcutDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ShortcutDialog(QWidget *parent = NULL);
+    explicit ShortcutDialog(QWidget *parent = nullptr);
     ~ShortcutDialog();
 
     /** Return accepted shortcut or empty one. */

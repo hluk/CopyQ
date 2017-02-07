@@ -51,7 +51,7 @@ class ShortcutsWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit ShortcutsWidget(QWidget *parent = NULL);
+    explicit ShortcutsWidget(QWidget *parent = nullptr);
 
     ~ShortcutsWidget();
 

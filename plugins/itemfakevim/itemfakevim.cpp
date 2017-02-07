@@ -47,10 +47,10 @@ class TextEditWidget : public QWidget
     Q_OBJECT
 
 public:
-    TextEditWidget(QTextEdit *editor, QWidget *parent = NULL)
+    TextEditWidget(QTextEdit *editor, QWidget *parent = nullptr)
         : QWidget(parent)
         , m_textEdit(editor)
-        , m_handler(new FakeVimHandler(editor, NULL))
+        , m_handler(new FakeVimHandler(editor, nullptr))
         , m_hasBlockSelection(false)
     {
         QVBoxLayout *layout = new QVBoxLayout(this);
@@ -280,7 +280,7 @@ class Proxy : public QObject
     Q_OBJECT
 
 public:
-    Proxy(TextEditWidget *editorWidget, QStatusBar *statusBar, QObject *parent = NULL)
+    Proxy(TextEditWidget *editorWidget, QStatusBar *statusBar, QObject *parent = nullptr)
       : QObject(parent), m_editorWidget(editorWidget), m_statusBar(statusBar)
     {}
 
@@ -589,7 +589,7 @@ QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
 
 ItemWidget *ItemFakeVimLoader::transform(ItemWidget *itemWidget, const QModelIndex &)
 {
-    return m_enabled ? new ItemFakeVim(itemWidget, m_sourceFileName) : NULL;
+    return m_enabled ? new ItemFakeVim(itemWidget, m_sourceFileName) : nullptr;
 }
 
 QObject *ItemFakeVimLoader::tests(const TestInterfacePtr &test) const
@@ -603,7 +603,7 @@ QObject *ItemFakeVimLoader::tests(const TestInterfacePtr &test) const
     return tests;
 #else
     Q_UNUSED(test);
-    return NULL;
+    return nullptr;
 #endif
 }
 

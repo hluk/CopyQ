@@ -29,7 +29,7 @@ class CommandHelpButton : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CommandHelpButton(QWidget *parent = NULL);
+    explicit CommandHelpButton(QWidget *parent = nullptr);
 
 public slots:
     void showHelp();

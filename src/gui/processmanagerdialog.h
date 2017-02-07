@@ -33,7 +33,7 @@ class ProcessManagerDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ProcessManagerDialog(QWidget *parent = NULL);
+    explicit ProcessManagerDialog(QWidget *parent = nullptr);
 
     ~ProcessManagerDialog();
 
@@ -54,8 +54,8 @@ private:
     int getRowForActionButton(QObject *button) const;
     bool removeIfNotRunning(int row);
     void updateTable();
-    void createTableRow(const QString &name, Action *action = NULL);
-    QWidget *createRemoveButton(Action *action = NULL);
+    void createTableRow(const QString &name, Action *action = nullptr);
+    QWidget *createRemoveButton(Action *action = nullptr);
 
     Ui::ProcessManagerDialog *ui;
 };

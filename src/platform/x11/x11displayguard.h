@@ -32,11 +32,11 @@ public:
      * The create Display is automatically closed with XCloseDisplay() when object is destroyed.
      */
     X11DisplayGuard()
-        : m_display(XOpenDisplay(NULL), XCloseDisplay)
+        : m_display(XOpenDisplay(nullptr), XCloseDisplay)
     {}
 
     /**
-     * Get the opened Display (can be NULL if opening failed).
+     * Get the opened Display (can be nullptr if opening failed).
      */
     Display *display() { return m_display.data(); }
 

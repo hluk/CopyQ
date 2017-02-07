@@ -260,7 +260,7 @@ QList<Command> defaultCommands()
 
 class CommandModel : public QAbstractListModel {
 public:
-    explicit CommandModel(const QList<Command> &commands, QObject *parent = NULL)
+    explicit CommandModel(const QList<Command> &commands, QObject *parent = nullptr)
         : QAbstractListModel(parent)
         , m_commands(commands)
     {

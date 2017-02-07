@@ -34,7 +34,7 @@ class PluginWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit PluginWidget(ItemLoaderInterface *loader, QWidget *parent = NULL);
+    explicit PluginWidget(ItemLoaderInterface *loader, QWidget *parent = nullptr);
     ~PluginWidget();
 
     ItemLoaderInterface *loader() const { return m_loader; }

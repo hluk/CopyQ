@@ -35,7 +35,7 @@ class CommandWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit CommandWidget(QWidget *parent = NULL);
+    explicit CommandWidget(QWidget *parent = nullptr);
     ~CommandWidget();
 
     /** Return command for the widget. */

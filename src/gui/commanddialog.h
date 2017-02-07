@@ -39,7 +39,7 @@ public:
 
     CommandDialog(
             const Commands &pluginCommands, const QStringList &formats,
-            QWidget *parent = NULL);
+            QWidget *parent = nullptr);
     ~CommandDialog();
 
     /** Return enabled commands. */

@@ -62,7 +62,7 @@ public:
     void insertItem(const QString &label, bool checked, bool highlight, const QIcon &icon, const ItemPtr &Item, int targetRow);
 
     /// Returns widget created by Item::createWidget() given @a row
-    /// (could be NULL is not yet created).
+    /// (could be nullptr is not yet created).
     QWidget *widget(int row) const;
 
     /// Returns Item::data() for item in given @a row.

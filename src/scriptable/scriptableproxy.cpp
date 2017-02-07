@@ -343,7 +343,7 @@ QString tabNameEmptyError()
 } // namespace
 
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
-    : QObject(NULL)
+    : QObject(nullptr)
     , m_wnd(mainWindow)
     , m_tabName()
     , m_lock()
@@ -1096,10 +1096,10 @@ ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
 
     ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->tab(tabName);
     if (!c)
-        return NULL;
+        return nullptr;
 
     c->loadItems();
-    return c->isLoaded() ? c : NULL;
+    return c->isLoaded() ? c : nullptr;
 }
 
 ClipboardBrowser *ScriptableProxy::fetchBrowser() { return fetchBrowser(m_tabName); }

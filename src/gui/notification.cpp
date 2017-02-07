@@ -89,11 +89,11 @@ void showNotificationInspectDialog(
 
 Notification::Notification(int id)
     : m_id(id)
-    , m_body(NULL)
-    , m_titleLabel(NULL)
-    , m_iconLabel(NULL)
-    , m_msgLabel(NULL)
-    , m_tipLabel(NULL)
+    , m_body(nullptr)
+    , m_titleLabel(nullptr)
+    , m_iconLabel(nullptr)
+    , m_msgLabel(nullptr)
+    , m_tipLabel(nullptr)
     , m_opacity(1.0)
     , m_icon(0)
 {

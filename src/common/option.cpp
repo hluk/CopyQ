@@ -43,8 +43,8 @@ QString toolTip(const QObject &object)
 Option::Option()
     : m_default_value()
     , m_value()
-    , m_property_name(NULL)
-    , m_obj(NULL)
+    , m_property_name(nullptr)
+    , m_obj(nullptr)
 {}
 
 Option::Option(const QVariant &default_value, const char *property_name,
@@ -60,12 +60,12 @@ Option::Option(const QVariant &default_value, const char *property_name,
 
 QVariant Option::value() const
 {
-    return m_obj != NULL ? m_obj->property(m_property_name) : m_value;
+    return m_obj != nullptr ? m_obj->property(m_property_name) : m_value;
 }
 
 bool Option::setValue(const QVariant &value)
 {
-    if (m_obj != NULL) {
+    if (m_obj != nullptr) {
         m_obj->setProperty(m_property_name, value);
         return m_obj->property(m_property_name) == value;
     }
@@ -81,5 +81,5 @@ void Option::reset()
 
 QString Option::tooltip() const
 {
-    return m_obj != NULL ? toolTip(*m_obj) : QString();
+    return m_obj != nullptr ? toolTip(*m_obj) : QString();
 }

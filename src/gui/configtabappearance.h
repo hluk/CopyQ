@@ -41,7 +41,7 @@ class ConfigTabAppearance : public QWidget
     Q_OBJECT
 
 public:
-    explicit ConfigTabAppearance(QWidget *parent = NULL);
+    explicit ConfigTabAppearance(QWidget *parent = nullptr);
     ~ConfigTabAppearance();
 
     /** Load theme from settings file. */

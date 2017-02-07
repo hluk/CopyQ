@@ -106,7 +106,7 @@ ItemImage::ItemImage(
     , m_pixmap(pix)
     , m_animationData(animationData)
     , m_animationFormat(animationFormat)
-    , m_animation(NULL)
+    , m_animation(nullptr)
 {
     setMargin(4);
     setPixmap(pix);
@@ -115,16 +115,16 @@ ItemImage::ItemImage(
 QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *parent) const
 {
     if ( index.data(contentType::isHidden).toBool() )
-        return NULL;
+        return nullptr;
 
     QString mime;
     QByteArray data;
     if ( !getImageData(index, &data, &mime) )
-        return NULL;
+        return nullptr;
 
     const QString &cmd = mime.contains("svg") ? m_svgEditor : m_editor;
 
-    return cmd.isEmpty() ? NULL : new ItemEditor(data, mime, cmd, parent);
+    return cmd.isEmpty() ? nullptr : new ItemEditor(data, mime, cmd, parent);
 }
 
 void ItemImage::setCurrent(bool current)
@@ -186,7 +186,7 @@ ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent, b
     // TODO: Just check if image provided and load it in different thread.
     QPixmap pix;
     if ( !getPixmapFromData(index, &pix) )
-        return NULL;
+        return nullptr;
 
     // scale pixmap
     const int w = preview ? 0 : m_settings.value("max_image_width", 320).toInt();

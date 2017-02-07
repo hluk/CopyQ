@@ -47,12 +47,12 @@ public:
     virtual ~PlatformNativeInterface() {}
 
     /**
-     * Get window from widget (NULL if failed or not implemented).
+     * Get window from widget (nullptr if failed or not implemented).
      */
     virtual PlatformWindowPtr getWindow(WId winId) = 0;
 
     /**
-     * Get currently focused window (NULL if failed or not implemented).
+     * Get currently focused window (nullptr if failed or not implemented).
      */
     virtual PlatformWindowPtr getCurrentWindow() = 0;
 

@@ -47,7 +47,7 @@ class ConfigurationManager : public QDialog
     Q_OBJECT
 
 public:
-    explicit ConfigurationManager(ItemFactory *itemFactory = NULL, QWidget *parent = NULL);
+    explicit ConfigurationManager(ItemFactory *itemFactory = nullptr, QWidget *parent = nullptr);
 
     ~ConfigurationManager();
 

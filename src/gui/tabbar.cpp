@@ -98,7 +98,7 @@ void TabBar::setTabItemCount(const QString &tabName, const QString &itemCount)
     if ( itemCount.isEmpty() ) {
         if (tabCountLabel) {
             tabCountLabel->deleteLater();
-            setTabButton(i, QTabBar::RightSide, NULL);
+            setTabButton(i, QTabBar::RightSide, nullptr);
         }
     } else {
         if (!tabCountLabel) {

@@ -32,7 +32,7 @@ class TabBar : public QTabBar
     Q_OBJECT
 
 public:
-    explicit TabBar(QWidget *parent = NULL);
+    explicit TabBar(QWidget *parent = nullptr);
 
     void updateTabIcon(const QString &tabName);
 

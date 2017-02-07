@@ -37,7 +37,7 @@
 
 namespace {
 
-int (*old_xio_errhandler)(Display *) = NULL;
+int (*old_xio_errhandler)(Display *) = nullptr;
 
 // Try to handle X11 fatal error gracefully.
 int copyq_xio_errhandler(Display *display)
@@ -94,7 +94,7 @@ PlatformWindowPtr X11Platform::getWindow(WId winId)
         return PlatformWindowPtr();
 
     QScopedPointer<X11PlatformWindow> window(new X11PlatformWindow(*d, winId));
-    return PlatformWindowPtr(window->isValid() ? window.take() : NULL);
+    return PlatformWindowPtr(window->isValid() ? window.take() : nullptr);
 }
 
 PlatformWindowPtr X11Platform::getCurrentWindow()
@@ -103,7 +103,7 @@ PlatformWindowPtr X11Platform::getCurrentWindow()
         return PlatformWindowPtr();
 
     QScopedPointer<X11PlatformWindow> window(new X11PlatformWindow(*d));
-    return PlatformWindowPtr(window->isValid() ? window.take() : NULL);
+    return PlatformWindowPtr(window->isValid() ? window.take() : nullptr);
 }
 
 PlatformWindowPtr X11Platform::deserialize(const QByteArray &data)

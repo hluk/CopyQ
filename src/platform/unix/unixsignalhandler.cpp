@@ -31,7 +31,7 @@ int UnixSignalHandler::signalFd[UnixSignalHandler::Count];
 
 bool UnixSignalHandler::create(QObject *parent)
 {
-    static UnixSignalHandler *handler = NULL;
+    static UnixSignalHandler *handler = nullptr;
 
     if (handler)
         return true;
@@ -44,9 +44,9 @@ bool UnixSignalHandler::create(QObject *parent)
     sigact.sa_flags = 0;
     sigact.sa_flags |= SA_RESTART;
 
-    if ( sigaction(SIGHUP, &sigact, 0) > 0
-         || sigaction(SIGINT, &sigact, 0) > 0
-         || sigaction(SIGTERM, &sigact, 0) > 0 )
+    if ( sigaction(SIGHUP, &sigact, nullptr) > 0
+         || sigaction(SIGINT, &sigact, nullptr) > 0
+         || sigaction(SIGTERM, &sigact, nullptr) > 0 )
     {
         log("sigaction() failed!", LogError);
         return false;

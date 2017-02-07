@@ -52,8 +52,8 @@ public:
     virtual bool isServerRunning() = 0;
 
     /// Run client with given @a arguments and input and read outputs and return exit code.
-    virtual int run(const QStringList &arguments, QByteArray *stdoutData = NULL,
-                    QByteArray *stderrData = NULL, const QByteArray &in = QByteArray()) = 0;
+    virtual int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
+                    QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray()) = 0;
 
     /// Run client with given @a arguments and read all errors/warnings.
     virtual QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected,

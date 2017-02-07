@@ -33,7 +33,7 @@
 
 RemoteProcess::RemoteProcess(QObject *parent)
     : QObject(parent)
-    , m_process(NULL)
+    , m_process(nullptr)
     , m_pongRetry(false)
     , m_state(Unconnected)
 {
@@ -161,7 +161,7 @@ void RemoteProcess::terminate()
     }
 
     m_process->deleteLater();
-    m_process = NULL;
+    m_process = nullptr;
 }
 
 void RemoteProcess::writeMessage(const QByteArray &msg, int messageCode)

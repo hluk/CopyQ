@@ -189,7 +189,7 @@ const QMimeData *clipboardData(QClipboard::Mode mode)
     COPYQ_LOG( QString("Getting %1 data.").arg(mode == QClipboard::Clipboard ? "clipboard"
                                                                              : "selection") );
     const QMimeData *data = QApplication::clipboard()->mimeData(mode);
-    COPYQ_LOG(data != NULL ? "Got data." : "Data is NULL!");
+    COPYQ_LOG(data != nullptr ? "Got data." : "Data is nullptr!");
     return data;
 }
 

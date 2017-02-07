@@ -31,7 +31,7 @@ class CommandEdit : public QWidget
     Q_OBJECT
 
 public:
-    explicit CommandEdit(QWidget *parent = NULL);
+    explicit CommandEdit(QWidget *parent = nullptr);
     ~CommandEdit();
 
     void setCommand(const QString &command) const;

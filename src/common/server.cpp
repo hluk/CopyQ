@@ -90,7 +90,7 @@ QObject *createSystemMutex(const QString &name, QObject *parent)
         return shmem;
 
     delete shmem;
-    return NULL;
+    return nullptr;
 }
 
 } // namespace

@@ -64,7 +64,7 @@ enum {
 class ElidedLabel : public QLabel
 {
 public:
-    explicit ElidedLabel(const QString &text, QWidget *parent = NULL)
+    explicit ElidedLabel(const QString &text, QWidget *parent = nullptr)
         : QLabel(text, parent)
     {
     }
@@ -364,7 +364,7 @@ void ItemTags::highlight(const QRegExp &re, const QFont &highlightFont, const QP
 
 QWidget *ItemTags::createEditor(QWidget *parent) const
 {
-    return m_childItem.isNull() ? NULL : m_childItem->createEditor(parent);
+    return m_childItem.isNull() ? nullptr : m_childItem->createEditor(parent);
 }
 
 void ItemTags::setEditorData(QWidget *editor, const QModelIndex &index) const
@@ -478,7 +478,7 @@ ItemWidget *ItemTagsLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     const QString tagsContent = tags(index);
     const Tags tags = toTags(tagsContent);
     if ( tags.isEmpty() )
-        return NULL;
+        return nullptr;
 
     itemWidget->setTagged(true);
     return new ItemTags(itemWidget, tags);
@@ -508,7 +508,7 @@ QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
     return tests;
 #else
     Q_UNUSED(test);
-    return NULL;
+    return nullptr;
 #endif
 }
 

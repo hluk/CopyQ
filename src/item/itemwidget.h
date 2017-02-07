@@ -100,12 +100,12 @@ public:
     /**
      * Create external editor for @a index.
      *
-     * Default implementation returns NULL.
+     * Default implementation returns nullptr.
      *
      * @param index  index for which the editor is opened
      *
      * @return Editor object -- see documentation for public signals and slots of ItemEditor class --
-     *         NULL so default text editor is opened.
+     *         nullptr so default text editor is opened.
      */
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
@@ -169,7 +169,7 @@ public:
     /**
      * Create ItemWidget instance from index data.
      *
-     * @return NULL if index hasn't appropriate data
+     * @return nullptr if index hasn't appropriate data
      */
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const;
 
@@ -220,7 +220,7 @@ public:
     /**
      * Create settings widget.
      */
-    virtual QWidget *createSettingsWidget(QWidget *) { return NULL; }
+    virtual QWidget *createSettingsWidget(QWidget *) { return nullptr; }
 
     /**
      * @return true only if items can be loaded
@@ -257,7 +257,7 @@ public:
 
     /**
      * Allow to transform item widget (wrap around a new widget).
-     * By default returns NULL not to wrap the widget.
+     * By default returns nullptr not to wrap the widget.
      * New ItemWidget must take care of deleting the old one!
      */
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);

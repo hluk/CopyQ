@@ -42,12 +42,12 @@ public:
     /**
      * Create dialog with clipboard data.
      */
-    explicit ClipboardDialog(QWidget *parent = NULL);
+    explicit ClipboardDialog(QWidget *parent = nullptr);
 
     /**
      * Create dialog with item data.
      */
-    explicit ClipboardDialog(const QPersistentModelIndex &index, QAbstractItemModel *model, QWidget *parent = NULL);
+    explicit ClipboardDialog(const QPersistentModelIndex &index, QAbstractItemModel *model, QWidget *parent = nullptr);
 
     ~ClipboardDialog();
 

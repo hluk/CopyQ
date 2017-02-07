@@ -28,9 +28,9 @@ class IconWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit IconWidget(int icon, QWidget *parent = NULL);
+    explicit IconWidget(int icon, QWidget *parent = nullptr);
 
-    explicit IconWidget(const QString &icon, QWidget *parent = NULL);
+    explicit IconWidget(const QString &icon, QWidget *parent = nullptr);
 
     virtual QSize sizeHint() const;
 

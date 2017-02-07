@@ -99,13 +99,13 @@ ItemLoaderInterface *loadItems(
     QFile tabFile(tabFileName);
     if ( !tabFile.open(QIODevice::ReadOnly) ) {
         printLoadItemFileError(tabName, tabFileName, tabFile);
-        return NULL;
+        return nullptr;
     }
 
     ItemLoaderInterface *loader = itemFactory->loadItems(&model, &tabFile);
     if (!loader) {
         log( QString("Tab \"%1\": Failed to load items"), LogError );
-        return NULL;
+        return nullptr;
     }
 
     saveItemsWithOther(model, loader, itemFactory);
@@ -121,11 +121,11 @@ ItemLoaderInterface *createTab(
     ItemLoaderInterface *loader = itemFactory->initializeTab(&model);
     if (!loader) {
         log( QString("Tab \"%1\": Failed to create new tab"), LogError );
-        return NULL;
+        return nullptr;
     }
 
     if ( !saveItems(model, loader) )
-        return NULL;
+        return nullptr;
 
     return loader;
 }
@@ -135,7 +135,7 @@ ItemLoaderInterface *createTab(
 ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
 {
     if ( !createItemDirectory() )
-        return NULL;
+        return nullptr;
 
     const QString tabName = model.property("tabName").toString();
     const QString tabFileName = itemFileName(tabName);
@@ -147,7 +147,7 @@ ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
             log( QString("Tab \"%1\": Restoring items (previous save failed)"), LogWarning );
             if ( !tmpFile.rename(tabFileName) ) {
                 printLoadItemFileError(tabName, tabFileName, tmpFile);
-                return NULL;
+                return nullptr;
             }
         }
     }
@@ -161,7 +161,7 @@ ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
 
     if (!loader) {
         model.removeRows(0, model.rowCount());
-        return NULL;
+        return nullptr;
     }
 
     model.setDisabled(false);

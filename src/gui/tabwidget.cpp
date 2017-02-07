@@ -55,9 +55,9 @@ TabWidget::TabWidget(QWidget *parent)
     : QWidget(parent)
     , m_toolBar(new QToolBar(this))
     , m_toolBarTree(new QToolBar(this))
-    , m_tabBar(NULL)
-    , m_tabTree(NULL)
-    , m_stackedWidget(NULL)
+    , m_tabBar(nullptr)
+    , m_tabTree(nullptr)
+    , m_stackedWidget(nullptr)
     , m_hideTabBar(false)
     , m_showTabItemCount(false)
 {
@@ -101,12 +101,12 @@ bool TabWidget::isTabGroup(const QString &tab) const
 bool TabWidget::isTabGroupSelected() const
 {
     QWidget *w = currentWidget();
-    return isTreeModeEnabled() && w != NULL && w->isHidden();
+    return isTreeModeEnabled() && w != nullptr && w->isHidden();
 }
 
 bool TabWidget::isTreeModeEnabled() const
 {
-    return m_tabTree != NULL;
+    return m_tabTree != nullptr;
 }
 
 int TabWidget::currentIndex() const
@@ -302,7 +302,7 @@ void TabWidget::setCurrentIndex(int tabIndex)
         m_stackedWidget->setCurrentIndex(tabIndex);
 
         w = currentWidget();
-        if (w == NULL)
+        if (w == nullptr)
             return;
 
         w->show();
@@ -313,7 +313,7 @@ void TabWidget::setCurrentIndex(int tabIndex)
             m_tabTree->setCurrentTabIndex(tabIndex);
         else
             m_tabBar->setCurrentIndex(tabIndex);
-    } else if (w != NULL) {
+    } else if (w != nullptr) {
         if (w->hasFocus())
             isTreeModeEnabled() ? m_tabTree->setFocus() : m_tabBar->setFocus();
         w->hide();
@@ -360,7 +360,7 @@ void TabWidget::setTreeModeEnabled(bool enabled)
 
     if (enabled) {
         delete m_tabBar;
-        m_tabBar = NULL;
+        m_tabBar = nullptr;
 
         createTabTree();
         for (int i = 0; i < tabs.size(); ++i) {
@@ -374,7 +374,7 @@ void TabWidget::setTreeModeEnabled(bool enabled)
         m_collapsedTabs = m_tabTree->collapsedTabs();
 
         delete m_tabTree;
-        m_tabTree = NULL;
+        m_tabTree = nullptr;
 
         createTabBar();
         for (int i = 0; i < tabs.size(); ++i) {
@@ -406,7 +406,7 @@ bool TabWidget::eventFilter(QObject *, QEvent *event)
 void TabWidget::onTreeItemSelected(bool isGroup)
 {
     QWidget *w = currentWidget();
-    if (w == NULL)
+    if (w == nullptr)
         return;
 
     if (isGroup) {

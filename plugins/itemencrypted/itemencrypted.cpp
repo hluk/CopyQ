@@ -212,7 +212,7 @@ void ItemEncrypted::setEditorData(QWidget *editor, const QModelIndex &index) con
 {
     // Decrypt before editing.
     QTextEdit *textEdit = qobject_cast<QTextEdit *>(editor);
-    if (textEdit != NULL) {
+    if (textEdit != nullptr) {
         QVariantMap data;
         if ( decryptMimeData(&data, index) ) {
             textEdit->setPlainText( getTextData(data, mimeText) );
@@ -226,7 +226,7 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
 {
     // Encrypt after editing.
     QTextEdit *textEdit = qobject_cast<QTextEdit*>(editor);
-    if (textEdit != NULL)
+    if (textEdit != nullptr)
         encryptMimeData( createDataMap(mimeText, textEdit->toPlainText()), index, model );
 }
 
@@ -239,7 +239,7 @@ ItemEncryptedLoader::ItemEncryptedLoader()
     : ui()
     , m_settings()
     , m_gpgProcessStatus(GpgNotRunning)
-    , m_gpgProcess(NULL)
+    , m_gpgProcess(nullptr)
 {
 }
 
@@ -251,7 +251,7 @@ ItemEncryptedLoader::~ItemEncryptedLoader()
 ItemWidget *ItemEncryptedLoader::create(const QModelIndex &index, QWidget *parent, bool) const
 {
     const QVariantMap dataMap = index.data(contentType::data).toMap();
-    return dataMap.contains(mimeEncryptedData) ? new ItemEncrypted(parent) : NULL;
+    return dataMap.contains(mimeEncryptedData) ? new ItemEncrypted(parent) : nullptr;
 }
 
 QStringList ItemEncryptedLoader::formatsToSave() const
@@ -261,7 +261,7 @@ QStringList ItemEncryptedLoader::formatsToSave() const
 
 QVariantMap ItemEncryptedLoader::applySettings()
 {
-    Q_ASSERT(ui != NULL);
+    Q_ASSERT(ui != nullptr);
     m_settings.insert( "encrypt_tabs", ui->plainTextEditEncryptTabs->toPlainText().split('\n') );
     return m_settings;
 }
@@ -539,7 +539,7 @@ void ItemEncryptedLoader::setPassword()
     if (m_gpgProcessStatus == GpgGeneratingKeys)
         return;
 
-    if (m_gpgProcess != NULL) {
+    if (m_gpgProcess != nullptr) {
         terminateGpgProcess();
         return;
     }
@@ -578,10 +578,10 @@ void ItemEncryptedLoader::setPassword()
 
 void ItemEncryptedLoader::terminateGpgProcess()
 {
-    if (m_gpgProcess == NULL)
+    if (m_gpgProcess == nullptr)
         return;
     QProcess *p = m_gpgProcess;
-    m_gpgProcess = NULL;
+    m_gpgProcess = nullptr;
     p->terminate();
     p->waitForFinished();
     p->deleteLater();
@@ -593,8 +593,8 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
 {
     QString error;
 
-    if (m_gpgProcess != NULL) {
-        if (ui != NULL) {
+    if (m_gpgProcess != nullptr) {
+        if (ui != nullptr) {
             if (exitStatus != QProcess::NormalExit)
                 error = error.arg(m_gpgProcess->errorString());
             else if (exitCode != 0)
@@ -606,7 +606,7 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
         }
 
         m_gpgProcess->deleteLater();
-        m_gpgProcess = NULL;
+        m_gpgProcess = nullptr;
     }
 
     // Export and import private key to a file in configuration.
@@ -627,7 +627,7 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
 
 void ItemEncryptedLoader::updateUi()
 {
-    if (ui == NULL)
+    if (ui == nullptr)
         return;
 
     if (m_gpgProcessStatus == GpgNotInstalled) {

@@ -28,7 +28,7 @@
 
 CommandTester::CommandTester(QObject *parent)
     : QObject(parent)
-    , m_action(NULL)
+    , m_action(nullptr)
     , m_abort(false)
     , m_restart(false)
 {
@@ -88,7 +88,7 @@ void CommandTester::actionFinished()
 
     bool passed = !m_action->actionFailed() && m_action->exitCode() == 0;
     m_action->deleteLater();
-    m_action = NULL;
+    m_action = nullptr;
 
     if (!m_abort)
         commandPassed(passed);

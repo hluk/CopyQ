@@ -44,7 +44,7 @@ public:
             const QString &imageEditor, const QString &svgEditor,
             QWidget *parent);
 
-    virtual QWidget *createEditor(QWidget *) const { return NULL; }
+    virtual QWidget *createEditor(QWidget *) const { return nullptr; }
 
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 

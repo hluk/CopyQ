@@ -146,7 +146,7 @@ void writeConfiguration(QFile *file, const QStringList &savedFiles)
 
 FileFormat getFormatSettingsFromFileName(const QString &fileName,
                                          const QList<FileFormat> &formatSettings,
-                                         QString *foundExt = NULL)
+                                         QString *foundExt = nullptr)
 {
     for (const auto &format : formatSettings) {
         for ( const auto &ext : format.extensions ) {
@@ -1397,7 +1397,7 @@ bool ItemSyncLoader::loadItems(QAbstractItemModel *model, QFile *file)
 
 bool ItemSyncLoader::saveItems(const QAbstractItemModel &model, QFile *file)
 {
-    FileWatcher *watcher = m_watchers.value(&model, NULL);
+    FileWatcher *watcher = m_watchers.value(&model, nullptr);
 
     // Don't save items if path is empty.
     if (!watcher) {
@@ -1450,7 +1450,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     static const QRegExp re("copyq_\\d*");
     const QString baseName = getBaseName(index);
     if ( baseName.isEmpty() || re.exactMatch(baseName) )
-        return NULL;
+        return nullptr;
 
     itemWidget->setTagged(true);
     return new ItemSync(baseName, iconForItem(index, m_formatSettings), itemWidget);
@@ -1598,7 +1598,7 @@ QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const
     return tests;
 #else
     Q_UNUSED(test);
-    return NULL;
+    return nullptr;
 #endif
 }
 
@@ -1624,7 +1624,7 @@ void ItemSyncLoader::onBrowseButtonClicked()
     QTableWidget *t = ui->tableWidgetSyncTabs;
 
     QObject *button = sender();
-    Q_ASSERT(button != NULL);
+    Q_ASSERT(button != nullptr);
 
     int row = 0;
     for ( ; row < t->rowCount() && t->cellWidget(row, syncTabsTableColumns::browse) != button; ++row ) {}

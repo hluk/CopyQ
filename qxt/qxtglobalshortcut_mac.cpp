@@ -48,7 +48,7 @@ OSStatus qxt_mac_handle_hot_key(EventHandlerCallRef nextHandler, EventRef event,
     if (GetEventClass(event) == kEventClassKeyboard && GetEventKind(event) == kEventHotKeyPressed)
     {
         EventHotKeyID keyID;
-        GetEventParameter(event, kEventParamDirectObject, typeEventHotKeyID, NULL, sizeof(keyID), NULL, &keyID);
+        GetEventParameter(event, kEventParamDirectObject, typeEventHotKeyID, nullptr, sizeof(keyID), nullptr, &keyID);
         Identifier id = keyIDs.key(keyID.id);
         QxtGlobalShortcutPrivate::activateShortcut(id.second, id.first);
     }
@@ -188,12 +188,12 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
     CFDataRef currentLayoutData;
     TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
 
-    if (currentKeyboard == NULL)
+    if (currentKeyboard == nullptr)
         return 0;
 
     currentLayoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
     CFRelease(currentKeyboard);
-    if (currentLayoutData == NULL)
+    if (currentLayoutData == nullptr)
         return 0;
 
     UCKeyboardLayout* header = (UCKeyboardLayout*)CFDataGetBytePtr(currentLayoutData);
@@ -355,7 +355,7 @@ bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativ
         EventTypeSpec t;
         t.eventClass = kEventClassKeyboard;
         t.eventKind = kEventHotKeyPressed;
-        InstallApplicationEventHandler(&qxt_mac_handle_hot_key, 1, &t, NULL, NULL);
+        InstallApplicationEventHandler(&qxt_mac_handle_hot_key, 1, &t, nullptr, nullptr);
     }
 
     EventHotKeyID keyID;

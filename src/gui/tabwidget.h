@@ -38,7 +38,7 @@ class TabWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit TabWidget(QWidget *parent = NULL);
+    explicit TabWidget(QWidget *parent = nullptr);
 
     /** Return path to current group in tree (empty string if tree mode is disabled). */
     QString getCurrentTabPath() const;

@@ -173,7 +173,7 @@ QByteArray serializeScriptValue(const QScriptValue &value)
 
     QByteArray *bytes = qscriptvalue_cast<QByteArray*>(value.data());
 
-    if (bytes != NULL) {
+    if (bytes != nullptr) {
         data = *bytes;
     } else if ( value.isArray() ) {
         const quint32 len = value.property("length").toUInt32();
@@ -194,10 +194,10 @@ Scriptable::Scriptable(
     : QObject(parent)
     , QScriptable()
     , m_proxy(proxy)
-    , m_engine(NULL)
-    , m_baClass(NULL)
-    , m_dirClass(NULL)
-    , m_fileClass(NULL)
+    , m_engine(nullptr)
+    , m_baClass(nullptr)
+    , m_dirClass(nullptr)
+    , m_fileClass(nullptr)
     , m_inputSeparator("\n")
     , m_input()
     , m_abort(false)
@@ -263,7 +263,7 @@ QByteArray Scriptable::fromString(const QString &value) const
 QString Scriptable::toString(const QScriptValue &value) const
 {
     QByteArray *bytes = getByteArray(value);
-    return (bytes == NULL) ? value.toString()
+    return (bytes == nullptr) ? value.toString()
                            : getTextData(*bytes);
 }
 
@@ -297,7 +297,7 @@ QByteArray *Scriptable::getByteArray(const QScriptValue &value) const
 {
     if (value.scriptClass() == m_baClass)
         return qscriptvalue_cast<QByteArray*>(value.data());
-    return NULL;
+    return nullptr;
 }
 
 QByteArray Scriptable::makeByteArray(const QScriptValue &value) const
@@ -310,7 +310,7 @@ QFile *Scriptable::getFile(const QScriptValue &value) const
 {
     if (value.scriptClass() == m_fileClass)
         return qscriptvalue_cast<QFile*>(value.data());
-    return NULL;
+    return nullptr;
 }
 
 bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVariantMap *data) const
@@ -1637,8 +1637,8 @@ NetworkReply::NetworkReply(const QString &url, const QByteArray &postData, Scrip
     : QObject(scriptable)
     , m_scriptable(scriptable)
     , m_manager(new QNetworkAccessManager(this))
-    , m_reply(NULL)
-    , m_replyHead(NULL)
+    , m_reply(nullptr)
+    , m_replyHead(nullptr)
 {
     if (postData.isEmpty())
         m_reply = m_manager->get(QNetworkRequest(url));

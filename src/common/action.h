@@ -37,7 +37,7 @@ class Action : public QObject
     Q_OBJECT
 public:
     /** Create action with command line parameters. */
-    explicit Action(QObject *parent = NULL);
+    explicit Action(QObject *parent = nullptr);
 
     ~Action();
 

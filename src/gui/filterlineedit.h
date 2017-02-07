@@ -40,7 +40,7 @@ class FilterLineEdit : public FancyLineEdit
 {
     Q_OBJECT
 public:
-    explicit FilterLineEdit(QWidget *parent = NULL);
+    explicit FilterLineEdit(QWidget *parent = nullptr);
 
     QRegExp filter() const;
 

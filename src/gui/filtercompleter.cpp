@@ -113,7 +113,7 @@ void FilterCompleter::installCompleter(QLineEdit *lineEdit)
 
 void FilterCompleter::removeCompleter(QLineEdit *lineEdit)
 {
-    lineEdit->setCompleter(NULL);
+    lineEdit->setCompleter(nullptr);
 }
 
 QStringList FilterCompleter::history() const

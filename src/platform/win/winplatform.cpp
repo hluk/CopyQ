@@ -198,12 +198,12 @@ HWND getLastVisibleActivePopUpOfWindow(HWND window)
             return lastPopUp;
 
         if (lastPopUp == currentWindow)
-            return NULL;
+            return nullptr;
 
         currentWindow = lastPopUp;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 bool isAltTabWindow(HWND window)
@@ -248,7 +248,7 @@ PlatformPtr createPlatformNativeInterface()
 PlatformWindowPtr WinPlatform::getWindow(WId winId)
 {
     HWND window = reinterpret_cast<HWND>(winId);
-    return PlatformWindowPtr( window ? new WinPlatformWindow(window) : NULL );
+    return PlatformWindowPtr( window ? new WinPlatformWindow(window) : nullptr );
 }
 
 PlatformWindowPtr WinPlatform::getCurrentWindow()
@@ -256,7 +256,7 @@ PlatformWindowPtr WinPlatform::getCurrentWindow()
     currentWindow = GetForegroundWindow();
     if (!isAltTabWindow(currentWindow))
         EnumWindows(getCurrentWindowProc, 0);
-    return PlatformWindowPtr( currentWindow ? new WinPlatformWindow(currentWindow) : NULL );
+    return PlatformWindowPtr( currentWindow ? new WinPlatformWindow(currentWindow) : nullptr );
 }
 
 QCoreApplication *WinPlatform::createConsoleApplication(int &argc, char **argv)

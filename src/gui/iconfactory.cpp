@@ -169,7 +169,7 @@ public:
         return new IconEngine(*this);
     }
 
-    QPixmap createPixmap(const QSize &size, QIcon::Mode mode, QIcon::State state, QPainter *painter = NULL)
+    QPixmap createPixmap(const QSize &size, QIcon::Mode mode, QIcon::State state, QPainter *painter = nullptr)
     {
         if ( m_iconId == 0 || useSystemIcons()) {
             // Tint tab icons.

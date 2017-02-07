@@ -121,7 +121,7 @@ QVBoxLayout *createLayout(QWidget *parent)
 CommandHelpButton::CommandHelpButton(QWidget *parent)
     : QWidget(parent)
     , m_button(new QToolButton(this))
-    , m_help(NULL)
+    , m_help(nullptr)
 {
     m_button->setToolTip( tr("Show command help (F1)") );
     m_button->setShortcut(QKeySequence(Qt::Key_F1));

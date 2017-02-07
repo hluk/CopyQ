@@ -64,7 +64,7 @@ ItemEditor::ItemEditor(const QByteArray &data, const QString &mime, const QStrin
     , m_mime(mime)
     , m_hash( qHash(m_data) )
     , m_editorcmd(editor)
-    , m_editor(NULL)
+    , m_editor(nullptr)
     , m_timer( new QTimer(this) )
     , m_info()
     , m_lastmodified()

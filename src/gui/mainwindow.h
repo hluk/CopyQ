@@ -134,7 +134,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(ItemFactory *itemFactory, QWidget *parent = NULL);
+    explicit MainWindow(ItemFactory *itemFactory, QWidget *parent = nullptr);
     ~MainWindow();
 
     /** Return true if in browse mode (i.e. search field is hidden). */
@@ -164,7 +164,7 @@ public:
      */
     ClipboardBrowser *browser();
 
-    /** Return browser containing item or NULL. */
+    /** Return browser containing item or nullptr. */
     ClipboardBrowser *browserForItem(const QModelIndex &index);
 
     /**
@@ -185,7 +185,7 @@ public:
     /**
      * Show/hide tray menu. Return true only if menu is shown.
      */
-    bool toggleMenu(ClipboardBrowser *browser = NULL);
+    bool toggleMenu(ClipboardBrowser *browser = nullptr);
 
     /** Switch between browse and search mode. */
     void enterBrowseMode(bool browsemode = true);
@@ -527,7 +527,7 @@ private:
     };
 
     ClipboardBrowser *createTab(
-            const QString &name, TabNameMatching nameMatch, bool *needSave = NULL);
+            const QString &name, TabNameMatching nameMatch, bool *needSave = nullptr);
 
     int findTabIndexExactMatch(const QString &name);
 

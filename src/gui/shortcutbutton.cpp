@@ -145,20 +145,20 @@ void ShortcutButton::showEvent(QShowEvent *event)
 void ShortcutButton::onShortcutButtonClicked()
 {
     QPushButton *button = qobject_cast<QPushButton*>(sender());
-    Q_ASSERT(button != NULL);
+    Q_ASSERT(button != nullptr);
     addShortcut(button);
 }
 
 void ShortcutButton::onButtonAddShortcutClicked()
 {
-    addShortcut(NULL);
+    addShortcut(nullptr);
 }
 
 void ShortcutButton::addShortcut(QPushButton *shortcutButton)
 {
     QWidget *parent = this;
     // Destroy shortcut dialog, if its shortcut button is deleted.
-    if (shortcutButton != NULL)
+    if (shortcutButton != nullptr)
         parent = shortcutButton;
 
     ShortcutDialog *dialog = new ShortcutDialog(parent);

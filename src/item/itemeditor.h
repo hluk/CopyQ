@@ -36,7 +36,7 @@ class ItemEditor : public QObject
 
     public:
         ItemEditor(const QByteArray &data, const QString &mime, const QString &editor,
-                   QObject *parent = NULL);
+                   QObject *parent = nullptr);
         ~ItemEditor();
 
         /**

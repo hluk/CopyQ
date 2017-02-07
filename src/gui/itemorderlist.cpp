@@ -46,7 +46,7 @@ ItemOrderList::ItemOrderList(QWidget *parent)
     ui->pushButtonRemove->hide();
     ui->pushButtonAdd->hide();
     setFocusProxy(ui->listWidgetItems);
-    setCurrentItemWidget(NULL);
+    setCurrentItemWidget(nullptr);
 }
 
 ItemOrderList::~ItemOrderList()
@@ -90,7 +90,7 @@ void ItemOrderList::insertItem(const QString &label, bool checked, bool highligh
                 + list->verticalScrollBar()->sizeHint().width() + 4;
     list->setMaximumWidth(w);
 
-    if ( list->currentItem() == NULL )
+    if ( list->currentItem() == nullptr )
         list->setCurrentRow(row);
 }
 
@@ -130,21 +130,21 @@ void ItemOrderList::setCurrentItem(int row)
 void ItemOrderList::setCurrentItemIcon(const QIcon &icon)
 {
     QListWidgetItem *current = ui->listWidgetItems->currentItem();
-    if(current != NULL)
+    if(current != nullptr)
         current->setIcon(icon);
 }
 
 void ItemOrderList::setCurrentItemLabel(const QString &label)
 {
     QListWidgetItem *current = ui->listWidgetItems->currentItem();
-    if(current != NULL)
+    if(current != nullptr)
         current->setText(label);
 }
 
 void ItemOrderList::setCurrentItemHighlight(bool highlight)
 {
     QListWidgetItem *current = ui->listWidgetItems->currentItem();
-    if(current != NULL)
+    if(current != nullptr)
         setItemHighlight(current, highlight);
 }
 
@@ -164,12 +164,12 @@ QList<int> ItemOrderList::selectedRows() const
 void ItemOrderList::setSelectedRows(const QList<int> &selectedRows)
 {
     ui->listWidgetItems->clearSelection();
-    ui->listWidgetItems->setCurrentItem(NULL);
+    ui->listWidgetItems->setCurrentItem(nullptr);
 
     for (int row : selectedRows) {
         if (row >= 0 && row < rowCount()) {
             QListWidgetItem *item = ui->listWidgetItems->item(row);
-            if ( ui->listWidgetItems->currentItem() == NULL )
+            if ( ui->listWidgetItems->currentItem() == nullptr )
                 ui->listWidgetItems->setCurrentItem(item);
             else
                 item->setSelected(true);
@@ -271,7 +271,7 @@ void ItemOrderList::on_pushButtonAdd_clicked()
 
 void ItemOrderList::on_listWidgetItems_currentItemChanged(QListWidgetItem *current, QListWidgetItem *)
 {
-    setCurrentItemWidget( current ? createWidget(current) : NULL );
+    setCurrentItemWidget( current ? createWidget(current) : nullptr );
 }
 
 void ItemOrderList::on_listWidgetItems_itemSelectionChanged()
@@ -291,12 +291,12 @@ void ItemOrderList::setCurrentItemWidget(QWidget *widget)
 {
     // Reparent current widget so it's safely deleted.
     QWidget *currentWidget = ui->scrollArea->takeWidget();
-    if (currentWidget != NULL) {
+    if (currentWidget != nullptr) {
         currentWidget->setParent(this);
         currentWidget->hide();
     }
 
-    if (widget != NULL) {
+    if (widget != nullptr) {
         ui->scrollArea->setWidget(widget);
         widget->show();
     }

@@ -69,7 +69,7 @@ QxtGlobalShortcutPrivate::~QxtGlobalShortcutPrivate()
     --ref;
     if (ref == 0) {
         QAbstractEventDispatcher *ed = QAbstractEventDispatcher::instance();
-        if (ed != 0) {
+        if (ed != nullptr) {
 #   if QT_VERSION < QT_VERSION_CHECK(5,0,0)
             ed->setEventFilter(prevEventFilter);
 #   else

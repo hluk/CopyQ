@@ -95,7 +95,7 @@ FancyLineEditPrivate::FancyLineEditPrivate(FancyLineEdit *parent) :
     m_lineEdit(parent)
 {
     for (int i = 0; i < 2; ++i) {
-        m_menu[i] = 0;
+        m_menu[i] = nullptr;
         m_menuTabFocusTrigger[i] = false;
         m_iconbutton[i] = new IconButton(parent);
         m_iconbutton[i]->installEventFilter(this);
@@ -238,7 +238,7 @@ void FancyLineEdit::setButtonIcon(Side side, const QIcon &icon)
 void FancyLineEdit::setButtonMenu(Side side, QMenu *buttonMenu)
 {
      d->m_menu[side] = buttonMenu;
-     d->m_iconbutton[side]->setHasMenu(buttonMenu != NULL);
+     d->m_iconbutton[side]->setHasMenu(buttonMenu != nullptr);
  }
 
 QMenu *FancyLineEdit::buttonMenu(Side side) const

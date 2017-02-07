@@ -29,7 +29,7 @@ class Server : public QObject
 {
     Q_OBJECT
 public:
-    explicit Server(const QString &name, QObject *parent = NULL);
+    explicit Server(const QString &name, QObject *parent = nullptr);
 
     void start();
 

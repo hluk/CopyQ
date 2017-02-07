@@ -63,7 +63,7 @@ class Scriptable : public QObject, protected QScriptable
 public:
     explicit Scriptable(
             ScriptableProxy *proxy, const QString &pluginScript = QString(),
-            const QString &id = QString(), QObject *parent = NULL);
+            const QString &id = QString(), QObject *parent = nullptr);
 
     void initEngine(QScriptEngine *engine);
 
@@ -77,7 +77,7 @@ public:
     QVariantMap toDataMap(const QScriptValue &value) const;
 
     /**
-     * Return pointer to QByteArray or NULL.
+     * Return pointer to QByteArray or nullptr.
      */
     QByteArray *getByteArray(const QScriptValue &value) const;
 

@@ -47,7 +47,7 @@ class ItemDelegate : public QItemDelegate
     Q_OBJECT
 
     public:
-        explicit ItemDelegate(QAbstractItemView *view, ItemFactory *itemFactory, QWidget *parent = NULL);
+        explicit ItemDelegate(QAbstractItemView *view, ItemFactory *itemFactory, QWidget *parent = nullptr);
 
         ~ItemDelegate();
 

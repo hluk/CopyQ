@@ -60,7 +60,7 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     , ui(new Ui::ConfigTabAppearance)
     , m_theme(ui)
     , m_editor()
-    , m_preview(NULL)
+    , m_preview(nullptr)
 {
     ui->setupUi(this);
 
@@ -148,13 +148,13 @@ void ConfigTabAppearance::createPreview(ItemFactory *itemFactory)
 
 void ConfigTabAppearance::onFontButtonClicked()
 {
-    Q_ASSERT(sender() != NULL);
+    Q_ASSERT(sender() != nullptr);
     fontButtonClicked(sender());
 }
 
 void ConfigTabAppearance::onColorButtonClicked()
 {
-    Q_ASSERT(sender() != NULL);
+    Q_ASSERT(sender() != nullptr);
     colorButtonClicked(sender());
 }
 
@@ -382,11 +382,11 @@ void ConfigTabAppearance::updateFontButtons()
         const QString colorButtonName = "pushButtonColor" + re.cap(1);
 
         QPushButton *buttonFg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Fg");
-        QColor colorFg = (buttonFg == NULL) ? m_theme.color("fg")
+        QColor colorFg = (buttonFg == nullptr) ? m_theme.color("fg")
                                             : evalColor( buttonFg->property("VALUE").toString(), m_theme );
 
         QPushButton *buttonBg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Bg");
-        QColor colorBg = (buttonBg == NULL) ? m_theme.color("bg")
+        QColor colorBg = (buttonBg == nullptr) ? m_theme.color("bg")
                                             : evalColor( buttonBg->property("VALUE").toString(), m_theme );
 
         pix.fill(colorBg);

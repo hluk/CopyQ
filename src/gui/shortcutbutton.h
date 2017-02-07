@@ -34,7 +34,7 @@ class ShortcutButton : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ShortcutButton(QWidget *parent = NULL);
+    explicit ShortcutButton(QWidget *parent = nullptr);
 
     /** Expect modifier or accept shortcuts without one. */
     void setExpectModifier(bool expectModifier) { m_expectModifier = expectModifier; }
