@@ -214,6 +214,11 @@ void X11Platform::setAutostartEnabled(bool enable)
 #endif
 }
 
+QCoreApplication *X11Platform::createConsoleApplication(int &argc, char **argv)
+{
+    return new QCoreApplication(argc, argv);
+}
+
 QApplication *X11Platform::createServerApplication(int &argc, char **argv)
 {
     old_xio_errhandler = XSetIOErrorHandler(copyq_xio_errhandler);

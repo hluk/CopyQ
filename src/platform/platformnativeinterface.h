@@ -77,6 +77,11 @@ public:
     virtual void setAutostartEnabled(bool enable) = 0;
 
     /**
+     * Create QCoreApplication object for console output (to show help or version and quit).
+     */
+    virtual QCoreApplication *createConsoleApplication(int &argc, char **argv) = 0;
+
+    /**
      * Create QApplication object for server.
      */
     virtual QApplication *createServerApplication(int &argc, char **argv) = 0;

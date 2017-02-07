@@ -252,6 +252,11 @@ PlatformWindowPtr WinPlatform::getCurrentWindow()
     return PlatformWindowPtr( currentWindow ? new WinPlatformWindow(currentWindow) : NULL );
 }
 
+QCoreApplication *WinPlatform::createConsoleApplication(int &argc, char **argv)
+{
+    return createApplication<QCoreApplication>(argc, argv);
+}
+
 QApplication *WinPlatform::createServerApplication(int &argc, char **argv)
 {
     return createApplication<QApplication>(argc, argv);

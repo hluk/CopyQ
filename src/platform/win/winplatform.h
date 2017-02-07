@@ -45,6 +45,8 @@ public:
 
     void setAutostartEnabled(bool) {}
 
+    QCoreApplication *createConsoleApplication(int &argc, char **argv);
+
     QApplication *createServerApplication(int &argc, char **argv);
 
     QApplication *createMonitorApplication(int &argc, char **argv);

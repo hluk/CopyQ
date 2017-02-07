@@ -148,6 +148,11 @@ MacPlatform::MacPlatform()
 {
 }
 
+QCoreApplication *MacPlatform::createConsoleApplication(int &argc, char **argv)
+{
+    return new QCoreApplication(argc, argv);
+}
+
 QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
 {
     MacActivity activity(MacActivity::Background, "CopyQ Server");

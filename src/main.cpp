@@ -78,7 +78,7 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
 
 int evaluate(const QString &functionName, const QStringList &arguments, int argc, char **argv)
 {
-    App app( new QCoreApplication(argc, argv) );
+    App app( createPlatformNativeInterface()->createConsoleApplication(argc, argv) );
 
     Scriptable scriptable(NULL);
     QScriptEngine engine;
