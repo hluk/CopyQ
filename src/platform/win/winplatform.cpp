@@ -98,7 +98,7 @@ void migrateConfigToAppDir()
             // Migrate themes from system directory.
             migrateDirectory(oldConfigPath + "/themes", newConfigPath + "/themes");
         }
-    } else {
+    } else if ( dir.exists() ) {
         log( QString("Ignoring configuration in \"%1\" (https://github.com/hluk/CopyQ/issues/583).")
              .arg(path), LogWarning );
     }
