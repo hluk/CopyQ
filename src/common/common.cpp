@@ -388,8 +388,8 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     // Find common indentation.
     int commonIndent = lines.value(0).size();
     const QRegExp reNonSpace("\\S");
-    for (int i = 0; i < lines.size(); ++i) {
-        const int lineIndent = lines[i].indexOf(reNonSpace);
+    for (const auto &line : lines) {
+        const int lineIndent = line.indexOf(reNonSpace);
         if (lineIndent != -1 && lineIndent < commonIndent) {
             commonIndent = lineIndent;
             if (commonIndent == 0)
@@ -398,10 +398,8 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     }
 
     // Remove common indentation each line and elide text if too long.
-    for (int i = 0; i < lines.size(); ++i) {
-        QString &line = lines[i];
+    for (auto &line : lines)
         line = fm.elidedText(line.mid(commonIndent), Qt::ElideMiddle, maxWidthPixels - formatWidth);
-    }
 
     QString result = lines.join("\n");
 

@@ -690,8 +690,7 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
     QByteArray uriList;
     QVariantMap data;
 
-    for ( int i = 0; i < indexes.size(); ++i ) {
-        const QModelIndex ind = indexes.at(i);
+    for (const auto &ind : indexes) {
         if ( isIndexHidden(ind) )
             continue;
 

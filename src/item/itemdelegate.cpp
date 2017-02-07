@@ -168,8 +168,7 @@ void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
     m_maxSize.setWidth(size.width() - margins);
     m_idealWidth = idealWidth - margins;
 
-    for( int i = 0; i < m_cache.length(); ++i ) {
-        ItemWidget *w = m_cache[i];
+    for(auto w : m_cache) {
         if (w != NULL)
             w->updateSize(m_maxSize, m_idealWidth);
     }
@@ -256,8 +255,8 @@ int ItemDelegate::rowNumberHeight() const
 
 void ItemDelegate::invalidateCache()
 {
-    for( int i = 0; i < m_cache.length(); ++i )
-        reset(&m_cache[i]);
+    for(auto &w : m_cache)
+        reset(&w);
 }
 
 void ItemDelegate::setSearch(const QRegExp &re)

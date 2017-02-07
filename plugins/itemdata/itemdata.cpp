@@ -84,8 +84,8 @@ QString stringFromBytes(const QByteArray &bytes, const QString &format)
 
 bool emptyIntersection(const QStringList &lhs, const QStringList &rhs)
 {
-    for (int i = 0; i < lhs.size(); ++i) {
-        if ( rhs.contains(lhs[i]) )
+    for (const auto &l : lhs) {
+        if ( rhs.contains(l) )
             return false;
     }
 

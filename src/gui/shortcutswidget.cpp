@@ -153,8 +153,7 @@ void ShortcutsWidget::saveShortcuts(QSettings &settings) const
 
 void ShortcutsWidget::showEvent(QShowEvent *event)
 {
-    for (int i = 0; i < m_actions.size(); ++i) {
-        MenuAction &action = m_actions[i];
+    for (auto &action : m_actions) {
         if ( action.tableItem->icon().isNull() )
             action.tableItem->setIcon( getIcon(action.iconName, action.iconId) );
     }

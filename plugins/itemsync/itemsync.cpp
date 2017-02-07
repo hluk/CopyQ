@@ -148,8 +148,7 @@ FileFormat getFormatSettingsFromFileName(const QString &fileName,
                                          const QList<FileFormat> &formatSettings,
                                          QString *foundExt = NULL)
 {
-    for ( int i = 0; i < formatSettings.size(); ++i ) {
-        const FileFormat &format = formatSettings[i];
+    for (const auto &format : formatSettings) {
         foreach ( const QString &ext, format.extensions ) {
             if ( fileName.endsWith(ext) ) {
                 if (foundExt)
@@ -244,8 +243,7 @@ QString findByFormat(const QString &format, const QList<FileFormat> &formatSetti
     // Find in default extensions.
     const QList<Ext> &exts = fileExtensionsAndFormats();
 
-    for (int i = 0; i < exts.size(); ++i) {
-        const Ext &ext = exts[i];
+    for (const auto &ext : exts) {
         if (ext.format == format)
             return ext.extension;
     }
@@ -284,8 +282,7 @@ Ext findByExtension(const QString &fileName, const QList<FileFormat> &formatSett
     // Find in default formats.
     const QList<Ext> &exts = fileExtensionsAndFormats();
 
-    for (int i = 0; i < exts.size(); ++i) {
-        const Ext &ext = exts[i];
+    for (const auto &ext : exts) {
         if ( fileName.endsWith(ext.extension) )
             return ext;
     }
@@ -1314,8 +1311,8 @@ void ItemSyncLoader::loadSettings(const QVariantMap &settings)
 
     m_formatSettings.clear();
     const QVariantList formatSettings = m_settings.value(configFormatSettings).toList();
-    for (int i = 0; i < formatSettings.size(); ++i) {
-        QVariantMap format = formatSettings[i].toMap();
+    for (const auto &formatSetting : formatSettings) {
+        QVariantMap format = formatSetting.toMap();
         FileFormat fileFormat;
         fileFormat.extensions = format.value("formats").toStringList();
         fileFormat.itemMime = format.value("itemMime").toString();

@@ -69,10 +69,10 @@ QStringList getDefaultEncryptCommandArgumentsEscaped()
     QStringList args = getDefaultEncryptCommandArguments(keys.pub);
 
     // Escape characters
-    for ( int i = 0; i < args.size(); ++i ) {
-        args[i].replace("\\", "\\\\")
-               .replace(" ", "\\ ")
-               .replace("\"", "\\\"");
+    for (auto &arg : args) {
+        arg.replace("\\", "\\\\")
+           .replace(" ", "\\ ")
+           .replace("\"", "\\\"");
     }
 
     return args;

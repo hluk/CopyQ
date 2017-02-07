@@ -70,9 +70,9 @@ QString decompressMime(const QString &mime)
 {
     const QString num = mime.mid(0, 1);
     const MimeToCompressed &m = mimeToCompressedList();
-    for ( MimeToCompressed::const_iterator it = m.begin(); it != m.end(); ++it ) {
-        if (num == it->second)
-            return it->first + mime.mid(1);
+    for (const auto &pair : m) {
+        if (num == pair.second)
+            return pair.first + mime.mid(1);
     }
 
     Q_ASSERT( mime.startsWith("0") );
@@ -82,9 +82,9 @@ QString decompressMime(const QString &mime)
 QString compressMime(const QString &mime)
 {
     const MimeToCompressed &m = mimeToCompressedList();
-    for ( MimeToCompressed::const_iterator it = m.begin(); it != m.end(); ++it ) {
-        if ( mime.startsWith(it->first) )
-            return it->second + mime.mid( it->first.size() );
+    for (const auto &pair : m) {
+        if ( mime.startsWith(pair.first) )
+            return pair.second + mime.mid( pair.first.size() );
     }
     return "0" + mime;
 }

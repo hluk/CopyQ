@@ -148,8 +148,7 @@ MenuItems menuItems()
 
 void loadShortcuts(MenuItems *items, QSettings &settings)
 {
-    for (int i = 0; i < items->size(); ++i) {
-        MenuItem &item = (*items)[i];
+    for (auto &item : *items) {
         if ( !item.settingsKey.isEmpty() ) {
             const QVariant shortcutNames = settings.value(item.settingsKey);
             if ( shortcutNames.isValid() ) {

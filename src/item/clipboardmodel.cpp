@@ -235,8 +235,8 @@ bool ClipboardModel::moveItemsWithKeyboard(QModelIndexList indexList, int key, i
     bool res = false;
 
     QList<int> list;
-    for ( int i = 0; i < indexList.length(); ++i )
-        list.append( indexList.at(i).row() );
+    for (const auto i : indexList)
+        list.append( i.row() );
 
     if ( key == Qt::Key_Down || key == Qt::Key_End )
         std::sort( list.begin(), list.end(), std::greater<int>() );
