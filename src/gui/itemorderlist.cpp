@@ -63,7 +63,7 @@ void ItemOrderList::setAddRemoveButtonsVisible(bool visible)
 void ItemOrderList::clearItems()
 {
     ui->listWidgetItems->clear();
-    foreach ( const ItemWidgetPair &pair, m_items.values() )
+    for ( const auto &pair : m_items.values() )
         deleteWidget(pair.widget);
     m_items.clear();
 }
@@ -156,7 +156,7 @@ QString ItemOrderList::itemLabel(int row) const
 QList<int> ItemOrderList::selectedRows() const
 {
     QList<int> rows;
-    foreach (QListWidgetItem *item, ui->listWidgetItems->selectedItems())
+    for (auto item : ui->listWidgetItems->selectedItems())
         rows.append(ui->listWidgetItems->row(item));
     return rows;
 }
@@ -166,7 +166,7 @@ void ItemOrderList::setSelectedRows(const QList<int> &selectedRows)
     ui->listWidgetItems->clearSelection();
     ui->listWidgetItems->setCurrentItem(NULL);
 
-    foreach (int row, selectedRows) {
+    for (int row : selectedRows) {
         if (row >= 0 && row < rowCount()) {
             QListWidgetItem *item = ui->listWidgetItems->item(row);
             if ( ui->listWidgetItems->currentItem() == NULL )
@@ -257,7 +257,7 @@ void ItemOrderList::on_pushButtonDown_clicked()
 
 void ItemOrderList::on_pushButtonRemove_clicked()
 {
-    foreach (QListWidgetItem *item, ui->listWidgetItems->selectedItems()) {
+    for (auto item : ui->listWidgetItems->selectedItems()) {
         ItemWidgetPair pair = m_items.take(item);
         deleteWidget(pair.widget);
         delete item;

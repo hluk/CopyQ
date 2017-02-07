@@ -331,7 +331,7 @@ void AddCommandDialog::accept()
     if (!indexes.isEmpty()) {
         QList<Command> commands;
 
-        foreach (const QModelIndex &index, indexes)
+        for (const auto &index : indexes)
             commands.append( index.data(Qt::UserRole).value<Command>() );
 
         emit addCommands(commands);

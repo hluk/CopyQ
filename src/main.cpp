@@ -87,7 +87,7 @@ int evaluate(const QString &functionName, const QStringList &arguments, int argc
     QScriptValue function = engine.globalObject().property(functionName);
     QScriptValueList functionArguments;
 
-    foreach (const QString &argument, arguments)
+    for (const auto &argument : arguments)
         functionArguments.append(argument);
 
     const QScriptValue result = function.call( QScriptValue(), functionArguments );
@@ -141,7 +141,7 @@ bool needsTests(const QString &arg)
 
 bool containsOnlyValidCharacters(const QString &sessionName)
 {
-    foreach (const QChar &c, sessionName) {
+    for (const auto &c : sessionName) {
         if ( !c.isLetterOrNumber() && c != '-' && c != '_' )
             return false;
     }

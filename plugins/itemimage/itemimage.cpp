@@ -43,7 +43,7 @@ QString findImageFormat(const QList<QString> &formats)
             << QString("image/gif")
             << QString("image/svg+xml");
 
-    foreach (const QString &format, imageFormats) {
+    for (const auto &format : imageFormats) {
         if ( formats.contains(format) )
             return format;
     }
@@ -68,7 +68,7 @@ bool getAnimatedImageData(const QModelIndex &index, QByteArray *data, QByteArray
 {
     QVariantMap dataMap = index.data(contentType::data).toMap();
 
-    foreach (QByteArray movieFormat, QMovie::supportedFormats()) {
+    for (const auto &movieFormat : QMovie::supportedFormats()) {
         const QByteArray mime = "image/" + movieFormat;
         if (dataMap.contains(mime)) {
             *format = movieFormat;

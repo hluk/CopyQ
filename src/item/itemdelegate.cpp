@@ -348,7 +348,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         ww->setProperty(propertySelectedItem, isSelected);
         if ( !ww->property("CopyQ_no_style").toBool() ) {
             ww->setStyle(style);
-            foreach (QWidget *child, ww->findChildren<QWidget *>())
+            for (auto child : ww->findChildren<QWidget *>())
                 child->setStyle(style);
             ww->update();
         }

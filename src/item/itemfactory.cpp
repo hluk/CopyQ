@@ -59,7 +59,7 @@ void trySetPixmap(QLabel *label, const QVariantMap &data, int height)
             << QString("image/jpeg")
             << QString("image/gif");
 
-    foreach (const QString &format, imageFormats) {
+    for (const auto &format : imageFormats) {
         QPixmap pixmap;
         if (pixmap.loadFromData(data.value(format).toByteArray())) {
             if (height > 0)
@@ -254,7 +254,7 @@ ItemWidget *ItemFactory::createItem(
             QFont f = w->font();
             f.setStyleStrategy(QFont::NoAntialias);
             w->setFont(f);
-            foreach (QWidget *child, w->findChildren<QWidget *>("item_child"))
+            for (auto child : w->findChildren<QWidget *>("item_child"))
                 child->setFont(f);
         }
 
@@ -269,7 +269,7 @@ ItemWidget *ItemFactory::createItem(
 ItemWidget *ItemFactory::createItem(
         const QModelIndex &index, QWidget *parent, bool antialiasing, bool transform, bool preview)
 {
-    foreach ( ItemLoaderInterface *loader, enabledLoaders() ) {
+    for ( auto loader : enabledLoaders() ) {
         ItemWidget *item = createItem(loader, index, parent, antialiasing, transform, preview);
         if (item != NULL)
             return item;
@@ -288,8 +288,8 @@ QStringList ItemFactory::formatsToSave() const
 {
     QStringList formats;
 
-    foreach ( const ItemLoaderInterface *loader, enabledLoaders() ) {
-        foreach ( const QString &format, loader->formatsToSave() ) {
+    for ( const auto loader : enabledLoaders() ) {
+        for ( const auto &format : loader->formatsToSave() ) {
             if ( !formats.contains(format) )
                 formats.append(format);
         }
@@ -326,7 +326,7 @@ bool ItemFactory::isLoaderEnabled(const ItemLoaderInterface *loader) const
 
 ItemLoaderInterface *ItemFactory::loadItems(QAbstractItemModel *model, QFile *file)
 {
-    foreach ( ItemLoaderInterface *loader, enabledLoaders() ) {
+    for ( auto loader : enabledLoaders() ) {
         file->seek(0);
         if ( loader->canLoadItems(file) ) {
             file->seek(0);
@@ -339,7 +339,7 @@ ItemLoaderInterface *ItemFactory::loadItems(QAbstractItemModel *model, QFile *fi
 
 ItemLoaderInterface *ItemFactory::initializeTab(QAbstractItemModel *model)
 {
-    foreach ( ItemLoaderInterface *loader, enabledLoaders() ) {
+    for ( auto loader : enabledLoaders() ) {
         if ( loader->canSaveItems(*model) )
             return loader->initializeTab(model) ? loader : NULL;
     }
@@ -352,13 +352,13 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
     // Match formats if the filter expression contains single '/'.
     if (re.pattern().count('/') == 1) {
         const QVariantMap data = index.data(contentType::data).toMap();
-        foreach (const QString &format, data.keys()) {
+        for (const auto &format : data.keys()) {
             if (re.exactMatch(format))
                 return true;
         }
     }
 
-    foreach ( const ItemLoaderInterface *loader, enabledLoaders() ) {
+    for ( const auto loader : enabledLoaders() ) {
         if ( isLoaderEnabled(loader) && loader->matches(index, re) )
             return true;
     }
@@ -370,7 +370,7 @@ QString ItemFactory::scripts() const
 {
     QString script = "var plugins = {}\n";
 
-    foreach ( const ItemLoaderInterface *loader, enabledLoaders() )
+    for ( const auto loader : enabledLoaders() )
         script.append( loader->script() + '\n' );
 
     return script;
@@ -380,7 +380,7 @@ QList<Command> ItemFactory::commands() const
 {
     QList<Command> commands;
 
-    foreach ( const ItemLoaderInterface *loader, enabledLoaders() ) {
+    for ( const auto loader : enabledLoaders() ) {
         QList <Command> subCommands = loader->commands();
 
         for (auto &subCommand : subCommands)
@@ -447,7 +447,7 @@ bool ItemFactory::loadPlugins()
         return false;
 #endif
 
-    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+    for (const auto &fileName : pluginsDir.entryList(QDir::Files)) {
         if ( QLibrary::isLibrary(fileName) ) {
             const QString path = pluginsDir.absoluteFilePath(fileName);
             QPluginLoader pluginLoader(path);
@@ -474,7 +474,7 @@ ItemLoaderList ItemFactory::enabledLoaders() const
 {
     ItemLoaderList enabledLoaders;
 
-    foreach (ItemLoaderInterface *loader, m_loaders) {
+    for (auto loader : m_loaders) {
         if ( isLoaderEnabled(loader) )
             enabledLoaders.append(loader);
     }

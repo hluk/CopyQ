@@ -87,7 +87,7 @@ void TabDialog::validate()
         ok = !text.isEmpty() && !m_tabs.contains(text);
     } else {
         const QString tabPrefix = m_tabGroupName + '/';
-        foreach (const QString &tab, m_tabs) {
+        for (const auto &tab : m_tabs) {
             if ( tab == m_tabGroupName || tab.startsWith(tabPrefix) ) {
                 const QString newName = text + tab.mid(m_tabGroupName.size());
                 if ( newName.isEmpty() || m_tabs.contains(newName) ) {

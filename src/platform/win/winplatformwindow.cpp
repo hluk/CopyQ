@@ -152,7 +152,7 @@ void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key)
             << VK_MENU;
 
     // Release all modifiers first to send just Shift+Insert.
-    foreach (int mod, mods) {
+    for (int mod : mods) {
         if ( isKeyPressed(mod) ) {
             input1 << createInput(mod, KEYEVENTF_KEYUP);
             input2 << createInput(mod); // Press again at the end.

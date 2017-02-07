@@ -128,7 +128,7 @@ void Theme::loadTheme(QSettings &settings)
 {
     resetTheme();
 
-    foreach ( const QString &key, m_theme.keys() ) {
+    for ( const auto &key : m_theme.keys() ) {
         if ( settings.contains(key) ) {
             const QVariant value = settings.value(key);
             if ( value.isValid() )
@@ -142,7 +142,7 @@ void Theme::saveTheme(QSettings &settings) const
     QStringList keys = m_theme.keys();
     keys.sort();
 
-    foreach (const QString &key, keys)
+    for (const auto &key : keys)
         settings.setValue( key, value(key) );
 }
 
@@ -491,7 +491,7 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
                 );
 
     Theme unfocusedTheme;
-    foreach ( const QString &key, m_theme.keys() )
+    for ( const auto &key : m_theme.keys() )
         unfocusedTheme.m_theme[key] = Option(m_theme[key].value());
     unfocusedTheme.m_theme["sel_bg"].setValue( serializeColor(unfocusedSelectedBg) );
 
@@ -633,10 +633,10 @@ QColor evalColor(const QString &expression, const Theme &theme, int maxRecursion
     int a = 0;
 
     QStringList addList = QString(expression).remove(' ').split('+');
-    foreach (const QString &add, addList) {
+    for (const auto &add : addList) {
         QStringList subList = add.split('-');
         float multiply = 1;
-        foreach (const QString &sub, subList) {
+        for (const auto &sub : subList) {
             addColor(sub, multiply, &r, &g, &b, &a, theme, maxRecursion);
             multiply = -1;
         }

@@ -241,7 +241,7 @@ bool ClipboardServer::isMonitoring()
 
 void ClipboardServer::removeGlobalShortcuts()
 {
-    foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
+    for (auto s : m_shortcutActions.keys())
         delete s;
     m_shortcutActions.clear();
 }
@@ -252,9 +252,9 @@ void ClipboardServer::createGlobalShortcuts()
 
     QList<QKeySequence> usedShortcuts;
 
-    foreach ( const Command &command, loadCommands() ) {
+    for ( const auto &command : loadCommands() ) {
         if ( !command.globalShortcuts.contains("DISABLED") ) {
-            foreach (const QString &shortcutText, command.globalShortcuts) {
+            for (const auto &shortcutText : command.globalShortcuts) {
                 QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
                 if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
                     usedShortcuts.append(shortcut);

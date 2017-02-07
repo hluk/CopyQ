@@ -100,7 +100,7 @@ void initTestsSettings()
         settings.beginGroup(testId);
     }
 
-    foreach (const QString &key, testSettingsMap.keys())
+    for (const auto &key : testSettingsMap.keys())
         settings.setValue(key, testSettingsMap[key]);
 
     if (pluginsTest) {

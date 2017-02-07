@@ -211,13 +211,13 @@ void ProcessManagerDialog::onDeleteShortcut()
 
     QVector<int> rows( selectedItems.size() );
 
-    foreach (QTableWidgetItem *item, selectedItems)
+    for (auto item : selectedItems)
         rows.append( ui->tableWidgetCommands->row(item) );
 
     std::sort( rows.begin(), rows.end(), std::greater<int>() );
 
     int lastRow = -1;
-    foreach (int row, rows) {
+    for (int row : rows) {
         if (lastRow != row) {
             removeIfNotRunning(row);
             lastRow = row;

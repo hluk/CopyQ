@@ -733,7 +733,7 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
     QList<int> rows;
     rows.reserve( indexes.size() );
 
-    foreach (const QModelIndex &index, indexes) {
+    for (const auto &index : indexes) {
         if ( index.isValid() )
             rows.append( index.row() );
     }
@@ -741,7 +741,7 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
     std::sort( rows.begin(), rows.end(), std::greater<int>() );
 
     ClipboardBrowser::Lock lock(this);
-    foreach (int row, rows)
+    for (int row : rows)
         m.removeRow(row);
 
     delayedSaveItems();
@@ -788,7 +788,7 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
 {
     int h = 0;
     const int s = spacing();
-    foreach (const QModelIndex &index, indexes) {
+    for (const auto &index : indexes) {
         if ( !isIndexHidden(index) )
             h += visualRect(index).height() + s;
     }
@@ -804,7 +804,7 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
 
     h = 0;
     const QPoint pos = viewport()->pos() - QPoint(s / 2 + 1, s / 2 + 1);
-    foreach (const QModelIndex &index, indexes) {
+    for (const auto &index : indexes) {
         if ( isIndexHidden(index) )
             continue;
         render( &p, QPoint(0, h), visualRect(index).translated(pos).adjusted(0, 0, s, s) );
@@ -1145,7 +1145,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
     // Save persistent indexes so after the items are dropped (and added) these indexes remain valid.
     QList<QPersistentModelIndex> indexesToRemove;
-    foreach (const QModelIndex &index, selected)
+    for (const auto &index : selected)
         indexesToRemove.append(index);
 
     // Start dragging (doesn't block event loop).
@@ -1156,14 +1156,14 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
     if (dropAction == Qt::MoveAction) {
         selected.clear();
 
-        foreach (const QModelIndex &index, indexesToRemove)
+        for (const auto &index : indexesToRemove)
             selected.append(index);
 
         QWidget *target = qobject_cast<QWidget*>(drag->target());
 
         // Move items only if target is this app.
         if (target == this || target == viewport()) {
-            foreach (const QModelIndex &index, indexesToRemove) {
+            for (const auto &index : indexesToRemove) {
                 const int sourceRow = index.row();
                 const int targetRow =
                         sourceRow < m_dragTargetRow ? m_dragTargetRow - 1 : m_dragTargetRow;
@@ -1608,7 +1608,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
 
             const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
 
-            foreach (const QString &format, formatsToAdd)
+            for (const auto &format : formatsToAdd)
                 newData.insert(format, previousData[format]);
 
             if ( add(newData) ) {
@@ -1747,7 +1747,7 @@ const QString ClipboardBrowser::selectedText() const
 {
     QString result;
 
-    foreach ( const QModelIndex &ind, selectionModel()->selectedIndexes() )
+    for ( const auto &ind : selectionModel()->selectedIndexes() )
         result += ind.data(Qt::EditRole).toString() + QString('\n');
     result.chop(1);
 

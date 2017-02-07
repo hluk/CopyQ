@@ -125,7 +125,7 @@ struct ScriptValueFactory<QVariantMap> {
     {
         QScriptValue value = scriptable->engine()->newObject();
 
-        foreach ( const QString &format, dataMap.keys() )
+        for ( const auto &format : dataMap.keys() )
             value.setProperty(format, scriptable->newByteArray(dataMap[format].toByteArray()));
 
         return value;
@@ -417,7 +417,7 @@ QScriptValue Scriptable::help()
     if ( argumentCount() == 0 ) {
         helpString.append(helpHead() + "\n");
 
-        foreach (const CommandHelp &hlp, commandHelp())
+        for (const auto &hlp : commandHelp())
             helpString.append(hlp.toString());
 
         helpString.append("\n" + helpTail() + "\n\n" + tr(programName)
@@ -425,7 +425,7 @@ QScriptValue Scriptable::help()
     } else {
         for (int i = 0; i < argumentCount(); ++i) {
             const QString &cmd = toString(argument(i));
-            foreach (const CommandHelp &helpItem, commandHelp()) {
+            for (const auto &helpItem : commandHelp()) {
                 if ( helpItem.cmd.contains(cmd) )
                     helpString.append(helpItem.toString());
             }
@@ -1242,7 +1242,7 @@ QScriptValue Scriptable::dialog()
 
     QScriptValue result = m_engine->newObject();
 
-    foreach (const NamedValue &value, values)
+    for (const auto &value : values)
         result.setProperty( value.name, newVariant(value.value) );
 
     return result;
@@ -1623,7 +1623,7 @@ QScriptValue NetworkReply::headers()
 
     QScriptValue headers = m_scriptable->engine()->newArray();
     int i = 0;
-    foreach ( const QByteArray &header, m_replyHead->rawHeaderList() ) {
+    for ( const auto &header : m_replyHead->rawHeaderList() ) {
         QScriptValue pair = m_scriptable->engine()->newArray();
         pair.setProperty( 0, m_scriptable->newByteArray(header) );
         pair.setProperty( 1, m_scriptable->newByteArray(m_replyHead->rawHeader(header)) );

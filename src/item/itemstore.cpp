@@ -80,7 +80,7 @@ bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &it
         return false;
 
     bool saveWithCurrent = true;
-    foreach ( ItemLoaderInterface *loader, itemFactory.loaders() ) {
+    for ( auto loader : itemFactory.loaders() ) {
         if ( itemFactory.isLoaderEnabled(loader) && loader->canSaveItems(model) )
             return loader != currentLoader;
         if (loader == currentLoader)

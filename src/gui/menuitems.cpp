@@ -153,7 +153,7 @@ void loadShortcuts(MenuItems *items, QSettings &settings)
             const QVariant shortcutNames = settings.value(item.settingsKey);
             if ( shortcutNames.isValid() ) {
                 item.shortcuts.clear();
-                foreach ( const QString &shortcut, shortcutNames.toStringList() )
+                for ( const auto &shortcut : shortcutNames.toStringList() )
                     item.shortcuts.append(shortcut);
             }
         }

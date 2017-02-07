@@ -138,7 +138,7 @@ int indexOfKeyHint(const QString &name)
     bool amp = false;
     int i = 0;
 
-    foreach (const QChar &c, name) {
+    for (const auto &c : name) {
         if (c == '&')
             amp = !amp;
         else if (amp)
@@ -197,7 +197,7 @@ uint hash(const QVariantMap &data)
 {
     uint hash = 0;
 
-    foreach ( const QString &mime, data.keys() ) {
+    for ( const auto &mime : data.keys() ) {
         // Skip some special data.
         if (mime == mimeWindowTitle || mime == mimeOwner || mime == mimeClipboardMode)
             continue;
@@ -214,7 +214,7 @@ QByteArray getUtf8Data(const QMimeData &data, const QString &format)
 
     if (format == mimeUriList) {
         QByteArray bytes;
-        foreach ( const QUrl &url, data.urls() ) {
+        for ( const auto &url : data.urls() ) {
             if ( !bytes.isEmpty() )
                 bytes += '\n';
             bytes += url.toString().toUtf8();
@@ -261,7 +261,7 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
     QImage image;
     bool imageLoaded = false;
 
-    foreach (const QString &mime, formats) {
+    for (const auto &mime : formats) {
         const QByteArray bytes = getUtf8Data(data, mime);
         if ( !bytes.isEmpty() ) {
             newdata.insert(mime, bytes);
@@ -277,13 +277,13 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
         }
     }
 
-    foreach (const QString &internalMime, internalMimeTypes) {
+    for (const auto &internalMime : internalMimeTypes) {
         if ( data.hasFormat(internalMime) )
             newdata.insert( internalMime, data.data(internalMime) );
     }
 
     if ( hasLogLevel(LogTrace) ) {
-        foreach (const QString &format, data.formats()) {
+        for (const auto &format : data.formats()) {
             if ( !formats.contains(format) )
                 COPYQ_LOG_VERBOSE(QString("Skipping format: %1").arg(format));
         }
@@ -296,7 +296,7 @@ QVariantMap cloneData(const QMimeData &data)
 {
     QStringList formats;
 
-    foreach ( const QString &mime, data.formats() ) {
+    for ( const auto &mime : data.formats() ) {
         // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
         // and internal type to check clipboard owner
         if ( !mime.isEmpty() && mime[0].isLower() )
@@ -313,7 +313,7 @@ QMimeData* createMimeData(const QVariantMap &data)
 
     QScopedPointer<QMimeData> newClipboardData(new QMimeData);
 
-    foreach ( const QString &format, copyFormats )
+    for ( const auto &format : copyFormats )
         newClipboardData->setData( format, data[format].toByteArray() );
 
 #ifdef HAS_TESTS
@@ -325,7 +325,7 @@ QMimeData* createMimeData(const QVariantMap &data)
     // Set image data.
     const QStringList formats =
             QStringList() << "image/png" << "image/bmp" << "application/x-qt-image" << data.keys();
-    foreach (const QString &imageFormat, formats) {
+    for (const auto &imageFormat : formats) {
         if ( setImageData(data, imageFormat, newClipboardData.data()) )
             break;
     }
@@ -488,7 +488,7 @@ void renameToUnique(QString *name, const QStringList &names)
 
 bool containsAnyData(const QVariantMap &data)
 {
-    foreach ( const QString &mime, data.keys() ) {
+    for ( const auto &mime : data.keys() ) {
         if (mime != mimeOwner
                 && mime != mimeWindowTitle
                 && mime != mimeHidden
@@ -543,7 +543,7 @@ bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data)
     if (!clipboardData)
         return false;
 
-    foreach ( const QString &format, data.keys() ) {
+    for ( const auto &format : data.keys() ) {
         if ( !format.startsWith(COPYQ_MIME_PREFIX)
              && data.value(format).toByteArray() != getUtf8Data(*clipboardData, format) )
         {

@@ -164,7 +164,7 @@ void ActionHandler::addItems(const QStringList &items, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser() : m_wnd->tab(tabName);
     ClipboardBrowser::Lock lock(c);
-    foreach (const QString &item, items)
+    for (const auto &item : items)
         c->add(item);
 
     if (m_lastAction) {

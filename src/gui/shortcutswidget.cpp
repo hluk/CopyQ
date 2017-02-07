@@ -92,7 +92,7 @@ void ShortcutsWidget::loadShortcuts(QSettings &settings)
         table->removeRow(0);
 
 
-    foreach (const MenuItem &item, items) {
+    for (const auto &item : items) {
         MenuAction action;
         action.iconName = item.iconName;
         action.iconId = item.iconId;
@@ -118,7 +118,7 @@ void ShortcutsWidget::loadShortcuts(QSettings &settings)
         action.shortcutButton = new ShortcutButton(table);
         table->setCellWidget(row, Columns::Shortcut, action.shortcutButton);
         action.shortcutButton->setDefaultShortcut(item.defaultShortcut);
-        foreach (const QKeySequence &shortcut, item.shortcuts)
+        for (const auto &shortcut : item.shortcuts)
             action.shortcutButton->addShortcut(shortcut);
 
         action.iconId = item.iconId;
@@ -136,10 +136,10 @@ void ShortcutsWidget::loadShortcuts(QSettings &settings)
 
 void ShortcutsWidget::saveShortcuts(QSettings &settings) const
 {
-    foreach (const MenuAction &action, m_actions) {
+    for (const auto &action : m_actions) {
         if ( !action.settingsKey.isEmpty() ) {
             QStringList shortcutNames;
-            foreach (const QKeySequence &shortcut, action.shortcutButton->shortcuts())
+            for (const auto &shortcut : action.shortcutButton->shortcuts())
                 shortcutNames.append(portableShortcutText(shortcut));
 
             // Workaround for QTBUG-51237 (saving empty list results in invalid value).
@@ -191,15 +191,15 @@ void ShortcutsWidget::checkAmbiguousShortcuts()
     }
 
     QList<QKeySequence> commandShortcuts;
-    foreach ( const Command &command, loadCommands(true) ) {
-        foreach (const QString &shortcutText, command.shortcuts + command.globalShortcuts) {
+    for ( const auto &command : loadCommands(true) ) {
+        for (const auto &shortcutText : command.shortcuts + command.globalShortcuts) {
             const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
             if ( !shortcut.isEmpty() )
                 commandShortcuts.append(shortcut);
         }
     }
 
-    foreach ( const MenuAction &action, m_actions ) {
+    for ( const auto &action : m_actions ) {
         action.shortcutButton->checkAmbiguousShortcuts(commandShortcuts, iconOverriden, toolTipOverriden);
         action.shortcutButton->checkAmbiguousShortcuts(ambiguousShortcuts, iconAmbiguous, toolTipAmbiguous);
     }
@@ -209,10 +209,10 @@ void ShortcutsWidget::on_lineEditFilter_textChanged(const QString &text)
 {
     const QString needle = text.toLower();
 
-    foreach ( const MenuAction &action, m_actions ) {
+    for ( const auto &action : m_actions ) {
         bool found = uiText(action.text).toLower().contains(needle);
         if (!found) {
-                foreach ( const QKeySequence &shortcut, action.shortcutButton->shortcuts() ) {
+                for ( const auto &shortcut : action.shortcutButton->shortcuts() ) {
                     if ( shortcut.toString(QKeySequence::NativeText).toLower().contains(needle) ) {
                         found = true;
                         break;

@@ -54,7 +54,7 @@ public:
     void clear()
     {
         if (isValid()) {
-            foreach ( const QString &fileName, files() )
+            for ( const auto &fileName : files() )
                 remove(fileName);
             m_dir.rmpath(".");
         }

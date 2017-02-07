@@ -207,7 +207,7 @@ void saveCommands(const CommandDialog::Commands &commands, QSettings *settings)
     } else {
         settings->beginWriteArray("Commands");
         int i = 0;
-        foreach (const Command &c, commands) {
+        for (const auto &c : commands) {
             settings->setArrayIndex(i++);
             saveCommand(c, settings);
         }
@@ -256,7 +256,7 @@ CommandDialog::CommandDialog(
     ui->itemOrderListCommands->setFocus();
     ui->itemOrderListCommands->setAddRemoveButtonsVisible(true);
 
-    foreach ( const Command &command, commands(false) )
+    for ( const auto &command : commands(false) )
         addCommandWithoutSave(command);
 
     QAction *act = new QAction(ui->itemOrderListCommands);
@@ -423,7 +423,7 @@ void CommandDialog::on_pushButtonLoadCommands_clicked()
             QFileDialog::getOpenFileNames(this, tr("Open Files with Commands"),
                                           QString(), tr("Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)"));
 
-    foreach (const QString &fileName, fileNames)
+    for (const auto &fileName : fileNames)
         loadCommandsFromFile(fileName, -1);
 }
 
@@ -514,7 +514,7 @@ void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
     const int count = ui->itemOrderListCommands->rowCount();
     int row = targetRow >= 0 ? targetRow : count;
 
-    foreach ( Command command, loadCommands(&commandsSettings) ) {
+    for ( auto command : loadCommands(&commandsSettings) ) {
         rowsToSelect.append(row);
 
         if (command.cmd.startsWith("\n    ")) {
@@ -534,7 +534,7 @@ CommandDialog::Commands CommandDialog::selectedCommands() const
     QList<int> rows = ui->itemOrderListCommands->selectedRows();
     const Commands allCommands = commands(false, false);
     Commands commandsToSave;
-    foreach (int row, rows) {
+    for (int row : rows) {
         Q_ASSERT(row < allCommands.size());
         commandsToSave.append(allCommands.value(row));
     }
@@ -557,7 +557,7 @@ QString CommandDialog::serializeSelectedCommands()
     commandData.reserve(data.size());
     QRegExp re("^(\\d+\\\\)?Command=\"");
 
-    foreach (const QString &line, data.split('\n')) {
+    for (const auto &line : data.split('\n')) {
         if (line.contains(re)) {
             int i = re.matchedLength();
             commandData.append(line.left(i) + "\n    ");

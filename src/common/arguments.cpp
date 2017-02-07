@@ -31,7 +31,7 @@ QString parseCommandLineArgument(const QString &arg)
     QString result;
     bool escape = false;
 
-    foreach (const QChar &c, arg) {
+    for (const auto &c : arg) {
         if (escape) {
             escape = false;
 
@@ -67,7 +67,7 @@ Arguments::Arguments(const QStringList &arguments)
     reset();
 
     bool readRaw = false;
-    foreach (const QString &arg, arguments) {
+    for (const auto &arg : arguments) {
         readRaw = readRaw || arg == "--";
         if (readRaw)
             m_args.append( arg.toUtf8() );

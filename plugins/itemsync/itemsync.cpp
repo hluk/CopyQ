@@ -149,7 +149,7 @@ FileFormat getFormatSettingsFromFileName(const QString &fileName,
                                          QString *foundExt = NULL)
 {
     for (const auto &format : formatSettings) {
-        foreach ( const QString &ext, format.extensions ) {
+        for ( const auto &ext : format.extensions ) {
             if ( fileName.endsWith(ext) ) {
                 if (foundExt)
                     *foundExt = ext;
@@ -249,7 +249,7 @@ QString findByFormat(const QString &format, const QList<FileFormat> &formatSetti
     }
 
     // Find in user defined extensions.
-    foreach (const FileFormat &fileFormat, formatSettings) {
+    for (const auto &fileFormat : formatSettings) {
         if ( !fileFormat.extensions.isEmpty() && fileFormat.itemMime != "-"
              && format == fileFormat.itemMime )
         {
@@ -268,8 +268,8 @@ Ext findByExtension(const QString &fileName, const QList<FileFormat> &formatSett
 
     // Find in user defined formats.
     bool hasUserFormat = false;
-    foreach (const FileFormat &format, formatSettings) {
-        foreach (const QString &ext, format.extensions) {
+    for (const auto &format : formatSettings) {
+        for (const auto &ext : format.extensions) {
             if ( fileName.endsWith(ext) ) {
                 if ( format.itemMime.isEmpty() )
                     hasUserFormat = true;
@@ -347,7 +347,7 @@ BaseNameExtensionsList listFiles(const QStringList &files,
     BaseNameExtensionsList fileList;
     QMap<QString, int> fileMap;
 
-    foreach (const QString &filePath, files) {
+    for (const auto &filePath : files) {
         QString baseName;
         Ext ext;
         if ( getBaseNameExtension(filePath, formatSettings, &baseName, &ext) ) {
@@ -371,7 +371,7 @@ QStringList listFiles(const QDir &dir, const QDir::SortFlags &sortFlags = QDir::
     QStringList files;
 
     const QDir::Filters itemFileFilter = QDir::Files | QDir::Readable | QDir::Writable;
-    foreach ( const QString &fileName, dir.entryList(itemFileFilter, sortFlags) ) {
+    for ( const auto &fileName : dir.entryList(itemFileFilter, sortFlags) ) {
         const QString path = dir.absoluteFilePath(fileName);
         QFileInfo info(path);
         if ( canUseFile(info) )
@@ -388,7 +388,7 @@ bool isUniqueBaseName(const QString &baseName, const QStringList &fileNames,
     if ( baseNames.contains(baseName) )
         return false;
 
-    foreach (const QString fileName, fileNames) {
+    for (const auto &fileName : fileNames) {
         if ( fileName.startsWith(baseName) )
             return false;
     }
@@ -502,12 +502,12 @@ int iconFromBaseNameExtensionHelper(const QString &baseName)
 
 QString iconFromUserExtension(const QStringList &fileNames, const QList<FileFormat> &formatSettings)
 {
-    foreach ( const FileFormat &format, formatSettings ) {
+    for ( const auto &format : formatSettings ) {
         if ( format.icon.isEmpty() )
             continue;
 
-        foreach (const QString &ext, format.extensions) {
-            foreach (const QString &fileName, fileNames) {
+        for (const auto &ext : format.extensions) {
+            for (const auto &fileName : fileNames) {
                 if ( fileName.endsWith(ext) )
                     return format.icon;
             }
@@ -524,7 +524,7 @@ QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSet
     const QVariantMap mimeToExtension = dataMap.value(mimeExtensionMap).toMap();
 
     QStringList fileNames;
-    foreach ( const QString &format, mimeToExtension.keys() ) {
+    for ( const auto &format : mimeToExtension.keys() ) {
         // Don't change icon for notes.
         if (format != mimeItemNotes)
             fileNames.append( baseName + mimeToExtension[format].toString() );
@@ -536,14 +536,14 @@ QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSet
         return icon;
 
     // Try to get default icon from MIME type.
-    foreach ( const QString &format, dataMap.keys() ) {
+    for ( const auto &format : dataMap.keys() ) {
         const QString icon = iconFromMime(format);
         if ( !icon.isEmpty() )
             return icon;
     }
 
     // Try to get default icon from file extension.
-    foreach (const QString &fileName, fileNames) {
+    for (const auto &fileName : fileNames) {
         const int id = iconFromBaseNameExtensionHelper(fileName);
         if (id != -1)
             return iconFromId(id);
@@ -555,7 +555,7 @@ QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSet
 
 bool containsItemsWithFiles(const QList<QModelIndex> &indexList)
 {
-    foreach (const QModelIndex &index, indexList) {
+    for (const auto &index : indexList) {
         if ( index.data(contentType::data).toMap().contains(mimeBaseName) )
             return true;
     }
@@ -729,14 +729,14 @@ bool ItemSync::eventFilter(QObject *, QEvent *event)
 
 void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
 {
-    foreach ( const QVariant &extValue, mimeToExtension.values() )
+    for ( const auto &extValue : mimeToExtension.values() )
         QFile::remove(path + extValue.toString());
 }
 
 void moveFormatFiles(const QString &oldPath, const QString &newPath,
                      const QVariantMap &mimeToExtension)
 {
-    foreach ( const QVariant &extValue, mimeToExtension.values() ) {
+    for ( const auto &extValue : mimeToExtension.values() ) {
         const QString ext = extValue.toString();
         QFile::rename(oldPath + ext, newPath + ext);
     }
@@ -745,7 +745,7 @@ void moveFormatFiles(const QString &oldPath, const QString &newPath,
 void copyFormatFiles(const QString &oldPath, const QString &newPath,
                      const QVariantMap &mimeToExtension)
 {
-    foreach ( const QVariant &extValue, mimeToExtension.values() ) {
+    for ( const auto &extValue : mimeToExtension.values() ) {
         const QString ext = extValue.toString();
         QFile::copy(oldPath + ext, newPath + ext);
     }
@@ -833,7 +833,7 @@ public slots:
     {
         const int maxItems = m_model->property("maxItems").toInt();
 
-        foreach (const BaseNameExtensions &baseNameWithExts, fileList) {
+        for (const auto &baseNameWithExts : fileList) {
             if ( !createItemFromFiles(dir, baseNameWithExts, 0) )
                 return;
             if ( m_model->rowCount() >= maxItems )
@@ -881,7 +881,7 @@ public slots:
 
         createItemsFromFiles(dir, fileList);
 
-        foreach (const QString &fileName, files)
+        for (const auto &fileName : files)
             watchPath( dir.absoluteFilePath(fileName) );
 
         unlock();
@@ -900,7 +900,7 @@ private slots:
 
     void onRowsRemoved(const QModelIndex &, int first, int last)
     {
-        foreach ( const QModelIndex &index, indexList(first, last) ) {
+        for ( const auto &index : indexList(first, last) ) {
             Q_ASSERT(index.isValid());
             IndexDataList::iterator it = findIndexData(index);
             Q_ASSERT( it != m_indexData.end() );
@@ -969,7 +969,7 @@ private:
         QMap<QString, Hash> &formatData = data.formatHash;
         formatData.clear();
 
-        foreach ( const QString &format, mimeToExtension.keys() ) {
+        for ( const auto &format : mimeToExtension.keys() ) {
             if ( !format.startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
                 formatData.insert(format, calculateHash(itemData.value(format).toByteArray()) );
         }
@@ -1004,7 +1004,7 @@ private:
 
         QStringList existingFiles = listFiles(dir);
 
-        foreach (const QModelIndex &index, indexList) {
+        for (const auto &index : indexList) {
             if ( !index.isValid() )
                 continue;
 
@@ -1017,7 +1017,7 @@ private:
 
             const QVariantMap noSaveData = itemData.value(mimeNoSave).toMap();
 
-            foreach ( const QString &format, itemData.keys() ) {
+            for ( const auto &format : itemData.keys() ) {
                 if ( format.startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
                     continue; // skip internal data
 
@@ -1060,7 +1060,7 @@ private:
             if ( !noSaveData.isEmpty() || mimeToExtension != oldMimeToExtension ) {
                 itemData.remove(mimeNoSave);
 
-                foreach ( const QString &format, mimeToExtension.keys() )
+                for ( const auto &format : mimeToExtension.keys() )
                     oldMimeToExtension.remove(format);
 
                 itemData.insert(mimeExtensionMap, mimeToExtension);
@@ -1122,7 +1122,7 @@ private:
     {
         QStringList baseNames;
 
-        foreach (const QModelIndex &index, indexList) {
+        for (const auto &index : indexList) {
             if ( !index.isValid() )
                 continue;
 
@@ -1175,7 +1175,7 @@ private:
     {
         const QString basePath = dir.absoluteFilePath(baseNameWithExts.baseName);
 
-        foreach (const Ext &ext, baseNameWithExts.exts) {
+        for (const auto &ext : baseNameWithExts.exts) {
             Q_ASSERT( !ext.format.isEmpty() );
 
             const QString fileName = basePath + ext.extension;
@@ -1208,7 +1208,7 @@ private:
 
         const QDir dir(m_path);
 
-        foreach ( const QUrl &url, tmpData.urls() ) {
+        for ( const auto &url : tmpData.urls() ) {
             if ( url.isLocalFile() ) {
                 QFile f(url.toLocalFile());
 
@@ -1425,7 +1425,7 @@ bool ItemSyncLoader::saveItems(const QAbstractItemModel &model, QFile *file)
         const QString baseName = getBaseName(index);
         const QString filePath = dir.absoluteFilePath(baseName);
 
-        foreach (const QVariant &ext, mimeToExtension.values())
+        for (const auto &ext : mimeToExtension.values())
             savedFiles.prepend( filePath + ext.toString() );
     }
 
@@ -1475,7 +1475,7 @@ bool ItemSyncLoader::canMoveItems(const QList<QModelIndex> &)
 void ItemSyncLoader::itemsRemovedByUser(const QList<QModelIndex> &indexList)
 {
     // Remove unneeded files (remaining records in the hash map).
-    foreach (const QModelIndex &index, indexList) {
+    for (const auto &index : indexList) {
         const QAbstractItemModel *model = index.model();
         if (!model)
             continue;
@@ -1525,7 +1525,7 @@ QVariantMap ItemSyncLoader::copyItem(const QAbstractItemModel &model, const QVar
         const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
         const QString basePath = syncPath + '/' + itemData.value(mimeBaseName).toString();
 
-        foreach ( const QString &format, mimeToExtension.keys() ) {
+        for ( const auto &format : mimeToExtension.keys() ) {
             const QString ext = mimeToExtension[format].toString();
             const QString filePath = basePath + ext;
 
@@ -1604,7 +1604,7 @@ QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const
 
 void ItemSyncLoader::removeWatcher(QObject *watcher)
 {
-    foreach ( const QObject *model, m_watchers.keys() ) {
+    for ( const auto model : m_watchers.keys() ) {
         if (m_watchers[model] == watcher) {
             m_watchers.remove(model);
             return;

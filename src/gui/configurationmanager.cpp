@@ -138,7 +138,7 @@ void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)
 {
     ui->itemOrderListPlugins->clearItems();
 
-    foreach ( ItemLoaderInterface *loader, itemFactory->loaders() ) {
+    for ( auto loader : itemFactory->loaders() ) {
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
         const QIcon icon = getIcon(loader->icon());
         ui->itemOrderListPlugins->appendItem(
@@ -155,8 +155,8 @@ void ConfigurationManager::initLanguages()
     bool currentLocaleFound = false; // otherwise not found or partial match ("uk" partially matches locale "uk_UA")
     QSet<QString> languages;
 
-    foreach ( const QString &path, qApp->property("CopyQ_translation_directories").toStringList() ) {
-        foreach ( const QString &item, QDir(path).entryList(QStringList("copyq_*.qm")) ) {
+    for ( const auto &path : qApp->property("CopyQ_translation_directories").toStringList() ) {
+        for ( const auto &item : QDir(path).entryList(QStringList("copyq_*.qm")) ) {
             const int i = item.indexOf('_');
             const QString locale = item.mid(i + 1, item.lastIndexOf('.') - i - 1);
             const QString language = nativeLanguageName(locale);
@@ -308,7 +308,7 @@ void ConfigurationManager::updateTabComboBoxes()
 QStringList ConfigurationManager::options() const
 {
     QStringList options;
-    foreach ( const QString &option, m_options.keys() ) {
+    for ( const auto &option : m_options.keys() ) {
         if ( m_options[option].value().canConvert(QVariant::String)
              && !optionToolTip(option).isEmpty() )
         {
@@ -349,7 +349,7 @@ void ConfigurationManager::loadSettings()
     QSettings settings;
 
     settings.beginGroup("Options");
-    foreach ( const QString &key, m_options.keys() ) {
+    for ( const auto &key : m_options.keys() ) {
         if ( settings.contains(key) ) {
             QVariant value = settings.value(key);
             if ( !value.isValid() || !m_options[key].setValue(value) )
@@ -402,7 +402,7 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
         if (answer == QMessageBox::Yes) {
-            foreach ( const QString &key, m_options.keys() ) {
+            for ( const auto &key : m_options.keys() ) {
                 m_options[key].reset();
             }
         }
@@ -427,7 +427,7 @@ void ConfigurationManager::apply()
     Settings settings;
 
     settings.beginGroup("Options");
-    foreach ( const QString &key, m_options.keys() ) {
+    for ( const auto &key : m_options.keys() ) {
         settings.setValue( key, m_options[key].value() );
     }
     settings.endGroup();
@@ -460,7 +460,7 @@ void ConfigurationManager::apply()
             PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
             ItemLoaderInterface *loader = pluginWidget->loader();
             const QVariantMap s = loader->applySettings();
-            foreach (const QString &name, s.keys())
+            for (const auto &name : s.keys())
                 settings.setValue(name, s[name]);
         }
 

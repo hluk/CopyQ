@@ -723,7 +723,7 @@ void Tests::helpCommand()
             << "add"
             << "remove";
 
-    foreach (const QString &command, commands) {
+    for (const auto &command : commands) {
         QCOMPARE( run(Args("help") << command, &stdoutActual, &stderrActual), 0 );
         QVERIFY2( testStderr(stderrActual), stderrActual );
         QVERIFY( !stdoutActual.isEmpty() );
@@ -857,11 +857,11 @@ void Tests::createAndCopyNewItem()
 
     RUN("config" << "edit_ctrl_return" << "true", "");
 
-    foreach (const QString &itemText, itemTexts) {
+    for (const auto &itemText : itemTexts) {
         RUN("keys" << "CTRL+N", "");
 
         bool firstLine = true;
-        foreach (const QString &itemLine, itemText.split('\n')) {
+        for (const auto &itemLine : itemText.split('\n')) {
             if (firstLine)
                 firstLine = false;
             else
@@ -1424,8 +1424,8 @@ void Tests::nextPreviousTab()
             << KeyPair(keyNameFor(QKeySequence::NextChild), keyNameFor(QKeySequence::PreviousChild))
             << KeyPair("RIGHT", "LEFT");
 
-    foreach (const KeyPair &keyPair, keyPairs) {
-        foreach (const QString &optionValue, QStringList() << "false" << "true") {
+    for (const auto &keyPair : keyPairs) {
+        for (const auto &optionValue : QStringList() << "false" << "true") {
             RUN("config" << "tab_tree" << optionValue, "");
             RUN("config" << "tab_tree", optionValue + "\n");
 
@@ -1534,7 +1534,7 @@ void Tests::packUnpackCommands()
 
     Args args2 = args;
     args2 << "write";
-    foreach (const QByteArray &mime, data.keys())
+    for (const auto &mime : data.keys())
         args2 << mime << data[mime];
     RUN(args2, "");
 
@@ -1542,7 +1542,7 @@ void Tests::packUnpackCommands()
             "var data = read('" + toByteArray(mimeItems) + "', 0); var item = unpack(data);";
 
     // Unpack item read from list.
-    foreach (const QByteArray &mime, data.keys()) {
+    for (const auto &mime : data.keys()) {
         RUN(args << "eval"
             << script1 + "var mime = '" + mime + "'; print(mime + ':' + str(item[mime]))",
             mime + ':' + data[mime]);
@@ -1550,7 +1550,7 @@ void Tests::packUnpackCommands()
 
     // Test pack and unpack consistency.
     const QByteArray script2 = "data = pack(item); item = unpack(data);";
-    foreach (const QByteArray &mime, data.keys()) {
+    for (const auto &mime : data.keys()) {
         RUN(args << "eval"
             << script1 + script2 + "var mime = '" + mime + "'; print(mime + ':' + str(item[mime]))",
             mime + ':' + data[mime]);
@@ -1592,12 +1592,12 @@ void Tests::getSetItemCommands()
 
     Args args2 = args;
     args2 << "write";
-    foreach (const QByteArray &mime, data.keys())
+    for (const auto &mime : data.keys())
         args2 << mime << data[mime];
     RUN(args2, "");
 
     // Get item from list.
-    foreach (const QByteArray &mime, data.keys()) {
+    for (const auto &mime : data.keys()) {
         RUN(args << "eval"
             << "var mime = '" + mime + "'; print(mime + ':' + str(getitem(0)[mime]))",
             mime + ':' + data[mime]);
@@ -1733,7 +1733,7 @@ int runTests(int argc, char *argv[])
 
     if (runPluginTests) {
         ItemFactory itemFactory;
-        foreach( const ItemLoaderInterface *loader, itemFactory.loaders() ) {
+        for ( const auto loader : itemFactory.loaders() ) {
             if ( loader->id().contains(onlyPlugins) ) {
                 QScopedPointer<QObject> pluginTests( loader->tests(test) );
                 if ( !pluginTests.isNull() ) {

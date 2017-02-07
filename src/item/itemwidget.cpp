@@ -59,7 +59,7 @@ QString findImageFormat(const QMimeData &data)
             << QString("image/jpeg")
             << QString("image/gif");
 
-    foreach (const QString &format, imageFormats) {
+    for (const auto &format : imageFormats) {
         if ( data.hasFormat(format) )
             return format;
     }

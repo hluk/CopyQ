@@ -65,7 +65,7 @@ void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
 
 void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool keyDown)
 {
-    foreach (int modCode, modCodes) {
+    for (int modCode : modCodes) {
         KeyCode keyCode = XKeysymToKeycode(display, modCode);
         fakeKeyEvent(display, keyCode, keyDown);
     }

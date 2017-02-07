@@ -86,7 +86,7 @@ QColor sessionNameToColor(const QString &name)
     int g = 0;
     int b = 0;
 
-    foreach (const QChar &c, name) {
+    for (const auto &c : name) {
         const ushort x = c.unicode() % 3;
         if (x == 0)
             r += 255;

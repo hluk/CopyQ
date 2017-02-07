@@ -72,7 +72,7 @@ QStringList savedTabs()
 
     QRegExp re("_tab_([^.]*)");
 
-    foreach (const QString fileName, files) {
+    for (const auto &fileName : files) {
         if ( fileName.contains(re) ) {
             const QString tabName =
                     getTextData(QByteArray::fromBase64(re.cap(1).toUtf8()));
@@ -106,7 +106,7 @@ void setIconNameForTabName(const QString &name, const QString &icon)
     settings.beginWriteArray("Tabs");
     int i = 0;
 
-    foreach ( const QString &tabName, icons.keys() ) {
+    for ( const auto &tabName : icons.keys() ) {
         settings.setArrayIndex(i++);
         settings.setValue("name", tabName);
         settings.setValue("icon", icons[tabName]);

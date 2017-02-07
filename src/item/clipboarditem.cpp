@@ -34,7 +34,7 @@ namespace {
 
 void clearDataExceptInternal(QVariantMap *data)
 {
-    foreach ( const QString &format, data->keys() ) {
+    for ( const auto &format : data->keys() ) {
         if ( !format.startsWith(COPYQ_MIME_PREFIX) )
             data->remove(format);
     }
@@ -55,7 +55,7 @@ bool ClipboardItem::operator ==(const ClipboardItem &item) const
 
 void ClipboardItem::setText(const QString &text)
 {
-    foreach ( const QString &format, m_data.keys() ) {
+    for ( const auto &format : m_data.keys() ) {
         if ( format.startsWith("text/") )
             m_data.remove(format);
     }
@@ -78,7 +78,7 @@ bool ClipboardItem::setData(const QVariantMap &data)
 bool ClipboardItem::updateData(const QVariantMap &data)
 {
     const int oldSize = m_data.size();
-    foreach ( const QString &format, data.keys() ) {
+    for ( const auto &format : data.keys() ) {
         if ( !format.startsWith(COPYQ_MIME_PREFIX) ) {
             clearDataExceptInternal(&m_data);
             break;
@@ -87,7 +87,7 @@ bool ClipboardItem::updateData(const QVariantMap &data)
 
     bool changed = (oldSize != m_data.size());
 
-    foreach ( const QString &format, data.keys() ) {
+    for ( const auto &format : data.keys() ) {
         if ( m_data.value(format) != data[format] ) {
             m_data.insert(format, data[format]);
             changed = true;
@@ -109,7 +109,7 @@ bool ClipboardItem::removeData(const QStringList &mimeTypeList)
 {
     bool removed = false;
 
-    foreach (const QString &mimeType, mimeTypeList) {
+    for (const auto &mimeType : mimeTypeList) {
         if ( m_data.contains(mimeType) ) {
             m_data.remove(mimeType);
             removed = true;

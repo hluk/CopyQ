@@ -259,7 +259,7 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
 
     const QFont font = smallerFont(layout->parentWidget()->font());
 
-    foreach (const ItemTags::Tag &tag, tags) {
+    for (const auto &tag : tags) {
         QWidget *tagWidget = new QWidget(layout->parentWidget());
         initTagWidget(tagWidget, tag, font);
         layout->addWidget(tagWidget);
@@ -268,7 +268,7 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
 
 ItemTags::Tag findMatchingTag(const QString &tagText, const ItemTags::Tags &tags)
 {
-    foreach (const ItemTags::Tag &tag, tags) {
+    for (const auto &tag : tags) {
         if ( tag.match.isEmpty() ) {
             if (tag.name == tagText)
                 return tag;
@@ -441,7 +441,7 @@ void ItemTagsLoader::loadSettings(const QVariantMap &settings)
     m_settings = settings;
 
     m_tags.clear();
-    foreach (const QString &tagField, m_settings.value(configTags).toStringList()) {
+    for (const auto &tagField : m_settings.value(configTags).toStringList()) {
         Tag tag = deserializeTag(tagField);
         if (isTagValid(tag))
             m_tags.append(tag);
@@ -455,7 +455,7 @@ QWidget *ItemTagsLoader::createSettingsWidget(QWidget *parent)
     ui->setupUi(w);
 
     // Init tag table.
-    foreach (const Tag &tag, m_tags)
+    for (const auto &tag : m_tags)
         addTagToSettingsTable(tag);
     for (int i = 0; i < 10; ++i)
         addTagToSettingsTable();
@@ -494,7 +494,7 @@ QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
 #ifdef HAS_TESTS
     QStringList tags;
 
-    foreach (const QString &tagName, ItemTagsTests::testTags()) {
+    for (const auto &tagName : ItemTagsTests::testTags()) {
         Tag tag;
         tag.name = tagName;
         tags.append(serializeTag(tag));
@@ -515,7 +515,7 @@ QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
 QString ItemTagsLoader::script() const
 {
     QString userTags;
-    foreach (const Tag &tag, m_tags)
+    for (const auto &tag : m_tags)
         userTags.append(toScriptString(tag.name) + ",");
 
     const QString addTagString = toScriptString(addTagText());
@@ -617,7 +617,7 @@ QList<Command> ItemTagsLoader::commands() const
     if (m_tags.isEmpty()) {
         addTagCommands(tr("Important", "Tag name for example command"), QString(), &commands);
     } else {
-        foreach (const Tag &tag, m_tags)
+        for (const auto &tag : m_tags)
             addTagCommands(tag.name, tag.match, &commands);
     }
 
@@ -709,7 +709,7 @@ ItemTagsLoader::Tags ItemTagsLoader::toTags(const QString &tagsContent)
 {
     Tags tags;
 
-    foreach (const QString &tagText, tagsContent.split(',', QString::SkipEmptyParts)) {
+    for (const auto &tagText : tagsContent.split(',', QString::SkipEmptyParts)) {
         QString tagName = tagText.trimmed();
         Tag tag = findMatchingTag(tagName, m_tags);
 

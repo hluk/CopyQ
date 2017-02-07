@@ -92,7 +92,7 @@ QString help()
     help.append( example("copyq eval 'show(\"" + tabName + "\")'") );
     help.append( example("copyq: show('" + tabName + "')") );
 
-    foreach (const CommandHelp &hlp, commandHelp()) {
+    for (const auto &hlp : commandHelp()) {
         if ( !hlp.cmd.isNull() ) {
             help.append( QString("<p><b>%1</b>"
                                  "&nbsp;<span class='args'>%2</span>"

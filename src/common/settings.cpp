@@ -49,7 +49,7 @@ void copySettings(const QSettings &from, QSettings *to)
 
     to->clear();
 
-    foreach ( const QString &key, from.allKeys() )
+    for ( const auto &key : from.allKeys() )
         to->setValue(key, from.value(key));
 
     to->sync();

@@ -34,7 +34,7 @@ QList<QPersistentModelIndex> validIndeces(const QModelIndexList &indexList)
     QList<QPersistentModelIndex> list;
     list.reserve(indexList.size());
 
-    foreach (const QModelIndex &index, indexList) {
+    for (const auto &index : indexList) {
         if ( index.isValid() )
             list.append(index);
     }
@@ -46,7 +46,7 @@ int topMostRow(const QList<QPersistentModelIndex> &indexList)
 {
     int row = indexList.value(0).row();
 
-    foreach (const QPersistentModelIndex &index, indexList)
+    for (const auto &index : indexList)
         row = qMin(row, index.row());
 
     return row;
@@ -282,7 +282,7 @@ void ClipboardModel::sortItems(const QModelIndexList &indexList, CompareItems *c
 
     int targetRow = topMostRow(list);
 
-    foreach (const QPersistentModelIndex &ind, list) {
+    for (const auto &ind : list) {
         if (ind.isValid()) {
             const int sourceRow = ind.row();
 

@@ -125,7 +125,7 @@ public:
     {
         QxtX11ErrorHandler errorHandler;
 
-        foreach (quint32 maskMods, maskModifiers()) {
+        for (const auto maskMods : maskModifiers()) {
             XGrabKey(display(), keycode, modifiers | maskMods, window, True,
                      GrabModeAsync, GrabModeAsync);
             if (errorHandler.error)
@@ -144,7 +144,7 @@ public:
     {
         QxtX11ErrorHandler errorHandler;
 
-        foreach (quint32 maskMods, maskModifiers()) {
+        for (const auto maskMods : maskModifiers()) {
             XUngrabKey(display(), keycode, modifiers | maskMods, window);
         }
 

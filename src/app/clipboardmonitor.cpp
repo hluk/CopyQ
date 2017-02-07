@@ -31,7 +31,7 @@ namespace {
 
 bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
 {
-    foreach (const QString &format, lastData.keys()) {
+    for (const auto &format : lastData.keys()) {
         if ( !format.startsWith(COPYQ_MIME_PREFIX)
              && !data.contains(format) )
         {
@@ -39,7 +39,7 @@ bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
         }
     }
 
-    foreach (const QString &format, data.keys()) {
+    for (const auto &format : data.keys()) {
         if ( !format.startsWith(COPYQ_MIME_PREFIX)
              && !data[format].toByteArray().isEmpty()
              && data[format] != lastData.value(format) )
@@ -111,7 +111,7 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
 
         if ( hasLogLevel(LogDebug) ) {
             COPYQ_LOG("Loading configuration:");
-            foreach (const QString &key, settings.keys()) {
+            for (const auto &key : settings.keys()) {
                 const QVariant val = settings[key];
                 const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
                                                                   : val.toString();

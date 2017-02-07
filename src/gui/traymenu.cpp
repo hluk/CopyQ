@@ -41,7 +41,7 @@ bool canActivate(const QAction &action)
 QAction *firstEnabledAction(QMenu *menu)
 {
     // First action is active when menu pops up.
-    foreach (QAction *action, menu->actions()) {
+    for (auto action : menu->actions()) {
         if ( canActivate(*action) )
             return action;
     }
@@ -155,7 +155,7 @@ void TrayMenu::clearClipboardItems()
 {
     resetSeparators();
 
-    foreach ( QAction *action, actions() ) {
+    for ( auto action : actions() ) {
         if (action->isSeparator())
             break;
         if (action != m_searchAction)

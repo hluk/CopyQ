@@ -150,7 +150,7 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 bool hasFormat(const QVariantMap &data, const QString &format)
 {
     if (format == mimeItems) {
-        foreach (const QString &key, data.keys()) {
+        for (const auto &key : data.keys()) {
             if ( !key.startsWith(COPYQ_MIME_PREFIX) )
                 return true;
         }
@@ -186,7 +186,7 @@ QVariantMap addSelectionData(const ClipboardBrowser &c, const QVariantMap &data)
 
     QList<QPersistentModelIndex> selected;
     selected.reserve(selectedIndexes.size());
-    foreach (const QModelIndex &index, selectedIndexes)
+    for (const auto &index : selectedIndexes)
         selected.append(index);
 
     result.insert(mimeCurrentTab, c.tabName());
@@ -198,7 +198,7 @@ QVariantMap addSelectionData(const ClipboardBrowser &c, const QVariantMap &data)
 
 QMenu *findSubMenu(const QString &name, const QMenu &menu)
 {
-    foreach (QAction *action, menu.actions()) {
+    for (auto action : menu.actions()) {
         QMenu *subMenu = action->menu();
         if (subMenu && subMenu->title() == name)
             return subMenu;
@@ -217,7 +217,7 @@ QMenu *createSubMenus(QString *name, QMenu *menu)
 
     QMenu *parentMenu = menu;
 
-    foreach (const QString &subMenuName, path) {
+    for (const auto &subMenuName : path) {
         QMenu *subMenu = findSubMenu(subMenuName, *parentMenu);
 
         if (!subMenu) {
@@ -324,11 +324,11 @@ void loadItemFactorySettings(ItemFactory *itemFactory)
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
-    foreach ( ItemLoaderInterface *loader, itemFactory->loaders() ) {
+    for ( auto loader : itemFactory->loaders() ) {
         settings.beginGroup(loader->id());
 
         QVariantMap s;
-        foreach (const QString &name, settings.allKeys()) {
+        for (const auto &name : settings.allKeys()) {
             s[name] = settings.value(name);
         }
         loader->loadSettings(s);
@@ -776,7 +776,7 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
     if ( !command.cmd.isEmpty() ) {
         bool triggeredFromBrowser = commandType == CommandAction::ItemCommand;
         if (command.transform) {
-            foreach (const QModelIndex &index, selected) {
+            for (const auto &index : selected) {
                 QVariantMap data = itemData(index);
                 if (triggeredFromBrowser)
                     data = addSelectionData(*c, data);
@@ -830,10 +830,10 @@ void MainWindow::updateContextMenu()
 {
     m_itemMenuCommandTester.abort();
 
-    foreach (QMenu *menu, m_menuItem->findChildren<QMenu*>())
+    for (auto menu : m_menuItem->findChildren<QMenu*>())
         menu->deleteLater();
 
-    foreach (QAction *action, m_menuItem->actions())
+    for (auto action : m_menuItem->actions())
         action->deleteLater();
 
     m_menuItem->clear();
@@ -861,7 +861,7 @@ void MainWindow::automaticCommandTestFinished(const Command &command, bool passe
 QAction *MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
 {
     CommandAction *act = NULL;
-    foreach (CommandAction *action, menu->findChildren<CommandAction*>()) {
+    for (auto action : menu->findChildren<CommandAction*>()) {
         if (!action->isEnabled() && action->command().matchCmd == command.matchCmd) {
             act = action;
             break;
@@ -1167,7 +1167,7 @@ QAction *MainWindow::addItemAction(int id, QObject *receiver, const char *slot)
 QList<Command> MainWindow::commandsForMenu(const QVariantMap &data, const QString &tabName)
 {
     QList<Command> commands;
-    foreach (const Command &command, m_commands) {
+    for (const auto &command : m_commands) {
         if ( command.inMenu && !command.name.isEmpty() && canExecuteCommand(command, data, tabName) ) {
             Command cmd = command;
             if ( cmd.outputTab.isEmpty() )
@@ -1196,7 +1196,7 @@ void MainWindow::addCommandsToItemMenu(const QVariantMap &data)
 
     QList<Command> disabledCommands;
 
-    foreach (const Command &command, commands) {
+    for (const auto &command : commands) {
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_menuItem);
         QAction *act = new CommandAction(command, name, type, c, currentMenu);
@@ -1212,7 +1212,7 @@ void MainWindow::addCommandsToItemMenu(const QVariantMap &data)
 
         QList<QKeySequence> uniqueShortcuts;
 
-        foreach (const QString &shortcutText, command.shortcuts) {
+        for (const auto &shortcutText : command.shortcuts) {
             const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
             if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
                 if (act->isEnabled())
@@ -1251,7 +1251,7 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &data)
 
     QList<Command> disabledCommands;
 
-    foreach (const Command &command, commands) {
+    for (const auto &command : commands) {
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_trayMenu);
         QAction *act = new CommandAction(command, name, type, c, currentMenu);
@@ -1282,7 +1282,7 @@ void MainWindow::updateToolBar()
     QAction *act = actionForMenuItem(Actions::File_New, this, Qt::WindowShortcut);
     ui->toolBar->addAction(act);
 
-    foreach ( QAction *action, m_menuItem->actions() ) {
+    for ( auto action : m_menuItem->actions() ) {
         if ( action->isSeparator() ) {
             ui->toolBar->addSeparator();
         } else if ( action->isEnabled() && !action->icon().isNull() ) {
@@ -1420,7 +1420,7 @@ void MainWindow::updateActionShortcuts(int id)
         return;
 
     QList<QKeySequence> shortcuts = m_menuItems[id].shortcuts;
-    foreach (const QKeySequence &shortcut, m_disabledShortcuts)
+    for (const auto &shortcut : m_disabledShortcuts)
         shortcuts.removeAll(shortcut);
 
     action->setShortcuts(shortcuts);
@@ -1807,7 +1807,7 @@ void MainWindow::loadSettings()
 
     // create tabs
     const QStringList tabs = savedTabs();
-    foreach (const QString &name, tabs) {
+    for (const auto &name : tabs) {
         bool settingsLoaded;
         ClipboardBrowser *c = createTab(name, MatchExactTabName, &settingsLoaded);
         if (!settingsLoaded)
@@ -2110,7 +2110,7 @@ QString MainWindow::getUserOptionsDescription() const
     QStringList options = configurationManager.options();
     options.sort();
     QString opts;
-    foreach (const QString &option, options)
+    for (const auto &option : options)
         opts.append( option + "\n  " + configurationManager.optionToolTip(option).replace('\n', "\n  ") + '\n' );
     return opts;
 }
@@ -2152,7 +2152,7 @@ void MainWindow::runAutomaticCommands(QVariantMap data)
 
     QList<Command> commands;
     const QString tabName = defaultTabName();
-    foreach (const Command &command, m_commands) {
+    for (const auto &command : m_commands) {
         if (command.automatic) {
             commands.append(command);
             if ( command.outputTab.isEmpty() )

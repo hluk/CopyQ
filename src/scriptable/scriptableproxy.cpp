@@ -576,7 +576,7 @@ void ScriptableProxy::browserRemoveRows(QList<int> rows)
     indexes.reserve(rows.size());
 
     ClipboardBrowser::Lock lock(c);
-    foreach (int row, rows) {
+    for (int row : rows) {
         const QModelIndex indexToRemove = c->index(row);
         if ( indexToRemove.isValid() )
             indexes.append(indexToRemove);
@@ -730,7 +730,7 @@ bool ScriptableProxy::browserAdd(const QStringList &texts)
         return false;
 
     ClipboardBrowser::Lock lock(c);
-    foreach (const QString &text, texts) {
+    for (const auto &text : texts) {
         if ( !c->add(text) )
             return false;
     }
@@ -754,7 +754,7 @@ bool ScriptableProxy::browserChange(const QVariantMap &data, int row)
 
     const QModelIndex index = c->index(row);
     QVariantMap itemData = index.data(contentType::data).toMap();
-    foreach (const QString &mime, data.keys())
+    for (const auto &mime : data.keys())
         itemData[mime] = data[mime];
 
     return c->model()->setData(index, itemData, contentType::data);
@@ -815,7 +815,7 @@ bool ScriptableProxy::selectItems(const QList<int> &items)
     if ( !items.isEmpty() ) {
         c->setCurrent(items.last());
 
-        foreach (int i, items) {
+        for (int i : items) {
             const QModelIndex index = c->index(i);
             if (index.isValid())
                 c->selectionModel()->select(index, QItemSelectionModel::Select);
@@ -834,7 +834,7 @@ QList<int> ScriptableProxy::selectedItems()
 
     QList<int> selectedRows;
     const QList<QPersistentModelIndex> selected = selectedIndexes();
-    foreach (const QPersistentModelIndex &index, selected) {
+    for (const auto &index : selected) {
         if (index.isValid())
             selectedRows.append(index.row());
     }
@@ -907,11 +907,11 @@ QString ScriptableProxy::testSelected()
 
     QList<int> selectedRows;
     selectedRows.reserve( selectedIndexes.size() );
-    foreach (const QModelIndex &index, selectedIndexes)
+    for (const auto &index : selectedIndexes)
         selectedRows.append(index.row());
     qSort(selectedRows);
 
-    foreach (int row, selectedRows)
+    for (int row : selectedRows)
         result.append(QString::number(row));
 
     return browser->tabName() + " " + result.join(" ");
@@ -947,7 +947,7 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
     QString styleSheet;
     QRect geometry(-1, -1, 0, 0);
 
-    foreach (const NamedValue &value, values) {
+    for (const auto &value : values) {
         if (value.name == ".title")
             dialog.setWindowTitle( value.value.toString() );
         else if (value.name == ".icon")
@@ -1005,7 +1005,7 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
 
     NamedValueList result;
 
-    foreach ( QWidget *w, widgets ) {
+    for ( auto w : widgets ) {
         const QString propertyName = w->property(propertyWidgetProperty).toString();
         const QString name = w->property(propertyWidgetName).toString();
         const QVariant value = w->property(propertyName.toUtf8().constData());
@@ -1040,7 +1040,7 @@ void ScriptableProxy::setSelectedItemsData(const QString &mime, const QVariant &
 {
     INVOKE2(setSelectedItemsData(mime, value));
     const QList<QPersistentModelIndex> selected = selectedIndexes();
-    foreach (const QPersistentModelIndex &index, selected) {
+    for (const auto &index : selected) {
         ClipboardBrowser *c = m_wnd->browserForItem(index);
         if (c) {
             QVariantMap data = c->model()->data(index, contentType::data).toMap();

@@ -198,8 +198,8 @@ Action::~Action()
 QString Action::command() const
 {
     QString text;
-    foreach ( const QList<QStringList> &line, m_cmds ) {
-        foreach ( const QStringList &args, line ) {
+    for ( const auto &line : m_cmds ) {
+        for ( const auto &args : line ) {
             if ( !text.isEmpty() )
                 text.append(QChar('|'));
             text.append(args.join(" "));
@@ -453,7 +453,7 @@ void Action::terminate()
         return;
 
     // try to terminate process
-    foreach (QProcess *p, m_processes)
+    for (auto p : m_processes)
         p->terminate();
 
     // if process still running: kill it
@@ -476,7 +476,7 @@ void Action::closeSubCommands()
     m_exitCode = m_processes.last()->exitCode();
     m_failed = m_failed || m_processes.last()->exitStatus() != QProcess::NormalExit;
 
-    foreach (QProcess *p, m_processes)
+    for (auto p : m_processes)
         p->deleteLater();
 
     m_processes.clear();

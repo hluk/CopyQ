@@ -77,7 +77,7 @@ void migrateDirectory(const QString oldPath, const QString newPath)
     if ( oldDir.exists() ) {
         newDir.mkpath(".");
 
-        foreach ( const QString &fileName, oldDir.entryList(QDir::Files) ) {
+        for ( const auto &fileName : oldDir.entryList(QDir::Files) ) {
             const QString oldFileName = oldDir.absoluteFilePath(fileName);
             const QString newFileName = newDir.absoluteFilePath(fileName);
             COPYQ_LOG( QString("Migrating \"%1\" -> \"%2\"")

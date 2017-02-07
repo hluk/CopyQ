@@ -44,7 +44,7 @@ int copyq_xio_errhandler(Display *display)
 {
     // Try to call MainWindow::saveTabs().
     if ( QCoreApplication::instance() ) {
-        foreach ( QWidget *obj, qApp->topLevelWidgets() ) {
+        for ( auto obj : qApp->topLevelWidgets() ) {
             if (obj->objectName() == "MainWindow") {
                 QMetaObject::invokeMethod(obj, "saveTabs");
                 break;

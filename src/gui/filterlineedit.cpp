@@ -131,7 +131,7 @@ QRegExp FilterLineEdit::filter() const
     if (m_actionRe->isChecked()) {
         pattern = text();
     } else {
-        foreach ( const QString &str, text().split(QRegExp("\\s+"), QString::SkipEmptyParts) ) {
+        for ( const auto &str : text().split(QRegExp("\\s+"), QString::SkipEmptyParts) ) {
             if ( !pattern.isEmpty() )
                 pattern.append(".*");
             pattern.append( QRegExp::escape(str) );

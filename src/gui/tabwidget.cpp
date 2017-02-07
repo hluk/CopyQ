@@ -255,7 +255,7 @@ void TabWidget::saveTabInfo()
     settings.setValue("TabWidget/collapsed_tabs", m_collapsedTabs);
 
     QVariantMap tabItemCounters;
-    foreach (QString key, tabs) {
+    for (const auto &key : tabs) {
         const int count = m_tabItemCounters.value(key, -1);
         if (count >= 0)
             tabItemCounters[key] = count;
@@ -271,7 +271,7 @@ void TabWidget::loadTabInfo()
 
     QVariantMap tabItemCounters = settings.value("TabWidget/tab_item_counters").toMap();
     m_tabItemCounters.clear();
-    foreach (QString key, tabItemCounters.keys())
+    for (const auto &key : tabItemCounters.keys())
         m_tabItemCounters[key] = tabItemCounters[key].toInt();
 }
 
@@ -439,7 +439,7 @@ void TabWidget::onTabsMoved(const QString &oldPrefix, const QString &newPrefix, 
         m_stackedWidget->removeWidget(w);
     }
 
-    foreach (int index, indexes) {
+    for (int index : indexes) {
         Q_ASSERT(index >= 0);
         Q_ASSERT(index < widgets.count());
         m_stackedWidget->insertWidget(-1, widgets[index]);

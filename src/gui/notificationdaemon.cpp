@@ -179,7 +179,7 @@ void NotificationDaemon::doUpdateNotifications()
 
     int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
 
-    foreach (Notification *notification, m_notifications) {
+    for (auto notification : m_notifications) {
         notification->setOpacity(m_opacity);
         notification->setStyleSheet(m_styleSheet);
         notification->updateIcon();
@@ -210,7 +210,7 @@ void NotificationDaemon::doUpdateNotifications()
 
 Notification *NotificationDaemon::findNotification(int id)
 {
-    foreach (Notification *notification, m_notifications) {
+    for (auto notification : m_notifications) {
         if (notification->id() == id)
             return notification;
     }

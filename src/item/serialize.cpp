@@ -129,7 +129,7 @@ void serializeData(QDataStream *stream, const QVariantMap &data)
     *stream << size;
 
     QByteArray bytes;
-    foreach (const QString &mime, data.keys()) {
+    for (const auto &mime : data.keys()) {
         bytes = data[mime].toByteArray();
         bool compress = shouldCompress(bytes, mime);
         *stream << compressMime(mime) << compress << ( compress ? qCompress(bytes) : bytes );

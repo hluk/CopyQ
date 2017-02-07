@@ -65,7 +65,7 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     ui->setupUi(this);
 
     // Connect signals from theme buttons.
-    foreach (QPushButton *button, ui->scrollAreaTheme->findChildren<QPushButton *>()) {
+    for (auto button : ui->scrollAreaTheme->findChildren<QPushButton *>()) {
         if (button->objectName().endsWith("Font"))
             connect(button, SIGNAL(clicked()), SLOT(onFontButtonClicked()));
         else if (button->objectName().startsWith("pushButtonColor"))
@@ -291,7 +291,7 @@ void ConfigTabAppearance::addThemes(const QString &path)
     const QStringList nameFilters("*.ini");
 
     QDir dir(path);
-    foreach ( const QFileInfo &fileInfo,
+    for ( const auto &fileInfo :
               dir.entryInfoList(nameFilters, filters, QDir::Name) )
     {
         const QString name = fileInfo.baseName();
@@ -356,7 +356,7 @@ void ConfigTabAppearance::updateColorButtons()
     QList<QPushButton *> buttons =
             ui->scrollAreaTheme->findChildren<QPushButton *>(QRegExp("^pushButtonColor"));
 
-    foreach (QPushButton *button, buttons) {
+    for (auto button : buttons) {
         QColor color = evalColor( button->property("VALUE").toString(), m_theme );
         pix.fill(color);
         button->setIcon(pix);
@@ -375,7 +375,7 @@ void ConfigTabAppearance::updateFontButtons()
     QRegExp re("^pushButton(.*)Font$");
     QList<QPushButton *> buttons = ui->scrollAreaTheme->findChildren<QPushButton *>(re);
 
-    foreach (QPushButton *button, buttons) {
+    for (auto button : buttons) {
         if ( re.indexIn(button->objectName()) == -1 )
             Q_ASSERT(false);
 
