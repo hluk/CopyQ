@@ -1425,9 +1425,9 @@ void Tests::nextPreviousTab()
             << KeyPair("RIGHT", "LEFT");
 
     for (const auto &keyPair : keyPairs) {
-        for (const auto &optionValue : QStringList() << "false" << "true") {
+        for (const auto &optionValue : {"false", "true"}) {
             RUN("config" << "tab_tree" << optionValue, "");
-            RUN("config" << "tab_tree", optionValue + "\n");
+            RUN("config" << "tab_tree", QString(optionValue) + "\n");
 
             RUN("keys" << keyPair.first, "");
             RUN("testSelected", testTab(1) + " 0 0\n");
