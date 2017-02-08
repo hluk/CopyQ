@@ -38,12 +38,12 @@ public:
     {
     }
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {
         return parent.isValid() ? 0 : m_items.size();
     }
 
-    QVariant data(const QModelIndex &index, int role) const
+    QVariant data(const QModelIndex &index, int role) const override
     {
         if (index.isValid() && (role == Qt::EditRole || role == Qt::DisplayRole))
             return m_items[index.row()];
@@ -51,7 +51,7 @@ public:
         return QVariant();
     }
 
-    bool setData(const QModelIndex &index, const QVariant &value, int role)
+    bool setData(const QModelIndex &index, const QVariant &value, int role) override
     {
         if (!index.isValid() && role == Qt::EditRole) {
             const QString text = value.toString();
@@ -63,7 +63,7 @@ public:
         return false;
     }
 
-    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex())
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override
     {
         if ( parent.isValid() || row < 0 || row + count > rowCount() )
             return false;

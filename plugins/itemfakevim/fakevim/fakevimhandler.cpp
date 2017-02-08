@@ -2051,7 +2051,7 @@ public:
     bool handleExWriteCommand(const ExCommand &cmd);
     bool handleExEchoCommand(const ExCommand &cmd);
 
-    void timerEvent(QTimerEvent *ev);
+    void timerEvent(QTimerEvent *ev) override;
 
     void setupCharClass();
     int charClass(QChar c, bool simple) const;

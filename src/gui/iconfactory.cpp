@@ -154,17 +154,17 @@ bool useSystemIcons()
 class IconEngine : public QtIconEngine
 {
 public:
-    void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state)
+    void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) override
     {
         painter->drawPixmap( rect, createPixmap(rect.size(), mode, state, painter) );
     }
 
-    QPixmap pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state)
+    QPixmap pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state) override
     {
         return createPixmap(size, mode, state);
     }
 
-    QtIconEngine *clone() const
+    QtIconEngine *clone() const override
     {
         return new IconEngine(*this);
     }

@@ -133,12 +133,12 @@ public:
         }
     }
 
-    QWidget *createEditor(QWidget *parent) const
+    QWidget *createEditor(QWidget *parent) const override
     {
         return m_hasText ? ItemWidget::createEditor(parent) : nullptr;
     }
 
-    virtual void updateSize(const QSize &, int idealWidth)
+    void updateSize(const QSize &, int idealWidth) override
     {
         setFixedWidth(idealWidth);
 
@@ -150,7 +150,7 @@ public:
         }
     }
 
-    void setTagged(bool tagged)
+    void setTagged(bool tagged) override
     {
         setVisible( !tagged || (m_hasText && !m_data.contains(mimeHidden)) );
     }
@@ -166,21 +166,21 @@ class DummyLoader : public ItemLoaderInterface
 public:
     explicit DummyLoader(ItemFactory *factory) : m_factory(factory) {}
 
-    QString id() const { return QString(); }
-    QString name() const { return QString(); }
-    QString author() const { return QString(); }
-    QString description() const { return QString(); }
+    QString id() const override { return QString(); }
+    QString name() const override { return QString(); }
+    QString author() const override { return QString(); }
+    QString description() const override { return QString(); }
 
-    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const
+    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const override
     {
         return new DummyItem(index, parent, preview);
     }
 
-    bool canLoadItems(QFile *) const { return true; }
+    bool canLoadItems(QFile *) const override { return true; }
 
-    bool canSaveItems(const QAbstractItemModel &) const { return true; }
+    bool canSaveItems(const QAbstractItemModel &) const override { return true; }
 
-    bool loadItems(QAbstractItemModel *model, QFile *file)
+    bool loadItems(QAbstractItemModel *model, QFile *file) override
     {
         if ( file->size() > 0 ) {
             if ( !deserializeData(model, file) ) {
@@ -196,17 +196,17 @@ public:
         return true;
     }
 
-    bool saveItems(const QAbstractItemModel &model, QFile *file)
+    bool saveItems(const QAbstractItemModel &model, QFile *file) override
     {
         return serializeData(model, file);
     }
 
-    bool initializeTab(QAbstractItemModel *)
+    bool initializeTab(QAbstractItemModel *) override
     {
         return true;
     }
 
-    bool matches(const QModelIndex &index, const QRegExp &re) const
+    bool matches(const QModelIndex &index, const QRegExp &re) const override
     {
         const QString text = index.data(contentType::text).toString();
         return re.indexIn(text) != -1;

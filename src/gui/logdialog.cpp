@@ -138,7 +138,7 @@ public:
     }
 
 private:
-    void decorate(QTextCursor *tc)
+    void decorate(QTextCursor *tc) override
     {
         const QString text = tc->selectedText();
         if ( text.startsWith(m_labelNote) )
@@ -176,7 +176,7 @@ public:
     }
 
 private:
-    void decorate(QTextCursor *tc)
+    void decorate(QTextCursor *tc) override
     {
         tc->setCharFormat(m_stringFormat);
     }

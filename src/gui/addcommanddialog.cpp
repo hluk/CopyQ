@@ -266,12 +266,12 @@ public:
     {
     }
 
-    int rowCount(const QModelIndex &) const
+    int rowCount(const QModelIndex &) const override
     {
         return m_commands.size();
     }
 
-    QVariant data(const QModelIndex &index, int role) const
+    QVariant data(const QModelIndex &index, int role) const override
     {
         if (!index.isValid())
             return QVariant();

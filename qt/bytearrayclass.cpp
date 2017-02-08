@@ -55,17 +55,17 @@ public:
     ByteArrayClassPropertyIterator(const QScriptValue &object);
     ~ByteArrayClassPropertyIterator();
 
-    bool hasNext() const;
-    void next();
+    bool hasNext() const override;
+    void next() override;
 
-    bool hasPrevious() const;
-    void previous();
+    bool hasPrevious() const override;
+    void previous() override;
 
-    void toFront();
-    void toBack();
+    void toFront() override;
+    void toBack() override;
 
-    QScriptString name() const;
-    uint id() const;
+    QScriptString name() const override;
+    uint id() const override;
 
 private:
     int m_index;

@@ -79,7 +79,7 @@ class FancyLineEditPrivate : public QObject
 public:
     explicit FancyLineEditPrivate(FancyLineEdit *parent);
 
-    virtual bool eventFilter(QObject *obj, QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
     FancyLineEdit *m_lineEdit;
     QString m_oldText;

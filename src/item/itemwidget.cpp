@@ -77,7 +77,7 @@ public:
     explicit TextEdit(QWidget *parent) : QTextEdit(parent) {}
 
 protected:
-    bool canInsertFromMimeData(const QMimeData *source) const
+    bool canInsertFromMimeData(const QMimeData *source) const override
     {
         return source->hasImage() || QTextEdit::canInsertFromMimeData(source);
     }
@@ -88,7 +88,7 @@ protected:
         return source->hasImage() || QTextEdit::canPaste();
     }
 
-    void insertFromMimeData(const QMimeData *source)
+    void insertFromMimeData(const QMimeData *source) override
     {
         const QString mime = findImageFormat(*source);
 

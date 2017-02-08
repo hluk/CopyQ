@@ -143,7 +143,7 @@ public:
         stopServer();
     }
 
-    QByteArray startServer()
+    QByteArray startServer() override
     {
         if ( isServerRunning() )
             return "Server is already running.";
@@ -189,7 +189,7 @@ public:
         return QByteArray();
     }
 
-    QByteArray stopServer()
+    QByteArray stopServer() override
     {
         QByteArray errors;
         const int exitCode = run(Args("exit"), nullptr, &errors);
@@ -204,13 +204,13 @@ public:
         return waitForAnyServerToQuit();
     }
 
-    bool isServerRunning()
+    bool isServerRunning() override
     {
         return m_server != nullptr && m_server->state() == QProcess::Running && isAnyServerRunning();
     }
 
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
-            QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray())
+            QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray()) override
     {
         QProcess p;
         if (!startTestProcess(&p, arguments))
@@ -265,7 +265,7 @@ public:
     }
 
     QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected,
-                         const QByteArray &input = QByteArray())
+                         const QByteArray &input = QByteArray()) override
     {
         if ( isMainThread() && !isServerRunning() )
             return "Server is not running!" + readServerErrors(ReadAllStderr);
@@ -288,7 +288,7 @@ public:
     }
 
     QByteArray runClientWithError(const QStringList &arguments, int expectedExitCode,
-                                  const QByteArray &stderrContains = QByteArray())
+                                  const QByteArray &stderrContains = QByteArray()) override
     {
         Q_ASSERT(expectedExitCode != 0);
 
@@ -327,7 +327,7 @@ public:
         return readServerErrors(ReadErrorsWithoutScriptException);
     }
 
-    QByteArray setClipboard(const QByteArray &bytes, const QString &mime)
+    QByteArray setClipboard(const QByteArray &bytes, const QString &mime) override
     {
         if (m_monitor == nullptr) {
             m_monitor.reset(new RemoteProcess);
@@ -358,7 +358,7 @@ public:
         return "";
     }
 
-    QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors)
+    QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors) override
     {
         if (isMainThread() && m_server) {
             QByteArray output = m_server->readAllStandardError();
@@ -388,7 +388,7 @@ public:
         return QByteArray();
     }
 
-    QByteArray getClientOutput(const QStringList &arguments, QByteArray *stdoutActual)
+    QByteArray getClientOutput(const QStringList &arguments, QByteArray *stdoutActual) override
     {
         stdoutActual->clear();
 
@@ -404,7 +404,7 @@ public:
         return "";
     }
 
-    QByteArray cleanup()
+    QByteArray cleanup() override
     {
         if ( !isServerRunning() )
             return QByteArray();
@@ -439,14 +439,14 @@ public:
         return out;
     }
 
-    QByteArray show()
+    QByteArray show() override
     {
         const QByteArray out = runClient(Args("show"), "");
         waitFor(waitMsShow);
         return out;
     }
 
-    QByteArray init()
+    QByteArray init() override
     {
         if ( !isServerRunning() ) {
             QByteArray errors = startServer();
@@ -470,7 +470,7 @@ public:
         return runClient(Args("enable"), "");
     }
 
-    QString shortcutToRemove()
+    QString shortcutToRemove() override
     {
         return ::shortcutToRemove();
     }
@@ -804,7 +804,7 @@ void Tests::dialogCommand()
         ~Thread() { wait(); }
 
     protected:
-        void run() {
+        void run() override {
             RUN(m_args, m_expectedOutput);
         }
 

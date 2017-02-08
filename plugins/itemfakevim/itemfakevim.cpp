@@ -80,7 +80,7 @@ public:
         m_handler->deleteLater();
     }
 
-    bool eventFilter(QObject *, QEvent *ev)
+    bool eventFilter(QObject *, QEvent *ev) override
     {
         if ( ev->type() != QEvent::Paint )
             return false;
@@ -430,7 +430,7 @@ signals:
     void invalidate();
 
 protected:
-    bool event(QEvent *event)
+    bool event(QEvent *event) override
     {
         if (event->type() == QEvent::PaletteChange) {
             QPalette pal = palette();

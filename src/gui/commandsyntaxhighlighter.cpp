@@ -104,7 +104,7 @@ public:
     }
 
 protected:
-    void highlightBlock(const QString &text)
+    void highlightBlock(const QString &text) override
     {
         m_bgColor = getDefaultIconColor(*m_editor);
 

@@ -91,7 +91,7 @@ bool areIconsTooSmall()
 
 class ApplicationStyle : public QProxyStyle {
 public:
-    int pixelMetric(PixelMetric metric, const QStyleOption *option, const QWidget *widget) const
+    int pixelMetric(PixelMetric metric, const QStyleOption *option, const QWidget *widget) const override
     {
         return fromPixels(QProxyStyle::pixelMetric(metric, option, widget), widget);
     }

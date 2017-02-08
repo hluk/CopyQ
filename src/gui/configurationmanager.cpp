@@ -64,10 +64,10 @@ public:
     {
     }
 
-    QVariant data() const { return m_loader->id(); }
+    QVariant data() const override { return m_loader->id(); }
 
 private:
-    QWidget *createWidget(QWidget *parent) const
+    QWidget *createWidget(QWidget *parent) const override
     {
         return new PluginWidget(m_loader, parent);
     }

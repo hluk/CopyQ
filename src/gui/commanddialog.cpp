@@ -55,10 +55,10 @@ public:
     {
     }
 
-    QVariant data() const { return QVariant::fromValue(m_command); }
+    QVariant data() const override { return QVariant::fromValue(m_command); }
 
 private:
-    QWidget *createWidget(QWidget *parent) const
+    QWidget *createWidget(QWidget *parent) const override
     {
         CommandWidget *cmdWidget = new CommandWidget(parent);
         cmdWidget->setFormats(m_formats);

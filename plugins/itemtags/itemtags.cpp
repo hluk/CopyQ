@@ -70,7 +70,7 @@ public:
     }
 
 protected:
-    void paintEvent(QPaintEvent *)
+    void paintEvent(QPaintEvent *) override
     {
         QPainter p(this);
         QFontMetrics fm = fontMetrics();
@@ -294,7 +294,7 @@ public:
     {
     }
 
-    QVariant data(int role) const
+    QVariant data(int role) const override
     {
         if (role == Qt::DecorationRole)
             return m_pixmap;
@@ -302,7 +302,7 @@ public:
         return QTableWidgetItem::data(role);
     }
 
-    void setData(int role, const QVariant &value)
+    void setData(int role, const QVariant &value) override
     {
         if (role == TagRole)
             setTag( value.value<ItemTags::Tag>() );

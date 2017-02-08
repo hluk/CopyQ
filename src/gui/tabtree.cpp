@@ -204,7 +204,7 @@ public:
     }
 
 protected:
-    bool eventFilter(QObject *, QEvent *event)
+    bool eventFilter(QObject *, QEvent *event) override
     {
         if ( event->type() == QEvent::Shortcut ) {
             for ( auto item : m_treeWidget->findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
