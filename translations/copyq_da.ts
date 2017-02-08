@@ -4175,7 +4175,8 @@ Standard er den første fane.</translation>
         <source>
 Evaluate ECMAScript program.
 Arguments are accessible using with "arguments[0..N]".</source>
-        <translation>Evaluer ECMAScript program.
+        <translation>
+Evaluer ECMAScript program.
 Argumenter er tilgængelige via "arguments[0..N]".</translation>
     </message>
     <message>
