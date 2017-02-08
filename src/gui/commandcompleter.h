@@ -33,14 +33,16 @@ public:
     bool eventFilter(QObject *watched, QEvent *event);
 
 private slots:
-    void updateCompletion();
+    void updateCompletion(bool forceShow = false);
     void insertCompletion(const QString &completion);
+    void showCompletion();
 
 private:
     QString textUnderCursor() const;
 
     QPlainTextEdit *m_editor;
     QCompleter *m_completer;
+    bool m_popupVisible;
 };
 
 #endif // COMMANDCOMPLETER_H

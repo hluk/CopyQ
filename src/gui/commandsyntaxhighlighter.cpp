@@ -110,6 +110,7 @@ protected:
 
         QTextCharFormat objectsFormat;
         objectsFormat.setForeground(mixColor(m_bgColor, 40, -60, 40));
+        objectsFormat.setToolTip("Object");
         highlight(text, m_reObjects, objectsFormat);
 
         QTextCharFormat propertyFormat;
@@ -261,6 +262,7 @@ private:
 QStringList scriptableKeywords()
 {
     return QStringList()
+            << "arguments"
             << "break"
             << "do"
             << "instanceof"

@@ -247,9 +247,9 @@ Opens action dialog.
 
 Runs command for items in current tab.
 
-###### popup(title, message, [timeout=8000])
+###### popup(title, message, [time=8000])
 
-Shows tray popup message for given time in milliseconds.
+Shows popup message for given time in milliseconds.
 
 ###### exportTab(fileName)
 
@@ -299,11 +299,15 @@ Returns standard input passed to the script.
 
 ###### ByteArray data(mimeType)
 
-Returns data for command (item data, clipboard data or text from action dialog).
+Returns data for automatic commands or selected items.
+
+If run from menu or using non-global shortcut the data are taken from selected items.
+
+If run for automatic command the data are clipboard content.
 
 ###### ByteArray setData(mimeType, data)
 
-Modifies data passed to automatic commands or selected items if run from menu or using shortcut.
+Modifies data for `data()` and new clipboard item.
 
 Next automatic command will get updated data.
 
@@ -323,11 +327,11 @@ E.g. following menu command will add tag to selected items.
 
 ###### ByteArray removeData(mimeType)
 
-Same as setData() except it removes given data format.
+Removes data for `data()` and new clipboard item.
 
 ###### Array dataFormats()
 
-Returns formats in data passed to automatic commands or selected items if run from menu or using shortcut.
+Returns formats available for `data()`.
 
 ###### print(value)
 
@@ -355,7 +359,7 @@ Returns tab that was selected when script was executed.
 
 ###### [row, ...] selectedItems()
 
-Returns array with rows of selected items in current tab.
+Returns selected rows in current tab.
 
 ###### int currentItem(), int index()
 
@@ -363,7 +367,7 @@ Returns current row in current tab.
 
 ###### String escapeHtml(text)
 
-Returns HTML representation of text (escapes special HTML characters).
+Returns text with special HTML characters escaped.
 
 ###### Item unpack(data)
 
@@ -526,7 +530,9 @@ Types
 
 ###### ByteArray
 
-Simple wrapper around [QByteArray](http://doc.qt.io/qt-5/qbytearray.html).
+Wrapper for QByteArray Qt class.
+
+See [QByteArray](http://doc.qt.io/qt-5/qbytearray.html).
 
 `ByteArray` is used to store all item data (image data, HTML and even plain text).
 
@@ -540,7 +546,9 @@ var text = str(read(0)) + str(read(1))
 
 ###### File
 
-Wrapper around [QFile](http://doc.qt.io/qt-5/qfile.html).
+Wrapper for QFile Qt class.
+
+See [QFile](http://doc.qt.io/qt-5/qfile.html).
 
 Following code reads contents of "README.md" file from current directory.
 
@@ -552,7 +560,9 @@ var bytes = f.readAll()
 
 ###### Dir
 
-Wrapper around [QDir](http://doc.qt.io/qt-5/qdir.html).
+Wrapper for QDir Qt class.
+
+See [QDir](http://doc.qt.io/qt-5/qdir.html).
 
 Objects
 -------
@@ -631,7 +641,7 @@ Data contains notes for item.
 
 ###### mimeOwner (application/x-copyq-owner)
 
-If this type is available, the clipboard was set from CopyQ (from script or copied items).
+If available, the clipboard was set from CopyQ (from script or copied items).
 
 ###### mimeClipboardMode (application/x-copyq-clipboard-mode)
 
@@ -656,7 +666,9 @@ Current item when invoking command from main window.
 
 ###### mimeHidden (application/x-copyq-hidden)
 
-If set to `1`, the clipboard or item content will be hidden in GUI (notes and tags will be visible).
+If set to `1`, the clipboard or item content will be hidden in GUI.
+
+This won't hide notes and tags.
 
 E.g. if you run following, window title and tool tip will be cleared.
 
@@ -681,9 +693,9 @@ Examples:
 
 ###### mimeOutputTab (application/x-copyq-output-tab)
 
-Valid only in automatic commands.
+Name of the tab where to store new item.
 
-Name of the tab where to store the clipboard data after all automatic commands are run.
+The clipboard data will be stored in tab with this name after all automatic commands are run.
 
 Clear or remove the format to omit storing the data.
 
@@ -693,22 +705,29 @@ E.g. to omit storing the clipboard data use following in an automatic command.
 removeData(mimeOutputTab)
 ```
 
+Valid only in automatic commands.
+
 ###### mimeSyncToClipboard (application/x-copyq-sync-to-selection)
 
-Valid only in Linux/X11 in automatic commands.
+If exists the X11 selection data will be copied to clipboard.
 
-If the format exists the Linux/X11 mouse selection data will be copied to clipboard after all automatic commands are run.
+The synchronization will happend after all automatic commands are run.
 
 ```js
 removeData(mimeSyncToClipboard)
 ```
 
-###### mimeSyncToSelection (application/x-copyq-sync-to-clipboard)
-
 Valid only in Linux/X11 in automatic commands.
 
-If the format exists the clipboard data will be copied to Linux/X11 mouse selection buffer after all automatic commands are run.
+###### mimeSyncToSelection (application/x-copyq-sync-to-clipboard)
+
+If exists the clipboard data will be copied to X11 selection.
+
+The synchronization will happend after all automatic commands are run.
 
 ```js
 removeData(mimeSyncToSelection)
 ```
+
+Valid only in Linux/X11 in automatic commands.
+
