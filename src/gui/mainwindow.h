@@ -188,7 +188,11 @@ public:
     bool toggleMenu(ClipboardBrowser *browser = nullptr);
 
     /** Switch between browse and search mode. */
-    void enterBrowseMode(bool browsemode = true);
+    void enterBrowseMode();
+
+    void enterSearchMode();
+
+    void enterSearchMode(const QString &txt);
 
     /** Show notification. */
     void showMessage(
@@ -411,6 +415,8 @@ public slots:
     /** Set text for filtering items. */
     void setFilter(const QString &text);
 
+    void hideSearchBar();
+
     void invoke(Callable *callable);
 
 #ifdef HAS_TESTS
@@ -442,7 +448,7 @@ protected:
 
     void showEvent(QShowEvent *event);
 
-    void hideEvent(QHideEvent *event);
+    bool focusNextPrevChild(bool next) override;
 
 #if QT_VERSION < 0x050000
 #   ifdef COPYQ_WS_X11
@@ -463,9 +469,7 @@ private slots:
     void clearTrayMenu();
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
     void onTrayActionTriggered(uint clipboardItemHash, bool omitPaste);
-    void enterSearchMode(const QString &txt);
-    void findNext(int where = 1);
-    void findPrevious();
+    void findNextOrPrevious();
     void tabChanged(int current, int previous);
     void saveTabPositions();
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix);

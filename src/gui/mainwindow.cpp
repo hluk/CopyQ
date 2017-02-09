@@ -413,6 +413,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, SLOT(tabCloseRequested(int)) );
     connect( ui->searchBar, SIGNAL(filterChanged(QRegExp)),
              this, SLOT(onFilterChanged(QRegExp)) );
+    connect( ui->searchBar, SIGNAL(returnPressed()),
+             this, SLOT(findNextOrPrevious()) );
     connect( m_actionHandler, SIGNAL(runningActionsCountChanged()),
              this, SLOT(updateIconSnip()) );
     connect( qApp, SIGNAL(aboutToQuit()),
@@ -495,9 +497,22 @@ void MainWindow::showEvent(QShowEvent *event)
     QMainWindow::showEvent(event);
 }
 
-void MainWindow::hideEvent(QHideEvent *event)
+bool MainWindow::focusNextPrevChild(bool next)
 {
-    QMainWindow::hideEvent(event);
+    // Fix tab order while searching in editor.
+    if (browser()->editing() && !browseMode()) {
+        if ( next && ui->searchBar->hasFocus() ) {
+            browser()->setFocus();
+            return true;
+        }
+
+        if ( !next && browser()->hasFocus() ) {
+            ui->searchBar->setFocus();
+            return true;
+        }
+    }
+
+    return QMainWindow::focusNextPrevChild(next);
 }
 
 void MainWindow::createMenu()
@@ -556,7 +571,7 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&Edit") );
 
     // - find
-    createAction( Actions::Edit_FindItems, SLOT(findNext()), menu );
+    createAction( Actions::Edit_FindItems, SLOT(findNextOrPrevious()), menu );
 
     // - separator
     menu->addSeparator();
@@ -1126,6 +1141,10 @@ ClipboardBrowser *MainWindow::createTab(
              this, SLOT(showContextMenu(QPoint)) );
     connect( c, SIGNAL(updateContextMenu()),
              this, SLOT(updateContextMenu()) );
+    connect( c, SIGNAL(searchRequest()),
+             this, SLOT(findNextOrPrevious()) );
+    connect( c, SIGNAL(searchHideRequest()),
+             this, SLOT(hideSearchBar()) );
 
     ui->tabWidget->addTab(c, name);
 
@@ -1555,14 +1574,21 @@ void MainWindow::showError(const QString &msg)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    QString txt;
     ClipboardBrowser *c = getBrowser();
-
-    if (c->editing())
-        return;
 
     const int key = event->key();
     const Qt::KeyboardModifiers modifiers = event->modifiers();
+
+    // Search items or text in editor (search previous when Shift is pressed).
+    if ( key == Qt::Key_F3
+         || (modifiers.testFlag(Qt::ControlModifier) && (key == Qt::Key_F || key == Qt::Key_G)) )
+    {
+        findNextOrPrevious();
+        return;
+    }
+
+    if (c->editing())
+        return;
 
     if (m_options.hideTabs && key == Qt::Key_Alt)
         setHideTabs(false);
@@ -1579,7 +1605,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
             switch(key) {
             case Qt::Key_Slash:
-                enterBrowseMode(false);
+                enterSearchMode();
                 event->accept();
                 return;
             case Qt::Key_H:
@@ -1614,19 +1640,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
 
-    if ( key == Qt::Key_F3 || (modifiers.testFlag(Qt::ControlModifier) && key == Qt::Key_G) ) {
-        if ( modifiers.testFlag(Qt::ShiftModifier) )
-            findPrevious();
-        else
-            findNext();
-        return;
-    }
-
     if (modifiers == Qt::ControlModifier) {
         switch(key) {
-            case Qt::Key_F:
-                enterBrowseMode(false);
-                return;
             case Qt::Key_Return:
             case Qt::Key_Enter:
                 if ( c->isLoaded() )
@@ -1679,7 +1694,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         default:
             QMainWindow::keyPressEvent(event);
             if ( !event->isAccepted() ) {
-                txt = event->text();
+                const auto txt = event->text();
                 if ( !txt.isEmpty() && txt[0].isPrint() )
                     enterSearchMode(txt);
             }
@@ -2324,7 +2339,10 @@ ClipboardBrowser *MainWindow::getTabForTrayMenu()
 
 void MainWindow::onFilterChanged(const QRegExp &re)
 {
-    enterBrowseMode( re.isEmpty() );
+    if (re.isEmpty())
+        enterBrowseMode();
+    else
+        enterSearchMode();
     browser()->filterItems(re);
     updateItemPreview();
 }
@@ -2364,42 +2382,49 @@ void MainWindow::updateFocusWindows()
         m_lastWindow = lastWindow;
 }
 
-void MainWindow::enterSearchMode(const QString &txt)
+void MainWindow::hideSearchBar()
 {
-    enterBrowseMode(false);
-    ui->searchBar->setText( ui->searchBar->text() + txt );
+    ui->searchBar->hide();
+    ui->searchBar->clear();
 }
 
-void MainWindow::findNext(int where)
+void MainWindow::findNextOrPrevious()
 {
     if (browseMode()) {
-        enterBrowseMode(false);
+        enterSearchMode();
     } else {
         ClipboardBrowser *c = browser();
-        if ( c->hasFocus() )
-            c->setCurrent( c->currentIndex().row() + where );
-        else
+        const bool next = !QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier);
+        if ( c->editing() ) {
+            ui->searchBar->setFocus(Qt::ShortcutFocusReason);
+            if (next)
+                c->findNext();
+            else
+                c->findPrevious();
+        } else if ( c->hasFocus() ) {
+            c->setCurrent( c->currentIndex().row() + (next ? 1 : -1) );
+        } else {
             c->setFocus();
+        }
     }
 }
 
-void MainWindow::findPrevious()
+void MainWindow::enterBrowseMode()
 {
-    findNext(-1);
+    getBrowser()->setFocus();
+    if ( ui->searchBar->text().isEmpty() )
+        ui->searchBar->hide();
 }
 
-void MainWindow::enterBrowseMode(bool browsemode)
+void MainWindow::enterSearchMode()
 {
-    if (browsemode) {
-        // browse mode
-        getBrowser()->setFocus();
-        if ( ui->searchBar->text().isEmpty() )
-            ui->searchBar->hide();
-    } else {
-        // search mode
-        ui->searchBar->show();
-        ui->searchBar->setFocus(Qt::ShortcutFocusReason);
-    }
+    ui->searchBar->show();
+    ui->searchBar->setFocus(Qt::ShortcutFocusReason);
+}
+void MainWindow::enterSearchMode(const QString &txt)
+{
+    enterSearchMode();
+    ui->searchBar->setText( ui->searchBar->text() + txt );
 }
 
 void MainWindow::updateTrayMenuItems()

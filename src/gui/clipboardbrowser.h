@@ -242,6 +242,10 @@ class ClipboardBrowser : public QListView
         /// Decorate browser and items with @a theme.
         void decorate(const Theme &theme);
 
+        void findNext();
+
+        void findPrevious();
+
     public slots:
         /**
          * Load items from configuration.
@@ -299,6 +303,9 @@ class ClipboardBrowser : public QListView
         void showContextMenu(const QPoint &position);
 
         void updateContextMenu();
+
+        void searchRequest();
+        void searchHideRequest();
 
     protected:
         void keyPressEvent(QKeyEvent *event);

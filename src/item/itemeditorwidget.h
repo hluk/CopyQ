@@ -21,12 +21,14 @@
 #define ITEMEDITORWIDGET_H
 
 #include <QPersistentModelIndex>
+#include <QRegExp>
 #include <QWidget>
 
 class ItemWidget;
 class QAbstractItemModel;
 class QPlainTextEdit;
 class QTextCursor;
+class QTextDocument;
 class QToolBar;
 
 /**
@@ -53,10 +55,17 @@ public:
 
     QModelIndex index() const { return m_index; }
 
+    void search(const QRegExp &re);
+
+    void findNext(const QRegExp &re);
+
+    void findPrevious(const QRegExp &re);
+
 signals:
     void save();
     void cancel();
     void invalidate();
+    void searchRequest();
 
 protected:
     bool eventFilter(QObject *object, QEvent *event);
@@ -78,7 +87,15 @@ private:
     QWidget *createEditor(const ItemWidget *itemWidget);
     void initEditor(QWidget *editor);
     void initMenuItems();
+
+    void search(const QRegExp &re, bool backwards);
+
+    template <typename TextEdit>
+    TextEdit *editor() const;
+
+    QTextDocument *document() const;
     QTextCursor textCursor() const;
+    void setTextCursor(const QTextCursor &tc);
 
     ItemWidget *m_itemWidget;
     QPersistentModelIndex m_index;

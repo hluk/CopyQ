@@ -423,7 +423,10 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
             QMenu *menu = qobject_cast<QMenu*>(object);
             if (menu != nullptr) {
                 menu->close();
-                m_wnd->enterBrowseMode(m_wnd->browseMode());
+                if (m_wnd->browseMode())
+                    m_wnd->enterBrowseMode();
+                else
+                    m_wnd->enterSearchMode();
             }
         }
     } else if (type == QEvent::Paint) {

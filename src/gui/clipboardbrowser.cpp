@@ -484,6 +484,8 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
                      this, SLOT(onEditorCancel()) );
             connect( editor, SIGNAL(invalidate()),
                      editor, SLOT(deleteLater()) );
+            connect( editor, SIGNAL(searchRequest()),
+                     this, SIGNAL(searchRequest()) );
             updateEditorGeometry();
             editor->show();
             editor->setFocus();
@@ -513,6 +515,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
     setHorizontalScrollBarPolicy(scrollbarPolicy);
 
     emit updateContextMenu();
+    emit searchHideRequest();
 }
 
 void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes, bool changeClipboard)
@@ -924,7 +927,10 @@ void ClipboardBrowser::onEditorSave()
 
 void ClipboardBrowser::onEditorCancel()
 {
-    maybeCloseEditor();
+    if ( editing() && m_editor->hasFocus() )
+        maybeCloseEditor();
+    else
+        emit searchHideRequest();
 }
 
 void ClipboardBrowser::onModelUnloaded()
@@ -1276,6 +1282,9 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
     // Do nothing if same regexp was already set or both are empty (don't compare regexp options).
     if ( (d.searchExpression().isEmpty() && re.isEmpty()) || d.searchExpression() == re )
         return;
+
+    if ( editing() )
+        m_editor->search(re);
 
     d.setSearch(re);
 
@@ -1791,6 +1800,18 @@ void ClipboardBrowser::decorate(const Theme &theme)
 {
     theme.decorateBrowser(this, &d);
     invalidateItemCache();
+}
+
+void ClipboardBrowser::findNext()
+{
+    if (editing())
+        m_editor->findNext(d.searchExpression());
+}
+
+void ClipboardBrowser::findPrevious()
+{
+    if (editing())
+        m_editor->findPrevious(d.searchExpression());
 }
 
 void ClipboardBrowser::invalidateItemCache()
