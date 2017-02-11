@@ -697,7 +697,7 @@ Příkaz je možné zmenit v nastavení.</translation>
         <location filename="../src/gui/commandcompleter.cpp" line="345"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Space</translation>
     </message>
 </context>
 <context>
@@ -3572,7 +3572,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="417"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledat</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="352"/>
@@ -5594,17 +5594,17 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="335"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished">Záložka s daným názvem neexistuje!</translation>
+        <translation>Záložka s daným názvem neexistuje!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="340"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished">Název záložky nemůže být prázdný!</translation>
+        <translation>Název záložky nemůže být prázdný!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="451"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished">Záložka se stejným jménem již existuje!</translation>
+        <translation>Záložka se stejným jménem již existuje!</translation>
     </message>
 </context>
 <context>
