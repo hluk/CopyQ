@@ -1,0 +1,78 @@
+# Use latest Ubuntu LTS docker image.
+image: ubuntu:xenial
+
+build:
+  stage: build
+
+  before_script:
+    - apt update
+    # Build dependencies
+    - apt -y install g++ cmake make git
+    - apt -y install qtbase5-private-dev qtscript5-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev
+    # Optional: Better support for X11
+    - apt -y install libxfixes-dev libxtst-dev
+    # Optional: CMake can get version from git
+    - apt -y install git
+
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake -DWITH_TESTS=TRUE -DWITH_QT5=TRUE -DCMAKE_INSTALL_PREFIX=../copyq ..
+    - make install
+
+  # Upload installed application.
+  artifacts:
+    paths:
+      - copyq
+
+  cache:
+    paths:
+      - build
+
+# Run simple tests (doesn't require GUI)
+test:
+  stage: test
+
+  before_script:
+    - apt update
+    # Runtime libraries
+    - apt -y install libqt5core5a libqt5gui5 libqt5network5 libqt5script5 libqt5widgets5 libx11-6 libxtst6 libqt5svg5 libqt5xml5 libqt5test5
+
+  script:
+    - copyq/bin/copyq help
+    - copyq/bin/copyq version
+
+  dependencies:
+    - build
+
+# GUI tests (requires X11)
+test_gui:
+  stage: test
+
+  before_script:
+    - apt update
+    # Runtime libraries
+    - apt -y install libqt5core5a libqt5gui5 libqt5network5 libqt5script5 libqt5widgets5 libx11-6 libxtst6 libqt5svg5 libqt5xml5 libqt5test5
+    # X11 and window manager
+    - apt -y install xvfb openbox
+    # Screenshot utility
+    - apt -y install scrot
+
+  script:
+    - export DISPLAY=':99.0'
+    - Xvfb :99 -screen 0 640x480x24 &
+    - sleep 5
+    - openbox &
+    - sleep 5
+    # Take screenshots in intervals.
+    - (mkdir -p screenshots && while true; do i=$((i+1)); f="screenshots/$i.png"; sleep 1 && echo "   --- $f ---" && scrot "$f" || break; done) &
+    - copyq/bin/copyq tests
+
+  # Upload screenshots on failure.
+  artifacts:
+    when: on_failure
+    paths:
+      - screenshots
+
+  dependencies:
+    - build
