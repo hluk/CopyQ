@@ -482,7 +482,9 @@ void ConfigurationManager::apply()
     // Language changes after restart.
     const int newLocaleIndex = ui->comboBoxLanguage->currentIndex();
     const QString newLocaleName = ui->comboBoxLanguage->itemData(newLocaleIndex).toString();
-    const QString oldLocaleName = settings.value("Options/language").toString();
+    QString oldLocaleName = settings.value("Options/language").toString();
+    if (oldLocaleName.isEmpty())
+        oldLocaleName = "en";
     const QLocale oldLocale;
 
     settings.setValue("Options/language", newLocaleName);
