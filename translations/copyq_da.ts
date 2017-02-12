@@ -386,7 +386,7 @@ Du kan ændre kommandoen i indstillinget.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="182"/>
         <source>Shift+Return</source>
-        <translation>Skift+Enter</translation>
+        <translation>Shift+Enter</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="185"/>
@@ -1179,7 +1179,7 @@ CTRL og op eller ned pil.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="130"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation>Nogle tilfældige noter (SKIFT + F2 for at redigere)</translation>
+        <translation>Nogle tilfældige noter (Shift + F2 for at redigere)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="163"/>
@@ -1357,7 +1357,7 @@ CTRL og op eller ned pil.</translation>
     </message>
     <message>
         <source>Ctrl+Shift+N</source>
-        <translation type="vanished">Ctrl+Skift+N</translation>
+        <translation>Ctrl+Shift+N</translation>
     </message>
     <message>
         <source>Ne&amp;xt to Clipboard</source>
@@ -1369,7 +1369,7 @@ CTRL og op eller ned pil.</translation>
     </message>
     <message>
         <source>Ctrl+Shift+P</source>
-        <translation type="vanished">Ctrl+Skift+P</translation>
+        <translation>Ctrl+Shift+P</translation>
     </message>
     <message>
         <source>&amp;Remove</source>
@@ -1457,7 +1457,7 @@ CTRL og op eller ned pil.</translation>
     </message>
     <message>
         <source>Ctrl+Shift+T</source>
-        <translation type="vanished">Ctrl+Skift+T</translation>
+        <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
         <source>Ne&amp;xt Tab</source>
@@ -1628,7 +1628,7 @@ CTRL og op eller ned pil.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="213"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation>Gør det muligt for at indsætte musemarkeringer med genvej (normalt Ctrl+V eller Skift+Indsæt)</translation>
+        <translation>Gør det muligt for at indsætte musemarkeringer med genvej (normalt Ctrl+V eller Shift+Indsæt)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="236"/>
@@ -2207,7 +2207,7 @@ Sæt til 0 for at deaktivere.</translation>
     </message>
     <message>
         <source>Shift+Return</source>
-        <translation type="vanished">Skift+Enter</translation>
+        <translation>Shift+Enter</translation>
     </message>
     <message>
         <source>Create thumbnail (needs ImageMagick)</source>
@@ -2585,7 +2585,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="23"/>
         <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation type="unfinished">Vælg formater til at gemme i historie. Du kan tilføje et format fra eksempler nedenfor eller skriv i andre (én pr. linje).</translation>
+        <translation type="unfinished">Vælg formater til at gemme i historik. Du kan tilføje et format fra eksempler nedenfor eller skriv i andre (én pr. linje).</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"/>
@@ -2712,7 +2712,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="368"/>
         <source>Font</source>
-        <translation type="unfinished">Skrifttype</translation>
+        <translation>Skrifttype</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="373"/>
@@ -2737,12 +2737,12 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="398"/>
         <source>Foreground</source>
-        <translation type="unfinished">Forgrund</translation>
+        <translation>Forgrund</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="403"/>
         <source>Background</source>
-        <translation type="unfinished">Baggrund</translation>
+        <translation>Baggrund</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="410"/>
@@ -2949,7 +2949,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished">Maksimal bredde af billedet vises i historie (sæt til nul for oprindelige størrelse)</translation>
+        <translation>Maksimal bredde på billede, der vises i historik (sæt til nul for oprindelige størrelse)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
@@ -2959,7 +2959,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished">Maksimal højde på billede, der vises i historie (sæt til nul for oprindelige størrelse)</translation>
+        <translation>Maksimal højde på billede, der vises i historik (sæt til nul for oprindelige størrelse)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
@@ -3139,7 +3139,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item MIME Type</source>
-        <translation type="unfinished">Emne MIME type</translation>
+        <translation>MIME type for element</translation>
     </message>
 </context>
 <context>
@@ -3598,7 +3598,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="189"/>
         <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished">Element filen %1 er beskadiget eller nogle CopyQ plugins mangler!</translation>
+        <translation>Elementfilen %1 er beskadiget eller der mangler nogle CopyQ udvidelser!</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="231"/>
@@ -3631,22 +3631,22 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished">&amp;Nyt element</translation>
+        <translation>&amp;Nyt element</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>&amp;Import Tab...</source>
-        <translation type="unfinished">&amp;Importer fanen…</translation>
+        <translation>&amp;Importer Fane…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="64"/>
         <source>&amp;Export Tab...</source>
-        <translation type="unfinished">&amp;Eksporter fanen…</translation>
+        <translation>&amp;Eksporter Fane…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
@@ -3656,22 +3656,22 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished">Ctrl+P</translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="unfinished">K&amp;ommandoer/globale genveje…</translation>
+        <translation>K&amp;ommandoer/Globale genveje…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished">K&amp;ommandoer…</translation>
+        <translation>K&amp;ommandoer…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
@@ -3681,7 +3681,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="77"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished">Ctrl+Shift+C</translation>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
@@ -3691,7 +3691,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished">Ctrl+Shift+X</translation>
+        <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
@@ -3701,7 +3701,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished">Ctrl+Shift+Z</translation>
+        <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
@@ -3711,17 +3711,17 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished">Ctrl+Q</translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="85"/>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished">&amp;Sorter de markerede elementer</translation>
+        <translation>&amp;Sorter de markerede elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished">Ctrl+Shift+S</translation>
+        <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
@@ -3731,12 +3731,12 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="89"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished">Ctrl+Shift+R</translation>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished">Indsæt elementer</translation>
+        <translation>Indsæt elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
@@ -3746,12 +3746,12 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="95"/>
         <source>&amp;Find</source>
-        <translation type="unfinished">&amp;Find</translation>
+        <translation>&amp;Find</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
         <source>Move to &amp;Clipboard</source>
-        <translation type="unfinished">Flyt til Udklipsholder</translation>
+        <translation>Flyt til Udklipsholder</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
@@ -3761,7 +3761,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -3771,7 +3771,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>F7</source>
-        <translation type="unfinished">F7</translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
@@ -3786,17 +3786,17 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished">Rediger &amp;noter</translation>
+        <translation>Rediger &amp;Noter</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>Shift+F2</source>
-        <translation type="unfinished">Shift+F2</translation>
+        <translation>Shift+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
@@ -3806,7 +3806,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished">Ctrl+E</translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
@@ -3816,77 +3816,77 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>Next Format</source>
-        <translation type="unfinished">Næste Format</translation>
+        <translation>Næste Format</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>Ctrl+Right</source>
-        <translation type="unfinished">Ctrl+højre</translation>
+        <translation>Ctrl+Højre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Previous Format</source>
-        <translation type="unfinished">Forrige Format</translation>
+        <translation>Forrige Format</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Ctrl+Left</source>
-        <translation type="unfinished">CTRL+venstre</translation>
+        <translation>CTRL+Venstre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Up</source>
-        <translation type="unfinished">Flyt op</translation>
+        <translation>Flyt op</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Up</source>
-        <translation type="unfinished">Ctrl+pil op</translation>
+        <translation>Ctrl+Pil Op</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move Down</source>
-        <translation type="unfinished">Flyt ned</translation>
+        <translation>Flyt ned</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Ctrl+Down</source>
-        <translation type="unfinished">Ctrl+pil ned</translation>
+        <translation>Ctrl+Pil ned</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Top</source>
-        <translation type="unfinished">Flyt til top</translation>
+        <translation>Flyt til Toppen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="124"/>
         <source>Ctrl+Home</source>
-        <translation type="unfinished">CTRL+Home</translation>
+        <translation>CTRL+Home</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="125"/>
         <source>Move to Bottom</source>
-        <translation type="unfinished">Flyt til bund</translation>
+        <translation>Flyt til bunden</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>Ctrl+End</source>
-        <translation type="unfinished">CTRL+End</translation>
+        <translation>CTRL+End</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished">&amp;Ny fane</translation>
+        <translation>&amp;Ny fane</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished">Ctrl+T</translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="130"/>
@@ -3896,7 +3896,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+F2</source>
-        <translation type="unfinished">Ctrl+F2</translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
@@ -3906,7 +3906,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished">Ctrl+W</translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
@@ -3916,7 +3916,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Ctrl+Shift+T</source>
-        <translation type="unfinished">Ctrl+Skift+T</translation>
+        <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="136"/>
@@ -3926,7 +3926,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>Right</source>
-        <translation type="unfinished">Højre</translation>
+        <translation>Højre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
@@ -3936,7 +3936,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"/>
         <source>Left</source>
-        <translation type="unfinished">Venstre</translation>
+        <translation>Venstre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
@@ -3946,12 +3946,12 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>F12</source>
-        <translation type="unfinished">F12</translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Hjælp</translation>
+        <translation>&amp;Hjælp</translation>
     </message>
     <message>
         <source>Cannot create directory for settings %1!</source>
@@ -4012,7 +4012,7 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
         <source>Print X11 selection content.</source>
-        <translation type="unfinished">Udskriv X11 valg af indhold.</translation>
+        <translation>Udskriv indholdet af X11 markering.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
@@ -4313,8 +4313,8 @@ Starter eller forbinder til ansøgning instans med given session navn.</translat
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
         <source>
 Print help for COMMAND or all commands.</source>
-        <translation type="unfinished">
-Udskriv hjælp for kommando eller alle kommandoer.</translation>
+        <translation>
+Udskriv hjælp for KOMMANDO eller alle kommandoer.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
@@ -4413,17 +4413,17 @@ Udskriv programversion og biblioteker.</translation>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="335"/>
         <source>Tab with given name doesn't exist!</source>
-        <translation type="unfinished">Fanen med navnet eksisterer ikke!</translation>
+        <translation>Fanen med det pågældende navn eksisterer ikke!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="340"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished">Fanenavn må ikke være tomt!</translation>
+        <translation>Fanenavn må ikke være tomt!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="451"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished">Fanen med angivne navn findes allerede!</translation>
+        <translation>Fanen med det angivne navn findes allerede!</translation>
     </message>
 </context>
 <context>
