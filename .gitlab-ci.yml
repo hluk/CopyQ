@@ -17,7 +17,7 @@ build:
   script:
     - mkdir -p build
     - cd build
-    - cmake -DWITH_TESTS=TRUE -DWITH_QT5=TRUE -DCMAKE_INSTALL_PREFIX=../copyq ..
+    - cmake -DWITH_TESTS=TRUE -DWITH_QT5=TRUE -DCMAKE_INSTALL_PREFIX=../copyq -DCOPYQ_ITEMSYNC_UPDATE_INTERVAL_MS=1000 ..
     - make install
 
   # Upload installed application.
