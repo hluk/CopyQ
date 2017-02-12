@@ -209,8 +209,10 @@ ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent, b
 
 QStringList ItemImageLoader::formatsToSave() const
 {
-    return QStringList("image/svg+xml") << QString("image/bmp") << QString("image/png")
-                                        << QString("image/jpeg") << QString("image/gif");
+    return QStringList()
+            << QString("image/svg+xml")
+            << QString("image/png")
+            << QString("image/gif");
 }
 
 QVariantMap ItemImageLoader::applySettings()
