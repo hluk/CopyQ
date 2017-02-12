@@ -46,6 +46,11 @@
 #   include <QTextDocument> // Qt::escape()
 #endif
 
+// This is needed on X11 when retrieving lots of data from clipboard.
+#if QT_VERSION >= 0x050000 && defined(COPYQ_WS_X11)
+#   define PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
+#endif
+
 namespace {
 
 QString getImageFormatFromMime(const QString &mime)
@@ -259,13 +264,19 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
 
     QImage image;
     bool imageLoaded = false;
+
+#ifdef PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
     const QPointer<const QMimeData> dataGuard(&data);
+#endif
 
     for (const auto &mime : formats) {
-        // This is needed on X11 when retrieving lots of data from clipboard.
+#ifdef PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
         QCoreApplication::processEvents();
-        if (!dataGuard)
+        if (dataGuard.isNull()) {
+            log("Clipboard data lost", LogWarning);
             return newdata;
+        }
+#endif
 
         const QByteArray bytes = getUtf8Data(data, mime);
         if ( !bytes.isEmpty() ) {
