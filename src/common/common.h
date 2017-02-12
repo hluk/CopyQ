@@ -66,8 +66,6 @@ const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 
 uint hash(const QVariantMap &data);
 
-QByteArray getUtf8Data(const QMimeData &data, const QString &format);
-
 QString getTextData(const QByteArray &data);
 
 /**
