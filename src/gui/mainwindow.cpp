@@ -383,6 +383,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     ui->tabWidget->addToolBars(this);
     addToolBar(Qt::RightToolBarArea, ui->toolBar);
 
+    ui->dockWidgetItemPreview->hide();
+
     WindowGeometryGuard::create(this);
     restoreState( mainWindowState(objectName()) );
     // NOTE: QWidget::isVisible() returns false if parent is not visible.
