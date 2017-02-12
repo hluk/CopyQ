@@ -767,6 +767,16 @@ public:
     {
         m_watcher.addPath(path);
 
+#ifdef COPYQ_ITEMSYNC_UPDATE_INTERVAL_MS
+        {
+            auto t = new QTimer(this);
+            t->setInterval(COPYQ_ITEMSYNC_UPDATE_INTERVAL_MS);
+            connect( t, SIGNAL(timeout()),
+                     SLOT(updateItems()) );
+            t->start();
+        }
+#endif
+
         m_updateTimer.setInterval(updateItemsIntervalMs);
         m_updateTimer.setSingleShot(true);
         connect( &m_updateTimer, SIGNAL(timeout()),
@@ -846,6 +856,8 @@ public slots:
      */
     void updateItems()
     {
+        m_updateTimer.stop();
+
         if ( m_model.isNull() )
             return;
 

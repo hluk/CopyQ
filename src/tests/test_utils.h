@@ -21,7 +21,7 @@
 #define TEST_UTILS_H
 
 #include <QByteArray>
-#include <QDebug>
+#include <QFile>
 #include <QString>
 #include <QStringList>
 #include <QTest>
@@ -35,7 +35,10 @@
 do { \
     QByteArray errors_ = (ERRORS_OR_EMPTY); \
     if (!errors_.isEmpty()) { \
-      qWarning() << errors_; \
+      QFile ferr; \
+      ferr.open(stderr, QIODevice::WriteOnly); \
+      ferr.write(errors_ + "\n"); \
+      ferr.close(); \
       QVERIFY2(false, "Failed with errors above."); \
     } \
 } while (false)

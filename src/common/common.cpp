@@ -46,6 +46,11 @@
 #   include <QTextDocument> // Qt::escape()
 #endif
 
+// This is needed on X11 when retrieving lots of data from clipboard.
+#if QT_VERSION >= 0x050000 && defined(COPYQ_WS_X11)
+#   define PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
+#endif
+
 namespace {
 
 QString getImageFormatFromMime(const QString &mime)
@@ -149,13 +154,30 @@ int indexOfKeyHint(const QString &name)
     return -1;
 }
 
-
 QString escapeHtmlSpaces(const QString &str)
 {
     QString str2 = str;
     return str2
             .replace(' ', "&nbsp;")
             .replace('\n', "<br />");
+}
+
+QByteArray getUtf8Data(const QMimeData &data, const QString &format)
+{
+    if (format == mimeText || format == mimeHtml)
+        return dataToText( data.data(format), format ).toUtf8();
+
+    if (format == mimeUriList) {
+        QByteArray bytes;
+        for ( const auto &url : data.urls() ) {
+            if ( !bytes.isEmpty() )
+                bytes += '\n';
+            bytes += url.toString().toUtf8();
+        }
+        return bytes;
+    }
+
+    return data.data(format);
 }
 
 } // namespace
@@ -207,24 +229,6 @@ uint hash(const QVariantMap &data)
     return hash;
 }
 
-QByteArray getUtf8Data(const QMimeData &data, const QString &format)
-{
-    if (format == mimeText || format == mimeHtml)
-        return dataToText( data.data(format), format ).toUtf8();
-
-    if (format == mimeUriList) {
-        QByteArray bytes;
-        for ( const auto &url : data.urls() ) {
-            if ( !bytes.isEmpty() )
-                bytes += '\n';
-            bytes += url.toString().toUtf8();
-        }
-        return bytes;
-    }
-
-    return data.data(format);
-}
-
 QString getTextData(const QByteArray &bytes)
 {
     // QString::fromUtf8(bytes) ends string at first '\0'.
@@ -261,7 +265,19 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
     QImage image;
     bool imageLoaded = false;
 
+#ifdef PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
+    const QPointer<const QMimeData> dataGuard(&data);
+#endif
+
     for (const auto &mime : formats) {
+#ifdef PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
+        QCoreApplication::processEvents();
+        if (dataGuard.isNull()) {
+            log("Clipboard data lost", LogWarning);
+            return newdata;
+        }
+#endif
+
         const QByteArray bytes = getUtf8Data(data, mime);
         if ( !bytes.isEmpty() ) {
             newdata.insert(mime, bytes);
