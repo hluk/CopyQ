@@ -1707,6 +1707,19 @@ void Tests::sleepCommand()
     QVERIFY(afterElapsed1000Ms > 1000);
 }
 
+void Tests::dataCommands()
+{
+    RUN("eval" << "setData('x', 'X'); data('x')", "X");
+    RUN("eval" << "setData('x', 'X'); setData('y', 'Y'); str(data('x')) + str(data('y'))", "XY\n");
+
+    RUN("dataFormats", "");
+    RUN("eval" << "setData('x'); dataFormats()", "x\n");
+    RUN("eval" << "setData('x'); setData('y'); dataFormats()", "x\ny\n");
+
+    RUN("eval" << "setData('x'); setData('y'); removeData('x'); dataFormats()", "y\n");
+    RUN("eval" << "setData('x'); setData('y'); removeData('y'); dataFormats()", "x\n");
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);
