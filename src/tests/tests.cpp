@@ -1245,18 +1245,19 @@ void Tests::externalEditor()
     const QString editorTab = testTab(2);
     const Args editorArgs = Args("tab") << editorTab;
     const Args editorFileNameArgs = Args(editorArgs) << "read" << "0";
-    const QString endEditor = "END_EDITOR";
-    const Args editorEndArgs = Args(editorArgs) << "add" << endEditor;
+    const Args editorEndArgs = Args(editorArgs) << "remove" << "0";
 
-    // Set edit command add first argument (filename to edit) to list.
-    // Script ends when first item is "ABORT".
-    QString cmd = QString(
-                "\"%1\" tab \"%2\" eval "
-                "\"add(arguments[1]);while(str(read(0)) != '%3');\" "
+    // Set editor command which add file name to edit to special editor tab.
+    // The command finishes when the special tab is emptied by this test.
+    // File to edit is removed by application when the command finished.
+    const auto cmd = QString(
+                R"(
+                    "%1" tab "%2" eval
+                    "add(arguments[1]); while(length()) sleep(100);"
+                )"
                 "--")
             .arg(QApplication::applicationFilePath())
             .arg(editorTab)
-            .arg(endEditor)
             + " %1";
     RUN("config" << "editor" << cmd, "");
 
