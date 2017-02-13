@@ -35,6 +35,7 @@
 #include <QClipboard>
 #include <QDebug>
 #include <QDir>
+#include <QElapsedTimer>
 #include <QFileInfo>
 #include <QMap>
 #include <QMimeData>
@@ -1245,18 +1246,19 @@ void Tests::externalEditor()
     const QString editorTab = testTab(2);
     const Args editorArgs = Args("tab") << editorTab;
     const Args editorFileNameArgs = Args(editorArgs) << "read" << "0";
-    const QString endEditor = "END_EDITOR";
-    const Args editorEndArgs = Args(editorArgs) << "add" << endEditor;
+    const Args editorEndArgs = Args(editorArgs) << "remove" << "0";
 
-    // Set edit command add first argument (filename to edit) to list.
-    // Script ends when first item is "ABORT".
-    QString cmd = QString(
-                "\"%1\" tab \"%2\" eval "
-                "\"add(arguments[1]);while(str(read(0)) != '%3');\" "
+    // Set editor command which add file name to edit to special editor tab.
+    // The command finishes when the special tab is emptied by this test.
+    // File to edit is removed by application when the command finished.
+    const auto cmd = QString(
+                R"(
+                    "%1" tab "%2" eval
+                    "add(arguments[1]); while(length()) sleep(100);"
+                )"
                 "--")
             .arg(QApplication::applicationFilePath())
             .arg(editorTab)
-            .arg(endEditor)
             + " %1";
     RUN("config" << "editor" << cmd, "");
 
@@ -1688,6 +1690,41 @@ void Tests::setEnvCommand()
         "\n   print('FAILED')"
         , "OK"
         );
+}
+
+void Tests::sleepCommand()
+{
+    QElapsedTimer t;
+
+    t.start();
+    RUN("sleep" << "100", "");
+    const auto afterElapsed100Ms = t.elapsed();
+    QVERIFY(afterElapsed100Ms > 100);
+
+    t.start();
+    RUN("sleep" << "1000", "");
+    const auto afterElapsed1000Ms = t.elapsed();
+    QVERIFY(afterElapsed1000Ms > 1000);
+}
+
+void Tests::dataCommands()
+{
+    RUN("eval" << "setData('x', 'X'); data('x')", "X");
+    RUN("eval" << "setData('x', 'X'); setData('y', 'Y'); str(data('x')) + str(data('y'))", "XY\n");
+
+    RUN("dataFormats", "");
+    RUN("eval" << "setData('x'); dataFormats()", "x\n");
+    RUN("eval" << "setData('x'); setData('y'); dataFormats()", "x\ny\n");
+
+    RUN("eval" << "setData('x'); setData('y'); removeData('x'); dataFormats()", "y\n");
+    RUN("eval" << "setData('x'); setData('y'); removeData('y'); dataFormats()", "x\n");
+}
+
+void Tests::setCurrentTabCommand()
+{
+    const auto tab = testTab(1);
+    RUN("setCurrentTab" << tab, "");
+    RUN("testSelected", tab + "\n");
 }
 
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)

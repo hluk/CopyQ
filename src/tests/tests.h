@@ -118,6 +118,12 @@ private slots:
 
     void setEnvCommand();
 
+    void sleepCommand();
+
+    void dataCommands();
+
+    void setCurrentTabCommand();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

@@ -33,16 +33,16 @@ cache:
     - $HOME/.wheelhouse
 
 before_install:
-  - utils/travis-before-install-${TRAVIS_OS_NAME}.sh
+  - utils/travis/before-install-${TRAVIS_OS_NAME}.sh
 
 install:
-  - utils/travis-install-deps-${TRAVIS_OS_NAME}.sh
+  - utils/travis/install-${TRAVIS_OS_NAME}.sh
 
 script:
-  - utils/build-${TRAVIS_OS_NAME}.sh
+  - utils/travis/script-${TRAVIS_OS_NAME}.sh
 
 after_success:
-  - utils/after_build-${TRAVIS_OS_NAME}.sh
+  - utils/travis/after_success-${TRAVIS_OS_NAME}.sh
 
 deploy:
   provider: releases

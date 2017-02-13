@@ -37,7 +37,6 @@
 #include <QCryptographicHash>
 #include <QDir>
 #include <QFile>
-#include <QFileSystemWatcher>
 #include <QFileDialog>
 #include <QLabel>
 #include <QMessageBox>
@@ -82,7 +81,7 @@ const char mimeUnknownFormats[] = COPYQ_MIME_PREFIX_ITEMSYNC "unknown-formats";
 
 const char propertyModelDisabled[] = "disabled";
 
-const int updateItemsIntervalMs = 2000; // Interval to update items after a file has changed.
+const int updateItemsIntervalMs = 5000; // Interval to update items after a file has changed.
 
 const qint64 sizeLimit = 10 << 20;
 
@@ -758,34 +757,24 @@ public:
     FileWatcher(const QString &path, const QStringList &paths, QAbstractItemModel *model,
                 const QList<FileFormat> &formatSettings, QObject *parent)
         : QObject(parent)
-        , m_watcher()
         , m_model(model)
         , m_formatSettings(formatSettings)
         , m_path(path)
         , m_valid(false)
         , m_indexData()
     {
-        m_watcher.addPath(path);
-
-#ifdef COPYQ_ITEMSYNC_UPDATE_INTERVAL_MS
-        {
-            auto t = new QTimer(this);
-            t->setInterval(COPYQ_ITEMSYNC_UPDATE_INTERVAL_MS);
-            connect( t, SIGNAL(timeout()),
-                     SLOT(updateItems()) );
-            t->start();
-        }
-#endif
-
+#ifdef HAS_TESTS
+        // Use smaller update interval for tests.
+        if ( qgetenv("COPYQ_TEST_ID").isEmpty() )
+            m_updateTimer.setInterval(updateItemsIntervalMs);
+        else
+            m_updateTimer.setInterval(100);
+#else
         m_updateTimer.setInterval(updateItemsIntervalMs);
+#endif
         m_updateTimer.setSingleShot(true);
         connect( &m_updateTimer, SIGNAL(timeout()),
                  SLOT(updateItems()) );
-
-        connect( &m_watcher, SIGNAL(directoryChanged(QString)),
-                 &m_updateTimer, SLOT(start()) );
-        connect( &m_watcher, SIGNAL(fileChanged(QString)),
-                 &m_updateTimer, SLOT(start()) );
 
         connect( m_model.data(), SIGNAL(rowsInserted(QModelIndex, int, int)),
                  this, SLOT(onRowsInserted(QModelIndex, int, int)), Qt::UniqueConnection );
@@ -863,7 +852,7 @@ public slots:
 
         lock();
 
-        QDir dir( m_watcher.directories().value(0) );
+        QDir dir(m_path);
         const QStringList files = listFiles(dir, QDir::Time | QDir::Reversed);
         BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
 
@@ -893,10 +882,9 @@ public slots:
 
         createItemsFromFiles(dir, fileList);
 
-        for (const auto &fileName : files)
-            watchPath( dir.absoluteFilePath(fileName) );
-
         unlock();
+
+        m_updateTimer.start();
     }
 
 private slots:
@@ -944,12 +932,6 @@ private:
         if ( it == m_indexData.end() )
             return *m_indexData.insert( m_indexData.end(), IndexData(index) );
         return *it;
-    }
-
-    void watchPath(const QString &path)
-    {
-        if ( !m_watcher.files().contains(path) )
-            m_watcher.addPath(path);
     }
 
     bool createItem(const QVariantMap &dataMap, int targetRow)
@@ -1206,8 +1188,6 @@ private:
                 dataMap->insert(ext.format, f.readAll());
                 mimeToExtension->insert(ext.format, ext.extension);
             }
-
-            watchPath(fileName);
         }
     }
 
@@ -1250,7 +1230,6 @@ private:
         return copied;
     }
 
-    QFileSystemWatcher m_watcher;
     QPointer<QAbstractItemModel> m_model;
     QTimer m_updateTimer;
     const QList<FileFormat> &m_formatSettings;

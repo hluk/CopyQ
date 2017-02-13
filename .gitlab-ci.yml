@@ -1,29 +1,24 @@
 # Use latest Ubuntu LTS docker image.
 image: ubuntu:xenial
 
+variables:
+  BUILD_DIR: "build"
+  INSTALL_PREFIX: "copyq"
+  SCREENSHOT_DIR: "screenshots"
+
 build:
   stage: build
 
   before_script:
-    - apt update
-    # Build dependencies
-    - apt -y install g++ cmake make git
-    - apt -y install qtbase5-private-dev qtscript5-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev
-    # Optional: Better support for X11
-    - apt -y install libxfixes-dev libxtst-dev
-    # Optional: CMake can get version from git
-    - apt -y install git
+    - utils/gitlab/build-before_script.sh
 
   script:
-    - mkdir -p build
-    - cd build
-    - cmake -DWITH_TESTS=TRUE -DWITH_QT5=TRUE -DCMAKE_INSTALL_PREFIX=../copyq -DCOPYQ_ITEMSYNC_UPDATE_INTERVAL_MS=1000 ..
-    - make install
+    - utils/gitlab/build-script.sh
 
   # Upload installed application.
   artifacts:
     paths:
-      - copyq
+      - "$INSTALL_PREFIX"
 
   cache:
     paths:
@@ -34,13 +29,10 @@ test:
   stage: test
 
   before_script:
-    - apt update
-    # Runtime libraries
-    - apt -y install libqt5core5a libqt5gui5 libqt5network5 libqt5script5 libqt5widgets5 libx11-6 libxtst6 libqt5svg5 libqt5xml5 libqt5test5
+    - utils/gitlab/test-before_script.sh
 
   script:
-    - copyq/bin/copyq help
-    - copyq/bin/copyq version
+    - utils/gitlab/test-script.sh
 
   dependencies:
     - build
@@ -50,29 +42,16 @@ test_gui:
   stage: test
 
   before_script:
-    - apt update
-    # Runtime libraries
-    - apt -y install libqt5core5a libqt5gui5 libqt5network5 libqt5script5 libqt5widgets5 libx11-6 libxtst6 libqt5svg5 libqt5xml5 libqt5test5
-    # X11 and window manager
-    - apt -y install xvfb openbox
-    # Screenshot utility
-    - apt -y install scrot
+    - utils/gitlab/test_gui-before_script.sh
 
   script:
-    - export DISPLAY=':99.0'
-    - Xvfb :99 -screen 0 640x480x24 &
-    - sleep 5
-    - openbox &
-    - sleep 5
-    # Take screenshots in intervals.
-    - (mkdir -p screenshots && while true; do i=$((i+1)); f="screenshots/$i.png"; sleep 1 && echo "   --- $f ---" && scrot "$f" || break; done) &
-    - copyq/bin/copyq tests
+    - utils/gitlab/test_gui-script.sh
 
   # Upload screenshots on failure.
   artifacts:
     when: on_failure
     paths:
-      - screenshots
+      - "$SCREENSHOT_DIR"
 
   dependencies:
     - build

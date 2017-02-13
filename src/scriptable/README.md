@@ -525,6 +525,10 @@ Sets environment variable with given name to given value.
 
 Returns true only if the variable was set.
 
+###### sleep(time)
+
+Wait for given time in milliseconds.
+
 Types
 -----
 
