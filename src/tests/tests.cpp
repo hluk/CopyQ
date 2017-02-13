@@ -35,6 +35,7 @@
 #include <QClipboard>
 #include <QDebug>
 #include <QDir>
+#include <QElapsedTimer>
 #include <QFileInfo>
 #include <QMap>
 #include <QMimeData>
@@ -1689,6 +1690,21 @@ void Tests::setEnvCommand()
         "\n   print('FAILED')"
         , "OK"
         );
+}
+
+void Tests::sleepCommand()
+{
+    QElapsedTimer t;
+
+    t.start();
+    RUN("sleep" << "100", "");
+    const auto afterElapsed100Ms = t.elapsed();
+    QVERIFY(afterElapsed100Ms > 100);
+
+    t.start();
+    RUN("sleep" << "1000", "");
+    const auto afterElapsed1000Ms = t.elapsed();
+    QVERIFY(afterElapsed1000Ms > 1000);
 }
 
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)

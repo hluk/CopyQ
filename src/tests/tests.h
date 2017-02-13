@@ -118,6 +118,8 @@ private slots:
 
     void setEnvCommand();
 
+    void sleepCommand();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
