@@ -33,5 +33,6 @@ if [ "$CC" == "gcc" ]; then
 
     coveralls \
         --build-root "build" \
+        --gcov "$GCOV" \
         "${arguments[@]}"
 fi
