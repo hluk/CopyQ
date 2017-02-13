@@ -17,23 +17,20 @@ environment:
       CMAKE_GENERATOR: Visual Studio 14 2015 Win64
       VC_VARS_ARCH: amd64
 
-install:
-- set PATH=%QTDIR%\bin;%PATH%
-- set CMAKE_PREFIX_PATH=%QTDIR%\lib\cmake
-# Note: Following also removes sh.exe from PATH so that CMake can generate MinGW Makefile.
-- if NOT [%MINGW_PATH%] == [] set PATH=%MINGW_PATH%\bin;%PATH:C:\Program Files\Git\usr\bin;=%
-- if [%VC_VARS_ARCH%] == [] call "%VCINSTALLDIR%\vcvarsall.bat" %VC_VARS_ARCH%
-
-before_build:
-- utils\appveyor-before-build.bat
-
+# Parameters for default build commands (build_script is used instead).
 build:
 
+install:
+- utils\appveyor\install.bat
+
+before_build:
+- utils\appveyor\before_build.bat
+
 build_script:
-- cmake --build build/ --config Release
+- utils\appveyor\build_script.bat
 
 after_build:
-- utils\appveyor-after-build.bat
+- utils\appveyor\after_build.bat
 
 artifacts:
 - path: 'copyq*.zip'
