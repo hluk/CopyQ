@@ -49,6 +49,7 @@
 #include <QScriptValueIterator>
 #include <QSettings>
 #include <QUrl>
+#include <QThread>
 
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(QFile*)
@@ -1319,6 +1320,24 @@ QScriptValue Scriptable::setEnv()
     const QString name = arg(0);
     const QByteArray value = makeByteArray(argument(1));
     return qputenv(name.toUtf8().constData(), value);
+}
+
+void Scriptable::sleep()
+{
+    int msec;
+    if ( !toInt(argument(0), msec) ) {
+        throwError(argumentError());
+        return;
+    }
+
+    class ThreadSleep : public QThread {
+    public:
+        static void msleep(unsigned long msec) {
+            QThread::msleep(msec);
+        }
+    };
+
+    ThreadSleep::msleep(msec);
 }
 
 void Scriptable::setInput(const QByteArray &bytes)

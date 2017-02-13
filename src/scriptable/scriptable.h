@@ -267,6 +267,8 @@ public slots:
     QScriptValue env();
     QScriptValue setEnv();
 
+    void sleep();
+
 public slots:
     void setInput(const QByteArray &bytes);
 
