@@ -1720,6 +1720,13 @@ void Tests::dataCommands()
     RUN("eval" << "setData('x'); setData('y'); removeData('y'); dataFormats()", "x\n");
 }
 
+void Tests::setCurrentTabCommand()
+{
+    const auto tab = testTab(1);
+    RUN("setCurrentTab" << tab, "");
+    RUN("testSelected", tab + "\n");
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);

@@ -122,6 +122,8 @@ private slots:
 
     void dataCommands();
 
+    void setCurrentTabCommand();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
