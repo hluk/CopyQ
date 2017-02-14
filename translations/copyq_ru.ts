@@ -190,7 +190,7 @@
         <translation>CopyQ: Окно действий</translation>
     </message>
     <message>
-        <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
+        <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
         <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; в &lt;b&gt;команде&lt;/b&gt; — это &lt;b&gt;текст&lt;/b&gt; выбранных элементов. Текст может быть изменен и передан на &lt;b&gt;стандартный ввод&lt;/b&gt; команды. Также можно связывать команды в цепочку при помощи символа &lt;b&gt;|&lt;/b&gt; (то есть минуя стандартный вывод).</translation>
     </message>
     <message>
@@ -462,8 +462,8 @@ You can set up the command in preferences.</source>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="242"/>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished">Игнорировать окно *&quot;Пароль&quot;*</translation>
+        <source>Ignore *"Password"* window</source>
+        <translation type="unfinished">Игнорировать окно *"Пароль"*</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="243"/>
@@ -587,7 +587,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandcompleter.cpp" line="345"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+Space</translation>
     </message>
 </context>
 <context>
@@ -778,7 +778,7 @@ Leave empty to disable this.</source>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="465"/>
-        <source>Change item, don&apos;t create any new items</source>
+        <source>Change item, don't create any new items</source>
         <translation>Изменить элемент, не создавать новых элементов</translation>
     </message>
     <message>
@@ -808,8 +808,8 @@ Leave empty to disable this.</source>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="261"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Используйте команду только для элементов, текст которых совпадает с регулярным выражением (оставьте пустым для соответствия чему-угодно)&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Примеры:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадающий URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; совпадающие имена файлов PDF &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение одного символа &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение удаленного мультимедиа &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Используйте команду только для элементов, текст которых совпадает с регулярным выражением (оставьте пустым для соответствия чему-угодно)&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Примеры:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадающий URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; совпадающие имена файлов PDF &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение одного символа &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение удаленного мультимедиа &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="274"/>
@@ -1135,7 +1135,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/tests/tests.cpp" line="1466"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <source>F6</source>
@@ -1247,7 +1247,7 @@ CTRL and up or down key.</source>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it&apos;s too long to fit on line</source>
+        <source>Break text if it's too long to fit on line</source>
         <translation type="unfinished">Разбить текст, если он слишком длинный, чтобы поместиться в строке</translation>
     </message>
     <message>
@@ -1375,7 +1375,7 @@ Note: This is not be supported on all systems.</source>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="876"/>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <source>Don't show tray icon; minimize window when closed</source>
         <translation>Не показывать иконку в трее; минимизировать окно при закрытии</translation>
     </message>
     <message>
@@ -1420,114 +1420,116 @@ Leave empty to disable automatic storing.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вставить в текущем окне после того, как элемент активируется</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="886"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать команду для текущего содержимого буфера обмена в меню в трее</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="935"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать элементы из текущей вкладке в меню в трее</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="938"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Показать текущую вкладку в меню,</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="945"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;или выбрать другую вкладку:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="986"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вставить элемент в текущем окне после выбора в меню</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="999"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Показать предварительный просмотр изображения в качестве значка пункта меню</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1160"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Интервал в секундах для отображения уведомлений:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1263"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Расстояние уведомлений от левого или правого края экрана в точках экрана</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1300"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Расстояние уведомлений от верхнего или нижнего края экрана в точках экрана</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1337"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Максимальная ширина для уведомлений в точках экрана</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1374"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Максимальная высота для уведомлений в точках экрана</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="533"/>
         <source>&amp;History</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;История</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="90"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Язык:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="282"/>
         <source>&amp;Layout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Раскладка</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="369"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Скрыть главное окно при закрытии</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="372"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Скрыть главное окно</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="590"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Максимальное количество элементов в истории:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="602"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Максимальное количество элементов в каждой вкладке</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="630"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Выгрузить вкладку после перерыва в течение нескольких минут:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="642"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Выгружать каждую вкладку из памяти после указанного количества минут бездействия.
+
+Установите 0, чтобы не выгружать вкладки.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="669"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Внешняя команда редактора (%1 файл для редактирования):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="679"/>
@@ -1537,101 +1539,110 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Внешняя команда редактора (%1 файл для редактирования).
+  Примеры:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="718"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Оставьте флажок для ключа Return, чтобы сохранить отредактированный элемент и Ctrl + Return создать новую строку.
+
+Примечание: Отредактированные элементы могут быть сохранены с помощью F2 игнорируя эту опцию.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="723"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сохраните измененный элемент с помощью Ctrl + Return и создайте новую строку с ключом Return</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="730"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Покажите однострочное описание каждого элемента.
+
+Используйте предварительный просмотр элемента, чтобы вывести на экран целые элементы.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="735"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Показать простые элементы</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="742"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">После того, как элемент активируется (двойной щелчок или кнопка Enter), скопировать его в буфер обмена и ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="761"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Закрыть главное окно</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Фокусировка последнего окна</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="781"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Вставить в текущем окне</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="824"/>
         <source>&amp;Tray</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Трей</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="889"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Показать команды для содержимого буфера обмена</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="898"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Количество элементов в меню в трее:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="908"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Количество элементов в меню в трее</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="961"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Название вкладки для просмотра в меню в трее (пусто для первой вкладки)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="989"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Вставить активированный элемент в текущем окне</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="996"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать изображение предварительного просмотра рядом с пунктами меню</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1039"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Уведомления</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1096"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Позиция уведомления:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1108"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Положение на экране для уведомлений</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1112"/>
@@ -1740,7 +1751,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="356"/>
-        <source>Invalid value for option &quot;%1&quot;</source>
+        <source>Invalid value for option "%1"</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1797,7 +1808,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark &quot;%1&quot; not set.</source>
+        <source>Mark "%1" not set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1846,27 +1857,27 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
+        <source>File "%1" exists (add ! to override)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
+        <source>Cannot open file "%1" for writing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
+        <source>"%1" %2 %3L, %4C written.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
+        <source>Cannot open file "%1" for reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
+        <source>"%1" %2L, %3C</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
@@ -1978,7 +1989,7 @@ Set to 0 to disable.</source>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="998"/>
-        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
+        <source>Failed to create synchronization directory "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2226,7 +2237,7 @@ Set to 0 to disable.</source>
     <name>ItemEncryptedLoader</name>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="288"/>
-        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2518,7 +2529,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1412"/>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
+        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2650,7 +2661,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
-        <source>More info is available on &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wiki page&lt;/a&gt;.</source>
+        <source>More info is available on &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki page&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3029,7 +3040,7 @@ Set to 0 to disable.</source>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="91"/>
-        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -3066,7 +3077,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/main.cpp" line="207"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
+which can be letters, digits, '-' or '_'!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3601,7 +3612,7 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn&apos;t exist.
+Tab is created if it doesn't exist.
 Default is the first tab.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3609,7 +3620,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
+Arguments are accessible using with "arguments[0..N]".</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3765,7 +3776,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="76"/>
-        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
+        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3776,7 +3787,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="343"/>
         <location filename="../src/scriptable/scriptable.cpp" line="1389"/>
-        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
+        <source>Name "%1" doesn't refer to a function.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3802,17 +3813,17 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="825"/>
-        <source>Cannot save to file &quot;%1&quot;!</source>
+        <source>Cannot save to file "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="836"/>
-        <source>Cannot import file &quot;%1&quot;!</source>
+        <source>Cannot import file "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="848"/>
-        <source>Invalid option &quot;%1&quot;!</source>
+        <source>Invalid option "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3820,7 +3831,7 @@ Print version of program and libraries.</source>
     <name>ScriptableProxy</name>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="335"/>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation type="unfinished">Вкладки с таким именем не существует!</translation>
     </message>
     <message>
@@ -3851,7 +3862,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3917,7 +3928,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <name>TrayMenu</name>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="102"/>
-        <source>Press &apos;/&apos; to search</source>
+        <source>Press '/' to search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3948,7 +3959,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation type="vanished">Вкладки с таким именем не существует!</translation>
     </message>
     <message>
