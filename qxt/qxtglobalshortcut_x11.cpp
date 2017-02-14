@@ -37,9 +37,20 @@
 #   include <xcb/xcb.h>
 #endif
 #include <QVector>
+#include <QWidget>
 #include <X11/Xlib.h>
 
 namespace {
+
+void createFirstWindow()
+{
+    static QWidget *w = nullptr;
+    if (!w) {
+        w = new QWidget();
+        w->show();
+        w->hide();
+    }
+}
 
 QVector<quint32> maskModifiers()
 {
@@ -95,6 +106,10 @@ public:
     QxtX11Data()
         : m_display(nullptr)
     {
+        // WORKAROUND: There need to be at least one window
+        //             otherwise we might not get the key press events.
+        createFirstWindow();
+
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
         m_display = QX11Info::display();
 #else
