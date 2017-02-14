@@ -249,17 +249,20 @@ void Action::start()
     env.insert("COPYQ_ACTION_ID", QString::number(actionId(this)));
 
     for (int i = 0; i < cmds.size(); ++i) {
-        m_processes.append(new QProcess(this));
-        m_processes.last()->setProcessEnvironment(env);
+        auto process = new QProcess(this);
+        m_processes.append(process);
+        process->setProcessEnvironment(env);
+        if ( !m_workingDirectoryPath.isEmpty() )
+            process->setWorkingDirectory(m_workingDirectoryPath);
 
 #if QT_VERSION < 0x050600
-        connect( m_processes.last(), SIGNAL(error(QProcess::ProcessError)),
+        connect( process, SIGNAL(error(QProcess::ProcessError)),
                  SLOT(actionError(QProcess::ProcessError)) );
 #else
-        connect( m_processes.last(), SIGNAL(errorOccurred(QProcess::ProcessError)),
+        connect( process, SIGNAL(errorOccurred(QProcess::ProcessError)),
                  SLOT(actionError(QProcess::ProcessError)) );
 #endif
-        connect( m_processes.last(), SIGNAL(readyReadStandardError()),
+        connect( process, SIGNAL(readyReadStandardError()),
                  SLOT(actionErrorOutput()) );
     }
 

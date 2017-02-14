@@ -81,6 +81,9 @@ public:
     QModelIndex index() const { return m_index; }
     void setIndex(const QModelIndex &index) { m_index = index; }
 
+    /** Set working directory path (default is empty so it doesn't change working directory). */
+    void setWorkingDirectory(const QString &path) { m_workingDirectoryPath = path; }
+
     /** Execute command. */
     void start();
 
@@ -153,6 +156,7 @@ private:
     QStringList m_inputFormats;
     QString m_outputFormat;
     QPersistentModelIndex m_index;
+    QString m_workingDirectoryPath;
     QString m_errstr;
     QString m_lastOutput;
     QByteArray m_outputData;

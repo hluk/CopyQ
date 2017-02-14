@@ -1185,6 +1185,7 @@ QScriptValue Scriptable::execute()
 
     action.setCommand(args);
     action.setOutputFormat("DATA");
+    action.setWorkingDirectory( m_dirClass->getCurrentPath() );
     action.start();
 
     if ( !action.waitForStarted(5000) )
