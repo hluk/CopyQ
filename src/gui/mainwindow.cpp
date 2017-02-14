@@ -2276,11 +2276,10 @@ void MainWindow::activateCurrentItem()
         hideWindow();
 
     if (lastWindow) {
-        if (m_options.activateFocuses())
-            lastWindow->raise();
-
         if (m_options.activatePastes() && canPaste())
             pasteClipboard(lastWindow);
+        else if (m_options.activateFocuses())
+            lastWindow->raise();
     }
 }
 

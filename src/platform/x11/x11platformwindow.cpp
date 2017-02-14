@@ -17,6 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "common/sleeptimer.h"
 #include "clipboardspy.h"
 #include "platform/platformcommon.h"
 #include "x11platformwindow.h"
@@ -274,21 +275,27 @@ bool X11PlatformWindow::isValid() const
     return m_window != 0L;
 }
 
-bool X11PlatformWindow::hasFocus()
+bool X11PlatformWindow::waitForFocus(int ms)
 {
     Q_ASSERT( isValid() );
-    return getCurrentWindow(d.display()) == m_window;
+
+    SleepTimer t(ms);
+    do {
+        const auto currentWindow = getCurrentWindow(d.display());
+        if (currentWindow == m_window)
+            return true;
+    } while (t.sleep());
+
+    return false;
 }
 
 void X11PlatformWindow::sendKeyPress(int modifier, int key)
 {
     Q_ASSERT( isValid() );
 
-    if (!hasFocus()) {
+    if ( !waitForFocus(20) ) {
         raise();
-        usleep(150000);
-
-        if (!hasFocus())
+        if ( !waitForFocus(150) )
             return;
     }
 
