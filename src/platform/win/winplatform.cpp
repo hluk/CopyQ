@@ -30,6 +30,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QSettings>
+#include <QWidget>
 
 #include <qt_windows.h>
 
@@ -180,6 +181,19 @@ Application *createApplication(int &argc, char **argv)
     return app;
 }
 
+QApplication *createGuiApplication(int &argc, char **argv)
+{
+    auto app = createApplication<QApplication>(argc, argv);
+
+    // WORKAROUND: Create a window so that application can receive
+    //             WM_QUERYENDSESSION (from installer) and similar events.
+    auto w = new QWidget();
+    auto winId = w->winId();
+    Q_UNUSED(winId);
+
+    return app;
+}
+
 QString windowClass(HWND window)
 {
     WCHAR buf[32];
@@ -266,12 +280,12 @@ QCoreApplication *WinPlatform::createConsoleApplication(int &argc, char **argv)
 
 QApplication *WinPlatform::createServerApplication(int &argc, char **argv)
 {
-    return createApplication<QApplication>(argc, argv);
+    return createGuiApplication(argc, argv);
 }
 
 QApplication *WinPlatform::createMonitorApplication(int &argc, char **argv)
 {
-    return createApplication<QApplication>(argc, argv);
+    return createGuiApplication(argc, argv);
 }
 
 QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
