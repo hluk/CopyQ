@@ -46,7 +46,7 @@ void createFirstWindow()
 {
     static QWidget *w = nullptr;
     if (!w) {
-        w = new QWidget(nullptr, Qt::BypassWindowManagerHint);
+        w = new QWidget(nullptr, Qt::X11BypassWindowManagerHint);
         w->resize(0, 0);
         w->move(-100000, -100000);
         w->show();
