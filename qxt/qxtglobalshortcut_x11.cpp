@@ -47,7 +47,7 @@ void createFirstWindow()
     static QWidget *w = nullptr;
     if (!w) {
         w = new QWidget();
-        w->show();
+        w->showMinimized();
         w->hide();
     }
 }
