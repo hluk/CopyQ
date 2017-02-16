@@ -393,8 +393,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     updateIcon();
 
     // signals & slots
-    connect( m_trayMenu, SIGNAL(aboutToShow()),
-             this, SLOT(updateTrayMenuItems()) );
     connect( m_trayMenu, SIGNAL(searchRequest(QString)),
              this, SLOT(addTrayMenuItems(QString)) );
     connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
@@ -524,7 +522,6 @@ void MainWindow::createMenu()
     QAction *act;
 
     menubar->clear();
-    m_trayMenu->clear();
 
     // File
     menu = menubar->addMenu( tr("&File") );
@@ -974,6 +971,7 @@ void MainWindow::updateTitle(const QVariantMap &data)
 
     updateWindowTitle();
     updateTrayTooltip();
+    updateTrayMenuItems();
     showClipboardMessage(m_clipboardData);
 }
 
@@ -1862,6 +1860,7 @@ void MainWindow::loadSettings()
     m_trayMenu->setStyleSheet( theme.getToolTipStyleSheet() );
 
     initTray();
+    updateTrayMenuItems();
 
     if (m_notifications != nullptr)
         updateNotifications();
@@ -2043,6 +2042,9 @@ void MainWindow::tabChanged(int current, int)
     }
 
     updateContextMenu();
+
+    if (m_options.trayCurrentTab)
+        updateTrayMenuItems();
 }
 
 void MainWindow::saveTabPositions()
@@ -2433,7 +2435,8 @@ void MainWindow::updateTrayMenuItems()
     if (m_options.trayItemPaste)
         m_lastWindow = createPlatformNativeInterface()->getCurrentWindow();
 
-    clearTrayMenu();
+    m_trayMenuCommandTester.abort();
+    m_trayMenu->clearAllActions();
 
     QAction *act = m_trayMenu->addAction(
                 appIcon(), tr("&Show/Hide"), this, SLOT(toggleVisible()) );
@@ -2491,12 +2494,6 @@ void MainWindow::addTrayMenuItems(const QString &searchText)
     }
 
     m_trayMenu->setActiveFirstEnabledAction();
-}
-
-void MainWindow::clearTrayMenu()
-{
-    m_trayMenuCommandTester.abort();
-    m_trayMenu->clearAllActions();
 }
 
 void MainWindow::openLogDialog()
