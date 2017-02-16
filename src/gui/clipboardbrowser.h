@@ -378,11 +378,6 @@ class ClipboardBrowser : public QListView
         bool startEditor(QObject *editor, bool changeClipboard = false);
 
         /**
-         * Select next/previous item and copy it to clipboard.
-         */
-        void copyItemToClipboard(int d);
-
-        /**
          * Preload items in given range (relative to current scroll offset).
          */
         bool preload(int minY, int maxY);
