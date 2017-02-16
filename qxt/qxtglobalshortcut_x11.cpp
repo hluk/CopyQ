@@ -42,7 +42,12 @@
 
 namespace {
 
-// This creates first invisible application windows.
+/**
+ * Creates first invisible application window
+ * so X11 key press events can be received.
+ *
+ * This is used for Cinnamon and KDE.
+ */
 void createFirstWindow()
 {
     static QWidget *w = nullptr;
@@ -116,8 +121,6 @@ public:
     QxtX11Data()
         : m_display(nullptr)
     {
-        // WORKAROUND: There needs to be at least one window
-        //             otherwise we might not get the key press events.
         createFirstWindow();
 
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
