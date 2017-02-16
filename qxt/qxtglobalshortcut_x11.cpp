@@ -42,14 +42,22 @@
 
 namespace {
 
+// This creates first invisible application windows.
 void createFirstWindow()
 {
     static QWidget *w = nullptr;
     if (!w) {
-        w = new QWidget(nullptr, Qt::X11BypassWindowManagerHint);
-        w->resize(0, 0);
+        // Try hard so the window is not visible.
+
+        // Tool tips won't show in taskbar.
+        w = new QWidget(nullptr, Qt::ToolTip);
+
+        // Move out of screen (if it's not possible to show the window minimized).
+        w->resize(1, 1);
         w->move(-100000, -100000);
-        w->show();
+
+        // Show and hide quickly.
+        w->showMinimized();
         w->hide();
     }
 }
@@ -108,7 +116,7 @@ public:
     QxtX11Data()
         : m_display(nullptr)
     {
-        // WORKAROUND: There need to be at least one window
+        // WORKAROUND: There needs to be at least one window
         //             otherwise we might not get the key press events.
         createFirstWindow();
 
