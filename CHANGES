@@ -1,3 +1,15 @@
+v2.9.0
+- Set text style in editor
+- Search in editor
+- Quick help in completion popup menu for commands
+- Easier text selection in item preview
+- Show whole text and unscaled image in item preview
+- Improved pasting to windows on Linux/X11
+- Fixed global shortcuts at application start on Linux/X11
+- Fixed closing application from installer on Windows
+- Fixed showing item preview at start
+- Fixed saving position of new tabs and tab lists
+
 v2.8.3
 - Search items from tray menu
 - Added support for animated gifs (played when selected)
