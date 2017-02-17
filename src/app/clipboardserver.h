@@ -97,7 +97,7 @@ private slots:
     void newMonitorMessage(const QByteArray &message);
 
     /** An error occurred on monitor connection. */
-    void monitorConnectionError();
+    void monitorConnectionError(const QString &error);
 
     /** Shortcut was pressed on host system. */
     void shortcutActivated(QxtGlobalShortcut *shortcut);

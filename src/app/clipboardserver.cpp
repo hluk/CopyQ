@@ -202,8 +202,8 @@ void ClipboardServer::startMonitoring()
         m_monitor = new RemoteProcess(this);
         connect( m_monitor, SIGNAL(newMessage(QByteArray)),
                  this, SLOT(newMonitorMessage(QByteArray)) );
-        connect( m_monitor, SIGNAL(connectionError()),
-                 this, SLOT(monitorConnectionError()) );
+        connect( m_monitor, SIGNAL(connectionError(QString)),
+                 this, SLOT(monitorConnectionError(QString)) );
         connect( m_monitor, SIGNAL(connected()),
                  this, SLOT(loadMonitorSettings()) );
 
@@ -368,8 +368,9 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     m_wnd->clipboardChanged(data);
 }
 
-void ClipboardServer::monitorConnectionError()
+void ClipboardServer::monitorConnectionError(const QString &error)
 {
+    log("Restarting clipboard monitor (" + error + ")", LogError);
     stopMonitoring();
     startMonitoring();
 }

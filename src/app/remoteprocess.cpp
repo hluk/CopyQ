@@ -58,15 +58,14 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
     Server *server = new Server(newServerName, this);
     if ( !server->isListening() ) {
-        log("Failed to start monitor server \"" + newServerName + "\"!", LogError);
         delete server;
-        onConnectionError();
+        onConnectionError("Failed to start local server \"" + newServerName + "\"!");
         return;
     }
 
     connect(server, SIGNAL(newConnection(ClientSocket*)),
             this, SLOT(onNewConnection(ClientSocket*)));
-    connect(this, SIGNAL(connectionError()),
+    connect(this, SIGNAL(connectionError(QString)),
             server, SLOT(deleteLater()));
 
     server->start();
@@ -87,7 +86,7 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
 bool RemoteProcess::checkConnection() {
     if (!isConnected()) {
-        onConnectionError();
+        onConnectionError("Failed to start");
         return false;
     }
 
@@ -105,10 +104,10 @@ void RemoteProcess::onNewConnection(ClientSocket *socket)
     connect( socket, SIGNAL(messageReceived(QByteArray,int)),
              this, SLOT(onMessageReceived(QByteArray,int)) );
     connect( socket, SIGNAL(disconnected()),
-             this, SLOT(onConnectionError()) );
+             this, SLOT(onDisconnected()) );
 
     if ( socket->isClosed() ) {
-        onConnectionError();
+        onConnectionError("Connection lost");
         socket->deleteLater();
     } else {
         m_state = Connected;
@@ -141,12 +140,17 @@ void RemoteProcess::onMessageReceived(const QByteArray &message, int messageCode
     }
 }
 
-void RemoteProcess::onConnectionError()
+void RemoteProcess::onConnectionError(const QString &error)
 {
     m_timerPing.stop();
     m_timerPongTimeout.stop();
     m_state = Unconnected;
-    emit connectionError();
+    emit connectionError(error);
+}
+
+void RemoteProcess::onDisconnected()
+{
+    onConnectionError("Disconnected");
 }
 
 void RemoteProcess::terminate()
@@ -190,7 +194,6 @@ void RemoteProcess::pongTimeout()
         m_timerPongTimeout.start();
         m_pongRetry = false;
     } else {
-        log( "Remote process: Connection timeout!", LogError );
-        onConnectionError();
+        onConnectionError("Connection timeout");
     }
 }

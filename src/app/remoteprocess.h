@@ -69,7 +69,7 @@ signals:
     /**
      * An error occurred with connection.
      */
-    void connectionError();
+    void connectionError(const QString &error);
 
     /**
      * Successfully connected to the remote process.
@@ -82,7 +82,8 @@ private slots:
     void onNewConnection(ClientSocket *socket);
     void onMessageReceived(const QByteArray &message, int messageCode);
     bool checkConnection();
-    void onConnectionError();
+    void onConnectionError(const QString &error);
+    void onDisconnected();
 
 private:
     void terminate();
