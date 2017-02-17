@@ -32,6 +32,8 @@ class ByteArrayClass;
 class ClipboardBrowser;
 class DirClass;
 class FileClass;
+class TemporaryFileClass;
+
 class QFile;
 class QNetworkReply;
 class QNetworkAccessManager;
@@ -289,6 +291,7 @@ private:
     ByteArrayClass *m_baClass;
     DirClass *m_dirClass;
     FileClass *m_fileClass;
+    TemporaryFileClass *m_temporaryFileClass;
     QString m_inputSeparator;
     QScriptValue m_input;
     QVariantMap m_data;

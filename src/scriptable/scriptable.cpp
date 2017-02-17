@@ -31,6 +31,7 @@
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"
 #include "scriptable/fileclass.h"
+#include "scriptable/temporaryfileclass.h"
 #include "../qt/bytearrayclass.h"
 #include "../qxt/qxtglobal.h"
 
@@ -199,6 +200,7 @@ Scriptable::Scriptable(
     , m_baClass(nullptr)
     , m_dirClass(nullptr)
     , m_fileClass(nullptr)
+    , m_temporaryFileClass(nullptr)
     , m_inputSeparator("\n")
     , m_input()
     , m_abort(false)
@@ -237,6 +239,9 @@ void Scriptable::initEngine(QScriptEngine *eng)
 
     m_fileClass = new FileClass(eng);
     addScriptableClass(&obj, m_fileClass);
+
+    m_temporaryFileClass = new TemporaryFileClass(eng);
+    addScriptableClass(&obj, m_temporaryFileClass);
 
     m_dirClass = new DirClass(eng);
     addScriptableClass(&obj, m_dirClass);
@@ -309,7 +314,7 @@ QByteArray Scriptable::makeByteArray(const QScriptValue &value) const
 
 QFile *Scriptable::getFile(const QScriptValue &value) const
 {
-    if (value.scriptClass() == m_fileClass)
+    if (value.scriptClass() == m_fileClass || value.scriptClass() == m_temporaryFileClass)
         return qscriptvalue_cast<QFile*>(value.data());
     return nullptr;
 }
@@ -373,6 +378,8 @@ void Scriptable::setCurrentPath(const QString &path)
         m_dirClass->setCurrentPath(path);
     if (m_fileClass)
         m_fileClass->setCurrentPath(path);
+    if (m_temporaryFileClass)
+        m_temporaryFileClass->setCurrentPath(path);
 }
 
 QString Scriptable::getFileName(const QString &fileName) const
@@ -1376,6 +1383,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
 
     const QString currentPath = getTextData(args.at(Arguments::CurrentPath));
     m_fileClass->setCurrentPath(currentPath);
+    m_temporaryFileClass->setCurrentPath(currentPath);
     m_dirClass->setCurrentPath(currentPath);
 
     bool hasData;

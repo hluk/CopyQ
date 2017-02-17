@@ -568,6 +568,19 @@ Wrapper for QDir Qt class.
 
 See [QDir](http://doc.qt.io/qt-5/qdir.html).
 
+###### TemporaryFile
+
+Wrapper for QTemporaryFile Qt class.
+
+See [QTemporaryFile](https://doc.qt.io/qt-5/qtemporaryfile.html).
+
+```js
+var f = new TemporaryFile()
+f.open()
+f.setAutoRemove(false)
+popup('New temporary file', f.fileName())
+```
+
 Objects
 -------
 

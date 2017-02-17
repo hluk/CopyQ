@@ -1680,6 +1680,30 @@ void Tests::dirClass()
     RUN("eval" << "Dir().homePath()" , QDir::homePath() + "\n");
 }
 
+void Tests::temporaryFileClass()
+{
+    RUN("eval" << "var f = new TemporaryFile(); f.open()", "true\n");
+
+    for ( const auto autoRemove : {true, false} ) {
+        QByteArray out;
+        const auto cmd =
+                QString(R"(
+                        var f = new TemporaryFile()
+                        if (!f.open())
+                            throw 'Failed to open temporary file'
+                        f.setAutoRemove(%1)
+                        print(f.fileName())
+                        )").arg(autoRemove);
+        run( Args("eval") << cmd, &out );
+
+        QFile f( QString::fromUtf8(out) );
+        QVERIFY( f.exists() != autoRemove );
+
+        if (!autoRemove)
+            f.remove();
+    }
+}
+
 void Tests::setEnvCommand()
 {
     RUN("eval" <<

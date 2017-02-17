@@ -332,6 +332,7 @@ QStringList scriptableObjects()
     result.append("ByteArray");
     result.append("Dir");
     result.append("File");
+    result.append("TemporaryFile");
 
     QScriptEngine engine;
 

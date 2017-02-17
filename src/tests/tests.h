@@ -115,6 +115,7 @@ private slots:
 
     void fileClass();
     void dirClass();
+    void temporaryFileClass();
 
     void setEnvCommand();
 
