@@ -40,8 +40,6 @@ fetch_package "${pkg}_Ubuntu_16.04${xdeb_i386}"   "$url/xUbuntu_16.04/${pkg_deb_
 fetch_package "${pkg}_Ubuntu_16.04${xdeb}"        "$url/xUbuntu_16.04/${pkg_deb}"
 fetch_package "${pkg}_Ubuntu_14.04${xdeb_i386}"   "$url/xUbuntu_14.04/${pkg_deb_i386}"
 fetch_package "${pkg}_Ubuntu_14.04${xdeb}"        "$url/xUbuntu_14.04/${pkg_deb}"
-fetch_package "${pkg}_Ubuntu_12.04${xdeb_i386}"   "$url/xUbuntu_12.04/${pkg_deb_i386}"
-fetch_package "${pkg}_Ubuntu_12.04${xdeb}"        "$url/xUbuntu_12.04/${pkg_deb}"
 fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pkg_rpm}"
 fetch_package "${pkg}_Fedora_25${xrpm}"           "$url/Fedora_25/${pkg_rpm}"
 fetch_package "${pkg}_Debian_8.0${xdeb_i386}"     "$url/Debian_8.0/${pkg_deb_i386}"
