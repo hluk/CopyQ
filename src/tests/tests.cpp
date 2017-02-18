@@ -1524,6 +1524,30 @@ void Tests::tray()
     RUN("clipboard", "X");
 }
 
+void Tests::menu()
+{
+    const auto tab = testTab(1);
+
+    RUN("tab" << tab << "add" << "D" << "C" << "B" << "A", "");
+
+    RUN("menu" << tab, "");
+    RUN("keys" << "ENTER", "");
+    QVERIFY( waitUntilClipboardSet("A") );
+    RUN("clipboard", "A");
+
+    // Show menu with 2 items from the tab and select last one.
+    RUN("menu" << tab << "2", "");
+    RUN("keys" << "END" << "ENTER", "");
+    QVERIFY( waitUntilClipboardSet("B") );
+    RUN("clipboard", "B");
+
+    // Search for item.
+    RUN("menu" << tab << "3", "");
+    RUN("keys" << "C" << "ENTER", "");
+    QVERIFY( waitUntilClipboardSet("C") );
+    RUN("clipboard", "C");
+}
+
 void Tests::packUnpackCommands()
 {
     QMap<QByteArray, QByteArray> data;

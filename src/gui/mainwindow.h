@@ -150,7 +150,7 @@ public:
      */
     bool maybeCloseCommandDialog();
 
-    QWidget *trayMenu();
+    WId menuWinId() const;
 
     /**
      * Return browser widget in given tab @a index.
@@ -185,7 +185,8 @@ public:
     /**
      * Show/hide tray menu. Return true only if menu is shown.
      */
-    bool toggleMenu(ClipboardBrowser *browser = nullptr);
+    bool toggleMenu();
+    bool toggleMenu(const QString &tabName, int itemCount);
 
     /** Switch between browse and search mode. */
     void enterBrowseMode();
@@ -420,6 +421,7 @@ public slots:
     void invoke(Callable *callable);
 
 #ifdef HAS_TESTS
+    QWidget *visibleMenu() const;
     void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget);
 #endif
 
@@ -463,11 +465,14 @@ protected:
 #endif
 
 private slots:
+    ClipboardBrowser *getTabForMenu();
     ClipboardBrowser *getTabForTrayMenu();
     void updateTrayMenuItems();
+    void addMenuItems(const QString &searchText);
     void addTrayMenuItems(const QString &searchText);
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
-    void onTrayActionTriggered(uint clipboardItemHash, bool omitPaste);
+    void onMenuActionTriggered(uint itemHash, bool omitPaste);
+    void onTrayActionTriggered(uint itemHash, bool omitPaste);
     void findNextOrPrevious();
     void tabChanged(int current, int previous);
     void saveTabPositions();
@@ -610,6 +615,10 @@ private:
 
     QAction *actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context);
 
+    void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
+    void onMenuActionTriggered(ClipboardBrowser *c, uint clipboardItemHash, bool omitPaste);
+    bool toggleMenu(TrayMenu *menu);
+
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 
@@ -641,7 +650,9 @@ private:
 
     QVariantMap m_clipboardData;
 
-    ClipboardBrowser *m_trayTab;
+    TrayMenu *m_menu;
+    QString m_menuTabName;
+    int m_menuMaxItemCount;
 
     QPointer<CommandDialog> m_commandDialog;
 

@@ -616,11 +616,10 @@ bool ScriptableProxy::toggleVisible()
     return m_wnd->toggleVisible();
 }
 
-bool ScriptableProxy::toggleMenu(const QString &tabName)
+bool ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount)
 {
-    INVOKE(toggleMenu(tabName));
-    ClipboardBrowser *c = fetchBrowser(tabName);
-    return c && m_wnd->toggleMenu(c);
+    INVOKE(toggleMenu(tabName, maxItemCount));
+    return m_wnd->toggleMenu(tabName, maxItemCount);
 }
 
 bool ScriptableProxy::toggleMenu()
@@ -635,10 +634,10 @@ QByteArray ScriptableProxy::mainWinId()
     return serializeWindow(m_wnd->winId());
 }
 
-QByteArray ScriptableProxy::trayMenuWinId()
+QByteArray ScriptableProxy::menuWinId()
 {
-    INVOKE(trayMenuWinId());
-    return serializeWindow(m_wnd->trayMenu()->winId());
+    INVOKE(menuWinId());
+    return serializeWindow(m_wnd->menuWinId());
 }
 
 int ScriptableProxy::findTabIndex(const QString &arg1)
@@ -850,9 +849,9 @@ QString ScriptableProxy::sendKeys(const QString &keys)
     if (keys == "FLUSH_KEYS")
         return QString();
 
-    QWidget *w = m_wnd->trayMenu();
+    auto w = m_wnd->visibleMenu();
 
-    if ( !w->isVisible() ) {
+    if (!w) {
         w = QApplication::focusWidget();
         if (!w) {
             COPYQ_LOG("No focused widget -> using main window");

@@ -106,10 +106,10 @@ public:
 
     QStringList tabs();
     bool toggleVisible();
-    bool toggleMenu(const QString &tabName);
+    bool toggleMenu(const QString &tabName, int maxItemCount);
     bool toggleMenu();
     QByteArray mainWinId();
-    QByteArray trayMenuWinId();
+    QByteArray menuWinId();
     int findTabIndex(const QString &arg1);
 
     QByteArray openActionDialog(const QVariantMap &arg1);

@@ -73,26 +73,6 @@ TrayMenu::TrayMenu(QWidget *parent)
 {
 }
 
-void TrayMenu::toggle()
-{
-    if ( isVisible() ) {
-        close();
-        return;
-    }
-
-    popup(toScreen(QCursor::pos(), width(), height()));
-
-    raise();
-    activateWindow();
-
-    if (!isActiveWindow()) {
-        QApplication::processEvents();
-        PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(winId());
-        if (window)
-            window->raise();
-    }
-}
-
 void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent)
 {
     resetSeparators();

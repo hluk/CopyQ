@@ -102,6 +102,7 @@ private slots:
     void openAndSavePreferences();
 
     void tray();
+    void menu();
 
     void packUnpackCommands();
     void base64Commands();

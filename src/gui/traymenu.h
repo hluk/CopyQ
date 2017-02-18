@@ -31,9 +31,6 @@ class TrayMenu : public QMenu
 public:
     explicit TrayMenu(QWidget *parent = nullptr);
 
-    /** Show/hide menu. */
-    void toggle();
-
     /**
      * Add clipboard item action with number key hint.
      *

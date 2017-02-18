@@ -506,8 +506,19 @@ void Scriptable::menu()
 
     if (argumentCount() == 0) {
         shown = m_proxy->toggleMenu();
-    } else if (argumentCount() == 1) {
-        shown = m_proxy->toggleMenu(toString(argument(0)));
+    } else if (argumentCount() == 1 || argumentCount() == 2) {
+        const auto tabName = toString(argument(0));
+
+        int maxItemCount = -1;
+        if (argumentCount() == 2) {
+            const auto value = argument(1);
+            if ( !toInt(value, maxItemCount) || maxItemCount <= 0 ) {
+                throwError(argumentError());
+                return;
+            }
+        }
+
+        shown = m_proxy->toggleMenu(tabName, maxItemCount);
     } else {
         throwError(argumentError());
         return;

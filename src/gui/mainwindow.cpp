@@ -367,7 +367,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_lastWindow()
     , m_notifications(nullptr)
     , m_actionHandler(new ActionHandler(this))
-    , m_trayTab(nullptr)
+    , m_menu( new TrayMenu(this) )
+    , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
     , m_canUpdateTitleFromScript(true)
     , m_iconSnip(false)
@@ -397,6 +398,12 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, SLOT(addTrayMenuItems(QString)) );
     connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
              this, SLOT(onTrayActionTriggered(uint,bool)) );
+
+    connect( m_menu, SIGNAL(searchRequest(QString)),
+             this, SLOT(addMenuItems(QString)) );
+    connect( m_menu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
+             this, SLOT(onMenuActionTriggered(uint,bool)) );
+
     connect( ui->tabWidget, SIGNAL(currentChanged(int,int)),
              this, SLOT(tabChanged(int,int)) );
     connect( ui->tabWidget, SIGNAL(tabMoved(int, int)),
@@ -991,6 +998,17 @@ void MainWindow::invoke(Callable *callable)
 }
 
 #ifdef HAS_TESTS
+QWidget *MainWindow::visibleMenu() const
+{
+    if ( m_trayMenu->isVisible() )
+        return m_trayMenu;
+
+    if ( m_menu->isVisible() )
+        return m_menu;
+
+    return nullptr;
+}
+
 void MainWindow::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget)
 {
     const QString keys = shortcut.toString();
@@ -1480,6 +1498,61 @@ QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutCont
     return action;
 }
 
+void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText)
+{
+    WidgetSizeGuard sizeGuard(menu);
+    menu->clearClipboardItems();
+
+    if (!c)
+        return;
+
+    const int current = c->currentIndex().row();
+    int itemCount = 0;
+    for ( int i = 0; i < c->length() && itemCount < maxItemCount; ++i ) {
+        const QModelIndex index = c->model()->index(i, 0);
+        if ( !searchText.isEmpty() ) {
+            const QString itemText = index.data(contentType::text).toString().toLower();
+            if ( !itemText.contains(searchText.toLower()) )
+                continue;
+        }
+        menu->addClipboardItemAction(index, m_options.trayImages, i == current);
+        ++itemCount;
+    }
+
+    menu->setActiveFirstEnabledAction();
+}
+
+void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool omitPaste)
+{
+    if (!c)
+        return;
+
+    PlatformWindowPtr lastWindow = m_lastWindow;
+
+    if ( c->select(itemHash, MoveToClipboard) && lastWindow && !omitPaste && canPaste() )
+        pasteClipboard(lastWindow);
+}
+
+bool MainWindow::toggleMenu(TrayMenu *menu)
+{
+    if ( menu->isVisible() ) {
+        close();
+        return false;
+    }
+
+    menu->popup( toScreen(QCursor::pos(), menu->width(), menu->height()) );
+
+    menu->raise();
+    menu->activateWindow();
+    QApplication::setActiveWindow(menu);
+    QApplication::processEvents();
+
+    if ( !isActiveWindow() )
+        stealFocus(*menu);
+
+    return menu->isVisible();
+}
+
 int MainWindow::findTabIndex(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -1520,9 +1593,9 @@ bool MainWindow::maybeCloseCommandDialog()
     return !m_commandDialog || m_commandDialog->maybeClose(this);
 }
 
-QWidget *MainWindow::trayMenu()
+WId MainWindow::menuWinId() const
 {
-    return m_trayMenu;
+    return m_menu->winId();
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,
@@ -1793,6 +1866,7 @@ void MainWindow::loadSettings()
     // Vi mode
     m_options.viMode = appConfig.option<Config::vi>();
     m_trayMenu->setViModeEnabled(m_options.viMode);
+    m_menu->setViModeEnabled(m_options.viMode);
 
     m_options.transparency = appConfig.option<Config::transparency>();
     m_options.transparencyFocused = appConfig.option<Config::transparency_focused>();
@@ -1858,6 +1932,7 @@ void MainWindow::loadSettings()
     m_options.clipboardTab = appConfig.option<Config::clipboard_tab>();
 
     m_trayMenu->setStyleSheet( theme.getToolTipStyleSheet() );
+    m_menu->setStyleSheet( theme.getToolTipStyleSheet() );
 
     initTray();
     updateTrayMenuItems();
@@ -1969,14 +2044,14 @@ void MainWindow::showBrowser(int index)
         showWindow();
 }
 
-void MainWindow::onTrayActionTriggered(uint clipboardItemHash, bool omitPaste)
+void MainWindow::onMenuActionTriggered(uint itemHash, bool omitPaste)
 {
-    ClipboardBrowser *c = getTabForTrayMenu();
+    onMenuActionTriggered( getTabForMenu(), itemHash, omitPaste );
+}
 
-    PlatformWindowPtr lastWindow = m_lastWindow;
-
-    if ( c->select(clipboardItemHash, MoveToClipboard) && lastWindow && !omitPaste && canPaste() )
-        pasteClipboard(lastWindow);
+void MainWindow::onTrayActionTriggered(uint itemHash, bool omitPaste)
+{
+    onMenuActionTriggered( getTabForTrayMenu(), itemHash, omitPaste );
 }
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
@@ -2001,19 +2076,36 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 #endif // Q_OS_MAC
 }
 
-bool MainWindow::toggleMenu(ClipboardBrowser *browser)
+bool MainWindow::toggleMenu()
 {
-    m_trayTab = browser;
-    m_trayMenu->toggle();
+    return toggleMenu(m_trayMenu);
+}
 
-    // Try to steal focus.
-    m_trayMenu->raise();
-    m_trayMenu->activateWindow();
-    QApplication::setActiveWindow(m_trayMenu);
-    stealFocus(*m_trayMenu);
+bool MainWindow::toggleMenu(const QString &tabName, int itemCount)
+{
+    // Just close the previously opened menu if parameters are the same.
+    if ( m_menu->isVisible()
+         && (m_menuTabName != tabName || m_menuMaxItemCount != itemCount) )
+    {
+        close();
+        return false;
+    }
 
-    m_trayTab = nullptr;
-    return m_trayMenu->isVisible();
+    m_menuTabName = tabName;
+    m_menuMaxItemCount = itemCount;
+    if (m_menuMaxItemCount < 0)
+        m_menuMaxItemCount = m_options.trayItems > 0 ? m_options.trayItems : 10;
+
+    m_menu->clearAllActions();
+    addMenuItems(QString());
+
+    if ( m_menu->isVisible() )
+        m_menu->close();
+
+    if ( m_menu->isEmpty() )
+        return false;
+
+    return toggleMenu(m_menu);
 }
 
 void MainWindow::tabChanged(int current, int)
@@ -2325,11 +2417,14 @@ QStringList MainWindow::tabs() const
     return ui->tabWidget->tabs();
 }
 
+ClipboardBrowser *MainWindow::getTabForMenu()
+{
+    const auto i = findTabIndex(m_menuTabName);
+    return i != -1 ? browser(i) : nullptr;
+}
+
 ClipboardBrowser *MainWindow::getTabForTrayMenu()
 {
-    if (m_trayTab)
-        return m_trayTab;
-
     if (m_options.trayCurrentTab)
         return browser();
 
@@ -2373,7 +2468,7 @@ void MainWindow::createTrayIfSupported()
 
 void MainWindow::updateFocusWindows()
 {
-    if ( isActiveWindow() || m_trayMenu->isActiveWindow() )
+    if ( isActiveWindow() || m_trayMenu->isActiveWindow() || m_menu->isActiveWindow() )
         return;
 
     if ( !m_options.activateFocuses() && !m_options.activatePastes() )
@@ -2467,29 +2562,14 @@ void MainWindow::updateTrayMenuItems()
         m_trayMenu->setActiveFirstEnabledAction();
 }
 
+void MainWindow::addMenuItems(const QString &searchText)
+{
+    addMenuItems(m_menu, getTabForMenu(), m_menuMaxItemCount, searchText);
+}
+
 void MainWindow::addTrayMenuItems(const QString &searchText)
 {
-    WidgetSizeGuard sizeGuard(m_trayMenu);
-    m_trayMenu->clearClipboardItems();
-
-    ClipboardBrowser *c = getTabForTrayMenu();
-    if (!c)
-        return;
-
-    const int current = c->currentIndex().row();
-    int itemCount = 0;
-    for ( int i = 0; i < c->length() && itemCount < m_options.trayItems; ++i ) {
-        const QModelIndex index = c->model()->index(i, 0);
-        if ( !searchText.isEmpty() ) {
-            const QString itemText = index.data(contentType::text).toString().toLower();
-            if ( !itemText.contains(searchText.toLower()) )
-                continue;
-        }
-        m_trayMenu->addClipboardItemAction(index, m_options.trayImages, i == current);
-        ++itemCount;
-    }
-
-    m_trayMenu->setActiveFirstEnabledAction();
+    addMenuItems(m_trayMenu, getTabForTrayMenu(), m_options.trayItems, searchText);
 }
 
 void MainWindow::openLogDialog()
