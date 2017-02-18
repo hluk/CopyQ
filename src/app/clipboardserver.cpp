@@ -252,7 +252,7 @@ void ClipboardServer::createGlobalShortcuts()
 
     QList<QKeySequence> usedShortcuts;
 
-    for ( const auto &command : loadCommands() ) {
+    for ( const auto &command : loadEnabledCommands() ) {
         if ( !command.globalShortcuts.contains("DISABLED") ) {
             for (const auto &shortcutText : command.globalShortcuts) {
                 QKeySequence shortcut(shortcutText, QKeySequence::PortableText);

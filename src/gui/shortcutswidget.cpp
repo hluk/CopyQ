@@ -191,7 +191,7 @@ void ShortcutsWidget::checkAmbiguousShortcuts()
     }
 
     QList<QKeySequence> commandShortcuts;
-    for ( const auto &command : loadCommands(true) ) {
+    for ( const auto &command : loadEnabledCommands() ) {
         for (const auto &shortcutText : command.shortcuts + command.globalShortcuts) {
             const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
             if ( !shortcut.isEmpty() )

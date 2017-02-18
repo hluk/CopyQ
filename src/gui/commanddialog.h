@@ -42,9 +42,6 @@ public:
             QWidget *parent = nullptr);
     ~CommandDialog();
 
-    /** Return enabled commands. */
-    Commands commands(bool onlyEnabled = true, bool onlySaved = true) const;
-
     /** Create new command. */
     void addCommand(const Command &command);
 
@@ -83,6 +80,8 @@ private slots:
     void onClipboardChanged();
 
 private:
+    Commands currentCommands() const;
+
     void addCommandWithoutSave(const Command &command, int targetRow = -1);
     void loadCommandsFromFile(const QString &fileName, int targetRow);
     Commands selectedCommands() const;
@@ -96,7 +95,8 @@ private:
     QStringList m_formats;
 };
 
-CommandDialog::Commands loadCommands(bool onlyEnabled = true);
+CommandDialog::Commands loadAllCommands();
+CommandDialog::Commands loadEnabledCommands();
 void saveCommands(const CommandDialog::Commands &commands);
 
 #endif // COMMANDDIALOG_H

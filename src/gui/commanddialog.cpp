@@ -41,6 +41,11 @@
 
 namespace {
 
+enum CommandFilter {
+    EnabledCommands,
+    AllCommands
+};
+
 const QIcon iconLoadCommands() { return getIcon("document-open", IconFolderOpen); }
 const QIcon iconSaveCommands() { return getIcon("document-save", IconSave); }
 const QIcon iconCopyCommands() { return getIcon("edit-copy", IconCopy); }
@@ -79,12 +84,12 @@ private:
     QStringList m_formats;
 };
 
-void loadCommand(const QSettings &settings, bool onlyEnabled, CommandDialog::Commands *commands)
+void loadCommand(const QSettings &settings, CommandFilter filter, CommandDialog::Commands *commands)
 {
     Command c;
     c.enable = settings.value("Enable", true).toBool();
 
-    if (onlyEnabled && !c.enable)
+    if (filter == EnabledCommands && !c.enable)
         return;
 
     c.name = settings.value("Name").toString();
@@ -124,7 +129,7 @@ void loadCommand(const QSettings &settings, bool onlyEnabled, CommandDialog::Com
     commands->append(c);
 }
 
-CommandDialog::Commands loadCommands(QSettings *settings, bool onlyEnabled = false)
+CommandDialog::Commands loadCommands(QSettings *settings, CommandFilter filter)
 {
     CommandDialog::Commands commands;
 
@@ -132,7 +137,7 @@ CommandDialog::Commands loadCommands(QSettings *settings, bool onlyEnabled = fal
 
     if ( groups.contains("Command") ) {
         settings->beginGroup("Command");
-        loadCommand(*settings, onlyEnabled, &commands);
+        loadCommand(*settings, filter, &commands);
         settings->endGroup();
     }
 
@@ -140,7 +145,7 @@ CommandDialog::Commands loadCommands(QSettings *settings, bool onlyEnabled = fal
 
     for(int i=0; i<size; ++i) {
         settings->setArrayIndex(i);
-        loadCommand(*settings, onlyEnabled, &commands);
+        loadCommand(*settings, filter, &commands);
     }
 
     settings->endArray();
@@ -256,7 +261,7 @@ CommandDialog::CommandDialog(
     ui->itemOrderListCommands->setFocus();
     ui->itemOrderListCommands->setAddRemoveButtonsVisible(true);
 
-    for ( const auto &command : commands(false) )
+    for ( const auto &command : loadAllCommands() )
         addCommandWithoutSave(command);
 
     QAction *act = new QAction(ui->itemOrderListCommands);
@@ -277,7 +282,7 @@ CommandDialog::CommandDialog(
 
     restoreWindowGeometry(this, false);
 
-    m_savedCommands = commands(false, true);
+    m_savedCommands = currentCommands();
 
     connect(QApplication::clipboard(), SIGNAL(dataChanged()),
             this, SLOT(onClipboardChanged()));
@@ -289,35 +294,6 @@ CommandDialog::~CommandDialog()
     delete ui;
 }
 
-CommandDialog::Commands CommandDialog::commands(bool onlyEnabled, bool onlySaved) const
-{
-    if (!onlySaved) {
-        Commands commands;
-
-        for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
-            Command c;
-
-            QWidget *w = ui->itemOrderListCommands->widget(i);
-            if (w) {
-                const CommandWidget *commandWidget = qobject_cast<const CommandWidget *>(w);
-                Q_ASSERT(commandWidget);
-                c = commandWidget->command();
-            } else {
-                c = ui->itemOrderListCommands->data(i).value<Command>();
-            }
-
-            c.enable = ui->itemOrderListCommands->isItemChecked(i);
-
-            if (!onlyEnabled || c.enable)
-                commands.append(c);
-        }
-
-        return commands;
-    }
-
-    return loadCommands(onlyEnabled);
-}
-
 void CommandDialog::addCommand(const Command &command)
 {
     addCommandWithoutSave(command);
@@ -325,9 +301,9 @@ void CommandDialog::addCommand(const Command &command)
 
 void CommandDialog::apply()
 {
-    const Commands cmds = commands(false, false);
+    const auto cmds = currentCommands();
     saveCommands(cmds);
-    m_savedCommands = commands(false, true);
+    m_savedCommands = cmds;
     emit commandsSaved();
 }
 
@@ -498,6 +474,30 @@ void CommandDialog::onClipboardChanged()
     ui->pushButtonPasteCommands->setEnabled(!commandsToPaste().isEmpty());
 }
 
+CommandDialog::Commands CommandDialog::currentCommands() const
+{
+    Commands commands;
+
+    for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
+        Command c;
+
+        QWidget *w = ui->itemOrderListCommands->widget(i);
+        if (w) {
+            const CommandWidget *commandWidget = qobject_cast<const CommandWidget *>(w);
+            Q_ASSERT(commandWidget);
+            c = commandWidget->command();
+        } else {
+            c = ui->itemOrderListCommands->data(i).value<Command>();
+        }
+
+        c.enable = ui->itemOrderListCommands->isItemChecked(i);
+
+        commands.append(c);
+    }
+
+    return commands;
+}
+
 void CommandDialog::addCommandWithoutSave(const Command &command, int targetRow)
 {
     ItemOrderList::ItemPtr item(new CommandItem(command, m_formats, this));
@@ -514,7 +514,7 @@ void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
     const int count = ui->itemOrderListCommands->rowCount();
     int row = targetRow >= 0 ? targetRow : count;
 
-    for ( auto command : loadCommands(&commandsSettings) ) {
+    for ( auto command : loadCommands(&commandsSettings, AllCommands) ) {
         rowsToSelect.append(row);
 
         if (command.cmd.startsWith("\n    ")) {
@@ -531,12 +531,12 @@ void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
 
 CommandDialog::Commands CommandDialog::selectedCommands() const
 {
-    QList<int> rows = ui->itemOrderListCommands->selectedRows();
-    const Commands allCommands = commands(false, false);
+    const auto rows = ui->itemOrderListCommands->selectedRows();
+    const auto cmds = currentCommands();
     Commands commandsToSave;
     for (int row : rows) {
-        Q_ASSERT(row < allCommands.size());
-        commandsToSave.append(allCommands.value(row));
+        Q_ASSERT(row < cmds.size());
+        commandsToSave.append(cmds.value(row));
     }
 
     return commandsToSave;
@@ -593,13 +593,19 @@ QString CommandDialog::serializeSelectedCommands()
 
 bool CommandDialog::hasUnsavedChanges() const
 {
-    return m_savedCommands != commands(false, false);
+    return m_savedCommands != currentCommands();
 }
 
-CommandDialog::Commands loadCommands(bool onlyEnabled)
+CommandDialog::Commands loadEnabledCommands()
 {
     QSettings settings;
-    return loadCommands(&settings, onlyEnabled);
+    return loadCommands(&settings, EnabledCommands);
+}
+
+CommandDialog::Commands loadAllCommands()
+{
+    QSettings settings;
+    return loadCommands(&settings, AllCommands);
 }
 
 void saveCommands(const CommandDialog::Commands &commands)

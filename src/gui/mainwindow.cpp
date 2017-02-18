@@ -439,7 +439,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     connect(itemFactory, SIGNAL(error(QString)),
             this, SLOT(showError(QString)));
 
-    m_commands = loadCommands();
+    m_commands = loadEnabledCommands();
     loadSettings();
 
     ui->tabWidget->setCurrentIndex(0);
@@ -774,14 +774,14 @@ void MainWindow::onAboutToQuit()
 
 void MainWindow::onCommandDialogSaved()
 {
-    m_commands = loadCommands();
+    m_commands = loadEnabledCommands();
     updateContextMenu();
     emit commandsSaved();
 }
 
 void MainWindow::onSaveCommand(const Command &command)
 {
-    CommandDialog::Commands commands = loadCommands(false);
+    auto commands = loadAllCommands();
     commands.append(command);
     saveCommands(commands);
 
