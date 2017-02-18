@@ -13,6 +13,7 @@ FORMS += \
     ui/commandwidget.ui \
     ui/configtabappearance.ui \
     ui/configurationmanager.ui \
+    ui/importexportdialog.ui \
     ui/itemorderlist.ui \
     ui/mainwindow.ui \
     ui/pluginwidget.ui \
@@ -49,6 +50,7 @@ HEADERS += \
     gui/configtabappearance.h \
     gui/configtabshortcuts.h \
     gui/configurationmanager.h \
+    gui/importexportdialog.h \
     gui/execmenu.h \
     gui/fancylineedit.h \
     gui/filterlineedit.h \
@@ -146,6 +148,7 @@ SOURCES += \
     gui/configtabappearance.cpp \
     gui/configtabshortcuts.cpp \
     gui/configurationmanager.cpp \
+    gui/importexportdialog.cpp \
     gui/execmenu.cpp \
     gui/fancylineedit.cpp \
     gui/filterlineedit.cpp \

@@ -36,6 +36,7 @@
 #include "gui/commandaction.h"
 #include "gui/commanddialog.h"
 #include "gui/configurationmanager.h"
+#include "gui/importexportdialog.h"
 #include "gui/iconfactory.h"
 #include "gui/iconfactory.h"
 #include "gui/iconselectdialog.h"
@@ -352,6 +353,11 @@ bool isItemActivationShortcut(const QKeySequence &shortcut)
             && shortcut[3] == 0;
 }
 
+QString importExportFileDialogFilter()
+{
+    return MainWindow::tr("CopyQ Items (*.cpq)");
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -537,11 +543,11 @@ void MainWindow::createMenu()
     act = createAction( Actions::File_New, SLOT(editNewItem()), menu );
     disableActionWhenTabGroupSelected(act, this);
 
-    // - import tab
-    createAction( Actions::File_ImportTab, SLOT(loadTab()), menu );
+    // - import
+    createAction( Actions::File_Import, SLOT(importData()), menu );
 
-    // - export tab
-    act = createAction( Actions::File_ExportTab, SLOT(saveTab()), menu );
+    // - export
+    act = createAction( Actions::File_Export, SLOT(exportData()), menu );
     disableActionWhenTabGroupSelected(act, this);
 
     // - separator
@@ -1551,6 +1557,94 @@ bool MainWindow::toggleMenu(TrayMenu *menu)
         stealFocus(*menu);
 
     return menu->isVisible();
+}
+
+bool MainWindow::exportDataV3(QDataStream *out, const ImportExportDialog &exportDialog)
+{
+    QVariantList tabsData;
+    for ( const auto &tab : exportDialog.selectedTabs() ) {
+        const auto i = findTabIndex(tab);
+        if (i == -1)
+            continue;
+
+        ClipboardBrowser *c = browser(i);
+        const auto tabName = c->tabName();
+
+        QByteArray tabBytes;
+        {
+            QDataStream tabOut(&tabBytes, QIODevice::WriteOnly);
+            tabOut.setVersion(QDataStream::Qt_4_7);
+            if ( !serializeData(*c->model(), &tabOut) )
+                return false;
+        }
+
+        const auto iconName = getIconNameForTabName(tabName);
+
+        QVariantMap tabData;
+        tabData["name"] = tabName;
+        tabData["data"] = tabBytes;
+        if ( !iconName.isEmpty() )
+            tabData["icon"] = iconName;
+
+        tabsData.append(tabData);
+    }
+
+    QVariantMap data;
+    if ( !tabsData.isEmpty() )
+        data["tabs"] = tabsData;
+
+    out->setVersion(QDataStream::Qt_4_7);
+    (*out) << QByteArray("CopyQ v3");
+    (*out) << data;
+
+    return out->status() == QDataStream::Ok;
+}
+
+bool MainWindow::importDataV3(QDataStream *in)
+{
+    QVariantMap data;
+    (*in) >> data;
+
+    const auto tabsData = data.value("tabs").toList();
+
+    QStringList tabs;
+    for (const auto &tabDataValue : tabsData) {
+        const auto tabData = tabDataValue.toMap();
+        const auto oldTabName = tabData["name"].toString();
+        tabs.append(oldTabName);
+    }
+
+    ImportExportDialog importDialog(this);
+    importDialog.setWindowTitle( tr("CopyQ Export Options") );
+    importDialog.setTabs(tabs);
+    if ( importDialog.exec() != QDialog::Accepted )
+        return false;
+
+    tabs = importDialog.selectedTabs();
+    for (const auto &tabDataValue : tabsData) {
+        const auto tabData = tabDataValue.toMap();
+        const auto oldTabName = tabData["name"].toString();
+        if ( !tabs.contains(oldTabName) )
+            continue;
+
+        auto tabName = oldTabName;
+        renameToUnique( &tabName, ui->tabWidget->tabs() );
+
+        const auto iconName = tabData.value("icon").toString();
+        if ( !iconName.isEmpty() )
+            setIconNameForTabName(tabName, iconName);
+
+        auto c = createTab(tabName, MatchExactTabName);
+        c->loadItems();
+
+        const auto tabBytes = tabData.value("data").toByteArray();
+        QDataStream tabIn(tabBytes);
+        tabIn.setVersion(QDataStream::Qt_4_7);
+        if ( !deserializeData( c->model(), &tabIn ) )
+            return false;
+    }
+
+    return in->status() == QDataStream::Ok;
 }
 
 int MainWindow::findTabIndex(const QString &name)
@@ -2765,24 +2859,34 @@ bool MainWindow::saveTab(const QString &fileName, int tab_index)
     return true;
 }
 
-bool MainWindow::saveTab(int tab_index)
+bool MainWindow::exportData()
 {
-    QString fileName = QFileDialog::getSaveFileName( this, QString(), QString(),
-                                                     tr("CopyQ Items (*.cpq)") );
+    ImportExportDialog exportDialog(this);
+    exportDialog.setWindowTitle( tr("CopyQ Export Options") );
+    exportDialog.setTabs( ui->tabWidget->tabs() );
+    exportDialog.setCurrentTab( browser()->tabName() );
+    if ( exportDialog.exec() != QDialog::Accepted )
+        return false;
+
+    auto fileName = QFileDialog::getSaveFileName(
+                this, QString(), QString(), importExportFileDialogFilter() );
     if ( fileName.isNull() )
         return false;
 
     if ( !fileName.endsWith(".cpq") )
         fileName.append(".cpq");
 
-    if ( !saveTab(fileName, tab_index) ) {
-        QMessageBox::critical( this, tr("CopyQ Error Saving File"),
-                               tr("Cannot save file %1!")
-                               .arg(quoteString(fileName)) );
+    QFile file(fileName);
+    if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) ) {
+        QMessageBox::critical(
+                    this, tr("CopyQ Error Saving File"),
+                    tr("Cannot save file %1!").arg(quoteString(fileName)) );
         return false;
     }
 
-    return true;
+    QDataStream out(&file);
+
+    return exportDataV3(&out, exportDialog);
 }
 
 void MainWindow::saveTabs()
@@ -2823,14 +2927,34 @@ bool MainWindow::loadTab(const QString &fileName)
     return true;
 }
 
-bool MainWindow::loadTab()
+bool MainWindow::importData(const QString &fileName)
 {
-    QString fileName = QFileDialog::getOpenFileName( this, QString(), QString(),
-                                                     tr("CopyQ Items (*.cpq)") );
+    // Compatibility with v2.9.0 and earlier.
+    if ( loadTab(fileName) )
+        return true;
+
+    QFile file(fileName);
+    if ( !file.open(QIODevice::ReadOnly) )
+        return false;
+
+    QDataStream in(&file);
+
+    QByteArray header;
+    in >> header;
+    if ( header.startsWith("CopyQ v3") )
+        return importDataV3(&in);
+
+    return false;
+}
+
+bool MainWindow::importData()
+{
+    const auto fileName = QFileDialog::getOpenFileName(
+                this, QString(), QString(), importExportFileDialogFilter() );
     if ( fileName.isNull() )
         return false;
 
-    if ( !loadTab(fileName) ) {
+    if ( !importData(fileName) ) {
         QMessageBox::critical( this, tr("CopyQ Error Opening File"),
                                tr("Cannot open file %1!")
                                .arg(quoteString(fileName)) );

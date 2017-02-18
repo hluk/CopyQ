@@ -59,9 +59,9 @@ MenuItems menuItems()
     MenuItems items;
     addMenuItem( items, Actions::File_New, QObject::tr("&New Item"), "new", QKeySequence::New,
                   "document-new", IconFileAlt );
-    addMenuItem( items, Actions::File_ImportTab, QObject::tr("&Import Tab..."), "import_tab", QObject::tr("Ctrl+I"),
+    addMenuItem( items, Actions::File_Import, QObject::tr("&Import..."), "import", QObject::tr("Ctrl+I"),
                   "document-open", IconFolderOpen );
-    addMenuItem( items, Actions::File_ExportTab, QObject::tr("&Export Tab..."), "export_tab", QKeySequence::Save,
+    addMenuItem( items, Actions::File_Export, QObject::tr("&Export..."), "export", QKeySequence::Save,
                   "document-save", IconSave );
     addMenuItem( items, Actions::File_Preferences, QObject::tr("&Preferences..."), "preferences", QObject::tr("Ctrl+P"),
                   "preferences-other", IconWrench );

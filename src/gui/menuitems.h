@@ -29,8 +29,8 @@ namespace Actions {
 
 enum Id {
     File_New,
-    File_ImportTab,
-    File_ExportTab,
+    File_Import,
+    File_Export,
     File_Preferences,
     File_Commands,
     File_ShowClipboardContent,

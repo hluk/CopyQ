@@ -36,6 +36,7 @@ class Action;
 class ActionHandler;
 class CommandDialog;
 class ConfigurationManager;
+class ImportExportDialog;
 class NotificationDaemon;
 class QModelIndex;
 class TrayMenu;
@@ -257,6 +258,12 @@ public:
      */
     bool loadTab(const QString &fileName);
 
+    /**
+     * Import tabs, settings etc. (select file in dialog).
+     * @return True only if all data were successfully loaded.
+     */
+    bool importData(const QString &fileName);
+
     /** Called after clipboard content changes. */
     void clipboardChanged(const QVariantMap &data);
 
@@ -320,10 +327,10 @@ public slots:
     void reverseSelectedItems();
 
     /**
-     * Load saved items to new tab.
-     * Show file dialog and focus the new tab.
+     * Import tabs, settings etc. (select file in dialog).
+     * @return True only if all data were successfully loaded.
      */
-    bool loadTab();
+    bool importData();
 
     /** Create new item in current tab. */
     void editNewItem();
@@ -398,10 +405,11 @@ public slots:
     /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
     void toggleClipboardStoring();
 
-    /** Save all items in tab. Show file dialog. */
-    bool saveTab(
-            int tab_index = -1 //!< Tab index or current tab.
-            );
+    /**
+     * Export tabs, settings etc.
+     * @return True only if all data were successfully saved.
+     */
+    bool exportData();
 
     /** Set next or first tab as current. */
     void nextTab();
@@ -618,6 +626,9 @@ private:
     void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
     void onMenuActionTriggered(ClipboardBrowser *c, uint clipboardItemHash, bool omitPaste);
     bool toggleMenu(TrayMenu *menu);
+
+    bool exportDataV3(QDataStream *out, const ImportExportDialog &exportDialog);
+    bool importDataV3(QDataStream *in);
 
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
