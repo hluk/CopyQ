@@ -2441,11 +2441,7 @@ void MainWindow::updateTrayMenuItems()
     QAction *act = m_trayMenu->addAction(
                 appIcon(), tr("&Show/Hide"), this, SLOT(toggleVisible()) );
     m_trayMenu->setDefaultAction(act);
-    addTrayAction(Actions::File_New);
-    act = addTrayAction(Actions::Item_Action);
-    act->setWhatsThis( tr("Open action dialog") );
     addTrayAction(Actions::File_Preferences);
-    addTrayAction(Actions::File_ToggleClipboardStoring);
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
 
