@@ -104,7 +104,10 @@ ItemLoaderInterface *loadItems(
 
     ItemLoaderInterface *loader = itemFactory->loadItems(&model, &tabFile);
     if (!loader) {
-        log( QString("Tab \"%1\": Failed to load items"), LogError );
+        const QString errorString =
+                QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
+                .arg( quoteString(tabFileName) );
+        itemFactory->emitError(errorString);
         return nullptr;
     }
 

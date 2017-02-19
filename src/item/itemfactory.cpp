@@ -30,7 +30,7 @@
 
 #include <QCoreApplication>
 #include <QDir>
-#include <QFile>
+#include <QIODevice>
 #include <QLabel>
 #include <QModelIndex>
 #include <QPluginLoader>
@@ -176,19 +176,15 @@ public:
         return new DummyItem(index, parent, preview);
     }
 
-    bool canLoadItems(QFile *) const override { return true; }
+    bool canLoadItems(QIODevice *) const override { return true; }
 
     bool canSaveItems(const QAbstractItemModel &) const override { return true; }
 
-    bool loadItems(QAbstractItemModel *model, QFile *file) override
+    bool loadItems(QAbstractItemModel *model, QIODevice *file) override
     {
         if ( file->size() > 0 ) {
             if ( !deserializeData(model, file) ) {
                 model->removeRows(0, model->rowCount());
-                const QString errorString =
-                        QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
-                        .arg(quoteString(file->fileName()) );
-                m_factory->emitError(errorString);
                 return false;
             }
         }
@@ -196,7 +192,7 @@ public:
         return true;
     }
 
-    bool saveItems(const QAbstractItemModel &model, QFile *file) override
+    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override
     {
         return serializeData(model, file);
     }
@@ -324,7 +320,7 @@ bool ItemFactory::isLoaderEnabled(const ItemLoaderInterface *loader) const
     return !m_disabledLoaders.contains(loader);
 }
 
-ItemLoaderInterface *ItemFactory::loadItems(QAbstractItemModel *model, QFile *file)
+ItemLoaderInterface *ItemFactory::loadItems(QAbstractItemModel *model, QIODevice *file)
 {
     for ( auto loader : enabledLoaders() ) {
         file->seek(0);

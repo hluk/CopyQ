@@ -31,7 +31,7 @@ namespace Ui {
 class ItemEncryptedSettings;
 }
 
-class QFile;
+class QIODevice;
 
 class ItemEncrypted : public QWidget, public ItemWidget
 {
@@ -75,13 +75,13 @@ public:
 
     virtual QWidget *createSettingsWidget(QWidget *parent);
 
-    virtual bool canLoadItems(QFile *file) const;
+    virtual bool canLoadItems(QIODevice *file) const;
 
     virtual bool canSaveItems(const QAbstractItemModel &model) const;
 
-    virtual bool loadItems(QAbstractItemModel *model, QFile *file);
+    virtual bool loadItems(QAbstractItemModel *model, QIODevice *file);
 
-    virtual bool saveItems(const QAbstractItemModel &model, QFile *file);
+    virtual bool saveItems(const QAbstractItemModel &model, QIODevice *file);
 
     virtual bool initializeTab(QAbstractItemModel *model);
 

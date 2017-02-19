@@ -26,7 +26,7 @@
 #include <QAbstractItemModel>
 #include <QByteArray>
 #include <QDataStream>
-#include <QFile>
+#include <QIODevice>
 #include <QList>
 #include <QObject>
 #include <QPair>
@@ -232,14 +232,14 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
     return stream->status() == QDataStream::Ok;
 }
 
-bool serializeData(const QAbstractItemModel &model, QFile *file)
+bool serializeData(const QAbstractItemModel &model, QIODevice *file)
 {
     QDataStream stream(file);
     stream.setVersion(QDataStream::Qt_4_7);
     return serializeData(model, &stream);
 }
 
-bool deserializeData(QAbstractItemModel *model, QFile *file)
+bool deserializeData(QAbstractItemModel *model, QIODevice *file)
 {
     QDataStream stream(file);
     return deserializeData(model, &stream);

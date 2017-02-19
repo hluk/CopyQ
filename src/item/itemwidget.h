@@ -29,7 +29,7 @@
 
 class QAbstractItemModel;
 class QTextEdit;
-class QFile;
+class QIODevice;
 class QFont;
 class QModelIndex;
 class QPalette;
@@ -225,7 +225,7 @@ public:
     /**
      * @return true only if items can be loaded
      */
-    virtual bool canLoadItems(QFile *file) const;
+    virtual bool canLoadItems(QIODevice *file) const;
 
     /**
      * @return true only if items can be saved
@@ -236,13 +236,13 @@ public:
      * Load items.
      * @return true only if items were saved by this plugin (or just not to load them any further)
      */
-    virtual bool loadItems(QAbstractItemModel *model, QFile *file);
+    virtual bool loadItems(QAbstractItemModel *model, QIODevice *file);
 
     /**
      * Save items.
      * @return true only if items were saved
      */
-    virtual bool saveItems(const QAbstractItemModel &model, QFile *file);
+    virtual bool saveItems(const QAbstractItemModel &model, QIODevice *file);
 
     /**
      * Initialize tab (tab was not yet saved or loaded).

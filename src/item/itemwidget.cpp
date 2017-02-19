@@ -264,7 +264,7 @@ ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *, bool) co
     return nullptr;
 }
 
-bool ItemLoaderInterface::canLoadItems(QFile *) const
+bool ItemLoaderInterface::canLoadItems(QIODevice *) const
 {
     return false;
 }
@@ -274,12 +274,12 @@ bool ItemLoaderInterface::canSaveItems(const QAbstractItemModel &) const
     return false;
 }
 
-bool ItemLoaderInterface::loadItems(QAbstractItemModel *, QFile *)
+bool ItemLoaderInterface::loadItems(QAbstractItemModel *, QIODevice *)
 {
     return false;
 }
 
-bool ItemLoaderInterface::saveItems(const QAbstractItemModel &, QFile *)
+bool ItemLoaderInterface::saveItems(const QAbstractItemModel &, QIODevice *)
 {
     return false;
 }

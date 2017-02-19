@@ -31,7 +31,7 @@
 #include "item/serialize.h"
 
 #include <QDir>
-#include <QFile>
+#include <QIODevice>
 #include <QLabel>
 #include <QTextEdit>
 #include <QtPlugin>
@@ -310,7 +310,7 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-bool ItemEncryptedLoader::canLoadItems(QFile *file) const
+bool ItemEncryptedLoader::canLoadItems(QIODevice *file) const
 {
     QDataStream stream(file);
 
@@ -348,7 +348,7 @@ bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model) const
     return false;
 }
 
-bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
+bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QIODevice *file)
 {
     // This is needed to skip header.
     if ( !canLoadItems(file) )
@@ -420,7 +420,7 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
     return true;
 }
 
-bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file)
+bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QIODevice *file)
 {
     if (m_gpgProcessStatus == GpgNotInstalled)
         return false;

@@ -25,7 +25,7 @@
 class QAbstractItemModel;
 class QByteArray;
 class QDataStream;
-class QFile;
+class QIODevice;
 
 void serializeData(QDataStream *out, const QVariantMap &data);
 void deserializeData(QDataStream *stream, QVariantMap *data);
@@ -34,7 +34,7 @@ bool deserializeData(QVariantMap *data, const QByteArray &bytes);
 
 bool serializeData(const QAbstractItemModel &model, QDataStream *stream);
 bool deserializeData(QAbstractItemModel *model, QDataStream *stream);
-bool serializeData(const QAbstractItemModel &model, QFile *file);
-bool deserializeData(QAbstractItemModel *model, QFile *file);
+bool serializeData(const QAbstractItemModel &model, QIODevice *file);
+bool deserializeData(QAbstractItemModel *model, QIODevice *file);
 
 #endif // SERIALIZE_H

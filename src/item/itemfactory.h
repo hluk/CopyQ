@@ -30,7 +30,7 @@
 class ItemLoaderInterface;
 class ItemWidget;
 class QAbstractItemModel;
-class QFile;
+class QIODevice;
 class QModelIndex;
 class QWidget;
 struct Command;
@@ -116,7 +116,7 @@ public:
      * Load items using a plugin.
      * @return true only if any plugin (ItemLoaderInterface::loadItems()) returned true
      */
-    ItemLoaderInterface *loadItems(QAbstractItemModel *model, QFile *file);
+    ItemLoaderInterface *loadItems(QAbstractItemModel *model, QIODevice *file);
 
     /**
      * Initialize tab.

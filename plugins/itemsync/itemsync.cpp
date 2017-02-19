@@ -119,7 +119,7 @@ bool readConfigHeader(QDataStream *stream)
     return header == dataFileHeader;
 }
 
-bool readConfig(QFile *file, QVariantMap *config)
+bool readConfig(QIODevice *file, QVariantMap *config)
 {
     QDataStream stream(file);
     if ( !readConfigHeader(&stream) )
@@ -131,7 +131,7 @@ bool readConfig(QFile *file, QVariantMap *config)
             && config->value(configVersion, 0).toInt() == currentVersion;
 }
 
-void writeConfiguration(QFile *file, const QStringList &savedFiles)
+void writeConfiguration(QIODevice *file, const QStringList &savedFiles)
 {
     QVariantMap config;
     config.insert(configVersion, currentVersion);
@@ -1365,7 +1365,7 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-bool ItemSyncLoader::canLoadItems(QFile *file) const
+bool ItemSyncLoader::canLoadItems(QIODevice *file) const
 {
     QDataStream stream(file);
     return readConfigHeader(&stream);
@@ -1376,7 +1376,7 @@ bool ItemSyncLoader::canSaveItems(const QAbstractItemModel &model) const
     return m_tabPaths.contains(model.property("tabName").toString());
 }
 
-bool ItemSyncLoader::loadItems(QAbstractItemModel *model, QFile *file)
+bool ItemSyncLoader::loadItems(QAbstractItemModel *model, QIODevice *file)
 {
     QVariantMap config;
     if ( !readConfig(file, &config) )
@@ -1386,7 +1386,7 @@ bool ItemSyncLoader::loadItems(QAbstractItemModel *model, QFile *file)
     return loadItems(model, files);
 }
 
-bool ItemSyncLoader::saveItems(const QAbstractItemModel &model, QFile *file)
+bool ItemSyncLoader::saveItems(const QAbstractItemModel &model, QIODevice *file)
 {
     FileWatcher *watcher = m_watchers.value(&model, nullptr);
 
