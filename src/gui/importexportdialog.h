@@ -37,6 +37,12 @@ public:
     void setTabs(const QStringList &tabs);
     void setCurrentTab(const QString &tabName);
 
+    void setHasConfiguration(bool hasConfiguration);
+    void setHasCommands(bool hasCommands);
+
+    void setConfigurationEnabled(bool enabled);
+    void setCommandsEnabled(bool enabled);
+
     QStringList selectedTabs() const;
     bool isConfigurationEnabled() const;
     bool isCommandsEnabled() const;

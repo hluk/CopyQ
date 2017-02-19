@@ -627,6 +627,7 @@ private:
     void onMenuActionTriggered(ClipboardBrowser *c, uint clipboardItemHash, bool omitPaste);
     bool toggleMenu(TrayMenu *menu);
 
+    bool exportData(const QString &fileName, const ImportExportDialog &exportDialog);
     bool exportDataV3(QDataStream *out, const ImportExportDialog &exportDialog);
     bool importDataV3(QDataStream *in);
 

@@ -358,6 +358,20 @@ QString importExportFileDialogFilter()
     return MainWindow::tr("CopyQ Items (*.cpq)");
 }
 
+/**
+ * Returns QVariant value that can be serialized and deserialized with QDataStream.
+ *
+ * WORKAROUND: Invalid QVariant() can be serialized but deserialization fails.
+ */
+QVariant serializableValue(const QSettings &settings, const QString &key)
+{
+    const auto value = settings.value(key);
+    if ( value.isValid() )
+        return value;
+
+    return QString();
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -1559,9 +1573,19 @@ bool MainWindow::toggleMenu(TrayMenu *menu)
     return menu->isVisible();
 }
 
+bool MainWindow::exportData(const QString &fileName, const ImportExportDialog &exportDialog)
+{
+    QFile file(fileName);
+    if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) )
+        return false;
+
+    QDataStream out(&file);
+    return exportDataV3(&out, exportDialog);
+}
+
 bool MainWindow::exportDataV3(QDataStream *out, const ImportExportDialog &exportDialog)
 {
-    QVariantList tabsData;
+    QVariantList tabsList;
     for ( const auto &tab : exportDialog.selectedTabs() ) {
         const auto i = findTabIndex(tab);
         if (i == -1)
@@ -1580,18 +1604,50 @@ bool MainWindow::exportDataV3(QDataStream *out, const ImportExportDialog &export
 
         const auto iconName = getIconNameForTabName(tabName);
 
-        QVariantMap tabData;
-        tabData["name"] = tabName;
-        tabData["data"] = tabBytes;
+        QVariantMap tabMap;
+        tabMap["name"] = tabName;
+        tabMap["data"] = tabBytes;
         if ( !iconName.isEmpty() )
-            tabData["icon"] = iconName;
+            tabMap["icon"] = iconName;
 
-        tabsData.append(tabData);
+        tabsList.append(tabMap);
+    }
+
+    QVariantMap settingsMap;
+    if ( exportDialog.isConfigurationEnabled() ) {
+        const QSettings settings;
+
+        for (const auto &key : settings.allKeys()) {
+            if ( !key.startsWith("Commands/") )
+                settingsMap[key] = serializableValue(settings, key);
+        }
+    }
+
+    QVariantList commandsList;
+    if ( exportDialog.isCommandsEnabled() ) {
+        QSettings settings;
+
+        const int commandCount = settings.beginReadArray("Commands");
+        for (int i = 0; i < commandCount; ++i) {
+            settings.setArrayIndex(i);
+
+            QVariantMap commandMap;
+            for ( const auto &key : settings.allKeys() )
+                commandMap[key] = serializableValue(settings, key);
+
+            commandsList.append(commandMap);
+        }
+
+        settings.endArray();
     }
 
     QVariantMap data;
-    if ( !tabsData.isEmpty() )
-        data["tabs"] = tabsData;
+    if ( !tabsList.isEmpty() )
+        data["tabs"] = tabsList;
+    if ( !settingsMap.isEmpty() )
+        data["settings"] = settingsMap;
+    if ( !commandsList.isEmpty() )
+        data["commands"] = commandsList;
 
     out->setVersion(QDataStream::Qt_4_7);
     (*out) << QByteArray("CopyQ v3");
@@ -1602,46 +1658,103 @@ bool MainWindow::exportDataV3(QDataStream *out, const ImportExportDialog &export
 
 bool MainWindow::importDataV3(QDataStream *in)
 {
+    QByteArray header;
+    (*in) >> header;
+    if ( !header.startsWith("CopyQ v3") )
+        return false;
+
     QVariantMap data;
     (*in) >> data;
+    if ( in->status() != QDataStream::Ok )
+        return false;
 
-    const auto tabsData = data.value("tabs").toList();
+    const auto tabsList = data.value("tabs").toList();
 
     QStringList tabs;
-    for (const auto &tabDataValue : tabsData) {
-        const auto tabData = tabDataValue.toMap();
-        const auto oldTabName = tabData["name"].toString();
+    for (const auto &tabMapValue : tabsList) {
+        const auto tabMap = tabMapValue.toMap();
+        const auto oldTabName = tabMap["name"].toString();
         tabs.append(oldTabName);
     }
+
+    const auto settingsMap = data.value("settings").toMap();
+    const auto commandsList = data.value("commands").toList();
 
     ImportExportDialog importDialog(this);
     importDialog.setWindowTitle( tr("CopyQ Export Options") );
     importDialog.setTabs(tabs);
+    importDialog.setHasConfiguration( !settingsMap.isEmpty() );
+    importDialog.setHasCommands( !commandsList.isEmpty() );
+    importDialog.setConfigurationEnabled(true);
+    importDialog.setCommandsEnabled(true);
     if ( importDialog.exec() != QDialog::Accepted )
-        return false;
+        return true;
 
     tabs = importDialog.selectedTabs();
-    for (const auto &tabDataValue : tabsData) {
-        const auto tabData = tabDataValue.toMap();
-        const auto oldTabName = tabData["name"].toString();
+    for (const auto &tabMapValue : tabsList) {
+        const auto tabMap = tabMapValue.toMap();
+        const auto oldTabName = tabMap["name"].toString();
         if ( !tabs.contains(oldTabName) )
             continue;
 
         auto tabName = oldTabName;
         renameToUnique( &tabName, ui->tabWidget->tabs() );
 
-        const auto iconName = tabData.value("icon").toString();
+        const auto iconName = tabMap.value("icon").toString();
         if ( !iconName.isEmpty() )
             setIconNameForTabName(tabName, iconName);
 
         auto c = createTab(tabName, MatchExactTabName);
         c->loadItems();
 
-        const auto tabBytes = tabData.value("data").toByteArray();
+        const auto tabBytes = tabMap.value("data").toByteArray();
         QDataStream tabIn(tabBytes);
         tabIn.setVersion(QDataStream::Qt_4_7);
         if ( !deserializeData( c->model(), &tabIn ) )
             return false;
+    }
+
+    if ( importDialog.isConfigurationEnabled() ) {
+        // Configuration dialog shouldn't be open.
+        if (cm)
+            return false;
+
+        Settings settings;
+
+        for ( const auto &name : settingsMap.keys() )
+            settings.setValue(name, settingsMap[name]);
+
+        emit configurationChanged();
+    }
+
+    if ( importDialog.isCommandsEnabled() ) {
+        // Close command dialog.
+        if ( !maybeCloseCommandDialog() )
+            return false;
+
+        // Re-create command dialog again later.
+        if (m_commandDialog) {
+            m_commandDialog->deleteLater();
+            m_commandDialog = nullptr;
+        }
+
+        Settings settings;
+
+        int i = settings.beginReadArray("Commands");
+        settings.endArray();
+
+        settings.beginWriteArray("Commands");
+
+        for ( const auto &commandDataValue : commandsList ) {
+            settings.setArrayIndex(i++);
+            const auto commandMap = commandDataValue.toMap();
+            for ( const auto &key : commandMap.keys() )
+                settings.setValue(key, commandMap[key]);
+        }
+
+        settings.endArray();
+
+        onCommandDialogSaved();
     }
 
     return in->status() == QDataStream::Ok;
@@ -2876,17 +2989,14 @@ bool MainWindow::exportData()
     if ( !fileName.endsWith(".cpq") )
         fileName.append(".cpq");
 
-    QFile file(fileName);
-    if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) ) {
+    if ( !exportData(fileName, exportDialog) ) {
         QMessageBox::critical(
-                    this, tr("CopyQ Error Saving File"),
-                    tr("Cannot save file %1!").arg(quoteString(fileName)) );
+                    this, tr("CopyQ Error Exporting File"),
+                    tr("Cannot export file %1!").arg(quoteString(fileName)) );
         return false;
     }
 
-    QDataStream out(&file);
-
-    return exportDataV3(&out, exportDialog);
+    return true;
 }
 
 void MainWindow::saveTabs()
@@ -2924,6 +3034,8 @@ bool MainWindow::loadTab(const QString &fileName)
 
     file.close();
 
+    ui->tabWidget->setCurrentIndex( ui->tabWidget->count() - 1 );
+
     return true;
 }
 
@@ -2939,12 +3051,7 @@ bool MainWindow::importData(const QString &fileName)
 
     QDataStream in(&file);
 
-    QByteArray header;
-    in >> header;
-    if ( header.startsWith("CopyQ v3") )
-        return importDataV3(&in);
-
-    return false;
+    return importDataV3(&in);
 }
 
 bool MainWindow::importData()
@@ -2955,14 +3062,11 @@ bool MainWindow::importData()
         return false;
 
     if ( !importData(fileName) ) {
-        QMessageBox::critical( this, tr("CopyQ Error Opening File"),
-                               tr("Cannot open file %1!")
+        QMessageBox::critical( this, tr("CopyQ Error Importing File"),
+                               tr("Cannot import file %1!")
                                .arg(quoteString(fileName)) );
         return false;
     }
-
-    TabWidget *w = ui->tabWidget;
-    w->setCurrentIndex( w->count()-1 );
 
     return true;
 }
