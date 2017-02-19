@@ -1560,6 +1560,8 @@ bool MainWindow::toggleMenu(TrayMenu *menu)
         return false;
     }
 
+    menu->setActiveFirstEnabledAction();
+
     menu->popup( toScreen(QCursor::pos(), menu->width(), menu->height()) );
 
     menu->raise();
@@ -2765,8 +2767,7 @@ void MainWindow::updateTrayMenuItems()
             m_trayMenu->addCustomAction(actions[i]);
     }
 
-    if (m_trayMenu->activeAction() == nullptr)
-        m_trayMenu->setActiveFirstEnabledAction();
+    m_trayMenu->setActiveFirstEnabledAction();
 }
 
 void MainWindow::addMenuItems(const QString &searchText)
