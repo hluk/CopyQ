@@ -89,20 +89,30 @@ const QIcon iconTabRename() { return getIconFromResources("tab_rename"); }
 
 const int clipboardNotificationId = 0;
 
+const char propertyWidgetSizeGuarded[] = "CopyQ_widget_size_guarded";
+
 /// Omit size changes of a widget.
 class WidgetSizeGuard : public QObject {
 public:
     WidgetSizeGuard(QWidget *guardedObject)
         : m_guarded(guardedObject)
     {
-        m_guarded->setFixedSize( m_guarded->size() );
+        if ( m_guarded->property(propertyWidgetSizeGuarded).toBool() ) {
+            m_guarded = nullptr;
+        } else {
+            m_guarded->setProperty(propertyWidgetSizeGuarded, true);
+            m_guarded->setFixedSize( m_guarded->size() );
+        }
     }
 
     ~WidgetSizeGuard()
     {
-        m_guarded->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-        m_guarded->adjustSize();
-        m_guarded->resize( m_guarded->sizeHint() );
+        if (m_guarded) {
+            m_guarded->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+            m_guarded->adjustSize();
+            m_guarded->resize( m_guarded->sizeHint() );
+            m_guarded->setProperty(propertyWidgetSizeGuarded, false);
+        }
     }
 
 private:
@@ -2300,6 +2310,8 @@ bool MainWindow::toggleMenu(const QString &tabName, int itemCount)
         return false;
     }
 
+    WidgetSizeGuard sizeGuard(m_menu);
+
     m_menuTabName = tabName;
     m_menuMaxItemCount = itemCount;
     if (m_menuMaxItemCount < 0)
@@ -2736,6 +2748,8 @@ void MainWindow::enterSearchMode(const QString &txt)
 
 void MainWindow::updateTrayMenuItems()
 {
+    WidgetSizeGuard sizeGuard(m_trayMenu);
+
     if (m_options.trayItemPaste)
         m_lastWindow = createPlatformNativeInterface()->getCurrentWindow();
 
