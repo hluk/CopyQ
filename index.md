@@ -64,6 +64,8 @@ follow instructions in
 [INSTALL](https://github.com/hluk/CopyQ/blob/master/INSTALL) to build the
 application.
 
+On Windows you can install [Chocolatey package](https://chocolatey.org/packages/copyq).
+
 To start CopyQ run `copyq` command without parameters. The application main
 window is accessible by clicking on system tray icon or running `copyq toggle`.
 
