@@ -56,6 +56,11 @@ struct KeyPairPaths {
     QString pub;
 };
 
+QString gpgExecutable()
+{
+    return "gpg2";
+}
+
 QStringList getDefaultEncryptCommandArguments(const QString &publicKeyPath)
 {
     return QStringList() << "--trust-model" << "always" << "--recipient" << "copyq"
@@ -81,7 +86,7 @@ QStringList getDefaultEncryptCommandArgumentsEscaped()
 void startGpgProcess(QProcess *p, const QStringList &args)
 {
     KeyPairPaths keys;
-    p->start("gpg", getDefaultEncryptCommandArguments(keys.pub) + args);
+    p->start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) + args);
 }
 
 bool verifyProcess(QProcess *p)
@@ -117,7 +122,7 @@ QString importGpgKey()
     KeyPairPaths keys;
 
     QProcess p;
-    p.start("gpg", getDefaultEncryptCommandArguments(keys.pub) << "--import" << keys.sec);
+    p.start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) << "--import" << keys.sec);
     if ( !waitOrTerminate(&p) )
         return "Failed to import private key (process timed out).";
 
@@ -136,7 +141,7 @@ QString exportGpgKey()
         return QString();
 
     QProcess p;
-    p.start("gpg", getDefaultEncryptCommandArguments(keys.pub) << "--export-secret-key" << "copyq");
+    p.start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) << "--export-secret-key" << "copyq");
     if ( !waitOrTerminate(&p) )
         return "Failed to export private key (process timed out).";
 
