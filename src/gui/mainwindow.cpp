@@ -1556,7 +1556,7 @@ void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool 
 bool MainWindow::toggleMenu(TrayMenu *menu)
 {
     if ( menu->isVisible() ) {
-        close();
+        menu->close();
         return false;
     }
 
@@ -1567,7 +1567,7 @@ bool MainWindow::toggleMenu(TrayMenu *menu)
     QApplication::setActiveWindow(menu);
     QApplication::processEvents();
 
-    if ( !isActiveWindow() )
+    if ( !menu->isActiveWindow() )
         stealFocus(*menu);
 
     return menu->isVisible();
@@ -2292,9 +2292,9 @@ bool MainWindow::toggleMenu(const QString &tabName, int itemCount)
 {
     // Just close the previously opened menu if parameters are the same.
     if ( m_menu->isVisible()
-         && (m_menuTabName != tabName || m_menuMaxItemCount != itemCount) )
+         && (m_menuTabName == tabName && m_menuMaxItemCount == itemCount) )
     {
-        close();
+        m_menu->close();
         return false;
     }
 
