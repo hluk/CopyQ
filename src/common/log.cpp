@@ -260,6 +260,12 @@ QString currentThreadLabel()
     return QThread::currentThread()->property(propertyThreadName).toString();
 }
 
+QString createSimpleLogMessage(const QString &text, const LogLevel level)
+{
+    const auto label = logLevelLabel(level) + ": ";
+    return label + QString(text).replace("\n", "\n" + label + "   ") + "\n";
+}
+
 QString createLogMessage(const QString &text, const LogLevel level)
 {
     const QString timeStamp =
@@ -288,7 +294,8 @@ void log(const QString &text, const LogLevel level)
     if ( !writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug) ) {
         QFile ferr;
         ferr.open(stderr, QIODevice::WriteOnly);
-        ferr.write(msg);
+        const auto simpleMsg = createSimpleLogMessage(text, level).toUtf8();
+        ferr.write(simpleMsg);
     }
 
     if ( writtenToLogFile && f.size() > logFileSize )
