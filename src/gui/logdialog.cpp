@@ -107,7 +107,7 @@ class LogDecorator : public Decorator
 {
 public:
     LogDecorator(QFont font, QObject *parent)
-        : Decorator(QRegExp("^.*: "), parent)
+        : Decorator(QRegExp("^[^\\]]*\\]"), parent)
         , m_labelNote(logLevelLabel(LogNote))
         , m_labelError(logLevelLabel(LogError))
         , m_labelWarning(logLevelLabel(LogWarning))
@@ -184,6 +184,39 @@ private:
     QTextCharFormat m_stringFormat;
 };
 
+class ThreadNameDecorator : public Decorator
+{
+public:
+    explicit ThreadNameDecorator(const QFont &font, QObject *parent)
+        : Decorator(QRegExp(" [A-Z][a-z]+-[0-9-]+:"), parent)
+    {
+        QFont boldFont = font;
+        boldFont.setBold(true);
+        m_format.setFont(boldFont);
+    }
+
+private:
+    void decorate(QTextCursor *tc) override
+    {
+        // Colorize thread label.
+        const auto text = tc->selectedText();
+
+        const auto hash = qHash(text);
+        const int h = hash % 360;
+        m_format.setForeground( QColor::fromHsv(h, 150, 100) );
+
+        const auto bg =
+                text.startsWith(" Server-") ? QColor::fromHsv(60, 80, 255)
+              : text.startsWith(" Monitor-") ? QColor::fromHsv(200, 80, 255)
+              : QColor(Qt::white);
+        m_format.setBackground(bg);
+
+        tc->setCharFormat(m_format);
+    }
+
+    QTextCharFormat m_format;
+};
+
 LogDialog::LogDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::LogDialog)
@@ -195,11 +228,13 @@ LogDialog::LogDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QFont font("Monospace");
+    auto font = ui->textBrowserLog->font();
+    font.setFamily("Monospace");
     ui->textBrowserLog->setFont(font);
 
-    m_logDecorator = new LogDecorator(ui->textBrowserLog->font(), this);
+    m_logDecorator = new LogDecorator(font, this);
     m_stringDecorator = new StringDecorator(this);
+    m_threadNameDecorator = new ThreadNameDecorator(font, this);
 
     addFilterCheckBox(ui->layoutFilters, LogError, SLOT(showError(bool)));
     addFilterCheckBox(ui->layoutFilters, LogWarning, SLOT(showWarning(bool)));
@@ -234,6 +269,7 @@ void LogDialog::updateLog()
     QTextDocument *doc = ui->textBrowserLog->document();
     m_logDecorator->decorate(doc);
     m_stringDecorator->decorate(doc);
+    m_threadNameDecorator->decorate(doc);
 }
 
 void LogDialog::showError(bool show)

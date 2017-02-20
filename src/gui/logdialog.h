@@ -49,6 +49,7 @@ private:
 
     Decorator *m_logDecorator;
     Decorator *m_stringDecorator;
+    Decorator *m_threadNameDecorator;
 
     bool m_showError;
     bool m_showWarning;
