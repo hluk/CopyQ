@@ -185,18 +185,18 @@ void ClipboardServer::stopMonitoring()
     if (m_monitor == nullptr)
         return;
 
-    COPYQ_LOG("Clipboard Monitor: Terminating");
+    COPYQ_LOG("Terminating monitor");
 
     m_monitor->disconnect();
     delete m_monitor;
     m_monitor = nullptr;
 
-    COPYQ_LOG("Clipboard Monitor: Terminated");
+    COPYQ_LOG("Monitor terminated");
 }
 
 void ClipboardServer::startMonitoring()
 {
-    COPYQ_LOG("Starting monitor.");
+    COPYQ_LOG("Starting monitor");
 
     if ( m_monitor == nullptr ) {
         m_monitor = new RemoteProcess(this);
@@ -215,12 +215,10 @@ void ClipboardServer::startMonitoring()
 
 void ClipboardServer::loadMonitorSettings()
 {
-    if ( !isMonitoring() ) {
-        COPYQ_LOG("Cannot configure monitor!");
+    if ( !isMonitoring() )
         return;
-    }
 
-    COPYQ_LOG("Configuring monitor.");
+    COPYQ_LOG("Configuring monitor");
 
     QVariantMap settings;
     settings["formats"] = m_itemFactory->formatsToSave();
