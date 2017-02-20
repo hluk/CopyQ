@@ -29,6 +29,30 @@
 #include <QFile>
 #include <QThread>
 
+namespace {
+
+QString toString(int code)
+{
+    switch (code) {
+    case CommandFinished:
+        return "CommandFinished";
+    case CommandError:
+        return "CommandError";
+    case CommandBadSyntax:
+        return "CommandBadSyntax";
+    case CommandSuccess:
+        return "CommandSuccess";
+    case CommandActivateWindow:
+        return "CommandActivateWindow";
+    case CommandReadInput:
+        return "CommandReadInput";
+    default:
+        return QString("Unknown(%1)").arg(code);
+    }
+}
+
+} // namespace
+
 void InputReader::readInput()
 {
     QFile in;
@@ -50,6 +74,8 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 {
+    COPYQ_LOG( "Status received: " + toString(messageCode) );
+
     if (messageCode == CommandActivateWindow) {
         COPYQ_LOG("Activating window.");
         PlatformWindowPtr window = createPlatformNativeInterface()->deserialize(data);
@@ -63,8 +89,6 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         f.open((messageCode == CommandSuccess || messageCode == CommandFinished) ? stdout : stderr, QIODevice::WriteOnly);
         f.write(data);
     }
-
-    COPYQ_LOG( QString("Message received with exit code %1.").arg(messageCode) );
 
     if (messageCode == CommandFinished || messageCode == CommandBadSyntax || messageCode == CommandError) {
         abortInputReader();
