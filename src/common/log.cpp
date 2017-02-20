@@ -272,7 +272,7 @@ void log(const QString &text, const LogLevel level)
         f.close();
 
     // Log to file and if needed to stderr.
-    if ( !writtenToLogFile || level <= LogWarning ) {
+    if ( !writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug) ) {
         QFile ferr;
         ferr.open(stderr, QIODevice::WriteOnly);
         ferr.write(msg);

@@ -27,6 +27,17 @@
 #include <QtGlobal> // Q_WS_*
 #include <QVariantMap>
 
+#ifdef COPYQ_DEBUG
+#   include <QDebug>
+#   define QDEBUG() qDebug()
+#else
+#   define QDEBUG() if (false) DummyDebug()
+class DummyDebug {
+    template <typename T>
+    DummyDebug operator<<(T&&) { return DummyDebug(); }
+};
+#endif
+
 class QAction;
 class QByteArray;
 class QIODevice;

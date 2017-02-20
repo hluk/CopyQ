@@ -21,11 +21,11 @@
 
 #include "x11platformclipboard.h"
 
-#include "x11displayguard.h"
-
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/log.h"
+
+#include "x11displayguard.h"
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
