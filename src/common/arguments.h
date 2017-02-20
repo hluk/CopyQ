@@ -37,6 +37,7 @@ public:
     enum {
         CurrentPath,
         ActionId,
+        ProcessId,
         Rest
     };
 

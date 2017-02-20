@@ -1388,7 +1388,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
                 && args.at(Arguments::Rest + 1) == "--";
 
         const int skipArgs = isEval ? 2 : 0;
-        QString msg = isEval ? "EVAL:" : "ARGS:";
+        auto msg = QString("Client-%1:").arg( getTextData(args.at(Arguments::ProcessId)) );
         for (int i = Arguments::Rest + skipArgs; i < args.length(); ++i) {
             const QString indent = isEval
                     ? QString()

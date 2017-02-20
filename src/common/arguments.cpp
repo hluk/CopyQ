@@ -19,6 +19,7 @@
 
 #include "common/arguments.h"
 
+#include <QCoreApplication>
 #include <QByteArray>
 #include <QDataStream>
 #include <QFile>
@@ -87,6 +88,7 @@ void Arguments::reset()
     m_args.resize(Rest);
     m_args[CurrentPath] = QDir::currentPath().toUtf8();
     m_args[ActionId] = qgetenv("COPYQ_ACTION_ID");
+    m_args[ProcessId] = QByteArray::number(QCoreApplication::applicationPid());
 }
 
 void Arguments::append(const QByteArray &argument)

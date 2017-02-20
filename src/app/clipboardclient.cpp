@@ -77,12 +77,10 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
     COPYQ_LOG( "Status received: " + toString(messageCode) );
 
     if (messageCode == CommandActivateWindow) {
-        COPYQ_LOG("Activating window.");
         PlatformWindowPtr window = createPlatformNativeInterface()->deserialize(data);
         if (window)
             window->raise();
     } else if (messageCode == CommandReadInput) {
-        COPYQ_LOG("Sending standard input.");
         startInputReader();
     } else {
         QFile f;
