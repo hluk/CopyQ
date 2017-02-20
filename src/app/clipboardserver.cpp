@@ -101,7 +101,7 @@ public:
 
 ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
-    , App(createPlatformNativeInterface()->createServerApplication(argc, argv),
+    , App("Server", createPlatformNativeInterface()->createServerApplication(argc, argv),
           sessionName)
     , m_wnd(nullptr)
     , m_monitor(nullptr)
@@ -208,7 +208,8 @@ void ClipboardServer::startMonitoring()
                  this, SLOT(loadMonitorSettings()) );
 
         const QString name = serverName("m");
-        m_monitor->start( name, QStringList("monitor") << name );
+        const auto session = qApp->property("CopyQ_session_name").toString();
+        m_monitor->start( name, QStringList() << "-s" << session << "monitor" << name );
     }
 }
 

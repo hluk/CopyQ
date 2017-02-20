@@ -55,9 +55,6 @@
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(QFile*)
 
-#define SCRIPT_LOG(text) \
-    COPYQ_LOG( QString("Script %1: %2").arg(m_id).arg(text) )
-
 namespace {
 
 const char *const programName = "CopyQ Clipboard Manager";
@@ -188,11 +185,17 @@ QByteArray serializeScriptValue(const QScriptValue &value)
     return data;
 }
 
+void logScriptError(const QString &msg)
+{
+    log("ScriptError: " + msg, LogNote);
+}
+
 } // namespace
 
 Scriptable::Scriptable(
-        ScriptableProxy *proxy, const QString &pluginScript,
-        const QString &id, QObject *parent)
+        ScriptableProxy *proxy,
+        const QString &pluginScript,
+        QObject *parent)
     : QObject(parent)
     , QScriptable()
     , m_proxy(proxy)
@@ -206,7 +209,6 @@ Scriptable::Scriptable(
     , m_abort(false)
     , m_argumentsReceived(false)
     , m_pluginScript(pluginScript)
-    , m_id(id)
 {
 }
 
@@ -1376,20 +1378,24 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     QDataStream stream(bytes);
     stream >> args;
     if ( stream.status() != QDataStream::Ok ) {
-        SCRIPT_LOG("Failed to read client arguments");
+        log("Failed to read client arguments", LogError);
         return;
     }
 
     if ( hasLogLevel(LogDebug) ) {
-        const bool isEval = args.length() == Arguments::Rest + 2
-                && args.at(Arguments::Rest) == "eval";
+        const bool isEval = args.length() == Arguments::Rest + 3
+                && args.at(Arguments::Rest) == "eval"
+                && args.at(Arguments::Rest + 1) == "--";
 
-        for (int i = Arguments::Rest + (isEval ? 1 : 0); i < args.length(); ++i) {
+        const int skipArgs = isEval ? 2 : 0;
+        QString msg = isEval ? "EVAL:" : "ARGS:";
+        for (int i = Arguments::Rest + skipArgs; i < args.length(); ++i) {
             const QString indent = isEval
-                    ? QString("EVAL:")
+                    ? QString()
                     : (QString::number(i - Arguments::Rest + 1) + " ");
-            SCRIPT_LOG( indent + getTextData(args.at(i)) );
+            msg.append( "\n" + indent + getTextData(args.at(i)) );
         }
+        COPYQ_LOG(msg);
     }
 
     const QString currentPath = getTextData(args.at(Arguments::CurrentPath));
@@ -1408,7 +1414,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     int exitCode;
 
     if ( args.isEmpty() ) {
-        SCRIPT_LOG("Error: bad command syntax");
+        logScriptError("Bad command syntax");
         exitCode = CommandBadSyntax;
     } else {
         const QString cmd = getTextData( args.at(Arguments::Rest) );
@@ -1423,7 +1429,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
 
         QScriptValue fn = m_engine->globalObject().property(cmd);
         if ( !fn.isFunction() ) {
-            SCRIPT_LOG("Error: unknown command");
+            logScriptError("Unknown command");
             const QString msg =
                     Scriptable::tr("Name \"%1\" doesn't refer to a function.").arg(cmd);
             response = createLogMessage(msg, LogError).toUtf8();
@@ -1456,7 +1462,8 @@ void Scriptable::executeArguments(const QByteArray &bytes)
                         .arg( m_engine->uncaughtException().toString(),
                               m_engine->uncaughtExceptionBacktrace().join("\n") );
 
-                SCRIPT_LOG( QString("Error: Exception in command \"%1\": %2")
+                logScriptError(
+                            QString("Exception in command \"%1\": %2")
                             .arg(cmd, exceptionText) );
 
                 response = createLogMessage(exceptionText, LogError).toUtf8();
@@ -1473,7 +1480,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
 
     sendMessageToClient(response, exitCode);
 
-    SCRIPT_LOG("DONE");
+    COPYQ_LOG("DONE");
 }
 
 QList<int> Scriptable::getRows() const

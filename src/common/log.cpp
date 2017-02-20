@@ -25,7 +25,9 @@
 #include <QFile>
 #include <QString>
 #include <QSystemSemaphore>
+#include <QThread>
 #include <QtGlobal>
+#include <QVariant>
 
 #if QT_VERSION < 0x050000
 #   include <QDesktopServices>
@@ -39,6 +41,8 @@ namespace {
 
 const int logFileSize = 128 * 1024;
 const int logFileCount = 4;
+
+const char propertyThreadName[] = "CopyQ_thread_name";
 
 int getLogLevel()
 {
@@ -248,12 +252,20 @@ QString logLevelLabel(LogLevel level)
     }
 }
 
+QString currentThreadLabel()
+{
+    if (!qApp)
+        return QString();
+
+    return QThread::currentThread()->property(propertyThreadName).toString();
+}
+
 QString createLogMessage(const QString &text, const LogLevel level)
 {
     const QString timeStamp =
-            QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz]");
+            QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz] ");
 
-    const QString label = "CopyQ " + logLevelLabel(level) + timeStamp + ": ";
+    const QString label = "CopyQ " + logLevelLabel(level) + timeStamp + currentThreadLabel() + ": ";
 
     return label + QString(text).replace("\n", "\n" + label + "   ") + "\n";
 }
@@ -281,4 +293,13 @@ void log(const QString &text, const LogLevel level)
 
     if ( writtenToLogFile && f.size() > logFileSize )
         rotateLogFiles();
+}
+
+void setCurrentThreadName(const QString &name)
+{
+    Q_ASSERT(qApp != nullptr);
+
+    const auto id = QCoreApplication::applicationPid();
+    const auto threadId = name + "-" + QString::number(id);
+    QThread::currentThread()->setProperty(propertyThreadName, threadId);
 }

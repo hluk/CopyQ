@@ -27,9 +27,11 @@
 #include <QDataStream>
 
 #define SOCKET_LOG(text) \
-    COPYQ_LOG_VERBOSE( QString("Socket %1: %2").arg(property("id").toInt()).arg(text) )
+    COPYQ_LOG_VERBOSE( QString("Socket %1: %2").arg(m_socketId).arg(text) )
 
 namespace {
+
+int lastSocketId = 0;
 
 template <typename T>
 int doStreamDataSize(T value)
@@ -80,6 +82,7 @@ bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
 ClientSocket::ClientSocket()
     : QObject()
     , m_socket(nullptr)
+    , m_socketId(++lastSocketId)
     , m_deleteAfterDisconnected(false)
     , m_closed(true)
     , m_hasMessageLength(false)
@@ -89,6 +92,7 @@ ClientSocket::ClientSocket()
 ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
     : QObject(parent)
     , m_socket(new QLocalSocket(this))
+    , m_socketId(++lastSocketId)
     , m_deleteAfterDisconnected(false)
     , m_closed(false)
     , m_hasMessageLength(false)
@@ -99,6 +103,7 @@ ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
 ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
     : QObject(parent)
     , m_socket(socket)
+    , m_socketId(++lastSocketId)
     , m_deleteAfterDisconnected(false)
     , m_closed(false)
     , m_hasMessageLength(false)
@@ -120,10 +125,7 @@ void ClientSocket::start()
         return;
     }
 
-    if ( hasLogLevel(LogDebug) ) {
-        setProperty("id", m_socket->socketDescriptor());
-        SOCKET_LOG("Creating socket.");
-    }
+    SOCKET_LOG("Creating socket.");
 
     connect( m_socket, SIGNAL(stateChanged(QLocalSocket::LocalSocketState)),
              this, SLOT(onStateChanged(QLocalSocket::LocalSocketState)), Qt::UniqueConnection );

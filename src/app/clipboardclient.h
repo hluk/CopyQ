@@ -47,8 +47,8 @@ class ClipboardClient : public Client, public App
     Q_OBJECT
 
 public:
-    ClipboardClient(int &argc, char **argv,
-                    int skipArgc = 0, const QString &sessionName = QString());
+    ClipboardClient(
+            int &argc, char **argv, int skipArgc, const QString &sessionName);
 
 private slots:
     void onMessageReceived(const QByteArray &data, int messageCode);

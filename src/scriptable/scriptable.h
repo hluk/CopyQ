@@ -64,8 +64,9 @@ class Scriptable : public QObject, protected QScriptable
 
 public:
     explicit Scriptable(
-            ScriptableProxy *proxy, const QString &pluginScript = QString(),
-            const QString &id = QString(), QObject *parent = nullptr);
+            ScriptableProxy *proxy,
+            const QString &pluginScript = QString(),
+            QObject *parent = nullptr);
 
     void initEngine(QScriptEngine *engine);
 
@@ -298,7 +299,6 @@ private:
     bool m_abort;
     bool m_argumentsReceived;
     QString m_pluginScript;
-    QString m_id;
 };
 
 class NetworkReply : public QObject {

@@ -40,7 +40,7 @@ void InputReader::readInput()
 
 ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QString &sessionName)
     : Client()
-    , App(createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
+    , App("Client", createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
     , m_inputReaderThread(nullptr)
 {
     restoreSettings();

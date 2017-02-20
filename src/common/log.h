@@ -48,4 +48,6 @@ QString createLogMessage(const QString &text, const LogLevel level);
 
 void log(const QString &text, const LogLevel level = LogNote);
 
+void setCurrentThreadName(const QString &name);
+
 #endif // LOG_H

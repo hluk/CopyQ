@@ -50,7 +50,7 @@ class ClipboardServer : public QObject, public App
     Q_OBJECT
 
 public:
-    ClipboardServer(int &argc, char **argv, const QString &sessionName = QString());
+    ClipboardServer(int &argc, char **argv, const QString &sessionName);
     ~ClipboardServer();
 
     /** Stop monitor application. */

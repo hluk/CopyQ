@@ -35,6 +35,9 @@ public:
 
     ~ClientSocket();
 
+    /// Return socket ID unique in process (thread-safe).
+    int id() const { return m_socketId; }
+
 public slots:
     /// Start emiting messageReceived().
     void start();
@@ -64,6 +67,7 @@ private:
     void error(const QString &errorMessage);
 
     QLocalSocket *m_socket;
+    int m_socketId;
     bool m_deleteAfterDisconnected;
     bool m_closed;
 

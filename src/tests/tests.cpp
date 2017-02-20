@@ -51,7 +51,7 @@ namespace {
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
-    const QRegExp scriptExceptionError("Script \\d\\+: Error:");
+    const QRegExp scriptExceptionError("ScriptError:");
     static const QRegExp re(scriptExceptionError.pattern() + "|^CopyQ Warning|^CopyQ ERROR|ASSERT", Qt::CaseInsensitive);
     int from = 0;
     bool skipScriptException = flag == TestInterface::ReadErrorsWithoutScriptException;
@@ -335,7 +335,7 @@ public:
         if (m_monitor == nullptr) {
             m_monitor.reset(new RemoteProcess);
             const QString name = "copyq_TEST";
-            m_monitor->start( name, QStringList("monitor") << name );
+            m_monitor->start( name, QStringList() << "-s" << "" << "monitor" << name );
 
             SleepTimer t(4000);
             while( !m_monitor->isConnected() && t.sleep() ) {}

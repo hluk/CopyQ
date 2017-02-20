@@ -53,15 +53,13 @@ bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
 
 } // namespace
 
-ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
+ClipboardMonitor::ClipboardMonitor(int &argc, char **argv, const QString &serverName, const QString &sessionName)
     : Client()
-    , App(createPlatformNativeInterface()->createMonitorApplication(argc, argv))
+    , App("Monitor", createPlatformNativeInterface()->createMonitorApplication(argc, argv),
+          sessionName)
     , m_clipboard(createPlatformNativeInterface()->clipboard())
 {
     restoreSettings();
-
-    Q_ASSERT(argc == 3);
-    const QString serverName( QString::fromUtf8(argv[2]) );
 
 #ifdef HAS_TESTS
     if ( serverName == QString("copyq_TEST") )

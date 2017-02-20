@@ -40,7 +40,7 @@ namespace {
 
 int evaluate(const QString &functionName, const QStringList &arguments, int argc, char **argv)
 {
-    App app( createPlatformNativeInterface()->createConsoleApplication(argc, argv) );
+    App app( "Prompt", createPlatformNativeInterface()->createConsoleApplication(argc, argv) );
 
     Scriptable scriptable(nullptr);
     QScriptEngine engine;
@@ -67,9 +67,9 @@ int startServer(int argc, char *argv[], const QString &sessionName)
     return app.exec();
 }
 
-int startMonitor(int argc, char *argv[])
+int startMonitor(int argc, char *argv[], const QString &serverName, const QString &sessionName)
 {
-    ClipboardMonitor app(argc, argv);
+    ClipboardMonitor app(argc, argv, serverName, sessionName);
     return app.exec();
 }
 
@@ -178,8 +178,8 @@ int main(int argc, char **argv)
 
     // If first argument is "monitor" (second is monitor server name/ID)
     // then run this process as clipboard monitor.
-    if ( arguments.size() == 2 && arguments[0] == "monitor" )
-        return startMonitor(argc, argv);
+    if ( arguments.size() == 4 && arguments[2] == "monitor" )
+        return startMonitor(argc, argv, arguments[3], sessionName);
 
     // If argument was specified and server is running
     // then run this process as client.

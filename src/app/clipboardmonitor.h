@@ -39,7 +39,7 @@ class ClipboardMonitor : public Client, public App
     Q_OBJECT
 
 public:
-    ClipboardMonitor(int &argc, char **argv);
+    ClipboardMonitor(int &argc, char **argv, const QString &serverName, const QString &sessionName);
 
 private slots:
     void onClipboardChanged(PlatformClipboard::Mode mode);

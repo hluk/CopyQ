@@ -39,15 +39,15 @@ ScriptableWorker::ScriptableWorker(
     , m_socket(socket)
     , m_pluginScript(pluginScript)
 {
-    if ( hasLogLevel(LogDebug) )
-        m_id = m_socket->property("id").toString();
 }
 
 void ScriptableWorker::run()
 {
+    setCurrentThreadName("Script-" + QString::number(m_socket->id()));
+
     QScriptEngine engine;
     ScriptableProxy proxy(m_wnd);
-    Scriptable scriptable(&proxy, m_pluginScript, m_id);
+    Scriptable scriptable(&proxy, m_pluginScript);
     scriptable.initEngine(&engine);
 
     if (m_socket) {
@@ -65,7 +65,7 @@ void ScriptableWorker::run()
                           m_socket, SLOT(deleteAfterDisconnected()) );
 
         if ( m_socket->isClosed() ) {
-            COPYQ_LOG( QString("Script %1: TERMINATED").arg(m_id) );
+            COPYQ_LOG("TERMINATED");
             return;
         }
 

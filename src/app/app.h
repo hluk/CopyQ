@@ -29,6 +29,7 @@ class App
 {
 public:
     explicit App(
+            const QString &threadName,
             QCoreApplication *application,
             const QString &sessionName = QString()
             );
