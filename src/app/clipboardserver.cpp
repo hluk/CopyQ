@@ -381,12 +381,16 @@ void ClipboardServer::changeClipboard(const QVariantMap &data, QClipboard::Mode 
         return;
     }
 
-    COPYQ_LOG("Sending message to monitor.");
-
     const MonitorMessageCode code =
             mode == QClipboard::Clipboard ? MonitorChangeClipboard : MonitorChangeSelection;
 
-    m_monitor->writeMessage( serializeData(data), code );
+    const auto message = serializeData(data);
+
+    COPYQ_LOG( QString("Sending change %1 request to monitor (%2 KiB)")
+               .arg(code == MonitorChangeClipboard ? "clipboard" : "selection")
+               .arg(message.size() / 1024.0) );
+
+    m_monitor->writeMessage(message, code);
 }
 
 void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const Command &command)

@@ -75,9 +75,13 @@ void ClipboardMonitor::onClipboardChanged(PlatformClipboard::Mode mode)
     QVariantMap &lastData = m_lastData[mode];
 
     if ( hasSameData(data, lastData) ) {
-        COPYQ_LOG("Ignoring unchanged clipboard content");
+        COPYQ_LOG( QString("Ignoring unchanged %1")
+                   .arg(mode == PlatformClipboard::Clipboard ? "clipboard" : "selection") );
         return;
     }
+
+    COPYQ_LOG( QString("%1 changed")
+               .arg(mode == PlatformClipboard::Clipboard ? "Clipboard" : "Selection") );
 
     if (mode != PlatformClipboard::Clipboard) {
         const QString modeName = mode == PlatformClipboard::Selection
@@ -130,6 +134,10 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
     } else if (messageCode == MonitorChangeClipboard
             || messageCode == MonitorChangeSelection)
     {
+        COPYQ_LOG( QString("Received change %1 request (%2 KiB)")
+                   .arg(messageCode == MonitorChangeClipboard ? "clipboard" : "selection")
+                   .arg(message.size() / 1024.0) );
+
         QVariantMap data;
         deserializeData(&data, message);
         if (messageCode == MonitorChangeClipboard)

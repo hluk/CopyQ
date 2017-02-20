@@ -31,10 +31,16 @@
 #include <QProcess>
 #include <QString>
 
+namespace {
+
+const int pingMaxRetries = 4;
+
+} // namespace
+
 RemoteProcess::RemoteProcess(QObject *parent)
     : QObject(parent)
     , m_process(nullptr)
-    , m_pongRetry(false)
+    , m_pongRetryCount(0)
     , m_state(Unconnected)
 {
     initSingleShotTimer( &m_timerPing, 8000, this, SLOT(ping()) );
@@ -127,6 +133,11 @@ void RemoteProcess::onMessageReceived(const QByteArray &message, int messageCode
         m_timerPongTimeout.start();
 
     if (messageCode == MonitorPong) {
+        if (m_pongRetryCount > 0)
+            COPYQ_LOG( QString("Remote process: Pong received on try %1/%2")
+                   .arg(QString::number(m_pongRetryCount))
+                   .arg(QString::number(pingMaxRetries)) );
+        m_pongRetryCount = 0;
         m_timerPongTimeout.stop();
         m_timerPing.start();
     } else if (messageCode == MonitorLog) {
@@ -184,15 +195,17 @@ void RemoteProcess::ping()
         writeMessage( QByteArray(), MonitorPing );
         m_timerPing.stop();
         m_timerPongTimeout.start();
-        m_pongRetry = true;
     }
 }
 
 void RemoteProcess::pongTimeout()
 {
-    if (m_pongRetry) {
-        m_timerPongTimeout.start();
-        m_pongRetry = false;
+    if (m_pongRetryCount < pingMaxRetries) {
+        ++m_pongRetryCount;
+        COPYQ_LOG( QString("Remote process: Resending ping %1/%2")
+                   .arg(QString::number(m_pongRetryCount))
+                   .arg(QString::number(pingMaxRetries)) );
+        ping();
     } else {
         onConnectionError("Connection timeout");
     }

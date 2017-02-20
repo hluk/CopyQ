@@ -91,7 +91,7 @@ private:
     QProcess *m_process;
     QTimer m_timerPing;
     QTimer m_timerPongTimeout;
-    bool m_pongRetry;
+    int m_pongRetryCount;
     enum State {
         Unconnected,
         Connecting,

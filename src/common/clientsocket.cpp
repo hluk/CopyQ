@@ -31,6 +31,7 @@
 
 namespace {
 
+const int bigMessageThreshold = 5 * 1024 * 1024;
 int lastSocketId = 0;
 
 template <typename T>
@@ -63,6 +64,9 @@ bool readValue(T *value, QByteArray *message)
 bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
 {
     COPYQ_LOG_VERBOSE( QString("Write message (%1 bytes).").arg(msg.size()) );
+
+    if (msg.size() > bigMessageThreshold)
+        COPYQ_LOG( QString("Sending big message: %1 MiB").arg(msg.size() / 1024 / 1024) );
 
     QDataStream out(socket);
     // length is serialized as a quint32, followed by msg
@@ -208,6 +212,9 @@ void ClientSocket::onReadyRead()
                 return;
             }
             m_hasMessageLength = true;
+
+            if (m_messageLength > bigMessageThreshold)
+                COPYQ_LOG( QString("Receiving big message: %1 MiB").arg(m_messageLength / 1024 / 1024) );
         }
 
         if ( static_cast<quint32>(m_message.length()) < m_messageLength )
