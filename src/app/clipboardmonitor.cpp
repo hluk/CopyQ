@@ -122,7 +122,7 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
         if ( settings.contains("formats") )
             m_formats = settings["formats"].toStringList();
 
-        connect( m_clipboard.data(), SIGNAL(changed(PlatformClipboard::Mode)),
+        connect( m_clipboard.get(), SIGNAL(changed(PlatformClipboard::Mode)),
                  this, SLOT(onClipboardChanged(PlatformClipboard::Mode)),
                  Qt::UniqueConnection );
 

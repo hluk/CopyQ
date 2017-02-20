@@ -43,12 +43,13 @@
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QPushButton>
-#include <QScopedPointer>
 #include <QTextEdit>
 #include <QTimer>
 #include <QtPlugin>
 #include <QUrl>
 #include <QVariantMap>
+
+#include <memory>
 
 struct FileFormat {
     bool isValid() const { return !extensions.isEmpty(); }
@@ -193,12 +194,12 @@ QString iconFromId(int id)
 
 QPushButton *createBrowseButton()
 {
-    QScopedPointer<QPushButton> button(new QPushButton);
+    std::unique_ptr<QPushButton> button(new QPushButton);
     button->setFont( iconFont() );
     button->setText( iconFromId(IconFolderOpen) );
     button->setToolTip( ItemSyncLoader::tr("Browse...",
                                            "Button text for opening file dialog to select synchronization directory") );
-    return button.take();
+    return button.release();
 }
 
 struct Ext {
@@ -639,7 +640,7 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
 
 void ItemSync::setCurrent(bool current)
 {
-    if ( !m_childItem.isNull() )
+    if (m_childItem != nullptr)
         m_childItem->setCurrent(current);
 }
 

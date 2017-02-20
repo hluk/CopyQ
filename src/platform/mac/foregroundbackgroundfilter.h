@@ -21,9 +21,9 @@
 #define FOREGROUNDBACKGROUNDFILTER_H
 
 #include <QObject>
-
 #include <QPointer>
-#include <QScopedPointer>
+
+#include <memory>
 
 class MacPlatform;
 
@@ -50,7 +50,7 @@ protected:
     ForegroundBackgroundFilter(QObject *parent);
 
 private:
-    QScopedPointer<MacPlatform> m_macPlatform;
+    std::unique_ptr<MacPlatform> m_macPlatform;
     QPointer<QWidget> m_mainWindow;
 };
 

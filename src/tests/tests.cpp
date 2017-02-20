@@ -41,10 +41,11 @@
 #include <QMimeData>
 #include <QProcess>
 #include <QRegExp>
-#include <QScopedPointer>
 #include <QTemporaryFile>
 #include <QTest>
 #include <QThread>
+
+#include <memory>
 
 namespace {
 
@@ -158,7 +159,7 @@ public:
 
         m_server.reset(new QProcess);
 
-        if ( !startTestProcess(m_server.data(), QStringList(), QIODevice::ReadOnly) ) {
+        if ( !startTestProcess(m_server.get(), QStringList(), QIODevice::ReadOnly) ) {
             return QString("Failed to launch \"%1\": %2")
                 .arg(QApplication::applicationFilePath())
                 .arg(m_server->errorString())
@@ -200,7 +201,7 @@ public:
                     + printClienAndServerStderr(errors, exitCode);
         }
 
-        if ( !m_server.isNull() && !closeProcess(m_server.data()) )
+        if ( m_server != nullptr && !closeProcess(m_server.get()) )
             return "Failed to close server properly!" + readServerErrors(ReadAllStderr);
 
         return waitForAnyServerToQuit();
@@ -516,8 +517,8 @@ private:
         return "";
     }
 
-    QScopedPointer<QProcess> m_server;
-    QScopedPointer<RemoteProcess> m_monitor; /// Process to provide clipboard set by tests.
+    std::unique_ptr<QProcess> m_server;
+    std::unique_ptr<RemoteProcess> m_monitor; /// Process to provide clipboard set by tests.
     QProcessEnvironment m_env;
     QVariantMap m_settings;
 };
@@ -1809,7 +1810,7 @@ int runTests(int argc, char *argv[])
 
     QApplication app(argc, argv);
     int exitCode = 0;
-    QSharedPointer<TestInterfaceImpl> test(new TestInterfaceImpl);
+    std::shared_ptr<TestInterfaceImpl> test(new TestInterfaceImpl);
     Tests tc(test);
 
     if (onlyPlugins.isEmpty()) {
@@ -1821,10 +1822,10 @@ int runTests(int argc, char *argv[])
         ItemFactory itemFactory;
         for ( const auto loader : itemFactory.loaders() ) {
             if ( loader->id().contains(onlyPlugins) ) {
-                QScopedPointer<QObject> pluginTests( loader->tests(test) );
-                if ( !pluginTests.isNull() ) {
+                std::unique_ptr<QObject> pluginTests( loader->tests(test) );
+                if ( pluginTests != nullptr ) {
                     test->setupTest(loader->id(), pluginTests->property("CopyQ_test_settings"));
-                    const int pluginTestsExitCode = QTest::qExec(pluginTests.data(), argc, argv);
+                    const int pluginTestsExitCode = QTest::qExec(pluginTests.get(), argc, argv);
                     exitCode = qMax(exitCode, pluginTestsExitCode);
                     test->stopServer();
                 }

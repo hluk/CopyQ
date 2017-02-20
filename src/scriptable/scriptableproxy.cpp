@@ -519,7 +519,7 @@ void ScriptableProxy::showMessage(const QString &arg1, const QString &arg2, QSys
 void ScriptableProxy::browserLock()
 {
     INVOKE2(browserLock());
-    Q_ASSERT(m_lock.isNull());
+    Q_ASSERT(m_lock == nullptr);
     ClipboardBrowser *c = fetchBrowser();
     if (c)
         m_lock.reset( new ClipboardBrowser::Lock(c) );
@@ -528,7 +528,7 @@ void ScriptableProxy::browserLock()
 void ScriptableProxy::browserUnlock()
 {
     INVOKE2(browserUnlock());
-    Q_ASSERT(!m_lock.isNull());
+    Q_ASSERT(m_lock != nullptr);
     m_lock.reset();
 }
 

@@ -24,9 +24,10 @@
 #include "platform/platformclipboard.h"
 
 #include <QKeyEvent>
-#include <QSharedPointer>
 #include <QWidget>
 #include <Qt>
+
+#include <memory>
 
 class QApplication;
 class QByteArray;
@@ -34,9 +35,9 @@ class QCoreApplication;
 class QDir;
 class QWidget;
 
-typedef QSharedPointer<PlatformWindow> PlatformWindowPtr;
+typedef std::shared_ptr<PlatformWindow> PlatformWindowPtr;
 
-typedef QSharedPointer<PlatformClipboard> PlatformClipboardPtr;
+typedef std::shared_ptr<PlatformClipboard> PlatformClipboardPtr;
 
 /**
  * Interface for platform dependent code.
@@ -176,7 +177,7 @@ public:
 /**
  * Shared pointer type for PlatformNativeInterface instance.
  */
-typedef QSharedPointer<PlatformNativeInterface> PlatformPtr;
+typedef std::shared_ptr<PlatformNativeInterface> PlatformPtr;
 
 /**
  * Factory method to create PlatformNativeInterface instance.

@@ -25,7 +25,6 @@
 #include <QCoreApplication>
 #include <QElapsedTimer>
 #include <QDataStream>
-#include <QPointer>
 
 #define SOCKET_LOG(text) \
     COPYQ_LOG_VERBOSE( QString("Socket %1: %2").arg(property("id").toInt()).arg(text) )

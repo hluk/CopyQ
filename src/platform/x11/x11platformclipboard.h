@@ -23,9 +23,10 @@
 #include "platform/dummy/dummyclipboard.h"
 
 #include <QClipboard>
-#include <QSharedPointer>
 #include <QStringList>
 #include <QTimer>
+
+#include <memory>
 
 class X11DisplayGuard;
 
@@ -33,7 +34,7 @@ class X11PlatformClipboard : public DummyClipboard
 {
     Q_OBJECT
 public:
-    explicit X11PlatformClipboard(const QSharedPointer<X11DisplayGuard> &d);
+    explicit X11PlatformClipboard(const std::shared_ptr<X11DisplayGuard> &d);
 
     void loadSettings(const QVariantMap &settings);
 
@@ -56,7 +57,7 @@ private:
      */
     bool maybeResetClipboard(QClipboard::Mode mode);
 
-    QSharedPointer<X11DisplayGuard> d;
+    std::shared_ptr<X11DisplayGuard> d;
 
     QStringList m_formats;
 

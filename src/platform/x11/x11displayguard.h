@@ -20,9 +20,9 @@
 #ifndef X11DISPLAYGUARD_H
 #define X11DISPLAYGUARD_H
 
-#include <QSharedPointer>
-
 #include <X11/Xlib.h>
+
+#include <memory>
 
 class X11DisplayGuard
 {
@@ -38,10 +38,10 @@ public:
     /**
      * Get the opened Display (can be nullptr if opening failed).
      */
-    Display *display() { return m_display.data(); }
+    Display *display() { return m_display.get(); }
 
 private:
-    QSharedPointer<Display> m_display;
+    std::shared_ptr<Display> m_display;
 };
 
 #endif // X11DISPLAYGUARD_H

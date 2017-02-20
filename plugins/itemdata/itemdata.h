@@ -24,7 +24,8 @@
 #include "gui/icons.h"
 
 #include <QLabel>
-#include <QScopedPointer>
+
+#include <memory>
 
 namespace Ui {
 class ItemDataSettings;
@@ -85,7 +86,7 @@ private slots:
 
 private:
     QVariantMap m_settings;
-    QScopedPointer<Ui::ItemDataSettings> ui;
+    std::unique_ptr<Ui::ItemDataSettings> ui;
 };
 
 #endif // ITEMDATA_H

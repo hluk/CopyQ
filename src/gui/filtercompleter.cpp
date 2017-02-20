@@ -24,7 +24,6 @@
 #include <QAction>
 #include <QLineEdit>
 #include <QMoveEvent>
-#include <QPointer>
 
 namespace {
 

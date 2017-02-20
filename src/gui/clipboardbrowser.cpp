@@ -52,6 +52,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <memory>
 
 namespace {
 
@@ -1244,11 +1245,11 @@ void ClipboardBrowser::showItemContent()
 {
     const QModelIndex current = currentIndex();
     if ( current.isValid() ) {
-        QScopedPointer<ClipboardDialog> clipboardDialog(
+        std::unique_ptr<ClipboardDialog> clipboardDialog(
                     new ClipboardDialog(currentIndex(), &m, this) );
         clipboardDialog->setAttribute(Qt::WA_DeleteOnClose, true);
         clipboardDialog->show();
-        clipboardDialog.take();
+        clipboardDialog.release();
     }
 }
 
@@ -1542,7 +1543,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
 {
     bool keepUserSelection = hasUserSelection();
 
-    QScopedPointer<ClipboardBrowser::Lock> lock;
+    std::unique_ptr<ClipboardBrowser::Lock> lock;
     if ( updatesEnabled() && keepUserSelection )
         lock.reset(new ClipboardBrowser::Lock(this));
 

@@ -35,6 +35,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
+#include <memory>
+
 namespace {
 
 int (*old_xio_errhandler)(Display *) = nullptr;
@@ -93,8 +95,8 @@ PlatformWindowPtr X11Platform::getWindow(WId winId)
     if (!d->display())
         return PlatformWindowPtr();
 
-    QScopedPointer<X11PlatformWindow> window(new X11PlatformWindow(*d, winId));
-    return PlatformWindowPtr(window->isValid() ? window.take() : nullptr);
+    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(*d, winId));
+    return PlatformWindowPtr(window->isValid() ? window.release() : nullptr);
 }
 
 PlatformWindowPtr X11Platform::getCurrentWindow()
@@ -102,8 +104,8 @@ PlatformWindowPtr X11Platform::getCurrentWindow()
     if (!d->display())
         return PlatformWindowPtr();
 
-    QScopedPointer<X11PlatformWindow> window(new X11PlatformWindow(*d));
-    return PlatformWindowPtr(window->isValid() ? window.take() : nullptr);
+    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(*d));
+    return PlatformWindowPtr(window->isValid() ? window.release() : nullptr);
 }
 
 PlatformWindowPtr X11Platform::deserialize(const QByteArray &data)

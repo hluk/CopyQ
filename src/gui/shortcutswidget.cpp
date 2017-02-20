@@ -30,7 +30,6 @@
 #include "gui/shortcutbutton.h"
 
 #include <QList>
-#include <QPointer>
 #include <QPushButton>
 #include <QSettings>
 

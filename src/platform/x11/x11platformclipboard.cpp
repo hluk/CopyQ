@@ -60,7 +60,7 @@ bool isSelectionEmpty(Display *display)
 
 } // namespace
 
-X11PlatformClipboard::X11PlatformClipboard(const QSharedPointer<X11DisplayGuard> &d)
+X11PlatformClipboard::X11PlatformClipboard(const std::shared_ptr<X11DisplayGuard> &d)
     : d(d)
     , m_resetClipboard(false)
     , m_resetSelection(false)

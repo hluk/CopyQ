@@ -78,6 +78,7 @@
 #endif
 
 #include <algorithm>
+#include <memory>
 
 namespace {
 
@@ -314,13 +315,13 @@ bool needStore(const QVariantMap &data)
 template <typename Dialog>
 Dialog *openDialog(QWidget *dialogParent)
 {
-    QScopedPointer<Dialog> dialog( new Dialog(dialogParent) );
-    WindowGeometryGuard::create( dialog.data() );
+    std::unique_ptr<Dialog> dialog( new Dialog(dialogParent) );
+    WindowGeometryGuard::create( dialog.get() );
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->setWindowIcon(appIcon());
     dialog->activateWindow();
     dialog->show();
-    return dialog.take();
+    return dialog.release();
 }
 
 QString defaultTabName()
@@ -2016,7 +2017,7 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency();
     } else if (type == QEvent::WindowDeactivate) {
         m_timerShowWindow.start();
-        m_lastWindow.clear();
+        m_lastWindow.reset();
         updateWindowTransparency();
         setHideTabs(m_options.hideTabs);
     } else if (type == QEvent::Hide) {
@@ -2163,7 +2164,7 @@ void MainWindow::loadSettings()
 
     ui->searchBar->loadSettings();
 
-    m_lastWindow.clear();
+    m_lastWindow.reset();
 
     QSettings settings;
     settings.beginGroup("Shortcuts");
@@ -2818,8 +2819,8 @@ void MainWindow::showProcessManagerDialog()
 
 WId MainWindow::openActionDialog(const QVariantMap &data)
 {
-    QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
-    connect( actionDialog.data(), SIGNAL(saveCommand(Command)),
+    std::unique_ptr<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
+    connect( actionDialog.get(), SIGNAL(saveCommand(Command)),
              this, SLOT(onSaveCommand(Command)) );
 
     actionDialog->setWindowIcon(appIcon(AppIconRunning));
@@ -2828,7 +2829,7 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
     actionDialog->setOutputIndex(getBrowser()->currentIndex());
 
     actionDialog->show();
-    return stealFocus(*actionDialog.take());
+    return stealFocus(*actionDialog.release());
 }
 
 void MainWindow::openPreferences()
@@ -3101,7 +3102,7 @@ void MainWindow::reverseSelectedItems()
 Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QModelIndex &outputIndex)
 {
     if (cmd.wait) {
-        QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
+        std::unique_ptr<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
 
         actionDialog->setInputData(addSelectionData(*browser(), data));
         actionDialog->setCommand(cmd);
@@ -3118,7 +3119,7 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
         actionDialog->setOutputTabs(tabs, outputTab);
 
         actionDialog->show();
-        actionDialog.take();
+        actionDialog.release();
     } else if ( cmd.cmd.isEmpty() ) {
         m_actionHandler->addFinishedAction(cmd.name);
     } else {

@@ -27,7 +27,8 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QIcon>
-#include <QScopedPointer>
+
+#include <memory>
 
 IconSelectButton::IconSelectButton(QWidget *parent)
     : QPushButton(parent)
@@ -84,15 +85,16 @@ QSize IconSelectButton::sizeHint() const
 
 void IconSelectButton::onClicked()
 {
-    QScopedPointer<IconSelectDialog> dialog( new IconSelectDialog(m_currentIcon, this) );
+    std::unique_ptr<IconSelectDialog> dialog( new IconSelectDialog(m_currentIcon, this) );
 
     // Set position under button.
     const QPoint dialogPosition = mapToGlobal(QPoint(0, height()));
-    moveWindowOnScreen(dialog.data(), dialogPosition);
+    moveWindowOnScreen( dialog.get(), dialogPosition );
 
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
-    connect(dialog.data(), SIGNAL(iconSelected(QString)), this, SLOT(setCurrentIcon(QString)));
+    connect( dialog.get(), SIGNAL(iconSelected(QString)),
+             this, SLOT(setCurrentIcon(QString)) );
     dialog->open();
-    dialog.take();
+    dialog.release();
 }
 

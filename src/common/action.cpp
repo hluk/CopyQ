@@ -26,7 +26,6 @@
 
 #include <QCoreApplication>
 #include <QProcessEnvironment>
-#include <QPointer>
 
 #include <string.h>
 

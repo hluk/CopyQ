@@ -23,7 +23,6 @@
 #include <QDateTime>
 #include <QDir>
 #include <QFile>
-#include <QSharedPointer>
 #include <QString>
 #include <QSystemSemaphore>
 #include <QtGlobal>
@@ -33,6 +32,8 @@
 #else
 #   include <QStandardPaths>
 #endif
+
+#include <memory>
 
 namespace {
 
@@ -102,7 +103,7 @@ private:
     QSystemSemaphore m_semaphore;
 };
 
-typedef QSharedPointer<SystemMutex> SystemMutexPtr;
+typedef std::shared_ptr<SystemMutex> SystemMutexPtr;
 SystemMutexPtr sessionMutex;
 
 /// Lock guard for SystemMutex.
@@ -111,7 +112,7 @@ public:
     /// Locks mutex (it's possible that the mutex won't be locked because of errors).
     SystemMutexLocker(const SystemMutexPtr &mutex)
         : m_mutex(mutex)
-        , m_locked(!m_mutex.isNull() && m_mutex->lock())
+        , m_locked( m_mutex != nullptr && m_mutex->lock() )
     {
     }
 
@@ -147,7 +148,7 @@ void initSessionMutex(QSystemSemaphore::AccessMode accessMode)
 
 const SystemMutexPtr &getSessionMutex()
 {
-    if (sessionMutex.isNull())
+    if (sessionMutex == nullptr)
         initSessionMutex(QSystemSemaphore::Open);
 
     return sessionMutex;

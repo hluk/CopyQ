@@ -36,27 +36,28 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPushButton>
-#include <QScopedPointer>
 #include <QTextEdit>
 #include <QVBoxLayout>
+
+#include <memory>
 
 namespace {
 
 void showNotificationInspectDialog(
         const QString &messageTitle, const QString &message, Qt::TextFormat format)
 {
-    QScopedPointer<QDialog> dialog(new QDialog);
+    std::unique_ptr<QDialog> dialog(new QDialog);
     dialog->setObjectName("InspectNotificationDialog");
     dialog->setWindowTitle( Notification::tr("CopyQ Inspect Notification") );
 
-    WindowGeometryGuard::create( dialog.data() );
+    WindowGeometryGuard::create( dialog.get() );
 
     if ( AppConfig().isOptionOn("always_on_top") )
         dialog->setWindowFlags( dialog->windowFlags() ^ Qt::WindowStaysOnTopHint );
 
     dialog->setWindowIcon( appIcon() );
 
-    QTextEdit *editor = new QTextEdit(dialog.data());
+    auto editor = new QTextEdit(dialog.get());
     editor->setReadOnly(true);
     const QString title = escapeHtml(messageTitle);
     const QString body = format == Qt::PlainText
@@ -66,8 +67,8 @@ void showNotificationInspectDialog(
                      .arg(title, body) );
 
     QDialogButtonBox *buttons = new QDialogButtonBox(
-                QDialogButtonBox::Close, Qt::Horizontal, dialog.data() );
-    QObject::connect( buttons, SIGNAL(rejected()), dialog.data(), SLOT(close()) );
+                QDialogButtonBox::Close, Qt::Horizontal, dialog.get() );
+    QObject::connect( buttons, SIGNAL(rejected()), dialog.get(), SLOT(close()) );
 
     QPushButton *copyButton = new QPushButton( Notification::tr("&Copy"), buttons );
     const QIcon icon = getIcon("clipboard", IconPaste);
@@ -76,13 +77,14 @@ void showNotificationInspectDialog(
     QObject::connect( copyButton, SIGNAL(clicked()), editor, SLOT(copy()) );
     buttons->addButton(copyButton, QDialogButtonBox::ActionRole);
 
-    QVBoxLayout *layout = new QVBoxLayout( dialog.data() );
+    QVBoxLayout *layout = new QVBoxLayout( dialog.get() );
     layout->addWidget(editor);
     layout->addWidget(buttons);
 
     dialog->adjustSize();
     dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog.take()->show();
+    dialog->show();
+    dialog.release();
 }
 
 } // namespace

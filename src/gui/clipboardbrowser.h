@@ -28,10 +28,10 @@
 
 #include <QListView>
 #include <QPointer>
-#include <QScopedPointer>
-#include <QSharedPointer>
 #include <QTimer>
 #include <QVariantMap>
+
+#include <memory>
 
 class ItemEditorWidget;
 class ItemFactory;
@@ -63,7 +63,7 @@ struct ClipboardBrowserShared {
 
     ItemFactory *itemFactory;
 };
-typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
+typedef std::shared_ptr<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 
 QVariantMap itemData(const QModelIndex &index);
 
@@ -439,7 +439,7 @@ class ClipboardBrowser : public QListView
         QPoint m_dragStartPosition;
 
         int m_spinLock;
-        QScopedPointer<class ScrollSaver> m_scrollSaver;
+        std::unique_ptr<class ScrollSaver> m_scrollSaver;
 };
 
 #endif // CLIPBOARDBROWSER_H

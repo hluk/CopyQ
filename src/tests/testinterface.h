@@ -22,7 +22,7 @@
 
 #include "common/sleeptimer.h"
 
-#include <QSharedPointer>
+#include <memory>
 
 class QStringList;
 
@@ -88,6 +88,6 @@ public:
     virtual QString shortcutToRemove() = 0;
 };
 
-typedef QSharedPointer<TestInterface> TestInterfacePtr;
+typedef std::shared_ptr<TestInterface> TestInterfacePtr;
 
 #endif // TESTINTERFACE_H

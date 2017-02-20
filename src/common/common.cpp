@@ -51,6 +51,8 @@
 #   define PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
 #endif
 
+#include <memory>
+
 namespace {
 
 QString getImageFormatFromMime(const QString &mime)
@@ -327,7 +329,7 @@ QMimeData* createMimeData(const QVariantMap &data)
     QStringList copyFormats = data.keys();
     copyFormats.removeOne(mimeClipboardMode);
 
-    QScopedPointer<QMimeData> newClipboardData(new QMimeData);
+    std::unique_ptr<QMimeData> newClipboardData(new QMimeData);
 
     for ( const auto &format : copyFormats )
         newClipboardData->setData( format, data[format].toByteArray() );
@@ -342,11 +344,11 @@ QMimeData* createMimeData(const QVariantMap &data)
     const QStringList formats =
             QStringList() << "image/png" << "image/bmp" << "application/x-qt-image" << data.keys();
     for (const auto &imageFormat : formats) {
-        if ( setImageData(data, imageFormat, newClipboardData.data()) )
+        if ( setImageData(data, imageFormat, newClipboardData.get()) )
             break;
     }
 
-    return newClipboardData.take();
+    return newClipboardData.release();
 }
 
 QVariantMap createDataMap(const QString &format, const QVariant &value)

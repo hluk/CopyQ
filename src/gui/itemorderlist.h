@@ -23,8 +23,9 @@
 #include <QMap>
 #include <QListWidgetItem>
 #include <QPointer>
-#include <QSharedPointer>
 #include <QWidget>
+
+#include <memory>
 
 namespace Ui {
 class ItemOrderList;
@@ -48,7 +49,7 @@ public:
         virtual QWidget *createWidget(QWidget *parent) const = 0;
     };
 
-    typedef QSharedPointer<Item> ItemPtr;
+    typedef std::shared_ptr<Item> ItemPtr;
 
     explicit ItemOrderList(QWidget *parent = 0);
     ~ItemOrderList();

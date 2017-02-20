@@ -22,7 +22,7 @@
 
 #include "platform/platformnativeinterface.h"
 
-#include <QSharedPointer>
+#include <memory>
 
 class QApplication;
 class QCoreApplication;
@@ -80,7 +80,7 @@ public:
     QString translationPrefix();
 
 private:
-    QSharedPointer<X11DisplayGuard> d;
+    std::shared_ptr<X11DisplayGuard> d;
 };
 
 #endif // X11PLATFORM_H

@@ -23,8 +23,9 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
-#include <QScopedPointer>
 #include <QWidget>
+
+#include <memory>
 
 namespace Ui {
 class ItemSyncSettings;
@@ -65,7 +66,7 @@ protected:
 private:
     QTextEdit *m_label;
     QWidget *m_icon;
-    QScopedPointer<ItemWidget> m_childItem;
+    std::unique_ptr<ItemWidget> m_childItem;
 };
 
 /**
@@ -151,7 +152,7 @@ private:
 
     bool loadItems(QAbstractItemModel *model, const QStringList &files);
 
-    QScopedPointer<Ui::ItemSyncSettings> ui;
+    std::unique_ptr<Ui::ItemSyncSettings> ui;
     QVariantMap m_settings;
     QMap<const QObject*, FileWatcher*> m_watchers;
     QMap<QString, QString> m_tabPaths;

@@ -23,7 +23,6 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
-#include <QScopedPointer>
 #include <QVariantMap>
 
 #if QT_VERSION < 0x050000
@@ -31,6 +30,8 @@
 #else
 #   include <QtWebKitWidgets/QWebView>
 #endif
+
+#include <memory>
 
 namespace Ui {
 class ItemWebSettings;
@@ -103,7 +104,7 @@ public:
 
 private:
     QVariantMap m_settings;
-    QScopedPointer<Ui::ItemWebSettings> ui;
+    std::unique_ptr<Ui::ItemWebSettings> ui;
 };
 
 #endif // ITEMWEB_H

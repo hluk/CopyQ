@@ -23,8 +23,9 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
-#include <QScopedPointer>
 #include <QWidget>
+
+#include <memory>
 
 namespace Ui {
 class ItemNotesSettings;
@@ -70,7 +71,7 @@ private slots:
 private:
     QTextEdit *m_notes;
     QWidget *m_icon;
-    QScopedPointer<ItemWidget> m_childItem;
+    std::unique_ptr<ItemWidget> m_childItem;
     bool m_notesAtBottom;
     QTimer *m_timerShowToolTip;
     QString m_toolTipText;
@@ -106,7 +107,7 @@ public:
 
 private:
     QVariantMap m_settings;
-    QScopedPointer<Ui::ItemNotesSettings> ui;
+    std::unique_ptr<Ui::ItemNotesSettings> ui;
 };
 
 #endif // ITEMNOTES_H

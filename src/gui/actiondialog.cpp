@@ -32,6 +32,8 @@
 #include <QFile>
 #include <QMessageBox>
 
+#include <memory>
+
 namespace {
 
 void initFormatComboBox(QComboBox *combo, const QStringList &additionalFormats = QStringList())
@@ -149,7 +151,7 @@ void ActionDialog::createAction()
         m_capturedTexts.append(QString());
     m_capturedTexts[0] = getTextData(m_data);
 
-    QScopedPointer<Action> act( new Action() );
+    std::unique_ptr<Action> act( new Action() );
     act->setCommand(cmd, m_capturedTexts);
     if (input.isEmpty() && !inputFormat.isEmpty())
         act->setInput(m_data, inputFormat);
@@ -161,7 +163,7 @@ void ActionDialog::createAction()
     act->setIndex(m_index);
     act->setName(m_actionName);
     act->setData(m_data);
-    emit accepted(act.take());
+    emit accepted(act.release());
 }
 
 void ActionDialog::setCommand(const Command &cmd)

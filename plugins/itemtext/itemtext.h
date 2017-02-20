@@ -23,9 +23,10 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
-#include <QScopedPointer>
 #include <QTextDocument>
 #include <QTextBrowser>
+
+#include <memory>
 
 namespace Ui {
 class ItemTextSettings;
@@ -79,7 +80,7 @@ public:
 
 private:
     QVariantMap m_settings;
-    QScopedPointer<Ui::ItemTextSettings> ui;
+    std::unique_ptr<Ui::ItemTextSettings> ui;
 };
 
 #endif // ITEMTEXT_H

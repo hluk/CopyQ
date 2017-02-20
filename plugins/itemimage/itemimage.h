@@ -25,7 +25,8 @@
 
 #include <QLabel>
 #include <QPixmap>
-#include <QScopedPointer>
+
+#include <memory>
 
 class QMovie;
 
@@ -96,7 +97,7 @@ public:
 
 private:
     QVariantMap m_settings;
-    QScopedPointer<Ui::ItemImageSettings> ui;
+    std::unique_ptr<Ui::ItemImageSettings> ui;
 };
 
 #endif // ITEMIMAGE_H

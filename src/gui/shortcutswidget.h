@@ -21,7 +21,6 @@
 #define SHORTCUTSWIDGET_H
 
 #include <QIcon>
-#include <QSharedPointer>
 #include <QTimer>
 #include <QVector>
 #include <QWidget>

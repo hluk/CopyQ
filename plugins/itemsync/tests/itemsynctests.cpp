@@ -25,9 +25,11 @@
 #include <QDir>
 #include <QFile>
 
+#include <memory>
+
 namespace {
 
-typedef QSharedPointer<QFile> FilePtr;
+typedef std::shared_ptr<QFile> FilePtr;
 
 const char sep[] = " ;; ";
 

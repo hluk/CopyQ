@@ -28,6 +28,8 @@
 #include <QObject>
 #include <QSystemTrayIcon>
 
+#include <memory>
+
 class MainWindow;
 class QPersistentModelIndex;
 
@@ -177,7 +179,7 @@ private:
 
     MainWindow* m_wnd;
     QString m_tabName;
-    QScopedPointer<ClipboardBrowser::Lock> m_lock;
+    std::unique_ptr<ClipboardBrowser::Lock> m_lock;
     QVariantMap m_actionData;
     bool m_invoked;
 };

@@ -23,10 +23,11 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
-#include <QScopedPointer>
 #include <QVariant>
 #include <QVector>
 #include <QWidget>
+
+#include <memory>
 
 namespace Ui {
 class ItemTagsSettings;
@@ -75,7 +76,7 @@ protected:
 
 private:
     QWidget *m_tagWidget;
-    QScopedPointer<ItemWidget> m_childItem;
+    std::unique_ptr<ItemWidget> m_childItem;
 };
 
 class ItemTagsLoader : public QObject, public ItemLoaderInterface
@@ -132,7 +133,7 @@ private:
 
     QVariantMap m_settings;
     Tags m_tags;
-    QScopedPointer<Ui::ItemTagsSettings> ui;
+    std::unique_ptr<Ui::ItemTagsSettings> ui;
 
     bool m_blockDataChange;
 };

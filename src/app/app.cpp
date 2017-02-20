@@ -31,9 +31,10 @@
 #include <QDir>
 #include <QLibraryInfo>
 #include <QLocale>
-#include <QScopedPointer>
 #include <QTranslator>
 #include <QVariant>
+
+#include <memory>
 
 namespace {
 
@@ -114,9 +115,9 @@ void initTestsSettings()
 
 void installTranslator(const QString &filename, const QString &directory)
 {
-    QScopedPointer<QTranslator> translator( new QTranslator(qApp) );
+    std::unique_ptr<QTranslator> translator( new QTranslator(qApp) );
     if ( translator->load(filename, directory) )
-        QCoreApplication::installTranslator(translator.take());
+        QCoreApplication::installTranslator(translator.release());
 }
 
 void installTranslator()
