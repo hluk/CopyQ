@@ -64,6 +64,8 @@ public:
 
     void setActionData(const QVariantMap &actionData);
 
+    void exit();
+
     void close();
     void showWindow();
     void showWindowAt(const QRect &rect);

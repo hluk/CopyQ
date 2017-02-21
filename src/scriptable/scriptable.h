@@ -278,7 +278,6 @@ public slots:
 
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
-    void requestApplicationQuit();
 
 private:
     void executeArguments(const QByteArray &bytes);

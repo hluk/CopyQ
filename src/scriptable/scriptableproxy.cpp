@@ -358,6 +358,12 @@ void ScriptableProxy::setActionData(const QVariantMap &actionData)
     m_actionData = actionData;
 }
 
+void ScriptableProxy::exit()
+{
+    INVOKE2(exit());
+    qApp->quit();
+}
+
 void ScriptableProxy::close()
 {
     INVOKE2(close());

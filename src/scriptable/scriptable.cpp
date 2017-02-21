@@ -540,7 +540,7 @@ void Scriptable::exit()
 {
     QByteArray message = fromString( tr("Terminating server.\n") );
     sendMessageToClient(message, CommandPrint);
-    emit requestApplicationQuit();
+    m_proxy->exit();
 }
 
 void Scriptable::disable()

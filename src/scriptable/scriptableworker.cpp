@@ -88,9 +88,6 @@ void ScriptableWorker::run()
 
     QMetaObject::invokeMethod(socket, "start", Qt::QueuedConnection);
 
-    QObject::connect( &scriptable, SIGNAL(requestApplicationQuit()),
-                      qApp, SLOT(quit()) );
-
     while ( scriptable.isConnected() )
         QCoreApplication::processEvents();
 
