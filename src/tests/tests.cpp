@@ -140,6 +140,7 @@ public:
         , m_monitor(nullptr)
         , m_env(QProcessEnvironment::systemEnvironment())
     {
+        m_env.insert("COPYQ_LOG_LEVEL", "DEBUG");
     }
 
     ~TestInterfaceImpl()
