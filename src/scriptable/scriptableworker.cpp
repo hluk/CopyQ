@@ -32,49 +32,67 @@
 
 Q_DECLARE_METATYPE(QByteArray*)
 
+ScriptableWorkerSocketGuard::ScriptableWorkerSocketGuard(const ClientSocketPtr &socket)
+    : m_socket(socket)
+{
+}
+
+ScriptableWorkerSocketGuard::~ScriptableWorkerSocketGuard()
+{
+    m_socket = nullptr;
+}
+
+ClientSocket *ScriptableWorkerSocketGuard::socket() const
+{
+    return m_socket.get();
+}
+
 ScriptableWorker::ScriptableWorker(
-        MainWindow *mainWindow, ClientSocket *socket, const QString &pluginScript)
+        MainWindow *mainWindow,
+        const ClientSocketPtr &socket,
+        const QString &pluginScript)
     : QRunnable()
     , m_wnd(mainWindow)
-    , m_socket(socket)
+    , m_socketGuard(new ScriptableWorkerSocketGuard(socket))
     , m_pluginScript(pluginScript)
+{
+}
+
+ScriptableWorker::~ScriptableWorker()
 {
 }
 
 void ScriptableWorker::run()
 {
-    setCurrentThreadName("Script-" + QString::number(m_socket->id()));
+    auto socket = m_socketGuard->socket();
+
+    setCurrentThreadName("Script-" + QString::number(socket->id()));
 
     QScriptEngine engine;
     ScriptableProxy proxy(m_wnd);
     Scriptable scriptable(&proxy, m_pluginScript);
     scriptable.initEngine(&engine);
 
-    if (m_socket) {
-        QObject::connect( &proxy, SIGNAL(sendMessage(QByteArray,int)),
-                          m_socket, SLOT(sendMessage(QByteArray,int)) );
+    QObject::connect( &proxy, SIGNAL(sendMessage(QByteArray,int)),
+                      socket, SLOT(sendMessage(QByteArray,int)) );
 
-        QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
-                          m_socket, SLOT(sendMessage(QByteArray,int)) );
-        QObject::connect( m_socket, SIGNAL(messageReceived(QByteArray,int)),
-                          &scriptable, SLOT(setInput(QByteArray)) );
+    QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
+                      socket, SLOT(sendMessage(QByteArray,int)) );
+    QObject::connect( socket, SIGNAL(messageReceived(QByteArray,int)),
+                      &scriptable, SLOT(setInput(QByteArray)) );
 
-        QObject::connect( m_socket, SIGNAL(disconnected()),
-                          &scriptable, SLOT(abort()) );
-        QObject::connect( &scriptable, SIGNAL(destroyed()),
-                          m_socket, SLOT(deleteAfterDisconnected()) );
+    QObject::connect( socket, SIGNAL(disconnected()),
+                      &scriptable, SLOT(onDisconnected()) );
+    QObject::connect( socket, SIGNAL(connectionFailed()),
+                      &scriptable, SLOT(onDisconnected()) );
 
-        if ( m_socket->isClosed() ) {
-            COPYQ_LOG("TERMINATED");
-            return;
-        }
-
-        QMetaObject::invokeMethod(m_socket, "start", Qt::QueuedConnection);
-    }
+    QMetaObject::invokeMethod(socket, "start", Qt::QueuedConnection);
 
     QObject::connect( &scriptable, SIGNAL(requestApplicationQuit()),
                       qApp, SLOT(quit()) );
 
-    while (!scriptable.isAborted())
+    while ( scriptable.isConnected() )
         QCoreApplication::processEvents();
+
+    QMetaObject::invokeMethod(m_socketGuard, "deleteLater", Qt::QueuedConnection);
 }

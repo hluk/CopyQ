@@ -20,10 +20,16 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include <QMetaType>
 #include <QObject>
+
+#include <memory>
 
 class ClientSocket;
 class QLocalServer;
+
+using ClientSocketPtr = std::shared_ptr<ClientSocket>;
+Q_DECLARE_METATYPE(ClientSocketPtr)
 
 class Server : public QObject
 {
@@ -36,11 +42,11 @@ public:
     bool isListening() const;
 
 signals:
-    void newConnection(ClientSocket *socket);
+    void newConnection(const ClientSocketPtr &socket);
 
 private slots:
     void onNewConnection();
-    void onSocketClosed();
+    void onSocketDestroyed();
     void close();
 
 private:

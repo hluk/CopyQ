@@ -156,7 +156,7 @@ QByteArray readReply(QNetworkReply *reply, const Scriptable &scriptable)
 {
     QByteArray data;
     while ( !reply->isFinished() ) {
-        if (scriptable.isAborted())
+        if ( !scriptable.isConnected() )
             return QByteArray();
         waitFor(100);
         if ( reply->waitForReadyRead(100) )
@@ -212,7 +212,7 @@ Scriptable::Scriptable(
     , m_temporaryFileClass(nullptr)
     , m_inputSeparator("\n")
     , m_input()
-    , m_abort(false)
+    , m_connected(true)
     , m_argumentsReceived(false)
     , m_pluginScript(pluginScript)
 {
@@ -539,7 +539,7 @@ void Scriptable::menu()
 void Scriptable::exit()
 {
     QByteArray message = fromString( tr("Terminating server.\n") );
-    sendMessageToClient(message, CommandFinished);
+    sendMessageToClient(message, CommandPrint);
     emit requestApplicationQuit();
 }
 
@@ -1004,7 +1004,7 @@ QScriptValue Scriptable::input()
 {
     if ( !getByteArray(m_input) ) {
         sendMessageToClient(QByteArray(), CommandReadInput);
-        while ( !getByteArray(m_input) && !m_abort )
+        while ( m_connected && !getByteArray(m_input) )
             QApplication::processEvents();
     }
 
@@ -1048,16 +1048,9 @@ void Scriptable::print(const QScriptValue &value)
 
 void Scriptable::abort()
 {
-    if (m_abort)
-        return;
-
-    m_abort = true;
-
     QScriptEngine *eng = engine() ? engine() : m_engine;
-    if (eng) {
-        setInput(QByteArray()); // stop waiting for input
+    if (eng)
         eng->abortEvaluation();
-    }
 }
 
 void Scriptable::fail()
@@ -1217,7 +1210,7 @@ QScriptValue Scriptable::execute()
     if ( !action.waitForStarted(5000) )
         return QScriptValue();
 
-    while ( !action.waitForFinished(5000) && !m_abort ) {}
+    while ( !action.waitForFinished(5000) && m_connected ) {}
 
     if ( action.isRunning() && !action.waitForFinished(5000) ) {
         action.terminate();
@@ -1374,8 +1367,12 @@ void Scriptable::setInput(const QByteArray &bytes)
     } else {
         m_argumentsReceived = true;
         executeArguments(bytes);
-        abort();
     }
+}
+
+void Scriptable::onDisconnected()
+{
+    m_connected = false;
 }
 
 void Scriptable::executeArguments(const QByteArray &bytes)

@@ -23,11 +23,15 @@
 #include <QObject>
 #include <QTimer>
 
+#include <memory>
+
 class ClientSocket;
 class Server;
 class QByteArray;
 class QProcess;
 class QString;
+
+using ClientSocketPtr = std::shared_ptr<ClientSocket>;
 
 /**
  * Starts process and handles communication with it.
@@ -79,7 +83,7 @@ signals:
 private slots:
     void ping();
     void pongTimeout();
-    void onNewConnection(ClientSocket *socket);
+    void onNewConnection(const ClientSocketPtr &socket);
     void onMessageReceived(const QByteArray &message, int messageCode);
     bool checkConnection();
     void onConnectionError(const QString &error);
@@ -89,6 +93,7 @@ private:
     void terminate();
 
     QProcess *m_process;
+    ClientSocketPtr m_socket;
     QTimer m_timerPing;
     QTimer m_timerPongTimeout;
     int m_pongRetryCount;

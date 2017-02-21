@@ -22,6 +22,7 @@
 
 #include <QLocalSocket>
 #include <QObject>
+#include <QPointer>
 
 class ClientSocket : public QObject
 {
@@ -66,7 +67,7 @@ private slots:
 private:
     void error(const QString &errorMessage);
 
-    QLocalSocket *m_socket;
+    QPointer<QLocalSocket> m_socket;
     int m_socketId;
     bool m_deleteAfterDisconnected;
     bool m_closed;

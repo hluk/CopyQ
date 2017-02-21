@@ -69,8 +69,8 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
         return;
     }
 
-    connect(server, SIGNAL(newConnection(ClientSocket*)),
-            this, SLOT(onNewConnection(ClientSocket*)));
+    connect(server, SIGNAL(newConnection(ClientSocketPtr)),
+            this, SLOT(onNewConnection(ClientSocketPtr)));
     connect(this, SIGNAL(connectionError(QString)),
             server, SLOT(deleteLater()));
 
@@ -99,23 +99,22 @@ bool RemoteProcess::checkConnection() {
     return true;
 }
 
-void RemoteProcess::onNewConnection(ClientSocket *socket)
+void RemoteProcess::onNewConnection(const ClientSocketPtr &socket)
 {
     COPYQ_LOG("Remote process: Started.");
-
-    connect( this, SIGNAL(destroyed()),
-             socket, SLOT(deleteAfterDisconnected()) );
-    connect( this, SIGNAL(sendMessage(QByteArray,int)),
-             socket, SLOT(sendMessage(QByteArray,int)) );
-    connect( socket, SIGNAL(messageReceived(QByteArray,int)),
-             this, SLOT(onMessageReceived(QByteArray,int)) );
-    connect( socket, SIGNAL(disconnected()),
-             this, SLOT(onDisconnected()) );
 
     if ( socket->isClosed() ) {
         onConnectionError("Connection lost");
         socket->deleteLater();
     } else {
+        connect( this, SIGNAL(sendMessage(QByteArray,int)),
+                 socket.get(), SLOT(sendMessage(QByteArray,int)) );
+        connect( socket.get(), SIGNAL(messageReceived(QByteArray,int)),
+                 this, SLOT(onMessageReceived(QByteArray,int)) );
+        connect( socket.get(), SIGNAL(disconnected()),
+                 this, SLOT(onDisconnected()) );
+
+        m_socket = socket;
         m_state = Connected;
 
         socket->start();

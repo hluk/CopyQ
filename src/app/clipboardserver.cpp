@@ -132,8 +132,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     m_itemFactory = new ItemFactory(this);
     m_wnd = new MainWindow(m_itemFactory);
 
-    connect( server, SIGNAL(newConnection(ClientSocket*)),
-             this, SLOT(doCommand(ClientSocket*)) );
+    connect( server, SIGNAL(newConnection(ClientSocketPtr)),
+             this, SLOT(doCommand(ClientSocketPtr)) );
 
     connect( qApp, SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()));
@@ -333,20 +333,20 @@ void ClipboardServer::terminateThreads()
     COPYQ_LOG("Terminating remaining threads.");
     emit terminateClientThreads();
     while ( !m_clientThreads.waitForDone(0) )
-        QApplication::processEvents();
+        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
 }
 
-void ClipboardServer::doCommand(ClientSocket *client)
+void ClipboardServer::doCommand(const ClientSocketPtr &client)
 {
     // Worker object without parent needs to be deleted afterwards!
     // There is no parent so as it's possible to move the worker to another thread.
     // QThreadPool takes ownership and worker will be automatically deleted
     // after run() (see QRunnable::setAutoDelete()).
-    ScriptableWorker *worker = new ScriptableWorker(m_wnd, client, m_itemFactory->scripts());
+    auto worker = new ScriptableWorker(m_wnd, client, m_itemFactory->scripts());
 
     // Terminate worker at application exit.
     connect( this, SIGNAL(terminateClientThreads()),
-             client, SLOT(close()) );
+             client.get(), SLOT(close()) );
 
     // Add client thread to pool.
     m_clientThreads.start(worker);

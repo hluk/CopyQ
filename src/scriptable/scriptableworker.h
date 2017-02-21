@@ -25,21 +25,48 @@
 #include "scriptable/scriptable.h"
 #include "scriptable/scriptableproxy.h"
 
+#include <QObject>
 #include <QRunnable>
 
 class ClientSocket;
+using ClientSocketPtr = std::shared_ptr<ClientSocket>;
+
+/**
+ * Handles socket destruction.
+ *
+ * ScriptableWorker destructor is called in different thread than
+ * the socket's thread.
+ *
+ * When ScriptableWorker is finished, it invokes deleteLater()
+ * of the guard so the socket is deleted in correct thread.
+ */
+class ScriptableWorkerSocketGuard : public QObject {
+public:
+    explicit ScriptableWorkerSocketGuard(const ClientSocketPtr &socket);
+
+    ~ScriptableWorkerSocketGuard();
+
+    ClientSocket *socket() const;
+
+private:
+    ClientSocketPtr m_socket;
+};
 
 class ScriptableWorker : public QRunnable
 {
 public:
     ScriptableWorker(
-            MainWindow *mainWindow, ClientSocket *socket, const QString &pluginScript);
+            MainWindow *mainWindow,
+            const ClientSocketPtr &socket,
+            const QString &pluginScript);
+
+    ~ScriptableWorker();
 
     void run();
 
 private:
     MainWindow *m_wnd;
-    ClientSocket *m_socket;
+    QPointer<ScriptableWorkerSocketGuard> m_socketGuard;
     QString m_pluginScript;
 };
 

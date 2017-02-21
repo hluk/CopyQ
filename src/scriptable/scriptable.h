@@ -117,7 +117,7 @@ public:
 
     QScriptEngine *engine() const { return m_engine; }
 
-    bool isAborted() const { return m_abort; }
+    bool isConnected() const { return m_connected; }
 
     const QVariantMap &data() const { return m_data; }
 
@@ -274,6 +274,7 @@ public slots:
 
 public slots:
     void setInput(const QByteArray &bytes);
+    void onDisconnected();
 
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
@@ -296,7 +297,7 @@ private:
     QString m_inputSeparator;
     QScriptValue m_input;
     QVariantMap m_data;
-    bool m_abort;
+    bool m_connected;
     bool m_argumentsReceived;
     QString m_pluginScript;
 };

@@ -132,23 +132,16 @@ void Server::onNewConnection()
         log("Client is not connected!", LogError);
         socket->deleteLater();
     } else {
-        ClientSocket *clientSocket = new ClientSocket(socket);
-
         ++m_socketCount;
-        connect( clientSocket, SIGNAL(destroyed()),
-                 this, SLOT(onSocketClosed()) );
-        connect( this, SIGNAL(destroyed()),
-                 clientSocket, SLOT(close()) );
-        connect( this, SIGNAL(destroyed()),
-                 clientSocket, SLOT(deleteAfterDisconnected()) );
-        connect( clientSocket, SIGNAL(disconnected()),
-                 clientSocket, SLOT(deleteAfterDisconnected()) );
+        connect( socket, SIGNAL(disconnected()),
+                 this, SLOT(onSocketDestroyed()) );
 
+        auto clientSocket = std::make_shared<ClientSocket>(socket);
         emit newConnection(clientSocket);
     }
 }
 
-void Server::onSocketClosed()
+void Server::onSocketDestroyed()
 {
     Q_ASSERT(m_socketCount > 0);
     --m_socketCount;
@@ -160,7 +153,7 @@ void Server::close()
 
     COPYQ_LOG( QString("Sockets open: %1").arg(m_socketCount) );
     while (m_socketCount > 0)
-        QCoreApplication::processEvents();
+        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
 
     deleteLater();
 }

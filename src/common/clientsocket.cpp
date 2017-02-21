@@ -112,7 +112,6 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
     , m_closed(false)
     , m_hasMessageLength(false)
 {
-    socket->setParent(this);
 }
 
 ClientSocket::~ClientSocket()
@@ -181,8 +180,15 @@ void ClientSocket::close()
 {
     if (m_socket) {
         SOCKET_LOG("Disconnecting socket.");
-        m_socket->disconnectFromServer();
-        m_socket->deleteLater();
+
+        if (m_socket->state() == QLocalSocket::UnconnectedState) {
+            m_socket->deleteLater();
+        } else {
+            connect( m_socket, SIGNAL(disconnected()),
+                     m_socket, SLOT(deleteLater()) );
+            m_socket->disconnectFromServer();
+        }
+
         m_socket = nullptr;
     }
 }
