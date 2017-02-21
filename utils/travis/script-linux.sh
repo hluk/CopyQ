@@ -33,7 +33,6 @@ sleep 8
 rm -rf ~/.config/copyq.test
 
 # Run tests.
-export COPYQ_LOG_LEVEL=NOTE
 ./copyq tests -silent
 
 cd "$root"
