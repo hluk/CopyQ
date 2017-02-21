@@ -44,8 +44,6 @@ QString logLevelLabel(LogLevel level);
 #define COPYQ_LOG(msg) do { if ( hasLogLevel(LogDebug) ) log(msg, LogDebug); } while (false)
 #define COPYQ_LOG_VERBOSE(msg) do { if ( hasLogLevel(LogTrace) ) log(msg, LogTrace); } while (false)
 
-QString createLogMessage(const QString &text, const LogLevel level);
-
 void log(const QString &text, const LogLevel level = LogNote);
 
 void setCurrentThreadName(const QString &name);

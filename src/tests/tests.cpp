@@ -52,7 +52,7 @@ namespace {
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
     const QRegExp scriptExceptionError("ScriptError:");
-    static const QRegExp re(scriptExceptionError.pattern() + "|^CopyQ Warning|^CopyQ ERROR|ASSERT", Qt::CaseInsensitive);
+    static const QRegExp re(scriptExceptionError.pattern() + "|^Warning:|^ERROR:|ASSERT", Qt::CaseInsensitive);
     int from = 0;
     bool skipScriptException = flag == TestInterface::ReadErrorsWithoutScriptException;
     const QString output = QString::fromUtf8(stderrData);
@@ -61,10 +61,11 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         if (from == -1)
             return true;
 
-        if ( skipScriptException && output.indexOf(scriptExceptionError, from) )
+        if ( output.indexOf(scriptExceptionError, from) != -1 ) {
+            if (!skipScriptException)
+                return false;
             skipScriptException = false;
-        else
-            return false;
+        }
 
         // Skip processed line.
         from = output.indexOf('\n', from);

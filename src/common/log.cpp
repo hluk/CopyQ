@@ -197,6 +197,33 @@ void rotateLogFiles()
     }
 }
 
+QString currentThreadLabel()
+{
+    if (!qApp)
+        return QString();
+
+    return QThread::currentThread()->property(propertyThreadName).toString();
+}
+
+QString createLogMessage(const QString &label, const QString &text)
+{
+    return label + QString(text).replace("\n", "\n" + label + "   ") + "\n";
+}
+
+QString createSimpleLogMessage(const QString &text, const LogLevel level)
+{
+    const auto label = logLevelLabel(level) + ": ";
+    return createLogMessage(label, text);
+}
+
+QString createLogMessage(const QString &text, const LogLevel level)
+{
+    const auto timeStamp =
+            QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz] ");
+    const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + currentThreadLabel() + ": ";
+    return createLogMessage(label, text);
+}
+
 } // namespace
 
 QString logFileName()
@@ -250,30 +277,6 @@ QString logLevelLabel(LogLevel level)
     default:
         return "Note";
     }
-}
-
-QString currentThreadLabel()
-{
-    if (!qApp)
-        return QString();
-
-    return QThread::currentThread()->property(propertyThreadName).toString();
-}
-
-QString createSimpleLogMessage(const QString &text, const LogLevel level)
-{
-    const auto label = logLevelLabel(level) + ": ";
-    return label + QString(text).replace("\n", "\n" + label + "   ") + "\n";
-}
-
-QString createLogMessage(const QString &text, const LogLevel level)
-{
-    const QString timeStamp =
-            QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz] ");
-
-    const QString label = "CopyQ " + logLevelLabel(level) + timeStamp + currentThreadLabel() + ": ";
-
-    return label + QString(text).replace("\n", "\n" + label + "   ") + "\n";
 }
 
 void log(const QString &text, const LogLevel level)

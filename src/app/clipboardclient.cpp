@@ -40,8 +40,8 @@ QString toString(int code)
         return "CommandError";
     case CommandBadSyntax:
         return "CommandBadSyntax";
-    case CommandSuccess:
-        return "CommandSuccess";
+    case CommandPrint:
+        return "CommandPrint";
     case CommandActivateWindow:
         return "CommandActivateWindow";
     case CommandReadInput:
@@ -82,10 +82,16 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
             window->raise();
     } else if (messageCode == CommandReadInput) {
         startInputReader();
+    } else if (messageCode == CommandPrint || messageCode == CommandFinished) {
+        QFile f;
+        f.open(stdout, QIODevice::WriteOnly);
+        f.write(data);
     } else {
         QFile f;
-        f.open((messageCode == CommandSuccess || messageCode == CommandFinished) ? stdout : stderr, QIODevice::WriteOnly);
+        f.open(stderr, QIODevice::WriteOnly);
         f.write(data);
+        if ( !data.endsWith('\n') )
+            f.write("\n");
     }
 
     if (messageCode == CommandFinished || messageCode == CommandBadSyntax || messageCode == CommandError) {

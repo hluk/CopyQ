@@ -24,15 +24,15 @@
 enum CommandStatus {
     /** Script finished */
     CommandFinished = 0,
-    /** Command invocation error. */
+    /** Command invocation error */
     CommandError = 1,
-    /** Bad command syntax. */
+    /** Bad command syntax */
     CommandBadSyntax = 2,
-    /** Command successfully invoked. */
-    CommandSuccess,
+    /** Print on stdout */
+    CommandPrint,
     /** Activate window */
     CommandActivateWindow,
-    /** Ask client to send data from its stdin. */
+    /** Ask client to send data from its stdin */
     CommandReadInput
 };
 
