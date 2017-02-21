@@ -192,28 +192,28 @@ Window getCurrentWindow(Display *display)
 } // namespace
 
 
-X11PlatformWindow::X11PlatformWindow(X11DisplayGuard &d)
-    : m_window(getCurrentWindow(d.display()))
+X11PlatformWindow::X11PlatformWindow(const std::shared_ptr<X11DisplayGuard> &d)
+    : m_window(getCurrentWindow(d->display()))
     , d(d)
 {
-    Q_ASSERT(d.display());
+    Q_ASSERT(d->display());
 }
 
-X11PlatformWindow::X11PlatformWindow(X11DisplayGuard &d, Window winId)
+X11PlatformWindow::X11PlatformWindow(const std::shared_ptr<X11DisplayGuard> &d, Window winId)
     : m_window(winId)
     , d(d)
 {
-    Q_ASSERT(d.display());
+    Q_ASSERT(d->display());
 }
 
 QString X11PlatformWindow::getTitle()
 {
     Q_ASSERT( isValid() );
 
-    static Atom atomName = XInternAtom(d.display(), "_NET_WM_NAME", false);
-    static Atom atomUTF8 = XInternAtom(d.display(), "UTF8_STRING", false);
+    static Atom atomName = XInternAtom(d->display(), "_NET_WM_NAME", false);
+    static Atom atomUTF8 = XInternAtom(d->display(), "UTF8_STRING", false);
 
-    X11WindowProperty property(d.display(), m_window, atomName, 0, (~0L), atomUTF8);
+    X11WindowProperty property(d->display(), m_window, atomName, 0, (~0L), atomUTF8);
     if ( property.isValid() ) {
         QByteArray result(reinterpret_cast<const char *>(property.data), property.len);
         return QString::fromUtf8(result);
@@ -229,9 +229,9 @@ void X11PlatformWindow::raise()
     XEvent e;
     memset(&e, 0, sizeof(e));
     e.type = ClientMessage;
-    e.xclient.display = d.display();
+    e.xclient.display = d->display();
     e.xclient.window = m_window;
-    e.xclient.message_type = XInternAtom(d.display(), "_NET_ACTIVE_WINDOW", False);
+    e.xclient.message_type = XInternAtom(d->display(), "_NET_ACTIVE_WINDOW", False);
     e.xclient.format = 32;
     e.xclient.data.l[0] = 2;
     e.xclient.data.l[1] = CurrentTime;
@@ -240,15 +240,15 @@ void X11PlatformWindow::raise()
     e.xclient.data.l[4] = 0;
 
     XWindowAttributes wattr;
-    XGetWindowAttributes(d.display(), m_window, &wattr);
+    XGetWindowAttributes(d->display(), m_window, &wattr);
 
     if (wattr.map_state == IsViewable) {
-        XSendEvent(d.display(), wattr.screen->root, False,
+        XSendEvent(d->display(), wattr.screen->root, False,
                    SubstructureNotifyMask | SubstructureRedirectMask,
                    &e);
-        XSync(d.display(), False);
-        XRaiseWindow(d.display(), m_window);
-        XSetInputFocus(d.display(), m_window, RevertToPointerRoot, CurrentTime);
+        XSync(d->display(), False);
+        XRaiseWindow(d->display(), m_window);
+        XSetInputFocus(d->display(), m_window, RevertToPointerRoot, CurrentTime);
     }
 }
 
@@ -281,7 +281,7 @@ bool X11PlatformWindow::waitForFocus(int ms)
 
     SleepTimer t(ms);
     do {
-        const auto currentWindow = getCurrentWindow(d.display());
+        const auto currentWindow = getCurrentWindow(d->display());
         if (currentWindow == m_window)
             return true;
     } while (t.sleep());
@@ -300,9 +300,9 @@ void X11PlatformWindow::sendKeyPress(int modifier, int key)
     }
 
 #ifdef HAS_X11TEST
-    simulateKeyPress(d.display(), QList<int>() << modifier, key);
+    simulateKeyPress(d->display(), QList<int>() << modifier, key);
 #else
     const int modifierMask = (modifier == XK_Control_L) ? ControlMask : ShiftMask;
-    simulateKeyPress(d.display(), m_window, modifierMask, key);
+    simulateKeyPress(d->display(), m_window, modifierMask, key);
 #endif
 }

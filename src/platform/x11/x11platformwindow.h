@@ -22,16 +22,19 @@
 
 #include "platform/platformwindow.h"
 
-#include "x11displayguard.h"
+#include <X11/Xlib.h>
+
+#include <memory>
 
 class QWidget;
+class X11DisplayGuard;
 
 class X11PlatformWindow : public PlatformWindow
 {
 public:
-    explicit X11PlatformWindow(X11DisplayGuard &d);
+    explicit X11PlatformWindow(const std::shared_ptr<X11DisplayGuard> &d);
 
-    X11PlatformWindow(X11DisplayGuard &d, Window winId);
+    X11PlatformWindow(const std::shared_ptr<X11DisplayGuard> &d, Window winId);
 
     QString getTitle();
 
@@ -49,7 +52,7 @@ private:
     void sendKeyPress(int modifier, int key);
 
     Window m_window;
-    X11DisplayGuard d;
+    std::shared_ptr<X11DisplayGuard> d;
 };
 
 #endif // X11PLATFORMWINDOW_H

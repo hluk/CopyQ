@@ -32,7 +32,6 @@
 #include "x11platformclipboard.h"
 #include "x11displayguard.h"
 
-#include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
 #include <memory>
@@ -95,7 +94,7 @@ PlatformWindowPtr X11Platform::getWindow(WId winId)
     if (!d->display())
         return PlatformWindowPtr();
 
-    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(*d, winId));
+    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(d, winId));
     return PlatformWindowPtr(window->isValid() ? window.release() : nullptr);
 }
 
@@ -104,7 +103,7 @@ PlatformWindowPtr X11Platform::getCurrentWindow()
     if (!d->display())
         return PlatformWindowPtr();
 
-    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(*d));
+    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(d));
     return PlatformWindowPtr(window->isValid() ? window.release() : nullptr);
 }
 

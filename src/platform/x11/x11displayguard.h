@@ -22,8 +22,6 @@
 
 #include <X11/Xlib.h>
 
-#include <memory>
-
 class X11DisplayGuard
 {
 public:
@@ -32,22 +30,32 @@ public:
      * The create Display is automatically closed with XCloseDisplay() when object is destroyed.
      */
     X11DisplayGuard()
-        : m_display(XOpenDisplay(nullptr), closeDisplay)
+        : m_display(XOpenDisplay(nullptr))
     {}
+
+    /**
+     * Closes Display with XCloseDisplay() (if Display is valid).
+     */
+    ~X11DisplayGuard()
+    {
+        if (m_display != nullptr)
+            XCloseDisplay(m_display);
+    }
 
     /**
      * Get the opened Display (can be nullptr if opening failed).
      */
-    Display *display() { return m_display.get(); }
-
-private:
-    static void closeDisplay(Display *display)
+    Display *display()
     {
-        if (display != nullptr)
-            XCloseDisplay(display);
+        return m_display;
     }
 
-    std::shared_ptr<Display> m_display;
+private:
+    // Disable copying
+    X11DisplayGuard(X11DisplayGuard &other) = delete;
+    X11DisplayGuard &operator=(X11DisplayGuard &other) = delete;
+
+    Display *m_display;
 };
 
 #endif // X11DISPLAYGUARD_H
