@@ -1483,6 +1483,10 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     if (exitCode == CommandFinished && hasData)
         Action::setData(id, data());
 
+    // Destroy objects so destructors are run before script finishes
+    // (e.g. file writes are flushed or temporary files are automatically removed).
+    m_engine->collectGarbage();
+
     sendMessageToClient(response, exitCode);
 
     COPYQ_LOG("DONE");
