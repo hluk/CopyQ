@@ -472,6 +472,8 @@ bool Action::canEmitNewItems() const
 
 void Action::closeSubCommands()
 {
+    terminate();
+
     if (m_processes.isEmpty())
         return;
 
