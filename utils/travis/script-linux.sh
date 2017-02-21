@@ -18,6 +18,10 @@ fi
 # Build.
 make
 
+# Test command line arguments that don't need GUI.
+DISPLAY="" ./copyq --help
+DISPLAY="" ./copyq --version
+
 # Start X11 and window manager.
 export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
