@@ -32,6 +32,7 @@
 #include "gui/windowgeometryguard.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
+#include "platform/platformwindow.h"
 
 #include <QDialog>
 #include <QHBoxLayout>

@@ -235,7 +235,9 @@ void ItemNotes::updateSize(const QSize &maximumSize, int idealWidth)
         const int w = maximumSize.width() - 2 * notesIndent - 8;
         QTextDocument *doc = m_notes->document();
         doc->setTextWidth(w);
-        m_notes->setFixedSize( doc->idealWidth() + 16, doc->size().height() );
+        m_notes->setFixedSize(
+                    static_cast<int>(doc->idealWidth()) + 16,
+                    static_cast<int>(doc->size().height()) );
     }
 
     if (m_childItem != nullptr)

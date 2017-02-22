@@ -41,17 +41,14 @@
 #include <QStyle>
 
 /*!
-    \class Utils::FancyLineEdit
-
-    \brief The FancyLineEdit class is an enhanced line edit with several
+    The FancyLineEdit class is an enhanced line edit with several
     opt-in features.
 
     A FancyLineEdit instance can have:
 
-    \list
-    \li An embedded pixmap on one side that is connected to a menu.
+    - An embedded pixmap on one side that is connected to a menu.
 
-    \li A grayed hintText (like "Type Here to")
+    - A grayed hintText (like "Type Here to")
     when not focused and empty. When connecting to the changed signals and
     querying text, one has to be aware that the text is set to that hint
     text if isShowingHintText() returns true (that is, does not contain
@@ -113,18 +110,19 @@ bool FancyLineEditPrivate::eventFilter(QObject *obj, QEvent *event)
             break;
         }
     }
+
     if (buttonIndex == -1)
         return QObject::eventFilter(obj, event);
-    switch (event->type()) {
-    case QEvent::FocusIn:
-        if (m_menuTabFocusTrigger[buttonIndex] && m_menu[buttonIndex]) {
-            m_lineEdit->setFocus();
-            execMenuAtWidget(m_menu[buttonIndex], m_iconbutton[buttonIndex]);
-            return true;
-        }
-    default:
-        break;
+
+    if ( event->type() == QEvent::FocusIn
+         && m_menuTabFocusTrigger[buttonIndex]
+         && m_menu[buttonIndex])
+    {
+        m_lineEdit->setFocus();
+        execMenuAtWidget(m_menu[buttonIndex], m_iconbutton[buttonIndex]);
+        return true;
     }
+
     return QObject::eventFilter(obj, event);
 }
 
@@ -189,15 +187,15 @@ void FancyLineEdit::updateMargins()
     Side realRight = (leftToRight ? Right : Left);
 
     const qreal ratio = ::devicePixelRatio(*this);
-    int leftMargin = d->m_iconbutton[realLeft]->sizeHint().width() + ratio * 8;
-    int rightMargin = d->m_iconbutton[realRight]->sizeHint().width() + ratio * 8;
+    auto leftMargin = static_cast<int>( d->m_iconbutton[realLeft]->sizeHint().width() + ratio * 8 );
+    auto rightMargin = static_cast<int>( d->m_iconbutton[realRight]->sizeHint().width() + ratio * 8 );
     // Note KDE does not reserve space for the highlight color
     if (style()->inherits("OxygenStyle")) {
         leftMargin = qMax(24, leftMargin);
         rightMargin = qMax(24, rightMargin);
     }
 
-    const int m = 2 * ratio;
+    const auto m = static_cast<int>(2 * ratio);
     QMargins margins((d->m_iconEnabled[realLeft] ? leftMargin : m), m,
                      (d->m_iconEnabled[realRight] ? rightMargin : m), m);
 
@@ -286,7 +284,7 @@ IconButton::IconButton(QWidget *parent)
 void IconButton::paintEvent(QPaintEvent *)
 {
     const qreal ratio = ::devicePixelRatio(*this);
-    const qreal iconSize = qMin(width(), height()) - ratio * 8;
+    const auto iconSize = static_cast<int>( qMin(width(), height()) - ratio * 8 );
     const QPixmap pixmap = m_icon.pixmap(iconSize);
     QRect pixmapRect = pixmap.rect();
     pixmapRect.moveCenter(rect().center());
@@ -299,12 +297,14 @@ void IconButton::paintEvent(QPaintEvent *)
         // small triangle next to icon to indicate menu
         QPolygon triangle;
         triangle.append(QPoint(0, 0));
-        triangle.append(QPoint(ratio * 6, 0));
-        triangle.append(QPoint(ratio * 3, ratio * 3));
+        const auto ratio6 = static_cast<int>(ratio * 6);
+        const auto ratio3 = static_cast<int>(ratio * 3);
+        triangle.append(QPoint(ratio6, 0));
+        triangle.append(QPoint(ratio3, ratio3));
 
         const QColor c = getDefaultIconColor(*this);
         painter.save();
-        painter.translate(pixmapRect.bottomRight() + QPoint(0, - ratio * 6));
+        painter.translate(pixmapRect.bottomRight() + QPoint(0, - ratio6));
         painter.setBrush(c);
         painter.setPen(Qt::NoPen);
         painter.drawPolygon(triangle);
@@ -326,8 +326,8 @@ void IconButton::paintEvent(QPaintEvent *)
 QSize IconButton::sizeHint() const
 {
     const qreal ratio = ::devicePixelRatio(*this);
-    const int extent = ratio * 16;
-    return QSize(extent + ratio * 6, extent);
+    const auto extent = static_cast<int>(ratio * 16);
+    return QSize(extent + static_cast<int>(ratio * 6), extent);
 }
 
 void IconButton::keyPressEvent(QKeyEvent *ke)

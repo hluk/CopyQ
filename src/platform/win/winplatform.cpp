@@ -29,7 +29,9 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
+#include <QKeyEvent>
 #include <QSettings>
+#include <QStringList>
 #include <QWidget>
 
 #include <qt_windows.h>
@@ -305,7 +307,7 @@ PlatformClipboardPtr WinPlatform::clipboard()
 
 int WinPlatform::keyCode(const QKeyEvent &event)
 {
-    const int key = PlatformNativeInterface::keyCode(event);
+    const int key = event.key();
 
     // Some keys shouldn't be translated.
     if ( key == Qt::Key_Return

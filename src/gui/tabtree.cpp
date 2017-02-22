@@ -533,13 +533,13 @@ void TabTree::dragMoveEvent(QDragMoveEvent *event)
 
 void TabTree::dropEvent(QDropEvent *event)
 {
-    QTreeWidgetItem *current = currentItem();
+    const auto current = currentItem();
     if (current == nullptr)
         return;
 
-    QTreeWidgetItem *item = dropItemsTarget(*event, *this);
-    if (item) {
-        emit dropItems( getTabPath(item), event );
+    const auto targetItem = dropItemsTarget(*event, *this);
+    if (targetItem) {
+        emit dropItems( getTabPath(targetItem), event );
     } else if ( itemAt(event->pos()) ) {
         const QString oldPrefix = getTabPath(current);
 
@@ -551,14 +551,14 @@ void TabTree::dropEvent(QDropEvent *event)
 
         // Rename moved item if non-unique.
         QStringList tabs;
-        QTreeWidgetItem *parent = current->parent();
+        const auto parent = current->parent();
         for (int i = 0, count = parent ? parent->childCount() : topLevelItemCount(); i < count; ++i) {
             QTreeWidgetItem *sibling = parent ? parent->child(i) : topLevelItem(i);
             if (sibling != current)
                 tabs.append( getTabPath(sibling) );
         }
 
-        QString newPrefix = getTabPath(current);
+        auto newPrefix = getTabPath(current);
         if ( tabs.contains(newPrefix) ) {
             renameToUnique(&newPrefix, tabs);
             const QString text = newPrefix.mid( newPrefix.lastIndexOf(QChar('/')) + 1 );

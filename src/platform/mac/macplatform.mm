@@ -32,6 +32,7 @@
 #include <QDir>
 #include <QGuiApplication>
 #include <QScopedPointer>
+#include <QStringList>
 
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
@@ -181,6 +182,16 @@ PlatformClipboardPtr MacPlatform::clipboard()
     return PlatformClipboardPtr(new MacClipboard());
 }
 
+QStringList MacPlatform::getCommandLineArguments(int argc, char **argv)
+{
+    QStringList arguments;
+
+    for (int i = 1; i < argc; ++i)
+        arguments.append( QString::fromUtf8(argv[i]) );
+
+    return arguments;
+}
+
 bool MacPlatform::findPluginDir(QDir *pluginsDir)
 {
     pluginsDir->setPath( qApp->applicationDirPath() );
@@ -212,7 +223,7 @@ bool MacPlatform::findPluginDir(QDir *pluginsDir)
 
 QString MacPlatform::defaultEditorCommand()
 {
-    return "open -t %1";
+    return "open -t -W -n %1";
 }
 
 QString MacPlatform::translationPrefix()

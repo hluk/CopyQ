@@ -84,9 +84,7 @@ void restoreOldFilterHistory()
 } // namespace
 
 /*!
-    \class Utils::FilterLineEdit
-
-    \brief The FilterLineEdit class is a fancy line edit customized for
+    The FilterLineEdit class is a fancy line edit customized for
     filtering purposes with a clear button.
 */
 

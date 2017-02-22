@@ -20,12 +20,7 @@
 #ifndef PLATFORMNATIVEINTERFACE_H
 #define PLATFORMNATIVEINTERFACE_H
 
-#include "platform/platformwindow.h"
-#include "platform/platformclipboard.h"
-
-#include <QKeyEvent>
-#include <QWidget>
-#include <Qt>
+#include <QWidget> // WId
 
 #include <memory>
 
@@ -33,10 +28,13 @@ class QApplication;
 class QByteArray;
 class QCoreApplication;
 class QDir;
+class QKeyEvent;
 class QWidget;
 
-typedef std::shared_ptr<PlatformWindow> PlatformWindowPtr;
+class PlatformWindow;
+class PlatformClipboard;
 
+typedef std::shared_ptr<PlatformWindow> PlatformWindowPtr;
 typedef std::shared_ptr<PlatformClipboard> PlatformClipboardPtr;
 
 /**
@@ -45,7 +43,7 @@ typedef std::shared_ptr<PlatformClipboard> PlatformClipboardPtr;
 class PlatformNativeInterface
 {
 public:
-    virtual ~PlatformNativeInterface() {}
+    virtual ~PlatformNativeInterface() = default;
 
     /**
      * Get window from widget (nullptr if failed or not implemented).
@@ -60,7 +58,7 @@ public:
     /**
      * Return true only if window titles can be retrieved using PlatformWindow::getTitle().
      */
-    virtual bool canGetWindowTitle() { return false; }
+    virtual bool canGetWindowTitle() = 0;
 
     /**
      * Return true automatic the application start at system startup is supported.
@@ -107,14 +105,14 @@ public:
      * Only used to steal window focus on client side.
      * Returns null pointer if deserialization fails.
      */
-    virtual PlatformWindowPtr deserialize(const QByteArray &) { return PlatformWindowPtr(); }
+    virtual PlatformWindowPtr deserialize(const QByteArray &) = 0;
 
     /**
      * Serialize window ID (before sending it to client).
      * Only used to steal window focus on client side.
      * Returns true if serialization is successful.
      */
-    virtual bool serialize(WId, QByteArray *) { return false; }
+    virtual bool serialize(WId, QByteArray *) = 0;
 
     /**
      * Return object for managing clipboard.
@@ -124,22 +122,12 @@ public:
     /**
      * Return Qt key code from key press event (possibly using QKeyEvent::nativeVirtualKey()).
      */
-    virtual int keyCode(const QKeyEvent &event) { return event.key(); }
+    virtual int keyCode(const QKeyEvent &event) = 0;
 
     /**
      * Returns list of command line arguments without executable name (argv[0]).
-     *
-     * Default implementation returns argv[1] up to argv[argc - 1] and assumes Utf-8 encoding.
      */
-    virtual QStringList getCommandLineArguments(int argc, char **argv)
-    {
-        QStringList arguments;
-
-        for (int i = 1; i < argc; ++i)
-            arguments.append( QString::fromUtf8(argv[i]) );
-
-        return arguments;
-    }
+    virtual QStringList getCommandLineArguments(int argc, char **argv) = 0;
 
     /**
      * Find directory with plugins and return true on success.
@@ -171,7 +159,7 @@ public:
      *
      * Note: Customized themes are saved to settings path.
      */
-    virtual QString themePrefix() { return QString(); }
+    virtual QString themePrefix() = 0;
 };
 
 /**

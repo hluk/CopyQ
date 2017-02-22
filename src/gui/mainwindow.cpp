@@ -820,7 +820,7 @@ void MainWindow::onSaveCommand(const Command &command)
         m_commandDialog->addCommand(command);
 }
 
-void MainWindow::onCommandActionTriggered(const Command &command, const QVariantMap &data, int commandType)
+void MainWindow::onCommandActionTriggered(const Command &command, const QVariantMap &actionData, int commandType)
 {
     ClipboardBrowser *c = getBrowser();
     const QModelIndexList selected = c->selectionModel()->selectedIndexes();
@@ -829,22 +829,22 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
         bool triggeredFromBrowser = commandType == CommandAction::ItemCommand;
         if (command.transform) {
             for (const auto &index : selected) {
-                QVariantMap data = itemData(index);
+                auto data = itemData(index);
                 if (triggeredFromBrowser)
                     data = addSelectionData(*c, data);
                 if ( command.input.isEmpty() || hasFormat(data, command.input) )
                     action(data, command, index);
             }
         } else {
-            const QVariantMap data2 =
-                    triggeredFromBrowser ? addSelectionData(*c, data) : data;
+            const auto data2 =
+                    triggeredFromBrowser ? addSelectionData(*c, actionData) : actionData;
             action(data2, command, QModelIndex());
         }
     }
 
     if ( !command.tab.isEmpty() && command.tab != c->tabName() ) {
         for (int i = selected.size() - 1; i >= 0; --i) {
-            QVariantMap data = itemData(selected[i]);
+            const auto data = itemData(selected[i]);
             if ( !data.isEmpty() )
                 addToTab(data, command.tab);
         }
@@ -1060,9 +1060,10 @@ void MainWindow::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> 
                .arg(keys)
                .arg(widgetName) );
 
+    const auto key = static_cast<uint>(shortcut[0]);
     QTest::keyClick( widget.data(),
-                     Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
-                     Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask),
+                     Qt::Key(key & ~Qt::KeyboardModifierMask),
+                     Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
                      0 );
 
     COPYQ_LOG( QString("Key \"%1\" sent to \"%2\".")
@@ -1360,7 +1361,7 @@ void MainWindow::updateToolBar()
             const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
             const QString tooltip = "<center>" + escapeHtml(text)
                     + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
-            QAction *act = ui->toolBar->addAction( icon, label, action, SIGNAL(triggered()) );
+            act = ui->toolBar->addAction( icon, label, action, SIGNAL(triggered()) );
             act->setToolTip(tooltip);
 
             if ( action->isCheckable() ) {
@@ -1777,9 +1778,9 @@ int MainWindow::findTabIndex(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
 
-    const int i = findTabIndexExactMatch(name);
-    if (i != -1)
-        return i;
+    const int found = findTabIndexExactMatch(name);
+    if (found != -1)
+        return found;
 
     // Ignore key hints ('&').
     if ( !hasKeyHint(name) ) {
@@ -1833,7 +1834,7 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
     case QSystemTrayIcon::Critical:
         icon2 = IconRemoveSign;
         break;
-    default:
+    case QSystemTrayIcon::NoIcon:
         break;
     }
 
@@ -2770,7 +2771,7 @@ void MainWindow::updateTrayMenuItems()
     if (m_options.trayCommands) {
         // Show clipboard content as disabled item.
         const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
-        QAction *act = m_trayMenu->addAction( iconClipboard(),
+        act = m_trayMenu->addAction( iconClipboard(),
                                             QString(), this, SLOT(showClipboardContent()) );
         act->setText( textLabelForData(m_clipboardData, act->font(), format, true) );
         m_trayMenu->addCustomAction(act);

@@ -182,11 +182,11 @@ void ItemText::updateSize(const QSize &maximumSize, int idealWidth)
     }
 
     const QRectF rect = m_textDocument.documentLayout()->frameBoundingRect(m_textDocument.rootFrame());
-    setFixedWidth(rect.right());
+    setFixedWidth( static_cast<int>(rect.right()) );
 
     QTextCursor tc(&m_textDocument);
     tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
-    const int h = cursorRect(tc).bottom() + 4 * logicalDpiY() / 96.0;
+    const auto h = static_cast<int>( cursorRect(tc).bottom() + 4 * logicalDpiY() / 96.0 );
     setFixedHeight(0 < m_maximumHeight && m_maximumHeight < h ? m_maximumHeight : h);
 }
 

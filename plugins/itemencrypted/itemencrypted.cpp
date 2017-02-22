@@ -44,6 +44,8 @@ const char mimeEncryptedData[] = "application/x-copyq-encrypted";
 const char dataFileHeader[] = "CopyQ_encrypted_tab";
 const char dataFileHeaderV2[] = "CopyQ_encrypted_tab v2";
 
+const int maxItemCount = 10000;
+
 struct KeyPairPaths {
     KeyPairPaths()
     {
@@ -390,7 +392,7 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QIODevice *file)
 
     QDataStream stream2(bytes);
 
-    quint64 maxItems = model->property("maxItems").toInt();
+    auto maxItems = static_cast<quint64>( model->property("maxItems").toInt() );
     quint64 length;
     stream2 >> length;
     if ( length <= 0 || stream2.status() != QDataStream::Ok ) {
@@ -398,9 +400,10 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QIODevice *file)
         COPYQ_LOG("ItemEncrypt ERROR: Failed to parse item count!");
         return false;
     }
-    length = qMin(length, maxItems) - model->rowCount();
+    length = qMin(length, maxItems) - static_cast<quint64>(model->rowCount());
 
-    for ( quint64 i = 0; i < length && stream2.status() == QDataStream::Ok; ++i ) {
+    const auto count = length < maxItemCount ? static_cast<int>(length) : maxItemCount;
+    for ( int i = 0; i < count && stream2.status() == QDataStream::Ok; ++i ) {
         if ( !model->insertRow(i) ) {
             emitEncryptFailed();
             COPYQ_LOG("ItemEncrypt ERROR: Failed to insert item!");
@@ -425,7 +428,7 @@ bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QIODevice *
     if (m_gpgProcessStatus == GpgNotInstalled)
         return false;
 
-    quint64 length = model.rowCount();
+    const auto length = model.rowCount();
     if (length == 0)
         return false; // No need to encode empty tab.
 
@@ -435,9 +438,9 @@ bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QIODevice *
         QDataStream stream(&bytes, QIODevice::WriteOnly);
         stream.setVersion(QDataStream::Qt_4_7);
 
-        stream << length;
+        stream << static_cast<quint64>(length);
 
-        for (quint64 i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
+        for (int i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
             QModelIndex index = model.index(i, 0);
             const QVariantMap dataMap = index.data(contentType::data).toMap();
             stream << dataMap;

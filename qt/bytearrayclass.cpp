@@ -111,11 +111,11 @@ QScriptClass::QueryFlags ByteArrayClass::queryProperty(const QScriptValue &objec
         return flags;
     } else {
         bool isArrayIndex;
-        qint32 pos = name.toArrayIndex(&isArrayIndex);
+        const auto pos = name.toArrayIndex(&isArrayIndex);
         if (!isArrayIndex)
             return nullptr;
         *id = pos;
-        if ((flags & HandlesReadAccess) && (pos >= ba->size()))
+        if ( (flags & HandlesReadAccess) && (pos >= static_cast<uint>(ba->size())) )
             flags &= ~HandlesReadAccess;
         return flags;
     }
@@ -133,7 +133,7 @@ QScriptValue ByteArrayClass::property(const QScriptValue &object,
     if (name == length)
         return ba->length();
 
-    qint32 pos = id;
+    auto pos = static_cast<qint32>(id);
     if ((pos < 0) || (pos >= ba->size()))
         return QScriptValue();
     return uint(ba->at(pos)) & 255;
@@ -152,7 +152,7 @@ void ByteArrayClass::setProperty(QScriptValue &object,
     if (name == length) {
         resize(*ba, value.toInt32());
     } else {
-        qint32 pos = id;
+        auto pos = static_cast<qint32>(id);
         if (pos < 0)
             return;
         if (ba->size() <= pos)
@@ -320,6 +320,6 @@ QScriptString ByteArrayClassPropertyIterator::name() const
 
 uint ByteArrayClassPropertyIterator::id() const
 {
-    return m_last;
+    return static_cast<uint>(m_last);
 }
 //! [8]

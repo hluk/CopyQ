@@ -30,7 +30,7 @@ class QString;
 class PlatformWindow
 {
 public:
-    virtual ~PlatformWindow() {}
+    virtual ~PlatformWindow() = default;
 
     /**
      * Return window title text.

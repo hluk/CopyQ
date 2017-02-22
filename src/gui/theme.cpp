@@ -30,9 +30,9 @@
 
 namespace {
 
-int normalizeColorValue(int value)
+int normalizeColorValue(float value)
 {
-    return qBound(0, value, 255);
+    return qBound( 0, static_cast<int>(value), 255 );
 }
 
 void addColor(
@@ -60,7 +60,7 @@ void addColor(
     *r = normalizeColorValue(*r + x * toAdd.red());
     *g = normalizeColorValue(*g + x * toAdd.green());
     *b = normalizeColorValue(*b + x * toAdd.blue());
-    if (multiply > 0.0)
+    if (multiply > 0.0f)
         *a = normalizeColorValue(*a + x * toAdd.alpha());
 }
 
@@ -617,7 +617,7 @@ QColor deserializeColor(const QString &colorName)
         int r = list.value(0).toInt();
         int g = list.value(1).toInt();
         int b = list.value(2).toInt();
-        int a = list.value(3).toDouble() * 255;
+        int a = static_cast<int>( list.value(3).toDouble() * 255 );
 
         return QColor(r, g, b, a > 255 ? a / 255 : a);
     }

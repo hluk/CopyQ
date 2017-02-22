@@ -86,7 +86,7 @@ bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
 
     const Qt::KeyboardModifiers allMods =
             Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::MetaModifier;
-    const uint xkeyCode = shortcut.isEmpty() ? 0 : shortcut[0];
+    const auto xkeyCode = static_cast<uint>( shortcut.isEmpty() ? 0 : shortcut[0] );
     // WORKAROUND: Qt has convert some keys to upper case which
     //             breaks some shortcuts on some keyboard layouts.
     const uint keyCode = QChar::toLower(xkeyCode & ~allMods);
@@ -183,7 +183,7 @@ QxtGlobalShortcut::~QxtGlobalShortcut()
     \property QxtGlobalShortcut::shortcut
     \brief the shortcut key sequence
 
-    \bold {Note:} Notice that corresponding key press and release events are not
+    Notice that corresponding key press and release events are not
     delivered for registered global shortcuts even if they are disabled.
     Also, comma separated key sequences are not supported.
     Only the first part is used:
@@ -195,7 +195,7 @@ QxtGlobalShortcut::~QxtGlobalShortcut()
  */
 QKeySequence QxtGlobalShortcut::shortcut() const
 {
-    return QKeySequence(qxt_d().key | qxt_d().mods);
+    return QKeySequence( static_cast<int>(qxt_d().key | qxt_d().mods) );
 }
 
 bool QxtGlobalShortcut::setShortcut(const QKeySequence& shortcut)

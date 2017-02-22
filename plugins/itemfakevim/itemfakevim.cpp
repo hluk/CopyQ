@@ -518,10 +518,10 @@ void ItemFakeVim::setEditorData(QWidget *editor, const QModelIndex &index) const
     m_childItem->setEditorData( getItemEditorWidget(editor), index );
 
     // Position text cursor at the begining of text instead of selecting all.
-    Editor *ed = qobject_cast<Editor*>(editor);
+    auto ed = qobject_cast<Editor*>(editor);
     if (ed) {
-        QTextEdit *editor = ed->textEditWidget()->editor();
-        editor->setTextCursor(QTextCursor(editor->document()));
+        auto textEdit = ed->textEditWidget()->editor();
+        textEdit->setTextCursor( QTextCursor(textEdit->document()) );
     }
 }
 

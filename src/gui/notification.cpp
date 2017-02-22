@@ -180,7 +180,7 @@ void Notification::setClickToShowEnabled(bool enabled)
 void Notification::updateIcon()
 {
     const QColor color = getDefaultIconColor(*this);
-    const int height = m_msgLabel->fontMetrics().lineSpacing() * 1.2;
+    const auto height = static_cast<int>( m_msgLabel->fontMetrics().lineSpacing() * 1.2 );
     const QPixmap pixmap = createPixmap(m_icon, color, height);
     m_iconLabel->setPixmap(pixmap);
     m_iconLabel->resize(pixmap.size());

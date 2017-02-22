@@ -70,7 +70,8 @@ bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
 
     QDataStream out(socket);
     // length is serialized as a quint32, followed by msg
-    out.writeBytes( msg.constData(), msg.length() );
+    const auto length = static_cast<quint32>(msg.length());
+    out.writeBytes( msg.constData(), length );
 
     if (out.status() != QDataStream::Ok) {
         COPYQ_LOG("Cannot write message!");
@@ -223,10 +224,11 @@ void ClientSocket::onReadyRead()
                 COPYQ_LOG( QString("Receiving big message: %1 MiB").arg(m_messageLength / 1024 / 1024) );
         }
 
-        if ( static_cast<quint32>(m_message.length()) < m_messageLength )
+        const auto length = static_cast<int>(m_messageLength);
+        if ( m_message.length() < length )
             break;
 
-        QByteArray msg = m_message.mid(0, m_messageLength);
+        QByteArray msg = m_message.mid(0, length);
         qint32 messageCode;
         if ( !readValue(&messageCode, &msg) ) {
             error("Failed to read message code from client!");
@@ -234,7 +236,7 @@ void ClientSocket::onReadyRead()
         }
 
         m_hasMessageLength = false;
-        m_message = m_message.mid(m_messageLength);
+        m_message = m_message.mid(length);
 
         emit messageReceived(msg, messageCode);
     }

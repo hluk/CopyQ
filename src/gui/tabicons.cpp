@@ -139,7 +139,7 @@ void setDefaultTabItemCounterStyle(QWidget *widget)
     if (pointSize > 0.0)
         font.setPointSizeF(pointSize * 0.7);
     else
-        font.setPixelSize(font.pixelSize() * 0.7);
+        font.setPixelSize( static_cast<int>(font.pixelSize() * 0.7) );
     widget->setFont(font);
 
     QPalette pal = widget->palette();

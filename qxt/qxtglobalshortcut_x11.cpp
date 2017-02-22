@@ -154,7 +154,7 @@ public:
         QxtX11ErrorHandler errorHandler;
 
         for (const auto maskMods : maskModifiers()) {
-            XGrabKey(display(), keycode, modifiers | maskMods, window, True,
+            XGrabKey(display(), static_cast<int>(keycode), modifiers | maskMods, window, True,
                      GrabModeAsync, GrabModeAsync);
             if (errorHandler.error)
                 break;
@@ -173,7 +173,7 @@ public:
         QxtX11ErrorHandler errorHandler;
 
         for (const auto maskMods : maskModifiers()) {
-            XUngrabKey(display(), keycode, modifiers | maskMods, window);
+            XUngrabKey(display(), static_cast<int>(keycode), modifiers | maskMods, window);
         }
 
         return !errorHandler.error;

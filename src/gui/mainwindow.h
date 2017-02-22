@@ -112,7 +112,9 @@ struct MainWindowOptions {
 
 class Callable {
 public:
-    virtual ~Callable() {}
+    Callable() = default;
+    Callable(Callable &&) = default;
+    virtual ~Callable() = default;
     virtual void operator()() = 0;
 };
 
@@ -449,27 +451,27 @@ signals:
     void configurationChanged();
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
-    bool event(QEvent *event);
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+    bool event(QEvent *event) override;
 
     /** Hide (minimize to tray) window on close. */
-    void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event) override;
 
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *event) override;
 
     bool focusNextPrevChild(bool next) override;
 
 #if QT_VERSION < 0x050000
 #   ifdef COPYQ_WS_X11
-    bool x11Event(XEvent *event);
+    bool x11Event(XEvent *event) override;
 #   elif defined(Q_OS_WIN)
-    bool winEvent(MSG *message, long *result);
+    bool winEvent(MSG *message, long *result) override;
 #   elif defined(Q_OS_MAC)
-    bool macEvent(EventHandlerCallRef caller, EventRef event);
+    bool macEvent(EventHandlerCallRef caller, EventRef event) override;
 #   endif
 #else
-    bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+    bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
 #endif
 
 private slots:
@@ -512,7 +514,7 @@ private slots:
 
     void onSaveCommand(const Command &command);
 
-    void onCommandActionTriggered(const Command &command, const QVariantMap &data, int commandType);
+    void onCommandActionTriggered(const Command &command, const QVariantMap &actionData, int commandType);
 
     void on_tabWidget_dropItems(const QString &tabName, QDropEvent *event);
 

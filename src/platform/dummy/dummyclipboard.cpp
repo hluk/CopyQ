@@ -32,9 +32,12 @@ QClipboard::Mode modeToQClipboardMode(PlatformClipboard::Mode mode)
         return QClipboard::Selection;
     case PlatformClipboard::FindBuffer:
         return QClipboard::FindBuffer;
-    default:
+    case PlatformClipboard::Clipboard:
         return QClipboard::Clipboard;
     }
+
+    Q_ASSERT(false);
+    return QClipboard::Clipboard;
 }
 
 } // namespace

@@ -54,7 +54,7 @@ void appendAndClearNonEmpty(Entry &entry, Container &containter)
 bool getScriptFromLabel(const char *label, const QStringRef &cmd, QString *script)
 {
     if ( cmd.startsWith(label) ) {
-        *script = cmd.string()->mid( cmd.position() + strlen(label) );
+        *script = cmd.string()->mid( cmd.position() + static_cast<int>(strlen(label)) );
         return true;
     }
 
@@ -129,18 +129,18 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
         } else {
             if ( arg.isEmpty() && command.isEmpty() ) {
                 // Treat command as script if known label is present.
-                const QStringRef c = cmd.midRef(i);
-                if ( getScriptFromLabel("copyq:", c, &script) )
+                const QStringRef cmd1 = cmd.midRef(i);
+                if ( getScriptFromLabel("copyq:", cmd1, &script) )
                     command << "copyq" << "eval" << "--" << script;
-                else if ( getScriptFromLabel("sh:", c, &script) )
+                else if ( getScriptFromLabel("sh:", cmd1, &script) )
                     command << "sh" << "-c" << "--" << script << "--";
-                else if ( getScriptFromLabel("bash:", c, &script) )
+                else if ( getScriptFromLabel("bash:", cmd1, &script) )
                     command << "bash" << "-c" << "--" << script << "--";
-                else if ( getScriptFromLabel("perl:", c, &script) )
+                else if ( getScriptFromLabel("perl:", cmd1, &script) )
                     command << "perl" << "-e" << script << "--";
-                else if ( getScriptFromLabel("python:", c, &script) )
+                else if ( getScriptFromLabel("python:", cmd1, &script) )
                     command << "python" << "-c" << script;
-                else if ( getScriptFromLabel("ruby:", c, &script) )
+                else if ( getScriptFromLabel("ruby:", cmd1, &script) )
                     command << "ruby" << "-e" << script << "--";
 
                 if ( !script.isEmpty() ) {

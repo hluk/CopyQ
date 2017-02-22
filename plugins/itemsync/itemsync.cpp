@@ -537,9 +537,9 @@ QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSet
 
     // Try to get default icon from MIME type.
     for ( const auto &format : dataMap.keys() ) {
-        const QString icon = iconFromMime(format);
-        if ( !icon.isEmpty() )
-            return icon;
+        const auto mimeIcon = iconFromMime(format);
+        if ( !mimeIcon.isEmpty() )
+            return mimeIcon;
     }
 
     // Try to get default icon from file extension.
@@ -714,7 +714,7 @@ void ItemSync::updateSize(const QSize &maximumSize, int idealWidth)
     const int w = idealWidth - m_icon->width() - 8;
     QTextDocument *doc = m_label->document();
     doc->setTextWidth(w);
-    m_label->setFixedSize( w, doc->size().height() );
+    m_label->setFixedSize( w, static_cast<int>(doc->size().height()) );
 
     m_childItem->updateSize(maximumSize, idealWidth);
 
@@ -1206,22 +1206,21 @@ private:
                 QFile f(url.toLocalFile());
 
                 if (f.exists()) {
-                    QString ext;
+                    QString extName;
                     QString baseName;
-                    getBaseNameAndExtension( QFileInfo(f).fileName(), &baseName, &ext,
+                    getBaseNameAndExtension( QFileInfo(f).fileName(), &baseName, &extName,
                                              m_formatSettings );
 
                     if ( renameToUnique(dir, baseNames, &baseName) ) {
-                        const QString targetFilePath = dir.absoluteFilePath(baseName + ext);
+                        const QString targetFilePath = dir.absoluteFilePath(baseName + extName);
                         f.copy(targetFilePath);
-                        if ( m_model->rowCount() < m_model->property("maxItems").toInt() ) {
-                            QString baseName;
-                            Ext ext;
-                            if ( getBaseNameExtension(targetFilePath, m_formatSettings, &baseName, &ext) ) {
+                        Ext ext;
+                        if ( m_model->rowCount() < m_model->property("maxItems").toInt()
+                             && getBaseNameExtension(targetFilePath, m_formatSettings, &baseName, &ext) )
+                        {
                                 BaseNameExtensions baseNameExts(baseName, QList<Ext>() << ext);
                                 createItemFromFiles( QDir(m_path), baseNameExts, targetRow );
                                 copied = true;
-                            }
                         }
                     }
                 }

@@ -113,8 +113,10 @@ struct ScriptValueFactory< QList<T> > {
     static QScriptValue create(const QList<T> &list, Scriptable *scriptable)
     {
         QScriptValue array = scriptable->engine()->newArray();
-        for ( int i = 0; i < list.size(); ++i )
-            array.setProperty(i, ScriptValueFactory<T>::create(list[i], scriptable));
+        for ( int i = 0; i < list.size(); ++i ) {
+            const auto value = ScriptValueFactory<T>::create(list[i], scriptable);
+            array.setProperty( static_cast<quint32>(i), value );
+        }
         return array;
     }
 };
@@ -1344,12 +1346,6 @@ QScriptValue Scriptable::setEnv()
 
 void Scriptable::sleep()
 {
-    int msec;
-    if ( !toInt(argument(0), msec) ) {
-        throwError(argumentError());
-        return;
-    }
-
     class ThreadSleep : public QThread {
     public:
         static void msleep(unsigned long msec) {
@@ -1357,7 +1353,14 @@ void Scriptable::sleep()
         }
     };
 
-    ThreadSleep::msleep(msec);
+    int msec;
+    if ( !toInt(argument(0), msec) ) {
+        throwError(argumentError());
+        return;
+    }
+
+    if (msec > 0)
+        ThreadSleep::msleep( static_cast<unsigned long>(msec) );
 }
 
 void Scriptable::setInput(const QByteArray &bytes)
@@ -1682,7 +1685,8 @@ QScriptValue NetworkReply::headers()
         QScriptValue pair = m_scriptable->engine()->newArray();
         pair.setProperty( 0, m_scriptable->newByteArray(header) );
         pair.setProperty( 1, m_scriptable->newByteArray(m_replyHead->rawHeader(header)) );
-        headers.setProperty( i++, pair );
+        headers.setProperty( static_cast<quint32>(i), pair );
+        ++i;
     }
 
     return headers;

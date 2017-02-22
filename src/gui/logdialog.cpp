@@ -103,6 +103,8 @@ private:
     QRegExp m_re;
 };
 
+namespace {
+
 class LogDecorator : public Decorator
 {
 public:
@@ -216,6 +218,8 @@ private:
 
     QTextCharFormat m_format;
 };
+
+} // namespace
 
 LogDialog::LogDialog(QWidget *parent)
     : QDialog(parent)

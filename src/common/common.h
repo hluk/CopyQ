@@ -122,7 +122,7 @@ bool ownsClipboardData(const QVariantMap &data);
  * @param maxWidthPixels    maximum width of result text in pixels
  * @param maxLines          maximum number of lines
  *
- * @param shortened text (or same text if not too long)
+ * @return shortened text (or same text if not too long)
  */
 QString elideText(const QString &text, const QFont &font = QFont(),
                   const QString &format = QString(), bool escapeAmpersands = false,
@@ -131,12 +131,13 @@ QString elideText(const QString &text, const QFont &font = QFont(),
 /**
  * Show small label for data.
  *
- * @param data      data
- * @param maxChars  maximum characters if data contain text; ignored if @a act is not null
- * @param maxLines  maximum lines if data contain text; ignored if @a act is not null
- * @param act       if not null, used to calculate ideal width (instead of @a maxChars) and
- *                  call QAction::setText() with result
- * @param format    optional format for result, e.g. "-- %1 --"
+ * @param data  data
+ * @param font  font for label
+ * @param format  optional format for result, e.g. "-- %1 --"
+ * @param escapeAmpersands  escape ampersand characters for labes
+ *          (unescaped ampersand is used for shortcut key in labels)
+ * @param maxWidthPixels  maximum width in pixels
+ * @param maxLines  maximum number of lines
  *
  * @return result text
  */

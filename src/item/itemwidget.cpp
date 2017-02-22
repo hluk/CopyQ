@@ -82,12 +82,6 @@ protected:
         return source->hasImage() || QTextEdit::canInsertFromMimeData(source);
     }
 
-    bool canPaste() const
-    {
-        const QMimeData *source = QApplication::clipboard()->mimeData();
-        return source->hasImage() || QTextEdit::canPaste();
-    }
-
     void insertFromMimeData(const QMimeData *source) override
     {
         const QString mime = findImageFormat(*source);

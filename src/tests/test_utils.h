@@ -47,11 +47,7 @@ do { \
     TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) );
 
 /// Skip rest of the tests
-#if QT_VERSION < 0x050000
-#   define SKIP(MESSAGE) QSKIP(MESSAGE, SkipAll)
-#else
-#   define SKIP(MESSAGE) QSKIP(MESSAGE)
-#endif
+#define SKIP(MESSAGE) QSKIP(MESSAGE, SkipAll)
 
 #define WAIT_UNTIL(ARGUMENTS, CONDITION, STDOUT_ACTUAL) \
 do { \

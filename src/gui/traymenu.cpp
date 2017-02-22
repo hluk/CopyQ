@@ -107,9 +107,9 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
         const QStringList formats = data.keys();
         const int imageIndex = formats.indexOf( QRegExp("^image/.*") );
         if (imageIndex != -1) {
-            const QString &format = formats[imageIndex];
+            const auto &mime = formats[imageIndex];
             QPixmap pix;
-            pix.loadFromData( data.value(format).toByteArray(), format.toLatin1().data() );
+            pix.loadFromData( data.value(mime).toByteArray(), mime.toLatin1().data() );
             const int iconSize = smallIconSize();
             int x = 0;
             int y = 0;

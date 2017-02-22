@@ -111,36 +111,28 @@ void Arguments::removeAllArguments()
     m_args.clear();
 }
 
-QDataStream &operator <<(QDataStream &stream, const Arguments &args)
+QDataStream &operator<<(QDataStream &stream, const Arguments &args)
 {
     qint32 len = args.length();
 
     stream << len;
-    for( int i = 0; i<len; ++i ) {
-        const QByteArray &arg = args.at(i);
-        stream.writeBytes(arg.constData(), static_cast<uint>(arg.length()));
-    }
+    for( int i = 0; i<len; ++i )
+        stream << args.at(i);
 
     return stream;
 }
 
 QDataStream &operator>>(QDataStream &stream, Arguments &args)
 {
-    qint32 len;
-    uint arg_len;
-    char *buffer;
-
     args.removeAllArguments();
-    stream >> len;
-    for( int i = 0; i<len; ++i ) {
-        stream.readBytes(buffer, arg_len);
-        if (buffer) {
-            QByteArray arg(buffer, arg_len);
-            delete[] buffer;
-            args.append(arg);
-        } else {
-            args.append(QByteArray());
-        }
+
+    qint32 argumentCount;
+    stream >> argumentCount;
+
+    for( int i = 0; i < argumentCount; ++i ) {
+        QByteArray arg;
+        stream >> arg;
+        args.append(arg);
     }
 
     return stream;

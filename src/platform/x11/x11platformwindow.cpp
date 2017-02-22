@@ -46,7 +46,7 @@ public:
         XQueryKeymap(m_display, m_keyMap);
     }
 
-    bool isPressed(int key) const
+    bool isPressed(KeySym key) const
     {
         const KeyCode keyCode = XKeysymToKeycode(m_display, key);
         return (m_keyMap[keyCode >> 3] >> (keyCode & 7)) & 1;
@@ -67,7 +67,8 @@ void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
 void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool keyDown)
 {
     for (int modCode : modCodes) {
-        KeyCode keyCode = XKeysymToKeycode(display, modCode);
+        const auto keySym = static_cast<KeySym>(modCode);
+        KeyCode keyCode = XKeysymToKeycode(display, keySym);
         fakeKeyEvent(display, keyCode, keyDown);
     }
 }
@@ -215,7 +216,8 @@ QString X11PlatformWindow::getTitle()
 
     X11WindowProperty property(d->display(), m_window, atomName, 0, (~0L), atomUTF8);
     if ( property.isValid() ) {
-        QByteArray result(reinterpret_cast<const char *>(property.data), property.len);
+        const auto len = static_cast<int>(property.len);
+        QByteArray result(reinterpret_cast<const char *>(property.data), len);
         return QString::fromUtf8(result);
     }
 
@@ -300,7 +302,7 @@ void X11PlatformWindow::sendKeyPress(int modifier, int key)
     }
 
 #ifdef HAS_X11TEST
-    simulateKeyPress(d->display(), QList<int>() << modifier, key);
+    simulateKeyPress(d->display(), QList<int>() << modifier, static_cast<uint>(key));
 #else
     const int modifierMask = (modifier == XK_Control_L) ? ControlMask : ShiftMask;
     simulateKeyPress(d->display(), m_window, modifierMask, key);

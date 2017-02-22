@@ -22,10 +22,11 @@
 
 #include "platform/platformnativeinterface.h"
 
+#include <QKeyEvent>
+#include <QString>
+
 #include <memory>
 
-class QApplication;
-class QCoreApplication;
 class X11DisplayGuard;
 
 class X11Platform : public PlatformNativeInterface
@@ -73,11 +74,17 @@ public:
 
     PlatformClipboardPtr clipboard();
 
+    int keyCode(const QKeyEvent &event) { return event.key(); }
+
+    QStringList getCommandLineArguments(int argc, char **argv);
+
     bool findPluginDir(QDir *pluginsDir);
 
     QString defaultEditorCommand();
 
     QString translationPrefix();
+
+    QString themePrefix() { return QString(); }
 
 private:
     std::shared_ptr<X11DisplayGuard> d;

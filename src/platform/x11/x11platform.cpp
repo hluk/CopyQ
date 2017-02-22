@@ -25,6 +25,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QRegExp>
+#include <QStringList>
 #include <QVariant>
 #include <QWidget>
 
@@ -59,8 +60,6 @@ int copyq_xio_errhandler(Display *display)
 
     // As documentation for XSetIOErrorHandler states, this function should not return.
     exit(1);
-
-    return 0;
 }
 
 #ifdef COPYQ_DESKTOP_PREFIX
@@ -239,6 +238,16 @@ QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)
 PlatformClipboardPtr X11Platform::clipboard()
 {
     return PlatformClipboardPtr(new X11PlatformClipboard(d));
+}
+
+QStringList X11Platform::getCommandLineArguments(int argc, char **argv)
+{
+    QStringList arguments;
+
+    for (int i = 1; i < argc; ++i)
+        arguments.append( QString::fromUtf8(argv[i]) );
+
+    return arguments;
 }
 
 bool X11Platform::findPluginDir(QDir *pluginsDir)

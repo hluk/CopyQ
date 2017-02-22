@@ -22,8 +22,8 @@
 
 #include "platform/platformnativeinterface.h"
 
-class QApplication;
-class QCoreApplication;
+#include <QKeyEvent>
+#include <QString>
 
 class DummyPlatform : public PlatformNativeInterface
 {
@@ -50,13 +50,23 @@ public:
 
     void loadSettings() {}
 
+    PlatformWindowPtr deserialize(const QByteArray &) { return nullptr; }
+
+    bool serialize(WId, QByteArray *) { return false; }
+
     PlatformClipboardPtr clipboard();
+
+    int keyCode(const QKeyEvent &event) { return event.key(); }
+
+    QStringList getCommandLineArguments(int argc, char **argv);
 
     bool findPluginDir(QDir *pluginsDir);
 
     QString defaultEditorCommand();
 
     QString translationPrefix();
+
+    QString themePrefix() { return QString(); }
 };
 
 #endif // DUMMYPLATFORM_H

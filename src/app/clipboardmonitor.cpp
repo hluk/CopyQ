@@ -24,6 +24,7 @@
 #include "common/monitormessagecode.h"
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
+#include "platform/platformwindow.h"
 
 #include <QApplication>
 

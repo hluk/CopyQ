@@ -164,8 +164,6 @@ private:
 class DummyLoader : public ItemLoaderInterface
 {
 public:
-    explicit DummyLoader(ItemFactory *factory) : m_factory(factory) {}
-
     QString id() const override { return QString(); }
     QString name() const override { return QString(); }
     QString author() const override { return QString(); }
@@ -207,9 +205,6 @@ public:
         const QString text = index.data(contentType::text).toString();
         return re.indexIn(text) != -1;
     }
-
-private:
-    ItemFactory *m_factory;
 };
 
 } // namespace
@@ -217,7 +212,7 @@ private:
 ItemFactory::ItemFactory(QObject *parent)
     : QObject(parent)
     , m_loaders()
-    , m_dummyLoader(new DummyLoader(this))
+    , m_dummyLoader(new DummyLoader())
     , m_disabledLoaders()
     , m_loaderChildren()
 {
@@ -277,7 +272,7 @@ ItemWidget *ItemFactory::createItem(
 ItemWidget *ItemFactory::createSimpleItem(
         const QModelIndex &index, QWidget *parent, bool antialiasing)
 {
-    return createItem(m_dummyLoader, index, parent, antialiasing);
+    return createItem(m_dummyLoader.get(), index, parent, antialiasing);
 }
 
 QStringList ItemFactory::formatsToSave() const
@@ -475,7 +470,7 @@ ItemLoaderList ItemFactory::enabledLoaders() const
             enabledLoaders.append(loader);
     }
 
-    enabledLoaders.append(m_dummyLoader);
+    enabledLoaders.append(m_dummyLoader.get());
 
     return enabledLoaders;
 }

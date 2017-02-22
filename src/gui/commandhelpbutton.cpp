@@ -35,33 +35,40 @@
 
 namespace {
 
+const auto htmlTemplate = R"(
+<html>
+    <head>
+        <style type="text/css">
+            .args{font-family:monospace}
+            .example{font-family:monospace; margin:1em}
+            .example-box{background:#777; padding-right:1em}
+            .example-margin{padding-right:.5em}
+            .description{margin: 0 2em 0 2em}
+        </style>
+    </head>
+    <body>
+        %1
+    </body>
+</html>)";
+
+const auto htmlExampleTemplate = R"(
+<table class="example"><tr>
+<td class="example-box"></td>
+<td class="example-margin"></td>
+<td>%1</td>
+</tr></table>
+)";
+
 QString example(const QString &content)
 {
-    return "<table class='example'><tr>"
-           "<td class='example-box'></td>"
-           "<td class='example-margin'></td>"
-           "<td>" + escapeHtml(content) + "</td>"
-           "</tr></table>";
+    return QString(htmlExampleTemplate)
+            .arg( escapeHtml(content) );
 }
 
 QString help()
 {
-    QString help =
-        "<html>"
-
-        "<head>"
-        "<style type=\"text/css\">"
-        ".args{font-family:monospace}"
-        ".example{font-family:monospace; margin:1em}"
-        ".example-box{background:#777; padding-right:1em}"
-        ".example-margin{padding-right:.5em}"
-        ".description{margin: 0 2em 0 2em}"
-        "</style>"
-        "</head>"
-
-        "<body>"
-
-            "<p>"
+    auto help = QString()
+            + "<p>"
             + escapeHtml( CommandHelpButton::tr(
                               "Command contains list of programs with arguments which will be executed. For example:") )
             + example("copyq add \"1 + 2 = 3\"; copyq show\ncopyq popup \"1 + 2\" \"= 3\"")
@@ -103,9 +110,7 @@ QString help()
         }
     }
 
-    help.append("</body></html>");
-
-    return help;
+    return QString(htmlTemplate).arg(help);
 }
 
 QVBoxLayout *createLayout(QWidget *parent)

@@ -59,9 +59,9 @@ const double lowResDpi = 96.0;
 int defaultDpi()
 {
 #if QT_VERSION < 0x050000
-    static const qreal dpi = QWidget().logicalDpiX();
+    static const auto dpi = static_cast<int>( QWidget().logicalDpiX() );
 #else
-    static const qreal dpi = QApplication::primaryScreen()->logicalDotsPerInch();
+    static const auto dpi = static_cast<int>( QApplication::primaryScreen()->logicalDotsPerInch() );
 #endif
     return dpi;
 }
@@ -80,7 +80,7 @@ double normalizeFactor(qreal f)
 int fromPixels(int pixels, const QWidget *widget)
 {
     const qreal f = dpiForWidget(widget) / lowResDpi;
-    return pixels * normalizeFactor(f);
+    return static_cast<int>( pixels * normalizeFactor(f) );
 }
 
 bool areIconsTooSmall()

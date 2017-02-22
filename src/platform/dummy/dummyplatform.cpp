@@ -24,6 +24,7 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDir>
+#include <QStringList>
 
 PlatformPtr createPlatformNativeInterface()
 {
@@ -69,4 +70,14 @@ QString DummyPlatform::defaultEditorCommand()
 QString DummyPlatform::translationPrefix()
 {
     return QString();
+}
+
+QStringList DummyPlatform::getCommandLineArguments(int argc, char **argv)
+{
+    QStringList arguments;
+
+    for (int i = 1; i < argc; ++i)
+        arguments.append( QString::fromUtf8(argv[i]) );
+
+    return arguments;
 }

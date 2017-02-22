@@ -40,7 +40,7 @@ public:
         ReadErrorsWithoutScriptException = 2
     };
 
-    virtual ~TestInterface() {}
+    virtual ~TestInterface() = default;
 
     /// Start or restart GUI server and return true if successful.
     virtual QByteArray startServer() = 0;

@@ -22,11 +22,6 @@
 
 #include "platform/platformnativeinterface.h"
 
-#include <QStringList>
-
-class QApplication;
-class QCoreApplication;
-
 class WinPlatform : public PlatformNativeInterface
 {
 public:
@@ -54,6 +49,10 @@ public:
     QCoreApplication *createClientApplication(int &argc, char **argv);
 
     void loadSettings();
+
+    PlatformWindowPtr deserialize(const QByteArray &) { return nullptr; }
+
+    bool serialize(WId, QByteArray *) { return false; }
 
     PlatformClipboardPtr clipboard();
 

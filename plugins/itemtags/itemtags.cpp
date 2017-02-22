@@ -244,7 +244,7 @@ void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &fo
 QFont smallerFont(QFont font)
 {
     if (font.pixelSize() != -1)
-        font.setPixelSize(0.75 * font.pixelSize());
+        font.setPixelSize( static_cast<int>(0.75 * font.pixelSize()) );
     else
         font.setPointSizeF(0.75 * font.pointSizeF());
 

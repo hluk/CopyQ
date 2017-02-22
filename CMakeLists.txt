@@ -13,6 +13,8 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
     add_definitions( -DCOPYQ_DEBUG  )
 endif()
 
+OPTION(PEDANTIC "Enable all compiler warnings" OFF)
+
 # Options (cmake -LH)
 OPTION(WITH_QT5 "Qt5 support" OFF)
 OPTION(WITH_TESTS "Run test cases from command line" ${COPYQ_DEBUG})
@@ -64,6 +66,47 @@ if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-long-long")
     set(CMAKE_CXX_FLAGS_DEBUG
         "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wall -pedantic -Wfloat-equal -Woverloaded-virtual -Wundef")
+endif()
+
+if (PEDANTIC)
+    if(CMAKE_COMPILER_IS_GNUCXX)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall")
+    else()
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
+    endif()
+
+    set(CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS} -pedantic -Werror \
+        -Wno-c++98-compat \
+        -Wno-c++98-compat-pedantic \
+        -Wno-padded \
+        -Wno-shadow-field-in-constructor \
+        -Wno-switch-enum \
+        -Wno-weak-vtables \
+        -Wno-disabled-macro-expansion \
+        -fcomment-block-commands=retval \
+        \
+        ")
+
+    # TODO: Fix these.
+    set(CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS} \
+        -Wno-global-constructors \
+        -Wno-exit-time-destructors \
+        ")
+
+    # Disable Q_OBJECT macro warnings.
+    set(CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS} \
+        -Wno-unused-member-function \
+        ")
+
+    # Disable errors from moc-generated files.
+    set(CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS} \
+        -Wno-undefined-reinterpret-cast \
+        -Wno-missing-prototypes \
+        ")
 endif()
 
 if(WITH_TESTS)

@@ -27,6 +27,8 @@
 #include <QSet>
 #include <QVector>
 
+#include <memory>
+
 class ItemLoaderInterface;
 class ItemWidget;
 class QAbstractItemModel;
@@ -160,7 +162,7 @@ private:
     void addLoader(ItemLoaderInterface *loader);
 
     ItemLoaderList m_loaders;
-    ItemLoaderInterface *m_dummyLoader;
+    std::unique_ptr<ItemLoaderInterface> m_dummyLoader;
     QSet<const ItemLoaderInterface *> m_disabledLoaders;
     QMap<QObject *, ItemLoaderInterface *> m_loaderChildren;
 };

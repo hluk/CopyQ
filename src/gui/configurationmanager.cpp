@@ -47,14 +47,6 @@
 #include <QSettings>
 #include <QTranslator>
 
-#ifdef Q_OS_WIN
-#   define DEFAULT_EDITOR "notepad %1"
-#elif defined(Q_OS_MAC)
-#   define DEFAULT_EDITOR "open -t -W -n %1"
-#else
-#   define DEFAULT_EDITOR "gedit %1"
-#endif
-
 namespace {
 
 class PluginItem : public ItemOrderList::Item {

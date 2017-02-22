@@ -24,6 +24,9 @@
 #include "client.h"
 
 #include "platform/platformnativeinterface.h"
+#include "platform/platformclipboard.h"
+
+#include <QVariantMap>
 
 /**
  * Monitors clipboard and sends new clipboard data to server.

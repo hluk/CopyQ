@@ -274,9 +274,13 @@ QString logLevelLabel(LogLevel level)
         return "DEBUG";
     case LogTrace:
         return "TRACE";
-    default:
+    case LogNote:
+    case LogAlways:
         return "Note";
     }
+
+    Q_ASSERT(false);
+    return "";
 }
 
 void log(const QString &text, const LogLevel level)
