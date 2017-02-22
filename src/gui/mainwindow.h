@@ -153,8 +153,6 @@ public:
      */
     bool maybeCloseCommandDialog();
 
-    WId menuWinId() const;
-
     /**
      * Return browser widget in given tab @a index.
      * Load items if not loaded yet.
@@ -188,8 +186,8 @@ public:
     /**
      * Show/hide tray menu. Return true only if menu is shown.
      */
-    bool toggleMenu();
-    bool toggleMenu(const QString &tabName, int itemCount);
+    QWidget *toggleMenu();
+    QWidget *toggleMenu(const QString &tabName, int itemCount);
 
     /** Switch between browse and search mode. */
     void enterBrowseMode();
@@ -627,7 +625,7 @@ private:
 
     void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
     void onMenuActionTriggered(ClipboardBrowser *c, uint clipboardItemHash, bool omitPaste);
-    bool toggleMenu(TrayMenu *menu);
+    QWidget *toggleMenu(TrayMenu *menu);
 
     bool exportData(const QString &fileName, const ImportExportDialog &exportDialog);
     bool exportDataV3(QDataStream *out, const ImportExportDialog &exportDialog);

@@ -341,6 +341,14 @@ QString tabNameEmptyError()
     return ScriptableProxy::tr("Tab name cannot be empty!");
 }
 
+ActivateWindowMessage createActivateWindowMessage(QWidget *w)
+{
+    ActivateWindowMessage msg;
+    msg.visible = w->isVisible();
+    msg.windowId = msg.visible ? serializeWindow( w->winId() ) : QByteArray();
+    return msg;
+}
+
 } // namespace
 
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
@@ -371,17 +379,19 @@ void ScriptableProxy::close()
     m_wnd->close();
 }
 
-void ScriptableProxy::showWindow()
+ActivateWindowMessage ScriptableProxy::showWindow()
 {
-    INVOKE2(showWindow());
+    INVOKE(showWindow());
     m_wnd->showWindow();
+    return createActivateWindowMessage(m_wnd);
 }
 
-void ScriptableProxy::showWindowAt(const QRect &rect)
+ActivateWindowMessage ScriptableProxy::showWindowAt(const QRect &rect)
 {
-    INVOKE2(showWindowAt(rect));
+    INVOKE(showWindowAt(rect));
     setGeometryWithoutSave(m_wnd, rect);
     showWindow();
+    return createActivateWindowMessage(m_wnd);
 }
 
 bool ScriptableProxy::pasteToCurrentWindow()
@@ -489,26 +499,29 @@ void ScriptableProxy::setTabIcon(const QString &tabName, const QString &icon)
     m_wnd->setTabIcon(tabName, icon);
 }
 
-void ScriptableProxy::showBrowser(const QString &tabName)
+ActivateWindowMessage ScriptableProxy::showBrowser(const QString &tabName)
 {
-    INVOKE2(showBrowser(tabName));
+    INVOKE(showBrowser(tabName));
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (c)
         m_wnd->showBrowser(c);
+    return createActivateWindowMessage(m_wnd);
 }
 
-void ScriptableProxy::showBrowserAt(const QString &tabName, const QRect &rect)
+ActivateWindowMessage ScriptableProxy::showBrowserAt(const QString &tabName, const QRect &rect)
 {
-    INVOKE2(showBrowserAt(tabName, rect));
+    INVOKE(showBrowserAt(tabName, rect));
     setGeometryWithoutSave(m_wnd, rect);
     showBrowser(tabName);
     QCoreApplication::processEvents();
+    return createActivateWindowMessage(m_wnd);
 }
 
-void ScriptableProxy::showBrowser()
+ActivateWindowMessage ScriptableProxy::showBrowser()
 {
-    INVOKE2(showBrowser());
+    INVOKE(showBrowser());
     showBrowser(m_tabName);
+    return createActivateWindowMessage(m_wnd);
 }
 
 void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
@@ -617,34 +630,30 @@ QStringList ScriptableProxy::tabs()
     return m_wnd->tabs();
 }
 
-bool ScriptableProxy::toggleVisible()
+ActivateWindowMessage ScriptableProxy::toggleVisible()
 {
     INVOKE(toggleVisible());
-    return m_wnd->toggleVisible();
+
+    if ( m_wnd->toggleVisible() )
+        return createActivateWindowMessage(m_wnd);
+
+    return ActivateWindowMessage();
 }
 
-bool ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount)
+ActivateWindowMessage ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount)
 {
     INVOKE(toggleMenu(tabName, maxItemCount));
-    return m_wnd->toggleMenu(tabName, maxItemCount);
+
+    const auto menu = m_wnd->toggleMenu(tabName, maxItemCount);
+    return createActivateWindowMessage(menu);
 }
 
-bool ScriptableProxy::toggleMenu()
+ActivateWindowMessage ScriptableProxy::toggleMenu()
 {
     INVOKE(toggleMenu());
-    return m_wnd->toggleMenu();
-}
 
-QByteArray ScriptableProxy::mainWinId()
-{
-    INVOKE(mainWinId());
-    return serializeWindow(m_wnd->winId());
-}
-
-QByteArray ScriptableProxy::menuWinId()
-{
-    INVOKE(menuWinId());
-    return serializeWindow(m_wnd->menuWinId());
+    const auto menu = m_wnd->toggleMenu();
+    return createActivateWindowMessage(menu);
 }
 
 int ScriptableProxy::findTabIndex(const QString &arg1)

@@ -460,16 +460,16 @@ QScriptValue Scriptable::help()
 
 void Scriptable::show()
 {
-    if (argumentCount() == 0) {
-        m_proxy->showWindow();
-    } else if (argumentCount() == 1) {
-        m_proxy->showBrowser(toString(argument(0)));
-    } else {
+    if (argumentCount() > 1) {
         throwError(argumentError());
         return;
     }
 
-    sendWindowActivationCommandToClient( m_proxy->mainWinId() );
+    const auto msg = argumentCount() == 0
+            ? m_proxy->showWindow()
+            : m_proxy->showBrowser(toString(argument(0)));
+
+    sendWindowActivationCommandToClient(msg.windowId);
 }
 
 void Scriptable::showAt()
@@ -487,12 +487,11 @@ void Scriptable::showAt()
         rect.setHeight(n);
 
     const QString tabName = arg(i++);
-    if (tabName.isEmpty())
-        m_proxy->showWindowAt(rect);
-    else
-        m_proxy->showBrowserAt(tabName, rect);
+    const auto msg = tabName.isEmpty()
+            ? m_proxy->showWindowAt(rect)
+            : m_proxy->showBrowserAt(tabName, rect);
 
-    sendWindowActivationCommandToClient( m_proxy->mainWinId() );
+    sendWindowActivationCommandToClient(msg.windowId);
 }
 
 void Scriptable::hide()
@@ -502,20 +501,17 @@ void Scriptable::hide()
 
 QScriptValue Scriptable::toggle()
 {
-    if ( m_proxy->toggleVisible() ) {
-        sendWindowActivationCommandToClient( m_proxy->mainWinId() );
-        return true;
-    }
-
-    return false;
+    const auto msg = m_proxy->toggleVisible();
+    sendWindowActivationCommandToClient(msg.windowId);
+    return msg.visible;
 }
 
 void Scriptable::menu()
 {
-    bool shown = false;
+    ActivateWindowMessage msg;
 
     if (argumentCount() == 0) {
-        shown = m_proxy->toggleMenu();
+        msg = m_proxy->toggleMenu();
     } else if (argumentCount() == 1 || argumentCount() == 2) {
         const auto tabName = toString(argument(0));
 
@@ -528,14 +524,13 @@ void Scriptable::menu()
             }
         }
 
-        shown = m_proxy->toggleMenu(tabName, maxItemCount);
+        msg = m_proxy->toggleMenu(tabName, maxItemCount);
     } else {
         throwError(argumentError());
         return;
     }
 
-    if (shown)
-        sendWindowActivationCommandToClient( m_proxy->mainWinId() );
+    sendWindowActivationCommandToClient(msg.windowId);
 }
 
 void Scriptable::exit()

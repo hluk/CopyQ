@@ -1575,11 +1575,11 @@ void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool 
         pasteClipboard(lastWindow);
 }
 
-bool MainWindow::toggleMenu(TrayMenu *menu)
+QWidget *MainWindow::toggleMenu(TrayMenu *menu)
 {
     if ( menu->isVisible() ) {
         menu->close();
-        return false;
+        return menu;
     }
 
     menu->setActiveFirstEnabledAction();
@@ -1594,7 +1594,7 @@ bool MainWindow::toggleMenu(TrayMenu *menu)
     if ( !menu->isActiveWindow() )
         stealFocus(*menu);
 
-    return menu->isVisible();
+    return menu;
 }
 
 bool MainWindow::exportData(const QString &fileName, const ImportExportDialog &exportDialog)
@@ -1822,11 +1822,6 @@ bool MainWindow::hasRunningAction() const
 bool MainWindow::maybeCloseCommandDialog()
 {
     return !m_commandDialog || m_commandDialog->maybeClose(this);
-}
-
-WId MainWindow::menuWinId() const
-{
-    return m_menu->winId();
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,
@@ -2307,19 +2302,19 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 #endif // Q_OS_MAC
 }
 
-bool MainWindow::toggleMenu()
+QWidget *MainWindow::toggleMenu()
 {
     return toggleMenu(m_trayMenu);
 }
 
-bool MainWindow::toggleMenu(const QString &tabName, int itemCount)
+QWidget *MainWindow::toggleMenu(const QString &tabName, int itemCount)
 {
     // Just close the previously opened menu if parameters are the same.
     if ( m_menu->isVisible()
          && (m_menuTabName == tabName && m_menuMaxItemCount == itemCount) )
     {
         m_menu->close();
-        return false;
+        return m_menu;
     }
 
     WidgetSizeGuard sizeGuard(m_menu);
@@ -2336,7 +2331,7 @@ bool MainWindow::toggleMenu(const QString &tabName, int itemCount)
         m_menu->close();
 
     if ( m_menu->isEmpty() )
-        return false;
+        return m_menu;
 
     return toggleMenu(m_menu);
 }
