@@ -52,6 +52,9 @@ public:
     /** Handle Vi shortcuts. */
     void setViModeEnabled(bool enabled);
 
+    /** Filter clipboard items. */
+    void search(const QString &text);
+
 signals:
     /** Emitted if numbered action triggered. */
     void clipboardItemActionTriggered(uint clipboardItemHash, bool omitPaste);
@@ -70,7 +73,6 @@ protected:
 
 private:
     void resetSeparators();
-    void search(const QString &text);
     void setSearchMenuItem(const QString &text);
 
     QPointer<QAction> m_clipboardItemActionsSeparator;

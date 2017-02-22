@@ -2332,6 +2332,7 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 
 QWidget *MainWindow::toggleMenu()
 {
+    m_trayMenu->search(QString());
     return toggleMenu(m_trayMenu);
 }
 
