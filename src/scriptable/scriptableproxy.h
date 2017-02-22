@@ -150,8 +150,11 @@ public:
 
     QList<int> selectedItems();
 
-    QString sendKeys(const QString &keys);
+#ifdef HAS_TESTS
+    void sendKeys(const QString &keys);
+    bool keysSent();
     QString testSelected();
+#endif // HAS_TESTS
 
     QString currentWindowTitle();
 
@@ -187,6 +190,8 @@ private:
     std::unique_ptr<ClipboardBrowser::Lock> m_lock;
     QVariantMap m_actionData;
     bool m_invoked;
+
+    uint m_sentKeyClicks = 0;
 };
 
 #endif // SCRIPTABLEPROXY_H

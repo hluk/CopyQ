@@ -429,8 +429,26 @@ public slots:
     void invoke(Callable *callable);
 
 #ifdef HAS_TESTS
-    QWidget *visibleMenu() const;
-    void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget);
+    /**
+     * Send key clicks to currently focused widget.
+     *
+     * This function will block if it opens a modal dialog.
+     * So use sendKeyClicks() instead.
+     *
+     * Increments key clicks sequence number returned by lastReceivedKeyClicks().
+     */
+    void keyClicks(const QString &keys);
+
+    /**
+     * Send key clicks to focused widget.
+     * @return Key clicks sequence number.
+     */
+    uint sendKeyClicks(const QString &keys);
+
+    /**
+     * @return Last key clicks sequence number received by widgets.
+     */
+    uint lastReceivedKeyClicks();
 #endif
 
 signals:
@@ -686,6 +704,13 @@ private:
 
     QVector< QPointer<QAction> > m_actions;
     MenuItems m_menuItems;
+
+#ifdef HAS_TESTS
+    /// Key clicks sequence number last returned by sendKeyClicks().
+    uint m_sentKeyClicks = 0;
+    /// Key clicks sequence number received by widgets.
+    uint m_receivedKeyClicks = 0;
+#endif
 };
 
 #endif // MAINWINDOW_H

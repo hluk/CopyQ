@@ -55,10 +55,6 @@
 #include <QTextEdit>
 #include <QThread>
 
-#ifdef HAS_TESTS
-#   include <QTest>
-#endif
-
 #include <type_traits>
 
 #define ASSERT_MAIN_THREAD() \
@@ -513,7 +509,6 @@ ActivateWindowMessage ScriptableProxy::showBrowserAt(const QString &tabName, con
     INVOKE(showBrowserAt(tabName, rect));
     setGeometryWithoutSave(m_wnd, rect);
     showBrowser(tabName);
-    QCoreApplication::processEvents();
     return createActivateWindowMessage(m_wnd);
 }
 
@@ -858,47 +853,17 @@ QList<int> ScriptableProxy::selectedItems()
 }
 
 #ifdef HAS_TESTS
-QString ScriptableProxy::sendKeys(const QString &keys)
+void ScriptableProxy::sendKeys(const QString &keys)
 {
-    INVOKE(sendKeys(keys));
+    INVOKE2(sendKeys(keys));
+    m_sentKeyClicks = m_wnd->sendKeyClicks(keys);
+}
 
-    if (keys == "FLUSH_KEYS")
-        return QString();
-
-    auto w = m_wnd->visibleMenu();
-
-    if (!w) {
-        w = QApplication::focusWidget();
-        if (!w) {
-            COPYQ_LOG("No focused widget -> using main window");
-            w = m_wnd;
-        }
-    }
-
-    if (keys.startsWith(":")) {
-        const QString widgetName = QString("%1 in %2")
-                .arg(w->metaObject()->className())
-                .arg(w->window()->metaObject()->className());
-
-        COPYQ_LOG( QString("Sending keys \"%1\" to \"%2\".")
-                   .arg(keys.mid(1))
-                   .arg(widgetName) );
-
-        QTest::keyClicks(w, keys.mid(1), Qt::NoModifier, 50);
-    } else {
-        const QKeySequence shortcut(keys, QKeySequence::PortableText);
-
-        if ( shortcut.isEmpty() )
-            return QString("Cannot parse key \"%1\"!").arg(keys);
-
-        // Don't stop when modal window is open.
-        QMetaObject::invokeMethod( m_wnd, "keyClick", Qt::QueuedConnection,
-                                   Q_ARG(const QKeySequence &, shortcut),
-                                   Q_ARG(const QPointer<QWidget> &, w)
-                                   );
-    }
-
-    return QString();
+bool ScriptableProxy::keysSent()
+{
+    INVOKE(keysSent());
+    QCoreApplication::processEvents();
+    return m_wnd->lastReceivedKeyClicks() >= m_sentKeyClicks;
 }
 
 QString ScriptableProxy::testSelected()
@@ -930,16 +895,6 @@ QString ScriptableProxy::testSelected()
         result.append(QString::number(row));
 
     return browser->tabName() + " " + result.join(" ");
-}
-#else // HAS_TESTS
-QString ScriptableProxy::sendKeys(const QString &)
-{
-    return QString();
-}
-
-QString ScriptableProxy::testSelected()
-{
-    return QString();
 }
 #endif // HAS_TESTS
 

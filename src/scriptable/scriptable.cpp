@@ -1062,21 +1062,27 @@ void Scriptable::keys()
         const QString keys = toString(argument(i));
 
         waitFor(500);
-        const QString error = m_proxy->sendKeys(keys);
-        if ( !error.isEmpty() ) {
-            throwError(error);
-            return;
-        }
+        m_proxy->sendKeys(keys);
 
         // Make sure all keys are send (shortcuts are postponed because they can be blocked by modal windows).
-        m_proxy->sendKeys("FLUSH_KEYS");
+        while ( !m_proxy->keysSent() ) {
+            QCoreApplication::processEvents();
+            if (!m_connected) {
+                throwError("Disconnected");
+                return;
+            }
+        }
     }
 #endif
 }
 
 QScriptValue Scriptable::testSelected()
 {
+#ifdef HAS_TESTS
     return m_proxy->testSelected();
+#else
+    return QScriptValue();
+#endif
 }
 
 void Scriptable::setCurrentTab()

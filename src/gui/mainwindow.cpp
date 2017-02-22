@@ -1032,24 +1032,20 @@ void MainWindow::invoke(Callable *callable)
 }
 
 #ifdef HAS_TESTS
-QWidget *MainWindow::visibleMenu() const
+void MainWindow::keyClicks(const QString &keys)
 {
-    if ( m_trayMenu->isVisible() )
-        return m_trayMenu;
+    QWidget *widget;
 
-    if ( m_menu->isVisible() )
-        return m_menu;
-
-    return nullptr;
-}
-
-void MainWindow::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget)
-{
-    const QString keys = shortcut.toString();
-
-    if (widget.isNull()) {
-        COPYQ_LOG( QString("Failed to send key \"%1\".").arg(keys) );
-        return;
+    if ( m_trayMenu->isVisible() ) {
+        widget = m_trayMenu;
+    } else if ( m_menu->isVisible() ) {
+        widget = m_menu;
+    } else {
+        widget = QApplication::focusWidget();
+        if (!widget) {
+            COPYQ_LOG("No focused widget -> using main window");
+            widget = this;
+        }
     }
 
     auto widgetName = QString("%1:%2")
@@ -1063,22 +1059,54 @@ void MainWindow::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> 
                     .arg(widget->window()->metaObject()->className()) );
     }
 
-    showMessage( widgetName, shortcut.toString(),
-                 QSystemTrayIcon::Information, 4000 );
-
-    COPYQ_LOG( QString("Sending key \"%1\" to %2.")
+    COPYQ_LOG( QString("Sending keys \"%1\" to %2.")
                .arg(keys)
                .arg(widgetName) );
 
-    const auto key = static_cast<uint>(shortcut[0]);
-    QTest::keyClick( widget.data(),
-                     Qt::Key(key & ~Qt::KeyboardModifierMask),
-                     Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
-                     0 );
+    if ( keys.startsWith(":") ) {
+        QTest::keyClicks(widget, keys.mid(1), Qt::NoModifier, 50);
+
+        // Increment key clicks sequence number after typing all the text.
+        ++m_receivedKeyClicks;
+    } else {
+        // Increment key clicks sequence number before opening any modal dialogs.
+        ++m_receivedKeyClicks;
+
+        const QKeySequence shortcut(keys, QKeySequence::PortableText);
+
+        if ( shortcut.isEmpty() ) {
+            COPYQ_LOG( QString("Cannot parse shortcut \"%1\"!").arg(keys) );
+            return;
+        }
+
+        showMessage( widgetName, shortcut.toString(),
+                     QSystemTrayIcon::Information, 4000 );
+
+        const auto key = static_cast<uint>(shortcut[0]);
+        QTest::keyClick( widget,
+                         Qt::Key(key & ~Qt::KeyboardModifierMask),
+                         Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
+                         0 );
+    }
 
     COPYQ_LOG( QString("Key \"%1\" sent to %2.")
                .arg(keys)
                .arg(widgetName) );
+}
+
+uint MainWindow::sendKeyClicks(const QString &keys)
+{
+    // Don't stop when modal window is open.
+    QMetaObject::invokeMethod( this, "keyClicks", Qt::QueuedConnection,
+                               Q_ARG(const QString &, keys)
+                               );
+
+    return ++m_sentKeyClicks;
+}
+
+uint MainWindow::lastReceivedKeyClicks()
+{
+    return m_receivedKeyClicks;
 }
 #endif
 
