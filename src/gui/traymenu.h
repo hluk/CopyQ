@@ -46,9 +46,6 @@ public:
     /** Clear clipboard item actions and curstom actions. */
     void clearAllActions();
 
-    /** Select first enabled menu item. */
-    void setActiveFirstEnabledAction();
-
     /** Handle Vi shortcuts. */
     void setViModeEnabled(bool enabled);
 
@@ -70,6 +67,9 @@ protected:
 
     void showEvent(QShowEvent *event);
     void hideEvent(QHideEvent *event);
+    void actionEvent(QActionEvent *event) override;
+
+    void leaveEvent(QEvent *event) override;
 
 private:
     void resetSeparators();

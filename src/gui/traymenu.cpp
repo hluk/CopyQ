@@ -161,13 +161,6 @@ void TrayMenu::clearAllActions()
     m_searchText.clear();
 }
 
-void TrayMenu::setActiveFirstEnabledAction()
-{
-    QAction *action = firstEnabledAction(this);
-    if (action != nullptr)
-        setActiveAction(action);
-}
-
 void TrayMenu::setViModeEnabled(bool enabled)
 {
     m_viMode = enabled;
@@ -252,6 +245,23 @@ void TrayMenu::hideEvent(QHideEvent *event)
 
     if ( !m_searchAction.isNull() )
         m_searchAction->setVisible(false);
+}
+
+void TrayMenu::actionEvent(QActionEvent *event)
+{
+    QMenu::actionEvent(event);
+
+    QAction *action = firstEnabledAction(this);
+    if (action != nullptr)
+        setActiveAction(action);
+}
+
+void TrayMenu::leaveEvent(QEvent *event)
+{
+    // Omit clearing active action if menu is resizes and mouse pointer leaves menu.
+    auto action = activeAction();
+    QMenu::leaveEvent(event);
+    setActiveAction(action);
 }
 
 void TrayMenu::resetSeparators()

@@ -1588,8 +1588,6 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCo
         menu->addClipboardItemAction(index, m_options.trayImages, i == current);
         ++itemCount;
     }
-
-    menu->setActiveFirstEnabledAction();
 }
 
 void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool omitPaste)
@@ -1609,8 +1607,6 @@ QWidget *MainWindow::toggleMenu(TrayMenu *menu)
         menu->close();
         return menu;
     }
-
-    menu->setActiveFirstEnabledAction();
 
     menu->popup( toScreen(QCursor::pos(), menu->width(), menu->height()) );
 
@@ -2816,8 +2812,6 @@ void MainWindow::updateTrayMenuItems()
         for ( ; i < actions.size(); ++i )
             m_trayMenu->addCustomAction(actions[i]);
     }
-
-    m_trayMenu->setActiveFirstEnabledAction();
 }
 
 void MainWindow::addMenuItems(const QString &searchText)
