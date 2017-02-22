@@ -1058,11 +1058,25 @@ void Scriptable::fail()
 void Scriptable::keys()
 {
 #ifdef HAS_TESTS
+    bool ok;
+
+    // Wait interval after shortcut pressed or text typed.
+    const auto waitValue = qgetenv("COPYQ_TESTS_KEYS_WAIT");
+    int wait = waitValue.toInt(&ok);
+    if (!ok)
+        wait = 0;
+
+    // Delay while typing.
+    const auto delayValue = qgetenv("COPYQ_TESTS_KEY_DELAY");
+    int delay = delayValue.toInt(&ok);
+    if (!ok)
+        delay = 0;
+
     for (int i = 0; i < argumentCount(); ++i) {
         const QString keys = toString(argument(i));
 
-        waitFor(500);
-        m_proxy->sendKeys(keys);
+        waitFor(wait);
+        m_proxy->sendKeys(keys, delay);
 
         // Make sure all keys are send (shortcuts are postponed because they can be blocked by modal windows).
         while ( !m_proxy->keysSent() ) {

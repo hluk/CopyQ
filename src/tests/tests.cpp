@@ -1473,7 +1473,8 @@ void Tests::openAndSavePreferences()
 
     // Focus and set wrap text option.
     // This behavior could differ on some systems and in other languages.
-    RUN("keys" << "ALT+1" << "ENTER", "");
+    RUN("keys" << "ALT+1", "");
+    RUN("keys" << "ENTER", "");
     RUN(args, "true\n");
 
     RUN(args << "false", "");

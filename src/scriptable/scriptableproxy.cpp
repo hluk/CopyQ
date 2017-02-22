@@ -853,10 +853,10 @@ QList<int> ScriptableProxy::selectedItems()
 }
 
 #ifdef HAS_TESTS
-void ScriptableProxy::sendKeys(const QString &keys)
+void ScriptableProxy::sendKeys(const QString &keys, int delay)
 {
-    INVOKE2(sendKeys(keys));
-    m_sentKeyClicks = m_wnd->sendKeyClicks(keys);
+    INVOKE2(sendKeys(keys, delay));
+    m_sentKeyClicks = m_wnd->sendKeyClicks(keys, delay);
 }
 
 bool ScriptableProxy::keysSent()

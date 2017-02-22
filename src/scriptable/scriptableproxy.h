@@ -151,7 +151,7 @@ public:
     QList<int> selectedItems();
 
 #ifdef HAS_TESTS
-    void sendKeys(const QString &keys);
+    void sendKeys(const QString &keys, int delay);
     bool keysSent();
     QString testSelected();
 #endif // HAS_TESTS

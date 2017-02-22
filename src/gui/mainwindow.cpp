@@ -1032,7 +1032,7 @@ void MainWindow::invoke(Callable *callable)
 }
 
 #ifdef HAS_TESTS
-void MainWindow::keyClicks(const QString &keys)
+void MainWindow::keyClicks(const QString &keys, int delay)
 {
     QWidget *widget;
 
@@ -1048,9 +1048,11 @@ void MainWindow::keyClicks(const QString &keys)
         }
     }
 
+    const auto className = widget->metaObject()->className();
+
     auto widgetName = QString("%1:%2")
             .arg(widget->objectName())
-            .arg(widget->metaObject()->className());
+            .arg(className);
 
     if (widget != widget->window()) {
         widgetName.append(
@@ -1059,12 +1061,17 @@ void MainWindow::keyClicks(const QString &keys)
                     .arg(widget->window()->metaObject()->className()) );
     }
 
+    // There could be some animation/transition effect on check boxes
+    // so wait for checkbox to be set.
+    if ( className == QString("QCheckBox") )
+        waitFor(100);
+
     COPYQ_LOG( QString("Sending keys \"%1\" to %2.")
                .arg(keys)
                .arg(widgetName) );
 
     if ( keys.startsWith(":") ) {
-        QTest::keyClicks(widget, keys.mid(1), Qt::NoModifier, 50);
+        QTest::keyClicks(widget, keys.mid(1), Qt::NoModifier, delay);
 
         // Increment key clicks sequence number after typing all the text.
         ++m_receivedKeyClicks;
@@ -1094,11 +1101,12 @@ void MainWindow::keyClicks(const QString &keys)
                .arg(widgetName) );
 }
 
-uint MainWindow::sendKeyClicks(const QString &keys)
+uint MainWindow::sendKeyClicks(const QString &keys, int delay)
 {
     // Don't stop when modal window is open.
     QMetaObject::invokeMethod( this, "keyClicks", Qt::QueuedConnection,
-                               Q_ARG(const QString &, keys)
+                               Q_ARG(const QString &, keys),
+                               Q_ARG(int, delay)
                                );
 
     return ++m_sentKeyClicks;

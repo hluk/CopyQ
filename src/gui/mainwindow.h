@@ -437,13 +437,13 @@ public slots:
      *
      * Increments key clicks sequence number returned by lastReceivedKeyClicks().
      */
-    void keyClicks(const QString &keys);
+    void keyClicks(const QString &keys, int delay);
 
     /**
      * Send key clicks to focused widget.
      * @return Key clicks sequence number.
      */
-    uint sendKeyClicks(const QString &keys);
+    uint sendKeyClicks(const QString &keys, int delay);
 
     /**
      * @return Last key clicks sequence number received by widgets.
