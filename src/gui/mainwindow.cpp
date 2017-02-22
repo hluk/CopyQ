@@ -885,11 +885,11 @@ void MainWindow::updateContextMenu()
 {
     m_itemMenuCommandTester.abort();
 
-    for (auto menu : m_menuItem->findChildren<QMenu*>())
-        menu->deleteLater();
-
     for (auto action : m_menuItem->actions())
-        action->deleteLater();
+        delete action;
+
+    for (auto menu : m_menuItem->findChildren<QMenu*>())
+        delete menu;
 
     m_menuItem->clear();
     // Omit tool bar flickering.
