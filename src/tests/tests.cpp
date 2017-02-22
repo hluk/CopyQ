@@ -889,7 +889,7 @@ void Tests::toggleClipboardMonitoring()
     const QByteArray data1 = generateData();
     TEST( m_test->setClipboard(data1) );
     RUN("clipboard", data1);
-    RUN("read" << "0", data1);
+    WAIT_ON_OUTPUT("read" << "0", data1);
 
     RUN("disable", "");
     RUN("monitoring", "false\n");
@@ -897,7 +897,7 @@ void Tests::toggleClipboardMonitoring()
     const QByteArray data2 = generateData();
     TEST( m_test->setClipboard(data2) );
     RUN("clipboard", data2);
-    RUN("read" << "0", data1);
+    WAIT_ON_OUTPUT("read" << "0", data1);
 
     RUN("enable", "");
     RUN("monitoring", "true\n");
@@ -905,7 +905,7 @@ void Tests::toggleClipboardMonitoring()
     const QByteArray data3 = generateData();
     TEST( m_test->setClipboard(data3) );
     RUN("clipboard", data3);
-    RUN("read" << "0", data3);
+    WAIT_ON_OUTPUT("read" << "0", data3);
 }
 
 void Tests::clipboardToItem()
@@ -915,12 +915,12 @@ void Tests::clipboardToItem()
 
     TEST( m_test->setClipboard("TEST1") );
     RUN("clipboard", "TEST1");
-    RUN("read" << "0", "TEST1");
+    WAIT_ON_OUTPUT("read" << "0", "TEST1");
 
     // NOTE: On Windows the "Fragment" parts are magically added - so it's easier to add them here.
     const QByteArray htmlBytes = "<!--StartFragment--><b>TEST2</b><!--EndFragment-->";
     TEST( m_test->setClipboard(htmlBytes, "text/html") );
-    RUN("clipboard" << "text/html", htmlBytes.data());
+    WAIT_ON_OUTPUT("clipboard" << "text/html", htmlBytes.data());
     // This can be tested only if a plugin for HTML is loaded.
     //RUN("read" << "text/html" << "0", htmlBytes.data());
 
@@ -929,7 +929,7 @@ void Tests::clipboardToItem()
     const QByteArray bytes = test.toUtf8();
     TEST( m_test->setClipboard(bytes) );
     RUN("clipboard", bytes);
-    RUN("read" << "0", bytes);
+    WAIT_ON_OUTPUT("read" << "0", bytes);
 }
 
 void Tests::itemToClipboard()
