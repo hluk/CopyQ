@@ -483,6 +483,9 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     // browse mode by default
     enterBrowseMode();
+
+    m_trayMenu->setObjectName("TrayMenu");
+    m_menu->setObjectName("Menu");
 }
 
 bool MainWindow::browseMode() const
@@ -1049,14 +1052,21 @@ void MainWindow::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> 
         return;
     }
 
-    const QString widgetName = QString("%1 in %2")
-            .arg(widget->metaObject()->className())
-            .arg(widget->window()->metaObject()->className());
+    auto widgetName = QString("%1:%2")
+            .arg(widget->objectName())
+            .arg(widget->metaObject()->className());
+
+    if (widget != widget->window()) {
+        widgetName.append(
+                    QString(" in %1:%2")
+                    .arg(widget->window()->objectName())
+                    .arg(widget->window()->metaObject()->className()) );
+    }
 
     showMessage( widgetName, shortcut.toString(),
                  QSystemTrayIcon::Information, 4000 );
 
-    COPYQ_LOG( QString("Sending key \"%1\" to \"%2\".")
+    COPYQ_LOG( QString("Sending key \"%1\" to %2.")
                .arg(keys)
                .arg(widgetName) );
 
@@ -1066,7 +1076,7 @@ void MainWindow::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> 
                      Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
                      0 );
 
-    COPYQ_LOG( QString("Key \"%1\" sent to \"%2\".")
+    COPYQ_LOG( QString("Key \"%1\" sent to %2.")
                .arg(keys)
                .arg(widgetName) );
 }
