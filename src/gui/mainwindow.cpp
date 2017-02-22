@@ -2692,7 +2692,7 @@ void MainWindow::onFilterChanged(const QRegExp &re)
 {
     if (re.isEmpty())
         enterBrowseMode();
-    else
+    else if ( browseMode() )
         enterSearchMode();
     browser()->filterItems(re);
     updateItemPreview();

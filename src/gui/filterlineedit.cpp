@@ -182,6 +182,11 @@ void FilterLineEdit::hideEvent(QHideEvent *event)
     }
 }
 
+void FilterLineEdit::focusInEvent(QFocusEvent *event)
+{
+    FancyLineEdit::focusInEvent(event);
+}
+
 void FilterLineEdit::focusOutEvent(QFocusEvent *event)
 {
     FancyLineEdit::focusOutEvent(event);

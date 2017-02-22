@@ -51,6 +51,7 @@ signals:
 
 protected:
     void hideEvent(QHideEvent *event);
+    void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
 
 private slots:
