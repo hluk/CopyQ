@@ -182,6 +182,16 @@ void FilterLineEdit::hideEvent(QHideEvent *event)
     }
 }
 
+void FilterLineEdit::focusOutEvent(QFocusEvent *event)
+{
+    FancyLineEdit::focusOutEvent(event);
+
+    if ( m_timerSearch->isActive() ) {
+        m_timerSearch->stop();
+        onTextChanged();
+    }
+}
+
 void FilterLineEdit::onTextChanged()
 {
     emit filterChanged(filter());

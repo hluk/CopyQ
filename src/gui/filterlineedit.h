@@ -51,6 +51,7 @@ signals:
 
 protected:
     void hideEvent(QHideEvent *event);
+    void focusOutEvent(QFocusEvent *event) override;
 
 private slots:
     void onTextChanged();

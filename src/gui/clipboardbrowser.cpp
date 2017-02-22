@@ -375,8 +375,11 @@ bool ClipboardBrowser::preload(int minY, int maxY)
         }
     }
 
-    if (i == length())
-        --i;
+    // List is empty or all items are filtered out.
+    if (i == length()) {
+        setCurrentIndex(QModelIndex());
+        return true;
+    }
 
     // Absolute to relative.
     y -= offset;
@@ -414,15 +417,11 @@ bool ClipboardBrowser::preload(int minY, int maxY)
         y -= s; // bottom of previous item
     }
 
-    // List is empty or all items are filtered out.
-    if ( !ind.isValid() )
-        return true;
+    if ( isRowHidden(currentIndex().row()) )
+        setCurrentIndex(ind);
 
     y = visualRect(ind).y();
     bool lastToPreload = false;
-
-    if ( isRowHidden(currentIndex().row()) )
-        setCurrentIndex(ind);
 
     // Render visible items, re-layout rows and correct scroll offset.
     forever {
