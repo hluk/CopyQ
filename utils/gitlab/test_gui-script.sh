@@ -26,5 +26,8 @@ sleep 5
     done
 ) &
 
+mkdir -p "$TESTS_LOG_DIR"
+export COPYQ_LOG_FILE="$TESTS_LOG_DIR/copyq.log"
+
 "$INSTALL_PREFIX/bin/copyq" tests
 
