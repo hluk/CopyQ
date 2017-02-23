@@ -1034,9 +1034,6 @@ void MainWindow::invoke(Callable *callable)
 #ifdef HAS_TESTS
 void MainWindow::keyClicks(const QString &keys, int delay)
 {
-    // This is needed to properly focus just opened modal windows.
-    QCoreApplication::processEvents();
-
     QWidget *widget;
 
     if ( m_trayMenu->isVisible() ) {
@@ -1044,6 +1041,11 @@ void MainWindow::keyClicks(const QString &keys, int delay)
     } else if ( m_menu->isVisible() ) {
         widget = m_menu;
     } else {
+        // This is needed to properly focus just opened dialogs.
+        auto modalWidget = QApplication::activeModalWidget();
+        if (modalWidget)
+            QApplication::setActiveWindow(modalWidget);
+
         widget = QApplication::focusWidget();
         if (!widget) {
             COPYQ_LOG("No focused widget -> using main window");
