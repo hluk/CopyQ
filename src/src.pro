@@ -229,7 +229,12 @@ QT += core gui xml network script svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG(debug, debug|release) {
-    DEFINES += HAS_TESTS COPYQ_DEBUG
+    CONFIG += tests
+    DEFINES += COPYQ_DEBUG
+}
+
+CONFIG(tests) {
+    DEFINES += HAS_TESTS
     QT += testlib
     SOURCES += tests/tests.cpp
     HEADERS += tests/tests.h
