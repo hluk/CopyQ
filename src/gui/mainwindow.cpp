@@ -1034,6 +1034,9 @@ void MainWindow::invoke(Callable *callable)
 #ifdef HAS_TESTS
 void MainWindow::keyClicks(const QString &keys, int delay)
 {
+    // This is needed to properly focus just opened modal windows.
+    QCoreApplication::processEvents();
+
     QWidget *widget;
 
     if ( m_trayMenu->isVisible() ) {
