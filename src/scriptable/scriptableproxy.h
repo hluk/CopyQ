@@ -154,6 +154,7 @@ public:
     void sendKeys(const QString &keys, int delay);
     bool keysSent();
     QString testSelected();
+    void resetTestSession(const QString &clipboardTabName);
 #endif // HAS_TESTS
 
     QString currentWindowTitle();

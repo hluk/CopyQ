@@ -1081,9 +1081,9 @@ void Scriptable::fail()
     sendMessageToClient("", CommandError);
 }
 
+#ifdef HAS_TESTS
 void Scriptable::keys()
 {
-#ifdef HAS_TESTS
     bool ok;
 
     // Wait interval after shortcut pressed or text typed.
@@ -1113,17 +1113,31 @@ void Scriptable::keys()
             }
         }
     }
-#endif
 }
 
 QScriptValue Scriptable::testSelected()
 {
-#ifdef HAS_TESTS
     return m_proxy->testSelected();
-#else
-    return QScriptValue();
-#endif
 }
+
+void Scriptable::resetTestSession()
+{
+    m_proxy->resetTestSession( arg(0) );
+}
+#else
+void Scriptable::keys()
+{
+}
+
+QScriptValue Scriptable::testSelected()
+{
+    return QScriptValue();
+}
+
+void Scriptable::resetTestSession()
+{
+}
+#endif
 
 void Scriptable::setCurrentTab()
 {

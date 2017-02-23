@@ -49,6 +49,8 @@
 
 namespace {
 
+const auto clipboardTabName = "CLIPBOARD";
+
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
     const QRegExp scriptExceptionError("ScriptError:");
@@ -81,15 +83,15 @@ QByteArray getClipboard(const QString &mime = QString("text/plain"))
     return (data != nullptr) ? data->data(mime) : QByteArray();
 }
 
-bool waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString("text/plain"))
+QByteArray waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString("text/plain"))
 {
     SleepTimer t(200);
     do {
         if (getClipboard(mime) == data)
-            return true;
+            return data;
     } while (t.sleep());
 
-    return false;
+    return getClipboard(mime);
 }
 
 bool waitForProcessFinished(QProcess *p)
@@ -414,34 +416,8 @@ public:
         if ( !isServerRunning() )
             return QByteArray();
 
-        QByteArray out = runClient(Args("eval") <<
-            // Create tab.
-            "print(1);"
-            "tab('CLIPBOARD');"
-            "add('');"
-            "config('clipboard_tab', 'CLIPBOARD');"
-
-            // Remove test tabs.
-            "print(2);"
-            "tabs = tab();"
-            "for (i in tabs) {"
-            "  if (tabs[i] != 'CLIPBOARD' && tabs[i]) {"
-            "    removetab(tabs[i]);"
-            "  }"
-            "}"
-
-            // Clear items in first tab.
-            "print(3);"
-            "while (size() > 0) {"
-            "  remove(0);"
-            "}"
-
-            "print(4);"
-            "print(tab());"
-            "print(5);"
-            , "1234CLIPBOARD5");
-
-        return out;
+        setClipboard(QByteArray(), mimeText);
+        return runClient(Args("resetTestSession") << clipboardTabName, "");
     }
 
     QByteArray show() override
@@ -492,7 +468,7 @@ public:
 private:
     bool isAnyServerRunning()
     {
-        return run(Args("size")) == 0;
+        return run(Args("eval")) == 0;
     }
 
     bool startTestProcess(QProcess *p, const QStringList &arguments,
@@ -557,155 +533,7 @@ void Tests::cleanup()
     TEST( m_test->cleanup() );
 }
 
-void Tests::showHide()
-{
-    RUN("visible", "true\n");
-
-    RUN("hide", "");
-    waitFor(waitMsShow);
-    WAIT_ON_OUTPUT("visible", "false\n");
-
-    RUN("showAt", "");
-    waitFor(waitMsShow);
-    WAIT_ON_OUTPUT("visible", "true\n");
-
-    RUN("toggle", "false\n");
-    waitFor(waitMsShow);
-    WAIT_ON_OUTPUT("visible", "false\n");
-
-    RUN("toggle", "true\n");
-    waitFor(waitMsShow);
-    WAIT_ON_OUTPUT("visible", "true\n");
-
-    RUN("hide", "");
-    waitFor(waitMsShow);
-    WAIT_ON_OUTPUT("visible", "false\n");
-
-    RUN("show", "");
-    waitFor(waitMsShow);
-    WAIT_ON_OUTPUT("visible", "true\n");
-}
-
-void Tests::windowTitle()
-{
-    RUN("disable", "");
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
-    RUN("enable", "");
-}
-
-void Tests::keysAndFocusing()
-{
-    RUN("disable", "");
-    RUN("keys" << "CTRL+T", "");
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ New Tab\n");
-    RUN("keys" << "ESC", "");
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
-    RUN("enable", "");
-}
-
-void Tests::firstItemSelectedByDefault()
-{
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab;
-    RUN(args << "add" << "C" << "B" << "A", "");
-
-    RUN(args << "read" << "0" << "1" << "2", "A\nB\nC");
-
-    // focus next tab (Alt+1 may not work on some systems/desktops)
-    RUN(args << "keys" << "RIGHT", "");
-    RUN(args << "testSelected", tab + " 0 0\n");
-}
-
-void Tests::selectItems()
-{
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab;
-    RUN(args << "add" << "C" << "B" << "A", "");
-
-    RUN(args << "keys" << "RIGHT" << "SHIFT+DOWN" << "SHIFT+DOWN", "");
-    RUN(args << "testSelected", tab + " 2 0 1 2\n");
-
-    RUN(args << "keys" << "SHIFT+UP", "");
-    RUN(args << "testSelected", tab + " 1 0 1\n");
-
-    RUN(args << "keys" << "END", "");
-    RUN(args << "testSelected", tab + " 2 2\n");
-
-    RUN(args << "keys" << "SHIFT+UP", "");
-    RUN(args << "testSelected", tab + " 1 1 2\n");
-
-    RUN(args << "keys" << "CTRL+A", "");
-    RUN(args << "testSelected", tab + " 1 0 1 2\n");
-}
-
-void Tests::moveItems()
-{
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab << "separator" << " ";
-    RUN(args << "add" << "C" << "B" << "A", "");
-
-    // move item one down
-    RUN(args << "keys" << "RIGHT" << "CTRL+DOWN", "");
-    RUN(args << "read" << "0" << "1" << "2", "B A C");
-    RUN(args << "testSelected", tab + " 1 1\n");
-
-    // move items to top
-    RUN(args << "keys" << "SHIFT+DOWN" << "CTRL+HOME", "");
-    RUN(args << "read" << "0" << "1" << "2", "A C B");
-    RUN(args << "testSelected", tab + " 1 0 1\n");
-}
-
-void Tests::deleteItems()
-{
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab << "separator" << ",";
-    RUN(args << "add" << "C" << "B" << "A", "");
-
-    // delete first item
-    RUN(args << "keys" << "RIGHT" << m_test->shortcutToRemove(), "");
-    RUN(args << "read" << "0" << "1" << "2", "B,C,");
-    RUN(args << "testSelected", tab + " 0 0\n");
-
-    // select all and delete
-    RUN(args << "keys" << "CTRL+A" << m_test->shortcutToRemove(), "");
-    RUN(args << "size", "0\n");
-}
-
-void Tests::searchItems()
-{
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab << "separator" << " ";
-
-    RUN(args << "add" << "JKL" << "GHI" << "DEF" << "ABC", "");
-
-    // search and delete
-    RUN(args << "keys" << "RIGHT" << ":^[DJ]" << "TAB", "");
-    waitFor(waitMsSearch);
-    RUN(args << "testSelected", tab + " 1 1\n");
-
-    // "Down" doesn't leave the search box on OS X
-    RUN(args << "keys" << "CTRL+A" << m_test->shortcutToRemove() << "ESC", "");
-    RUN(args << "read" << "0" << "1", "ABC GHI");
-    RUN(args << "size", "2\n");
-}
-
-void Tests::copyItems()
-{
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab;
-
-    RUN(args << "add" << "GHI" << "DEF" << "ABC", "");
-
-    // copy items to new tab
-    RUN(args << "keys" << "RIGHT" << "CTRL+A" << keyNameFor(QKeySequence::Copy) << "CTRL+T", "");
-    const QString tab2 = testTab(2);
-    RUN(args << "keys" << ":" + tab2 << "ENTER" << keyNameFor(QKeySequence::Paste), "");
-    const Args args2 = Args("tab") << tab2;
-    RUN(args2 << "read" << "0" << "1" << "2", "ABC\nDEF\nGHI");
-    RUN(args2 << "size", "3\n");
-}
-
-void Tests::helpCommand()
+void Tests::commandHelp()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -737,7 +565,7 @@ void Tests::helpCommand()
     }
 }
 
-void Tests::versionCommand()
+void Tests::commandVersion()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -769,33 +597,181 @@ void Tests::badCommand()
              .contains(QRegExp("^" + QRegExp::escape(testTab(1)) + "$")) );
 }
 
-void Tests::copyCommand()
+void Tests::commandExit()
 {
-    const QByteArray output = "true\n";
-
-    const QByteArray data1 = generateData();
-    RUN( Args() << "copy" << QString::fromUtf8(data1), output );
-    QVERIFY( waitUntilClipboardSet(data1) );
-    RUN( Args("clipboard"), data1 );
-
-    const QByteArray data2 = generateData();
-    RUN( Args() << "copy" << "DATA" << QString::fromUtf8(data2), output );
-    QVERIFY( waitUntilClipboardSet(data2, "DATA") );
-    RUN( Args("clipboard") << "DATA", data2 );
-
-    const QByteArray data3 = generateData();
-    const QByteArray data4 = generateData();
-    RUN( Args() << "copy"
-         << "DATA3" << QString::fromUtf8(data3)
-         << "DATA4" << QString::fromUtf8(data4)
-         , output );
-    QVERIFY( waitUntilClipboardSet(data3, "DATA3") );
-    QVERIFY( waitUntilClipboardSet(data4, "DATA4") );
-    RUN( Args("clipboard") << "DATA3", data3 );
-    RUN( Args("clipboard") << "DATA4", data4 );
+    TEST( m_test->stopServer() );
+    QCOMPARE( run(Args("exit")), 1 );
+    TEST( m_test->startServer() );
 }
 
-void Tests::dialogCommand()
+void Tests::commandEval()
+{
+    RUN("eval" << "", "");
+    RUN("eval" << "1", "1\n");
+    RUN("eval" << "[1,2,3]", "1\n2\n3\n");
+    RUN("eval" << "'123'", "123\n");
+    RUN("eval" << "'123'", "123\n");
+}
+
+void Tests::commandEvalThrows()
+{
+    QByteArray out;
+    QByteArray err;
+    QCOMPARE( run(Args("eval") << "throw 'TEST_EXCEPTION'", &out, &err), 1 );
+    QCOMPARE( QByteArray(), out );
+    QVERIFY( !err.isEmpty() );
+    QVERIFY( err.contains("TEST_EXCEPTION") );
+
+    // Clear exception error.
+    TEST( m_test->readServerErrors(TestInterface::ReadErrorsWithoutScriptException) );
+}
+
+void Tests::commandPrint()
+{
+    RUN("print" << "1", "1");
+    RUN("print" << "TEST", "TEST");
+}
+
+void Tests::commandAbort()
+{
+    RUN("eval" << "abort(); 1", "");
+}
+
+void Tests::commandFail()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    QCOMPARE( run(Args("fail"), &stdoutActual, &stderrActual), 1 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QCOMPARE( QByteArray(), stdoutActual );
+}
+
+void Tests::commandVisible()
+{
+    RUN("visible", "true\n");
+}
+
+void Tests::commandToggle()
+{
+    RUN("visible", "true\n");
+    RUN("toggle", "false\n");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "false\n");
+
+    RUN("toggle", "true\n");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "true\n");
+}
+
+void Tests::commandHide()
+{
+    RUN("visible", "true\n");
+    RUN("hide", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "false\n");
+}
+
+void Tests::commandShow()
+{
+    RUN("visible", "true\n");
+    RUN("hide", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "false\n");
+
+    RUN("show", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "true\n");
+}
+
+void Tests::commandShowAt()
+{
+    RUN("visible", "true\n");
+    RUN("hide", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "false\n");
+
+    RUN("showAt", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "true\n");
+}
+
+void Tests::commandsAddRead()
+{
+    RUN("add" << "A", "");
+    RUN("read" << "0", "A");
+
+    RUN("add" << "B", "");
+    RUN("read" << "0", "B");
+    RUN("read" << "1", "A");
+
+    RUN("add" << "C" << "D", "");
+    RUN("read" << "0", "D");
+    RUN("read" << "1", "C");
+    RUN("read" << "2", "B");
+    RUN("read" << "3", "A");
+}
+
+void Tests::commandsWriteRead()
+{
+    const QByteArray input("\x00\x01\x02\x03\x04", 5);
+    const auto arg1 = QString::fromLatin1("\x01\x02\x03\x04");
+    const auto arg2 = QString::fromLatin1("\x7f\x6f\x5f\x4f");
+    TEST( m_test->runClient(
+              Args() << "write"
+              << COPYQ_MIME_PREFIX "test1" << arg1
+              << COPYQ_MIME_PREFIX "test2" << "-"
+              << COPYQ_MIME_PREFIX "test3" << arg2, "",
+              input) );
+    RUN("read" << COPYQ_MIME_PREFIX "test1" << "0", arg1.toLatin1());
+    RUN("read" << COPYQ_MIME_PREFIX "test2" << "0", input);
+    RUN("read" << COPYQ_MIME_PREFIX "test3" << "0", arg2.toLatin1());
+}
+
+void Tests::commandSetCurrentTab()
+{
+    const auto tab = testTab(1);
+    RUN("setCurrentTab" << tab, "");
+    RUN("testSelected", tab + "\n");
+}
+
+void Tests::commandConfig()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    QCOMPARE( run(Args("config"), &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QVERIFY( !stdoutActual.isEmpty() );
+
+    // invalid option
+    TEST( m_test->runClientWithError(Args("config") << "xxx", 1, "xxx") );
+
+    QCOMPARE( run(Args("config") << "tab_tree", &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QVERIFY2( stdoutActual == "true\n" || stdoutActual == "false\n", stdoutActual);
+
+    RUN("config" << "tab_tree" << "true", "true\n");
+    RUN("config" << "tab_tree", "true\n");
+
+    RUN("config" << "tab_tree" << "false", "false\n");
+    RUN("config" << "tab_tree", "false\n");
+
+    RUN("config" << "tab_tree" << "1", "true\n");
+    RUN("config" << "tab_tree", "true\n");
+
+    RUN("config" << "tab_tree" << "0", "false\n");
+    RUN("config" << "tab_tree", "false\n");
+
+    // Set multiple options.
+    RUN("config" << "tab_tree" << "0" << "text_wrap" << "1",
+        "tab_tree=false\n"
+        "text_wrap=true\n");
+
+    // Don't set any options if there is an invalid one.
+    TEST( m_test->runClientWithError(Args("config") << "tab_tree" << "1" << "xxx" << "0", 1, "xxx") );
+    RUN("config" << "tab_tree", "false\n");
+}
+
+void Tests::commandDialog()
 {
     class Thread : public QThread {
     public:
@@ -848,40 +824,407 @@ void Tests::dialogCommand()
     }
 }
 
-void Tests::createAndCopyNewItem()
+void Tests::commandsPackUnpack()
 {
-    RUN("keys" << "CTRL+T", "");
+    QMap<QByteArray, QByteArray> data;
+    data[mimeText] = "plain text";
+    data[mimeHtml] = "<b>HTML text</b>";
+    data[COPYQ_MIME_PREFIX "test1"] = "test1 data";
+    data[COPYQ_MIME_PREFIX "test2"] = "test2 data";
+
+    auto args = Args() << "write";
+    for (const auto &mime : data.keys())
+        args << mime << data[mime];
+    RUN(args, "");
+
+    const QByteArray script1 =
+            "var data = read('" + toByteArray(mimeItems) + "', 0); var item = unpack(data);";
+
+    // Unpack item read from list.
+    for (const auto &mime : data.keys()) {
+        RUN("eval"
+            << script1 + "var mime = '" + mime + "'; print(mime + ':' + str(item[mime]))",
+            mime + ':' + data[mime]);
+    }
+
+    // Test pack and unpack consistency.
+    const QByteArray script2 = "data = pack(item); item = unpack(data);";
+    for (const auto &mime : data.keys()) {
+        RUN("eval"
+            << script1 + script2 + "var mime = '" + mime + "'; print(mime + ':' + str(item[mime]))",
+            mime + ':' + data[mime]);
+    }
+}
+
+void Tests::commandsBase64()
+{
+    const QByteArray data = "0123456789\001\002\003\004\005\006\007abcdefghijklmnopqrstuvwxyz!";
+    const QByteArray base64 = data.toBase64();
+
+    TEST( m_test->runClient(Args() << "eval" << "print(input())", data, data) );
+    TEST( m_test->runClient(Args() << "eval" << "print(tobase64(input()))", base64, data) );
+
+    // Line break is added only if return value is string;
+    // tobase64() returns string, frombase64() returns byte array.
+    RUN("tobase64" << data, base64 + '\n');
+    RUN("frombase64" << base64, data);
+
+    TEST( m_test->runClient(Args() << "eval" << "print(frombase64(tobase64(input())))", data, data) );
+
+    // Test Base64 encoding and decoding consistency.
+    TEST( m_test->runClient(
+              Args() << "eval"
+              << "var base64 = tobase64(input()); if (str(input()) === str(frombase64(base64))) print('OK')",
+              "OK", data) );
+}
+
+void Tests::commandsGetSetItem()
+{
+    QMap<QByteArray, QByteArray> data;
+    data["text/plain"] = "plain text";
+    data["text/html"] = "<b>HTML text</b>";
+    data[COPYQ_MIME_PREFIX "test1"] = "test1 data";
+    data[COPYQ_MIME_PREFIX "test2"] = "test2 data";
+
     const QString tab = testTab(1);
-    RUN("keys" << ":" + tab << "ENTER", "");
+    const Args args = Args("tab") << tab;
 
-    const QStringList itemTexts = QStringList()
-            << "Line 1\n"
-               "Line 2"
-            << "Line 3\n"
-               "Line 4";
+    Args args2 = args;
+    args2 << "write";
+    for (const auto &mime : data.keys())
+        args2 << mime << data[mime];
+    RUN(args2, "");
 
+    // Get item from list.
+    for (const auto &mime : data.keys()) {
+        RUN(args << "eval"
+            << "var mime = '" + mime + "'; print(mime + ':' + str(getitem(0)[mime]))",
+            mime + ':' + data[mime]);
+    }
+
+    // Set item.
+    RUN(args << "eval"
+        << "setitem(1, { 'text/plain': 'plain text 2', 'text/html': '<b>HTML text 2</b>' })",
+        "");
+
+    RUN(args << "eval" << "print(getitem(1)['text/plain'])", "plain text 2");
+    RUN(args << "eval" << "print(getitem(1)['text/html'])", "<b>HTML text 2</b>");
+}
+
+void Tests::commandEscapeHTML()
+{
+    RUN("escapeHTML" << "&\n<\n>", "&amp;<br />&lt;<br />&gt;\n");
+}
+
+void Tests::commandExecute()
+{
+    const QString tab = testTab(1);
+
+    const QByteArray script =
+            "function test(c, expected_stdout, expected_exit_code) {"
+            "    if (str(c.stdout) !== expected_stdout) print('Unexpected stdout: \"' + str(c.stdout) + '\"');"
+            "    if (c.exit_code !== expected_exit_code) print('Unexpected exit_code: ' + str(c.exit_code));"
+            "}";
+
+    RUN("eval" << script +
+        "c = execute('copyq', 'tab', '" + tab + "', 'write', 'text/plain', 'plain text', 'text/html', '<b>test HTML</b>');"
+        "test(c, '', 0);"
+        , "");
+
+    RUN("eval" << script +
+        "c = execute('copyq', 'tab', '" + tab + "', 'read', 'text/plain', 0);"
+        "test(c, 'plain text', 0);"
+        , "");
+
+    RUN("eval" << script +
+        "c = execute('copyq', 'tab', '" + tab + "', 'read', 'text/html', 0);"
+        "test(c, '<b>test HTML</b>', 0);"
+        , "");
+}
+
+void Tests::commandSettings()
+{
+    RUN("config" << "clipboard_tab" << "TEST", "TEST\n");
+
+    RUN("settings" << "test_variable", "");
+    RUN("settings" << "test_variable" << "TEST VALUE", "");
+    RUN("settings" << "test_variable", "TEST VALUE\n");
+    RUN("settings" << "test_variable" << "TEST VALUE 2", "");
+    RUN("settings" << "test_variable", "TEST VALUE 2\n");
+
+    RUN("config" << "clipboard_tab", "TEST\n");
+}
+
+void Tests::commandsEnvSetEnv()
+{
+    RUN("eval" <<
+        "\n var name = 'COPYQ_ENV_TEST'"
+        "\n if (setEnv(name, 'OK'))"
+        "\n   print(env(name))"
+        "\n else"
+        "\n   print('FAILED')"
+        , "OK"
+        );
+}
+
+void Tests::commandSleep()
+{
+    QElapsedTimer t;
+
+    t.start();
+    RUN("sleep" << "100", "");
+    const auto afterElapsed100Ms = t.elapsed();
+    QVERIFY(afterElapsed100Ms > 100);
+
+    t.start();
+    RUN("sleep" << "1000", "");
+    const auto afterElapsed1000Ms = t.elapsed();
+    QVERIFY(afterElapsed1000Ms > 1000);
+}
+
+void Tests::commandsData()
+{
+    RUN("eval" << "setData('x', 'X'); data('x')", "X");
+    RUN("eval" << "setData('x', 'X'); setData('y', 'Y'); str(data('x')) + str(data('y'))", "XY\n");
+
+    RUN("dataFormats", "");
+    RUN("eval" << "setData('x'); dataFormats()", "x\n");
+    RUN("eval" << "setData('x'); setData('y'); dataFormats()", "x\ny\n");
+
+    RUN("eval" << "setData('x'); setData('y'); removeData('x'); dataFormats()", "y\n");
+    RUN("eval" << "setData('x'); setData('y'); removeData('y'); dataFormats()", "x\n");
+}
+
+void Tests::commandCurrentWindowTitle()
+{
+    RUN("disable", "");
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
+    RUN("enable", "");
+}
+
+void Tests::commandCopy()
+{
+    RUN("copy" << "A", "true\n");
+    WAIT_FOR_CLIPBOARD("A");
+
+    RUN("copy" << "DATA" << "B", "true\n");
+    WAIT_FOR_CLIPBOARD2("B", "DATA");
+
+    RUN( Args() << "copy"
+         << "DATA3" << "C"
+         << "DATA4" << "D"
+         , "true\n" );
+    WAIT_FOR_CLIPBOARD2("C", "DATA3");
+    WAIT_FOR_CLIPBOARD2("D", "DATA4");
+}
+
+void Tests::commandClipboard()
+{
+    m_test->setClipboard("A");
+    WAIT_FOR_CLIPBOARD("A");
+    RUN("clipboard", "A");
+
+    m_test->setClipboard("B", "DATA");
+    WAIT_FOR_CLIPBOARD2("B", "DATA");
+    RUN("clipboard" << "DATA", "B");
+}
+
+void Tests::commandEdit()
+{
+    RUN("config" << "editor" << "", "\n");
+
+    // Edit new item.
+    RUN("edit", "");
+    RUN("keys" << ":LINE 1" << "F2", "");
+    RUN("read" << "0", "LINE 1");
+
+    // Edit existing item.
+    RUN("edit" << "0", "");
+    RUN("keys" << "END" << "ENTER" << ":LINE 2" << "F2", "");
+    RUN("read" << "0", "LINE 1\nLINE 2");
+}
+
+void Tests::classFile()
+{
+    RUN("eval" <<
+        "; var f = new File('/missing.file')"
+        "; f.exists()"
+        , "false\n"
+        );
+}
+
+void Tests::classDir()
+{
+    RUN("eval" <<
+        "; var d = new Dir('/missing_directory/')"
+        "; d.exists()"
+        , "false\n"
+        );
+
+    RUN("eval" << "Dir().homePath()" , QDir::homePath() + "\n");
+}
+
+void Tests::classTemporaryFile()
+{
+    RUN("eval" << "var f = new TemporaryFile(); f.open()", "true\n");
+
+    for ( const auto autoRemove : {true, false} ) {
+        QByteArray out;
+        const auto cmd =
+                QString(R"(
+                        var f = new TemporaryFile()
+                        if (!f.open())
+                            throw 'Failed to open temporary file'
+                        f.setAutoRemove(%1)
+                        print(f.fileName())
+                        )").arg(autoRemove);
+        run( Args("eval") << cmd, &out );
+
+        QFile f( QString::fromUtf8(out) );
+        QVERIFY( f.exists() != autoRemove );
+
+        if (!autoRemove)
+            f.remove();
+    }
+}
+
+void Tests::keysAndFocusing()
+{
+    RUN("disable", "");
+    RUN("keys" << "CTRL+T", "");
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ New Tab\n");
+    RUN("keys" << "ESC", "");
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
+    RUN("enable", "");
+}
+
+void Tests::selectItems()
+{
+    const auto tab = QString(clipboardTabName);
+    RUN("add" << "C" << "B" << "A", "");
+
+    RUN("keys" << "RIGHT" << "SHIFT+DOWN" << "SHIFT+DOWN", "");
+    RUN("testSelected", tab + " 2 0 1 2\n");
+
+    RUN("keys" << "SHIFT+UP", "");
+    RUN("testSelected", tab + " 1 0 1\n");
+
+    RUN("keys" << "END", "");
+    RUN("testSelected", tab + " 2 2\n");
+
+    RUN("keys" << "SHIFT+UP", "");
+    RUN("testSelected", tab + " 1 1 2\n");
+
+    RUN("keys" << "CTRL+A", "");
+    RUN("testSelected", tab + " 1 0 1 2\n");
+}
+
+void Tests::moveItems()
+{
+    const auto tab = QString(clipboardTabName);
+    const auto args = Args() << "separator" << " ";
+    RUN(args << "add" << "C" << "B" << "A", "");
+
+    // move item one down
+    RUN(args << "keys" << "RIGHT" << "CTRL+DOWN", "");
+    RUN(args << "read" << "0" << "1" << "2", "B A C");
+    RUN(args << "testSelected", tab + " 1 1\n");
+
+    // move items to top
+    RUN(args << "keys" << "SHIFT+DOWN" << "CTRL+HOME", "");
+    RUN(args << "read" << "0" << "1" << "2", "A C B");
+    RUN(args << "testSelected", tab + " 1 0 1\n");
+}
+
+void Tests::deleteItems()
+{
+    const auto tab = QString(clipboardTabName);
+    const auto args = Args() << "separator" << ",";
+    RUN(args << "add" << "C" << "B" << "A", "");
+
+    // delete first item
+    RUN(args << "keys" << "RIGHT" << m_test->shortcutToRemove(), "");
+    RUN(args << "read" << "0" << "1" << "2", "B,C,");
+    RUN(args << "testSelected", tab + " 0 0\n");
+
+    // select all and delete
+    RUN(args << "keys" << "CTRL+A" << m_test->shortcutToRemove(), "");
+    RUN(args << "size", "0\n");
+}
+
+void Tests::searchItems()
+{
+    const auto tab = QString(clipboardTabName);
+    const auto args = Args() << "separator" << " ";
+    RUN(args << "add" << "JKL" << "GHI" << "DEF" << "ABC", "");
+
+    // search and delete
+    RUN(args << "keys" << "RIGHT" << ":^[DJ]" << "TAB", "");
+    waitFor(waitMsSearch);
+    RUN(args << "testSelected", tab + " 1 1\n");
+
+    // "Down" doesn't leave the search box on OS X
+    RUN(args << "keys" << "CTRL+A" << m_test->shortcutToRemove() << "ESC", "");
+    RUN(args << "read" << "0" << "1", "ABC GHI");
+    RUN(args << "size", "2\n");
+}
+
+void Tests::copyItems()
+{
+    const auto tab = QString(clipboardTabName);
+    RUN("add" << "C" << "B" << "A", "");
+
+    RUN("keys" << "CTRL+A" << keyNameFor(QKeySequence::Copy) << keyNameFor(QKeySequence::Paste), "");
+    RUN("separator" << " " << "read" << "0" << "1" << "2" << "3" << "4" << "5", "A B C A B C");
+    RUN("size", "6\n");
+}
+
+void Tests::createTabDialog()
+{
+    const auto tab1 = testTab(1);
+    RUN("keys" << "CTRL+T" << ":" + tab1 << "ENTER", "");
+    RUN("testSelected", tab1 + "\n");
+}
+
+void Tests::editItems()
+{
     RUN("config" << "edit_ctrl_return" << "true", "true\n");
 
-    for (const auto &itemText : itemTexts) {
-        RUN("keys" << "CTRL+N", "");
+    RUN("add" << "Line 4" << "Line 1", "");
 
-        bool firstLine = true;
-        for (const auto &itemLine : itemText.split('\n')) {
-            if (firstLine)
-                firstLine = false;
-            else
-                RUN("keys" << "ENTER", "");
-            RUN("keys" << "CTRL+N" << ":" + itemLine, "");
-        }
+    RUN("keys" << "F2" << "END" << "ENTER" << ":Line 2" << "F2", "");
+    RUN("read" << "0", "Line 1\nLine 2");
 
-        RUN("keys" << "F2", "");
+    RUN("keys" << "DOWN", "");
+    RUN("keys" << "F2" << "HOME" << ":Line 3" << "ENTER" << "F2", "");
+    RUN("read" << "1", "Line 3\nLine 4");
+    RUN("read" << "0", "Line 1\nLine 2");
+}
 
-        RUN("tab" << tab << "read" << "0", itemText);
+void Tests::createNewItem()
+{
+    RUN("config" << "edit_ctrl_return" << "true", "true\n");
 
-        RUN("keys" << keyNameFor(QKeySequence::Copy), "");
-        QVERIFY( waitUntilClipboardSet(itemText.toUtf8()) );
-        RUN("clipboard", itemText);
-    }
+    RUN("keys" << "CTRL+N" << ":Line 1" << "ENTER" << ":Line 2" << "F2", "");
+    RUN("read" << "0", "Line 1\nLine 2");
+
+    RUN("keys" << "CTRL+N" << ":Line 3" << "ENTER" << ":Line 4" << "F2", "");
+    RUN("read" << "0", "Line 3\nLine 4");
+}
+
+void Tests::editNotes()
+{
+    RUN("add" << "B" << "A", "");
+
+    RUN("keys" << "SHIFT+F2" << ":A Note" << "F2", "");
+    RUN("read" << mimeText << "0" << mimeItemNotes << "0" << "F2", "A\nA Note");
+    RUN("read" << mimeText << "1" << mimeItemNotes << "1" << "F2", "B\n");
+
+    RUN("keys" << "DOWN", "");
+
+    RUN("keys" << "SHIFT+F2" << ":B Note" << "F2", "");
+    RUN("read" << mimeText << "1" << mimeItemNotes << "1" << "F2", "B\nB Note");
+    RUN("read" << mimeText << "0" << mimeItemNotes << "0" << "F2", "A\nA Note");
 }
 
 void Tests::toggleClipboardMonitoring()
@@ -910,23 +1253,16 @@ void Tests::toggleClipboardMonitoring()
 
 void Tests::clipboardToItem()
 {
-    TEST( m_test->setClipboard("TEST0") );
-    RUN("clipboard", "TEST0");
+    TEST( m_test->setClipboard("TEXT1") );
+    RUN("clipboard", "TEXT1");
+    WAIT_ON_OUTPUT("read" << "0", "TEXT1");
 
-    TEST( m_test->setClipboard("TEST1") );
-    RUN("clipboard", "TEST1");
-    WAIT_ON_OUTPUT("read" << "0", "TEST1");
-
-    // NOTE: On Windows the "Fragment" parts are magically added - so it's easier to add them here.
-    const QByteArray htmlBytes = "<!--StartFragment--><b>TEST2</b><!--EndFragment-->";
-    TEST( m_test->setClipboard(htmlBytes, "text/html") );
-    WAIT_ON_OUTPUT("clipboard" << "text/html", htmlBytes.data());
-    // This can be tested only if a plugin for HTML is loaded.
-    //RUN("read" << "text/html" << "0", htmlBytes.data());
+    TEST( m_test->setClipboard("DATA1", "DATA") );
+    WAIT_ON_OUTPUT("clipboard" << "DATA", "DATA1");
 
     // Unicode test.
-    const QString test = QString::fromUtf8(QByteArray("Zkouška s různými českými znaky!"));
-    const QByteArray bytes = test.toUtf8();
+    const auto test = QString::fromUtf8(QByteArray("Zkouška s různými českými znaky!"));
+    const auto bytes = test.toUtf8();
     TEST( m_test->setClipboard(bytes) );
     RUN("clipboard", bytes);
     WAIT_ON_OUTPUT("read" << "0", bytes);
@@ -939,7 +1275,7 @@ void Tests::itemToClipboard()
 
     RUN("select" << "0", "");
 
-    QVERIFY( waitUntilClipboardSet("TESTING1") );
+    WAIT_FOR_CLIPBOARD("TESTING1");
     RUN("clipboard", "TESTING1");
 
     // select second item and move to top
@@ -947,7 +1283,7 @@ void Tests::itemToClipboard()
     RUN("select" << "1", "");
     RUN("read" << "0" << "1", "TESTING2\nTESTING1");
 
-    QVERIFY( waitUntilClipboardSet("TESTING2") );
+    WAIT_FOR_CLIPBOARD("TESTING2");
     RUN("clipboard", "TESTING2");
 
     // select without moving
@@ -955,7 +1291,7 @@ void Tests::itemToClipboard()
     RUN("select" << "1", "");
     RUN("read" << "0" << "1", "TESTING2\nTESTING1");
 
-    QVERIFY( waitUntilClipboardSet("TESTING1") );
+    WAIT_FOR_CLIPBOARD("TESTING1");
     RUN("clipboard", "TESTING1");
 }
 
@@ -978,9 +1314,6 @@ void Tests::tabAdd()
 
     RUN(args << "size", "3\n");
     RUN(args << "read" << "0" << "1" << "2", "abc def ghi");
-
-    RUN(Args() << "removetab" << tab, "");
-    QVERIFY( !hasTab(tab) );
 }
 
 void Tests::tabRemove()
@@ -1077,7 +1410,7 @@ void Tests::renameTab()
     TEST( m_test->runClientWithError(Args("renametab") << tab2 << "", 1) );
 
     // Rename to existing tab.
-    TEST( m_test->runClientWithError(Args("renametab") << tab2 << "CLIPBOARD", 1) );
+    TEST( m_test->runClientWithError(Args("renametab") << tab2 << clipboardTabName, 1) );
 
     QVERIFY( !hasTab(tab1) );
     QVERIFY( hasTab(tab2) );
@@ -1132,43 +1465,6 @@ void Tests::importExportTab()
     RUN(args << "read" << "0" << "1" << "2" << "3", "012 abc def ghi");
 }
 
-void Tests::eval()
-{
-    const QString tab1 = testTab(1);
-    const QString tab2 = testTab(2);
-
-    RUN("eval" << "print('123')", "123");
-
-    TEST( m_test->runClientWithError(Args("eval") << "x", 1) );
-
-    RUN("eval" << QString("tab('%1');add('abc');tab('%2');add('def');").arg(tab1).arg(tab2), "");
-    RUN("eval" << QString("tab('%1');if (size() === 1) print('ok')").arg(tab1), "ok");
-    RUN("eval" << QString("tab('%1');if (size() === 1) print('ok')").arg(tab2), "ok");
-    RUN("eval" << QString("tab('%1');if (str(read(0)) === 'abc') print('ok')").arg(tab1), "ok");
-    RUN("eval" << QString("tab('%1');if (str(read(0)) === 'def') print('ok')").arg(tab2), "ok");
-}
-
-void Tests::rawData()
-{
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab;
-
-    {
-        QByteArray input("\x00\x01\x02\x03\x04", 5);
-        QString arg1 = QString::fromLatin1("\x01\x02\x03\x04");
-        QString arg2 = QString::fromLatin1("\x7f\x6f\x5f\x4f");
-        TEST( m_test->runClient(
-                  Args(args) << "write"
-                  << COPYQ_MIME_PREFIX "test1" << arg1
-                  << COPYQ_MIME_PREFIX "test2" << "-"
-                  << COPYQ_MIME_PREFIX "test3" << arg2, "",
-                  input) );
-        RUN(args << "read" << COPYQ_MIME_PREFIX "test1" << "0", arg1.toLatin1());
-        RUN(args << "read" << COPYQ_MIME_PREFIX "test2" << "0", input);
-        RUN(args << "read" << COPYQ_MIME_PREFIX "test3" << "0", arg2.toLatin1());
-    }
-}
-
 void Tests::nextPrevious()
 {
     const QString tab = testTab(1);
@@ -1176,79 +1472,22 @@ void Tests::nextPrevious()
     RUN(args << "add" << "C" << "B" << "A", "");
 
     RUN(args << "next", "");
-    QVERIFY( waitUntilClipboardSet("B") );
+    WAIT_FOR_CLIPBOARD("B");
 
     RUN(args << "next", "");
-    QVERIFY( waitUntilClipboardSet("C") );
+    WAIT_FOR_CLIPBOARD("C");
 
     RUN(args << "next", "");
-    QVERIFY( waitUntilClipboardSet("C") );
+    WAIT_FOR_CLIPBOARD("C");
 
     RUN(args << "previous", "");
-    QVERIFY( waitUntilClipboardSet("B") );
+    WAIT_FOR_CLIPBOARD("B");
 
     RUN(args << "previous", "");
-    QVERIFY( waitUntilClipboardSet("A") );
+    WAIT_FOR_CLIPBOARD("A");
 
     RUN(args << "previous", "");
-    QVERIFY( waitUntilClipboardSet("A") );
-}
-
-void Tests::options()
-{
-    QByteArray stdoutActual;
-    QByteArray stderrActual;
-    QCOMPARE( run(Args("config"), &stdoutActual, &stderrActual), 0 );
-    QVERIFY2( testStderr(stderrActual), stderrActual );
-    QVERIFY( !stdoutActual.isEmpty() );
-
-    // invalid option
-    TEST( m_test->runClientWithError(Args("config") << "xxx", 1, "xxx") );
-
-    QCOMPARE( run(Args("config") << "tab_tree", &stdoutActual, &stderrActual), 0 );
-    QVERIFY2( testStderr(stderrActual), stderrActual );
-    QVERIFY2( stdoutActual == "true\n" || stdoutActual == "false\n", stdoutActual);
-
-    RUN("config" << "tab_tree" << "true", "true\n");
-    RUN("config" << "tab_tree", "true\n");
-
-    RUN("config" << "tab_tree" << "false", "false\n");
-    RUN("config" << "tab_tree", "false\n");
-
-    RUN("config" << "tab_tree" << "1", "true\n");
-    RUN("config" << "tab_tree", "true\n");
-
-    RUN("config" << "tab_tree" << "0", "false\n");
-    RUN("config" << "tab_tree", "false\n");
-
-    // Set multiple options.
-    RUN("config" << "tab_tree" << "0" << "text_wrap" << "1",
-        "tab_tree=false\n"
-        "text_wrap=true\n");
-
-    // Don't set any options if there is an invalid one.
-    TEST( m_test->runClientWithError(Args("config") << "tab_tree" << "1" << "xxx" << "0", 1, "xxx") );
-    RUN("config" << "tab_tree", "false\n");
-}
-
-void Tests::editCommand()
-{
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab;
-
-    RUN("config" << "editor" << "", "\n");
-
-    // Edit new item.
-    const QByteArray data1 = generateData();
-    RUN(args << "edit", "");
-    RUN(args << "keys" << ":" + QString::fromLatin1(data1) << "F2", "");
-    RUN(args << "read" << "0", data1);
-
-    // Edit existing item.
-    const QByteArray data2 = generateData();
-    RUN(args << "edit" << "0", "");
-    RUN(args << "keys" << "END" << ":" + QString::fromLatin1(data2) << "F2", "");
-    RUN(args << "read" << "0", data1 + data2);
+    WAIT_FOR_CLIPBOARD("A");
 }
 
 void Tests::externalEditor()
@@ -1357,82 +1596,13 @@ void Tests::externalEditor()
     WAIT_ON_OUTPUT(args << "read" << "0", data4);
 }
 
-void Tests::editNotes()
-{
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab;
-
-    RUN(args << "add" << "XXX" << "YYY", "");
-
-    RUN("keys" << keyNameFor(QKeySequence::NextChild), "");
-
-    RUN(args << "read" << "?" << "0" << "1", "text/plain\n" "\n" "text/plain\n");
-
-    const QString note1 = "Note 1";
-    const QString note2 = "Note 2";
-    RUN("keys" << "HOME" << "SHIFT+F2"
-        << ":" + note1 << "ENTER" << ":" + note2 << "F2" , "");
-    RUN(args << "read" << mimeItemNotes << "0", note1 + "\n" + note2);
-
-    const QByteArray data1 = generateData();
-    RUN(args << "write" << "1" << mimeItemNotes << data1, "");
-    RUN(args << "size", "3\n");
-    RUN(args << "read" << mimeItemNotes << "1", data1);
-
-    const QByteArray data2 = generateData();
-    const QByteArray data3 = generateData();
-
-    RUN("keys" << "DOWN" << "SHIFT+F2"
-        << "CTRL+A" << ":" + data2 << "ENTER" << ":" + data3 << "F2", "");
-
-    RUN(args << "read" << mimeItemNotes << "1", data2 + "\n" + data3);
-    RUN(args << "read" << mimeItemNotes << "2", "");
-    RUN(args << "read" << mimeItemNotes << "0", note1 + "\n" + note2);
-    RUN(args << "size", "3\n");
-}
-
-void Tests::exitCommand()
-{
-    for (int i = 0; i < 4; ++i) {
-        const QByteArray data1 = generateData();
-        RUN("add" << data1, "");
-        RUN("keys" << "CTRL+C", "");
-
-        TEST( m_test->stopServer() );
-        QCOMPARE( run(Args("exit")), 1 );
-        TEST( m_test->startServer() );
-
-        TEST( m_test->stopServer() );
-        QCOMPARE( run(Args("exit")), 1 );
-        TEST( m_test->startServer() );
-
-        RUN("show", "");
-    }
-}
-
-void Tests::abortCommand()
-{
-    RUN("eval" << "print(1); abort(); print(2)", "1");
-}
-
 void Tests::nextPreviousTab()
 {
-    const QString script = QString(
-                "tabs = [\"%1\", \"%2\"];"
-                "for (i in tabs) {"
-                "  tab(tabs[i]);"
-                "  add('Item in tab ' + tabs[i]);"
-                "}"
-                )
-            .arg(testTab(1))
-            .arg(testTab(2));
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "size", "0\n");
 
-    RUN("eval" << script, "");
-    const QString testTabsList =
-            "CLIPBOARD\n" +
-            testTab(1) + "\n" +
-            testTab(2) + "\n";
-    RUN("tab", testTabsList);
+    const auto tab2 = testTab(2);
+    RUN("tab" << tab2 << "size", "0\n");
 
     typedef QPair<QString, QString> KeyPair;
     const QList<KeyPair> keyPairs = QList<KeyPair>()
@@ -1444,19 +1614,15 @@ void Tests::nextPreviousTab()
             RUN("config" << "tab_tree" << optionValue, QString(optionValue) + "\n");
 
             RUN("keys" << keyPair.first, "");
-            RUN("testSelected", testTab(1) + " 0 0\n");
+            RUN("testSelected", tab1 + "\n");
             RUN("keys" << keyPair.first, "");
-            RUN("testSelected", testTab(2) + " 0 0\n");
+            RUN("testSelected", tab2 + "\n");
             RUN("keys" << keyPair.first, "");
 
-            RUN("keys" << "CTRL+T" << ":" + testTab(3) << "ENTER", "");
-            RUN("testSelected", testTab(3) + "\n");
-            RUN("removetab" << testTab(3), "");
-
             RUN("keys" << keyPair.second, "");
-            RUN("testSelected", testTab(2) + " 0 0\n");
+            RUN("testSelected", tab2 + "\n");
             RUN("keys" << keyPair.second, "");
-            RUN("testSelected", testTab(1) + " 0 0\n");
+            RUN("testSelected", tab1 + "\n");
             RUN("keys" << keyPair.second, "");
         }
     }
@@ -1483,47 +1649,10 @@ void Tests::openAndSavePreferences()
 
 void Tests::tray()
 {
-    RUN("tab" << testTab(1) << "add" << "C" << "B" << "A", "");
-    RUN("tab" << testTab(2) << "add" << "Z" << "Y" << "X", "");
-
-    RUN("config"
-        << "move" << "false"
-        << "tray_tab_is_current" << "false"
-        << "tray_tab" << testTab(1)
-        << "tray_items" << "3",
-        "move=false\n"
-        "tray_tab_is_current=false\n"
-        "tray_tab=" + testTab(1) + "\n"
-        "tray_items=3\n"
-    );
-
-    RUN("menu", "");
-    RUN("keys" << "DOWN" << "ENTER", "");
-    QVERIFY( waitUntilClipboardSet("B") );
-    RUN("clipboard", "B");
-
-    RUN("config" << "tray_tab" << testTab(2), testTab(2) + "\n");
-
-    RUN("menu", "");
-    RUN("keys" << "DOWN" << "DOWN" << "ENTER", "");
-    QVERIFY( waitUntilClipboardSet("Z") );
-    RUN("clipboard", "Z");
-
-    // Current tab in tray.
-    RUN("config" << "tray_tab_is_current" << "true", "true\n");
-    RUN("keys" << "RIGHT", "");
-
-    RUN("menu", "");
-    RUN("keys" << "DOWN" << "DOWN" << "ENTER", "");
-    QVERIFY( waitUntilClipboardSet("C") );
-    RUN("clipboard", "C");
-
-    RUN("keys" << "RIGHT", "");
-
+    RUN("add" << "A", "");
     RUN("menu", "");
     RUN("keys" << "ENTER", "");
-    QVERIFY( waitUntilClipboardSet("X") );
-    RUN("clipboard", "X");
+    WAIT_FOR_CLIPBOARD("A");
 }
 
 void Tests::menu()
@@ -1534,246 +1663,82 @@ void Tests::menu()
 
     RUN("menu" << tab, "");
     RUN("keys" << "ENTER", "");
-    QVERIFY( waitUntilClipboardSet("A") );
-    RUN("clipboard", "A");
+    WAIT_FOR_CLIPBOARD("A");
 
     // Show menu with 2 items from the tab and select last one.
     RUN("menu" << tab << "2", "");
     RUN("keys" << "END" << "ENTER", "");
-    QVERIFY( waitUntilClipboardSet("B") );
-    RUN("clipboard", "B");
-
-    // Search for item.
-    RUN("menu" << tab << "3", "");
-    RUN("keys" << "C" << "ENTER", "");
-    QVERIFY( waitUntilClipboardSet("C") );
-    RUN("clipboard", "C");
+    WAIT_FOR_CLIPBOARD("B");
 }
 
-void Tests::packUnpackCommands()
+void Tests::traySearch()
 {
-    QMap<QByteArray, QByteArray> data;
-    data["text/plain"] = "plain text";
-    data["text/html"] = "<b>HTML text</b>";
-    data[COPYQ_MIME_PREFIX "test1"] = "test1 data";
-    data[COPYQ_MIME_PREFIX "test2"] = "test2 data";
+    RUN("add" << "C" << "B" << "A", "");
 
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab;
-
-    Args args2 = args;
-    args2 << "write";
-    for (const auto &mime : data.keys())
-        args2 << mime << data[mime];
-    RUN(args2, "");
-
-    const QByteArray script1 =
-            "var data = read('" + toByteArray(mimeItems) + "', 0); var item = unpack(data);";
-
-    // Unpack item read from list.
-    for (const auto &mime : data.keys()) {
-        RUN(args << "eval"
-            << script1 + "var mime = '" + mime + "'; print(mime + ':' + str(item[mime]))",
-            mime + ':' + data[mime]);
-    }
-
-    // Test pack and unpack consistency.
-    const QByteArray script2 = "data = pack(item); item = unpack(data);";
-    for (const auto &mime : data.keys()) {
-        RUN(args << "eval"
-            << script1 + script2 + "var mime = '" + mime + "'; print(mime + ':' + str(item[mime]))",
-            mime + ':' + data[mime]);
-    }
+    RUN("menu", "");
+    RUN("keys" << "B" << "ENTER", "");
+    WAIT_FOR_CLIPBOARD("B");
 }
 
-void Tests::base64Commands()
+void Tests::configTrayTab()
 {
-    const QByteArray data = "0123456789\001\002\003\004\005\006\007abcdefghijklmnopqrstuvwxyz!";
-    const QByteArray base64 = data.toBase64();
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "add" << "A", "");
 
-    TEST( m_test->runClient(Args() << "eval" << "print(input())", data, data) );
-    TEST( m_test->runClient(Args() << "eval" << "print(tobase64(input()))", base64, data) );
+    const auto tab2 = testTab(2);
+    RUN("tab" << tab2 << "add" << "B", "");
 
-    // Line break is added only if return value is string;
-    // tobase64() returns string, frombase64() returns byte array.
-    RUN("tobase64" << data, base64 + '\n');
-    RUN("frombase64" << base64, data);
+    RUN("config" << "tray_tab_is_current" << "false", "false\n");
 
-    TEST( m_test->runClient(Args() << "eval" << "print(frombase64(tobase64(input())))", data, data) );
+    RUN("config" << "tray_tab" << tab1, tab1 + "\n");
 
-    // Test Base64 encoding and decoding consistency.
-    TEST( m_test->runClient(
-              Args() << "eval"
-              << "var base64 = tobase64(input()); if (str(input()) === str(frombase64(base64))) print('OK')",
-              "OK", data) );
+    RUN("menu", "");
+    RUN("keys" << "ENTER", "");
+    WAIT_FOR_CLIPBOARD("A");
+
+    RUN("config" << "tray_tab" << tab2, tab2 + "\n");
+
+    RUN("menu", "");
+    RUN("keys" << "ENTER", "");
+    WAIT_FOR_CLIPBOARD("B");
 }
 
-void Tests::getSetItemCommands()
+void Tests::configMove()
 {
-    QMap<QByteArray, QByteArray> data;
-    data["text/plain"] = "plain text";
-    data["text/html"] = "<b>HTML text</b>";
-    data[COPYQ_MIME_PREFIX "test1"] = "test1 data";
-    data[COPYQ_MIME_PREFIX "test2"] = "test2 data";
+    RUN("add" << "B" << "A", "");
 
-    const QString tab = testTab(1);
-    const Args args = Args("tab") << tab;
+    RUN("config" << "move" << "true", "true\n");
 
-    Args args2 = args;
-    args2 << "write";
-    for (const auto &mime : data.keys())
-        args2 << mime << data[mime];
-    RUN(args2, "");
+    RUN("menu", "");
+    RUN("keys" << "DOWN" << "ENTER", "");
+    RUN("read" << "0" << "1", "B\nA");
 
-    // Get item from list.
-    for (const auto &mime : data.keys()) {
-        RUN(args << "eval"
-            << "var mime = '" + mime + "'; print(mime + ':' + str(getitem(0)[mime]))",
-            mime + ':' + data[mime]);
-    }
+    RUN("config" << "move" << "false", "false\n");
 
-    // Set item.
-    RUN(args << "eval"
-        << "setitem(1, { 'text/plain': 'plain text 2', 'text/html': '<b>HTML text 2</b>' })",
-        "");
-
-    RUN(args << "eval" << "print(getitem(1)['text/plain'])", "plain text 2");
-    RUN(args << "eval" << "print(getitem(1)['text/html'])", "<b>HTML text 2</b>");
+    RUN("menu", "");
+    RUN("keys" << "DOWN" << "ENTER", "");
+    RUN("read" << "0" << "1", "B\nA");
 }
 
-void Tests::escapeHTMLCommand()
+void Tests::configTrayTabIsCurrent()
 {
-    RUN("escapeHTML" << "&\n<\n>", "&amp;<br />&lt;<br />&gt;\n");
-}
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "add" << "A", "");
 
-void Tests::executeCommand()
-{
-    const QString tab = testTab(1);
+    const auto tab2 = testTab(2);
+    RUN("tab" << tab2 << "add" << "B", "");
 
-    const QByteArray script =
-            "function test(c, expected_stdout, expected_exit_code) {"
-            "    if (str(c.stdout) !== expected_stdout) print('Unexpected stdout: \"' + str(c.stdout) + '\"');"
-            "    if (c.exit_code !== expected_exit_code) print('Unexpected exit_code: ' + str(c.exit_code));"
-            "}";
+    RUN("config" << "tray_tab_is_current" << "true", "true\n");
 
-    RUN("eval" << script +
-        "c = execute('copyq', 'tab', '" + tab + "', 'write', 'text/plain', 'plain text', 'text/html', '<b>test HTML</b>');"
-        "test(c, '', 0);"
-        , "");
+    RUN("setCurrentTab" << tab1, "");
+    RUN("menu", "");
+    RUN("keys" << "ENTER", "");
+    WAIT_FOR_CLIPBOARD("A");
 
-    RUN("eval" << script +
-        "c = execute('copyq', 'tab', '" + tab + "', 'read', 'text/plain', 0);"
-        "test(c, 'plain text', 0);"
-        , "");
-
-    RUN("eval" << script +
-        "c = execute('copyq', 'tab', '" + tab + "', 'read', 'text/html', 0);"
-        "test(c, '<b>test HTML</b>', 0);"
-        , "");
-}
-
-void Tests::settingsCommand()
-{
-    RUN("config" << "clipboard_tab" << "TEST", "TEST\n");
-
-    RUN("settings" << "test_variable", "");
-    RUN("settings" << "test_variable" << "TEST VALUE", "");
-    RUN("settings" << "test_variable", "TEST VALUE\n");
-    RUN("settings" << "test_variable" << "TEST VALUE 2", "");
-    RUN("settings" << "test_variable", "TEST VALUE 2\n");
-
-    RUN("config" << "clipboard_tab", "TEST\n");
-}
-
-void Tests::fileClass()
-{
-    RUN("eval" <<
-        "; var f = new File('/missing.file')"
-        "; f.exists()"
-        , "false\n"
-        );
-}
-
-void Tests::dirClass()
-{
-    RUN("eval" <<
-        "; var d = new Dir('/missing_directory/')"
-        "; d.exists()"
-        , "false\n"
-        );
-
-    RUN("eval" << "Dir().homePath()" , QDir::homePath() + "\n");
-}
-
-void Tests::temporaryFileClass()
-{
-    RUN("eval" << "var f = new TemporaryFile(); f.open()", "true\n");
-
-    for ( const auto autoRemove : {true, false} ) {
-        QByteArray out;
-        const auto cmd =
-                QString(R"(
-                        var f = new TemporaryFile()
-                        if (!f.open())
-                            throw 'Failed to open temporary file'
-                        f.setAutoRemove(%1)
-                        print(f.fileName())
-                        )").arg(autoRemove);
-        run( Args("eval") << cmd, &out );
-
-        QFile f( QString::fromUtf8(out) );
-        QVERIFY( f.exists() != autoRemove );
-
-        if (!autoRemove)
-            f.remove();
-    }
-}
-
-void Tests::setEnvCommand()
-{
-    RUN("eval" <<
-        "\n var name = 'COPYQ_ENV_TEST'"
-        "\n if (setEnv(name, 'OK'))"
-        "\n   print(env(name))"
-        "\n else"
-        "\n   print('FAILED')"
-        , "OK"
-        );
-}
-
-void Tests::sleepCommand()
-{
-    QElapsedTimer t;
-
-    t.start();
-    RUN("sleep" << "100", "");
-    const auto afterElapsed100Ms = t.elapsed();
-    QVERIFY(afterElapsed100Ms > 100);
-
-    t.start();
-    RUN("sleep" << "1000", "");
-    const auto afterElapsed1000Ms = t.elapsed();
-    QVERIFY(afterElapsed1000Ms > 1000);
-}
-
-void Tests::dataCommands()
-{
-    RUN("eval" << "setData('x', 'X'); data('x')", "X");
-    RUN("eval" << "setData('x', 'X'); setData('y', 'Y'); str(data('x')) + str(data('y'))", "XY\n");
-
-    RUN("dataFormats", "");
-    RUN("eval" << "setData('x'); dataFormats()", "x\n");
-    RUN("eval" << "setData('x'); setData('y'); dataFormats()", "x\ny\n");
-
-    RUN("eval" << "setData('x'); setData('y'); removeData('x'); dataFormats()", "y\n");
-    RUN("eval" << "setData('x'); setData('y'); removeData('y'); dataFormats()", "x\n");
-}
-
-void Tests::setCurrentTabCommand()
-{
-    const auto tab = testTab(1);
-    RUN("setCurrentTab" << tab, "");
-    RUN("testSelected", tab + "\n");
+    RUN("setCurrentTab" << tab2, "");
+    RUN("menu", "");
+    RUN("keys" << "ENTER", "");
+    WAIT_FOR_CLIPBOARD("B");
 }
 
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)

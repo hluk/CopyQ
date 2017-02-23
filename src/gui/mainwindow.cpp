@@ -383,6 +383,49 @@ QVariant serializableValue(const QSettings &settings, const QString &key)
     return QString();
 }
 
+#ifdef HAS_TESTS
+/**
+ * Read base64-encoded settings from "COPYQ_TEST_SETTINGS" enviroment variable if not empty.
+ *
+ * The settings are initially taken from "CopyQ_test_settings" property of test object returned by
+ * ItemLoaderInterface::tests().
+ */
+void resetTestsSettings()
+{
+    // Reset settings on first run of each test case.
+    Settings settings;
+    settings.clear();
+
+    const auto settingsData = qgetenv("COPYQ_TEST_SETTINGS");
+    if ( settingsData.isEmpty() )
+        return;
+
+    QVariant testSettings;
+    const auto data = QByteArray::fromBase64(settingsData);
+    QDataStream input(data);
+    input >> testSettings;
+    const auto testSettingsMap = testSettings.toMap();
+
+    const auto testId = qApp->property("CopyQ_test_id").toString();
+    const bool pluginsTest = testId != "CORE";
+
+    if (pluginsTest) {
+        settings.beginGroup("Plugins");
+        settings.beginGroup(testId);
+    }
+
+    for (const auto &key : testSettingsMap.keys())
+        settings.setValue(key, testSettingsMap[key]);
+
+    if (pluginsTest) {
+        settings.endGroup();
+        settings.endGroup();
+    }
+
+    settings.setValue("CopyQ_test_id", testId);
+}
+#endif
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -1133,6 +1176,34 @@ uint MainWindow::sendKeyClicks(const QString &keys, int delay)
 uint MainWindow::lastReceivedKeyClicks()
 {
     return m_receivedKeyClicks;
+}
+
+void MainWindow::resetTestSession(const QString &clipboardTabName)
+{
+    if ( qApp->property("CopyQ_test_id").toString().isEmpty() )
+        return;
+
+    // Remove all tabs except the clipboard tab for tests.
+    while ( ui->tabWidget->count() != 1 )
+        removeTab(false, 0);
+
+    const auto c = addTab(clipboardTabName);
+    if ( c != getBrowser(0) )
+        removeTab(false, 0);
+
+    Q_ASSERT( ui->tabWidget->count() == 1 );
+    Q_ASSERT( c == getBrowser(0) );
+
+    // Remove all items from the clipboard tab.
+    const auto model = c->model();
+    model->removeRows( 0, model->rowCount() );
+
+    resetTestsSettings();
+
+    // Set clipboard tab.
+    AppConfig().setOption( Config::clipboard_tab::name(), clipboardTabName );
+
+    emit configurationChanged();
 }
 #endif
 

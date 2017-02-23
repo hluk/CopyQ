@@ -45,13 +45,60 @@ private slots:
     void init();
     void cleanup();
 
-    void showHide();
+    void commandHelp();
+    void commandVersion();
+    void badCommand();
 
-    void windowTitle();
+    void commandExit();
+    void commandEval();
+    void commandEvalThrows();
+    void commandPrint();
+    void commandAbort();
+    void commandFail();
+
+    void commandVisible();
+    void commandToggle();
+    void commandHide();
+    void commandShow();
+    void commandShowAt();
+
+    void commandsAddRead();
+    void commandsWriteRead();
+
+    void commandSetCurrentTab();
+
+    void commandConfig();
+
+    void commandDialog();
+
+    void commandsPackUnpack();
+    void commandsBase64();
+    void commandsGetSetItem();
+
+    void commandEscapeHTML();
+
+    void commandExecute();
+
+    void commandSettings();
+
+    void commandsEnvSetEnv();
+
+    void commandSleep();
+
+    void commandsData();
+
+    void commandCurrentWindowTitle();
+
+    void commandCopy();
+    void commandClipboard();
+
+    void commandEdit();
+
+    void classFile();
+    void classDir();
+    void classTemporaryFile();
 
     void keysAndFocusing();
-
-    void firstItemSelectedByDefault();
 
     void selectItems();
 
@@ -60,15 +107,11 @@ private slots:
     void searchItems();
     void copyItems();
 
-    void helpCommand();
-    void versionCommand();
-    void badCommand();
+    void createTabDialog();
 
-    void copyCommand();
-
-    void dialogCommand();
-
-    void createAndCopyNewItem();
+    void editItems();
+    void createNewItem();
+    void editNotes();
 
     void toggleClipboardMonitoring();
 
@@ -81,21 +124,10 @@ private slots:
     void insertRemoveItems();
     void renameTab();
     void importExportTab();
-    void eval();
-    void rawData();
 
     void nextPrevious();
 
-    void options();
-
-    void editCommand();
-
     void externalEditor();
-
-    void editNotes();
-
-    void exitCommand();
-    void abortCommand();
 
     void nextPreviousTab();
 
@@ -104,27 +136,12 @@ private slots:
     void tray();
     void menu();
 
-    void packUnpackCommands();
-    void base64Commands();
-    void getSetItemCommands();
+    void traySearch();
 
-    void escapeHTMLCommand();
-
-    void executeCommand();
-
-    void settingsCommand();
-
-    void fileClass();
-    void dirClass();
-    void temporaryFileClass();
-
-    void setEnvCommand();
-
-    void sleepCommand();
-
-    void dataCommands();
-
-    void setCurrentTabCommand();
+    // Options for tray menu.
+    void configTrayTab();
+    void configMove();
+    void configTrayTabIsCurrent();
 
 private:
     void clearServerErrors();

@@ -46,6 +46,12 @@ do { \
 #define RUN(ARGUMENTS, STDOUT_EXPECTED) \
     TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) );
 
+#define WAIT_FOR_CLIPBOARD(DATA) \
+    QCOMPARE( QByteArray(DATA), waitUntilClipboardSet(DATA) )
+
+#define WAIT_FOR_CLIPBOARD2(DATA, MIME) \
+    QCOMPARE( QByteArray(DATA), waitUntilClipboardSet(DATA, MIME) )
+
 /// Skip rest of the tests
 #define SKIP(MESSAGE) QSKIP(MESSAGE, SkipAll)
 

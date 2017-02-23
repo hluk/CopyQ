@@ -219,6 +219,7 @@ public slots:
 
     void keys();
     QScriptValue testSelected();
+    void resetTestSession();
 
     void setCurrentTab();
 

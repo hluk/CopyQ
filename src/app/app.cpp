@@ -65,52 +65,6 @@ void initTests()
     const QString testId = getTextData( qgetenv("COPYQ_TEST_ID") );
     qApp->setProperty("CopyQ_test_id", testId);
 }
-
-/**
- * Read base64-encoded settings from "COPYQ_TEST_SETTINGS" enviroment variable if not empty.
- *
- * The settings are initially taken from "CopyQ_test_settings" property of test object returned by
- * ItemLoaderInterface::tests().
- *
- * This function does nothing if isTesting() returns false.
- */
-void initTestsSettings()
-{
-    if ( !isTesting() )
-        return;
-
-    const QByteArray settingsData = qgetenv("COPYQ_TEST_SETTINGS");
-    if ( settingsData.isEmpty() )
-        return;
-
-    // Reset settings on first run of each test case.
-    Settings settings;
-    settings.clear();
-
-    QVariant testSettings;
-    const QByteArray data = QByteArray::fromBase64(settingsData);
-    QDataStream input(data);
-    input >> testSettings;
-    const QVariantMap testSettingsMap = testSettings.toMap();
-
-    const QString testId = qApp->property("CopyQ_test_id").toString();
-    bool pluginsTest = testId != "CORE";
-
-    if (pluginsTest) {
-        settings.beginGroup("Plugins");
-        settings.beginGroup(testId);
-    }
-
-    for (const auto &key : testSettingsMap.keys())
-        settings.setValue(key, testSettingsMap[key]);
-
-    if (pluginsTest) {
-        settings.endGroup();
-        settings.endGroup();
-    }
-
-    settings.setValue("CopyQ_test_id", testId);
-}
 #endif // HAS_TESTS
 
 void installTranslator(const QString &filename, const QString &directory)
@@ -219,10 +173,6 @@ void App::restoreSettings(bool canModifySettings)
     Settings::restore();
 
     installTranslator();
-
-#ifdef HAS_TESTS
-    initTestsSettings();
-#endif
 }
 
 int App::exec()
