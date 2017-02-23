@@ -863,16 +863,42 @@ void Scriptable::importTab()
 
 QScriptValue Scriptable::config()
 {
-    const QString name = arg(0);
-    const QString value = arg(1);
+    QStringList nameValueInput;
 
-    const QVariant result = m_proxy->config(name, value);
+    for (int i = 0; i < argumentCount(); ++i)
+        nameValueInput.append( arg(i) );
 
-    if ( !result.isValid() )
-        throwError( tr("Invalid option \"%1\"!").arg(name) );
+    const auto nameValue = m_proxy->config(nameValueInput);
+    if ( nameValue.size() == 1 )
+        return nameValue.first();
 
-    const QString output = result.toString();
-    return output.isEmpty() ? QScriptValue() : output;
+    QString errors;
+    for (int i = 0; i < nameValue.size(); i += 2) {
+        const auto &name = nameValue[i];
+        const auto value = nameValue.value(i + 1);
+        if ( value.isNull() ) {
+            if ( !errors.isEmpty() )
+                errors.append('\n');
+            errors.append( tr("Invalid option \"%1\"!").arg(name) );
+        }
+    }
+
+    if ( !errors.isEmpty() ) {
+        throwError(errors);
+        return QScriptValue();
+    }
+
+    if ( nameValue.size() == 2 )
+        return nameValue.last();
+
+    QStringList output;
+    for (int i = 0; i < nameValue.size(); i += 2) {
+        const auto &name = nameValue[i];
+        const auto value = nameValue.value(i + 1);
+        output.append(name + "=" + value);
+    }
+
+    return toScriptValue(output, this);
 }
 
 QScriptValue Scriptable::info()

@@ -680,22 +680,10 @@ bool ScriptableProxy::saveTab(const QString &arg1)
     return m_wnd->saveTab(arg1, i);
 }
 
-QVariant ScriptableProxy::config(const QString &name, const QString &value)
+QStringList ScriptableProxy::config(const QStringList &nameValue)
 {
-    INVOKE(config(name, value));
-
-    if ( name.isNull() )
-        return m_wnd->getUserOptionsDescription();
-
-    if ( m_wnd->hasUserOption(name) ) {
-        if ( value.isNull() )
-            return m_wnd->getUserOptionValue(name);
-
-        m_wnd->setUserOptionValue(name, value);
-        return QString();
-    }
-
-    return QVariant();
+    INVOKE(config(nameValue));
+    return m_wnd->config(nameValue);
 }
 
 QByteArray ScriptableProxy::getClipboardData(const QString &mime, QClipboard::Mode mode)

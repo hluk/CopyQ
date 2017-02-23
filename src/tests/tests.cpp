@@ -468,7 +468,7 @@ public:
         cleanup();
 
         // Enable clipboard monitoring.
-        errors = runClient(Args("config") << "check_clipboard" << "true", "");
+        errors = runClient(Args("config") << "check_clipboard" << "true", "true\n");
         if ( !errors.isEmpty() )
             return errors;
 
@@ -860,7 +860,7 @@ void Tests::createAndCopyNewItem()
             << "Line 3\n"
                "Line 4";
 
-    RUN("config" << "edit_ctrl_return" << "true", "");
+    RUN("config" << "edit_ctrl_return" << "true", "true\n");
 
     for (const auto &itemText : itemTexts) {
         RUN("keys" << "CTRL+N", "");
@@ -943,7 +943,7 @@ void Tests::itemToClipboard()
     RUN("clipboard", "TESTING1");
 
     // select second item and move to top
-    RUN("config" << "move" << "true", "");
+    RUN("config" << "move" << "true", "true\n");
     RUN("select" << "1", "");
     RUN("read" << "0" << "1", "TESTING2\nTESTING1");
 
@@ -951,7 +951,7 @@ void Tests::itemToClipboard()
     RUN("clipboard", "TESTING2");
 
     // select without moving
-    RUN("config" << "move" << "0", "");
+    RUN("config" << "move" << "0", "false\n");
     RUN("select" << "1", "");
     RUN("read" << "0" << "1", "TESTING2\nTESTING1");
 
@@ -1209,16 +1209,25 @@ void Tests::options()
     QVERIFY2( testStderr(stderrActual), stderrActual );
     QVERIFY2( stdoutActual == "true\n" || stdoutActual == "false\n", stdoutActual);
 
-    RUN("config" << "tab_tree" << "true", "");
+    RUN("config" << "tab_tree" << "true", "true\n");
     RUN("config" << "tab_tree", "true\n");
 
-    RUN("config" << "tab_tree" << "false", "");
+    RUN("config" << "tab_tree" << "false", "false\n");
     RUN("config" << "tab_tree", "false\n");
 
-    RUN("config" << "tab_tree" << "1", "");
+    RUN("config" << "tab_tree" << "1", "true\n");
     RUN("config" << "tab_tree", "true\n");
 
-    RUN("config" << "tab_tree" << "0", "");
+    RUN("config" << "tab_tree" << "0", "false\n");
+    RUN("config" << "tab_tree", "false\n");
+
+    // Set multiple options.
+    RUN("config" << "tab_tree" << "0" << "text_wrap" << "1",
+        "tab_tree=false\n"
+        "text_wrap=true\n");
+
+    // Don't set any options if there is an invalid one.
+    TEST( m_test->runClientWithError(Args("config") << "tab_tree" << "1" << "xxx" << "0", 1, "xxx") );
     RUN("config" << "tab_tree", "false\n");
 }
 
@@ -1227,7 +1236,7 @@ void Tests::editCommand()
     const QString tab = testTab(1);
     const Args args = Args("tab") << tab;
 
-    RUN("config" << "editor" << "", "");
+    RUN("config" << "editor" << "", "\n");
 
     // Edit new item.
     const QByteArray data1 = generateData();
@@ -1263,7 +1272,7 @@ void Tests::externalEditor()
             .arg(QApplication::applicationFilePath())
             .arg(editorTab)
             + " %1";
-    RUN("config" << "editor" << cmd, "");
+    RUN("config" << "editor" << cmd, cmd + "\n");
 
     // Set clipboard.
     const QByteArray data1 = generateData();
@@ -1432,8 +1441,7 @@ void Tests::nextPreviousTab()
 
     for (const auto &keyPair : keyPairs) {
         for (const auto &optionValue : {"false", "true"}) {
-            RUN("config" << "tab_tree" << optionValue, "");
-            RUN("config" << "tab_tree", QString(optionValue) + "\n");
+            RUN("config" << "tab_tree" << optionValue, QString(optionValue) + "\n");
 
             RUN("keys" << keyPair.first, "");
             RUN("testSelected", testTab(1) + " 0 0\n");
@@ -1456,17 +1464,12 @@ void Tests::nextPreviousTab()
 
 void Tests::openAndSavePreferences()
 {
-    const Args args = Args() << "config" << "check_clipboard";
-
-    RUN(args << "true", "");
-    RUN(args, "true\n");
-    RUN(args << "false", "");
-    RUN(args, "false\n");
-
     // Can't focus checkbox on OSX
 #ifdef Q_OS_MAC
     SKIP("Can't focus configuration checkboxes on OS X");
 #endif
+
+    RUN("config" << "check_clipboard" << "false", "false\n");
 
     // Open preferences dialog.
     RUN("keys" << ConfigTabShortcuts::tr("Ctrl+P"), "");
@@ -1475,12 +1478,7 @@ void Tests::openAndSavePreferences()
     // This behavior could differ on some systems and in other languages.
     RUN("keys" << "ALT+1", "");
     RUN("keys" << "ENTER", "");
-    RUN(args, "true\n");
-
-    RUN(args << "false", "");
-    RUN(args, "false\n");
-    RUN(args << "true", "");
-    RUN(args, "true\n");
+    RUN("config" << "check_clipboard", "true\n");
 }
 
 void Tests::tray()
@@ -1488,22 +1486,23 @@ void Tests::tray()
     RUN("tab" << testTab(1) << "add" << "C" << "B" << "A", "");
     RUN("tab" << testTab(2) << "add" << "Z" << "Y" << "X", "");
 
-    RUN("config" << "move" << "false", "");
-    RUN("config" << "move", "false\n");
-    RUN("config" << "tray_tab_is_current" << "false", "");
-    RUN("config" << "tray_tab_is_current", "false\n");
-    RUN("config" << "tray_tab" << testTab(1), "");
-    RUN("config" << "tray_tab", testTab(1) + "\n");
-    RUN("config" << "tray_items" << "3", "");
-    RUN("config" << "tray_items", "3\n");
+    RUN("config"
+        << "move" << "false"
+        << "tray_tab_is_current" << "false"
+        << "tray_tab" << testTab(1)
+        << "tray_items" << "3",
+        "move=false\n"
+        "tray_tab_is_current=false\n"
+        "tray_tab=" + testTab(1) + "\n"
+        "tray_items=3\n"
+    );
 
     RUN("menu", "");
     RUN("keys" << "DOWN" << "ENTER", "");
     QVERIFY( waitUntilClipboardSet("B") );
     RUN("clipboard", "B");
 
-    RUN("config" << "tray_tab" << testTab(2), "");
-    RUN("config" << "tray_tab", testTab(2) + "\n");
+    RUN("config" << "tray_tab" << testTab(2), testTab(2) + "\n");
 
     RUN("menu", "");
     RUN("keys" << "DOWN" << "DOWN" << "ENTER", "");
@@ -1511,8 +1510,7 @@ void Tests::tray()
     RUN("clipboard", "Z");
 
     // Current tab in tray.
-    RUN("config" << "tray_tab_is_current" << "true", "");
-    RUN("config" << "tray_tab_is_current", "true\n");
+    RUN("config" << "tray_tab_is_current" << "true", "true\n");
     RUN("keys" << "RIGHT", "");
 
     RUN("menu", "");
@@ -1676,8 +1674,7 @@ void Tests::executeCommand()
 
 void Tests::settingsCommand()
 {
-    RUN("config" << "clipboard_tab" << "TEST", "");
-    RUN("config" << "clipboard_tab", "TEST\n");
+    RUN("config" << "clipboard_tab" << "TEST", "TEST\n");
 
     RUN("settings" << "test_variable", "");
     RUN("settings" << "test_variable" << "TEST VALUE", "");

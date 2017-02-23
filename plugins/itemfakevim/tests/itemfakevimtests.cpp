@@ -50,7 +50,7 @@ void ItemFakeVimTests::init()
     TEST(m_test->init());
 
     // Don't use default external editor.
-    RUN("config" << "editor" << "", "");
+    RUN("config" << "editor" << "", "\n");
 }
 
 void ItemFakeVimTests::cleanup()

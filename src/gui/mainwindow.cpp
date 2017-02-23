@@ -2478,35 +2478,47 @@ void MainWindow::updateFirstItem(QVariantMap data)
     }
 }
 
-QString MainWindow::getUserOptionsDescription() const
+QStringList MainWindow::config(const QStringList &nameValue)
 {
     ConfigurationManager configurationManager;
 
-    QStringList options = configurationManager.options();
-    options.sort();
-    QString opts;
-    for (const auto &option : options)
-        opts.append( option + "\n  " + configurationManager.optionToolTip(option).replace('\n', "\n  ") + '\n' );
-    return opts;
-}
+    if ( nameValue.isEmpty() ) {
+        QStringList options = configurationManager.options();
+        options.sort();
+        QString opts;
+        for (const auto &option : options)
+            opts.append( option + "\n  " + configurationManager.optionToolTip(option).replace('\n', "\n  ") + '\n' );
+        return QStringList(opts);
+    }
 
-QString MainWindow::getUserOptionValue(const QString &name) const
-{
-    ConfigurationManager configurationManager;
-    return configurationManager.optionValue(name);
-}
+    QStringList result;
 
-void MainWindow::setUserOptionValue(const QString &name, const QString &value)
-{
-    ConfigurationManager configurationManager;
-    if ( configurationManager.setOptionValue(name, value) )
-        emit configurationChanged();
-}
+    // Check if option names are valid.
+    for (int i = 0; i < nameValue.size(); i += 2) {
+        const auto &name = nameValue[i];
+        if ( !configurationManager.options().contains(name) ) {
+            result.append(nameValue[i]);
+            result.append(QString());
+        }
+    }
 
-bool MainWindow::hasUserOption(const QString &name) const
-{
-    ConfigurationManager configurationManager;
-    return configurationManager.options().contains(name);
+    if ( result.isEmpty() ) {
+        bool emitConfigurationChanged = false;
+        for (int i = 0; i < nameValue.size(); i += 2) {
+            const auto &name = nameValue[i];
+            const auto value = nameValue.value(i + 1);
+            if ( !value.isNull() && configurationManager.setOptionValue(name, value) )
+                emitConfigurationChanged = true;
+
+            result.append(nameValue[i]);
+            result.append( configurationManager.optionValue(name) );
+        }
+
+        if (emitConfigurationChanged)
+            emit configurationChanged();
+    }
+
+    return result;
 }
 
 QString syncCommand(const QString &type)

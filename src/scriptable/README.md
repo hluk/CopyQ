@@ -272,9 +272,19 @@ Returns help with list of available options.
 
 Returns value of given option.
 
+Throws an exception if the option is invalid.
+
 ###### String config(optionName, value)
 
-Sets option.
+Sets option and returns new value.
+
+Throws an exception if the option is invalid.
+
+###### String config(optionName, value, ...)
+
+Sets multiple options and return list with values in format `optionName=newValue`.
+
+Throws an exception if there is an invalid option in which case it won't set any options.
 
 ###### String info([pathName])
 

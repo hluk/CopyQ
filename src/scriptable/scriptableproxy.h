@@ -124,7 +124,7 @@ public:
     bool loadTab(const QString &arg1);
     bool saveTab(const QString &arg1);
 
-    QVariant config(const QString &name, const QString &value);
+    QStringList config(const QStringList &nameValue);
 
     QByteArray getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
 
