@@ -42,26 +42,26 @@ class ItemSync : public QWidget, public ItemWidget
 public:
     ItemSync(const QString &label, const QString &icon, ItemWidget *childItem = nullptr);
 
-    virtual void setCurrent(bool current);
+    void setCurrent(bool current) override;
 
 protected:
-    virtual void highlight(const QRegExp &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette);
+    void highlight(const QRegExp &re, const QFont &highlightFont,
+                           const QPalette &highlightPalette) override;
 
-    virtual QWidget *createEditor(QWidget *parent) const;
+    QWidget *createEditor(QWidget *parent) const override;
 
-    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
 
-    virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                              const QModelIndex &index) const override;
 
-    virtual bool hasChanges(QWidget *editor) const;
+    bool hasChanges(QWidget *editor) const override;
 
-    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
+    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
 
-    virtual void updateSize(const QSize &maximumSize, int idealWidth);
+    void updateSize(const QSize &maximumSize, int idealWidth) override;
 
-    virtual bool eventFilter(QObject *, QEvent *event);
+    bool eventFilter(QObject *, QEvent *event) override;
 
 private:
     QTextEdit *m_label;
@@ -99,45 +99,45 @@ public:
     ItemSyncLoader();
     ~ItemSyncLoader();
 
-    virtual QString id() const { return "itemsync"; }
-    virtual QString name() const { return tr("Synchronize"); }
-    virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Synchronize items and notes with a directory on disk."); }
-    virtual QVariant icon() const { return QVariant(IconUploadAlt); }
+    QString id() const override { return "itemsync"; }
+    QString name() const override { return tr("Synchronize"); }
+    QString author() const override { return QString(); }
+    QString description() const override { return tr("Synchronize items and notes with a directory on disk."); }
+    QVariant icon() const override { return QVariant(IconUploadAlt); }
 
-    virtual QVariantMap applySettings();
+    QVariantMap applySettings() override;
 
-    virtual void loadSettings(const QVariantMap &settings);
+    void loadSettings(const QVariantMap &settings) override;
 
-    virtual QWidget *createSettingsWidget(QWidget *parent);
+    QWidget *createSettingsWidget(QWidget *parent) override;
 
-    virtual bool canLoadItems(QIODevice *file) const;
+    bool canLoadItems(QIODevice *file) const override;
 
-    virtual bool canSaveItems(const QAbstractItemModel &model) const;
+    bool canSaveItems(const QAbstractItemModel &model) const override;
 
-    virtual bool loadItems(QAbstractItemModel *model, QIODevice *file);
+    bool loadItems(QAbstractItemModel *model, QIODevice *file) override;
 
-    virtual bool saveItems(const QAbstractItemModel &model, QIODevice *file);
+    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override;
 
-    virtual bool initializeTab(QAbstractItemModel *model);
+    bool initializeTab(QAbstractItemModel *model) override;
 
-    virtual void uninitializeTab(QAbstractItemModel *model);
+    void uninitializeTab(QAbstractItemModel *model) override;
 
-    virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
+    ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
 
-    virtual bool canRemoveItems(const QList<QModelIndex> &indexList);
+    bool canRemoveItems(const QList<QModelIndex> &indexList) override;
 
-    virtual bool canMoveItems(const QList<QModelIndex> &indexList);
+    bool canMoveItems(const QList<QModelIndex> &indexList) override;
 
-    virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
+    void itemsRemovedByUser(const QList<QModelIndex> &indexList) override;
 
-    virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
+    QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
 
-    virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
+    bool matches(const QModelIndex &index, const QRegExp &re) const override;
 
-    virtual QObject *tests(const TestInterfacePtr &test) const;
+    QObject *tests(const TestInterfacePtr &test) const override;
 
-    virtual const QObject *signaler() const { return this; }
+    const QObject *signaler() const override { return this; }
 
 signals:
     void error(const QString &);

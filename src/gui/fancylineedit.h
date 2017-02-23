@@ -45,15 +45,15 @@ class IconButton : public QAbstractButton
     Q_OBJECT
 public:
     explicit IconButton(QWidget *parent = 0);
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
     void setIcon(const QIcon &icon) { m_icon = icon; update(); }
     void setHasMenu(bool hasMenu) { m_hasMenu = hasMenu; update(); }
 
-    QSize sizeHint() const;
+    QSize sizeHint() const override;
 
 protected:
-    void keyPressEvent(QKeyEvent *ke);
-    void keyReleaseEvent(QKeyEvent *ke);
+    void keyPressEvent(QKeyEvent *ke) override;
+    void keyReleaseEvent(QKeyEvent *ke) override;
 
 private:
     QIcon m_icon;
@@ -96,7 +96,7 @@ private slots:
     void iconClicked();
 
 protected:
-    void resizeEvent(QResizeEvent *e);
+    void resizeEvent(QResizeEvent *e) override;
 
 private:
     void updateMargins();

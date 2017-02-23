@@ -54,7 +54,7 @@ public:
     void createPreview(ItemFactory *itemFactory);
 
 protected:
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *event) override;
 
 private slots:
     void onFontButtonClicked();

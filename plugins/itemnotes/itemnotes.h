@@ -42,28 +42,28 @@ public:
     ItemNotes(ItemWidget *childItem, const QString &text, const QByteArray &icon,
               bool notesAtBottom, bool showIconOnly, bool showToolTip);
 
-    virtual void setCurrent(bool current);
+    void setCurrent(bool current) override;
 
 protected:
-    virtual void highlight(const QRegExp &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette);
+    void highlight(const QRegExp &re, const QFont &highlightFont,
+                           const QPalette &highlightPalette) override;
 
-    virtual QWidget *createEditor(QWidget *parent) const;
+    QWidget *createEditor(QWidget *parent) const override;
 
-    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
 
-    virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                              const QModelIndex &index) const override;
 
-    virtual bool hasChanges(QWidget *editor) const;
+    bool hasChanges(QWidget *editor) const override;
 
-    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
+    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
 
-    virtual void updateSize(const QSize &maximumSize, int idealWidth);
+    void updateSize(const QSize &maximumSize, int idealWidth) override;
 
-    virtual void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
 
-    virtual bool eventFilter(QObject *, QEvent *event);
+    bool eventFilter(QObject *, QEvent *event) override;
 
 private slots:
     void showToolTip();
@@ -87,23 +87,23 @@ public:
     ItemNotesLoader();
     ~ItemNotesLoader();
 
-    virtual QString id() const { return "itemnotes"; }
-    virtual QString name() const { return tr("Notes"); }
-    virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Display notes for items."); }
-    virtual QVariant icon() const { return QVariant(IconEditSign); }
+    QString id() const override { return "itemnotes"; }
+    QString name() const override { return tr("Notes"); }
+    QString author() const override { return QString(); }
+    QString description() const override { return tr("Display notes for items."); }
+    QVariant icon() const override { return QVariant(IconEditSign); }
 
-    virtual QStringList formatsToSave() const;
+    QStringList formatsToSave() const override;
 
-    virtual QVariantMap applySettings();
+    QVariantMap applySettings() override;
 
-    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
 
-    virtual QWidget *createSettingsWidget(QWidget *parent);
+    QWidget *createSettingsWidget(QWidget *parent) override;
 
-    virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
+    ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
 
-    virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
+    bool matches(const QModelIndex &index, const QRegExp &re) const override;
 
 private:
     QVariantMap m_settings;

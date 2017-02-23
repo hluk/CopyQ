@@ -145,7 +145,7 @@ class ClipboardBrowser : public QListView
         /**
          * Override to disable default QAbstractItemView search.
          */
-        void keyboardSearch(const QString &) {}
+        void keyboardSearch(const QString &) override {}
 
         /** Return true if user defined a selection and it shouldn't change programmatically. */
         bool hasUserSelection() const;
@@ -308,25 +308,25 @@ class ClipboardBrowser : public QListView
         void searchHideRequest();
 
     protected:
-        void keyPressEvent(QKeyEvent *event);
-        void contextMenuEvent(QContextMenuEvent *);
-        void resizeEvent(QResizeEvent *event);
-        void showEvent(QShowEvent *event);
-        void hideEvent(QHideEvent *event);
-        void currentChanged(const QModelIndex &current, const QModelIndex &previous);
-        void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-        void focusInEvent(QFocusEvent *event);
+        void keyPressEvent(QKeyEvent *event) override;
+        void contextMenuEvent(QContextMenuEvent *) override;
+        void resizeEvent(QResizeEvent *event) override;
+        void showEvent(QShowEvent *event) override;
+        void hideEvent(QHideEvent *event) override;
+        void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
+        void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) override;
+        void focusInEvent(QFocusEvent *event) override;
 
-        void dragEnterEvent(QDragEnterEvent *event);
-        void dragLeaveEvent(QDragLeaveEvent *event);
-        void dragMoveEvent(QDragMoveEvent *event);
-        void dropEvent(QDropEvent *event);
+        void dragEnterEvent(QDragEnterEvent *event) override;
+        void dragLeaveEvent(QDragLeaveEvent *event) override;
+        void dragMoveEvent(QDragMoveEvent *event) override;
+        void dropEvent(QDropEvent *event) override;
 
-        void paintEvent(QPaintEvent *e);
+        void paintEvent(QPaintEvent *e) override;
 
-        void mousePressEvent(QMouseEvent *event);
-        void mouseReleaseEvent(QMouseEvent *event);
-        void mouseMoveEvent(QMouseEvent *event);
+        void mousePressEvent(QMouseEvent *event) override;
+        void mouseReleaseEvent(QMouseEvent *event) override;
+        void mouseMoveEvent(QMouseEvent *event) override;
 
     private slots:
         void onModelDataChanged();

@@ -46,12 +46,12 @@ signals:
     void dropItems(const QString &tabName, QDropEvent *event);
 
 protected:
-    void contextMenuEvent(QContextMenuEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dragMoveEvent(QDragMoveEvent *event);
-    void dropEvent(QDropEvent *event);
-    void tabInserted(int index);
+    void contextMenuEvent(QContextMenuEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    void tabInserted(int index) override;
 
 private slots:
     void onCurrentChanged();

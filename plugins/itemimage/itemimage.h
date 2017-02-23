@@ -45,15 +45,15 @@ public:
             const QString &imageEditor, const QString &svgEditor,
             QWidget *parent);
 
-    virtual QWidget *createEditor(QWidget *) const { return nullptr; }
+    QWidget *createEditor(QWidget *) const override { return nullptr; }
 
-    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
+    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
 
-    virtual void setCurrent(bool current);
+    void setCurrent(bool current) override;
 
 protected:
-    void showEvent(QShowEvent *event);
-    void hideEvent(QHideEvent *event);
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
 
 private:
     void startAnimation();
@@ -77,23 +77,23 @@ public:
     ItemImageLoader();
     ~ItemImageLoader();
 
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const;
+    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const override;
 
-    virtual int priority() const { return 15; }
+    int priority() const override { return 15; }
 
-    virtual QString id() const { return "itemimage"; }
-    virtual QString name() const { return tr("Images"); }
-    virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Display images."); }
-    virtual QVariant icon() const { return QVariant(IconCamera); }
+    QString id() const override { return "itemimage"; }
+    QString name() const override { return tr("Images"); }
+    QString author() const override { return QString(); }
+    QString description() const override { return tr("Display images."); }
+    QVariant icon() const override { return QVariant(IconCamera); }
 
-    virtual QStringList formatsToSave() const;
+    QStringList formatsToSave() const override;
 
-    virtual QVariantMap applySettings();
+    QVariantMap applySettings() override;
 
-    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
 
-    virtual QWidget *createSettingsWidget(QWidget *parent);
+    QWidget *createSettingsWidget(QWidget *parent) override;
 
 private:
     QVariantMap m_settings;

@@ -35,26 +35,26 @@ class ItemFakeVim : public ItemWidget
 public:
     ItemFakeVim(ItemWidget *childItem, const QString &sourceFileName);
 
-    virtual void setCurrent(bool current);
+    void setCurrent(bool current) override;
 
 protected:
-    virtual void highlight(const QRegExp &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette);
+    void highlight(const QRegExp &re, const QFont &highlightFont,
+                           const QPalette &highlightPalette) override;
 
-    virtual void updateSize(const QSize &maximumSize, int idealWidth);
+    void updateSize(const QSize &maximumSize, int idealWidth) override;
 
-    virtual QWidget *createEditor(QWidget *parent) const;
+    QWidget *createEditor(QWidget *parent) const override;
 
-    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
 
-    virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                              const QModelIndex &index) const override;
 
-    virtual bool hasChanges(QWidget *editor) const;
+    bool hasChanges(QWidget *editor) const override;
 
-    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
+    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
 
-    virtual void setTagged(bool tagged);
+    void setTagged(bool tagged) override;
 
 private:
     QScopedPointer<ItemWidget> m_childItem;
@@ -71,23 +71,23 @@ public:
     ItemFakeVimLoader();
     ~ItemFakeVimLoader();
 
-    virtual QString id() const { return "itemfakevim"; }
-    virtual QString name() const { return tr("FakeVim"); }
-    virtual QString author() const
+    QString id() const override { return "itemfakevim"; }
+    QString name() const override { return tr("FakeVim"); }
+    QString author() const override
     { return tr("FakeVim plugin is part of Qt Creator")
-                + " (Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies))."; }
-    virtual QString description() const { return tr("Emulate Vim editor while editing items."); }
-    virtual QVariant icon() const;
+                + " (Copyright (C) override 2013 Digia Plc and/or its subsidiary(-ies))."; }
+    QString description() const override { return tr("Emulate Vim editor while editing items."); }
+    QVariant icon() const override;
 
-    virtual QVariantMap applySettings();
+    QVariantMap applySettings() override;
 
-    virtual void loadSettings(const QVariantMap &settings);
+    void loadSettings(const QVariantMap &settings) override;
 
-    virtual QWidget *createSettingsWidget(QWidget *parent);
+    QWidget *createSettingsWidget(QWidget *parent) override;
 
-    virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
+    ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
 
-    virtual QObject *tests(const TestInterfacePtr &test) const;
+    QObject *tests(const TestInterfacePtr &test) const override;
 
 private:
     bool m_enabled;

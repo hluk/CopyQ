@@ -41,16 +41,16 @@ public:
     ItemData(const QModelIndex &index, int maxBytes, QWidget *parent);
 
 protected:
-    virtual void highlight(const QRegExp &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette);
+    void highlight(const QRegExp &re, const QFont &highlightFont,
+                           const QPalette &highlightPalette) override;
 
-    virtual QWidget *createEditor(QWidget *) const { return nullptr; }
+    QWidget *createEditor(QWidget *) const override { return nullptr; }
 
-    virtual void mousePressEvent(QMouseEvent *e);
+    void mousePressEvent(QMouseEvent *e) override;
 
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
 
-    virtual void contextMenuEvent(QContextMenuEvent *e);
+    void contextMenuEvent(QContextMenuEvent *e) override;
 };
 
 class ItemDataLoader : public QObject, public ItemLoaderInterface
@@ -63,23 +63,23 @@ public:
     ItemDataLoader();
     ~ItemDataLoader();
 
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const;
+    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const override;
 
-    virtual int priority() const { return -20; }
+    int priority() const override { return -20; }
 
-    virtual QString id() const { return "itemdata"; }
-    virtual QString name() const { return tr("Data"); }
-    virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Various data to save."); }
-    virtual QVariant icon() const { return QVariant(IconFileText); }
+    QString id() const override { return "itemdata"; }
+    QString name() const override { return tr("Data"); }
+    QString author() const override { return QString(); }
+    QString description() const override { return tr("Various data to save."); }
+    QVariant icon() const override { return QVariant(IconFileText); }
 
-    virtual QStringList formatsToSave() const;
+    QStringList formatsToSave() const override;
 
-    virtual QVariantMap applySettings();
+    QVariantMap applySettings() override;
 
-    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
 
-    virtual QWidget *createSettingsWidget(QWidget *parent);
+    QWidget *createSettingsWidget(QWidget *parent) override;
 
 private slots:
     void on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, int column);

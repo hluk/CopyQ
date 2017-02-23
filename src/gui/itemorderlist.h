@@ -100,9 +100,9 @@ signals:
     void dropped(const QString &text, int row);
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dropEvent(QDropEvent *event);
-    void showEvent(QShowEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 
 private slots:
     void on_pushButtonUp_clicked();

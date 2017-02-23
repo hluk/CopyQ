@@ -30,7 +30,7 @@ class CommandCompleter : public QObject {
 public:
     explicit CommandCompleter(QPlainTextEdit *editor);
 
-    bool eventFilter(QObject *watched, QEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private slots:
     void updateCompletion(bool forceShow = false);

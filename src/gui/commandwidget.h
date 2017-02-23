@@ -55,7 +55,7 @@ signals:
     void automaticChanged(bool automatic);
 
 protected:
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *event) override;
 
 private slots:
     void on_lineEditName_textChanged(const QString &name);

@@ -68,7 +68,7 @@ signals:
     void searchRequest();
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event);
+    bool eventFilter(QObject *object, QEvent *event) override;
 
 private slots:
     void onItemWidgetDestroyed();

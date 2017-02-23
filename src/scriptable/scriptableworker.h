@@ -62,7 +62,7 @@ public:
 
     ~ScriptableWorker();
 
-    void run();
+    void run() override;
 
 private:
     MainWindow *m_wnd;

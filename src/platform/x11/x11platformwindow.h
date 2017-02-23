@@ -36,13 +36,13 @@ public:
 
     X11PlatformWindow(const std::shared_ptr<X11DisplayGuard> &d, Window winId);
 
-    QString getTitle();
+    QString getTitle() override;
 
-    void raise();
+    void raise() override;
 
-    void pasteClipboard();
+    void pasteClipboard() override;
 
-    void copy();
+    void copy() override;
 
     bool isValid() const;
 

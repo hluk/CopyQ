@@ -47,12 +47,12 @@ protected:
 
     void adjust();
 
-    void mousePressEvent(QMouseEvent *event);
-    void enterEvent(QEvent *event);
-    void leaveEvent(QEvent *event);
-    void paintEvent(QPaintEvent *event);
-    void showEvent(QShowEvent *event);
-    void hideEvent(QHideEvent *event);
+    void mousePressEvent(QMouseEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
 
 signals:
     /** Emitted if notification needs to be closed. */

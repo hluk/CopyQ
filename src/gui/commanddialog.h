@@ -50,7 +50,7 @@ public:
     bool maybeClose(QWidget *saveMessageBoxParent);
 
 public slots:
-    void reject();
+    void reject() override;
 
 signals:
     void commandsSaved();

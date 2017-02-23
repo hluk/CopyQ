@@ -63,10 +63,10 @@ public:
     /** Return tooltip text for option with given @a name. */
     QString optionToolTip(const QString &name) const;
 
-    void setVisible(bool visible);
+    void setVisible(bool visible) override;
 
 public slots:
-    void done(int result);
+    void done(int result) override;
 
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */

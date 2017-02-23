@@ -36,14 +36,14 @@ class X11PlatformClipboard : public DummyClipboard
 public:
     explicit X11PlatformClipboard(const std::shared_ptr<X11DisplayGuard> &d);
 
-    void loadSettings(const QVariantMap &settings);
+    void loadSettings(const QVariantMap &settings) override;
 
-    QVariantMap data(Mode mode, const QStringList &formats) const;
+    QVariantMap data(Mode mode, const QStringList &formats) const override;
 
-    void setData(Mode mode, const QVariantMap &dataMap);
+    void setData(Mode mode, const QVariantMap &dataMap) override;
 
 private slots:
-    void onChanged(QClipboard::Mode mode);
+    void onChanged(QClipboard::Mode mode) override;
     void checkSelectionComplete();
     void resetClipboard();
 

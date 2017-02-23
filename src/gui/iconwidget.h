@@ -32,10 +32,10 @@ public:
 
     explicit IconWidget(const QString &icon, QWidget *parent = nullptr);
 
-    virtual QSize sizeHint() const;
+    QSize sizeHint() const override;
 
 protected:
-    virtual void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     QString m_icon;

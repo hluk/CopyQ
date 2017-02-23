@@ -83,7 +83,7 @@ signals:
     void terminateClientThreads();
 
 protected:
-    bool eventFilter(QObject *object, QEvent *ev);
+    bool eventFilter(QObject *object, QEvent *ev) override;
 
 private slots:
     /**

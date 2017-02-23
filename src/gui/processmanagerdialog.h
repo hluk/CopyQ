@@ -43,7 +43,7 @@ public:
     void actionFinished(const QString &name);
 
 protected:
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *event) override;
 
 private slots:
     void onRemoveActionButtonClicked();

@@ -45,7 +45,7 @@ signals:
     void changed();
 
 protected:
-    void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent *event) override;
 
 private slots:
     void on_plainTextEditCommand_textChanged();

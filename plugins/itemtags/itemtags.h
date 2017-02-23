@@ -52,27 +52,27 @@ public:
 
     ItemTags(ItemWidget *childItem, const Tags &tags);
 
-    virtual void setCurrent(bool current);
+    void setCurrent(bool current) override;
 
 signals:
     void runCommand(const Command &command);
 
 protected:
-    virtual void highlight(const QRegExp &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette);
+    void highlight(const QRegExp &re, const QFont &highlightFont,
+                           const QPalette &highlightPalette) override;
 
-    virtual QWidget *createEditor(QWidget *parent) const;
+    QWidget *createEditor(QWidget *parent) const override;
 
-    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
 
-    virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                              const QModelIndex &index) const override;
 
-    virtual bool hasChanges(QWidget *editor) const;
+    bool hasChanges(QWidget *editor) const override;
 
-    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
+    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
 
-    virtual void updateSize(const QSize &maximumSize, int idealWidth);
+    void updateSize(const QSize &maximumSize, int idealWidth) override;
 
 private:
     QWidget *m_tagWidget;
@@ -89,29 +89,29 @@ public:
     ItemTagsLoader();
     ~ItemTagsLoader();
 
-    virtual QString id() const { return "itemtags"; }
-    virtual QString name() const { return tr("Tags"); }
-    virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Display tags for items."); }
-    virtual QVariant icon() const { return QVariant(IconTag); }
+    QString id() const override { return "itemtags"; }
+    QString name() const override { return tr("Tags"); }
+    QString author() const override { return QString(); }
+    QString description() const override { return tr("Display tags for items."); }
+    QVariant icon() const override { return QVariant(IconTag); }
 
-    virtual QStringList formatsToSave() const;
+    QStringList formatsToSave() const override;
 
-    virtual QVariantMap applySettings();
+    QVariantMap applySettings() override;
 
-    virtual void loadSettings(const QVariantMap &settings);
+    void loadSettings(const QVariantMap &settings) override;
 
-    virtual QWidget *createSettingsWidget(QWidget *parent);
+    QWidget *createSettingsWidget(QWidget *parent) override;
 
-    virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
+    ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
 
-    virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
+    bool matches(const QModelIndex &index, const QRegExp &re) const override;
 
-    virtual QObject *tests(const TestInterfacePtr &test) const;
+    QObject *tests(const TestInterfacePtr &test) const override;
 
-    virtual QString script() const;
+    QString script() const override;
 
-    virtual QList<Command> commands() const;
+    QList<Command> commands() const override;
 
 private slots:
     void onColorButtonClicked();

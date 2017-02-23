@@ -47,11 +47,11 @@ public:
 private slots:
     void onClipboardChanged(PlatformClipboard::Mode mode);
 
-    void onMessageReceived(const QByteArray &message, int messageCode);
+    void onMessageReceived(const QByteArray &message, int messageCode) override;
 
-    void onDisconnected();
+    void onDisconnected() override;
 
-    void onConnectionFailed();
+    void onConnectionFailed() override;
 
 private:
     PlatformClipboardPtr m_clipboard;

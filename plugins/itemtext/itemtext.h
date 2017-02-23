@@ -40,12 +40,12 @@ public:
     ItemText(const QString &text, bool isRichText, int maxLines, int maximumHeight, QWidget *parent);
 
 protected:
-    virtual void highlight(const QRegExp &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette);
+    void highlight(const QRegExp &re, const QFont &highlightFont,
+                           const QPalette &highlightPalette) override;
 
-    virtual void updateSize(const QSize &maximumSize, int idealWidth);
+    void updateSize(const QSize &maximumSize, int idealWidth) override;
 
-    virtual bool eventFilter(QObject *, QEvent *event);
+    bool eventFilter(QObject *, QEvent *event) override;
 
 private:
     QTextDocument m_textDocument;
@@ -62,21 +62,21 @@ public:
     ItemTextLoader();
     ~ItemTextLoader();
 
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const;
+    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const override;
 
-    virtual QString id() const { return "itemtext"; }
-    virtual QString name() const { return tr("Text"); }
-    virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Display plain text and simple HTML items."); }
-    virtual QVariant icon() const { return QVariant(IconFont); }
+    QString id() const override { return "itemtext"; }
+    QString name() const override { return tr("Text"); }
+    QString author() const override { return QString(); }
+    QString description() const override { return tr("Display plain text and simple HTML items."); }
+    QVariant icon() const override { return QVariant(IconFont); }
 
-    virtual QStringList formatsToSave() const;
+    QStringList formatsToSave() const override;
 
-    virtual QVariantMap applySettings();
+    QVariantMap applySettings() override;
 
-    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
 
-    virtual QWidget *createSettingsWidget(QWidget *parent);
+    QWidget *createSettingsWidget(QWidget *parent) override;
 
 private:
     QVariantMap m_settings;

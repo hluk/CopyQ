@@ -45,7 +45,7 @@ signals:
     void triggerCommand(const Command &command, const QVariantMap &data, int type);
 
 protected:
-    bool event(QEvent *event);
+    bool event(QEvent *event) override;
 
 private slots:
     void onTriggered();

@@ -162,7 +162,7 @@ public:
     class Private;
 
 private:
-    bool eventFilter(QObject *ob, QEvent *ev);
+    bool eventFilter(QObject *ob, QEvent *ev) override;
 
     Private *d;
 };

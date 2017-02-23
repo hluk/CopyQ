@@ -66,7 +66,7 @@ public:
     Command command() const;
 
 public slots:
-    void done(int r);
+    void done(int r) override;
 
 signals:
     /** Emitted if dialog was accepted. */

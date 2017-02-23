@@ -51,11 +51,11 @@ public:
             int &argc, char **argv, int skipArgc, const QString &sessionName);
 
 private slots:
-    void onMessageReceived(const QByteArray &data, int messageCode);
+    void onMessageReceived(const QByteArray &data, int messageCode) override;
 
-    void onDisconnected();
+    void onDisconnected() override;
 
-    void onConnectionFailed();
+    void onConnectionFailed() override;
 
     void setInput(const QByteArray &input);
 

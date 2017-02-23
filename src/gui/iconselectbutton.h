@@ -31,7 +31,7 @@ public:
 
     const QString &currentIcon() const { return m_currentIcon; }
 
-    QSize sizeHint() const;
+    QSize sizeHint() const override;
 
 public slots:
     void setCurrentIcon(const QString &iconString);

@@ -62,11 +62,11 @@ private slots:
     void onClipboardItemActionTriggered();
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
-    void mousePressEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
-    void showEvent(QShowEvent *event);
-    void hideEvent(QHideEvent *event);
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
     void actionEvent(QActionEvent *event) override;
 
     void leaveEvent(QEvent *event) override;

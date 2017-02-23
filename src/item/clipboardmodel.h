@@ -111,20 +111,20 @@ public:
     explicit ClipboardModel(QObject *parent = nullptr);
 
     /** Return number of items in model. */
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     /** Return data for given @a index. */
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant data(const QModelIndex &index, int role) const override;
 
     /** Return flags for given @a index. */
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     bool setData(const QModelIndex &index, const QVariant &value,
-                 int role = Qt::EditRole);
+                 int role = Qt::EditRole) override;
     bool insertRows(int position, int rows,
-                    const QModelIndex &index = QModelIndex());
+                    const QModelIndex &index = QModelIndex()) override;
     bool removeRows(int position, int rows,
-                    const QModelIndex &index = QModelIndex());
+                    const QModelIndex &index = QModelIndex()) override;
 
     /** insert new item to model. */
     void insertItem(const QVariantMap &data, int row);

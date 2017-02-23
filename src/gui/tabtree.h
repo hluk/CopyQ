@@ -66,7 +66,7 @@ public:
 
     QStringList collapsedTabs() const;
 
-    QSize sizeHint() const;
+    QSize sizeHint() const override;
 
     void updateTabIcon(const QString &tabName);
 
@@ -86,13 +86,13 @@ signals:
     void dropItems(const QString &tabName, QDropEvent *event);
 
 protected:
-    void contextMenuEvent(QContextMenuEvent *event);
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dragMoveEvent(QDragMoveEvent *event);
-    void dropEvent(QDropEvent *event);
-    bool eventFilter(QObject *obj, QEvent *event);
-    void rowsInserted(const QModelIndex &parent, int start, int end);
-    void showEvent(QShowEvent *event);
+    void contextMenuEvent(QContextMenuEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
+    void rowsInserted(const QModelIndex &parent, int start, int end) override;
+    void showEvent(QShowEvent *event) override;
 
 private slots:
     void updateSize();

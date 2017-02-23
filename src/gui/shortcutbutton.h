@@ -74,7 +74,7 @@ signals:
     void shortcutRemoved(const QKeySequence &shortcut);
 
 protected:
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *event) override;
 
 private slots:
     void onShortcutButtonClicked();

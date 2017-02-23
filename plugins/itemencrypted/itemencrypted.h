@@ -41,12 +41,12 @@ class ItemEncrypted : public QWidget, public ItemWidget
 public:
     ItemEncrypted(QWidget *parent);
 
-    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
 
-    virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                              const QModelIndex &index) const override;
 
-    void setTagged(bool tagged);
+    void setTagged(bool tagged) override;
 };
 
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface
@@ -60,37 +60,37 @@ public:
 
     ~ItemEncryptedLoader();
 
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool) const;
+    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool) const override;
 
-    virtual QString id() const { return "itemencrypted"; }
-    virtual QString name() const { return tr("Encryption"); }
-    virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Encrypt items and tabs."); }
-    virtual QVariant icon() const { return QVariant(IconLock); }
+    QString id() const override { return "itemencrypted"; }
+    QString name() const override { return tr("Encryption"); }
+    QString author() const override { return QString(); }
+    QString description() const override { return tr("Encrypt items and tabs."); }
+    QVariant icon() const override { return QVariant(IconLock); }
 
-    virtual QStringList formatsToSave() const;
+    QStringList formatsToSave() const override;
 
-    virtual QVariantMap applySettings();
+    QVariantMap applySettings() override;
 
-    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
 
-    virtual QWidget *createSettingsWidget(QWidget *parent);
+    QWidget *createSettingsWidget(QWidget *parent) override;
 
-    virtual bool canLoadItems(QIODevice *file) const;
+    bool canLoadItems(QIODevice *file) const override;
 
-    virtual bool canSaveItems(const QAbstractItemModel &model) const;
+    bool canSaveItems(const QAbstractItemModel &model) const override;
 
-    virtual bool loadItems(QAbstractItemModel *model, QIODevice *file);
+    bool loadItems(QAbstractItemModel *model, QIODevice *file) override;
 
-    virtual bool saveItems(const QAbstractItemModel &model, QIODevice *file);
+    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override;
 
-    virtual bool initializeTab(QAbstractItemModel *model);
+    bool initializeTab(QAbstractItemModel *model) override;
 
-    virtual const QObject *signaler() const { return this; }
+    const QObject *signaler() const override { return this; }
 
-    virtual QString script() const;
+    QString script() const override;
 
-    virtual QList<Command> commands() const;
+    QList<Command> commands() const override;
 
 signals:
     void error(const QString &);

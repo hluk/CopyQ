@@ -60,7 +60,7 @@ public:
     void saveShortcuts(QSettings &settings) const;
 
 protected:
-    void showEvent(QShowEvent *event);
+    void showEvent(QShowEvent *event) override;
 
 private slots:
     void onShortcutAdded(const QKeySequence &shortcut);

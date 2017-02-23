@@ -41,7 +41,7 @@ public:
     void setExpectModifier(bool expectModifier) { m_expectModifier = expectModifier; }
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event);
+    bool eventFilter(QObject *object, QEvent *event) override;
 
 private slots:
     void onResetButtonClicked();

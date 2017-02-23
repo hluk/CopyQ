@@ -113,7 +113,7 @@ signals:
     void dropItems(const QString &tabName, QDropEvent *event);
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event);
+    bool eventFilter(QObject *object, QEvent *event) override;
 
 private slots:
     void onTreeItemSelected(bool isGroup);

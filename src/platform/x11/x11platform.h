@@ -36,23 +36,23 @@ public:
 
     ~X11Platform();
 
-    PlatformWindowPtr getWindow(WId winId);
+    PlatformWindowPtr getWindow(WId winId) override;
 
-    PlatformWindowPtr getCurrentWindow();
+    PlatformWindowPtr getCurrentWindow() override;
 
-    PlatformWindowPtr deserialize(const QByteArray &data);
+    PlatformWindowPtr deserialize(const QByteArray &data) override;
 
-    bool serialize(WId winId, QByteArray *data);
+    bool serialize(WId winId, QByteArray *data) override;
 
-    bool canGetWindowTitle() { return true; }
+    bool canGetWindowTitle() override { return true; }
 
-    bool canAutostart();
+    bool canAutostart() override;
 
     /**
      * Return true only if "copyq.desktop" file exists in "autostart" directory of current user and
      * it doesn't contain "Hidden" property or its value is false.
      */
-    bool isAutostartEnabled();
+    bool isAutostartEnabled() override;
 
     /**
      * Replace "Hidden" property in current user's autostart "copyq.desktop" file
@@ -60,31 +60,31 @@ public:
      *
      * Additionally, replace "Exec" property with current application path.
      */
-    void setAutostartEnabled(bool);
+    void setAutostartEnabled(bool) override;
 
-    QCoreApplication *createConsoleApplication(int &argc, char **argv);
+    QCoreApplication *createConsoleApplication(int &argc, char **argv) override;
 
-    QApplication *createServerApplication(int &argc, char **argv);
+    QApplication *createServerApplication(int &argc, char **argv) override;
 
-    QApplication *createMonitorApplication(int &argc, char **argv);
+    QApplication *createMonitorApplication(int &argc, char **argv) override;
 
-    QCoreApplication *createClientApplication(int &argc, char **argv);
+    QCoreApplication *createClientApplication(int &argc, char **argv) override;
 
-    void loadSettings() {}
+    void loadSettings() override {}
 
-    PlatformClipboardPtr clipboard();
+    PlatformClipboardPtr clipboard() override;
 
-    int keyCode(const QKeyEvent &event) { return event.key(); }
+    int keyCode(const QKeyEvent &event) override { return event.key(); }
 
-    QStringList getCommandLineArguments(int argc, char **argv);
+    QStringList getCommandLineArguments(int argc, char **argv) override;
 
-    bool findPluginDir(QDir *pluginsDir);
+    bool findPluginDir(QDir *pluginsDir) override;
 
-    QString defaultEditorCommand();
+    QString defaultEditorCommand() override;
 
-    QString translationPrefix();
+    QString translationPrefix() override;
 
-    QString themePrefix() { return QString(); }
+    QString themePrefix() override { return QString(); }
 
 private:
     std::shared_ptr<X11DisplayGuard> d;

@@ -54,9 +54,9 @@ class ItemDelegate : public QItemDelegate
         QSize sizeHint(const QModelIndex &index) const;
 
         QSize sizeHint(const QStyleOptionViewItem &option,
-                       const QModelIndex &index) const;
+                       const QModelIndex &index) const override;
 
-        bool eventFilter(QObject *object, QEvent *event);
+        bool eventFilter(QObject *object, QEvent *event) override;
 
         /** Remove all cached items (cache is refreshed using paint()). */
         void invalidateCache();
@@ -131,7 +131,7 @@ class ItemDelegate : public QItemDelegate
 
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,
-                   const QModelIndex &index) const;
+                   const QModelIndex &index) const override;
 
     private:
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);

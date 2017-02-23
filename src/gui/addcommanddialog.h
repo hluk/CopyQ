@@ -38,7 +38,7 @@ public:
     ~AddCommandDialog();
 
 public slots:
-    void accept();
+    void accept() override;
 
 signals:
     void addCommands(const QList<Command> &commands);

@@ -40,7 +40,7 @@ public:
 
     QScriptValue constructor();
 
-    QScriptValue prototype() const;
+    QScriptValue prototype() const override;
 
     QScriptValue newInstance(QObject *instance);
 

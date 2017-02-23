@@ -69,43 +69,49 @@ if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 endif()
 
 if (PEDANTIC)
-    if(CMAKE_COMPILER_IS_GNUCXX)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall")
+    if (CMAKE_COMPILER_IS_GNUCXX)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall \
+            -Wsuggest-override \
+            ")
     else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything \
+            -Winconsistent-missing-override \
+            ")
+
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+            -Wno-c++98-compat \
+            -Wno-c++98-compat-pedantic \
+            -Wno-shadow-field-in-constructor \
+            -Wno-weak-vtables \
+            -Wno-disabled-macro-expansion \
+            -fcomment-block-commands=retval \
+            ")
+
+        # TODO: Fix these.
+        set(CMAKE_CXX_FLAGS
+            "${CMAKE_CXX_FLAGS} \
+            -Wno-global-constructors \
+            -Wno-exit-time-destructors \
+            ")
+
+        # Disable errors from moc-generated files.
+        set(CMAKE_CXX_FLAGS
+            "${CMAKE_CXX_FLAGS} \
+            -Wno-undefined-reinterpret-cast \
+            -Wno-missing-prototypes \
+            ")
     endif()
 
     set(CMAKE_CXX_FLAGS
         "${CMAKE_CXX_FLAGS} -pedantic -Werror \
-        -Wno-c++98-compat \
-        -Wno-c++98-compat-pedantic \
         -Wno-padded \
-        -Wno-shadow-field-in-constructor \
         -Wno-switch-enum \
-        -Wno-weak-vtables \
-        -Wno-disabled-macro-expansion \
-        -fcomment-block-commands=retval \
-        \
-        ")
-
-    # TODO: Fix these.
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} \
-        -Wno-global-constructors \
-        -Wno-exit-time-destructors \
         ")
 
     # Disable Q_OBJECT macro warnings.
     set(CMAKE_CXX_FLAGS
         "${CMAKE_CXX_FLAGS} \
         -Wno-unused-member-function \
-        ")
-
-    # Disable errors from moc-generated files.
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} \
-        -Wno-undefined-reinterpret-cast \
-        -Wno-missing-prototypes \
         ")
 endif()
 
