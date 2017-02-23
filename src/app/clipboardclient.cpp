@@ -86,7 +86,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         QFile f;
         f.open(stdout, QIODevice::WriteOnly);
         f.write(data);
-    } else {
+    } else if ( !data.isEmpty() ) {
         QFile f;
         f.open(stderr, QIODevice::WriteOnly);
         f.write(data);
