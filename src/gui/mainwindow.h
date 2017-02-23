@@ -208,7 +208,7 @@ public:
 
     /** Show popup with icon. */
     void showMessage(const QString &title, const QString &msg, ushort icon, int msec,
-                     int notificationId);
+                     int notificationId = -1);
 
     /** Show clipboard content in notification. */
     void showClipboardMessage(const QVariantMap &data);

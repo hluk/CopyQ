@@ -1076,7 +1076,15 @@ void MainWindow::keyClicks(const QString &keys, int delay)
                .arg(widgetName) );
 
     if ( keys.startsWith(":") ) {
-        QTest::keyClicks(widget, keys.mid(1), Qt::NoModifier, delay);
+        const auto text = keys.mid(1);
+
+        const auto popupMessage = QString("%1 (%2)")
+                .arg( quoteString(text) )
+                .arg(widgetName);
+        const int msec = std::max( 1500, delay * text.size() );
+        showMessage(QString(), popupMessage, IconKeyboard, msec);
+
+        QTest::keyClicks(widget, text, Qt::NoModifier, delay);
 
         // Increment key clicks sequence number after typing all the text.
         ++m_receivedKeyClicks;
@@ -1091,8 +1099,11 @@ void MainWindow::keyClicks(const QString &keys, int delay)
             return;
         }
 
-        showMessage( widgetName, shortcut.toString(),
-                     QSystemTrayIcon::Information, 4000 );
+        const auto popupMessage = QString("%1 (%2)")
+                .arg(shortcut.toString())
+                .arg(widgetName);
+        const int msec = std::min( 8000, std::max( 1500, delay * 40 ) );
+        showMessage(QString(), popupMessage, IconKeyboard, msec);
 
         const auto key = static_cast<uint>(shortcut[0]);
         QTest::keyClick( widget,
