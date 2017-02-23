@@ -14,6 +14,7 @@ sleep 5
 
 # Start taking screenshots in background.
 (
+    set +x
     mkdir -p "$SCREENSHOT_DIR"
     while true; do
         i=$((i+1))
