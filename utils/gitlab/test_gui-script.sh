@@ -6,7 +6,7 @@ INSTALL_PREFIX=${INSTALL_PREFIX:-"copyq"}
 INSTALL_PREFIX=$(readlink -f "$INSTALL_PREFIX")
 
 export DISPLAY=':99.0'
-Xvfb :99 -screen 0 640x480x24 &
+Xvfb :99 -screen 0 1280x960x24 &
 sleep 5
 
 openbox &
