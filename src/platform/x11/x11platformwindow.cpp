@@ -251,6 +251,7 @@ void X11PlatformWindow::raise()
         XSync(d->display(), False);
         XRaiseWindow(d->display(), m_window);
         XSetInputFocus(d->display(), m_window, RevertToPointerRoot, CurrentTime);
+        XSync(d->display(), False);
     }
 }
 
