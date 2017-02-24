@@ -425,6 +425,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     updateIcon();
 
     // signals & slots
+    connect( m_trayMenu, SIGNAL(aboutToShow()),
+             this, SLOT(updateTrayMenuItems()) );
     connect( m_trayMenu, SIGNAL(searchRequest(QString)),
              this, SLOT(addTrayMenuItems(QString)) );
     connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
