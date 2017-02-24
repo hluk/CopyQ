@@ -274,7 +274,7 @@ public slots:
     void sleep();
 
 public slots:
-    void setInput(const QByteArray &bytes);
+    void onMessageReceived(const QByteArray &bytes, int messageCode);
     void onDisconnected();
 
 signals:
@@ -298,7 +298,7 @@ private:
     QScriptValue m_input;
     QVariantMap m_data;
     bool m_connected;
-    bool m_argumentsReceived;
+    bool m_waitForWindowActivated;
     QString m_pluginScript;
 };
 

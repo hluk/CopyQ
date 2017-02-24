@@ -79,7 +79,7 @@ void ScriptableWorker::run()
     QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
                       socket, SLOT(sendMessage(QByteArray,int)) );
     QObject::connect( socket, SIGNAL(messageReceived(QByteArray,int)),
-                      &scriptable, SLOT(setInput(QByteArray)) );
+                      &scriptable, SLOT(onMessageReceived(QByteArray,int)) );
 
     QObject::connect( socket, SIGNAL(disconnected()),
                       &scriptable, SLOT(onDisconnected()) );

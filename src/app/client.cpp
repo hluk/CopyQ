@@ -37,7 +37,7 @@ void Client::sendMessage(const QByteArray &message, int messageCode)
     emit sendMessageRequest(message, messageCode);
 }
 
-void Client::startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc)
+void Client::startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc, int messageCode)
 {
     Arguments arguments(
                 createPlatformNativeInterface()->getCommandLineArguments(argc, argv)
@@ -67,5 +67,5 @@ void Client::startClientSocket(const QString &serverName, int argc, char **argv,
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << arguments;
-    sendMessage(msg, 0);
+    sendMessage(msg, messageCode);
 }

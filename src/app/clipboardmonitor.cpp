@@ -67,7 +67,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv, const QString &server
         qApp->setProperty("CopyQ_testing", true);
 #endif
 
-    startClientSocket(serverName, argc, argv);
+    startClientSocket(serverName, argc, argv, 0, 0);
 }
 
 void ClipboardMonitor::onClipboardChanged(PlatformClipboard::Mode mode)

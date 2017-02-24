@@ -69,7 +69,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
 {
     restoreSettings();
 
-    startClientSocket(clipboardServerName(), argc, argv, skipArgc);
+    startClientSocket(clipboardServerName(), argc, argv, skipArgc, CommandArguments);
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
@@ -80,6 +80,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         PlatformWindowPtr window = createPlatformNativeInterface()->deserialize(data);
         if (window)
             window->raise();
+        sendMessage(QByteArray(), CommandActivateWindowReply);
     } else if (messageCode == CommandReadInput) {
         startInputReader();
     } else if (messageCode == CommandPrint || messageCode == CommandFinished) {
@@ -128,7 +129,7 @@ void ClipboardClient::setInput(const QByteArray &input)
 void ClipboardClient::sendInput()
 {
     if ( !wasClosed() )
-        sendMessage(m_input, 0);
+        sendMessage(m_input, CommandReadInputReply);
 }
 
 void ClipboardClient::startInputReader()

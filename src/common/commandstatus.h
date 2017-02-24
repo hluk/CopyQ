@@ -33,7 +33,13 @@ enum CommandStatus {
     /** Activate window */
     CommandActivateWindow,
     /** Ask client to send data from its stdin */
-    CommandReadInput
+    CommandReadInput,
+    /** Arguments/script from client */
+    CommandArguments,
+    /** Activate window reply */
+    CommandActivateWindowReply,
+    /** Client data from its stdin */
+    CommandReadInputReply
 };
 
 #endif // COMMANDSTATUS_H

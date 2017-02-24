@@ -215,7 +215,7 @@ Scriptable::Scriptable(
     , m_inputSeparator("\n")
     , m_input()
     , m_connected(true)
-    , m_argumentsReceived(false)
+    , m_waitForWindowActivated(true)
     , m_pluginScript(pluginScript)
 {
 }
@@ -415,8 +415,12 @@ void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
 
 void Scriptable::sendWindowActivationCommandToClient(const QByteArray &message)
 {
-    if ( !message.isEmpty() )
+    if ( !message.isEmpty() ) {
+        m_waitForWindowActivated = false;
         sendMessageToClient(message, CommandActivateWindow);
+        while ( m_connected && !m_waitForWindowActivated )
+            QCoreApplication::processEvents();
+    }
 }
 
 QScriptValue Scriptable::version()
@@ -1418,14 +1422,16 @@ void Scriptable::sleep()
         ThreadSleep::msleep( static_cast<unsigned long>(msec) );
 }
 
-void Scriptable::setInput(const QByteArray &bytes)
+void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 {
-    if (m_argumentsReceived) {
-        m_input = newByteArray(bytes);
-    } else {
-        m_argumentsReceived = true;
+    if (messageCode == CommandArguments)
         executeArguments(bytes);
-    }
+    else if (messageCode == CommandReadInputReply)
+        m_input = newByteArray(bytes);
+    else if (messageCode == CommandActivateWindowReply)
+        m_waitForWindowActivated = true;
+    else
+        log("Incorrect message code from client", LogError);
 }
 
 void Scriptable::onDisconnected()
