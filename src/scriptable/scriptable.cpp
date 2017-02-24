@@ -1108,7 +1108,12 @@ void Scriptable::resetTestSession()
 {
     m_proxy->resetTestSession( arg(0) );
 }
-#else
+
+void Scriptable::flush()
+{
+    log("flush ID: " + arg(0), LogAlways);
+}
+#else // HAS_TESTS
 void Scriptable::keys()
 {
 }
@@ -1121,7 +1126,11 @@ QScriptValue Scriptable::testSelected()
 void Scriptable::resetTestSession()
 {
 }
-#endif
+
+void Scriptable::flush()
+{
+}
+#endif // HAS_TESTS
 
 void Scriptable::setCurrentTab()
 {
@@ -1463,14 +1472,6 @@ void Scriptable::executeArguments(const QByteArray &bytes)
         exitCode = CommandBadSyntax;
     } else {
         const QString cmd = getTextData( args.at(Arguments::Rest) );
-
-#ifdef HAS_TESTS
-        if ( cmd == "flush" && args.length() == Arguments::Rest + 2 ) {
-            log( "flush ID: " + getTextData(args.at(Arguments::Rest + 1)), LogAlways );
-            sendMessageToClient(QByteArray(), CommandFinished);
-            return;
-        }
-#endif
 
         QScriptValue fn = m_engine->globalObject().property(cmd);
         if ( !fn.isFunction() ) {
