@@ -70,7 +70,11 @@ do { \
 do { \
     QByteArray out_; \
     const QByteArray expected_(OUTPUT); \
-    WAIT_UNTIL(ARGUMENTS, out_ == expected_, out_); \
+    SleepTimer t_(8000); \
+    do { \
+        TEST( m_test->getClientOutput((Args() << ARGUMENTS), &out_) ); \
+    } while (out_ != expected_ && t_.sleep()); \
+    QCOMPARE(expected_, out_); \
 } while(false)
 
 /// Interval to wait (in ms) until window is shown and focused.
