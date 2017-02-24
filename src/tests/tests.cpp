@@ -1176,7 +1176,14 @@ void Tests::copyItems()
     const auto tab = QString(clipboardTabName);
     RUN("add" << "C" << "B" << "A", "");
 
-    RUN("keys" << "CTRL+A" << keyNameFor(QKeySequence::Copy) << keyNameFor(QKeySequence::Paste), "");
+    // Select and copy all items.
+    RUN("keys" << "CTRL+A" << keyNameFor(QKeySequence::Copy), "");
+
+    // This seems to be required on Windows.
+    WAIT_ON_OUTPUT("clipboard", "A\nB\nC");
+
+    // Paste all items.
+    RUN("keys" << keyNameFor(QKeySequence::Paste), "");
     RUN("separator" << " " << "read" << "0" << "1" << "2" << "3" << "4" << "5", "A B C A B C");
     RUN("size", "6\n");
 }
