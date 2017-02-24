@@ -262,7 +262,7 @@ void ClientSocket::onError(QLocalSocket::LocalSocketError error)
 void ClientSocket::onStateChanged(QLocalSocket::LocalSocketState state)
 {
     if (!m_closed) {
-        m_closed = state != QLocalSocket::ConnectedState;
+        m_closed = state == QLocalSocket::UnconnectedState;
         if (m_closed) {
             if (m_hasMessageLength)
                 log("ERROR: Socket disconnected before receiving message", LogError);
