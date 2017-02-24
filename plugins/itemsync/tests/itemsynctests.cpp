@@ -134,13 +134,12 @@ QString ItemSyncTests::testDir(int i)
 
 void ItemSyncTests::initTestCase()
 {
-    TEST(m_test->init());
-    cleanup();
+    TEST(m_test->initTestCase());
 }
 
 void ItemSyncTests::cleanupTestCase()
 {
-    TEST(m_test->stopServer());
+    TEST(m_test->cleanupTestCase());
 }
 
 void ItemSyncTests::init()

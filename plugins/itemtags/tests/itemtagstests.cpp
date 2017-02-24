@@ -49,13 +49,12 @@ QStringList ItemTagsTests::testTags()
 
 void ItemTagsTests::initTestCase()
 {
-    TEST(m_test->init());
-    cleanup();
+    TEST(m_test->initTestCase());
 }
 
 void ItemTagsTests::cleanupTestCase()
 {
-    TEST(m_test->stopServer());
+    TEST(m_test->cleanupTestCase());
 }
 
 void ItemTagsTests::init()

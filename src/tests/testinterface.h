@@ -75,7 +75,13 @@ public:
      */
     virtual QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors) = 0;
 
-    /// Init test.
+    /// Init test case. Return error string on error.
+    virtual QByteArray initTestCase() = 0;
+
+    /// Clean up test case. Return error string on error.
+    virtual QByteArray cleanupTestCase() = 0;
+
+    /// Init test. Return error string on error.
     virtual QByteArray init() = 0;
 
     /// Clean up tabs and items. Return error string on error.

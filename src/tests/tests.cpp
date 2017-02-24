@@ -181,7 +181,6 @@ public:
         if (!errors.isEmpty())
             return errors;
 
-        m_env.remove("COPYQ_TEST_SETTINGS");
         return QByteArray();
     }
 
@@ -411,15 +410,6 @@ public:
         return "";
     }
 
-    QByteArray cleanup() override
-    {
-        if ( !isServerRunning() )
-            return QByteArray();
-
-        setClipboard(QByteArray(), mimeText);
-        return runClient(Args("resetTestSession") << clipboardTabName, "");
-    }
-
     QByteArray show() override
     {
         const QByteArray out = runClient(Args("show"), "");
@@ -427,28 +417,39 @@ public:
         return out;
     }
 
+    QByteArray cleanupTestCase() override
+    {
+        return cleanup();
+    }
+
+    QByteArray initTestCase() override
+    {
+        return QByteArray();
+    }
+
     QByteArray init() override
     {
-        if ( !isServerRunning() ) {
-            QByteArray errors = startServer();
-            if ( !errors.isEmpty() )
-                return "Failed to start server:\n" + errors;
-        }
+        auto errors = cleanup();
+        if ( !errors.isEmpty() )
+            return errors;
+
+        errors = startServer();
+        if ( !errors.isEmpty() )
+            return "Failed to start server:\n" + errors;
+
+        setClipboard(QByteArray(), mimeText);
+        errors = runClient(Args("resetTestSession") << clipboardTabName, "");
+        if ( !errors.isEmpty() )
+            return errors;
 
         // Always show main window first so that the results are consistent with desktop environments
         // where user cannot hide main window (tiling window managers without tray).
-        QByteArray errors = show();
-        if ( !errors.isEmpty() )
-            return errors;
+        return show();
+    }
 
-        cleanup();
-
-        // Enable clipboard monitoring.
-        errors = runClient(Args("config") << "check_clipboard" << "true", "true\n");
-        if ( !errors.isEmpty() )
-            return errors;
-
-        return runClient(Args("enable"), "");
+    QByteArray cleanup() override
+    {
+        return isServerRunning() ? stopServer() : QByteArray();
     }
 
     QString shortcutToRemove() override
@@ -516,11 +517,12 @@ Tests::Tests(const TestInterfacePtr &test, QObject *parent)
 
 void Tests::initTestCase()
 {
+    TEST(m_test->initTestCase());
 }
 
 void Tests::cleanupTestCase()
 {
-    TEST( m_test->stopServer() );
+    TEST(m_test->cleanupTestCase());
 }
 
 void Tests::init()
