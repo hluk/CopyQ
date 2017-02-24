@@ -40,7 +40,7 @@
 namespace {
 
 const int logFileSize = 128 * 1024;
-const int logFileCount = 4;
+const int logFileCount = 10;
 
 const char propertyThreadName[] = "CopyQ_thread_name";
 
