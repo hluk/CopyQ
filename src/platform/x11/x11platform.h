@@ -40,10 +40,6 @@ public:
 
     PlatformWindowPtr getCurrentWindow() override;
 
-    PlatformWindowPtr deserialize(const QByteArray &data) override;
-
-    bool serialize(WId winId, QByteArray *data) override;
-
     bool canGetWindowTitle() override { return true; }
 
     bool canAutostart() override;

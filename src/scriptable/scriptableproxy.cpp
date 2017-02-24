@@ -127,12 +127,6 @@ T setValue(QVariant &v, const T &value)
     return value;
 }
 
-QByteArray serializeWindow(WId winId)
-{
-    QByteArray data;
-    return createPlatformNativeInterface()->serialize(winId, &data) ? data : QByteArray();
-}
-
 /// Load icon from icon font, path or theme.
 QIcon loadIcon(const QString &idPathOrName)
 {
@@ -337,14 +331,6 @@ QString tabNameEmptyError()
     return ScriptableProxy::tr("Tab name cannot be empty!");
 }
 
-ActivateWindowMessage createActivateWindowMessage(QWidget *w)
-{
-    ActivateWindowMessage msg;
-    msg.visible = w->isVisible();
-    msg.windowId = msg.visible ? serializeWindow( w->winId() ) : QByteArray();
-    return msg;
-}
-
 } // namespace
 
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
@@ -375,19 +361,18 @@ void ScriptableProxy::close()
     m_wnd->close();
 }
 
-ActivateWindowMessage ScriptableProxy::showWindow()
+bool ScriptableProxy::showWindow()
 {
     INVOKE(showWindow());
     m_wnd->showWindow();
-    return createActivateWindowMessage(m_wnd);
+    return m_wnd->isVisible();
 }
 
-ActivateWindowMessage ScriptableProxy::showWindowAt(const QRect &rect)
+bool ScriptableProxy::showWindowAt(const QRect &rect)
 {
     INVOKE(showWindowAt(rect));
     setGeometryWithoutSave(m_wnd, rect);
-    showWindow();
-    return createActivateWindowMessage(m_wnd);
+    return showWindow();
 }
 
 bool ScriptableProxy::pasteToCurrentWindow()
@@ -495,28 +480,26 @@ void ScriptableProxy::setTabIcon(const QString &tabName, const QString &icon)
     m_wnd->setTabIcon(tabName, icon);
 }
 
-ActivateWindowMessage ScriptableProxy::showBrowser(const QString &tabName)
+bool ScriptableProxy::showBrowser(const QString &tabName)
 {
     INVOKE(showBrowser(tabName));
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (c)
         m_wnd->showBrowser(c);
-    return createActivateWindowMessage(m_wnd);
+    return m_wnd->isVisible();
 }
 
-ActivateWindowMessage ScriptableProxy::showBrowserAt(const QString &tabName, const QRect &rect)
+bool ScriptableProxy::showBrowserAt(const QString &tabName, const QRect &rect)
 {
     INVOKE(showBrowserAt(tabName, rect));
     setGeometryWithoutSave(m_wnd, rect);
-    showBrowser(tabName);
-    return createActivateWindowMessage(m_wnd);
+    return showBrowser(tabName);
 }
 
-ActivateWindowMessage ScriptableProxy::showBrowser()
+bool ScriptableProxy::showBrowser()
 {
     INVOKE(showBrowser());
-    showBrowser(m_tabName);
-    return createActivateWindowMessage(m_wnd);
+    return showBrowser(m_tabName);
 }
 
 void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
@@ -625,30 +608,22 @@ QStringList ScriptableProxy::tabs()
     return m_wnd->tabs();
 }
 
-ActivateWindowMessage ScriptableProxy::toggleVisible()
+bool ScriptableProxy::toggleVisible()
 {
     INVOKE(toggleVisible());
-
-    if ( m_wnd->toggleVisible() )
-        return createActivateWindowMessage(m_wnd);
-
-    return ActivateWindowMessage();
+    return m_wnd->toggleVisible();
 }
 
-ActivateWindowMessage ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount)
+bool ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount)
 {
     INVOKE(toggleMenu(tabName, maxItemCount));
-
-    const auto menu = m_wnd->toggleMenu(tabName, maxItemCount);
-    return createActivateWindowMessage(menu);
+    return m_wnd->toggleMenu(tabName, maxItemCount);
 }
 
-ActivateWindowMessage ScriptableProxy::toggleMenu()
+bool ScriptableProxy::toggleMenu()
 {
     INVOKE(toggleMenu());
-
-    const auto menu = m_wnd->toggleMenu();
-    return createActivateWindowMessage(menu);
+    return m_wnd->toggleMenu();
 }
 
 int ScriptableProxy::findTabIndex(const QString &arg1)
@@ -657,10 +632,10 @@ int ScriptableProxy::findTabIndex(const QString &arg1)
     return m_wnd->findTabIndex(arg1);
 }
 
-QByteArray ScriptableProxy::openActionDialog(const QVariantMap &arg1)
+void ScriptableProxy::openActionDialog(const QVariantMap &arg1)
 {
-    INVOKE(openActionDialog(arg1));
-    return serializeWindow(m_wnd->openActionDialog(arg1));
+    INVOKE2(openActionDialog(arg1));
+    m_wnd->openActionDialog(arg1);
 }
 
 bool ScriptableProxy::loadTab(const QString &arg1)
@@ -959,10 +934,6 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
     dialog.show();
     dialog.raise();
     dialog.activateWindow();
-
-    const QByteArray wid = serializeWindow( dialog.winId() );
-    if ( !wid.isEmpty() )
-        emit sendMessage(wid, CommandActivateWindow);
 
     if ( !dialog.exec() )
         return NamedValueList();

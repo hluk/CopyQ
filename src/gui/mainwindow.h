@@ -186,8 +186,8 @@ public:
     /**
      * Show/hide tray menu. Return true only if menu is shown.
      */
-    QWidget *toggleMenu();
-    QWidget *toggleMenu(const QString &tabName, int itemCount);
+    bool toggleMenu();
+    bool toggleMenu(const QString &tabName, int itemCount);
 
     /** Switch between browse and search mode. */
     void enterBrowseMode();
@@ -304,7 +304,7 @@ public slots:
     void showProcessManagerDialog();
 
     /** Open action dialog with given input @a text. */
-    WId openActionDialog(const QVariantMap &data);
+    void openActionDialog(const QVariantMap &data);
 
     /** Open preferences dialog. */
     void openPreferences();

@@ -172,14 +172,12 @@ bool hasFormat(const QVariantMap &data, const QString &format)
     return data.contains(format);
 }
 
-WId stealFocus(const QWidget &window)
+void stealFocus(const QWidget &window)
 {
     WId wid = window.winId();
     PlatformWindowPtr platformWindow = createPlatformNativeInterface()->getWindow(wid);
     if (platformWindow)
         platformWindow->raise();
-
-    return wid;
 }
 
 template <typename WidgetOrAction>
@@ -2423,13 +2421,13 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 #endif // Q_OS_MAC
 }
 
-QWidget *MainWindow::toggleMenu()
+bool MainWindow::toggleMenu()
 {
     m_trayMenu->search(QString());
     return toggleMenu(m_trayMenu);
 }
 
-QWidget *MainWindow::toggleMenu(const QString &tabName, int itemCount)
+bool MainWindow::toggleMenu(const QString &tabName, int itemCount)
 {
     // Just close the previously opened menu if parameters are the same.
     if ( m_menu->isVisible()
@@ -2955,7 +2953,7 @@ void MainWindow::showProcessManagerDialog()
     m_actionHandler->showProcessManagerDialog();
 }
 
-WId MainWindow::openActionDialog(const QVariantMap &data)
+void MainWindow::openActionDialog(const QVariantMap &data)
 {
     std::unique_ptr<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
     connect( actionDialog.get(), SIGNAL(saveCommand(Command)),
@@ -2967,7 +2965,7 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
     actionDialog->setOutputIndex(getBrowser()->currentIndex());
 
     actionDialog->show();
-    return stealFocus(*actionDialog.release());
+    stealFocus(*actionDialog.release());
 }
 
 void MainWindow::openPreferences()

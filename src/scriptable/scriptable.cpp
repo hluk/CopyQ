@@ -215,7 +215,6 @@ Scriptable::Scriptable(
     , m_inputSeparator("\n")
     , m_input()
     , m_connected(true)
-    , m_waitForWindowActivated(true)
     , m_pluginScript(pluginScript)
 {
 }
@@ -413,16 +412,6 @@ void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
     emit sendMessage(message, exitCode);
 }
 
-void Scriptable::sendWindowActivationCommandToClient(const QByteArray &message)
-{
-    if ( !message.isEmpty() ) {
-        m_waitForWindowActivated = false;
-        sendMessageToClient(message, CommandActivateWindow);
-        while ( m_connected && !m_waitForWindowActivated )
-            QCoreApplication::processEvents();
-    }
-}
-
 QScriptValue Scriptable::version()
 {
     return tr(programName) + " " COPYQ_VERSION " (hluk@email.cz)\n"
@@ -469,11 +458,10 @@ void Scriptable::show()
         return;
     }
 
-    const auto msg = argumentCount() == 0
-            ? m_proxy->showWindow()
-            : m_proxy->showBrowser(toString(argument(0)));
-
-    sendWindowActivationCommandToClient(msg.windowId);
+    if ( argumentCount() == 0 )
+        m_proxy->showWindow();
+    else
+        m_proxy->showBrowser(toString(argument(0)));
 }
 
 void Scriptable::showAt()
@@ -490,12 +478,11 @@ void Scriptable::showAt()
     if ( toInt(argument(i++), n) )
         rect.setHeight(n);
 
-    const QString tabName = arg(i++);
-    const auto msg = tabName.isEmpty()
-            ? m_proxy->showWindowAt(rect)
-            : m_proxy->showBrowserAt(tabName, rect);
-
-    sendWindowActivationCommandToClient(msg.windowId);
+    const auto tabName = arg(i++);
+    if ( tabName.isEmpty() )
+        m_proxy->showWindowAt(rect);
+    else
+        m_proxy->showBrowserAt(tabName, rect);
 }
 
 void Scriptable::hide()
@@ -505,17 +492,13 @@ void Scriptable::hide()
 
 QScriptValue Scriptable::toggle()
 {
-    const auto msg = m_proxy->toggleVisible();
-    sendWindowActivationCommandToClient(msg.windowId);
-    return msg.visible;
+    return m_proxy->toggleVisible();
 }
 
 void Scriptable::menu()
 {
-    ActivateWindowMessage msg;
-
     if (argumentCount() == 0) {
-        msg = m_proxy->toggleMenu();
+        m_proxy->toggleMenu();
     } else if (argumentCount() == 1 || argumentCount() == 2) {
         const auto tabName = toString(argument(0));
 
@@ -528,13 +511,10 @@ void Scriptable::menu()
             }
         }
 
-        msg = m_proxy->toggleMenu(tabName, maxItemCount);
+        m_proxy->toggleMenu(tabName, maxItemCount);
     } else {
         throwError(argumentError());
-        return;
     }
-
-    sendWindowActivationCommandToClient(msg.windowId);
 }
 
 void Scriptable::exit()
@@ -830,7 +810,7 @@ void Scriptable::action()
                                                   : QString('\n');
         m_proxy->action(data, command);
     } else {
-        sendWindowActivationCommandToClient(m_proxy->openActionDialog(data));
+        m_proxy->openActionDialog(data);
     }
 }
 
@@ -1428,8 +1408,6 @@ void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
         executeArguments(bytes);
     else if (messageCode == CommandReadInputReply)
         m_input = newByteArray(bytes);
-    else if (messageCode == CommandActivateWindowReply)
-        m_waitForWindowActivated = true;
     else
         log("Incorrect message code from client", LogError);
 }

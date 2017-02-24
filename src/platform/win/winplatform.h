@@ -50,10 +50,6 @@ public:
 
     void loadSettings();
 
-    PlatformWindowPtr deserialize(const QByteArray &) { return nullptr; }
-
-    bool serialize(WId, QByteArray *) { return false; }
-
     PlatformClipboardPtr clipboard();
 
     int keyCode(const QKeyEvent &event);

@@ -23,7 +23,6 @@
 #include "common/commandstatus.h"
 #include "common/log.h"
 #include "platform/platformnativeinterface.h"
-#include "platform/platformwindow.h"
 
 #include <QCoreApplication>
 #include <QFile>
@@ -42,8 +41,6 @@ QString toString(int code)
         return "CommandBadSyntax";
     case CommandPrint:
         return "CommandPrint";
-    case CommandActivateWindow:
-        return "CommandActivateWindow";
     case CommandReadInput:
         return "CommandReadInput";
     default:
@@ -76,12 +73,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 {
     COPYQ_LOG( "Status received: " + toString(messageCode) );
 
-    if (messageCode == CommandActivateWindow) {
-        PlatformWindowPtr window = createPlatformNativeInterface()->deserialize(data);
-        if (window)
-            window->raise();
-        sendMessage(QByteArray(), CommandActivateWindowReply);
-    } else if (messageCode == CommandReadInput) {
+    if (messageCode == CommandReadInput) {
         startInputReader();
     } else if (messageCode == CommandPrint || messageCode == CommandFinished) {
         QFile f;

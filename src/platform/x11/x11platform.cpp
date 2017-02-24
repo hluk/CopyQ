@@ -106,17 +106,6 @@ PlatformWindowPtr X11Platform::getCurrentWindow()
     return PlatformWindowPtr(window->isValid() ? window.release() : nullptr);
 }
 
-PlatformWindowPtr X11Platform::deserialize(const QByteArray &data)
-{
-    return getWindow(static_cast<WId>(data.toLongLong()));
-}
-
-bool X11Platform::serialize(WId winId, QByteArray *data)
-{
-    *data = QByteArray::number(static_cast<qlonglong>(winId));
-    return true;
-}
-
 bool X11Platform::canAutostart()
 {
 #ifdef COPYQ_DESKTOP_PREFIX

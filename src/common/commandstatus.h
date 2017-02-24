@@ -30,14 +30,10 @@ enum CommandStatus {
     CommandBadSyntax = 2,
     /** Print on stdout */
     CommandPrint,
-    /** Activate window */
-    CommandActivateWindow,
     /** Ask client to send data from its stdin */
     CommandReadInput,
     /** Arguments/script from client */
     CommandArguments,
-    /** Activate window reply */
-    CommandActivateWindowReply,
     /** Client data from its stdin */
     CommandReadInputReply
 };

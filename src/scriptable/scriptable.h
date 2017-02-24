@@ -113,8 +113,6 @@ public:
 
     void sendMessageToClient(const QByteArray &message, int exitCode);
 
-    void sendWindowActivationCommandToClient(const QByteArray &message);
-
     QScriptEngine *engine() const { return m_engine; }
 
     bool isConnected() const { return m_connected; }
@@ -298,7 +296,6 @@ private:
     QScriptValue m_input;
     QVariantMap m_data;
     bool m_connected;
-    bool m_waitForWindowActivated;
     QString m_pluginScript;
 };
 

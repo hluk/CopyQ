@@ -33,11 +33,6 @@
 class MainWindow;
 class QPersistentModelIndex;
 
-struct ActivateWindowMessage {
-    bool visible = false;
-    QByteArray windowId;
-};
-
 struct NamedValue {
     NamedValue() {}
     NamedValue(const QString &name, const QVariant &value) : name(name), value(value) {}
@@ -72,8 +67,8 @@ public:
     void exit();
 
     void close();
-    ActivateWindowMessage showWindow();
-    ActivateWindowMessage showWindowAt(const QRect &rect);
+    bool showWindow();
+    bool showWindowAt(const QRect &rect);
     bool pasteToCurrentWindow();
     bool copyFromCurrentWindow();
 
@@ -92,10 +87,10 @@ public:
     QString tabIcon(const QString &tabName);
     void setTabIcon(const QString &tabName, const QString &iconName);
 
-    ActivateWindowMessage showBrowser(const QString &tabName);
-    ActivateWindowMessage showBrowserAt(const QString &tabName, const QRect &rect);
+    bool showBrowser(const QString &tabName);
+    bool showBrowserAt(const QString &tabName, const QRect &rect);
 
-    ActivateWindowMessage showBrowser();
+    bool showBrowser();
 
     void action(const QVariantMap &arg1, const Command &arg2);
 
@@ -114,12 +109,12 @@ public:
     void browserEditNew(const QString &arg1, bool changeClipboard);
 
     QStringList tabs();
-    ActivateWindowMessage toggleVisible();
-    ActivateWindowMessage toggleMenu(const QString &tabName, int maxItemCount);
-    ActivateWindowMessage toggleMenu();
+    bool toggleVisible();
+    bool toggleMenu(const QString &tabName, int maxItemCount);
+    bool toggleMenu();
     int findTabIndex(const QString &arg1);
 
-    QByteArray openActionDialog(const QVariantMap &arg1);
+    void openActionDialog(const QVariantMap &arg1);
 
     bool loadTab(const QString &arg1);
     bool saveTab(const QString &arg1);
