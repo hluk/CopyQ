@@ -97,7 +97,7 @@ QByteArray waitUntilClipboardSet(const QByteArray &data, const QString &mime = Q
 bool waitForProcessFinished(QProcess *p)
 {
     // Process events in case we own clipboard and the new process requests the contents.
-    SleepTimer t(8000);
+    SleepTimer t(30000);
     while ( p->state() != QProcess::NotRunning && !p->waitForFinished(50) && t.sleep() ) {}
     return p->state() == QProcess::NotRunning;
 }
@@ -171,7 +171,7 @@ public:
         }
 
         // Wait for client/server communication is established.
-        SleepTimer t(5000);
+        SleepTimer t(15000);
         while( !isServerRunning() && t.sleep() ) {}
 
         if ( !isServerRunning() )
@@ -224,31 +224,26 @@ public:
 
         if ( p.write(in) != in.size() )
             return -2;
+
         p.closeWriteChannel();
 
-        if (stdoutData != nullptr || stderrData != nullptr) {
-            if (stdoutData != nullptr) {
-                stdoutData->clear();
-            }
-            if (stderrData != nullptr) {
-                stderrData->clear();
-            }
+        if (stdoutData != nullptr)
+            stdoutData->clear();
 
-            // Read data for 2s - done manually to ensure the out/err buffers are always emptied
-            SleepTimer t(2000);
-            do {
-                QByteArray out = p.readAllStandardOutput();
-                QByteArray err = p.readAllStandardError();
+        if (stderrData != nullptr)
+            stderrData->clear();
 
-                if (stdoutData != nullptr)
-                    stdoutData->append(out);
-                if (stderrData != nullptr)
-                    stderrData->append(err);
-            } while ( p.state() == QProcess::Running && t.sleep() );
+        while ( p.state() == QProcess::Running ) {
+            const auto out = p.readAllStandardOutput();
+            const auto err = p.readAllStandardError();
+
+            if (stdoutData != nullptr)
+                stdoutData->append(out);
+            if (stderrData != nullptr)
+                stderrData->append(err);
+
+            QCoreApplication::processEvents();
         }
-
-        if ( !closeProcess(&p) )
-            return -3;
 
         if (stderrData != nullptr) {
             stderrData->append(p.readAllStandardError());
