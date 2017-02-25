@@ -43,7 +43,6 @@ class Scriptable : public QObject, protected QScriptable
 {
     Q_OBJECT
     Q_PROPERTY(QString inputSeparator READ getInputSeparator WRITE setInputSeparator)
-    Q_PROPERTY(QString currentPath READ getCurrentPath WRITE setCurrentPath)
     Q_PROPERTY(QString mimeText READ getMimeText)
     Q_PROPERTY(QString mimeHtml READ getMimeHtml)
     Q_PROPERTY(QString mimeUriList READ getMimeUriList)

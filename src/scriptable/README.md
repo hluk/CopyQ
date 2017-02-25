@@ -300,9 +300,9 @@ copyq info config
 
 Evaluates script and returns result.
 
-###### String currentpath()
+###### String currentPath([path])
 
-Returns current path.
+Get or set current path.
 
 ###### String str(value)
 
