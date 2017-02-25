@@ -25,16 +25,16 @@
 
 #include <QCoreApplication>
 #include <QDataStream>
-#include <QThread>
 
 Client::Client(QObject *parent)
     : QObject(parent)
+    , m_socket(nullptr)
 {
 }
 
 void Client::sendMessage(const QByteArray &message, int messageCode)
 {
-    emit sendMessageRequest(message, messageCode);
+    m_socket->sendMessage(message, messageCode);
 }
 
 void Client::startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc, int messageCode)
@@ -43,26 +43,16 @@ void Client::startClientSocket(const QString &serverName, int argc, char **argv,
                 createPlatformNativeInterface()->getCommandLineArguments(argc, argv)
                 .mid(skipArgc) );
 
-    ClientSocket *socket = new ClientSocket(serverName);
+    m_socket = new ClientSocket(serverName, this);
 
-    connect( socket, SIGNAL(messageReceived(QByteArray,int)),
+    connect( m_socket, SIGNAL(messageReceived(QByteArray,int)),
              this, SLOT(onMessageReceived(QByteArray,int)) );
-    connect( socket, SIGNAL(disconnected()),
+    connect( m_socket, SIGNAL(disconnected()),
              this, SLOT(onDisconnected()) );
-    connect( socket, SIGNAL(connectionFailed()),
+    connect( m_socket, SIGNAL(connectionFailed()),
              this, SLOT(onConnectionFailed()) );
 
-    connect( socket, SIGNAL(disconnected()),
-             socket, SLOT(deleteAfterDisconnected()) );
-    connect( socket, SIGNAL(connectionFailed()),
-             socket, SLOT(deleteAfterDisconnected()) );
-    connect( qApp, SIGNAL(aboutToQuit()),
-             socket, SLOT(deleteAfterDisconnected()) );
-
-    connect( this, SIGNAL(sendMessageRequest(QByteArray,int)),
-             socket, SLOT(sendMessage(QByteArray,int)) );
-
-    socket->start();
+    m_socket->start();
 
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);

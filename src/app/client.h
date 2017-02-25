@@ -23,6 +23,7 @@
 #include <QObject>
 
 class Arguments;
+class ClientSocket;
 
 class Client : public QObject
 {
@@ -30,15 +31,10 @@ class Client : public QObject
 public:
     explicit Client(QObject *parent = nullptr);
 
-    virtual ~Client() {}
-
 protected:
     void startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc, int messageCode);
 
     void sendMessage(const QByteArray &message, int messageCode);
-
-signals:
-    void sendMessageRequest(const QByteArray &message, int messageCode);
 
 private slots:
     /** Message received from server. */
@@ -49,6 +45,9 @@ private slots:
 
     /** Called if connection cannot be estabilished. */
     virtual void onConnectionFailed() = 0;
+
+private:
+    ClientSocket *m_socket;
 };
 
 #endif // CLIENT_H
