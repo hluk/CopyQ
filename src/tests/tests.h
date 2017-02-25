@@ -97,6 +97,8 @@ private slots:
 
     void commandGetSetCurrentPath();
 
+    void commandSelectItems();
+
     void classFile();
     void classDir();
     void classTemporaryFile();

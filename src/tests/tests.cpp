@@ -1051,6 +1051,25 @@ void Tests::commandGetSetCurrentPath()
               newPath, newPath) );
 }
 
+void Tests::commandSelectItems()
+{
+    RUN("add" << "C" << "B" << "A", "");
+
+    RUN("selectItems" << "1", "true\n");
+    RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
+
+    RUN("selectItems" << "0" << "2", "true\n");
+    RUN("testSelected", QString(clipboardTabName) + " 2 0 2\n");
+
+    const auto tab = testTab(1);
+    const auto args = Args("tab") << tab;
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN(args << "selectItems" << "1" << "2", "true\n");
+    RUN("testSelected", QString(clipboardTabName) + " 2 0 2\n");
+    RUN("setCurrentTab" << tab, "");
+    RUN("testSelected", tab + " 2 1 2\n");
+}
+
 void Tests::classFile()
 {
     RUN("eval" <<
