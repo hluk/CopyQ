@@ -90,13 +90,6 @@ if (PEDANTIC)
             -fcomment-block-commands=retval \
             ")
 
-        # TODO: Fix these.
-        set(CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS} \
-            -Wno-global-constructors \
-            -Wno-exit-time-destructors \
-            ")
-
         # Disable errors from moc-generated files.
         set(CMAKE_CXX_FLAGS
             "${CMAKE_CXX_FLAGS} \
