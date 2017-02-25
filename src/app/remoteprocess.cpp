@@ -168,6 +168,11 @@ void RemoteProcess::terminate()
     if (!m_process)
         return;
 
+    if (m_socket) {
+        disconnect( m_socket.get(), SIGNAL(disconnected()),
+                    this, SLOT(onDisconnected()) );
+    }
+
     if (m_process->state() != QProcess::NotRunning) {
         m_process->terminate();
         if (!m_process->waitForFinished(100))
