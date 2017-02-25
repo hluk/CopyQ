@@ -47,10 +47,10 @@ do { \
     TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) );
 
 #define WAIT_FOR_CLIPBOARD(DATA) \
-    QCOMPARE( QByteArray(DATA), waitUntilClipboardSet(DATA) )
+    QCOMPARE( waitUntilClipboardSet(DATA), QByteArray(DATA) )
 
 #define WAIT_FOR_CLIPBOARD2(DATA, MIME) \
-    QCOMPARE( QByteArray(DATA), waitUntilClipboardSet(DATA, MIME) )
+    QCOMPARE( waitUntilClipboardSet(DATA, MIME), QByteArray(DATA) )
 
 /// Skip rest of the tests
 #define SKIP(MESSAGE) QSKIP(MESSAGE, SkipAll)
@@ -74,7 +74,7 @@ do { \
     do { \
         TEST( m_test->getClientOutput((Args() << ARGUMENTS), &out_) ); \
     } while (out_ != expected_ && t_.sleep()); \
-    QCOMPARE(expected_, out_); \
+    QCOMPARE(out_, expected_); \
 } while(false)
 
 /// Interval to wait (in ms) until window is shown and focused.

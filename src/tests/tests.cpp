@@ -607,7 +607,7 @@ void Tests::commandEvalThrows()
     QByteArray out;
     QByteArray err;
     QCOMPARE( run(Args("eval") << "throw 'TEST_EXCEPTION'", &out, &err), 1 );
-    QCOMPARE( QByteArray(), out );
+    QCOMPARE( out, QByteArray() );
     QVERIFY( !err.isEmpty() );
     QVERIFY( err.contains("TEST_EXCEPTION") );
 
@@ -632,7 +632,7 @@ void Tests::commandFail()
     QByteArray stderrActual;
     QCOMPARE( run(Args("fail"), &stdoutActual, &stderrActual), 1 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
-    QCOMPARE( QByteArray(), stdoutActual );
+    QCOMPARE( stdoutActual, QByteArray() );
 }
 
 void Tests::commandVisible()
