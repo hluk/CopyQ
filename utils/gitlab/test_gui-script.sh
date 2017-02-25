@@ -12,6 +12,9 @@ sleep 5
 openbox &
 sleep 5
 
+mkdir -p "$TESTS_LOG_DIR"
+export COPYQ_LOG_FILE="$TESTS_LOG_DIR/copyq.log"
+
 # Start taking screenshots in background.
 (
     set +x
@@ -21,13 +24,11 @@ sleep 5
         f="$SCREENSHOT_DIR/$i.png"
         sleep 1 &&
             echo "   --- $f ---" &&
+            echo "   --- $f ---" >> "$COPYQ_LOG_FILE" &&
             scrot "$f" ||
             break
     done
 ) &
-
-mkdir -p "$TESTS_LOG_DIR"
-export COPYQ_LOG_FILE="$TESTS_LOG_DIR/copyq.log"
 
 "$INSTALL_PREFIX/bin/copyq" tests
 
