@@ -38,9 +38,12 @@ Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
 
-int evaluate(const QString &functionName, const QStringList &arguments, int argc, char **argv)
+int evaluate(
+        const QString &functionName,
+        const QStringList &arguments, int argc, char **argv,
+        const QString &sessionName)
 {
-    App app( "Prompt", createPlatformNativeInterface()->createConsoleApplication(argc, argv) );
+    App app( "Prompt", createPlatformNativeInterface()->createConsoleApplication(argc, argv), sessionName );
 
     Scriptable scriptable(nullptr);
     QScriptEngine engine;
@@ -163,25 +166,6 @@ int main(int argc, char **argv)
     const QStringList arguments =
             createPlatformNativeInterface()->getCommandLineArguments(argc, argv);
 
-    // Print version, help or run tests.
-    if ( !arguments.isEmpty() ) {
-        if ( needsVersion(arguments.first()) )
-            return evaluate( "version", QStringList(), argc, argv );
-
-        if ( needsHelp(arguments.first()) )
-            return evaluate( "help", arguments.mid(1), argc, argv );
-
-        if ( needsInfo(arguments.first()) )
-            return evaluate( "info", arguments.mid(1), argc, argv );
-
-#ifdef HAS_TESTS
-        if ( needsTests(arguments.first()) ) {
-            // Skip the "tests" argument and pass the rest to tests.
-            return runTests(argc - 1, argv + 1);
-        }
-#endif
-    }
-
     // Get session name (default is empty).
     int skipArguments;
     const QString sessionName = getSessionName(arguments, &skipArguments);
@@ -190,6 +174,27 @@ int main(int argc, char **argv)
         log( QObject::tr("Session name must contain at most 16 characters\n"
                          "which can be letters, digits, '-' or '_'!"), LogError );
         return 2;
+    }
+
+    // Print version, help or run tests.
+    if ( arguments.size() > skipArguments ) {
+        const auto arg = arguments[skipArguments];
+
+        if ( needsVersion(arg) )
+            return evaluate( "version", QStringList(), argc, argv, sessionName );
+
+        if ( needsHelp(arg) )
+            return evaluate( "help", arguments.mid(skipArguments + 1), argc, argv, sessionName );
+
+        if ( needsInfo(arg) )
+            return evaluate( "info", arguments.mid(skipArguments + 1), argc, argv, sessionName );
+
+#ifdef HAS_TESTS
+        if ( needsTests(arg) ) {
+            // Skip the "tests" argument and pass the rest to tests.
+            return runTests(argc - skipArguments - 1, argv + skipArguments + 1);
+        }
+#endif
     }
 
     // If server hasn't been run yet and no argument were specified
