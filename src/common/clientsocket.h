@@ -24,6 +24,21 @@
 #include <QObject>
 #include <QPointer>
 
+class LocalSocketGuard
+{
+public:
+    explicit LocalSocketGuard(QLocalSocket *socket);
+    ~LocalSocketGuard();
+
+    QLocalSocket *get() const { return m_socket; }
+    QLocalSocket *operator->() const { return m_socket; }
+    operator QLocalSocket*() { return m_socket; }
+    operator bool() { return m_socket != nullptr; }
+
+private:
+    QPointer<QLocalSocket> m_socket;
+};
+
 class ClientSocket : public QObject
 {
     Q_OBJECT
@@ -48,7 +63,6 @@ public slots:
             const QByteArray &message, //!< Message for client.
             int messageCode //!< Custom message code.
             );
-    void deleteAfterDisconnected();
 
     void close();
 
@@ -67,9 +81,8 @@ private slots:
 private:
     void error(const QString &errorMessage);
 
-    QPointer<QLocalSocket> m_socket;
+    LocalSocketGuard m_socket;
     int m_socketId;
-    bool m_deleteAfterDisconnected;
     bool m_closed;
 
     bool m_hasMessageLength;

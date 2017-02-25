@@ -39,6 +39,7 @@ const int pingMaxRetries = 4;
 
 RemoteProcess::RemoteProcess(QObject *parent)
     : QObject(parent)
+    , m_server(nullptr)
     , m_process(nullptr)
     , m_pongRetryCount(0)
     , m_state(Unconnected)
@@ -60,27 +61,25 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
     if ( isConnected() )
         return;
 
+    terminate();
+
     m_state = Connecting;
 
-    Server *server = new Server(newServerName, this);
-    if ( !server->isListening() ) {
-        delete server;
+    m_server.reset(new Server(newServerName));
+    if ( !m_server->isListening() ) {
         onConnectionError("Failed to start local server \"" + newServerName + "\"!");
         return;
     }
 
-    connect(server, SIGNAL(newConnection(ClientSocketPtr)),
-            this, SLOT(onNewConnection(ClientSocketPtr)));
-    connect(this, SIGNAL(connectionError(QString)),
-            server, SLOT(deleteLater()));
+    connect( m_server.get(), SIGNAL(newConnection(ClientSocketPtr)),
+             this, SLOT(onNewConnection(ClientSocketPtr)) );
 
-    server->start();
+    m_server->start();
 
     COPYQ_LOG( QString("Remote process: Starting new remote process \"%1 %2\".")
                .arg(QCoreApplication::applicationFilePath())
                .arg(arguments.join(" ")) );
 
-    terminate();
     m_process = new QProcess(this);
     m_process->start(QCoreApplication::applicationFilePath(), arguments, QIODevice::NotOpen);
     m_process->closeReadChannel(QProcess::StandardOutput);
@@ -152,9 +151,7 @@ void RemoteProcess::onMessageReceived(const QByteArray &message, int messageCode
 
 void RemoteProcess::onConnectionError(const QString &error)
 {
-    m_timerPing.stop();
-    m_timerPongTimeout.stop();
-    m_state = Unconnected;
+    terminate();
     emit connectionError(error);
 }
 
@@ -165,22 +162,31 @@ void RemoteProcess::onDisconnected()
 
 void RemoteProcess::terminate()
 {
-    if (!m_process)
-        return;
+    m_timerPing.stop();
+    m_timerPongTimeout.stop();
+    m_state = Unconnected;
 
     if (m_socket) {
-        disconnect( m_socket.get(), SIGNAL(disconnected()),
-                    this, SLOT(onDisconnected()) );
+        m_socket->disconnect(this);
+        m_socket->close();
+        m_socket.reset();
     }
 
-    if (m_process->state() != QProcess::NotRunning) {
-        m_process->terminate();
-        if (!m_process->waitForFinished(100))
-            m_process->kill();
+    if (m_server) {
+        m_server->close();
+        m_server.reset();
     }
 
-    m_process->deleteLater();
-    m_process = nullptr;
+    if (m_process) {
+        if (m_process->state() != QProcess::NotRunning) {
+            m_process->terminate();
+            if (!m_process->waitForFinished(100))
+                m_process->kill();
+        }
+
+        m_process->deleteLater();
+        m_process = nullptr;
+    }
 }
 
 void RemoteProcess::writeMessage(const QByteArray &msg, int messageCode)

@@ -32,6 +32,7 @@ class QProcess;
 class QString;
 
 using ClientSocketPtr = std::shared_ptr<ClientSocket>;
+using ServerPtr = std::unique_ptr<Server>;
 
 /**
  * Starts process and handles communication with it.
@@ -92,6 +93,7 @@ private slots:
 private:
     void terminate();
 
+    ServerPtr m_server;
     QProcess *m_process;
     ClientSocketPtr m_socket;
     QTimer m_timerPing;

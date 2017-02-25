@@ -19,6 +19,7 @@
 
 #include "server.h"
 
+#include "common/common.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
 #include "common/log.h"
@@ -97,10 +98,11 @@ QObject *createSystemMutex(const QString &name, QObject *parent)
 
 Server::Server(const QString &name, QObject *parent)
     : QObject(parent)
-    , m_server(new QLocalServer(this))
+    , m_server(new QLocalServer)
+    , m_systemMutex(createSystemMutex(name, this))
     , m_socketCount(0)
 {
-    if ( createSystemMutex(name, this) && !serverIsRunning(name) ) {
+    if ( m_systemMutex && !serverIsRunning(name) ) {
         QLocalServer::removeServer(name);
         if ( !m_server->listen(name) )
             log("Failed to create server: " + m_server->errorString(), LogError);
@@ -109,18 +111,36 @@ Server::Server(const QString &name, QObject *parent)
     connect( qApp, SIGNAL(aboutToQuit()), SLOT(close()) );
 }
 
+Server::~Server()
+{
+    // Postpone destroying server, otherwise it crashes when re-creating server.
+    m_server->deleteLater();
+}
+
 void Server::start()
 {
-    while (m_server->hasPendingConnections())
-        onNewConnection();
-
     connect( m_server, SIGNAL(newConnection()),
              this, SLOT(onNewConnection()) );
+
+    while (m_server->hasPendingConnections())
+        onNewConnection();
 }
 
 bool Server::isListening() const
 {
     return m_server->isListening();
+}
+
+void Server::close()
+{
+    m_server->close();
+
+    COPYQ_LOG( QString("Sockets open: %1").arg(m_socketCount) );
+    while (m_socketCount > 0)
+        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
+
+    delete m_systemMutex;
+    m_systemMutex = nullptr;
 }
 
 void Server::onNewConnection()
@@ -145,15 +165,4 @@ void Server::onSocketDestroyed()
 {
     Q_ASSERT(m_socketCount > 0);
     --m_socketCount;
-}
-
-void Server::close()
-{
-    m_server->close();
-
-    COPYQ_LOG( QString("Sockets open: %1").arg(m_socketCount) );
-    while (m_socketCount > 0)
-        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
-
-    deleteLater();
 }

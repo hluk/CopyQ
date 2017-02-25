@@ -37,9 +37,14 @@ class Server : public QObject
 public:
     explicit Server(const QString &name, QObject *parent = nullptr);
 
+    ~Server();
+
     void start();
 
     bool isListening() const;
+
+public slots:
+    void close();
 
 signals:
     void newConnection(const ClientSocketPtr &socket);
@@ -47,10 +52,10 @@ signals:
 private slots:
     void onNewConnection();
     void onSocketDestroyed();
-    void close();
 
 private:
     QLocalServer *m_server;
+    QObject *m_systemMutex;
     int m_socketCount;
 };
 

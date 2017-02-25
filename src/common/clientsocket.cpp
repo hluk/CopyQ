@@ -22,8 +22,6 @@
 #include "common/client_server.h"
 #include "common/log.h"
 
-#include <QCoreApplication>
-#include <QElapsedTimer>
 #include <QDataStream>
 
 #define SOCKET_LOG(text) \
@@ -84,11 +82,25 @@ bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
 
 } //namespace
 
+LocalSocketGuard::LocalSocketGuard(QLocalSocket *socket)
+    : m_socket(socket)
+{
+}
+
+LocalSocketGuard::~LocalSocketGuard()
+{
+    if (m_socket) {
+        if (m_socket->state() == QLocalSocket::UnconnectedState)
+            m_socket->deleteLater();
+        else
+            m_socket->disconnectFromServer();
+    }
+}
+
 ClientSocket::ClientSocket()
     : QObject()
     , m_socket(nullptr)
     , m_socketId(++lastSocketId)
-    , m_deleteAfterDisconnected(false)
     , m_closed(true)
     , m_hasMessageLength(false)
 {
@@ -96,9 +108,8 @@ ClientSocket::ClientSocket()
 
 ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
     : QObject(parent)
-    , m_socket(new QLocalSocket(this))
+    , m_socket(new QLocalSocket)
     , m_socketId(++lastSocketId)
-    , m_deleteAfterDisconnected(false)
     , m_closed(false)
     , m_hasMessageLength(false)
 {
@@ -109,7 +120,6 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
     : QObject(parent)
     , m_socket(socket)
     , m_socketId(++lastSocketId)
-    , m_deleteAfterDisconnected(false)
     , m_closed(false)
     , m_hasMessageLength(false)
 {
@@ -163,34 +173,11 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
     }
 }
 
-void ClientSocket::deleteAfterDisconnected()
-{
-    if (!m_socket) {
-        SOCKET_LOG("Socket is already deleted.");
-        deleteLater();
-    } else if (m_closed) {
-        SOCKET_LOG("Delete after disconnected.");
-        deleteLater();
-    } else {
-        SOCKET_LOG("Will delete after disconnected.");
-        m_deleteAfterDisconnected = true;
-    }
-}
-
 void ClientSocket::close()
 {
     if (m_socket) {
         SOCKET_LOG("Disconnecting socket.");
-
-        if (m_socket->state() == QLocalSocket::UnconnectedState) {
-            m_socket->deleteLater();
-        } else {
-            connect( m_socket, SIGNAL(disconnected()),
-                     m_socket, SLOT(deleteLater()) );
-            m_socket->disconnectFromServer();
-        }
-
-        m_socket = nullptr;
+        m_socket->disconnectFromServer();
     }
 }
 
@@ -268,8 +255,6 @@ void ClientSocket::onStateChanged(QLocalSocket::LocalSocketState state)
                 log("ERROR: Socket disconnected before receiving message", LogError);
 
             emit disconnected();
-            if (m_deleteAfterDisconnected)
-                deleteLater();
         }
     }
 }
