@@ -26,6 +26,7 @@ python macdeployqtfix/macdeployqtfix.py "$executable" /usr/local/Cellar/qt5
 # Test the app before deployment.
 "$executable" --help
 "$executable" --version
+"$executable" --info
 
 # Run tests.
 "$executable" tests -silent

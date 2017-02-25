@@ -21,6 +21,7 @@ make
 # Test command line arguments that don't need GUI.
 DISPLAY="" ./copyq --help
 DISPLAY="" ./copyq --version
+DISPLAY="" ./copyq --info
 
 # Start X11 and window manager.
 export DISPLAY=:99.0
