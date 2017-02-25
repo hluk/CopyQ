@@ -684,6 +684,13 @@ void Tests::commandShowAt()
     WAIT_ON_OUTPUT("visible", "true\n");
 }
 
+void Tests::commandFocused()
+{
+    RUN("focused", "true\n");
+    RUN("hide", "");
+    RUN("focused", "false\n");
+}
+
 void Tests::commandsAddRead()
 {
     RUN("add" << "A", "");
