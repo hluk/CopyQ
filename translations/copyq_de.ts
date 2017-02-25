@@ -1465,7 +1465,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
     </message>
     <message>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="vanished">Befehle/Gl&amp;obale Tastenkombinationen...</translation>
+        <translation>Befehle und gl&amp;obale Tastenkombinationen...</translation>
     </message>
     <message>
         <source>C&amp;ommands...</source>
@@ -1820,7 +1820,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
         <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation>Benutzerdefinierte Aktionen und globale Tastenkombinationen...</translation>
+        <translation>Dialog für Befehle und globale Tastenkombinationen öffnen...</translation>
     </message>
 </context>
 <context>
@@ -1986,7 +1986,7 @@ Anmerkung: Bearbeitete Elemente können mit Strg+S oder mit F2 gespeichert werde
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="742"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Nach der Aktivierung des Element (Doppelklick oder Enter-Taste), kopiere dieses in die Zwischenablage und...</translation>
+        <translation>Nach der Aktivierung eines Elements (per Doppelklick oder Enter-Taste), kopiere dieses in die Zwischenablage und...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="391"/>
@@ -2775,7 +2775,7 @@ Hinweis: Veränderte Eintrage können mit F2 trotz dieser Option gespeichert wer
     </message>
     <message>
         <source>Enable clipboard storing</source>
-        <translation type="vanished">Zwischenablage speichern aktivieren</translation>
+        <translation>Speichern der Zwischenablage aktivieren</translation>
     </message>
     <message>
         <source>Enable clipboard content to be saved in history.</source>
@@ -4632,12 +4632,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1262"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation>Zwisch&amp;enablage speichern aktivieren</translation>
+        <translation>Speichern der Zwisch&amp;enablage aktivieren</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1263"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation>Zwischenablage speichern &amp;deaktivieren</translation>
+        <translation>Speichern der Zwischenablage &amp;deaktivieren</translation>
     </message>
     <message>
         <source>CopyQ Error</source>
@@ -4646,11 +4646,11 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     </message>
     <message>
         <source>Loading configuration</source>
-        <translation type="vanished">Lade Konfiguration</translation>
+        <translation>Konfiguration wird geladen</translation>
     </message>
     <message>
         <source>Configuration loaded</source>
-        <translation type="vanished">Konfiguration geladen</translation>
+        <translation>Konfiguration wurde geladen</translation>
     </message>
     <message>
         <source>&amp;Rename tab "%1"</source>
