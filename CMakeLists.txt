@@ -72,6 +72,9 @@ if (PEDANTIC)
     if (CMAKE_COMPILER_IS_GNUCXX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall \
             -Wsuggest-override \
+            -Wlogical-op \
+            -Wnoexcept \
+            -Wstrict-null-sentinel \
             ")
     else()
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything \
@@ -101,6 +104,23 @@ if (PEDANTIC)
             -Wno-missing-prototypes \
             ")
     endif()
+
+    set(CMAKE_CXX_FLAGS
+        "${CMAKE_CXX_FLAGS} -pedantic -Werror \
+        -Wcast-align \
+        -Wcast-qual \
+        -Wctor-dtor-privacy \
+        -Wdisabled-optimization \
+        -Wformat=2 \
+        -Winit-self \
+        -Wmissing-declarations \
+        -Wmissing-include-dirs \
+        -Wold-style-cast \
+        -Woverloaded-virtual \
+        -Wredundant-decls \
+        -Wstrict-overflow=5 \
+        -Wundef \
+        ")
 
     set(CMAKE_CXX_FLAGS
         "${CMAKE_CXX_FLAGS} -pedantic -Werror \

@@ -2605,14 +2605,6 @@ QStringList MainWindow::config(const QStringList &nameValue)
     return result;
 }
 
-QString syncCommand(const QString &type)
-{
-    return "try {"
-           "  var x = input()"
-           "  copy" + type + "(input())"
-           "} catch (e) {}";
-}
-
 void MainWindow::runAutomaticCommands(QVariantMap data)
 {
     bool isClipboard = isClipboardData(data);

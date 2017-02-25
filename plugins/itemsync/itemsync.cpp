@@ -586,6 +586,39 @@ void fixUserMimeType(QString *mimeType)
         mimeType->clear();
 }
 
+void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
+{
+    for ( const auto &extValue : mimeToExtension.values() )
+        QFile::remove(path + extValue.toString());
+}
+
+void moveFormatFiles(const QString &oldPath, const QString &newPath,
+                     const QVariantMap &mimeToExtension)
+{
+    for ( const auto &extValue : mimeToExtension.values() ) {
+        const QString ext = extValue.toString();
+        QFile::rename(oldPath + ext, newPath + ext);
+    }
+}
+
+void copyFormatFiles(const QString &oldPath, const QString &newPath,
+                     const QVariantMap &mimeToExtension)
+{
+    for ( const auto &extValue : mimeToExtension.values() ) {
+        const QString ext = extValue.toString();
+        QFile::copy(oldPath + ext, newPath + ext);
+    }
+}
+
+void setNormalStretchFixedColumns(QTableWidget *table, int normalColumn, int stretchColumn, int fixedColumn)
+{
+    QHeaderView *header = table->horizontalHeader();
+    setHeaderSectionResizeMode(header, stretchColumn, QHeaderView::Stretch);
+    setHeaderSectionResizeMode(header, fixedColumn, QHeaderView::Fixed);
+    header->resizeSection(fixedColumn, table->rowHeight(0));
+    table->resizeColumnToContents(normalColumn);
+}
+
 } // namespace
 
 ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childItem)
@@ -725,30 +758,6 @@ void ItemSync::updateSize(const QSize &maximumSize, int idealWidth)
 bool ItemSync::eventFilter(QObject *, QEvent *event)
 {
     return ItemWidget::filterMouseEvents(m_label, event);
-}
-
-void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
-{
-    for ( const auto &extValue : mimeToExtension.values() )
-        QFile::remove(path + extValue.toString());
-}
-
-void moveFormatFiles(const QString &oldPath, const QString &newPath,
-                     const QVariantMap &mimeToExtension)
-{
-    for ( const auto &extValue : mimeToExtension.values() ) {
-        const QString ext = extValue.toString();
-        QFile::rename(oldPath + ext, newPath + ext);
-    }
-}
-
-void copyFormatFiles(const QString &oldPath, const QString &newPath,
-                     const QVariantMap &mimeToExtension)
-{
-    for ( const auto &extValue : mimeToExtension.values() ) {
-        const QString ext = extValue.toString();
-        QFile::copy(oldPath + ext, newPath + ext);
-    }
 }
 
 class FileWatcher : public QObject {
@@ -1312,15 +1321,6 @@ void ItemSyncLoader::loadSettings(const QVariantMap &settings)
         fixUserMimeType(&fileFormat.itemMime);
         m_formatSettings.append(fileFormat);
     }
-}
-
-void setNormalStretchFixedColumns(QTableWidget *table, int normalColumn, int stretchColumn, int fixedColumn)
-{
-    QHeaderView *header = table->horizontalHeader();
-    setHeaderSectionResizeMode(header, stretchColumn, QHeaderView::Stretch);
-    setHeaderSectionResizeMode(header, fixedColumn, QHeaderView::Fixed);
-    header->resizeSection(fixedColumn, table->rowHeight(0));
-    table->resizeColumnToContents(normalColumn);
 }
 
 QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)

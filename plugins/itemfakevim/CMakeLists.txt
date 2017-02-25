@@ -25,6 +25,7 @@ if (PEDANTIC)
 
     set_source_files_properties(
         fakevim/fakevimhandler.cpp
+        fakevim/fakevimactions.cpp
         PROPERTIES COMPILE_FLAGS
         "\
         -Wno-shorten-64-to-32 \
@@ -33,6 +34,7 @@ if (PEDANTIC)
         -Wno-unreachable-code \
         -Wno-documentation-unknown-command \
         -Wno-shadow \
+        -Wno-missing-declarations \
         ${IGNORE_PEDANTIC_FLAGS} \
         ")
 endif()
