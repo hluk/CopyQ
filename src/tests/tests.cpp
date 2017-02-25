@@ -268,7 +268,7 @@ public:
     QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected,
                          const QByteArray &input = QByteArray()) override
     {
-        if ( isMainThread() && !isServerRunning() )
+        if (!isServerRunning() )
             return "Server is not running!" + readServerErrors(ReadAllStderr);
 
         QByteArray stdoutActual;
@@ -361,7 +361,7 @@ public:
 
     QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors) override
     {
-        if (isMainThread() && m_server) {
+        if (m_server) {
             QByteArray output = m_server->readAllStandardError();
 
             // Flush server output.
