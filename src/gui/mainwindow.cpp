@@ -510,6 +510,13 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     connect(&m_automaticCommandTester, SIGNAL(commandPassed(Command,bool)),
             SLOT(automaticCommandTestFinished(Command,bool)));
 
+    connect(&m_itemMenuCommandTester, SIGNAL(requestActionStart(Action*)),
+            m_actionHandler, SLOT(action(Action*)));
+    connect(&m_trayMenuCommandTester, SIGNAL(requestActionStart(Action*)),
+            m_actionHandler, SLOT(action(Action*)));
+    connect(&m_automaticCommandTester, SIGNAL(requestActionStart(Action*)),
+            m_actionHandler, SLOT(action(Action*)));
+
     connect(itemFactory, SIGNAL(error(QString)),
             this, SLOT(showError(QString)));
 
@@ -2603,6 +2610,16 @@ QStringList MainWindow::config(const QStringList &nameValue)
     }
 
     return result;
+}
+
+QVariantMap MainWindow::actionData(int id) const
+{
+    return m_actionHandler->actionData(id);
+}
+
+void MainWindow::setActionData(int id, const QVariantMap &data)
+{
+    m_actionHandler->setActionData(id, data);
 }
 
 void MainWindow::runAutomaticCommands(QVariantMap data)

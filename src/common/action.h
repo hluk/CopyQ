@@ -21,7 +21,6 @@
 #define ACTION_H
 
 #include <QModelIndex>
-#include <QMutex>
 #include <QProcess>
 #include <QStringList>
 #include <QVariantMap>
@@ -107,8 +106,11 @@ public:
     void setData(const QVariantMap &data);
     const QVariantMap &data() const;
 
-    static QVariantMap data(quintptr id);
-    static void setData(quintptr id, const QVariantMap &data);
+    void setId(int actionId) { m_id = actionId; }
+    int id() const { return m_id; }
+
+    void setIgnoreExitCode(bool ignore) { m_ignoreExitCode = ignore; }
+    bool ignoreExitCode() const { return m_ignoreExitCode; }
 
 public slots:
     /** Terminate (kill) process. */
@@ -141,9 +143,6 @@ private slots:
     void onBytesWritten();
 
 private:
-    static QMutex actionsLock;
-    static QVector<Action*> actions;
-
     bool hasTextOutput() const;
     bool canEmitNewItems() const;
 
@@ -169,6 +168,9 @@ private:
 
     int m_exitCode;
     QString m_errorString;
+    bool m_ignoreExitCode = false;
+
+    int m_id = -1;
 };
 
 #endif // ACTION_H

@@ -344,9 +344,17 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
     moveToThread(m_wnd->thread());
 }
 
-void ScriptableProxy::setActionData(const QVariantMap &actionData)
+QVariantMap ScriptableProxy::getActionData(int id)
 {
-    m_actionData = actionData;
+    INVOKE(getActionData(id));
+    m_actionData = m_wnd->actionData(id);
+    return m_actionData;
+}
+
+void ScriptableProxy::setActionData(int id, const QVariantMap &data)
+{
+    INVOKE2(setActionData(id, data));
+    m_wnd->setActionData(id, data);
 }
 
 void ScriptableProxy::exit()

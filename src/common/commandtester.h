@@ -55,6 +55,7 @@ public slots:
 
 signals:
     void commandPassed(const Command &command, bool passed);
+    void requestActionStart(Action *action);
 
 private slots:
     void actionFinished();

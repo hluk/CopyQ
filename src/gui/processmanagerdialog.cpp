@@ -89,6 +89,11 @@ private:
     QTableWidget *m_table;
 };
 
+quintptr actionId(const Action *act)
+{
+    return reinterpret_cast<quintptr>(act);
+}
+
 } // namespace
 
 ProcessManagerDialog::ProcessManagerDialog(QWidget *parent)
@@ -129,7 +134,7 @@ void ProcessManagerDialog::actionAboutToStart(Action *action)
 
     t->item(0, tableCommandsColumns::name)->setToolTip(command);
 
-    const QVariant id = action->property("COPYQ_ACTION_ID");
+    const auto id = actionId(action);
     QTableWidgetItem *statusItem = t->item(0, tableCommandsColumns::status);
     statusItem->setData(statusItemData::actionId, id);
     statusItem->setData(statusItemData::status, QProcess::Starting);
@@ -228,7 +233,7 @@ void ProcessManagerDialog::onDeleteShortcut()
 int ProcessManagerDialog::getRowForAction(Action *action) const
 {
     QTableWidget *t = ui->tableWidgetCommands;
-    const QVariant id = action->property("COPYQ_ACTION_ID");
+    const auto id = actionId(action);
     for (int row = 0; row < t->rowCount(); ++row) {
         if ( t->item(row, tableCommandsColumns::status)->data(statusItemData::actionId) == id )
             return row;

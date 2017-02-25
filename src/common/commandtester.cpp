@@ -123,12 +123,14 @@ void CommandTester::startNext()
         const QString text = getTextData(m_data);
         m_action->setInput(text.toUtf8());
         m_action->setData(m_data);
+        m_action->setIgnoreExitCode(true);
 
         const QString arg = getTextData(m_action->input());
         m_action->setCommand(command->matchCmd, QStringList(arg));
 
         connect(m_action, SIGNAL(actionFinished(Action*)), SLOT(actionFinished()));
-        m_action->start();
+
+        emit requestActionStart(m_action);
     }
 }
 

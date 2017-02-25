@@ -1448,11 +1448,9 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     m_dirClass->setCurrentPath(currentPath);
 
     bool hasData;
-    const quintptr id = args.at(Arguments::ActionId).toULongLong(&hasData);
-    if (hasData) {
-        m_data = Action::data(id);
-        m_proxy->setActionData(m_data);
-    }
+    const int id = args.at(Arguments::ActionId).toInt(&hasData);
+    if (hasData)
+        m_data = m_proxy->getActionData(id);
 
     QByteArray response;
     int exitCode;
@@ -1514,7 +1512,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     }
 
     if (exitCode == CommandFinished && hasData)
-        Action::setData(id, data());
+        m_proxy->setActionData(id, data());
 
     // Destroy objects so destructors are run before script finishes
     // (e.g. file writes are flushed or temporary files are automatically removed).

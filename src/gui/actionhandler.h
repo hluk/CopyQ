@@ -60,6 +60,9 @@ public:
 
     void addFinishedAction(const QString &name);
 
+    QVariantMap actionData(int id) const;
+    void setActionData(int id, const QVariantMap &data);
+
 public slots:
     /** Execute action. */
     void action(Action *action);
@@ -89,6 +92,8 @@ private:
     ProcessManagerDialog *m_activeActionDialog;
     QString m_currentTabName;
     Command m_lastActionDialogCommand;
+    QHash<int, Action*> m_actions;
+    int m_lastActionId = -1;
 };
 
 #endif // ACTIONHANDLER_H

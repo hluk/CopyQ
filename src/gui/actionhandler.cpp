@@ -73,9 +73,26 @@ void ActionHandler::addFinishedAction(const QString &name)
     m_activeActionDialog->actionFinished(name);
 }
 
+QVariantMap ActionHandler::actionData(int id) const
+{
+    const auto action = m_actions.value(id);
+    return action ? action->data() : QVariantMap();
+}
+
+void ActionHandler::setActionData(int id, const QVariantMap &data)
+{
+    const auto action = m_actions.value(id);
+    if (action)
+        action->setData(data);
+}
+
 void ActionHandler::action(Action *action)
 {
     action->setParent(this);
+
+    const auto id = ++m_lastActionId;
+    action->setId(id);
+    m_actions.insert(id, action);
 
     m_lastAction = action;
 
@@ -112,6 +129,8 @@ void ActionHandler::actionStarted(Action *action)
 
 void ActionHandler::closeAction(Action *action)
 {
+    m_actions.remove(action->id());
+
     QString msg;
 
     QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information;
@@ -120,8 +139,10 @@ void ActionHandler::closeAction(Action *action)
         msg += tr("Error: %1\n").arg(action->errorString()) + action->errorOutput();
         icon = QSystemTrayIcon::Critical;
     } else if ( action->exitCode() != 0 ) {
-        msg += tr("Exit code: %1\n").arg(action->exitCode()) + action->errorOutput();
-        icon = QSystemTrayIcon::Warning;
+        if ( !action->ignoreExitCode() ) {
+            msg += tr("Exit code: %1\n").arg(action->exitCode()) + action->errorOutput();
+            icon = QSystemTrayIcon::Warning;
+        }
     } else if ( !action->inputFormats().isEmpty() ) {
         const QModelIndex index = action->index();
         ClipboardBrowser *c = m_wnd->browserForItem(index);

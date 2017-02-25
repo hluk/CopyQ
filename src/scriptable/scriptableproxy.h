@@ -62,7 +62,8 @@ public:
 
     bool isValueUnset();
 
-    void setActionData(const QVariantMap &actionData);
+    QVariantMap getActionData(int id);
+    void setActionData(int id, const QVariantMap &data);
 
     void exit();
 

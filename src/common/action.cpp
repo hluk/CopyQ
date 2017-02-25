@@ -162,15 +162,7 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
     return lines;
 }
 
-quintptr actionId(const Action *act)
-{
-    return reinterpret_cast<quintptr>(act);
-}
-
 } // namespace
-
-QMutex Action::actionsLock;
-QVector<Action*> Action::actions;
 
 Action::Action(QObject *parent)
     : QObject(parent)
@@ -178,20 +170,11 @@ Action::Action(QObject *parent)
     , m_currentLine(-1)
     , m_exitCode(0)
 {
-    setProperty("COPYQ_ACTION_ID", actionId(this));
-
-    const QMutexLocker lock(&actionsLock);
-    actions.append(this);
 }
 
 Action::~Action()
 {
     closeSubCommands();
-
-    const QMutexLocker lock(&actionsLock);
-    const int i = actions.indexOf(this);
-    Q_ASSERT(i != -1);
-    actions.remove(i);
 }
 
 QString Action::command() const
@@ -245,7 +228,8 @@ void Action::start()
     Q_ASSERT( !cmds.isEmpty() );
 
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("COPYQ_ACTION_ID", QString::number(actionId(this)));
+    if (m_id != -1)
+        env.insert("COPYQ_ACTION_ID", QString::number(m_id));
 
     for (int i = 0; i < cmds.size(); ++i) {
         auto process = new QProcess(this);
@@ -321,25 +305,6 @@ void Action::setData(const QVariantMap &data)
 const QVariantMap &Action::data() const
 {
     return m_data;
-}
-
-QVariantMap Action::data(quintptr id)
-{
-    const QMutexLocker lock(&actionsLock);
-    const int i = actions.indexOf(reinterpret_cast<Action*>(id));
-    const Action *action = actions.value(i);
-    return action ? action->m_data : QVariantMap();
-}
-
-void Action::setData(quintptr id, const QVariantMap &data)
-{
-    const QMutexLocker lock(&actionsLock);
-    const int i = actions.indexOf(reinterpret_cast<Action*>(id));
-    Action *action = actions.value(i);
-    if (action && action->m_data != data) {
-        action->m_data = data;
-        emit action->dataChanged(data);
-    }
 }
 
 void Action::actionError(QProcess::ProcessError error)
