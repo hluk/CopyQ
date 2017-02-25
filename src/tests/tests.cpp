@@ -43,7 +43,6 @@
 #include <QRegExp>
 #include <QTemporaryFile>
 #include <QTest>
-#include <QThread>
 
 #include <memory>
 
@@ -770,54 +769,50 @@ void Tests::commandConfig()
 
 void Tests::commandDialog()
 {
-    class Thread : public QThread {
+    /**
+     * Run a process after a delay.
+     *
+     * This relies on other occational call to QCoreApplication::processEvents()
+     * so the process can be started and others can run simultaneously.
+     */
+    class PostponedProcess : public QObject {
     public:
-        Thread(const TestInterfacePtr &test, const QStringList &args, const QByteArray &expectedOutput)
+        PostponedProcess(const TestInterfacePtr &test, const QStringList &args)
             : m_test(test)
             , m_args(args)
-            , m_expectedOutput(expectedOutput)
         {
+            startTimer(1000);
         }
 
-        ~Thread() { wait(); }
-
     protected:
-        void run() override {
-            RUN(m_args, m_expectedOutput);
+        void timerEvent(QTimerEvent *) override
+        {
+            RUN(m_args, "");
         }
 
     private:
         TestInterfacePtr m_test;
         QStringList m_args;
-        QByteArray m_expectedOutput;
     };
 
     {
-        Thread dialogThread(m_test, Args() << "dialog" << "text", "TEST\n");
-        dialogThread.start();
-        waitFor(waitMsShow);
-        RUN("keys" << ":TEST" << "ENTER", "");
+        PostponedProcess dialogThread(m_test, Args() << "keys" << ":TEST" << "ENTER");
+        RUN("dialog" << "text", "TEST\n");
     }
 
     {
-        Thread dialogThread(m_test, Args() << "eval" << "dialog('text') === undefined", "true\n");
-        dialogThread.start();
-        waitFor(waitMsShow);
-        RUN("keys" << "ESCAPE", "");
+        PostponedProcess dialogThread(m_test, Args() << "keys" << "ESCAPE");
+        RUN("eval" << "dialog('text') === undefined", "true\n");
     }
 
     {
-        Thread dialogThread(m_test, Args() << "eval" << "dialog('list', [2, 1, 2, 3])", "2\n");
-        dialogThread.start();
-        waitFor(waitMsShow);
-        RUN("keys" << "ENTER", "");
+        PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
+        RUN("eval" << "dialog('list', [2, 1, 2, 3])", "2\n");
     }
 
     {
-        Thread dialogThread(m_test, Args() << "eval" << "dialog('list', [0, 1, 2])", "0\n");
-        dialogThread.start();
-        waitFor(waitMsShow);
-        RUN("keys" << "ENTER", "");
+        PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
+        RUN("eval" << "dialog('list', [0, 1, 2])", "0\n");
     }
 }
 
