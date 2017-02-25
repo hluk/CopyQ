@@ -37,41 +37,6 @@
 
 #include <memory>
 
-namespace {
-
-const int logFileSize = 128 * 1024;
-const int logFileCount = 10;
-
-const char propertyThreadName[] = "CopyQ_thread_name";
-
-int getLogLevel()
-{
-    const QByteArray logLevelString = qgetenv("COPYQ_LOG_LEVEL").toUpper();
-
-    if ( logLevelString.startsWith("TRAC") )
-        return LogTrace;
-    if ( logLevelString.startsWith("DEBUG") )
-        return LogDebug;
-    if ( logLevelString.startsWith("NOT") )
-        return LogNote;
-    if ( logLevelString.startsWith("WARN") )
-        return LogWarning;
-    if ( logLevelString.startsWith("ERR") )
-        return LogError;
-
-#ifdef COPYQ_DEBUG
-    return LogDebug;
-#else
-    return LogNote;
-#endif
-}
-
-QString envString(const char *varName)
-{
-    const QByteArray bytes = qgetenv(varName);
-    return QString::fromUtf8( bytes.constData(), bytes.size() );
-}
-
 /// System-wide mutex
 class SystemMutex {
 public:
@@ -107,8 +72,45 @@ private:
     QSystemSemaphore m_semaphore;
 };
 
-typedef std::shared_ptr<SystemMutex> SystemMutexPtr;
-SystemMutexPtr sessionMutex;
+class SystemMutex;
+using SystemMutexPtr = std::shared_ptr<SystemMutex>;
+Q_DECLARE_METATYPE(SystemMutexPtr)
+
+namespace {
+
+const int logFileSize = 128 * 1024;
+const int logFileCount = 10;
+
+const char propertyThreadName[] = "CopyQ_thread_name";
+const char propertySessionMutex[] = "CopyQ_Session_Mutex";
+
+int getLogLevel()
+{
+    const QByteArray logLevelString = qgetenv("COPYQ_LOG_LEVEL").toUpper();
+
+    if ( logLevelString.startsWith("TRAC") )
+        return LogTrace;
+    if ( logLevelString.startsWith("DEBUG") )
+        return LogDebug;
+    if ( logLevelString.startsWith("NOT") )
+        return LogNote;
+    if ( logLevelString.startsWith("WARN") )
+        return LogWarning;
+    if ( logLevelString.startsWith("ERR") )
+        return LogError;
+
+#ifdef COPYQ_DEBUG
+    return LogDebug;
+#else
+    return LogNote;
+#endif
+}
+
+QString envString(const char *varName)
+{
+    const QByteArray bytes = qgetenv(varName);
+    return QString::fromUtf8( bytes.constData(), bytes.size() );
+}
 
 /// Lock guard for SystemMutex.
 class SystemMutexLocker {
@@ -134,10 +136,10 @@ private:
     bool m_locked;
 };
 
-void initSessionMutex(QSystemSemaphore::AccessMode accessMode)
+SystemMutexPtr initSessionMutexHelper(QSystemSemaphore::AccessMode accessMode)
 {
     const QString mutexName = QCoreApplication::applicationName() + "_mutex";
-    sessionMutex = SystemMutexPtr(new SystemMutex(mutexName, accessMode));
+    const auto sessionMutex = std::make_shared<SystemMutex>(mutexName, accessMode);
 
     const QString error = sessionMutex->error();
     const bool create = accessMode == QSystemSemaphore::Create;
@@ -148,14 +150,38 @@ void initSessionMutex(QSystemSemaphore::AccessMode accessMode)
         COPYQ_LOG( QString(create ? "Created" : "Opened")
                    + " session mutex: " + mutexName );
     }
-}
 
-const SystemMutexPtr &getSessionMutex()
-{
-    if (sessionMutex == nullptr)
-        initSessionMutex(QSystemSemaphore::Open);
+    if (qApp)
+        qApp->setProperty( propertySessionMutex, QVariant::fromValue(sessionMutex) );
 
     return sessionMutex;
+}
+
+SystemMutexPtr initSessionMutex(QSystemSemaphore::AccessMode accessMode)
+{
+    static bool initializing = false;
+    if (initializing)
+        return nullptr;
+
+    initializing = true;
+    const auto sessionMutex = initSessionMutexHelper(accessMode);
+    initializing = false;
+
+    return sessionMutex;
+}
+
+SystemMutexPtr getSessionMutex()
+{
+    static SystemMutexPtr mutex;
+    if (qApp) {
+        const auto sessionMutex =
+                qApp->property(propertySessionMutex).value<SystemMutexPtr>();
+
+        if (sessionMutex)
+            return sessionMutex;
+    }
+
+    return initSessionMutex(QSystemSemaphore::Open);
 }
 
 QString getDefaultLogFilePath()
