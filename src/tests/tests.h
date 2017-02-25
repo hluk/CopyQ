@@ -94,6 +94,8 @@ private slots:
 
     void commandEdit();
 
+    void commandGetSetCurrentPath();
+
     void classFile();
     void classDir();
     void classTemporaryFile();

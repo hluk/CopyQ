@@ -1036,6 +1036,21 @@ void Tests::commandEdit()
     RUN("read" << "0", "LINE 1\nLINE 2");
 }
 
+void Tests::commandGetSetCurrentPath()
+{
+    RUN("currentPath", QDir::currentPath() + "\n");
+
+    const auto newPath = QDir::homePath().toUtf8();
+
+    TEST( m_test->runClient(
+              Args("eval") << "currentPath(input()); print(currentPath())",
+              newPath, newPath) );
+
+    TEST( m_test->runClient(
+              Args("eval") << "currentPath(input()); print(Dir().absolutePath())",
+              newPath, newPath) );
+}
+
 void Tests::classFile()
 {
     RUN("eval" <<
