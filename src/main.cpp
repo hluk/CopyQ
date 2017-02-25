@@ -55,10 +55,16 @@ int evaluate(const QString &functionName, const QStringList &arguments, int argc
     const QScriptValue result = function.call( QScriptValue(), functionArguments );
 
     QFile f;
-    f.open(stdout, QIODevice::WriteOnly);
+    if ( engine.hasUncaughtException() )
+        f.open(stderr, QIODevice::WriteOnly);
+    else
+        f.open(stdout, QIODevice::WriteOnly);
     f.write( scriptable.fromString(result.toString()) );
+    f.close();
 
-    return engine.hasUncaughtException() ? 1 : 0;
+    const int exitCode = engine.hasUncaughtException() ? 1 : 0;
+    app.exit(exitCode);
+    return exitCode;
 }
 
 int startServer(int argc, char *argv[], const QString &sessionName)
