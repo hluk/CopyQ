@@ -887,7 +887,7 @@ QScriptValue Scriptable::info()
 #ifdef COPYQ_PLUGIN_PREFIX
                 COPYQ_PLUGIN_PREFIX
 #else
-                m_proxy->pluginsPath()
+                m_proxy ? m_proxy->pluginsPath() : pluginsPath()
 #endif
                 );
 
@@ -895,7 +895,7 @@ QScriptValue Scriptable::info()
 #ifdef COPYQ_THEME_PREFIX
                 COPYQ_THEME_PREFIX
 #else
-                m_proxy->themesPath()
+                m_proxy ? m_proxy->themesPath() : themesPath()
 #endif
                 );
 
@@ -903,7 +903,7 @@ QScriptValue Scriptable::info()
 #ifdef COPYQ_TRANSLATION_PREFIX
                 COPYQ_TRANSLATION_PREFIX
 #else
-                m_proxy->translationsPath()
+                m_proxy ? m_proxy->translationsPath() : translationsPath()
 #endif
                 );
 

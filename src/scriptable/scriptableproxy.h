@@ -190,4 +190,8 @@ private:
     uint m_sentKeyClicks = 0;
 };
 
+QString pluginsPath();
+QString themesPath();
+QString translationsPath();
+
 #endif // SCRIPTABLEPROXY_H

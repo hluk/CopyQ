@@ -54,13 +54,19 @@ int evaluate(const QString &functionName, const QStringList &arguments, int argc
 
     const QScriptValue result = function.call( QScriptValue(), functionArguments );
 
-    QFile f;
-    if ( engine.hasUncaughtException() )
-        f.open(stderr, QIODevice::WriteOnly);
-    else
-        f.open(stdout, QIODevice::WriteOnly);
-    f.write( scriptable.fromString(result.toString()) );
-    f.close();
+    const auto output = scriptable.fromString(result.toString());
+    if ( !output.isEmpty() ) {
+        QFile f;
+        if ( engine.hasUncaughtException() )
+            f.open(stderr, QIODevice::WriteOnly);
+        else
+            f.open(stdout, QIODevice::WriteOnly);
+
+        f.write(output);
+        if ( !output.endsWith("\n") )
+            f.write("\n");
+        f.close();
+    }
 
     const int exitCode = engine.hasUncaughtException() ? 1 : 0;
     app.exit(exitCode);
@@ -97,6 +103,12 @@ bool needsVersion(const QString &arg)
     return arg == "-v" ||
            arg == "--version" ||
            arg == "version";
+}
+
+bool needsInfo(const QString &arg)
+{
+    return arg == "--info" ||
+           arg == "info";
 }
 
 #ifdef HAS_TESTS
@@ -158,6 +170,9 @@ int main(int argc, char **argv)
 
         if ( needsHelp(arguments.first()) )
             return evaluate( "help", arguments.mid(1), argc, argv );
+
+        if ( needsInfo(arguments.first()) )
+            return evaluate( "info", arguments.mid(1), argc, argv );
 
 #ifdef HAS_TESTS
         if ( needsTests(arguments.first()) ) {

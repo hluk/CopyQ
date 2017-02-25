@@ -997,26 +997,19 @@ void ScriptableProxy::filter(const QString &text)
 QString ScriptableProxy::pluginsPath()
 {
     INVOKE(pluginsPath());
-
-    QDir dir;
-    if (createPlatformNativeInterface()->findPluginDir(&dir))
-        return dir.absolutePath();
-
-    return QString();
+    return ::pluginsPath();
 }
 
 QString ScriptableProxy::themesPath()
 {
     INVOKE(themesPath());
-
-    return createPlatformNativeInterface()->themePrefix();
+    return ::themesPath();
 }
 
 QString ScriptableProxy::translationsPath()
 {
     INVOKE(translationsPath());
-
-    return createPlatformNativeInterface()->translationPrefix();
+    return ::translationsPath();
 }
 
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
@@ -1074,4 +1067,23 @@ QList<QPersistentModelIndex> ScriptableProxy::selectedIndexes() const
 {
     return m_actionData.value(mimeSelectedItems)
             .value< QList<QPersistentModelIndex> >();
+}
+
+QString pluginsPath()
+{
+    QDir dir;
+    if (createPlatformNativeInterface()->findPluginDir(&dir))
+        return dir.absolutePath();
+
+    return QString();
+}
+
+QString themesPath()
+{
+    return createPlatformNativeInterface()->themePrefix();
+}
+
+QString translationsPath()
+{
+    return createPlatformNativeInterface()->translationPrefix();
 }
