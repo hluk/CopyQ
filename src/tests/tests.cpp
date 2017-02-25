@@ -52,27 +52,17 @@ const auto clipboardTabName = "CLIPBOARD";
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
-    const QRegExp scriptExceptionError("ScriptError:");
-    static const QRegExp re(scriptExceptionError.pattern() + "|^Warning:|^ERROR:|ASSERT", Qt::CaseInsensitive);
-    int from = 0;
-    bool skipScriptException = flag == TestInterface::ReadErrorsWithoutScriptException;
+    static const QRegExp re("^Warning:|^ERROR:|ASSERT", Qt::CaseInsensitive);
+
     const QString output = QString::fromUtf8(stderrData);
-    forever {
-        from = output.indexOf(re, from);
-        if (from == -1)
-            return true;
+    if ( output.indexOf(re) != -1 )
+        return false;
 
-        if ( output.indexOf(scriptExceptionError, from) != -1 ) {
-            if (!skipScriptException)
-                return false;
-            skipScriptException = false;
-        }
+    if (flag == TestInterface::ReadErrorsWithoutScriptException)
+        return true;
 
-        // Skip processed line.
-        from = output.indexOf('\n', from);
-        if (from == -1)
-            return true;
-    }
+    static const QRegExp scriptExceptionError("ScriptError:");
+    return output.indexOf(scriptExceptionError) == -1;
 }
 
 QByteArray getClipboard(const QString &mime = QString("text/plain"))
