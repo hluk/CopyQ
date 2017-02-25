@@ -86,16 +86,6 @@ QScriptValue getValue(QScriptEngine *eng, const QString &variableName)
     return eng->globalObject().property(variableName);
 }
 
-template <typename T>
-T getValue(QScriptEngine *eng, const QString &variableName, T defaultValue)
-{
-    QVariant val = getValue(eng, variableName).toVariant();
-    if ( val.canConvert<T>() )
-        return val.value<T>();
-    else
-        return defaultValue;
-}
-
 bool clipboardContains(
         QClipboard::Mode mode, ScriptableProxy *proxy,
         const QString &format, const QByteArray &content)
