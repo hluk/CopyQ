@@ -328,9 +328,11 @@ bool ClipboardServer::askToQuit()
 
 void ClipboardServer::terminateThreads()
 {
-    COPYQ_LOG( QString("Active client threads: %1").arg(m_clientThreads.activeThreadCount()) );
+    const auto activeThreads = m_clientThreads.activeThreadCount();
+    if (activeThreads > 0)
+        return;
 
-    COPYQ_LOG("Terminating remaining threads.");
+    COPYQ_LOG( QString("Terminating %1 clients").arg(activeThreads) );
     emit terminateClientThreads();
     while ( !m_clientThreads.waitForDone(0) )
         QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);

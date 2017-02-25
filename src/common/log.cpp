@@ -147,8 +147,10 @@ SystemMutexPtr initSessionMutexHelper(QSystemSemaphore::AccessMode accessMode)
         const QString action = create ? "create" : "open";
         log("Failed to " + action + " session mutex: " + error, LogError);
     } else {
-        COPYQ_LOG( QString(create ? "Created" : "Opened")
-                   + " session mutex: " + mutexName );
+        COPYQ_LOG_VERBOSE(
+                    QString("%1 session mutex: %2")
+                    .arg(create ? "Created" : "Opened")
+                    .arg(mutexName) );
     }
 
     if (qApp)

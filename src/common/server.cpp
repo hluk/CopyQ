@@ -135,9 +135,11 @@ void Server::close()
 {
     m_server->close();
 
-    COPYQ_LOG( QString("Sockets open: %1").arg(m_socketCount) );
-    while (m_socketCount > 0)
-        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
+    if (m_socketCount > 0) {
+        COPYQ_LOG( QString("Waiting for %1 sockets to disconnect").arg(m_socketCount) );
+        while (m_socketCount > 0)
+            QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
+    }
 
     delete m_systemMutex;
     m_systemMutex = nullptr;
