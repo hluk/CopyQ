@@ -549,6 +549,9 @@ void Tests::commandHelp()
         const QString help = QString::fromUtf8(stdoutActual);
         QVERIFY( help.contains(QRegExp("\\b" + QRegExp::escape(command) + "\\b")) );
     }
+
+    // Print error on unknown function name.
+    TEST( m_test->runClientWithError(Args("help") << "xxx", 1) );
 }
 
 void Tests::commandVersion()
