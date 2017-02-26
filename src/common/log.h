@@ -33,7 +33,7 @@ enum LogLevel {
 
 QString logFileName();
 
-QString readLogFile();
+QString readLogFile(int maxReadSize);
 
 void createSessionMutex();
 
