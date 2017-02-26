@@ -28,7 +28,18 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="layoutFilters"/>
+    <layout class="QHBoxLayout" name="layoutFilters">
+     <item>
+      <widget class="QLabel" name="labelLogFileName">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

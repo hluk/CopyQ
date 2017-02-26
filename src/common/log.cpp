@@ -78,7 +78,7 @@ Q_DECLARE_METATYPE(SystemMutexPtr)
 
 namespace {
 
-const int logFileSize = 128 * 1024;
+const int logFileSize = 512 * 1024;
 const int logFileCount = 10;
 
 const char propertyThreadName[] = "CopyQ_thread_name";
@@ -197,12 +197,15 @@ QString getDefaultLogFilePath()
 #endif
 }
 
-QString readLogFile(const QString &fileName)
+QString readLogFile(const QString &fileName, int maxReadSize)
 {
     QFile f(fileName);
     if ( !f.open(QIODevice::ReadOnly) )
         return QString();
 
+    const auto seek = f.size() - maxReadSize;
+    if (seek > 0)
+        f.seek(seek);
     const QByteArray content = f.readAll();
 
     return QString::fromUtf8(content);
@@ -267,15 +270,17 @@ QString logFileName()
     return path + "/copyq.log";
 }
 
-QString readLogFile()
+QString readLogFile(int maxReadSize)
 {
     SystemMutexLocker lock(getSessionMutex());
 
     QString content;
-    for (int i = 0; i < logFileCount; ++i)
-        content.prepend( readLogFile(logFileName(i)) );
-
-    content.prepend(logFileName() + "\n\n");
+    for (int i = 0; i < logFileCount; ++i) {
+        const int toRead = maxReadSize - content.size();
+        content.prepend( readLogFile(logFileName(i), toRead) );
+        if ( maxReadSize <= content.size() )
+            break;
+    }
 
     return content;
 }

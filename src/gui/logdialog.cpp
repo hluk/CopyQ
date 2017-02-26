@@ -33,6 +33,9 @@
 
 namespace {
 
+const int maxDisplayLogSize = 128 * 1024;
+const auto logLinePrefix = "CopyQ ";
+
 void addFilterCheckBox(QLayout *layout, LogLevel level, const char *slot)
 {
     QWidget *parent = layout->parentWidget();
@@ -48,9 +51,13 @@ void showLogLines(QString *content, bool show, LogLevel level)
     if (show)
         return;
 
-    const QString label = logLevelLabel(level);
-    QRegExp re("\n" + label + "[^\n]*");
+    const QString label = logLinePrefix + logLevelLabel(level);
+
+    const QRegExp re("\n" + label + "[^\n]*");
     content->remove(re);
+
+    const QRegExp re2("^" + label + "[^\n]*\n");
+    content->remove(re2);
 }
 
 } // namespace
@@ -240,6 +247,8 @@ LogDialog::LogDialog(QWidget *parent)
     m_stringDecorator = new StringDecorator(this);
     m_threadNameDecorator = new ThreadNameDecorator(font, this);
 
+    ui->labelLogFileName->setText(logFileName());
+
     addFilterCheckBox(ui->layoutFilters, LogError, SLOT(showError(bool)));
     addFilterCheckBox(ui->layoutFilters, LogWarning, SLOT(showWarning(bool)));
     addFilterCheckBox(ui->layoutFilters, LogNote, SLOT(showNote(bool)));
@@ -257,14 +266,25 @@ LogDialog::~LogDialog()
 
 void LogDialog::updateLog()
 {
-    QString content = readLogFile();
-    content.replace("\nCopyQ ", "\n");
+    QString content = readLogFile(maxDisplayLogSize);
+
+    // Remove first line if incomplete.
+    if ( !content.startsWith(logLinePrefix) ) {
+        const int i = content.indexOf('\n');
+        content.remove(0, i + 1);
+    }
 
     showLogLines(&content, m_showError, LogError);
     showLogLines(&content, m_showWarning, LogWarning);
     showLogLines(&content, m_showNote, LogNote);
     showLogLines(&content, m_showDebug, LogDebug);
     showLogLines(&content, m_showTrace, LogTrace);
+
+    // Remove common prefix.
+    const QString prefix = logLinePrefix;
+    if ( content.startsWith(prefix) )
+        content.remove( 0, prefix.size() );
+    content.replace("\n" + prefix, "\n");
 
     ui->textBrowserLog->setPlainText(content);
 
