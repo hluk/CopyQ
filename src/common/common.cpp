@@ -29,6 +29,7 @@
 #include <QDesktopWidget>
 #include <QDir>
 #include <QImage>
+#include <QImageWriter>
 #include <QKeyEvent>
 #include <QLocale>
 #include <QMimeData>
@@ -58,7 +59,7 @@ namespace {
 QString getImageFormatFromMime(const QString &mime)
 {
     static const QString imageMimePrefix("image/");
-    return mime.startsWith(imageMimePrefix) ? mime.mid(imageMimePrefix.length()).toUpper()
+    return mime.startsWith(imageMimePrefix) ? mime.mid(imageMimePrefix.length())
                                             : QString();
 }
 
@@ -81,6 +82,10 @@ void cloneImageData(
         const QString &mime, QVariantMap *dataMap)
 {
     if (image.isNull())
+        return;
+
+    // Omit converting unsupported formats (takes too much time and still fails).
+    if ( !QImageWriter::supportedImageFormats().contains(format.toUtf8()) )
         return;
 
     QBuffer buffer;
