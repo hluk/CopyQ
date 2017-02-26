@@ -188,6 +188,18 @@ void logScriptError(const QString &text)
     log( createScriptErrorMessage(text), LogNote );
 }
 
+QString messageCodeToString(int code)
+{
+    switch (code) {
+    case CommandArguments:
+        return "CommandArguments";
+    case CommandReadInputReply:
+        return "CommandReadInputReply";
+    default:
+        return QString("Unknown(%1)").arg(code);
+    }
+}
+
 } // namespace
 
 Scriptable::Scriptable(
@@ -1403,6 +1415,8 @@ void Scriptable::sleep()
 
 void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 {
+    COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );
+
     if (messageCode == CommandArguments)
         executeArguments(bytes);
     else if (messageCode == CommandReadInputReply)

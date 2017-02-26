@@ -30,7 +30,7 @@
 
 namespace {
 
-QString toString(int code)
+QString messageCodeToString(int code)
 {
     switch (code) {
     case CommandFinished:
@@ -71,7 +71,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 {
-    COPYQ_LOG( "Status received: " + toString(messageCode) );
+    COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );
 
     if (messageCode == CommandReadInput) {
         startInputReader();
