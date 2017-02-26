@@ -1465,6 +1465,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     const int id = args.at(Arguments::ActionId).toInt(&hasData);
     if (hasData)
         m_data = m_proxy->getActionData(id);
+    const auto oldData = m_data;
 
     QByteArray response;
     int exitCode;
@@ -1525,7 +1526,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
         }
     }
 
-    if (exitCode == CommandFinished && hasData)
+    if (exitCode == CommandFinished && hasData && oldData != m_data)
         m_proxy->setActionData(id, data());
 
     // Destroy objects so destructors are run before script finishes
