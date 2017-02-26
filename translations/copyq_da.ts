@@ -2577,7 +2577,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation type="unfinished"></translation>
+        <translation>Faner:</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
@@ -2587,7 +2587,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko&amp;mmandoer</translation>
     </message>
 </context>
 <context>
@@ -3380,7 +3380,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1834"/>
         <source>CopyQ Options for Import</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ indstillinger for Import</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1996"/>
@@ -3391,27 +3391,27 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3139"/>
         <source>CopyQ Options for Export</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ indstillinger for eksport</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3155"/>
         <source>CopyQ Export Error</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ eksport fejl</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3156"/>
         <source>Failed to export file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke eksportere filen %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3228"/>
         <source>CopyQ Import Error</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ import fejl</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3229"/>
         <source>Failed to import file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke importere filen %1!</translation>
     </message>
     <message>
         <source>&amp;clipboard</source>
@@ -3696,12 +3696,12 @@ som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>&amp;Import...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Import...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="64"/>
         <source>&amp;Export...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Eksport...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
