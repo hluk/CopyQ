@@ -17,6 +17,7 @@ exclude_regexs=(
     '.*/qrc_.*'
     '.*CMake.*'
     '.*/tests/.*'
+    '.*/src/gui/add_icons.h'
 )
 
 # Generate coverage report only with GCC.
