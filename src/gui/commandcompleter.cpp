@@ -114,7 +114,7 @@ private:
         addDocumentation("hide", "hide()", "Hides main window.");
         addDocumentation("toggle", "bool toggle()", "Shows or hides main window.");
         addDocumentation("menu", "menu()", "Opens context menu.");
-        addDocumentation("menu", "menu(tabName)", "Shows context menu for given tab.");
+        addDocumentation("menu", "menu(tabName, [maxItemCount])", "Shows context menu for given tab.");
         addDocumentation("exit", "exit()", "Exits server.");
         addDocumentation("disable", "disable(), enable()", "Disables or enables clipboard content storing.");
         addDocumentation("monitoring", "bool monitoring()", "Returns true only if clipboard storing is enabled.");
@@ -156,10 +156,11 @@ private:
         addDocumentation("importTab", "importTab(fileName)", "Imports items from file to a new tab.");
         addDocumentation("config", "String config()", "Returns help with list of available options.");
         addDocumentation("config", "String config(optionName)", "Returns value of given option.");
-        addDocumentation("config", "String config(optionName, value)", "Sets option.");
+        addDocumentation("config", "String config(optionName, value)", "Sets option and returns new value.");
+        addDocumentation("config", "String config(optionName, value, ...)", "Sets multiple options and return list with values in format `optionName=newValue`.");
         addDocumentation("info", "String info([pathName])", "Returns paths and flags used by the application.");
         addDocumentation("eval", "Value eval(script)", "Evaluates script and returns result.");
-        addDocumentation("currentpath", "String currentpath()", "Returns current path.");
+        addDocumentation("currentPath", "String currentPath([path])", "Get or set current path.");
         addDocumentation("str", "String str(value)", "Converts a value to string.");
         addDocumentation("input", "ByteArray input()", "Returns standard input passed to the script.");
         addDocumentation("data", "ByteArray data(mimeType)", "Returns data for automatic commands or selected items.");
@@ -193,9 +194,11 @@ private:
         addDocumentation("networkPost", "NetworkReply networkPost(url, postData)", "Sends HTTP POST request.");
         addDocumentation("env", "ByteArray env(name)", "Returns value of environment variable with given name.");
         addDocumentation("setEnv", "bool setEnv(name, value)", "Sets environment variable with given name to given value.");
+        addDocumentation("sleep", "sleep(time)", "Wait for given time in milliseconds.");
         addDocumentation("ByteArray", "ByteArray", "Wrapper for QByteArray Qt class.");
         addDocumentation("File", "File", "Wrapper for QFile Qt class.");
         addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");
+        addDocumentation("TemporaryFile", "TemporaryFile", "Wrapper for QTemporaryFile Qt class.");
         addDocumentation("arguments", "(Array)", "Array for accessing arguments passed to current function or the script");
         addDocumentation("Item", "(Object)", "Type is `Object` and each property is MIME type with data.");
         addDocumentation("FinishedCommand", "(Object)", "Type is `Object` and properties are:");
