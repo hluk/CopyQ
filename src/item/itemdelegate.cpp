@@ -184,8 +184,11 @@ void ItemDelegate::updateRowPosition(int row, int y)
 void ItemDelegate::setRowVisible(int row, bool visible)
 {
     ItemWidget *w = m_cache[row];
-    if (w != nullptr)
+    if (w != nullptr) {
+        if (visible)
+            highlightMatches(w);
         w->widget()->setVisible(visible);
+    }
 }
 
 bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
@@ -339,8 +342,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                             role);
         painter->restore();
     }
-
-    highlightMatches(w);
 
     /* text color for selected/unselected item */
     QWidget *ww = w->widget();

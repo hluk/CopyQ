@@ -300,6 +300,7 @@ bool Action::isRunning() const
 void Action::setData(const QVariantMap &data)
 {
     m_data = data;
+    emit dataChanged(data);
 }
 
 const QVariantMap &Action::data() const

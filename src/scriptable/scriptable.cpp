@@ -188,6 +188,18 @@ void logScriptError(const QString &text)
     log( createScriptErrorMessage(text), LogNote );
 }
 
+QString messageCodeToString(int code)
+{
+    switch (code) {
+    case CommandArguments:
+        return "CommandArguments";
+    case CommandReadInputReply:
+        return "CommandReadInputReply";
+    default:
+        return QString("Unknown(%1)").arg(code);
+    }
+}
+
 } // namespace
 
 Scriptable::Scriptable(
@@ -1403,6 +1415,8 @@ void Scriptable::sleep()
 
 void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 {
+    COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );
+
     if (messageCode == CommandArguments)
         executeArguments(bytes);
     else if (messageCode == CommandReadInputReply)
@@ -1451,6 +1465,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     const int id = args.at(Arguments::ActionId).toInt(&hasData);
     if (hasData)
         m_data = m_proxy->getActionData(id);
+    const auto oldData = m_data;
 
     QByteArray response;
     int exitCode;
@@ -1511,7 +1526,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
         }
     }
 
-    if (exitCode == CommandFinished && hasData)
+    if (exitCode == CommandFinished && hasData && oldData != m_data)
         m_proxy->setActionData(id, data());
 
     // Destroy objects so destructors are run before script finishes
