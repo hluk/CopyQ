@@ -253,6 +253,30 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
     return false;
 }
 
+bool ItemSaverInterface::saveItems(const QAbstractItemModel &, QIODevice *)
+{
+    return false;
+}
+
+bool ItemSaverInterface::canRemoveItems(const QList<QModelIndex> &)
+{
+    return true;
+}
+
+bool ItemSaverInterface::canMoveItems(const QList<QModelIndex> &)
+{
+    return true;
+}
+
+void ItemSaverInterface::itemsRemovedByUser(const QList<QModelIndex> &)
+{
+}
+
+QVariantMap ItemSaverInterface::copyItem(const QAbstractItemModel &, const QVariantMap &itemData)
+{
+    return itemData;
+}
+
 ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *, bool) const
 {
     return nullptr;
@@ -268,23 +292,14 @@ bool ItemLoaderInterface::canSaveItems(const QAbstractItemModel &) const
     return false;
 }
 
-bool ItemLoaderInterface::loadItems(QAbstractItemModel *, QIODevice *)
+ItemSaverPtr ItemLoaderInterface::loadItems(QAbstractItemModel *, QIODevice *)
 {
-    return false;
+    return nullptr;
 }
 
-bool ItemLoaderInterface::saveItems(const QAbstractItemModel &, QIODevice *)
+ItemSaverPtr ItemLoaderInterface::initializeTab(QAbstractItemModel *)
 {
-    return false;
-}
-
-bool ItemLoaderInterface::initializeTab(QAbstractItemModel *)
-{
-    return false;
-}
-
-void ItemLoaderInterface::uninitializeTab(QAbstractItemModel *)
-{
+    return nullptr;
 }
 
 ItemWidget *ItemLoaderInterface::transform(ItemWidget *, const QModelIndex &)
@@ -292,23 +307,9 @@ ItemWidget *ItemLoaderInterface::transform(ItemWidget *, const QModelIndex &)
     return nullptr;
 }
 
-bool ItemLoaderInterface::canRemoveItems(const QList<QModelIndex> &)
+ItemSaverPtr ItemLoaderInterface::transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *)
 {
-    return true;
-}
-
-bool ItemLoaderInterface::canMoveItems(const QList<QModelIndex> &)
-{
-    return true;
-}
-
-void ItemLoaderInterface::itemsRemovedByUser(const QList<QModelIndex> &)
-{
-}
-
-QVariantMap ItemLoaderInterface::copyItem(const QAbstractItemModel &, const QVariantMap &itemData)
-{
-    return itemData;
+    return saver;
 }
 
 bool ItemLoaderInterface::matches(const QModelIndex &, const QRegExp &) const

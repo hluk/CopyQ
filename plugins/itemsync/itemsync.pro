@@ -1,11 +1,15 @@
 include(../plugins_common.pri)
 
-HEADERS += itemsync.h \
+HEADERS += \
+    itemsync.h \
+    filewatcher.h \
     ../../src/gui/iconselectbutton.h \
     ../../src/gui/iconselectdialog.h \
     ../../src/gui/iconwidget.h
-SOURCES += itemsync.cpp
+
 SOURCES += \
+    itemsync.cpp \
+    filewatcher.cpp \
     ../../src/common/common.cpp \
     ../../src/common/config.cpp \
     ../../src/common/log.cpp \
@@ -15,7 +19,8 @@ SOURCES += \
     ../../src/gui/iconselectdialog.cpp \
     ../../src/gui/iconwidget.cpp \
     ../../src/item/serialize.cpp
-FORMS   += itemsyncsettings.ui
+
+FORMS += itemsyncsettings.ui
 
 CONFIG(debug, debug|release) {
     SOURCES += tests/itemsynctests.cpp

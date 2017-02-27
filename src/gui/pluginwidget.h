@@ -20,9 +20,10 @@
 #ifndef PLUGINWIDGET_H
 #define PLUGINWIDGET_H
 
+#include "item/itemwidget.h"
+
 #include <QWidget>
 
-class ItemLoaderInterface;
 class QSettings;
 
 namespace Ui {
@@ -34,14 +35,14 @@ class PluginWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit PluginWidget(ItemLoaderInterface *loader, QWidget *parent = nullptr);
+    explicit PluginWidget(const ItemLoaderPtr &loader, QWidget *parent = nullptr);
     ~PluginWidget();
 
-    ItemLoaderInterface *loader() const { return m_loader; }
+    const ItemLoaderPtr &loader() const { return m_loader; }
 
 private:
     Ui::PluginWidget *ui;
-    ItemLoaderInterface *m_loader;
+    ItemLoaderPtr m_loader;
 };
 
 #endif // PLUGINWIDGET_H

@@ -49,6 +49,20 @@ public:
     void setTagged(bool tagged) override;
 };
 
+class ItemEncryptedSaver : public QObject, public ItemSaverInterface
+{
+    Q_OBJECT
+
+public:
+    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override;
+
+signals:
+    void error(const QString &);
+
+private:
+    void emitEncryptFailed();
+};
+
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
@@ -80,11 +94,9 @@ public:
 
     bool canSaveItems(const QAbstractItemModel &model) const override;
 
-    bool loadItems(QAbstractItemModel *model, QIODevice *file) override;
+    ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file) override;
 
-    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override;
-
-    bool initializeTab(QAbstractItemModel *model) override;
+    ItemSaverPtr initializeTab(QAbstractItemModel *model) override;
 
     const QObject *signaler() const override { return this; }
 
@@ -110,8 +122,9 @@ private:
 
     void updateUi();
 
-    void emitEncryptFailed();
     void emitDecryptFailed();
+
+    ItemSaverPtr createSaver();
 
     std::unique_ptr<Ui::ItemEncryptedSettings> ui;
     QVariantMap m_settings;

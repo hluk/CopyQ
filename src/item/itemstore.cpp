@@ -73,24 +73,7 @@ void printLoadItemFileError(const QString &id, const QString &fileName, const QF
     printItemFileError("load", id, fileName, file);
 }
 
-bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &itemFactory,
-                          const ItemLoaderInterface *currentLoader)
-{
-    if (!currentLoader)
-        return false;
-
-    bool saveWithCurrent = true;
-    for ( auto loader : itemFactory.loaders() ) {
-        if ( itemFactory.isLoaderEnabled(loader) && loader->canSaveItems(model) )
-            return loader != currentLoader;
-        if (loader == currentLoader)
-            saveWithCurrent = false;
-    }
-
-    return !saveWithCurrent;
-}
-
-ItemLoaderInterface *loadItems(
+ItemSaverPtr loadItems(
         const QString &tabName, const QString &tabFileName,
         ClipboardModel &model, ItemFactory *itemFactory)
 {
@@ -102,7 +85,7 @@ ItemLoaderInterface *loadItems(
         return nullptr;
     }
 
-    ItemLoaderInterface *loader = itemFactory->loadItems(&model, &tabFile);
+    auto loader = itemFactory->loadItems(&model, &tabFile);
     if (!loader) {
         const QString errorString =
                 QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
@@ -111,31 +94,29 @@ ItemLoaderInterface *loadItems(
         return nullptr;
     }
 
-    saveItemsWithOther(model, loader, itemFactory);
-
     return loader;
 }
 
-ItemLoaderInterface *createTab(
+ItemSaverPtr createTab(
         const QString &tabName, ClipboardModel &model, ItemFactory *itemFactory)
 {
     COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
 
-    ItemLoaderInterface *loader = itemFactory->initializeTab(&model);
-    if (!loader) {
+    auto saver = itemFactory->initializeTab(&model);
+    if (!saver) {
         log( QString("Tab \"%1\": Failed to create new tab"), LogError );
         return nullptr;
     }
 
-    if ( !saveItems(model, loader) )
+    if ( !saveItems(model, saver) )
         return nullptr;
 
-    return loader;
+    return saver;
 }
 
 } // namespace
 
-ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
+ItemSaverPtr loadItems(ClipboardModel &model, ItemFactory *itemFactory)
 {
     if ( !createItemDirectory() )
         return nullptr;
@@ -158,11 +139,11 @@ ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
     model.setDisabled(true);
 
     // Load file with items or create new file.
-    ItemLoaderInterface *loader = QFile::exists(tabFileName)
+    auto saver = QFile::exists(tabFileName)
             ? loadItems(tabName, tabFileName, model, itemFactory)
             : createTab(tabName, model, itemFactory);
 
-    if (!loader) {
+    if (!saver) {
         model.removeRows(0, model.rowCount());
         return nullptr;
     }
@@ -171,10 +152,10 @@ ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
 
     COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
 
-    return loader;
+    return saver;
 }
 
-bool saveItems(const ClipboardModel &model, ItemLoaderInterface *loader)
+bool saveItems(const ClipboardModel &model, const ItemSaverPtr &saver)
 {
     const QString tabName = model.property("tabName").toString();
     const QString tabFileName = itemFileName(tabName);
@@ -191,7 +172,7 @@ bool saveItems(const ClipboardModel &model, ItemLoaderInterface *loader)
 
     COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(tabName).arg(model.rowCount()) );
 
-    if ( !loader->saveItems(model, &tmpFile) ) {
+    if ( !saver->saveItems(model, &tmpFile) ) {
         COPYQ_LOG( QString("Tab \"%1\": Failed to save items!").arg(tabName) );
         return false;
     }
@@ -217,30 +198,6 @@ bool saveItems(const ClipboardModel &model, ItemLoaderInterface *loader)
     COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
 
     return true;
-}
-
-bool saveItemsWithOther(
-        ClipboardModel &model, ItemLoaderInterface *loader, ItemFactory *itemFactory)
-{
-    if ( !needToSaveItemsAgain(model, *itemFactory, loader) )
-        return false;
-
-    model.setDisabled(true);
-
-    COPYQ_LOG( QString("Tab \"%1\": Saving items using other plugin")
-               .arg(model.property("tabName").toString()) );
-
-    loader->uninitializeTab(&model);
-    loader = itemFactory->initializeTab(&model);
-    if ( loader && saveItems(model, loader) ) {
-        model.setDisabled(false);
-        return true;
-    } else {
-        COPYQ_LOG( QString("Tab \"%1\": Failed to re-save items")
-               .arg(model.property("tabName").toString()) );
-    }
-
-    return false;
 }
 
 void removeItems(const QString &tabName)

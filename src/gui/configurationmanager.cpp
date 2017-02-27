@@ -51,7 +51,7 @@ namespace {
 
 class PluginItem : public ItemOrderList::Item {
 public:
-    explicit PluginItem(ItemLoaderInterface *loader)
+    explicit PluginItem(const ItemLoaderPtr &loader)
         : m_loader(loader)
     {
     }
@@ -64,7 +64,7 @@ private:
         return new PluginWidget(m_loader, parent);
     }
 
-    ItemLoaderInterface *m_loader;
+    ItemLoaderPtr m_loader;
 };
 
 QString nativeLanguageName(const QString &localeName)
@@ -450,7 +450,7 @@ void ConfigurationManager::apply()
         QWidget *w = ui->itemOrderListPlugins->widget(i);
         if (w) {
             PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
-            ItemLoaderInterface *loader = pluginWidget->loader();
+            auto loader = pluginWidget->loader();
             const QVariantMap s = loader->applySettings();
             for (const auto &name : s.keys())
                 settings.setValue(name, s[name]);

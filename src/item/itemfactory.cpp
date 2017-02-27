@@ -45,7 +45,7 @@ bool findPluginDir(QDir *pluginsDir)
             && pluginsDir->isReadable();
 }
 
-bool priorityLessThan(const ItemLoaderInterface *lhs, const ItemLoaderInterface *rhs)
+bool priorityLessThan(const ItemLoaderPtr &lhs, const ItemLoaderPtr &rhs)
 {
     return lhs->priority() > rhs->priority();
 }
@@ -76,13 +76,13 @@ class PluginSorter {
 public:
     PluginSorter(const QStringList &pluginNames) : m_order(pluginNames) {}
 
-    int value(const ItemLoaderInterface *item) const
+    int value(const ItemLoaderPtr &item) const
     {
         const int i = m_order.indexOf( item->id() );
         return i == -1 ? m_order.indexOf( item->name() ) : i;
     }
 
-    bool operator()(const ItemLoaderInterface *lhs, const ItemLoaderInterface *rhs) const
+    bool operator()(const ItemLoaderPtr &lhs, const ItemLoaderPtr &rhs) const
     {
         const int l = value(lhs);
         const int r = value(rhs);
@@ -161,6 +161,15 @@ private:
     QString m_imageFormat;
 };
 
+class DummySaver : public ItemSaverInterface
+{
+public:
+    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override
+    {
+        return serializeData(model, file);
+    }
+};
+
 class DummyLoader : public ItemLoaderInterface
 {
 public:
@@ -178,26 +187,21 @@ public:
 
     bool canSaveItems(const QAbstractItemModel &) const override { return true; }
 
-    bool loadItems(QAbstractItemModel *model, QIODevice *file) override
+    ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file) override
     {
         if ( file->size() > 0 ) {
             if ( !deserializeData(model, file) ) {
                 model->removeRows(0, model->rowCount());
-                return false;
+                return nullptr;
             }
         }
 
-        return true;
+        return std::make_shared<DummySaver>();
     }
 
-    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override
+    ItemSaverPtr initializeTab(QAbstractItemModel *) override
     {
-        return serializeData(model, file);
-    }
-
-    bool initializeTab(QAbstractItemModel *) override
-    {
-        return true;
+        return std::make_shared<DummySaver>();
     }
 
     bool matches(const QModelIndex &index, const QRegExp &re) const override
@@ -207,12 +211,63 @@ public:
     }
 };
 
+ItemSaverPtr transformSaver(
+        QAbstractItemModel *model,
+        const ItemSaverPtr &saverToTransform, const ItemLoaderPtr &currentLoader,
+        const ItemLoaderList &loaders)
+{
+    ItemSaverPtr newSaver = saverToTransform;
+
+    for ( auto loader : loaders ) {
+        if (loader != currentLoader)
+            newSaver = loader->transformSaver(newSaver, model);
+    }
+
+    return newSaver;
+}
+
+ItemSaverPtr saveWithOther(
+        QAbstractItemModel *model,
+        const ItemSaverPtr &currentSaver, ItemLoaderPtr *currentLoader,
+        const ItemLoaderList &loaders)
+{
+    ItemLoaderPtr newLoader;
+
+    for ( auto loader : loaders ) {
+        if (loader == *currentLoader)
+            break;
+
+        if ( loader->canSaveItems(*model) ) {
+            newLoader = loader;
+            break;
+        }
+    }
+
+    if (!newLoader)
+        return currentSaver;
+
+    const auto tabName = model->property("tabName").toString();
+    COPYQ_LOG( QString("Tab \"%1\": Saving items using other plugin")
+               .arg(tabName) );
+
+    auto newSaver = newLoader->initializeTab(model);
+    if (!newSaver) {
+        COPYQ_LOG( QString("Tab \"%1\": Failed to re-save items")
+                   .arg(tabName) );
+        return currentSaver;
+    }
+
+    *currentLoader = newLoader;
+    return newSaver;
+}
+
+
 } // namespace
 
 ItemFactory::ItemFactory(QObject *parent)
     : QObject(parent)
     , m_loaders()
-    , m_dummyLoader(new DummyLoader())
+    , m_dummyLoader(std::make_shared<DummyLoader>())
     , m_disabledLoaders()
     , m_loaderChildren()
 {
@@ -227,8 +282,7 @@ ItemFactory::~ItemFactory()
     // Plugins are unloaded at application exit.
 }
 
-ItemWidget *ItemFactory::createItem(
-        ItemLoaderInterface *loader, const QModelIndex &index,
+ItemWidget *ItemFactory::createItem(const ItemLoaderPtr &loader, const QModelIndex &index,
         QWidget *parent, bool antialiasing, bool transform, bool preview)
 {
     ItemWidget *item = loader->create(index, parent, preview);
@@ -272,7 +326,7 @@ ItemWidget *ItemFactory::createItem(
 ItemWidget *ItemFactory::createSimpleItem(
         const QModelIndex &index, QWidget *parent, bool antialiasing)
 {
-    return createItem(m_dummyLoader.get(), index, parent, antialiasing);
+    return createItem(m_dummyLoader, index, parent, antialiasing);
 }
 
 QStringList ItemFactory::formatsToSave() const
@@ -302,37 +356,47 @@ void ItemFactory::setPluginPriority(const QStringList &pluginNames)
     std::sort( m_loaders.begin(), m_loaders.end(), PluginSorter(pluginNames) );
 }
 
-void ItemFactory::setLoaderEnabled(ItemLoaderInterface *loader, bool enabled)
+void ItemFactory::setLoaderEnabled(const ItemLoaderPtr &loader, bool enabled)
 {
-    if (enabled)
-        m_disabledLoaders.remove(loader);
-    else
-        m_disabledLoaders.insert(loader);
+    if ( isLoaderEnabled(loader) != enabled ) {
+        if (enabled)
+            m_disabledLoaders.remove( m_disabledLoaders.indexOf(loader) );
+        else
+            m_disabledLoaders.append(loader);
+    }
 }
 
-bool ItemFactory::isLoaderEnabled(const ItemLoaderInterface *loader) const
+bool ItemFactory::isLoaderEnabled(const ItemLoaderPtr &loader) const
 {
     return !m_disabledLoaders.contains(loader);
 }
 
-ItemLoaderInterface *ItemFactory::loadItems(QAbstractItemModel *model, QIODevice *file)
+ItemSaverPtr ItemFactory::loadItems(QAbstractItemModel *model, QIODevice *file)
 {
-    for ( auto loader : enabledLoaders() ) {
+    const auto loaders = enabledLoaders();
+    for ( auto loader : loaders ) {
         file->seek(0);
         if ( loader->canLoadItems(file) ) {
             file->seek(0);
-            return loader->loadItems(model, file) ? loader : nullptr;
+            auto saver = loader->loadItems(model, file);
+            if (!saver)
+                return nullptr;
+            saver = saveWithOther(model, saver, &loader, loaders);
+            return transformSaver(model, saver, loader, loaders);
         }
     }
 
     return nullptr;
 }
 
-ItemLoaderInterface *ItemFactory::initializeTab(QAbstractItemModel *model)
+ItemSaverPtr ItemFactory::initializeTab(QAbstractItemModel *model)
 {
-    for ( auto loader : enabledLoaders() ) {
-        if ( loader->canSaveItems(*model) )
-            return loader->initializeTab(model) ? loader : nullptr;
+    const auto loaders = enabledLoaders();
+    for ( auto loader : loaders ) {
+        if ( loader->canSaveItems(*model) ) {
+            const auto saver = loader->initializeTab(model);
+            return saver ? transformSaver(model, saver, loader, loaders) : nullptr;
+        }
     }
 
     return nullptr;
@@ -399,8 +463,8 @@ ItemWidget *ItemFactory::otherItemLoader(
 {
     Q_ASSERT(current->widget() != nullptr);
 
-    QWidget *w = current->widget();
-    ItemLoaderInterface *currentLoader = m_loaderChildren[w];
+    auto w = current->widget();
+    auto currentLoader = m_loaderChildren.value(w);
     if (!currentLoader)
         return nullptr;
 
@@ -447,7 +511,7 @@ bool ItemFactory::loadPlugins()
             if (plugin == nullptr) {
                 log( pluginLoader.errorString(), LogError );
             } else {
-                ItemLoaderInterface *loader = qobject_cast<ItemLoaderInterface *>(plugin);
+                ItemLoaderPtr loader( qobject_cast<ItemLoaderInterface *>(plugin) );
                 if (loader == nullptr)
                     pluginLoader.unload();
                 else
@@ -470,7 +534,7 @@ ItemLoaderList ItemFactory::enabledLoaders() const
             enabledLoaders.append(loader);
     }
 
-    enabledLoaders.append(m_dummyLoader.get());
+    enabledLoaders.append(m_dummyLoader);
 
     return enabledLoaders;
 }
@@ -488,7 +552,7 @@ ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &inde
     return item;
 }
 
-void ItemFactory::addLoader(ItemLoaderInterface *loader)
+void ItemFactory::addLoader(const ItemLoaderPtr &loader)
 {
     m_loaders.append(loader);
     const QObject *signaler = loader->signaler();

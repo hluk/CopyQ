@@ -27,6 +27,8 @@
 #include <QtPlugin>
 #include <QVariantMap>
 
+#include <memory>
+
 class QAbstractItemModel;
 class QTextEdit;
 class QIODevice;
@@ -36,6 +38,12 @@ class QPalette;
 class QRegExp;
 class QWidget;
 struct Command;
+
+class ItemLoaderInterface;
+using ItemLoaderPtr = std::shared_ptr<ItemLoaderInterface>;
+
+class ItemSaverInterface;
+using ItemSaverPtr = std::shared_ptr<ItemSaverInterface>;
 
 #define COPYQ_PLUGIN_ITEM_LOADER_ID "org.CopyQ.ItemPlugin.ItemLoader/1.0"
 
@@ -152,6 +160,40 @@ private:
     QWidget *m_widget;
 };
 
+class ItemSaverInterface
+{
+public:
+    virtual ~ItemSaverInterface() = default;
+
+    /**
+     * Save items.
+     * @return true only if items were saved
+     */
+    virtual bool saveItems(const QAbstractItemModel &model, QIODevice *file);
+
+    /**
+     * Called before items are deleted by user.
+     * @return true if items can be removed, false to cancel the removal
+     */
+    virtual bool canRemoveItems(const QList<QModelIndex> &indexList);
+
+    /**
+     * Called before items are moved out of list (i.e. deleted) by user.
+     * @return true if items can be moved, false to cancel the removal
+     */
+    virtual bool canMoveItems(const QList<QModelIndex> &);
+
+    /**
+     * Called when items are being deleted by user.
+     */
+    virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
+
+    /**
+     * Return copy of items data.
+     */
+    virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
+};
+
 class ItemLoaderInterface
 {
 public:
@@ -236,24 +278,13 @@ public:
      * Load items.
      * @return true only if items were saved by this plugin (or just not to load them any further)
      */
-    virtual bool loadItems(QAbstractItemModel *model, QIODevice *file);
-
-    /**
-     * Save items.
-     * @return true only if items were saved
-     */
-    virtual bool saveItems(const QAbstractItemModel &model, QIODevice *file);
+    virtual ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file);
 
     /**
      * Initialize tab (tab was not yet saved or loaded).
      * @return true only if successful
      */
-    virtual bool initializeTab(QAbstractItemModel *model);
-
-    /**
-     * Uninitialize tab (tab will be handled by different plugin).
-     */
-    virtual void uninitializeTab(QAbstractItemModel *model);
+    virtual ItemSaverPtr initializeTab(QAbstractItemModel *model);
 
     /**
      * Allow to transform item widget (wrap around a new widget).
@@ -263,26 +294,9 @@ public:
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
 
     /**
-     * Called before items are deleted by user.
-     * @return true if items can be removed, false to cancel the removal
+     * Transform loader.
      */
-    virtual bool canRemoveItems(const QList<QModelIndex> &indexList);
-
-    /**
-     * Called before items are moved out of list (i.e. deleted) by user.
-     * @return true if items can be moved, false to cancel the removal
-     */
-    virtual bool canMoveItems(const QList<QModelIndex> &);
-
-    /**
-     * Called when items are being deleted by user.
-     */
-    virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
-
-    /**
-     * Return copy of items data.
-     */
-    virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
+    virtual ItemSaverPtr transformSaver(const ItemSaverPtr &loader, QAbstractItemModel *model);
 
     /**
      * Return true if regular expression matches items content.

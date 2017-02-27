@@ -415,7 +415,7 @@ class ClipboardBrowser : public QListView
 
         void processDragAndDropEvent(QDropEvent *event);
 
-        ItemLoaderInterface *m_itemLoader;
+        ItemSaverPtr m_itemSaver;
         QString m_tabName;
         ClipboardModel m;
         ItemDelegate d;

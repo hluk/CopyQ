@@ -38,7 +38,7 @@ class QWidget;
 struct Command;
 struct CommandMenu;
 
-typedef QVector<ItemLoaderInterface *> ItemLoaderList;
+using ItemLoaderList = QVector<ItemLoaderPtr>;
 
 /**
  * Loads item plugins (loaders) and instantiates ItemWidget objects using appropriate
@@ -60,7 +60,7 @@ public:
      * Instantiate ItemWidget using given @a loader if possible.
      */
     ItemWidget *createItem(
-            ItemLoaderInterface *loader, const QModelIndex &index, QWidget *parent,
+            const ItemLoaderPtr &loader, const QModelIndex &index, QWidget *parent,
             bool antialiasing, bool transform = true, bool preview = false);
 
     /**
@@ -102,12 +102,12 @@ public:
     /**
      * Enable or disable instantiation of ItemWidget objects using @a loader.
      */
-    void setLoaderEnabled(ItemLoaderInterface *loader, bool enabled);
+    void setLoaderEnabled(const ItemLoaderPtr &loader, bool enabled);
 
     /**
      * Return true if @a loader is enabled.
      */
-    bool isLoaderEnabled(const ItemLoaderInterface *loader) const;
+    bool isLoaderEnabled(const ItemLoaderPtr &loader) const;
 
     /**
      * Return true if no plugins were loaded.
@@ -116,15 +116,15 @@ public:
 
     /**
      * Load items using a plugin.
-     * @return true only if any plugin (ItemLoaderInterface::loadItems()) returned true
+     * @return the first plugin (or nullptr) for which ItemLoaderInterface::loadItems() returned true
      */
-    ItemLoaderInterface *loadItems(QAbstractItemModel *model, QIODevice *file);
+    ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file);
 
     /**
      * Initialize tab.
-     * @return true only if any plugin (ItemLoaderInterface::initializeTab()) returned true
+     * @return the first plugin (or nullptr) for which ItemLoaderInterface::initializeTab() returned true
      */
-    ItemLoaderInterface *initializeTab(QAbstractItemModel *model);
+    ItemSaverPtr initializeTab(QAbstractItemModel *model);
 
     /**
      * Return true only if any plugin (ItemLoaderInterface::matches()) returns true;
@@ -159,12 +159,12 @@ private:
     /** Calls ItemLoaderInterface::transform() for all plugins in reverse order. */
     ItemWidget *transformItem(ItemWidget *item, const QModelIndex &index);
 
-    void addLoader(ItemLoaderInterface *loader);
+    void addLoader(const ItemLoaderPtr &loader);
 
     ItemLoaderList m_loaders;
-    std::unique_ptr<ItemLoaderInterface> m_dummyLoader;
-    QSet<const ItemLoaderInterface *> m_disabledLoaders;
-    QMap<QObject *, ItemLoaderInterface *> m_loaderChildren;
+    ItemLoaderPtr m_dummyLoader;
+    ItemLoaderList m_disabledLoaders;
+    QMap<QObject *, ItemLoaderPtr> m_loaderChildren;
 };
 
 #endif // ITEMFACTORY_H

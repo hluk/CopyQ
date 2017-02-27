@@ -174,7 +174,6 @@ SystemMutexPtr initSessionMutex(QSystemSemaphore::AccessMode accessMode)
 
 SystemMutexPtr getSessionMutex()
 {
-    static SystemMutexPtr mutex;
     if (qApp) {
         const auto sessionMutex =
                 qApp->property(propertySessionMutex).value<SystemMutexPtr>();

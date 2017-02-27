@@ -235,7 +235,7 @@ void ClipboardBrowserShared::loadFromConfiguration()
 
 ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent)
     : QListView(parent)
-    , m_itemLoader(nullptr)
+    , m_itemSaver(nullptr)
     , m_tabName()
     , m(this)
     , d(this, sharedData->itemFactory)
@@ -303,7 +303,7 @@ void ClipboardBrowser::emitItemCount()
 
 bool ClipboardBrowser::isFiltered(int row) const
 {
-    if ( d.searchExpression().isEmpty() || !m_itemLoader)
+    if ( d.searchExpression().isEmpty() || !m_itemSaver)
         return false;
 
     const QModelIndex ind = m.index(row);
@@ -543,7 +543,7 @@ void ClipboardBrowser::updateEditorGeometry()
 
 bool ClipboardBrowser::canExpire()
 {
-    return m_itemLoader && m_timerExpire.interval() > 0 && !isVisible();
+    return m_itemSaver && m_timerExpire.interval() > 0 && !isVisible();
 }
 
 void ClipboardBrowser::restartExpiring()
@@ -700,7 +700,7 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
                 continue;
 
             const QVariantMap copiedItemData =
-                    m_itemLoader ? m_itemLoader->copyItem(m, itemData(ind)) : itemData(ind);
+                    m_itemSaver ? m_itemSaver->copyItem(m, itemData(ind)) : itemData(ind);
 
             if (serializeItems)
                 stream << copiedItemData;
@@ -729,12 +729,12 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
 
 int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
 {
-    Q_ASSERT(m_itemLoader);
+    Q_ASSERT(m_itemSaver);
 
-    if ( indexes.isEmpty() || !m_itemLoader->canRemoveItems(indexes) )
+    if ( indexes.isEmpty() || !m_itemSaver->canRemoveItems(indexes) )
         return -1;
 
-    m_itemLoader->itemsRemovedByUser(indexes);
+    m_itemSaver->itemsRemovedByUser(indexes);
 
     QList<int> rows;
     rows.reserve( indexes.size() );
@@ -862,7 +862,7 @@ void ClipboardBrowser::onTabNameChanged(const QString &tabName)
     }
 
     // Just move last saved file if tab is not loaded yet.
-    if ( isLoaded() && saveItemsWithOther(m, m_itemLoader, m_sharedData->itemFactory) ) {
+    if ( isLoaded() ) {
         m_timerSave.stop();
         removeItems(m_tabName);
     } else {
@@ -938,7 +938,7 @@ void ClipboardBrowser::onEditorCancel()
 
 void ClipboardBrowser::onModelUnloaded()
 {
-    m_itemLoader = nullptr;
+    m_itemSaver = nullptr;
 }
 
 void ClipboardBrowser::onEditorNeedsChangeClipboard()
@@ -1180,7 +1180,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
                     ++m_dragTargetRow;
             }
         } else if ( target && target->window() == window()
-                    && m_itemLoader->canMoveItems(selected) )
+                    && m_itemSaver->canMoveItems(selected) )
         {
             removeIndexes(selected);
         }
@@ -1556,6 +1556,20 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
             return false;
     }
 
+    // list size limit
+    if ( m.rowCount() > m_sharedData->maxItems ) {
+        const auto oldRowCount = m.rowCount();
+        const auto index = m.index(oldRowCount - 1);
+        for (int i = oldRowCount - 1; i >= 0 && m.rowCount() == oldRowCount; --i)
+            removeIndexes(QModelIndexList() << index);
+        if ( m.rowCount() == oldRowCount ) {
+            QMessageBox::information(
+                        this, tr("Cannot Add New Items"),
+                        tr("Tab is full. Failed to remove any items.") );
+            return false;
+        }
+    }
+
     // create new item
     int newRow = row < 0 ? m.rowCount() : qMin(row, m.rowCount());
     m.insertItem(data, newRow);
@@ -1567,10 +1581,6 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
         // Select new item if clipboard is not focused and the item is not filtered-out.
         selectionModel()->setCurrentIndex(index(newRow), QItemSelectionModel::ClearAndSelect);
     }
-
-    // list size limit
-    if ( m.rowCount() > m_sharedData->maxItems )
-        m.removeRow( m.rowCount() - 1 );
 
     delayedSaveItems();
 
@@ -1691,7 +1701,7 @@ void ClipboardBrowser::loadItemsAgain()
     m_timerSave.stop();
 
     m.blockSignals(true);
-    m_itemLoader = ::loadItems(m, m_sharedData->itemFactory);
+    m_itemSaver = ::loadItems(m, m_sharedData->itemFactory);
     m.blockSignals(false);
 
     // Show lock button if model is disabled.
@@ -1723,7 +1733,7 @@ bool ClipboardBrowser::saveItems()
     if ( !isLoaded() || tabName().isEmpty() )
         return false;
 
-    return ::saveItems(m, m_itemLoader);
+    return ::saveItems(m, m_itemSaver);
 }
 
 void ClipboardBrowser::moveToClipboard()
@@ -1839,7 +1849,7 @@ bool ClipboardBrowser::editing() const
 
 bool ClipboardBrowser::isLoaded() const
 {
-    return !m_sharedData->itemFactory || ( m_itemLoader && !m.isDisabled() ) || tabName().isEmpty();
+    return !m_sharedData->itemFactory || ( m_itemSaver && !m.isDisabled() ) || tabName().isEmpty();
 }
 
 bool ClipboardBrowser::maybeCloseEditor()

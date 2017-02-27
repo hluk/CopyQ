@@ -19,22 +19,23 @@
 #ifndef ITEMSTORE_H
 #define ITEMSTORE_H
 
+#include "item/itemwidget.h"
+
 class ClipboardModel;
 class ItemFactory;
-class ItemLoaderInterface;
 class QString;
 
 /** Load items from configuration file. */
-ItemLoaderInterface *loadItems(ClipboardModel &model //!< Model for items.
+ItemSaverPtr loadItems(ClipboardModel &model //!< Model for items.
         , ItemFactory *itemFactory);
 
 /** Save items to configuration file. */
 bool saveItems(const ClipboardModel &model //!< Model containing items to save.
-        , ItemLoaderInterface *loader);
+        , const ItemSaverPtr &saver);
 
 /** Save items with other plugin with higher priority than current one (@a loader). */
 bool saveItemsWithOther(ClipboardModel &model //!< Model containing items to save.
-        , ItemLoaderInterface *loader, ItemFactory *itemFactory);
+        , const ItemSaverPtr &oldSaver, ItemFactory *itemFactory);
 
 /** Remove configuration file for items. */
 void removeItems(const QString &tabName //!< See ClipboardBrowser::getID().

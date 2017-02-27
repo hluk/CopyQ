@@ -67,6 +67,7 @@ enum IconId {
     IconWarningSign = 0xf071,
     IconFolderOpen = 0xf07c,
     IconCogs = 0xf085,
+    IconThumbTack  = 0xf08d,
     IconUploadAlt = 0xf093,
     IconSquareO = 0xf096,
     IconUnlock = 0xf09c,

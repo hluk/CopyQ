@@ -31,8 +31,9 @@ namespace Ui {
 class ItemSyncSettings;
 }
 
-class FileWatcher;
 class QTextEdit;
+
+class FileWatcher;
 struct FileFormat;
 
 class ItemSync : public QWidget, public ItemWidget
@@ -67,6 +68,34 @@ private:
     QTextEdit *m_label;
     QWidget *m_icon;
     std::unique_ptr<ItemWidget> m_childItem;
+};
+
+class ItemSyncSaver : public QObject, public ItemSaverInterface
+{
+    Q_OBJECT
+
+public:
+    explicit ItemSyncSaver(const QString &tabPath);
+
+    ItemSyncSaver(
+            QAbstractItemModel *model,
+            const QString &tabPath,
+            const QString &path, const QStringList &files,
+            const QList<FileFormat> &formatSettings);
+
+    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override;
+
+    bool canRemoveItems(const QList<QModelIndex> &indexList) override;
+
+    bool canMoveItems(const QList<QModelIndex> &indexList) override;
+
+    void itemsRemovedByUser(const QList<QModelIndex> &indexList) override;
+
+    QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
+
+private:
+    QString m_tabPath;
+    FileWatcher *m_watcher;
 };
 
 /**
@@ -115,23 +144,11 @@ public:
 
     bool canSaveItems(const QAbstractItemModel &model) const override;
 
-    bool loadItems(QAbstractItemModel *model, QIODevice *file) override;
+    ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file) override;
 
-    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override;
-
-    bool initializeTab(QAbstractItemModel *model) override;
-
-    void uninitializeTab(QAbstractItemModel *model) override;
+    ItemSaverPtr initializeTab(QAbstractItemModel *model) override;
 
     ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
-
-    bool canRemoveItems(const QList<QModelIndex> &indexList) override;
-
-    bool canMoveItems(const QList<QModelIndex> &indexList) override;
-
-    void itemsRemovedByUser(const QList<QModelIndex> &indexList) override;
-
-    QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
 
     bool matches(const QModelIndex &index, const QRegExp &re) const override;
 
@@ -143,18 +160,15 @@ signals:
     void error(const QString &);
 
 private slots:
-    void removeWatcher(QObject *watcher);
-    void removeModel();
     void onBrowseButtonClicked();
 
 private:
     QString tabPath(const QAbstractItemModel &model) const;
 
-    bool loadItems(QAbstractItemModel *model, const QStringList &files);
+    ItemSaverPtr loadItems(QAbstractItemModel *model, const QStringList &files);
 
     std::unique_ptr<Ui::ItemSyncSettings> ui;
     QVariantMap m_settings;
-    QMap<const QObject*, FileWatcher*> m_watchers;
     QMap<QString, QString> m_tabPaths;
     QList<FileFormat> m_formatSettings;
 };
