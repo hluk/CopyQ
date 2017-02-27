@@ -83,6 +83,13 @@ QByteArray waitUntilClipboardSet(const QByteArray &data, const QString &mime = Q
     return getClipboard(mime);
 }
 
+bool waitWhileFileExists(const QFile &file)
+{
+    SleepTimer t(2000);
+    while (file.exists() && t.sleep()) {}
+    return !file.exists();
+}
+
 bool waitForProcessFinished(QProcess *p)
 {
     // Process events in case we own clipboard and the new process requests the contents.
@@ -1614,9 +1621,8 @@ void Tests::externalEditor()
     file.close();
 
     // Close editor command.
-    WAIT_UNTIL(editorEndArgs, !file.exists(), out);
-    QCOMPARE(out.data(), "");
-    RUN(editorArgs << "remove" << "0", "");
+    RUN(editorEndArgs, "");
+    waitWhileFileExists(file);
 
     // Check if clipboard changed.
     WAIT_ON_OUTPUT("read" << "0", data1 + data2);
@@ -1643,9 +1649,8 @@ void Tests::externalEditor()
     file.close();
 
     // Close editor command.
-    WAIT_UNTIL(editorEndArgs, !file.exists(), out);
-    QCOMPARE(out.data(), "");
-    RUN(editorArgs << "remove" << "0", "");
+    RUN(editorEndArgs, "");
+    waitWhileFileExists(file);
 
     // Check first item.
     WAIT_ON_OUTPUT(args << "read" << "0", text.toUtf8() + data3);
@@ -1666,9 +1671,8 @@ void Tests::externalEditor()
     file.close();
 
     // Close editor command.
-    WAIT_UNTIL(editorEndArgs, !file.exists(), out);
-    QCOMPARE(out.data(), "");
-    RUN(editorArgs << "remove" << "0", "");
+    RUN(editorEndArgs, "");
+    waitWhileFileExists(file);
 
     // Check first item.
     WAIT_ON_OUTPUT(args << "read" << "0", data4);
