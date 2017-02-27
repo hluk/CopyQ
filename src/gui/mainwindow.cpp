@@ -1196,12 +1196,10 @@ void MainWindow::resetTestSession(const QString &clipboardTabName)
     if ( c != getBrowser(0) )
         removeTab(false, 0);
 
-    Q_ASSERT( ui->tabWidget->count() == 1 );
-    Q_ASSERT( c == getBrowser(0) );
-
     // Remove all items from the clipboard tab.
     const auto model = c->model();
     model->removeRows( 0, model->rowCount() );
+    c->saveItems();
 
     resetTestsSettings();
 
@@ -1209,6 +1207,11 @@ void MainWindow::resetTestSession(const QString &clipboardTabName)
     AppConfig().setOption( Config::clipboard_tab::name(), clipboardTabName );
 
     emit configurationChanged();
+
+    // Assert everything after configuration is loaded.
+    Q_ASSERT( ui->tabWidget->count() == 1 );
+    Q_ASSERT( c == getBrowser(0) );
+    Q_ASSERT( c->length() == 0 );
 }
 #endif
 
