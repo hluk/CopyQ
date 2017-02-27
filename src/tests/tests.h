@@ -103,6 +103,8 @@ private slots:
     void classDir();
     void classTemporaryFile();
 
+    void configMaxitems();
+
     void keysAndFocusing();
 
     void selectItems();

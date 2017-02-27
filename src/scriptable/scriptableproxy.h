@@ -127,8 +127,8 @@ public:
     int browserLength();
     bool browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
 
-    bool browserAdd(const QStringList &texts);
-    bool browserAdd(const QVariantMap &arg1, int arg2);
+    QString browserAdd(const QStringList &texts);
+    QString browserAdd(const QVariantMap &arg1, int arg2);
     bool browserChange(const QVariantMap &data, int row);
 
     QByteArray browserItemData(int arg1, const QString &arg2);

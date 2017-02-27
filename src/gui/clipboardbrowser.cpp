@@ -680,6 +680,27 @@ void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
     m_dragTargetRow = getDropRow(event->pos());
 }
 
+int ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
+{
+    QList<int> rows;
+    rows.reserve( indexes.size() );
+
+    for (const auto &index : indexes) {
+        if ( index.isValid() )
+            rows.append( index.row() );
+    }
+
+    std::sort( rows.begin(), rows.end(), std::greater<int>() );
+
+    ClipboardBrowser::Lock lock(this);
+    for (int row : rows)
+        m.removeRow(row);
+
+    delayedSaveItems();
+
+    return rows.last();
+}
+
 bool ClipboardBrowser::hasUserSelection() const
 {
     return isActiveWindow() || editing() || selectionModel()->selectedRows().count() > 1;
@@ -742,23 +763,7 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *err
 
     m_itemSaver->itemsRemovedByUser(indexes);
 
-    QList<int> rows;
-    rows.reserve( indexes.size() );
-
-    for (const auto &index : indexes) {
-        if ( index.isValid() )
-            rows.append( index.row() );
-    }
-
-    std::sort( rows.begin(), rows.end(), std::greater<int>() );
-
-    ClipboardBrowser::Lock lock(this);
-    for (int row : rows)
-        m.removeRow(row);
-
-    delayedSaveItems();
-
-    return rows.last();
+    return dropIndexes(indexes);
 }
 
 void ClipboardBrowser::paste(const QVariantMap &data, int destinationRow)
@@ -1541,6 +1546,28 @@ void ClipboardBrowser::reverseItems(const QModelIndexList &indexes)
     m.sortItems(indexes, &reverseSort);
 }
 
+bool ClipboardBrowser::allocateSpaceForNewItems(int newItemCount)
+{
+    const auto targetRowCount = m_sharedData->maxItems - newItemCount;
+    const auto toRemove = m.rowCount() - targetRowCount;
+    if (toRemove <= 0)
+        return true;
+
+    QModelIndexList indexesToRemove;
+    QString error;
+    for (int row = m.rowCount() - 1; row >= 0 && indexesToRemove.size() < toRemove; --row) {
+        const auto index = m.index(row);
+        if ( m_itemSaver->canRemoveItems(QModelIndexList() << index, &error) )
+            indexesToRemove.append(index);
+    }
+
+    if (indexesToRemove.size() < toRemove)
+        return false;
+
+    dropIndexes(indexesToRemove);
+    return true;
+}
+
 bool ClipboardBrowser::add(const QString &txt, int row)
 {
     return add( createDataMap(mimeText, txt), row );
@@ -1552,7 +1579,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
 
     std::unique_ptr<ClipboardBrowser::Lock> lock;
     if ( updatesEnabled() && keepUserSelection )
-        lock.reset(new ClipboardBrowser::Lock(this));
+    lock.reset(new ClipboardBrowser::Lock(this));
 
     if ( m.isDisabled() )
         return false;
@@ -1563,17 +1590,11 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     }
 
     // list size limit
-    if ( m.rowCount() > m_sharedData->maxItems ) {
-        const auto oldRowCount = m.rowCount();
-        const auto index = m.index(oldRowCount - 1);
-        for (int i = oldRowCount - 1; i >= 0 && m.rowCount() == oldRowCount; --i)
-            removeIndexes(QModelIndexList() << index);
-        if ( m.rowCount() == oldRowCount ) {
-            QMessageBox::information(
-                        this, tr("Cannot Add New Items"),
-                        tr("Tab is full. Failed to remove any items.") );
-            return false;
-        }
+    if ( !allocateSpaceForNewItems(1) ) {
+        QMessageBox::information(
+                    this, tr("Cannot Add New Items"),
+                    tr("Tab is full. Failed to remove any items.") );
+        return false;
     }
 
     // create new item

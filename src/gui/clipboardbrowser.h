@@ -161,6 +161,9 @@ class ClipboardBrowser : public QListView
         /** Render preview image with items. */
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
 
+        /** Removes items from end of list without notifying plugins. */
+        bool allocateSpaceForNewItems(int newItemCount);
+
         /** Add new item to the browser. */
         bool add(
                 const QString &txt, //!< Text of new item.
@@ -414,6 +417,9 @@ class ClipboardBrowser : public QListView
         void unlock();
 
         void processDragAndDropEvent(QDropEvent *event);
+
+        /// Removes indexes without notifying or asking plugins.
+        int dropIndexes(const QModelIndexList &indexes);
 
         ItemSaverPtr m_itemSaver;
         QString m_tabName;

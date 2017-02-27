@@ -1106,6 +1106,53 @@ void Tests::classTemporaryFile()
     }
 }
 
+void Tests::configMaxitems()
+{
+    RUN("config" << "maxitems" << "3", "3\n");
+    RUN("add" << "A" << "B" << "C", "");
+    RUN("add" << "D", "");
+    RUN("separator" << " " << "read" << "0" << "1" << "2", "D C B");
+    RUN("size", "3\n");
+
+    RUN("add" << "E" << "F", "");
+    RUN("separator" << " " << "read" << "0" << "1" << "2", "F E D");
+    RUN("size", "3\n");
+
+    RUN("config" << "maxitems" << "2", "2\n");
+    RUN("separator" << " " << "read" << "0" << "1", "F E");
+    RUN("size", "2\n");
+
+    // Ading too many items fails.
+    TEST( m_test->runClientWithError(Args() << "add" << "1" << "2" << "3", 1) );
+    RUN("separator" << " " << "read" << "0" << "1", "F E");
+    RUN("size", "2\n");
+
+    // Single item in tabs.
+    RUN("config" << "maxitems" << "1", "1\n");
+    RUN("separator" << " " << "read" << "0", "F");
+    RUN("size", "1\n");
+
+    RUN("add" << "G", "");
+    RUN("separator" << " " << "read" << "0", "G");
+    RUN("size", "1\n");
+
+    RUN("write" << "1" << "text/plain" << "H", "");
+    RUN("separator" << " " << "read" << "0", "H");
+    RUN("size", "1\n");
+
+    // No items in tabs.
+    RUN("config" << "maxitems" << "0", "0\n");
+    RUN("size", "0\n");
+
+    TEST( m_test->runClientWithError(Args() << "add" << "1", 1) );
+    TEST( m_test->runClientWithError(Args() << "write" << "1", 1) );
+    RUN("size", "0\n");
+
+    // Invalid value.
+    RUN("config" << "maxitems" << "-99", "0\n");
+    RUN("size", "0\n");
+}
+
 void Tests::keysAndFocusing()
 {
 #ifdef Q_OS_MAC

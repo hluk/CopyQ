@@ -702,27 +702,41 @@ bool ScriptableProxy::browserOpenEditor(const QByteArray &arg1, bool changeClipb
     return c && c->openEditor(arg1, changeClipboard);
 }
 
-bool ScriptableProxy::browserAdd(const QStringList &texts)
+QString ScriptableProxy::browserAdd(const QStringList &texts)
 {
     INVOKE(browserAdd(texts));
+
     ClipboardBrowser *c = fetchBrowser();
     if (!c)
-        return false;
+        return "Invalid tab";
+
+    if ( !c->allocateSpaceForNewItems(texts.size()) )
+        return "Tab is full (cannot remove any items)";
 
     ClipboardBrowser::Lock lock(c);
     for (const auto &text : texts) {
         if ( !c->add(text) )
-            return false;
+            return "Failed to new add items";
     }
 
-    return true;
+    return QString();
 }
 
-bool ScriptableProxy::browserAdd(const QVariantMap &arg1, int arg2)
+QString ScriptableProxy::browserAdd(const QVariantMap &arg1, int arg2)
 {
     INVOKE(browserAdd(arg1, arg2));
+
     ClipboardBrowser *c = fetchBrowser();
-    return c && c->add(arg1, arg2);
+    if (!c)
+        return "Invalid tab";
+
+    if ( !c->allocateSpaceForNewItems(1) )
+        return "Tab is full (cannot remove any items)";
+
+    if ( !c->add(arg1, arg2) )
+        return "Failed to new add item";
+
+    return QString();
 }
 
 bool ScriptableProxy::browserChange(const QVariantMap &data, int row)

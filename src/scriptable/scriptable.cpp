@@ -666,7 +666,9 @@ void Scriptable::add()
     for (int i = 0; i < argumentCount(); ++i)
         texts.append( toString(argument(i)) );
 
-    m_proxy->browserAdd(texts);
+    const auto error = m_proxy->browserAdd(texts);
+    if ( !error.isEmpty() )
+        throwError(error);
 }
 
 void Scriptable::insert()
@@ -680,7 +682,9 @@ void Scriptable::insert()
     QScriptValue value = argument(1);
     QVariantMap data;
     setTextData( &data, toString(value) );
-    m_proxy->browserAdd(data, row);
+    const auto error = m_proxy->browserAdd(data, row);
+    if ( !error.isEmpty() )
+        throwError(error);
 }
 
 void Scriptable::remove()
@@ -1217,7 +1221,9 @@ void Scriptable::setItem()
     }
 
     QVariantMap data = toDataMap( argument(1) );
-    m_proxy->browserAdd(data, row);
+    const auto error = m_proxy->browserAdd(data, row);
+    if ( !error.isEmpty() )
+        throwError(error);
 }
 
 QScriptValue Scriptable::toBase64()
@@ -1644,10 +1650,13 @@ void Scriptable::changeItem(bool create)
         toItemData( argument(i + 1), mime, &data );
     }
 
-    if (create)
-        m_proxy->browserAdd(data, row);
-    else
+    if (create) {
+        const auto error = m_proxy->browserAdd(data, row);
+        if ( !error.isEmpty() )
+            throwError(error);
+    } else {
         m_proxy->browserChange(data, row);
+    }
 }
 
 void Scriptable::nextToClipboard(int where)
