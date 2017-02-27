@@ -274,9 +274,12 @@ void ItemSyncTests::removeItems()
               + sep + fileD
               );
 
-    SKIP("Removing files with \"remove\" command doesn't work!");
-    RUN(args << "remove" << "1", "");
-    QCOMPARE( dir1.files().join(sep), fileD );
+    // Removing items from script won't work.
+    TEST( m_test->runClientWithError(Args() << args << "remove" << "1", 1) );
+    QCOMPARE( dir1.files().join(sep),
+              fileA
+              + sep + fileD
+              );
 }
 
 void ItemSyncTests::removeFiles()
