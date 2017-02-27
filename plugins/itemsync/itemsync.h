@@ -85,7 +85,7 @@ public:
 
     bool saveItems(const QAbstractItemModel &model, QIODevice *file) override;
 
-    bool canRemoveItems(const QList<QModelIndex> &indexList) override;
+    bool canRemoveItems(const QList<QModelIndex> &indexList, QString *error) override;
 
     bool canMoveItems(const QList<QModelIndex> &indexList) override;
 

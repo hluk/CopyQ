@@ -695,7 +695,9 @@ void Scriptable::remove()
     if ( rows.empty() )
         rows.append(0);
 
-    m_proxy->browserRemoveRows(rows);
+    const auto error = m_proxy->browserRemoveRows(rows);
+    if ( !error.isEmpty() )
+        throwError(error);
 }
 
 void Scriptable::edit()

@@ -522,13 +522,21 @@ bool ItemSyncSaver::saveItems(const QAbstractItemModel &model, QIODevice *file)
     return true;
 }
 
-bool ItemSyncSaver::canRemoveItems(const QList<QModelIndex> &indexList)
+bool ItemSyncSaver::canRemoveItems(const QList<QModelIndex> &indexList, QString *error)
 {
-    return !containsItemsWithFiles(indexList)
-            || QMessageBox::question( QApplication::activeWindow(), tr("Remove Items?"),
-                                      tr("Do you really want to <strong>remove items and associated files</strong>?"),
-                                      QMessageBox::No | QMessageBox::Yes,
-                                      QMessageBox::Yes ) == QMessageBox::Yes;
+    if ( !containsItemsWithFiles(indexList) )
+        return true;
+
+    if (error) {
+        *error = "Removing synchronized items with assigned files from script is not allowed (remove the files instead)";
+        return false;
+    }
+
+    return QMessageBox::question(
+                QApplication::activeWindow(), tr("Remove Items?"),
+                tr("Do you really want to <strong>remove items and associated files</strong>?"),
+                QMessageBox::No | QMessageBox::Yes,
+                QMessageBox::Yes ) == QMessageBox::Yes;
 }
 
 bool ItemSyncSaver::canMoveItems(const QList<QModelIndex> &)

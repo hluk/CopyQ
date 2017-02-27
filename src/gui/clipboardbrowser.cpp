@@ -727,11 +727,17 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
     return data;
 }
 
-int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
+int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *error)
 {
     Q_ASSERT(m_itemSaver);
 
-    if ( indexes.isEmpty() || !m_itemSaver->canRemoveItems(indexes) )
+    if ( indexes.isEmpty() ) {
+        if (error)
+            *error = "No rows specified";
+        return -1;
+    }
+
+    if ( !m_itemSaver->canRemoveItems(indexes, error) )
         return -1;
 
     m_itemSaver->itemsRemovedByUser(indexes);

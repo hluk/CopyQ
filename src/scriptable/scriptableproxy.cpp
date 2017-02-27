@@ -569,12 +569,12 @@ void ScriptableProxy::browserSetCurrent(int arg1)
     BROWSER(setCurrent(arg1));
 }
 
-void ScriptableProxy::browserRemoveRows(QList<int> rows)
+QString ScriptableProxy::browserRemoveRows(QList<int> rows)
 {
-    INVOKE2(browserRemoveRows(rows));
+    INVOKE(browserRemoveRows(rows));
     ClipboardBrowser *c = fetchBrowser();
     if (!c)
-        return;
+        return QString("Invalid tab");
 
     qSort( rows.begin(), rows.end(), qGreater<int>() );
 
@@ -590,12 +590,18 @@ void ScriptableProxy::browserRemoveRows(QList<int> rows)
 
     const QPersistentModelIndex currentIndex = c->currentIndex();
 
-    const int lastRow = c->removeIndexes(indexes);
+    QString error;
+    const int lastRow = c->removeIndexes(indexes, &error);
+
+    if ( !error.isEmpty() )
+        return error;
 
     if ( !currentIndex.isValid() ) {
         const int currentRow = qMin(lastRow, c->length() - 1);
         c->setCurrent(currentRow);
     }
+
+    return QString();
 }
 
 void ScriptableProxy::browserEditRow(int arg1)

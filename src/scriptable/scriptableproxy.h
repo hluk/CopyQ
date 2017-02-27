@@ -104,7 +104,7 @@ public:
     QVariantMap nextItem(int where);
     void browserMoveToClipboard(int arg1);
     void browserSetCurrent(int arg1);
-    void browserRemoveRows(QList<int> rows);
+    QString browserRemoveRows(QList<int> rows);
 
     void browserEditRow(int arg1);
     void browserEditNew(const QString &arg1, bool changeClipboard);

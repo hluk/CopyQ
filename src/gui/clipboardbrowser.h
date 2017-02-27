@@ -153,7 +153,7 @@ class ClipboardBrowser : public QListView
         QVariantMap copyIndexes(const QModelIndexList &indexes, bool serializeItems = true) const;
 
         /** Remove items and return smallest row number (new current item if selection was removed). */
-        int removeIndexes(const QModelIndexList &indexes);
+        int removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
 
         /** Paste items. */
         void paste(const QVariantMap &data, int destinationRow);

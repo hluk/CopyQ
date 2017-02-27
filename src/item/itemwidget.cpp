@@ -258,7 +258,7 @@ bool ItemSaverInterface::saveItems(const QAbstractItemModel &, QIODevice *)
     return false;
 }
 
-bool ItemSaverInterface::canRemoveItems(const QList<QModelIndex> &)
+bool ItemSaverInterface::canRemoveItems(const QList<QModelIndex> &, QString *)
 {
     return true;
 }

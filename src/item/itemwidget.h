@@ -175,7 +175,7 @@ public:
      * Called before items are deleted by user.
      * @return true if items can be removed, false to cancel the removal
      */
-    virtual bool canRemoveItems(const QList<QModelIndex> &indexList);
+    virtual bool canRemoveItems(const QList<QModelIndex> &indexList, QString *error);
 
     /**
      * Called before items are moved out of list (i.e. deleted) by user.
