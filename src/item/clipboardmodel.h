@@ -71,6 +71,8 @@ public:
         m_items.insert(to, item);
     }
 
+    void move(int from, int count, int to);
+
     void reserve(int maxItems)
     {
         m_items.reserve(maxItems);
@@ -125,6 +127,13 @@ public:
                     const QModelIndex &index = QModelIndex()) override;
     bool removeRows(int position, int rows,
                     const QModelIndex &index = QModelIndex()) override;
+    bool moveRows(const QModelIndex &sourceParent, int sourceRow, int rows,
+            const QModelIndex &destinationParent, int destinationRow)
+#if QT_VERSION < 0x050000
+        ;
+#else
+        override;
+#endif
 
     /** insert new item to model. */
     void insertItem(const QVariantMap &data, int row);
@@ -195,6 +204,12 @@ public:
 
     /** Emit unloaded() and unload (remove) all items. */
     void unloadItems();
+
+public slots:
+#if QT_VERSION < 0x050000
+    void moveRow(int from, int to) { moveRows(QModelIndex(), from, 1, QModelIndex(), to); }
+#endif
+
 
 signals:
     void unloaded();

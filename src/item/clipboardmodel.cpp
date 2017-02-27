@@ -54,6 +54,14 @@ int topMostRow(const QList<QPersistentModelIndex> &indexList)
 
 } // namespace
 
+void ClipboardItemList::move(int from, int count, int to)
+{
+    const auto start = std::begin(m_items) + from;
+    const auto end = start + count;
+    const auto dest = std::begin(m_items) + to + (to < from ? 1 : 0);
+    std::rotate(start, end, dest);
+}
+
 ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_max(100)
@@ -158,6 +166,27 @@ bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
     m_clipboardList.remove(position, last - position + 1);
 
     endRemoveRows();
+
+    return true;
+}
+
+bool ClipboardModel::moveRows(
+        const QModelIndex &sourceParent, int sourceRow, int rows,
+        const QModelIndex &destinationParent, int destinationRow)
+{
+    if (sourceParent.isValid() || destinationParent.isValid())
+        return false;
+
+    if (sourceRow < 0 || destinationRow < 0 || rows <= 0 || sourceRow + rows > rowCount())
+        return false;
+
+    const int last = sourceRow + rows - 1;
+    if (sourceRow <= destinationRow && destinationRow <= last)
+        return false;
+
+    beginMoveRows(sourceParent, sourceRow, last, destinationParent, destinationRow);
+    m_clipboardList.move(sourceRow, rows, destinationRow);
+    endMoveRows();
 
     return true;
 }

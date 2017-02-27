@@ -7,6 +7,7 @@ SUBDIRS  = \
            itemfakevim \
            itemimage \
            itemnotes \
+           itempinned \
            itemtags \
            itemtext \
            itemsync \
