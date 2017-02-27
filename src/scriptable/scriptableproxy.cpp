@@ -702,13 +702,6 @@ bool ScriptableProxy::browserOpenEditor(const QByteArray &arg1, bool changeClipb
     return c && c->openEditor(arg1, changeClipboard);
 }
 
-bool ScriptableProxy::browserAdd(const QString &arg1)
-{
-    INVOKE(browserAdd(arg1));
-    ClipboardBrowser *c = fetchBrowser();
-    return c && c->add(arg1);
-}
-
 bool ScriptableProxy::browserAdd(const QStringList &texts)
 {
     INVOKE(browserAdd(texts));
