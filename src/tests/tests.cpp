@@ -604,15 +604,7 @@ void Tests::commandEval()
 
 void Tests::commandEvalThrows()
 {
-    QByteArray out;
-    QByteArray err;
-    QCOMPARE( run(Args("eval") << "throw 'TEST_EXCEPTION'", &out, &err), 1 );
-    QCOMPARE( out, QByteArray() );
-    QVERIFY( !err.isEmpty() );
-    QVERIFY( err.contains("TEST_EXCEPTION") );
-
-    // Clear exception error.
-    TEST( m_test->readServerErrors(TestInterface::ReadErrorsWithoutScriptException) );
+    TEST( m_test->runClientWithError(Args("eval") << "throw 'TEST_EXCEPTION'", 1, "TEST_EXCEPTION") );
 }
 
 void Tests::commandPrint()
