@@ -218,7 +218,7 @@ ItemSaverPtr transformSaver(
 {
     ItemSaverPtr newSaver = saverToTransform;
 
-    for ( auto loader : loaders ) {
+    for ( auto &loader : loaders ) {
         if (loader != currentLoader)
             newSaver = loader->transformSaver(newSaver, model);
     }
@@ -233,7 +233,7 @@ ItemSaverPtr saveWithOther(
 {
     ItemLoaderPtr newLoader;
 
-    for ( auto loader : loaders ) {
+    for ( auto &loader : loaders ) {
         if (loader == *currentLoader)
             break;
 
@@ -314,7 +314,7 @@ ItemWidget *ItemFactory::createItem(const ItemLoaderPtr &loader, const QModelInd
 ItemWidget *ItemFactory::createItem(
         const QModelIndex &index, QWidget *parent, bool antialiasing, bool transform, bool preview)
 {
-    for ( auto loader : enabledLoaders() ) {
+    for ( auto &loader : enabledLoaders() ) {
         ItemWidget *item = createItem(loader, index, parent, antialiasing, transform, preview);
         if (item != nullptr)
             return item;
@@ -333,7 +333,7 @@ QStringList ItemFactory::formatsToSave() const
 {
     QStringList formats;
 
-    for ( const auto loader : enabledLoaders() ) {
+    for ( const auto &loader : enabledLoaders() ) {
         for ( const auto &format : loader->formatsToSave() ) {
             if ( !formats.contains(format) )
                 formats.append(format);
@@ -373,8 +373,8 @@ bool ItemFactory::isLoaderEnabled(const ItemLoaderPtr &loader) const
 
 ItemSaverPtr ItemFactory::loadItems(QAbstractItemModel *model, QIODevice *file)
 {
-    const auto loaders = enabledLoaders();
-    for ( auto loader : loaders ) {
+    auto loaders = enabledLoaders();
+    for ( auto &loader : loaders ) {
         file->seek(0);
         if ( loader->canLoadItems(file) ) {
             file->seek(0);
@@ -392,7 +392,7 @@ ItemSaverPtr ItemFactory::loadItems(QAbstractItemModel *model, QIODevice *file)
 ItemSaverPtr ItemFactory::initializeTab(QAbstractItemModel *model)
 {
     const auto loaders = enabledLoaders();
-    for ( auto loader : loaders ) {
+    for ( auto &loader : loaders ) {
         if ( loader->canSaveItems(*model) ) {
             const auto saver = loader->initializeTab(model);
             return saver ? transformSaver(model, saver, loader, loaders) : nullptr;
@@ -413,7 +413,7 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
         }
     }
 
-    for ( const auto loader : enabledLoaders() ) {
+    for ( const auto &loader : enabledLoaders() ) {
         if ( isLoaderEnabled(loader) && loader->matches(index, re) )
             return true;
     }
@@ -425,7 +425,7 @@ QString ItemFactory::scripts() const
 {
     QString script;
 
-    for ( const auto loader : enabledLoaders() )
+    for ( const auto &loader : enabledLoaders() )
         script.append( loader->script() + '\n' );
 
     return script;
@@ -435,7 +435,7 @@ QList<QObject*> ItemFactory::scriptableObjects(QObject *parent) const
 {
     QList<QObject*> scriptables;
 
-    for ( const auto loader : enabledLoaders() ) {
+    for ( const auto &loader : enabledLoaders() ) {
         auto scriptable = loader->scriptableObject(parent);
         if (scriptable) {
             scriptable->setObjectName( loader->id() );
@@ -450,7 +450,7 @@ QList<Command> ItemFactory::commands() const
 {
     QList<Command> commands;
 
-    for ( const auto loader : enabledLoaders() ) {
+    for ( const auto &loader : enabledLoaders() ) {
         QList <Command> subCommands = loader->commands();
 
         for (auto &subCommand : subCommands)
@@ -544,7 +544,7 @@ ItemLoaderList ItemFactory::enabledLoaders() const
 {
     ItemLoaderList enabledLoaders;
 
-    for (auto loader : m_loaders) {
+    for (auto &loader : m_loaders) {
         if ( isLoaderEnabled(loader) )
             enabledLoaders.append(loader);
     }
@@ -556,7 +556,7 @@ ItemLoaderList ItemFactory::enabledLoaders() const
 
 ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &index)
 {
-    for (auto loader : m_loaders) {
+    for (auto &loader : m_loaders) {
         if ( isLoaderEnabled(loader) ) {
             ItemWidget *newItem = loader->transform(item, index);
             if (newItem != nullptr)

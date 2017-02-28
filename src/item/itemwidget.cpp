@@ -52,13 +52,7 @@ bool containsRichText(const QTextDocument &document)
 
 QString findImageFormat(const QMimeData &data)
 {
-    static const QStringList imageFormats = QStringList()
-            << QString("image/svg+xml")
-            << QString("image/png")
-            << QString("image/bmp")
-            << QString("image/jpeg")
-            << QString("image/gif");
-
+    const auto imageFormats = {"image/svg+xml", "image/png", "image/bmp", "image/jpeg", "image/gif"};
     for (const auto &format : imageFormats) {
         if ( data.hasFormat(format) )
             return format;

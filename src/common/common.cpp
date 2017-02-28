@@ -58,9 +58,9 @@ namespace {
 
 QString getImageFormatFromMime(const QString &mime)
 {
-    static const QString imageMimePrefix("image/");
-    return mime.startsWith(imageMimePrefix) ? mime.mid(imageMimePrefix.length())
-                                            : QString();
+    const auto imageMimePrefix = "image/";
+    const auto prefixLength = static_cast<int>(strlen(imageMimePrefix));
+    return mime.startsWith(imageMimePrefix) ? mime.mid(prefixLength) : QString();
 }
 
 QImage getImageData(const QMimeData &data)
@@ -264,8 +264,7 @@ void setTextData(QVariantMap *data, const QString &text)
 
 QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
 {
-    static const QStringList internalMimeTypes = QStringList()
-            << mimeOwner << mimeWindowTitle << mimeItemNotes << mimeHidden;
+    const auto internalMimeTypes = {mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden};
 
     QVariantMap newdata;
 

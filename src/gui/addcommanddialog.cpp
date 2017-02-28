@@ -126,8 +126,8 @@ void createGlobalShortcut(GlobalAction id, QList<Command> *commands)
 
 QList<Command> defaultCommands()
 {
-    static const QRegExp reURL("^(https?|ftps?|file)://");
-    static const QRegExp reNotURL("^(?!(http|ftp)s?://)");
+    const QRegExp reURL("^(https?|ftps?|file)://");
+    const QRegExp reNotURL("^(?!(http|ftp)s?://)");
 
     QList<Command> commands;
     Command *c;
