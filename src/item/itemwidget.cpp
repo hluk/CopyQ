@@ -332,6 +332,11 @@ QString ItemLoaderInterface::script() const
     return QString();
 }
 
+QObject *ItemLoaderInterface::scriptableObject(QObject *) const
+{
+    return nullptr;
+}
+
 QList<Command> ItemLoaderInterface::commands() const
 {
     return QList<Command>();

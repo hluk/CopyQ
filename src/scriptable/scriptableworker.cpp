@@ -50,11 +50,13 @@ ClientSocket *ScriptableWorkerSocketGuard::socket() const
 ScriptableWorker::ScriptableWorker(
         MainWindow *mainWindow,
         const ClientSocketPtr &socket,
-        const QString &pluginScript)
+        const QString &pluginScript,
+        const QList<QObject*> scriptables)
     : QRunnable()
     , m_wnd(mainWindow)
     , m_socketGuard(new ScriptableWorkerSocketGuard(socket))
     , m_pluginScript(pluginScript)
+    , m_scriptables(scriptables)
 {
 }
 
@@ -70,8 +72,16 @@ void ScriptableWorker::run()
 
     QScriptEngine engine;
     ScriptableProxy proxy(m_wnd);
-    Scriptable scriptable(&proxy, m_pluginScript);
+    Scriptable scriptable(&proxy);
     scriptable.initEngine(&engine);
+
+    auto plugins = engine.newObject();
+    for (auto scriptableObject : m_scriptables) {
+        const auto obj = engine.newQObject(scriptableObject);
+        const auto name = scriptableObject->objectName();
+        plugins.setProperty(name, obj);
+    }
+    engine.globalObject().setProperty("plugins", plugins);
 
     QObject::connect( &proxy, SIGNAL(sendMessage(QByteArray,int)),
                       socket, SLOT(sendMessage(QByteArray,int)) );
@@ -88,8 +98,14 @@ void ScriptableWorker::run()
 
     QMetaObject::invokeMethod(socket, "start", Qt::QueuedConnection);
 
+    scriptable.evaluate(m_pluginScript, "Scripts for Plugins");
+
     while ( scriptable.isConnected() )
         QCoreApplication::processEvents();
+
+    for (auto scriptableObject : m_scriptables)
+        delete scriptableObject;
+    m_scriptables.clear();
 
     QMetaObject::invokeMethod(m_socketGuard, "deleteLater", Qt::QueuedConnection);
 }

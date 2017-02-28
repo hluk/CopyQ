@@ -63,6 +63,16 @@ private:
     void emitEncryptFailed();
 };
 
+class ItemEncryptedScriptable : public QObject
+{
+    Q_OBJECT
+public:
+    explicit ItemEncryptedScriptable(QObject *parent) : QObject(parent) {}
+
+public slots:
+    QString generateKeys();
+};
+
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
@@ -101,6 +111,7 @@ public:
     const QObject *signaler() const override { return this; }
 
     QString script() const override;
+    QObject *scriptableObject(QObject *parent) const override;
 
     QList<Command> commands() const override;
 

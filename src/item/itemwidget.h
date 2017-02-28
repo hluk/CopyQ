@@ -326,6 +326,13 @@ public:
     virtual QString script() const;
 
     /**
+     * Return scriptable object that can be used in scripts.
+     *
+     * Object will be available as "plugins.<PLUGIN_ID>".
+     */
+    virtual QObject *scriptableObject(QObject *parent) const;
+
+    /**
      * Adds commands from scripts for command dialog.
      */
     virtual QList<Command> commands() const;

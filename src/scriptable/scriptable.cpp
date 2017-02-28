@@ -200,11 +200,30 @@ QString messageCodeToString(int code)
     }
 }
 
+QString processUncaughtException(QScriptEngine *engine, const QString &cmd)
+{
+    if ( !engine->hasUncaughtException() )
+        return QString();
+
+    const auto exceptionName = engine->uncaughtException().toString()
+            .remove(QRegExp("^Error: "))
+            .trimmed();
+    auto backtrace = engine->uncaughtExceptionBacktrace().join("\n");
+    if ( !backtrace.isEmpty() )
+        backtrace = "\n--- backtrace ---\n" + backtrace + "\n--- end backtrace ---";
+
+    const auto exceptionText = exceptionName + backtrace;
+
+    logScriptError(
+                QString("Exception in command \"%1\": %2")
+                .arg(cmd, exceptionText) );
+
+    return exceptionText;
+}
+
 } // namespace
 
-Scriptable::Scriptable(
-        ScriptableProxy *proxy,
-        const QString &pluginScript,
+Scriptable::Scriptable(ScriptableProxy *proxy,
         QObject *parent)
     : QObject(parent)
     , QScriptable()
@@ -217,7 +236,6 @@ Scriptable::Scriptable(
     , m_inputSeparator("\n")
     , m_input()
     , m_connected(true)
-    , m_pluginScript(pluginScript)
 {
 }
 
@@ -414,6 +432,16 @@ void Scriptable::throwError(const QString &errorMessage)
 void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
 {
     emit sendMessage(message, exitCode);
+}
+
+void Scriptable::evaluate(const QString &script, const QString &scriptName)
+{
+    const auto result = m_engine->evaluate(script);
+    const auto exceptionText = processUncaughtException(m_engine, scriptName);
+    if ( !exceptionText.isEmpty() ) {
+        const auto response = createScriptErrorMessage(exceptionText).toUtf8();
+        sendMessageToClient(response, CommandException);
+    }
 }
 
 QScriptValue Scriptable::version()
@@ -1511,22 +1539,10 @@ void Scriptable::executeArguments(const QByteArray &bytes)
                 }
             }
 
-            m_engine->evaluate(m_pluginScript);
             QScriptValue result = fn.call(QScriptValue(), fnArgs);
 
             if ( m_engine->hasUncaughtException() ) {
-                const auto exceptionName = m_engine->uncaughtException().toString()
-                        .remove(QRegExp("^Error: "))
-                        .trimmed();
-                auto backtrace = m_engine->uncaughtExceptionBacktrace().join("\n");
-                if ( !backtrace.isEmpty() )
-                    backtrace = "\n--- backtrace ---\n" + backtrace + "\n--- end backtrace ---";
-                const auto exceptionText = exceptionName + backtrace;
-
-                logScriptError(
-                            QString("Exception in command \"%1\": %2")
-                            .arg(cmd, exceptionText) );
-
+                const auto exceptionText = processUncaughtException(m_engine, cmd);
                 response = createScriptErrorMessage(exceptionText).toUtf8();
                 exitCode = CommandError;
             } else {

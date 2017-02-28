@@ -201,6 +201,21 @@ void encryptMimeData(const QVariantMap &data, const QModelIndex &index, QAbstrac
     model->setData(index, dataMap, contentType::data);
 }
 
+void startGenerateKeysProcess(QProcess *process)
+{
+    const KeyPairPaths keys;
+    startGpgProcess( process, QStringList() << "--batch" << "--gen-key" );
+    process->write( "\nKey-Type: RSA"
+             "\nKey-Usage: encrypt"
+             "\nKey-Length: 2048"
+             "\nName-Real: copyq"
+             "\n%secring " + keys.sec.toUtf8() +
+             "\n%pubring " + keys.pub.toUtf8() +
+             "\n%commit"
+             "\n" );
+    process->closeWriteChannel();
+}
+
 } // namespace
 
 ItemEncrypted::ItemEncrypted(QWidget *parent)
@@ -286,6 +301,21 @@ bool ItemEncryptedSaver::saveItems(const QAbstractItemModel &model, QIODevice *f
 void ItemEncryptedSaver::emitEncryptFailed()
 {
     emit error( ItemEncryptedLoader::tr("Encryption failed!") );
+}
+
+QString ItemEncryptedScriptable::generateKeys()
+{
+    QProcess process;
+    startGenerateKeysProcess(&process);
+    process.waitForFinished();
+
+    if ( process.exitStatus() == QProcess::CrashExit )
+        return process.errorString();
+
+    if ( process.exitCode() != 0 )
+        return process.readAllStandardError();
+
+    return QString();
 }
 
 ItemEncryptedLoader::ItemEncryptedLoader()
@@ -503,7 +533,12 @@ QString ItemEncryptedLoader::script() const
         "\n" "    return this.gpgRun('--decrypt', bytes)"
         "\n" "  },"
 
-        "\n" "}";
+                                                      "\n" "}";
+}
+
+QObject *ItemEncryptedLoader::scriptableObject(QObject *parent) const
+{
+    return new ItemEncryptedScriptable(parent);
 }
 
 QList<Command> ItemEncryptedLoader::commands() const
@@ -558,20 +593,9 @@ void ItemEncryptedLoader::setPassword()
     }
 
     if ( !keysExist() ) {
-        // Generate keys if they don't exist.
-        const KeyPairPaths keys;
         m_gpgProcessStatus = GpgGeneratingKeys;
         m_gpgProcess = new QProcess(this);
-        startGpgProcess( m_gpgProcess, QStringList() << "--batch" << "--gen-key" );
-        m_gpgProcess->write( "\nKey-Type: RSA"
-                 "\nKey-Usage: encrypt"
-                 "\nKey-Length: 2048"
-                 "\nName-Real: copyq"
-                 "\n%secring " + keys.sec.toUtf8() +
-                 "\n%pubring " + keys.pub.toUtf8() +
-                 "\n%commit"
-                 "\n" );
-        m_gpgProcess->closeWriteChannel();
+        startGenerateKeysProcess(m_gpgProcess);
     } else {
         // Change password.
         m_gpgProcessStatus = GpgChangingPassword;

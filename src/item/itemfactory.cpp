@@ -423,12 +423,27 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
 
 QString ItemFactory::scripts() const
 {
-    QString script = "var plugins = {}\n";
+    QString script;
 
     for ( const auto loader : enabledLoaders() )
         script.append( loader->script() + '\n' );
 
     return script;
+}
+
+QList<QObject*> ItemFactory::scriptableObjects(QObject *parent) const
+{
+    QList<QObject*> scriptables;
+
+    for ( const auto loader : enabledLoaders() ) {
+        auto scriptable = loader->scriptableObject(parent);
+        if (scriptable) {
+            scriptable->setObjectName( loader->id() );
+            scriptables.append(scriptable);
+        }
+    }
+
+    return scriptables;
 }
 
 QList<Command> ItemFactory::commands() const

@@ -136,6 +136,8 @@ public:
      */
     QString scripts() const;
 
+    QList<QObject*> scriptableObjects(QObject *parent) const;
+
     /**
      * Adds commands from scripts for command dialog.
      */

@@ -64,7 +64,6 @@ class Scriptable : public QObject, protected QScriptable
 public:
     explicit Scriptable(
             ScriptableProxy *proxy,
-            const QString &pluginScript = QString(),
             QObject *parent = nullptr);
 
     void initEngine(QScriptEngine *engine);
@@ -135,6 +134,8 @@ public:
     QString getMimeOutputTab() const { return mimeOutputTab; }
     QString getMimeSyncToClipboard() const { return mimeSyncToClipboard; }
     QString getMimeSyncToSelection() const { return mimeSyncToSelection; }
+
+    void evaluate(const QString &script, const QString &scriptName);
 
 public slots:
     QScriptValue version();
@@ -296,7 +297,6 @@ private:
     QScriptValue m_input;
     QVariantMap m_data;
     bool m_connected;
-    QString m_pluginScript;
 };
 
 class NetworkReply : public QObject {

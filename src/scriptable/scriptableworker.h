@@ -58,7 +58,8 @@ public:
     ScriptableWorker(
             MainWindow *mainWindow,
             const ClientSocketPtr &socket,
-            const QString &pluginScript);
+            const QString &pluginScript,
+            const QList<QObject*> scriptables);
 
     ~ScriptableWorker();
 
@@ -68,6 +69,7 @@ private:
     MainWindow *m_wnd;
     QPointer<ScriptableWorkerSocketGuard> m_socketGuard;
     QString m_pluginScript;
+    QList<QObject*> m_scriptables;
 };
 
 #endif // SCRIPTABLEWORKER_H
