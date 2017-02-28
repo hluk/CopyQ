@@ -746,12 +746,8 @@ bool ScriptableProxy::browserChange(const QVariantMap &data, int row)
     if (!c)
         return false;
 
-    const QModelIndex index = c->index(row);
-    QVariantMap itemData = index.data(contentType::data).toMap();
-    for (const auto &mime : data.keys())
-        itemData[mime] = data[mime];
-
-    return c->model()->setData(index, itemData, contentType::data);
+    const auto index = c->index(row);
+    return c->model()->setData(index, data, contentType::updateData);
 }
 
 QByteArray ScriptableProxy::browserItemData(int arg1, const QString &arg2)
