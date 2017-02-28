@@ -30,6 +30,10 @@
 #include "gui/iconwidget.h"
 #include "item/serialize.h"
 
+#ifdef HAS_TESTS
+#   include "tests/itemencryptedtests.h"
+#endif
+
 #include <QDir>
 #include <QIODevice>
 #include <QLabel>
@@ -109,7 +113,7 @@ bool verifyProcess(QProcess *p)
 
 bool waitOrTerminate(QProcess *p)
 {
-    if (!p->waitForFinished(5000)) {
+    if (!p->waitForFinished()) {
         p->terminate();
         if ( !p->waitForFinished(5000) )
             p->kill();
@@ -201,19 +205,54 @@ void encryptMimeData(const QVariantMap &data, const QModelIndex &index, QAbstrac
     model->setData(index, dataMap, contentType::data);
 }
 
-void startGenerateKeysProcess(QProcess *process)
+void startGenerateKeysProcess(QProcess *process, bool useTransientPasswordlessKey = false)
 {
     const KeyPairPaths keys;
-    startGpgProcess( process, QStringList() << "--batch" << "--gen-key" );
+
+    auto args = QStringList() << "--batch" << "--gen-key";
+
+    QByteArray transientOptions;
+    if (useTransientPasswordlessKey) {
+        args << "--debug-quick-random";
+        transientOptions =
+                "\n%no-protection"
+                "\n%transient-key";
+    }
+
+    startGpgProcess(process, args);
     process->write( "\nKey-Type: RSA"
              "\nKey-Usage: encrypt"
              "\nKey-Length: 2048"
              "\nName-Real: copyq"
+             + transientOptions +
              "\n%secring " + keys.sec.toUtf8() +
              "\n%pubring " + keys.pub.toUtf8() +
              "\n%commit"
              "\n" );
     process->closeWriteChannel();
+}
+
+QString exportImportGpgKeys()
+{
+    const auto error = exportGpgKey();
+    if ( !error.isEmpty() )
+        return error;
+
+    return importGpgKey();
+}
+
+bool isGpgInstalled()
+{
+    QProcess p;
+    startGpgProcess(&p, QStringList("--version"));
+    p.closeWriteChannel();
+    p.waitForFinished();
+
+    if (p.exitStatus() != QProcess::NormalExit || p.exitCode() != 0)
+        return false;
+
+    const auto versionOutput = p.readAllStandardOutput();
+    return versionOutput.contains(" 2.");
 }
 
 } // namespace
@@ -303,19 +342,38 @@ void ItemEncryptedSaver::emitEncryptFailed()
     emit error( ItemEncryptedLoader::tr("Encryption failed!") );
 }
 
-QString ItemEncryptedScriptable::generateKeys()
+QString ItemEncryptedScriptable::generateTestKeys()
 {
+    const KeyPairPaths keys;
+    for ( auto keyFileName : {keys.sec, keys.pub} ) {
+        if ( QFile::exists(keyFileName) && !QFile::remove(keyFileName) )
+            return QString("Failed to remove \"%1\"").arg(keys.sec);
+    }
+
     QProcess process;
-    startGenerateKeysProcess(&process);
-    process.waitForFinished();
+    startGenerateKeysProcess(&process, true);
 
-    if ( process.exitStatus() == QProcess::CrashExit )
-        return process.errorString();
+    if ( !waitOrTerminate(&process) || !verifyProcess(&process) ) {
+        return QString("ItemEncrypt ERROR: %1; stderr: %2")
+                .arg( process.errorString() )
+                .arg( QString::fromUtf8(process.readAllStandardError()) );
+    }
 
-    if ( process.exitCode() != 0 )
-        return process.readAllStandardError();
+    const auto error = exportImportGpgKeys();
+    if ( !error.isEmpty() )
+        return error;
+
+    for ( auto keyFileName : {keys.sec, keys.pub} ) {
+        if ( !QFile::exists(keyFileName) )
+            return QString("Failed to create \"%1\"").arg(keys.sec);
+    }
 
     return QString();
+}
+
+bool ItemEncryptedScriptable::isGpgInstalled()
+{
+    return ::isGpgInstalled();
 }
 
 ItemEncryptedLoader::ItemEncryptedLoader()
@@ -359,11 +417,7 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
                 m_settings.value("encrypt_tabs").toStringList().join("\n") );
 
     // Check if gpg application is available.
-    QProcess p;
-    startGpgProcess(&p, QStringList("--version"));
-    p.closeWriteChannel();
-    p.waitForFinished();
-    if ( !verifyProcess(&p) ) {
+    if ( !isGpgInstalled() ) {
         m_gpgProcessStatus = GpgNotInstalled;
     } else {
         KeyPairPaths keys;
@@ -456,12 +510,15 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QIODevice
     }
 
     p.closeWriteChannel();
-    p.waitForFinished();
+    if ( !waitOrTerminate(&p) || !verifyProcess(&p) ) {
+        emitDecryptFailed();
+        return nullptr;
+    }
 
     const QByteArray bytes = p.readAllStandardOutput();
     if ( bytes.isEmpty() ) {
         emitDecryptFailed();
-        COPYQ_LOG("ItemEncrypt ERROR: Failed to read decrypted data.");
+        COPYQ_LOG("ItemEncrypt ERROR: Failed to read encrypted data.");
         verifyProcess(&p);
         return nullptr;
     }
@@ -505,6 +562,17 @@ ItemSaverPtr ItemEncryptedLoader::initializeTab(QAbstractItemModel *)
         return nullptr;
 
     return createSaver();
+}
+
+QObject *ItemEncryptedLoader::tests(const TestInterfacePtr &test) const
+{
+#ifdef HAS_TESTS
+    QObject *tests = new ItemEncryptedTests(test);
+    return tests;
+#else
+    Q_UNUSED(test);
+    return nullptr;
+#endif
 }
 
 QString ItemEncryptedLoader::script() const
@@ -652,13 +720,13 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
     if (m_gpgProcess != nullptr) {
         if (ui != nullptr) {
             if (exitStatus != QProcess::NormalExit)
-                error = error.arg(m_gpgProcess->errorString());
+                error = m_gpgProcess->errorString();
             else if (exitCode != 0)
-                error = error.arg(getTextData(m_gpgProcess->readAllStandardError()));
+                error = getTextData(m_gpgProcess->readAllStandardError());
             else if ( m_gpgProcess->error() != QProcess::UnknownError )
-                error = error.arg(m_gpgProcess->errorString());
+                error = m_gpgProcess->errorString();
             else if ( !keysExist() )
-                error = error.arg( tr("Failed to generate keys.") );
+                error = tr("Failed to generate keys.");
         }
 
         m_gpgProcess->deleteLater();
@@ -666,11 +734,8 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
     }
 
     // Export and import private key to a file in configuration.
-    if ( m_gpgProcessStatus == GpgGeneratingKeys && error.isEmpty() ) {
-        error = exportGpgKey();
-        if ( error.isEmpty() )
-            error = importGpgKey();
-    }
+    if ( m_gpgProcessStatus == GpgGeneratingKeys && error.isEmpty() )
+        error = exportImportGpgKeys();
 
     if (!error.isEmpty())
         error = tr("Error: %1").arg(error);

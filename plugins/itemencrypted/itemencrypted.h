@@ -70,7 +70,8 @@ public:
     explicit ItemEncryptedScriptable(QObject *parent) : QObject(parent) {}
 
 public slots:
-    QString generateKeys();
+    QString generateTestKeys();
+    bool isGpgInstalled();
 };
 
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface
@@ -107,6 +108,8 @@ public:
     ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file) override;
 
     ItemSaverPtr initializeTab(QAbstractItemModel *model) override;
+
+    QObject *tests(const TestInterfacePtr &test) const override;
 
     const QObject *signaler() const override { return this; }
 

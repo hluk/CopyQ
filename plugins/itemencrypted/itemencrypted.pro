@@ -12,5 +12,11 @@ SOURCES += \
     ../../src/gui/iconwidget.cpp \
     ../../src/item/serialize.cpp
 FORMS   += itemencryptedsettings.ui
+
+CONFIG(debug, debug|release) {
+    SOURCES += tests/itemencryptedtests.cpp
+    HEADERS += tests/itemencryptedtests.h
+}
+
 TARGET   = $$qtLibraryTarget(itemencrypted)
 
