@@ -768,7 +768,7 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *err
 
     if ( indexes.isEmpty() ) {
         if (error)
-            *error = "No rows specified";
+            *error = "No valid rows specified";
         return -1;
     }
 

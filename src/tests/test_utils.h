@@ -20,6 +20,8 @@
 #ifndef TEST_UTILS_H
 #define TEST_UTILS_H
 
+#include "common/commandstatus.h"
+
 #include <QByteArray>
 #include <QFile>
 #include <QString>
@@ -45,6 +47,12 @@ do { \
 
 #define RUN(ARGUMENTS, STDOUT_EXPECTED) \
     TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) );
+
+#define RUN_EXPECT_ERROR(ARGUMENTS, EXIT_CODE) \
+    TEST( m_test->runClientWithError((Args() << ARGUMENTS), (EXIT_CODE)) );
+
+#define RUN_EXPECT_ERROR_WITH_STDERR(ARGUMENTS, EXIT_CODE, STDERR_CONTAINS) \
+    TEST( m_test->runClientWithError((Args() << ARGUMENTS), (EXIT_CODE), toByteArray(STDERR_CONTAINS)) );
 
 #define WAIT_FOR_CLIPBOARD(DATA) \
     QCOMPARE( waitUntilClipboardSet(DATA), QByteArray(DATA) )

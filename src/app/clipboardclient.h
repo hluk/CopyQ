@@ -61,6 +61,8 @@ private slots:
 
     void sendInput();
 
+    void exit(int exitCode) override;
+
 private:
     void startInputReader();
     void abortInputReader();

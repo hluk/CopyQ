@@ -21,6 +21,7 @@
 #include "app/clipboardclient.h"
 #include "app/clipboardmonitor.h"
 #include "app/clipboardserver.h"
+#include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/log.h"
 #include "common/messagehandlerforqt.h"
@@ -71,7 +72,7 @@ int evaluate(
         f.close();
     }
 
-    const int exitCode = engine.hasUncaughtException() ? 1 : 0;
+    const int exitCode = engine.hasUncaughtException() ? CommandException : 0;
     app.exit(exitCode);
     return exitCode;
 }

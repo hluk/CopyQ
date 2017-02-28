@@ -138,12 +138,7 @@ void ActionHandler::closeAction(Action *action)
     if ( action->actionFailed() ) {
         msg += tr("Error: %1\n").arg(action->errorString()) + action->errorOutput();
         icon = QSystemTrayIcon::Critical;
-    } else if ( action->exitCode() != 0 ) {
-        if ( !action->ignoreExitCode() ) {
-            msg += tr("Exit code: %1\n").arg(action->exitCode()) + action->errorOutput();
-            icon = QSystemTrayIcon::Warning;
-        }
-    } else if ( !action->inputFormats().isEmpty() ) {
+    } else if ( action->exitCode() == 0 && !action->inputFormats().isEmpty() ) {
         const QModelIndex index = action->index();
         ClipboardBrowser *c = m_wnd->browserForItem(index);
         if (c) {

@@ -24,10 +24,15 @@
 enum CommandStatus {
     /** Script finished */
     CommandFinished = 0,
-    /** Command invocation error */
+    /** Script finished with exit code 1 (fail() was called) */
     CommandError = 1,
     /** Bad command syntax */
     CommandBadSyntax = 2,
+    /** Unknown function call */
+    CommandUnknownCall = 3,
+    /** Exception thrown */
+    CommandException = 4,
+
     /** Print on stdout */
     CommandPrint,
     /** Ask client to send data from its stdin */

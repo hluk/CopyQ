@@ -275,7 +275,7 @@ void ItemSyncTests::removeItems()
               );
 
     // Removing items from script won't work.
-    TEST( m_test->runClientWithError(Args() << args << "remove" << "1", 1) );
+    RUN_EXPECT_ERROR(args << "remove" << "1", CommandException);
     QCOMPARE( dir1.files().join(sep),
               fileA
               + sep + fileD

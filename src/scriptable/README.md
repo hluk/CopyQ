@@ -1,5 +1,4 @@
-CopyQ Scripting
-===============
+# CopyQ Scripting
 
 CopyQ provides scripting capabilities to automatically handle clipboard changes,
 organize items, change settings and much more.
@@ -8,8 +7,26 @@ In addition to features provided by Qt Script there are following
 [functions](#functions), [types](#types), [objects](#objects) and
 [useful MIME types](#mime-types).
 
-Functions
----------
+## Execute Script
+
+The scripts can be executed:
+
+- from commands (in Action or Command dialogs -- <kbd>F5</kbd>, <kbd>F6</kbd> shortcuts) when prefixed with `copyq:`,
+- from command line as `copyq eval '<SCRIPT>'`,
+- from command line as `cat script.js | copyq eval -`,
+- from command line as `copyq <SCRIPT_FUNCTION> <FUNCTION_ARGUMENT_1> <FUNCTION_ARGUMENT_2> ...`.
+
+When run from command line, result of last expression is printed on stdout.
+
+Command exit values are:
+
+- 0 - script finished without error,
+- 1 - `fail()` was called,
+- 2 - bad syntax,
+- 3 - unknown function call (if called without `eval` or `-e` command line argument),
+- 4 - exception was thrown.
+
+### Functions
 
 Argument list parts `...` and `[...]` are optional and can be omitted.
 
@@ -202,7 +219,7 @@ Copies next item from current tab to clipboard.
 
 Copies previous item from current tab to clipboard.
 
-###### add(text, ...)
+###### bool add(text, ...)
 
 Adds new text items to current tab.
 
@@ -210,7 +227,7 @@ Adds new text items to current tab.
 
 Inserts new text items to current tab.
 
-###### remove(row, ...)
+###### bool remove(row, ...)
 
 Removes items in current tab.
 
@@ -228,7 +245,7 @@ Same as `clipboard()`.
 
 Returns concatenated data from items.
 
-###### write(row, mimeType, data, [mimeType, data]...)
+###### bool write(row, mimeType, data, [mimeType, data]...)
 
 Inserts new item to current tab.
 
@@ -546,8 +563,7 @@ Returns true only if the variable was set.
 
 Wait for given time in milliseconds.
 
-Types
------
+### Types
 
 ###### ByteArray
 
@@ -637,8 +653,7 @@ Type is `Object` and properties are:
 - `redirect` - URL for redirection (set only if redirection is needed)
 - `headers` - reply headers (array of pairs with header name and header content)
 
-MIME Types
-----------
+### MIME Types
 
 Item and clipboard can provide multiple formats for their data.
 Type of the data is determined by MIME type.

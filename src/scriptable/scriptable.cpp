@@ -1519,7 +1519,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
             logScriptError("Unknown command");
             const auto msg = tr("Name \"%1\" doesn't refer to a function.").arg(cmd);
             response = createScriptErrorMessage(msg).toUtf8();
-            exitCode = CommandError;
+            exitCode = CommandUnknownCall;
         } else {
             /* Special arguments:
              * "-"  read this argument from stdin
@@ -1539,12 +1539,12 @@ void Scriptable::executeArguments(const QByteArray &bytes)
                 }
             }
 
-            QScriptValue result = fn.call(QScriptValue(), fnArgs);
+            const auto result = fn.call(QScriptValue(), fnArgs);
 
             if ( m_engine->hasUncaughtException() ) {
                 const auto exceptionText = processUncaughtException(m_engine, cmd);
                 response = createScriptErrorMessage(exceptionText).toUtf8();
-                exitCode = CommandError;
+                exitCode = CommandException;
             } else {
                 response = serializeScriptValue(result);
                 exitCode = CommandFinished;

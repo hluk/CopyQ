@@ -125,7 +125,7 @@ void ItemPinnedTests::removePinnedThrows()
     RUN("add" << "b" << "a", "");
     RUN("-e" << "plugins.itempinned.pin(0, 1)", "");
 
-    TEST( m_test->runClientWithError(Args() << "remove" << "0" << "1", 1) );
+    RUN_EXPECT_ERROR("remove" << "0" << "1", CommandException);
     RUN("separator" << " " << "read" << "0" << "1", "a b");
 }
 
@@ -157,8 +157,8 @@ void ItemPinnedTests::fullTab()
     RUN("-e" << "plugins.itempinned.pin(0,1,2)", "");
 
     // Tab is full and no items can be removed.
-    TEST( m_test->runClientWithError(Args() << "add" << "X", 1) );
-    TEST( m_test->runClientWithError(Args() << "write" << "1" << "text/plain" << "X", 1) );
+    RUN_EXPECT_ERROR("add" << "X", CommandException);
+    RUN_EXPECT_ERROR("write" << "1" << "text/plain" << "X", CommandException);
     RUN("separator" << " " << "read" << "0" << "1" << "2", "a b c");
     RUN("size", "3\n");
 }

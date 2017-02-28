@@ -39,6 +39,10 @@ QString messageCodeToString(int code)
         return "CommandError";
     case CommandBadSyntax:
         return "CommandBadSyntax";
+    case CommandUnknownCall:
+        return "CommandUnknownCall";
+    case CommandException:
+        return "CommandException";
     case CommandPrint:
         return "CommandPrint";
     case CommandReadInput:
@@ -46,6 +50,22 @@ QString messageCodeToString(int code)
     default:
         return QString("Unknown(%1)").arg(code);
     }
+}
+
+void printClientStdout(const QByteArray &output)
+{
+    QFile f;
+    f.open(stdout, QIODevice::WriteOnly);
+    f.write(output);
+}
+
+void printClientStderr(const QByteArray &output)
+{
+    QFile f;
+    f.open(stderr, QIODevice::WriteOnly);
+    f.write(output);
+    if ( !output.endsWith('\n') )
+        f.write("\n");
 }
 
 } // namespace
@@ -73,23 +93,30 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 {
     COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );
 
-    if (messageCode == CommandReadInput) {
-        startInputReader();
-    } else if (messageCode == CommandPrint || messageCode == CommandFinished) {
-        QFile f;
-        f.open(stdout, QIODevice::WriteOnly);
-        f.write(data);
-    } else if ( !data.isEmpty() ) {
-        QFile f;
-        f.open(stderr, QIODevice::WriteOnly);
-        f.write(data);
-        if ( !data.endsWith('\n') )
-            f.write("\n");
-    }
+    switch (messageCode) {
+    case CommandFinished:
+        printClientStdout(data);
+        exit(0);
+        break;
 
-    if (messageCode == CommandFinished || messageCode == CommandBadSyntax || messageCode == CommandError) {
-        abortInputReader();
+    case CommandError:
+    case CommandBadSyntax:
+    case CommandUnknownCall:
+    case CommandException:
+        printClientStderr(data);
         exit(messageCode);
+        break;
+
+    case CommandPrint:
+        printClientStdout(data);
+        break;
+
+    case CommandReadInput:
+        startInputReader();
+        break;
+
+    default:
+        break;
     }
 }
 
@@ -122,6 +149,12 @@ void ClipboardClient::sendInput()
 {
     if ( !wasClosed() )
         sendMessage(m_input, CommandReadInputReply);
+}
+
+void ClipboardClient::exit(int exitCode)
+{
+    abortInputReader();
+    App::exit(exitCode);
 }
 
 void ClipboardClient::startInputReader()

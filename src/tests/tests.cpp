@@ -558,7 +558,7 @@ void Tests::commandHelp()
     }
 
     // Print error on unknown function name.
-    TEST( m_test->runClientWithError(Args("help") << "xxx", 1) );
+    RUN_EXPECT_ERROR("help" << "xxx", CommandException);
 }
 
 void Tests::commandVersion()
@@ -582,9 +582,10 @@ void Tests::badCommand()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
-    TEST( m_test->runClientWithError(Args("xxx"), 1, "xxx") );
+    RUN_EXPECT_ERROR_WITH_STDERR("xxx", CommandUnknownCall, "xxx");
 
-    TEST( m_test->runClientWithError(Args("tab") << testTab(1) << "yyy", 1, "yyy") );
+    // FIXME: This should give also CommandUnknownCall exit code.
+    RUN_EXPECT_ERROR_WITH_STDERR("tab" << testTab(1) << "yyy", CommandException, "yyy");
 
     // Bad command shoudn't create new tab.
     QCOMPARE( run(Args("tab"), &stdoutActual, &stderrActual), 0 );
@@ -611,7 +612,7 @@ void Tests::commandEval()
 
 void Tests::commandEvalThrows()
 {
-    TEST( m_test->runClientWithError(Args("eval") << "throw 'TEST_EXCEPTION'", 1, "TEST_EXCEPTION") );
+    RUN_EXPECT_ERROR_WITH_STDERR("eval" << "throw 'TEST_EXCEPTION'", CommandException, "TEST_EXCEPTION");
 }
 
 void Tests::commandPrint()
@@ -738,7 +739,7 @@ void Tests::commandConfig()
     QVERIFY( !stdoutActual.isEmpty() );
 
     // invalid option
-    TEST( m_test->runClientWithError(Args("config") << "xxx", 1, "xxx") );
+    RUN_EXPECT_ERROR_WITH_STDERR("config" << "xxx", CommandException, "xxx");
 
     QCOMPARE( run(Args("config") << "tab_tree", &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
@@ -762,7 +763,7 @@ void Tests::commandConfig()
         "text_wrap=true\n");
 
     // Don't set any options if there is an invalid one.
-    TEST( m_test->runClientWithError(Args("config") << "tab_tree" << "1" << "xxx" << "0", 1, "xxx") );
+    RUN_EXPECT_ERROR_WITH_STDERR("config" << "tab_tree" << "1" << "xxx" << "0", CommandException, "xxx");
     RUN("config" << "tab_tree", "false\n");
 }
 
@@ -1130,7 +1131,7 @@ void Tests::configMaxitems()
     RUN("size", "2\n");
 
     // Ading too many items fails.
-    TEST( m_test->runClientWithError(Args() << "add" << "1" << "2" << "3", 1) );
+    RUN_EXPECT_ERROR("add" << "1" << "2" << "3", CommandException);
     RUN("separator" << " " << "read" << "0" << "1", "F E");
     RUN("size", "2\n");
 
@@ -1151,8 +1152,8 @@ void Tests::configMaxitems()
     RUN("config" << "maxitems" << "0", "0\n");
     RUN("size", "0\n");
 
-    TEST( m_test->runClientWithError(Args() << "add" << "1", 1) );
-    TEST( m_test->runClientWithError(Args() << "write" << "1", 1) );
+    RUN_EXPECT_ERROR("add" << "1", CommandException);
+    RUN_EXPECT_ERROR("write" << "1", CommandException);
     RUN("size", "0\n");
 
     // Invalid value.
@@ -1411,7 +1412,7 @@ void Tests::tabRemove()
     RUN(Args() << "removetab" << tab, "");
     QVERIFY( !hasTab(tab) );
 
-    TEST( m_test->runClientWithError(Args("removetab") << tab, 1) );
+    RUN_EXPECT_ERROR("removetab" << tab, CommandException);
 }
 
 void Tests::tabIcon()
@@ -1486,16 +1487,16 @@ void Tests::renameTab()
     QVERIFY( !hasTab(tab1) );
 
     // Rename non-existing tab.
-    TEST( m_test->runClientWithError(Args("renametab") << tab1 << tab2, 1) );
+    RUN_EXPECT_ERROR("renametab" << tab1 << tab2, CommandException);
 
     // Rename to same name.
-    TEST( m_test->runClientWithError(Args("renametab") << tab2 << tab2, 1) );
+    RUN_EXPECT_ERROR("renametab" << tab2 << tab2, CommandException);
 
     // Rename to empty name.
-    TEST( m_test->runClientWithError(Args("renametab") << tab2 << "", 1) );
+    RUN_EXPECT_ERROR("renametab" << tab2 << "", CommandException);
 
     // Rename to existing tab.
-    TEST( m_test->runClientWithError(Args("renametab") << tab2 << clipboardTabName, 1) );
+    RUN_EXPECT_ERROR("renametab" << tab2 << clipboardTabName, CommandException);
 
     QVERIFY( !hasTab(tab1) );
     QVERIFY( hasTab(tab2) );

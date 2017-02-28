@@ -109,9 +109,6 @@ public:
     void setId(int actionId) { m_id = actionId; }
     int id() const { return m_id; }
 
-    void setIgnoreExitCode(bool ignore) { m_ignoreExitCode = ignore; }
-    bool ignoreExitCode() const { return m_ignoreExitCode; }
-
 public slots:
     /** Terminate (kill) process. */
     void terminate();
@@ -168,7 +165,6 @@ private:
 
     int m_exitCode;
     QString m_errorString;
-    bool m_ignoreExitCode = false;
 
     int m_id = -1;
 };
