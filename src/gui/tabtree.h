@@ -21,6 +21,7 @@
 #define TABTREE_H
 
 #include <QString>
+#include <QTimer>
 #include <QTreeWidget>
 
 class QMimeData;
@@ -96,11 +97,14 @@ protected:
 
 private slots:
     void updateSize();
+    void doUpdateSize();
 
 private:
     void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
     void shiftIndexesBetween(int from, int to = -1, int how = -1);
     void deleteItem(QTreeWidgetItem *item);
+
+    QTimer m_timerUpdate;
 };
 
 #endif // TABTREE_H

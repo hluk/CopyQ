@@ -32,6 +32,7 @@
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QHBoxLayout>
+#include <QTreeWidgetItemIterator>
 
 namespace {
 
@@ -207,7 +208,8 @@ protected:
     bool eventFilter(QObject *, QEvent *event) override
     {
         if ( event->type() == QEvent::Shortcut ) {
-            for ( auto item : m_treeWidget->findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+            for ( QTreeWidgetItemIterator it(m_treeWidget->topLevelItem(0)); *it; ++it ) {
+                auto item = *it;
                 if ( m_treeWidget->itemWidget(item, 0) == this ) {
                     m_treeWidget->setCurrentItem(item);
                     return true;
@@ -280,6 +282,8 @@ TabTree::TabTree(QWidget *parent)
 
     connect( this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), SLOT(updateSize()) );
     connect( this, SIGNAL(itemExpanded(QTreeWidgetItem*)), SLOT(updateSize()) );
+
+    initSingleShotTimer( &m_timerUpdate, 0, this, SLOT(doUpdateSize()) );
 }
 
 void TabTree::insertTab(const QString &path, int index, bool selected)
@@ -350,10 +354,10 @@ void TabTree::removeTab(int index)
 
 QTreeWidgetItem *TabTree::findTreeItem(int index) const
 {
-    QList<QTreeWidgetItem *> items = findItems(QString(), Qt::MatchContains | Qt::MatchRecursive);
-    for (int i = items.size() - 1; i >= 0; --i) {
-        if ( getTabIndex(items[i]) == index )
-            return items[i];
+    for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
+        auto item = *it;
+        if ( getTabIndex(item) == index )
+            return item;
     }
 
     return nullptr;
@@ -473,7 +477,8 @@ QStringList TabTree::collapsedTabs() const
 {
     QStringList tabs;
 
-    for ( auto item : findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+    for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
+        auto item = *it;
         if ( isTabGroup(item) && !item->isExpanded() )
             tabs.append( getTabPath(item) );
     }
@@ -500,8 +505,8 @@ void TabTree::updateTabIcon(const QString &tabName)
 
 void TabTree::updateTabIcons()
 {
-    for ( auto item : findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) )
-        updateTabIcon( getTabPath(item) );
+    for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it )
+        updateTabIcon( getTabPath(*it) );
 }
 
 void TabTree::contextMenuEvent(QContextMenuEvent *event)
@@ -567,7 +572,8 @@ void TabTree::dropEvent(QDropEvent *event)
         }
 
         QList<int> indexes;
-        for ( auto item : findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+        for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
+            auto item = *it;
             // Remove empty groups.
             if ( isEmptyTabGroup(item) ) {
                 deleteItem(item);
@@ -633,6 +639,11 @@ void TabTree::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *pr
 
 void TabTree::updateSize()
 {
+    m_timerUpdate.start();
+}
+
+void TabTree::doUpdateSize()
+{
     doItemsLayout();
 
     const QMargins margins = contentsMargins();
@@ -660,7 +671,8 @@ void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosit
 
 void TabTree::shiftIndexesBetween(int from, int to, int how)
 {
-    for ( auto item : findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+    for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
+        auto item = *it;
         const int oldIndex = getTabIndex(item);
         if (oldIndex >= from && (to == -1 || oldIndex <= to))
             item->setData(0, DataIndex, oldIndex + how);
