@@ -467,7 +467,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     // signals & slots
     connect( m_trayMenu, SIGNAL(aboutToShow()),
-             this, SLOT(updateTrayMenuItems()) );
+             this, SLOT(updateTrayMenuItems()), Qt::QueuedConnection );
     connect( m_trayMenu, SIGNAL(searchRequest(QString)),
              this, SLOT(addTrayMenuItems(QString)) );
     connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
