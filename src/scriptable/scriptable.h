@@ -281,6 +281,8 @@ signals:
 
 private:
     void executeArguments(const QByteArray &bytes);
+    QString processUncaughtException(const QString &cmd);
+    void showExceptionMessage(const QString &message);
     QList<int> getRows() const;
     QScriptValue copy(QClipboard::Mode mode);
     bool setClipboard(QVariantMap &data, QClipboard::Mode mode);
@@ -296,6 +298,7 @@ private:
     QString m_inputSeparator;
     QScriptValue m_input;
     QVariantMap m_data;
+    QString m_actionName;
     bool m_connected;
 };
 

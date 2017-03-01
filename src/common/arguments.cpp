@@ -88,6 +88,7 @@ void Arguments::reset()
     m_args.resize(Rest);
     m_args[CurrentPath] = QDir::currentPath().toUtf8();
     m_args[ActionId] = qgetenv("COPYQ_ACTION_ID");
+    m_args[ActionName] = qgetenv("COPYQ_ACTION_NAME");
     m_args[ProcessId] = QByteArray::number(QCoreApplication::applicationPid());
 }
 

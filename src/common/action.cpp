@@ -230,6 +230,8 @@ void Action::start()
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     if (m_id != -1)
         env.insert("COPYQ_ACTION_ID", QString::number(m_id));
+    if ( !m_name.isEmpty() )
+        env.insert("COPYQ_ACTION_NAME", m_name);
 
     for (int i = 0; i < cmds.size(); ++i) {
         auto process = new QProcess(this);

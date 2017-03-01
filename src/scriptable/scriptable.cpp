@@ -200,27 +200,6 @@ QString messageCodeToString(int code)
     }
 }
 
-QString processUncaughtException(QScriptEngine *engine, const QString &cmd)
-{
-    if ( !engine->hasUncaughtException() )
-        return QString();
-
-    const auto exceptionName = engine->uncaughtException().toString()
-            .remove(QRegExp("^Error: "))
-            .trimmed();
-    auto backtrace = engine->uncaughtExceptionBacktrace().join("\n");
-    if ( !backtrace.isEmpty() )
-        backtrace = "\n--- backtrace ---\n" + backtrace + "\n--- end backtrace ---";
-
-    const auto exceptionText = exceptionName + backtrace;
-
-    logScriptError(
-                QString("Exception in command \"%1\": %2")
-                .arg(cmd, exceptionText) );
-
-    return exceptionText;
-}
-
 } // namespace
 
 Scriptable::Scriptable(ScriptableProxy *proxy,
@@ -437,7 +416,7 @@ void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
 void Scriptable::evaluate(const QString &script, const QString &scriptName)
 {
     const auto result = m_engine->evaluate(script);
-    const auto exceptionText = processUncaughtException(m_engine, scriptName);
+    const auto exceptionText = processUncaughtException(scriptName);
     if ( !exceptionText.isEmpty() ) {
         const auto response = createScriptErrorMessage(exceptionText).toUtf8();
         sendMessageToClient(response, CommandException);
@@ -1505,6 +1484,8 @@ void Scriptable::executeArguments(const QByteArray &bytes)
         m_data = m_proxy->getActionData(id);
     const auto oldData = m_data;
 
+    m_actionName = getTextData( args.at(Arguments::ActionName) );
+
     QByteArray response;
     int exitCode;
 
@@ -1518,6 +1499,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
         if ( !fn.isFunction() ) {
             logScriptError("Unknown command");
             const auto msg = tr("Name \"%1\" doesn't refer to a function.").arg(cmd);
+            showExceptionMessage(msg);
             response = createScriptErrorMessage(msg).toUtf8();
             exitCode = CommandUnknownCall;
         } else {
@@ -1542,7 +1524,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
             const auto result = fn.call(QScriptValue(), fnArgs);
 
             if ( m_engine->hasUncaughtException() ) {
-                const auto exceptionText = processUncaughtException(m_engine, cmd);
+                const auto exceptionText = processUncaughtException(cmd);
                 response = createScriptErrorMessage(exceptionText).toUtf8();
                 exitCode = CommandException;
             } else {
@@ -1562,6 +1544,43 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     sendMessageToClient(response, exitCode);
 
     COPYQ_LOG("DONE");
+}
+
+QString Scriptable::processUncaughtException(const QString &cmd)
+{
+    if ( !m_engine->hasUncaughtException() )
+        return QString();
+
+    const auto exceptionName = m_engine->uncaughtException().toString()
+            .remove(QRegExp("^Error: "))
+            .trimmed();
+    auto backtrace = m_engine->uncaughtExceptionBacktrace().join("\n");
+    if ( !backtrace.isEmpty() )
+        backtrace = "\n--- backtrace ---\n" + backtrace + "\n--- end backtrace ---";
+
+    const auto exceptionText = exceptionName + backtrace;
+
+    logScriptError(
+                QString("Exception in command \"%1\": %2")
+                .arg(cmd, exceptionText) );
+
+    showExceptionMessage(exceptionText);
+
+    return exceptionText;
+}
+
+void Scriptable::showExceptionMessage(const QString &message)
+{
+    if (!m_proxy)
+        return;
+
+    const auto name = m_actionName.isEmpty()
+            ? tr("Command")
+            : quoteString(m_actionName);
+
+    m_proxy->showMessage(
+                tr("Exception in %1").arg(name), message,
+                QSystemTrayIcon::Warning, 8000 );
 }
 
 QList<int> Scriptable::getRows() const
