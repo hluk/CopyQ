@@ -716,6 +716,7 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
     {
         QDataStream stream(&bytes, QIODevice::WriteOnly);
 
+        bool firstItem = true;
         for (const auto &ind : indexes) {
             if ( isIndexHidden(ind) )
                 continue;
@@ -726,11 +727,24 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
             if (serializeItems)
                 stream << copiedItemData;
 
-            if (indexes.size() == 1) {
-                data = copiedItemData;
-            } else {
+            if (indexes.size() > 1) {
                 appendTextData(copiedItemData, mimeText, &text);
                 appendTextData(copiedItemData, mimeUriList, &uriList);
+            }
+
+            if (firstItem) {
+                data = copiedItemData;
+                firstItem = false;
+            } else {
+                // Add formats which are same in all items.
+                for ( const auto &format : data.keys() ) {
+                    if ( format == mimeText || format == mimeUriList )
+                        continue;
+
+                    const auto value = copiedItemData.value(format);
+                    if ( !value.isValid() || value.toByteArray() != data[format].toByteArray() )
+                        data.remove(format);
+                }
             }
         }
     }
