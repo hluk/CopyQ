@@ -131,12 +131,7 @@ public:
      */
     bool matches(const QModelIndex &index, const QRegExp &re) const;
 
-    /**
-     * Return script to run before client scripts.
-     */
-    QString scripts() const;
-
-    QList<QObject*> scriptableObjects(QObject *parent) const;
+    QList<ItemScriptable *> scriptableObjects(QObject *parent) const;
 
     /**
      * Adds commands from scripts for command dialog.

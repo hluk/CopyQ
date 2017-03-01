@@ -31,6 +31,7 @@
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"
 #include "scriptable/fileclass.h"
+#include "scriptable/scriptableproxy.h"
 #include "scriptable/temporaryfileclass.h"
 #include "../qt/bytearrayclass.h"
 #include "../qxt/qxtglobal.h"
@@ -278,7 +279,20 @@ QString Scriptable::toString(const QScriptValue &value) const
 {
     QByteArray *bytes = getByteArray(value);
     return (bytes == nullptr) ? value.toString()
-                           : getTextData(*bytes);
+                              : getTextData(*bytes);
+}
+
+QVariant Scriptable::toVariant(const QScriptValue &value) const
+{
+    auto bytes = getByteArray(value);
+    if (bytes)
+        return QVariant(*bytes);
+
+    auto file = getFile(value);
+    if (file)
+        return QVariant::fromValue(file);
+
+    return value.toVariant();
 }
 
 bool Scriptable::toInt(const QScriptValue &value, int &number) const
@@ -411,16 +425,6 @@ void Scriptable::throwError(const QString &errorMessage)
 void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
 {
     emit sendMessage(message, exitCode);
-}
-
-void Scriptable::evaluate(const QString &script, const QString &scriptName)
-{
-    const auto result = m_engine->evaluate(script);
-    const auto exceptionText = processUncaughtException(scriptName);
-    if ( !exceptionText.isEmpty() ) {
-        const auto response = createScriptErrorMessage(exceptionText).toUtf8();
-        sendMessageToClient(response, CommandException);
-    }
 }
 
 QScriptValue Scriptable::version()
@@ -1310,16 +1314,7 @@ QScriptValue Scriptable::dialog()
     for ( int i = 0; i < argumentCount(); i += 2 ) {
         const QString key = arg(i);
         const QScriptValue value = argument(i + 1);
-        QByteArray *bytes = getByteArray(value);
-        if (bytes) {
-            values.append( NamedValue(key, QVariant(*bytes)) );
-        } else {
-            QFile *file = getFile(value);
-            if (file)
-                values.append( NamedValue(key, QVariant::fromValue(file)) );
-            else
-                values.append( NamedValue(key, value.toVariant()) );
-        }
+        values.append( NamedValue(key, toVariant(value)) );
     }
 
     values = m_proxy->inputDialog(values);
@@ -1343,8 +1338,7 @@ QScriptValue Scriptable::settings()
     if (argumentCount() == 2) {
         const QString key = arg(0);
         const QScriptValue value = argument(1);
-        const QByteArray *bytes = getByteArray(value);
-        const QVariant saveValue = bytes ? QVariant(*bytes) : value.toVariant();
+        const QVariant saveValue = toVariant(value);
         m_proxy->setUserValue(key, saveValue);
 
         return QScriptValue();
@@ -1428,6 +1422,25 @@ void Scriptable::sleep()
 
     if (msec > 0)
         ThreadSleep::msleep( static_cast<unsigned long>(msec) );
+}
+
+QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
+{
+    QScriptValueList fnArgs;
+    for (const auto &argument : arguments)
+        fnArgs.append( newVariant(argument) );
+
+    auto fn = m_engine->globalObject().property(method);
+    const auto result = fn.call(QScriptValue(), fnArgs);
+    return toVariant(result);
+}
+
+QVariantList Scriptable::currentArguments()
+{
+    QVariantList arguments;
+    for ( int i = 0; i < argumentCount(); ++i )
+        arguments.append( toVariant(argument(i)) );
+    return arguments;
 }
 
 void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)

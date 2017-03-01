@@ -21,17 +21,19 @@
 #define SCRIPTABLE_H
 
 #include "common/mimetypes.h"
-#include "scriptableproxy.h"
 
+#include <QClipboard>
 #include <QObject>
 #include <QString>
 #include <QScriptable>
 #include <QScriptValue>
+#include <QVariantMap>
 
 class ByteArrayClass;
 class ClipboardBrowser;
 class DirClass;
 class FileClass;
+class ScriptableProxy;
 class TemporaryFileClass;
 
 class QFile;
@@ -74,6 +76,7 @@ public:
 
     QByteArray fromString(const QString &value) const;
     QString toString(const QScriptValue &value) const;
+    QVariant toVariant(const QScriptValue &value) const;
     bool toInt(const QScriptValue &value, int &number) const;
     QVariantMap toDataMap(const QScriptValue &value) const;
 
@@ -134,8 +137,6 @@ public:
     QString getMimeOutputTab() const { return mimeOutputTab; }
     QString getMimeSyncToClipboard() const { return mimeSyncToClipboard; }
     QString getMimeSyncToSelection() const { return mimeSyncToSelection; }
-
-    void evaluate(const QString &script, const QString &scriptName);
 
 public slots:
     QScriptValue version();
@@ -272,6 +273,11 @@ public slots:
 
     void sleep();
 
+    // Call scriptable method.
+    QVariant call(const QString &method, const QVariantList &arguments);
+
+    QVariantList currentArguments();
+
 public slots:
     void onMessageReceived(const QByteArray &bytes, int messageCode);
     void onDisconnected();
@@ -288,6 +294,7 @@ private:
     bool setClipboard(QVariantMap &data, QClipboard::Mode mode);
     void changeItem(bool create);
     void nextToClipboard(int where);
+    QByteArray serialize(const QScriptValue &value);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;

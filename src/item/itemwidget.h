@@ -160,6 +160,25 @@ private:
     QWidget *m_widget;
 };
 
+class ItemScriptable : public QObject
+{
+    Q_OBJECT
+public:
+    explicit ItemScriptable(QObject *parent) : QObject(parent) {}
+
+    QObject *scriptable() const { return m_scriptable; }
+    void setScriptable(QObject *scriptable) { m_scriptable = scriptable; }
+    virtual void start() {}
+
+protected:
+    QVariant call(const QString &method, const QVariantList &arguments = QVariantList());
+    QVariant eval(const QString &script);
+    QVariantList currentArguments();
+
+private:
+    QObject *m_scriptable = nullptr;
+};
+
 class ItemSaverInterface
 {
 public:
@@ -321,16 +340,11 @@ public:
     virtual const QObject *signaler() const;
 
     /**
-     * Return script to run before client scripts.
-     */
-    virtual QString script() const;
-
-    /**
      * Return scriptable object that can be used in scripts.
      *
      * Object will be available as "plugins.<PLUGIN_ID>".
      */
-    virtual QObject *scriptableObject(QObject *parent) const;
+    virtual ItemScriptable *scriptableObject(QObject *parent);
 
     /**
      * Adds commands from scripts for command dialog.

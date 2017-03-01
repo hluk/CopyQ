@@ -421,19 +421,9 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
     return false;
 }
 
-QString ItemFactory::scripts() const
+QList<ItemScriptable*> ItemFactory::scriptableObjects(QObject *parent) const
 {
-    QString script;
-
-    for ( const auto &loader : enabledLoaders() )
-        script.append( loader->script() + '\n' );
-
-    return script;
-}
-
-QList<QObject*> ItemFactory::scriptableObjects(QObject *parent) const
-{
-    QList<QObject*> scriptables;
+    QList<ItemScriptable*> scriptables;
 
     for ( const auto &loader : enabledLoaders() ) {
         auto scriptable = loader->scriptableObject(parent);

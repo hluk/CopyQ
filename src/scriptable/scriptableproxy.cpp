@@ -17,7 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "scriptable.h"
+#include "scriptableproxy.h"
 
 #include "common/commandstatus.h"
 #include "common/common.h"
@@ -33,6 +33,7 @@
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
+#include "scriptable/scriptable.h"
 
 #include <QDialog>
 #include <QHBoxLayout>
@@ -284,6 +285,7 @@ QWidget *createWidget(const QString &name, const QVariant &value, QWidget *paren
     case QVariant::DateTime:
         return createDateTimeEdit(name, "dateTime", value, parent);
     case QVariant::List:
+    case QVariant::StringList:
         return createListWidget(name, value.toStringList(), parent);
     default:
         QFile *file = value.value<QFile*>();

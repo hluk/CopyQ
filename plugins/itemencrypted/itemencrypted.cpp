@@ -74,21 +74,6 @@ QStringList getDefaultEncryptCommandArguments(const QString &publicKeyPath)
                          << "--no-default-keyring" << "--keyring" << publicKeyPath;
 }
 
-QStringList getDefaultEncryptCommandArgumentsEscaped()
-{
-    KeyPairPaths keys;
-    QStringList args = getDefaultEncryptCommandArguments(keys.pub);
-
-    // Escape characters
-    for (auto &arg : args) {
-        arg.replace("\\", "\\\\")
-           .replace(" ", "\\ ")
-           .replace("\"", "\\\"");
-    }
-
-    return args;
-}
-
 void startGpgProcess(QProcess *p, const QStringList &args)
 {
     KeyPairPaths keys;
@@ -342,6 +327,42 @@ void ItemEncryptedSaver::emitEncryptFailed()
     emit error( ItemEncryptedLoader::tr("Encryption failed!") );
 }
 
+bool ItemEncryptedScriptable::isEncrypted()
+{
+    const auto args = currentArguments();
+    for (const auto &arg : args) {
+        bool ok;
+        const int row = arg.toInt(&ok);
+        if (ok) {
+            const auto result = call("read", QVariantList() << "?" << row);
+            if ( result.toByteArray().contains(mimeEncryptedData) )
+                return true;
+        }
+    }
+
+    return false;
+}
+
+QByteArray ItemEncryptedScriptable::encrypt()
+{
+    const auto args = currentArguments();
+    const auto bytes = args.first().toByteArray();
+    const auto encryptedBytes = readGpgOutput(QStringList("--encrypt"), bytes);
+    if ( encryptedBytes.isEmpty() )
+        eval("throw 'Failed to execute GPG!'");
+    return encryptedBytes;
+}
+
+QByteArray ItemEncryptedScriptable::decrypt()
+{
+    const auto args = currentArguments();
+    const auto bytes = args.first().toByteArray();
+    const auto decryptedBytes = readGpgOutput(QStringList("--decrypt"), bytes);
+    if ( decryptedBytes.isEmpty() )
+        eval("throw 'Failed to execute GPG!'");
+    return decryptedBytes;
+}
+
 QString ItemEncryptedScriptable::generateTestKeys()
 {
     const KeyPairPaths keys;
@@ -575,55 +596,7 @@ QObject *ItemEncryptedLoader::tests(const TestInterfacePtr &test) const
 #endif
 }
 
-QString ItemEncryptedLoader::script() const
-{
-    QString script = R"SCRIPT(
-        ${NS}.mime = '${MIME}'
-
-        ${NS}.gpgRun = function(gpgArg, bytes) {
-          var cmd = execute('gpg', ${GPG_ARGUMENT_LIST}, gpgArg, null, bytes)
-          if (!cmd)
-            throw 'Failed to execute GPG!'
-          if (cmd.exit_code != 0)
-            throw 'GPG (exit code ' + cmd.exit_code + ') = ' + cmd.stderr
-          return cmd.stdout
-        }
-
-        ${NS}.isEncrypted = function(rows) {
-            var rows = Array.prototype.slice.call(arguments, 0)
-            if (rows.length == 0)
-                rows = selecteditems()
-
-            for (var i in rows) {
-                var mimeTypes = str(read('?', rows[i]))
-                var encrypted = mimeTypes.indexOf(this.mime) != -1
-                if (encrypted)
-                    return true
-            }
-
-            return false
-        }
-
-        ${NS}.encrypt = function(bytes) {
-          return this.gpgRun('--encrypt', bytes)
-        }
-
-        ${NS}.decrypt = function(bytes) {
-          return this.gpgRun('--decrypt', bytes)
-        }
-        )SCRIPT";
-
-    const QString gpgArgumentList = '"' + getDefaultEncryptCommandArgumentsEscaped().join("\",\"") + '"';
-    const auto pluginNamespace = "plugins." + id();
-
-    script.replace("${NS}", pluginNamespace);
-    script.replace("${MIME}", mimeEncryptedData);
-    script.replace("${GPG_ARGUMENT_LIST}", gpgArgumentList);
-
-    return script;
-}
-
-QObject *ItemEncryptedLoader::scriptableObject(QObject *parent) const
+ItemScriptable *ItemEncryptedLoader::scriptableObject(QObject *parent)
 {
     return new ItemEncryptedScriptable(parent);
 }

@@ -116,6 +116,54 @@ void ItemPinned::updateSize(const QSize &maximumSize, int idealWidth)
     m_childItem->updateSize(childItemMaximumSize, childItemWidth);
 }
 
+bool ItemPinnedScriptable::isPinned()
+{
+    const auto args = currentArguments();
+    for (const auto &arg : args) {
+        bool ok;
+        const int row = arg.toInt(&ok);
+        if (ok) {
+            const auto result = call("read", QVariantList() << "?" << row);
+            if ( result.toByteArray().contains(mimePinned) )
+                return true;
+        }
+    }
+
+    return false;
+}
+
+void ItemPinnedScriptable::pin()
+{
+    const auto args = currentArguments();
+    for (const auto &arg : args) {
+        bool ok;
+        const int row = arg.toInt(&ok);
+        if (ok)
+            call("change", QVariantList() << row << mimePinned << QString());
+    }
+}
+
+void ItemPinnedScriptable::unpin()
+{
+    const auto args = currentArguments();
+    for (const auto &arg : args) {
+        bool ok;
+        const int row = arg.toInt(&ok);
+        if (ok)
+            call("change", QVariantList() << row << mimePinned << QVariant());
+    }
+}
+
+void ItemPinnedScriptable::pinData()
+{
+    call("setData", QVariantList() << mimePinned << QString());
+}
+
+void ItemPinnedScriptable::unpinData()
+{
+    call("removeData", QVariantList() << mimePinned);
+}
+
 ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &settings, const ItemSaverPtr &saver)
     : m_model(model)
     , m_settings(settings)
@@ -252,51 +300,9 @@ QObject *ItemPinnedLoader::tests(const TestInterfacePtr &test) const
 #endif
 }
 
-QString ItemPinnedLoader::script() const
+ItemScriptable *ItemPinnedLoader::scriptableObject(QObject *parent)
 {
-    return "plugins." + id() + R"SCRIPT( = {
-
-        mime: ')SCRIPT" + QString(mimePinned) + R"SCRIPT(',
-
-        _pin: function(pin, args) {
-            var rows = Array.prototype.slice.call(args, 0)
-            if (rows.length == 0)
-                rows = selecteditems()
-
-            for (var i in rows)
-                change(rows[i], this.mime, pin ? '' : undefined)
-        },
-
-        isPinned: function(rows) {
-            var rows = Array.prototype.slice.call(arguments, 0)
-            if (rows.length == 0)
-                rows = selecteditems()
-
-            for (var i in rows) {
-                if ( str(read('?', rows[i])).indexOf(this.mime) != -1 )
-                    return true
-            }
-
-            return false
-        },
-
-        pin: function() {
-            this._pin(true, arguments)
-        },
-
-        unpin: function() {
-            this._pin(false, arguments)
-        },
-
-        pinData: function() {
-            setData(this.mime, "")
-        },
-
-        unpinData: function() {
-            removeData(this.mime)
-        },
-
-        })SCRIPT";
+    return new ItemPinnedScriptable(parent);
 }
 
 QList<Command> ItemPinnedLoader::commands() const

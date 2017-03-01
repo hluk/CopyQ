@@ -79,6 +79,34 @@ private:
     std::unique_ptr<ItemWidget> m_childItem;
 };
 
+class ItemTagsLoader;
+
+class ItemTagsScriptable : public ItemScriptable
+{
+    Q_OBJECT
+    Q_PROPERTY(QStringList userTags READ getUserTags)
+
+public:
+    explicit ItemTagsScriptable(ItemTagsLoader *loader, QObject *parent);
+
+    QStringList getUserTags() const;
+
+public slots:
+    QStringList tags();
+    void tag();
+    void untag();
+    void clearTags();
+    bool hasTag();
+
+private:
+    QString tagName(const QVariantList &arguments, const QString &dialogTitle, QStringList tags);
+    QList<int> rows(const QVariantList &arguments, int skip);
+    QStringList tags(int row);
+    void setTags(int row, const QStringList &tags);
+
+    ItemTagsLoader *m_loader;
+};
+
 class ItemTagsLoader : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
@@ -109,9 +137,11 @@ public:
 
     QObject *tests(const TestInterfacePtr &test) const override;
 
-    QString script() const override;
+    ItemScriptable *scriptableObject(QObject *parent) override;
 
     QList<Command> commands() const override;
+
+    QStringList userTags() const;
 
 private slots:
     void onColorButtonClicked();

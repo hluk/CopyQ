@@ -247,6 +247,31 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
     return false;
 }
 
+QVariant ItemScriptable::call(const QString &method, const QVariantList &arguments)
+{
+    QVariant result;
+    QMetaObject::invokeMethod(
+                m_scriptable, "call", Qt::DirectConnection,
+                Q_RETURN_ARG(QVariant, result),
+                Q_ARG(const QString &, method),
+                Q_ARG(const QVariantList &, arguments));
+    return result;
+}
+
+QVariant ItemScriptable::eval(const QString &script)
+{
+    return call("eval", QVariantList() << script);
+}
+
+QVariantList ItemScriptable::currentArguments()
+{
+    QVariantList arguments;
+    QMetaObject::invokeMethod(
+                m_scriptable, "currentArguments", Qt::DirectConnection,
+                Q_RETURN_ARG(QVariantList, arguments) );
+    return arguments;
+}
+
 bool ItemSaverInterface::saveItems(const QAbstractItemModel &, QIODevice *)
 {
     return false;
@@ -321,12 +346,7 @@ const QObject *ItemLoaderInterface::signaler() const
     return nullptr;
 }
 
-QString ItemLoaderInterface::script() const
-{
-    return QString();
-}
-
-QObject *ItemLoaderInterface::scriptableObject(QObject *) const
+ItemScriptable *ItemLoaderInterface::scriptableObject(QObject *)
 {
     return nullptr;
 }

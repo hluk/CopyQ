@@ -31,6 +31,8 @@
 class ClientSocket;
 using ClientSocketPtr = std::shared_ptr<ClientSocket>;
 
+class ItemScriptable;
+
 /**
  * Handles socket destruction.
  *
@@ -58,8 +60,7 @@ public:
     ScriptableWorker(
             MainWindow *mainWindow,
             const ClientSocketPtr &socket,
-            const QString &pluginScript,
-            const QList<QObject*> scriptables);
+            const QList<ItemScriptable*> scriptables);
 
     ~ScriptableWorker();
 
@@ -68,8 +69,7 @@ public:
 private:
     MainWindow *m_wnd;
     QPointer<ScriptableWorkerSocketGuard> m_socketGuard;
-    QString m_pluginScript;
-    QList<QObject*> m_scriptables;
+    QList<ItemScriptable*> m_scriptables;
 };
 
 #endif // SCRIPTABLEWORKER_H

@@ -403,6 +403,138 @@ void ItemTags::updateSize(const QSize &maximumSize, int idealWidth)
     adjustSize();
 }
 
+ItemTagsScriptable::ItemTagsScriptable(ItemTagsLoader *loader, QObject *parent)
+    : ItemScriptable(parent)
+    , m_loader(loader)
+{
+}
+
+QStringList ItemTagsScriptable::getUserTags() const
+{
+    return m_loader->userTags();
+}
+
+QStringList ItemTagsScriptable::tags()
+{
+    const auto args = currentArguments();
+    const auto rows = this->rows(args, 0);
+
+    QStringList allTags;
+    for (int row : rows)
+        allTags << this->tags(row);
+
+    return allTags;
+}
+
+void ItemTagsScriptable::tag()
+{
+    const auto args = currentArguments();
+
+    const auto tagName = this->tagName( args, addTagText(), m_loader->userTags() );
+    if ( tagName.isEmpty() )
+        return;
+
+    const auto rows = this->rows(args, 1);
+
+    for (int row : rows) {
+        auto tags = this->tags(row);
+        if ( !tags.contains(tagName) ) {
+            tags.append(tagName);
+            tags.sort();
+            setTags(row, tags);
+        }
+    }
+}
+
+void ItemTagsScriptable::untag()
+{
+    const auto args = currentArguments();
+    const auto rows = this->rows(args, 1);
+
+    QStringList allTags;
+    for (int row : rows)
+        allTags << this->tags(row);
+
+    const auto tagName = this->tagName( args, removeTagText(), allTags );
+    if ( tagName.isEmpty() )
+        return;
+
+    for (int row : rows) {
+        auto tags = this->tags(row);
+        if ( tags.contains(tagName) ) {
+            tags.removeOne(tagName);
+            setTags(row, tags);
+        }
+    }
+}
+
+void ItemTagsScriptable::clearTags()
+{
+    const auto args = currentArguments();
+    const auto rows = this->rows(args, 0);
+    for (int row : rows)
+        setTags(row, QStringList());
+}
+
+bool ItemTagsScriptable::hasTag()
+{
+    const auto args = currentArguments();
+    const auto tagName = args.value(0).toString();
+    const auto row = args.value(1).toInt();
+    return tags(row).contains(tagName);
+}
+
+QString ItemTagsScriptable::tagName(
+        const QVariantList &arguments, const QString &dialogTitle, QStringList tags)
+{
+    auto tagName = arguments.value(0).toString();
+
+    if ( !tagName.isEmpty() )
+        return tagName;
+
+    if ( !tags.isEmpty() )
+        tags.prepend( tags.value(0) );
+
+    const auto value = call( "dialog", QVariantList()
+          << ".title" << dialogTitle
+          << dialogTitle << tags );
+
+    return value.toString();
+}
+
+QList<int> ItemTagsScriptable::rows(const QVariantList &arguments, int skip)
+{
+    QList<int> rows;
+
+    if ( arguments.isEmpty() ) {
+        const auto values = call("selectedItems").toList();
+        for (const auto &value : values)
+            rows.append( value.toInt() );
+    } else {
+        for (int i = skip; i < arguments.size(); ++i) {
+            bool ok;
+            const auto row = arguments[i].toInt(&ok);
+            if (ok)
+                rows.append(row);
+        }
+    }
+
+    return rows;
+}
+
+QStringList ItemTagsScriptable::tags(int row)
+{
+    const auto value = call("read", QVariantList() << mimeTags << row);
+    return getTextData( value.toByteArray() )
+            .split(',', QString::SkipEmptyParts);
+}
+
+void ItemTagsScriptable::setTags(int row, const QStringList &tags)
+{
+    const auto value = tags.join(",");
+    call("change", QVariantList() << row << mimeTags << value);
+}
+
 ItemTagsLoader::ItemTagsLoader()
     : m_blockDataChange(false)
 {
@@ -512,102 +644,9 @@ QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
 #endif
 }
 
-QString ItemTagsLoader::script() const
+ItemScriptable *ItemTagsLoader::scriptableObject(QObject *parent)
 {
-    QString userTags;
-    for (const auto &tag : m_tags)
-        userTags.append(toScriptString(tag.name) + ",");
-
-    const QString addTagString = toScriptString(addTagText());
-    const QString removeTagString = toScriptString(removeTagText());
-
-    return
-        "plugins." + id() + " = {"
-
-        "\n" "mime: '" + QString(mimeTags) + "',"
-        "\n" "userTags: [" + userTags + "],"
-
-        "\n" "_tags: function(rows) {"
-        "\n" "  var tags = []"
-        "\n" "  for (var i in rows) {"
-        "\n" "    var row = rows[i]"
-        "\n" "    var itemTags = str(read(this.mime, row))"
-        "\n" "      .split(/\\s*,\\s*/)"
-        "\n" "    tags = tags.concat(itemTags)"
-        "\n" "  }"
-        "\n" "  return tags"
-        "\n" "      .filter(function(e, i, a) { return e != '' && i == a.indexOf(e) })"
-        "\n" "      .sort()"
-        "\n" "},"
-
-        "\n" "tags: function() {"
-        "\n" "  var rows = Array.prototype.slice.call(arguments)"
-        "\n" "  if (rows.length == 0)"
-        "\n" "    rows = selecteditems()"
-        "\n" "  return this._tags(rows)"
-        "\n" "},"
-
-        "\n" "_tagUntag: function(add, args) {"
-        "\n" "  var tagName = args[0]"
-        "\n" "  var rows = Array.prototype.slice.call(args, 1)"
-        "\n" "  if (rows.length == 0)"
-        "\n" "    rows = selecteditems()"
-        "\n" "  "
-        "\n" "  if (!tagName) {"
-        "\n" "    title = add ? " + addTagString + " : " + removeTagString +
-        "\n" "    tagList = add ? this.userTags : this._tags(rows)"
-        "\n" "    if (tagList.length > 0)"
-        "\n" "      tagList.unshift(tagList[0])"
-        "\n" "    tagName = dialog('.title', title, 'Tag', tagList)"
-        "\n" "    if (!tagName)"
-        "\n" "      return;"
-        "\n" "  }"
-        "\n" "  "
-        "\n" "  for (var i in rows) {"
-        "\n" "    var row = rows[i]"
-        "\n" "    tags = this.tags(row)"
-        "\n" "      .filter(function(x) {return x != tagName})"
-        "\n" "    if (add)"
-        "\n" "      tags = tags.concat(tagName).sort()"
-        "\n" "    change(row, this.mime, tags)"
-        "\n" "  }"
-        "\n" "},"
-
-        "\n" "tag: function(tagName) {"
-        "\n" "  this._tagUntag(true, arguments)"
-        "\n" "},"
-
-        "\n" "untag: function(tagName) {"
-        "\n" "  this._tagUntag(false, arguments)"
-        "\n" "},"
-
-        "\n" "clearTags: function() {"
-        "\n" "  var rows = Array.prototype.slice.call(arguments)"
-        "\n" "  if (rows.length == 0)"
-        "\n" "    rows = selecteditems()"
-        "\n" "  for (var i in rows)"
-        "\n" "    change(rows[i], this.mime, '')"
-        "\n" "},"
-
-        "\n" "hasTag: function(tagName) {"
-        "\n" "  var rows = Array.prototype.slice.call(arguments, 1)"
-        "\n" "  if (rows.length == 0)"
-        "\n" "    rows = selecteditems()"
-        "\n" "  if (tagName) {"
-        "\n" "    for (var i in rows) {"
-        "\n" "      if (this.tags(rows[i]).indexOf(tagName) != -1)"
-        "\n" "        return true"
-        "\n" "    }"
-        "\n" "  } else {"
-        "\n" "    for (var i in rows) {"
-        "\n" "      if (this.tags(rows[i]).length != 0)"
-        "\n" "        return true"
-        "\n" "    }"
-        "\n" "  }"
-        "\n" "  return false"
-        "\n" "},"
-
-        "\n" "}";
+    return new ItemTagsScriptable(this, parent);
 }
 
 QList<Command> ItemTagsLoader::commands() const
@@ -642,6 +681,16 @@ QList<Command> ItemTagsLoader::commands() const
     commands.append(c);
 
     return commands;
+}
+
+QStringList ItemTagsLoader::userTags() const
+{
+    QStringList tags;
+
+    for (const auto &tag : m_tags)
+        tags.append(tag.name);
+
+    return tags;
 }
 
 void ItemTagsLoader::onColorButtonClicked()

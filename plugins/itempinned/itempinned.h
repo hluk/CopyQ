@@ -60,6 +60,22 @@ private:
     std::unique_ptr<ItemWidget> m_childItem;
 };
 
+class ItemPinnedScriptable : public ItemScriptable
+{
+    Q_OBJECT
+public:
+    explicit ItemPinnedScriptable(QObject *parent) : ItemScriptable(parent) {}
+
+public slots:
+    bool isPinned();
+
+    void pin();
+    void unpin();
+
+    void pinData();
+    void unpinData();
+};
+
 class ItemPinnedSaver : public QObject, public ItemSaverInterface
 {
     Q_OBJECT
@@ -119,7 +135,7 @@ public:
 
     QObject *tests(const TestInterfacePtr &test) const override;
 
-    QString script() const override;
+    ItemScriptable *scriptableObject(QObject *parent) override;
 
     QList<Command> commands() const override;
 

@@ -63,13 +63,17 @@ private:
     void emitEncryptFailed();
 };
 
-class ItemEncryptedScriptable : public QObject
+class ItemEncryptedScriptable : public ItemScriptable
 {
     Q_OBJECT
 public:
-    explicit ItemEncryptedScriptable(QObject *parent) : QObject(parent) {}
+    explicit ItemEncryptedScriptable(QObject *parent) : ItemScriptable(parent) {}
 
 public slots:
+    bool isEncrypted();
+    QByteArray encrypt();
+    QByteArray decrypt();
+
     QString generateTestKeys();
     bool isGpgInstalled();
 };
@@ -113,8 +117,7 @@ public:
 
     const QObject *signaler() const override { return this; }
 
-    QString script() const override;
-    QObject *scriptableObject(QObject *parent) const override;
+    ItemScriptable *scriptableObject(QObject *parent) override;
 
     QList<Command> commands() const override;
 

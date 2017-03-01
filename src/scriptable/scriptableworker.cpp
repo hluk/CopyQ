@@ -24,6 +24,7 @@
 #include "common/clientsocket.h"
 #include "common/commandstatus.h"
 #include "common/log.h"
+#include "item/itemwidget.h"
 #include "../qt/bytearrayclass.h"
 
 #include <QApplication>
@@ -50,12 +51,10 @@ ClientSocket *ScriptableWorkerSocketGuard::socket() const
 ScriptableWorker::ScriptableWorker(
         MainWindow *mainWindow,
         const ClientSocketPtr &socket,
-        const QString &pluginScript,
-        const QList<QObject*> scriptables)
+        const QList<ItemScriptable*> scriptables)
     : QRunnable()
     , m_wnd(mainWindow)
     , m_socketGuard(new ScriptableWorkerSocketGuard(socket))
-    , m_pluginScript(pluginScript)
     , m_scriptables(scriptables)
 {
 }
@@ -75,14 +74,6 @@ void ScriptableWorker::run()
     Scriptable scriptable(&proxy);
     scriptable.initEngine(&engine);
 
-    auto plugins = engine.newObject();
-    for (auto scriptableObject : m_scriptables) {
-        const auto obj = engine.newQObject(scriptableObject);
-        const auto name = scriptableObject->objectName();
-        plugins.setProperty(name, obj);
-    }
-    engine.globalObject().setProperty("plugins", plugins);
-
     QObject::connect( &proxy, SIGNAL(sendMessage(QByteArray,int)),
                       socket, SLOT(sendMessage(QByteArray,int)) );
 
@@ -98,7 +89,16 @@ void ScriptableWorker::run()
 
     QMetaObject::invokeMethod(socket, "start", Qt::QueuedConnection);
 
-    scriptable.evaluate(m_pluginScript, "Scripts for Plugins");
+    auto plugins = engine.newObject();
+    engine.globalObject().setProperty("plugins", plugins);
+
+    for (auto scriptableObject : m_scriptables) {
+        scriptableObject->setScriptable(&scriptable);
+        const auto obj = engine.newQObject(scriptableObject);
+        const auto name = scriptableObject->objectName();
+        plugins.setProperty(name, obj);
+        scriptableObject->start();
+    }
 
     while ( scriptable.isConnected() )
         QCoreApplication::processEvents();
