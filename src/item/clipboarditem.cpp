@@ -88,8 +88,12 @@ bool ClipboardItem::updateData(const QVariantMap &data)
     bool changed = (oldSize != m_data.size());
 
     for ( const auto &format : data.keys() ) {
-        if ( m_data.value(format) != data[format] ) {
-            m_data.insert(format, data[format]);
+        const auto &value = data[format];
+        if ( !value.isValid() ) {
+            m_data.remove(format);
+            changed = true;
+        } else if ( m_data.value(format) != value ) {
+            m_data.insert(format, value);
             changed = true;
         }
     }

@@ -340,7 +340,9 @@ bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVar
         return deserializeData(data, *itemData);
     }
 
-    if (!mime.startsWith("text/") && value.scriptClass() == m_baClass)
+    if (value.isUndefined())
+        data->insert( mime, QVariant() );
+    else if (!mime.startsWith("text/") && value.scriptClass() == m_baClass)
         data->insert( mime, *getByteArray(value) );
     else
         data->insert( mime, toString(value).toUtf8() );

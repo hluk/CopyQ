@@ -236,6 +236,8 @@ Inserts new item to current tab.
 
 Changes data in item in current tab.
 
+If data is `undefined` the format is removed from item.
+
 ###### String separator()
 
 Returns item separator (used when concatenating item data).
