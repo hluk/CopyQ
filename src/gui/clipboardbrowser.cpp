@@ -212,7 +212,7 @@ ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, 
 
     initSingleShotTimer( &m_timerSave, 30000, this, SLOT(saveItems()) );
     initSingleShotTimer( &m_timerScroll, 50 );
-    initSingleShotTimer( &m_timerUpdate, 10, this, SLOT(doUpdateCurrentPage()) );
+    initSingleShotTimer( &m_timerUpdate, 0, this, SLOT(doUpdateCurrentPage()) );
     initSingleShotTimer( &m_timerExpire, 0, this, SLOT(expire()) );
     initSingleShotTimer( &m_timerEmitItemCount, 0, this, SLOT(emitItemCount()) );
 
