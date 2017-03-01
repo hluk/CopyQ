@@ -135,9 +135,17 @@ public:
 
     QObject *tests(const TestInterfacePtr &test) const override;
 
+    const QObject *signaler() const override { return this; }
+
     ItemScriptable *scriptableObject(QObject *parent) override;
 
     QList<Command> commands() const override;
+
+signals:
+    void addCommands(const QList<Command> &commands);
+
+private slots:
+    void addCommands();
 
 private:
     QVariantMap m_settings;

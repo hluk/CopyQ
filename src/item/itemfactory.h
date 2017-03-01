@@ -141,7 +141,8 @@ public:
     void emitError(const QString &errorString);
 
 signals:
-    void error(const QString &);
+    void error(const QString &errorString);
+    void addCommands(const QList<Command> &commands);
 
 private slots:
     /** Called if child ItemWidget destroyed. **/

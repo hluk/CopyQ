@@ -261,8 +261,8 @@ CommandDialog::CommandDialog(
     ui->itemOrderListCommands->setFocus();
     ui->itemOrderListCommands->setAddRemoveButtonsVisible(true);
 
-    for ( const auto &command : loadAllCommands() )
-        addCommandWithoutSave(command);
+    addCommandsWithoutSave(loadAllCommands(), -1);
+    ui->itemOrderListCommands->setCurrentItem(0);
 
     QAction *act = new QAction(ui->itemOrderListCommands);
     ui->itemOrderListCommands->addAction(act);
@@ -294,9 +294,9 @@ CommandDialog::~CommandDialog()
     delete ui;
 }
 
-void CommandDialog::addCommand(const Command &command)
+void CommandDialog::addCommands(const Commands &commands)
 {
-    addCommandWithoutSave(command);
+    addCommandsWithoutSave(commands, 0);
 }
 
 void CommandDialog::apply()
@@ -464,9 +464,7 @@ void CommandDialog::on_buttonBox_clicked(QAbstractButton *button)
 void CommandDialog::onAddCommands(const QList<Command> &commands)
 {
     const int targetRow = qMax( 0, ui->itemOrderListCommands->currentRow() );
-    for (int i = 0; i < commands.count(); ++i)
-        addCommandWithoutSave(commands[i], targetRow + i);
-    ui->itemOrderListCommands->setCurrentItem(targetRow);
+    addCommandsWithoutSave(commands, targetRow);
 }
 
 void CommandDialog::onClipboardChanged()
@@ -498,35 +496,38 @@ CommandDialog::Commands CommandDialog::currentCommands() const
     return commands;
 }
 
-void CommandDialog::addCommandWithoutSave(const Command &command, int targetRow)
+void CommandDialog::addCommandsWithoutSave(const Commands &commands, int targetRow)
 {
-    ItemOrderList::ItemPtr item(new CommandItem(command, m_formats, this));
-    ui->itemOrderListCommands->insertItem(
-                command.name, command.enable, command.automatic,
-                getCommandIcon(command.icon), item, targetRow);
-}
-
-void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
-{
-    QSettings commandsSettings(fileName, QSettings::IniFormat);
     QList<int> rowsToSelect;
 
     const int count = ui->itemOrderListCommands->rowCount();
     int row = targetRow >= 0 ? targetRow : count;
 
-    for ( auto command : loadCommands(&commandsSettings, AllCommands) ) {
+    for (auto &command : commands) {
+        ItemOrderList::ItemPtr item(new CommandItem(command, m_formats, this));
+        ui->itemOrderListCommands->insertItem(
+                    command.name, command.enable, command.automatic,
+                    getCommandIcon(command.icon), item, row);
         rowsToSelect.append(row);
+        ++row;
+    }
 
+    ui->itemOrderListCommands->setSelectedRows(rowsToSelect);
+}
+
+void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
+{
+    QSettings commandsSettings(fileName, QSettings::IniFormat);
+
+    auto commands = loadCommands(&commandsSettings, AllCommands);
+    for ( auto command : commands ) {
         if (command.cmd.startsWith("\n    ")) {
             command.cmd.remove(0, 5);
             command.cmd.replace("\n    ", "\n");
         }
-
-        addCommandWithoutSave(command, row);
-        row++;
     }
 
-    ui->itemOrderListCommands->setSelectedRows(rowsToSelect);
+    addCommandsWithoutSave(commands, targetRow);
 }
 
 CommandDialog::Commands CommandDialog::selectedCommands() const

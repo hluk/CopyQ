@@ -345,6 +345,9 @@ public slots:
     /** Show error popup message. */
     void showError(const QString &msg);
 
+    /** Open command dialog and add commands. */
+    void addCommands(const QList<Command> &commands);
+
     /** Execute command on given input data. */
     Action *action(
             const QVariantMap &data,

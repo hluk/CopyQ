@@ -519,6 +519,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     connect(itemFactory, SIGNAL(error(QString)),
             this, SLOT(showError(QString)));
+    connect(itemFactory, SIGNAL(addCommands(QList<Command>)),
+            this, SLOT(addCommands(QList<Command>)));
 
     m_commands = loadEnabledCommands();
     loadSettings();
@@ -870,7 +872,7 @@ void MainWindow::onSaveCommand(const Command &command)
     saveCommands(commands);
 
     if (m_commandDialog)
-        m_commandDialog->addCommand(command);
+        m_commandDialog->addCommands(QList<Command>() << command);
 }
 
 void MainWindow::onCommandActionTriggered(const Command &command, const QVariantMap &actionData, int commandType)
@@ -1998,6 +2000,15 @@ void MainWindow::showError(const QString &msg)
 {
     showMessage( tr("CopyQ Error", "Notification error message title"),
                  msg, QSystemTrayIcon::Critical );
+}
+
+void MainWindow::addCommands(const QList<Command> &commands)
+{
+    openCommands();
+    if (m_commandDialog) {
+        m_commandDialog->addCommands(commands);
+
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)

@@ -32,6 +32,7 @@
 #include <QDir>
 #include <QIODevice>
 #include <QLabel>
+#include <QMetaObject>
 #include <QModelIndex>
 #include <QPluginLoader>
 
@@ -555,6 +556,13 @@ void ItemFactory::addLoader(const ItemLoaderPtr &loader)
 {
     m_loaders.append(loader);
     const QObject *signaler = loader->signaler();
-    if (signaler)
-        connect( signaler, SIGNAL(error(QString)), this, SIGNAL(error(QString)) );
+    if (signaler) {
+        const auto loaderMetaObject = signaler->metaObject();
+
+        if ( loaderMetaObject->indexOfSignal("error(QString)") != -1 )
+            connect( signaler, SIGNAL(error(QString)), this, SIGNAL(error(QString)) );
+
+        if ( loaderMetaObject->indexOfSignal("addCommands(QList<Command>)") != -1 )
+            connect( signaler, SIGNAL(addCommands(QList<Command>)), this, SIGNAL(addCommands(QList<Command>)) );
+    }
 }

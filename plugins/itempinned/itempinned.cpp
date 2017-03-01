@@ -276,6 +276,9 @@ QWidget *ItemPinnedLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
+    connect( ui->pushButtonAddCommands, SIGNAL(clicked()),
+             this, SLOT(addCommands()) );
+
     return w;
 }
 
@@ -325,6 +328,11 @@ QList<Command> ItemPinnedLoader::commands() const
     commands.append(c);
 
     return commands;
+}
+
+void ItemPinnedLoader::addCommands()
+{
+    emit addCommands(commands());
 }
 
 Q_EXPORT_PLUGIN2(itempinned, ItemPinnedLoader)

@@ -434,6 +434,9 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
+    connect( ui->pushButtonAddCommands, SIGNAL(clicked()),
+             this, SLOT(addCommands()) );
+
     ui->plainTextEditEncryptTabs->setPlainText(
                 m_settings.value("encrypt_tabs").toStringList().join("\n") );
 
@@ -719,6 +722,11 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
     ui->labelInfo->setText( error.isEmpty() ? tr("Done") : error );
 }
 
+void ItemEncryptedLoader::addCommands()
+{
+    emit addCommands(commands());
+}
+
 void ItemEncryptedLoader::updateUi()
 {
     if (ui == nullptr)
@@ -729,6 +737,7 @@ void ItemEncryptedLoader::updateUi()
                                " <a href=\"http://www.gnupg.org/\">GnuPG</a>"
                                " application and restart CopyQ.");
         ui->pushButtonPassword->hide();
+        ui->pushButtonAddCommands->hide();
         ui->groupBoxEncryptTabs->hide();
         ui->groupBoxShareInfo->hide();
     } else if (m_gpgProcessStatus == GpgGeneratingKeys) {

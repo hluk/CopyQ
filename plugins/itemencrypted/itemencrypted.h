@@ -123,11 +123,13 @@ public:
 
 signals:
     void error(const QString &);
+    void addCommands(const QList<Command> &commands);
 
 private slots:
     void setPassword();
     void terminateGpgProcess();
     void onGpgProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void addCommands();
 
 private:
     enum GpgProcessStatus {

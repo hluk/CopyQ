@@ -35,15 +35,15 @@ class CommandDialog : public QDialog
     Q_OBJECT
 
 public:
-    typedef QList<Command> Commands;
+    using Commands = QList<Command>;
 
     CommandDialog(
             const Commands &pluginCommands, const QStringList &formats,
             QWidget *parent = nullptr);
     ~CommandDialog();
 
-    /** Create new command. */
-    void addCommand(const Command &command);
+    /** Create new commands. */
+    void addCommands(const Commands &commands);
 
     void apply();
 
@@ -82,7 +82,7 @@ private slots:
 private:
     Commands currentCommands() const;
 
-    void addCommandWithoutSave(const Command &command, int targetRow = -1);
+    void addCommandsWithoutSave(const Commands &commands, int targetRow);
     void loadCommandsFromFile(const QString &fileName, int targetRow);
     Commands selectedCommands() const;
     QString serializeSelectedCommands();
