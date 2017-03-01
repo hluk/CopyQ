@@ -440,14 +440,8 @@ QList<Command> ItemFactory::commands() const
 {
     QList<Command> commands;
 
-    for ( const auto &loader : enabledLoaders() ) {
-        QList <Command> subCommands = loader->commands();
-
-        for (auto &subCommand : subCommands)
-            subCommand.name.prepend(loader->name() + '|');
-
-        commands << subCommands;
-    }
+    for ( const auto &loader : enabledLoaders() )
+        commands << loader->commands();
 
     return commands;
 }
