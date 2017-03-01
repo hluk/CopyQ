@@ -859,17 +859,14 @@ void ClipboardBrowser::onModelDataChanged()
     updateCurrentPage();
 }
 
-void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
+void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
 {
     if (editing()) {
         m_invalidateCache = true;
         return;
     }
 
-    const int currentRow = currentIndex().row();
-    if ( a.row() <= currentRow && currentRow <= b.row() )
-        emit updateContextMenu();
-
+    emit updateContextMenu();
     updateCurrentPage();
 }
 
