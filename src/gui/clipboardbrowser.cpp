@@ -158,55 +158,6 @@ QVariantMap itemData(const QModelIndex &index)
     return index.data(contentType::data).toMap();
 }
 
-class ScrollSaver {
-public:
-    ScrollSaver(QListView *view)
-        : m_view(view)
-        , m_index()
-        , m_oldOffset(0)
-        , m_currentSelected(false)
-    {}
-
-    void save()
-    {
-        m_index = m_view->currentIndex();
-        m_oldOffset = m_view->visualRect(m_index).y();
-
-        m_currentSelected = m_index.isValid() && m_oldOffset >= 0
-                && m_oldOffset < m_view->viewport()->contentsRect().height();
-
-        if (!m_currentSelected) {
-            m_index = indexNear(m_view, 0);
-            m_oldOffset = m_view->visualRect(m_index).y();
-        }
-    }
-
-    void restore()
-    {
-        QModelIndex current = m_view->currentIndex();
-
-        if ( !m_index.isValid() ) {
-            if ( !current.isValid() )
-                m_view->setCurrentIndex( m_view->model()->index(0, 0) );
-            return;
-        }
-
-        if ( !current.isValid() || (m_currentSelected && m_index == current) ) {
-            const int dy = m_view->visualRect(m_index).y() - m_oldOffset;
-            if (dy != 0) {
-                const int v = m_view->verticalScrollBar()->value();
-                m_view->verticalScrollBar()->setValue(v + dy);
-            }
-        }
-    }
-
-private:
-    QListView *m_view;
-    QPersistentModelIndex m_index;
-    int m_oldOffset;
-    bool m_currentSelected;
-};
-
 ClipboardBrowserShared::ClipboardBrowserShared(ItemFactory *itemFactory)
     : editor()
     , maxItems(100)
@@ -246,8 +197,6 @@ ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, 
     , m_loadButton(nullptr)
     , m_dragTargetRow(-1)
     , m_dragStartPosition()
-    , m_spinLock(0)
-    , m_scrollSaver()
 {
     setObjectName("ClipboardBrowser");
 
@@ -354,8 +303,6 @@ bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
 
 bool ClipboardBrowser::preload(int minY, int maxY)
 {
-    ClipboardBrowser::Lock lock(this);
-
     QModelIndex ind;
     int i = 0;
     int y = spacing();
@@ -637,33 +584,6 @@ void ClipboardBrowser::updateItemMaximumSize()
     scheduleDelayedItemsLayout();
 }
 
-void ClipboardBrowser::lock()
-{
-    ++m_spinLock;
-
-    if (m_spinLock == 1) {
-        m_scrollSaver.reset(new ScrollSaver(this));
-        m_scrollSaver->save();
-        setUpdatesEnabled(false);
-    }
-}
-
-void ClipboardBrowser::unlock()
-{
-    Q_ASSERT(m_spinLock > 0);
-
-    if (m_spinLock == 1) {
-        setUpdatesEnabled(true);
-        updateCurrentPage();
-
-        m_scrollSaver->restore();
-        if (m_spinLock == 1)
-            m_scrollSaver.reset(nullptr);
-    }
-
-    --m_spinLock;
-}
-
 void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
 {
     // Default drop action in item list should be "move."
@@ -692,7 +612,6 @@ int ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
 
     std::sort( rows.begin(), rows.end(), std::greater<int>() );
 
-    ClipboardBrowser::Lock lock(this);
     for (int row : rows)
         m.removeRow(row);
 
@@ -782,8 +701,6 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *err
 
 void ClipboardBrowser::paste(const QVariantMap &data, int destinationRow)
 {
-    ClipboardBrowser::Lock lock(this);
-
     int count = 0;
 
     // Insert items from clipboard or just clipboard content.
@@ -996,8 +913,6 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
-
-    Lock updateGeometryLock(this);
 
     updateItemMaximumSize();
 
@@ -1474,7 +1389,6 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool keepSelection, bool 
         return;
 
     if (keepSelection) {
-        ClipboardBrowser::Lock lock(this);
         QItemSelectionModel *sel = selectionModel();
         const bool currentSelected = sel->isSelected(prev);
         for ( int j = prev.row(); j != i + dir; j += dir ) {
@@ -1587,10 +1501,6 @@ bool ClipboardBrowser::add(const QString &txt, int row)
 bool ClipboardBrowser::add(const QVariantMap &data, int row)
 {
     bool keepUserSelection = hasUserSelection();
-
-    std::unique_ptr<ClipboardBrowser::Lock> lock;
-    if ( updatesEnabled() && keepUserSelection )
-    lock.reset(new ClipboardBrowser::Lock(this));
 
     if ( m.isDisabled() )
         return false;

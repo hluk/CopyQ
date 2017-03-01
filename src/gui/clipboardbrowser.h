@@ -73,18 +73,6 @@ class ClipboardBrowser : public QListView
     Q_OBJECT
 
     public:
-        /**
-         * Disable ClipboardBrowser's automatic visual and clipboard updates.
-         */
-        class Lock {
-            public:
-                Lock(ClipboardBrowser *self) : c(self) { c->lock(); }
-                ~Lock() { if (!c.isNull()) c->unlock(); }
-
-            private:
-                QPointer<ClipboardBrowser> c;
-        };
-
         explicit ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent = nullptr);
         /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
@@ -413,9 +401,6 @@ class ClipboardBrowser : public QListView
 
         void updateItemMaximumSize();
 
-        void lock();
-        void unlock();
-
         void processDragAndDropEvent(QDropEvent *event);
 
         /// Removes indexes without notifying or asking plugins.
@@ -443,9 +428,6 @@ class ClipboardBrowser : public QListView
 
         int m_dragTargetRow;
         QPoint m_dragStartPosition;
-
-        int m_spinLock;
-        std::unique_ptr<class ScrollSaver> m_scrollSaver;
 };
 
 #endif // CLIPBOARDBROWSER_H

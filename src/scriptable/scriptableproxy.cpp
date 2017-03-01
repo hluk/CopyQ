@@ -339,7 +339,6 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
     : QObject(nullptr)
     , m_wnd(mainWindow)
     , m_tabName()
-    , m_lock()
     , m_invoked(false)
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
@@ -524,22 +523,6 @@ void ScriptableProxy::showMessage(const QString &arg1, const QString &arg2, QSys
     m_wnd->showMessage(arg1, arg2, arg3, arg4);
 }
 
-void ScriptableProxy::browserLock()
-{
-    INVOKE2(browserLock());
-    Q_ASSERT(m_lock == nullptr);
-    ClipboardBrowser *c = fetchBrowser();
-    if (c)
-        m_lock.reset( new ClipboardBrowser::Lock(c) );
-}
-
-void ScriptableProxy::browserUnlock()
-{
-    INVOKE2(browserUnlock());
-    Q_ASSERT(m_lock != nullptr);
-    m_lock.reset();
-}
-
 QVariantMap ScriptableProxy::nextItem(int where)
 {
     INVOKE(nextItem(where));
@@ -583,7 +566,6 @@ QString ScriptableProxy::browserRemoveRows(QList<int> rows)
     QModelIndexList indexes;
     indexes.reserve(rows.size());
 
-    ClipboardBrowser::Lock lock(c);
     for (int row : rows) {
         const QModelIndex indexToRemove = c->index(row);
         if ( indexToRemove.isValid() )
@@ -715,7 +697,6 @@ QString ScriptableProxy::browserAdd(const QStringList &texts)
     if ( !c->allocateSpaceForNewItems(texts.size()) )
         return "Tab is full (cannot remove any items)";
 
-    ClipboardBrowser::Lock lock(c);
     for (const auto &text : texts) {
         if ( !c->add(text) )
             return "Failed to new add items";

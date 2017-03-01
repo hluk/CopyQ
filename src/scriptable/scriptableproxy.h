@@ -97,10 +97,6 @@ public:
 
     void showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4);
 
-    void browserLock();
-
-    void browserUnlock();
-
     QVariantMap nextItem(int where);
     void browserMoveToClipboard(int arg1);
     void browserSetCurrent(int arg1);
@@ -183,7 +179,6 @@ private:
 
     MainWindow* m_wnd;
     QString m_tabName;
-    std::unique_ptr<ClipboardBrowser::Lock> m_lock;
     QVariantMap m_actionData;
     bool m_invoked;
 

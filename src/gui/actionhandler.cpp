@@ -179,7 +179,6 @@ void ActionHandler::actionDialogClosed(ActionDialog *dialog)
 void ActionHandler::addItems(const QStringList &items, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser() : m_wnd->tab(tabName);
-    ClipboardBrowser::Lock lock(c);
     for (const auto &item : items)
         c->add(item);
 
