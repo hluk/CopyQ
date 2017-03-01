@@ -620,9 +620,14 @@ int ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
     return rows.last();
 }
 
-bool ClipboardBrowser::hasUserSelection() const
+void ClipboardBrowser::focusEditedIndex()
 {
-    return isActiveWindow() || editing() || selectionModel()->selectedRows().count() > 1;
+    if ( !editing() )
+        return;
+
+    const auto index = m_editor->index();
+    if ( index.isValid() )
+        selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
 }
 
 QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool serializeItems) const
@@ -864,11 +869,14 @@ void ClipboardBrowser::onEditorSave()
 {
     Q_ASSERT(m_editor != nullptr);
     m_editor->commitData(&m);
+    focusEditedIndex();
     saveItems();
 }
 
 void ClipboardBrowser::onEditorCancel()
 {
+    focusEditedIndex();
+
     if ( editing() && m_editor->hasFocus() )
         maybeCloseEditor();
     else
@@ -1500,8 +1508,6 @@ bool ClipboardBrowser::add(const QString &txt, int row)
 
 bool ClipboardBrowser::add(const QVariantMap &data, int row)
 {
-    bool keepUserSelection = hasUserSelection();
-
     if ( m.isDisabled() )
         return false;
     if ( !isLoaded() ) {
@@ -1525,7 +1531,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     // filter item
     if ( isFiltered(newRow) ) {
         setRowHidden(newRow, true);
-    } else if (!keepUserSelection) {
+    } else {
         // Select new item if clipboard is not focused and the item is not filtered-out.
         selectionModel()->setCurrentIndex(index(newRow), QItemSelectionModel::ClearAndSelect);
     }

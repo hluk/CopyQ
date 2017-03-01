@@ -135,9 +135,6 @@ class ClipboardBrowser : public QListView
          */
         void keyboardSearch(const QString &) override {}
 
-        /** Return true if user defined a selection and it shouldn't change programmatically. */
-        bool hasUserSelection() const;
-
         QVariantMap copyIndexes(const QModelIndexList &indexes, bool serializeItems = true) const;
 
         /** Remove items and return smallest row number (new current item if selection was removed). */
@@ -405,6 +402,8 @@ class ClipboardBrowser : public QListView
 
         /// Removes indexes without notifying or asking plugins.
         int dropIndexes(const QModelIndexList &indexes);
+
+        void focusEditedIndex();
 
         ItemSaverPtr m_itemSaver;
         QString m_tabName;
