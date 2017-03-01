@@ -137,7 +137,7 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
     // Verify that data for given MIME is available.
     if ( !command.input.isEmpty() ) {
         const QList<QString> availableFormats = data.keys();
-        if (command.input == mimeItems) {
+        if (command.input == mimeItems || command.input == "!OUTPUT") {
             // Disallow applying action that takes serialized item more times.
             if ( availableFormats.contains(command.output) )
                 return false;
