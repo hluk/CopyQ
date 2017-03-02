@@ -99,6 +99,8 @@ private slots:
 
     void commandSelectItems();
 
+    void commandsExportImport();
+
     void classFile();
     void classDir();
     void classTemporaryFile();

@@ -33,7 +33,7 @@ QByteArray serializeData(const QVariantMap &data);
 bool deserializeData(QVariantMap *data, const QByteArray &bytes);
 
 bool serializeData(const QAbstractItemModel &model, QDataStream *stream);
-bool deserializeData(QAbstractItemModel *model, QDataStream *stream);
+bool deserializeData(QAbstractItemModel *model, QDataStream *stream, bool readAllItems = true);
 bool serializeData(const QAbstractItemModel &model, QIODevice *file);
 bool deserializeData(QAbstractItemModel *model, QIODevice *file);
 

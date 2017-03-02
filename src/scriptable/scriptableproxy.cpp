@@ -653,6 +653,18 @@ bool ScriptableProxy::saveTab(const QString &arg1)
     return m_wnd->saveTab(arg1, i);
 }
 
+bool ScriptableProxy::importData(const QString &fileName)
+{
+    INVOKE(importData(fileName));
+    return m_wnd->importData(fileName, ImportOptions::All);
+}
+
+bool ScriptableProxy::exportData(const QString &fileName)
+{
+    INVOKE(exportData(fileName));
+    return m_wnd->exportAllData(fileName);
+}
+
 QStringList ScriptableProxy::config(const QStringList &nameValue)
 {
     INVOKE(config(nameValue));

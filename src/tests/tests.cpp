@@ -1070,6 +1070,47 @@ void Tests::commandSelectItems()
     RUN("testSelected", tab + " 2 1 2\n");
 }
 
+void Tests::commandsExportImport()
+{
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "add" << "C" << "B" << "A", "");
+
+    const auto tab2 = testTab(2);
+    RUN("tab" << tab2 << "add" << "3" << "2", "");
+
+    RUN("config" << "maxitems" << "3", "3\n");
+    RUN("config" << "editor" << "EDITOR1 %1", "EDITOR1 %1\n");
+
+    QTemporaryFile tmp;
+    QVERIFY(tmp.open());
+    tmp.close();
+    const auto fileName = tmp.fileName();
+
+    RUN("exportData" << fileName, "true\n");
+
+    RUN("config" << "maxitems" << "1", "1\n");
+    RUN("config" << "editor" << "EDITOR2 %1", "EDITOR2 %1\n");
+    RUN("removetab" << tab1, "");
+    RUN("tab" << tab2 << "add" << "1", "");
+
+    RUN("importData" << fileName, "true\n");
+
+    RUN("config" << "maxitems", "3\n");
+    RUN("config" << "editor", "EDITOR1 %1\n");
+
+    const auto suffix = " (1)";
+    RUN("tab",
+        QString(clipboardTabName) + "\n"
+        + tab2 + "\n"
+        + clipboardTabName + suffix + "\n"
+        + tab1 + "\n"
+        + tab2 + suffix + "\n");
+
+    RUN("tab" << tab1 << "read" << "0" << "1" << "2", "A\nB\nC");
+    RUN("tab" << tab2 + suffix << "read" << "0" << "1", "2\n3");
+    RUN("tab" << tab2 << "read" << "0", "1");
+}
+
 void Tests::classFile()
 {
     RUN("eval" <<

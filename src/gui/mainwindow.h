@@ -36,7 +36,6 @@ class Action;
 class ActionHandler;
 class CommandDialog;
 class ConfigurationManager;
-class ImportExportDialog;
 class NotificationDaemon;
 class QModelIndex;
 class TrayMenu;
@@ -56,6 +55,13 @@ enum ItemActivationCommand {
     ActivateCloses = 0x1,
     ActivateFocuses = 0x2,
     ActivatePastes = 0x4
+};
+
+enum class ImportOptions {
+    /// Select what to import/export in dialog.
+    Select,
+    /// Import/export everything without asking.
+    All
 };
 
 struct MainWindowOptions {
@@ -259,10 +265,16 @@ public:
     bool loadTab(const QString &fileName);
 
     /**
-     * Import tabs, settings etc. (select file in dialog).
+     * Import tabs, settings etc.
      * @return True only if all data were successfully loaded.
      */
-    bool importData(const QString &fileName);
+    bool importData(const QString &fileName, ImportOptions options);
+
+    /**
+     * Export tabs, settings etc.
+     * @return True only if all data were successfully saved.
+     */
+    bool exportAllData(const QString &fileName);
 
     /** Called after clipboard content changes. */
     void clipboardChanged(const QVariantMap &data);
@@ -403,7 +415,7 @@ public slots:
     void toggleClipboardStoring();
 
     /**
-     * Export tabs, settings etc.
+     * Export tabs, settings etc. (select in file dialog).
      * @return True only if all data were successfully saved.
      */
     bool exportData();
@@ -647,9 +659,9 @@ private:
     void onMenuActionTriggered(ClipboardBrowser *c, uint clipboardItemHash, bool omitPaste);
     QWidget *toggleMenu(TrayMenu *menu);
 
-    bool exportData(const QString &fileName, const ImportExportDialog &exportDialog);
-    bool exportDataV3(QDataStream *out, const ImportExportDialog &exportDialog);
-    bool importDataV3(QDataStream *in);
+    bool exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
+    bool exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
+    bool importDataV3(QDataStream *in, ImportOptions options);
 
     ConfigurationManager *cm;
     Ui::MainWindow *ui;

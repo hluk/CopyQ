@@ -866,6 +866,18 @@ void Scriptable::importTab()
     }
 }
 
+QScriptValue Scriptable::importData()
+{
+    const auto fileName = arg(0);
+    return m_proxy->importData(fileName);
+}
+
+QScriptValue Scriptable::exportData()
+{
+    const auto fileName = arg(0);
+    return m_proxy->exportData(fileName);
+}
+
 QScriptValue Scriptable::config()
 {
     QStringList nameValueInput;

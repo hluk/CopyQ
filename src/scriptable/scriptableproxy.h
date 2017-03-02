@@ -116,6 +116,9 @@ public:
     bool loadTab(const QString &arg1);
     bool saveTab(const QString &arg1);
 
+    bool importData(const QString &fileName);
+    bool exportData(const QString &fileName);
+
     QStringList config(const QStringList &nameValue);
 
     QByteArray getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);

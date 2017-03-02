@@ -1728,20 +1728,20 @@ QWidget *MainWindow::toggleMenu(TrayMenu *menu)
     return menu;
 }
 
-bool MainWindow::exportData(const QString &fileName, const ImportExportDialog &exportDialog)
+bool MainWindow::exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
 {
     QFile file(fileName);
     if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) )
         return false;
 
     QDataStream out(&file);
-    return exportDataV3(&out, exportDialog);
+    return exportDataV3(&out, tabs, exportConfiguration, exportCommands);
 }
 
-bool MainWindow::exportDataV3(QDataStream *out, const ImportExportDialog &exportDialog)
+bool MainWindow::exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
 {
     QVariantList tabsList;
-    for ( const auto &tab : exportDialog.selectedTabs() ) {
+    for (const auto &tab : tabs) {
         const auto i = findTabIndex(tab);
         if (i == -1)
             continue;
@@ -1769,7 +1769,7 @@ bool MainWindow::exportDataV3(QDataStream *out, const ImportExportDialog &export
     }
 
     QVariantMap settingsMap;
-    if ( exportDialog.isConfigurationEnabled() ) {
+    if (exportConfiguration) {
         const QSettings settings;
 
         for (const auto &key : settings.allKeys()) {
@@ -1779,7 +1779,7 @@ bool MainWindow::exportDataV3(QDataStream *out, const ImportExportDialog &export
     }
 
     QVariantList commandsList;
-    if ( exportDialog.isCommandsEnabled() ) {
+    if (exportCommands) {
         QSettings settings;
 
         const int commandCount = settings.beginReadArray("Commands");
@@ -1811,7 +1811,7 @@ bool MainWindow::exportDataV3(QDataStream *out, const ImportExportDialog &export
     return out->status() == QDataStream::Ok;
 }
 
-bool MainWindow::importDataV3(QDataStream *in)
+bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 {
     QByteArray header;
     (*in) >> header;
@@ -1835,17 +1835,25 @@ bool MainWindow::importDataV3(QDataStream *in)
     const auto settingsMap = data.value("settings").toMap();
     const auto commandsList = data.value("commands").toList();
 
-    ImportExportDialog importDialog(this);
-    importDialog.setWindowTitle( tr("CopyQ Options for Import") );
-    importDialog.setTabs(tabs);
-    importDialog.setHasConfiguration( !settingsMap.isEmpty() );
-    importDialog.setHasCommands( !commandsList.isEmpty() );
-    importDialog.setConfigurationEnabled(true);
-    importDialog.setCommandsEnabled(true);
-    if ( importDialog.exec() != QDialog::Accepted )
-        return true;
+    bool importConfiguration = true;
+    bool importCommands = true;
 
-    tabs = importDialog.selectedTabs();
+    if (options == ImportOptions::Select) {
+        ImportExportDialog importDialog(this);
+        importDialog.setWindowTitle( tr("CopyQ Options for Import") );
+        importDialog.setTabs(tabs);
+        importDialog.setHasConfiguration( !settingsMap.isEmpty() );
+        importDialog.setHasCommands( !commandsList.isEmpty() );
+        importDialog.setConfigurationEnabled(true);
+        importDialog.setCommandsEnabled(true);
+        if ( importDialog.exec() != QDialog::Accepted )
+            return true;
+
+        tabs = importDialog.selectedTabs();
+        importConfiguration = importDialog.isConfigurationEnabled();
+        importCommands = importDialog.isCommandsEnabled();
+    }
+
     for (const auto &tabMapValue : tabsList) {
         const auto tabMap = tabMapValue.toMap();
         const auto oldTabName = tabMap["name"].toString();
@@ -1865,11 +1873,15 @@ bool MainWindow::importDataV3(QDataStream *in)
         const auto tabBytes = tabMap.value("data").toByteArray();
         QDataStream tabIn(tabBytes);
         tabIn.setVersion(QDataStream::Qt_4_7);
-        if ( !deserializeData( c->model(), &tabIn ) )
+
+        // Don't read items based on current value of "maxitems" option since
+        // the option can be later also imported.
+        const bool readAllItems = importConfiguration;
+        if ( !deserializeData( c->model(), &tabIn, readAllItems ) )
             return false;
     }
 
-    if ( importDialog.isConfigurationEnabled() ) {
+    if (importConfiguration) {
         // Configuration dialog shouldn't be open.
         if (cm)
             return false;
@@ -1882,7 +1894,7 @@ bool MainWindow::importDataV3(QDataStream *in)
         emit configurationChanged();
     }
 
-    if ( importDialog.isCommandsEnabled() ) {
+    if (importCommands) {
         // Close command dialog.
         if ( !maybeCloseCommandDialog() )
             return false;
@@ -3164,7 +3176,11 @@ bool MainWindow::exportData()
     if ( !fileName.endsWith(".cpq") )
         fileName.append(".cpq");
 
-    if ( !exportData(fileName, exportDialog) ) {
+    const auto tabs = exportDialog.selectedTabs();
+    const bool exportConfiguration = exportDialog.isConfigurationEnabled();
+    const bool exportCommands = exportDialog.isCommandsEnabled();
+
+    if ( !exportData(fileName, tabs, exportConfiguration, exportCommands) ) {
         QMessageBox::critical(
                     this, tr("CopyQ Export Error"),
                     tr("Failed to export file %1!")
@@ -3215,7 +3231,7 @@ bool MainWindow::loadTab(const QString &fileName)
     return true;
 }
 
-bool MainWindow::importData(const QString &fileName)
+bool MainWindow::importData(const QString &fileName, ImportOptions options)
 {
     // Compatibility with v2.9.0 and earlier.
     if ( loadTab(fileName) )
@@ -3227,7 +3243,16 @@ bool MainWindow::importData(const QString &fileName)
 
     QDataStream in(&file);
 
-    return importDataV3(&in);
+    return importDataV3(&in, options);
+}
+
+bool MainWindow::exportAllData(const QString &fileName)
+{
+    const auto tabs = ui->tabWidget->tabs();
+    const bool exportConfiguration = true;
+    const bool exportCommands = true;
+
+    return exportData(fileName, tabs, exportConfiguration, exportCommands);
 }
 
 bool MainWindow::importData()
@@ -3237,7 +3262,7 @@ bool MainWindow::importData()
     if ( fileName.isNull() )
         return false;
 
-    if ( !importData(fileName) ) {
+    if ( !importData(fileName, ImportOptions::Select) ) {
         QMessageBox::critical(
                     this, tr("CopyQ Import Error"),
                     tr("Failed to import file %1!")

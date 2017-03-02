@@ -197,6 +197,9 @@ public slots:
     void importTab();
     void importtab() { importTab(); }
 
+    QScriptValue importData();
+    QScriptValue exportData();
+
     QScriptValue config();
 
     QScriptValue info();
