@@ -33,7 +33,7 @@ xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins" || goto :error
 "%Executable%" --help || goto :error
 "%Executable%" --version || goto :error
 "%Executable%" --info || goto :error
-"%Executable%" tests || goto :error
+"%Executable%" tests || "%Executable%" tests || goto :error
 
 7z a "%Name%.zip" -r "%Destination%" || goto :error
 
