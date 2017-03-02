@@ -108,7 +108,7 @@ bool closeProcess(QProcess *p)
 
     if ( !waitForProcessFinished(p) ) {
         qWarning() << "killing process";
-        p->kill();
+        terminateProcess(p);
     }
 
     return false;

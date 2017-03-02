@@ -428,7 +428,7 @@ void Action::terminate()
 
     // if process still running: kill it
     if ( !waitForFinished(5000) )
-        m_processes.last()->kill();
+        terminateProcess( m_processes.last() );
 }
 
 bool Action::canEmitNewItems() const

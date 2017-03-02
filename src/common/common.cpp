@@ -36,6 +36,7 @@
 #include <QMovie>
 #include <QObject>
 #include <QPoint>
+#include <QProcess>
 #include <QStyle>
 #include <QTemporaryFile>
 #include <QTextCodec>
@@ -675,4 +676,16 @@ bool handleViKey(QKeyEvent *event, QObject *eventReceiver)
     event->accept();
 
     return true;
+}
+
+void terminateProcess(QProcess *p)
+{
+    if (p->state() == QProcess::NotRunning)
+        return;
+
+    p->terminate();
+    if ( !p->waitForFinished(5000) ) {
+        p->kill();
+        p->waitForFinished(5000);
+    }
 }

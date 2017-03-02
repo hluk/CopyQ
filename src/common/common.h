@@ -45,6 +45,7 @@ class QKeyEvent;
 class QKeySequence;
 class QMimeData;
 class QPoint;
+class QProcess;
 class QStringList;
 class QTemporaryFile;
 class QTimer;
@@ -186,5 +187,10 @@ void moveToCurrentWorkspace(QWidget *w);
  * Handle key for Vi mode.
  */
 bool handleViKey(QKeyEvent *event, QObject *eventReceiver);
+
+/**
+ * Terminate process or kill if it takes too long.
+ */
+void terminateProcess(QProcess *p);
 
 #endif // COMMON_H

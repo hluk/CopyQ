@@ -178,12 +178,7 @@ void RemoteProcess::terminate()
     }
 
     if (m_process) {
-        if (m_process->state() != QProcess::NotRunning) {
-            m_process->terminate();
-            if (!m_process->waitForFinished(100))
-                m_process->kill();
-        }
-
+        terminateProcess(m_process);
         m_process->deleteLater();
         m_process = nullptr;
     }
