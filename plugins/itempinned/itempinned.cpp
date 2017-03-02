@@ -66,8 +66,8 @@ ItemPinned::ItemPinned(ItemWidget *childItem)
     m_childItem->widget()->setObjectName("item_child");
     m_childItem->widget()->setParent(this);
 
-    m_border->setFixedWidth( pointsToPixels(8) );
-    m_border->setStyleSheet("background: rgba(0,0,0,0.2)");
+    m_border->setFixedWidth( pointsToPixels(6) );
+    m_border->setStyleSheet("background: rgba(0,0,0,0.15)");
 
     QBoxLayout *layout;
     layout = new QHBoxLayout(this);
