@@ -29,7 +29,7 @@ class Item;
 class ItemEditorWidget;
 class ItemFactory;
 class ItemWidget;
-class QAbstractItemView;
+class ClipboardBrowser;
 
 /**
  * Delegate for items in ClipboardBrowser.
@@ -47,7 +47,7 @@ class ItemDelegate : public QItemDelegate
     Q_OBJECT
 
     public:
-        explicit ItemDelegate(QAbstractItemView *view, ItemFactory *itemFactory, QWidget *parent = nullptr);
+        explicit ItemDelegate(ClipboardBrowser *view, ItemFactory *itemFactory, QWidget *parent = nullptr);
 
         ~ItemDelegate();
 
@@ -100,9 +100,6 @@ class ItemDelegate : public QItemDelegate
         /** Return true only if font is antialiased. */
         bool fontAntialiasing() const { return m_antialiasing; }
 
-        /** Update row position. */
-        void updateRowPosition(int row, int y);
-
         /** Show/hide row. */
         void setRowVisible(int row, bool visible);
 
@@ -118,16 +115,14 @@ class ItemDelegate : public QItemDelegate
 
         void highlightMatches(ItemWidget *itemWidget) const;
 
+        void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+
     public slots:
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
         void rowsRemoved(const QModelIndex &parent, int start, int end);
         void rowsInserted(const QModelIndex &parent, int start, int end);
         void rowsMoved(const QModelIndex &parent, int sourceStart, int sourceEnd,
                        const QModelIndex &destination, int destinationRow);
-
-    signals:
-        /** Emitted if size of a widget has changed. */
-        void rowSizeChanged();
 
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -139,7 +134,7 @@ class ItemDelegate : public QItemDelegate
         int rowNumberWidth() const;
         int rowNumberHeight() const;
 
-        QAbstractItemView *m_view;
+        ClipboardBrowser *m_view;
         ItemFactory *m_itemFactory;
         bool m_saveOnReturnKey;
         QRegExp m_re;

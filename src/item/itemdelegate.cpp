@@ -22,6 +22,7 @@
 #include "common/client_server.h"
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
+#include "gui/clipboardbrowser.h"
 #include "gui/iconfactory.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
@@ -30,7 +31,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QEvent>
-#include <QAbstractItemView>
 #include <QPainter>
 
 namespace {
@@ -51,7 +51,7 @@ int itemMargin()
 
 } // namespace
 
-ItemDelegate::ItemDelegate(QAbstractItemView *view, ItemFactory *itemFactory, QWidget *parent)
+ItemDelegate::ItemDelegate(ClipboardBrowser *view, ItemFactory *itemFactory, QWidget *parent)
     : QItemDelegate(parent)
     , m_view(view)
     , m_itemFactory(itemFactory)
@@ -97,11 +97,23 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
     return sizeHint(index);
 }
 
-bool ItemDelegate::eventFilter(QObject *, QEvent *event)
+bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
 {
     // resize event for items
-    if ( event->type() == QEvent::Resize )
-        emit rowSizeChanged();
+    if ( event->type() == QEvent::Resize ) {
+        int row = 0;
+        for (; row < m_cache.size(); ++row) {
+            auto w = m_cache[row];
+            if (w && w->widget() == obj)
+                break;
+        }
+
+        Q_ASSERT( row < m_cache.size() );
+
+        const auto index = m_view->model()->index(row, 0);
+        if ( index.isValid() )
+            emit sizeHintChanged(index);
+    }
 
     return false;
 }
@@ -114,7 +126,7 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
     int row = a.row();
     if ( row == b.row() ) {
         reset(&m_cache[row]);
-        emit rowSizeChanged();
+        emit sizeHintChanged(a);
     }
 }
 
@@ -174,20 +186,12 @@ void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
     }
 }
 
-void ItemDelegate::updateRowPosition(int row, int y)
-{
-    ItemWidget *w = m_cache[row];
-    if (w != nullptr)
-        w->widget()->move( QPoint(rowNumberWidth() + m_hMargin, y + m_vMargin) );
-}
-
 void ItemDelegate::setRowVisible(int row, bool visible)
 {
     ItemWidget *w = m_cache[row];
     if (w != nullptr) {
         if (visible)
             highlightMatches(w);
-        w->widget()->setVisible(visible);
     }
 }
 
@@ -226,6 +230,15 @@ void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
     itemWidget->setHighlight(m_re, m_foundFont, m_foundPalette);
 }
 
+void ItemDelegate::currentChanged(const QModelIndex &, const QModelIndex &previous)
+{
+    if ( previous.isValid() ) {
+        auto w = m_cache[previous.row()];
+        if (w)
+            w->widget()->hide();
+    }
+}
+
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 {
     reset(&m_cache[index.row()], w);
@@ -243,7 +256,8 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
     w->setCurrent(m_view->currentIndex() == index);
 
-    emit rowSizeChanged();
+    // TODO: Check if sizeHint() really changes.
+    emit sizeHintChanged(index);
 }
 
 int ItemDelegate::rowNumberWidth() const
@@ -304,8 +318,7 @@ void ItemDelegate::setShowSimpleItems(bool showSimpleItems)
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
-    int row = index.row();
-    ItemWidget *w = m_cache[row];
+    auto w = m_view->itemWidget(index);
     if (w == nullptr)
         return;
 
@@ -333,6 +346,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     /* render number */
     if (m_showRowNumber) {
+        const int row = index.row();
         const QString num = QString::number(row);
         QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
         painter->save();
@@ -353,5 +367,15 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                 child->setStyle(style);
             ww->update();
         }
+    }
+
+    const auto offset = rect.topLeft() + QPoint(rowNumberWidth() + m_hMargin, m_vMargin);
+    if ( m_view->currentIndex() == index ) {
+        ww->move(offset);
+        ww->show();
+    } else {
+        const auto p = painter->deviceTransform().map(offset);
+        highlightMatches(w);
+        ww->render(painter, p);
     }
 }

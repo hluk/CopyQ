@@ -234,6 +234,8 @@ class ClipboardBrowser : public QListView
 
         void findPrevious();
 
+        ItemWidget *itemWidget(const QModelIndex & index);
+
     public slots:
         /**
          * Load items from configuration.
@@ -325,12 +327,6 @@ class ClipboardBrowser : public QListView
 
         void onTabNameChanged(const QString &tabName);
 
-        /** Delayed update. */
-        void updateCurrentPage();
-
-        /** Immediate update if possible. */
-        void doUpdateCurrentPage();
-
         void expire(bool force = false);
 
         void onEditorDestroyed();
@@ -364,11 +360,6 @@ class ClipboardBrowser : public QListView
          * Connects signals and starts external editor.
          */
         bool startEditor(QObject *editor, bool changeClipboard = false);
-
-        /**
-         * Preload items in given range (relative to current scroll offset).
-         */
-        bool preload(int minY, int maxY);
 
         void setEditorWidget(ItemEditorWidget *widget, bool changeClipboard = false);
 
@@ -405,13 +396,18 @@ class ClipboardBrowser : public QListView
 
         void focusEditedIndex();
 
+        int findNextVisibleRow(int row);
+        int findPreviousVisibleRow(int row);
+
+        void preload(int pixelsAboveCurrent, int pixelsBelowCurrent, const QModelIndex &current);
+        void preload(int pixels, bool above, const QModelIndex &current);
+
         ItemSaverPtr m_itemSaver;
         QString m_tabName;
         ClipboardModel m;
         ItemDelegate d;
         QTimer m_timerSave;
         QTimer m_timerScroll;
-        QTimer m_timerUpdate;
         QTimer m_timerExpire;
         QTimer m_timerEmitItemCount;
 
