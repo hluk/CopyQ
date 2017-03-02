@@ -56,9 +56,14 @@ int topMostRow(const QList<QPersistentModelIndex> &indexList)
 
 void ClipboardItemList::move(int from, int count, int to)
 {
+    if (to < from) {
+        std::swap(from, to);
+        ++to;
+    }
+
     const auto start = std::begin(m_items) + from;
     const auto end = start + count;
-    const auto dest = std::begin(m_items) + to + (to < from ? 1 : 0);
+    const auto dest = std::begin(m_items) + to;
     std::rotate(start, end, dest);
 }
 
