@@ -75,6 +75,7 @@ ItemPinned::ItemPinned(ItemWidget *childItem)
     layout->setSpacing( pointsToPixels(5) );
 
     layout->addWidget(m_childItem->widget());
+    layout->spacerItem();
     layout->addWidget(m_border);
 }
 
@@ -110,6 +111,8 @@ QObject *ItemPinned::createExternalEditor(const QModelIndex &index, QWidget *par
 
 void ItemPinned::updateSize(const QSize &maximumSize, int idealWidth)
 {
+    setMinimumWidth(idealWidth);
+    setMaximumWidth(maximumSize.width());
     const int width = m_border->width() + layout()->spacing();
     const int childItemWidth = idealWidth - width;
     const auto childItemMaximumSize = QSize(maximumSize.width() - width, maximumSize.height());
