@@ -29,6 +29,12 @@ ItemEncryptedTests::ItemEncryptedTests(const TestInterfacePtr &test, QObject *pa
 
 void ItemEncryptedTests::initTestCase()
 {
+    if ( qgetenv("COPYQ_TESTS_SKIP_ITEMENCRYPT") == "1" )
+        SKIP("Unset COPYQ_TESTS_SKIP_ITEMENCRYPT to run the tests");
+
+    if ( !isGpgInstalled() )
+        SKIP("gpg2 is required to run the test");
+
     TEST(m_test->initTestCase());
 }
 
@@ -49,9 +55,6 @@ void ItemEncryptedTests::cleanup()
 
 void ItemEncryptedTests::encryptDecryptData()
 {
-    if ( !isGpgInstalled() )
-        SKIP("gpg2 is required to run the test");
-
     RUN("-e" << "plugins.itemencrypted.generateTestKeys()", "");
 
     // Test gpg errors first.
