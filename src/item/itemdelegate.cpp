@@ -120,11 +120,7 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
 
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
-    // recalculating sizes of many items is expensive (when searching)
-    // - assume that highlighted (matched) text has same size
-    // - recalculate size only if item edited
-    int row = a.row();
-    if ( row == b.row() )
+    for ( int row = a.row(); row <= b.row(); ++row )
         reset(&m_cache[row]);
 }
 
@@ -316,9 +312,12 @@ void ItemDelegate::setShowSimpleItems(bool showSimpleItems)
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
-    auto w = m_view->itemWidget(index);
-    if (w == nullptr)
+    const int row = index.row();
+    auto w = m_cache[row];
+    if (w == nullptr) {
+        m_view->itemWidget(index);
         return;
+    }
 
     const QRect &rect = option.rect;
 
@@ -344,7 +343,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     /* render number */
     if (m_showRowNumber) {
-        const int row = index.row();
         const QString num = QString::number(row);
         QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
         painter->save();
