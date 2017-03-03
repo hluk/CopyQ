@@ -104,7 +104,7 @@ void ScriptableWorker::run()
         QCoreApplication::processEvents();
 
     for (auto scriptableObject : m_scriptables)
-        delete scriptableObject;
+        scriptableObject->deleteLater();
     m_scriptables.clear();
 
     QMetaObject::invokeMethod(m_socketGuard, "deleteLater", Qt::QueuedConnection);
