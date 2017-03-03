@@ -262,7 +262,8 @@ CommandDialog::CommandDialog(
     ui->itemOrderListCommands->setAddRemoveButtonsVisible(true);
 
     addCommandsWithoutSave(loadAllCommands(), -1);
-    ui->itemOrderListCommands->setCurrentItem(0);
+    if ( ui->itemOrderListCommands->itemCount() != 0 )
+        ui->itemOrderListCommands->setCurrentItem(0);
 
     QAction *act = new QAction(ui->itemOrderListCommands);
     ui->itemOrderListCommands->addAction(act);
