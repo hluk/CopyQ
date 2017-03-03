@@ -117,6 +117,7 @@ void ItemPinned::updateSize(const QSize &maximumSize, int idealWidth)
     const int childItemWidth = idealWidth - width;
     const auto childItemMaximumSize = QSize(maximumSize.width() - width, maximumSize.height());
     m_childItem->updateSize(childItemMaximumSize, childItemWidth);
+    adjustSize();
 }
 
 bool ItemPinnedScriptable::isPinned()
