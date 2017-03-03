@@ -80,10 +80,14 @@ Q_DECLARE_METATYPE(SystemMutexPtr)
 
 namespace {
 
+// Avoid heap allocation for thread local variable.
+constexpr int maxThreadLabelSize = 15;
+thread_local char currentThreadLabel[maxThreadLabelSize + 1] = "";
+
+
 const int logFileSize = 512 * 1024;
 const int logFileCount = 10;
 
-const char propertyThreadName[] = "CopyQ_thread_name";
 const char propertySessionMutex[] = "CopyQ_Session_Mutex";
 
 int getLogLevel()
@@ -229,23 +233,6 @@ void rotateLogFiles()
     }
 }
 
-QString currentThreadLabel(const QString &newThreadLabel = QString())
-{
-    // Avoid heap allocation for thread local variable.
-    constexpr int maxThreadLabelSize = 15;
-    thread_local static char threadLabel[maxThreadLabelSize + 1] = "";
-
-    if (!qApp)
-        return QString();
-
-    if ( !newThreadLabel.isEmpty() ) {
-        const auto label = newThreadLabel.toUtf8();
-        memcpy( threadLabel, label.constData(), std::min(maxThreadLabelSize, label.size()) );
-    }
-
-    return threadLabel;
-}
-
 QString createLogMessage(const QString &label, const QString &text)
 {
     return label + QString(text).replace("\n", "\n" + label + "   ") + "\n";
@@ -261,7 +248,7 @@ QString createLogMessage(const QString &text, const LogLevel level)
 {
     const auto timeStamp =
             QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz] ");
-    const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + currentThreadLabel() + ": ";
+    const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + currentThreadLabel + ": ";
     return createLogMessage(label, text);
 }
 
@@ -357,6 +344,7 @@ void setCurrentThreadName(const QString &name)
     Q_ASSERT(qApp != nullptr);
 
     const auto id = QCoreApplication::applicationPid();
-    const auto threadId = name + "-" + QString::number(id);
-    currentThreadLabel(threadId);
+    const auto threadLabel = name.toUtf8() + "-" + QByteArray::number(id);
+    const auto size = std::min( maxThreadLabelSize, threadLabel.size() );
+    std::memcpy( currentThreadLabel, threadLabel.constData(), size );
 }
