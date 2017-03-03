@@ -39,6 +39,12 @@
 #include <cmath>
 #include <memory>
 
+#ifdef Q_OS_MAC
+#   define THREAD_LOCAL __thread
+#else
+#   define THREAD_LOCAL thread_local
+#endif
+
 /// System-wide mutex
 class SystemMutex {
 public:
@@ -82,7 +88,7 @@ namespace {
 
 // Avoid heap allocation for thread local variable.
 constexpr int maxThreadLabelSize = 15;
-thread_local char currentThreadLabel[maxThreadLabelSize + 1] = "";
+THREAD_LOCAL char currentThreadLabel[maxThreadLabelSize + 1] = "";
 
 
 const int logFileSize = 512 * 1024;
