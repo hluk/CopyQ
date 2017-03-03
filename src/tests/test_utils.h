@@ -88,9 +88,6 @@ do { \
 /// Interval to wait (in ms) until window is shown and focused.
 const int waitMsShow = 1000;
 
-/// Interval to wait (in ms) until search is complete.
-const int waitMsSearch = 250;
-
 typedef QStringList Args;
 
 inline QByteArray toByteArray(const QString &text)

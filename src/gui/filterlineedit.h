@@ -58,6 +58,8 @@ private slots:
     void onTextChanged();
     void onMenuAction();
 
+    void emitTextChanged();
+
 private:
     QTimer *m_timerSearch;
     QAction *m_actionRe;

@@ -134,6 +134,8 @@ private slots:
     void renameTab();
     void importExportTab();
 
+    void removeAllFoundItems();
+
     void nextPrevious();
 
     void externalEditor();

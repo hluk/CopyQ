@@ -103,9 +103,9 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
     m_timerSearch->setInterval(200);
 
     connect( m_timerSearch, SIGNAL(timeout()),
-             this, SLOT(onTextChanged()) );
+             this, SLOT(emitTextChanged()) );
     connect( this, SIGNAL(textChanged(QString)),
-             m_timerSearch, SLOT(start()) );
+             this, SLOT(onTextChanged()) );
 
     // menu
     QMenu *menu = new QMenu(this);
@@ -199,7 +199,10 @@ void FilterLineEdit::focusOutEvent(QFocusEvent *event)
 
 void FilterLineEdit::onTextChanged()
 {
-    emit filterChanged(filter());
+    if ( hasFocus() )
+        m_timerSearch->start();
+    else
+        emitTextChanged();
 }
 
 void FilterLineEdit::onMenuAction()
@@ -211,6 +214,11 @@ void FilterLineEdit::onMenuAction()
     const QRegExp re = filter();
     if ( !re.isEmpty() )
         emit filterChanged(re);
+}
+
+void FilterLineEdit::emitTextChanged()
+{
+    emit filterChanged(filter());
 }
 
 } // namespace Utils

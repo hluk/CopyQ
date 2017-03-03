@@ -1274,19 +1274,9 @@ void Tests::deleteItems()
 
 void Tests::searchItems()
 {
-    const auto tab = QString(clipboardTabName);
-    const auto args = Args() << "separator" << " ";
-    RUN(args << "add" << "JKL" << "GHI" << "DEF" << "ABC", "");
-
-    // search and delete
-    RUN(args << "keys" << "RIGHT" << ":^[DJ]" << "TAB", "");
-    waitFor(waitMsSearch);
-    RUN(args << "testSelected", tab + " 1 1\n");
-
-    // "Down" doesn't leave the search box on OS X
-    RUN(args << "keys" << "CTRL+A" << m_test->shortcutToRemove() << "ESC", "");
-    RUN(args << "read" << "0" << "1", "ABC GHI");
-    RUN(args << "size", "2\n");
+    RUN("add" << "a" << "b" << "c", "");
+    RUN("keys" << "RIGHT" << ":b" << "TAB", "");
+    RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
 }
 
 void Tests::copyItems()
@@ -1590,6 +1580,25 @@ void Tests::importExportTab()
 
     RUN(args << "importtab" << fileName, "");
     RUN(args << "read" << "0" << "1" << "2" << "3", "012 abc def ghi");
+}
+
+void Tests::removeAllFoundItems()
+{
+    auto args = Args("add");
+    for (int i = 0; i < 50; ++i) {
+        args << QString("a%1").arg(i);
+        args << QString("b%1").arg(i);
+    }
+
+    RUN(args, "");
+    RUN("size", "100\n");
+
+    RUN("filter" << "a", "");
+    RUN("keys" << "CTRL+A" << m_test->shortcutToRemove(), "");
+
+    RUN("size", "50\n");
+    RUN("read" << "49" << "48" << "47", "b0\nb1\nb2");
+    RUN("read" << "0" << "1" << "2", "b49\nb48\nb47");
 }
 
 void Tests::nextPrevious()

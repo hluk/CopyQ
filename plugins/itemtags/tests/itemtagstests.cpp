@@ -201,19 +201,16 @@ void ItemTagsTests::searchTags()
 
     RUN(args << "keys" << "RIGHT", "");
     RUN(args << "keys" << ":tag1", "");
-    waitFor(waitMsSearch);
     RUN(args << "keys" << "TAB" << "CTRL+A", "");
     RUN(args << "testSelected", tab1 + " 0 0 1\n");
 
     RUN(args << "keys" << "ESCAPE", "");
     RUN(args << "keys" << ":tag2", "");
-    waitFor(waitMsSearch);
     RUN(args << "keys" << "TAB" << "CTRL+A", "");
     RUN(args << "testSelected", tab1 + " 1 1 2\n");
 
     RUN(args << "keys" << "ESCAPE", "");
     RUN(args << "keys" << ":tag3", "");
-    waitFor(waitMsSearch);
     RUN(args << "keys" << "TAB" << "CTRL+A", "");
     RUN(args << "testSelected", tab1 + " 2 2\n");
 }

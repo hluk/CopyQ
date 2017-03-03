@@ -1078,6 +1078,7 @@ bool MainWindow::canUpdateTitleFromScript() const
 void MainWindow::setFilter(const QString &text)
 {
     ui->searchBar->setText(text);
+    enterBrowseMode();
 }
 
 void MainWindow::invoke(Callable *callable)
