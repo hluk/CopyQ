@@ -967,6 +967,11 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
 void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
                                         const QItemSelection &deselected)
 {
+    for (auto &indexRange : selected) {
+        for (int row = indexRange.top(); row <= indexRange.bottom(); ++row)
+            hideFiltered( index(row) );
+    }
+
     QListView::selectionChanged(selected, deselected);
     emit updateContextMenu();
 }
