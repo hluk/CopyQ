@@ -1252,6 +1252,11 @@ void Tests::moveItems()
     RUN(args << "read" << "0" << "1" << "2", "B A C");
     RUN(args << "testSelected", tab + " 1 1\n");
 
+    // WORKAROUND: In Qt 4.8.7, selection is broken after moving items.
+#if QT_VERSION < 0x050000
+    RUN(args << "keys" << "UP" << "DOWN", "");
+#endif
+
     // move items to top
     RUN(args << "keys" << "SHIFT+DOWN" << "CTRL+HOME", "");
     RUN(args << "read" << "0" << "1" << "2", "A C B");
