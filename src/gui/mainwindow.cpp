@@ -2620,6 +2620,8 @@ QStringList MainWindow::config(const QStringList &nameValue)
         }
     }
 
+    configurationManager.loadSettings();
+
     if ( result.isEmpty() ) {
         bool emitConfigurationChanged = false;
         for (int i = 0; i < nameValue.size(); i += 2) {

@@ -100,9 +100,18 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     connect( ui->configTabShortcuts, SIGNAL(openCommandDialogRequest()),
              this, SIGNAL(openCommandDialogRequest()));
 
-    ui->configTabAppearance->createPreview(itemFactory);
+    if (itemFactory)
+        ui->configTabAppearance->createPreview(itemFactory);
 
     loadSettings();
+}
+
+ConfigurationManager::ConfigurationManager()
+    : ui(new Ui::ConfigurationManager)
+    , m_options()
+{
+    ui->setupUi(this);
+    initOptions();
 }
 
 ConfigurationManager::~ConfigurationManager()

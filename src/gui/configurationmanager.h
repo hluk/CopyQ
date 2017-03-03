@@ -39,15 +39,17 @@ class QListWidgetItem;
 class QSpinBox;
 
 /**
- * Configuration management.
- * Singleton.
+ * Configuration dialog.
  */
 class ConfigurationManager : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ConfigurationManager(ItemFactory *itemFactory = nullptr, QWidget *parent = nullptr);
+    explicit ConfigurationManager(ItemFactory *itemFactory, QWidget *parent = nullptr);
+
+    /// Simple version of dialog for accessing and settings options from API.
+    ConfigurationManager();
 
     ~ConfigurationManager();
 
@@ -64,6 +66,9 @@ public:
     QString optionToolTip(const QString &name) const;
 
     void setVisible(bool visible) override;
+
+    /** Load settings from default file. */
+    void loadSettings();
 
 public slots:
     void done(int result) override;
@@ -84,9 +89,6 @@ private slots:
     void on_spinBoxTrayItems_valueChanged(int value);
 
 private:
-    /** Load settings from default file. */
-    void loadSettings();
-
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
 
