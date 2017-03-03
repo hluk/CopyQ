@@ -35,6 +35,8 @@
 #   include <QStandardPaths>
 #endif
 
+#include <cstring>
+#include <cmath>
 #include <memory>
 
 /// System-wide mutex
@@ -227,12 +229,21 @@ void rotateLogFiles()
     }
 }
 
-QString currentThreadLabel()
+QString currentThreadLabel(const QString &newThreadLabel = QString())
 {
+    // Avoid heap allocation for thread local variable.
+    constexpr int maxThreadLabelSize = 15;
+    thread_local static char threadLabel[maxThreadLabelSize + 1] = "";
+
     if (!qApp)
         return QString();
 
-    return QThread::currentThread()->property(propertyThreadName).toString();
+    if ( !newThreadLabel.isEmpty() ) {
+        const auto label = newThreadLabel.toUtf8();
+        memcpy( threadLabel, label.constData(), std::min(maxThreadLabelSize, label.size()) );
+    }
+
+    return threadLabel;
 }
 
 QString createLogMessage(const QString &label, const QString &text)
@@ -347,5 +358,5 @@ void setCurrentThreadName(const QString &name)
 
     const auto id = QCoreApplication::applicationPid();
     const auto threadId = name + "-" + QString::number(id);
-    QThread::currentThread()->setProperty(propertyThreadName, threadId);
+    currentThreadLabel(threadId);
 }
