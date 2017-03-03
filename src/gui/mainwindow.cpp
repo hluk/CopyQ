@@ -468,6 +468,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     // signals & slots
     connect( m_trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()), Qt::QueuedConnection );
+    connect( m_trayMenu, SIGNAL(aboutToShow()),
+             this, SLOT(updateFocusWindows()) );
     connect( m_trayMenu, SIGNAL(searchRequest(QString)),
              this, SLOT(addTrayMenuItems(QString)) );
     connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
@@ -2923,9 +2925,6 @@ void MainWindow::enterSearchMode(const QString &txt)
 void MainWindow::updateTrayMenuItems()
 {
     WidgetSizeGuard sizeGuard(m_trayMenu);
-
-    if (m_options.trayItemPaste)
-        m_lastWindow = createPlatformNativeInterface()->getCurrentWindow();
 
     m_trayMenuCommandTester.abort();
     m_trayMenu->clearAllActions();
