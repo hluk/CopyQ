@@ -53,12 +53,13 @@ bool priorityLessThan(const ItemLoaderPtr &lhs, const ItemLoaderPtr &rhs)
 
 void trySetPixmap(QLabel *label, const QVariantMap &data, int height)
 {
-    static const QStringList imageFormats = QStringList()
-            << QString("image/svg+xml")
-            << QString("image/png")
-            << QString("image/bmp")
-            << QString("image/jpeg")
-            << QString("image/gif");
+    const auto imageFormats = {
+        "image/svg+xml",
+        "image/png",
+        "image/bmp",
+        "image/jpeg",
+        "image/gif"
+    };
 
     for (const auto &format : imageFormats) {
         QPixmap pixmap;

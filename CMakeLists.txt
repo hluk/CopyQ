@@ -91,10 +91,15 @@ if (PEDANTIC)
             ")
 
         # Disable errors from moc-generated files.
-        set(CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS} \
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
             -Wno-undefined-reinterpret-cast \
             -Wno-missing-prototypes \
+            ")
+
+        # Disable errors from qrc-generated files.
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+            -Wno-exit-time-destructors \
+            -Wno-global-constructors \
             ")
     endif()
 
@@ -115,15 +120,13 @@ if (PEDANTIC)
         -Wundef \
         ")
 
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -pedantic -Werror \
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
         -Wno-padded \
         -Wno-switch-enum \
         ")
 
     # Disable Q_OBJECT macro warnings.
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} \
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
         -Wno-unused-member-function \
         ")
 endif()

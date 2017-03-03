@@ -177,10 +177,10 @@ void ShortcutsWidget::onShortcutRemoved(const QKeySequence &shortcut)
 
 void ShortcutsWidget::checkAmbiguousShortcuts()
 {
-    static const QIcon iconOverriden = getIcon("", IconInfoSign);
-    static const QIcon iconAmbiguous = getIcon("", IconExclamationSign);
-    static const QString toolTipOverriden = tr("There is command overriding this shortcut.");
-    static const QString toolTipAmbiguous = tr("Shortcut already exists!");
+    const auto iconOverriden = getIcon("", IconInfoSign);
+    const auto iconAmbiguous = getIcon("", IconExclamationSign);
+    const auto toolTipOverriden = tr("There is command overriding this shortcut.");
+    const auto toolTipAmbiguous = tr("Shortcut already exists!");
 
     std::sort( m_shortcuts.begin(), m_shortcuts.end() );
     QList<QKeySequence> ambiguousShortcuts;

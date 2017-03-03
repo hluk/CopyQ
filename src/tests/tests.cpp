@@ -80,7 +80,7 @@ private:
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
-    static const QRegExp re("^Warning:|^ERROR:|ASSERT", Qt::CaseInsensitive);
+    const QRegExp re("^Warning:|^ERROR:|ASSERT", Qt::CaseInsensitive);
 
     const QString output = QString::fromUtf8(stderrData);
     if ( output.indexOf(re) != -1 )
@@ -89,7 +89,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     if (flag == TestInterface::ReadErrorsWithoutScriptException)
         return true;
 
-    static const QRegExp scriptExceptionError("ScriptError:");
+    const QRegExp scriptExceptionError("ScriptError:");
     return output.indexOf(scriptExceptionError) == -1;
 }
 
@@ -145,9 +145,9 @@ bool closeProcess(QProcess *p)
 /// Generate unique data.
 QByteArray generateData()
 {
-    static const QByteArray id = "tests_"
-            + QByteArray::number(QDateTime::currentMSecsSinceEpoch() % 1000);
     static int i = 0;
+    const QByteArray id = "tests_"
+            + QByteArray::number(QDateTime::currentMSecsSinceEpoch() % 1000);
     return id + '_' + QByteArray::number(++i);
 }
 
@@ -1976,7 +1976,7 @@ int runTests(int argc, char *argv[])
 
     if (runPluginTests) {
         ItemFactory itemFactory;
-        for ( const auto loader : itemFactory.loaders() ) {
+        for ( const auto &loader : itemFactory.loaders() ) {
             if ( loader->id().contains(onlyPlugins) ) {
                 std::unique_ptr<QObject> pluginTests( loader->tests(test) );
                 if ( pluginTests != nullptr ) {

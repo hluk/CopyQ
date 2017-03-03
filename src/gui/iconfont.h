@@ -24,6 +24,6 @@ class QFont;
 
 int iconFontSizePixels();
 
-const QFont &iconFont();
+QFont iconFont();
 
 #endif // ICONFONT_H

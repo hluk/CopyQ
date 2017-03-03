@@ -352,5 +352,5 @@ void setCurrentThreadName(const QString &name)
     const auto id = QCoreApplication::applicationPid();
     const auto threadLabel = name.toUtf8() + "-" + QByteArray::number(id);
     const auto size = std::min( maxThreadLabelSize, threadLabel.size() );
-    std::memcpy( currentThreadLabel, threadLabel.constData(), size );
+    std::memcpy( currentThreadLabel, threadLabel.constData(), static_cast<size_t>(size) );
 }

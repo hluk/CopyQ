@@ -58,7 +58,7 @@ QString CommandHelp::toString() const
 
 QList<CommandHelp> commandHelp()
 {
-    static QList<CommandHelp> help = QList<CommandHelp>()
+    return QList<CommandHelp>()
             << CommandHelp("show",
                            Scriptable::tr("Show main window and optionally open tab with given name."))
                .addArg("[" + Scriptable::tr("NAME") + "]")
@@ -192,6 +192,4 @@ QList<CommandHelp> commandHelp()
                            Scriptable::tr("Run application tests (append --help argument for more info)."))
 #endif
                ;
-
-    return help;
 }

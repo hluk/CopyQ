@@ -86,10 +86,6 @@ void X11PlatformClipboard::setData(Mode mode, const QVariantMap &dataMap)
 
 void X11PlatformClipboard::onChanged(QClipboard::Mode mode)
 {
-    // Always assume that only plain text can be in primary selection buffer.
-    // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
-    static QStringList selectionFormats(mimeText);
-
     bool isClip = (mode == QClipboard::Clipboard);
     m_resetClipboard = m_resetClipboard && !isClip;
     m_resetSelection = m_resetSelection && isClip;
@@ -97,10 +93,12 @@ void X11PlatformClipboard::onChanged(QClipboard::Mode mode)
     if ( mode == QClipboard::Selection && waitIfSelectionIncomplete() )
         return;
 
+    // Always assume that only plain text can be in primary selection buffer.
+    // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
     QVariantMap data =
             DummyClipboard::data(
                 isClip ? Clipboard : Selection,
-                isClip ? m_formats : selectionFormats);
+                isClip ? m_formats : QStringList(mimeText));
     bool foreignData = !ownsClipboardData(data);
 
     if ( foreignData && maybeResetClipboard(mode) )
