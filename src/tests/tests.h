@@ -144,6 +144,8 @@ private slots:
 
     void openAndSavePreferences();
 
+    void pasteFromMainWindow();
+
     void tray();
     void menu();
 

@@ -43,12 +43,40 @@
 #include <QRegExp>
 #include <QTemporaryFile>
 #include <QTest>
+#include <QTimerEvent>
 
 #include <memory>
 
 namespace {
 
 const auto clipboardTabName = "CLIPBOARD";
+
+/**
+ * Run a process after a delay.
+ *
+ * This relies on other occational call to QCoreApplication::processEvents()
+ * so the process can be started and others can run simultaneously.
+ */
+class PostponedProcess : public QObject {
+public:
+    PostponedProcess(const TestInterfacePtr &test, const QStringList &args)
+        : m_test(test)
+        , m_args(args)
+    {
+        startTimer(1000);
+    }
+
+protected:
+    void timerEvent(QTimerEvent *event) override
+    {
+        killTimer( event->timerId() );
+        RUN(m_args, "");
+    }
+
+private:
+    TestInterfacePtr m_test;
+    QStringList m_args;
+};
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
@@ -769,32 +797,6 @@ void Tests::commandConfig()
 
 void Tests::commandDialog()
 {
-    /**
-     * Run a process after a delay.
-     *
-     * This relies on other occational call to QCoreApplication::processEvents()
-     * so the process can be started and others can run simultaneously.
-     */
-    class PostponedProcess : public QObject {
-    public:
-        PostponedProcess(const TestInterfacePtr &test, const QStringList &args)
-            : m_test(test)
-            , m_args(args)
-        {
-            startTimer(1000);
-        }
-
-    protected:
-        void timerEvent(QTimerEvent *) override
-        {
-            RUN(m_args, "");
-        }
-
-    private:
-        TestInterfacePtr m_test;
-        QStringList m_args;
-    };
-
     {
         PostponedProcess dialogThread(m_test, Args() << "keys" << ":TEST" << "ENTER");
         RUN("dialog" << "text", "TEST\n");
@@ -1778,6 +1780,33 @@ void Tests::openAndSavePreferences()
     RUN("keys" << "ALT+1", "");
     RUN("keys" << "ENTER", "");
     RUN("config" << "check_clipboard", "true\n");
+}
+
+void Tests::pasteFromMainWindow()
+{
+    RUN("config"
+        << "activate_closes" << "true"
+        << "activate_focuses" << "true"
+        << "activate_pastes" << "true"
+        ,
+        "activate_closes=true\n"
+        "activate_focuses=true\n"
+        "activate_pastes=true\n"
+        );
+
+    RUN("add" << "TEST", "");
+    RUN("hide", "");
+    const auto pasteFromMainWindowScript = QString(
+                R"(
+                show()
+                sleep(%1)
+                keys('ENTER')
+                sleep(%1)
+                keys('ENTER')
+                )"
+                ).arg(waitMsShow);
+    PostponedProcess dialogThread(m_test, Args("eval") << pasteFromMainWindowScript);
+    RUN("dialog" << "text", "TEST\n");
 }
 
 void Tests::tray()
