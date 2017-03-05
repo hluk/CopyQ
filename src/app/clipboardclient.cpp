@@ -39,8 +39,6 @@ QString messageCodeToString(int code)
         return "CommandError";
     case CommandBadSyntax:
         return "CommandBadSyntax";
-    case CommandUnknownCall:
-        return "CommandUnknownCall";
     case CommandException:
         return "CommandException";
     case CommandPrint:
@@ -101,7 +99,6 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 
     case CommandError:
     case CommandBadSyntax:
-    case CommandUnknownCall:
     case CommandException:
         printClientStderr(data);
         exit(messageCode);

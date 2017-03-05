@@ -82,11 +82,6 @@ QString argumentError()
     return Scriptable::tr("Invalid number of arguments!");
 }
 
-QScriptValue getValue(QScriptEngine *eng, const QString &variableName)
-{
-    return eng->globalObject().property(variableName);
-}
-
 bool clipboardContains(
         QClipboard::Mode mode, ScriptableProxy *proxy,
         const QString &format, const QByteArray &content)
@@ -361,26 +356,6 @@ bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVar
     return true;
 }
 
-QScriptValue Scriptable::applyRest(int first)
-{
-    if ( first >= context()->argumentCount() )
-        return QScriptValue();
-
-    QScriptValue fn = context()->argument(first);
-    QString name = toString(fn);
-    fn = getValue(engine(), name);
-    if ( !fn.isFunction() ) {
-        throwError( tr("Name \"%1\" doesn't refer to a function.").arg(name).toUtf8() );
-        return QScriptValue();
-    }
-
-    QScriptValueList args;
-    for (int i = first + 1; i < context()->argumentCount(); ++i)
-        args.append( context()->argument(i) );
-
-    return fn.call(QScriptValue(), args);
-}
-
 const QString &Scriptable::getInputSeparator() const
 {
     return m_inputSeparator;
@@ -429,6 +404,7 @@ void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
 
 QScriptValue Scriptable::version()
 {
+    m_skipArguments = 0;
     return tr(programName) + " " COPYQ_VERSION " (hluk@email.cz)\n"
             + tr("Built with: ")
             + "Qt " + QT_VERSION_STR +
@@ -438,6 +414,8 @@ QScriptValue Scriptable::version()
 
 QScriptValue Scriptable::help()
 {
+    m_skipArguments = -1;
+
     QString helpString;
 
     if ( argumentCount() == 0 ) {
@@ -468,10 +446,7 @@ QScriptValue Scriptable::help()
 
 void Scriptable::show()
 {
-    if (argumentCount() > 1) {
-        throwError(argumentError());
-        return;
-    }
+    m_skipArguments = 1;
 
     if ( argumentCount() == 0 )
         m_proxy->showWindow();
@@ -484,14 +459,27 @@ void Scriptable::showAt()
     QRect rect(-1, -1, 0, 0);
     int n;
     int i = 0;
-    if ( toInt(argument(i++), n) )
+    if ( toInt(argument(i), n) ) {
         rect.setX(n);
-    if ( toInt(argument(i++), n) )
-        rect.setY(n);
-    if ( toInt(argument(i++), n) )
-        rect.setWidth(n);
-    if ( toInt(argument(i++), n) )
-        rect.setHeight(n);
+        ++i;
+
+        if ( toInt(argument(i), n) ) {
+            rect.setY(n);
+            ++i;
+
+            if ( toInt(argument(i), n) ) {
+                rect.setWidth(n);
+                ++i;
+
+                if ( toInt(argument(i), n) ) {
+                    rect.setHeight(n);
+                    ++i;
+                }
+            }
+        }
+    }
+
+    m_skipArguments = i;
 
     const auto tabName = arg(i++);
     if ( tabName.isEmpty() )
@@ -502,19 +490,23 @@ void Scriptable::showAt()
 
 void Scriptable::hide()
 {
+    m_skipArguments = 0;
     m_proxy->close();
 }
 
 QScriptValue Scriptable::toggle()
 {
+    m_skipArguments = 0;
     return m_proxy->toggleVisible();
 }
 
 void Scriptable::menu()
 {
+    m_skipArguments = 2;
+
     if (argumentCount() == 0) {
         m_proxy->toggleMenu();
-    } else if (argumentCount() == 1 || argumentCount() == 2) {
+    } else {
         const auto tabName = toString(argument(0));
 
         int maxItemCount = -1;
@@ -527,13 +519,12 @@ void Scriptable::menu()
         }
 
         m_proxy->toggleMenu(tabName, maxItemCount);
-    } else {
-        throwError(argumentError());
     }
 }
 
 void Scriptable::exit()
 {
+    m_skipArguments = 0;
     QByteArray message = fromString( tr("Terminating server.\n") );
     sendMessageToClient(message, CommandPrint);
     m_proxy->exit();
@@ -541,47 +532,56 @@ void Scriptable::exit()
 
 void Scriptable::disable()
 {
+    m_skipArguments = 0;
     m_proxy->disableMonitoring(true);
 }
 
 void Scriptable::enable()
 {
+    m_skipArguments = 0;
     m_proxy->disableMonitoring(false);
 }
 
 QScriptValue Scriptable::monitoring()
 {
+    m_skipArguments = 0;
     return m_proxy->isMonitoringEnabled();
 }
 
 QScriptValue Scriptable::visible()
 {
+    m_skipArguments = 0;
     return m_proxy->isMainWindowVisible();
 }
 
 QScriptValue Scriptable::focused()
 {
+    m_skipArguments = 0;
     return m_proxy->isMainWindowFocused();
 }
 
 void Scriptable::filter()
 {
+    m_skipArguments = 1;
     m_proxy->filter(arg(0));
 }
 
 void Scriptable::ignore()
 {
+    m_skipArguments = 0;
     m_proxy->abortAutomaticCommands();
 }
 
 QScriptValue Scriptable::clipboard()
 {
+    m_skipArguments = 1;
     const QString &mime = arg(0, mimeText);
     return newByteArray( m_proxy->getClipboardData(mime) );
 }
 
 QScriptValue Scriptable::selection()
 {
+    m_skipArguments = 1;
 #ifdef HAS_MOUSE_SELECTIONS
     const QString &mime = arg(0, mimeText);
     return newByteArray( m_proxy->getClipboardData(mime, QClipboard::Selection) );
@@ -592,11 +592,13 @@ QScriptValue Scriptable::selection()
 
 QScriptValue Scriptable::copy()
 {
+    m_skipArguments = -1;
     return copy(QClipboard::Clipboard);
 }
 
 QScriptValue Scriptable::copySelection()
 {
+    m_skipArguments = -1;
 #ifdef HAS_MOUSE_SELECTIONS
     return copy(QClipboard::Selection);
 #else
@@ -606,21 +608,26 @@ QScriptValue Scriptable::copySelection()
 
 void Scriptable::paste()
 {
+    m_skipArguments = 0;
     m_proxy->pasteToCurrentWindow();
 }
 
 QScriptValue Scriptable::tab()
 {
+    m_skipArguments = 1;
+
     const QString &name = arg(0);
     if ( name.isNull() )
         return toScriptValue( m_proxy->tabs(), this );
 
     m_proxy->setTab(name);
-    return applyRest(1);
+    return QScriptValue();
 }
 
 void Scriptable::removeTab()
 {
+    m_skipArguments = 1;
+
     const QString &name = arg(0);
     const QString error = m_proxy->removeTab(name);
     if ( !error.isEmpty() )
@@ -629,6 +636,7 @@ void Scriptable::removeTab()
 
 void Scriptable::renameTab()
 {
+    m_skipArguments = 2;
     const QString &name = arg(0);
     const QString &newName = arg(1);
     const QString error = m_proxy->renameTab(newName, name);
@@ -638,10 +646,12 @@ void Scriptable::renameTab()
 
 QScriptValue Scriptable::tabIcon()
 {
+    m_skipArguments = 2;
+
     if (argumentCount() == 1)
         return m_proxy->tabIcon(arg(0));
 
-    if (argumentCount() == 2)
+    if (argumentCount() >= 2)
         m_proxy->setTabIcon(arg(0), arg(1));
     else
         throwError(argumentError());
@@ -651,11 +661,13 @@ QScriptValue Scriptable::tabIcon()
 
 QScriptValue Scriptable::length()
 {
+    m_skipArguments = 0;
     return m_proxy->browserLength();
 }
 
 void Scriptable::select()
 {
+    m_skipArguments = 1;
     QScriptValue value = argument(0);
     int row;
     if ( toInt(value, row) )
@@ -664,16 +676,20 @@ void Scriptable::select()
 
 void Scriptable::next()
 {
+    m_skipArguments = 0;
     nextToClipboard(1);
 }
 
 void Scriptable::previous()
 {
+    m_skipArguments = 0;
     nextToClipboard(-1);
 }
 
 void Scriptable::add()
 {
+    m_skipArguments = -1;
+
     QStringList texts;
 
     for (int i = 0; i < argumentCount(); ++i)
@@ -686,6 +702,8 @@ void Scriptable::add()
 
 void Scriptable::insert()
 {
+    m_skipArguments = 2;
+
     int row;
     if ( !toInt(argument(0), row) ) {
         throwError(argumentError());
@@ -703,11 +721,7 @@ void Scriptable::insert()
 void Scriptable::remove()
 {
     QList<int> rows = getRows();
-
-    if (rows.size() != argumentCount()) {
-        throwError(argumentError());
-        return;
-    }
+    m_skipArguments = rows.size();
 
     if ( rows.empty() )
         rows.append(0);
@@ -719,6 +733,8 @@ void Scriptable::remove()
 
 void Scriptable::edit()
 {
+    m_skipArguments = -1;
+
     QScriptValue value;
     QString text;
     int row = -1;
@@ -752,6 +768,8 @@ void Scriptable::edit()
 
 QScriptValue Scriptable::read()
 {
+    m_skipArguments = -1;
+
     QByteArray result;
     QString mime(mimeText);
     QScriptValue value;
@@ -780,18 +798,20 @@ QScriptValue Scriptable::read()
 
 void Scriptable::write()
 {
+    m_skipArguments = -1;
     changeItem(true);
 }
 
 void Scriptable::change()
 {
+    m_skipArguments = -1;
     changeItem(false);
 }
 
-QScriptValue Scriptable::separator()
+void Scriptable::separator()
 {
     setInputSeparator( toString(argument(0)) );
-    return applyRest(1);
+    m_skipArguments = 1;
 }
 
 void Scriptable::action()
@@ -813,6 +833,8 @@ void Scriptable::action()
             anyRows = true;
         text.append( getTextData(m_proxy->browserItemData(row, mimeText)) );
     }
+
+    m_skipArguments = i + 2;
 
     if (!anyRows) {
         text = getTextData( m_proxy->getClipboardData(mimeText) );
@@ -837,6 +859,8 @@ void Scriptable::action()
 
 void Scriptable::popup()
 {
+    m_skipArguments = 3;
+
     QString title = arg(0);
     QString message = arg(1);
     int msec;
@@ -847,6 +871,8 @@ void Scriptable::popup()
 
 void Scriptable::exportTab()
 {
+    m_skipArguments = 1;
+
     const QString &fileName = arg(0);
     if ( fileName.isNull() ) {
         throwError(argumentError());
@@ -857,6 +883,8 @@ void Scriptable::exportTab()
 
 void Scriptable::importTab()
 {
+    m_skipArguments = 1;
+
     const QString &fileName = arg(0);
     if ( fileName.isNull() ) {
         throwError(argumentError());
@@ -868,18 +896,24 @@ void Scriptable::importTab()
 
 QScriptValue Scriptable::importData()
 {
+    m_skipArguments = 1;
+
     const auto fileName = arg(0);
     return m_proxy->importData(fileName);
 }
 
 QScriptValue Scriptable::exportData()
 {
+    m_skipArguments = 1;
+
     const auto fileName = arg(0);
     return m_proxy->exportData(fileName);
 }
 
 QScriptValue Scriptable::config()
 {
+    m_skipArguments = -1;
+
     QStringList nameValueInput;
 
     for (int i = 0; i < argumentCount(); ++i)
@@ -920,6 +954,8 @@ QScriptValue Scriptable::config()
 
 QScriptValue Scriptable::info()
 {
+    m_skipArguments = 1;
+
     typedef QMap<QString, QString> InfoMap;
     InfoMap info;
     info.insert("config", QSettings().fileName());
@@ -1024,11 +1060,18 @@ QScriptValue Scriptable::eval()
         return QScriptValue();
     }
 
-    return engine()->evaluate(script);
+    const auto result = engine()->evaluate(script);
+
+    m_skipArguments = -1;
+
+    return result;
+
 }
 
 QScriptValue Scriptable::currentPath()
 {
+    m_skipArguments = 1;
+
     if (argumentCount() > 0)
         setCurrentPath(arg(0));
 
@@ -1037,11 +1080,14 @@ QScriptValue Scriptable::currentPath()
 
 QScriptValue Scriptable::str(const QScriptValue &value)
 {
+    m_skipArguments = 1;
     return toString(value);
 }
 
 QScriptValue Scriptable::input()
 {
+    m_skipArguments = 0;
+
     if ( !getByteArray(m_input) ) {
         sendMessageToClient(QByteArray(), CommandReadInput);
         while ( m_connected && !getByteArray(m_input) )
@@ -1053,16 +1099,20 @@ QScriptValue Scriptable::input()
 
 QScriptValue Scriptable::dataFormats()
 {
+    m_skipArguments = 0;
     return toScriptValue( m_data.keys(), this );
 }
 
 QScriptValue Scriptable::data(const QScriptValue &value)
 {
+    m_skipArguments = 1;
     return newByteArray( m_data.value(toString(value)).toByteArray() );
 }
 
 QScriptValue Scriptable::setData()
 {
+    m_skipArguments = 2;
+
     const QString mime = arg(0);
     if ( !toItemData(argument(1), mime, &m_data) )
         return false;
@@ -1075,6 +1125,8 @@ QScriptValue Scriptable::setData()
 
 QScriptValue Scriptable::removeData()
 {
+    m_skipArguments = 1;
+
     const QString mime = arg(0);
     m_data.remove(mime);
     m_proxy->setSelectedItemsData(mime, QVariant());
@@ -1083,11 +1135,14 @@ QScriptValue Scriptable::removeData()
 
 void Scriptable::print(const QScriptValue &value)
 {
+    m_skipArguments = 1;
     sendMessageToClient(makeByteArray(value), CommandPrint);
 }
 
 void Scriptable::abort()
 {
+    m_skipArguments = 0;
+
     QScriptEngine *eng = engine() ? engine() : m_engine;
     if (eng)
         eng->abortEvaluation();
@@ -1095,12 +1150,15 @@ void Scriptable::abort()
 
 void Scriptable::fail()
 {
+    m_skipArguments = 0;
     sendMessageToClient("", CommandError);
 }
 
 #ifdef HAS_TESTS
 void Scriptable::keys()
 {
+    m_skipArguments = -1;
+
     bool ok;
 
     // Wait interval after shortcut pressed or text typed.
@@ -1134,39 +1192,47 @@ void Scriptable::keys()
 
 QScriptValue Scriptable::testSelected()
 {
+    m_skipArguments = 0;
     return m_proxy->testSelected();
 }
 
 void Scriptable::resetTestSession()
 {
+    m_skipArguments = 1;
     m_proxy->resetTestSession( arg(0) );
 }
 
 void Scriptable::flush()
 {
+    m_skipArguments = 1;
     log("flush ID: " + arg(0), LogAlways);
 }
 #else // HAS_TESTS
 void Scriptable::keys()
 {
+    m_skipArguments = -1;
 }
 
 QScriptValue Scriptable::testSelected()
 {
+    m_skipArguments = 0;
     return QScriptValue();
 }
 
 void Scriptable::resetTestSession()
 {
+    m_skipArguments = 1;
 }
 
 void Scriptable::flush()
 {
+    m_skipArguments = 1;
 }
 #endif // HAS_TESTS
 
 void Scriptable::setCurrentTab()
 {
+    m_skipArguments = 1;
     const QString tabName = arg(0);
     m_proxy->setCurrentTab(tabName);
 }
@@ -1174,42 +1240,44 @@ void Scriptable::setCurrentTab()
 QScriptValue Scriptable::selectItems()
 {
     QList<int> rows = getRows();
-
-    if (rows.size() != argumentCount()) {
-        throwError(argumentError());
-        return false;
-    }
-
+    m_skipArguments = rows.size();
     return m_proxy->selectItems(rows);
 }
 
 QScriptValue Scriptable::selectedTab()
 {
+    m_skipArguments = 0;
     return m_data.value(mimeCurrentTab).toString();
 }
 
 QScriptValue Scriptable::selectedItems()
 {
+    m_skipArguments = 0;
     return toScriptValue( m_proxy->selectedItems(), this );
 }
 
 QScriptValue Scriptable::currentItem()
 {
+    m_skipArguments = 0;
     return m_proxy->currentItem();
 }
 
 QScriptValue Scriptable::index()
 {
+    m_skipArguments = 0;
     return currentItem();
 }
 
 QScriptValue Scriptable::escapeHtml()
 {
+    m_skipArguments = 1;
     return ::escapeHtml(toString(argument(0)));
 }
 
 QScriptValue Scriptable::unpack()
 {
+    m_skipArguments = 1;
+
     QVariantMap data;
 
     if ( !toItemData(argument(0), mimeItems, &data) ) {
@@ -1222,12 +1290,15 @@ QScriptValue Scriptable::unpack()
 
 QScriptValue Scriptable::pack()
 {
+    m_skipArguments = 1;
     QVariantMap data = toDataMap( argument(0) );
     return newByteArray(serializeData(data));
 }
 
 QScriptValue Scriptable::getItem()
 {
+    m_skipArguments = 1;
+
     int row;
     if ( !toInt(argument(0), row) ) {
         throwError(argumentError());
@@ -1239,6 +1310,8 @@ QScriptValue Scriptable::getItem()
 
 void Scriptable::setItem()
 {
+    m_skipArguments = 2;
+
     int row;
     if ( !toInt(argument(0), row) ) {
         throwError(argumentError());
@@ -1253,16 +1326,20 @@ void Scriptable::setItem()
 
 QScriptValue Scriptable::toBase64()
 {
+    m_skipArguments = 1;
     return QString::fromLatin1(makeByteArray(argument(0)).toBase64());
 }
 
 QScriptValue Scriptable::fromBase64()
 {
+    m_skipArguments = 1;
     return newByteArray(QByteArray::fromBase64(makeByteArray(argument(0))));
 }
 
 QScriptValue Scriptable::open()
 {
+    m_skipArguments = -1;
+
     for ( int i = 0; i < argumentCount(); ++i ) {
         if ( !QDesktopServices::openUrl(QUrl(toString(argument(i)))) )
             return false;
@@ -1273,6 +1350,8 @@ QScriptValue Scriptable::open()
 
 QScriptValue Scriptable::execute()
 {
+    m_skipArguments = -1;
+
     // Pass all arguments until null to command. The rest will be sent to stdin.
     QStringList args;
     int i = 0;
@@ -1315,11 +1394,14 @@ QScriptValue Scriptable::execute()
 
 QScriptValue Scriptable::currentWindowTitle()
 {
+    m_skipArguments = 0;
     return m_proxy->currentWindowTitle();
 }
 
 QScriptValue Scriptable::dialog()
 {
+    m_skipArguments = -1;
+
     NamedValueList values;
     values.reserve(argumentCount() / 2);
 
@@ -1347,6 +1429,8 @@ QScriptValue Scriptable::dialog()
 
 QScriptValue Scriptable::settings()
 {
+    m_skipArguments = 2;
+
     if (argumentCount() == 2) {
         const QString key = arg(0);
         const QScriptValue value = argument(1);
@@ -1373,17 +1457,20 @@ QScriptValue Scriptable::settings()
 
 QScriptValue Scriptable::dateString()
 {
+    m_skipArguments = 1;
     const QDateTime dateTime = QDateTime::currentDateTime();
     return dateTime.toString(arg(0));
 }
 
 void Scriptable::updateFirst()
 {
+    m_skipArguments = 0;
     m_proxy->updateFirstItem(m_data);
 }
 
 void Scriptable::updateTitle()
 {
+    m_skipArguments = 1;
     if (argumentCount() == 0)
         m_proxy->updateTitle(m_data);
     else
@@ -1392,12 +1479,14 @@ void Scriptable::updateTitle()
 
 QScriptValue Scriptable::networkGet()
 {
+    m_skipArguments = 1;
     const QString url = arg(0);
     return NetworkReply::get(url, this);
 }
 
 QScriptValue Scriptable::networkPost()
 {
+    m_skipArguments = 2;
     const QString url = arg(0);
     const QByteArray postData = makeByteArray(argument(1));
     return NetworkReply::post(url, postData, this);
@@ -1405,6 +1494,7 @@ QScriptValue Scriptable::networkPost()
 
 QScriptValue Scriptable::env()
 {
+    m_skipArguments = 1;
     const QString name = arg(0);
     const QByteArray value = qgetenv(name.toUtf8().constData());
     return newByteArray(value);
@@ -1412,6 +1502,7 @@ QScriptValue Scriptable::env()
 
 QScriptValue Scriptable::setEnv()
 {
+    m_skipArguments = 2;
     const QString name = arg(0);
     const QByteArray value = makeByteArray(argument(1));
     return qputenv(name.toUtf8().constData(), value);
@@ -1419,6 +1510,8 @@ QScriptValue Scriptable::setEnv()
 
 void Scriptable::sleep()
 {
+    m_skipArguments = 1;
+
     class ThreadSleep : public QThread {
     public:
         static void msleep(unsigned long msec) {
@@ -1438,6 +1531,8 @@ void Scriptable::sleep()
 
 QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
 {
+    m_skipArguments = 2;
+
     QScriptValueList fnArgs;
     for (const auto &argument : arguments)
         fnArgs.append( newVariant(argument) );
@@ -1449,6 +1544,7 @@ QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
 
 QVariantList Scriptable::currentArguments()
 {
+    m_skipArguments = -1;
     QVariantList arguments;
     for ( int i = 0; i < argumentCount(); ++i )
         arguments.append( toVariant(argument(i)) );
@@ -1518,44 +1614,52 @@ void Scriptable::executeArguments(const QByteArray &bytes)
         logScriptError("Bad command syntax");
         exitCode = CommandBadSyntax;
     } else {
-        const QString cmd = getTextData( args.at(Arguments::Rest) );
-
-        QScriptValue fn = m_engine->globalObject().property(cmd);
-        if ( !fn.isFunction() ) {
-            logScriptError("Unknown command");
-            const auto msg = tr("Name \"%1\" doesn't refer to a function.").arg(cmd);
-            showExceptionMessage(msg);
-            response = createScriptErrorMessage(msg).toUtf8();
-            exitCode = CommandUnknownCall;
-        } else {
-            /* Special arguments:
+        /* Special arguments:
              * "-"  read this argument from stdin
              * "--" read all following arguments without control sequences
              */
-            QScriptValueList fnArgs;
-            bool readRaw = false;
-            for ( int i = Arguments::Rest + 1; i < args.length(); ++i ) {
-                const QByteArray &arg = args.at(i);
-                if (!readRaw && arg == "--") {
-                    readRaw = true;
-                } else {
-                    const QScriptValue value = readRaw || arg != "-"
-                            ? newByteArray(arg)
-                            : input();
-                    fnArgs.append(value);
-                }
-            }
-
-            const auto result = fn.call(QScriptValue(), fnArgs);
-
-            if ( m_engine->hasUncaughtException() ) {
-                const auto exceptionText = processUncaughtException(cmd);
-                response = createScriptErrorMessage(exceptionText).toUtf8();
-                exitCode = CommandException;
+        QScriptValueList fnArgs;
+        bool readRaw = false;
+        for ( int i = Arguments::Rest; i < args.length(); ++i ) {
+            const QByteArray &arg = args.at(i);
+            if (!readRaw && arg == "--") {
+                readRaw = true;
             } else {
-                response = serializeScriptValue(result);
-                exitCode = CommandFinished;
+                const QScriptValue value = readRaw || arg != "-"
+                        ? newByteArray(arg)
+                        : input();
+                fnArgs.append(value);
             }
+        }
+
+        QString cmd;
+        QScriptValue result;
+
+        int skipArguments = 0;
+        while ( skipArguments < fnArgs.size() && !m_engine->hasUncaughtException() ) {
+            if ( result.isFunction() ) {
+                m_skipArguments = -1;
+                result = result.call( QScriptValue(), fnArgs.mid(skipArguments) );
+                if (m_skipArguments == -1)
+                    break;
+                skipArguments += m_skipArguments;
+            } else {
+                cmd = toString(fnArgs[skipArguments]);
+                result = m_engine->evaluate(cmd);
+                ++skipArguments;
+            }
+        }
+
+        if ( result.isFunction() && !m_engine->hasUncaughtException() )
+            result = result.call( QScriptValue(), fnArgs.mid(skipArguments) );
+
+        if ( m_engine->hasUncaughtException() ) {
+            const auto exceptionText = processUncaughtException(cmd);
+            response = createScriptErrorMessage(exceptionText).toUtf8();
+            exitCode = CommandException;
+        } else {
+            response = serializeScriptValue(result);
+            exitCode = CommandFinished;
         }
     }
 
@@ -1614,8 +1718,9 @@ QList<int> Scriptable::getRows() const
 
     for ( int i = 0; i < argumentCount(); ++i ) {
         int row;
-        if ( toInt(argument(i), row) )
-            rows.append(row);
+        if ( !toInt(argument(i), row) )
+            break;
+        rows.append(row);
     }
 
     return rows;

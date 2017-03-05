@@ -98,8 +98,6 @@ public:
      */
     bool toItemData(const QScriptValue &value, const QString &mime, QVariantMap *data) const;
 
-    QScriptValue applyRest(int first);
-
     const QString &getInputSeparator() const;
     void setInputSeparator(const QString &separator);
 
@@ -187,7 +185,7 @@ public slots:
     QScriptValue read();
     void write();
     void change();
-    QScriptValue separator();
+    void separator();
 
     void action();
     void popup();
@@ -310,6 +308,7 @@ private:
     QVariantMap m_data;
     QString m_actionName;
     bool m_connected;
+    int m_skipArguments = 0;
 };
 
 class NetworkReply : public QObject {

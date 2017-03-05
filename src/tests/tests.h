@@ -105,6 +105,8 @@ private slots:
     void classDir();
     void classTemporaryFile();
 
+    void chainingCommands();
+
     void configMaxitems();
 
     void keysAndFocusing();

@@ -28,8 +28,6 @@ enum CommandStatus {
     CommandError = 1,
     /** Bad command syntax */
     CommandBadSyntax = 2,
-    /** Unknown function call */
-    CommandUnknownCall = 3,
     /** Exception thrown */
     CommandException = 4,
 

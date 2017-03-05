@@ -142,7 +142,7 @@ private:
         addDocumentation("add", "add(text, ...)", "Adds new text items to current tab.");
         addDocumentation("insert", "insert(row, text)", "Inserts new text items to current tab.");
         addDocumentation("remove", "remove(row, ...)", "Removes items in current tab.");
-        addDocumentation("edit", "edit(row, ...)", "Edits items in current tab.");
+        addDocumentation("edit", "edit([row|text] ...)", "Edits items in current tab.");
         addDocumentation("read", "ByteArray read([mimeType]);", "Same as `clipboard()`.");
         addDocumentation("read", "ByteArray read(mimeType, row, ...);", "Returns concatenated data from items.");
         addDocumentation("write", "write(row, mimeType, data, [mimeType, data]...)", "Inserts new item to current tab.");

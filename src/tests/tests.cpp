@@ -608,14 +608,12 @@ void Tests::commandVersion()
 
 void Tests::badCommand()
 {
-    QByteArray stdoutActual;
-    QByteArray stderrActual;
-    RUN_EXPECT_ERROR_WITH_STDERR("xxx", CommandUnknownCall, "xxx");
-
-    // FIXME: This should give also CommandUnknownCall exit code.
+    RUN_EXPECT_ERROR_WITH_STDERR("xxx", CommandException, "xxx");
     RUN_EXPECT_ERROR_WITH_STDERR("tab" << testTab(1) << "yyy", CommandException, "yyy");
 
     // Bad command shoudn't create new tab.
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
     QCOMPARE( run(Args("tab"), &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
     QVERIFY( !QString::fromUtf8(stdoutActual)
@@ -1155,6 +1153,22 @@ void Tests::classTemporaryFile()
         if (!autoRemove)
             f.remove();
     }
+}
+
+void Tests::chainingCommands()
+{
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "add" << "C" << "B" << "A", "");
+    RUN("tab" << tab1 << "separator" << " " << "read" << "0" << "1" << "2", "A B C");
+    RUN("tab" << tab1 << "separator" << "\\t" << "showAt" << "read" << "0" << "1" << "2", "A\tB\tC");
+
+    // Chain functions without arguments.
+    RUN("enable" << "disable" << "monitoring", "false\n");
+    RUN("if (!monitoring()) enable" << "monitoring", "true\n");
+
+    // Don't treat arguments after "eval" as functions.
+    RUN("eval" << "arguments[1]" << "TEST", "TEST");
+    RUN("eval" << "arguments[1]" << "--" << "TEST", "TEST");
 }
 
 void Tests::configMaxitems()

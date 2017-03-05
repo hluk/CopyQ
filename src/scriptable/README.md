@@ -23,8 +23,35 @@ Command exit values are:
 - 0 - script finished without error,
 - 1 - `fail()` was called,
 - 2 - bad syntax,
-- 3 - unknown function call (if called without `eval` or `-e` command line argument),
-- 4 - exception was thrown.
+- 3 - exception was thrown.
+
+## Command Line
+
+If number of arguments that can be passed to function is limited you can use
+
+```bash
+copyq <FUNCTION1> <FUNCTION1_ARGUMENT_1> <FUNCTION1_ARGUMENT_2> \
+          <FUNCTION2> <FUNCTION2_ARGUMENT> \
+              <FUNCTION3> <FUNCTION3_ARGUMENTS> ...
+```
+
+where `<FUNCTION1>` and `<FUNCTION2>` are scripts where result of last expression is functions that take two and one arguments respectively.
+
+E.g.
+
+```bash
+copyq tab clipboard separator "," read 0 1 2
+```
+
+After `eval` no arguments are treated as functions since it can access all arguments.
+
+Arguments recognize escape sequences `\n` (new line), `\t` (tabulator character) and `\\` (backslash).
+
+Argument `-e` is identical to `eval`.
+
+Argument `-` is replaced with data read from stdin.
+
+Argument `--` is skipped and all the remaining arguments are interpreted as they are (escape sequences are ignored and `-e`, `-`, `--` are left unchanged).
 
 ### Functions
 
@@ -219,19 +246,23 @@ Copies next item from current tab to clipboard.
 
 Copies previous item from current tab to clipboard.
 
-###### bool add(text, ...)
+###### add(text, ...)
 
 Adds new text items to current tab.
+
+Throws an exception if space for the items cannot be allocated.
 
 ###### insert(row, text)
 
 Inserts new text items to current tab.
 
-###### bool remove(row, ...)
+###### remove(row, ...)
 
 Removes items in current tab.
 
-###### edit(row, ...)
+Throws an exception if some items cannot be removed.
+
+###### edit([row|text] ...)
 
 Edits items in current tab.
 
@@ -245,9 +276,11 @@ Same as `clipboard()`.
 
 Returns concatenated data from items.
 
-###### bool write(row, mimeType, data, [mimeType, data]...)
+###### write(row, mimeType, data, [mimeType, data]...)
 
 Inserts new item to current tab.
+
+Throws an exception if space for the items cannot be allocated.
 
 ###### change(row, mimeType, data, [mimeType, data]...)
 
