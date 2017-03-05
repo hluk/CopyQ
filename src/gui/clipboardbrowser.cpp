@@ -459,7 +459,8 @@ void ClipboardBrowser::updateItemMaximumSize()
     QSize minSize = viewport()->contentsRect().size();
     if (verticalScrollBarPolicy() != Qt::ScrollBarAlwaysOff)
          minSize -= QSize(verticalScrollBar()->width(), 0);
-    d.setItemSizes(m_sharedData->textWrap ? minSize : QSize(2048, 2048), minSize.width());
+    if ( minSize.width() > 0 )
+        d.setItemSizes(m_sharedData->textWrap ? minSize : QSize(2048, 2048), minSize.width());
 }
 
 void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
