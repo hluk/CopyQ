@@ -186,12 +186,7 @@ class ClipboardBrowser : public QListView
         void addItems(const QStringList &items);
 
         /** Set current item. */
-        void setCurrent(
-                int row, //!< Row of the item.
-                bool cycle = false, //!< If true @a row is relative number of rows from top.
-                bool keepSelection = false, //!< Keeps current selection.
-                bool setCurrentOnly = false //! Sets item as current.
-                );
+        void setCurrent(int row);
 
         /**
          * Load items from configuration even if model is disabled.

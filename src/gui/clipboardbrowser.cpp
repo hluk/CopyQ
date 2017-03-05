@@ -1204,55 +1204,27 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void ClipboardBrowser::setCurrent(int row, bool cycle, bool keepSelection, bool setCurrentOnly)
+void ClipboardBrowser::setCurrent(int row)
 {
     QModelIndex prev = currentIndex();
     int cur = prev.row();
 
-    // direction
-    int dir = cur <= row ? 1 : -1;
+    const int direction = cur <= row ? 1 : -1;
 
     // select first visible
-    int i = m.getRowNumber(row, cycle);
+    int i = m.getRowNumber(row);
     cur = i;
     while ( 0 <= i && i < length() && isRowHidden(i) ) {
-        i = m.getRowNumber(i+dir, cycle);
-        if ( (!cycle && (i==0 || i==m.rowCount()-1)) || i == cur)
+        i = m.getRowNumber(i + direction);
+        if ( i == 0 || i == m.rowCount() - 1 || i == cur)
             break;
     }
     if ( i < 0 || i >= length() || isRowHidden(i) )
         return;
 
-    if (keepSelection) {
-        QItemSelectionModel *sel = selectionModel();
-        const bool currentSelected = sel->isSelected(prev);
-        for ( int j = prev.row(); j != i + dir; j += dir ) {
-            const auto ind = index(j);
-            if ( !ind.isValid() )
-                break;
-            if ( isIndexHidden(ind) )
-                continue;
-
-            if (!setCurrentOnly) {
-                if ( sel->isSelected(ind) && sel->isSelected(prev) )
-                    sel->setCurrentIndex(currentIndex(), QItemSelectionModel::Deselect);
-                sel->setCurrentIndex(ind, QItemSelectionModel::Select);
-            }
-            prev = ind;
-        }
-
-        if (setCurrentOnly)
-            sel->setCurrentIndex(prev, QItemSelectionModel::NoUpdate);
-        else if (!currentSelected)
-            sel->setCurrentIndex(prev, QItemSelectionModel::Deselect);
-    } else {
-        const auto ind = index(i);
-        clearSelection();
-        if (setCurrentOnly)
-            selectionModel()->setCurrentIndex(ind, QItemSelectionModel::NoUpdate);
-        else
-            setCurrentIndex(ind);
-    }
+    const auto ind = index(i);
+    clearSelection();
+    setCurrentIndex(ind);
 }
 
 void ClipboardBrowser::editSelected()
