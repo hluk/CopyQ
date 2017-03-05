@@ -316,7 +316,7 @@ void Action::actionError(QProcess::ProcessError error)
     Q_ASSERT(p);
 
     // Ignore write-to-process error, process can ignore the input.
-    if (error == QProcess::WriteError) {
+    if (error != QProcess::WriteError) {
         if (!m_errorString.isEmpty())
             m_errorString.append("\n");
         m_errorString.append( p->errorString() );
