@@ -120,8 +120,13 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
 
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
-    for ( int row = a.row(); row <= b.row(); ++row )
-        reset(&m_cache[row]);
+    for ( int row = a.row(); row <= b.row(); ++row ) {
+        auto item = &m_cache[row];
+        if (*item) {
+            reset(item);
+            cache( m_view->index(row) );
+        }
+    }
 }
 
 void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
