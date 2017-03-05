@@ -58,8 +58,11 @@ class ItemDelegate : public QItemDelegate
 
         bool eventFilter(QObject *object, QEvent *event) override;
 
-        /** Remove all cached items (cache is refreshed using paint()). */
+        /** Remove all cached items. */
         void invalidateCache();
+
+        /** Remove cached item. */
+        void invalidateCache(int row);
 
         /** Set regular expression for highlighting. */
         void setSearch(const QRegExp &re);

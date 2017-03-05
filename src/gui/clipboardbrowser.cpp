@@ -532,9 +532,19 @@ void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &curren
     const int direction = above ? -1 : 1;
     int row = current.row() + direction;
     int y = 0;
-    for ( auto ind = index(row); ind.isValid() && y < pixels; ind = index(row + direction) ) {
-        itemWidget(ind);
-        y += s + d.sizeHint(ind).height();
+    for ( auto ind = index(row); ind.isValid() && y < pixels; ind = index(row) ) {
+        if ( isRowHidden(row) ) {
+            d.invalidateCache(row);
+        } else {
+            itemWidget(ind);
+            y += s + d.sizeHint(ind).height();
+        }
+        row += direction;
+    }
+
+    for ( auto ind = index(row); ind.isValid(); ind = index(row) ) {
+        d.invalidateCache(row);
+        row += direction;
     }
 }
 
@@ -849,12 +859,9 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
 
         itemWidget(current);
 
-        // Preload next/previous page so that up/down and page up/down keys scroll correctly.
+        // Preload next and previous pages so that up/down and page up/down keys scroll correctly.
         const int h = viewport()->contentsRect().height();
-        if ( previous.isValid() && previous < current)
-            preload(0, h, current);
-        else
-            preload(h, 0, current);
+        preload(h, h, current);
 
         scheduleDelayedItemsLayout();
         executeDelayedItemsLayout();

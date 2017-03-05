@@ -275,6 +275,11 @@ void ItemDelegate::invalidateCache()
         reset(&w);
 }
 
+void ItemDelegate::invalidateCache(int row)
+{
+    reset(&m_cache[row]);
+}
+
 void ItemDelegate::setSearch(const QRegExp &re)
 {
     m_re = re;
