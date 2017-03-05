@@ -42,13 +42,6 @@ struct NamedValue {
 
 typedef QVector<NamedValue> NamedValueList;
 
-Q_DECLARE_METATYPE(NamedValueList)
-
-#if QT_VERSION < 0x050300
-Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
-Q_DECLARE_METATYPE(QList<int>)
-#endif
-
 class ScriptableProxy : public QObject
 {
     Q_OBJECT
