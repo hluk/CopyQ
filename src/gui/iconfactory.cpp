@@ -126,12 +126,19 @@ void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
 {
     QPainter painter(pix);
     QFont font = iconFont();
-    const int m = h / 8;
-    const int m2 = m / 2;
-    font.setPixelSize(h - m);
+    const int margins = h / 8;
+    font.setPixelSize(h - margins);
     painter.setFont(font);
     painter.setPen(color);
-    painter.drawText( QRect(m2, m2, w - m2, h - m2), Qt::AlignCenter, QString(QChar(id)) );
+
+    // Center the icon to whole pixels so it stays sharp.
+    const auto flags = Qt::AlignTop | Qt::AlignLeft;
+    const auto iconText = QString(QChar(id));
+    auto boundingRect = painter.boundingRect(0, 0, w, h, flags, iconText);
+    const auto pos = QPoint(w - boundingRect.width(), h - boundingRect.height()) / 2;
+    boundingRect.moveTopLeft(pos);
+
+    painter.drawText(boundingRect, flags, iconText);
 }
 
 QColor getDefaultIconColor(const QColor &color)
