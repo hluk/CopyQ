@@ -160,6 +160,7 @@ private:
         addDocumentation("config", "String config(optionName, value, ...)", "Sets multiple options and return list with values in format `optionName=newValue`.");
         addDocumentation("info", "String info([pathName])", "Returns paths and flags used by the application.");
         addDocumentation("eval", "Value eval(script)", "Evaluates script and returns result.");
+        addDocumentation("source", "Value source(fileName)", "Evaluates script file and returns result of last expression in the script.");
         addDocumentation("currentPath", "String currentPath([path])", "Get or set current path.");
         addDocumentation("str", "String str(value)", "Converts a value to string.");
         addDocumentation("input", "ByteArray input()", "Returns standard input passed to the script.");
