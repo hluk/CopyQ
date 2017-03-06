@@ -352,6 +352,28 @@ copyq info config
 
 Evaluates script and returns result.
 
+###### Value source(fileName)
+
+Evaluates script file and returns result of last expression in the script.
+
+This is useful to move some common code out of commands.
+
+```js
+// File: c:/copyq/replace_clipboard_text.js
+replaceClipboardText = function(replaceWhat, replaceWith)
+{
+    var text = str(clipboard())
+    var newText = text.replace(replaceWhat, replaceWith)
+    if (text != newText)
+        copy(newText)
+}
+```
+
+```js
+source('c:/copyq/replace_clipboard_text.js')
+replaceClipboardText('secret', '*****')
+```
+
 ###### String currentPath([path])
 
 Get or set current path.

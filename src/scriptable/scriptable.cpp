@@ -1049,23 +1049,31 @@ QScriptValue Scriptable::info()
 
 QScriptValue Scriptable::eval()
 {
-    const QString script = arg(0);
+    const auto script = arg(0);
+    const auto result = eval(script, "eval");
+    m_skipArguments = -1;
+    return result;    
+}
 
-    const QScriptSyntaxCheckResult syntaxResult = engine()->checkSyntax(script);
-    if (syntaxResult.state() != QScriptSyntaxCheckResult::Valid) {
-        throwError( QString("Eval:%1:%2: syntax error: %3")
-                    .arg(syntaxResult.errorLineNumber())
-                    .arg(syntaxResult.errorColumnNumber())
-                    .arg(syntaxResult.errorMessage()) );
-        return QScriptValue();
+QScriptValue Scriptable::source()
+{
+    const auto scriptFilePath = arg(0);
+
+    QByteArray script;
+    {
+        QFile scriptFile(scriptFilePath);
+        if ( !scriptFile.open(QIODevice::ReadOnly) ) {
+            throwError( QString("Failed to open \"%1\": %2")
+                        .arg(scriptFilePath)
+                        .arg(scriptFile.errorString()) );
+        }
+
+        script = scriptFile.readAll();
     }
 
-    const auto result = engine()->evaluate(script);
-
-    m_skipArguments = -1;
-
+    const auto result = eval(script, scriptFilePath);
+    m_skipArguments = 1;
     return result;
-
 }
 
 QScriptValue Scriptable::currentPath()
@@ -1645,7 +1653,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
                 skipArguments += m_skipArguments;
             } else {
                 cmd = toString(fnArgs[skipArguments]);
-                result = m_engine->evaluate(cmd);
+                result = eval(cmd, "command-line");
                 ++skipArguments;
             }
         }
@@ -1836,6 +1844,21 @@ void Scriptable::nextToClipboard(int where)
 #ifdef HAS_MOUSE_SELECTIONS
     setClipboard(data, QClipboard::Selection);
 #endif
+}
+
+QScriptValue Scriptable::eval(const QString &script, const QString &fileName)
+{
+    const auto syntaxResult = engine()->checkSyntax(script);
+    if (syntaxResult.state() != QScriptSyntaxCheckResult::Valid) {
+        throwError( QString("%1:%2:%3: syntax error: %4")
+                    .arg(fileName)
+                    .arg(syntaxResult.errorLineNumber())
+                    .arg(syntaxResult.errorColumnNumber())
+                    .arg(syntaxResult.errorMessage()) );
+        return QScriptValue();
+    }
+
+    return engine()->evaluate(script);
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

@@ -661,6 +661,24 @@ void Tests::commandFail()
     QCOMPARE( stdoutActual, QByteArray() );
 }
 
+void Tests::commandSource()
+{
+    const auto script =
+            R"(
+            test = function() { return " TEST" }
+            print("SOURCED")
+            )";
+
+    QTemporaryFile scriptFile;
+    QVERIFY(scriptFile.open());
+    scriptFile.write(script);
+    scriptFile.close();
+    const auto scriptFileName = scriptFile.fileName();
+
+    RUN("source" << scriptFileName, "SOURCED")
+    RUN("source" << scriptFileName << "test()", "SOURCED TEST\n")
+}
+
 void Tests::commandVisible()
 {
     RUN("visible", "true\n");

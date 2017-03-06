@@ -55,6 +55,7 @@ private slots:
     void commandPrint();
     void commandAbort();
     void commandFail();
+    void commandSource();
 
     void commandVisible();
     void commandToggle();

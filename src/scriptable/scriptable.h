@@ -204,6 +204,8 @@ public slots:
 
     QScriptValue eval();
 
+    QScriptValue source();
+
     QScriptValue currentPath();
     QScriptValue currentpath() { return currentPath(); }
 
@@ -296,6 +298,7 @@ private:
     void changeItem(bool create);
     void nextToClipboard(int where);
     QByteArray serialize(const QScriptValue &value);
+    QScriptValue eval(const QString &script, const QString &fileName);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
