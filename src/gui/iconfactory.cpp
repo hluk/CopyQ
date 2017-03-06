@@ -46,14 +46,14 @@ typedef QIconEngine QtIconEngine;
 namespace {
 
 const char imagesRecourcePath[] = ":/images/";
-const char propertyActivePatintDevice[] = "CopyQ_active_paint_device";
+const char propertyActivePaintDevice[] = "CopyQ_active_paint_device";
 
 /// Up to this value of background lightness, icon color will be lighter.
 const int lightThreshold = 100;
 
 QObject *activePaintDevice()
 {
-    return qApp->property(propertyActivePatintDevice)
+    return qApp->property(propertyActivePaintDevice)
             .value<QPointer<QObject>>();
 }
 
@@ -352,7 +352,7 @@ void setActivePaintDevice(QObject *device)
 {
     const QPointer<QObject> activePaintDevice = device;
     qApp->setProperty(
-                propertyActivePatintDevice, QVariant::fromValue(activePaintDevice) );
+                propertyActivePaintDevice, QVariant::fromValue(activePaintDevice) );
 }
 
 QColor getDefaultIconColor(const QWidget &widget, bool selected)
