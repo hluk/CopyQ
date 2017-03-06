@@ -521,7 +521,7 @@ void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
     QSettings commandsSettings(fileName, QSettings::IniFormat);
 
     auto commands = loadCommands(&commandsSettings, AllCommands);
-    for ( auto command : commands ) {
+    for (auto &command : commands) {
         if (command.cmd.startsWith("\n    ")) {
             command.cmd.remove(0, 5);
             command.cmd.replace("\n    ", "\n");
