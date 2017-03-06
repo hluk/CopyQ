@@ -2994,7 +2994,6 @@ void MainWindow::openActionDialog(const QVariantMap &data)
     connect( actionDialog.get(), SIGNAL(saveCommand(Command)),
              this, SLOT(onSaveCommand(Command)) );
 
-    actionDialog->setWindowIcon(appIcon(AppIconRunning));
     actionDialog->setInputData( addSelectionData(*browser(), data) );
 
     actionDialog->setOutputIndex(getBrowser()->currentIndex());
