@@ -37,6 +37,7 @@
 #if QT_VERSION < 0x050000
 # include <QIconEngineV2>
 typedef QIconEngineV2 QtIconEngine;
+Q_DECLARE_METATYPE(QPointer<QObject>)
 #else
 # include <QIconEngine>
 typedef QIconEngine QtIconEngine;
