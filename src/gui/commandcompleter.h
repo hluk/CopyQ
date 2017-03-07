@@ -42,7 +42,6 @@ private:
 
     QPlainTextEdit *m_editor;
     QCompleter *m_completer;
-    bool m_popupVisible;
 };
 
 #endif // COMMANDCOMPLETER_H

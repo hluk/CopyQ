@@ -96,7 +96,12 @@ const char propertyWidgetProperty[] = "CopyQ_widget_property";
 template <typename T, typename Return>
 class CallableFn : public Callable {
 public:
-    explicit CallableFn(T &&fn) : m_fn(std::forward<T>(fn)) {}
+    explicit CallableFn(T &&fn)
+        : m_fn(std::forward<T>(fn))
+        , m_result()
+    {
+    }
+
     void operator()() override { m_result = m_fn(); }
     Return &result() { return m_result; }
 

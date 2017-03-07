@@ -319,8 +319,7 @@ bool ClipboardServer::askToQuit()
         messageBox.addButton(tr("Cancel Exiting"), QMessageBox::RejectRole);
         messageBox.addButton(tr("Exit Anyway"), QMessageBox::AcceptRole);
 
-        messageBox.exec();
-        return messageBox.result() == QMessageBox::Accepted;
+        return messageBox.exec() == QMessageBox::Accepted;
     }
 
     return true;

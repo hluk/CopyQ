@@ -85,8 +85,8 @@ private:
     int m_socketId;
     bool m_closed;
 
-    bool m_hasMessageLength;
-    quint32 m_messageLength;
+    bool m_hasMessageLength = false;
+    quint32 m_messageLength = 0;
     QByteArray m_message;
 };
 

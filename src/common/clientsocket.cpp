@@ -102,7 +102,6 @@ ClientSocket::ClientSocket()
     , m_socket(nullptr)
     , m_socketId(++lastSocketId)
     , m_closed(true)
-    , m_hasMessageLength(false)
 {
 }
 
@@ -111,7 +110,6 @@ ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
     , m_socket(new QLocalSocket)
     , m_socketId(++lastSocketId)
     , m_closed(false)
-    , m_hasMessageLength(false)
 {
     m_socket->connectToServer(serverName);
 }
@@ -121,7 +119,6 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
     , m_socket(socket)
     , m_socketId(++lastSocketId)
     , m_closed(false)
-    , m_hasMessageLength(false)
 {
 }
 
