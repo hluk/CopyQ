@@ -1,33 +1,27 @@
 language: cpp
+os: linux
 
-matrix:
-  include:
-    - os: osx
-      compiler: clang
+env:
+  global:
+    - secure: "cilRyAZJVGiS6jeAEG+An9fnOFb22HJKhyTlnHpAWonEwYvJ92s8NDWIU+oGp3Ch3J/UuAyuf3c9Y7sXPUeoJlT8vhA7GXbd9VFX/6yWaTzUhO6ybht8wOI/iPANcPMw8rfv4kPWA2REcip0bhCcJSWgaojgGTjcCyhfdweC5SQ="
 
-    - os: linux
-      compiler: gcc
-      env:
-        - COMPILER=g++-4.8
-        - GCOV=gcov-4.8
-      addons:
-        apt:
-          sources:
-          - ubuntu-toolchain-r-test
-          packages:
-          - g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 
-    - os: linux
-      compiler: clang
-      env:
-        - COMPILER=clang++-3.6
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-          packages:
-            - clang-3.6
+  coverity_scan:
+    project:
+      name: hluk/CopyQ
+
+    notification_email: ruling.worlds@gmail.com
+
+    build_command_prepend: cov-configure --template --comptype gcc --compiler gcc-4.8 && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=g++-4.8 .
+    build_command: make
+
+    branch_pattern: coverity_scan
 
 cache:
     apt: true
@@ -36,27 +30,15 @@ cache:
     - $HOME/.wheelhouse
 
 before_install:
+  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
   - utils/travis/before-install-${TRAVIS_OS_NAME}.sh
 
 install:
   - utils/travis/install-${TRAVIS_OS_NAME}.sh
 
 script:
-  - utils/travis/script-${TRAVIS_OS_NAME}.sh
+  -
 
 after_success:
-  - utils/travis/after_success-${TRAVIS_OS_NAME}.sh
+  -
 
-deploy:
-  provider: releases
-  api_key:
-    secure: Vax27ifQsc8SlTsLYVbxVJANDAxDroegN6nOPXCN1MLaoh4W2DQ/iGGx+waIOSYig8Sh+AUz2JhCFuMLMVqwFoWY2rxNPBrxhTBjm3aDhylbB+mRECnbInNb0kS3qv4lNDN6lHD4B6K01FWUUiHX14s2JQx4ut+KuwMxxhxyO4Y=
-  file: 'build/*.dmg'
-  file_glob: true
-  skip_cleanup: true
-  overwrite: true
-  on:
-    condition: "$TRAVIS_OS_NAME = osx"
-    tags: true
-    all_branches: true
-    repo: hluk/CopyQ
