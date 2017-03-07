@@ -68,7 +68,6 @@ ActionDialog::ActionDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ActionDialog)
     , m_data()
-    , m_index()
     , m_capturedTexts()
     , m_currentCommandIndex(-1)
 {
@@ -160,7 +159,6 @@ void ActionDialog::createAction()
     act->setOutputFormat(ui->comboBoxOutputFormat->currentText());
     act->setItemSeparator(QRegExp(ui->separatorEdit->text()));
     act->setOutputTab(ui->comboBoxOutputTab->currentText());
-    act->setIndex(m_index);
     act->setName(m_actionName);
     act->setData(m_data);
     emit accepted(act.release());
@@ -194,11 +192,6 @@ void ActionDialog::setOutputTabs(const QStringList &tabs,
     w->addItem("");
     w->addItems(tabs);
     w->setEditText(currentTabName);
-}
-
-void ActionDialog::setOutputIndex(const QModelIndex &index)
-{
-    m_index = index;
 }
 
 void ActionDialog::loadSettings()

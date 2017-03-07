@@ -2997,8 +2997,6 @@ void MainWindow::openActionDialog(const QVariantMap &data)
 
     actionDialog->setInputData( addSelectionData(*browser(), data) );
 
-    actionDialog->setOutputIndex(getBrowser()->currentIndex());
-
     actionDialog->show();
     stealFocus(*actionDialog.release());
 }
@@ -3292,7 +3290,6 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
 
         actionDialog->setInputData(addSelectionData(*browser(), data));
         actionDialog->setCommand(cmd);
-        actionDialog->setOutputIndex(outputIndex);
         QString outputTab = cmd.outputTab;
 
         // Insert tab labels to action dialog's combo box.

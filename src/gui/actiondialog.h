@@ -56,8 +56,6 @@ public:
     void setCommand(const Command &cmd);
     /** Set texts for tabs in combo box. */
     void setOutputTabs(const QStringList &tabs, const QString &currentTabName);
-    /** Set output item. */
-    void setOutputIndex(const QModelIndex &index);
 
     /** Load settings. */
     void loadSettings();
@@ -95,7 +93,6 @@ private:
 
     Ui::ActionDialog *ui;
     QVariantMap m_data;
-    QPersistentModelIndex m_index;
     QStringList m_capturedTexts;
 
     int m_currentCommandIndex;

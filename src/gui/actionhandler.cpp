@@ -96,14 +96,12 @@ void ActionHandler::action(Action *action)
 
     m_lastAction = action;
 
-    connect( action, SIGNAL(newItems(QStringList, QString)),
-             this, SLOT(addItems(QStringList, QString)) );
-    connect( action, SIGNAL(newItems(QStringList, QModelIndex)),
-             this, SLOT(addItems(QStringList, QModelIndex)) );
+    connect( action, SIGNAL(newItems(QStringList, QString, QString)),
+             this, SLOT(addItems(QStringList, QString, QString)) );
     connect( action, SIGNAL(newItem(QByteArray, QString, QString)),
              this, SLOT(addItem(QByteArray, QString, QString)) );
-    connect( action, SIGNAL(newItem(QByteArray, QString, QModelIndex)),
-             this, SLOT(addItem(QByteArray, QString, QModelIndex)) );
+    connect( action, SIGNAL(changeItem(QByteArray, QString, QModelIndex)),
+             this, SLOT(changeItem(QByteArray, QString, QModelIndex)) );
     connect( action, SIGNAL(actionStarted(Action*)),
              this, SLOT(actionStarted(Action*)) );
     connect( action, SIGNAL(actionFinished(Action*)),
@@ -176,28 +174,17 @@ void ActionHandler::actionDialogClosed(ActionDialog *dialog)
     m_lastActionDialogCommand = dialog->command();
 }
 
-void ActionHandler::addItems(const QStringList &items, const QString &tabName)
+void ActionHandler::addItems(const QStringList &items, const QString &format, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser() : m_wnd->tab(tabName);
     for (const auto &item : items)
-        c->add(item);
+        c->add( createDataMap(format, item) );
 
     if (m_lastAction) {
         if (m_lastAction == sender())
             c->setCurrent(items.size() - 1);
         m_lastAction = nullptr;
     }
-}
-
-void ActionHandler::addItems(const QStringList &items, const QModelIndex &index)
-{
-    ClipboardBrowser *c = m_wnd->browserForItem(index);
-    if (c == nullptr)
-        return;
-
-    QVariantMap dataMap;
-    dataMap.insert( mimeText, items.join(QString()).toUtf8() );
-    c->model()->setData(index, dataMap, contentType::updateData);
 }
 
 void ActionHandler::addItem(const QByteArray &data, const QString &format, const QString &tabName)
@@ -212,7 +199,7 @@ void ActionHandler::addItem(const QByteArray &data, const QString &format, const
     }
 }
 
-void ActionHandler::addItem(const QByteArray &data, const QString &format, const QModelIndex &index)
+void ActionHandler::changeItem(const QByteArray &data, const QString &format, const QModelIndex &index)
 {
     ClipboardBrowser *c = m_wnd->browserForItem(index);
     if (c == nullptr)

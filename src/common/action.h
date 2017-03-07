@@ -120,30 +120,35 @@ signals:
     void actionFinished(Action *act);
     /** Emitter when started. */
     void actionStarted(Action *act);
+
     /** Emitted if standard output has some items available. */
-    void newItems(const QStringList, const QString &outputTabName);
-    void newItems(const QStringList, const QModelIndex &index);
+    void newItems(const QStringList &, const QString &format, const QString &outputTabName);
+
     /** Emitted after all standard output is read. */
-    void newItem(const QByteArray &data, const QString &format,
-                 const QString &outputTabName);
-    void newItem(const QByteArray &data, const QString &format,
-                 const QModelIndex &index);
+    void newItem(const QByteArray &data, const QString &format, const QString &outputTabName);
+
+    /**
+     * Emitted if standard output has some items available.
+     *
+     * If requested format is not "text/plain", this is emitted only when all stdout is read.
+     */
+    void changeItem(
+            const QByteArray &data, const QString &format, const QModelIndex &index);
+
     void dataChanged(const QVariantMap &data);
 
 private slots:
-    void actionError(QProcess::ProcessError error);
-    void actionStarted();
-    void actionFinished();
-    void actionOutput();
-    void actionErrorOutput();
+    void onSubProcessError(QProcess::ProcessError error);
+    void onSubProcessStarted();
+    void onSubProcessFinished();
+    void onSubProcessOutput();
+    void onSubProcessErrorOutput();
     void writeInput();
     void onBytesWritten();
 
 private:
-    bool hasTextOutput() const;
-    bool canEmitNewItems() const;
-
     void closeSubCommands();
+    void actionFinished();
 
     QByteArray m_input;
     QRegExp m_sep;
@@ -159,7 +164,6 @@ private:
     bool m_failed;
     int m_currentLine;
     QString m_name;
-    QStringList m_items;
     QVariantMap m_data;
     QVector<QProcess*> m_processes;
 

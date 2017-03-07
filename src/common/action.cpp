@@ -218,7 +218,7 @@ void Action::start()
     closeSubCommands();
 
     if ( m_currentLine + 1 >= m_cmds.size() ) {
-        emit actionFinished(this);
+        actionFinished();
         return;
     }
 
@@ -242,13 +242,13 @@ void Action::start()
 
 #if QT_VERSION < 0x050600
         connect( process, SIGNAL(error(QProcess::ProcessError)),
-                 SLOT(actionError(QProcess::ProcessError)) );
+                 SLOT(onSubProcessError(QProcess::ProcessError)) );
 #else
         connect( process, SIGNAL(errorOccurred(QProcess::ProcessError)),
-                 SLOT(actionError(QProcess::ProcessError)) );
+                 SLOT(onSubProcessError(QProcess::ProcessError)) );
 #endif
         connect( process, SIGNAL(readyReadStandardError()),
-                 SLOT(actionErrorOutput()) );
+                 SLOT(onSubProcessErrorOutput()) );
     }
 
     for (int i = 1; i < m_processes.size(); ++i) {
@@ -258,11 +258,11 @@ void Action::start()
     }
 
     connect( m_processes.last(), SIGNAL(started()),
-             this, SLOT(actionStarted()) );
+             this, SLOT(onSubProcessStarted()) );
     connect( m_processes.last(), SIGNAL(finished(int,QProcess::ExitStatus)),
-             this, SLOT(actionFinished()) );
+             this, SLOT(onSubProcessFinished()) );
     connect( m_processes.last(), SIGNAL(readyReadStandardOutput()),
-             this, SLOT(actionOutput()) );
+             this, SLOT(onSubProcessOutput()) );
 
     // Writing directly to stdin of a process on Windows can hang the app.
     connect( m_processes.first(), SIGNAL(started()),
@@ -310,7 +310,7 @@ const QVariantMap &Action::data() const
     return m_data;
 }
 
-void Action::actionError(QProcess::ProcessError error)
+void Action::onSubProcessError(QProcess::ProcessError error)
 {
     QProcess *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
@@ -323,69 +323,48 @@ void Action::actionError(QProcess::ProcessError error)
         m_failed = true;
     }
 
-    if ( !isRunning() ) {
-        closeSubCommands();
-        emit actionFinished(this);
-    }
+    if ( !isRunning() )
+        actionFinished();
 }
 
-void Action::actionStarted()
+void Action::onSubProcessStarted()
 {
     if (m_currentLine == 0)
         emit actionStarted(this);
 }
 
-void Action::actionFinished()
+void Action::onSubProcessFinished()
 {
-    actionOutput();
-
-    if (hasTextOutput()) {
-        if (canEmitNewItems()) {
-            m_items.append(m_lastOutput);
-            if (m_index.isValid())
-                emit newItems(m_items, m_index);
-            else
-                emit newItems(m_items, m_tab);
-            m_lastOutput = QString();
-            m_items.clear();
-        }
-    } else if (canEmitNewItems()) {
-        if (m_index.isValid())
-            emit newItem(m_outputData, m_outputFormat, m_index);
-        else
-            emit newItem(m_outputData, m_outputFormat, m_tab);
-        m_outputData = QByteArray();
-    }
-
+    onSubProcessOutput();
     start();
 }
 
-void Action::actionOutput()
+void Action::onSubProcessOutput()
 {
-    QProcess *p = qobject_cast<QProcess*>(sender());
-    Q_ASSERT(p);
+    if ( m_processes.isEmpty() )
+        return;
 
-    const QByteArray output = p->readAll();
+    auto p = m_processes.last();
+    const auto output = p->readAll();
+    if ( output.isEmpty() )
+        return;
 
-    if (hasTextOutput()) {
-        m_lastOutput.append( getTextData(output) );
-        if ( !m_lastOutput.isEmpty() && !m_sep.isEmpty() ) {
-            // Split to items.
-            QStringList items;
-            items = m_lastOutput.split(m_sep);
-            m_lastOutput = items.takeLast();
-            if (m_index.isValid()) {
-                emit newItems(items, m_index);
-            } else if (!m_tab.isEmpty()) {
-                emit newItems(items, m_tab);
-            }
-        }
-    } else if (!m_outputFormat.isEmpty()) {
+    if ( !m_outputFormat.isEmpty() ) {
         m_outputData.append(output);
+
+        if ( !m_sep.isEmpty() ) {
+            m_lastOutput.append( getTextData(output) );
+            auto items = m_lastOutput.split(m_sep);
+            m_lastOutput = items.takeLast();
+            if ( !items.isEmpty() )
+                emit newItems(items, m_outputFormat, m_tab);
+        } else if ( m_outputFormat == mimeText && m_index.isValid() ) {
+            emit changeItem(m_outputData, m_outputFormat, m_index);
+        }
     }
 }
 
-void Action::actionErrorOutput()
+void Action::onSubProcessErrorOutput()
 {
     QProcess *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
@@ -412,11 +391,6 @@ void Action::onBytesWritten()
         m_processes.first()->closeWriteChannel();
 }
 
-bool Action::hasTextOutput() const
-{
-    return !m_outputFormat.isEmpty() && m_outputFormat == mimeText;
-}
-
 void Action::terminate()
 {
     if (m_processes.isEmpty())
@@ -429,13 +403,6 @@ void Action::terminate()
     // if process still running: kill it
     if ( !waitForFinished(5000) )
         terminateProcess( m_processes.last() );
-}
-
-bool Action::canEmitNewItems() const
-{
-    return (m_index.isValid() || !m_tab.isEmpty())
-            && ( (!m_outputFormat.isEmpty() && !m_outputData.isNull())
-                 || (m_outputFormat == mimeText && !m_lastOutput.isEmpty()) );
 }
 
 void Action::closeSubCommands()
@@ -452,4 +419,23 @@ void Action::closeSubCommands()
         p->deleteLater();
 
     m_processes.clear();
+}
+
+void Action::actionFinished()
+{
+    closeSubCommands();
+
+    if ( !m_outputFormat.isEmpty() ) {
+        if ( !m_sep.isEmpty() ) {
+            if ( !m_lastOutput.isEmpty() )
+                emit newItems(QStringList() << m_lastOutput, m_outputFormat, m_tab);
+        } else if ( !m_outputData.isEmpty() ) {
+            if ( m_index.isValid() )
+                emit changeItem(m_outputData, m_outputFormat, m_index);
+            else
+                emit newItem(m_outputData, m_outputFormat, m_tab);
+        }
+    }
+
+    emit actionFinished(this);
 }

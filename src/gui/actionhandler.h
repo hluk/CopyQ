@@ -80,10 +80,9 @@ private slots:
 
     void actionDialogClosed(ActionDialog *dialog);
 
-    void addItems(const QStringList &items, const QString &tabName);
-    void addItems(const QStringList &items, const QModelIndex &index);
+    void addItems(const QStringList &items, const QString &format, const QString &tabName);
     void addItem(const QByteArray &data, const QString &format, const QString &tabName);
-    void addItem(const QByteArray &data, const QString &format, const QModelIndex &index);
+    void changeItem(const QByteArray &data, const QString &format, const QModelIndex &index);
 
 private:
     MainWindow *m_wnd;
