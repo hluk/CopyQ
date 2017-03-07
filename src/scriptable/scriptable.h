@@ -288,6 +288,9 @@ public slots:
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
 
+private slots:
+    void onExecuteOutput(const QStringList &lines);
+
 private:
     void executeArguments(const QByteArray &bytes);
     QString processUncaughtException(const QString &cmd);
@@ -312,6 +315,8 @@ private:
     QString m_actionName;
     bool m_connected;
     int m_skipArguments = 0;
+
+    QScriptValue m_executeStdoutCallback;
 };
 
 class NetworkReply : public QObject {

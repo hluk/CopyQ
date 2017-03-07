@@ -494,6 +494,15 @@ Executes a command.
 
 All arguments after `null` are passed to standard input of the command.
 
+If arguments is function it will be called with array of lines read from stdout whenever available.
+
+E.g. create item for each line on stdout:
+
+```js
+execute('tail', '-f', 'some_file.log',
+        function(lines) { add.apply(this, lines) })
+```
+
 Returns object for the finished command or `undefined` on failure.
 
 ###### String currentWindowTitle()

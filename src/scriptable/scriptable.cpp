@@ -1360,22 +1360,41 @@ QScriptValue Scriptable::execute()
 {
     m_skipArguments = -1;
 
+    m_executeStdoutCallback = QScriptValue();
+
     // Pass all arguments until null to command. The rest will be sent to stdin.
     QStringList args;
     int i = 0;
     for ( ; i < argumentCount(); ++i ) {
-        const QScriptValue arg = argument(i);
+        const auto arg = argument(i);
         if (arg.isNull())
             break;
-        args.append(toString(arg));
+
+        if ( arg.isFunction() )
+            m_executeStdoutCallback = arg;
+        else
+            args.append(toString(arg));
     }
 
     Action action;
-    for ( ++i ; i < argumentCount(); ++i )
-        action.setInput( action.input() + makeByteArray(argument(i)) );
+    for ( ++i ; i < argumentCount(); ++i ) {
+        const auto arg = argument(i);
+        if ( arg.isFunction() )
+            m_executeStdoutCallback = arg;
+        else
+            action.setInput( action.input() + makeByteArray(arg) );
+    }
+
+    if ( m_executeStdoutCallback.isFunction() ) {
+        action.setItemSeparator(QRegExp("\n"));
+        action.setOutputFormat(mimeText);
+        connect( &action, SIGNAL(newItems(QStringList, QString, QString)),
+                 this, SLOT(onExecuteOutput(QStringList)) );
+    } else {
+        action.setOutputFormat("DATA");
+    }
 
     action.setCommand(args);
-    action.setOutputFormat("DATA");
     action.setWorkingDirectory( m_dirClass->getCurrentPath() );
     action.start();
 
@@ -1574,6 +1593,14 @@ void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 void Scriptable::onDisconnected()
 {
     m_connected = false;
+}
+
+void Scriptable::onExecuteOutput(const QStringList &lines)
+{
+    if ( m_executeStdoutCallback.isFunction() ) {
+        const auto arg = toScriptValue(lines, this);
+        m_executeStdoutCallback.call( QScriptValue(), QScriptValueList() << arg );
+    }
 }
 
 void Scriptable::executeArguments(const QByteArray &bytes)

@@ -928,8 +928,6 @@ void Tests::commandEscapeHTML()
 
 void Tests::commandExecute()
 {
-    const QString tab = testTab(1);
-
     const QByteArray script =
             "function test(c, expected_stdout, expected_exit_code) {"
             "    if (str(c.stdout) !== expected_stdout) print('Unexpected stdout: \"' + str(c.stdout) + '\"');"
@@ -937,19 +935,24 @@ void Tests::commandExecute()
             "}";
 
     RUN("eval" << script +
-        "c = execute('copyq', 'tab', '" + tab + "', 'write', 'text/plain', 'plain text', 'text/html', '<b>test HTML</b>');"
+        "c = execute('copyq', 'write', 'text/plain', 'plain text', 'text/html', '<b>test HTML</b>');"
         "test(c, '', 0);"
         , "");
 
     RUN("eval" << script +
-        "c = execute('copyq', 'tab', '" + tab + "', 'read', 'text/plain', 0);"
+        "c = execute('copyq', 'read', 'text/plain', 0);"
         "test(c, 'plain text', 0);"
         , "");
 
     RUN("eval" << script +
-        "c = execute('copyq', 'tab', '" + tab + "', 'read', 'text/html', 0);"
+        "c = execute('copyq', 'read', 'text/html', 0);"
         "test(c, '<b>test HTML</b>', 0);"
         , "");
+
+    RUN("eval" << script +
+        "c = execute('copyq', 'read', 0, function(lines) { print(lines); });"
+        "test(c, 'plain text', 0);"
+        , "plain text");
 }
 
 void Tests::commandSettings()
