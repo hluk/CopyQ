@@ -949,7 +949,9 @@ void MainWindow::updateContextMenu()
     // Omit tool bar flickering.
     ui->toolBar->setUpdatesEnabled(false);
     ui->toolBar->setEnabled(false);
-    m_timerUpdateContextMenu.start();
+
+    if ( getBrowser()->isLoaded() )
+        m_timerUpdateContextMenu.start();
 }
 
 void MainWindow::action()
