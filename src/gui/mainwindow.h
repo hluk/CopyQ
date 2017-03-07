@@ -550,7 +550,7 @@ private slots:
 
     void showContextMenu(const QPoint &position);
 
-    void updateContextMenu();
+    void updateContextMenu(const ClipboardBrowser *browser);
 
     void action();
 
@@ -586,6 +586,8 @@ private:
 
     /** Create context menu for @a tab. It will be automatically deleted after closed. */
     void popupTabBarMenu(const QPoint &pos, const QString &tab);
+
+    void updateContextMenu();
 
     void updateNotifications();
 

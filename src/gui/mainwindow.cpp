@@ -758,6 +758,24 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
     }
 }
 
+void MainWindow::updateContextMenu()
+{
+    m_itemMenuCommandTester.abort();
+
+    for (auto action : m_menuItem->actions())
+        delete action;
+
+    for (auto menu : m_menuItem->findChildren<QMenu*>())
+        delete menu;
+
+    m_menuItem->clear();
+    // Omit tool bar flickering.
+    ui->toolBar->setUpdatesEnabled(false);
+    ui->toolBar->setEnabled(false);
+
+    m_timerUpdateContextMenu.start();
+}
+
 void MainWindow::updateIcon()
 {
     const QIcon icon = appIcon(m_iconSnip ? AppIconRunning : AppIconNormal);
@@ -935,23 +953,10 @@ void MainWindow::showContextMenu(const QPoint &position)
     m_menuItem->exec(position);
 }
 
-void MainWindow::updateContextMenu()
+void MainWindow::updateContextMenu(const ClipboardBrowser *browser)
 {
-    m_itemMenuCommandTester.abort();
-
-    for (auto action : m_menuItem->actions())
-        delete action;
-
-    for (auto menu : m_menuItem->findChildren<QMenu*>())
-        delete menu;
-
-    m_menuItem->clear();
-    // Omit tool bar flickering.
-    ui->toolBar->setUpdatesEnabled(false);
-    ui->toolBar->setEnabled(false);
-
-    if ( getBrowser()->isLoaded() )
-        m_timerUpdateContextMenu.start();
+    if ( browser == getBrowser() && browser->isLoaded() )
+        updateContextMenu();
 }
 
 void MainWindow::action()
@@ -1339,8 +1344,8 @@ ClipboardBrowser *MainWindow::createTab(
              ui->tabWidget, SLOT(setTabItemCount(QString,int)) );
     connect( c, SIGNAL(showContextMenu(QPoint)),
              this, SLOT(showContextMenu(QPoint)) );
-    connect( c, SIGNAL(updateContextMenu()),
-             this, SLOT(updateContextMenu()) );
+    connect( c, SIGNAL(updateContextMenu(const ClipboardBrowser *)),
+             this, SLOT(updateContextMenu(const ClipboardBrowser *)) );
     connect( c, SIGNAL(searchRequest()),
              this, SLOT(findNextOrPrevious()) );
     connect( c, SIGNAL(searchHideRequest()),
@@ -2353,13 +2358,7 @@ void MainWindow::showWindow()
     raise();
     activateWindow();
 
-    // if no item is selected then select first
-    ClipboardBrowser *c = browser();
-    if( c->selectionModel()->selectedIndexes().size() <= 1 &&
-            c->currentIndex().row() <= 0 ) {
-        c->setCurrent(0);
-    }
-
+    auto c = browser();
     if ( !c->editing() )
         c->scrollTo( c->currentIndex() );
     c->setFocus();

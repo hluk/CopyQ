@@ -345,7 +345,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
     setVerticalScrollBarPolicy(scrollbarPolicy);
     setHorizontalScrollBarPolicy(scrollbarPolicy);
 
-    emit updateContextMenu();
+    emit updateContextMenu(this);
     emit searchHideRequest();
 }
 
@@ -706,7 +706,7 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
         return;
     }
 
-    emit updateContextMenu();
+    emit updateContextMenu(this);
 }
 
 void ClipboardBrowser::onItemCountChanged()
@@ -883,7 +883,7 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
                                         const QItemSelection &deselected)
 {
     QListView::selectionChanged(selected, deselected);
-    emit updateContextMenu();
+    emit updateContextMenu(this);
 }
 
 void ClipboardBrowser::focusInEvent(QFocusEvent *event)
@@ -1468,7 +1468,7 @@ void ClipboardBrowser::loadItemsAgain()
         d.rowsInserted(QModelIndex(), 0, m.rowCount());
         setCurrent(0);
         onItemCountChanged();
-        emit updateContextMenu();
+        emit updateContextMenu(this);
     } else if (m_loadButton == nullptr) {
         Q_ASSERT(length() == 0 && "Disabled model should be empty");
         m_loadButton = new QPushButton(this);
