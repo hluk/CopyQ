@@ -7,7 +7,6 @@ INSTALL_PREFIX=$(readlink -f "$INSTALL_PREFIX")
 
 cmake_args=(
     -DWITH_TESTS=TRUE
-    -DWITH_QT5=TRUE
     -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX"
     ..
 )

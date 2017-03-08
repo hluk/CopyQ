@@ -16,7 +16,7 @@ endif()
 OPTION(PEDANTIC "Enable all compiler warnings" OFF)
 
 # Options (cmake -LH)
-OPTION(WITH_QT5 "Qt5 support" OFF)
+OPTION(WITH_QT5 "Use Qt 5 (disable to use Qt 4 instead)" ON)
 OPTION(WITH_TESTS "Run test cases from command line" ${COPYQ_DEBUG})
 OPTION(WITH_PLUGINS "Compile plugins" ON)
 # Linux-specific options
@@ -32,26 +32,23 @@ endif()
 
 set(CMAKE_AUTOMOC ON)
 
-# If Qt4 unavailable use Qt5.
-if (NOT WITH_QT5)
+if (WITH_QT5)
+    cmake_minimum_required(VERSION 2.8.8)
+    find_package(Qt5Widgets)
+    if (NOT Qt5Widgets_FOUND)
+        message(FATAL_ERROR "Qt 5 is unavailable. To compile with Qt 4 use -DWITH_QT5=OFF.")
+    endif()
+    message(STATUS "Building with Qt 5.")
+else()
     find_package(Qt4)
     if (NOT QT4_FOUND)
         # Try different executable name.
         set(QT_QMAKE_EXECUTABLE "qmake-qt4")
         find_package(Qt4)
         if (NOT QT4_FOUND)
-            message(FATAL_ERROR
-                    "Qt 4 is unavailable. To compile with Qt 5 use -DWITH_QT5=TRUE.\n"
-                    "Note: Qt version 5.0.2 and earlier can be unstable on some systems.")
+            message(FATAL_ERROR "Qt 4 is unavailable. To compile with Qt 5 use -DWITH_QT5=ON.")
         endif()
     endif()
-endif()
-
-if (WITH_QT5)
-    cmake_minimum_required(VERSION 2.8.8)
-    find_package(Qt5Widgets REQUIRED)
-    message(STATUS "Building with Qt 5.")
-else()
     message(STATUS "Building with Qt 4.")
 endif()
 
