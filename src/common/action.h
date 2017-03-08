@@ -29,7 +29,8 @@
 class QAction;
 
 /**
- * Execute external program.
+ * Execute external program and emits signals
+ * to create or change items from the program's stdout.
  */
 class Action : public QObject
 {
@@ -44,7 +45,7 @@ public:
     bool actionFailed() const { return m_failed; }
 
     /** Return standard error output string. */
-    const QString &errorOutput() const { return m_errstr; }
+    const QString &errorOutput() const { return m_errorOutput; }
 
     /** Return command line. */
     QString command() const;
@@ -121,16 +122,24 @@ signals:
     /** Emitter when started. */
     void actionStarted(Action *act);
 
-    /** Emitted if standard output has some items available. */
+    /**
+     * Emitted if standard output can be split into items.
+     *
+     * Output format and separator's must be set to valid values.
+     */
     void newItems(const QStringList &, const QString &format, const QString &outputTabName);
 
-    /** Emitted after all standard output is read. */
+    /**
+     * Emitted after all standard output is read.
+     *
+     * Output format must be set to a valid value and both separator and index invalid.
+     */
     void newItem(const QByteArray &data, const QString &format, const QString &outputTabName);
 
     /**
      * Emitted if standard output has some items available.
      *
-     * If requested format is not "text/plain", this is emitted only when all stdout is read.
+     * Output format and index must be set to a valid value and separator empty.
      */
     void changeItem(
             const QByteArray &data, const QString &format, const QModelIndex &index);
@@ -158,7 +167,7 @@ private:
     QString m_outputFormat;
     QPersistentModelIndex m_index;
     QString m_workingDirectoryPath;
-    QString m_errstr;
+    QString m_errorOutput;
     QString m_lastOutput;
     QByteArray m_outputData;
     bool m_failed;
