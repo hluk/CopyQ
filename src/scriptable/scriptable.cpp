@@ -1885,7 +1885,7 @@ QScriptValue Scriptable::eval(const QString &script, const QString &fileName)
         return QScriptValue();
     }
 
-    return engine()->evaluate(script);
+    return engine()->evaluate(script, fileName);
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)
