@@ -543,9 +543,12 @@ void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &curren
         row += direction;
     }
 
-    for ( auto ind = index(row); ind.isValid(); ind = index(row) ) {
-        d.invalidateCache(row);
-        row += direction;
+    // Unload item widgets below the threshold (unloding pixels above would change the scroll offset).
+    if (!above) {
+        for ( auto ind = index(row); ind.isValid(); ind = index(row) ) {
+            d.invalidateCache(row);
+            row += direction;
+        }
     }
 }
 
