@@ -28,6 +28,7 @@ FORMS += \
     ui/logdialog.ui
 HEADERS += \
     app/app.h \
+    app/applicationexceptionhandler.h \
     app/clipboardclient.h \
     app/clipboardmonitor.h \
     app/clipboardserver.h \
@@ -127,6 +128,7 @@ HEADERS += \
     gui/menuitems.h
 SOURCES += \
     app/app.cpp \
+    app/applicationexceptionhandler.cpp \
     app/clipboardclient.cpp \
     app/clipboardmonitor.cpp \
     app/clipboardserver.cpp \

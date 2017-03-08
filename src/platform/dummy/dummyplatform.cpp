@@ -21,6 +21,8 @@
 
 #include "dummyclipboard.h"
 
+#include "app/applicationexceptionhandler.h"
+
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDir>
@@ -33,22 +35,22 @@ PlatformPtr createPlatformNativeInterface()
 
 QCoreApplication *DummyPlatform::createConsoleApplication(int &argc, char **argv)
 {
-    return new QCoreApplication(argc, argv);
+    return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);
 }
 
 QApplication *DummyPlatform::createServerApplication(int &argc, char **argv)
 {
-    return new QApplication(argc, argv);
+    return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
 QApplication *DummyPlatform::createMonitorApplication(int &argc, char **argv)
 {
-    return new QApplication(argc, argv);
+    return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
 QCoreApplication *DummyPlatform::createClientApplication(int &argc, char **argv)
 {
-    return new QCoreApplication(argc, argv);
+    return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);
 }
 
 PlatformClipboardPtr DummyPlatform::clipboard()

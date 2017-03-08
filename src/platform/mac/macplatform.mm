@@ -19,6 +19,7 @@
 
 #include "macplatform.h"
 
+#include "app/applicationexceptionhandler.h"
 #include "common/log.h"
 #include "copyqpasteboardmime.h"
 #include "foregroundbackgroundfilter.h"
@@ -151,13 +152,13 @@ MacPlatform::MacPlatform()
 
 QCoreApplication *MacPlatform::createConsoleApplication(int &argc, char **argv)
 {
-    return new QCoreApplication(argc, argv);
+    return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);
 }
 
 QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
 {
     MacActivity activity(MacActivity::Background, "CopyQ Server");
-    QApplication *app = new ClipboardApplication(argc, argv);
+    QApplication *app = new ApplicationExceptionHandler<ClipboardApplication>(argc, argv);
 
     // Switch the app to foreground when in foreground
     ForegroundBackgroundFilter::installFilter(app);
@@ -168,13 +169,13 @@ QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
 QApplication *MacPlatform::createMonitorApplication(int &argc, char **argv)
 {
     MacActivity activity(MacActivity::Background, "CopyQ clipboard monitor");
-    return new ClipboardApplication(argc, argv);
+    return new ApplicationExceptionHandler<ClipboardApplication>(argc, argv);
 }
 
 QCoreApplication *MacPlatform::createClientApplication(int &argc, char **argv)
 {
     MacActivity activity(MacActivity::User, "CopyQ Client");
-    return new QCoreApplication(argc, argv);
+    return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);
 }
 
 PlatformClipboardPtr MacPlatform::clipboard()

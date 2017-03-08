@@ -24,7 +24,25 @@
 #include <QString>
 #include <QtGlobal>
 
+#include <exception>
+
 namespace {
+
+class ExceptionQtFatal : public std::exception {
+public:
+    explicit ExceptionQtFatal(const QByteArray &message)
+        : m_message(message)
+    {
+    }
+
+    const char* what() const noexcept override
+    {
+        return m_message.constData();
+    }
+
+private:
+    QByteArray m_message;
+};
 
 void messageHandler(QtMsgType type, const QString &message)
 {
@@ -45,7 +63,7 @@ void messageHandler(QtMsgType type, const QString &message)
         break;
     case QtFatalMsg:
         log("QtFatal: " + message, LogError);
-        abort();
+        throw ExceptionQtFatal( message.toUtf8() );
     }
 }
 

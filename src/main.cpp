@@ -18,6 +18,7 @@
 */
 
 #include "app/app.h"
+#include "app/applicationexceptionhandler.h"
 #include "app/clipboardclient.h"
 #include "app/clipboardmonitor.h"
 #include "app/clipboardserver.h"
@@ -34,6 +35,8 @@
 #ifdef HAS_TESTS
 #  include "tests/tests.h"
 #endif // HAS_TESTS
+
+#include <exception>
 
 Q_DECLARE_METATYPE(QByteArray*)
 
@@ -158,9 +161,7 @@ QString getSessionName(const QStringList &arguments, int *skipArguments)
     return getTextData( qgetenv("COPYQ_SESSION_NAME") );
 }
 
-} // namespace
-
-int main(int argc, char **argv)
+int startApplication(int argc, char **argv)
 {
     installMessageHandlerForQt();
 
@@ -211,4 +212,19 @@ int main(int argc, char **argv)
     // If argument was specified and server is running
     // then run this process as client.
     return startClient(argc, argv, skipArguments, sessionName);
+}
+
+} // namespace
+
+int main(int argc, char **argv)
+{
+    try {
+        return startApplication(argc, argv);
+    } catch (const std::exception &e) {
+        logException(e.what());
+        throw;
+    } catch (...) {
+        logException();
+        throw;
+    }
 }

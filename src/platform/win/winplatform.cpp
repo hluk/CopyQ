@@ -17,6 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "app/applicationexceptionhandler.h"
 #include "common/log.h"
 #include "common/settings.h"
 
@@ -167,7 +168,7 @@ void installControlHandler()
 template <typename Application>
 Application *createApplication(int &argc, char **argv)
 {
-    Application *app = new Application(argc, argv);
+    Application *app = new ApplicationExceptionHandler<Application>(argc, argv);
     installControlHandler();
     setBinaryFor(0);
     setBinaryFor(1);

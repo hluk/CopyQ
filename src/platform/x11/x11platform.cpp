@@ -19,6 +19,7 @@
 
 #include "x11platform.h"
 
+#include "app/applicationexceptionhandler.h"
 #include "common/common.h"
 
 #include <QApplication>
@@ -205,23 +206,23 @@ void X11Platform::setAutostartEnabled(bool enable)
 
 QCoreApplication *X11Platform::createConsoleApplication(int &argc, char **argv)
 {
-    return new QCoreApplication(argc, argv);
+    return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);
 }
 
 QApplication *X11Platform::createServerApplication(int &argc, char **argv)
 {
     old_xio_errhandler = XSetIOErrorHandler(copyq_xio_errhandler);
-    return new QApplication(argc, argv);
+    return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
 QApplication *X11Platform::createMonitorApplication(int &argc, char **argv)
 {
-    return new QApplication(argc, argv);
+    return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
 QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)
 {
-    return new QCoreApplication(argc, argv);
+    return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);
 }
 
 PlatformClipboardPtr X11Platform::clipboard()
