@@ -113,7 +113,7 @@ if (PEDANTIC)
         -Wold-style-cast \
         -Woverloaded-virtual \
         -Wredundant-decls \
-        -Wstrict-overflow=5 \
+        -Wstrict-overflow=4 \
         -Wundef \
         ")
 

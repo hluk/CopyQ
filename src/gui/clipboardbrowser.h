@@ -94,7 +94,7 @@ class ClipboardBrowser : public QListView
         void reverseItems(const QModelIndexList &indexes);
 
         /** Index of item in given row. */
-        QModelIndex index(int i) const { return model()->index(i,0); }
+        QModelIndex index(int i) const { return m.index(i,0); }
 
         /** Returns concatenation of selected items. */
         const QString selectedText() const;
@@ -170,7 +170,7 @@ class ClipboardBrowser : public QListView
         void addUnique(const QVariantMap &data);
 
         /** Number of items in list. */
-        int length() const { return model()->rowCount(); }
+        int length() const { return m.rowCount(); }
 
         /** Receive key event. */
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }

@@ -926,9 +926,9 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
 
     dialog.adjustSize();
 
-    if (geometry.height() <= 0)
+    if (geometry.height() == 0)
         geometry.setHeight(dialog.height());
-    if (geometry.width() <= 0)
+    if (geometry.width() == 0)
         geometry.setWidth(dialog.width());
     if (geometry.isValid())
         dialog.resize(geometry.size());

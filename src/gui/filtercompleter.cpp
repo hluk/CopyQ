@@ -64,11 +64,12 @@ public:
 
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override
     {
-        if ( parent.isValid() || row < 0 || row + count > rowCount() )
+        const auto end = row + count;
+        if ( parent.isValid() || row < 0 || end > rowCount() )
             return false;
 
-        beginRemoveRows(QModelIndex(), row, row + count);
-        m_items.erase( m_items.begin() + row, m_items.begin() + row + count );
+        beginRemoveRows(QModelIndex(), row, end);
+        m_items.erase( m_items.begin() + row, m_items.begin() + end );
         endRemoveRows();
 
         return true;

@@ -33,6 +33,8 @@
 #include <QEvent>
 #include <QPainter>
 
+#include <algorithm>
+
 namespace {
 
 const char propertySelectedItem[] = "CopyQ_selected";
@@ -46,7 +48,7 @@ inline void reset(ItemWidget **ptr, ItemWidget *value = nullptr)
 int itemMargin()
 {
     const int dpi = QApplication::desktop()->physicalDpiX();
-    return ( dpi <= 120 ) ? 4 : 4 * dpi / 120;
+    return std::max(4, dpi / 30);
 }
 
 } // namespace

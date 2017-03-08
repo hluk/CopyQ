@@ -1380,7 +1380,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
          && (!editing() || currentIndex().row() != 0)
          )
     {
-        const QModelIndex firstIndex = model()->index(0, 0);
+        const QModelIndex firstIndex = index(0);
         const QVariantMap previousData = itemData(firstIndex);
 
         if ( previousData.contains(mimeText)
@@ -1396,7 +1396,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
 
             if ( add(newData) ) {
                 const bool reselectFirst = !editing() && currentIndex().row() == 1;
-                model()->removeRow(1);
+                m.removeRow(1);
 
                 if (reselectFirst)
                     setCurrent(0);

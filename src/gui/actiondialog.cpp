@@ -108,7 +108,7 @@ void ActionDialog::restoreHistory()
 
     ui->comboBoxCommands->clear();
     ui->comboBoxCommands->addItem(QString());
-    while( !in.atEnd() && ui->comboBoxCommands->count() < maxCount + 1 ) {
+    while( !in.atEnd() && ui->comboBoxCommands->count() <= maxCount ) {
         in >> v;
         const QVariantMap values = v.value<QVariantMap>();
         const QString cmd = values.value("cmd").toString();

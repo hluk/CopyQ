@@ -35,6 +35,7 @@ if (PEDANTIC)
         -Wno-documentation-unknown-command \
         -Wno-shadow \
         -Wno-missing-declarations \
+        -Wno-strict-overflow \
         ${IGNORE_PEDANTIC_FLAGS} \
         ")
 endif()

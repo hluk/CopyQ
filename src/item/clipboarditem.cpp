@@ -134,33 +134,35 @@ void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 
 QVariant ClipboardItem::data(int role) const
 {
-    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+    switch(role) {
+    case Qt::DisplayRole:
+    case Qt::EditRole:
         if ( m_data.contains(mimeText) )
             return getTextData(m_data);
         if ( m_data.contains(mimeUriList) )
             return getTextData(m_data, mimeUriList);
-    } else if (role >= Qt::UserRole) {
-        if (role == contentType::data) {
-            return m_data; // copy-on-write, so this should be fast
-        } else if (role == contentType::hash) {
-            return dataHash();
-        } else if (role == contentType::hasText) {
-            return m_data.contains(mimeText) || m_data.contains(mimeUriList);
-        } else if (role == contentType::hasHtml) {
-            return m_data.contains(mimeHtml);
-        } else if (role == contentType::hasNotes) {
-            return m_data.contains(mimeItemNotes);
-        } else if (role == contentType::text) {
-            return getTextData(m_data);
-        } else if (role == contentType::html) {
-            return getTextData(m_data, mimeHtml);
-        } else if (role == contentType::notes) {
-            return getTextData(m_data, mimeItemNotes);
-        } else if (role == contentType::color) {
-            return getTextData(m_data, mimeColor);
-        } else if (role == contentType::isHidden) {
-            return m_data.contains(mimeHidden);
-        }
+        break;
+
+    case contentType::data:
+        return m_data; // copy-on-write, so this should be fast
+    case contentType::hash:
+        return dataHash();
+    case contentType::hasText:
+        return m_data.contains(mimeText) || m_data.contains(mimeUriList);
+    case contentType::hasHtml:
+        return m_data.contains(mimeHtml);
+    case contentType::hasNotes:
+        return m_data.contains(mimeItemNotes);
+    case contentType::text:
+        return getTextData(m_data);
+    case contentType::html:
+        return getTextData(m_data, mimeHtml);
+    case contentType::notes:
+        return getTextData(m_data, mimeItemNotes);
+    case contentType::color:
+        return getTextData(m_data, mimeColor);
+    case contentType::isHidden:
+        return m_data.contains(mimeHidden);
     }
 
     return QVariant();

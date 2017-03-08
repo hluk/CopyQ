@@ -33,6 +33,7 @@
 #else
 #   define QDEBUG() if (false) DummyDebug()
 class DummyDebug {
+public:
     template <typename T>
     DummyDebug operator<<(T&&) { return DummyDebug(); }
 };
