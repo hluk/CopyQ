@@ -20,9 +20,8 @@
 #ifndef APP_H
 #define APP_H
 
-#include <QString>
-
 class QCoreApplication;
+class QString;
 
 /** Application class. */
 class App
@@ -31,7 +30,7 @@ public:
     explicit App(
             const QString &threadName,
             QCoreApplication *application,
-            const QString &sessionName = QString()
+            const QString &sessionName
             );
 
     virtual ~App();
