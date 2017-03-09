@@ -870,7 +870,7 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
     }
 
     QListView::currentChanged(current, previous);
-    d.currentChanged(current, previous);
+    d.setWidgetVisible(previous, false);
 
     if ( previous.isValid() && d.hasCache(previous) ) {
         ItemWidget *item = d.cache(previous);
@@ -937,6 +937,13 @@ void ClipboardBrowser::dropEvent(QDropEvent *event)
 
 void ClipboardBrowser::paintEvent(QPaintEvent *e)
 {
+    const auto current = currentIndex();
+    if ( current.isValid() ) {
+        const auto rect = visualRect(current);
+        const auto showCurrent = 0 < rect.bottom() && rect.top() < viewport()->height();
+        d.setWidgetVisible(current, showCurrent);
+    }
+
     QListView::paintEvent(e);
 
     // If dragging an item into list, draw indicator for dropping items.

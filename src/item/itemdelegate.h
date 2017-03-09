@@ -118,7 +118,7 @@ class ItemDelegate : public QItemDelegate
 
         void highlightMatches(ItemWidget *itemWidget) const;
 
-        void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+        void setWidgetVisible(const QModelIndex &index, bool visible);
 
     public slots:
         void dataChanged(const QModelIndex &a, const QModelIndex &b);

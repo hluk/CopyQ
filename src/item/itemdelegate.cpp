@@ -231,10 +231,16 @@ void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
     itemWidget->setHighlight(m_re, m_foundFont, m_foundPalette);
 }
 
-void ItemDelegate::currentChanged(const QModelIndex &, const QModelIndex &previous)
+void ItemDelegate::setWidgetVisible(const QModelIndex &index, bool visible)
 {
-    if ( previous.isValid() ) {
-        auto w = m_cache[previous.row()];
+    if ( !index.isValid() )
+        return;
+
+    if (visible) {
+        auto w = cache(index);
+        w->widget()->show();
+    } else {
+        auto w = m_cache[index.row()];
         if (w)
             w->widget()->hide();
     }
@@ -378,12 +384,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     }
 
     const auto offset = rect.topLeft() + QPoint(rowNumberWidth() + m_hMargin, m_vMargin);
-    if ( m_view->currentIndex() == index ) {
-        ww->move(offset);
-        ww->show();
-    } else {
+    if ( ww->isHidden() ) {
         const auto p = painter->deviceTransform().map(offset);
         highlightMatches(w);
         ww->render(painter, p);
+    } else {
+        ww->move(offset);
+        ww->show();
     }
 }
