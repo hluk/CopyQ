@@ -2935,6 +2935,7 @@ void MainWindow::updateTrayMenuItems()
                 appIcon(), tr("&Show/Hide"), this, SLOT(toggleVisible()) );
     m_trayMenu->setDefaultAction(act);
     addTrayAction(Actions::File_Preferences);
+    addTrayAction(Actions::File_ToggleClipboardStoring);
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
 
