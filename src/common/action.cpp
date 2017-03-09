@@ -284,6 +284,9 @@ bool Action::waitForStarted(int msecs)
 
 bool Action::waitForFinished(int msecs)
 {
+    if ( !isRunning() )
+        return true;
+
     for ( int waitMsec = 0;
           waitMsec < msecs && !m_processes.isEmpty() && !m_processes.last()->waitForFinished(100);
           waitMsec += 100 )

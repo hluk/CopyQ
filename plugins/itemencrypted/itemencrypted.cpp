@@ -98,7 +98,7 @@ bool verifyProcess(QProcess *p)
 
 bool waitOrTerminate(QProcess *p)
 {
-    if (!p->waitForFinished()) {
+    if ( p->state() != QProcess::NotRunning && !p->waitForFinished() ) {
         p->terminate();
         if ( !p->waitForFinished(5000) )
             p->kill();

@@ -684,7 +684,7 @@ void terminateProcess(QProcess *p)
         return;
 
     p->terminate();
-    if ( !p->waitForFinished(5000) ) {
+    if ( p->state() != QProcess::NotRunning && !p->waitForFinished(5000) ) {
         p->kill();
         p->waitForFinished(5000);
     }
