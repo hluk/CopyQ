@@ -179,7 +179,7 @@ ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &setting
              SLOT(onRowsRemoved(QModelIndex,int,int)) );
     connect( model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
              SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
-    connect( model, SIGNAL(dataChanged(QModelIndex,QModelIndex, QVector<int>)),
+    connect( model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(onDataChanged(QModelIndex,QModelIndex)) );
 
     updateLastPinned( 0, m_model->rowCount() );
