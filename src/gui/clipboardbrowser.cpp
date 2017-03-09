@@ -481,22 +481,35 @@ void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
 
 int ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
 {
-    QList<int> rows;
-    rows.reserve( indexes.size() );
+    QList<QPersistentModelIndex> toRemove;
+    toRemove.reserve( indexes.size() );
 
     for (const auto &index : indexes) {
         if ( index.isValid() )
-            rows.append( index.row() );
+            toRemove.append(index);
     }
 
-    std::sort( rows.begin(), rows.end(), std::greater<int>() );
+    std::sort( std::begin(toRemove), std::end(toRemove) );
 
-    for (int row : rows)
-        m.removeRow(row);
+    const auto first = toRemove.value(0).row();
 
-    delayedSaveItems();
+    // Remove ranges of rows instead of a single rows.
+    for (auto it1 = std::begin(toRemove); it1 != std::end(toRemove); ) {
+        if ( it1->isValid() ) {
+            const auto firstRow = it1->row();
+            auto rowCount = 0;
 
-    return rows.last();
+            for ( ++it1, ++rowCount; it1 != std::end(toRemove)
+                  && it1->isValid()
+                  && it1->row() == firstRow + rowCount; ++it1, ++rowCount ) {}
+
+            m.removeRows(firstRow, rowCount);
+        } else {
+            ++it1;
+        }
+    }
+
+    return first;
 }
 
 void ClipboardBrowser::focusEditedIndex()
