@@ -59,12 +59,20 @@ On Windows you can install [Chocolatey package](https://chocolatey.org/packages/
 
 ## Ubuntu 
 
-Add the repository with the following commands to automatically receive the latest version:
+Add the repository with the following commands (this needs to be done only once).
 
-    $ ubuntu_version=$(lsb_release -s -r)
-    $ repo_url="http://download.opensuse.org/repositories/home:/lukho:/copyq/xUbuntu_$ubuntu_version"
-    $ sudo add-apt-repository "deb $repo_url ./"
-    $ wget -q -O - "$repo_url/Release.key" | sudo apt-key add -
+```bash
+url="http://download.opensuse.org/repositories/home:/lukho:/copyq/xUbuntu_$(lsb_release -s -r)"
+sudo add-apt-repository "deb $url ./"
+wget -q -O - "$url/Release.key" | sudo apt-key add -
+```
+
+Install the app from Ubuntu Sotware Center or from command line.
+
+```bash
+apt update
+apt install copyq
+```
 
 ## Starting CopyQ
 
