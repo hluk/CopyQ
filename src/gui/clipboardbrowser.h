@@ -397,6 +397,8 @@ class ClipboardBrowser : public QListView
         void preload(int pixelsAboveCurrent, int pixelsBelowCurrent, const QModelIndex &current);
         void preload(int pixels, bool above, const QModelIndex &current);
 
+        void updateCurrentIndex();
+
         ItemSaverPtr m_itemSaver;
         QString m_tabName;
         ClipboardModel m;

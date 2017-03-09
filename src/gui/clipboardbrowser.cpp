@@ -828,8 +828,6 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 
     loadItems();
 
-    if (!currentIndex().isValid())
-        setCurrent(0);
     if ( m.rowCount() > 0 && !d.hasCache(index(0)) )
         scrollToTop();
 
@@ -895,6 +893,8 @@ void ClipboardBrowser::focusInEvent(QFocusEvent *event)
     if (editing()) {
         focusNextChild();
     } else {
+        if ( !currentIndex().isValid() )
+            setCurrent(0);
         QListView::focusInEvent(event);
         updateCurrentItem();
     }
@@ -1338,10 +1338,11 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     int newRow = row < 0 ? m.rowCount() : qMin(row, m.rowCount());
     m.insertItem(data, newRow);
 
-    // filter item
     if ( !hideFiltered(newRow) ) {
-        // Select new item if clipboard is not focused and the item is not filtered-out.
-        selectionModel()->setCurrentIndex(index(newRow), QItemSelectionModel::ClearAndSelect);
+        if ( hasFocus() )
+            setCurrent(newRow);
+        else
+            setCurrentIndex(QModelIndex());
     }
 
     delayedSaveItems();
@@ -1395,7 +1396,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
                 newData.insert(format, previousData[format]);
 
             if ( add(newData) ) {
-                const bool reselectFirst = !editing() && currentIndex().row() == 1;
+                const bool reselectFirst = !editing() && hasFocus() && currentIndex().row() == 1;
                 m.removeRow(1);
 
                 if (reselectFirst)
@@ -1469,9 +1470,9 @@ void ClipboardBrowser::loadItemsAgain()
         delete m_loadButton;
         m_loadButton = nullptr;
         d.rowsInserted(QModelIndex(), 0, m.rowCount());
-        setCurrent(0);
+        if ( hasFocus() )
+            setCurrent(0);
         onItemCountChanged();
-        emit updateContextMenu(this);
     } else if (m_loadButton == nullptr) {
         Q_ASSERT(length() == 0 && "Disabled model should be empty");
         m_loadButton = new QPushButton(this);
