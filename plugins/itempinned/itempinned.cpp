@@ -173,10 +173,16 @@ ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &setting
     , m_settings(settings)
     , m_saver(saver)
 {
-    connect( model, SIGNAL(rowsInserted(QModelIndex, int, int)),
-             SLOT(onRowsInserted(QModelIndex, int, int)) );
+    connect( model, SIGNAL(rowsInserted(QModelIndex,int,int)),
+             SLOT(onRowsInserted(QModelIndex,int,int)) );
     connect( model, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              SLOT(onRowsRemoved(QModelIndex,int,int)) );
+    connect( model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+             SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
+    connect( model, SIGNAL(dataChanged(QModelIndex,QModelIndex, QVector<int>)),
+             SLOT(onDataChanged(QModelIndex,QModelIndex)) );
+
+    updateLastPinned( 0, m_model->rowCount() );
 }
 
 bool ItemPinnedSaver::saveItems(const QAbstractItemModel &model, QIODevice *file)
@@ -221,30 +227,66 @@ QVariantMap ItemPinnedSaver::copyItem(const QAbstractItemModel &model, const QVa
 
 void ItemPinnedSaver::onRowsInserted(const QModelIndex &, int start, int end)
 {
-    if (!m_model)
+    if (!m_model || m_lastPinned < start) {
+        updateLastPinned(start, end);
         return;
+    }
+
+    disconnect( m_model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+                this, SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
 
     // Shift rows below inserted up.
     const int rowCount = end - start + 1;
-    for (int row = end + 1; row < m_model->rowCount(); ++row) {
+    for (int row = end + 1; row <= m_lastPinned + rowCount; ++row) {
         const auto index = m_model->index(row, 0);
         if ( isPinned(index) )
             moveRow(row, row - rowCount);
     }
+
+    connect( m_model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+             SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
 }
 
 void ItemPinnedSaver::onRowsRemoved(const QModelIndex &, int start, int end)
 {
-    if (!m_model)
+    if (!m_model || m_lastPinned < start)
         return;
+
+    disconnect( m_model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+                this, SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
 
     // Shift rows below removed down.
     const int rowCount = end - start + 1;
-    for (int row = m_model->rowCount() - 1; row >= end; --row) {
+    for (int row = m_lastPinned - rowCount; row >= start; --row) {
         const auto index = m_model->index(row, 0);
         if ( isPinned(index) )
             moveRow(row, row + rowCount + 1);
     }
+
+    connect( m_model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+             SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
+}
+
+void ItemPinnedSaver::onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow)
+{
+    if ( (m_lastPinned < start && m_lastPinned < destinationRow)
+         || (end < m_lastPinned && destinationRow < m_lastPinned) )
+    {
+        return;
+    }
+
+    if (start < destinationRow)
+        updateLastPinned(start, destinationRow + end - start + 1);
+    else
+        updateLastPinned(destinationRow, end);
+}
+
+void ItemPinnedSaver::onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
+{
+    if ( bottomRight.row() < m_lastPinned )
+        return;
+
+    updateLastPinned( topLeft.row(), bottomRight.row() );
 }
 
 void ItemPinnedSaver::moveRow(int from, int to)
@@ -254,6 +296,17 @@ void ItemPinnedSaver::moveRow(int from, int to)
 #else
     m_model->moveRow(QModelIndex(), from, QModelIndex(), to);
 #endif
+}
+
+void ItemPinnedSaver::updateLastPinned(int from, int to)
+{
+    for (int row = to; row >= from; --row) {
+        const auto index = m_model->index(row, 0);
+        if ( isPinned(index) ) {
+            m_lastPinned = row;
+            break;
+        }
+    }
 }
 
 ItemPinnedLoader::ItemPinnedLoader()

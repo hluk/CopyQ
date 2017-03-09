@@ -96,13 +96,19 @@ public:
 private slots:
     void onRowsInserted(const QModelIndex &parent, int first, int last);
     void onRowsRemoved(const QModelIndex &parent, int first, int last);
+    void onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow);
+    void onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
 private:
     void moveRow(int from, int to);
+    void updateLastPinned(int from, int to);
 
     QPointer<QAbstractItemModel> m_model;
     QVariantMap m_settings;
     ItemSaverPtr m_saver;
+
+    // Last pinned row in list (improves performace of updates).
+    int m_lastPinned = -1;
 };
 
 class ItemPinnedLoader : public QObject, public ItemLoaderInterface
