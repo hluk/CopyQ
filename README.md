@@ -63,8 +63,8 @@ Install and keep CopyQ always up to date by running the following three commands
 
 ```bash
 $ sudo add-apt-repository ppa:hluk/copyq
-$ sudo apt get update
-$ sudo apt-get install
+$ sudo apt update
+$ sudo apt install copyq
 ```
 
 ## Starting CopyQ
