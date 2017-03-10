@@ -59,12 +59,25 @@ Features
 Install and Run
 ---------------
 
-To install CopyQ, use binary package or installer provided for your system or
-follow instructions in
+To install CopyQ, use the binary package or installer provided for your system. For system-specific information, please see below. For unlisted systems, please follow the instructions in
 [INSTALL](https://github.com/hluk/CopyQ/blob/master/INSTALL) to build the
 application.
 
+## Windows
+
 On Windows you can install [Chocolatey package](https://chocolatey.org/packages/copyq).
+
+## Ubuntu
+
+Install and keep CopyQ always up to date by running the following three commands from the terminal:
+
+```bash
+$ sudo add-apt-repository ppa:hluk/copyq
+$ sudo apt update
+$ sudo apt install copyq
+```
+
+## Starting CopyQ
 
 To start CopyQ run `copyq` command without parameters. The application main
 window is accessible by clicking on system tray icon or running `copyq toggle`.
