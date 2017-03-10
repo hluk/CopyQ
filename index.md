@@ -107,6 +107,7 @@ Optional dependency for X11 is XTest extension (Ubuntu package `libxtst6` and
 
 * `PgDown/PgUp`, `Home/End`, `Up/Down` - item list navigation
 * `Left`, `Right`, `Ctrl+Tab`, `Ctrl+Shift+Tab` - tab navigation
+* `Ctrl+T`, `Ctrl+W` - create and remove tabs
 * `Ctrl+Up`, `Ctrl+Down` - move selected items
 * `Ctrl+Left`, `Ctrl+Right` - cycle through item formats
 * `Esc` - cancel search, hide window
