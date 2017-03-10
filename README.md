@@ -59,19 +59,12 @@ On Windows you can install [Chocolatey package](https://chocolatey.org/packages/
 
 ## Ubuntu 
 
-Add the repository with the following commands (this needs to be done only once).
+Install and keep CopyQ always up to date by running the following three commands from the terminal:
 
 ```bash
-url="http://download.opensuse.org/repositories/home:/lukho:/copyq/xUbuntu_$(lsb_release -s -r)"
-sudo add-apt-repository "deb $url ./"
-wget -q -O - "$url/Release.key" | sudo apt-key add -
-```
-
-Install the app from Ubuntu Sotware Center or from command line.
-
-```bash
-apt update
-apt install copyq
+$ sudo add-apt-repository ppa:hluk/copyq
+$ sudo apt get update
+$ sudo apt-get install
 ```
 
 ## Starting CopyQ
