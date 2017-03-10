@@ -4,8 +4,7 @@ layout: index
 
 CopyQ is advanced clipboard manager with editing and scripting features.
 
-Links
------
+## Links
 
 - [Downloads](https://github.com/hluk/CopyQ/releases)
 - [Wiki](https://github.com/hluk/CopyQ/wiki)
@@ -14,8 +13,7 @@ Links
 - [Donate](https://www.bountysource.com/teams/copyq)
 - [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
 
-Overview
---------
+## Overview
 
 CopyQ monitors system clipboard and saves its content in customized tabs.
 Saved clipboard can be later copied and pasted directly into any application.
@@ -29,8 +27,7 @@ Items can be:
 * passed to or changed by custom commands,
 * or simply removed.
 
-Screenshots
------------
+## Screenshots
 
 ![Preview](images/application.png)
 ![Items](images/screenshot-items.png)
@@ -40,8 +37,7 @@ Screenshots
 ![Run Action and Create Items](images/screenshot-action.png)
 ![Open in Web Browser](images/screenshot-browser.png)
 
-Features
---------
+## Features
 
 * Support for Linux, Windows and OS X 10.9+
 * Store text, HTML, images or any other custom formats
@@ -56,18 +52,17 @@ Features
 * Support for simple Vim-like editor and shortcuts
 * Many more features
 
-Install and Run
----------------
+## Install and Run
 
 To install CopyQ, use the binary package or installer provided for your system. For system-specific information, please see below. For unlisted systems, please follow the instructions in
 [INSTALL](https://github.com/hluk/CopyQ/blob/master/INSTALL) to build the
 application.
 
-## Windows
+### Windows
 
 On Windows you can install [Chocolatey package](https://chocolatey.org/packages/copyq).
 
-## Ubuntu
+### Ubuntu
 
 Install and keep CopyQ always up to date by running the following three commands from the terminal:
 
@@ -77,7 +72,7 @@ $ sudo apt update
 $ sudo apt install copyq
 ```
 
-## Starting CopyQ
+### Starting CopyQ
 
 To start CopyQ run `copyq` command without parameters. The application main
 window is accessible by clicking on system tray icon or running `copyq toggle`.
@@ -85,16 +80,14 @@ window is accessible by clicking on system tray icon or running `copyq toggle`.
 To exit the application select Exit from tray menu or press Ctrl-Q keys in the
 application window.
 
-Developers and Translators
--------------------------
+## Developers and Translators
 
 If you want to help with translating, fixing or writing code read
 [HACKING](https://github.com/hluk/CopyQ/blob/master/HACKING) file.
 
 [![Translations](https://hosted.weblate.org/widgets/copyq-287x66-grey.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
 
-Dependencies
-------------
+## Dependencies
 
 To build and run the application you'll need [Qt](https://www.qt.io/download/)
 library. To compile on OS X, you will need at least Qt 5.2.
@@ -110,66 +103,28 @@ Optional dependency for X11 is XTest extension (Ubuntu package `libxtst6` and
 `libxtst-dev` for compilation). This is needed for some applications like
 `gedit` so that automatic pasting works correctly.
 
-Keyboard navigation
--------------------
-* `PgDown/PgUp`, `Home/End`, `Up/Down`
+## Keyboard navigation
 
-    item list navigation
+* `PgDown/PgUp`, `Home/End`, `Up/Down` - item list navigation
+* `Left`, `Right`, `Ctrl+Tab`, `Ctrl+Shift+Tab` - tab navigation
+* `Ctrl+Up`, `Ctrl+Down` - move selected items
+* `Ctrl+Left`, `Ctrl+Right` - cycle through item formats
+* `Esc` - cancel search, hide window
+* `Ctrl+Q` - exit
+* `F2` - edit selected items
+* `Ctrl+E` - edit items in an external editor
+* `F5` - open action dialog for selected items
+* `Delete` - delete selected items
+* `Ctrl+A` - select all
+* `Enter` - put current item into clipboard and paste item (optional)
+* `F1` - show help
 
-* `Left`, `Right`, `Ctrl+Tab`, `Ctrl+Shift+Tab`
-
-    tab navigation
-
-* `Ctrl+Up`, `Ctrl+Down`
-
-    move selected items
-
-* `Ctrl+Left`, `Ctrl+Right`
-
-    cycle through item formats
-
-* `Escape`
-
-    hide window
-
-* `Ctrl+Q`
-
-    exit
-
-* `F2`
-
-    edit selected items (in place)
-
-* `Ctrl+E`
-
-    edit items in external editor
-
-* `F5`
-
-    open action dialog for selected items
-
-* `Delete`
-
-    delete selected items
-
-* `Ctrl+A`
-
-    select all
-
-* `Enter`
-
-    put current item into clipboard
-
-* `F1`
-
-    show help
-
-Type a regular expressions (case-insensitive) to search/filter items.
+Start typing a text to search items.
 
 On OS X, use Command instead of Ctrl for the shortcuts above.
 
-Basic Usage
------------
+## Basic Usage
+
 To start CopyQ run `copyq` from command line or just launch the application from
 menu or installed location.
 
@@ -191,8 +146,7 @@ shortcut, go to Command dialog `F6`, click Add button and select
 predefined command or create new one.
 One of very useful predefined commands there is "Show/hide main window".
 
-Command Line
-------------
+## Command Line
 
 CopyQ has powerful command line and scripting interface.
 
