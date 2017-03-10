@@ -1738,13 +1738,10 @@ void Scriptable::showExceptionMessage(const QString &message)
     if (!m_proxy)
         return;
 
-    const auto name = m_actionName.isEmpty()
-            ? tr("Command")
-            : quoteString(m_actionName);
-
-    m_proxy->showMessage(
-                tr("Exception in %1").arg(name), message,
-                QSystemTrayIcon::Warning, 8000 );
+    const auto title = m_actionName.isEmpty()
+        ? tr("Exception")
+        : tr("Exception in %1").arg( quoteString(m_actionName) );
+    m_proxy->showMessage(title, message, QSystemTrayIcon::Warning, 8000);
 }
 
 QList<int> Scriptable::getRows() const

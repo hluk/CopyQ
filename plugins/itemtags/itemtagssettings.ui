@@ -65,7 +65,7 @@
      <item>
       <widget class="QPushButton" name="pushButtonAddCommands">
        <property name="text">
-        <string>Add Tags to Menu and Toolbar</string>
+        <string>Add Actions to Menu and Toolbar</string>
        </property>
       </widget>
      </item>

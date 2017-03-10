@@ -124,7 +124,9 @@ public:
     QString id() const override { return "itempinned"; }
     QString name() const override { return tr("Pinned Items"); }
     QString author() const override { return QString(); }
-    QString description() const override { return tr("Pin item to a row and avoid deleting it."); }
+    QString description() const override {
+        return tr("Pin items to lock them in current row and avoid deletion (unless unpinned).");
+    }
     QVariant icon() const override { return QVariant(IconThumbTack); }
 
     QStringList formatsToSave() const override;

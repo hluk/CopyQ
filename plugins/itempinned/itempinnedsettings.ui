@@ -12,31 +12,11 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Pin selected items from menu or tool bar.</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Pinned items stay locked in current row and can't be deleted (unless unpinned).</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="pushButtonAddCommands">
        <property name="text">
-        <string>Add Pin and Unpin to Menu and Tool Bar</string>
+        <string>Add Actions to Menu and Toolbar</string>
        </property>
       </widget>
      </item>

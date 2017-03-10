@@ -69,7 +69,7 @@
      <item>
       <widget class="QPushButton" name="pushButtonAddCommands">
        <property name="text">
-        <string>Add Encrypt and Decrypt to Menu and Toolbar</string>
+        <string>Add Actions to Menu and Toolbar</string>
        </property>
       </widget>
      </item>
