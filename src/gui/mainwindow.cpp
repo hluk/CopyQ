@@ -1006,11 +1006,21 @@ QAction *MainWindow::enableActionForCommand(QMenu *menu, const Command &command,
 
 void MainWindow::addCommandsToItemMenu(const Command &command, bool passed)
 {
-    QAction *act = enableActionForCommand(m_menuItem, command, passed);
+    auto act = enableActionForCommand(m_menuItem, command, passed);
     if (act) {
-        const QList<QKeySequence> shortcuts = act->shortcuts();
-        if (!shortcuts.isEmpty())
+        const auto shortcuts = act->shortcuts();
+        if ( !shortcuts.isEmpty() ) {
             setDisabledShortcuts(m_disabledShortcuts + shortcuts);
+
+            if ( !isItemMenuDefaultActionValid() ) {
+                for (const auto &shortcut : shortcuts) {
+                    if ( isItemActivationShortcut(shortcut) ) {
+                        m_menuItem->setDefaultAction(act);
+                        break;
+                    }
+                }
+            }
+        }
 
         updateToolBar();
     }
@@ -1416,8 +1426,6 @@ void MainWindow::addCommandsToItemMenu(const QVariantMap &data)
 
     QList<QKeySequence> usedShortcuts = m_disabledShortcuts;
 
-    m_activateCurrentItemAction = nullptr;
-
     QList<Command> disabledCommands;
 
     for (const auto &command : commands) {
@@ -1443,10 +1451,8 @@ void MainWindow::addCommandsToItemMenu(const QVariantMap &data)
                     usedShortcuts.append(shortcut);
                 uniqueShortcuts.append(shortcut);
 
-                if (m_activateCurrentItemAction.isNull() && isItemActivationShortcut(shortcut)) {
-                    m_activateCurrentItemAction = act;
+                if ( !isItemMenuDefaultActionValid() && isItemActivationShortcut(shortcut) )
                     m_menuItem->setDefaultAction(act);
-                }
             }
         }
 
@@ -1492,6 +1498,12 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &data)
 
     m_trayMenuCommandTester.setCommands(disabledCommands, data);
     m_trayMenuCommandTester.start();
+}
+
+bool MainWindow::isItemMenuDefaultActionValid() const
+{
+    const auto defaultAction = m_menuItem->defaultAction();
+    return defaultAction != nullptr && defaultAction->isEnabled();
 }
 
 void MainWindow::updateToolBar()
@@ -2743,10 +2755,10 @@ void MainWindow::setClipboard(const QVariantMap &data)
 
 void MainWindow::activateCurrentItem()
 {
-    if ( !m_activateCurrentItemAction.isNull()
-         && QApplication::queryKeyboardModifiers() == Qt::NoModifier )
+    if ( QApplication::queryKeyboardModifiers() == Qt::NoModifier
+         && isItemMenuDefaultActionValid() )
     {
-        m_activateCurrentItemAction->trigger();
+        m_menuItem->defaultAction()->trigger();
         return;
     }
 

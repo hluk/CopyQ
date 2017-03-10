@@ -631,6 +631,8 @@ private:
     void addCommandsToItemMenu(const QVariantMap &data);
     void addCommandsToTrayMenu(const QVariantMap &data);
 
+    bool isItemMenuDefaultActionValid() const;
+
     void updateToolBar();
 
     void updateWindowTitle();
@@ -680,7 +682,6 @@ private:
 
     ClipboardBrowserSharedPtr m_sharedData;
     QList<Command> m_commands;
-    QPointer<QAction> m_activateCurrentItemAction;
 
     PlatformWindowPtr m_lastWindow;
 
