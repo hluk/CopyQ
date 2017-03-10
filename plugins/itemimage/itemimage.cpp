@@ -127,28 +127,6 @@ QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *pare
     return cmd.isEmpty() ? nullptr : new ItemEditor(data, mime, cmd, parent);
 }
 
-void ItemImage::setCurrent(bool current)
-{
-    if (current) {
-        if ( !m_animationData.isEmpty() ) {
-            if (!m_animation) {
-                QBuffer *stream = new QBuffer(&m_animationData, this);
-                m_animation = new QMovie(stream, m_animationFormat, this);
-                m_animation->setScaledSize( m_pixmap.size() );
-            }
-
-            if (m_animation) {
-                setMovie(m_animation);
-                startAnimation();
-                m_animation->start();
-            }
-        }
-    } else {
-        stopAnimation();
-        setPixmap(m_pixmap);
-    }
-}
-
 void ItemImage::showEvent(QShowEvent *event)
 {
     startAnimation();
@@ -163,14 +141,27 @@ void ItemImage::hideEvent(QHideEvent *event)
 
 void ItemImage::startAnimation()
 {
-    if (movie())
-        movie()->start();
+    if ( !m_animationData.isEmpty() ) {
+        if (!m_animation) {
+            QBuffer *stream = new QBuffer(&m_animationData, this);
+            m_animation = new QMovie(stream, m_animationFormat, this);
+            m_animation->setScaledSize( m_pixmap.size() );
+        }
+
+        if (m_animation) {
+            setMovie(m_animation);
+            movie()->start();
+            m_animation->start();
+        }
+    }
 }
 
 void ItemImage::stopAnimation()
 {
-    if (movie())
-        movie()->stop();
+    if (m_animation) {
+        m_animation->stop();
+        setPixmap(m_pixmap);
+    }
 }
 
 ItemImageLoader::ItemImageLoader()
