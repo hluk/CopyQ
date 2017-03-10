@@ -1709,7 +1709,7 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCo
 
 void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool omitPaste)
 {
-    if (!c)
+    if (!c || !m_options.trayItemPaste)
         return;
 
     PlatformWindowPtr lastWindow = m_lastWindow;
@@ -2870,7 +2870,7 @@ void MainWindow::updateFocusWindows()
     if ( isActiveWindow() || m_trayMenu->isActiveWindow() || m_menu->isActiveWindow() )
         return;
 
-    if ( !m_options.activateFocuses() && !m_options.activatePastes() )
+    if ( !m_options.activateFocuses() && !m_options.activatePastes() && !m_options.trayItemPaste)
         return;
 
     PlatformPtr platform = createPlatformNativeInterface();
