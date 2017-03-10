@@ -35,8 +35,6 @@ class ItemFakeVim : public ItemWidget
 public:
     ItemFakeVim(ItemWidget *childItem, const QString &sourceFileName);
 
-    void setCurrent(bool current) override;
-
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette) override;

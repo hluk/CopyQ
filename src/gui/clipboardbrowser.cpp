@@ -390,16 +390,6 @@ void ClipboardBrowser::stopExpiring()
     m_timerExpire.stop();
 }
 
-void ClipboardBrowser::updateCurrentItem()
-{
-    const QModelIndex current = currentIndex();
-    if ( current.isValid() && d.hasCache(current) ) {
-        ItemWidget *item = d.cache(current);
-        item->setCurrent(false);
-        item->setCurrent( hasFocus() );
-    }
-}
-
 QModelIndex ClipboardBrowser::indexNear(int offset) const
 {
     return ::indexNear(this, offset);
@@ -884,13 +874,6 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
 
     QListView::currentChanged(current, previous);
     d.setWidgetVisible(previous, false);
-
-    if ( previous.isValid() && d.hasCache(previous) ) {
-        ItemWidget *item = d.cache(previous);
-        item->setCurrent(false);
-    }
-
-    updateCurrentItem();
 }
 
 void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
@@ -909,7 +892,6 @@ void ClipboardBrowser::focusInEvent(QFocusEvent *event)
         if ( !currentIndex().isValid() )
             setCurrent(0);
         QListView::focusInEvent(event);
-        updateCurrentItem();
     }
 }
 

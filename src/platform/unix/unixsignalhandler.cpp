@@ -64,7 +64,9 @@ bool UnixSignalHandler::create(QObject *parent)
 void UnixSignalHandler::exitSignalHandler(int)
 {
     const qint64 pid = QCoreApplication::applicationPid();
-    ::write(signalFd[Write], &pid, sizeof(pid));
+    const auto written = ::write(signalFd[Write], &pid, sizeof(pid));
+    if (written == -1)
+        log("Failed to handle signal!", LogError);
 }
 
 void UnixSignalHandler::handleSignal()

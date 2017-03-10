@@ -116,8 +116,18 @@ class ItemDelegate : public QItemDelegate
         /** Load settings for @a editor. */
         void loadEditorSettings(ItemEditorWidget *editor);
 
+        /**
+         * Highlight matched text with current serch expression, font and color.
+         */
         void highlightMatches(ItemWidget *itemWidget) const;
 
+        /**
+         * Show/hide item widget.
+         *
+         * Only current widget should be visible.
+         *
+         * This allows interaction and updates only to happen on current items.
+         */
         void setWidgetVisible(const QModelIndex &index, bool visible);
 
     public slots:

@@ -190,12 +190,6 @@ void ItemWidget::updateSize(const QSize &maximumSize, int idealWidth)
         w->setFixedSize(idealWidth, idealHeight);
 }
 
-void ItemWidget::setCurrent(bool current)
-{
-    // Propagate mouse events to item list until the item is selected.
-    widget()->setAttribute(Qt::WA_TransparentForMouseEvents, !current);
-}
-
 bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
 {
     QEvent::Type type = event->type();

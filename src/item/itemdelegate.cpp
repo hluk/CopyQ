@@ -261,8 +261,6 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
     ww->installEventFilter(this);
 
-    w->setCurrent(m_view->currentIndex() == index);
-
     // TODO: Check if sizeHint() really changes.
     emit sizeHintChanged(index);
 }
