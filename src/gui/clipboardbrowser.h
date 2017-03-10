@@ -368,8 +368,6 @@ class ClipboardBrowser : public QListView
 
         void stopExpiring();
 
-        void updateCurrentItem();
-
         /**
          * Get index near given @a point.
          * If space between items is at the @a point, return next item.

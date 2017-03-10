@@ -123,11 +123,6 @@ public:
     virtual void updateSize(const QSize &maximumSize, int idealSize);
 
     /**
-     * Called if widget is set or unset as current.
-     */
-    virtual void setCurrent(bool current);
-
-    /**
      * Mark item as tagged/untagged.
      *
      * Used to hide unimportant data when notes or tags are present.
