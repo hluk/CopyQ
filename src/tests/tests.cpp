@@ -1317,8 +1317,17 @@ void Tests::deleteItems()
 void Tests::searchItems()
 {
     RUN("add" << "a" << "b" << "c", "");
-    RUN("keys" << "RIGHT" << ":b" << "TAB", "");
+    RUN("keys" << ":b" << "TAB", "");
     RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
+}
+
+void Tests::searchRowNumber()
+{
+    RUN("add" << "d2" << "c" << "b2" << "a", "");
+    RUN("keys" << ":2" << "TAB", "");
+    RUN("testSelected", QString(clipboardTabName) + " 2 2\n");
+    RUN("keys" << "CTRL+A", "");
+    RUN("testSelected", QString(clipboardTabName) + " 2 1 2 3\n");
 }
 
 void Tests::copyItems()

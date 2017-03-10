@@ -418,6 +418,8 @@ class ClipboardBrowser : public QListView
 
         int m_dragTargetRow;
         QPoint m_dragStartPosition;
+
+        int m_filterRow = -1;
 };
 
 #endif // CLIPBOARDBROWSER_H

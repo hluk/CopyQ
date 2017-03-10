@@ -252,7 +252,9 @@ bool ClipboardBrowser::isFiltered(int row) const
         return false;
 
     const QModelIndex ind = m.index(row);
-    return m_sharedData->itemFactory && !m_sharedData->itemFactory->matches( ind, d.searchExpression() );
+    return m_filterRow != row
+            && m_sharedData->itemFactory
+            && !m_sharedData->itemFactory->matches( ind, d.searchExpression() );
 }
 
 bool ClipboardBrowser::hideFiltered(int row)
@@ -1155,6 +1157,12 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
 
     d.setSearch(re);
 
+    // If search string is a number, highlight item in that row.
+    bool ok;
+    m_filterRow = re.pattern().toInt(&ok);
+    if (!ok)
+        m_filterRow = -1;
+
     int row = 0;
     for ( ; row < length() && hideFiltered(row); ++row ) {}
 
@@ -1162,6 +1170,9 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
 
     for ( ; row < length(); ++row )
         hideFiltered(row);
+
+    if ( ok && m_filterRow >= 0 && m_filterRow < m.rowCount() )
+        setCurrentIndex( index(m_filterRow) );
 }
 
 void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)

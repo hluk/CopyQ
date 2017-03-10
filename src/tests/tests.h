@@ -117,6 +117,7 @@ private slots:
     void moveItems();
     void deleteItems();
     void searchItems();
+    void searchRowNumber();
     void copyItems();
 
     void createTabDialog();
