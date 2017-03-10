@@ -42,8 +42,6 @@ public:
     ItemNotes(ItemWidget *childItem, const QString &text, const QByteArray &icon,
               bool notesAtBottom, bool showIconOnly, bool showToolTip);
 
-    void setCurrent(bool current) override;
-
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette) override;
@@ -64,6 +62,9 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
     bool eventFilter(QObject *, QEvent *event) override;
+
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
 
 private slots:
     void showToolTip();

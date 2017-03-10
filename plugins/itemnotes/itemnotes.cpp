@@ -143,21 +143,6 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
     layout->setSpacing(0);
 }
 
-void ItemNotes::setCurrent(bool current)
-{
-    ItemWidget::setCurrent(current);
-
-    if (m_timerShowToolTip == nullptr)
-        return;
-
-    QToolTip::hideText();
-
-    if (current)
-        m_timerShowToolTip->start();
-    else
-        m_timerShowToolTip->stop();
-}
-
 void ItemNotes::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
     m_childItem->setHighlight(re, highlightFont, highlightPalette);
@@ -268,6 +253,26 @@ void ItemNotes::paintEvent(QPaintEvent *event)
 bool ItemNotes::eventFilter(QObject *, QEvent *event)
 {
     return ItemWidget::filterMouseEvents(m_notes, event);
+}
+
+void ItemNotes::showEvent(QShowEvent *event)
+{
+    QWidget::showEvent(event);
+
+    if (m_timerShowToolTip != nullptr) {
+        QToolTip::hideText();
+        m_timerShowToolTip->start();
+    }
+}
+
+void ItemNotes::hideEvent(QHideEvent *event)
+{
+    if (m_timerShowToolTip != nullptr) {
+        QToolTip::hideText();
+        m_timerShowToolTip->stop();
+    }
+
+    QWidget::hideEvent(event);
 }
 
 void ItemNotes::showToolTip()
