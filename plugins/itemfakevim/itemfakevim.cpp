@@ -53,6 +53,9 @@ public:
         , m_handler(new FakeVimHandler(editor, nullptr))
         , m_hasBlockSelection(false)
     {
+        Q_UNUSED(tr)
+        Q_UNUSED(trUtf8)
+
         QVBoxLayout *layout = new QVBoxLayout(this);
         layout->setMargin(0);
         layout->addWidget(editor);
@@ -282,7 +285,10 @@ class Proxy : public QObject
 public:
     Proxy(TextEditWidget *editorWidget, QStatusBar *statusBar, QObject *parent = nullptr)
       : QObject(parent), m_editorWidget(editorWidget), m_statusBar(statusBar)
-    {}
+    {
+        Q_UNUSED(tr)
+        Q_UNUSED(trUtf8)
+    }
 
 public slots:
     void changeStatusData(const QString &info)
@@ -404,6 +410,9 @@ public:
         : QWidget(parent)
         , m_editor(new TextEditWidget(editor, this))
     {
+        Q_UNUSED(tr)
+        Q_UNUSED(trUtf8)
+
         m_editor->editor()->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         // Create status bar.
