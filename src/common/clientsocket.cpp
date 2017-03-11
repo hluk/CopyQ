@@ -21,6 +21,7 @@
 
 #include "common/client_server.h"
 #include "common/log.h"
+#include "common/sleeptimer.h"
 
 #include <QDataStream>
 
@@ -112,6 +113,15 @@ ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
     , m_closed(false)
 {
     m_socket->connectToServer(serverName);
+
+    // Try to connect again in case the server just started.
+    if ( m_socket->state() == QLocalSocket::UnconnectedState ) {
+        COPYQ_LOG("Waiting for server to start");
+        SleepTimer t(1000);
+        do {
+            m_socket->connectToServer(serverName);
+        } while ( m_socket->state() == QLocalSocket::UnconnectedState && t.sleep() );
+    }
 }
 
 ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
