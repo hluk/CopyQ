@@ -557,12 +557,18 @@ QString CommandDialog::serializeSelectedCommands()
     const QString data = getTextData(commandsSettings.content());
     QString commandData;
     commandData.reserve(data.size());
-    QRegExp re("^(\\d+\\\\)?Command=\"");
+    QRegExp re(R"(^(\d+\\)?Command="?)");
 
     for (const auto &line : data.split('\n')) {
         if (line.contains(re)) {
             int i = re.matchedLength();
-            commandData.append(line.left(i) + "\n    ");
+            commandData.append(line.left(i));
+
+            const bool addQuotes = !commandData.endsWith('"');
+            if (addQuotes)
+                commandData.append('"');
+
+            commandData.append("\n    ");
             bool escape = false;
 
             for (; i < line.size(); ++i) {
@@ -583,6 +589,9 @@ QString CommandDialog::serializeSelectedCommands()
                     commandData.append(c);
                 }
             }
+
+            if (addQuotes)
+                commandData.append('"');
         } else {
             commandData.append(line);
         }
