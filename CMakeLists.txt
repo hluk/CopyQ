@@ -121,6 +121,11 @@ if (PEDANTIC)
         -Wno-padded \
         -Wno-switch-enum \
         ")
+
+    # Disable Q_OBJECT macro warnings.
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+        -Wno-unused-member-function \
+        ")
 endif()
 
 if(WITH_TESTS)
