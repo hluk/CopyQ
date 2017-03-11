@@ -28,11 +28,21 @@
 #include <QListView>
 #include <QSettings>
 
+#include <cmath>
+
 namespace {
 
 int normalizeColorValue(float value)
 {
     return qBound( 0, static_cast<int>(value), 255 );
+}
+
+/// Add RGB components properly.
+int addColor(int c1, float multiply, int c2)
+{
+    return multiply > 0.0f
+            ? static_cast<int>( std::sqrt(c1*c1 + multiply * c2*c2) )
+            : c1 + static_cast<int>(multiply * c2);
 }
 
 void addColor(
@@ -50,16 +60,16 @@ void addColor(
         x = multiply * color.toFloat(&ok);
         if (!ok)
             return;
-        toAdd = QColor(Qt::black);
+        toAdd = QColor(1, 1, 1);
     } else if ( color.startsWith('#') || color.startsWith("rgba(") ) {
         toAdd = deserializeColor(color);
     } else if (maxRecursion > 0) {
         toAdd = evalColor(theme.value(color).toString(), theme, maxRecursion - 1);
     }
 
-    *r = normalizeColorValue(*r + x * toAdd.red());
-    *g = normalizeColorValue(*g + x * toAdd.green());
-    *b = normalizeColorValue(*b + x * toAdd.blue());
+    *r = normalizeColorValue( addColor(*r, x, toAdd.red()) );
+    *g = normalizeColorValue( addColor(*g, x, toAdd.green()) );
+    *b = normalizeColorValue( addColor(*b, x, toAdd.blue()) );
     if (multiply > 0.0f)
         *a = normalizeColorValue(*a + x * toAdd.alpha());
 }
