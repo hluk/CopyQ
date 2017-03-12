@@ -413,8 +413,8 @@ Pode definir o comando nas preferências.</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="242"/>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>Ignorar janela *&quot;Senha&quot;*</translation>
+        <source>Ignore *"Password"* window</source>
+        <translation>Ignorar janela *"Senha"*</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="243"/>
@@ -744,8 +744,8 @@ Deixe vazio para desativar.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="261"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Use o comando só para itens cujo texto corresponda a esta expressão regular (vazio para corresponder a qualquer coisa).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Exemplos:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Comparar URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Comparar ficheiros PDF    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Comparar carácter único   &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Comparar multimédia remota    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Use o comando só para itens cujo texto corresponda a esta expressão regular (vazio para corresponder a qualquer coisa).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Exemplos:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Comparar URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Comparar ficheiros PDF    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Comparar carácter único   &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Comparar multimédia remota    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="274"/>
@@ -840,7 +840,7 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="465"/>
-        <source>Change item, don&apos;t create any new items</source>
+        <source>Change item, don't create any new items</source>
         <translation>Alterar item, não criar nenhuns itens novos</translation>
     </message>
     <message>
@@ -1135,7 +1135,7 @@ CTRL e seta acima ou abaixo.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it&apos;s too long to fit on line</source>
+        <source>Break text if it's too long to fit on line</source>
         <translation>Quebrar texto se for demasiado longo para uma só linha</translation>
     </message>
     <message>
@@ -1285,7 +1285,7 @@ CTRL e seta acima ou abaixo.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="876"/>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <source>Don't show tray icon; minimize window when closed</source>
         <translation>Não mostrar ícone no tabuleiro; minimizar janela quando fechado</translation>
     </message>
     <message>
@@ -1702,8 +1702,8 @@ Defina como 0 para desativar.</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="357"/>
-        <source>Invalid value for option &quot;%1&quot;</source>
-        <translation>Valor inválido para a opção &quot;%1&quot;</translation>
+        <source>Invalid value for option "%1"</source>
+        <translation>Valor inválido para a opção "%1"</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="400"/>
@@ -1759,8 +1759,8 @@ Defina como 0 para desativar.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark &quot;%1&quot; not set.</source>
-        <translation>Marca &quot;%1&quot; não definida.</translation>
+        <source>Mark "%1" not set.</source>
+        <translation>Marca "%1" não definida.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
@@ -1807,28 +1807,28 @@ Defina como 0 para desativar.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation>Ficheiro &quot;%1&quot; já existe (adicione ! para forçar)</translation>
+        <source>File "%1" exists (add ! to override)</source>
+        <translation>Ficheiro "%1" já existe (adicione ! para forçar)</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation>Impossível abrir &quot;%1&quot; para escrita</translation>
+        <source>Cannot open file "%1" for writing</source>
+        <translation>Impossível abrir "%1" para escrita</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation>&quot;%1&quot; %2 %3L, %4C escrito.</translation>
+        <source>"%1" %2 %3L, %4C written.</source>
+        <translation>"%1" %2 %3L, %4C escrito.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation>Impossível abrir &quot;%1&quot; para leitura</translation>
+        <source>Cannot open file "%1" for reading</source>
+        <translation>Impossível abrir "%1" para leitura</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation>&quot;%1&quot; %2L, %3C</translation>
+        <source>"%1" %2L, %3C</source>
+        <translation>"%1" %2L, %3C</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
@@ -1935,8 +1935,8 @@ Defina como 0 para desativar.</translation>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="522"/>
-        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation>Falha ao criar pasta de sincronização &quot;%1&quot;!</translation>
+        <source>Failed to create synchronization directory "%1"!</source>
+        <translation>Falha ao criar pasta de sincronização "%1"!</translation>
     </message>
 </context>
 <context>
@@ -1977,12 +1977,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="104"/>
         <source>Open Icon file</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir ficheiro de ícone</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="105"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ficheiros de imagem (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -1990,22 +1990,22 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="17"/>
         <source>&amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tudo</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Separadores:</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
         <source>Co&amp;nfiguration</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;nfiguração</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;mandos</translation>
     </message>
 </context>
 <context>
@@ -2013,12 +2013,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="71"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Dados</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="73"/>
         <source>Various data to save.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dados vários a gravar.</translation>
     </message>
 </context>
 <context>
@@ -2026,77 +2026,77 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="23"/>
         <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecione formatos a gravar no histórico. Pode adicionar um formato dos exemplos abaixo ou digitar outro (um por linha).</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"/>
         <source>Active &amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Formatos ativos:</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="45"/>
         <source>&amp;Examples (double click to add to active formats):</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Exemplos (duplo clique para adicionar aos formatos ativos):</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="70"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="74"/>
         <source>Unformatted simple text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto simples não formatado</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="82"/>
         <source>Formatted text, web pages</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto formatado, páginas web</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="91"/>
         <source>XML</source>
-        <translation type="unfinished"></translation>
+        <translation>XML</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="99"/>
         <source>List of URI (e.g. copied files, URLs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista de URI (e.g. ficheiros copiados, URLs)</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="108"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagens</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="112"/>
         <source>Bitmap image</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapa de bits</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="120"/>
         <source>Vector graphics</source>
-        <translation type="unfinished"></translation>
+        <translation>Gráficos vectoriais</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="129"/>
         <source>Web image formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Formatos de imagens web</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="139"/>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>Outros</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="164"/>
         <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista de tipos MIME da área de transferência que serão armazenados no histórico (na ordem indicada)</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="181"/>
         <source>&amp;Maximum number of characters per format to display:</source>
-        <translation type="unfinished"></translation>
+        <translation>Número &amp;máximo de caracteres por formato a mostrar:</translation>
     </message>
 </context>
 <context>
@@ -2104,12 +2104,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="154"/>
         <source>editor exit code is %1</source>
-        <translation type="unfinished"></translation>
+        <translation>código de saída do editor é %1</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="197"/>
         <source>Editor command: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando do editor: %1</translation>
     </message>
 </context>
 <context>
@@ -2117,12 +2117,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="333"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Gravar</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="335"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gravar item (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="336"/>
@@ -2133,12 +2133,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="340"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="342"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar a edição e reverter as alterações</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="343"/>
@@ -2154,22 +2154,22 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="373"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Negrito</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="379"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Itálico</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="385"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Sublinhado</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="391"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Rasurado</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="398"/>
@@ -2184,61 +2184,61 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="410"/>
         <source>Erase Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Estilo da eliminação</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="417"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Procurar</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="352"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Desfazer</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="359"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Refazer</translation>
     </message>
 </context>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="449"/>
-        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <translation>Para partilhar itens encriptados noutro computador ou sessão, necessitará das chaves pública e privada: &lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br/&gt;(mantenha esta chave privada num local seguro&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="514"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>GnuPG tem de estar instalado para ver separadores encriptados.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="612"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>Encriptar (GnuPG requerido)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="619"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="630"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="623"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Desencriptar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="634"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Desencriptar e copiar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="642"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="717"/>
@@ -2248,63 +2248,63 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="705"/>
         <source>Failed to generate keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha ao gerar as chaves.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="722"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Feito</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="744"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation type="unfinished"></translation>
+        <translation>A criar novas chaves (pode levar alguns minutos)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="745"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="747"/>
         <source>Setting new password...</source>
-        <translation type="unfinished"></translation>
+        <translation>A definir nova senha...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="750"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;Deve gerar&lt;/strong&gt; as chaves de encriptação para poder usar encriptação de itens.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
         <source>Generate New Keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gerar novas chaves...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="754"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterar senha...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="327"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha ao encriptar!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="760"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha ao desencriptar!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="95"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Encriptação</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="97"/>
         <source>Encrypt items and tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Encriptar itens e separadores.</translation>
     </message>
 </context>
 <context>
@@ -2312,28 +2312,29 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para encriptar e desencriptar itens, adicione os comandos apropriados sob o separador Comandos.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="72"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar ações ao menu e barra de ferramentas</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="94"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Partilhar itens e separadores encriptados</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="116"/>
         <source>Encrypted Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Separadores encriptados</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="122"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Especifique nomes de separadores (um por linha) que serão automaticamente encriptados e desencriptados.&lt;/p&gt;
+&lt;p&gt;Defina o intervalo de descarga do separador no separador Histórico para descarregar com segurança itens desencriptados da memória.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2341,17 +2342,17 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="73"/>
         <source>FakeVim</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="75"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>A extensão FakeVim é parte do Qt Creator</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="77"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Emular o editor Vim ao editar itens.</translation>
     </message>
 </context>
 <context>
@@ -2359,12 +2360,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar FakeVim para editar itens</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Caminho do ficheiro de configuração:</translation>
     </message>
 </context>
 <context>
@@ -2372,12 +2373,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="83"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagens</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="85"/>
         <source>Display images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar imagens.</translation>
     </message>
 </context>
 <context>
@@ -2385,42 +2386,42 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Largura má&amp;xima da imagem:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Largura máxima da imagem mostrada no histórico (0 para usar o tamanho original)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Altura máxima da ima&amp;gem:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Altura máxima da imagem mostrada no histórico (0 para usar o tamanho original)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando do editor de &amp;imagens:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando do editor de formatos de imagem suportados não SVG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando do editor &amp;SVG:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando do editor para formato de imagens SVG.</translation>
     </message>
 </context>
 <context>
@@ -2433,7 +2434,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="94"/>
         <source>Display notes for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar notas dos itens.</translation>
     </message>
 </context>
 <context>
@@ -2441,27 +2442,27 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Posição das notas</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>A&amp;bove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;cima do item</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>B&amp;elow Item</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;baixo do item</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>&amp;Icon Only</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Só ícone</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar &amp;dica</translation>
     </message>
 </context>
 <context>
@@ -2469,27 +2470,27 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="34"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Adicionar</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="37"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="47"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Remover</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="54"/>
         <source>&amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;cima</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="61"/>
         <source>&amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;baixo</translation>
     </message>
 </context>
 <context>
@@ -2498,37 +2499,37 @@ Defina como 0 para desativar.</translation>
         <location filename="../plugins/itempinned/itempinned.cpp" line="54"/>
         <source>Ctrl+Shift+P</source>
         <comment>Shortcut to pin and unpin items</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+P</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="208"/>
         <source>Cannot Remove Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossível remover itens fixados</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="209"/>
         <source>Unpin items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Desafixe os itens para os remover.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="375"/>
         <source>Pin</source>
-        <translation type="unfinished"></translation>
+        <translation>Fixar</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="382"/>
         <source>Unpin</source>
-        <translation type="unfinished"></translation>
+        <translation>Desafixar</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="125"/>
         <source>Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Itens fixos</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="128"/>
         <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
-        <translation type="unfinished"></translation>
+        <translation>Fixe os itens para os bloquear na linha atual e evitar a eliminação (excepto se desafixados).</translation>
     </message>
 </context>
 <context>
@@ -2536,7 +2537,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinnedsettings.ui" line="19"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar ações ao menu e barra de ferramentas</translation>
     </message>
 </context>
 <context>
@@ -2545,45 +2546,45 @@ Defina como 0 para desativar.</translation>
         <location filename="../plugins/itemsync/itemsync.cpp" line="130"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished">Navegar...</translation>
+        <translation>Navegar...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="839"/>
         <source>Open Directory for Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir pasta para sincronização</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="859"/>
         <source>Failed to create synchronization directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha ao criar a pasta de sincronização</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="130"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronizar</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="132"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronizar itens e notas com uma pasta no disco.</translation>
     </message>
 </context>
 <context>
     <name>ItemSyncSaver</name>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="494"/>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="unfinished"></translation>
+        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
+        <translation>Falha ao sincronizar o separador "%1" com a pasta "%2"!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="530"/>
         <source>Remove Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover itens?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="531"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Quer realmente &lt;strong&gt;remover os itens e ficheiros associados&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -2591,44 +2592,46 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
         <source>Synchronization Tabs and Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronizar separadores e pastas</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Sincronize conteúdo do &lt;strong&gt;separador&lt;/strong&gt; com a pasta &lt;strong&gt;indicada&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Defina um &lt;strong&gt;caminho vazio&lt;/strong&gt; para não gravar itens no &lt;strong&gt;separador&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome do separador</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Caminho</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
         <source>Files to Item Data Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Pastas para formato de dados dos itens</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Defina o tipo MIME como &lt;strong&gt;-&lt;/strong&gt; (hífen) para ignorar ficheiros. Quaisquer outros ficheiros ocultos ou desconhecidos são ignorados.&lt;/p&gt;
+&lt;p&gt;Exemplo: carregar ficheiros &lt;strong&gt;txt&lt;/strong&gt; como tipo MIME &lt;strong&gt;texto/simples&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensões</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item MIME Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo MIME do item</translation>
     </message>
 </context>
 <context>
@@ -2636,43 +2639,43 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="159"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar etiqueta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="164"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover etiqueta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="183"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiquetar como %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="189"/>
         <source>Remove tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover etiqueta %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="654"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"></translation>
+        <translation>Importante</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="675"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpar todas as etiquetas</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="119"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiquetas</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="121"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar etiquetas dos itens.</translation>
     </message>
 </context>
 <context>
@@ -2680,42 +2683,42 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pode adicionar e personalizar itens de menu para adicionar e remover etiquetas no diálogo Comandos.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
-        <source>More info is available on &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <source>More info is available on &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki page&lt;/a&gt;.</source>
+        <translation>Mais informação disponível na &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;página da wiki&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome da etiqueta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Comparar</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Folha de estilo</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Cor</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Ícone</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="68"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar ações ao menu e barra de ferramentas</translation>
     </message>
 </context>
 <context>
@@ -2723,12 +2726,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="68"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="70"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar texto e itens HTML simples.</translation>
     </message>
 </context>
 <context>
@@ -2736,17 +2739,17 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation type="unfinished"></translation>
+        <translation>Gravar e mostrar HTML e Rich Text</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation type="unfinished"></translation>
+        <translation>Número máximo de linhas a mostrar (0 para todas):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Altura máxima em pixels (0 para ilimitado):</translation>
     </message>
 </context>
 <context>
@@ -2754,7 +2757,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>CopyQ Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Diário CopyQ</translation>
     </message>
 </context>
 <context>
@@ -2762,127 +2765,128 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="567"/>
         <source>Exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sair?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="568"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Quer &lt;strong&gt;sair&lt;/strong&gt; do CopyQ?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="622"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ficheiro</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="665"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Editar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="689"/>
         <source>&amp;Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Item</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="693"/>
         <source>&amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Separadores</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="718"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;juda</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="732"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Novo separador</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="734"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Renomear &amp;grupo %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="736"/>
         <source>Re&amp;name Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Re&amp;nomear separador %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="738"/>
         <source>Re&amp;move Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Re&amp;mover separador %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="740"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover grupo %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="742"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Alterar í&amp;cone do separador</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1287"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar armaz&amp;enamento na área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1288"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Desativar armaz&amp;enamento na área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1554"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1557"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1570"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
-        <translation type="unfinished"></translation>
+        <translation>Área de transferência:
+%1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1865"/>
         <source>CopyQ Options for Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Opções do CopyQ para importar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2035"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation type="unfinished"></translation>
+        <translation>Erro do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2947"/>
         <source>&amp;Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Mo&amp;strar/Ocultar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3176"/>
         <source>CopyQ Options for Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Opções do CopyQ para exportar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3196"/>
         <source>CopyQ Export Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro do CopyQ ao exportar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3197"/>
@@ -3067,7 +3071,7 @@ Defina como 0 para desativar.</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="91"/>
-        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -3078,7 +3082,7 @@ Defina como 0 para desativar.</translation>
         <location filename="../src/gui/notificationdaemon.cpp" line="94"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
-        <translation type="unfinished">%1%2% {1?}</translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../src/item/itemstore.cpp" line="91"/>
@@ -3103,7 +3107,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/main.cpp" line="176"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
+which can be letters, digits, '-' or '_'!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3656,7 +3660,7 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn&apos;t exist.
+Tab is created if it doesn't exist.
 Default is the first tab.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3728,7 +3732,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
+Arguments are accessible using with "arguments[0..N]".</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3802,7 +3806,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="77"/>
-        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
+        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3828,17 +3832,17 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="880"/>
-        <source>Cannot save to file &quot;%1&quot;!</source>
+        <source>Cannot save to file "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="893"/>
-        <source>Cannot import file &quot;%1&quot;!</source>
+        <source>Cannot import file "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="933"/>
-        <source>Invalid option &quot;%1&quot;!</source>
+        <source>Invalid option "%1"!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3861,7 +3865,7 @@ Print version of program and libraries.</source>
     <name>ScriptableProxy</name>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="333"/>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3892,7 +3896,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3958,7 +3962,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <name>TrayMenu</name>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="82"/>
-        <source>Press &apos;/&apos; to search</source>
+        <source>Press '/' to search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
