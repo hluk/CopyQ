@@ -21,10 +21,10 @@
 
 #include "ui_configtabappearance.h"
 
-#include "item/itemdelegate.h"
-
 #include "gui/iconfont.h"
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QListView>
 #include <QSettings>
 
@@ -112,19 +112,15 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
     return result;
 }
 
-} // namespace
-
-Theme::Theme()
-    : ui(nullptr)
+int itemMargin()
 {
-    QSettings settings;
-    settings.beginGroup("Theme");
-    loadTheme(settings);
-    settings.endGroup();
+    const int dpi = QApplication::desktop()->physicalDpiX();
+    return std::max(4, dpi / 30);
 }
 
+} // namespace
+
 Theme::Theme(QSettings &settings)
-    : ui(nullptr)
 {
     loadTheme(settings);
 }
@@ -139,12 +135,33 @@ void Theme::loadTheme(QSettings &settings)
     resetTheme();
 
     for ( const auto &key : m_theme.keys() ) {
-        if ( settings.contains(key) ) {
-            const QVariant value = settings.value(key);
-            if ( value.isValid() )
-                m_theme[key].setValue(value);
-        }
+        const auto value = settings.value(key);
+        if ( value.isValid() )
+            m_theme[key].setValue(value);
     }
+
+    const auto margin = itemMargin();
+    m_margins = QSize(margin * 2 + 6, margin);
+
+    // search style
+    m_searchPalette.setColor(QPalette::Base, color("find_bg"));
+    m_searchPalette.setColor(QPalette::Text, color("find_fg"));
+    m_searchFont = font("find_font");
+
+    // editor style
+    m_editorPalette.setColor(QPalette::Base, color("edit_bg"));
+    m_editorPalette.setColor(QPalette::Text, color("edit_fg"));
+    m_editorFont = font("edit_font");
+
+    // number style
+    m_showRowNumber = value("show_number").toBool();
+    m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
+    m_rowNumberFont = font("num_font");
+    m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QString("0123") ).size()
+            + QSize(m_margins.width() / 2, 2 * m_margins.height());
+
+    m_antialiasing = isAntialiasingEnabled();
+
 }
 
 void Theme::saveTheme(QSettings &settings) const
@@ -176,28 +193,10 @@ QColor Theme::evalColorExpression(const QString &expr) const
     return evalColor( expr, *this );
 }
 
-void Theme::decorateBrowser(QListView *c, ItemDelegate *d) const
+void Theme::decorateBrowser(QListView *c) const
 {
-    decorateBrowser(c);
-
-    QPalette p;
-
-    // search style
-    p.setColor(QPalette::Base, color("find_bg"));
-    p.setColor(QPalette::Text, color("find_fg"));
-    d->setSearchStyle(font("find_font"), p);
-
-    // editor style
-    p.setColor(QPalette::Base, color("edit_bg"));
-    p.setColor(QPalette::Text, color("edit_fg"));
-    d->setEditorStyle(font("edit_font"), p);
-
-    // number style
-    d->setRowNumberVisibility(value("show_number").toBool());
-    p.setColor(QPalette::Text, color("num_fg"));
-    d->setNumberStyle(font("num_font"), p);
-
-    d->setFontAntialiasing( isAntialiasingEnabled() );
+    QAbstractScrollArea *c2 = c;
+    decorateBrowser(c2);
 
     bool ok;
     const int itemSpacing = value("item_spacing").toInt(&ok);
@@ -348,7 +347,7 @@ QFont Theme::themeFontFromString(const QString &fontString) const
 
 bool Theme::isAntialiasingEnabled() const
 {
-    return value("font_antialiasing").toBool();
+    return m_antialiasing;
 }
 
 void Theme::resetTheme()

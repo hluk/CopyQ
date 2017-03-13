@@ -22,22 +22,25 @@
 
 #include "common/option.h"
 
+#include <QFont>
 #include <QHash>
+#include <QPalette>
 
 namespace Ui {
 class ConfigTabAppearance;
 }
 
 class QAbstractScrollArea;
-class ItemDelegate;
 class QListView;
 class QSettings;
 class QString;
 class QVariant;
 
+struct ClipboardBrowserShared;
+
 class Theme {
 public:
-    Theme();
+    Theme() = default;
     explicit Theme(QSettings &settings);
     explicit Theme(Ui::ConfigTabAppearance *ui);
 
@@ -59,7 +62,7 @@ public:
     QColor evalColorExpression(const QString &expr) const;
 
     /** Set fonts and color for ClipboardBrowser object. */
-    void decorateBrowser(QListView *c, ItemDelegate *d) const;
+    void decorateBrowser(QListView *c) const;
 
     /** Decorate main window. */
     void decorateMainWindow(QWidget *mainWindow) const;
@@ -85,6 +88,19 @@ public:
 
     void resetTheme();
 
+    bool showRowNumber() const { return m_showRowNumber; }
+    const QFont &rowNumberFont() const { return m_rowNumberFont; }
+    const QPalette &rowNumberPalette() const { return m_rowNumberPalette; }
+    QSize rowNumberSize() const { return m_rowNumberSize; }
+
+    const QFont &editorFont() const { return m_editorFont; }
+    const QPalette &editorPalette() const { return m_editorPalette; }
+
+    const QFont &searchFont() const { return m_searchFont; }
+    const QPalette &searchPalette() const { return m_searchPalette; }
+
+    QSize margins() const { return m_margins; }
+
 private:
     void decorateBrowser(QAbstractScrollArea *c) const;
 
@@ -99,7 +115,21 @@ private:
     QString getMenuStyleSheet(const QString &selector) const;
 
     QHash<QString, Option> m_theme;
-    Ui::ConfigTabAppearance *ui;
+    Ui::ConfigTabAppearance *ui = nullptr;
+
+    QFont m_rowNumberFont;
+    QSize m_rowNumberSize;
+    QPalette m_rowNumberPalette;
+    bool m_showRowNumber = false;
+
+    QFont m_editorFont;
+    QPalette m_editorPalette;
+
+    QFont m_searchFont;
+    QPalette m_searchPalette;
+
+    bool m_antialiasing = true;
+    QSize m_margins;
 };
 
 QString serializeColor(const QColor &color);

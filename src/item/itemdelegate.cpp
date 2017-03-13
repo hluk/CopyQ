@@ -28,8 +28,6 @@
 #include "item/itemwidget.h"
 #include "item/itemeditorwidget.h"
 
-#include <QApplication>
-#include <QDesktopWidget>
 #include <QEvent>
 #include <QPainter>
 
@@ -45,32 +43,16 @@ inline void reset(ItemWidget **ptr, ItemWidget *value = nullptr)
     *ptr = value != nullptr ? value : nullptr;
 }
 
-int itemMargin()
-{
-    const int dpi = QApplication::desktop()->physicalDpiX();
-    return std::max(4, dpi / 30);
-}
-
 } // namespace
 
-ItemDelegate::ItemDelegate(ClipboardBrowser *view, ItemFactory *itemFactory, QWidget *parent)
+ItemDelegate::ItemDelegate(ClipboardBrowser *view, const ClipboardBrowserSharedPtr &sharedData, QWidget *parent)
     : QItemDelegate(parent)
     , m_view(view)
-    , m_itemFactory(itemFactory)
+    , m_sharedData(sharedData)
     , m_saveOnReturnKey(true)
     , m_re()
     , m_maxSize(2048, 2048 * 8)
     , m_idealWidth(0)
-    , m_vMargin( itemMargin() )
-    , m_hMargin( m_vMargin * 2 + 6 )
-    , m_foundFont()
-    , m_foundPalette()
-    , m_rowNumberFont()
-    , m_rowNumberSize(0, 0)
-    , m_showRowNumber(false)
-    , m_rowNumberPalette()
-    , m_antialiasing(true)
-    , m_createSimpleItems(false)
     , m_cache()
 {
 }
@@ -86,8 +68,10 @@ QSize ItemDelegate::sizeHint(const QModelIndex &index) const
         const ItemWidget *w = m_cache[row];
         if (w != nullptr) {
             QWidget *ww = w->widget();
-            return QSize( ww->width() + 2 * m_hMargin + rowNumberWidth(),
-                          qMax(ww->height() + 2 * m_vMargin, rowNumberHeight()) );
+            const auto margins = m_sharedData->theme.margins();
+            const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
+            return QSize( ww->width() + 2 * margins.width() + rowNumberSize.width(),
+                          qMax(ww->height() + 2 * margins.height(), rowNumberSize.height()) );
         }
     }
     return QSize(0, 512);
@@ -161,9 +145,10 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     ItemWidget *w = m_cache[n];
     if (w == nullptr) {
         QWidget *parent = m_view->viewport();
-        w = m_createSimpleItems
-                ? m_itemFactory->createSimpleItem(index, parent, m_antialiasing)
-                : m_itemFactory->createItem(index, parent, m_antialiasing);
+        const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
+        w = m_sharedData->showSimpleItems
+                ? m_sharedData->itemFactory->createSimpleItem(index, parent, antialiasing)
+                : m_sharedData->itemFactory->createItem(index, parent, antialiasing);
         setIndexWidget(index, w);
     }
 
@@ -177,9 +162,11 @@ bool ItemDelegate::hasCache(const QModelIndex &index) const
 
 void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
 {
-    const int margins = 2 * m_hMargin + rowNumberWidth();
-    m_maxSize.setWidth(size.width() - margins);
-    m_idealWidth = idealWidth - margins;
+    const auto margins = m_sharedData->theme.margins();
+    const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
+    const int margin = 2 * margins.width() + rowNumberSize.width();
+    m_maxSize.setWidth(size.width() - margin);
+    m_idealWidth = idealWidth - margin;
 
     for(auto w : m_cache) {
         if (w != nullptr)
@@ -200,7 +187,8 @@ bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
 {
     ItemWidget *w = m_cache[index.row()];
     if (w != nullptr) {
-        ItemWidget *w2 = m_itemFactory->otherItemLoader(index, w, next, m_antialiasing);
+        const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
+        auto w2 = m_sharedData->itemFactory->otherItemLoader(index, w, next, antialiasing);
         if (w2 != nullptr) {
             setIndexWidget(index, w2);
             return true;
@@ -221,14 +209,16 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(QWidget *parent, const QModel
 
 void ItemDelegate::loadEditorSettings(ItemEditorWidget *editor)
 {
-    editor->setEditorPalette(m_editorPalette);
-    editor->setEditorFont(m_editorFont);
+    editor->setEditorPalette( m_sharedData->theme.editorPalette() );
+    editor->setEditorFont( m_sharedData->theme.editorFont() );
     editor->setSaveOnReturnKey(m_saveOnReturnKey);
 }
 
 void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
 {
-    itemWidget->setHighlight(m_re, m_foundFont, m_foundPalette);
+    const auto &font = m_sharedData->theme.searchFont();
+    const auto &palette = m_sharedData->theme.searchPalette();
+    itemWidget->setHighlight(m_re, font, palette);
 }
 
 void ItemDelegate::setWidgetVisible(const QModelIndex &index, bool visible)
@@ -265,16 +255,6 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     emit sizeHintChanged(index);
 }
 
-int ItemDelegate::rowNumberWidth() const
-{
-    return m_showRowNumber ? m_rowNumberSize.width() : 0;
-}
-
-int ItemDelegate::rowNumberHeight() const
-{
-    return m_showRowNumber ? m_rowNumberSize.height() : 0;
-}
-
 void ItemDelegate::invalidateCache()
 {
     for(auto &w : m_cache)
@@ -289,40 +269,6 @@ void ItemDelegate::invalidateCache(int row)
 void ItemDelegate::setSearch(const QRegExp &re)
 {
     m_re = re;
-}
-
-void ItemDelegate::setSearchStyle(const QFont &font, const QPalette &palette)
-{
-    m_foundFont = font;
-    m_foundPalette = palette;
-}
-
-void ItemDelegate::setEditorStyle(const QFont &font, const QPalette &palette)
-{
-    m_editorFont = font;
-    m_editorPalette = palette;
-}
-
-void ItemDelegate::setNumberStyle(const QFont &font, const QPalette &palette)
-{
-    m_rowNumberFont = font;
-    m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QString("0123") ).size()
-            + QSize(m_hMargin / 2, 2 * m_vMargin);
-    m_rowNumberPalette = palette;
-}
-
-void ItemDelegate::setRowNumberVisibility(bool visible)
-{
-    m_showRowNumber = visible;
-}
-
-void ItemDelegate::setShowSimpleItems(bool showSimpleItems)
-{
-    if (m_createSimpleItems == showSimpleItems)
-        return;
-
-    m_createSimpleItems = showSimpleItems;
-    invalidateCache();
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -347,7 +293,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     const QString colorExpr = index.data(contentType::color).toString();
     if (!colorExpr.isEmpty())
     {
-        const QColor color = m_theme.evalColorExpression(colorExpr);
+        const QColor color = m_sharedData->theme.evalColorExpression(colorExpr);
         if (color.isValid())
         {
             painter->save();
@@ -357,14 +303,17 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         }
     }
 
+    const auto margins = m_sharedData->theme.margins();
+
     /* render number */
-    if (m_showRowNumber) {
+    if ( m_sharedData->theme.showRowNumber() ) {
         const QString num = QString::number(row);
         QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
         painter->save();
-        painter->setFont(m_rowNumberFont);
-        style->drawItemText(painter, rect.translated(m_hMargin / 2, m_vMargin), 0,
-                            m_rowNumberPalette, true, num,
+        painter->setFont( m_sharedData->theme.rowNumberFont() );
+        const auto rowNumberPalette = m_sharedData->theme.rowNumberPalette();
+        style->drawItemText(painter, rect.translated(margins.width() / 2, margins.height()), 0,
+                            rowNumberPalette, true, num,
                             role);
         painter->restore();
     }
@@ -381,7 +330,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         }
     }
 
-    const auto offset = rect.topLeft() + QPoint(rowNumberWidth() + m_hMargin, m_vMargin);
+    const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
+    const auto offset = rect.topLeft() + QPoint(rowNumberSize.width() + margins.width(), margins.height());
     if ( ww->isHidden() ) {
         const auto p = painter->deviceTransform().map(offset);
         highlightMatches(w);

@@ -21,7 +21,9 @@
 #define CLIPBOARDBROWSER_H
 
 #include "common/command.h"
+#include "gui/clipboardbrowsershared.h"
 #include "gui/configtabshortcuts.h"
+#include "gui/theme.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
 #include "item/itemwidget.h"
@@ -37,7 +39,6 @@ class ItemEditorWidget;
 class ItemFactory;
 class QProgressBar;
 class QPushButton;
-class Theme;
 
 enum SelectAction {
     NoSelectAction,
@@ -46,24 +47,6 @@ enum SelectAction {
 };
 Q_DECLARE_FLAGS(SelectActions, SelectAction)
 Q_DECLARE_OPERATORS_FOR_FLAGS(SelectActions)
-
-struct ClipboardBrowserShared {
-    explicit ClipboardBrowserShared(ItemFactory *itemFactory);
-
-    void loadFromConfiguration();
-
-    QString editor;
-    int maxItems;
-    bool textWrap;
-    bool viMode;
-    bool saveOnReturnKey;
-    bool moveItemOnReturnKey;
-    bool showSimpleItems;
-    int minutesToExpire;
-
-    ItemFactory *itemFactory;
-};
-typedef std::shared_ptr<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 
 QVariantMap itemData(const QModelIndex &index);
 
@@ -221,9 +204,6 @@ class ClipboardBrowser : public QListView
         void move(int key);
 
         QWidget *currentItemPreview();
-
-        /// Decorate browser and items with @a theme.
-        void decorate(const Theme &theme);
 
         void findNext();
 

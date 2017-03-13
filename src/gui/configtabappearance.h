@@ -29,7 +29,6 @@ namespace Ui {
 class ConfigTabAppearance;
 }
 
-class ClipboardBrowser;
 class ItemDelegate;
 class ItemFactory;
 class Option;
@@ -93,7 +92,8 @@ private:
     Theme m_theme;
     QString m_editor;
 
-    ClipboardBrowser *m_preview;
+    QWidget *m_preview = nullptr;
+    ItemFactory *m_itemFactory = nullptr;
 };
 
 #endif // CONFIGTABAPPEARANCE_H

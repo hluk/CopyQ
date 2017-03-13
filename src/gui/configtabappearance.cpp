@@ -26,6 +26,7 @@
 #include "common/option.h"
 #include "common/temporarysettings.h"
 #include "gui/clipboardbrowser.h"
+#include "gui/clipboardbrowsershared.h"
 #include "gui/iconfont.h"
 #include "gui/theme.h"
 #include "item/itemeditor.h"
@@ -60,7 +61,6 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     , ui(new Ui::ConfigTabAppearance)
     , m_theme(ui)
     , m_editor()
-    , m_preview(nullptr)
 {
     ui->setupUi(this);
 
@@ -104,46 +104,8 @@ void ConfigTabAppearance::saveTheme(QSettings &settings)
 
 void ConfigTabAppearance::createPreview(ItemFactory *itemFactory)
 {
-    if (m_preview)
-        return;
-
-    ClipboardBrowserSharedPtr sharedData(new ClipboardBrowserShared(itemFactory));
-    ClipboardBrowser *c = new ClipboardBrowser(sharedData, this);
-    ui->browserParentLayout->addWidget(c);
-    m_preview = c;
-
-    const QString searchFor = tr("item", "Search expression in preview in Appearance tab.");
-
-    c->addItems( QStringList()
-                 << tr("Search string is %1.").arg( quoteString(searchFor) )
-                 << tr("Select an item and\n"
-                       "press F2 to edit.")
-                 << tr("Select items and move them with\n"
-                       "CTRL and up or down key.")
-                 << tr("Remove item with Delete key.") );
-    for (int i = 1; i <= 20; ++i)
-        c->add( tr("Example item %1").arg(i), -1 );
-
-    QAbstractItemModel *model = c->model();
-    QModelIndex index = model->index(0, 0);
-    QVariantMap dataMap;
-    dataMap.insert( mimeItemNotes, tr("Some random notes (Shift+F2 to edit)").toUtf8() );
-    model->setData(index, dataMap, contentType::updateData);
-
-    // Highlight found text but don't filter out any items.
-    c->filterItems( QRegExp(QString("|") + searchFor, Qt::CaseInsensitive) );
-
-    QAction *act;
-
-    act = new QAction(c);
-    act->setShortcut( QString("Shift+F2") );
-    connect(act, SIGNAL(triggered()), c, SLOT(editNotes()));
-    c->addAction(act);
-
-    act = new QAction(c);
-    act->setShortcut( QString("F2") );
-    connect(act, SIGNAL(triggered()), c, SLOT(editSelected()));
-    c->addAction(act);
+    m_itemFactory = itemFactory;
+    decoratePreview();
 }
 
 void ConfigTabAppearance::onFontButtonClicked()
@@ -462,6 +424,53 @@ QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
 
 void ConfigTabAppearance::decoratePreview()
 {
-    if ( m_preview && isVisible() )
-        m_preview->decorate(m_theme);
+    if ( !m_itemFactory || !isVisible() )
+        return;
+
+    if (m_preview) {
+        delete m_preview;
+        m_preview = nullptr;
+    }
+
+    const auto sharedData = std::make_shared<ClipboardBrowserShared>(m_itemFactory);
+    sharedData->theme = m_theme;
+
+    auto c = new ClipboardBrowser(sharedData, this);
+    m_preview = c;
+    m_theme.decorateBrowser(c);
+
+    ui->browserParentLayout->addWidget(c);
+
+    const QString searchFor = tr("item", "Search expression in preview in Appearance tab.");
+
+    c->addItems( QStringList()
+                 << tr("Search string is %1.").arg( quoteString(searchFor) )
+                 << tr("Select an item and\n"
+                       "press F2 to edit.")
+                 << tr("Select items and move them with\n"
+                       "CTRL and up or down key.")
+                 << tr("Remove item with Delete key.") );
+    for (int i = 1; i <= 20; ++i)
+        c->add( tr("Example item %1").arg(i), -1 );
+
+    QAbstractItemModel *model = c->model();
+    QModelIndex index = model->index(0, 0);
+    QVariantMap dataMap;
+    dataMap.insert( mimeItemNotes, tr("Some random notes (Shift+F2 to edit)").toUtf8() );
+    model->setData(index, dataMap, contentType::updateData);
+
+    // Highlight found text but don't filter out any items.
+    c->filterItems( QRegExp(QString("|") + searchFor, Qt::CaseInsensitive) );
+
+    QAction *act;
+
+    act = new QAction(c);
+    act->setShortcut( QString("Shift+F2") );
+    connect(act, SIGNAL(triggered()), c, SLOT(editNotes()));
+    c->addAction(act);
+
+    act = new QAction(c);
+    act->setShortcut( QString("F2") );
+    connect(act, SIGNAL(triggered()), c, SLOT(editSelected()));
+    c->addAction(act);
 }
