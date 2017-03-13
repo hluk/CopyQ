@@ -164,7 +164,7 @@ void ClipboardClient::startInputReader()
         return;
     }
 
-    InputReader *reader = new InputReader;
+    auto reader = new InputReader;
     m_inputReaderThread = new QThread(this);
     reader->moveToThread(m_inputReaderThread);
     connect( m_inputReaderThread, SIGNAL(started()), reader, SLOT(readInput()) );

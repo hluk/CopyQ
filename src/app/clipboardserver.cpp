@@ -110,7 +110,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_ignoreKeysTimer()
 {
     const QString serverName = clipboardServerName();
-    Server *server = new Server(serverName, this);
+    auto server = new Server(serverName, this);
 
     if ( server->isListening() ) {
         ::createSessionMutex();
@@ -400,7 +400,7 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
     Q_UNUSED(shortcut);
     Q_UNUSED(command);
 #else
-    QxtGlobalShortcut *s = new QxtGlobalShortcut(shortcut, this);
+    auto s = new QxtGlobalShortcut(shortcut, this);
     if (!s->isValid()) {
         log(QString("Failed to set global shortcut \"%1\" for command \"%2\".")
             .arg(shortcut.toString())

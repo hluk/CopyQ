@@ -128,7 +128,7 @@ QString envString(const char *varName)
 class SystemMutexLocker {
 public:
     /// Locks mutex (it's possible that the mutex won't be locked because of errors).
-    SystemMutexLocker(const SystemMutexPtr &mutex)
+    explicit SystemMutexLocker(const SystemMutexPtr &mutex)
         : m_mutex(mutex)
         , m_locked( m_mutex != nullptr && m_mutex->lock() )
     {

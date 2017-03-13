@@ -45,7 +45,7 @@ ActionHandler::ActionHandler(MainWindow *mainWindow)
 
 ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
 {
-    ActionDialog *actionDialog = new ActionDialog(m_wnd);
+    auto actionDialog = new ActionDialog(m_wnd);
     actionDialog->setAttribute(Qt::WA_DeleteOnClose, true);
     actionDialog->setOutputTabs(tabs, QString());
     actionDialog->setCommand(m_lastActionDialogCommand);

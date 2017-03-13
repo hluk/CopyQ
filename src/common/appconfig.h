@@ -32,7 +32,7 @@ namespace Config {
 
 template<typename ValueType>
 struct Config {
-    typedef ValueType Value;
+    using Value = ValueType;
     static Value defaultValue() { return Value(); }
     static Value value(Value v) { return v; }
 };

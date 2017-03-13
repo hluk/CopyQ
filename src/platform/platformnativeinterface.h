@@ -34,8 +34,8 @@ class QWidget;
 class PlatformWindow;
 class PlatformClipboard;
 
-typedef std::shared_ptr<PlatformWindow> PlatformWindowPtr;
-typedef std::shared_ptr<PlatformClipboard> PlatformClipboardPtr;
+using PlatformWindowPtr = std::shared_ptr<PlatformWindow>;
+using PlatformClipboardPtr = std::shared_ptr<PlatformClipboard>;
 
 /**
  * Interface for platform dependent code.
@@ -151,7 +151,7 @@ public:
 /**
  * Shared pointer type for PlatformNativeInterface instance.
  */
-typedef std::shared_ptr<PlatformNativeInterface> PlatformPtr;
+using PlatformPtr = std::shared_ptr<PlatformNativeInterface>;
 
 /**
  * Factory method to create PlatformNativeInterface instance.

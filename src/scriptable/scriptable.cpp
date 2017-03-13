@@ -294,10 +294,7 @@ bool Scriptable::toInt(const QScriptValue &value, int &number) const
 {
     bool ok;
     number = toString(value).toInt(&ok);
-    if (!ok)
-        return false;
-
-    return true;
+    return ok;
 }
 
 QVariantMap Scriptable::toDataMap(const QScriptValue &value) const
@@ -1893,7 +1890,7 @@ QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)
 
 QScriptValue NetworkReply::post(const QString &url, const QByteArray &postData, Scriptable *scriptable)
 {
-    NetworkReply *reply = new NetworkReply(url, postData, scriptable);
+    auto reply = new NetworkReply(url, postData, scriptable);
     return reply->toScriptValue();
 }
 

@@ -35,11 +35,11 @@ class QTableWidgetItem;
 
 struct MenuAction {
     QString iconName;
-    ushort iconId;
+    ushort iconId{};
     QString text;
     QString settingsKey;
-    QTableWidgetItem *tableItem;
-    ShortcutButton *shortcutButton;
+    QTableWidgetItem *tableItem{};
+    ShortcutButton *shortcutButton{};
 };
 
 /**

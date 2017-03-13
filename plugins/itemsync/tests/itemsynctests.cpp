@@ -29,7 +29,7 @@
 
 namespace {
 
-typedef std::shared_ptr<QFile> FilePtr;
+using FilePtr = std::shared_ptr<QFile>;
 
 const char sep[] = " ;; ";
 
@@ -40,7 +40,7 @@ QString fileNameForId(int i)
 
 class TestDir {
 public:
-    TestDir(int i, bool createPath = true)
+    explicit TestDir(int i, bool createPath = true)
         : m_dir(ItemSyncTests::testDir(i))
     {
         clear();
@@ -80,7 +80,7 @@ public:
 
     FilePtr file(const QString &fileName) const
     {
-        return FilePtr(new QFile(filePath(fileName)));
+        return std::make_shared<QFile>(filePath(fileName));
     }
 
     QString filePath(const QString &fileName) const

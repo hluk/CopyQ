@@ -68,7 +68,7 @@ public:
             ScriptableProxy *proxy,
             QObject *parent = nullptr);
 
-    void initEngine(QScriptEngine *engine);
+    void initEngine(QScriptEngine *eng);
 
     QScriptValue newByteArray(const QByteArray &bytes);
 

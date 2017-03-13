@@ -66,7 +66,7 @@ class ItemWidget
 public:
     explicit ItemWidget(QWidget *widget);
 
-    virtual ~ItemWidget() {}
+    virtual ~ItemWidget() = default;
 
     /**
      * Set search and selections highlight color and font.
@@ -120,7 +120,7 @@ public:
     /**
      * Size of widget needs to be updated (because maximum size chaged).
      */
-    virtual void updateSize(const QSize &maximumSize, int idealSize);
+    virtual void updateSize(const QSize &maximumSize, int idealWidth);
 
     /**
      * Mark item as tagged/untagged.
@@ -211,9 +211,9 @@ public:
 class ItemLoaderInterface
 {
 public:
-    ItemLoaderInterface() {}
+    ItemLoaderInterface() = default;
 
-    virtual ~ItemLoaderInterface() {}
+    virtual ~ItemLoaderInterface() = default;
 
     /**
      * Return priority.
@@ -310,7 +310,7 @@ public:
     /**
      * Transform loader.
      */
-    virtual ItemSaverPtr transformSaver(const ItemSaverPtr &loader, QAbstractItemModel *model);
+    virtual ItemSaverPtr transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model);
 
     /**
      * Return true if regular expression matches items content.

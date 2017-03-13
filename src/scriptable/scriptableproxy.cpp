@@ -179,7 +179,7 @@ QWidget *label(const QString &name, QWidget *w)
 template <typename Widget>
 Widget *createAndSetWidget(const char *propertyName, const QVariant &value, QWidget *parent)
 {
-    Widget *w = new Widget(parent);
+    auto w = new Widget(parent);
     w->setProperty(propertyName, value);
     w->setProperty(propertyWidgetProperty, propertyName);
     parent->layout()->addWidget(w);
@@ -204,7 +204,7 @@ QWidget *createListWidget(const QString &name, const QStringList &itemsWithCurre
 {
     const QString listPrefix = ".list:";
     if ( name.startsWith(listPrefix) ) {
-        const QStringList items = itemsWithCurrent;
+        const QStringList &items = itemsWithCurrent;
         QListWidget *w = createAndSetWidget<QListWidget>("currentRow", QVariant(), parent);
         w->addItems(items);
         w->setCurrentRow(0);
@@ -247,7 +247,7 @@ QWidget *createFileNameEdit(const QString &name, const QFile &file, QWidget *par
     QWidget *w = new QWidget(parent);
     parent->layout()->addWidget(w);
 
-    QHBoxLayout *layout = new QHBoxLayout(w);
+    auto layout = new QHBoxLayout(w);
     layout->setContentsMargins(0, 0, 0, 0);
 
     QWidget *lineEdit = createLineEdit(file.fileName(), w);
@@ -294,13 +294,12 @@ QWidget *createWidget(const QString &name, const QVariant &value, QWidget *paren
         return createListWidget(name, value.toStringList(), parent);
     default:
         QFile *file = value.value<QFile*>();
-        if (file) {
+        if (file)
             return createFileNameEdit(name, *file, parent);
-        } else {
-            const QString text = value.toString();
-            if (text.contains('\n'))
-                return createTextEdit(name, value.toStringList(), parent);
-        }
+
+        const QString text = value.toString();
+        if (text.contains('\n'))
+            return createTextEdit(name, value.toStringList(), parent);
 
         return label(Qt::Horizontal, name, createLineEdit(value, parent));
     }

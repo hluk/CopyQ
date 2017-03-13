@@ -171,7 +171,7 @@ FilterCompleter::FilterCompleter(QLineEdit *lineEdit)
 
     QWidget *window = lineEdit->window();
     if (window) {
-        QAction *act = new QAction(this);
+        auto act = new QAction(this);
         act->setShortcut(tr("Alt+Down", "Filter completion shortcut"));
         connect(act, SIGNAL(triggered()), this, SLOT(onComplete()));
         window->addAction(act);

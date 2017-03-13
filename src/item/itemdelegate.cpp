@@ -57,9 +57,7 @@ ItemDelegate::ItemDelegate(ClipboardBrowser *view, const ClipboardBrowserSharedP
 {
 }
 
-ItemDelegate::~ItemDelegate()
-{
-}
+ItemDelegate::~ItemDelegate() = default;
 
 QSize ItemDelegate::sizeHint(const QModelIndex &index) const
 {
@@ -202,7 +200,7 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(QWidget *parent, const QModel
                                                    bool editNotes)
 {
     cache(index);
-    ItemEditorWidget *editor = new ItemEditorWidget(m_cache[index.row()], index, editNotes, parent);
+    auto editor = new ItemEditorWidget(m_cache[index.row()], index, editNotes, parent);
     loadEditorSettings(editor);
     return editor;
 }

@@ -208,9 +208,7 @@ ItemWebLoader::ItemWebLoader()
 {
 }
 
-ItemWebLoader::~ItemWebLoader()
-{
-}
+ItemWebLoader::~ItemWebLoader() = default;
 
 ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {

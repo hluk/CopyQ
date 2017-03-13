@@ -156,9 +156,7 @@ ItemDataLoader::ItemDataLoader()
 {
 }
 
-ItemDataLoader::~ItemDataLoader()
-{
-}
+ItemDataLoader::~ItemDataLoader() = default;
 
 ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {

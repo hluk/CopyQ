@@ -54,7 +54,7 @@ public:
 
 private:
     Display *m_display;
-    char m_keyMap[32];
+    char m_keyMap[32]{};
 };
 
 #ifdef HAS_X11TEST
@@ -167,10 +167,10 @@ struct X11WindowProperty {
 
     bool isValid() const { return data != nullptr; }
 
-    Atom type;
-    int format;
-    unsigned long len;
-    unsigned long remain;
+    Atom type{};
+    int format{};
+    unsigned long len{};
+    unsigned long remain{};
     unsigned char *data;
 };
 
@@ -228,7 +228,7 @@ void X11PlatformWindow::raise()
 {
     Q_ASSERT( isValid() );
 
-    XEvent e;
+    XEvent e{};
     memset(&e, 0, sizeof(e));
     e.type = ClientMessage;
     e.xclient.display = d->display();
@@ -241,7 +241,7 @@ void X11PlatformWindow::raise()
     e.xclient.data.l[3] = 0;
     e.xclient.data.l[4] = 0;
 
-    XWindowAttributes wattr;
+    XWindowAttributes wattr{};
     XGetWindowAttributes(d->display(), m_window, &wattr);
 
     if (wattr.map_state == IsViewable) {

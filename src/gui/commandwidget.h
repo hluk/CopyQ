@@ -42,7 +42,7 @@ public:
     Command command() const;
 
     /** Set current command. */
-    void setCommand(const Command &command);
+    void setCommand(const Command &c);
 
     /** Set formats for format selection combo boxes. */
     void setFormats(const QStringList &formats);

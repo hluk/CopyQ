@@ -109,7 +109,7 @@ ProcessManagerDialog::ProcessManagerDialog(QWidget *parent)
     for (int i = 0; i < tableCommandsColumns::count; ++i)
         t->setHorizontalHeaderItem(i, new QTableWidgetItem(columnText(i)) );
 
-    QAction *act = new QAction(this);
+    auto act = new QAction(this);
     act->setShortcut(shortcutToRemove());
     connect( act, SIGNAL(triggered()),
              this, SLOT(onDeleteShortcut()) );

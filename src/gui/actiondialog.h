@@ -38,7 +38,7 @@ namespace Ui {
 class ActionDialog : public QDialog {
     Q_OBJECT
 public:
-    explicit ActionDialog(QWidget *parent = 0);
+    explicit ActionDialog(QWidget *parent = nullptr);
     ~ActionDialog();
 
     /** Restore command history from configuration. */

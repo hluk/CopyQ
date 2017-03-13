@@ -36,7 +36,7 @@ namespace {
 bool isSelectionIncomplete(Display *display)
 {
     // If mouse button or shift is pressed then assume that user is selecting text.
-    XEvent event;
+    XEvent event{};
     XQueryPointer(display, DefaultRootWindow(display),
                   &event.xbutton.root, &event.xbutton.window,
                   &event.xbutton.x_root, &event.xbutton.y_root,

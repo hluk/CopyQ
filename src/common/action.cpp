@@ -27,7 +27,7 @@
 #include <QCoreApplication>
 #include <QProcessEnvironment>
 
-#include <string.h>
+#include <cstring>
 
 namespace {
 

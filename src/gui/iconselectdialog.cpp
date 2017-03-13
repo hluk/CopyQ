@@ -68,10 +68,10 @@ IconSelectDialog::IconSelectDialog(const QString &defaultIcon, QWidget *parent)
     connect( buttonBox, SIGNAL(accepted()),
              this, SLOT(onAcceptCurrent()) );
 
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    auto layout = new QVBoxLayout(this);
     layout->addWidget(m_iconList);
 
-    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    auto buttonLayout = new QHBoxLayout;
     layout->addLayout(buttonLayout);
     buttonLayout->addWidget(browseButton);
     buttonLayout->addWidget(buttonBox);
@@ -126,7 +126,7 @@ void IconSelectDialog::addIcons()
 void IconSelectDialog::addIcon(ushort unicode)
 {
     const QString icon(unicode);
-    QListWidgetItem *item = new QListWidgetItem(icon, m_iconList);
+    auto item = new QListWidgetItem(icon, m_iconList);
     item->setSizeHint( m_iconList->gridSize() );
     if (m_selectedIcon == icon)
         m_iconList->setCurrentRow(m_iconList->count() - 1);

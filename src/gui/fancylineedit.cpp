@@ -80,10 +80,10 @@ public:
 
     FancyLineEdit *m_lineEdit;
     QString m_oldText;
-    QMenu *m_menu[2];
-    bool m_menuTabFocusTrigger[2];
-    IconButton *m_iconbutton[2];
-    bool m_iconEnabled[2];
+    QMenu *m_menu[2]{};
+    bool m_menuTabFocusTrigger[2]{};
+    IconButton *m_iconbutton[2]{};
+    bool m_iconEnabled[2]{};
 };
 
 
@@ -139,9 +139,7 @@ FancyLineEdit::FancyLineEdit(QWidget *parent) :
     connect(d->m_iconbutton[Right], SIGNAL(clicked()), this, SLOT(iconClicked()));
 }
 
-FancyLineEdit::~FancyLineEdit()
-{
-}
+FancyLineEdit::~FancyLineEdit() = default;
 
 void FancyLineEdit::setButtonVisible(Side side, bool visible)
 {

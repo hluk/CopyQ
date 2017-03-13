@@ -42,7 +42,7 @@ void addTabAction(QWidget *widget, const QKeySequence &shortcut,
                   QWidget *receiver, const char *slot,
                   Qt::ShortcutContext context = Qt::WindowShortcut)
 {
-    QAction *act = new QAction(widget);
+    auto act = new QAction(widget);
     act->setShortcut(shortcut);
     act->setShortcutContext(context);
     receiver->connect(act, SIGNAL(triggered()), slot);
@@ -72,7 +72,7 @@ TabWidget::TabWidget(QWidget *parent)
     connect( m_toolBar, SIGNAL(orientationChanged(Qt::Orientation)),
              this, SLOT(onToolBarOrientationChanged(Qt::Orientation)) );
 
-    QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    auto layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
     setLayout(layout);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);

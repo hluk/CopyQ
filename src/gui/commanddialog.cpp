@@ -65,7 +65,7 @@ public:
 private:
     QWidget *createWidget(QWidget *parent) const override
     {
-        CommandWidget *cmdWidget = new CommandWidget(parent);
+        auto cmdWidget = new CommandWidget(parent);
         cmdWidget->setFormats(m_formats);
         cmdWidget->setCommand(m_command);
 
@@ -265,7 +265,7 @@ CommandDialog::CommandDialog(
     if ( ui->itemOrderListCommands->itemCount() != 0 )
         ui->itemOrderListCommands->setCurrentItem(0);
 
-    QAction *act = new QAction(ui->itemOrderListCommands);
+    auto act = new QAction(ui->itemOrderListCommands);
     ui->itemOrderListCommands->addAction(act);
     act->setShortcut(QKeySequence::Paste);
     connect(act, SIGNAL(triggered()), SLOT(tryPasteCommandFromClipboard()));
@@ -381,7 +381,7 @@ void CommandDialog::onFinished(int result)
 
 void CommandDialog::on_itemOrderListCommands_addButtonClicked()
 {
-    AddCommandDialog *addCommandDialog = new AddCommandDialog(m_pluginCommands, this);
+    auto addCommandDialog = new AddCommandDialog(m_pluginCommands, this);
     addCommandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
     connect(addCommandDialog, SIGNAL(addCommands(QList<Command>)), SLOT(onAddCommands(QList<Command>)));
     addCommandDialog->show();

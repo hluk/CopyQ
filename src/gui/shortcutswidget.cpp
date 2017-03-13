@@ -101,7 +101,7 @@ void ShortcutsWidget::loadShortcuts(QSettings &settings)
         const int row = table->rowCount();
         table->insertRow(row);
 
-        QTableWidgetItem *tableItem = new QTableWidgetItem();
+        auto tableItem = new QTableWidgetItem();
         table->setItem(row, Columns::Empty, tableItem);
         tableItem->setFlags(Qt::NoItemFlags);
 

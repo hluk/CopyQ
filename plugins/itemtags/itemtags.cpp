@@ -217,7 +217,7 @@ void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &fo
                 "}"
             );
 
-    QHBoxLayout *layout = new QHBoxLayout(tagWidget);
+    auto layout = new QHBoxLayout(tagWidget);
     const int x = QFontMetrics(font).height() / 6;
     layout->setContentsMargins(x, x, x, x);
     layout->setSpacing(x * 2);
@@ -235,7 +235,7 @@ void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &fo
     }
 
     if (!tag.name.isEmpty()) {
-        ElidedLabel *label = new ElidedLabel(tag.name, tagWidget);
+        auto label = new ElidedLabel(tag.name, tagWidget);
         label->setFont(font);
         layout->addWidget(label);
     }
@@ -534,9 +534,7 @@ ItemTagsLoader::ItemTagsLoader()
 {
 }
 
-ItemTagsLoader::~ItemTagsLoader()
-{
-}
+ItemTagsLoader::~ItemTagsLoader() = default;
 
 QStringList ItemTagsLoader::formatsToSave() const
 {
@@ -798,7 +796,7 @@ void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
     t->setItem( row, tagsTableColumns::color, new QTableWidgetItem() );
     t->setItem( row, tagsTableColumns::icon, new QTableWidgetItem() );
 
-    QPushButton *colorButton = new QPushButton(t);
+    auto colorButton = new QPushButton(t);
     const QColor color = tag.color.isEmpty()
             ? QColor::fromRgb(50, 50, 50)
             : deserializeColor(tag.color);
@@ -806,7 +804,7 @@ void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
     t->setCellWidget(row, tagsTableColumns::color, colorButton);
     connect(colorButton, SIGNAL(clicked()), SLOT(onColorButtonClicked()));
 
-    IconSelectButton *iconButton = new IconSelectButton(t);
+    auto iconButton = new IconSelectButton(t);
     iconButton->setCurrentIcon(tag.icon);
     t->setCellWidget(row, tagsTableColumns::icon, iconButton);
     connect(iconButton, SIGNAL(currentIconChanged(QString)), SLOT(onTableWidgetItemChanged()));

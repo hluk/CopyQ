@@ -94,6 +94,6 @@ public:
     virtual QString shortcutToRemove() = 0;
 };
 
-typedef std::shared_ptr<TestInterface> TestInterfacePtr;
+using TestInterfacePtr = std::shared_ptr<TestInterface>;
 
 #endif // TESTINTERFACE_H

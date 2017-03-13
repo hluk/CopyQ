@@ -80,7 +80,7 @@ const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 
 uint hash(const QVariantMap &data);
 
-QString getTextData(const QByteArray &data);
+QString getTextData(const QByteArray &byte);
 
 /**
  * Get given text format from data; null string if not available.

@@ -77,7 +77,7 @@ void ItemOrderList::insertItem(const QString &label, bool checked, bool highligh
                                const ItemPtr &item, int targetRow)
 {
     QListWidget *list = ui->listWidgetItems;
-    QListWidgetItem *listItem = new QListWidgetItem(icon, label);
+    auto listItem = new QListWidgetItem(icon, label);
     const int row = targetRow >= 0 ? qMin(list->count(), targetRow) : list->count();
     list->insertItem(row, listItem);
     listItem->setCheckState(checked ? Qt::Checked : Qt::Unchecked);

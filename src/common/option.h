@@ -35,7 +35,7 @@ public:
      * Create option with a default value.
      * Current value is taken from object's property.
      */
-    Option(
+    explicit Option(
             const QVariant &default_value, //!< Default value.
             const char *property_name = nullptr,
             //!< Property name of @obj with value for option.

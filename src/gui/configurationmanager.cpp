@@ -139,7 +139,7 @@ void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)
 {
     ui->itemOrderListPlugins->clearItems();
 
-    for ( auto loader : itemFactory->loaders() ) {
+    for ( const auto &loader : itemFactory->loaders() ) {
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
         const QIcon icon = getIcon(loader->icon());
         ui->itemOrderListPlugins->appendItem(
@@ -459,7 +459,7 @@ void ConfigurationManager::apply()
         QWidget *w = ui->itemOrderListPlugins->widget(i);
         if (w) {
             PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
-            auto loader = pluginWidget->loader();
+            const auto &loader = pluginWidget->loader();
             const QVariantMap s = loader->applySettings();
             for (const auto &name : s.keys())
                 settings.setValue(name, s[name]);

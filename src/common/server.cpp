@@ -67,7 +67,7 @@ bool tryAttach(QSharedMemory *shmem)
  */
 QObject *createSystemMutex(const QString &name, QObject *parent)
 {
-    QSharedMemory *shmem = new QSharedMemory(name, parent);
+    auto shmem = new QSharedMemory(name, parent);
 
     QSystemSemaphore createSharedMemoryGuard("shmem_create_" + name, 1);
     if (createSharedMemoryGuard.acquire()) {
