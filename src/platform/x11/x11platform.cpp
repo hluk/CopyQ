@@ -80,17 +80,13 @@ PlatformPtr createPlatformNativeInterface()
     return PlatformPtr(new X11Platform);
 }
 
-X11Platform::X11Platform()
-    : d(new X11DisplayGuard)
-{
-}
-
 X11Platform::~X11Platform()
 {
 }
 
 PlatformWindowPtr X11Platform::getWindow(WId winId)
 {
+    auto d = std::make_shared<X11DisplayGuard>();
     if (!d->display())
         return PlatformWindowPtr();
 
@@ -100,6 +96,7 @@ PlatformWindowPtr X11Platform::getWindow(WId winId)
 
 PlatformWindowPtr X11Platform::getCurrentWindow()
 {
+    auto d = std::make_shared<X11DisplayGuard>();
     if (!d->display())
         return PlatformWindowPtr();
 
@@ -227,6 +224,7 @@ QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)
 
 PlatformClipboardPtr X11Platform::clipboard()
 {
+    auto d = std::make_shared<X11DisplayGuard>();
     return PlatformClipboardPtr(new X11PlatformClipboard(d));
 }
 
