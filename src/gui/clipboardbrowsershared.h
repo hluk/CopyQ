@@ -16,37 +16,35 @@
     You should have received a copy of the GNU General Public License
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef CLIPBOARDBROWSERSHARED_H
+#define CLIPBOARDBROWSERSHARED_H
 
-#ifndef LOG_H
-#define LOG_H
+#include "gui/theme.h"
 
-class QByteArray;
-class QString;
+#include <QString>
 
-enum LogLevel {
-    LogAlways,
-    LogError,
-    LogWarning,
-    LogNote,
-    LogDebug,
-    LogTrace
+#include <memory>
+
+class ItemFactory;
+
+struct ClipboardBrowserShared {
+    explicit ClipboardBrowserShared(ItemFactory *itemFactory);
+
+    void loadFromConfiguration();
+
+    QString editor;
+    int maxItems;
+    bool textWrap;
+    bool viMode;
+    bool saveOnReturnKey;
+    bool moveItemOnReturnKey;
+    bool showSimpleItems;
+    int minutesToExpire;
+
+    ItemFactory *itemFactory;
+
+    Theme theme;
 };
+typedef std::shared_ptr<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 
-QString logFileName();
-
-QString readLogFile(int maxReadSize);
-
-void createSessionMutex();
-
-bool hasLogLevel(LogLevel level);
-
-QByteArray logLevelLabel(LogLevel level);
-
-#define COPYQ_LOG(msg) do { if ( hasLogLevel(LogDebug) ) log(msg, LogDebug); } while (false)
-#define COPYQ_LOG_VERBOSE(msg) do { if ( hasLogLevel(LogTrace) ) log(msg, LogTrace); } while (false)
-
-void log(const QString &text, const LogLevel level = LogNote);
-
-void setCurrentThreadName(const QString &name);
-
-#endif // LOG_H
+#endif // CLIPBOARDBROWSERSHARED_H

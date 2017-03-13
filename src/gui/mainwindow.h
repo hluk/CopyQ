@@ -667,6 +667,8 @@ private:
     bool exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool importDataV3(QDataStream *in, ImportOptions options);
 
+    const Theme &theme() const;
+
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 

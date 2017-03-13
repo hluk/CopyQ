@@ -145,6 +145,7 @@ SOURCES += \
     gui/actiondialog.cpp \
     gui/actionhandler.cpp \
     gui/clipboardbrowser.cpp \
+    gui/clipboardbrowsershared.cpp \
     gui/clipboarddialog.cpp \
     gui/commandwidget.cpp \
     gui/configtabappearance.cpp \

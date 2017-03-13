@@ -25,14 +25,10 @@
 #include <QKeyEvent>
 #include <QString>
 
-#include <memory>
-
-class X11DisplayGuard;
-
 class X11Platform : public PlatformNativeInterface
 {
 public:
-    X11Platform();
+    X11Platform() = default;
 
     ~X11Platform();
 
@@ -81,9 +77,6 @@ public:
     QString translationPrefix() override;
 
     QString themePrefix() override { return QString(); }
-
-private:
-    std::shared_ptr<X11DisplayGuard> d;
 };
 
 #endif // X11PLATFORM_H

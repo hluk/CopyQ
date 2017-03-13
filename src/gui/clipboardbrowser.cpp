@@ -158,38 +158,12 @@ QVariantMap itemData(const QModelIndex &index)
     return index.data(contentType::data).toMap();
 }
 
-ClipboardBrowserShared::ClipboardBrowserShared(ItemFactory *itemFactory)
-    : editor()
-    , maxItems(100)
-    , textWrap(true)
-    , viMode(false)
-    , saveOnReturnKey(false)
-    , moveItemOnReturnKey(false)
-    , showSimpleItems(false)
-    , minutesToExpire(0)
-    , itemFactory(itemFactory)
-{
-}
-
-void ClipboardBrowserShared::loadFromConfiguration()
-{
-    AppConfig appConfig;
-    editor = appConfig.option<Config::editor>();
-    maxItems = appConfig.option<Config::maxitems>();
-    textWrap = appConfig.option<Config::text_wrap>();
-    viMode = appConfig.option<Config::vi>();
-    saveOnReturnKey = !appConfig.option<Config::edit_ctrl_return>();
-    moveItemOnReturnKey = appConfig.option<Config::move>();
-    showSimpleItems = appConfig.option<Config::show_simple_items>();
-    minutesToExpire = appConfig.option<Config::expire_tab>();
-}
-
 ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent)
     : QListView(parent)
     , m_itemSaver(nullptr)
     , m_tabName()
     , m(this)
-    , d(this, sharedData->itemFactory)
+    , d(this, sharedData)
     , m_invalidateCache(false)
     , m_expireAfterEditing(false)
     , m_editor(nullptr)
@@ -1430,7 +1404,8 @@ void ClipboardBrowser::loadSettings()
 {
     expire(true);
 
-    decorate( Theme() );
+    m_sharedData->theme.decorateBrowser(this);
+    invalidateItemCache();
 
     // restore configuration
     m.setMaxItems(m_sharedData->maxItems);
@@ -1448,8 +1423,6 @@ void ClipboardBrowser::loadSettings()
         d.loadEditorSettings(m_editor);
         setEditorWidget(m_editor);
     }
-
-    d.setShowSimpleItems(m_sharedData->showSimpleItems);
 
     if (isVisible())
         loadItems();
@@ -1571,19 +1544,14 @@ QWidget *ClipboardBrowser::currentItemPreview()
         return nullptr;
 
     const QModelIndex index = currentIndex();
+    const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
     ItemWidget *itemWidget =
-            m_sharedData->itemFactory->createItem(index, this, d.fontAntialiasing(), false, true);
+            m_sharedData->itemFactory->createItem(index, this, antialiasing, false, true);
     QWidget *w = itemWidget->widget();
 
     d.highlightMatches(itemWidget);
 
     return w;
-}
-
-void ClipboardBrowser::decorate(const Theme &theme)
-{
-    theme.decorateBrowser(this, &d);
-    invalidateItemCache();
 }
 
 void ClipboardBrowser::findNext()

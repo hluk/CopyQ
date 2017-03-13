@@ -239,22 +239,22 @@ void rotateLogFiles()
     }
 }
 
-QString createLogMessage(const QString &label, const QString &text)
+QByteArray createLogMessage(const QByteArray &label, const QByteArray &text)
 {
-    return label + QString(text).replace("\n", "\n" + label + "   ") + "\n";
+    return label + QByteArray(text).replace("\n", "\n" + label + "   ") + "\n";
 }
 
-QString createSimpleLogMessage(const QString &text, const LogLevel level)
+QByteArray createSimpleLogMessage(const QByteArray &text, const LogLevel level)
 {
     const auto label = logLevelLabel(level) + ": ";
     return createLogMessage(label, text);
 }
 
-QString createLogMessage(const QString &text, const LogLevel level)
+QByteArray createLogMessage(const QByteArray &text, const LogLevel level)
 {
     const auto timeStamp =
-            QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz] ");
-    const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + currentThreadLabel + ": ";
+            QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz] ").toUtf8();
+    const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + QByteArray(currentThreadLabel) + ": ";
     return createLogMessage(label, text);
 }
 
@@ -299,7 +299,7 @@ bool hasLogLevel(LogLevel level)
     return currentLogLevel >= level;
 }
 
-QString logLevelLabel(LogLevel level)
+QByteArray logLevelLabel(LogLevel level)
 {
     switch(level) {
     case LogWarning:
@@ -326,7 +326,8 @@ void log(const QString &text, const LogLevel level)
 
     SystemMutexLocker lock(getSessionMutex());
 
-    const QByteArray msg = createLogMessage(text, level).toUtf8();
+    const auto msgText = text.toUtf8();
+    const auto msg = createLogMessage(msgText, level);
 
     QFile f( logFileName() );
     const bool writtenToLogFile = f.open(QIODevice::Append) && f.write(msg);
@@ -337,7 +338,7 @@ void log(const QString &text, const LogLevel level)
     if ( !writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug) ) {
         QFile ferr;
         ferr.open(stderr, QIODevice::WriteOnly);
-        const auto simpleMsg = createSimpleLogMessage(text, level).toUtf8();
+        const auto simpleMsg = createSimpleLogMessage(msgText, level);
         ferr.write(simpleMsg);
     }
 

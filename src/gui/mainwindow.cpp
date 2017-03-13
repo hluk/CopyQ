@@ -32,6 +32,7 @@
 #include "gui/actiondialog.h"
 #include "gui/actionhandler.h"
 #include "gui/clipboardbrowser.h"
+#include "gui/clipboardbrowsershared.h"
 #include "gui/clipboarddialog.h"
 #include "gui/commandaction.h"
 #include "gui/commanddialog.h"
@@ -328,10 +329,8 @@ QString defaultTabName()
     return tab.isEmpty() ? defaultClipboardTabName() : tab;
 }
 
-void loadItemFactorySettings(ItemFactory *itemFactory)
+void loadItemFactorySettings(ItemFactory *itemFactory, QSettings &settings)
 {
-    QSettings settings;
-
     // load settings for each plugin
     settings.beginGroup("Plugins");
     for ( auto loader : itemFactory->loaders() ) {
@@ -1242,9 +1241,8 @@ void MainWindow::updateNotifications()
     if (m_notifications == nullptr)
         m_notifications = new NotificationDaemon(this);
 
-    const Theme theme;
-    notificationDaemon()->setNotificationOpacity( theme.color("notification_bg").alphaF() );
-    notificationDaemon()->setNotificationStyleSheet( theme.getNotificationStyleSheet() );
+    notificationDaemon()->setNotificationOpacity( theme().color("notification_bg").alphaF() );
+    notificationDaemon()->setNotificationStyleSheet( theme().getNotificationStyleSheet() );
 
     AppConfig appConfig;
     int id = appConfig.option<Config::notification_position>();
@@ -1949,6 +1947,11 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
     return in->status() == QDataStream::Ok;
 }
 
+const Theme &MainWindow::theme() const
+{
+    return m_sharedData->theme;
+}
+
 int MainWindow::findTabIndex(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -2244,13 +2247,18 @@ void MainWindow::loadSettings()
 {
     COPYQ_LOG("Loading configuration");
 
-    loadItemFactorySettings(m_sharedData->itemFactory);
+    QSettings settings;
 
-    const Theme theme;
-    theme.decorateToolBar(ui->toolBar);
-    theme.decorateMainWindow(this);
+    loadItemFactorySettings(m_sharedData->itemFactory, settings);
+
+    settings.beginGroup("Theme");
+    m_sharedData->theme.loadTheme(settings);
+    settings.endGroup();
+
+    theme().decorateToolBar(ui->toolBar);
+    theme().decorateMainWindow(this);
     ui->scrollAreaItemPreview->setObjectName("ClipboardBrowser");
-    theme.decorateItemPreview(ui->scrollAreaItemPreview);
+    theme().decorateItemPreview(ui->scrollAreaItemPreview);
 
     AppConfig appConfig;
 
@@ -2275,7 +2283,7 @@ void MainWindow::loadSettings()
     ui->tabWidget->setTreeModeEnabled(tabTreeEnabled);
     ui->tabWidget->setTabItemCountVisible(appConfig.option<Config::show_tab_item_count>());
     if (tabTreeEnabled)
-        theme.decorateScrollArea(ui->tabWidget->tabTree());
+        theme().decorateScrollArea(ui->tabWidget->tabTree());
 
     m_options.hideTabs = appConfig.option<Config::hide_tabs>();
     setHideTabs(m_options.hideTabs);
@@ -2329,8 +2337,8 @@ void MainWindow::loadSettings()
     m_options.clipboardNotificationLines = appConfig.option<Config::clipboard_notification_lines>();
     m_options.clipboardTab = appConfig.option<Config::clipboard_tab>();
 
-    m_trayMenu->setStyleSheet( theme.getToolTipStyleSheet() );
-    m_menu->setStyleSheet( theme.getToolTipStyleSheet() );
+    m_trayMenu->setStyleSheet( theme().getToolTipStyleSheet() );
+    m_menu->setStyleSheet( theme().getToolTipStyleSheet() );
 
     initTray();
     updateTrayMenuItems();
@@ -2344,7 +2352,6 @@ void MainWindow::loadSettings()
 
     m_lastWindow.reset();
 
-    QSettings settings;
     settings.beginGroup("Shortcuts");
     loadShortcuts(&m_menuItems, settings);
     settings.endGroup();

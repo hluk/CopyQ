@@ -20,7 +20,7 @@
 #ifndef ITEMDELEGATE_H
 #define ITEMDELEGATE_H
 
-#include "gui/theme.h"
+#include "gui/clipboardbrowsershared.h"
 
 #include <QItemDelegate>
 #include <QRegExp>
@@ -47,7 +47,7 @@ class ItemDelegate : public QItemDelegate
     Q_OBJECT
 
     public:
-        explicit ItemDelegate(ClipboardBrowser *view, ItemFactory *itemFactory, QWidget *parent = nullptr);
+        ItemDelegate(ClipboardBrowser *view, const ClipboardBrowserSharedPtr &sharedData, QWidget *parent = nullptr);
 
         ~ItemDelegate();
 
@@ -82,9 +82,6 @@ class ItemDelegate : public QItemDelegate
         /** Show/hide item number. */
         void setRowNumberVisibility(bool show);
 
-        /** Show simple items (single line describing content). */
-        void setShowSimpleItems(bool showSimpleItems);
-
         /** Return cached item, create it if it doesn't exist. */
         ItemWidget *cache(const QModelIndex &index);
 
@@ -96,12 +93,6 @@ class ItemDelegate : public QItemDelegate
 
         /** Save edited item on return or ctrl+return. */
         void setSaveOnEnterKey(bool enable) { m_saveOnReturnKey = enable; }
-
-        /** Enable/disable font antialiasing. */
-        void setFontAntialiasing(bool enable) { m_antialiasing = enable; }
-
-        /** Return true only if font is antialiased. */
-        bool fontAntialiasing() const { return m_antialiasing; }
 
         /** Show/hide row. */
         void setRowVisible(int row, bool visible);
@@ -144,32 +135,14 @@ class ItemDelegate : public QItemDelegate
     private:
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);
 
-        int rowNumberWidth() const;
-        int rowNumberHeight() const;
-
         ClipboardBrowser *m_view;
-        ItemFactory *m_itemFactory;
+        ClipboardBrowserSharedPtr m_sharedData;
         bool m_saveOnReturnKey;
         QRegExp m_re;
         QSize m_maxSize;
         int m_idealWidth;
-        int m_vMargin;
-        int m_hMargin;
-
-        QFont m_foundFont;
-        QPalette m_foundPalette;
-        QFont m_editorFont;
-        QPalette m_editorPalette;
-        QFont m_rowNumberFont;
-        QSize m_rowNumberSize;
-        bool m_showRowNumber;
-        QPalette m_rowNumberPalette;
-        bool m_antialiasing;
-        bool m_createSimpleItems;
 
         QList<ItemWidget*> m_cache;
-
-        Theme m_theme;
 };
 
 #endif
