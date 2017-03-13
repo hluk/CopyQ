@@ -541,7 +541,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1345"/>
         <source>Cannot Add New Items</source>
-        <translation>Es können keine neuen Einträge hinzugefügt werden</translation>
+        <translation>Es können keine neuen Elemente hinzugefügt werden</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1346"/>
@@ -2219,7 +2219,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1447"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation>Das Anzeigeformat des ausgewählten Eintrages im Verlauf kann durch drücken von &lt;b&gt;Strg+Links&lt;/b&gt; oder &lt;b&gt;Strg&lt;/b&gt; verändert werden. Du kannst die Priorität einzelnen der Anzeigeformate darunter verändern.</translation>
+        <translation>Das Anzeigeformat eines Elements kann durch drücken von &lt;b&gt;Strg+Links&lt;/b&gt; oder &lt;b&gt;Strg&lt;/b&gt; verändert werden. Die Priorität der Anzeigeformate hängt von der folgenden Sortierung ab.</translation>
     </message>
     <message>
         <source>Shortcut to edit clipboard content</source>
@@ -2426,7 +2426,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="935"/>
         <source>Show items from current tab in tray menu</source>
-        <translation>Zeige Einträge des aktiven Reiters im Tray-Menü</translation>
+        <translation>Zeige Elemente des aktiven Reiters im Tray-Menü</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="938"/>
@@ -2673,9 +2673,9 @@ Setze diesen Eintrag auf 0 zum Deaktivieren.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>Nicht auswählen um mit der Entertaste veränderte Einträge zu speichen und mit Strg+Enter neue Zeilen zu erstellen.
+        <translation>Nicht auswählen um mit der Entertaste veränderte Elemente zu speichen und mit Strg+Enter neue Zeilen zu erstellen.
 
-Hinweis: Veränderte Eintrage können mit F2 trotz dieser Option gespeichert werden.</translation>
+Hinweis: Bearbeitete Elemente können, trotz dieser Option, mit F2 gespeichert werden.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="824"/>
@@ -3915,7 +3915,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation>Aktiviere FakeVim beim Bearbeiten von Einträgen</translation>
+        <translation>Verwende FakeVim zum Bearbeiten von Elementen</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
@@ -4121,11 +4121,11 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     </message>
     <message>
         <source>Remove Items?</source>
-        <translation type="vanished">Einträge entfernen?</translation>
+        <translation>Elemente entfernen?</translation>
     </message>
     <message>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="vanished">Wollen sie wirkliche &lt;strong&gt;alle Einträge und zugehörige Dateien entfernen&lt;/strong&gt;?</translation>
+        <translation>Möchten Sie wirklich &lt;strong&gt;alle Elemente und zugehörige Dateien entfernen&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="839"/>
@@ -4145,7 +4145,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="132"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation>Einträge und Notizen mit einem Verzeichnis auf der Festplatte synchronisieren.</translation>
+        <translation>Elemente und Notizen mit einem Verzeichnis auf der Festplatte synchronisieren.</translation>
     </message>
 </context>
 <context>
@@ -4158,12 +4158,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="530"/>
         <source>Remove Items?</source>
-        <translation>Einträge entfernen?</translation>
+        <translation>Elemente entfernen?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="531"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation>Möchten Sie wirkliche &lt;strong&gt;alle Einträge und zugehörige Dateien entfernen&lt;/strong&gt;?</translation>
+        <translation>Möchten Sie wirklich &lt;strong&gt;alle Elemente und zugehörige Dateien entfernen&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -4177,8 +4177,8 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Sychronisiere die Inhalte des &lt;strong&gt;Reiters&lt;/strong&gt; mit dem Verzeichnis mit folgenden &lt;strong&gt;Pfad&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Setze einen &lt;strong&gt;leeren Pfad&lt;/strong&gt; um die Einträge dieses &lt;strong&gt;Reiters&lt;/strong&gt; nicht zu speichern.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Sychronisiere die Inhalte des &lt;strong&gt;Reiters&lt;/strong&gt; mit dem Verzeichnis mit folgendem &lt;strong&gt;Pfad&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Setze einen &lt;strong&gt;leeren Pfad&lt;/strong&gt; um die Elemente dieses &lt;strong&gt;Reiters&lt;/strong&gt; nicht zu speichern.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
@@ -5582,7 +5582,7 @@ Inhalt der Zwischenablage setzen.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="95"/>
         <source>Print amount of items in current tab.</source>
-        <translation>Anzahl der Einträge des aktiven Reiters ausgeben.</translation>
+        <translation>Anzahl der Elemente des aktiven Reiters ausgeben.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
