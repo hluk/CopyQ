@@ -20,6 +20,7 @@
 #ifndef LOG_H
 #define LOG_H
 
+class QByteArray;
 class QString;
 
 enum LogLevel {
@@ -39,7 +40,7 @@ void createSessionMutex();
 
 bool hasLogLevel(LogLevel level);
 
-QString logLevelLabel(LogLevel level);
+QByteArray logLevelLabel(LogLevel level);
 
 #define COPYQ_LOG(msg) do { if ( hasLogLevel(LogDebug) ) log(msg, LogDebug); } while (false)
 #define COPYQ_LOG_VERBOSE(msg) do { if ( hasLogLevel(LogTrace) ) log(msg, LogTrace); } while (false)
