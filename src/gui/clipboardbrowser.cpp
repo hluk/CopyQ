@@ -431,17 +431,7 @@ void ClipboardBrowser::updateItemMaximumSize()
 
 void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
 {
-    // Default drop action in item list should be "move."
-    if ( event->possibleActions().testFlag(Qt::MoveAction)
-         && event->mimeData()->hasFormat(mimeItems)
-         && !event->keyboardModifiers().testFlag(Qt::ControlModifier) )
-    {
-        event->setDropAction(Qt::MoveAction);
-        event->accept();
-    } else {
-        event->acceptProposedAction();
-    }
-
+    acceptDrag(event);
     m_dragTargetRow = getDropRow(event->pos());
 }
 

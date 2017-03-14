@@ -26,6 +26,7 @@
 #include <QApplication>
 #include <QBuffer>
 #include <QClipboard>
+#include <QDropEvent>
 #include <QDesktopWidget>
 #include <QDir>
 #include <QImage>
@@ -687,5 +688,25 @@ void terminateProcess(QProcess *p)
     if ( p->state() != QProcess::NotRunning && !p->waitForFinished(5000) ) {
         p->kill();
         p->waitForFinished(5000);
+    }
+}
+
+bool canDropToTab(const QDropEvent &event)
+{
+    const auto &data = *event.mimeData();
+    return data.hasFormat(mimeItems) || data.hasText() || data.hasImage() || data.hasUrls();
+}
+
+void acceptDrag(QDropEvent *event)
+{
+    // Default drop action in item list and tab bar/tree should be "move."
+    if ( event->possibleActions().testFlag(Qt::MoveAction)
+         && event->mimeData()->hasFormat(mimeItems)
+         && !event->keyboardModifiers().testFlag(Qt::ControlModifier) )
+    {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+    } else {
+        event->acceptProposedAction();
     }
 }

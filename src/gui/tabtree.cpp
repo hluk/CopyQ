@@ -131,14 +131,9 @@ QTreeWidgetItem *findLastTreeItem(const QTreeWidget &tree, QStringList *pathComp
     return parentItem;
 }
 
-bool canDrop(const QMimeData &data)
-{
-    return data.hasFormat(mimeItems) || data.hasText() || data.hasImage() || data.hasUrls();
-}
-
 QTreeWidgetItem *dropItemsTarget(const QDropEvent &event, const QTreeWidget &parent)
 {
-    return canDrop( *event.mimeData() ) ? parent.itemAt( event.pos() ) : nullptr;
+    return canDropToTab(event) ? parent.itemAt( event.pos() ) : nullptr;
 }
 
 int itemLabelPadding()
@@ -517,8 +512,8 @@ void TabTree::contextMenuEvent(QContextMenuEvent *event)
 
 void TabTree::dragEnterEvent(QDragEnterEvent *event)
 {
-    if ( canDrop(*event->mimeData()) ) {
-        event->acceptProposedAction();
+    if ( canDropToTab(*event) ) {
+        acceptDrag(event);
     } else {
         QTreeWidget::dragEnterEvent(event);
         // Workaround for QTBUG-44939 (Qt 5.4): Don't ignore successive drag move events.
@@ -529,7 +524,7 @@ void TabTree::dragEnterEvent(QDragEnterEvent *event)
 void TabTree::dragMoveEvent(QDragMoveEvent *event)
 {
     if ( dropItemsTarget(*event, *this) )
-        event->acceptProposedAction();
+        acceptDrag(event);
     else if ( itemAt(event->pos()) )
         QTreeWidget::dragMoveEvent(event);
     else
@@ -544,7 +539,8 @@ void TabTree::dropEvent(QDropEvent *event)
 
     const auto targetItem = dropItemsTarget(*event, *this);
     if (targetItem) {
-        emit dropItems( getTabPath(targetItem), event );
+        acceptDrag(event);
+        emit dropItems( getTabPath(targetItem), event->mimeData() );
     } else if ( itemAt(event->pos()) ) {
         const QString oldPrefix = getTabPath(current);
 

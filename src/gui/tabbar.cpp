@@ -19,6 +19,7 @@
 
 #include "tabbar.h"
 
+#include "common/common.h"
 #include "common/mimetypes.h"
 #include "gui/iconfactory.h"
 #include "gui/tabicons.h"
@@ -31,14 +32,9 @@
 
 namespace {
 
-bool canDrop(const QMimeData &data)
-{
-    return data.hasFormat(mimeItems) || data.hasText() || data.hasImage() || data.hasUrls();
-}
-
 int dropItemsTabIndex(const QDropEvent &event, const QTabBar &parent)
 {
-    return canDrop( *event.mimeData() ) ? parent.tabAt( event.pos() ) : -1;
+    return canDropToTab(event) ? parent.tabAt( event.pos() ) : -1;
 }
 
 int tabIndex(const QString &tabName, const QTabBar &parent)
@@ -135,8 +131,8 @@ void TabBar::mousePressEvent(QMouseEvent *event)
 
 void TabBar::dragEnterEvent(QDragEnterEvent *event)
 {
-    if ( canDrop(*event->mimeData()) )
-        event->acceptProposedAction();
+    if ( canDropToTab(*event) )
+        acceptDrag(event);
     else
         QTabBar::dragEnterEvent(event);
 }
@@ -144,7 +140,7 @@ void TabBar::dragEnterEvent(QDragEnterEvent *event)
 void TabBar::dragMoveEvent(QDragMoveEvent *event)
 {
     if ( dropItemsTabIndex(*event, *this) != -1 )
-        event->acceptProposedAction();
+        acceptDrag(event);
     else
         QTabBar::dragMoveEvent(event);
 }
@@ -154,7 +150,7 @@ void TabBar::dropEvent(QDropEvent *event)
     int tabIndex = dropItemsTabIndex(*event, *this);
 
     if ( tabIndex != -1 )
-        emit dropItems( tabText(tabIndex), event );
+        emit dropItems( tabText(tabIndex), event->mimeData() );
     else
         QTabBar::dropEvent(event);
 }

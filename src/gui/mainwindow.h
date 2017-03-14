@@ -546,7 +546,7 @@ private slots:
 
     void onCommandActionTriggered(const Command &command, const QVariantMap &actionData, int commandType);
 
-    void on_tabWidget_dropItems(const QString &tabName, QDropEvent *event);
+    void on_tabWidget_dropItems(const QString &tabName, const QMimeData *data);
 
     void showContextMenu(const QPoint &position);
 

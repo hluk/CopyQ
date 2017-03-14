@@ -41,6 +41,7 @@ public:
 
 class QAction;
 class QByteArray;
+class QDropEvent;
 class QIODevice;
 class QKeyEvent;
 class QKeySequence;
@@ -193,5 +194,15 @@ bool handleViKey(QKeyEvent *event, QObject *eventReceiver);
  * Terminate process or kill if it takes too long.
  */
 void terminateProcess(QProcess *p);
+
+/**
+ * Return true only if tabs can accept the drag'n'drop event.
+ */
+bool canDropToTab(const QDropEvent &event);
+
+/**
+ * Accept any proposed drop action, preferably "move" if items data available.
+ */
+void acceptDrag(QDropEvent *event);
 
 #endif // COMMON_H

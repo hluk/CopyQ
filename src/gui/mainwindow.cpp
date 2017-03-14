@@ -934,16 +934,14 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
         hideWindow();
 }
 
-void MainWindow::on_tabWidget_dropItems(const QString &tabName, QDropEvent *event)
+void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData *data)
 {
     ClipboardBrowser *browser = tab(tabName);
 
     if ( browser->isLoaded() ) {
-        const QMimeData &data = *event->mimeData();
-        const QVariantMap dataMap = data.hasFormat(mimeItems)
-                ? cloneData(data, QStringList() << mimeItems) : cloneData(data);
+        const QVariantMap dataMap = data->hasFormat(mimeItems)
+                ? cloneData(*data, QStringList() << mimeItems) : cloneData(*data);
         browser->paste(dataMap, 0);
-        event->acceptProposedAction();
     }
 }
 
