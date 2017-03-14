@@ -40,7 +40,7 @@ struct NamedValue {
     QVariant value;
 };
 
-typedef QVector<NamedValue> NamedValueList;
+using NamedValueList = QVector<NamedValue>;
 
 class ScriptableProxy : public QObject
 {
@@ -79,7 +79,7 @@ public:
     QString removeTab(const QString &arg1);
 
     QString tabIcon(const QString &tabName);
-    void setTabIcon(const QString &tabName, const QString &iconName);
+    void setTabIcon(const QString &tabName, const QString &icon);
 
     bool showBrowser(const QString &tabName);
     bool showBrowserAt(const QString &tabName, const QRect &rect);

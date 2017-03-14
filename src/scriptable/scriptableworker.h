@@ -60,7 +60,7 @@ public:
     ScriptableWorker(
             MainWindow *mainWindow,
             const ClientSocketPtr &socket,
-            const QList<ItemScriptable*> scriptables);
+            const QList<ItemScriptable*> &scriptables);
 
     ~ScriptableWorker();
 

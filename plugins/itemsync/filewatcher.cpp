@@ -642,7 +642,7 @@ bool FileWatcher::renameToUnique(const QDir &dir, const QStringList &baseNames, 
     return true;
 }
 
-bool FileWatcher::renameMoveCopy(const QDir dir, const QList<QModelIndex> &indexList)
+bool FileWatcher::renameMoveCopy(const QDir &dir, const QList<QModelIndex> &indexList)
 {
     QStringList baseNames;
 

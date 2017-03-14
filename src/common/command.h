@@ -57,7 +57,7 @@ struct Command {
         , outputTab()
         {}
 
-    bool operator==(Command &other) const {
+    bool operator==(const Command &other) const {
         return name == other.name
             && re == other.re
             && wndre == other.wndre
@@ -80,7 +80,7 @@ struct Command {
             && outputTab == other.outputTab;
     }
 
-    bool operator!=(Command &other) const {
+    bool operator!=(const Command &other) const {
         return !(*this == other);
     }
 

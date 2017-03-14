@@ -43,7 +43,7 @@ public:
     };
 
     Arguments();
-    Arguments(const QStringList &arguments);
+    explicit Arguments(const QStringList &arguments);
 
     ~Arguments();
 

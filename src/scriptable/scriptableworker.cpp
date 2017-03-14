@@ -51,7 +51,7 @@ ClientSocket *ScriptableWorkerSocketGuard::socket() const
 ScriptableWorker::ScriptableWorker(
         MainWindow *mainWindow,
         const ClientSocketPtr &socket,
-        const QList<ItemScriptable*> scriptables)
+        const QList<ItemScriptable*> &scriptables)
     : QRunnable()
     , m_wnd(mainWindow)
     , m_socketGuard(new ScriptableWorkerSocketGuard(socket))
@@ -59,9 +59,7 @@ ScriptableWorker::ScriptableWorker(
 {
 }
 
-ScriptableWorker::~ScriptableWorker()
-{
-}
+ScriptableWorker::~ScriptableWorker() = default;
 
 void ScriptableWorker::run()
 {

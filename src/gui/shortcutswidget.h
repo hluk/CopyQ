@@ -35,11 +35,11 @@ class QTableWidgetItem;
 
 struct MenuAction {
     QString iconName;
-    ushort iconId;
+    ushort iconId{};
     QString text;
     QString settingsKey;
-    QTableWidgetItem *tableItem;
-    ShortcutButton *shortcutButton;
+    QTableWidgetItem *tableItem{};
+    ShortcutButton *shortcutButton{};
 };
 
 /**
@@ -55,9 +55,9 @@ public:
     ~ShortcutsWidget();
 
     /** Load shortcuts from settings file. */
-    void loadShortcuts(QSettings &settings);
+    void loadShortcuts(const QSettings &settings);
     /** Save shortcuts to settings file. */
-    void saveShortcuts(QSettings &settings) const;
+    void saveShortcuts(QSettings *settings) const;
 
 protected:
     void showEvent(QShowEvent *event) override;

@@ -112,7 +112,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
 
         layout = new QVBoxLayout(this);
 
-        QHBoxLayout *labelLayout = new QHBoxLayout;
+        auto labelLayout = new QHBoxLayout;
         labelLayout->setMargin(0);
         labelLayout->setContentsMargins(notesIndent, 0, 0, 0);
 
@@ -289,9 +289,7 @@ ItemNotesLoader::ItemNotesLoader()
 {
 }
 
-ItemNotesLoader::~ItemNotesLoader()
-{
-}
+ItemNotesLoader::~ItemNotesLoader() = default;
 
 QStringList ItemNotesLoader::formatsToSave() const
 {

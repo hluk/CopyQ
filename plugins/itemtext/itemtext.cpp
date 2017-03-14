@@ -199,9 +199,7 @@ ItemTextLoader::ItemTextLoader()
 {
 }
 
-ItemTextLoader::~ItemTextLoader()
-{
-}
+ItemTextLoader::~ItemTextLoader() = default;
 
 ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {
@@ -217,7 +215,7 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent, bo
 
     const int maxLines = preview ? 0 : m_settings.value(optionMaximumLines, 0).toInt();
     const int maxHeight = preview ? 0 : m_settings.value(optionMaximumHeight, 0).toInt();
-    ItemText *item = new ItemText(text, isRichText, maxLines, maxHeight, parent);
+    auto item = new ItemText(text, isRichText, maxLines, maxHeight, parent);
 
     // Allow faster selection in preview window.
     if (!preview)

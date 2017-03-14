@@ -53,7 +53,7 @@ class ByteArrayClass : public QObject, public QScriptClass
 {
     Q_OBJECT
 public:
-    ByteArrayClass(QScriptEngine *engine);
+    explicit ByteArrayClass(QScriptEngine *engine);
     ~ByteArrayClass();
 
     QScriptValue constructor();

@@ -309,7 +309,7 @@ void ItemEditorWidget::initEditor(QWidget *editor)
 
     m_toolBar = new QToolBar(this);
 
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    auto layout = new QVBoxLayout(this);
     layout->setSpacing(0);
     layout->setContentsMargins(QMargins(0, 0, 0, 0));
     layout->addWidget(m_toolBar);

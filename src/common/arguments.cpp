@@ -79,9 +79,7 @@ Arguments::Arguments(const QStringList &arguments)
     }
 }
 
-Arguments::~Arguments()
-{
-}
+Arguments::~Arguments() = default;
 
 void Arguments::reset()
 {

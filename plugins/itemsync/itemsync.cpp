@@ -340,12 +340,12 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     , m_icon( new IconWidget(icon, this) )
     , m_childItem(childItem)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->setSizeConstraint(QLayout::SetMinimumSize);
 
-    QHBoxLayout *labelLayout = new QHBoxLayout;
+    auto labelLayout = new QHBoxLayout;
     connect(layout, SIGNAL(destroyed()), labelLayout, SLOT(deleteLater()));
     labelLayout->setContentsMargins(0, 0, 0, 0);
     labelLayout->setSpacing(0);
@@ -630,9 +630,7 @@ ItemSyncLoader::ItemSyncLoader()
 {
 }
 
-ItemSyncLoader::~ItemSyncLoader()
-{
-}
+ItemSyncLoader::~ItemSyncLoader() = default;
 
 QVariantMap ItemSyncLoader::applySettings()
 {
@@ -733,7 +731,7 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
         t->setItem( row, formatSettingsTableColumns::formats, new QTableWidgetItem(formats) );
         t->setItem( row, formatSettingsTableColumns::itemMime, new QTableWidgetItem(format.value("itemMime").toString()) );
 
-        IconSelectButton *button = new IconSelectButton();
+        auto button = new IconSelectButton();
         button->setCurrentIcon( format.value("icon").toString() );
         t->setCellWidget(row, formatSettingsTableColumns::icon, button);
     }

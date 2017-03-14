@@ -58,7 +58,7 @@ template <typename Object, typename ObjectPrototype>
 class ScriptableClass : public ScriptableClassBase
 {
 public:
-    typedef Object ScriptableValueType;
+    using ScriptableValueType = Object;
 
     explicit ScriptableClass(QScriptEngine *engine)
         : ScriptableClassBase(engine)

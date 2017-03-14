@@ -25,7 +25,7 @@
 #ifdef __OBJC__
 @class NSTimer;
 #else
-typedef void NSTimer;
+using NSTimer = void;
 #endif
 
 /**

@@ -264,7 +264,7 @@ bool ClipboardModel::move(int pos, int newpos)
     return true;
 }
 
-bool ClipboardModel::moveItemsWithKeyboard(QModelIndexList indexList, int key, int count) {
+bool ClipboardModel::moveItemsWithKeyboard(const QModelIndexList &indexList, int key, int count) {
     int from, to;
     bool res = false;
 
@@ -336,10 +336,10 @@ void ClipboardModel::sortItems(const QModelIndexList &indexList, CompareItems *c
     }
 }
 
-int ClipboardModel::findItem(uint item_hash) const
+int ClipboardModel::findItem(uint itemHash) const
 {
     for (int i = 0; i < m_clipboardList.size(); ++i) {
-        if ( m_clipboardList[i].dataHash() == item_hash )
+        if ( m_clipboardList[i].dataHash() == itemHash )
             return i;
     }
 

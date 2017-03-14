@@ -39,7 +39,7 @@ const auto logLinePrefix = "CopyQ ";
 void addFilterCheckBox(QLayout *layout, LogLevel level, const char *slot)
 {
     QWidget *parent = layout->parentWidget();
-    QCheckBox *checkBox = new QCheckBox(parent);
+    auto checkBox = new QCheckBox(parent);
     checkBox->setText(logLevelLabel(level));
     checkBox->setChecked(true);
     QObject::connect(checkBox, SIGNAL(toggled(bool)), parent, slot);

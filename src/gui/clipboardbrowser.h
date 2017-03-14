@@ -143,7 +143,7 @@ class ClipboardBrowser : public QListView
          * @a item is automatically deleted after it's no longer needed.
          */
         bool add(
-                const QVariantMap &item, //!< Data for new item.
+                const QVariantMap &data, //!< Data for new item.
                 int row = 0 //!< Target row for the new item (negative to append item).
                 );
 
@@ -336,7 +336,7 @@ class ClipboardBrowser : public QListView
          */
         bool startEditor(QObject *editor, bool changeClipboard = false);
 
-        void setEditorWidget(ItemEditorWidget *widget, bool changeClipboard = false);
+        void setEditorWidget(ItemEditorWidget *editor, bool changeClipboard = false);
 
         void editItem(const QModelIndex &index, bool editNotes = false, bool changeClipboard = false);
 
@@ -390,7 +390,6 @@ class ClipboardBrowser : public QListView
         bool m_expireAfterEditing;
 
         ItemEditorWidget *m_editor;
-        bool m_editClipboard;
 
         ClipboardBrowserSharedPtr m_sharedData;
 

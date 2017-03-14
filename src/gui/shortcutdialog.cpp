@@ -115,7 +115,9 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
         }
 
         return false;
-    } else if (event->type() == QEvent::KeyRelease) {
+    }
+
+    if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         COPYQ_LOG(QString("Shortcut key release: %1").arg(keyEvent->key()));
 

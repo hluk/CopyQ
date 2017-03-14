@@ -40,7 +40,7 @@ ConfigTabShortcuts::~ConfigTabShortcuts()
     delete ui;
 }
 
-void ConfigTabShortcuts::loadShortcuts(QSettings &settings)
+void ConfigTabShortcuts::loadShortcuts(const QSettings &settings)
 {
     ui->shortcutsWidgetGeneral->loadShortcuts(settings);
 
@@ -48,7 +48,7 @@ void ConfigTabShortcuts::loadShortcuts(QSettings &settings)
     ui->pushButtonOpenCommandDialog->setIcon(iconCommandDialog);
 }
 
-void ConfigTabShortcuts::saveShortcuts(QSettings &settings) const
+void ConfigTabShortcuts::saveShortcuts(QSettings *settings) const
 {
     ui->shortcutsWidgetGeneral->saveShortcuts(settings);
 }

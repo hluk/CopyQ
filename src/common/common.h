@@ -41,6 +41,7 @@ public:
 
 class QAction;
 class QByteArray;
+class QDropEvent;
 class QIODevice;
 class QKeyEvent;
 class QKeySequence;
@@ -79,7 +80,7 @@ const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 
 uint hash(const QVariantMap &data);
 
-QString getTextData(const QByteArray &data);
+QString getTextData(const QByteArray &bytes);
 
 /**
  * Get given text format from data; null string if not available.
@@ -178,7 +179,7 @@ QPoint toScreen(const QPoint &pos, int w = 0, int h = 0);
 bool hasKeyHint(const QString &name);
 
 /// Removes key hint (first unescaped '&') from UI name.
-QString removeKeyHint(QString &name);
+QString &removeKeyHint(QString *name);
 
 void moveWindowOnScreen(QWidget *w, const QPoint &pos);
 
@@ -193,5 +194,15 @@ bool handleViKey(QKeyEvent *event, QObject *eventReceiver);
  * Terminate process or kill if it takes too long.
  */
 void terminateProcess(QProcess *p);
+
+/**
+ * Return true only if tabs can accept the drag'n'drop event.
+ */
+bool canDropToTab(const QDropEvent &event);
+
+/**
+ * Accept any proposed drop action, preferably "move" if items data available.
+ */
+void acceptDrag(QDropEvent *event);
 
 #endif // COMMON_H

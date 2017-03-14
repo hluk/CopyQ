@@ -23,7 +23,7 @@
 
 #include <QCoreApplication>
 
-#include <signal.h>
+#include <csignal>
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -37,7 +37,7 @@ bool UnixSignalHandler::create(QObject *parent)
         return true;
 
     // Safely quit application on TERM and HUP signals.
-    struct sigaction sigact;
+    struct sigaction sigact{};
 
     sigact.sa_handler = UnixSignalHandler::exitSignalHandler;
     sigemptyset(&sigact.sa_mask);

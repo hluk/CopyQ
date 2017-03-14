@@ -44,9 +44,9 @@ public:
     ~ConfigTabAppearance();
 
     /** Load theme from settings file. */
-    void loadTheme(QSettings &settings);
+    void loadTheme(const QSettings &settings);
     /** Save theme to settings file. */
-    void saveTheme(QSettings &settings);
+    void saveTheme(QSettings *settings);
 
     void setEditor(const QString &editor) { m_editor = editor; }
 

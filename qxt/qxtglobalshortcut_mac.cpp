@@ -35,7 +35,7 @@
 #include <QtDebug>
 #include <QApplication>
 
-typedef QPair<uint, uint> Identifier;
+using Identifier = QPair<uint, uint>;
 static QMap<quint32, EventHotKeyRef> keyRefs;
 static QHash<Identifier, quint32> keyIDs;
 static quint32 hotKeySerial = 0;

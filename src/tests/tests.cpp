@@ -1788,7 +1788,7 @@ void Tests::nextPreviousTab()
     const auto tab2 = testTab(2);
     RUN("tab" << tab2 << "size", "0\n");
 
-    typedef QPair<QString, QString> KeyPair;
+    using KeyPair = QPair<QString, QString>;
     const QList<KeyPair> keyPairs = QList<KeyPair>()
             << KeyPair(keyNameFor(QKeySequence::NextChild), keyNameFor(QKeySequence::PreviousChild))
             << KeyPair("RIGHT", "LEFT");

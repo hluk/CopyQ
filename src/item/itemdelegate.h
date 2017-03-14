@@ -56,7 +56,7 @@ class ItemDelegate : public QItemDelegate
         QSize sizeHint(const QStyleOptionViewItem &option,
                        const QModelIndex &index) const override;
 
-        bool eventFilter(QObject *object, QEvent *event) override;
+        bool eventFilter(QObject *obj, QEvent *event) override;
 
         /** Remove all cached items. */
         void invalidateCache();
@@ -89,7 +89,7 @@ class ItemDelegate : public QItemDelegate
         bool hasCache(const QModelIndex &index) const;
 
         /** Set maximum size for all items. */
-        void setItemSizes(const QSize &maxSize, int idealWidth);
+        void setItemSizes(const QSize &size, int idealWidth);
 
         /** Save edited item on return or ctrl+return. */
         void setSaveOnEnterKey(bool enable) { m_saveOnReturnKey = enable; }

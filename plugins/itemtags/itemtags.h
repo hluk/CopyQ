@@ -48,7 +48,7 @@ public:
         QString match;
     };
 
-    typedef QVector<Tag> Tags;
+    using Tags = QVector<ItemTags::Tag>;
 
     ItemTags(ItemWidget *childItem, const Tags &tags);
 
@@ -155,8 +155,8 @@ private slots:
     void onTableWidgetItemChanged();
 
 private:
-    typedef ItemTags::Tag Tag;
-    typedef ItemTags::Tags Tags;
+    using Tag = ItemTags::Tag;
+    using Tags = ItemTags::Tags;
 
     static QString serializeTag(const Tag &tag);
     static Tag deserializeTag(const QString &tagText);

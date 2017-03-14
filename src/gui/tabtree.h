@@ -84,7 +84,7 @@ signals:
     void currentTabChanged(int index);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix, const QList<int> &indexes);
-    void dropItems(const QString &tabName, QDropEvent *event);
+    void dropItems(const QString &tabName, const QMimeData *data);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;

@@ -290,14 +290,11 @@ QVariant Scriptable::toVariant(const QScriptValue &value) const
     return value.toVariant();
 }
 
-bool Scriptable::toInt(const QScriptValue &value, int &number) const
+bool Scriptable::toInt(const QScriptValue &value, int *number) const
 {
     bool ok;
-    number = toString(value).toInt(&ok);
-    if (!ok)
-        return false;
-
-    return true;
+    *number = toString(value).toInt(&ok);
+    return ok;
 }
 
 QVariantMap Scriptable::toDataMap(const QScriptValue &value) const
@@ -459,19 +456,19 @@ void Scriptable::showAt()
     QRect rect(-1, -1, 0, 0);
     int n;
     int i = 0;
-    if ( toInt(argument(i), n) ) {
+    if ( toInt(argument(i), &n) ) {
         rect.setX(n);
         ++i;
 
-        if ( toInt(argument(i), n) ) {
+        if ( toInt(argument(i), &n) ) {
             rect.setY(n);
             ++i;
 
-            if ( toInt(argument(i), n) ) {
+            if ( toInt(argument(i), &n) ) {
                 rect.setWidth(n);
                 ++i;
 
-                if ( toInt(argument(i), n) ) {
+                if ( toInt(argument(i), &n) ) {
                     rect.setHeight(n);
                     ++i;
                 }
@@ -512,7 +509,7 @@ void Scriptable::menu()
         int maxItemCount = -1;
         if (argumentCount() == 2) {
             const auto value = argument(1);
-            if ( !toInt(value, maxItemCount) || maxItemCount <= 0 ) {
+            if ( !toInt(value, &maxItemCount) || maxItemCount <= 0 ) {
                 throwError(argumentError());
                 return;
             }
@@ -670,7 +667,7 @@ void Scriptable::select()
     m_skipArguments = 1;
     QScriptValue value = argument(0);
     int row;
-    if ( toInt(value, row) )
+    if ( toInt(value, &row) )
         m_proxy->browserMoveToClipboard(row);
 }
 
@@ -705,7 +702,7 @@ void Scriptable::insert()
     m_skipArguments = 2;
 
     int row;
-    if ( !toInt(argument(0), row) ) {
+    if ( !toInt(argument(0), &row) ) {
         throwError(argumentError());
         return;
     }
@@ -744,7 +741,7 @@ void Scriptable::edit()
         value = argument(i);
         if (i > 0)
             text.append( getInputSeparator() );
-        if ( toInt(value, row) ) {
+        if ( toInt(value, &row) ) {
             const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(row, mimeText)
                                               : m_proxy->getClipboardData(mimeText);
             text.append( getTextData(bytes) );
@@ -779,7 +776,7 @@ QScriptValue Scriptable::read()
     for ( int i = 0; i < argumentCount(); ++i ) {
         value = argument(i);
         int row;
-        if ( toInt(value, row) ) {
+        if ( toInt(value, &row) ) {
             if (used)
                 result.append(sep.toUtf8());
             used = true;
@@ -825,7 +822,7 @@ void Scriptable::action()
     for ( i = 0; i < argumentCount(); ++i ) {
         value = argument(i);
         int row;
-        if (!toInt(value, row))
+        if (!toInt(value, &row))
             break;
         if (anyRows)
             text.append(sep);
@@ -864,7 +861,7 @@ void Scriptable::popup()
     QString title = arg(0);
     QString message = arg(1);
     int msec;
-    if ( !toInt(argument(2), msec) )
+    if ( !toInt(argument(2), &msec) )
         msec = 8000;
     m_proxy->showMessage(title, message, QSystemTrayIcon::Information, msec);
 }
@@ -956,7 +953,7 @@ QScriptValue Scriptable::info()
 {
     m_skipArguments = 1;
 
-    typedef QMap<QString, QString> InfoMap;
+    using InfoMap = QMap<QString, QString>;
     InfoMap info;
     info.insert("config", QSettings().fileName());
     info.insert("exe", QCoreApplication::applicationFilePath());
@@ -1308,7 +1305,7 @@ QScriptValue Scriptable::getItem()
     m_skipArguments = 1;
 
     int row;
-    if ( !toInt(argument(0), row) ) {
+    if ( !toInt(argument(0), &row) ) {
         throwError(argumentError());
         return QScriptValue();
     }
@@ -1321,7 +1318,7 @@ void Scriptable::setItem()
     m_skipArguments = 2;
 
     int row;
-    if ( !toInt(argument(0), row) ) {
+    if ( !toInt(argument(0), &row) ) {
         throwError(argumentError());
         return;
     }
@@ -1547,7 +1544,7 @@ void Scriptable::sleep()
     };
 
     int msec;
-    if ( !toInt(argument(0), msec) ) {
+    if ( !toInt(argument(0), &msec) ) {
         throwError(argumentError());
         return;
     }
@@ -1750,7 +1747,7 @@ QList<int> Scriptable::getRows() const
 
     for ( int i = 0; i < argumentCount(); ++i ) {
         int row;
-        if ( !toInt(argument(i), row) )
+        if ( !toInt(argument(i), &row) )
             break;
         rows.append(row);
     }
@@ -1768,7 +1765,7 @@ QScriptValue Scriptable::copy(QClipboard::Mode mode)
         const QString mime = COPYQ_MIME_PREFIX "invalid";
         const QByteArray value = "invalid";
         data.insert(mime, value);
-        if ( !setClipboard(data, mode) )
+        if ( !setClipboard(&data, mode) )
             return false;
 
         m_proxy->copyFromCurrentWindow();
@@ -1779,7 +1776,7 @@ QScriptValue Scriptable::copy(QClipboard::Mode mode)
     if (args == 1) {
         QScriptValue value = argument(0);
         setTextData( &data, toString(value) );
-        return setClipboard(data, mode);
+        return setClipboard(&data, mode);
     }
 
     if (args % 2 == 0) {
@@ -1791,21 +1788,21 @@ QScriptValue Scriptable::copy(QClipboard::Mode mode)
             toItemData(argument(++i), mime, &data);
         }
 
-        return setClipboard(data, mode);
+        return setClipboard(&data, mode);
     }
 
     throwError(argumentError());
     return false;
 }
 
-bool Scriptable::setClipboard(QVariantMap &data, QClipboard::Mode mode)
+bool Scriptable::setClipboard(QVariantMap *data, QClipboard::Mode mode)
 {
     const QString mime = COPYQ_MIME_PREFIX "hash";
-    data.remove(mime);
-    const QByteArray id = QByteArray::number(hash(data));
-    data.insert(mime, id);
+    data->remove(mime);
+    const QByteArray id = QByteArray::number(hash(*data));
+    data->insert(mime, id);
 
-    m_proxy->setClipboard(data, mode);
+    m_proxy->setClipboard(*data, mode);
 
     // Wait for clipboard to be set.
     for (int i = 0; i < 200; ++i) {
@@ -1825,7 +1822,7 @@ void Scriptable::changeItem(bool create)
     int i;
 
     // [ROW]
-    if ( toInt(argument(0), row) ) {
+    if ( toInt(argument(0), &row) ) {
         if (args < 3 || args % 2 != 1 ) {
             throwError(argumentError());
             return;
@@ -1864,9 +1861,9 @@ void Scriptable::nextToClipboard(int where)
     if (data.isEmpty())
         return;
 
-    setClipboard(data, QClipboard::Clipboard);
+    setClipboard(&data, QClipboard::Clipboard);
 #ifdef HAS_MOUSE_SELECTIONS
-    setClipboard(data, QClipboard::Selection);
+    setClipboard(&data, QClipboard::Selection);
 #endif
 }
 
@@ -1893,7 +1890,7 @@ QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)
 
 QScriptValue NetworkReply::post(const QString &url, const QByteArray &postData, Scriptable *scriptable)
 {
-    NetworkReply *reply = new NetworkReply(url, postData, scriptable);
+    auto reply = new NetworkReply(url, postData, scriptable);
     return reply->toScriptValue();
 }
 

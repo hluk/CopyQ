@@ -77,7 +77,7 @@ void showNotificationInspectDialog(
     QObject::connect( copyButton, SIGNAL(clicked()), editor, SLOT(copy()) );
     buttons->addButton(copyButton, QDialogButtonBox::ActionRole);
 
-    QVBoxLayout *layout = new QVBoxLayout( dialog.get() );
+    auto layout = new QVBoxLayout( dialog.get() );
     layout->addWidget(editor);
     layout->addWidget(buttons);
 
@@ -99,13 +99,13 @@ Notification::Notification(int id)
     , m_opacity(1.0)
     , m_icon(0)
 {
-    QVBoxLayout *bodyLayout = new QVBoxLayout(this);
+    auto bodyLayout = new QVBoxLayout(this);
     bodyLayout->setMargin(8);
     m_body = new QWidget(this);
     bodyLayout->addWidget(m_body);
     bodyLayout->setSizeConstraint(QLayout::SetMaximumSize);
 
-    QGridLayout *layout = new QGridLayout(m_body);
+    auto layout = new QGridLayout(m_body);
     layout->setMargin(0);
 
     m_titleLabel = new QLabel(this);

@@ -143,7 +143,7 @@ void ItemImage::startAnimation()
 {
     if ( !m_animationData.isEmpty() ) {
         if (!m_animation) {
-            QBuffer *stream = new QBuffer(&m_animationData, this);
+            auto stream = new QBuffer(&m_animationData, this);
             m_animation = new QMovie(stream, m_animationFormat, this);
             m_animation->setScaledSize( m_pixmap.size() );
         }
@@ -168,9 +168,7 @@ ItemImageLoader::ItemImageLoader()
 {
 }
 
-ItemImageLoader::~ItemImageLoader()
-{
-}
+ItemImageLoader::~ItemImageLoader() = default;
 
 ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
 {

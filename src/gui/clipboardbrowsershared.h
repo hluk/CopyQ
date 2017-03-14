@@ -45,6 +45,6 @@ struct ClipboardBrowserShared {
 
     Theme theme;
 };
-typedef std::shared_ptr<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
+using ClipboardBrowserSharedPtr = std::shared_ptr<ClipboardBrowserShared>;
 
 #endif // CLIPBOARDBROWSERSHARED_H

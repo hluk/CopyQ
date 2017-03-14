@@ -313,9 +313,7 @@ ItemPinnedLoader::ItemPinnedLoader()
 {
 }
 
-ItemPinnedLoader::~ItemPinnedLoader()
-{
-}
+ItemPinnedLoader::~ItemPinnedLoader() = default;
 
 QStringList ItemPinnedLoader::formatsToSave() const
 {

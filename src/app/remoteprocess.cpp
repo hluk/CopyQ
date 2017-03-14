@@ -58,9 +58,6 @@ RemoteProcess::~RemoteProcess()
 void RemoteProcess::start(const QString &newServerName, const QStringList &arguments)
 {
     Q_ASSERT(!isConnected());
-    if ( isConnected() )
-        return;
-
     terminate();
 
     m_state = Connecting;

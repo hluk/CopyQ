@@ -121,7 +121,7 @@ private:
 
     bool renameToUnique(const QDir &dir, const QStringList &baseNames, QString *name);
 
-    bool renameMoveCopy(const QDir dir, const QList<QModelIndex> &indexList);
+    bool renameMoveCopy(const QDir &dir, const QList<QModelIndex> &indexList);
 
     void updateDataAndWatchFile(
             const QDir &dir, const BaseNameExtensions &baseNameWithExts,

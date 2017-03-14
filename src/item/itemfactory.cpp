@@ -76,7 +76,7 @@ void trySetPixmap(QLabel *label, const QVariantMap &data, int height)
 /** Sort plugins by prioritized list of names. */
 class PluginSorter {
 public:
-    PluginSorter(const QStringList &pluginNames) : m_order(pluginNames) {}
+    explicit PluginSorter(const QStringList &pluginNames) : m_order(pluginNames) {}
 
     int value(const ItemLoaderPtr &item) const
     {

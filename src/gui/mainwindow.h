@@ -239,7 +239,7 @@ public:
     /** Remove tab. */
     void removeTab(
             bool ask, //!< Ask before removing.
-            int tab_index //!< Tab index or current tab.
+            int tabIndex //!< Tab index or current tab.
             );
     /** Set icon for tab or tab group. */
     void setTabIcon(const QString &tabName);
@@ -252,7 +252,7 @@ public:
      */
     bool saveTab(
             const QString &fileName,
-            int tab_index = -1 //!< Tab index or current tab.
+            int tabIndex = -1 //!< Tab index or current tab.
             );
 
     /** Save all unsaved tabs. */
@@ -546,7 +546,7 @@ private slots:
 
     void onCommandActionTriggered(const Command &command, const QVariantMap &actionData, int commandType);
 
-    void on_tabWidget_dropItems(const QString &tabName, QDropEvent *event);
+    void on_tabWidget_dropItems(const QString &tabName, const QMimeData *data);
 
     void showContextMenu(const QPoint &position);
 
@@ -557,8 +557,8 @@ private slots:
     void automaticCommandTestFinished(const Command &command, bool passed);
 
     QAction *enableActionForCommand(QMenu *menu, const Command &command, bool enable);
-    void addCommandsToItemMenu(const Command &command, bool enable);
-    void addCommandsToTrayMenu(const Command &command, bool enable);
+    void addCommandsToItemMenu(const Command &command, bool passed);
+    void addCommandsToTrayMenu(const Command &command, bool passed);
 
     void nextItemFormat();
     void previousItemFormat();
@@ -655,12 +655,12 @@ private:
     void updateActionShortcuts(int id);
     void updateActionShortcuts();
 
-    void pasteClipboard(PlatformWindowPtr window);
+    void pasteClipboard(const PlatformWindowPtr &window);
 
     QAction *actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context);
 
     void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
-    void onMenuActionTriggered(ClipboardBrowser *c, uint clipboardItemHash, bool omitPaste);
+    void onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool omitPaste);
     QWidget *toggleMenu(TrayMenu *menu);
 
     bool exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
@@ -709,7 +709,6 @@ private:
     CommandTester m_trayMenuCommandTester;
     CommandTester m_automaticCommandTester;
 
-    bool m_stopAutomaticCommands;
     QPointer<Action> m_currentAutomaticCommand;
     bool m_canUpdateTitleFromScript;
 

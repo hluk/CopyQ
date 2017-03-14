@@ -120,7 +120,7 @@ int itemMargin()
 
 } // namespace
 
-Theme::Theme(QSettings &settings)
+Theme::Theme(const QSettings &settings)
 {
     loadTheme(settings);
 }
@@ -130,7 +130,7 @@ Theme::Theme(Ui::ConfigTabAppearance *ui)
 {
 }
 
-void Theme::loadTheme(QSettings &settings)
+void Theme::loadTheme(const QSettings &settings)
 {
     resetTheme();
 
@@ -164,13 +164,13 @@ void Theme::loadTheme(QSettings &settings)
 
 }
 
-void Theme::saveTheme(QSettings &settings) const
+void Theme::saveTheme(QSettings *settings) const
 {
     QStringList keys = m_theme.keys();
     keys.sort();
 
     for (const auto &key : keys)
-        settings.setValue( key, value(key) );
+        settings->setValue( key, value(key) );
 }
 
 QVariant Theme::value(const QString &name) const

@@ -115,7 +115,7 @@ QString help()
 
 QVBoxLayout *createLayout(QWidget *parent)
 {
-    QVBoxLayout *layout = new QVBoxLayout(parent);
+    auto layout = new QVBoxLayout(parent);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     return layout;
@@ -149,7 +149,7 @@ void CommandHelpButton::showHelp()
         m_help->setObjectName("commandHelpDialog");
         WindowGeometryGuard::create(m_help);
 
-        QTextBrowser *browser = new QTextBrowser(this);
+        auto browser = new QTextBrowser(this);
         QVBoxLayout *layout = createLayout(m_help);
         layout->addWidget(browser);
 

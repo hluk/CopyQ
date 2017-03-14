@@ -44,7 +44,7 @@ class IconButton : public QAbstractButton
 {
     Q_OBJECT
 public:
-    explicit IconButton(QWidget *parent = 0);
+    explicit IconButton(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *event) override;
     void setIcon(const QIcon &icon) { m_icon = icon; update(); }
     void setHasMenu(bool hasMenu) { m_hasMenu = hasMenu; update(); }
@@ -68,13 +68,13 @@ class FancyLineEdit : public QLineEdit
 public:
     enum Side {Left = 0, Right = 1};
 
-    explicit FancyLineEdit(QWidget *parent = 0);
+    explicit FancyLineEdit(QWidget *parent = nullptr);
     ~FancyLineEdit();
 
     void setButtonIcon(Side side, const QIcon &icon);
 
     QMenu *buttonMenu(Side side) const;
-    void setButtonMenu(Side side, QMenu *menu);
+    void setButtonMenu(Side side, QMenu *buttonMenu);
 
     void setButtonVisible(Side side, bool visible);
     bool isButtonVisible(Side side) const;

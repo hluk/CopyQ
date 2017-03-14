@@ -161,8 +161,8 @@ template <typename PUB>
 class QxtPrivate
 {
 public:
-    virtual ~QxtPrivate()
-    {}
+    virtual ~QxtPrivate() = default;
+
     inline void QXT_setPublic(PUB* pub)
     {
         qxt_p_ptr = pub;

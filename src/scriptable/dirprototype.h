@@ -40,7 +40,7 @@ class DirPrototype : public QObject, public QScriptable
 {
     Q_OBJECT
 public:
-    explicit DirPrototype(QObject *parent = 0);
+    explicit DirPrototype(QObject *parent = nullptr);
 
 public slots:
     QScriptValue absoluteFilePath(const QScriptValue &fileName) const;

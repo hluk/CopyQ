@@ -42,7 +42,7 @@ void addTabAction(QWidget *widget, const QKeySequence &shortcut,
                   QWidget *receiver, const char *slot,
                   Qt::ShortcutContext context = Qt::WindowShortcut)
 {
-    QAction *act = new QAction(widget);
+    auto act = new QAction(widget);
     act->setShortcut(shortcut);
     act->setShortcutContext(context);
     receiver->connect(act, SIGNAL(triggered()), slot);
@@ -72,7 +72,7 @@ TabWidget::TabWidget(QWidget *parent)
     connect( m_toolBar, SIGNAL(orientationChanged(Qt::Orientation)),
              this, SLOT(onToolBarOrientationChanged(Qt::Orientation)) );
 
-    QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    auto layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
     setLayout(layout);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
@@ -478,8 +478,8 @@ void TabWidget::createTabBar()
              this, SIGNAL(tabRenamed(QString,int)) );
     connect( m_tabBar, SIGNAL(tabCloseRequested(int)),
              this, SIGNAL(tabCloseRequested(int)) );
-    connect( m_tabBar, SIGNAL(dropItems(QString,QDropEvent*)),
-             this, SIGNAL(dropItems(QString,QDropEvent*)) );
+    connect( m_tabBar, SIGNAL(dropItems(QString,const QMimeData*)),
+             this, SIGNAL(dropItems(QString,const QMimeData*)) );
     connect( m_tabBar, SIGNAL(currentChanged(int)),
              this, SLOT(setCurrentIndex(int)) );
     connect( m_tabBar, SIGNAL(tabMoved(int, int)),
@@ -499,8 +499,8 @@ void TabWidget::createTabTree()
              this, SIGNAL(tabMenuRequested(QPoint,QString)) );
     connect( m_tabTree, SIGNAL(tabsMoved(QString,QString,QList<int>)),
              this, SLOT(onTabsMoved(QString,QString,QList<int>)) );
-    connect( m_tabTree, SIGNAL(dropItems(QString,QDropEvent*)),
-             this, SIGNAL(dropItems(QString,QDropEvent*)) );
+    connect( m_tabTree, SIGNAL(dropItems(QString,const QMimeData*)),
+             this, SIGNAL(dropItems(QString,const QMimeData*)) );
     connect( m_tabTree, SIGNAL(currentTabChanged(int)),
              this, SLOT(setCurrentIndex(int)) );
 

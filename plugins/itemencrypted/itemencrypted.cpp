@@ -86,7 +86,9 @@ bool verifyProcess(QProcess *p)
     if ( p->exitStatus() != QProcess::NormalExit ) {
         log( "ItemEncrypt ERROR: Failed to run GnuPG: " + p->errorString(), LogError );
         return false;
-    } else if (exitCode != 0) {
+    }
+
+    if (exitCode != 0) {
         const QString errors = p->readAllStandardError();
         if ( !errors.isEmpty() )
             log( "ItemEncrypt ERROR: GnuPG stderr:\n" + errors, LogError );
@@ -246,7 +248,7 @@ ItemEncrypted::ItemEncrypted(QWidget *parent)
     : QWidget(parent)
     , ItemWidget(this)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    auto layout = new QVBoxLayout(this);
     layout->setMargin(6);
 
     // Show small icon.
@@ -366,7 +368,7 @@ QByteArray ItemEncryptedScriptable::decrypt()
 QString ItemEncryptedScriptable::generateTestKeys()
 {
     const KeyPairPaths keys;
-    for ( auto keyFileName : {keys.sec, keys.pub} ) {
+    for ( const auto &keyFileName : {keys.sec, keys.pub} ) {
         if ( QFile::exists(keyFileName) && !QFile::remove(keyFileName) )
             return QString("Failed to remove \"%1\"").arg(keys.sec);
     }
@@ -384,7 +386,7 @@ QString ItemEncryptedScriptable::generateTestKeys()
     if ( !error.isEmpty() )
         return error;
 
-    for ( auto keyFileName : {keys.sec, keys.pub} ) {
+    for ( const auto &keyFileName : {keys.sec, keys.pub} ) {
         if ( !QFile::exists(keyFileName) )
             return QString("Failed to create \"%1\"").arg(keys.sec);
     }
@@ -489,7 +491,7 @@ bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model) const
 
         // Ignore ampersands (usually just for underlining mnemonics) if none is specified.
         if ( !hasKeyHint(encryptTabName) )
-            removeKeyHint(tabName1);
+            removeKeyHint(&tabName1);
 
         // Ignore path in tab tree if none path separator is specified.
         if ( !encryptTabName.contains('/') ) {

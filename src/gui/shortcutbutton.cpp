@@ -62,7 +62,7 @@ void ShortcutButton::addShortcut(const QKeySequence &shortcut)
     if ( shortcut.isEmpty() || shortcuts().contains(shortcut) )
         return;
 
-    QPushButton *button = new QPushButton(this);
+    auto button = new QPushButton(this);
     const int buttonIndex = shortcutCount();
     m_layout->insertWidget(buttonIndex, button, 1);
 
@@ -161,7 +161,7 @@ void ShortcutButton::addShortcut(QPushButton *shortcutButton)
     if (shortcutButton != nullptr)
         parent = shortcutButton;
 
-    ShortcutDialog *dialog = new ShortcutDialog(parent);
+    auto dialog = new ShortcutDialog(parent);
     dialog->setExpectModifier(m_expectModifier);
 
     if (dialog->exec() == QDialog::Rejected)

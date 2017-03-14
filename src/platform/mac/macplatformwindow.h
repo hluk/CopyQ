@@ -29,8 +29,8 @@
 @class NSWindow;
 @class NSRunningApplication;
 #else
-typedef void NSWindow;
-typedef void NSRunningApplication;
+using NSWindow = void;
+using NSRunningApplication = void;
 #endif
 
 class MacPlatformWindow : public PlatformWindow

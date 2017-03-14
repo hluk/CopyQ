@@ -108,7 +108,7 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
              this, SLOT(onTextChanged()) );
 
     // menu
-    QMenu *menu = new QMenu(this);
+    auto menu = new QMenu(this);
     setButtonMenu(Left, menu);
     connect( menu, SIGNAL(triggered(QAction*)),
              this, SLOT(onMenuAction()) );

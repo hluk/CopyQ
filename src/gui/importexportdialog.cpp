@@ -105,12 +105,12 @@ bool ImportExportDialog::isCommandsEnabled() const
             && !ui->checkBoxCommands->isHidden();
 }
 
-void ImportExportDialog::on_checkBoxAll_clicked(bool cheked)
+void ImportExportDialog::on_checkBoxAll_clicked(bool checked)
 {
-    ui->checkBoxConfiguration->setChecked(cheked);
-    ui->checkBoxCommands->setChecked(cheked);
+    ui->checkBoxConfiguration->setChecked(checked);
+    ui->checkBoxCommands->setChecked(checked);
 
-    if (cheked)
+    if (checked)
         ui->listTabs->selectAll();
     else
         ui->listTabs->clearSelection();

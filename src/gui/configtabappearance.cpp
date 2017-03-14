@@ -89,16 +89,16 @@ ConfigTabAppearance::~ConfigTabAppearance()
     delete ui;
 }
 
-void ConfigTabAppearance::loadTheme(QSettings &settings)
+void ConfigTabAppearance::loadTheme(const QSettings &settings)
 {
     m_theme.loadTheme(settings);
     updateStyle();
 }
 
-void ConfigTabAppearance::saveTheme(QSettings &settings)
+void ConfigTabAppearance::saveTheme(QSettings *settings)
 {
     m_theme.saveTheme(settings);
-    settings.sync();
+    settings->sync();
     updateThemes();
 }
 
@@ -138,7 +138,7 @@ void ConfigTabAppearance::on_pushButtonSaveTheme_clicked()
         if ( !filename.endsWith(".ini") )
             filename.append(".ini");
         QSettings settings(filename, QSettings::IniFormat);
-        saveTheme(settings);
+        saveTheme(&settings);
     }
 }
 
@@ -157,7 +157,7 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
     }
 
     TemporarySettings settings;
-    saveTheme(*settings.settings());
+    saveTheme(settings.settings());
 
     QByteArray data = settings.content();
     // keep ini file user friendly

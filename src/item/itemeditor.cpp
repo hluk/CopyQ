@@ -28,7 +28,8 @@
 #include <QProcess>
 #include <QTemporaryFile>
 #include <QTimer>
-#include <stdio.h>
+
+#include <cstdio>
 
 namespace {
 

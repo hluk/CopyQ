@@ -40,20 +40,18 @@ using namespace FakeVim::Internal;
 
 namespace {
 
-typedef QLatin1String _;
-
 class TextEditWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    TextEditWidget(QTextEdit *editor, QWidget *parent = nullptr)
+    explicit TextEditWidget(QTextEdit *editor, QWidget *parent = nullptr)
         : QWidget(parent)
         , m_textEdit(editor)
         , m_handler(new FakeVimHandler(editor, nullptr))
         , m_hasBlockSelection(false)
     {
-        QVBoxLayout *layout = new QVBoxLayout(this);
+        auto layout = new QVBoxLayout(this);
         layout->setMargin(0);
         layout->addWidget(editor);
 
@@ -267,8 +265,8 @@ private:
 
     bool m_hasBlockSelection;
 
-    typedef QAbstractTextDocumentLayout::Selection Selection;
-    typedef QVector<Selection> SelectionList;
+    using Selection = QAbstractTextDocumentLayout::Selection;
+    using SelectionList = QVector<Selection>;
     SelectionList m_searchSelection;
     SelectionList m_selection;
 
@@ -410,10 +408,10 @@ public:
         m_statusBar = new QStatusBar(this);
 
         // Connect slots to FakeVimHandler signals.
-        Proxy *proxy = new Proxy(m_editor, m_statusBar, this);
+        auto proxy = new Proxy(m_editor, m_statusBar, this);
         connectSignals( &m_editor->fakeVimHandler(), proxy );
 
-        QVBoxLayout *layout = new QVBoxLayout(this);
+        auto layout = new QVBoxLayout(this);
         layout->addWidget(m_editor);
         layout->addWidget(m_statusBar);
         setFocusProxy(m_editor);
@@ -546,9 +544,7 @@ ItemFakeVimLoader::ItemFakeVimLoader()
 {
 }
 
-ItemFakeVimLoader::~ItemFakeVimLoader()
-{
-}
+ItemFakeVimLoader::~ItemFakeVimLoader() = default;
 
 QVariant ItemFakeVimLoader::icon() const
 {

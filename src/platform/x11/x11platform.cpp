@@ -80,9 +80,7 @@ PlatformPtr createPlatformNativeInterface()
     return PlatformPtr(new X11Platform);
 }
 
-X11Platform::~X11Platform()
-{
-}
+X11Platform::~X11Platform() = default;
 
 PlatformWindowPtr X11Platform::getWindow(WId winId)
 {

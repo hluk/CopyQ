@@ -108,7 +108,7 @@ class ClipboardModel : public QAbstractListModel
 
 public:
     /** Return true if @a lhs is less than @a rhs. */
-    typedef bool CompareItems(const QModelIndex &lhs, const QModelIndex &rhs);
+    using CompareItems = bool (const QModelIndex &, const QModelIndex &);
 
     explicit ClipboardModel(QObject *parent = nullptr);
 
@@ -172,7 +172,7 @@ public:
      * @return True only if all items was successfully moved.
      */
     bool moveItemsWithKeyboard(
-            QModelIndexList list, //!< Indexed of items to move.
+            const QModelIndexList &indexList, //!< Indexed of items to move.
             int key,
             /*!< Key representing direction for movement (can be one of
              *   Qt::Key_Down, Qt::Key_Up, Qt::Key_End, Qt::Key_Home).
@@ -189,7 +189,7 @@ public:
      * Find item with given @a hash.
      * @return Row number with found item or -1 if no item was found.
      */
-    int findItem(uint hash) const;
+    int findItem(uint itemHash) const;
 
     /**
      * Return row index for given @a row.
