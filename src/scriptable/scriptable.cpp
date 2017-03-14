@@ -61,6 +61,8 @@ namespace {
 
 const char *const programName = "CopyQ Clipboard Manager";
 
+const int setClipboardMaxRetries = 3;
+
 QString helpHead()
 {
     return Scriptable::tr("Usage: copyq [%1]").arg(Scriptable::tr("COMMAND")) + "\n\n"
@@ -1802,13 +1804,15 @@ bool Scriptable::setClipboard(QVariantMap *data, QClipboard::Mode mode)
     const QByteArray id = QByteArray::number(hash(*data));
     data->insert(mime, id);
 
-    m_proxy->setClipboard(*data, mode);
+    for (int i = 0; i < setClipboardMaxRetries; ++i) {
+        m_proxy->setClipboard(*data, mode);
 
-    // Wait for clipboard to be set.
-    for (int i = 0; i < 200; ++i) {
-        if ( clipboardContains(mode, m_proxy, mime, id) )
-            return true;
-        waitFor(10);
+        // Wait for clipboard to be set.
+        for (int j = 0; j < 10; ++j) {
+            if ( clipboardContains(mode, m_proxy, mime, id) )
+                return true;
+            waitFor(5 + i * 20 + j * 10);
+        }
     }
 
     throwError( tr("Failed to set clipboard!") );
