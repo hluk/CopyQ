@@ -2840,7 +2840,7 @@ Defina como 0 para desactivar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1288"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation>Desativar armaz&amp;enamento na área de transferência</translation>
+        <translation>Desactivar armaz&amp;enamento na área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1554"/>
