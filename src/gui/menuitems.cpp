@@ -146,7 +146,7 @@ MenuItems menuItems()
     return items;
 }
 
-void loadShortcuts(MenuItems *items, QSettings &settings)
+void loadShortcuts(MenuItems *items, const QSettings &settings)
 {
     for (auto &item : *items) {
         if ( !item.settingsKey.isEmpty() ) {

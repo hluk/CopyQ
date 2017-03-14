@@ -602,10 +602,10 @@ bool hasKeyHint(const QString &name)
     return indexOfKeyHint(name) != -1;
 }
 
-QString removeKeyHint(QString &name)
+QString &removeKeyHint(QString *name)
 {
-    const int i = indexOfKeyHint(name);
-    return i == -1 ? name : name.remove(i, 1);
+    const int i = indexOfKeyHint(*name);
+    return i == -1 ? *name : name->remove(i, 1);
 }
 
 void moveWindowOnScreen(QWidget *w, const QPoint &pos)

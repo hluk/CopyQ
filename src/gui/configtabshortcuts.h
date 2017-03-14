@@ -38,9 +38,9 @@ public:
     ~ConfigTabShortcuts();
 
     /** Load shortcuts from settings file. */
-    void loadShortcuts(QSettings &settings);
+    void loadShortcuts(const QSettings &settings);
     /** Save shortcuts to settings file. */
-    void saveShortcuts(QSettings &settings) const;
+    void saveShortcuts(QSettings *settings) const;
 
 signals:
     void openCommandDialogRequest();

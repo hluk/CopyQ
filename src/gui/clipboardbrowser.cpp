@@ -192,7 +192,7 @@ ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
-    setAttribute(Qt::WA_MacShowFocusRect, 0);
+    setAttribute(Qt::WA_MacShowFocusRect, false);
 
     setAcceptDrops(true);
 
@@ -975,7 +975,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
     QVariantMap data = copyIndexes(selected);
 
-    QDrag *drag = new QDrag(this);
+    auto drag = new QDrag(this);
     drag->setMimeData( createMimeData(data) );
     drag->setPixmap( renderItemPreview(selected, 150, 150) );
 

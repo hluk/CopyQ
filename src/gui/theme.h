@@ -41,13 +41,13 @@ struct ClipboardBrowserShared;
 class Theme {
 public:
     Theme() = default;
-    explicit Theme(QSettings &settings);
+    explicit Theme(const QSettings &settings);
     explicit Theme(Ui::ConfigTabAppearance *ui);
 
     /** Load theme from settings file. */
-    void loadTheme(QSettings &settings);
+    void loadTheme(const QSettings &settings);
     /** Save theme to settings file. */
-    void saveTheme(QSettings &settings) const;
+    void saveTheme(QSettings *settings) const;
 
     /** Return value for theme option with given @a name. */
     QVariant value(const QString &name) const;

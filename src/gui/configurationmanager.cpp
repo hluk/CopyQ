@@ -436,11 +436,11 @@ void ConfigurationManager::apply()
     // Save configuration without command line alternatives only if option widgets are initialized
     // (i.e. clicked OK or Apply in configuration dialog).
     settings.beginGroup("Shortcuts");
-    ui->configTabShortcuts->saveShortcuts(*settings.settingsData());
+    ui->configTabShortcuts->saveShortcuts(settings.settingsData());
     settings.endGroup();
 
     settings.beginGroup("Theme");
-    ui->configTabAppearance->saveTheme(*settings.settingsData());
+    ui->configTabAppearance->saveTheme(settings.settingsData());
     settings.endGroup();
 
     // Save settings for each plugin.

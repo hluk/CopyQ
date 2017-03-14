@@ -80,7 +80,7 @@ const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 
 uint hash(const QVariantMap &data);
 
-QString getTextData(const QByteArray &byte);
+QString getTextData(const QByteArray &bytes);
 
 /**
  * Get given text format from data; null string if not available.
@@ -179,7 +179,7 @@ QPoint toScreen(const QPoint &pos, int w = 0, int h = 0);
 bool hasKeyHint(const QString &name);
 
 /// Removes key hint (first unescaped '&') from UI name.
-QString removeKeyHint(QString &name);
+QString &removeKeyHint(QString *name);
 
 void moveWindowOnScreen(QWidget *w, const QPoint &pos);
 

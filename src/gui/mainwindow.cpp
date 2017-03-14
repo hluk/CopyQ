@@ -94,9 +94,9 @@ const int clipboardNotificationId = 0;
 const char propertyWidgetSizeGuarded[] = "CopyQ_widget_size_guarded";
 
 /// Omit size changes of a widget.
-class WidgetSizeGuard : public QObject {
+class WidgetSizeGuard final : public QObject {
 public:
-    WidgetSizeGuard(QWidget *guardedObject)
+    explicit WidgetSizeGuard(QWidget *guardedObject)
         : m_guarded(guardedObject)
     {
         if ( m_guarded->property(propertyWidgetSizeGuarded).toBool() ) {
@@ -154,10 +154,8 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
     // Verify that and text, MIME type and window title are matched.
     const QString text = getTextData(data);
     const QString windowTitle = data.value(mimeWindowTitle).toString();
-    if ( command.re.indexIn(text) == -1 || command.wndre.indexIn(windowTitle) == -1 )
-        return false;
-
-    return true;
+    return command.re.indexIn(text) != -1
+        && command.wndre.indexIn(windowTitle) != -1;
 }
 
 bool hasFormat(const QVariantMap &data, const QString &format)
@@ -329,27 +327,27 @@ QString defaultTabName()
     return tab.isEmpty() ? defaultClipboardTabName() : tab;
 }
 
-void loadItemFactorySettings(ItemFactory *itemFactory, QSettings &settings)
+void loadItemFactorySettings(ItemFactory *itemFactory, QSettings *settings)
 {
     // load settings for each plugin
-    settings.beginGroup("Plugins");
-    for ( auto loader : itemFactory->loaders() ) {
-        settings.beginGroup(loader->id());
+    settings->beginGroup("Plugins");
+    for ( auto &loader : itemFactory->loaders() ) {
+        settings->beginGroup(loader->id());
 
         QVariantMap s;
-        for (const auto &name : settings.allKeys()) {
-            s[name] = settings.value(name);
+        for (const auto &name : settings->allKeys()) {
+            s[name] = settings->value(name);
         }
         loader->loadSettings(s);
-        itemFactory->setLoaderEnabled( loader, settings.value("enabled", true).toBool() );
+        itemFactory->setLoaderEnabled( loader, settings->value("enabled", true).toBool() );
 
-        settings.endGroup();
+        settings->endGroup();
     }
-    settings.endGroup();
+    settings->endGroup();
 
     // load plugin priority
     const QStringList pluginPriority =
-            settings.value("plugin_priority", QStringList()).toStringList();
+            settings->value("plugin_priority", QStringList()).toStringList();
     itemFactory->setPluginPriority(pluginPriority);
 }
 
@@ -1334,7 +1332,7 @@ ClipboardBrowser *MainWindow::createTab(
     if (i != -1)
         return getBrowser(i);
 
-    ClipboardBrowser *c = new ClipboardBrowser(m_sharedData, this);
+    auto c = new ClipboardBrowser(m_sharedData, this);
     c->setTabName(name);
     c->loadSettings();
 
@@ -1664,7 +1662,7 @@ void MainWindow::updateActionShortcuts()
         updateActionShortcuts(id);
 }
 
-void MainWindow::pasteClipboard(PlatformWindowPtr window)
+void MainWindow::pasteClipboard(const PlatformWindowPtr &window)
 {
     // Wait for clipboard to be set (and message sent to clipboard monitor process).
     QApplication::processEvents(QEventLoop::WaitForMoreEvents, 50);
@@ -1765,7 +1763,7 @@ bool MainWindow::exportDataV3(QDataStream *out, const QStringList &tabs, bool ex
             continue;
 
         ClipboardBrowser *c = browser(i);
-        const auto tabName = c->tabName();
+        const auto &tabName = c->tabName();
 
         QByteArray tabBytes;
         {
@@ -1962,7 +1960,7 @@ int MainWindow::findTabIndex(const QString &name)
     if ( !hasKeyHint(name) ) {
         for( int i = 0; i < w->count(); ++i ) {
             QString tabName = w->tabText(i);
-            if ( name == removeKeyHint(tabName) )
+            if ( name == removeKeyHint(&tabName) )
                 return i;
         }
     }
@@ -2247,7 +2245,7 @@ void MainWindow::loadSettings()
 
     QSettings settings;
 
-    loadItemFactorySettings(m_sharedData->itemFactory, settings);
+    loadItemFactorySettings(m_sharedData->itemFactory, &settings);
 
     settings.beginGroup("Theme");
     m_sharedData->theme.loadTheme(settings);
@@ -3155,7 +3153,7 @@ void MainWindow::copyItems()
     setClipboard(data);
 }
 
-bool MainWindow::saveTab(const QString &fileName, int tab_index)
+bool MainWindow::saveTab(const QString &fileName, int tabIndex)
 {
     QFile file(fileName);
     if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) )
@@ -3164,7 +3162,7 @@ bool MainWindow::saveTab(const QString &fileName, int tab_index)
     QDataStream out(&file);
     out.setVersion(QDataStream::Qt_4_7);
 
-    int i = tab_index >= 0 ? tab_index : ui->tabWidget->currentIndex();
+    int i = tabIndex >= 0 ? tabIndex : ui->tabWidget->currentIndex();
     ClipboardBrowser *c = browser(i);
 
     out << QByteArray("CopyQ v2") << c->tabName();
@@ -3324,7 +3322,7 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
     } else if ( cmd.cmd.isEmpty() ) {
         m_actionHandler->addFinishedAction(cmd.name);
     } else {
-        Action *act = new Action();
+        auto act = new Action();
         act->setCommand( cmd.cmd, QStringList(getTextData(data)) );
         act->setInput(data, cmd.input);
         act->setOutputFormat(cmd.output);
@@ -3342,9 +3340,8 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
 
 void MainWindow::newTab(const QString &name)
 {
-    TabDialog *d = new TabDialog(TabDialog::TabNew, this);
+    auto d = new TabDialog(TabDialog::TabNew, this);
     d->setAttribute(Qt::WA_DeleteOnClose, true);
-
     d->setTabs(ui->tabWidget->tabs());
 
     QString tabPath = name;
@@ -3365,9 +3362,8 @@ void MainWindow::newTab(const QString &name)
 
 void MainWindow::renameTabGroup(const QString &name)
 {
-    TabDialog *d = new TabDialog(TabDialog::TabGroupRename, this);
+    auto d = new TabDialog(TabDialog::TabGroupRename, this);
     d->setAttribute(Qt::WA_DeleteOnClose, true);
-
     d->setTabs(ui->tabWidget->tabs());
     d->setTabGroupName(name);
 
@@ -3391,12 +3387,12 @@ void MainWindow::renameTabGroup(const QString &newName, const QString &oldName)
 
 void MainWindow::renameTab(int tab)
 {
-    TabDialog *d = new TabDialog(TabDialog::TabRename, this);
-    d->setAttribute(Qt::WA_DeleteOnClose, true);
-    int i = tab >= 0 ? tab : ui->tabWidget->currentIndex();
+    const int i = tab >= 0 ? tab : ui->tabWidget->currentIndex();
     if (i < 0)
         return;
 
+    auto d = new TabDialog(TabDialog::TabRename, this);
+    d->setAttribute(Qt::WA_DeleteOnClose, true);
     d->setTabIndex(i);
     d->setTabs(ui->tabWidget->tabs());
     d->setTabName(browser(i)->tabName());

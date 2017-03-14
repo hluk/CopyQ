@@ -36,11 +36,11 @@ class TabDialog : public QDialog
 
 public:
     /** Tab dialog type (new tab or rename existing tab). */
-    typedef enum {
+    enum TabDialogType {
         TabNew,
         TabRename,
         TabGroupRename
-    } TabDialogType;
+    };
 
     explicit TabDialog(TabDialogType type, QWidget *parent = nullptr);
     ~TabDialog();

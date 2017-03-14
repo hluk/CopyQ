@@ -77,7 +77,7 @@ public:
     QByteArray fromString(const QString &value) const;
     QString toString(const QScriptValue &value) const;
     QVariant toVariant(const QScriptValue &value) const;
-    bool toInt(const QScriptValue &value, int &number) const;
+    bool toInt(const QScriptValue &value, int *number) const;
     QVariantMap toDataMap(const QScriptValue &value) const;
 
     /**
@@ -297,7 +297,7 @@ private:
     void showExceptionMessage(const QString &message);
     QList<int> getRows() const;
     QScriptValue copy(QClipboard::Mode mode);
-    bool setClipboard(QVariantMap &data, QClipboard::Mode mode);
+    bool setClipboard(QVariantMap *data, QClipboard::Mode mode);
     void changeItem(bool create);
     void nextToClipboard(int where);
     QByteArray serialize(const QScriptValue &value);

@@ -126,13 +126,6 @@ CallableFn<T, Return> createCallable(T &&lambda)
     return CallableFn<T, Return>(std::forward<T>(lambda));
 }
 
-template <typename T>
-T setValue(QVariant &v, const T &value)
-{
-    v = QVariant::fromValue(value);
-    return value;
-}
-
 /// Load icon from icon font, path or theme.
 QIcon loadIcon(const QString &idPathOrName)
 {

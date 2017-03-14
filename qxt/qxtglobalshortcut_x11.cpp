@@ -72,7 +72,7 @@ QVector<quint32> maskModifiers()
     return QVector<quint32>() << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
 }
 
-typedef int (*X11ErrorHandler)(Display* display, XErrorEvent* event);
+using X11ErrorHandler = int (*)(Display* display, XErrorEvent* event);
 
 class QxtX11ErrorHandler {
 public:

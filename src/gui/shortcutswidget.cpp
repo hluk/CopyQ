@@ -78,7 +78,7 @@ ShortcutsWidget::~ShortcutsWidget()
     delete ui;
 }
 
-void ShortcutsWidget::loadShortcuts(QSettings &settings)
+void ShortcutsWidget::loadShortcuts(const QSettings &settings)
 {
     MenuItems items = menuItems();
     ::loadShortcuts(&items, settings);
@@ -133,7 +133,7 @@ void ShortcutsWidget::loadShortcuts(QSettings &settings)
     }
 }
 
-void ShortcutsWidget::saveShortcuts(QSettings &settings) const
+void ShortcutsWidget::saveShortcuts(QSettings *settings) const
 {
     for (const auto &action : m_actions) {
         if ( !action.settingsKey.isEmpty() ) {
@@ -143,9 +143,9 @@ void ShortcutsWidget::saveShortcuts(QSettings &settings) const
 
             // Workaround for QTBUG-51237 (saving empty list results in invalid value).
             if (shortcutNames.isEmpty())
-                settings.setValue(action.settingsKey, QString());
+                settings->setValue(action.settingsKey, QString());
             else
-                settings.setValue(action.settingsKey, shortcutNames);
+                settings->setValue(action.settingsKey, shortcutNames);
         }
     }
 }

@@ -86,6 +86,6 @@ using MenuItems = QVector<MenuItem>;
 
 MenuItems menuItems();
 
-void loadShortcuts(MenuItems *items, QSettings &settings);
+void loadShortcuts(MenuItems *items, const QSettings &settings);
 
 #endif // MENUITEMS_H
