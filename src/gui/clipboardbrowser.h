@@ -250,6 +250,8 @@ class ClipboardBrowser : public QListView
 
         void emitItemCount();
 
+        bool eventFilter(QObject *watched, QEvent *event) override;
+
     signals:
         /** Action dialog requested. */
         void requestActionDialog(const QVariantMap &data);
