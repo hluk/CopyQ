@@ -38,7 +38,10 @@
 #endif
 #include <QVector>
 #include <QWidget>
+#include <X11/keysym.h>
 #include <X11/Xlib.h>
+
+#include "xcbkeyboard.h"
 
 namespace {
 
@@ -183,6 +186,20 @@ private:
     Display *m_display;
 };
 
+KeySym qtKeyToXKeySym(Qt::Key key)
+{
+    const auto keySym = XStringToKeysym(QKeySequence(key).toString().toLatin1().data());
+    if (keySym != NoSymbol)
+        return keySym;
+
+    for (int i = 0; KeyTbl[i] != 0; i += 2) {
+        if (KeyTbl[i + 1] == key)
+            return KeyTbl[i];
+    }
+
+    return static_cast<ushort>(key);
+}
+
 } // namespace
 
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
@@ -252,10 +269,7 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
     if (!x11.isValid())
         return 0;
 
-    KeySym keysym = XStringToKeysym(QKeySequence(key).toString().toLatin1().data());
-    if (keysym == NoSymbol)
-        keysym = static_cast<ushort>(key);
-
+    const KeySym keysym = qtKeyToXKeySym(key);
     return XKeysymToKeycode(x11.display(), keysym);
 }
 
