@@ -300,6 +300,8 @@ class ClipboardBrowser : public QListView
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
+        void onRowsInserted(const QModelIndex &parent, int first, int last);
+
         void onItemCountChanged();
 
         void onTabNameChanged(const QString &tabName);
@@ -392,6 +394,8 @@ class ClipboardBrowser : public QListView
         bool m_expireAfterEditing;
 
         ItemEditorWidget *m_editor;
+        bool m_editNewItem = false;
+        bool m_editItemChangesClipboard = false;
 
         ClipboardBrowserSharedPtr m_sharedData;
 

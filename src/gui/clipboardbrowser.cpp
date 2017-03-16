@@ -417,6 +417,8 @@ void ClipboardBrowser::connectModelAndDelegate()
 
     // update on change
     connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             SLOT(onRowsInserted(QModelIndex, int, int)));
+    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
              SLOT(onModelDataChanged()) );
     connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
              SLOT(onModelDataChanged()) );
@@ -698,6 +700,19 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
     }
 
     emit updateContextMenu(this);
+}
+
+void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int)
+{
+    if (!m_editNewItem)
+        return;
+
+    selectionModel()->clearSelection();
+
+    // Select edited item even if it's hidden.
+    const auto newIndex = index(first);
+    setCurrentIndex(newIndex);
+    editItem(newIndex, false, m_editItemChangesClipboard);
 }
 
 void ClipboardBrowser::onItemCountChanged()
@@ -1182,16 +1197,10 @@ void ClipboardBrowser::editNew(const QString &text, bool changeClipboard)
     if ( !isLoaded() )
         return;
 
-    bool added = add(text);
-    if (!added)
-        return;
-
-    selectionModel()->clearSelection();
-
-    // Select edited item even if it's hidden.
-    QModelIndex newIndex = index(0);
-    setCurrentIndex(newIndex);
-    editItem( index(0), false, changeClipboard );
+    m_editItemChangesClipboard = changeClipboard;
+    m_editNewItem = true;
+    add(text);
+    m_editNewItem = false;
 }
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
