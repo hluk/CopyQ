@@ -171,10 +171,7 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
     const int key = event->key();
     m_omitPaste = false;
 
-    if (event->modifiers() == Qt::KeypadModifier && Qt::Key_0 <= key && key <= Qt::Key_9) {
-        // Allow keypad digit to activate appropriate item in context menu.
-        event->setModifiers(Qt::NoModifier);
-    } else if ( m_viMode && m_searchText.isEmpty() && handleViKey(event, this) ) {
+    if ( m_viMode && m_searchText.isEmpty() && handleViKey(event, this) ) {
         return;
     } else {
         // Movement in tray menu.
@@ -211,6 +208,17 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
             {
                 const QString txt = event->text();
                 if ( !txt.isEmpty() && txt[0].isPrint() ) {
+                    // Activate item at row when number is entered.
+                    if (m_searchText.isEmpty()) {
+                        bool ok;
+                        const int row = txt.toInt(&ok);
+                        if (ok && row < m_clipboardItemActionCount) {
+                            // Allow keypad digit to activate appropriate item in context menu.
+                            if (event->modifiers() == Qt::KeypadModifier)
+                                event->setModifiers(Qt::NoModifier);
+                            break;
+                        }
+                    }
                     search(m_searchText + txt);
                     return;
                 }
