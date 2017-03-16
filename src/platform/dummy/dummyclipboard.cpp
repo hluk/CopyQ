@@ -22,6 +22,7 @@
 #include "common/common.h"
 
 #include <QApplication>
+#include <QStringList>
 
 namespace {
 
