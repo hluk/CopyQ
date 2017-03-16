@@ -250,6 +250,8 @@ class ClipboardBrowser : public QListView
 
         void emitItemCount();
 
+        bool eventFilter(QObject *watched, QEvent *event) override;
+
     signals:
         /** Action dialog requested. */
         void requestActionDialog(const QVariantMap &data);
@@ -297,6 +299,8 @@ class ClipboardBrowser : public QListView
         void onModelDataChanged();
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
+
+        void onRowsInserted(const QModelIndex &parent, int first, int last);
 
         void onItemCountChanged();
 
@@ -390,6 +394,8 @@ class ClipboardBrowser : public QListView
         bool m_expireAfterEditing;
 
         ItemEditorWidget *m_editor;
+        bool m_editNewItem = false;
+        bool m_editItemChangesClipboard = false;
 
         ClipboardBrowserSharedPtr m_sharedData;
 
