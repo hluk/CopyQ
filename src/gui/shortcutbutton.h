@@ -36,9 +36,6 @@ class ShortcutButton : public QWidget
 public:
     explicit ShortcutButton(QWidget *parent = nullptr);
 
-    /** Expect modifier or accept shortcuts without one. */
-    void setExpectModifier(bool expectModifier) { m_expectModifier = expectModifier; }
-
     /** Creates new shortcut button for @a shortcut if it's valid and same button doesn't exist. */
     void addShortcut(const QKeySequence &shortcut);
 
@@ -90,7 +87,6 @@ private:
     QKeySequence m_defaultShortcut;
     QHBoxLayout *m_layout;
     QPushButton *m_buttonAddShortcut;
-    bool m_expectModifier;
 };
 
 #endif // SHORTCUTBUTTON_H

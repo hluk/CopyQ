@@ -93,7 +93,6 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->shortcutButtonGlobalShortcut->hide();
 #else
     ui->checkBoxGlobalShortcut->setIcon(iconShortcut());
-    ui->shortcutButtonGlobalShortcut->setExpectModifier(true);
 #endif
 
     ui->groupBoxCommand->setFocusProxy(ui->commandEdit);

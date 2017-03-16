@@ -56,7 +56,6 @@ ShortcutDialog::ShortcutDialog(QWidget *parent)
     , ui(new Ui::ShortcutDialog)
     , m_shortcut()
     , m_metaPressed(false)
-    , m_expectModifier(false)
 {
     ui->setupUi(this);
 
@@ -100,9 +99,6 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
                 reject();
                 return true;
             }
-
-            if (m_expectModifier)
-                return true;
         }
 
         event->accept();

@@ -38,7 +38,6 @@ ShortcutButton::ShortcutButton(QWidget *parent)
     , m_defaultShortcut()
     , m_layout(new QHBoxLayout(this))
     , m_buttonAddShortcut(new QPushButton(this))
-    , m_expectModifier(false)
 {
     m_layout->setMargin(0);
     m_layout->setSpacing(2);
@@ -162,8 +161,6 @@ void ShortcutButton::addShortcut(QPushButton *shortcutButton)
         parent = shortcutButton;
 
     auto dialog = new ShortcutDialog(parent);
-    dialog->setExpectModifier(m_expectModifier);
-
     if (dialog->exec() == QDialog::Rejected)
         return;
 

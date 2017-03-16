@@ -37,9 +37,6 @@ public:
     /** Return accepted shortcut or empty one. */
     QKeySequence shortcut() const;
 
-    /** Expect modifier or accept shortcuts without one. */
-    void setExpectModifier(bool expectModifier) { m_expectModifier = expectModifier; }
-
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
@@ -54,7 +51,6 @@ private:
     Ui::ShortcutDialog *ui;
     QKeySequence m_shortcut;
     bool m_metaPressed;
-    bool m_expectModifier;
 };
 
 #endif // SHORTCUTDIALOG_H
