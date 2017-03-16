@@ -96,7 +96,7 @@ void setTextData(QVariantMap *data, const QString &text, const QString &mime);
 void setTextData(QVariantMap *data, const QString &text);
 
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */
-QVariantMap cloneData(const QMimeData &data, const QStringList &formats);
+QVariantMap cloneData(const QMimeData &data, QStringList formats);
 
 /** Clone all data as is. */
 QVariantMap cloneData(const QMimeData &data);

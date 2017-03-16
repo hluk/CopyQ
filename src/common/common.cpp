@@ -54,6 +54,7 @@
 #   define PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
 #endif
 
+#include <algorithm>
 #include <memory>
 
 namespace {
@@ -264,7 +265,7 @@ void setTextData(QVariantMap *data, const QString &text)
     setTextData(data, text, mimeText);
 }
 
-QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
+QVariantMap cloneData(const QMimeData &data, QStringList formats)
 {
     const auto internalMimeTypes = {mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden};
 
@@ -272,6 +273,17 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
 
     QImage image;
     bool imageLoaded = false;
+
+    // Ignore non-text data if text is available.
+    if ( formats.contains(mimeText) ) {
+        const auto first = std::remove_if(
+                    std::begin(formats), std::end(formats),
+                    [](const QString &format) {
+                        return !format.startsWith(COPYQ_MIME_PREFIX)
+                            && !format.startsWith("text/");
+                    });
+        formats.erase(first, std::end(formats));
+    }
 
 #ifdef PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
     const QPointer<const QMimeData> dataGuard(&data);
