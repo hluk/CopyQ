@@ -24,6 +24,7 @@
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "item/itemstore.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
@@ -236,16 +237,13 @@ ItemSaverPtr saveWithOther(
     ItemLoaderPtr newLoader;
 
     for ( auto &loader : loaders ) {
-        if (loader == *currentLoader)
-            break;
-
         if ( loader->canSaveItems(*model) ) {
             newLoader = loader;
             break;
         }
     }
 
-    if (!newLoader)
+    if (!newLoader || newLoader == *currentLoader)
         return currentSaver;
 
     const auto tabName = model->property("tabName").toString();
@@ -253,7 +251,7 @@ ItemSaverPtr saveWithOther(
                .arg(tabName) );
 
     auto newSaver = newLoader->initializeTab(model);
-    if (!newSaver) {
+    if ( !newSaver || !saveItems(*model, newSaver) ) {
         COPYQ_LOG( QString("Tab \"%1\": Failed to re-save items")
                    .arg(tabName) );
         return currentSaver;

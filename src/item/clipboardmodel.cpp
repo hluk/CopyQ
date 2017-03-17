@@ -71,7 +71,6 @@ ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_max(100)
     , m_clipboardList(m_max)
-    , m_disabled(false)
     , m_tabName()
 {
 }

@@ -723,8 +723,17 @@ void ClipboardBrowser::onItemCountChanged()
 
 void ClipboardBrowser::onTabNameChanged(const QString &tabName)
 {
-    if ( !m_tabName.isEmpty() )
-        moveItems(m_tabName, tabName);
+    if ( !m_tabName.isEmpty() ) {
+        if ( isLoaded() )
+            saveItems();
+        else
+            moveItems(m_tabName, tabName);
+
+        m.unloadItems();
+        loadItemsAgain();
+        if ( isLoaded() )
+            removeItems(m_tabName);
+    }
 
     m_tabName = tabName;
 }
@@ -1317,8 +1326,6 @@ bool ClipboardBrowser::add(const QString &txt, int row)
 
 bool ClipboardBrowser::add(const QVariantMap &data, int row)
 {
-    if ( m.isDisabled() )
-        return false;
     if ( !isLoaded() ) {
         loadItems();
         if ( !isLoaded() )
@@ -1444,7 +1451,7 @@ void ClipboardBrowser::loadItems()
 {
     // Don't decrypt tab automatically if the operation was cancelled/unsuccessful previously.
     // In such case, decrypt only if unlock button was clicked.
-    if ( m.isDisabled() && sender() != m_loadButton )
+    if ( m_loadButton && sender() != m_loadButton )
         return;
 
     loadItemsAgain();
@@ -1464,7 +1471,7 @@ void ClipboardBrowser::loadItemsAgain()
     m.blockSignals(false);
 
     // Show lock button if model is disabled.
-    if ( !m.isDisabled() ) {
+    if ( isLoaded() ) {
         delete m_loadButton;
         m_loadButton = nullptr;
         d.rowsInserted(QModelIndex(), 0, m.rowCount());
@@ -1605,7 +1612,7 @@ bool ClipboardBrowser::editing() const
 
 bool ClipboardBrowser::isLoaded() const
 {
-    return !m_sharedData->itemFactory || ( m_itemSaver && !m.isDisabled() ) || tabName().isEmpty();
+    return !m_sharedData->itemFactory || m_itemSaver || tabName().isEmpty();
 }
 
 bool ClipboardBrowser::maybeCloseEditor()

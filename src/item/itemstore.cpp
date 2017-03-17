@@ -23,8 +23,8 @@
 #include "common/config.h"
 #include "common/log.h"
 #include "item/itemfactory.h"
-#include "item/clipboardmodel.h"
 
+#include <QAbstractItemModel>
 #include <QDir>
 #include <QFile>
 
@@ -75,7 +75,7 @@ void printLoadItemFileError(const QString &id, const QString &fileName, const QF
 
 ItemSaverPtr loadItems(
         const QString &tabName, const QString &tabFileName,
-        ClipboardModel &model, ItemFactory *itemFactory)
+        QAbstractItemModel &model, ItemFactory *itemFactory)
 {
     COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
 
@@ -98,7 +98,7 @@ ItemSaverPtr loadItems(
 }
 
 ItemSaverPtr createTab(
-        const QString &tabName, ClipboardModel &model, ItemFactory *itemFactory)
+        const QString &tabName, QAbstractItemModel &model, ItemFactory *itemFactory)
 {
     COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
 
@@ -116,7 +116,7 @@ ItemSaverPtr createTab(
 
 } // namespace
 
-ItemSaverPtr loadItems(ClipboardModel &model, ItemFactory *itemFactory)
+ItemSaverPtr loadItems(QAbstractItemModel &model, ItemFactory *itemFactory)
 {
     if ( !createItemDirectory() )
         return nullptr;
@@ -136,8 +136,6 @@ ItemSaverPtr loadItems(ClipboardModel &model, ItemFactory *itemFactory)
         }
     }
 
-    model.setDisabled(true);
-
     // Load file with items or create new file.
     auto saver = QFile::exists(tabFileName)
             ? loadItems(tabName, tabFileName, model, itemFactory)
@@ -148,14 +146,12 @@ ItemSaverPtr loadItems(ClipboardModel &model, ItemFactory *itemFactory)
         return nullptr;
     }
 
-    model.setDisabled(false);
-
     COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
 
     return saver;
 }
 
-bool saveItems(const ClipboardModel &model, const ItemSaverPtr &saver)
+bool saveItems(const QAbstractItemModel &model, const ItemSaverPtr &saver)
 {
     const QString tabName = model.property("tabName").toString();
     const QString tabFileName = itemFileName(tabName);

@@ -103,7 +103,6 @@ class ClipboardModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int maxItems READ maxItems WRITE setMaxItems)
-    Q_PROPERTY(bool disabled READ isDisabled WRITE setDisabled)
     Q_PROPERTY(QString tabName READ tabName WRITE setTabName NOTIFY tabNameChanged)
 
 public:
@@ -148,11 +147,6 @@ public:
 
     /** Return maximum number of items in model. */
     int maxItems() const { return m_max; }
-
-    /** Disabled model shouldn't be changed until loaded. */
-    bool isDisabled() const { return m_disabled; }
-
-    void setDisabled(bool disabled) { m_disabled = disabled; }
 
     /** Tab name associated with model. */
     const QString &tabName() const { return m_tabName; }
@@ -218,7 +212,6 @@ signals:
 private:
     int m_max;
     ClipboardItemList m_clipboardList;
-    bool m_disabled;
     QString m_tabName;
 };
 

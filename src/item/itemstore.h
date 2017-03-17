@@ -21,16 +21,16 @@
 
 #include "item/itemwidget.h"
 
-class ClipboardModel;
+class QAbstractItemModel;
 class ItemFactory;
 class QString;
 
 /** Load items from configuration file. */
-ItemSaverPtr loadItems(ClipboardModel &model //!< Model for items.
+ItemSaverPtr loadItems(QAbstractItemModel &model //!< Model for items.
         , ItemFactory *itemFactory);
 
 /** Save items to configuration file. */
-bool saveItems(const ClipboardModel &model //!< Model containing items to save.
+bool saveItems(const QAbstractItemModel &model //!< Model containing items to save.
         , const ItemSaverPtr &saver);
 
 /** Remove configuration file for items. */
