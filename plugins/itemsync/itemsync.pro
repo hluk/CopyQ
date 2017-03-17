@@ -10,7 +10,6 @@ HEADERS += \
 SOURCES += \
     itemsync.cpp \
     filewatcher.cpp \
-    ../../src/common/common.cpp \
     ../../src/common/config.cpp \
     ../../src/common/log.cpp \
     ../../src/common/mimetypes.cpp \
