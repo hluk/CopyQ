@@ -69,8 +69,6 @@ void ClipboardItemList::move(int from, int count, int to)
 
 ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
-    , m_max(100)
-    , m_clipboardList(m_max)
 {
 }
 
@@ -213,19 +211,6 @@ void ClipboardModel::unloadItems()
 {
     emit unloaded();
     removeRows(0, rowCount());
-}
-
-void ClipboardModel::setMaxItems(int max)
-{
-    m_max = qMax(0, max);
-
-    if ( m_max < m_clipboardList.size() ) {
-        beginRemoveRows(QModelIndex(), m_max + 1, m_clipboardList.size() - 1);
-        m_clipboardList.resize(m_max);
-        endRemoveRows();
-    } else {
-        m_clipboardList.reserve(m_max);
-    }
 }
 
 bool ClipboardModel::move(int pos, int newpos)

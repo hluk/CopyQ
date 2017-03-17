@@ -305,12 +305,12 @@ bool ItemLoaderInterface::canSaveItems(const QString &) const
     return false;
 }
 
-ItemSaverPtr ItemLoaderInterface::loadItems(const QString &, QAbstractItemModel *, QIODevice *)
+ItemSaverPtr ItemLoaderInterface::loadItems(const QString &, QAbstractItemModel *, QIODevice *, int)
 {
     return nullptr;
 }
 
-ItemSaverPtr ItemLoaderInterface::initializeTab(const QString &, QAbstractItemModel *)
+ItemSaverPtr ItemLoaderInterface::initializeTab(const QString &, QAbstractItemModel *, int)
 {
     return nullptr;
 }

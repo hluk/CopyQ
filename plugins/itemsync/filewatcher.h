@@ -65,7 +65,7 @@ public:
     static Hash calculateHash(const QByteArray &bytes);
 
     FileWatcher(const QString &path, const QStringList &paths, QAbstractItemModel *model,
-                const QList<FileFormat> &formatSettings, QObject *parent);
+                int maxItems, const QList<FileFormat> &formatSettings, QObject *parent);
 
     const QString &path() const { return m_path; }
 
@@ -135,6 +135,7 @@ private:
     QString m_path;
     bool m_valid;
     IndexDataList m_indexData;
+    int m_maxItems;
 };
 
 #endif // FILEWATCHER_H

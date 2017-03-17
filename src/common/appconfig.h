@@ -30,6 +30,8 @@ QString defaultClipboardTabName();
 
 namespace Config {
 
+const int maxItems = 10000;
+
 template<typename ValueType>
 struct Config {
     using Value = ValueType;
@@ -45,7 +47,7 @@ struct autostart : Config<bool> {
 struct maxitems : Config<int> {
     static QString name() { return "maxitems"; }
     static Value defaultValue() { return 200; }
-    static Value value(Value v) { return qBound(0, v, 10000); }
+    static Value value(Value v) { return qBound(0, v, maxItems); }
 };
 
 struct clipboard_tab : Config<QString> {

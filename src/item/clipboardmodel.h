@@ -32,11 +32,6 @@
  */
 class ClipboardItemList {
 public:
-    explicit ClipboardItemList(int maxItems)
-    {
-        reserve(maxItems);
-    }
-
     ClipboardItem &operator [](int i)
     {
         return m_items[i];
@@ -102,7 +97,6 @@ private:
 class ClipboardModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(int maxItems READ maxItems WRITE setMaxItems)
 
 public:
     /** Return true if @a lhs is less than @a rhs. */
@@ -135,17 +129,6 @@ public:
 
     /** insert new item to model. */
     void insertItem(const QVariantMap &data, int row);
-
-    /**
-     * Set maximum number of items in model.
-     *
-     * If there are too many items last item is removed until @a max is less or
-     * equal to number of items in model.
-     */
-    void setMaxItems(int max);
-
-    /** Return maximum number of items in model. */
-    int maxItems() const { return m_max; }
 
     /**
      * Move an item.
@@ -203,7 +186,6 @@ signals:
     void unloaded();
 
 private:
-    int m_max;
     ClipboardItemList m_clipboardList;
 };
 

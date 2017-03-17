@@ -78,7 +78,9 @@ public:
     ItemSyncSaver(
             QAbstractItemModel *model,
             const QString &tabPath,
-            const QString &path, const QStringList &files,
+            const QString &path,
+            const QStringList &files,
+            int maxItems,
             const QList<FileFormat> &formatSettings);
 
     bool saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file) override;
@@ -142,9 +144,9 @@ public:
 
     bool canSaveItems(const QString &tabName) const override;
 
-    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file) override;
+    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int maxItems) override;
 
-    ItemSaverPtr initializeTab(const QString &tabName, QAbstractItemModel *model) override;
+    ItemSaverPtr initializeTab(const QString &tabName, QAbstractItemModel *model, int maxItems) override;
 
     ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
 
@@ -161,7 +163,7 @@ private slots:
     void onBrowseButtonClicked();
 
 private:
-    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, const QStringList &files);
+    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, const QStringList &files, int maxItems);
 
     std::unique_ptr<Ui::ItemSyncSettings> ui;
     QVariantMap m_settings;

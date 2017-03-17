@@ -210,7 +210,7 @@ bool serializeData(const QAbstractItemModel &model, QDataStream *stream)
     return stream->status() == QDataStream::Ok;
 }
 
-bool deserializeData(QAbstractItemModel *model, QDataStream *stream, bool readAllItems)
+bool deserializeData(QAbstractItemModel *model, QDataStream *stream, int maxItems)
 {
     qint32 length;
     *stream >> length;
@@ -223,12 +223,8 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream, bool readAl
         return false;
     }
 
-    if (!readAllItems) {
-        // Limit the loaded number of items to model's maximum.
-        const QVariant maxItems = model->property("maxItems");
-        Q_ASSERT( maxItems.isValid() );
-        length = qMin( length, maxItems.toInt() ) - model->rowCount();
-    }
+    // Limit the loaded number of items to model's maximum.
+    length = qMin(length, maxItems) - model->rowCount();
 
     if ( length != 0 && !model->insertRows(0, length) )
         return false;
@@ -249,8 +245,8 @@ bool serializeData(const QAbstractItemModel &model, QIODevice *file)
     return serializeData(model, &stream);
 }
 
-bool deserializeData(QAbstractItemModel *model, QIODevice *file)
+bool deserializeData(QAbstractItemModel *model, QIODevice *file, int maxItems)
 {
     QDataStream stream(file);
-    return deserializeData(model, &stream);
+    return deserializeData(model, &stream, maxItems);
 }

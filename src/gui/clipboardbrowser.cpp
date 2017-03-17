@@ -1406,10 +1406,6 @@ void ClipboardBrowser::loadSettings()
 
     m_sharedData->theme.decorateBrowser(this);
     invalidateItemCache();
-
-    // restore configuration
-    m.setMaxItems(m_sharedData->maxItems);
-
     updateItemMaximumSize();
 
     d.setSaveOnEnterKey(m_sharedData->saveOnReturnKey);
@@ -1448,7 +1444,7 @@ void ClipboardBrowser::loadItemsAgain()
     m_timerSave.stop();
 
     m.blockSignals(true);
-    m_itemSaver = ::loadItems(m_tabName, m, m_sharedData->itemFactory);
+    m_itemSaver = ::loadItems(m_tabName, m, m_sharedData->itemFactory, m_sharedData->maxItems);
     m.blockSignals(false);
 
     // Show lock button if model is disabled.

@@ -472,10 +472,15 @@ ItemSyncSaver::ItemSyncSaver(const QString &tabPath)
 {
 }
 
-ItemSyncSaver::ItemSyncSaver(QAbstractItemModel *model, const QString &tabPath,
-        const QString &path, const QStringList &files, const QList<FileFormat> &formatSettings)
+ItemSyncSaver::ItemSyncSaver(
+        QAbstractItemModel *model,
+        const QString &tabPath,
+        const QString &path,
+        const QStringList &files,
+        int maxItems,
+        const QList<FileFormat> &formatSettings)
     : m_tabPath(tabPath)
-    , m_watcher(new FileWatcher(path, files, model, formatSettings, this))
+    , m_watcher(new FileWatcher(path, files, model, maxItems, formatSettings, this))
 {
 }
 
@@ -753,19 +758,19 @@ bool ItemSyncLoader::canSaveItems(const QString &tabName) const
     return m_tabPaths.contains(tabName);
 }
 
-ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file)
+ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int maxItems)
 {
     QVariantMap config;
     if ( !readConfig(file, &config) )
         return nullptr;
 
     const QStringList files = config.value(tabConfigSavedFiles).toStringList();
-    return loadItems(tabName, model, files);
+    return loadItems(tabName, model, files, maxItems);
 }
 
-ItemSaverPtr ItemSyncLoader::initializeTab(const QString &tabName, QAbstractItemModel *model)
+ItemSaverPtr ItemSyncLoader::initializeTab(const QString &tabName, QAbstractItemModel *model, int maxItems)
 {
-    return loadItems(tabName, model, QStringList());
+    return loadItems(tabName, model, QStringList(), maxItems);
 }
 
 ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
@@ -839,7 +844,7 @@ void ItemSyncLoader::onBrowseButtonClicked()
         item->setText(path);
 }
 
-ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model, const QStringList &files)
+ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model, const QStringList &files, int maxItems)
 {
     const auto tabPath = m_tabPaths.value(tabName);
     const auto path = files.isEmpty() ? tabPath : QFileInfo(files.first()).absolutePath();
@@ -852,7 +857,7 @@ ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemMode
         return nullptr;
     }
 
-    return std::make_shared<ItemSyncSaver>(model, tabPath, dir.path(), files, m_formatSettings);
+    return std::make_shared<ItemSyncSaver>(model, tabPath, dir.path(), files, maxItems, m_formatSettings);
 }
 
 Q_EXPORT_PLUGIN2(itemsync, ItemSyncLoader)

@@ -504,7 +504,7 @@ bool ItemEncryptedLoader::canSaveItems(const QString &tabName) const
     return false;
 }
 
-ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel *model, QIODevice *file)
+ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel *model, QIODevice *file, int maxItems)
 {
     // This is needed to skip header.
     if ( !canLoadItems(file) )
@@ -549,7 +549,6 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
 
     QDataStream stream2(bytes);
 
-    auto maxItems = static_cast<quint64>( model->property("maxItems").toInt() );
     quint64 length;
     stream2 >> length;
     if ( length <= 0 || stream2.status() != QDataStream::Ok ) {
@@ -557,7 +556,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
         COPYQ_LOG("ItemEncrypt ERROR: Failed to parse item count!");
         return nullptr;
     }
-    length = qMin(length, maxItems) - static_cast<quint64>(model->rowCount());
+    length = qMin(length, static_cast<quint64>(maxItems)) - static_cast<quint64>(model->rowCount());
 
     const auto count = length < maxItemCount ? static_cast<int>(length) : maxItemCount;
     for ( int i = 0; i < count && stream2.status() == QDataStream::Ok; ++i ) {
@@ -580,7 +579,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
     return createSaver();
 }
 
-ItemSaverPtr ItemEncryptedLoader::initializeTab(const QString &, QAbstractItemModel *)
+ItemSaverPtr ItemEncryptedLoader::initializeTab(const QString &, QAbstractItemModel *, int)
 {
     if (m_gpgProcessStatus == GpgNotInstalled)
         return nullptr;

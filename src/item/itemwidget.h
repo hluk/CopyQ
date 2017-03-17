@@ -292,13 +292,14 @@ public:
      * Load items.
      * @return true only if items were saved by this plugin (or just not to load them any further)
      */
-    virtual ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file);
+    virtual ItemSaverPtr loadItems(
+            const QString &tabName, QAbstractItemModel *model, QIODevice *file, int maxItems);
 
     /**
      * Initialize tab (tab was not yet saved or loaded).
      * @return true only if successful
      */
-    virtual ItemSaverPtr initializeTab(const QString &tabName, QAbstractItemModel *model);
+    virtual ItemSaverPtr initializeTab(const QString &tabName, QAbstractItemModel *model, int maxItems);
 
     /**
      * Allow to transform item widget (wrap around a new widget).

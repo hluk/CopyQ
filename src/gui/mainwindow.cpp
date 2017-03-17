@@ -1892,8 +1892,8 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
         // Don't read items based on current value of "maxitems" option since
         // the option can be later also imported.
-        const bool readAllItems = importConfiguration;
-        if ( !deserializeData( c->model(), &tabIn, readAllItems ) )
+        const int maxItems = importConfiguration ? Config::maxItems : m_sharedData->maxItems;
+        if ( !deserializeData( c->model(), &tabIn, maxItems ) )
             return false;
     }
 
@@ -3233,7 +3233,7 @@ bool MainWindow::loadTab(const QString &fileName)
 
     ClipboardBrowser *c = createTab(tabName, MatchExactTabName);
 
-    deserializeData(c->model(), &in);
+    deserializeData(c->model(), &in, m_sharedData->maxItems);
 
     c->loadItems();
     c->saveItems();

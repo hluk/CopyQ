@@ -90,6 +90,8 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     ui->setupUi(this);
     setWindowIcon(appIcon());
 
+    ui->spinBoxItems->setMaximum(Config::maxItems);
+
     if ( itemFactory && itemFactory->hasLoaders() )
         initPluginWidgets(itemFactory);
     else

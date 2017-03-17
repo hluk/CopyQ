@@ -75,7 +75,7 @@ void printLoadItemFileError(const QString &id, const QString &fileName, const QF
 
 ItemSaverPtr loadItems(
         const QString &tabName, const QString &tabFileName,
-        QAbstractItemModel &model, ItemFactory *itemFactory)
+        QAbstractItemModel &model, ItemFactory *itemFactory, int maxItems)
 {
     COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
 
@@ -85,7 +85,7 @@ ItemSaverPtr loadItems(
         return nullptr;
     }
 
-    auto loader = itemFactory->loadItems(tabName, &model, &tabFile);
+    auto loader = itemFactory->loadItems(tabName, &model, &tabFile, maxItems);
     if (!loader) {
         const QString errorString =
                 QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
@@ -98,11 +98,11 @@ ItemSaverPtr loadItems(
 }
 
 ItemSaverPtr createTab(
-        const QString &tabName, QAbstractItemModel &model, ItemFactory *itemFactory)
+        const QString &tabName, QAbstractItemModel &model, ItemFactory *itemFactory, int maxItems)
 {
     COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
 
-    auto saver = itemFactory->initializeTab(tabName, &model);
+    auto saver = itemFactory->initializeTab(tabName, &model, maxItems);
     if (!saver) {
         log( QString("Tab \"%1\": Failed to create new tab"), LogError );
         return nullptr;
@@ -116,7 +116,7 @@ ItemSaverPtr createTab(
 
 } // namespace
 
-ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFactory *itemFactory)
+ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFactory *itemFactory, int maxItems)
 {
     if ( !createItemDirectory() )
         return nullptr;
@@ -137,8 +137,8 @@ ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFa
 
     // Load file with items or create new file.
     auto saver = QFile::exists(tabFileName)
-            ? loadItems(tabName, tabFileName, model, itemFactory)
-            : createTab(tabName, model, itemFactory);
+            ? loadItems(tabName, tabFileName, model, itemFactory, maxItems)
+            : createTab(tabName, model, itemFactory, maxItems);
 
     if (!saver) {
         model.removeRows(0, model.rowCount());

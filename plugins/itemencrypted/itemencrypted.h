@@ -109,9 +109,9 @@ public:
 
     bool canSaveItems(const QString &tabName) const override;
 
-    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file) override;
+    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int maxItems) override;
 
-    ItemSaverPtr initializeTab(const QString &, QAbstractItemModel *model) override;
+    ItemSaverPtr initializeTab(const QString &, QAbstractItemModel *model, int maxItems) override;
 
     QObject *tests(const TestInterfacePtr &test) const override;
 

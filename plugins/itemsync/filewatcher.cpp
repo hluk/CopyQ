@@ -307,13 +307,20 @@ Hash FileWatcher::calculateHash(const QByteArray &bytes)
     return QCryptographicHash::hash(bytes, QCryptographicHash::Sha1);
 }
 
-FileWatcher::FileWatcher(const QString &path, const QStringList &paths, QAbstractItemModel *model, const QList<FileFormat> &formatSettings, QObject *parent)
+FileWatcher::FileWatcher(
+        const QString &path,
+        const QStringList &paths,
+        QAbstractItemModel *model,
+        int maxItems,
+        const QList<FileFormat> &formatSettings,
+        QObject *parent)
     : QObject(parent)
     , m_model(model)
     , m_formatSettings(formatSettings)
     , m_path(path)
     , m_valid(true)
     , m_indexData()
+    , m_maxItems(maxItems)
 {
 #ifdef HAS_TESTS
     // Use smaller update interval for tests.
@@ -377,13 +384,12 @@ bool FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions 
 
 void FileWatcher::createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
 {
-    const int maxItems = m_model->property("maxItems").toInt();
-
     for (const auto &baseNameWithExts : fileList) {
-        if ( !createItemFromFiles(dir, baseNameWithExts, 0) )
-            return;
-        if ( m_model->rowCount() >= maxItems )
+        if ( !createItemFromFiles(dir, baseNameWithExts, 0)
+             || m_model->rowCount() >= m_maxItems )
+        {
             break;
+        }
     }
 }
 
@@ -740,7 +746,7 @@ bool FileWatcher::copyFilesFromUriList(const QByteArray &uriData, int targetRow,
                     const QString targetFilePath = dir.absoluteFilePath(baseName + extName);
                     f.copy(targetFilePath);
                     Ext ext;
-                    if ( m_model->rowCount() < m_model->property("maxItems").toInt()
+                    if ( m_model->rowCount() < m_maxItems
                          && getBaseNameExtension(targetFilePath, m_formatSettings, &baseName, &ext) )
                     {
                             BaseNameExtensions baseNameExts(baseName, QList<Ext>() << ext);

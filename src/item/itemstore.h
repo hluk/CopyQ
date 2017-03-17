@@ -27,7 +27,7 @@ class QString;
 
 /** Load items from configuration file. */
 ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model //!< Model for items.
-        , ItemFactory *itemFactory);
+        , ItemFactory *itemFactory, int maxItems);
 
 /** Save items to configuration file. */
 bool saveItems(const QString &tabName, const QAbstractItemModel &model //!< Model containing items to save.
