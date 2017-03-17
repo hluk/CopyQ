@@ -37,8 +37,7 @@
 namespace {
 
 enum {
-    DataIndex = Qt::UserRole,
-    DataText,
+    DataText = Qt::UserRole,
     DataItemCount
 };
 
@@ -314,7 +313,6 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
         }
 
         item->setExpanded(true);
-        item->setData(0, DataIndex, -1);
         item->setData(0, DataText, text);
 
         const QIcon icon = getIconForTabName( getTabPath(item) );
@@ -324,7 +322,7 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
     }
 
     Q_ASSERT(item != nullptr);
-    item->setData(0, DataIndex, index);
+    m_tabs.insert(index, item);
 
     if (selected)
         setCurrentItem(item);
@@ -338,10 +336,9 @@ void TabTree::removeTab(int index)
     if (item == nullptr)
         return;
 
+    m_tabs.removeOne(item);
     if (item->childCount() == 0)
         deleteItem(item);
-    else
-        item->setData(0, DataIndex, -1);
 
     shiftIndexesBetween(index + 1);
     updateSize();
@@ -349,13 +346,7 @@ void TabTree::removeTab(int index)
 
 QTreeWidgetItem *TabTree::findTreeItem(int index) const
 {
-    for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
-        auto item = *it;
-        if ( getTabIndex(item) == index )
-            return item;
-    }
-
-    return nullptr;
+    return m_tabs.value(index);
 }
 
 QTreeWidgetItem *TabTree::findTreeItem(const QString &path) const
@@ -367,7 +358,7 @@ QTreeWidgetItem *TabTree::findTreeItem(const QString &path) const
 
 int TabTree::getTabIndex(const QTreeWidgetItem *item) const
 {
-    return (item == nullptr) ? -1 : item->data(0, DataIndex).toInt();
+    return (item == nullptr) ? -1 : m_tabs.indexOf( const_cast<QTreeWidgetItem*>(item) );
 }
 
 QString TabTree::getTabPath(const QTreeWidgetItem *item) const
@@ -411,7 +402,8 @@ void TabTree::moveTab(int from, int to)
     else
         shiftIndexesBetween(to, from - 1, 1);
 
-    item->setData(0, DataIndex, to);
+    m_tabs.removeOne(item);
+    m_tabs.insert(to, item);
 }
 
 void TabTree::setTabText(int tabIndex, const QString &tabText)
@@ -428,7 +420,7 @@ void TabTree::setTabText(int tabIndex, const QString &tabText)
     insertTab(tabText, tabIndex, isCurrent);
 
     // Remove old item if it's an empty group.
-    item->setData(0, DataIndex, -1);
+    m_tabs.removeOne(item);
     if ( isEmptyTabGroup(item) )
         deleteItem(item);
 
@@ -551,22 +543,23 @@ void TabTree::dropEvent(QDropEvent *event)
         blockSignals(false);
 
         // Rename moved item if non-unique.
-        QStringList tabs;
+        QStringList uniqueTabNames;
         const auto parent = current->parent();
         for (int i = 0, count = parent ? parent->childCount() : topLevelItemCount(); i < count; ++i) {
             QTreeWidgetItem *sibling = parent ? parent->child(i) : topLevelItem(i);
             if (sibling != current)
-                tabs.append( getTabPath(sibling) );
+                uniqueTabNames.append( getTabPath(sibling) );
         }
 
         auto newPrefix = getTabPath(current);
-        if ( tabs.contains(newPrefix) ) {
-            renameToUnique(&newPrefix, tabs);
+        if ( uniqueTabNames.contains(newPrefix) ) {
+            renameToUnique(&newPrefix, uniqueTabNames);
             const QString text = newPrefix.mid( newPrefix.lastIndexOf(QChar('/')) + 1 );
             current->setData(0, DataText, text);
             labelItem(current);
         }
 
+        QList<QTreeWidgetItem*> newTabs;
         QList<int> indexes;
         for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
             auto item = *it;
@@ -575,13 +568,14 @@ void TabTree::dropEvent(QDropEvent *event)
                 deleteItem(item);
             } else {
                 const int oldIndex = getTabIndex(item);
-                if (oldIndex >= 0) {
-                    item->setData(0, DataIndex, indexes.size());
+                if (oldIndex != -1) {
+                    newTabs.append(item);
                     indexes.append(oldIndex);
                 }
             }
         }
 
+        m_tabs = std::move(newTabs);
         emit tabsMoved(oldPrefix, newPrefix, indexes);
 
         updateSize();
@@ -670,8 +664,10 @@ void TabTree::shiftIndexesBetween(int from, int to, int how)
     for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
         auto item = *it;
         const int oldIndex = getTabIndex(item);
-        if (oldIndex >= from && (to == -1 || oldIndex <= to))
-            item->setData(0, DataIndex, oldIndex + how);
+        if (oldIndex >= from && (to == -1 || oldIndex <= to)) {
+            m_tabs.removeOne(item);
+            m_tabs.insert(oldIndex + how, item);
+        }
     }
 }
 

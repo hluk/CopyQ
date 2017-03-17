@@ -20,11 +20,13 @@
 #ifndef TABTREE_H
 #define TABTREE_H
 
+#include <QList>
 #include <QString>
 #include <QTimer>
 #include <QTreeWidget>
 
 class QMimeData;
+class QTreeWidgetItem;
 
 class TabTree : public QTreeWidget
 {
@@ -105,6 +107,7 @@ private:
     void deleteItem(QTreeWidgetItem *item);
 
     QTimer m_timerUpdate;
+    QList<QTreeWidgetItem*> m_tabs;
 };
 
 #endif // TABTREE_H
