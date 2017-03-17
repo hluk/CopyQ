@@ -71,7 +71,6 @@ ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_max(100)
     , m_clipboardList(m_max)
-    , m_tabName()
 {
 }
 
@@ -227,17 +226,6 @@ void ClipboardModel::setMaxItems(int max)
     } else {
         m_clipboardList.reserve(m_max);
     }
-}
-
-void ClipboardModel::setTabName(const QString &tabName)
-{
-    Q_ASSERT( !tabName.isEmpty() );
-
-    if (m_tabName == tabName)
-        return;
-
-    m_tabName = tabName;
-    emit tabNameChanged(m_tabName);
 }
 
 bool ClipboardModel::move(int pos, int newpos)

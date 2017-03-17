@@ -410,8 +410,6 @@ void ClipboardBrowser::connectModelAndDelegate()
 
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(onDataChanged(QModelIndex,QModelIndex)) );
-    connect( &m, SIGNAL(tabNameChanged(QString)),
-             SLOT(onTabNameChanged(QString)) );
     connect( &m, SIGNAL(unloaded()),
              SLOT(onModelUnloaded()) );
 
@@ -719,23 +717,6 @@ void ClipboardBrowser::onItemCountChanged()
 {
     if (!m_timerEmitItemCount.isActive())
         m_timerEmitItemCount.start();
-}
-
-void ClipboardBrowser::onTabNameChanged(const QString &tabName)
-{
-    if ( !m_tabName.isEmpty() ) {
-        if ( isLoaded() )
-            saveItems();
-        else
-            moveItems(m_tabName, tabName);
-
-        m.unloadItems();
-        loadItemsAgain();
-        if ( isLoaded() )
-            removeItems(m_tabName);
-    }
-
-    m_tabName = tabName;
 }
 
 void ClipboardBrowser::expire(bool force)
@@ -1467,7 +1448,7 @@ void ClipboardBrowser::loadItemsAgain()
     m_timerSave.stop();
 
     m.blockSignals(true);
-    m_itemSaver = ::loadItems(m, m_sharedData->itemFactory);
+    m_itemSaver = ::loadItems(m_tabName, m, m_sharedData->itemFactory);
     m.blockSignals(false);
 
     // Show lock button if model is disabled.
@@ -1494,10 +1475,10 @@ bool ClipboardBrowser::saveItems()
 {
     m_timerSave.stop();
 
-    if ( !isLoaded() || tabName().isEmpty() )
+    if ( !isLoaded() || m_tabName.isEmpty() )
         return false;
 
-    return ::saveItems(m, m_itemSaver);
+    return ::saveItems(m_tabName, m, m_itemSaver);
 }
 
 void ClipboardBrowser::moveToClipboard()
@@ -1600,9 +1581,24 @@ void ClipboardBrowser::invalidateItemCache()
     }
 }
 
-void ClipboardBrowser::setTabName(const QString &id)
+void ClipboardBrowser::setTabName(const QString &tabName)
 {
-    m.setTabName(id);
+    if ( m_tabName.isEmpty() ) {
+        m_tabName = tabName;
+    } else {
+        const QString oldTabName = m_tabName;
+        m_tabName = tabName;
+
+        if ( isLoaded() )
+            saveItems();
+        else
+            moveItems(oldTabName, m_tabName);
+
+        m.unloadItems();
+        loadItemsAgain();
+        if ( isLoaded() )
+            removeItems(oldTabName);
+    }
 }
 
 bool ClipboardBrowser::editing() const

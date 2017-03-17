@@ -118,13 +118,13 @@ public:
      * Load items using a plugin.
      * @return the first plugin (or nullptr) for which ItemLoaderInterface::loadItems() returned true
      */
-    ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file);
+    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file);
 
     /**
      * Initialize tab.
      * @return the first plugin (or nullptr) for which ItemLoaderInterface::initializeTab() returned true
      */
-    ItemSaverPtr initializeTab(QAbstractItemModel *model);
+    ItemSaverPtr initializeTab(const QString &tabName, QAbstractItemModel *model);
 
     /**
      * Return true only if any plugin (ItemLoaderInterface::matches()) returns true;

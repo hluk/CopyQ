@@ -266,7 +266,7 @@ QVariantList ItemScriptable::currentArguments()
     return arguments;
 }
 
-bool ItemSaverInterface::saveItems(const QAbstractItemModel &, QIODevice *)
+bool ItemSaverInterface::saveItems(const QString &, const QAbstractItemModel &, QIODevice *)
 {
     return false;
 }
@@ -300,17 +300,17 @@ bool ItemLoaderInterface::canLoadItems(QIODevice *) const
     return false;
 }
 
-bool ItemLoaderInterface::canSaveItems(const QAbstractItemModel &) const
+bool ItemLoaderInterface::canSaveItems(const QString &) const
 {
     return false;
 }
 
-ItemSaverPtr ItemLoaderInterface::loadItems(QAbstractItemModel *, QIODevice *)
+ItemSaverPtr ItemLoaderInterface::loadItems(const QString &, QAbstractItemModel *, QIODevice *)
 {
     return nullptr;
 }
 
-ItemSaverPtr ItemLoaderInterface::initializeTab(QAbstractItemModel *)
+ItemSaverPtr ItemLoaderInterface::initializeTab(const QString &, QAbstractItemModel *)
 {
     return nullptr;
 }

@@ -88,7 +88,7 @@ class ClipboardBrowser : public QListView
         /**
          * Set ID. Used to save items. If ID is empty saving is disabled.
          */
-        void setTabName(const QString &id);
+        void setTabName(const QString &tabName);
         const QString &tabName() const { return m_tabName; }
 
         /**
@@ -303,8 +303,6 @@ class ClipboardBrowser : public QListView
         void onRowsInserted(const QModelIndex &parent, int first, int last);
 
         void onItemCountChanged();
-
-        void onTabNameChanged(const QString &tabName);
 
         void expire(bool force = false);
 

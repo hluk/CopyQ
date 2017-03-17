@@ -54,7 +54,7 @@ class ItemEncryptedSaver : public QObject, public ItemSaverInterface
     Q_OBJECT
 
 public:
-    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override;
+    bool saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file) override;
 
 signals:
     void error(const QString &);
@@ -107,11 +107,11 @@ public:
 
     bool canLoadItems(QIODevice *file) const override;
 
-    bool canSaveItems(const QAbstractItemModel &model) const override;
+    bool canSaveItems(const QString &tabName) const override;
 
-    ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file) override;
+    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file) override;
 
-    ItemSaverPtr initializeTab(QAbstractItemModel *model) override;
+    ItemSaverPtr initializeTab(const QString &, QAbstractItemModel *model) override;
 
     QObject *tests(const TestInterfacePtr &test) const override;
 

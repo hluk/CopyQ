@@ -83,7 +83,7 @@ class ItemPinnedSaver : public QObject, public ItemSaverInterface
 public:
     ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &settings, const ItemSaverPtr &saver);
 
-    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override;
+    bool saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file) override;
 
     bool canRemoveItems(const QList<QModelIndex> &indexList, QString *error) override;
 

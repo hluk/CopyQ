@@ -283,7 +283,7 @@ void ItemEncrypted::setTagged(bool tagged)
     setVisible(!tagged);
 }
 
-bool ItemEncryptedSaver::saveItems(const QAbstractItemModel &model, QIODevice *file)
+bool ItemEncryptedSaver::saveItems(const QString &, const QAbstractItemModel &model, QIODevice *file)
 {
     const auto length = model.rowCount();
     if (length == 0)
@@ -479,10 +479,8 @@ bool ItemEncryptedLoader::canLoadItems(QIODevice *file) const
             && (header == dataFileHeader || header == dataFileHeaderV2);
 }
 
-bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model) const
+bool ItemEncryptedLoader::canSaveItems(const QString &tabName) const
 {
-    const QString tabName = model.property("tabName").toString();
-
     for ( const auto &encryptTabName : m_settings.value("encrypt_tabs").toStringList() ) {
         if ( encryptTabName.isEmpty() )
             continue;
@@ -506,7 +504,7 @@ bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model) const
     return false;
 }
 
-ItemSaverPtr ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QIODevice *file)
+ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel *model, QIODevice *file)
 {
     // This is needed to skip header.
     if ( !canLoadItems(file) )
@@ -582,7 +580,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QIODevice
     return createSaver();
 }
 
-ItemSaverPtr ItemEncryptedLoader::initializeTab(QAbstractItemModel *)
+ItemSaverPtr ItemEncryptedLoader::initializeTab(const QString &, QAbstractItemModel *)
 {
     if (m_gpgProcessStatus == GpgNotInstalled)
         return nullptr;

@@ -479,7 +479,7 @@ ItemSyncSaver::ItemSyncSaver(QAbstractItemModel *model, const QString &tabPath,
 {
 }
 
-bool ItemSyncSaver::saveItems(const QAbstractItemModel &model, QIODevice *file)
+bool ItemSyncSaver::saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file)
 {
     // Don't save items if path is empty.
     if (!m_watcher) {
@@ -492,7 +492,7 @@ bool ItemSyncSaver::saveItems(const QAbstractItemModel &model, QIODevice *file)
 
     if ( !m_watcher->isValid() ) {
         log( tr("Failed to synchronize tab \"%1\" with directory \"%2\"!")
-             .arg(model.property("tabName").toString())
+             .arg(tabName)
              .arg(path),
              LogError );
         return false;
@@ -748,24 +748,24 @@ bool ItemSyncLoader::canLoadItems(QIODevice *file) const
     return readConfigHeader(&stream);
 }
 
-bool ItemSyncLoader::canSaveItems(const QAbstractItemModel &model) const
+bool ItemSyncLoader::canSaveItems(const QString &tabName) const
 {
-    return m_tabPaths.contains(model.property("tabName").toString());
+    return m_tabPaths.contains(tabName);
 }
 
-ItemSaverPtr ItemSyncLoader::loadItems(QAbstractItemModel *model, QIODevice *file)
+ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file)
 {
     QVariantMap config;
     if ( !readConfig(file, &config) )
         return nullptr;
 
     const QStringList files = config.value(tabConfigSavedFiles).toStringList();
-    return loadItems(model, files);
+    return loadItems(tabName, model, files);
 }
 
-ItemSaverPtr ItemSyncLoader::initializeTab(QAbstractItemModel *model)
+ItemSaverPtr ItemSyncLoader::initializeTab(const QString &tabName, QAbstractItemModel *model)
 {
-    return loadItems(model, QStringList());
+    return loadItems(tabName, model, QStringList());
 }
 
 ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
@@ -839,15 +839,9 @@ void ItemSyncLoader::onBrowseButtonClicked()
         item->setText(path);
 }
 
-QString ItemSyncLoader::tabPath(const QAbstractItemModel &model) const
+ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model, const QStringList &files)
 {
-    const QString tabName = model.property("tabName").toString();
-    return m_tabPaths.value(tabName);
-}
-
-ItemSaverPtr ItemSyncLoader::loadItems(QAbstractItemModel *model, const QStringList &files)
-{
-    const auto tabPath = this->tabPath(*model);
+    const auto tabPath = m_tabPaths.value(tabName);
     const auto path = files.isEmpty() ? tabPath : QFileInfo(files.first()).absolutePath();
     if ( path.isEmpty() )
         return std::make_shared<ItemSyncSaver>(tabPath);

@@ -85,7 +85,7 @@ ItemSaverPtr loadItems(
         return nullptr;
     }
 
-    auto loader = itemFactory->loadItems(&model, &tabFile);
+    auto loader = itemFactory->loadItems(tabName, &model, &tabFile);
     if (!loader) {
         const QString errorString =
                 QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
@@ -102,13 +102,13 @@ ItemSaverPtr createTab(
 {
     COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
 
-    auto saver = itemFactory->initializeTab(&model);
+    auto saver = itemFactory->initializeTab(tabName, &model);
     if (!saver) {
         log( QString("Tab \"%1\": Failed to create new tab"), LogError );
         return nullptr;
     }
 
-    if ( !saveItems(model, saver) )
+    if ( !saveItems(tabName, model, saver) )
         return nullptr;
 
     return saver;
@@ -116,12 +116,11 @@ ItemSaverPtr createTab(
 
 } // namespace
 
-ItemSaverPtr loadItems(QAbstractItemModel &model, ItemFactory *itemFactory)
+ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFactory *itemFactory)
 {
     if ( !createItemDirectory() )
         return nullptr;
 
-    const QString tabName = model.property("tabName").toString();
     const QString tabFileName = itemFileName(tabName);
 
     // If tab file doesn't exist, try to restore data from temporary file.
@@ -151,9 +150,8 @@ ItemSaverPtr loadItems(QAbstractItemModel &model, ItemFactory *itemFactory)
     return saver;
 }
 
-bool saveItems(const QAbstractItemModel &model, const ItemSaverPtr &saver)
+bool saveItems(const QString &tabName, const QAbstractItemModel &model, const ItemSaverPtr &saver)
 {
-    const QString tabName = model.property("tabName").toString();
     const QString tabFileName = itemFileName(tabName);
 
     if ( !createItemDirectory() )
@@ -168,7 +166,7 @@ bool saveItems(const QAbstractItemModel &model, const ItemSaverPtr &saver)
 
     COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(tabName).arg(model.rowCount()) );
 
-    if ( !saver->saveItems(model, &tmpFile) ) {
+    if ( !saver->saveItems(tabName, model, &tmpFile) ) {
         COPYQ_LOG( QString("Tab \"%1\": Failed to save items!").arg(tabName) );
         return false;
     }

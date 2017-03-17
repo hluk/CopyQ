@@ -103,7 +103,6 @@ class ClipboardModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int maxItems READ maxItems WRITE setMaxItems)
-    Q_PROPERTY(QString tabName READ tabName WRITE setTabName NOTIFY tabNameChanged)
 
 public:
     /** Return true if @a lhs is less than @a rhs. */
@@ -147,11 +146,6 @@ public:
 
     /** Return maximum number of items in model. */
     int maxItems() const { return m_max; }
-
-    /** Tab name associated with model. */
-    const QString &tabName() const { return m_tabName; }
-
-    void setTabName(const QString &tabName);
 
     /**
      * Move an item.
@@ -207,12 +201,10 @@ public slots:
 
 signals:
     void unloaded();
-    void tabNameChanged(const QString &tabName);
 
 private:
     int m_max;
     ClipboardItemList m_clipboardList;
-    QString m_tabName;
 };
 
 #endif // CLIPBOARDMODEL_H

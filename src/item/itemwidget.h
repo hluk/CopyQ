@@ -183,7 +183,7 @@ public:
      * Save items.
      * @return true only if items were saved
      */
-    virtual bool saveItems(const QAbstractItemModel &model, QIODevice *file);
+    virtual bool saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file);
 
     /**
      * Called before items are deleted by user.
@@ -286,19 +286,19 @@ public:
     /**
      * @return true only if items can be saved
      */
-    virtual bool canSaveItems(const QAbstractItemModel &model) const;
+    virtual bool canSaveItems(const QString &tabName) const;
 
     /**
      * Load items.
      * @return true only if items were saved by this plugin (or just not to load them any further)
      */
-    virtual ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file);
+    virtual ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file);
 
     /**
      * Initialize tab (tab was not yet saved or loaded).
      * @return true only if successful
      */
-    virtual ItemSaverPtr initializeTab(QAbstractItemModel *model);
+    virtual ItemSaverPtr initializeTab(const QString &tabName, QAbstractItemModel *model);
 
     /**
      * Allow to transform item widget (wrap around a new widget).

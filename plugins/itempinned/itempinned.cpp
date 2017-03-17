@@ -185,9 +185,9 @@ ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &setting
     updateLastPinned( 0, m_model->rowCount() );
 }
 
-bool ItemPinnedSaver::saveItems(const QAbstractItemModel &model, QIODevice *file)
+bool ItemPinnedSaver::saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file)
 {
-    return m_saver->saveItems(model, file);
+    return m_saver->saveItems(tabName, model, file);
 }
 
 bool ItemPinnedSaver::canRemoveItems(const QList<QModelIndex> &indexList, QString *error)

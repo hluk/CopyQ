@@ -167,7 +167,7 @@ private:
 class DummySaver : public ItemSaverInterface
 {
 public:
-    bool saveItems(const QAbstractItemModel &model, QIODevice *file) override
+    bool saveItems(const QString & /* tabName */, const QAbstractItemModel &model, QIODevice *file) override
     {
         return serializeData(model, file);
     }
@@ -188,9 +188,9 @@ public:
 
     bool canLoadItems(QIODevice *) const override { return true; }
 
-    bool canSaveItems(const QAbstractItemModel &) const override { return true; }
+    bool canSaveItems(const QString &) const override { return true; }
 
-    ItemSaverPtr loadItems(QAbstractItemModel *model, QIODevice *file) override
+    ItemSaverPtr loadItems(const QString &, QAbstractItemModel *model, QIODevice *file) override
     {
         if ( file->size() > 0 ) {
             if ( !deserializeData(model, file) ) {
@@ -202,7 +202,7 @@ public:
         return std::make_shared<DummySaver>();
     }
 
-    ItemSaverPtr initializeTab(QAbstractItemModel *) override
+    ItemSaverPtr initializeTab(const QString &, QAbstractItemModel *) override
     {
         return std::make_shared<DummySaver>();
     }
@@ -230,6 +230,7 @@ ItemSaverPtr transformSaver(
 }
 
 ItemSaverPtr saveWithOther(
+        const QString &tabName,
         QAbstractItemModel *model,
         const ItemSaverPtr &currentSaver, ItemLoaderPtr *currentLoader,
         const ItemLoaderList &loaders)
@@ -237,7 +238,7 @@ ItemSaverPtr saveWithOther(
     ItemLoaderPtr newLoader;
 
     for ( auto &loader : loaders ) {
-        if ( loader->canSaveItems(*model) ) {
+        if ( loader->canSaveItems(tabName) ) {
             newLoader = loader;
             break;
         }
@@ -246,12 +247,11 @@ ItemSaverPtr saveWithOther(
     if (!newLoader || newLoader == *currentLoader)
         return currentSaver;
 
-    const auto tabName = model->property("tabName").toString();
     COPYQ_LOG( QString("Tab \"%1\": Saving items using other plugin")
                .arg(tabName) );
 
-    auto newSaver = newLoader->initializeTab(model);
-    if ( !newSaver || !saveItems(*model, newSaver) ) {
+    auto newSaver = newLoader->initializeTab(tabName, model);
+    if ( !newSaver || !saveItems(tabName, *model, newSaver) ) {
         COPYQ_LOG( QString("Tab \"%1\": Failed to re-save items")
                    .arg(tabName) );
         return currentSaver;
@@ -371,17 +371,17 @@ bool ItemFactory::isLoaderEnabled(const ItemLoaderPtr &loader) const
     return !m_disabledLoaders.contains(loader);
 }
 
-ItemSaverPtr ItemFactory::loadItems(QAbstractItemModel *model, QIODevice *file)
+ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file)
 {
     auto loaders = enabledLoaders();
     for ( auto &loader : loaders ) {
         file->seek(0);
         if ( loader->canLoadItems(file) ) {
             file->seek(0);
-            auto saver = loader->loadItems(model, file);
+            auto saver = loader->loadItems(tabName, model, file);
             if (!saver)
                 return nullptr;
-            saver = saveWithOther(model, saver, &loader, loaders);
+            saver = saveWithOther(tabName, model, saver, &loader, loaders);
             return transformSaver(model, saver, loader, loaders);
         }
     }
@@ -389,12 +389,12 @@ ItemSaverPtr ItemFactory::loadItems(QAbstractItemModel *model, QIODevice *file)
     return nullptr;
 }
 
-ItemSaverPtr ItemFactory::initializeTab(QAbstractItemModel *model)
+ItemSaverPtr ItemFactory::initializeTab(const QString &tabName, QAbstractItemModel *model)
 {
     const auto loaders = enabledLoaders();
     for ( auto &loader : loaders ) {
-        if ( loader->canSaveItems(*model) ) {
-            const auto saver = loader->initializeTab(model);
+        if ( loader->canSaveItems(tabName) ) {
+            const auto saver = loader->initializeTab(tabName, model);
             return saver ? transformSaver(model, saver, loader, loaders) : nullptr;
         }
     }
