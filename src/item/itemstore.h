@@ -33,10 +33,6 @@ ItemSaverPtr loadItems(ClipboardModel &model //!< Model for items.
 bool saveItems(const ClipboardModel &model //!< Model containing items to save.
         , const ItemSaverPtr &saver);
 
-/** Save items with other plugin with higher priority than current one (@a loader). */
-bool saveItemsWithOther(ClipboardModel &model //!< Model containing items to save.
-        , const ItemSaverPtr &oldSaver, ItemFactory *itemFactory);
-
 /** Remove configuration file for items. */
 void removeItems(const QString &tabName //!< See ClipboardBrowser::getID().
         );

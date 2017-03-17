@@ -723,18 +723,8 @@ void ClipboardBrowser::onItemCountChanged()
 
 void ClipboardBrowser::onTabNameChanged(const QString &tabName)
 {
-    if ( m_tabName.isEmpty() ) {
-        m_tabName = tabName;
-        return;
-    }
-
-    // Just move last saved file if tab is not loaded yet.
-    if ( isLoaded() ) {
-        m_timerSave.stop();
-        removeItems(m_tabName);
-    } else {
+    if ( !m_tabName.isEmpty() )
         moveItems(m_tabName, tabName);
-    }
 
     m_tabName = tabName;
 }
