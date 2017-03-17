@@ -21,6 +21,7 @@
 
 #include "common/common.h"
 #include "common/mimetypes.h"
+#include "common/shortcuts.h"
 #include "common/textdata.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfactory.h"

@@ -19,7 +19,7 @@
 
 #include "menuitems.h"
 
-#include "common/common.h"
+#include "common/shortcuts.h"
 #include "gui/icons.h"
 
 #include <QStringList>

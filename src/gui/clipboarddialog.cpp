@@ -23,6 +23,7 @@
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
+#include "common/shortcuts.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"

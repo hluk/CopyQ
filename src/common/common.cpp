@@ -145,22 +145,6 @@ QTextCodec *codecForText(const QByteArray &bytes)
     return QTextCodec::codecForName("utf-8");
 }
 
-int indexOfKeyHint(const QString &name)
-{
-    bool amp = false;
-    int i = 0;
-
-    for (const auto &c : name) {
-        if (c == '&')
-            amp = !amp;
-        else if (amp)
-            return i - 1;
-        ++i;
-    }
-
-    return -1;
-}
-
 QByteArray getUtf8Data(const QMimeData &data, const QString &format)
 {
     if (format == mimeText || format == mimeHtml)
@@ -406,28 +390,6 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
     return label;
 }
 
-QString shortcutToRemove()
-{
-#ifdef Q_OS_MAC
-    return QObject::tr("Backspace", "Key to remove item or MIME on OS X");
-#else
-    return QObject::tr("Delete", "Key to remove item or MIME");
-#endif
-}
-
-QString portableShortcutText(const QKeySequence &shortcut)
-{
-    // WORKAROUND: Qt has convert some keys to upper case which
-    //             breaks some shortcuts on some keyboard layouts.
-    return shortcut.toString(QKeySequence::PortableText).toLower();
-}
-
-QString toPortableShortcutText(const QString &shortcutNativeText)
-{
-    return portableShortcutText(
-                QKeySequence(shortcutNativeText, QKeySequence::NativeText));
-}
-
 void renameToUnique(QString *name, const QStringList &names)
 {
     const QString baseName = *name;
@@ -521,17 +483,6 @@ QPoint toScreen(const QPoint &pos, int w, int h)
                 qMax(0, qMin(pos.x(), availableGeometry.right() - w)),
                 qMax(0, qMin(pos.y(), availableGeometry.bottom() - h))
                 );
-}
-
-bool hasKeyHint(const QString &name)
-{
-    return indexOfKeyHint(name) != -1;
-}
-
-QString &removeKeyHint(QString *name)
-{
-    const int i = indexOfKeyHint(*name);
-    return i == -1 ? *name : name->remove(i, 1);
 }
 
 void moveWindowOnScreen(QWidget *w, const QPoint &pos)

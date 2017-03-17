@@ -20,7 +20,7 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 
-#include "common/common.h"
+#include "common/shortcuts.h"
 #include "common/textdata.h"
 #include "common/version.h"
 

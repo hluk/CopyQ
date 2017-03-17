@@ -44,7 +44,6 @@ class QByteArray;
 class QDropEvent;
 class QIODevice;
 class QKeyEvent;
-class QKeySequence;
 class QMimeData;
 class QPoint;
 class QProcess;
@@ -121,15 +120,6 @@ QString textLabelForData(const QVariantMap &data, const QFont &font = QFont(),
                          const QString &format = QString(), bool escapeAmpersands = false,
                          int maxWidthPixels = -1, int maxLines = 1);
 
-/**
- * Shortcut to remove items, formats etc.
- */
-QString shortcutToRemove();
-
-QString portableShortcutText(const QKeySequence &shortcut);
-
-QString toPortableShortcutText(const QString &shortcutNativeText);
-
 void renameToUnique(QString *name, const QStringList &names);
 
 bool openTemporaryFile(QTemporaryFile *file, const QString &suffix = ".ini");
@@ -147,12 +137,6 @@ bool isClipboardData(const QVariantMap &data);
 int smallIconSize();
 
 QPoint toScreen(const QPoint &pos, int w = 0, int h = 0);
-
-/// Returns true only if UI name contains key hint (unescaped '&').
-bool hasKeyHint(const QString &name);
-
-/// Removes key hint (first unescaped '&') from UI name.
-QString &removeKeyHint(QString *name);
 
 void moveWindowOnScreen(QWidget *w, const QPoint &pos);
 

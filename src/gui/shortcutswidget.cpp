@@ -22,6 +22,7 @@
 
 #include "common/command.h"
 #include "common/common.h"
+#include "common/shortcuts.h"
 #include "gui/commanddialog.h"
 #include "gui/iconfactory.h"
 #include "gui/iconfont.h"

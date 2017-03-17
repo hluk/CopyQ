@@ -21,8 +21,8 @@
 #include "ui_addcommanddialog.h"
 
 #include "common/command.h"
-#include "common/common.h"
 #include "common/mimetypes.h"
+#include "common/shortcuts.h"
 #include "item/itemfactory.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"

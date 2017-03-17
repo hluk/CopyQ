@@ -21,7 +21,7 @@
 #include "ui_processmanagerdialog.h"
 
 #include "common/action.h"
-#include "common/common.h"
+#include "common/shortcuts.h"
 #include "gui/iconfont.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"

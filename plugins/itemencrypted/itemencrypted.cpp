@@ -21,11 +21,11 @@
 #include "ui_itemencryptedsettings.h"
 
 #include "common/command.h"
-#include "common/common.h"
 #include "common/config.h"
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/shortcuts.h"
 #include "common/textdata.h"
 #include "gui/icons.h"
 #include "gui/iconwidget.h"

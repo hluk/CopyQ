@@ -26,6 +26,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
+#include "common/shortcuts.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/commanddialog.h"
 #include "gui/configtabshortcuts.h"

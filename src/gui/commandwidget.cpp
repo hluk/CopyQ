@@ -21,9 +21,9 @@
 #include "ui_commandwidget.h"
 
 #include "common/appconfig.h"
-#include "common/common.h"
 #include "common/command.h"
 #include "common/mimetypes.h"
+#include "common/shortcuts.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/shortcutdialog.h"

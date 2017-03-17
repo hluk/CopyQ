@@ -25,6 +25,7 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
+#include "common/shortcuts.h"
 #include "common/textdata.h"
 #include "common/version.h"
 #include "item/itemfactory.h"

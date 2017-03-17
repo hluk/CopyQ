@@ -20,8 +20,8 @@
 #include "shortcutdialog.h"
 #include "ui_shortcutdialog.h"
 
-#include "common/common.h"
 #include "common/log.h"
+#include "common/shortcuts.h"
 #include "gui/icons.h"
 #include "platform/platformnativeinterface.h"
 
