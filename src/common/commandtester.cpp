@@ -20,8 +20,8 @@
 #include "commandtester.h"
 
 #include "common/action.h"
-#include "common/common.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 
 #include <QProcess>
 #include <QCoreApplication>

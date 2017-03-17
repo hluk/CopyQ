@@ -23,9 +23,9 @@
 #include "common/appconfig.h"
 #include "common/action.h"
 #include "common/command.h"
-#include "common/common.h"
 #include "common/config.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 #include "item/serialize.h"
 #include "gui/windowgeometryguard.h"
 

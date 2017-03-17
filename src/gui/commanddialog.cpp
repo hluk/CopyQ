@@ -26,6 +26,7 @@
 #include "common/mimetypes.h"
 #include "common/settings.h"
 #include "common/temporarysettings.h"
+#include "common/textdata.h"
 #include "gui/addcommanddialog.h"
 #include "gui/commandwidget.h"
 #include "gui/iconfactory.h"

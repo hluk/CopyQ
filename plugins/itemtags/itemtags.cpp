@@ -21,8 +21,8 @@
 #include "ui_itemtagssettings.h"
 
 #include "common/command.h"
-#include "common/common.h"
 #include "common/contenttype.h"
+#include "common/textdata.h"
 #include "gui/iconfont.h"
 #include "gui/iconselectbutton.h"
 

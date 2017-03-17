@@ -21,6 +21,7 @@
 
 #include "common/appconfig.h"
 #include "common/common.h"
+#include "common/textdata.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"

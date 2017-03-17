@@ -27,6 +27,7 @@
 #include "common/log.h"
 #include "common/sleeptimer.h"
 #include "common/version.h"
+#include "common/textdata.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"

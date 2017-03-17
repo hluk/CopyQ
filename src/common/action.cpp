@@ -22,6 +22,7 @@
 #include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 #include "item/serialize.h"
 
 #include <QCoreApplication>

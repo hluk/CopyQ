@@ -25,6 +25,7 @@
 #include "common/mimetypes.h"
 #include "common/option.h"
 #include "common/temporarysettings.h"
+#include "common/textdata.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/iconfont.h"

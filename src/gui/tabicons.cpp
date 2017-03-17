@@ -20,9 +20,9 @@
 #include "tabicons.h"
 
 #include "common/appconfig.h"
-#include "common/common.h"
 #include "common/config.h"
 #include "common/settings.h"
+#include "common/textdata.h"
 #include "gui/iconfactory.h"
 
 #include <QComboBox>

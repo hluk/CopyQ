@@ -21,6 +21,7 @@
 
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 
 #include <QAction>
 #include <QApplication>
@@ -32,7 +33,6 @@
 #include <QImage>
 #include <QImageWriter>
 #include <QKeyEvent>
-#include <QLocale>
 #include <QMimeData>
 #include <QMovie>
 #include <QObject>
@@ -45,9 +45,6 @@
 #include <QTimer>
 #include <QUrl>
 #include <QWidget>
-#if QT_VERSION < 0x050000
-#   include <QTextDocument> // Qt::escape()
-#endif
 
 // This is needed on X11 when retrieving lots of data from clipboard.
 #if QT_VERSION >= 0x050000 && defined(COPYQ_WS_X11)
@@ -164,14 +161,6 @@ int indexOfKeyHint(const QString &name)
     return -1;
 }
 
-QString escapeHtmlSpaces(const QString &str)
-{
-    QString str2 = str;
-    return str2
-            .replace(' ', "&nbsp;")
-            .replace('\n', "<br />");
-}
-
 QByteArray getUtf8Data(const QMimeData &data, const QString &format)
 {
     if (format == mimeText || format == mimeHtml)
@@ -192,24 +181,6 @@ QByteArray getUtf8Data(const QMimeData &data, const QString &format)
 
 } // namespace
 
-QString quoteString(const QString &str)
-{
-#if QT_VERSION >= 0x040800
-    return QLocale().quoteString(str);
-#else
-    return '"' + str + '"';
-#endif
-}
-
-QString escapeHtml(const QString &str)
-{
-#if QT_VERSION < 0x050000
-    return escapeHtmlSpaces(Qt::escape(str));
-#else
-    return escapeHtmlSpaces(str.toHtmlEscaped());
-#endif
-}
-
 bool isMainThread()
 {
     return QThread::currentThread() == qApp->thread();
@@ -223,46 +194,6 @@ const QMimeData *clipboardData(QClipboard::Mode mode)
     const QMimeData *data = QApplication::clipboard()->mimeData(mode);
     COPYQ_LOG(data != nullptr ? "Got data." : "Data is nullptr!");
     return data;
-}
-
-uint hash(const QVariantMap &data)
-{
-    uint hash = 0;
-
-    for ( const auto &mime : data.keys() ) {
-        // Skip some special data.
-        if (mime == mimeWindowTitle || mime == mimeOwner || mime == mimeClipboardMode)
-            continue;
-        hash ^= qHash(data[mime].toByteArray()) + qHash(mime);
-    }
-
-    return hash;
-}
-
-QString getTextData(const QByteArray &bytes)
-{
-    // QString::fromUtf8(bytes) ends string at first '\0'.
-    return QString::fromUtf8( bytes.constData(), bytes.size() );
-}
-
-QString getTextData(const QVariantMap &data, const QString &mime)
-{
-    return getTextData( data.value(mime).toByteArray() );
-}
-
-QString getTextData(const QVariantMap &data)
-{
-    return getTextData(data, data.contains(mimeText) ? mimeText : mimeUriList);
-}
-
-void setTextData(QVariantMap *data, const QString &text, const QString &mime)
-{
-    data->insert(mime, text.toUtf8());
-}
-
-void setTextData(QVariantMap *data, const QString &text)
-{
-    setTextData(data, text, mimeText);
 }
 
 QVariantMap cloneData(const QMimeData &data, QStringList formats)
@@ -367,23 +298,6 @@ QMimeData* createMimeData(const QVariantMap &data)
     }
 
     return newClipboardData.release();
-}
-
-QVariantMap createDataMap(const QString &format, const QVariant &value)
-{
-    QVariantMap dataMap;
-    dataMap.insert(format, value);
-    return dataMap;
-}
-
-QVariantMap createDataMap(const QString &format, const QByteArray &value)
-{
-    return createDataMap( format, QVariant(value) );
-}
-
-QVariantMap createDataMap(const QString &format, const QString &value)
-{
-    return createDataMap( format, value.toUtf8() );
 }
 
 bool ownsClipboardData(const QVariantMap &data)

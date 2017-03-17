@@ -19,9 +19,9 @@
 
 #include "itemstore.h"
 
-#include "common/common.h"
 #include "common/config.h"
 #include "common/log.h"
+#include "common/textdata.h"
 #include "item/itemfactory.h"
 
 #include <QAbstractItemModel>

@@ -21,6 +21,7 @@
 
 #include "common/common.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 #include "gui/notification.h"
 
 #include <QApplication>

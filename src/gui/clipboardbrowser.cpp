@@ -25,6 +25,7 @@
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 #include "gui/clipboarddialog.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"

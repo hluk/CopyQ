@@ -25,6 +25,7 @@
 #include "common/monitormessagecode.h"
 #include "common/log.h"
 #include "common/server.h"
+#include "common/textdata.h"
 
 #include <QCoreApplication>
 #include <QByteArray>

@@ -20,7 +20,7 @@
 #include "x11platform.h"
 
 #include "app/applicationexceptionhandler.h"
-#include "common/common.h"
+#include "common/textdata.h"
 
 #include <QApplication>
 #include <QCoreApplication>

@@ -70,30 +70,9 @@ class QWidget;
 #   define HAS_MOUSE_SELECTIONS
 #endif
 
-QString quoteString(const QString &str);
-
-QString escapeHtml(const QString &str);
-
 bool isMainThread();
 
 const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
-
-uint hash(const QVariantMap &data);
-
-QString getTextData(const QByteArray &bytes);
-
-/**
- * Get given text format from data; null string if not available.
- * Assumes that text data is UTF8 encoded.
- */
-QString getTextData(const QVariantMap &data, const QString &mime);
-
-/** Helper function that calls getTextData(data, "text/plain"). */
-QString getTextData(const QVariantMap &data);
-
-void setTextData(QVariantMap *data, const QString &text, const QString &mime);
-
-void setTextData(QVariantMap *data, const QString &text);
 
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */
 QVariantMap cloneData(const QMimeData &data, QStringList formats);
@@ -102,12 +81,6 @@ QVariantMap cloneData(const QMimeData &data, QStringList formats);
 QVariantMap cloneData(const QMimeData &data);
 
 QMimeData* createMimeData(const QVariantMap &data);
-
-QVariantMap createDataMap(const QString &format, const QVariant &value);
-
-QVariantMap createDataMap(const QString &format, const QByteArray &value);
-
-QVariantMap createDataMap(const QString &format, const QString &value);
 
 /** Return true only if data map contains useful data. */
 bool containsAnyData(const QVariantMap &data);

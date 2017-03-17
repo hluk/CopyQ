@@ -141,6 +141,7 @@ SOURCES += \
     common/messagehandlerforqt.cpp \
     common/option.cpp \
     common/server.cpp \
+    common/textdata.cpp \
     gui/aboutdialog.cpp \
     gui/actiondialog.cpp \
     gui/actionhandler.cpp \

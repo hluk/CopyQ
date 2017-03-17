@@ -28,6 +28,7 @@
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 #include "gui/aboutdialog.h"
 #include "gui/actiondialog.h"
 #include "gui/actionhandler.h"

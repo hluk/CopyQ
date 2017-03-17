@@ -23,9 +23,9 @@
 #include "app/clipboardmonitor.h"
 #include "app/clipboardserver.h"
 #include "common/commandstatus.h"
-#include "common/common.h"
 #include "common/log.h"
 #include "common/messagehandlerforqt.h"
+#include "common/textdata.h"
 #include "platform/platformnativeinterface.h"
 #include "scriptable/scriptable.h"
 

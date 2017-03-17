@@ -19,9 +19,9 @@
 
 #include "clipboarditem.h"
 
-#include "common/common.h"
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 #include "item/serialize.h"
 
 #include <QBrush>

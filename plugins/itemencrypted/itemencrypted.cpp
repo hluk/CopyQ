@@ -26,6 +26,7 @@
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 #include "gui/icons.h"
 #include "gui/iconwidget.h"
 #include "item/serialize.h"
