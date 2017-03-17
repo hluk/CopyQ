@@ -19,6 +19,7 @@
 
 #include "common/common.h"
 
+#include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
@@ -28,7 +29,6 @@
 #include <QBuffer>
 #include <QClipboard>
 #include <QDropEvent>
-#include <QDesktopWidget>
 #include <QDir>
 #include <QImage>
 #include <QImageWriter>
@@ -425,11 +425,6 @@ bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
     return file->open();
 }
 
-int pointsToPixels(int points)
-{
-    return points * QApplication::desktop()->physicalDpiX() / 72;
-}
-
 void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object, const char *slot)
 {
     timer->setSingleShot(true);
@@ -469,20 +464,6 @@ bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data)
 bool isClipboardData(const QVariantMap &data)
 {
     return data.value(mimeClipboardMode).toByteArray().isEmpty();
-}
-
-int smallIconSize()
-{
-    return QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
-}
-
-QPoint toScreen(const QPoint &pos, int w, int h)
-{
-    const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
-    return QPoint(
-                qMax(0, qMin(pos.x(), availableGeometry.right() - w)),
-                qMax(0, qMin(pos.y(), availableGeometry.bottom() - h))
-                );
 }
 
 bool handleViKey(QKeyEvent *event, QObject *eventReceiver)

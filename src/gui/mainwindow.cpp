@@ -26,6 +26,7 @@
 #include "common/command.h"
 #include "common/config.h"
 #include "common/contenttype.h"
+#include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"

@@ -20,9 +20,9 @@
 #include "itempinned.h"
 #include "ui_itempinnedsettings.h"
 
-#include "common/common.h"
 #include "common/command.h"
 #include "common/contenttype.h"
+#include "common/display.h"
 
 #ifdef HAS_TESTS
 #   include "tests/itempinnedtests.h"

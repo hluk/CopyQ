@@ -23,6 +23,7 @@
 #include "common/config.h"
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"

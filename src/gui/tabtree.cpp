@@ -20,6 +20,7 @@
 #include "tabtree.h"
 
 #include "common/common.h"
+#include "common/display.h"
 #include "common/mimetypes.h"
 #include "gui/iconfactory.h"
 #include "gui/iconfont.h"

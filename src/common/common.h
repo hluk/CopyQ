@@ -124,8 +124,6 @@ void renameToUnique(QString *name, const QStringList &names);
 
 bool openTemporaryFile(QTemporaryFile *file, const QString &suffix = ".ini");
 
-int pointsToPixels(int points);
-
 void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object = nullptr, const char *slot = nullptr);
 
 QString dataToText(const QByteArray &bytes, const QString &mime);
@@ -133,10 +131,6 @@ QString dataToText(const QByteArray &bytes, const QString &mime);
 bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data);
 
 bool isClipboardData(const QVariantMap &data);
-
-int smallIconSize();
-
-QPoint toScreen(const QPoint &pos, int w = 0, int h = 0);
 
 /**
  * Handle key for Vi mode.

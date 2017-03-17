@@ -19,7 +19,7 @@
 
 #include "commandhelpbutton.h"
 
-#include "common/common.h"
+#include "common/display.h"
 #include "common/textdata.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"

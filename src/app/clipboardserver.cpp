@@ -23,6 +23,7 @@
 #include "common/appconfig.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
+#include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
