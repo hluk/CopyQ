@@ -62,8 +62,6 @@ namespace {
 const char dataFileSuffix[] = "_copyq.dat";
 const char noteFileSuffix[] = "_note.txt";
 
-const char propertyModelDisabled[] = "disabled";
-
 const int updateItemsIntervalMs = 5000; // Interval to update items after a file has changed.
 
 const qint64 sizeLimit = 10 << 20;
@@ -314,7 +312,7 @@ FileWatcher::FileWatcher(const QString &path, const QStringList &paths, QAbstrac
     , m_model(model)
     , m_formatSettings(formatSettings)
     , m_path(path)
-    , m_valid(false)
+    , m_valid(true)
     , m_indexData()
 {
 #ifdef HAS_TESTS
@@ -345,16 +343,18 @@ FileWatcher::FileWatcher(const QString &path, const QStringList &paths, QAbstrac
     updateItems();
 }
 
-void FileWatcher::lock()
+bool FileWatcher::lock()
 {
+    if ( !m_valid )
+        return false;
+
     m_valid = false;
-    m_model->setProperty(propertyModelDisabled, true);
+    return true;
 }
 
 void FileWatcher::unlock()
 {
     m_valid = true;
-    m_model->setProperty(propertyModelDisabled, false);
 }
 
 bool FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow)
@@ -391,10 +391,8 @@ void FileWatcher::updateItems()
 {
     m_updateTimer.stop();
 
-    if ( m_model.isNull() )
+    if ( !lock() )
         return;
-
-    lock();
 
     QDir dir(m_path);
     const QStringList files = listFiles(dir, QDir::Time | QDir::Reversed);
@@ -509,10 +507,8 @@ QList<QModelIndex> FileWatcher::indexList(int first, int last)
 
 void FileWatcher::saveItems(int first, int last)
 {
-    if (!isValid())
+    if ( !lock() )
         return;
-
-    lock();
 
     const QList<QModelIndex> indexList = this->indexList(first, last);
 

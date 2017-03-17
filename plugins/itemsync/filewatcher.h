@@ -74,7 +74,7 @@ public:
     QAbstractItemModel *model() const { return m_model; }
 
 public slots:
-    void lock();
+    bool lock();
 
     void unlock();
 
