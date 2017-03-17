@@ -51,7 +51,6 @@ enum {
 
     hasText,
     hasHtml,
-    hasNotes,
     text,
     html,
     notes,

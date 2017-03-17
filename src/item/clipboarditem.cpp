@@ -151,8 +151,6 @@ QVariant ClipboardItem::data(int role) const
         return m_data.contains(mimeText) || m_data.contains(mimeUriList);
     case contentType::hasHtml:
         return m_data.contains(mimeHtml);
-    case contentType::hasNotes:
-        return m_data.contains(mimeItemNotes);
     case contentType::text:
         return getTextData(m_data);
     case contentType::html:
