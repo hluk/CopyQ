@@ -20,6 +20,7 @@
 #include "scriptableproxy.h"
 
 #include "common/commandstatus.h"
+#include "common/config.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/log.h"

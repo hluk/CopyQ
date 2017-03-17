@@ -138,10 +138,6 @@ int smallIconSize();
 
 QPoint toScreen(const QPoint &pos, int w = 0, int h = 0);
 
-void moveWindowOnScreen(QWidget *w, const QPoint &pos);
-
-void moveToCurrentWorkspace(QWidget *w);
-
 /**
  * Handle key for Vi mode.
  */

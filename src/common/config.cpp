@@ -141,3 +141,25 @@ void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &
     const QString optionName = "Options/" + mainWindowObjectName + "_state";
     setGeometryOptionValue(optionName, state);
 }
+
+void moveToCurrentWorkspace(QWidget *w)
+{
+#ifdef COPYQ_WS_X11
+    /* Re-initialize window in window manager so it can popup on current workspace. */
+    if (w->isVisible()) {
+        w->hide();
+        w->show();
+    }
+#else
+    Q_UNUSED(w);
+#endif
+}
+
+void moveWindowOnScreen(QWidget *w, const QPoint &pos)
+{
+    const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
+    const int x = qMax(0, qMin(pos.x(), availableGeometry.right() - w->width()));
+    const int y = qMax(0, qMin(pos.y(), availableGeometry.bottom() - w->height()));
+    w->move(x, y);
+    moveToCurrentWorkspace(w);
+}

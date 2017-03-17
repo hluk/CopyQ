@@ -21,6 +21,7 @@
 #define CONFIG_H
 
 class QByteArray;
+class QPoint;
 class QString;
 class QVariant;
 class QWidget;
@@ -39,5 +40,9 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen);
 QByteArray mainWindowState(const QString &mainWindowObjectName);
 
 void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state);
+
+void moveToCurrentWorkspace(QWidget *w);
+
+void moveWindowOnScreen(QWidget *w, const QPoint &pos);
 
 #endif // CONFIG_H

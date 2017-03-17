@@ -19,6 +19,7 @@
 
 #include "iconselectbutton.h"
 
+#include "common/config.h"
 #include "common/common.h"
 #include "gui/iconfont.h"
 #include "gui/iconselectdialog.h"
