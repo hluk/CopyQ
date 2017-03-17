@@ -19,8 +19,6 @@
 
 #include "config.h"
 
-#include "common/log.h"
-
 #include <QApplication>
 #include <QByteArray>
 #include <QDesktopWidget>
@@ -62,16 +60,6 @@ QString resolutionTag(const QWidget &widget)
     return QString("_%1x%2")
             .arg(screenGeometry.width())
             .arg(screenGeometry.height());
-}
-
-QString windowGeometryToString(const QWidget &widget)
-{
-    const QRect geometry = widget.geometry();
-    return QString("%1,%2 %3x%4")
-            .arg(geometry.x())
-            .arg(geometry.y())
-            .arg(geometry.width())
-            .arg(geometry.height());
 }
 
 } // namespace
@@ -126,13 +114,10 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
         // Workaround for broken geometry restore.
         if ( w->geometry().isEmpty() ) {
-            COPYQ_LOG("Fixing broken window geometry " + optionName + tag + ": " + windowGeometryToString(*w));
             w->showNormal();
             w->restoreGeometry(geometry);
             w->showMinimized();
         }
-
-        COPYQ_LOG("Restored window geometry " + optionName + tag + ": " + windowGeometryToString(*w));
     }
 }
 
@@ -143,7 +128,6 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
     geometrySettings.setValue( optionName + tag, w->saveGeometry() );
     geometrySettings.setValue( optionName, w->saveGeometry() );
-    COPYQ_LOG("Saved window geometry " + optionName + tag + ": " + windowGeometryToString(*w));
 }
 
 QByteArray mainWindowState(const QString &mainWindowObjectName)
