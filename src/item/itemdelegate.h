@@ -104,9 +104,6 @@ class ItemDelegate : public QItemDelegate
         ItemEditorWidget *createCustomEditor(QWidget *parent, const QModelIndex &index,
                                              bool editNotes);
 
-        /** Load settings for @a editor. */
-        void loadEditorSettings(ItemEditorWidget *editor);
-
         /**
          * Highlight matched text with current serch expression, font and color.
          */

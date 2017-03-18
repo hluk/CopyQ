@@ -1033,12 +1033,7 @@ ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
             return fetchBrowser(defaultTabName);
     }
 
-    ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->tab(tabName);
-    if (!c)
-        return nullptr;
-
-    c->loadItems();
-    return c->isLoaded() ? c : nullptr;
+    return tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->tab(tabName);
 }
 
 ClipboardBrowser *ScriptableProxy::fetchBrowser() { return fetchBrowser(m_tabName); }
@@ -1047,7 +1042,7 @@ QVariantMap ScriptableProxy::itemData(int i)
 {
     ASSERT_MAIN_THREAD();
 
-    ClipboardBrowser *c = fetchBrowser();
+    auto c = fetchBrowser();
     return c ? ::itemData(c->index(i)) : QVariantMap();
 }
 

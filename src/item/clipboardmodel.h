@@ -173,17 +173,10 @@ public:
      */
     int getRowNumber(int row, bool cycle = false) const;
 
-    /** Emit unloaded() and unload (remove) all items. */
-    void unloadItems();
-
 public slots:
 #if QT_VERSION < 0x050000
     void moveRow(int from, int to) { moveRows(QModelIndex(), from, 1, QModelIndex(), to); }
 #endif
-
-
-signals:
-    void unloaded();
 
 private:
     ClipboardItemList m_clipboardList;

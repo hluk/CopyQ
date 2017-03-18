@@ -207,12 +207,6 @@ int ClipboardModel::getRowNumber(int row, bool cycle) const
     return row;
 }
 
-void ClipboardModel::unloadItems()
-{
-    emit unloaded();
-    removeRows(0, rowCount());
-}
-
 bool ClipboardModel::move(int pos, int newpos)
 {
     int from = getRowNumber(pos,true);

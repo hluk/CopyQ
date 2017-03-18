@@ -23,6 +23,7 @@
 #include "common/command.h"
 
 #include <QAction>
+#include <QPointer>
 
 class ClipboardBrowser;
 
@@ -53,7 +54,7 @@ private slots:
 private:
     Command m_command;
     Type m_type;
-    ClipboardBrowser *m_browser;
+    QPointer<ClipboardBrowser> m_browser;
     QString m_triggeredShortcut;
 };
 

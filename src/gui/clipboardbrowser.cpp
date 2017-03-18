@@ -133,13 +133,6 @@ QModelIndex indexNear(const QListView *view, int offset)
     return ind;
 }
 
-void updateLoadButtonIcon(QPushButton *loadButton)
-{
-    const QIcon icon( getIcon("", IconRepeat) );
-    loadButton->setIconSize( QSize(64, 64) );
-    loadButton->setIcon(icon);
-}
-
 void appendTextData(const QVariantMap &data, const QString &mime, QByteArray *lines)
 {
     const QString text = getTextData(data, mime);
@@ -159,17 +152,17 @@ QVariantMap itemData(const QModelIndex &index)
     return index.data(contentType::data).toMap();
 }
 
-ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent)
+ClipboardBrowser::ClipboardBrowser(
+        const QString &tabName,
+        const ClipboardBrowserSharedPtr &sharedData,
+        QWidget *parent)
     : QListView(parent)
     , m_itemSaver(nullptr)
-    , m_tabName()
+    , m_tabName(tabName)
     , m(this)
     , d(this, sharedData)
-    , m_invalidateCache(false)
-    , m_expireAfterEditing(false)
     , m_editor(nullptr)
     , m_sharedData(sharedData)
-    , m_loadButton(nullptr)
     , m_dragTargetRow(-1)
     , m_dragStartPosition()
 {
@@ -187,7 +180,6 @@ ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, 
 
     initSingleShotTimer( &m_timerSave, 30000, this, SLOT(saveItems()) );
     initSingleShotTimer( &m_timerScroll, 50 );
-    initSingleShotTimer( &m_timerExpire, 0, this, SLOT(expire()) );
     initSingleShotTimer( &m_timerEmitItemCount, 0, this, SLOT(emitItemCount()) );
 
     // ScrollPerItem doesn't work well with hidden items
@@ -198,13 +190,17 @@ ClipboardBrowser::ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, 
     setAcceptDrops(true);
 
     connectModelAndDelegate();
+
+    m_sharedData->theme.decorateBrowser(this);
+    updateItemMaximumSize();
+
+    d.setSaveOnEnterKey(m_sharedData->saveOnReturnKey);
 }
 
 ClipboardBrowser::~ClipboardBrowser()
 {
     d.invalidateCache();
-    if ( m_timerSave.isActive() )
-        saveItems();
+    saveUnsavedItems();
 }
 
 
@@ -316,15 +312,9 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
             updateEditorGeometry();
             editor->show();
             editor->setFocus();
-            stopExpiring();
         } else {
             setFocus();
-            if (isHidden())
-                restartExpiring();
-            if (m_invalidateCache)
-                invalidateItemCache();
-            if (m_expireAfterEditing)
-                expire();
+            emit editingFinished();
         }
     }
 
@@ -368,24 +358,6 @@ void ClipboardBrowser::updateEditorGeometry()
     }
 }
 
-bool ClipboardBrowser::canExpire()
-{
-    return m_itemSaver && m_timerExpire.interval() > 0 && !isVisible();
-}
-
-void ClipboardBrowser::restartExpiring()
-{
-    if (canExpire())
-        m_timerExpire.start();
-    else
-        m_timerExpire.stop();
-}
-
-void ClipboardBrowser::stopExpiring()
-{
-    m_timerExpire.stop();
-}
-
 QModelIndex ClipboardBrowser::indexNear(int offset) const
 {
     return ::indexNear(this, offset);
@@ -411,8 +383,6 @@ void ClipboardBrowser::connectModelAndDelegate()
 
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(onDataChanged(QModelIndex,QModelIndex)) );
-    connect( &m, SIGNAL(unloaded()),
-             SLOT(onModelUnloaded()) );
 
     // update on change
     connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
@@ -693,12 +663,8 @@ void ClipboardBrowser::onModelDataChanged()
 
 void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
 {
-    if (editing()) {
-        m_invalidateCache = true;
-        return;
-    }
-
-    emit updateContextMenu(this);
+    if (!editing())
+        emit updateContextMenu(this);
 }
 
 void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int)
@@ -718,20 +684,6 @@ void ClipboardBrowser::onItemCountChanged()
 {
     if (!m_timerEmitItemCount.isActive())
         m_timerEmitItemCount.start();
-}
-
-void ClipboardBrowser::expire(bool force)
-{
-    if (editing()) {
-        m_expireAfterEditing = true;
-    } else {
-        m_expireAfterEditing = false;
-
-        if ( force || !isVisible() ) {
-            saveUnsavedItems();
-            m.unloadItems();
-        }
-    }
 }
 
 void ClipboardBrowser::onEditorDestroyed()
@@ -757,11 +709,6 @@ void ClipboardBrowser::onEditorCancel()
         maybeCloseEditor();
     else
         emit searchHideRequest();
-}
-
-void ClipboardBrowser::onModelUnloaded()
-{
-    m_itemSaver = nullptr;
 }
 
 void ClipboardBrowser::onEditorNeedsChangeClipboard()
@@ -799,29 +746,15 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
     QListView::resizeEvent(event);
 
     updateItemMaximumSize();
-
-    if (m_loadButton != nullptr)
-        m_loadButton->resize( event->size() );
-
     updateEditorGeometry();
 }
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
 {
-    stopExpiring();
-
-    loadItems();
-
     if ( m.rowCount() > 0 && !d.hasCache(index(0)) )
         scrollToTop();
 
     QListView::showEvent(event);
-}
-
-void ClipboardBrowser::hideEvent(QHideEvent *event)
-{
-    QListView::hideEvent(event);
-    restartExpiring();
 }
 
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
@@ -1401,46 +1334,10 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
     add(newData);
 }
 
-void ClipboardBrowser::loadSettings()
+bool ClipboardBrowser::loadItems()
 {
-    expire(true);
-
-    m_sharedData->theme.decorateBrowser(this);
-    invalidateItemCache();
-    updateItemMaximumSize();
-
-    d.setSaveOnEnterKey(m_sharedData->saveOnReturnKey);
-
-    if (m_loadButton)
-        updateLoadButtonIcon(m_loadButton);
-
-    m_timerExpire.setInterval(60000 * m_sharedData->minutesToExpire);
-
-    if (m_editor) {
-        d.loadEditorSettings(m_editor);
-        setEditorWidget(m_editor);
-    }
-
-    if (isVisible())
-        loadItems();
-}
-
-void ClipboardBrowser::loadItems()
-{
-    // Don't decrypt tab automatically if the operation was cancelled/unsuccessful previously.
-    // In such case, decrypt only if unlock button was clicked.
-    if ( m_loadButton && sender() != m_loadButton )
-        return;
-
-    loadItemsAgain();
-}
-
-void ClipboardBrowser::loadItemsAgain()
-{
-    restartExpiring();
-
     if ( isLoaded() )
-        return;
+        return true;
 
     m_timerSave.stop();
 
@@ -1448,24 +1345,15 @@ void ClipboardBrowser::loadItemsAgain()
     m_itemSaver = ::loadItems(m_tabName, m, m_sharedData->itemFactory, m_sharedData->maxItems);
     m.blockSignals(false);
 
-    // Show lock button if model is disabled.
-    if ( isLoaded() ) {
-        delete m_loadButton;
-        m_loadButton = nullptr;
-        d.rowsInserted(QModelIndex(), 0, m.rowCount());
-        if ( hasFocus() )
-            setCurrent(0);
-        onItemCountChanged();
-    } else if (m_loadButton == nullptr) {
-        Q_ASSERT(length() == 0 && "Disabled model should be empty");
-        m_loadButton = new QPushButton(this);
-        m_loadButton->setFlat(true);
-        m_loadButton->resize( size() );
-        updateLoadButtonIcon(m_loadButton);
-        m_loadButton->show();
-        connect( m_loadButton, SIGNAL(clicked()),
-                 this, SLOT(loadItems()) );
-    }
+    if ( !isLoaded() )
+        return false;
+
+    d.rowsInserted(QModelIndex(), 0, m.rowCount());
+    if ( hasFocus() )
+        setCurrent(0);
+    onItemCountChanged();
+
+    return true;
 }
 
 bool ClipboardBrowser::saveItems()
@@ -1517,6 +1405,12 @@ const QString ClipboardBrowser::selectedText() const
     return result;
 }
 
+void ClipboardBrowser::setTabName(const QString &tabName)
+{
+    m_tabName = tabName;
+    saveItems();
+}
+
 void ClipboardBrowser::editRow(int row)
 {
     editItem( index(row) );
@@ -1566,36 +1460,6 @@ void ClipboardBrowser::findPrevious()
 ItemWidget *ClipboardBrowser::itemWidget(const QModelIndex &index)
 {
     return d.cache(index);
-}
-
-void ClipboardBrowser::invalidateItemCache()
-{
-    if (editing()) {
-        m_invalidateCache = true;
-    } else {
-        m_invalidateCache = false;
-        d.invalidateCache();
-    }
-}
-
-void ClipboardBrowser::setTabName(const QString &tabName)
-{
-    if ( m_tabName.isEmpty() ) {
-        m_tabName = tabName;
-    } else {
-        const QString oldTabName = m_tabName;
-        m_tabName = tabName;
-
-        if ( isLoaded() )
-            saveItems();
-        else
-            moveItems(oldTabName, m_tabName);
-
-        m.unloadItems();
-        loadItemsAgain();
-        if ( isLoaded() )
-            removeItems(oldTabName);
-    }
 }
 
 bool ClipboardBrowser::editing() const

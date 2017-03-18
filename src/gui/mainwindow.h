@@ -21,7 +21,7 @@
 #define MAINWINDOW_H
 
 #include "common/commandtester.h"
-#include "gui/clipboardbrowser.h"
+#include "gui/clipboardbrowsershared.h"
 #include "gui/menuitems.h"
 
 #include "platform/platformnativeinterface.h"
@@ -31,13 +31,18 @@
 #include <QMainWindow>
 #include <QPointer>
 #include <QSystemTrayIcon>
+#include <QTimer>
+#include <QModelIndex>
 
 class Action;
 class ActionHandler;
+class ClipboardBrowser;
+class ClipboardBrowserPlaceholder;
 class CommandDialog;
 class ConfigurationManager;
+class ItemFactory;
 class NotificationDaemon;
-class QModelIndex;
+class Theme;
 class TrayMenu;
 struct Command;
 struct MainWindowOptions;
@@ -407,9 +412,8 @@ public slots:
 
     /**
      * Add tab with given name if doesn't exist and focus the tab.
-     * @return New or existing tab with given name.
      */
-    ClipboardBrowser *addTab(const QString &name);
+    void addTab(const QString &name);
 
     /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
     void toggleClipboardStoring();
@@ -569,14 +573,15 @@ private slots:
     void moveToTop();
     void moveToBottom();
 
+    void onBrowserCreated(ClipboardBrowser *browser);
+
 private:
     enum TabNameMatching {
         MatchExactTabName,
         MatchSimilarTabName
     };
 
-    ClipboardBrowser *createTab(
-            const QString &name, TabNameMatching nameMatch, bool *needSave = nullptr);
+    ClipboardBrowserPlaceholder *createTab(const QString &name, TabNameMatching nameMatch);
 
     int findTabIndexExactMatch(const QString &name);
 
@@ -598,10 +603,10 @@ private:
     void updateMonitoringActions();
 
     /** Return browser widget in given tab @a index. */
-    ClipboardBrowser *getBrowser(int index) const;
+    ClipboardBrowserPlaceholder *getPlaceholder(int index) const;
 
     /** Return browser widget in current tab. */
-    ClipboardBrowser *getBrowser() const;
+    ClipboardBrowserPlaceholder *getPlaceholder() const;
 
     /** Call updateFocusWindows() after a small delay. */
     void delayedUpdateFocusWindows();

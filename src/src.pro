@@ -46,6 +46,7 @@ HEADERS += \
     gui/actiondialog.h \
     gui/actionhandler.h \
     gui/clipboardbrowser.h \
+    gui/clipboardbrowserplaceholder.h \
     gui/clipboarddialog.h \
     gui/commandwidget.h \
     gui/configtabappearance.h \
@@ -148,6 +149,7 @@ SOURCES += \
     gui/actiondialog.cpp \
     gui/actionhandler.cpp \
     gui/clipboardbrowser.cpp \
+    gui/clipboardbrowserplaceholder.cpp \
     gui/clipboardbrowsershared.cpp \
     gui/clipboarddialog.cpp \
     gui/commandwidget.cpp \

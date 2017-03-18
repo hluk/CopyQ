@@ -35,6 +35,7 @@
 #include "gui/actiondialog.h"
 #include "gui/actionhandler.h"
 #include "gui/clipboardbrowser.h"
+#include "gui/clipboardbrowserplaceholder.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/clipboarddialog.h"
 #include "gui/commandaction.h"
@@ -552,8 +553,8 @@ void MainWindow::exit()
 {
     // Check if not editing in any tab (show and try to close editors).
     for ( int i = 0; i < ui->tabWidget->count(); ++i ) {
-        ClipboardBrowser *c = getBrowser(i);
-        if ( c->editing() ) {
+        auto c = getPlaceholder(i)->browser();
+        if ( c && c->editing() ) {
             showBrowser(i);
             if ( !c->maybeCloseEditor() )
                 return;
@@ -798,9 +799,11 @@ void MainWindow::updateContextMenuTimeout()
 {
     updateItemPreview();
 
-    ClipboardBrowser *c = getBrowser();
+    if ( ui->tabWidget->isTabGroupSelected() )
+        return;
 
-    if (ui->tabWidget->isTabGroupSelected() || c->editing())
+    auto c = getPlaceholder()->createBrowser();
+    if ( !c || c->editing())
         return;
 
     setDisabledShortcuts(QList<QKeySequence>());
@@ -898,7 +901,10 @@ void MainWindow::onSaveCommand(const Command &command)
 
 void MainWindow::onCommandActionTriggered(const Command &command, const QVariantMap &actionData, int commandType)
 {
-    ClipboardBrowser *c = getBrowser();
+    auto c = getPlaceholder()->createBrowser();
+    if (!c)
+        return;
+
     const QModelIndexList selected = c->selectionModel()->selectedIndexes();
 
     if ( !command.cmd.isEmpty() ) {
@@ -938,9 +944,9 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
 
 void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData *data)
 {
-    ClipboardBrowser *browser = tab(tabName);
+    auto browser = tab(tabName);
 
-    if ( browser->isLoaded() ) {
+    if (browser) {
         const QVariantMap dataMap = data->hasFormat(mimeItems)
                 ? cloneData(*data, QStringList() << mimeItems) : cloneData(*data);
         browser->paste(dataMap, 0);
@@ -954,15 +960,15 @@ void MainWindow::showContextMenu(const QPoint &position)
 
 void MainWindow::updateContextMenu(const ClipboardBrowser *browser)
 {
-    if ( browser == getBrowser() && browser->isLoaded() )
+    if ( browser == getPlaceholder()->browser() )
         updateContextMenu();
 }
 
 void MainWindow::action()
 {
-    ClipboardBrowser *c = browser();
-    const QVariantMap data = c->getSelectedItemData();
-    openActionDialog( data.isEmpty() ? createDataMap(mimeText, c->selectedText()) : data );
+    auto c = browser();
+    const QVariantMap data = c ? c->getSelectedItemData() : QVariantMap();
+    openActionDialog( data.isEmpty() ? createDataMap(mimeText, c ? c->selectedText() : QString()) : data );
 }
 
 void MainWindow::automaticCommandTestFinished(const Command &command, bool passed)
@@ -1060,6 +1066,28 @@ void MainWindow::moveToTop()
 void MainWindow::moveToBottom()
 {
     browser()->move(Qt::Key_End);
+}
+
+void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
+{
+    connect( browser, SIGNAL(changeClipboard(QVariantMap)),
+             this, SLOT(setClipboard(QVariantMap)) );
+    connect( browser, SIGNAL(requestShow(const ClipboardBrowser*)),
+             this, SLOT(showBrowser(const ClipboardBrowser*)) );
+    connect( browser, SIGNAL(error(QString)),
+             this, SLOT(showError(QString)) );
+    connect( browser, SIGNAL(doubleClicked(QModelIndex)),
+             this, SLOT(activateCurrentItem()) );
+    connect( browser, SIGNAL(itemCountChanged(QString,int)),
+             ui->tabWidget, SLOT(setTabItemCount(QString,int)) );
+    connect( browser, SIGNAL(showContextMenu(QPoint)),
+             this, SLOT(showContextMenu(QPoint)) );
+    connect( browser, SIGNAL(updateContextMenu(const ClipboardBrowser *)),
+             this, SLOT(updateContextMenu(const ClipboardBrowser *)) );
+    connect( browser, SIGNAL(searchRequest()),
+             this, SLOT(findNextOrPrevious()) );
+    connect( browser, SIGNAL(searchHideRequest()),
+             this, SLOT(hideSearchBar()) );
 }
 
 int MainWindow::findTabIndexExactMatch(const QString &name)
@@ -1213,14 +1241,19 @@ void MainWindow::resetTestSession(const QString &clipboardTabName)
     while ( ui->tabWidget->count() != 1 )
         removeTab(false, 0);
 
-    const auto c = addTab(clipboardTabName);
-    if ( c != getBrowser(0) )
+    const auto placeholder = createTab(clipboardTabName, MatchExactTabName);
+    if ( placeholder != getPlaceholder(0) )
         removeTab(false, 0);
 
-    // Remove all items from the clipboard tab.
-    const auto model = c->model();
-    model->removeRows( 0, model->rowCount() );
-    c->saveItems();
+    {
+        const auto c = placeholder->createBrowser();
+        Q_ASSERT(c);
+
+        // Remove all items from the clipboard tab.
+        const auto model = c->model();
+        model->removeRows( 0, model->rowCount() );
+        c->saveItems();
+    }
 
     resetTestsSettings();
 
@@ -1231,8 +1264,9 @@ void MainWindow::resetTestSession(const QString &clipboardTabName)
 
     // Assert everything after configuration is loaded.
     Q_ASSERT( ui->tabWidget->count() == 1 );
-    Q_ASSERT( c == getBrowser(0) );
-    Q_ASSERT( c->length() == 0 );
+    Q_ASSERT( placeholder == getPlaceholder(0) );
+    Q_ASSERT( placeholder->createBrowser() != nullptr );
+    Q_ASSERT( placeholder->createBrowser()->length() == 0 );
 }
 #endif
 
@@ -1287,14 +1321,14 @@ void MainWindow::updateMonitoringActions()
     }
 }
 
-ClipboardBrowser *MainWindow::getBrowser(int index) const
+ClipboardBrowserPlaceholder *MainWindow::getPlaceholder(int index) const
 {
-    return qobject_cast<ClipboardBrowser*>( ui->tabWidget->widget(index) );
+    return qobject_cast<ClipboardBrowserPlaceholder*>( ui->tabWidget->widget(index) );
 }
 
-ClipboardBrowser *MainWindow::getBrowser() const
+ClipboardBrowserPlaceholder *MainWindow::getPlaceholder() const
 {
-    return qobject_cast<ClipboardBrowser*>(ui->tabWidget->currentWidget());
+    return qobject_cast<ClipboardBrowserPlaceholder*>( ui->tabWidget->currentWidget() );
 }
 
 void MainWindow::delayedUpdateFocusWindows()
@@ -1321,8 +1355,8 @@ NotificationDaemon *MainWindow::notificationDaemon()
     return m_notifications;
 }
 
-ClipboardBrowser *MainWindow::createTab(
-        const QString &name, TabNameMatching nameMatch, bool *needSave)
+ClipboardBrowserPlaceholder *MainWindow::createTab(
+        const QString &name, TabNameMatching nameMatch)
 {
     Q_ASSERT( !name.isEmpty() );
 
@@ -1330,38 +1364,16 @@ ClipboardBrowser *MainWindow::createTab(
             ? findTabIndexExactMatch(name)
             : findTabIndex(name);
 
-    if (needSave != nullptr)
-        *needSave = (i == -1);
-
     if (i != -1)
-        return getBrowser(i);
+        return getPlaceholder(i);
 
-    auto c = new ClipboardBrowser(m_sharedData, this);
-    c->setTabName(name);
-    c->loadSettings();
+    auto placeholder = new ClipboardBrowserPlaceholder(name, m_sharedData, this);
+    connect( placeholder, SIGNAL(browserCreated(ClipboardBrowser*)),
+             this, SLOT(onBrowserCreated(ClipboardBrowser*)) );
 
-    connect( c, SIGNAL(changeClipboard(QVariantMap)),
-             this, SLOT(setClipboard(QVariantMap)) );
-    connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
-             this, SLOT(showBrowser(const ClipboardBrowser*)) );
-    connect( c, SIGNAL(error(QString)),
-             this, SLOT(showError(QString)) );
-    connect( c, SIGNAL(doubleClicked(QModelIndex)),
-             this, SLOT(activateCurrentItem()) );
-    connect( c, SIGNAL(itemCountChanged(QString,int)),
-             ui->tabWidget, SLOT(setTabItemCount(QString,int)) );
-    connect( c, SIGNAL(showContextMenu(QPoint)),
-             this, SLOT(showContextMenu(QPoint)) );
-    connect( c, SIGNAL(updateContextMenu(const ClipboardBrowser *)),
-             this, SLOT(updateContextMenu(const ClipboardBrowser *)) );
-    connect( c, SIGNAL(searchRequest()),
-             this, SLOT(findNextOrPrevious()) );
-    connect( c, SIGNAL(searchHideRequest()),
-             this, SLOT(hideSearchBar()) );
-
-    ui->tabWidget->addTab(c, name);
-
-    return c;
+    ui->tabWidget->addTab(placeholder, name);
+    saveTabPositions();
+    return placeholder;
 }
 
 QAction *MainWindow::createAction(int id, const char *slot, QMenu *menu)
@@ -1389,7 +1401,7 @@ void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
 
 QAction *MainWindow::addItemAction(int id, QObject *receiver, const char *slot)
 {
-    QAction *act = actionForMenuItem(id, getBrowser(), Qt::WidgetShortcut);
+    QAction *act = actionForMenuItem(id, getPlaceholder(), Qt::WidgetWithChildrenShortcut);
     if (slot)
         connect( act, SIGNAL(triggered()), receiver, slot, Qt::UniqueConnection );
     m_menuItem->addAction(act);
@@ -1416,7 +1428,9 @@ void MainWindow::addCommandsToItemMenu(const QVariantMap &data)
     if ( m_commands.isEmpty() )
         return;
 
-    ClipboardBrowser *c = getBrowser();
+    auto c = getPlaceholder()->createBrowser();
+    if (!c)
+        return;
 
     const QList<Command> commands = commandsForMenu(data, c->tabName());
 
@@ -1469,9 +1483,12 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &data)
     if ( m_commands.isEmpty() )
         return;
 
-    ClipboardBrowser *c = getTabForTrayMenu();
-    if (!c)
-        c = getBrowser();
+    auto c = getTabForTrayMenu();
+    if (!c) {
+        c = getPlaceholder()->createBrowser();
+        if (!c)
+            return;
+    }
 
     const QList<Command> commands = commandsForMenu(data, c->tabName());
 
@@ -1632,7 +1649,9 @@ void MainWindow::onEscape()
 {
     if ( browseMode() ) {
         hideWindow();
-        getBrowser()->setCurrent(0);
+        auto c = browser();
+        if (c)
+            c->setCurrent(0);
     } else {
         resetStatus();
     }
@@ -1766,7 +1785,10 @@ bool MainWindow::exportDataV3(QDataStream *out, const QStringList &tabs, bool ex
         if (i == -1)
             continue;
 
-        ClipboardBrowser *c = browser(i);
+        auto c = browser(i);
+        if (!c)
+            return false;
+
         const auto &tabName = c->tabName();
 
         QByteArray tabBytes;
@@ -1887,8 +1909,9 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         if ( !iconName.isEmpty() )
             setIconNameForTabName(tabName, iconName);
 
-        auto c = createTab(tabName, MatchExactTabName);
-        c->loadItems();
+        auto c = createTab(tabName, MatchExactTabName)->createBrowser();
+        if (!c)
+            return false;
 
         const auto tabBytes = tabMap.value("data").toByteArray();
         QDataStream tabIn(tabBytes);
@@ -1974,12 +1997,7 @@ int MainWindow::findTabIndex(const QString &name)
 
 ClipboardBrowser *MainWindow::tab(const QString &name)
 {
-    bool needSave;
-    ClipboardBrowser *c = createTab(name, MatchSimilarTabName, &needSave);
-    if (needSave)
-        saveTabPositions();
-    c->loadItems();
-    return c;
+    return createTab(name, MatchSimilarTabName)->createBrowser();
 }
 
 bool MainWindow::hasRunningAction() const
@@ -2050,8 +2068,6 @@ void MainWindow::addCommands(const QList<Command> &commands)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    ClipboardBrowser *c = getBrowser();
-
     const int key = event->key();
     const Qt::KeyboardModifiers modifiers = event->modifiers();
 
@@ -2063,7 +2079,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    if (c->editing())
+    auto c = browser();
+    if (c && c->editing())
         return;
 
     if (m_options.hideTabs && key == Qt::Key_Alt)
@@ -2076,7 +2093,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
 
         if (browseMode()) {
-            if (handleViKey(event, c))
+            if (c && handleViKey(event, c))
                 return;
 
             switch(key) {
@@ -2120,7 +2137,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         switch(key) {
             case Qt::Key_Return:
             case Qt::Key_Enter:
-                if ( c->isLoaded() )
+                if (c)
                     activateCurrentItem();
                 return;
             default:
@@ -2138,16 +2155,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Up:
         case Qt::Key_PageDown:
         case Qt::Key_PageUp:
-            if ( !c->hasFocus() )
+            if ( c && !c->hasFocus() )
                 c->setFocus();
             break;
 
         case Qt::Key_Return:
         case Qt::Key_Enter:
-            if ( c->isLoaded() )
+            if (c)
                 activateCurrentItem();
             else
-                c->loadItemsAgain();
+                getPlaceholder()->createBrowser();
             break;
 
         case Qt::Key_Tab:
@@ -2157,7 +2174,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 #ifndef Q_OS_MAC
         case Qt::Key_Backspace:
             resetStatus();
-            c->setCurrent(0);
+            if (c)
+                c->setCurrent(0);
             break;
 #endif // Q_OS_MAC
 
@@ -2300,17 +2318,17 @@ void MainWindow::loadSettings()
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
 
+    // reload settings of existing tabs
+    for( int i = 0; i < ui->tabWidget->count(); ++i )
+        getPlaceholder(i)->reloadBrowser();
+
     // create tabs
     const QStringList tabs = savedTabs();
-    for (const auto &name : tabs) {
-        bool settingsLoaded;
-        ClipboardBrowser *c = createTab(name, MatchExactTabName, &settingsLoaded);
-        if (!settingsLoaded)
-            c->loadSettings();
-    }
+    for (const auto &name : tabs)
+        createTab(name, MatchExactTabName);
 
     if ( ui->tabWidget->count() == 0 )
-        addTab( defaultTabName() );
+        createTab( defaultTabName(), MatchExactTabName );
     else
         setTabs(tabs); // Save any tabs loaded from new tab files.
 
@@ -2380,9 +2398,11 @@ void MainWindow::showWindow()
     activateWindow();
 
     auto c = browser();
-    if ( !c->editing() )
-        c->scrollTo( c->currentIndex() );
-    c->setFocus();
+    if (c) {
+        if ( !c->editing() )
+            c->scrollTo( c->currentIndex() );
+        c->setFocus();
+    }
 
     QApplication::setActiveWindow(this);
 
@@ -2420,7 +2440,7 @@ bool MainWindow::toggleVisible()
 void MainWindow::setCurrentTab(const ClipboardBrowser *browser)
 {
     int i = 0;
-    for( ; i < ui->tabWidget->count() && getBrowser(i) != browser; ++i ) {}
+    for( ; i < ui->tabWidget->count() && getPlaceholder(i)->browser() != browser; ++i ) {}
     setCurrentTab(i);
 }
 
@@ -2522,19 +2542,20 @@ void MainWindow::tabChanged(int current, int)
         m_actionHandler->setCurrentTab(QString());
     } else {
         // update item menu (necessary for keyboard shortcuts to work)
-        ClipboardBrowser *c = getBrowser();
+        auto c = browser();
+        if (c) {
+            c->filterItems( ui->searchBar->filter() );
 
-        c->filterItems( ui->searchBar->filter() );
-
-        if ( current >= 0 ) {
-            if( !c->currentIndex().isValid() && isVisible() ) {
-                c->setCurrent(0);
+            if ( current >= 0 ) {
+                if( !c->currentIndex().isValid() && isVisible() ) {
+                    c->setCurrent(0);
+                }
             }
+
+            setTabOrder(ui->searchBar, c);
+
+            m_actionHandler->setCurrentTab(c->tabName());
         }
-
-        setTabOrder(ui->searchBar, c);
-
-        m_actionHandler->setCurrentTab(c->tabName());
     }
 
     updateContextMenu();
@@ -2564,14 +2585,15 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
 
     // Rename tabs if needed.
     for (int i = 0 ; i < tabs.size(); ++i) {
-        ClipboardBrowser *c = getBrowser(i);
-        const QString oldTabName = c->tabName();
+        auto placeholder = getPlaceholder(i);
+        const QString oldTabName = placeholder->tabName();
 
         if ( (oldTabName == oldPrefix || oldTabName.startsWith(prefix)) && newPrefix != oldPrefix) {
             const QString newName = newPrefix + oldTabName.mid(oldPrefix.size());
-            updateTabIcon(newName, c->tabName());
-            c->setTabName(newName);
-            if ( c->isLoaded() )
+            updateTabIcon(newName, placeholder->tabName());
+            placeholder->setTabName(newName);
+            auto c = placeholder->browser();
+            if (c)
                 ui->tabWidget->setTabItemCount( newName, c->length() );
         }
     }
@@ -2581,10 +2603,10 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
 
 void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
 {
-    ClipboardBrowser *c = getBrowser(tab);
-    if (c == nullptr)
+    auto placeholder = getPlaceholder(tab);
+    if (placeholder == nullptr)
         return;
-    const QString tabName = c->tabName();
+    const QString tabName = placeholder->tabName();
     popupTabBarMenu(pos, tabName);
 }
 
@@ -2617,8 +2639,8 @@ void MainWindow::updateFirstItem(QVariantMap data)
         emit changeClipboard(data, QClipboard::Clipboard);
 
     if ( !outputTab.isEmpty() ) {
-        ClipboardBrowser *c = tab(outputTab);
-        if ( c->isLoaded() )
+        auto c = tab(outputTab);
+        if (c)
             c->addUnique(data);
     }
 }
@@ -2776,9 +2798,11 @@ void MainWindow::activateCurrentItem()
         return;
     }
 
-    // Copy current item or selection to clipboard.
-    ClipboardBrowser *c = browser();
+    auto c = browser();
+    if (!c)
+        return;
 
+    // Copy current item or selection to clipboard.
     if ( c->selectionModel()->selectedIndexes().count() > 1 ) {
         c->add( c->selectedText() );
         c->setCurrent(0);
@@ -2916,7 +2940,10 @@ void MainWindow::findNextOrPrevious()
     if (browseMode()) {
         enterSearchMode();
     } else {
-        ClipboardBrowser *c = browser();
+        auto c = browser();
+        if (!c)
+            return;
+
         const bool next = !QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier);
         if ( c->editing() ) {
             ui->searchBar->setFocus(Qt::ShortcutFocusReason);
@@ -2934,7 +2961,7 @@ void MainWindow::findNextOrPrevious()
 
 void MainWindow::enterBrowseMode()
 {
-    getBrowser()->setFocus();
+    getPlaceholder()->setFocus();
     if ( ui->searchBar->text().isEmpty() )
         ui->searchBar->hide();
 }
@@ -3087,10 +3114,7 @@ void MainWindow::openCommands()
 
 ClipboardBrowser *MainWindow::browser(int index)
 {
-    ClipboardBrowser *c = getBrowser(index);
-    if (c != nullptr)
-        c->loadItems();
-    return c;
+    return getPlaceholder(index)->createBrowser();
 }
 
 ClipboardBrowser *MainWindow::browser()
@@ -3101,35 +3125,32 @@ ClipboardBrowser *MainWindow::browser()
 ClipboardBrowser *MainWindow::browserForItem(const QModelIndex &index)
 {
     if ( index.isValid() ) {
-        ClipboardBrowser *c = qobject_cast<ClipboardBrowser*>(index.model()->parent());
-        Q_ASSERT(c);
-        c->loadItems();
-        if (c->isLoaded())
-            return c;
+        auto placeholder = qobject_cast<ClipboardBrowserPlaceholder*>(index.model()->parent());
+        Q_ASSERT(placeholder);
+        return placeholder->createBrowser();
     }
 
     return nullptr;
 }
 
-ClipboardBrowser *MainWindow::addTab(const QString &name)
+void MainWindow::addTab(const QString &name)
 {
-    TabWidget *w = ui->tabWidget;
-    ClipboardBrowser *c = createTab(name, MatchExactTabName);
+    createTab(name, MatchExactTabName);
+    auto w = ui->tabWidget;
     w->setCurrentIndex( w->count()-1 );
     saveTabPositions();
-
-    return c;
 }
 
 void MainWindow::editNewItem()
 {
-    ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
-    if (c) {
-        showWindow();
-        if ( !c->editing() ) {
-            c->setFocus();
-            c->editNew();
-        }
+    auto c = browser( ui->tabWidget->currentIndex() );
+    if (!c)
+        return;
+
+    showWindow();
+    if ( !c->editing() ) {
+        c->setFocus();
+        c->editNew();
     }
 }
 
@@ -3139,7 +3160,10 @@ void MainWindow::pasteItems()
     if (data == nullptr)
         return;
 
-    ClipboardBrowser *c = browser();
+    auto c = browser();
+    if (!c)
+        return;
+
     QModelIndexList list = c->selectionModel()->selectedIndexes();
     std::sort( list.begin(), list.end() );
     const int row = list.isEmpty() ? 0 : list.first().row();
@@ -3148,9 +3172,11 @@ void MainWindow::pasteItems()
 
 void MainWindow::copyItems()
 {
-    ClipboardBrowser *c = browser();
-    QModelIndexList indexes = c->selectionModel()->selectedRows();
+    auto c = browser();
+    if (!c)
+        return;
 
+    const QModelIndexList indexes = c->selectionModel()->selectedRows();
     if ( indexes.isEmpty() )
         return;
 
@@ -3174,7 +3200,9 @@ bool MainWindow::saveTab(const QString &fileName, int tabIndex)
     out.setVersion(QDataStream::Qt_4_7);
 
     int i = tabIndex >= 0 ? tabIndex : ui->tabWidget->currentIndex();
-    ClipboardBrowser *c = browser(i);
+    auto c = browser(i);
+    if (!c)
+        return false;
 
     out << QByteArray("CopyQ v2") << c->tabName();
     serializeData(*c->model(), &out);
@@ -3218,8 +3246,11 @@ bool MainWindow::exportData()
 
 void MainWindow::saveTabs()
 {
-    for( int i = 0; i < ui->tabWidget->count(); ++i )
-        getBrowser(i)->saveUnsavedItems();
+    for( int i = 0; i < ui->tabWidget->count(); ++i ) {
+        auto c = getPlaceholder(i)->browser();
+        if (c)
+            c->saveUnsavedItems();
+    }
     ui->tabWidget->saveTabInfo();
 }
 
@@ -3242,7 +3273,9 @@ bool MainWindow::loadTab(const QString &fileName)
     // Find unique tab name.
     renameToUnique(&tabName, ui->tabWidget->tabs());
 
-    ClipboardBrowser *c = createTab(tabName, MatchExactTabName);
+    auto c = createTab(tabName, MatchExactTabName)->createBrowser();
+    if (!c)
+        return false;
 
     deserializeData(c->model(), &in, m_sharedData->maxItems);
 
@@ -3300,14 +3333,16 @@ bool MainWindow::importData()
 
 void MainWindow::sortSelectedItems()
 {
-    ClipboardBrowser *c = browser();
-    c->sortItems( c->selectionModel()->selectedRows() );
+    auto c = browser();
+    if (c)
+        c->sortItems( c->selectionModel()->selectedRows() );
 }
 
 void MainWindow::reverseSelectedItems()
 {
-    ClipboardBrowser *c = browser();
-    c->reverseItems( c->selectionModel()->selectedRows() );
+    auto c = browser();
+    if (c)
+        c->reverseItems( c->selectionModel()->selectedRows() );
 }
 
 Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QModelIndex &outputIndex)
@@ -3419,10 +3454,10 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
     if ( name.isEmpty() || ui->tabWidget->tabs().contains(name) )
         return;
 
-    ClipboardBrowser *c = getBrowser(tabIndex);
-    if (c) {
-        updateTabIcon(name, c->tabName());
-        c->setTabName(name);
+    auto placeholder = getPlaceholder(tabIndex);
+    if (placeholder) {
+        updateTabIcon(name, placeholder->tabName());
+        placeholder->setTabName(name);
         ui->tabWidget->setTabText(tabIndex, name);
         saveTabPositions();
     }
@@ -3448,9 +3483,11 @@ void MainWindow::removeTabGroup(const QString &name)
             if ( tab == name || tab.startsWith(tabPrefix) ) {
                 if (currentTabIndex == i)
                     ui->tabWidget->setCurrentIndex(0);
-                ClipboardBrowser *c = getBrowser(i);
-                c->purgeItems();
-                c->deleteLater();
+
+                auto placeholder = getPlaceholder(i);
+                placeholder->removeItems();
+                placeholder->deleteLater();
+
                 ui->tabWidget->removeTab(i);
             }
         }
@@ -3471,9 +3508,9 @@ void MainWindow::removeTab(bool ask, int tabIndex)
 
     TabWidget *w = ui->tabWidget;
 
-    ClipboardBrowser *c = getBrowser(tabIndex);
+    auto placeholder = getPlaceholder(tabIndex);
 
-    if ( c != nullptr && w->count() > 1 ) {
+    if ( placeholder != nullptr && w->count() > 1 ) {
         int answer = QMessageBox::Yes;
         if (ask) {
             answer = QMessageBox::question(
@@ -3487,8 +3524,8 @@ void MainWindow::removeTab(bool ask, int tabIndex)
         if (answer == QMessageBox::Yes) {
             if ( ui->tabWidget->currentIndex() == tabIndex )
                 ui->tabWidget->setCurrentIndex(tabIndex == 0 ? 1 : 0);
-            c->purgeItems();
-            c->deleteLater();
+            placeholder->removeItems();
+            placeholder->deleteLater();
             w->removeTab(tabIndex);
             saveTabPositions();
         }

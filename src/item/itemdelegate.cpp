@@ -201,15 +201,10 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(QWidget *parent, const QModel
 {
     cache(index);
     auto editor = new ItemEditorWidget(m_cache[index.row()], index, editNotes, parent);
-    loadEditorSettings(editor);
-    return editor;
-}
-
-void ItemDelegate::loadEditorSettings(ItemEditorWidget *editor)
-{
     editor->setEditorPalette( m_sharedData->theme.editorPalette() );
     editor->setEditorFont( m_sharedData->theme.editorFont() );
     editor->setSaveOnReturnKey(m_saveOnReturnKey);
+    return editor;
 }
 
 void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const

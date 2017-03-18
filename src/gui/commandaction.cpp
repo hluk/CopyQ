@@ -39,8 +39,6 @@ CommandAction::CommandAction(
     , m_type(type)
     , m_browser(browser)
 {
-    Q_ASSERT(browser);
-
     if (m_type == ClipboardCommand) {
         m_command.transform = false;
         m_command.hideWindow = false;
@@ -80,11 +78,11 @@ void CommandAction::onTriggered()
     if (m_type == ClipboardCommand) {
         const QMimeData *data = clipboardData();
         if (data == nullptr)
-            setTextData( &dataMap, m_browser->selectedText() );
+            setTextData( &dataMap, m_browser ? m_browser->selectedText() : QString() );
         else
             dataMap = cloneData(*data);
     } else {
-        dataMap = m_browser->getSelectedItemData();
+        dataMap = m_browser ? m_browser->getSelectedItemData() : QVariantMap();
     }
 
     if (!m_triggeredShortcut.isEmpty()) {

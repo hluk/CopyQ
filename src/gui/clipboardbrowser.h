@@ -56,12 +56,13 @@ class ClipboardBrowser : public QListView
     Q_OBJECT
 
     public:
-        explicit ClipboardBrowser(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent = nullptr);
+        ClipboardBrowser(
+                const QString &tabName,
+                const ClipboardBrowserSharedPtr &sharedData,
+                QWidget *parent = nullptr);
+
         /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
-
-        /** Load settings. */
-        void loadSettings();
 
         /**
          * Select item with given @a hash and move it to clipboard.
@@ -82,11 +83,12 @@ class ClipboardBrowser : public QListView
         /** Returns concatenation of selected items. */
         const QString selectedText() const;
 
-        /** Invalidate item cache. */
-        void invalidateItemCache();
-
         /**
-         * Set ID. Used to save items. If ID is empty saving is disabled.
+         * Set tab name.
+         *
+         * This is ID used for saving items.
+         *
+         * If ID is empty saving is disabled.
          */
         void setTabName(const QString &tabName);
         const QString &tabName() const { return m_tabName; }
@@ -95,11 +97,6 @@ class ClipboardBrowser : public QListView
          * Return true if editing is active.
          */
         bool editing() const;
-
-        /**
-         * Return true if items are loaded (loadItems() called or tabName() is empty).
-         */
-        bool isLoaded() const;
 
         /**
          * Close editor if unless user don't want to discard changed (show message box).
@@ -172,12 +169,6 @@ class ClipboardBrowser : public QListView
         void setCurrent(int row);
 
         /**
-         * Load items from configuration even if model is disabled.
-         * @see loadItems
-         */
-        void loadItemsAgain();
-
-        /**
          * Save items to configuration if needed.
          */
         void saveUnsavedItems();
@@ -211,14 +202,14 @@ class ClipboardBrowser : public QListView
 
         ItemWidget *itemWidget(const QModelIndex & index);
 
-    public slots:
         /**
          * Load items from configuration.
          * This function does nothing if model is disabled (e.g. loading failed previously).
          * @see setID, saveItems, purgeItems
          */
-        void loadItems();
+        bool loadItems();
 
+    public slots:
         /**
          * Save items to configuration.
          * @see setID, loadItems, purgeItems
@@ -265,6 +256,8 @@ class ClipboardBrowser : public QListView
         /** Emitted on error. */
         void error(const QString &errorString);
 
+        void editingFinished();
+
         void itemCountChanged(const QString &tabName, int count);
 
         void showContextMenu(const QPoint &position);
@@ -279,7 +272,6 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *) override;
         void resizeEvent(QResizeEvent *event) override;
         void showEvent(QShowEvent *event) override;
-        void hideEvent(QHideEvent *event) override;
         void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
         void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) override;
         void focusInEvent(QFocusEvent *event) override;
@@ -304,21 +296,19 @@ class ClipboardBrowser : public QListView
 
         void onItemCountChanged();
 
-        void expire(bool force = false);
-
         void onEditorDestroyed();
 
         void onEditorSave();
 
         void onEditorCancel();
 
-        void onModelUnloaded();
-
         void onEditorNeedsChangeClipboard();
 
         void onEditorNeedsChangeClipboard(const QByteArray &bytes, const QString &mime);
 
     private:
+        bool isLoaded() const;
+
         /**
          * Save items to configuration after an interval.
          */
@@ -343,12 +333,6 @@ class ClipboardBrowser : public QListView
         void editItem(const QModelIndex &index, bool editNotes = false, bool changeClipboard = false);
 
         void updateEditorGeometry();
-
-        bool canExpire();
-
-        void restartExpiring();
-
-        void stopExpiring();
 
         /**
          * Get index near given @a point.
@@ -385,19 +369,13 @@ class ClipboardBrowser : public QListView
         ItemDelegate d;
         QTimer m_timerSave;
         QTimer m_timerScroll;
-        QTimer m_timerExpire;
         QTimer m_timerEmitItemCount;
-
-        bool m_invalidateCache;
-        bool m_expireAfterEditing;
 
         ItemEditorWidget *m_editor;
         bool m_editNewItem = false;
         bool m_editItemChangesClipboard = false;
 
         ClipboardBrowserSharedPtr m_sharedData;
-
-        QPushButton *m_loadButton;
 
         int m_dragTargetRow;
         QPoint m_dragStartPosition;
