@@ -2281,8 +2281,8 @@ void MainWindow::loadSettings()
     const bool tabTreeEnabled = appConfig.option<Config::tab_tree>();
     ui->tabWidget->setTreeModeEnabled(tabTreeEnabled);
     ui->tabWidget->setTabItemCountVisible(appConfig.option<Config::show_tab_item_count>());
-    if (tabTreeEnabled)
-        theme().decorateScrollArea(ui->tabWidget->tabTree());
+    for ( auto scrollArea : ui->tabWidget->toolBar()->findChildren<QAbstractScrollArea*>() )
+        theme().decorateScrollArea(scrollArea);
 
     m_options.hideTabs = appConfig.option<Config::hide_tabs>();
     setHideTabs(m_options.hideTabs);
@@ -2356,6 +2356,8 @@ void MainWindow::loadSettings()
     settings.endGroup();
 
     ui->dockWidgetItemPreview->setStyleSheet( browser()->styleSheet() );
+
+    resetStatus();
 
     COPYQ_LOG("Configuration loaded");
 }

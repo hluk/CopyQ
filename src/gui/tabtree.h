@@ -20,6 +20,8 @@
 #ifndef TABTREE_H
 #define TABTREE_H
 
+#include "gui/tabswidgetinterface.h"
+
 #include <QList>
 #include <QString>
 #include <QTimer>
@@ -28,17 +30,38 @@
 class QMimeData;
 class QTreeWidgetItem;
 
-class TabTree : public QTreeWidget
+class TabTree : public QTreeWidget, public TabsWidgetInterface
 {
     Q_OBJECT
 public:
     explicit TabTree(QWidget *parent = nullptr);
 
-    /** Create tab in @a path with given @a index. */
-    void insertTab(const QString &path, int index, bool selected);
+    QString getCurrentTabPath() const override;
 
-    /** Remove tab with given @a index. */
-    void removeTab(int index);
+    bool isTabGroup(const QString &tab) const override;
+
+    QString tabText(int tabIndex) const override;
+    void setTabText(int tabIndex, const QString &tabText) override;
+
+    void setTabItemCount(const QString &tabName, const QString &itemCount) override;
+
+    void updateTabIcon(const QString &tabName) override;
+
+    void insertTab(int index, const QString &path) override;
+    void removeTab(int index) override;
+    void moveTab(int from, int to) override;
+
+    void updateCollapsedTabs(QStringList *collapsedTabs) const override;
+    void setCollapsedTabs(const QStringList &collapsedTabs) override;
+
+    void updateTabIcons() override;
+
+    void nextTab() override;
+    void previousTab() override;
+
+    void setCurrentTab(int index) override;
+
+    void adjustSize() override;
 
     /** Return item with given @a index or nullptr if it doesn't exist. */
     QTreeWidgetItem *findTreeItem(int index) const;
@@ -58,28 +81,9 @@ public:
     /** Return true only if tab is tab group and is empty. */
     bool isEmptyTabGroup(const QTreeWidgetItem *item) const;
 
-    /** Change tab index of tab. */
-    void moveTab(int from, int to);
-
-    void setTabText(int tabIndex, const QString &tabText);
-
-    void setTabItemCount(const QString &tabName, const QString &itemCount);
-
-    void setCollapsedTabs(const QStringList &collapsedPaths);
-
-    QStringList collapsedTabs() const;
-
     QSize sizeHint() const override;
 
-    void updateTabIcon(const QString &tabName);
-
-    void updateTabIcons();
-
 public slots:
-    void setCurrentTabIndex(int index);
-    void nextTreeItem();
-    void previousTreeItem();
-
     void onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
 signals:

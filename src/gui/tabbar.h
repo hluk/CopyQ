@@ -20,6 +20,8 @@
 #ifndef TABBAR_H
 #define TABBAR_H
 
+#include "gui/tabswidgetinterface.h"
+
 #include <QTabBar>
 
 class QMimeData;
@@ -27,18 +29,39 @@ class QModelIndex;
 class QMouseEvent;
 class QPoint;
 
-class TabBar : public QTabBar
+class TabBar : public QTabBar, public TabsWidgetInterface
 {
     Q_OBJECT
 
 public:
     explicit TabBar(QWidget *parent = nullptr);
 
-    void updateTabIcon(const QString &tabName);
+    QString getCurrentTabPath() const override;
 
-    void updateTabIcons();
+    bool isTabGroup(const QString &) const override { return false; }
 
-    void setTabItemCount(const QString &tabName, const QString &itemCount);
+    QString tabText(int tabIndex) const override;
+    void setTabText(int tabIndex, const QString &tabText) override;
+
+    void setTabItemCount(const QString &tabName, const QString &itemCount) override;
+
+    void updateTabIcon(const QString &tabName) override;
+
+    void insertTab(int index, const QString &text) override;
+    void removeTab(int index) override;
+    void moveTab(int from, int to) override;
+
+    void updateCollapsedTabs(QStringList *) const override {}
+    void setCollapsedTabs(const QStringList &) override {}
+
+    void updateTabIcons() override;
+
+    void nextTab() override;
+    void previousTab() override;
+
+    void setCurrentTab(int index) override;
+
+    virtual void adjustSize() override;
 
 signals:
     void tabMenuRequested(const QPoint &pos, int tab);

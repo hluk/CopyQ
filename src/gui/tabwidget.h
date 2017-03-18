@@ -20,18 +20,18 @@
 #ifndef TABWIDGET_H
 #define TABWIDGET_H
 
-#include <QBoxLayout>
 #include <QMap>
+#include <QTabBar>
 #include <QWidget>
 
-class QAbstractScrollArea;
+#include <memory>
+
 class QMainWindow;
 class QMimeData;
 class QPoint;
 class QStackedWidget;
 class QToolBar;
-class TabBar;
-class TabTree;
+class TabsWidgetInterface;
 
 class TabWidget : public QWidget
 {
@@ -48,9 +48,6 @@ public:
 
     /** Return true only if tab froup is selected in tree mode. */
     bool isTabGroupSelected() const;
-
-    /** Return true only if tree mode is enabled. */
-    bool isTreeModeEnabled() const;
 
     /** Return current tab. */
     int currentIndex() const;
@@ -90,7 +87,7 @@ public:
 
     void updateTabs();
 
-    QAbstractScrollArea *tabTree();
+    QToolBar *toolBar() const { return m_toolBarCurrent; }
 
 public slots:
     void setCurrentIndex(int tabIndex);
@@ -116,23 +113,23 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private slots:
-    void onTreeItemSelected(bool isGroup);
     void onTabMoved(int from, int to);
     void onTabsMoved(const QString &oldPrefix, const QString &newPrefix, const QList<int> &indexes);
     void onToolBarOrientationChanged(Qt::Orientation orientation);
+    void onTreeItemClicked();
 
 private:
     void createTabBar();
     void createTabTree();
     void updateToolBar();
     void updateTabItemCount(const QString &name);
-    void updateSize();
     QString itemCountLabel(const QString &name);
 
     QToolBar *m_toolBar;
     QToolBar *m_toolBarTree;
-    TabBar *m_tabBar;
-    TabTree *m_tabTree;
+    QToolBar *m_toolBarCurrent;
+    TabsWidgetInterface *m_tabs = nullptr;
+    QTabBar *m_tabBar = nullptr;
     QStackedWidget *m_stackedWidget;
     bool m_hideTabBar;
 

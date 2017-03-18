@@ -68,19 +68,19 @@ TabBar::TabBar(QWidget *parent)
              this, SLOT(onCurrentChanged()) );
 }
 
-void TabBar::updateTabIcon(const QString &tabName)
+QString TabBar::getCurrentTabPath() const
 {
-    const int i = tabIndex(tabName, *this);
-    if (i == -1)
-        return;
-
-    ::updateTabIcon(i, this);
+    return QString();
 }
 
-void TabBar::updateTabIcons()
+QString TabBar::tabText(int tabIndex) const
 {
-    for (int i = 0; i < count(); ++i)
-        ::updateTabIcon(i, this);
+    return QTabBar::tabText(tabIndex);
+}
+
+void TabBar::setTabText(int tabIndex, const QString &tabText)
+{
+    return QTabBar::setTabText(tabIndex, tabText);
 }
 
 void TabBar::setTabItemCount(const QString &tabName, const QString &itemCount)
@@ -109,6 +109,58 @@ void TabBar::setTabItemCount(const QString &tabName, const QString &itemCount)
     }
 
     updateTabStyle(i);
+}
+
+void TabBar::updateTabIcon(const QString &tabName)
+{
+    const int i = tabIndex(tabName, *this);
+    if (i == -1)
+        return;
+
+    ::updateTabIcon(i, this);
+}
+
+void TabBar::insertTab(int index, const QString &text)
+{
+    QTabBar::insertTab(index, text);
+}
+
+void TabBar::removeTab(int index)
+{
+    QTabBar::removeTab(index);
+}
+
+void TabBar::moveTab(int from, int to)
+{
+    QTabBar::moveTab(from, to);
+}
+
+void TabBar::updateTabIcons()
+{
+    for (int i = 0; i < count(); ++i)
+        ::updateTabIcon(i, this);
+}
+
+void TabBar::nextTab()
+{
+    const int index = (currentIndex() + 1) % count();
+    setCurrentIndex(index);
+}
+
+void TabBar::previousTab()
+{
+    const int index = (count() + currentIndex() - 1) % count();
+    setCurrentIndex(index);
+}
+
+void TabBar::setCurrentTab(int index)
+{
+    QTabBar::setCurrentIndex(index);
+}
+
+void TabBar::adjustSize()
+{
+    QTabBar::adjustSize();
 }
 
 void TabBar::contextMenuEvent(QContextMenuEvent *event)
