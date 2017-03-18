@@ -534,6 +534,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerShowWindow, 250 );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
     initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
+    initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, SLOT(doSaveTabPositions()) );
 
     // browse mode by default
     enterBrowseMode();
@@ -2543,6 +2544,11 @@ void MainWindow::tabChanged(int current, int)
 }
 
 void MainWindow::saveTabPositions()
+{
+    m_timerSaveTabPositions.start();
+}
+
+void MainWindow::doSaveTabPositions()
 {
     setTabs( ui->tabWidget->tabs() );
 }

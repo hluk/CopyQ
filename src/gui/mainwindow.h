@@ -516,6 +516,7 @@ private slots:
     void findNextOrPrevious();
     void tabChanged(int current, int previous);
     void saveTabPositions();
+    void doSaveTabPositions();
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix);
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
@@ -692,6 +693,7 @@ private:
     QTimer m_timerShowWindow;
     QTimer m_timerTrayAvailable;
     QTimer m_timerTrayIconSnip;
+    QTimer m_timerSaveTabPositions;
 
     NotificationDaemon *m_notifications;
 
