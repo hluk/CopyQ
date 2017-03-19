@@ -21,6 +21,7 @@
 #define COMMANDDIALOG_H
 
 #include "common/command.h"
+#include "common/commandstore.h"
 
 #include <QDialog>
 
@@ -35,8 +36,6 @@ class CommandDialog : public QDialog
     Q_OBJECT
 
 public:
-    using Commands = QList<Command>;
-
     CommandDialog(
             const Commands &pluginCommands, const QStringList &formats,
             QWidget *parent = nullptr);
@@ -94,9 +93,5 @@ private:
     Commands m_pluginCommands;
     QStringList m_formats;
 };
-
-CommandDialog::Commands loadAllCommands();
-CommandDialog::Commands loadEnabledCommands();
-void saveCommands(const CommandDialog::Commands &commands);
 
 #endif // COMMANDDIALOG_H

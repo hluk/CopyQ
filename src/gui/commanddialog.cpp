@@ -21,6 +21,7 @@
 #include "ui_commanddialog.h"
 
 #include "common/command.h"
+#include "common/commandstore.h"
 #include "common/common.h"
 #include "common/config.h"
 #include "common/mimetypes.h"
@@ -41,11 +42,6 @@
 #include <QTemporaryFile>
 
 namespace {
-
-enum CommandFilter {
-    EnabledCommands,
-    AllCommands
-};
 
 const QIcon iconLoadCommands() { return getIcon("document-open", IconFolderOpen); }
 const QIcon iconSaveCommands() { return getIcon("document-save", IconSave); }
@@ -84,142 +80,6 @@ private:
     CommandDialog *m_cmdDialog;
     QStringList m_formats;
 };
-
-void loadCommand(const QSettings &settings, CommandFilter filter, CommandDialog::Commands *commands)
-{
-    Command c;
-    c.enable = settings.value("Enable", true).toBool();
-
-    if (filter == EnabledCommands && !c.enable)
-        return;
-
-    c.name = settings.value("Name").toString();
-    c.re   = QRegExp( settings.value("Match").toString() );
-    c.wndre = QRegExp( settings.value("Window").toString() );
-    c.matchCmd = settings.value("MatchCommand").toString();
-    c.cmd = settings.value("Command").toString();
-    c.sep = settings.value("Separator").toString();
-
-    c.input = settings.value("Input").toString();
-    if ( c.input == "false" || c.input == "true" )
-        c.input = c.input == "true" ? QString(mimeText) : QString();
-
-    c.output = settings.value("Output").toString();
-    if ( c.output == "false" || c.output == "true" )
-        c.output = c.output == "true" ? QString(mimeText) : QString();
-
-    c.wait = settings.value("Wait").toBool();
-    c.automatic = settings.value("Automatic").toBool();
-    c.transform = settings.value("Transform").toBool();
-    c.hideWindow = settings.value("HideWindow").toBool();
-    c.icon = settings.value("Icon").toString();
-    c.shortcuts = settings.value("Shortcut").toStringList();
-    c.globalShortcuts = settings.value("GlobalShortcut").toStringList();
-    c.tab = settings.value("Tab").toString();
-    c.outputTab = settings.value("OutputTab").toString();
-    c.inMenu = settings.value("InMenu").toBool();
-
-    if (c.globalShortcuts.size() == 1 && c.globalShortcuts[0] == "DISABLED")
-        c.globalShortcuts = QStringList();
-
-    if (settings.value("Ignore").toBool())
-        c.remove = c.automatic = true;
-    else
-        c.remove = settings.value("Remove").toBool();
-
-    commands->append(c);
-}
-
-CommandDialog::Commands loadCommands(QSettings *settings, CommandFilter filter)
-{
-    CommandDialog::Commands commands;
-
-    const QStringList groups = settings->childGroups();
-
-    if ( groups.contains("Command") ) {
-        settings->beginGroup("Command");
-        loadCommand(*settings, filter, &commands);
-        settings->endGroup();
-    }
-
-    int size = settings->beginReadArray("Commands");
-
-    for(int i=0; i<size; ++i) {
-        settings->setArrayIndex(i);
-        loadCommand(*settings, filter, &commands);
-    }
-
-    settings->endArray();
-
-    return commands;
-}
-
-void saveValue(const char *key, const QRegExp &re, QSettings *settings)
-{
-    settings->setValue(key, re.pattern());
-}
-
-void saveValue(const char *key, const QVariant &value, QSettings *settings)
-{
-    settings->setValue(key, value);
-}
-
-/// Save only modified command properties.
-template <typename Member>
-void saveNewValue(const char *key, const Command &command, const Member &member, QSettings *settings)
-{
-    if (command.*member != Command().*member)
-        saveValue(key, command.*member, settings);
-}
-
-void saveCommand(const Command &c, QSettings *settings)
-{
-    saveNewValue("Name", c, &Command::name, settings);
-    saveNewValue("Match", c, &Command::re, settings);
-    saveNewValue("Window", c, &Command::wndre, settings);
-    saveNewValue("MatchCommand", c, &Command::matchCmd, settings);
-    saveNewValue("Command", c, &Command::cmd, settings);
-    saveNewValue("Input", c, &Command::input, settings);
-    saveNewValue("Output", c, &Command::output, settings);
-
-    // Separator for new command is set to '\n' for convenience.
-    // But this value shouldn't be saved if output format is not set.
-    if ( c.sep != "\\n" || !c.output.isEmpty() )
-        saveNewValue("Separator", c, &Command::sep, settings);
-
-    saveNewValue("Wait", c, &Command::wait, settings);
-    saveNewValue("Automatic", c, &Command::automatic, settings);
-    saveNewValue("InMenu", c, &Command::inMenu, settings);
-    saveNewValue("Transform", c, &Command::transform, settings);
-    saveNewValue("Remove", c, &Command::remove, settings);
-    saveNewValue("HideWindow", c, &Command::hideWindow, settings);
-    saveNewValue("Enable", c, &Command::enable, settings);
-    saveNewValue("Icon", c, &Command::icon, settings);
-    saveNewValue("Shortcut", c, &Command::shortcuts, settings);
-    saveNewValue("GlobalShortcut", c, &Command::globalShortcuts, settings);
-    saveNewValue("Tab", c, &Command::tab, settings);
-    saveNewValue("OutputTab", c, &Command::outputTab, settings);
-}
-
-void saveCommands(const CommandDialog::Commands &commands, QSettings *settings)
-{
-    settings->remove("Commands");
-    settings->remove("Command");
-
-    if (commands.size() == 1) {
-        settings->beginGroup("Command");
-        saveCommand(commands[0], settings);
-        settings->endGroup();
-    } else {
-        settings->beginWriteArray("Commands");
-        int i = 0;
-        for (const auto &c : commands) {
-            settings->setArrayIndex(i++);
-            saveCommand(c, settings);
-        }
-        settings->endArray();
-    }
-}
 
 QIcon getCommandIcon(const QString &iconString)
 {
@@ -474,7 +334,7 @@ void CommandDialog::onClipboardChanged()
     ui->pushButtonPasteCommands->setEnabled(!commandsToPaste().isEmpty());
 }
 
-CommandDialog::Commands CommandDialog::currentCommands() const
+Commands CommandDialog::currentCommands() const
 {
     Commands commands;
 
@@ -532,7 +392,7 @@ void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
     addCommandsWithoutSave(commands, targetRow);
 }
 
-CommandDialog::Commands CommandDialog::selectedCommands() const
+Commands CommandDialog::selectedCommands() const
 {
     const auto rows = ui->itemOrderListCommands->selectedRows();
     const auto cmds = currentCommands();
@@ -606,22 +466,4 @@ QString CommandDialog::serializeSelectedCommands()
 bool CommandDialog::hasUnsavedChanges() const
 {
     return m_savedCommands != currentCommands();
-}
-
-CommandDialog::Commands loadEnabledCommands()
-{
-    QSettings settings;
-    return loadCommands(&settings, EnabledCommands);
-}
-
-CommandDialog::Commands loadAllCommands()
-{
-    QSettings settings;
-    return loadCommands(&settings, AllCommands);
-}
-
-void saveCommands(const CommandDialog::Commands &commands)
-{
-    Settings settings;
-    saveCommands(commands, settings.settingsData());
 }

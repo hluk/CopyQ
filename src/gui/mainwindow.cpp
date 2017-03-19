@@ -24,6 +24,7 @@
 #include "common/appconfig.h"
 #include "common/common.h"
 #include "common/command.h"
+#include "common/commandstore.h"
 #include "common/config.h"
 #include "common/contenttype.h"
 #include "common/display.h"
