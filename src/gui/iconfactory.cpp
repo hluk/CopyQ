@@ -37,7 +37,6 @@
 #if QT_VERSION < 0x050000
 # include <QIconEngineV2>
 using QtIconEngine = QIconEngineV2;
-Q_DECLARE_METATYPE(QPointer<QObject>)
 #else
 # include <QIconEngine>
 using QtIconEngine = QIconEngine;
@@ -46,16 +45,11 @@ using QtIconEngine = QIconEngine;
 namespace {
 
 const char imagesRecourcePath[] = ":/images/";
-const char propertyActivePaintDevice[] = "CopyQ_active_paint_device";
 
 /// Up to this value of background lightness, icon color will be lighter.
 const int lightThreshold = 100;
 
-QObject *activePaintDevice()
-{
-    return qApp->property(propertyActivePaintDevice)
-            .value<QPointer<QObject>>();
-}
+QPointer<QObject> activePaintDevice;
 
 QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
 {
@@ -251,7 +245,7 @@ private:
     {
         auto parent = painter
                 ? dynamic_cast<QWidget*>(painter->device())
-                : qobject_cast<QWidget*>(activePaintDevice());
+                : qobject_cast<QWidget*>(activePaintDevice.data());
 
         const bool selected = (mode == QIcon::Active || mode == QIcon::Selected);
         QColor color = parent ? getDefaultIconColor(*parent, selected) : Qt::darkGray;
@@ -357,9 +351,7 @@ QIcon appIcon(AppIconType iconType)
 
 void setActivePaintDevice(QObject *device)
 {
-    const QPointer<QObject> activePaintDevice = device;
-    qApp->setProperty(
-                propertyActivePaintDevice, QVariant::fromValue(activePaintDevice) );
+    activePaintDevice = device;
 }
 
 QColor getDefaultIconColor(const QWidget &widget, bool selected)
