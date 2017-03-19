@@ -72,6 +72,7 @@ TrayMenu::TrayMenu(QWidget *parent)
     , m_omitPaste(false)
     , m_viMode(false)
 {
+    initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, SLOT(updateActiveAction()) );
 }
 
 void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent)
@@ -259,10 +260,7 @@ void TrayMenu::hideEvent(QHideEvent *event)
 void TrayMenu::actionEvent(QActionEvent *event)
 {
     QMenu::actionEvent(event);
-
-    QAction *action = firstEnabledAction(this);
-    if (action != nullptr)
-        setActiveAction(action);
+    m_timerUpdateActiveAction.start();
 }
 
 void TrayMenu::leaveEvent(QEvent *event)
@@ -319,4 +317,11 @@ void TrayMenu::onClipboardItemActionTriggered()
     uint hash = actionData.toUInt();
     emit clipboardItemActionTriggered(hash, m_omitPaste);
     close();
+}
+
+void TrayMenu::updateActiveAction()
+{
+    const auto action = firstEnabledAction(this);
+    if (action != nullptr)
+        setActiveAction(action);
 }

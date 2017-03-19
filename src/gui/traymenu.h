@@ -22,6 +22,7 @@
 
 #include <QMenu>
 #include <QPointer>
+#include <QTimer>
 
 class QModelIndex;
 
@@ -61,6 +62,8 @@ signals:
 private slots:
     void onClipboardItemActionTriggered();
 
+    void updateActiveAction();
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
@@ -84,6 +87,8 @@ private:
     bool m_viMode;
 
     QString m_searchText;
+
+    QTimer m_timerUpdateActiveAction;
 };
 
 #endif // TRAYMENU_H
