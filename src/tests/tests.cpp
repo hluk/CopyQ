@@ -643,6 +643,11 @@ void Tests::commandEvalThrows()
     RUN_EXPECT_ERROR_WITH_STDERR("eval" << "throw 'TEST_EXCEPTION'", CommandException, "TEST_EXCEPTION");
 }
 
+void Tests::commandEvalSyntaxError()
+{
+    RUN_EXPECT_ERROR_WITH_STDERR("eval" << "(", CommandException, "syntax error");
+}
+
 void Tests::commandPrint()
 {
     RUN("print" << "1", "1");

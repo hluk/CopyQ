@@ -394,7 +394,10 @@ QString Scriptable::arg(int i, const QString &defaultValue)
 
 void Scriptable::throwError(const QString &errorMessage)
 {
-    context()->throwError( fromString(errorMessage + '\n') );
+    auto currentContext = context();
+    if (!currentContext)
+        currentContext = engine()->pushContext();
+    currentContext->throwError( fromString(errorMessage + '\n') );
 }
 
 void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
