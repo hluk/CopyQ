@@ -601,6 +601,27 @@ Example:
 var now = dateString('yyyy-MM-dd HH:mm:ss')
 ```
 
+###### Command[] commands()
+
+Return list of all commands.
+
+###### setCommands(Command[])
+
+Clear previous commands and set new ones.
+
+To add new command:
+
+```js
+var cmds = commands()
+cmds.unshift({
+        name: 'New Command',
+        automatic: true,
+        input: 'text/plain',
+        cmd: 'copyq: popup("Clipboard", input())'
+        })
+setCommands(cmds)
+```
+
 ###### NetworkReply networkGet(url)
 
 Sends HTTP GET request.
@@ -716,6 +737,13 @@ Type is `Object` and properties are:
 - `error` - error string (set only if an error occurred)
 - `redirect` - URL for redirection (set only if redirection is needed)
 - `headers` - reply headers (array of pairs with header name and header content)
+
+###### Command (Object)
+
+Wrapper for a command (from Command dialog).
+
+Properties are same as members of
+[Command struct](https://github.com/hluk/CopyQ/blob/master/src/common/command.h).
 
 ### MIME Types
 

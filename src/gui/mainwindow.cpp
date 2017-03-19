@@ -894,10 +894,7 @@ void MainWindow::onSaveCommand(const Command &command)
 {
     auto commands = loadAllCommands();
     commands.append(command);
-    saveCommands(commands);
-
-    if (m_commandDialog)
-        m_commandDialog->addCommands(QList<Command>() << command);
+    setCommands(commands);
 }
 
 void MainWindow::onCommandActionTriggered(const Command &command, const QVariantMap &actionData, int commandType)
@@ -1255,6 +1252,8 @@ void MainWindow::resetTestSession(const QString &clipboardTabName)
         model->removeRows( 0, model->rowCount() );
         c->saveItems();
     }
+
+    setCommands(QList<Command>());
 
     resetTestsSettings();
 
@@ -2699,6 +2698,17 @@ QVariantMap MainWindow::actionData(int id) const
 void MainWindow::setActionData(int id, const QVariantMap &data)
 {
     m_actionHandler->setActionData(id, data);
+}
+
+void MainWindow::setCommands(const QList<Command> &commands)
+{
+    if ( !maybeCloseCommandDialog() )
+        return;
+
+    m_commands = commands;
+    saveCommands(commands);
+    updateContextMenu();
+    updateTrayMenuItems();
 }
 
 void MainWindow::runAutomaticCommands(QVariantMap data)

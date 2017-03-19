@@ -33,6 +33,8 @@
 class MainWindow;
 class QPersistentModelIndex;
 
+struct Command;
+
 struct NamedValue {
     NamedValue() {}
     NamedValue(const QString &name, const QVariant &value) : name(name), value(value) {}
@@ -155,6 +157,9 @@ public:
     void setSelectedItemsData(const QString &mime, const QVariant &value);
 
     void filter(const QString &text);
+
+    QList<Command> commands();
+    void setCommands(const QList<Command> &commands);
 
     QString pluginsPath();
     QString themesPath();

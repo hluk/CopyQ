@@ -75,15 +75,9 @@ public:
     QScriptValue newVariant(const QVariant &value);
 
     QByteArray fromString(const QString &value) const;
-    QString toString(const QScriptValue &value) const;
     QVariant toVariant(const QScriptValue &value) const;
     bool toInt(const QScriptValue &value, int *number) const;
     QVariantMap toDataMap(const QScriptValue &value) const;
-
-    /**
-     * Return pointer to QByteArray or nullptr.
-     */
-    QByteArray *getByteArray(const QScriptValue &value) const;
 
     QByteArray makeByteArray(const QScriptValue &value) const;
 
@@ -135,6 +129,8 @@ public:
     QString getMimeOutputTab() const { return mimeOutputTab; }
     QString getMimeSyncToClipboard() const { return mimeSyncToClipboard; }
     QString getMimeSyncToSelection() const { return mimeSyncToSelection; }
+
+    const ByteArrayClass *byteArrayClass() const { return m_baClass; }
 
 public slots:
     QScriptValue version();
@@ -267,6 +263,9 @@ public slots:
 
     void updateFirst();
     void updateTitle();
+
+    QScriptValue commands();
+    void setCommands();
 
     QScriptValue networkGet();
     QScriptValue networkPost();

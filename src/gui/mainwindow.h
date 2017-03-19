@@ -304,6 +304,8 @@ public:
     QVariantMap actionData(int id) const;
     void setActionData(int id, const QVariantMap &data);
 
+    void setCommands(const QList<Command> &commands);
+
 public slots:
     /** Close main window and exit the application. */
     void exit();

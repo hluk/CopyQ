@@ -139,6 +139,7 @@ SOURCES += \
     common/client_server.cpp \
     common/clientsocket.cpp \
     common/common.cpp \
+    common/commandstore.cpp \
     common/display.cpp \
     common/messagehandlerforqt.cpp \
     common/option.cpp \

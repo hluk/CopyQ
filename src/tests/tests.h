@@ -103,6 +103,8 @@ private slots:
 
     void commandsExportImport();
 
+    void commandsGetSetCommands();
+
     void classFile();
     void classDir();
     void classTemporaryFile();
@@ -160,6 +162,16 @@ private slots:
     void configTrayTab();
     void configMove();
     void configTrayTabIsCurrent();
+
+    void shortcutCommand();
+    void shortcutCommandOverrideEnter();
+    void shortcutCommandMatchInput();
+    void shortcutCommandMatchCmd();
+
+    void automaticCommandIgnore();
+    void automaticCommandSetData();
+    void automaticCommandOutputTab();
+    void automaticCommandNoOutputTab();
 
 private:
     void clearServerErrors();

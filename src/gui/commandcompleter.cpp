@@ -191,6 +191,8 @@ private:
         addDocumentation("settings", "Value settings(optionName)", "Returns value for an option.");
         addDocumentation("settings", "settings(optionName)", "Sets value for a new option or overrides existing option.");
         addDocumentation("dateString", "String dateString(format)", "Returns text representation of current date and time.");
+        addDocumentation("commands", "Command[] commands()", "Return list of all commands.");
+        addDocumentation("setCommands", "setCommands(Command[])", "Clear previous commands and set new ones.");
         addDocumentation("networkGet", "NetworkReply networkGet(url)", "Sends HTTP GET request.");
         addDocumentation("networkPost", "NetworkReply networkPost(url, postData)", "Sends HTTP POST request.");
         addDocumentation("env", "ByteArray env(name)", "Returns value of environment variable with given name.");
@@ -200,6 +202,7 @@ private:
         addDocumentation("File", "File", "Wrapper for QFile Qt class.");
         addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");
         addDocumentation("TemporaryFile", "TemporaryFile", "Wrapper for QTemporaryFile Qt class.");
+        addDocumentation("Command", "Command", "Wrapper for a command (from Command dialog).");
         addDocumentation("arguments", "(Array)", "Array for accessing arguments passed to current function or the script");
         addDocumentation("Item", "(Object)", "Type is `Object` and each property is MIME type with data.");
         addDocumentation("FinishedCommand", "(Object)", "Type is `Object` and properties are:");

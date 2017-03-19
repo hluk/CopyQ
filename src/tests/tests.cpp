@@ -1139,6 +1139,22 @@ void Tests::commandsExportImport()
     RUN("tab" << tab2 << "read" << "0", "1");
 }
 
+void Tests::commandsGetSetCommands()
+{
+    RUN("commands().length", "0\n");
+
+    RUN("setCommands([{name: 'test', cmd: 'copyq help'}])", "");
+    RUN("commands().length", "1\n");
+    RUN("commands()[0].name", "test\n");
+    RUN("commands()[0].cmd", "copyq help\n");
+    RUN("commands()[0].enable", "true\n");
+
+    RUN("setCommands(commands())", "");
+    RUN("commands().length", "1\n");
+    RUN("commands()[0].name", "test\n");
+    RUN("commands()[0].enable", "true\n");
+}
+
 void Tests::classFile()
 {
     RUN("eval" <<
@@ -1981,6 +1997,119 @@ void Tests::configTrayTabIsCurrent()
     RUN("menu", "");
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
+}
+
+void Tests::shortcutCommand()
+{
+    RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Ctrl+F1'], cmd: 'copyq add OK'}])", "");
+    RUN("keys" << "CTRL+F1", "");
+    WAIT_ON_OUTPUT("read" << "0", "OK");
+}
+
+void Tests::shortcutCommandOverrideEnter()
+{
+    RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Enter'], cmd: 'copyq add OK'}])", "");
+    RUN("keys" << "ENTER" << "ENTER", "");
+    WAIT_ON_OUTPUT("read" << "0" << "1", "OK\nOK");
+}
+
+void Tests::shortcutCommandMatchInput()
+{
+    // Activate only one of the two actions depending on input MIME format.
+    const auto script = R"(
+        function cmd(name) {
+          var format = 'application/x-copyq-' + name
+          return {
+            name: name,
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            input: format,
+            cmd: 'copyq add ' + name
+          }
+        }
+        setCommands([ cmd('test1'), cmd('test2') ])
+        )";
+    RUN(script, "");
+
+    RUN("write" << "application/x-copyq-test1" << "", "");
+    RUN("keys" << "CTRL+F1", "");
+    WAIT_ON_OUTPUT("read" << "0", "test1");
+    RUN("tab" << QString(clipboardTabName) << "size", "2\n");
+
+    RUN("write" << "application/x-copyq-test2" << "", "");
+    RUN("keys" << "CTRL+F1", "");
+    WAIT_ON_OUTPUT("read" << "0", "test2");
+    RUN("tab" << QString(clipboardTabName) << "size", "4\n");
+}
+
+void Tests::shortcutCommandMatchCmd()
+{
+    // Activate only one of the two actions depending on exit code of command which matches input MIME format.
+    const auto script = R"(
+        function cmd(name) {
+          var format = 'application/x-copyq-' + name
+          return {
+            name: name,
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            matchCmd: 'copyq: str(data("' + format + '")) || fail()',
+            cmd: 'copyq add ' + name
+          }
+        }
+        setCommands([ cmd('test1'), cmd('test2') ])
+        )";
+    RUN(script, "");
+
+    RUN("write" << "application/x-copyq-test1" << "1", "");
+    waitFor(500);
+    WAIT_ON_OUTPUT("keys('Ctrl+F1'); read(0)", "test1");
+    RUN("tab" << QString(clipboardTabName) << "size", "2\n");
+
+    RUN("write" << "application/x-copyq-test2" << "1", "");
+    waitFor(500);
+    WAIT_ON_OUTPUT("keys('Ctrl+F1'); read(0)", "test2");
+    RUN("tab" << QString(clipboardTabName) << "size", "4\n");
+}
+
+void Tests::automaticCommandIgnore()
+{
+    RUN("setCommands([{automatic: true, cmd: 'copyq ignore; copyq add OK'}])", "");
+    TEST( m_test->setClipboard("SHOULD BE IGNORED") );
+    WAIT_ON_OUTPUT("read" << "0", "OK");
+}
+
+void Tests::automaticCommandSetData()
+{
+    const auto script = R"(
+        setCommands([{automatic: true, cmd: 'copyq: setData("text/plain", "OK")'}])
+        )";
+    RUN(script, "");
+    TEST( m_test->setClipboard("SHOULD BE CHANGED") );
+    WAIT_ON_OUTPUT("read" << "0", "OK");
+}
+
+void Tests::automaticCommandOutputTab()
+{
+    const auto tab1 = testTab(1);
+    const auto script = R"(
+        var tab1 = ')" + tab1 + R"('
+        setCommands([{automatic: true, cmd: 'copyq: setData(mimeOutputTab, "' + tab1 + '")'}])
+        )";
+    RUN(script, "");
+    TEST( m_test->setClipboard("TEST") );
+    WAIT_ON_OUTPUT("tab" << tab1 << "read" << "0", "TEST");
+    RUN("tab" << QString(clipboardTabName) << "size", "0\n");
+}
+
+void Tests::automaticCommandNoOutputTab()
+{
+    const auto script = R"(
+        setCommands([{automatic: true, cmd: 'copyq: removeData(mimeOutputTab)'}])
+        )";
+    RUN(script, "");
+    TEST( m_test->setClipboard("TEST") );
+    waitFor(1000);
+    RUN("tab" << QString(clipboardTabName) << "size", "0\n");
 }
 
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)

@@ -20,8 +20,10 @@
 #include "scriptableproxy.h"
 
 #include "common/commandstatus.h"
-#include "common/config.h"
+#include "common/command.h"
+#include "common/commandstore.h"
 #include "common/common.h"
+#include "common/config.h"
 #include "common/contenttype.h"
 #include "common/display.h"
 #include "common/log.h"
@@ -1003,6 +1005,18 @@ void ScriptableProxy::filter(const QString &text)
 {
     INVOKE2(filter(text));
     m_wnd->setFilter(text);
+}
+
+QList<Command> ScriptableProxy::commands()
+{
+    INVOKE(commands());
+    return loadAllCommands();
+}
+
+void ScriptableProxy::setCommands(const QList<Command> &commands)
+{
+    INVOKE2(setCommands(commands));
+    m_wnd->setCommands(commands);
 }
 
 QString ScriptableProxy::pluginsPath()
