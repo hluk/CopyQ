@@ -65,8 +65,7 @@ QDir configFolder(bool *isPortable)
 
     *isPortable = isPortableVersion()
             && QFileInfo(appDir).isWritable()
-            && dir.mkpath("copyq")
-            && dir.cd("copyq")
+            && dir.mkpath(".")
             && dir.isReadable()
             && QFileInfo(dir.absolutePath()).isWritable();
 
