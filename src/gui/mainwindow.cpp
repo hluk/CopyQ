@@ -3353,7 +3353,7 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
     if (cmd.wait) {
         std::unique_ptr<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
 
-        actionDialog->setInputData(addSelectionData(*browser(), data));
+        actionDialog->setInputData(data);
         actionDialog->setCommand(cmd);
         QString outputTab = cmd.outputTab;
 
