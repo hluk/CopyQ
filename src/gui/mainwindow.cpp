@@ -142,6 +142,9 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 
     // Verify that data for given MIME is available.
     if ( !command.input.isEmpty() ) {
+        if ( data.isEmpty() || !data.value(mimeCurrentItem).isValid() )
+            return false;
+
         const QList<QString> availableFormats = data.keys();
         if (command.input == mimeItems || command.input == "!OUTPUT") {
             // Disallow applying action that takes serialized item more times.
@@ -181,26 +184,34 @@ void disableActionWhenTabGroupSelected(WidgetOrAction *action, MainWindow *windo
 /// Adds information about current tab and selection if command is triggered by user.
 QVariantMap addSelectionData(
         const ClipboardBrowser &c,
-        const QList<QPersistentModelIndex> &selected,
-        const QVariantMap &data)
+        const QModelIndex &currentIndex,
+        const QModelIndexList &selectedIndexes)
 {
-    QVariantMap result = data;
+    auto result = c.copyIndexes(selectedIndexes);
+
     result.insert(mimeCurrentTab, c.tabName());
-    result.insert(mimeCurrentItem, QVariant::fromValue(QPersistentModelIndex(c.selectionModel()->currentIndex())));
-    result.insert(mimeSelectedItems, QVariant::fromValue(selected));
+
+    if ( currentIndex.isValid() ) {
+        const QPersistentModelIndex current = currentIndex;
+        result.insert(mimeCurrentItem, QVariant::fromValue(current));
+    }
+
+    if ( !selectedIndexes.isEmpty() ) {
+        QList<QPersistentModelIndex> selected;
+        selected.reserve(selectedIndexes.size());
+        for (const auto &index : selectedIndexes)
+            selected.append(index);
+        result.insert(mimeSelectedItems, QVariant::fromValue(selected));
+    }
+
     return result;
 }
 
-QVariantMap addSelectionData(const ClipboardBrowser &c, const QVariantMap &data)
+QVariantMap addSelectionData(const ClipboardBrowser &c)
 {
     const QModelIndexList selectedIndexes = c.selectionModel()->selectedIndexes();
-
-    QList<QPersistentModelIndex> selected;
-    selected.reserve(selectedIndexes.size());
-    for (const auto &index : selectedIndexes)
-        selected.append(index);
-
-    return addSelectionData(c, selected, data);
+    const auto current = c.selectionModel()->currentIndex();
+    return addSelectionData(c, current, selectedIndexes);
 }
 
 QMenu *findSubMenu(const QString &name, const QMenu &menu)
@@ -802,7 +813,7 @@ void MainWindow::updateContextMenuTimeout()
 
     setDisabledShortcuts(QList<QKeySequence>());
 
-    addCommandsToItemMenu(c->getSelectedItemData());
+    addCommandsToItemMenu(c);
 
     m_menuItem->addSeparator();
 
@@ -814,7 +825,7 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_Edit, c, SLOT(editSelected()) );
     addItemAction( Actions::Item_EditNotes, c, SLOT(editNotes()) );
     addItemAction( Actions::Item_EditWithEditor, c, SLOT(openEditor()) );
-    addItemAction( Actions::Item_Action, this, SLOT(action()) );
+    addItemAction( Actions::Item_Action, this, SLOT(openActionDialog()) );
     addItemAction( Actions::Item_NextFormat, this, SLOT(nextItemFormat()) );
     addItemAction( Actions::Item_PreviousFormat, this, SLOT(previousItemFormat()) );
 
@@ -890,7 +901,7 @@ void MainWindow::onSaveCommand(const Command &command)
     setCommands(commands);
 }
 
-void MainWindow::onCommandActionTriggered(const Command &command, const QVariantMap &actionData, int commandType)
+void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut)
 {
     auto c = getPlaceholder()->createBrowser();
     if (!c)
@@ -898,25 +909,28 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
 
     const QModelIndexList selected = c->selectionModel()->selectedIndexes();
 
+    const auto command = commandAction->command();
+
     if ( !command.cmd.isEmpty() ) {
-        bool triggeredFromBrowser = commandType == CommandAction::ItemCommand;
         if (command.transform) {
             for (const auto &index : selected) {
-                auto data = itemData(index);
-                if (triggeredFromBrowser)
-                    data = addSelectionData(*c, QList<QPersistentModelIndex>() << index, data);
-                action(data, command, index);
+                const auto selection = QModelIndexList() << index;
+                auto actionData = addSelectionData(*c, index, selection);
+                if ( !triggeredShortcut.isEmpty() )
+                    actionData.insert(mimeShortcut, triggeredShortcut);
+                action(actionData, command, index);
             }
         } else {
-            const auto data2 =
-                    triggeredFromBrowser ? addSelectionData(*c, actionData) : actionData;
-            action(data2, command, QModelIndex());
+            auto actionData = addSelectionData(*c);
+            if ( !triggeredShortcut.isEmpty() )
+                actionData.insert(mimeShortcut, triggeredShortcut);
+            action(actionData, command, QModelIndex());
         }
     }
 
     if ( !command.tab.isEmpty() && command.tab != c->tabName() ) {
         for (int i = selected.size() - 1; i >= 0; --i) {
-            const auto data = itemData(selected[i]);
+            const auto data = c->copyIndex(selected[i]);
             if ( !data.isEmpty() )
                 addToTab(data, command.tab);
         }
@@ -930,6 +944,21 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
 
     if (command.hideWindow)
         hideWindow();
+}
+
+void MainWindow::onClipboardCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut)
+{
+    const QMimeData *data = clipboardData();
+    if (data == nullptr)
+        return;
+
+    auto actionData = cloneData(*data);
+    if ( !triggeredShortcut.isEmpty() )
+        actionData.insert(mimeShortcut, triggeredShortcut);
+
+    auto command = commandAction->command();
+
+    action( actionData, command, QModelIndex() );
 }
 
 void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData *data)
@@ -952,13 +981,6 @@ void MainWindow::updateContextMenu(const ClipboardBrowser *browser)
 {
     if ( browser == getPlaceholder()->browser() )
         updateContextMenu();
-}
-
-void MainWindow::action()
-{
-    auto c = browser();
-    const QVariantMap data = c ? c->getSelectedItemData() : QVariantMap();
-    openActionDialog( data.isEmpty() ? createDataMap(mimeText, c ? c->selectedText() : QString()) : data );
 }
 
 void MainWindow::automaticCommandTestFinished(const Command &command, bool passed)
@@ -1415,18 +1437,13 @@ QList<Command> MainWindow::commandsForMenu(const QVariantMap &data, const QStrin
     return commands;
 }
 
-void MainWindow::addCommandsToItemMenu(const QVariantMap &data)
+void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
 {
     if ( m_commands.isEmpty() )
         return;
 
-    auto c = getPlaceholder()->createBrowser();
-    if (!c)
-        return;
-
+    const auto data = addSelectionData(*c);
     const QList<Command> commands = commandsForMenu(data, c->tabName());
-
-    const CommandAction::Type type = CommandAction::ItemCommand;
 
     QList<QKeySequence> usedShortcuts = m_disabledShortcuts;
 
@@ -1435,16 +1452,16 @@ void MainWindow::addCommandsToItemMenu(const QVariantMap &data)
     for (const auto &command : commands) {
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_menuItem);
-        QAction *act = new CommandAction(command, name, type, c, currentMenu);
-        currentMenu->addAction(act);
+        QAction *act = new CommandAction(command, name, currentMenu);
+        c->addAction(act);
 
         if (!command.matchCmd.isEmpty()) {
             act->setDisabled(true);
             disabledCommands.append(command);
         }
 
-        connect(act, SIGNAL(triggerCommand(Command,QVariantMap,int)),
-                this, SLOT(onCommandActionTriggered(Command,QVariantMap,int)));
+        connect(act, SIGNAL(triggerCommand(CommandAction*,QString)),
+                this, SLOT(onItemCommandActionTriggered(CommandAction*,QString)));
 
         QList<QKeySequence> uniqueShortcuts;
 
@@ -1466,7 +1483,7 @@ void MainWindow::addCommandsToItemMenu(const QVariantMap &data)
 
     setDisabledShortcuts(usedShortcuts);
 
-    m_itemMenuCommandTester.setCommands(disabledCommands, addSelectionData(*c, data));
+    m_itemMenuCommandTester.setCommands(disabledCommands, data);
     m_itemMenuCommandTester.start();
 }
 
@@ -1484,23 +1501,20 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &data)
 
     const QList<Command> commands = commandsForMenu(data, c->tabName());
 
-    const CommandAction::Type type = CommandAction::ClipboardCommand;
-
     QList<Command> disabledCommands;
 
     for (const auto &command : commands) {
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_trayMenu);
-        QAction *act = new CommandAction(command, name, type, c, currentMenu);
-        currentMenu->addAction(act);
+        QAction *act = new CommandAction(command, name, currentMenu);
 
         if (!command.matchCmd.isEmpty()) {
             act->setDisabled(true);
             disabledCommands.append(command);
         }
 
-        connect(act, SIGNAL(triggerCommand(Command,QVariantMap,int)),
-                this, SLOT(onCommandActionTriggered(Command,QVariantMap,int)));
+        connect(act, SIGNAL(triggerCommand(CommandAction*,QString)),
+                this, SLOT(onClipboardCommandActionTriggered(CommandAction*,QString)));
     }
 
     m_trayMenuCommandTester.setCommands(disabledCommands, data);
@@ -3052,11 +3066,16 @@ void MainWindow::openActionDialog(const QVariantMap &data)
     connect( actionDialog.get(), SIGNAL(saveCommand(Command)),
              this, SLOT(onSaveCommand(Command)) );
 
-    auto c = browser();
-    actionDialog->setInputData( c ? addSelectionData(*c, data) : data );
-
+    actionDialog->setInputData(data);
     actionDialog->show();
     stealFocus(*actionDialog.release());
+}
+
+void MainWindow::openActionDialog()
+{
+    auto c = browser();
+    const auto data = c ? addSelectionData(*c) : QVariantMap();
+    openActionDialog(data);
 }
 
 void MainWindow::openPreferences()
@@ -3184,13 +3203,7 @@ void MainWindow::copyItems()
     if ( indexes.isEmpty() )
         return;
 
-    QVariantMap data = c->copyIndexes(indexes);
-    if ( indexes.size() == 1 ) {
-        QVariantMap data2 = itemData(indexes.first());
-        data2.remove(mimeItems);
-        data.unite(data2);
-    }
-
+    const auto data = c->copyIndexes(indexes);
     setClipboard(data);
 }
 

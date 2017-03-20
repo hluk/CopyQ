@@ -538,7 +538,7 @@ QVariantMap ScriptableProxy::nextItem(int where)
         return QVariantMap();
 
     c->selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
-    return ::itemData(index);
+    return c->copyIndex(index);
 }
 
 void ScriptableProxy::browserMoveToClipboard(int arg1)
@@ -1057,7 +1057,7 @@ QVariantMap ScriptableProxy::itemData(int i)
     ASSERT_MAIN_THREAD();
 
     auto c = fetchBrowser();
-    return c ? ::itemData(c->index(i)) : QVariantMap();
+    return c ? c->copyIndex( c->index(i) ) : QVariantMap();
 }
 
 QByteArray ScriptableProxy::itemData(int i, const QString &mime)

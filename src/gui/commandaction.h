@@ -25,25 +25,18 @@
 #include <QAction>
 #include <QPointer>
 
-class ClipboardBrowser;
-
 class CommandAction : public QAction
 {
     Q_OBJECT
 public:
-    enum Type { ClipboardCommand, ItemCommand };
-
-    CommandAction(
-            const Command &command,
+    CommandAction(const Command &command,
             const QString &name,
-            Type type,
-            ClipboardBrowser *browser,
-            QObject *parent = nullptr);
+            QMenu *parentMenu = nullptr);
 
     const Command &command() const;
 
 signals:
-    void triggerCommand(const Command &command, const QVariantMap &data, int type);
+    void triggerCommand(CommandAction *self, const QString &triggeredShortcut);
 
 protected:
     bool event(QEvent *event) override;
@@ -53,8 +46,6 @@ private slots:
 
 private:
     Command m_command;
-    Type m_type;
-    QPointer<ClipboardBrowser> m_browser;
     QString m_triggeredShortcut;
 };
 

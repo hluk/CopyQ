@@ -147,11 +147,6 @@ void appendTextData(const QVariantMap &data, const QString &mime, QByteArray *li
 
 } // namespace
 
-QVariantMap itemData(const QModelIndex &index)
-{
-    return index.data(contentType::data).toMap();
-}
-
 ClipboardBrowser::ClipboardBrowser(
         const QString &tabName,
         const ClipboardBrowserSharedPtr &sharedData,
@@ -546,8 +541,17 @@ void ClipboardBrowser::moveToTop(const QModelIndex &index)
     }
 }
 
-QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool serializeItems) const
+QVariantMap ClipboardBrowser::copyIndex(const QModelIndex &index) const
 {
+    auto data = index.data(contentType::data).toMap();
+    return m_itemSaver ? m_itemSaver->copyItem(m, data) : data;
+}
+
+QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes) const
+{
+    if (indexes.size() == 1)
+        return copyIndex( indexes.first() );
+
     QByteArray bytes;
     QByteArray text;
     QByteArray uriList;
@@ -557,46 +561,38 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
     {
         QDataStream stream(&bytes, QIODevice::WriteOnly);
 
-        for (const auto &ind : indexes) {
-            if ( isIndexHidden(ind) )
-                continue;
+        for (const auto &index : indexes) {
+            auto itemData = index.data(contentType::data).toMap();
+            itemData = m_itemSaver ? m_itemSaver->copyItem(m, itemData) : itemData;
 
-            const QVariantMap copiedItemData =
-                    m_itemSaver ? m_itemSaver->copyItem(m, itemData(ind)) : itemData(ind);
+            stream << itemData;
 
-            if (serializeItems)
-                stream << copiedItemData;
+            appendTextData(itemData, mimeText, &text);
+            appendTextData(itemData, mimeUriList, &uriList);
 
-            if (indexes.size() > 1) {
-                appendTextData(copiedItemData, mimeText, &text);
-                appendTextData(copiedItemData, mimeUriList, &uriList);
-            }
-
-            for ( const auto &format : copiedItemData.keys() ) {
+            for ( const auto &format : itemData.keys() ) {
                 if ( usedFormats.contains(format) ) {
                     if ( format.startsWith(COPYQ_MIME_PREFIX) )
                         data[format].clear();
                     else
                         data.remove(format);
                 } else {
-                    data[format] = copiedItemData[format];
+                    data[format] = itemData[format];
                     usedFormats.insert(format);
                 }
             }
         }
     }
 
-    if (serializeItems)
-        data.insert(mimeItems, bytes);
+    data.insert(mimeItems, bytes);
 
-    if (indexes.size() > 1) {
-        if ( !text.isNull() ) {
-            data.insert(mimeText, text);
-            data.remove(mimeHtml);
-        }
-        if ( !uriList.isNull() )
-            data.insert(mimeUriList, uriList);
+    if ( !text.isNull() ) {
+        data.insert(mimeText, text);
+        data.remove(mimeHtml);
     }
+
+    if ( !uriList.isNull() )
+        data.insert(mimeUriList, uriList);
 
     return data;
 }
@@ -743,7 +739,7 @@ void ClipboardBrowser::onEditorNeedsChangeClipboard()
 {
     QModelIndex index = m_editor->index();
     if (index.isValid())
-        emit changeClipboard(itemData(index));
+        emit changeClipboard( copyIndex(index) );
 }
 
 void ClipboardBrowser::onEditorNeedsChangeClipboard(const QByteArray &bytes, const QString &mime)
@@ -1033,7 +1029,7 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
     ItemWidget *item = d.cache(index);
     QObject *editor = item->createExternalEditor(index, this);
     if (editor == nullptr) {
-        const QVariantMap data = itemData(index);
+        const QVariantMap data = copyIndex(index);
         if ( data.contains(mimeText) )
         {
             ItemEditor *itemEditor = new ItemEditor(data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this);
@@ -1123,7 +1119,7 @@ void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
     if ( !ind.isValid() )
         return;
 
-    const auto data = itemData(ind);
+    const auto data = copyIndex(ind);
 
     if (m_sharedData->moveItemOnReturnKey && ind.row() != 0) {
         moveToTop(ind);
@@ -1310,7 +1306,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
          )
     {
         const QModelIndex firstIndex = index(0);
-        const QVariantMap previousData = itemData(firstIndex);
+        const QVariantMap previousData = copyIndex(firstIndex);
 
         if ( previousData.contains(mimeText)
              && getTextData(newData).contains(getTextData(previousData))
@@ -1495,10 +1491,4 @@ bool ClipboardBrowser::maybeCloseEditor()
     }
 
     return true;
-}
-
-QVariantMap ClipboardBrowser::getSelectedItemData() const
-{
-    QModelIndexList selected = selectedIndexes();
-    return copyIndexes(selected, false);
 }

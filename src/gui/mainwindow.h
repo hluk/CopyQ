@@ -38,6 +38,7 @@ class Action;
 class ActionHandler;
 class ClipboardBrowser;
 class ClipboardBrowserPlaceholder;
+class CommandAction;
 class CommandDialog;
 class ConfigurationManager;
 class ItemFactory;
@@ -325,8 +326,11 @@ public slots:
     /** Open dialog with active commands. */
     void showProcessManagerDialog();
 
-    /** Open action dialog with given input @a text. */
+    /** Open action dialog with given input data. */
     void openActionDialog(const QVariantMap &data);
+
+    /** Open action dialog with input data from selected items. */
+    void openActionDialog();
 
     /** Open preferences dialog. */
     void openPreferences();
@@ -551,15 +555,14 @@ private slots:
 
     void onSaveCommand(const Command &command);
 
-    void onCommandActionTriggered(const Command &command, const QVariantMap &actionData, int commandType);
+    void onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut);
+    void onClipboardCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut);
 
     void on_tabWidget_dropItems(const QString &tabName, const QMimeData *data);
 
     void showContextMenu(const QPoint &position);
 
     void updateContextMenu(const ClipboardBrowser *browser);
-
-    void action();
 
     void automaticCommandTestFinished(const Command &command, bool passed);
 
@@ -636,7 +639,7 @@ private:
     QAction *addItemAction(int id, QObject *receiver, const char *slot);
 
     QList<Command> commandsForMenu(const QVariantMap &data, const QString &tabName);
-    void addCommandsToItemMenu(const QVariantMap &data);
+    void addCommandsToItemMenu(ClipboardBrowser *c);
     void addCommandsToTrayMenu(const QVariantMap &data);
 
     bool isItemMenuDefaultActionValid() const;

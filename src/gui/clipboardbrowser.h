@@ -40,8 +40,6 @@ class ItemFactory;
 class QProgressBar;
 class QPushButton;
 
-QVariantMap itemData(const QModelIndex &index);
-
 /** List view of clipboard items. */
 class ClipboardBrowser : public QListView
 {
@@ -105,16 +103,13 @@ class ClipboardBrowser : public QListView
         bool maybeCloseEditor();
 
         /**
-         * Get data of selected item, nullptr if none or multiple items selected.
-         */
-        QVariantMap getSelectedItemData() const;
-
-        /**
          * Override to disable default QAbstractItemView search.
          */
         void keyboardSearch(const QString &) override {}
 
-        QVariantMap copyIndexes(const QModelIndexList &indexes, bool serializeItems = true) const;
+        QVariantMap copyIndex(const QModelIndex &index) const;
+
+        QVariantMap copyIndexes(const QModelIndexList &indexes) const;
 
         /** Remove items and return smallest row number (new current item if selection was removed). */
         int removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
