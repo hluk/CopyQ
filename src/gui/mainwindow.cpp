@@ -192,22 +192,28 @@ void disableActionWhenTabGroupSelected(WidgetOrAction *action, MainWindow *windo
 }
 
 /// Adds information about current tab and selection if command is triggered by user.
-QVariantMap addSelectionData(const ClipboardBrowser &c, const QVariantMap &data)
+QVariantMap addSelectionData(
+        const ClipboardBrowser &c,
+        const QList<QPersistentModelIndex> &selected,
+        const QVariantMap &data)
 {
     QVariantMap result = data;
-    const QItemSelectionModel *selectionModel = c.selectionModel();
-    const QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
+    result.insert(mimeCurrentTab, c.tabName());
+    result.insert(mimeCurrentItem, QVariant::fromValue(QPersistentModelIndex(c.selectionModel()->currentIndex())));
+    result.insert(mimeSelectedItems, QVariant::fromValue(selected));
+    return result;
+}
+
+QVariantMap addSelectionData(const ClipboardBrowser &c, const QVariantMap &data)
+{
+    const QModelIndexList selectedIndexes = c.selectionModel()->selectedIndexes();
 
     QList<QPersistentModelIndex> selected;
     selected.reserve(selectedIndexes.size());
     for (const auto &index : selectedIndexes)
         selected.append(index);
 
-    result.insert(mimeCurrentTab, c.tabName());
-    result.insert(mimeCurrentItem, QVariant::fromValue(QPersistentModelIndex(selectionModel->currentIndex())));
-    result.insert(mimeSelectedItems, QVariant::fromValue(selected));
-
-    return result;
+    return addSelectionData(c, selected, data);
 }
 
 QMenu *findSubMenu(const QString &name, const QMenu &menu)
@@ -911,7 +917,7 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
             for (const auto &index : selected) {
                 auto data = itemData(index);
                 if (triggeredFromBrowser)
-                    data = addSelectionData(*c, data);
+                    data = addSelectionData(*c, QList<QPersistentModelIndex>() << index, data);
                 if ( command.input.isEmpty() || hasFormat(data, command.input) )
                     action(data, command, index);
             }
