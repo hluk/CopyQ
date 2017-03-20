@@ -40,14 +40,6 @@ class ItemFactory;
 class QProgressBar;
 class QPushButton;
 
-enum SelectAction {
-    NoSelectAction,
-    MoveToTop = 1 << 1,
-    MoveToClipboard = 1 << 2
-};
-Q_DECLARE_FLAGS(SelectActions, SelectAction)
-Q_DECLARE_OPERATORS_FOR_FLAGS(SelectActions)
-
 QVariantMap itemData(const QModelIndex &index);
 
 /** List view of clipboard items. */
@@ -65,11 +57,18 @@ class ClipboardBrowser : public QListView
         ~ClipboardBrowser();
 
         /**
-         * Select item with given @a hash and move it to clipboard.
+         * Move item with given @a hash to clipboard.
          *
          * @return true only if item exists
          */
-        bool select(uint itemHash, SelectActions selectActions);
+        bool moveToClipboard(uint itemHash);
+
+        /**
+         * Move item with given @a hash to the top of the list.
+         *
+         * @return true only if item exists
+         */
+        bool moveToTop(uint itemHash);
 
         /** Sort selected items. */
         void sortItems(const QModelIndexList &indexes);

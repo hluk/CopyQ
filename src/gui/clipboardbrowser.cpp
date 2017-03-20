@@ -203,6 +203,26 @@ ClipboardBrowser::~ClipboardBrowser()
     saveUnsavedItems();
 }
 
+bool ClipboardBrowser::moveToClipboard(uint itemHash)
+{
+    const int row = m.findItem(itemHash);
+    if (row < 0)
+        return false;
+
+    setCurrent(row);
+    moveToClipboard( index(row) );
+    return true;
+}
+
+bool ClipboardBrowser::moveToTop(uint itemHash)
+{
+    const int row = m.findItem(itemHash);
+    if (row < 0)
+        return false;
+
+    moveToTop( index(row) );
+    return true;
+}
 
 void ClipboardBrowser::closeExternalEditor(QObject *editor)
 {
@@ -1103,14 +1123,14 @@ void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
     if ( !ind.isValid() )
         return;
 
-    QPersistentModelIndex index = ind;
+    const auto data = itemData(ind);
 
-    if (m_sharedData->moveItemOnReturnKey && index.row() != 0) {
-        moveToTop(index);
+    if (m_sharedData->moveItemOnReturnKey && ind.row() != 0) {
+        moveToTop(ind);
         scrollToTop();
     }
 
-    emit changeClipboard( itemData(index) );
+    emit changeClipboard(data);
 }
 
 void ClipboardBrowser::editNew(const QString &text, bool changeClipboard)
@@ -1189,26 +1209,6 @@ void ClipboardBrowser::remove()
         setCurrent(currentRow);
 }
 
-bool ClipboardBrowser::select(uint itemHash, SelectActions selectActions)
-{
-    int row = m.findItem(itemHash);
-    if (row < 0)
-        return false;
-
-    if (selectActions.testFlag(MoveToTop)) {
-        moveToTop( index(row) );
-        row = 0;
-        scrollToTop();
-    }
-
-    setCurrent(row);
-
-    if (selectActions.testFlag(MoveToClipboard))
-        moveToClipboard( index(row) );
-
-    return true;
-}
-
 void ClipboardBrowser::sortItems(const QModelIndexList &indexes)
 {
     m.sortItems(indexes, &alphaSort);
@@ -1280,7 +1280,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
 
 void ClipboardBrowser::addUnique(const QVariantMap &data)
 {
-    if ( select(hash(data), MoveToTop) ) {
+    if ( moveToTop(hash(data)) ) {
         COPYQ_LOG("New item: Moving existing to top");
         return;
     }

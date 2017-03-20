@@ -1735,7 +1735,7 @@ void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool 
 
     PlatformWindowPtr lastWindow = m_lastWindow;
 
-    if ( c->select(itemHash, MoveToClipboard) && lastWindow && !omitPaste && canPaste() )
+    if ( c->moveToClipboard(itemHash) && lastWindow && !omitPaste && canPaste() )
         pasteClipboard(lastWindow);
 }
 
