@@ -511,6 +511,18 @@ void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &curren
     }
 }
 
+void ClipboardBrowser::moveToTop(const QModelIndex &index)
+{
+    if ( !index.isValid() || !isLoaded() )
+        return;
+
+    const auto data = index.data(contentType::data).toMap();
+    if ( m_itemSaver->canMoveItems(QList<QModelIndex>() << index) ) {
+        m.removeRow( index.row() );
+        m.insertItem(data, 0);
+    }
+}
+
 QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool serializeItems) const
 {
     QByteArray bytes;
@@ -669,15 +681,14 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
 
 void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int)
 {
-    if (!m_editNewItem)
-        return;
-
     selectionModel()->clearSelection();
 
     // Select edited item even if it's hidden.
     const auto newIndex = index(first);
     setCurrentIndex(newIndex);
-    editItem(newIndex, false, m_editItemChangesClipboard);
+
+    if (m_editNewItem)
+        editItem(newIndex, false, m_editItemChangesClipboard);
 }
 
 void ClipboardBrowser::onItemCountChanged()
@@ -1096,7 +1107,7 @@ void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
     QPersistentModelIndex index = ind;
 
     if (m_sharedData->moveItemOnReturnKey && index.row() != 0) {
-        m.move(index.row(), 0);
+        moveToTop(index);
         scrollToTop();
     }
 
@@ -1186,7 +1197,7 @@ bool ClipboardBrowser::select(uint itemHash, SelectActions selectActions)
         return false;
 
     if (selectActions.testFlag(MoveToTop)) {
-        m.move(row, 0);
+        moveToTop( index(row) );
         row = 0;
         scrollToTop();
     }

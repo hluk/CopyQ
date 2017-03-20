@@ -363,6 +363,8 @@ class ClipboardBrowser : public QListView
 
         void updateCurrentIndex();
 
+        void moveToTop(const QModelIndex &index);
+
         ItemSaverPtr m_itemSaver;
         QString m_tabName;
         ClipboardModel m;
