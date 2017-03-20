@@ -163,19 +163,6 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
         && command.wndre.indexIn(windowTitle) != -1;
 }
 
-bool hasFormat(const QVariantMap &data, const QString &format)
-{
-    if (format == mimeItems) {
-        for (const auto &key : data.keys()) {
-            if ( !key.startsWith(COPYQ_MIME_PREFIX) )
-                return true;
-        }
-        return false;
-    }
-
-    return data.contains(format);
-}
-
 void stealFocus(const QWidget &window)
 {
     WId wid = window.winId();
@@ -918,8 +905,7 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
                 auto data = itemData(index);
                 if (triggeredFromBrowser)
                     data = addSelectionData(*c, QList<QPersistentModelIndex>() << index, data);
-                if ( command.input.isEmpty() || hasFormat(data, command.input) )
-                    action(data, command, index);
+                action(data, command, index);
             }
         } else {
             const auto data2 =
