@@ -216,9 +216,6 @@ void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
 
 void ItemDelegate::setItemWidgetStatic(const QModelIndex &index, bool isStatic)
 {
-    if ( !index.isValid() )
-        return;
-
     if (isStatic) {
         auto w = m_cache[index.row()];
         if (w)

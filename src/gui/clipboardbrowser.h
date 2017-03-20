@@ -288,8 +288,6 @@ class ClipboardBrowser : public QListView
         void mouseMoveEvent(QMouseEvent *event) override;
 
     private slots:
-        void onModelDataChanged();
-
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
         void onRowsInserted(const QModelIndex &parent, int first, int last);
@@ -306,13 +304,13 @@ class ClipboardBrowser : public QListView
 
         void onEditorNeedsChangeClipboard(const QByteArray &bytes, const QString &mime);
 
-    private:
-        bool isLoaded() const;
-
         /**
          * Save items to configuration after an interval.
          */
         void delayedSaveItems();
+
+    private:
+        bool isLoaded() const;
 
         bool isFiltered(int row) const;
 

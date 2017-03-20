@@ -381,25 +381,7 @@ void ClipboardBrowser::connectModelAndDelegate()
     // delegate for rendering and editing items
     setItemDelegate(&d);
 
-    connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             SLOT(onDataChanged(QModelIndex,QModelIndex)) );
-
-    // update on change
-    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
-             SLOT(onRowsInserted(QModelIndex, int, int)));
-    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
-             SLOT(onModelDataChanged()) );
-    connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
-             SLOT(onModelDataChanged()) );
-    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
-             SLOT(onItemCountChanged()) );
-    connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
-             SLOT(onItemCountChanged()) );
-    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex, int, int, QModelIndex, int)),
-             SLOT(onModelDataChanged()) );
-    connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             SLOT(onModelDataChanged()) );
-
+    // Delegate receives model signals first to update internal item list.
     connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
              &d, SLOT(rowsInserted(QModelIndex, int, int)) );
     connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
@@ -408,6 +390,27 @@ void ClipboardBrowser::connectModelAndDelegate()
              &d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              &d, SLOT(dataChanged(QModelIndex,QModelIndex)) );
+
+    connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+             SLOT(onDataChanged(QModelIndex,QModelIndex)) );
+    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             SLOT(onRowsInserted(QModelIndex, int, int)));
+
+    // Item count change
+    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             SLOT(onItemCountChanged()) );
+    connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             SLOT(onItemCountChanged()) );
+
+    // Save on change
+    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             SLOT(delayedSaveItems()) );
+    connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
+             SLOT(delayedSaveItems()) );
+    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex, int, int, QModelIndex, int)),
+             SLOT(delayedSaveItems()) );
+    connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+             SLOT(delayedSaveItems()) );
 }
 
 void ClipboardBrowser::updateItemMaximumSize()
@@ -668,11 +671,6 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
     return pix;
 }
 
-void ClipboardBrowser::onModelDataChanged()
-{
-    delayedSaveItems();
-}
-
 void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
 {
     if (!editing())
@@ -770,6 +768,9 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
+    if (previous.isValid())
+        d.setItemWidgetStatic(previous, true);
+
     if ( current.isValid() ) {
         int row = -1;
         if ( previous.isValid() && current < previous) {
@@ -798,7 +799,6 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
     }
 
     QListView::currentChanged(current, previous);
-    d.setItemWidgetStatic(previous, true);
 }
 
 void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
