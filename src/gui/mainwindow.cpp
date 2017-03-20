@@ -3136,9 +3136,9 @@ ClipboardBrowser *MainWindow::browser()
 ClipboardBrowser *MainWindow::browserForItem(const QModelIndex &index)
 {
     if ( index.isValid() ) {
-        auto placeholder = qobject_cast<ClipboardBrowserPlaceholder*>(index.model()->parent());
-        Q_ASSERT(placeholder);
-        return placeholder->createBrowser();
+        auto c = qobject_cast<ClipboardBrowser*>(index.model()->parent());
+        Q_ASSERT(c);
+        return c;
     }
 
     return nullptr;
