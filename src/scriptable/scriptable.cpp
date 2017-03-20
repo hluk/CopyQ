@@ -99,20 +99,59 @@ QByteArray *getByteArray(const QScriptValue &value, const Scriptable *scriptable
     return nullptr;
 }
 
+QFile *getFile(const QScriptValue &value, const Scriptable *scriptable)
+{
+    if (value.scriptClass() == scriptable->fileClass() || value.scriptClass() == scriptable->temporaryFileClass())
+        return qscriptvalue_cast<QFile*>(value.data());
+    return nullptr;
+}
+
 QString toString(const QScriptValue &value, const Scriptable *scriptable)
 {
     QByteArray *bytes = getByteArray(value, scriptable);
     return (bytes == nullptr) ? value.toString() : getTextData(*bytes);
 }
 
+QVariant toVariant(const QScriptValue &value)
+{
+    const auto variant = value.toVariant();
+    Q_ASSERT(value.isUndefined() || value.isNull() || variant.isValid());
+    return variant;
+}
+
 template <typename T>
 struct ScriptValueFactory {
-    static QScriptValue toScriptValue(const T &value, Scriptable *) { return QScriptValue(value); }
+    static QScriptValue toScriptValue(const T &value, Scriptable *)
+    {
+        return QScriptValue(value);
+    }
+
     static T fromScriptValue(const QScriptValue &value, Scriptable *)
     {
-        return value.toVariant().value<T>();
+        const auto variant = toVariant(value);
+        Q_ASSERT( variant.canConvert<T>() );
+        return variant.value<T>();
     }
 };
+
+template <typename T>
+QScriptValue toScriptValue(const T &value, Scriptable *scriptable)
+{
+    return ScriptValueFactory<T>::toScriptValue(value, scriptable);
+}
+
+template <typename T>
+T fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+{
+    return ScriptValueFactory<T>::fromScriptValue(value, scriptable);
+}
+
+template <typename T>
+void fromScriptValueIfValid(const QScriptValue &value, Scriptable *scriptable, T *outputValue)
+{
+    if (value.isValid())
+        *outputValue = ScriptValueFactory<T>::fromScriptValue(value, scriptable);
+}
 
 template <typename T>
 struct ScriptValueFactory< QList<T> > {
@@ -148,9 +187,29 @@ struct ScriptValueFactory<QVariantMap> {
         QScriptValue value = scriptable->engine()->newObject();
 
         for ( const auto &format : dataMap.keys() )
-            value.setProperty(format, scriptable->newByteArray(dataMap[format].toByteArray()));
+            value.setProperty( format, ::toScriptValue(dataMap[format], scriptable) );
 
         return value;
+    }
+
+    static QVariantMap fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+    {
+        QVariantMap result;
+        QScriptValueIterator it(value);
+        while ( it.hasNext() ) {
+            it.next();
+            const auto itemValue = ::fromScriptValue<QVariant>( it.value(), scriptable );
+            result.insert(it.name(), itemValue);
+        }
+        return result;
+    }
+};
+
+template <>
+struct ScriptValueFactory<QByteArray> {
+    static QScriptValue toScriptValue(const QByteArray &bytes, Scriptable *scriptable)
+    {
+        return scriptable->byteArrayClass()->newInstance(bytes);
     }
 };
 
@@ -192,25 +251,6 @@ struct ScriptValueFactory<QRegExp> {
         return value.toRegExp();
     }
 };
-
-template <typename T>
-QScriptValue toScriptValue(const T &value, Scriptable *scriptable)
-{
-    return ScriptValueFactory<T>::toScriptValue(value, scriptable);
-}
-
-template <typename T>
-T fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
-{
-    return ScriptValueFactory<T>::fromScriptValue(value, scriptable);
-}
-
-template <typename T>
-void fromScriptValueIfValid(const QScriptValue &value, Scriptable *scriptable, T *outputValue)
-{
-    if (value.isValid())
-        *outputValue = ScriptValueFactory<T>::fromScriptValue(value, scriptable);
-}
 
 template <>
 struct ScriptValueFactory<Command> {
@@ -268,6 +308,53 @@ struct ScriptValueFactory<Command> {
         ::fromScriptValueIfValid( value.property("outputTab"), scriptable, &command.outputTab );
 
         return command;
+    }
+};
+
+template <>
+struct ScriptValueFactory<QVariant> {
+    static QScriptValue toScriptValue(const QVariant &variant, Scriptable *scriptable)
+    {
+        if ( !variant.isValid() )
+            return QScriptValue(QScriptValue::UndefinedValue);
+
+        if (variant.type() == QVariant::ByteArray)
+            return ::toScriptValue(variant.toByteArray(), scriptable);
+
+        if (variant.type() == QVariant::String)
+            return ::toScriptValue(variant.toString(), scriptable);
+
+        if (variant.type() == QVariant::RegExp)
+            return ::toScriptValue(variant.toRegExp(), scriptable);
+
+        if (variant.canConvert<QVariantList>())
+            return ::toScriptValue(variant.value<QVariantList>(), scriptable);
+
+        if (variant.canConvert<QVariantMap>())
+            return ::toScriptValue(variant.value<QVariantMap>(), scriptable);
+
+        return scriptable->engine()->newVariant(variant);
+    }
+
+    static QVariant fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+    {
+        auto bytes = getByteArray(value, scriptable);
+        if (bytes)
+            return QVariant(*bytes);
+
+        auto file = getFile(value, scriptable);
+        if (file)
+            return QVariant::fromValue(file);
+
+        if (value.isArray())
+            return ScriptValueFactory<QVariantList>::fromScriptValue(value, scriptable);
+
+        if (value.isObject())
+            return ScriptValueFactory<QVariantMap>::fromScriptValue(value, scriptable);
+
+        const auto variant = toVariant(value);
+        Q_ASSERT(value.isUndefined() || value.isNull() || variant.isValid());
+        return variant;
     }
 };
 
@@ -407,17 +494,9 @@ QByteArray Scriptable::fromString(const QString &value) const
   return bytes;
 }
 
-QVariant Scriptable::toVariant(const QScriptValue &value) const
+QVariant Scriptable::toVariant(const QScriptValue &value)
 {
-    auto bytes = getByteArray(value, this);
-    if (bytes)
-        return QVariant(*bytes);
-
-    auto file = getFile(value);
-    if (file)
-        return QVariant::fromValue(file);
-
-    return value.toVariant();
+    return fromScriptValue<QVariant>(value, this);
 }
 
 bool Scriptable::toInt(const QScriptValue &value, int *number) const
@@ -450,13 +529,6 @@ QByteArray Scriptable::makeByteArray(const QScriptValue &value) const
 {
     QByteArray *data = getByteArray(value, this);
     return data ? *data : fromString(value.toString());
-}
-
-QFile *Scriptable::getFile(const QScriptValue &value) const
-{
-    if (value.scriptClass() == m_fileClass || value.scriptClass() == m_temporaryFileClass)
-        return qscriptvalue_cast<QFile*>(value.data());
-    return nullptr;
 }
 
 bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVariantMap *data) const
@@ -1698,12 +1770,8 @@ QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
     m_skipArguments = 2;
 
     QScriptValueList fnArgs;
-    for (const auto &argument : arguments) {
-        if (argument.type() == QVariant::ByteArray)
-            fnArgs.append( newByteArray(argument.toByteArray()) );
-        else
-            fnArgs.append( newVariant(argument) );
-    }
+    for (const auto &argument : arguments)
+        fnArgs.append( toScriptValue(argument, this) );
 
     auto fn = m_engine->globalObject().property(method);
     const auto result = fn.call(QScriptValue(), fnArgs);

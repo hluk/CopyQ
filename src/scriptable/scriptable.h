@@ -75,13 +75,11 @@ public:
     QScriptValue newVariant(const QVariant &value);
 
     QByteArray fromString(const QString &value) const;
-    QVariant toVariant(const QScriptValue &value) const;
+    QVariant toVariant(const QScriptValue &value);
     bool toInt(const QScriptValue &value, int *number) const;
     QVariantMap toDataMap(const QScriptValue &value) const;
 
     QByteArray makeByteArray(const QScriptValue &value) const;
-
-    QFile *getFile(const QScriptValue &value) const;
 
     /**
      * Set data for item converted from @a value.
@@ -130,7 +128,9 @@ public:
     QString getMimeSyncToClipboard() const { return mimeSyncToClipboard; }
     QString getMimeSyncToSelection() const { return mimeSyncToSelection; }
 
-    const ByteArrayClass *byteArrayClass() const { return m_baClass; }
+    ByteArrayClass *byteArrayClass() const { return m_baClass; }
+    FileClass *fileClass() const { return m_fileClass; }
+    TemporaryFileClass *temporaryFileClass() const { return m_temporaryFileClass; }
 
 public slots:
     QScriptValue version();
