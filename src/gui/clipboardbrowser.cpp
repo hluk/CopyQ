@@ -532,11 +532,11 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
     QByteArray text;
     QByteArray uriList;
     QVariantMap data;
+    QSet<QString> usedFormats;
 
     {
         QDataStream stream(&bytes, QIODevice::WriteOnly);
 
-        bool firstItem = true;
         for (const auto &ind : indexes) {
             if ( isIndexHidden(ind) )
                 continue;
@@ -552,18 +552,15 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
                 appendTextData(copiedItemData, mimeUriList, &uriList);
             }
 
-            if (firstItem) {
-                data = copiedItemData;
-                firstItem = false;
-            } else {
-                // Add formats which are same in all items.
-                for ( const auto &format : data.keys() ) {
-                    if ( format == mimeText || format == mimeUriList )
-                        continue;
-
-                    const auto value = copiedItemData.value(format);
-                    if ( !value.isValid() || value.toByteArray() != data[format].toByteArray() )
+            for ( const auto &format : copiedItemData.keys() ) {
+                if ( usedFormats.contains(format) ) {
+                    if ( format.startsWith(COPYQ_MIME_PREFIX) )
+                        data[format].clear();
+                    else
                         data.remove(format);
+                } else {
+                    data[format] = copiedItemData[format];
+                    usedFormats.insert(format);
                 }
             }
         }
@@ -573,8 +570,10 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
         data.insert(mimeItems, bytes);
 
     if (indexes.size() > 1) {
-        if ( !text.isNull() )
+        if ( !text.isNull() ) {
             data.insert(mimeText, text);
+            data.remove(mimeHtml);
+        }
         if ( !uriList.isNull() )
             data.insert(mimeUriList, uriList);
     }
