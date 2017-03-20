@@ -1695,8 +1695,12 @@ QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
     m_skipArguments = 2;
 
     QScriptValueList fnArgs;
-    for (const auto &argument : arguments)
-        fnArgs.append( newVariant(argument) );
+    for (const auto &argument : arguments) {
+        if (argument.type() == QVariant::ByteArray)
+            fnArgs.append( newByteArray(argument.toByteArray()) );
+        else
+            fnArgs.append( newVariant(argument) );
+    }
 
     auto fn = m_engine->globalObject().property(method);
     const auto result = fn.call(QScriptValue(), fnArgs);
