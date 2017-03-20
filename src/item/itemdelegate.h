@@ -110,13 +110,13 @@ class ItemDelegate : public QItemDelegate
         void highlightMatches(ItemWidget *itemWidget) const;
 
         /**
-         * Show/hide item widget.
+         * Make item widget static or dynamic.
          *
-         * Only current widget should be visible.
+         * Static item widget doesn't receive any mouse events.
          *
-         * This allows interaction and updates only to happen on current items.
+         * This allows interaction only for current item widget.
          */
-        void setWidgetVisible(const QModelIndex &index, bool visible);
+        void setItemWidgetStatic(const QModelIndex &index, bool isStatic);
 
     public slots:
         void dataChanged(const QModelIndex &a, const QModelIndex &b);

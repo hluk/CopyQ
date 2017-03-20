@@ -787,7 +787,7 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
     }
 
     QListView::currentChanged(current, previous);
-    d.setWidgetVisible(previous, false);
+    d.setItemWidgetStatic(previous, true);
 }
 
 void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
@@ -850,11 +850,8 @@ void ClipboardBrowser::dropEvent(QDropEvent *event)
 void ClipboardBrowser::paintEvent(QPaintEvent *e)
 {
     const auto current = currentIndex();
-    if ( current.isValid() ) {
-        const auto rect = visualRect(current);
-        const auto showCurrent = 0 < rect.bottom() && rect.top() < viewport()->height();
-        d.setWidgetVisible(current, showCurrent);
-    }
+    if ( current.isValid() )
+        d.setItemWidgetStatic(current, false);
 
     QListView::paintEvent(e);
 

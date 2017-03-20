@@ -214,18 +214,24 @@ void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
     itemWidget->setHighlight(m_re, font, palette);
 }
 
-void ItemDelegate::setWidgetVisible(const QModelIndex &index, bool visible)
+void ItemDelegate::setItemWidgetStatic(const QModelIndex &index, bool isStatic)
 {
     if ( !index.isValid() )
         return;
 
-    if (visible) {
-        auto w = cache(index);
-        w->widget()->show();
-    } else {
+    if (isStatic) {
         auto w = m_cache[index.row()];
         if (w)
             w->widget()->hide();
+    } else {
+        const auto rect = m_view->visualRect(index);
+        const auto position = rect.topLeft();
+        const auto margins = m_sharedData->theme.margins();
+        const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
+        const auto offset = QPoint(rowNumberSize.width() + margins.width(), margins.height());
+        auto w = cache(index);
+        w->widget()->move(position + offset);
+        w->widget()->show();
     }
 }
 
@@ -323,14 +329,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         }
     }
 
-    const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-    const auto offset = rect.topLeft() + QPoint(rowNumberSize.width() + margins.width(), margins.height());
+    highlightMatches(w);
+
     if ( ww->isHidden() ) {
+        const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
+        const auto offset = rect.topLeft() + QPoint(rowNumberSize.width() + margins.width(), margins.height());
         const auto p = painter->deviceTransform().map(offset);
-        highlightMatches(w);
         ww->render(painter, p);
-    } else {
-        ww->move(offset);
-        ww->show();
     }
 }
