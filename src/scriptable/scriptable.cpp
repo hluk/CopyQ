@@ -429,6 +429,9 @@ bool Scriptable::toInt(const QScriptValue &value, int *number) const
 
 QVariantMap Scriptable::toDataMap(const QScriptValue &value) const
 {
+    if ( value.isVariant() )
+        return value.toVariant().toMap();
+
     QVariantMap dataMap;
 
     QScriptValueIterator it(value);
