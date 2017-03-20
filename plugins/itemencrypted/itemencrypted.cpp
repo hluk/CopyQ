@@ -42,6 +42,8 @@
 #include <QtPlugin>
 #include <QVBoxLayout>
 
+Q_DECLARE_METATYPE(QList<QVariantMap>)
+
 namespace {
 
 const char mimeEncryptedData[] = "application/x-copyq-encrypted";
@@ -345,20 +347,131 @@ QByteArray ItemEncryptedScriptable::encrypt()
 {
     const auto args = currentArguments();
     const auto bytes = args.first().toByteArray();
-    const auto encryptedBytes = readGpgOutput(QStringList("--encrypt"), bytes);
-    if ( encryptedBytes.isEmpty() )
-        eval("throw 'Failed to execute GPG!'");
-    return encryptedBytes;
+    return encrypt(bytes);
 }
 
 QByteArray ItemEncryptedScriptable::decrypt()
 {
     const auto args = currentArguments();
     const auto bytes = args.first().toByteArray();
-    const auto decryptedBytes = readGpgOutput(QStringList("--decrypt"), bytes);
-    if ( decryptedBytes.isEmpty() )
-        eval("throw 'Failed to execute GPG!'");
-    return decryptedBytes;
+    return decrypt(bytes);
+}
+
+void ItemEncryptedScriptable::encryptItem()
+{
+    QVariantMap dataMap;
+    const auto formats = call("dataFormats").toList();
+    for (const auto &formatValue : formats) {
+        const auto format = formatValue.toString();
+        if ( !format.startsWith(COPYQ_MIME_PREFIX) ) {
+            const auto data = call("data", QVariantList() << format).toByteArray();
+            dataMap.insert(format, data);
+        }
+    }
+
+    const auto bytes = call("pack", QVariantList() << dataMap).toByteArray();
+    const auto encryptedBytes = encrypt(bytes);
+    if (encryptedBytes.isEmpty())
+        return;
+
+    call("setData", QVariantList() << mimeEncryptedData << encryptedBytes);
+
+    for ( const auto &format : dataMap.keys() )
+        call("removeData", QVariantList() << format);
+}
+
+void ItemEncryptedScriptable::decryptItem()
+{
+    const auto encryptedBytes = call("data", QVariantList() << mimeEncryptedData).toByteArray();
+    const auto itemData = decrypt(encryptedBytes);
+    if (itemData.isEmpty())
+        return;
+
+    const auto dataMap = call("unpack", QVariantList() << itemData).toMap();
+    for ( const auto &format : dataMap.keys() )
+        call("setData", QVariantList() << format << dataMap[format]);
+}
+
+void ItemEncryptedScriptable::encryptItems()
+{
+    const auto dataValueList = call("selectedItemsData").toList();
+
+    QList<QVariantMap> dataList;
+    for (const auto &itemDataValue : dataValueList) {
+        auto itemData = itemDataValue.toMap();
+
+        QVariantMap itemDataToEncrypt;
+        for ( const auto &format : itemData.keys() ) {
+            if ( !format.startsWith(COPYQ_MIME_PREFIX) ) {
+                itemDataToEncrypt.insert(format, itemData[format]);
+                itemData.remove(format);
+            }
+        }
+
+        const auto bytes = call("pack", QVariantList() << itemDataToEncrypt).toByteArray();
+        const auto encryptedBytes = encrypt(bytes);
+        if (encryptedBytes.isEmpty())
+            return;
+        itemData.insert(mimeEncryptedData, encryptedBytes);
+
+        dataList.append(itemData);
+    }
+
+    call( "setSelectedItemsData", QVariantList() << QVariant::fromValue(dataList) );
+}
+
+void ItemEncryptedScriptable::decryptItems()
+{
+    const auto dataValueList = call("selectedItemsData").toList();
+
+    QList<QVariantMap> dataList;
+    for (const auto &itemDataValue : dataValueList) {
+        auto itemData = itemDataValue.toMap();
+
+        const auto encryptedBytes = itemData.value(mimeEncryptedData).toByteArray();
+        if ( !encryptedBytes.isEmpty() ) {
+            itemData.remove(mimeEncryptedData);
+
+            const auto decryptedBytes = decrypt(encryptedBytes);
+            if (decryptedBytes.isEmpty())
+                return;
+
+            const auto decryptedItemData = call("unpack", QVariantList() << decryptedBytes).toMap();
+            for ( const auto &format : decryptedItemData.keys() )
+                itemData.insert(format, decryptedItemData[format]);
+        }
+
+        dataList.append(itemData);
+    }
+
+    call( "setSelectedItemsData", QVariantList() << QVariant::fromValue(dataList) );
+}
+
+void ItemEncryptedScriptable::copyEncryptedItems()
+{
+    const auto dataValueList = call("selectedItemsData").toList();
+    QString text;
+    for (const auto &dataValue : dataValueList) {
+        if ( !text.isEmpty() )
+            text.append('\n');
+
+        const auto data = dataValue.toMap();
+        const auto itemTextValue = data.value(mimeText);
+        if ( itemTextValue.isValid() ) {
+            text.append( getTextData(itemTextValue.toByteArray()) );
+        } else {
+            const auto encryptedBytes = data.value(mimeEncryptedData).toByteArray();
+            if ( !encryptedBytes.isEmpty() ) {
+                const auto itemData = decrypt(encryptedBytes);
+                if (itemData.isEmpty())
+                    return;
+                const auto dataMap = call("unpack", QVariantList() << itemData).toMap();
+                text.append( getTextData(dataMap) );
+            }
+        }
+    }
+
+    call("copy", QVariantList() << text);
 }
 
 QString ItemEncryptedScriptable::generateTestKeys()
@@ -393,6 +506,22 @@ QString ItemEncryptedScriptable::generateTestKeys()
 bool ItemEncryptedScriptable::isGpgInstalled()
 {
     return ::isGpgInstalled();
+}
+
+QByteArray ItemEncryptedScriptable::encrypt(const QByteArray &bytes)
+{
+    const auto encryptedBytes = readGpgOutput(QStringList("--encrypt"), bytes);
+    if ( encryptedBytes.isEmpty() )
+        eval("throw 'Failed to execute GPG!'");
+    return encryptedBytes;
+}
+
+QByteArray ItemEncryptedScriptable::decrypt(const QByteArray &bytes)
+{
+    const auto decryptedBytes = readGpgOutput(QStringList("--decrypt"), bytes);
+    if ( decryptedBytes.isEmpty() )
+        eval("throw 'Failed to execute GPG!'");
+    return decryptedBytes;
 }
 
 ItemEncryptedLoader::ItemEncryptedLoader()
@@ -606,11 +735,10 @@ QList<Command> ItemEncryptedLoader::commands() const
     Command c;
     c.name = tr("Encrypt (needs GnuPG)");
     c.icon = QString(QChar(IconLock));
-    c.input = mimeItems;
+    c.input = "!OUTPUT";
     c.output = mimeEncryptedData;
     c.inMenu = true;
-    c.transform = true;
-    c.cmd = "copyq: plugins.itemencrypted.encrypt(input())";
+    c.cmd = "copyq: plugins.itemencrypted.encryptItems()";
     c.shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
     commands.append(c);
 
@@ -620,8 +748,7 @@ QList<Command> ItemEncryptedLoader::commands() const
     c.input = mimeEncryptedData;
     c.output = mimeItems;
     c.inMenu = true;
-    c.transform = true;
-    c.cmd = "copyq: plugins.itemencrypted.decrypt(input())";
+    c.cmd = "copyq: plugins.itemencrypted.decryptItems()";
     c.shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
     commands.append(c);
 
@@ -630,10 +757,7 @@ QList<Command> ItemEncryptedLoader::commands() const
     c.icon = QString(QChar(IconUnlockAlt));
     c.input = mimeEncryptedData;
     c.inMenu = true;
-    c.cmd = "copyq:\n"
-             "  var data = plugins.itemencrypted.decrypt(input());\n"
-             "  if (data)\n"
-             "    copy(\"" + QString(mimeItems) + "\", data, \"" + QString(mimeHidden) + "\", 1)";
+    c.cmd = "copyq: plugins.itemencrypted.copyEncryptedItems()";
     c.shortcuts.append( toPortableShortcutText(tr("Ctrl+Shift+L")) );
     commands.append(c);
 

@@ -72,8 +72,20 @@ public slots:
     QByteArray encrypt();
     QByteArray decrypt();
 
+    void encryptItem();
+    void decryptItem();
+
+    void encryptItems();
+    void decryptItems();
+
+    void copyEncryptedItems();
+
     QString generateTestKeys();
     bool isGpgInstalled();
+
+private:
+    QByteArray encrypt(const QByteArray &bytes);
+    QByteArray decrypt(const QByteArray &bytes);
 };
 
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface
