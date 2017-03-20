@@ -3052,7 +3052,8 @@ void MainWindow::openActionDialog(const QVariantMap &data)
     connect( actionDialog.get(), SIGNAL(saveCommand(Command)),
              this, SLOT(onSaveCommand(Command)) );
 
-    actionDialog->setInputData( addSelectionData(*browser(), data) );
+    auto c = browser();
+    actionDialog->setInputData( c ? addSelectionData(*c, data) : data );
 
     actionDialog->show();
     stealFocus(*actionDialog.release());
