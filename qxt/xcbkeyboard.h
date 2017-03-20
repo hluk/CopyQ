@@ -486,12 +486,12 @@ static const unsigned int KeyTbl[] = {
     XF86XK_MenuKB,              Qt::Key_MenuKB,
     XF86XK_MenuPB,              Qt::Key_MenuPB,
     XF86XK_MySites,             Qt::Key_MySites,
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= 0x050400
     XF86XK_New,                 Qt::Key_New,
 #endif
     XF86XK_News,                Qt::Key_News,
     XF86XK_OfficeHome,          Qt::Key_OfficeHome,
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= 0x050400
     XF86XK_Open,                Qt::Key_Open,
 #endif
     XF86XK_Option,              Qt::Key_Option,
@@ -535,7 +535,7 @@ static const unsigned int KeyTbl[] = {
     XF86XK_Select,              Qt::Key_Select,
     XF86XK_View,                Qt::Key_View,
     XF86XK_TopMenu,             Qt::Key_TopMenu,
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= 0x050400
     XF86XK_Red,                 Qt::Key_Red,
     XF86XK_Green,               Qt::Key_Green,
     XF86XK_Yellow,              Qt::Key_Yellow,
@@ -544,7 +544,7 @@ static const unsigned int KeyTbl[] = {
     XF86XK_Bluetooth,           Qt::Key_Bluetooth,
     XF86XK_Suspend,             Qt::Key_Suspend,
     XF86XK_Hibernate,           Qt::Key_Hibernate,
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= 0x050400
     XF86XK_TouchpadToggle,      Qt::Key_TouchpadToggle,
     XF86XK_TouchpadOn,          Qt::Key_TouchpadOn,
     XF86XK_TouchpadOff,         Qt::Key_TouchpadOff,
