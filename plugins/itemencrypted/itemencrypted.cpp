@@ -279,11 +279,6 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
         encryptMimeData( createDataMap(mimeText, textEdit->toPlainText()), index, model );
 }
 
-void ItemEncrypted::setTagged(bool tagged)
-{
-    setVisible(!tagged);
-}
-
 bool ItemEncryptedSaver::saveItems(const QString &, const QAbstractItemModel &model, QIODevice *file)
 {
     const auto length = model.rowCount();

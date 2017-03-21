@@ -45,8 +45,6 @@ public:
 
     void setModelData(QWidget *editor, QAbstractItemModel *model,
                               const QModelIndex &index) const override;
-
-    void setTagged(bool tagged) override;
 };
 
 class ItemEncryptedSaver : public QObject, public ItemSaverInterface
