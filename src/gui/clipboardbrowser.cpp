@@ -694,14 +694,11 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
 
 void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int)
 {
-    selectionModel()->clearSelection();
-
-    // Select edited item even if it's hidden.
-    const auto newIndex = index(first);
-    setCurrentIndex(newIndex);
-
-    if (m_editNewItem)
-        editItem(newIndex, false, m_editItemChangesClipboard);
+    if ( !hideFiltered(first) ) {
+        selectionModel()->clearSelection();
+        const auto newIndex = index(first);
+        setCurrentIndex(newIndex);
+    }
 }
 
 void ClipboardBrowser::onItemCountChanged()
@@ -1134,10 +1131,9 @@ void ClipboardBrowser::editNew(const QString &text, bool changeClipboard)
     if ( !isLoaded() )
         return;
 
-    m_editItemChangesClipboard = changeClipboard;
-    m_editNewItem = true;
-    add(text);
-    m_editNewItem = false;
+    emit searchHideRequest();
+    if ( add(text) )
+        editItem(currentIndex(), false, changeClipboard);
 }
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
@@ -1259,15 +1255,8 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     }
 
     // create new item
-    int newRow = row < 0 ? m.rowCount() : qMin(row, m.rowCount());
+    const int newRow = row < 0 ? m.rowCount() : qMin(row, m.rowCount());
     m.insertItem(data, newRow);
-
-    if ( !hideFiltered(newRow) ) {
-        if ( hasFocus() )
-            setCurrent(newRow);
-        else
-            setCurrentIndex(QModelIndex());
-    }
 
     delayedSaveItems();
 

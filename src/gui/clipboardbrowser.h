@@ -366,8 +366,6 @@ class ClipboardBrowser : public QListView
         QTimer m_timerEmitItemCount;
 
         ItemEditorWidget *m_editor;
-        bool m_editNewItem = false;
-        bool m_editItemChangesClipboard = false;
 
         ClipboardBrowserSharedPtr m_sharedData;
 
