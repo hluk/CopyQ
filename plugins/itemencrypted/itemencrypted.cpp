@@ -250,7 +250,7 @@ ItemEncrypted::ItemEncrypted(QWidget *parent)
     , ItemWidget(this)
 {
     auto layout = new QVBoxLayout(this);
-    layout->setMargin(6);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     // Show small icon.
     QWidget *iconWidget = new IconWidget(IconLock, this);
