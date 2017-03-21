@@ -1767,6 +1767,9 @@ void Scriptable::sleep()
 
 QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
 {
+    if ( m_engine->hasUncaughtException() )
+        return QVariant();
+
     m_skipArguments = 2;
 
     QScriptValueList fnArgs;
