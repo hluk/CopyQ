@@ -75,7 +75,7 @@ ItemPinned::ItemPinned(ItemWidget *childItem)
     layout->setSpacing( pointsToPixels(5) );
 
     layout->addWidget(m_childItem->widget());
-    layout->spacerItem();
+    layout->addStretch();
     layout->addWidget(m_border);
 }
 
