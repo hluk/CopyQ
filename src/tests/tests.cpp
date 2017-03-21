@@ -458,7 +458,10 @@ public:
         if ( !errors.isEmpty() )
             return "Failed to start server:\n" + errors;
 
-        setClipboard(QByteArray(), mimeText);
+        errors = setClipboard(QByteArray(), mimeText);
+        if ( !errors.isEmpty() )
+            return "Failed to reset clipboard:\n" + errors;
+
         errors = runClient(Args("resetTestSession") << clipboardTabName, "");
         if ( !errors.isEmpty() )
             return errors;
@@ -1040,11 +1043,11 @@ void Tests::commandCopy()
 
 void Tests::commandClipboard()
 {
-    m_test->setClipboard("A");
+    TEST( m_test->setClipboard("A") );
     WAIT_FOR_CLIPBOARD("A");
     RUN("clipboard", "A");
 
-    m_test->setClipboard("B", "DATA");
+    TEST( m_test->setClipboard("B", "DATA") );
     WAIT_FOR_CLIPBOARD2("B", "DATA");
     RUN("clipboard" << "DATA", "B");
 }
