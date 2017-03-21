@@ -839,6 +839,84 @@ QList<int> ScriptableProxy::selectedItems()
     return selectedRows;
 }
 
+int ScriptableProxy::selectedItemsDataCount()
+{
+    INVOKE(selectedItemsDataCount());
+    return selectedIndexes().size();
+}
+
+QVariantMap ScriptableProxy::selectedItemData(int selectedIndex)
+{
+    INVOKE(selectedItemData(selectedIndex));
+
+    auto c = currentBrowser();
+    if (!c)
+        return QVariantMap();
+
+    const auto index = selectedIndexes().value(selectedIndex);
+    Q_ASSERT( !index.isValid() || index.model() == c->model() );
+    return c->copyIndex(index);
+}
+
+bool ScriptableProxy::setSelectedItemData(int selectedIndex, const QVariantMap &data)
+{
+    INVOKE(setSelectedItemData(selectedIndex, data));
+
+    auto c = currentBrowser();
+    if (!c)
+        return false;
+
+    const auto index = selectedIndexes().value(selectedIndex);
+    if ( !index.isValid() )
+        return false;
+
+    Q_ASSERT( index.model() == c->model() );
+    return c->model()->setData(index, data, contentType::data);
+}
+
+QList<QVariantMap> ScriptableProxy::selectedItemsData()
+{
+    INVOKE(selectedItemsData());
+
+    auto c = currentBrowser();
+    if (!c)
+        return QList<QVariantMap>();
+
+    const auto model = c->model();
+
+    QList<QVariantMap> dataList;
+
+    for ( const auto &index : selectedIndexes() ) {
+        if ( index.isValid() ) {
+            Q_ASSERT( index.model() == model );
+            dataList.append( c->copyIndex(index) );
+        }
+    }
+
+    return dataList;
+}
+
+void ScriptableProxy::setSelectedItemsData(const QList<QVariantMap> &dataList)
+{
+    INVOKE2(setSelectedItemsData(dataList));
+
+    auto c = currentBrowser();
+    if (!c)
+        return;
+
+    const auto model = c->model();
+
+    const auto indexes = selectedIndexes();
+    const auto count = std::min( indexes.size(), dataList.size() );
+    for ( int i = 0; i < count; ++i ) {
+        const auto &index = indexes[i];
+        if ( index.isValid() ) {
+            Q_ASSERT( index.model() == model );
+            model->setData(index, dataList[i], contentType::data);
+        }
+    }
+}
+
 #ifdef HAS_TESTS
 void ScriptableProxy::sendKeys(const QString &keys, int delay)
 {
@@ -1088,8 +1166,27 @@ QByteArray ScriptableProxy::itemData(int i, const QString &mime)
     return data.value(mime).toByteArray();
 }
 
+ClipboardBrowser *ScriptableProxy::currentBrowser() const
+{
+    ASSERT_MAIN_THREAD();
+
+    const QString currentTabName = m_actionData.value(mimeCurrentTab).toString();
+    if (currentTabName.isEmpty())
+        return nullptr;
+
+    const int i = m_wnd->findTabIndex(currentTabName);
+    if (i == -1)
+        return nullptr;
+
+    auto c = m_wnd->browser(i);
+    Q_ASSERT(c->tabName() == currentTabName);
+    return c;
+}
+
 QList<QPersistentModelIndex> ScriptableProxy::selectedIndexes() const
 {
+    ASSERT_MAIN_THREAD();
+
     return m_actionData.value(mimeSelectedItems)
             .value< QList<QPersistentModelIndex> >();
 }

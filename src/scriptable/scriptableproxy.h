@@ -140,6 +140,13 @@ public:
 
     QList<int> selectedItems();
 
+    int selectedItemsDataCount();
+    QVariantMap selectedItemData(int selectedIndex);
+    bool setSelectedItemData(int selectedIndex, const QVariantMap &data);
+
+    QList<QVariantMap> selectedItemsData();
+    void setSelectedItemsData(const QList<QVariantMap> &dataList);
+
 #ifdef HAS_TESTS
     void sendKeys(const QString &keys, int delay);
     bool keysSent();
@@ -176,6 +183,7 @@ private:
     QVariantMap itemData(int i);
     QByteArray itemData(int i, const QString &mime);
 
+    ClipboardBrowser *currentBrowser() const;
     QList<QPersistentModelIndex> selectedIndexes() const;
 
     MainWindow* m_wnd;

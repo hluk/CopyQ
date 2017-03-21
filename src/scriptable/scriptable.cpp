@@ -1486,6 +1486,41 @@ QScriptValue Scriptable::currentItem()
     return m_proxy->currentItem();
 }
 
+QScriptValue Scriptable::selectedItemData()
+{
+    int selectedIndex;
+    if ( !toInt(argument(0), &selectedIndex) ) {
+        throwError(argumentError());
+        return QScriptValue();
+    }
+
+    return toScriptValue( m_proxy->selectedItemData(selectedIndex), this );
+}
+
+QScriptValue Scriptable::setSelectedItemData()
+{
+    int selectedIndex;
+    if ( !toInt(argument(0), &selectedIndex) ) {
+        throwError(argumentError());
+        return QScriptValue();
+    }
+
+    const auto data = toDataMap( argument(1) );
+    return toScriptValue( m_proxy->setSelectedItemData(selectedIndex, data), this );
+}
+
+QScriptValue Scriptable::selectedItemsData()
+{
+    return toScriptValue( m_proxy->selectedItemsData(), this );
+}
+
+void Scriptable::setSelectedItemsData()
+{
+    m_skipArguments = 1;
+    const auto dataList = fromScriptValue<QList<QVariantMap>>( argument(0), this );
+    m_proxy->setSelectedItemsData(dataList);
+}
+
 QScriptValue Scriptable::index()
 {
     m_skipArguments = 0;
