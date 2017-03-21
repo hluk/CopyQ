@@ -67,6 +67,7 @@ private slots:
 
     void commandsAddRead();
     void commandsWriteRead();
+    void commandChange();
 
     void commandSetCurrentTab();
 

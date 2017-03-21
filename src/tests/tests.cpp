@@ -777,6 +777,20 @@ void Tests::commandsWriteRead()
     RUN("read" << COPYQ_MIME_PREFIX "test3" << "0", arg2.toLatin1());
 }
 
+void Tests::commandChange()
+{
+    RUN("add" << "C" << "B" << "A", "");
+    RUN("change" << "1" << "text/plain" << "b", "");
+    RUN("separator" << " " << "read" << "0" << "1" << "2", "A b C");
+
+    RUN("change" << "1" << "text/plain" << "B" << "text/html" << "<b>B</b>", "");
+    RUN("read" << "text/html" << "1", "<b>B</b>");
+    RUN("separator" << " " << "read" << "0" << "1" << "2", "A B C");
+
+    RUN("change(1, 'text/html', undefined)", "");
+    RUN("read" << "?" << "1", "text/plain\n");
+}
+
 void Tests::commandSetCurrentTab()
 {
     const auto tab = testTab(1);
