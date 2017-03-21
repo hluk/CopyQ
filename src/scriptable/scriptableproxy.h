@@ -117,6 +117,7 @@ public:
     QStringList config(const QStringList &nameValue);
 
     QByteArray getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
+    bool hasClipboardFormat(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
 
     int browserLength();
     bool browserOpenEditor(const QByteArray &arg1, bool changeClipboard);

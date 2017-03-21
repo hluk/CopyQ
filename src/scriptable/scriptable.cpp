@@ -788,6 +788,24 @@ QScriptValue Scriptable::selection()
 #endif
 }
 
+QScriptValue Scriptable::hasClipboardFormat()
+{
+    m_skipArguments = 1;
+    const QString &mime = arg(0);
+    return m_proxy->hasClipboardFormat(mime, QClipboard::Clipboard);
+}
+
+QScriptValue Scriptable::hasSelectionFormat()
+{
+    m_skipArguments = 1;
+#ifdef HAS_MOUSE_SELECTIONS
+    const QString &mime = arg(0);
+    return m_proxy->hasClipboardFormat(mime, QClipboard::Selection);
+#else
+    return false;
+#endif
+}
+
 QScriptValue Scriptable::copy()
 {
     m_skipArguments = -1;

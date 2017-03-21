@@ -95,6 +95,7 @@ private slots:
 
     void commandCopy();
     void commandClipboard();
+    void commandHasClipboardFormat();
 
     void commandEdit();
 

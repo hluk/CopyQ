@@ -154,6 +154,14 @@ Returns clipboard data for MIME type (default is text).
 
 Same as `clipboard()` for Linux/X11 mouse selection.
 
+###### bool hasClipboardFormat(mimeType)
+
+Returns true only if clipboard contains MIME type.
+
+###### bool hasSelectionFormat(mimeType)
+
+Same as `hasClipboardFormat()` for Linux/X11 mouse selection.
+
 ###### bool copy(text)
 
 Sets clipboard plain text.

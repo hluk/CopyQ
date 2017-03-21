@@ -1066,6 +1066,14 @@ void Tests::commandClipboard()
     RUN("clipboard" << "DATA", "B");
 }
 
+void Tests::commandHasClipboardFormat()
+{
+    TEST( m_test->setClipboard("B", "DATA") );
+    WAIT_FOR_CLIPBOARD2("B", "DATA");
+    WAIT_ON_OUTPUT("hasClipboardFormat('DATA')", "true\n");
+    WAIT_ON_OUTPUT("hasClipboardFormat('text/plain')", "false\n");
+}
+
 void Tests::commandEdit()
 {
     RUN("config" << "editor" << "", "\n");

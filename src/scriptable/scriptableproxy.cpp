@@ -685,6 +685,13 @@ QByteArray ScriptableProxy::getClipboardData(const QString &mime, QClipboard::Mo
     return cloneData(*data, QStringList(mime)).value(mime).toByteArray();
 }
 
+bool ScriptableProxy::hasClipboardFormat(const QString &mime, QClipboard::Mode mode)
+{
+    INVOKE(hasClipboardFormat(mime, mode));
+    const QMimeData *data = clipboardData(mode);
+    return data && data->hasFormat(mime);
+}
+
 int ScriptableProxy::browserLength()
 {
     INVOKE(browserLength());

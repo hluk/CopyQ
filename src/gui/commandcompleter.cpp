@@ -124,6 +124,8 @@ private:
         addDocumentation("ignore", "ignore()", "Ignores current clipboard content (used for automatic commands).");
         addDocumentation("clipboard", "ByteArray clipboard([mimeType])", "Returns clipboard data for MIME type (default is text).");
         addDocumentation("selection", "ByteArray selection([mimeType])", "Same as `clipboard()` for Linux/X11 mouse selection.");
+        addDocumentation("hasClipboardFormat", "bool hasClipboardFormat(mimeType)", "Returns true only if clipboard contains MIME type.");
+        addDocumentation("hasSelectionFormat", "bool hasSelectionFormat(mimeType)", "Same as `hasClipboardFormat()` for Linux/X11 mouse selection.");
         addDocumentation("copy", "bool copy(text)", "Sets clipboard plain text.");
         addDocumentation("copy", "bool copy(mimeType, data, [mimeType, data]...)", "Sets clipboard data.");
         addDocumentation("copy", "bool copy()", "Sends `Ctrl+C` to current window.");
