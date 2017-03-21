@@ -176,7 +176,6 @@ private:
     QVariantMap itemData(int i);
     QByteArray itemData(int i, const QString &mime);
 
-    bool canUseSelectedItems() const;
     QList<QPersistentModelIndex> selectedIndexes() const;
 
     MainWindow* m_wnd;

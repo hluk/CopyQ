@@ -797,8 +797,6 @@ QString ScriptableProxy::tab()
 int ScriptableProxy::currentItem()
 {
     INVOKE(currentItem());
-    if (!canUseSelectedItems())
-        return -1;
 
     const QPersistentModelIndex current =
             m_actionData.value(mimeCurrentItem).value<QPersistentModelIndex>();
@@ -830,9 +828,6 @@ bool ScriptableProxy::selectItems(const QList<int> &items)
 QList<int> ScriptableProxy::selectedItems()
 {
     INVOKE(selectedItems());
-
-    if (!canUseSelectedItems())
-        return QList<int>();
 
     QList<int> selectedRows;
     const QList<QPersistentModelIndex> selected = selectedIndexes();
@@ -1091,12 +1086,6 @@ QByteArray ScriptableProxy::itemData(int i, const QString &mime)
         return serializeData(data);
 
     return data.value(mime).toByteArray();
-}
-
-bool ScriptableProxy::canUseSelectedItems() const
-{
-    return m_tabName.isEmpty()
-            || m_tabName == m_actionData.value(mimeCurrentTab).toString();
 }
 
 QList<QPersistentModelIndex> ScriptableProxy::selectedIndexes() const
