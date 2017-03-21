@@ -201,6 +201,7 @@ QVariantMap addSelectionData(
         selected.reserve(selectedIndexes.size());
         for (const auto &index : selectedIndexes)
             selected.append(index);
+        qSort(selected);
         result.insert(mimeSelectedItems, QVariant::fromValue(selected));
     }
 
