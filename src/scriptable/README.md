@@ -126,19 +126,13 @@ Returns true only if clipboard storing is enabled.
 
 ###### bool visible()
 
-Available since v2.4.7.
-
 Returns true only if main window is visible.
 
 ###### bool focused()
 
-Available since v2.4.9.
-
 Returns true only if main window has focus.
 
 ###### filter(filterText)
-
-Available since v2.4.9.
 
 Sets text for filtering items in main window.
 

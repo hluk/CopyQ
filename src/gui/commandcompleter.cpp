@@ -118,9 +118,9 @@ private:
         addDocumentation("exit", "exit()", "Exits server.");
         addDocumentation("disable", "disable(), enable()", "Disables or enables clipboard content storing.");
         addDocumentation("monitoring", "bool monitoring()", "Returns true only if clipboard storing is enabled.");
-        addDocumentation("visible", "bool visible()", "Available since v2.4.7.");
-        addDocumentation("focused", "bool focused()", "Available since v2.4.9.");
-        addDocumentation("filter", "filter(filterText)", "Available since v2.4.9.");
+        addDocumentation("visible", "bool visible()", "Returns true only if main window is visible.");
+        addDocumentation("focused", "bool focused()", "Returns true only if main window has focus.");
+        addDocumentation("filter", "filter(filterText)", "Sets text for filtering items in main window.");
         addDocumentation("ignore", "ignore()", "Ignores current clipboard content (used for automatic commands).");
         addDocumentation("clipboard", "ByteArray clipboard([mimeType])", "Returns clipboard data for MIME type (default is text).");
         addDocumentation("selection", "ByteArray selection([mimeType])", "Same as `clipboard()` for Linux/X11 mouse selection.");
@@ -202,11 +202,11 @@ private:
         addDocumentation("File", "File", "Wrapper for QFile Qt class.");
         addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");
         addDocumentation("TemporaryFile", "TemporaryFile", "Wrapper for QTemporaryFile Qt class.");
-        addDocumentation("Command", "Command", "Wrapper for a command (from Command dialog).");
         addDocumentation("arguments", "(Array)", "Array for accessing arguments passed to current function or the script");
         addDocumentation("Item", "(Object)", "Type is `Object` and each property is MIME type with data.");
         addDocumentation("FinishedCommand", "(Object)", "Type is `Object` and properties are:");
         addDocumentation("NetworkReply", "(Object)", "Type is `Object` and properties are:");
+        addDocumentation("Command", "(Object)", "Wrapper for a command (from Command dialog).");
         addDocumentation("mimeText", "(text/plain)", "Data contains plain text content.");
         addDocumentation("mimeHtml", "(text/html)", "Data contains HTML content.");
         addDocumentation("mimeUriList", "(text/uri-list)", "Data contains list of links to files, web pages etc.");
