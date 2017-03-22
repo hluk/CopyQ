@@ -65,10 +65,15 @@ class Scriptable : public QObject, protected QScriptable
 
 public:
     explicit Scriptable(
+            QScriptEngine *engine,
             ScriptableProxy *proxy,
             QObject *parent = nullptr);
 
-    void initEngine(QScriptEngine *eng);
+    // WORKAROUND: These methods override the one in QScriptable,
+    //             which doesn't work well in some cases.
+    QScriptContext *context() const;
+    int argumentCount() const;
+    QScriptValue argument(int index) const;
 
     QScriptValue newByteArray(const QByteArray &bytes);
 

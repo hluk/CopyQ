@@ -422,12 +422,14 @@ QString messageCodeToString(int code)
 
 } // namespace
 
-Scriptable::Scriptable(ScriptableProxy *proxy,
+Scriptable::Scriptable(
+        QScriptEngine *engine,
+        ScriptableProxy *proxy,
         QObject *parent)
     : QObject(parent)
     , QScriptable()
     , m_proxy(proxy)
-    , m_engine(nullptr)
+    , m_engine(engine)
     , m_baClass(nullptr)
     , m_dirClass(nullptr)
     , m_fileClass(nullptr)
@@ -436,12 +438,7 @@ Scriptable::Scriptable(ScriptableProxy *proxy,
     , m_input()
     , m_connected(true)
 {
-}
-
-void Scriptable::initEngine(QScriptEngine *eng)
-{
-    m_engine = eng;
-    QScriptEngine::QObjectWrapOptions opts =
+    const QScriptEngine::QObjectWrapOptions opts =
               QScriptEngine::ExcludeChildObjects
             | QScriptEngine::SkipMethodsInEnumeration
             | QScriptEngine::ExcludeSuperClassMethods
@@ -449,30 +446,45 @@ void Scriptable::initEngine(QScriptEngine *eng)
             | QScriptEngine::ExcludeSuperClassContents
             | QScriptEngine::ExcludeDeleteLater;
 
-    QScriptValue obj = eng->newQObject(this, QScriptEngine::QtOwnership, opts);
+    QScriptValue obj = m_engine->newQObject(this, QScriptEngine::QtOwnership, opts);
 
     // Keep internal functions as parseInt() or encodeURIComponent().
-    QScriptValue oldObj = eng->globalObject();
+    QScriptValue oldObj = m_engine->globalObject();
     QScriptValueIterator it(oldObj);
     while (it.hasNext()) {
         it.next();
         obj.setProperty(it.name(), it.value(), it.flags());
     }
 
-    eng->setGlobalObject(obj);
-    eng->setProcessEventsInterval(1000);
+    m_engine->setGlobalObject(obj);
+    m_engine->setProcessEventsInterval(1000);
 
-    m_baClass = new ByteArrayClass(eng);
+    m_baClass = new ByteArrayClass(m_engine);
     addScriptableClass(&obj, m_baClass);
 
-    m_fileClass = new FileClass(eng);
+    m_fileClass = new FileClass(m_engine);
     addScriptableClass(&obj, m_fileClass);
 
-    m_temporaryFileClass = new TemporaryFileClass(eng);
+    m_temporaryFileClass = new TemporaryFileClass(m_engine);
     addScriptableClass(&obj, m_temporaryFileClass);
 
-    m_dirClass = new DirClass(eng);
+    m_dirClass = new DirClass(m_engine);
     addScriptableClass(&obj, m_dirClass);
+}
+
+QScriptContext *Scriptable::context() const
+{
+    return engine()->currentContext();
+}
+
+int Scriptable::argumentCount() const
+{
+    return context()->argumentCount();
+}
+
+QScriptValue Scriptable::argument(int index) const
+{
+    return context()->argument(index);
 }
 
 QScriptValue Scriptable::newByteArray(const QByteArray &bytes)
@@ -591,7 +603,7 @@ void Scriptable::throwError(const QString &errorMessage)
 {
     auto currentContext = context();
     if (!currentContext)
-        currentContext = engine()->pushContext();
+        currentContext = engine()->currentContext();
     currentContext->throwError( fromString(errorMessage + '\n') );
 }
 

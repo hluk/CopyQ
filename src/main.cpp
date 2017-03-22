@@ -49,9 +49,8 @@ int evaluate(
 {
     App app( "Prompt", createPlatformNativeInterface()->createConsoleApplication(argc, argv), sessionName );
 
-    Scriptable scriptable(nullptr);
     QScriptEngine engine;
-    engine.setGlobalObject( engine.newQObject(&scriptable) );
+    Scriptable scriptable(&engine, nullptr);
 
     QScriptValue function = engine.globalObject().property(functionName);
     QScriptValueList functionArguments;
