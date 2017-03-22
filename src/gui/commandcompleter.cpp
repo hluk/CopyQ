@@ -177,6 +177,10 @@ private:
         addDocumentation("selectItems", "selectItems(row, ...)", "Selects items in current tab.");
         addDocumentation("selectedTab", "String selectedTab()", "Returns tab that was selected when script was executed.");
         addDocumentation("selectedItems", "[row, ...] selectedItems()", "Returns selected rows in current tab.");
+        addDocumentation("selectedItemData", "Item selectedItemData(index)", "Returns data for given selected item.");
+        addDocumentation("setSelectedItemData", "bool setSelectedItemData(index, Item)", "Set data for given selected item.");
+        addDocumentation("selectedItemsData", "Item[] selectedItemsData()", "Returns data for all selected item.");
+        addDocumentation("setSelectedItemsData", "void setSelectedItemsData(Item[])", "Set data to all selected items.");
         addDocumentation("currentItem", "int currentItem(), int index()", "Returns current row in current tab.");
         addDocumentation("escapeHtml", "String escapeHtml(text)", "Returns text with special HTML characters escaped.");
         addDocumentation("unpack", "Item unpack(data)", "Returns deserialized object from serialized items.");
