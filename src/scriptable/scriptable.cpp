@@ -551,14 +551,14 @@ bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVar
     return true;
 }
 
-const QString &Scriptable::getInputSeparator() const
+QScriptValue Scriptable::getInputSeparator() const
 {
     return m_inputSeparator;
 }
 
-void Scriptable::setInputSeparator(const QString &separator)
+void Scriptable::setInputSeparator(const QScriptValue &separator)
 {
-    m_inputSeparator = separator;
+    m_inputSeparator = toString(separator, this);
 }
 
 QString Scriptable::getCurrentPath() const
@@ -959,7 +959,7 @@ void Scriptable::edit()
     for ( int i = 0; i < len; ++i ) {
         value = argument(i);
         if (i > 0)
-            text.append( getInputSeparator() );
+            text.append(m_inputSeparator);
         if ( toInt(value, &row) ) {
             const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(row, mimeText)
                                               : m_proxy->getClipboardData(mimeText);
@@ -989,7 +989,6 @@ QScriptValue Scriptable::read()
     QByteArray result;
     QString mime(mimeText);
     QScriptValue value;
-    QString sep = getInputSeparator();
 
     bool used = false;
     for ( int i = 0; i < argumentCount(); ++i ) {
@@ -997,7 +996,7 @@ QScriptValue Scriptable::read()
         int row;
         if ( toInt(value, &row) ) {
             if (used)
-                result.append(sep.toUtf8());
+                result.append( m_inputSeparator.toUtf8() );
             used = true;
             result.append( row >= 0 ? m_proxy->browserItemData(row, mime)
                                     : m_proxy->getClipboardData(mime) );
@@ -1036,7 +1035,6 @@ void Scriptable::action()
     bool anyRows = false;
     int i;
     QScriptValue value;
-    QString sep = getInputSeparator();
 
     for ( i = 0; i < argumentCount(); ++i ) {
         value = argument(i);
@@ -1044,7 +1042,7 @@ void Scriptable::action()
         if (!toInt(value, &row))
             break;
         if (anyRows)
-            text.append(sep);
+            text.append(m_inputSeparator);
         else
             anyRows = true;
         text.append( getTextData(m_proxy->browserItemData(row, mimeText)) );
