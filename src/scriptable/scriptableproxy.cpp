@@ -97,6 +97,11 @@ namespace {
 const char propertyWidgetName[] = "CopyQ_widget_name";
 const char propertyWidgetProperty[] = "CopyQ_widget_property";
 
+struct InputDialog {
+    QDialog dialog;
+    QString defaultChoice; /// Default text for list widgets.
+};
+
 template <typename T, typename Return>
 class CallableFn : public Callable {
 public:
@@ -197,22 +202,27 @@ void installShortcutToCloseDialog(QWidget *dialog, QWidget *shortcutParent, int 
     QObject::connect(s, SIGNAL(activated()), dialog, SLOT(accept()));
 }
 
-QWidget *createListWidget(const QString &name, const QStringList &itemsWithCurrent, QWidget *parent)
+QWidget *createListWidget(const QString &name, const QStringList &items, InputDialog *inputDialog)
 {
+    QDialog *parent = &inputDialog->dialog;
+
+    const QString currentText = inputDialog->defaultChoice.isNull()
+            ? items.value(0)
+            : inputDialog->defaultChoice;
+
     const QString listPrefix = ".list:";
     if ( name.startsWith(listPrefix) ) {
-        const QStringList &items = itemsWithCurrent;
         QListWidget *w = createAndSetWidget<QListWidget>("currentRow", QVariant(), parent);
         w->addItems(items);
-        w->setCurrentRow(0);
+        const int i = items.indexOf(currentText);
+        if (i != -1)
+            w->setCurrentRow(i);
         w->setAlternatingRowColors(true);
         installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
         installShortcutToCloseDialog(parent, w, Qt::Key_Return);
         return label(Qt::Vertical, name.mid(listPrefix.length()), w);
     }
 
-    const QString currentText = itemsWithCurrent.value(0);
-    const QStringList items = itemsWithCurrent.mid(1);
     QComboBox *w = createAndSetWidget<QComboBox>("currentText", QVariant(), parent);
     w->setEditable(true);
     w->addItems(items);
@@ -273,8 +283,10 @@ QWidget *createTextEdit(const QString &name, const QVariant &value, QWidget *par
     return label(Qt::Vertical, name, w);
 }
 
-QWidget *createWidget(const QString &name, const QVariant &value, QWidget *parent)
+QWidget *createWidget(const QString &name, const QVariant &value, InputDialog *inputDialog)
 {
+    QDialog *parent = &inputDialog->dialog;
+
     switch ( value.type() ) {
     case QVariant::Bool:
         return label(name, createAndSetWidget<QCheckBox>("checked", value, parent));
@@ -288,7 +300,7 @@ QWidget *createWidget(const QString &name, const QVariant &value, QWidget *paren
         return createDateTimeEdit(name, "dateTime", value, parent);
     case QVariant::List:
     case QVariant::StringList:
-        return createListWidget(name, value.toStringList(), parent);
+        return createListWidget(name, value.toStringList(), inputDialog);
     default:
         QFile *file = value.value<QFile*>();
         if (file)
@@ -979,7 +991,10 @@ QString ScriptableProxy::currentWindowTitle()
 NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
 {
     INVOKE(inputDialog(values));
-    QDialog dialog;
+
+    InputDialog inputDialog;
+    QDialog &dialog = inputDialog.dialog;
+
     QIcon icon;
     QVBoxLayout layout(&dialog);
     QWidgetList widgets;
@@ -1005,8 +1020,10 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
             geometry.setY(value.value.toInt());
         else if (value.name == ".label")
             createAndSetWidget<QLabel>("text", value.value, &dialog);
+        else if (value.name == ".defaultChoice")
+            inputDialog.defaultChoice = value.value.toString();
         else
-            widgets.append( createWidget(value.name, value.value, &dialog) );
+            widgets.append( createWidget(value.name, value.value, &inputDialog) );
     }
 
     dialog.adjustSize();

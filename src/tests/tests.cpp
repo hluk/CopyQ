@@ -849,7 +849,12 @@ void Tests::commandDialog()
 
     {
         PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
-        RUN("eval" << "dialog('list', [2, 1, 2, 3])", "2\n");
+        RUN("eval" << "dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n");
+    }
+
+    {
+        PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
+        RUN("eval" << "dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n");
     }
 
     {

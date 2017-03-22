@@ -589,10 +589,10 @@ print('File: ' + result['Choose File'] + '\n')
 ```
 
 Editable combo box can be created by passing array.
-The first value in the array is current text.
+Current value can be provided using `.defaultChoice` (by default it's the first item).
 
 ```js
-var text = dialog('Select', ['', 'a', 'b', 'c'])
+var text = dialog('.defaultChoice', '', 'Select', ['a', 'b', 'c'])
 ```
 
 List can be created by prefixing name/label with `.list:` and passing array.
