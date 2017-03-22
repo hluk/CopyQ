@@ -233,13 +233,12 @@ public slots:
     QScriptValue selecteditems() { return selectedItems(); }
     QScriptValue currentItem();
     QScriptValue currentitem() { return currentItem(); }
+    QScriptValue index() { return currentItem(); }
 
     QScriptValue selectedItemData();
     QScriptValue setSelectedItemData();
     QScriptValue selectedItemsData();
     void setSelectedItemsData();
-
-    QScriptValue index();
 
     QScriptValue escapeHtml();
     QScriptValue escapeHTML() { return escapeHtml(); }

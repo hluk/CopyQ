@@ -1519,12 +1519,6 @@ void Scriptable::setSelectedItemsData()
     m_proxy->setSelectedItemsData(dataList);
 }
 
-QScriptValue Scriptable::index()
-{
-    m_skipArguments = 0;
-    return currentItem();
-}
-
 QScriptValue Scriptable::escapeHtml()
 {
     m_skipArguments = 1;
