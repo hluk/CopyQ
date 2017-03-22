@@ -42,8 +42,6 @@
 #include <QtPlugin>
 #include <QVBoxLayout>
 
-Q_DECLARE_METATYPE(QList<QVariantMap>)
-
 namespace {
 
 const char mimeEncryptedData[] = "application/x-copyq-encrypted";
@@ -396,7 +394,7 @@ void ItemEncryptedScriptable::encryptItems()
 {
     const auto dataValueList = call("selectedItemsData").toList();
 
-    QList<QVariantMap> dataList;
+    QVariantList dataList;
     for (const auto &itemDataValue : dataValueList) {
         auto itemData = itemDataValue.toMap();
 
@@ -417,14 +415,14 @@ void ItemEncryptedScriptable::encryptItems()
         dataList.append(itemData);
     }
 
-    call( "setSelectedItemsData", QVariantList() << QVariant::fromValue(dataList) );
+    call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
 }
 
 void ItemEncryptedScriptable::decryptItems()
 {
     const auto dataValueList = call("selectedItemsData").toList();
 
-    QList<QVariantMap> dataList;
+    QVariantList dataList;
     for (const auto &itemDataValue : dataValueList) {
         auto itemData = itemDataValue.toMap();
 
@@ -444,7 +442,7 @@ void ItemEncryptedScriptable::decryptItems()
         dataList.append(itemData);
     }
 
-    call( "setSelectedItemsData", QVariantList() << QVariant::fromValue(dataList) );
+    call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
 }
 
 void ItemEncryptedScriptable::copyEncryptedItems()
