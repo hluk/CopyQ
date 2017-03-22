@@ -914,9 +914,9 @@ Valid only in Linux/X11 in automatic commands.
 
 ### Selected Items
 
-Functions that provide and manipulate selected items and current tab are only
+Functions that get and set data for selected items and current tab are only
 available if called from Action dialog or from a command which is in menu.
 
 Selected items are indexed from top to bottom as they appeared in the current
-tab when the command was executed.
+tab at the time the command is executed.
 
