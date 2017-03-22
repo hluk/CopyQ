@@ -97,10 +97,15 @@ public slots:
     bool hasTag();
 
 private:
-    QString tagName(const QVariantList &arguments, const QString &dialogTitle, QStringList tags);
+    QString askTagName(const QString &dialogTitle, const QStringList &tags);
+    QString askRemoveTagName(const QStringList &tags);
     QList<int> rows(const QVariantList &arguments, int skip);
     QStringList tags(int row);
+    QStringList tags(const QVariant &tags);
+    QStringList tags(const QVariantMap &itemData);
     void setTags(int row, const QStringList &tags);
+    bool addTag(const QString &tagName, QStringList *tags);
+    bool removeTag(const QString &tagName, QStringList *tags);
 
     ItemTagsLoader *m_loader;
 };

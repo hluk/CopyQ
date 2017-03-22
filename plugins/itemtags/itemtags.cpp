@@ -424,18 +424,31 @@ void ItemTagsScriptable::tag()
 {
     const auto args = currentArguments();
 
-    const auto tagName = this->tagName( args, addTagText(), m_loader->userTags() );
-    if ( tagName.isEmpty() )
-        return;
+    auto tagName = args.value(0).toString();
+    if ( tagName.isEmpty() ) {
+        tagName = askTagName( addTagText(), m_loader->userTags() );
+        if ( tagName.isEmpty() )
+            return;
+    }
 
-    const auto rows = this->rows(args, 1);
+    if ( args.size() <= 1 ) {
+        const auto dataValueList = call("selectedItemsData").toList();
 
-    for (int row : rows) {
-        auto tags = this->tags(row);
-        if ( !tags.contains(tagName) ) {
-            tags.append(tagName);
-            tags.sort();
-            setTags(row, tags);
+        QVariantList dataList;
+        for (const auto &itemDataValue : dataValueList) {
+            auto itemData = itemDataValue.toMap();
+            auto itemTags = tags(itemData);
+            if ( addTag(tagName, &itemTags) )
+                itemData.insert( mimeTags, itemTags.join(",") );
+            dataList.append(itemData);
+        }
+
+        call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
+    } else {
+        for ( int row : rows(args, 1) ) {
+            auto itemTags = tags(row);
+            if ( addTag(tagName, &itemTags) )
+                setTags(row, itemTags);
         }
     }
 }
@@ -443,21 +456,50 @@ void ItemTagsScriptable::tag()
 void ItemTagsScriptable::untag()
 {
     const auto args = currentArguments();
-    const auto rows = this->rows(args, 1);
+    auto tagName = args.value(0).toString();
 
-    QStringList allTags;
-    for (int row : rows)
-        allTags << this->tags(row);
+    if ( args.size() <= 1 ) {
+        const auto dataValueList = call("selectedItemsData").toList();
 
-    const auto tagName = this->tagName( args, removeTagText(), allTags );
-    if ( tagName.isEmpty() )
-        return;
+        if ( tagName.isEmpty() ) {
+            QStringList allTags;
+            for (const auto &itemDataValue : dataValueList) {
+                const auto itemData = itemDataValue.toMap();
+                allTags.append( tags(itemData) );
+            }
 
-    for (int row : rows) {
-        auto tags = this->tags(row);
-        if ( tags.contains(tagName) ) {
-            tags.removeOne(tagName);
-            setTags(row, tags);
+            tagName = askRemoveTagName(allTags);
+            if ( allTags.isEmpty() )
+                return;
+        }
+
+        QVariantList dataList;
+        for (const auto &itemDataValue : dataValueList) {
+            auto itemData = itemDataValue.toMap();
+            auto itemTags = tags(itemData);
+            if ( removeTag(tagName, &itemTags) )
+                itemData.insert( mimeTags, itemTags.join(",") );
+            dataList.append(itemData);
+        }
+
+        call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
+    } else {
+        const auto rows = this->rows(args, 1);
+
+        if ( tagName.isEmpty() ) {
+            QStringList allTags;
+            for (int row : rows)
+                allTags.append( this->tags(row) );
+
+            tagName = askRemoveTagName(allTags);
+            if ( allTags.isEmpty() )
+                return;
+        }
+
+        for (int row : rows) {
+            auto itemTags = tags(row);
+            if ( removeTag(tagName, &itemTags) )
+                setTags(row, itemTags);
         }
     }
 }
@@ -465,9 +507,23 @@ void ItemTagsScriptable::untag()
 void ItemTagsScriptable::clearTags()
 {
     const auto args = currentArguments();
-    const auto rows = this->rows(args, 0);
-    for (int row : rows)
-        setTags(row, QStringList());
+
+    if ( args.isEmpty() ) {
+        const auto dataValueList = call("selectedItemsData").toList();
+
+        QVariantList dataList;
+        for (const auto &itemDataValue : dataValueList) {
+            auto itemData = itemDataValue.toMap();
+            itemData.remove(mimeTags);
+            dataList.append(itemData);
+        }
+
+        call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
+    } else {
+        const auto rows = this->rows(args, 0);
+        for (int row : rows)
+            setTags(row, QStringList());
+    }
 }
 
 bool ItemTagsScriptable::hasTag()
@@ -478,17 +534,8 @@ bool ItemTagsScriptable::hasTag()
     return tags(row).contains(tagName);
 }
 
-QString ItemTagsScriptable::tagName(
-        const QVariantList &arguments, const QString &dialogTitle, QStringList tags)
+QString ItemTagsScriptable::askTagName(const QString &dialogTitle, const QStringList &tags)
 {
-    auto tagName = arguments.value(0).toString();
-
-    if ( !tagName.isEmpty() )
-        return tagName;
-
-    if ( !tags.isEmpty() )
-        tags.prepend( tags.value(0) );
-
     const auto value = call( "dialog", QVariantList()
           << ".title" << dialogTitle
           << dialogTitle << tags );
@@ -496,21 +543,26 @@ QString ItemTagsScriptable::tagName(
     return value.toString();
 }
 
+QString ItemTagsScriptable::askRemoveTagName(const QStringList &tags)
+{
+    if ( tags.isEmpty() )
+        return QString();
+
+    if ( tags.size() == 1 )
+        return tags.first();
+
+    return askTagName( removeTagText(), tags );
+}
+
 QList<int> ItemTagsScriptable::rows(const QVariantList &arguments, int skip)
 {
     QList<int> rows;
 
-    if ( arguments.isEmpty() ) {
-        const auto values = call("selectedItems").toList();
-        for (const auto &value : values)
-            rows.append( value.toInt() );
-    } else {
-        for (int i = skip; i < arguments.size(); ++i) {
-            bool ok;
-            const auto row = arguments[i].toInt(&ok);
-            if (ok)
-                rows.append(row);
-        }
+    for (int i = skip; i < arguments.size(); ++i) {
+        bool ok;
+        const auto row = arguments[i].toInt(&ok);
+        if (ok)
+            rows.append(row);
     }
 
     return rows;
@@ -519,14 +571,43 @@ QList<int> ItemTagsScriptable::rows(const QVariantList &arguments, int skip)
 QStringList ItemTagsScriptable::tags(int row)
 {
     const auto value = call("read", QVariantList() << mimeTags << row);
-    return getTextData( value.toByteArray() )
+    return tags(value);
+}
+
+QStringList ItemTagsScriptable::tags(const QVariant &tags)
+{
+    return getTextData( tags.toByteArray() )
             .split(',', QString::SkipEmptyParts);
+}
+
+QStringList ItemTagsScriptable::tags(const QVariantMap &itemData)
+{
+    return tags( itemData.value(mimeTags) );
 }
 
 void ItemTagsScriptable::setTags(int row, const QStringList &tags)
 {
     const auto value = tags.join(",");
     call("change", QVariantList() << row << mimeTags << value);
+}
+
+bool ItemTagsScriptable::addTag(const QString &tagName, QStringList *tags)
+{
+    if ( tags->contains(tagName) )
+        return false;
+
+    tags->append(tagName);
+    tags->sort();
+    return true;
+}
+
+bool ItemTagsScriptable::removeTag(const QString &tagName, QStringList *tags)
+{
+    if ( !tags->contains(tagName) )
+        return false;
+
+    tags->removeOne(tagName);
+    return true;
 }
 
 ItemTagsLoader::ItemTagsLoader()
@@ -656,7 +737,6 @@ QList<Command> ItemTagsLoader::commands() const
     }
 
     Command c;
-    const QString hasTagMatchCommand = "copyq: plugins.itemtags.hasTag() || fail()";
 
     c = dummyTagCommand();
     c.name = addTagText();
@@ -664,14 +744,14 @@ QList<Command> ItemTagsLoader::commands() const
     commands.append(c);
 
     c = dummyTagCommand();
+    c.input = mimeTags;
     c.name = removeTagText();
-    c.matchCmd = hasTagMatchCommand;
     c.cmd = "copyq: plugins.itemtags.untag()";
     commands.append(c);
 
     c = dummyTagCommand();
+    c.input = mimeTags;
     c.name = tr("Clear all tags");
-    c.matchCmd = hasTagMatchCommand;
     c.cmd = "copyq: plugins.itemtags.clearTags()";
     commands.append(c);
 

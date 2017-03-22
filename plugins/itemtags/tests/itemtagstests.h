@@ -44,6 +44,9 @@ private slots:
     void clearTags();
     void searchTags();
 
+    void tagSelected();
+    void untagSelected();
+
 private:
     TestInterfacePtr m_test;
 };
