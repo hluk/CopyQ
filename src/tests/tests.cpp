@@ -2096,6 +2096,88 @@ void Tests::shortcutCommandMatchCmd()
     RUN("tab" << QString(clipboardTabName) << "size", "4\n");
 }
 
+void Tests::shortcutCommandSelectedItemData()
+{
+    const auto tab1 = testTab(1);
+    const auto script = R"(
+        setCommands([{
+            name: 'Move Second Selected Item to Other Tab',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            output: 'text/plain',
+            outputTab: ')" + tab1 + R"(',
+            cmd: 'copyq: selectedItemData(1)["text/plain"]'
+        }])
+        )";
+    RUN(script, "");
+
+    RUN("add" << "C" << "B" << "A", "");
+    RUN("selectItems" << "1" << "2", "true\n");
+    RUN("keys" << "CTRL+F1", "");
+    RUN("tab" << tab1 << "read" << "0", "C");
+}
+
+void Tests::shortcutCommandSetSelectedItemData()
+{
+    const auto script = R"(
+        setCommands([{
+            name: 'Set Data for Second Selected Item',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            cmd: 'copyq: setSelectedItemData(1, {"text/plain": "X", "DATA": "TEST"})'
+        }])
+        )";
+    RUN(script, "");
+
+    RUN("add" << "C" << "B" << "A", "");
+    RUN("selectItems" << "1" << "2", "true\n");
+    RUN("keys" << "CTRL+F1", "");
+    RUN("read" << "2", "X");
+    RUN("read" << "DATA" << "2", "TEST");
+}
+
+void Tests::shortcutCommandSelectedItemsData()
+{
+    const auto tab1 = testTab(1);
+    const auto script = R"(
+        setCommands([{
+            name: 'Concatenate Selected Items to Other Tab',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            output: 'text/plain',
+            outputTab: ')" + tab1 + R"(',
+            cmd: 'copyq: d = selectedItemsData();'
+               + 'for (i in d) { print(d[i][mimeText]); print(",") }'
+        }])
+        )";
+    RUN(script, "");
+
+    RUN("add" << "C" << "B" << "A", "");
+    RUN("selectItems" << "1" << "2", "true\n");
+    RUN("keys" << "CTRL+F1", "");
+    RUN("tab" << tab1 << "read" << "0", "B,C,");
+}
+
+void Tests::shortcutCommandSetSelectedItemsData()
+{
+    const auto script = R"(
+        setCommands([{
+            name: 'Set Data for Second Selected Item',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            cmd: 'copyq: setSelectedItemsData([{"text/plain": "X"}, {"text/plain": "Y"}])'
+        }])
+        )";
+    RUN(script, "");
+
+    RUN("add" << "C" << "B" << "A", "");
+    RUN("selectItems" << "1" << "2", "true\n");
+    RUN("keys" << "CTRL+F1", "");
+    RUN("read" << "0", "A");
+    RUN("read" << "1", "X");
+    RUN("read" << "2", "Y");
+}
+
 void Tests::automaticCommandIgnore()
 {
     RUN("setCommands([{automatic: true, cmd: 'copyq ignore; copyq add OK'}])", "");

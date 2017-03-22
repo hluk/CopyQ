@@ -170,6 +170,11 @@ private slots:
     void shortcutCommandMatchInput();
     void shortcutCommandMatchCmd();
 
+    void shortcutCommandSelectedItemData();
+    void shortcutCommandSetSelectedItemData();
+    void shortcutCommandSelectedItemsData();
+    void shortcutCommandSetSelectedItemsData();
+
     void automaticCommandIgnore();
     void automaticCommandSetData();
     void automaticCommandOutputTab();
