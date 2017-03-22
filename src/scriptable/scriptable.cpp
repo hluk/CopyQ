@@ -492,11 +492,6 @@ QScriptValue Scriptable::newByteArray(const QByteArray &bytes)
     return m_baClass->newInstance(bytes);
 }
 
-QScriptValue Scriptable::newVariant(const QVariant &value)
-{
-    return value.isValid() ? engine()->newVariant(value) : QScriptValue();
-}
-
 QByteArray Scriptable::fromString(const QString &value) const
 {
   QByteArray bytes = value.toUtf8();
@@ -1699,12 +1694,12 @@ QScriptValue Scriptable::dialog()
         return QScriptValue();
 
     if (values.size() == 1)
-        return newVariant(values.first().value);
+        return toScriptValue( values.first().value, this );
 
     QScriptValue result = m_engine->newObject();
 
     for (const auto &value : values)
-        result.setProperty( value.name, newVariant(value.value) );
+        result.setProperty( value.name, toScriptValue(value.value, this) );
 
     return result;
 }
@@ -1726,12 +1721,8 @@ QScriptValue Scriptable::settings()
     settings.beginGroup("script");
 
     if (argumentCount() == 1) {
-        QVariant value = settings.value(arg(0));
-        if (value.canConvert<QStringList>())
-            return toScriptValue(value.toStringList(), this);
-        if (value.canConvert<QVariantMap>())
-            return toScriptValue(value.value<QVariantMap>(), this);
-        return newVariant(value);
+        const auto value = settings.value(arg(0));
+        return toScriptValue(value, this);
     }
 
     return toScriptValue(settings.allKeys(), this);

@@ -77,8 +77,6 @@ public:
 
     QScriptValue newByteArray(const QByteArray &bytes);
 
-    QScriptValue newVariant(const QVariant &value);
-
     QByteArray fromString(const QString &value) const;
     QVariant toVariant(const QScriptValue &value);
     bool toInt(const QScriptValue &value, int *number) const;

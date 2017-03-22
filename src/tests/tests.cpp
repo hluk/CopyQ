@@ -990,9 +990,9 @@ void Tests::commandSettings()
 
     RUN("settings" << "test_variable", "");
     RUN("settings" << "test_variable" << "TEST VALUE", "");
-    RUN("settings" << "test_variable", "TEST VALUE\n");
+    RUN("settings" << "test_variable", "TEST VALUE");
     RUN("settings" << "test_variable" << "TEST VALUE 2", "");
-    RUN("settings" << "test_variable", "TEST VALUE 2\n");
+    RUN("settings" << "test_variable", "TEST VALUE 2");
 
     RUN("config" << "clipboard_tab", "TEST\n");
 }
