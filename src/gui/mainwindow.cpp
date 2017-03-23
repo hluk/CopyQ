@@ -131,6 +131,15 @@ bool canPaste()
     return !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier);
 }
 
+bool matchData(const QRegExp &re, const QVariantMap &data, const QString &format)
+{
+    if ( re.isEmpty() )
+        return true;
+
+    const QString text = getTextData(data, format);
+    return re.indexIn(text) != -1;
+}
+
 bool canExecuteCommand(const Command &command, const QVariantMap &data, const QString &sourceTabName)
 {
     // Verify that an action is provided.
@@ -142,28 +151,24 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 
     // Verify that data for given MIME is available.
     if ( !command.input.isEmpty() ) {
-        if ( data.isEmpty() || !data.value(mimeCurrentItem).isValid() )
-            return false;
-
-        const QList<QString> availableFormats = data.keys();
         if (command.input == mimeItems || command.input == "!OUTPUT") {
             // Disallow applying action that takes serialized item more times.
-            if ( availableFormats.contains(command.output) )
+            if ( data.contains(command.output) )
                 return false;
-        } else if ( !availableFormats.contains(command.input) ) {
+        } else if ( !data.contains(command.input) ) {
             return false;
         }
     }
 
-    // Verify that text is present when regex is defined.
-    if ( !command.re.isEmpty() && !data.contains(mimeText) )
+    // Verify that and text matches given regexp.
+    if ( !matchData(command.re, data, mimeText) )
         return false;
 
-    // Verify that and text, MIME type and window title are matched.
-    const QString text = getTextData(data);
-    const QString windowTitle = data.value(mimeWindowTitle).toString();
-    return command.re.indexIn(text) != -1
-        && command.wndre.indexIn(windowTitle) != -1;
+    // Verify that window title matches given regexp.
+    if ( !matchData(command.wndre, data, mimeWindowTitle) )
+        return false;
+
+    return true;
 }
 
 void stealFocus(const QWidget &window)

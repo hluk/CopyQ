@@ -2190,6 +2190,41 @@ void Tests::automaticCommandIgnore()
     WAIT_ON_OUTPUT("read" << "0", "OK");
 }
 
+void Tests::automaticCommandInput()
+{
+    const auto script = R"(
+        setCommands([
+            { automatic: true, input: 'DATA', cmd: 'copyq: setData("DATA", "???")' },
+            { automatic: true, input: 'text/plain', cmd: 'copyq: setData("text/plain", "OK")' },
+        ])
+        )";
+    RUN(script, "");
+
+    TEST( m_test->setClipboard("SHOULD BE CHANGED") );
+    WAIT_ON_OUTPUT("read" << "0", "OK");
+    RUN("read" << "DATA" << "0", "");
+}
+
+void Tests::automaticCommandRegExp()
+{
+    const auto script = R"(
+        setCommands([
+            { automatic: true, re: 'SHOULD BE CHANGED$', cmd: 'copyq: setData("text/plain", "CHANGED")' },
+            { automatic: true, cmd: 'copyq: setData("DATA", "DONE")' },
+        ])
+        )";
+    RUN(script, "");
+
+    TEST( m_test->setClipboard("SHOULD BE CHANGED") );
+    WAIT_ON_OUTPUT("read" << "DATA" << "0", "DONE");
+    RUN("read" << "0", "CHANGED");
+    RUN("remove" << "0", "");
+
+    TEST( m_test->setClipboard("SHOULD NOT BE CHANGED") );
+    WAIT_ON_OUTPUT("read" << "DATA" << "0", "DONE");
+    RUN("read" << "0", "SHOULD NOT BE CHANGED");
+}
+
 void Tests::automaticCommandSetData()
 {
     const auto script = R"(

@@ -176,6 +176,8 @@ private slots:
     void shortcutCommandSetSelectedItemsData();
 
     void automaticCommandIgnore();
+    void automaticCommandInput();
+    void automaticCommandRegExp();
     void automaticCommandSetData();
     void automaticCommandOutputTab();
     void automaticCommandNoOutputTab();
