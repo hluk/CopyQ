@@ -640,7 +640,7 @@ private:
 
     QList<Command> commandsForMenu(const QVariantMap &data, const QString &tabName);
     void addCommandsToItemMenu(ClipboardBrowser *c);
-    void addCommandsToTrayMenu(const QVariantMap &data);
+    void addCommandsToTrayMenu(const QVariantMap &clipboardData);
 
     bool isItemMenuDefaultActionValid() const;
 

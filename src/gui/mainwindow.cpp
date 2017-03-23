@@ -1493,7 +1493,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
     m_itemMenuCommandTester.start();
 }
 
-void MainWindow::addCommandsToTrayMenu(const QVariantMap &data)
+void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
 {
     if ( m_commands.isEmpty() )
         return;
@@ -1504,6 +1504,12 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &data)
         if (!c)
             return;
     }
+
+    // Pass current window title to commands in tray menu.
+    auto data = clipboardData;
+    updateFocusWindows();
+    if (m_lastWindow)
+        data.insert( mimeWindowTitle, m_lastWindow->getTitle() );
 
     const QList<Command> commands = commandsForMenu(data, c->tabName());
 
@@ -2943,9 +2949,6 @@ void MainWindow::createTrayIfSupported()
 void MainWindow::updateFocusWindows()
 {
     if ( isActiveWindow() || m_trayMenu->isActiveWindow() || m_menu->isActiveWindow() )
-        return;
-
-    if ( !m_options.activateFocuses() && !m_options.activatePastes() && !m_options.trayItemPaste)
         return;
 
     PlatformPtr platform = createPlatformNativeInterface();
