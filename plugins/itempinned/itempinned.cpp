@@ -67,7 +67,22 @@ ItemPinned::ItemPinned(ItemWidget *childItem)
     m_childItem->widget()->setParent(this);
 
     m_border->setFixedWidth( pointsToPixels(6) );
-    m_border->setStyleSheet("background-color: rgba(0,0,0,15%)");
+
+    // Set pinned item border color.
+    const auto *parent = parentWidget();
+    auto color = parent->palette().color(QPalette::Background);
+    const int lightThreshold = 100;
+    const bool menuBackgrounIsLight = color.lightness() > lightThreshold;
+    color.setHsl(
+                color.hue(),
+                color.saturation(),
+                qMax(0, qMin(255, color.lightness() + (menuBackgrounIsLight ? -200 : 50)))
+                );
+    const auto styleSheet = QString("background-color: rgba(%1,%2,%3,15\\%)")
+            .arg(color.red())
+            .arg(color.green())
+            .arg(color.blue());
+    m_border->setStyleSheet(styleSheet);
 
     QBoxLayout *layout;
     layout = new QHBoxLayout(this);
