@@ -2053,7 +2053,7 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
 void MainWindow::showMessage(const QString &title, const QString &msg, ushort icon,
                              int msec, int notificationId)
 {
-    notificationDaemon()->create(title, msg, icon, msec, true, notificationId);
+    notificationDaemon()->create(title, msg, icon, msec, notificationId);
 }
 
 void MainWindow::showClipboardMessage(const QVariantMap &data)
@@ -2064,7 +2064,7 @@ void MainWindow::showClipboardMessage(const QVariantMap &data)
         } else {
             notificationDaemon()->create(
                         data, m_options.clipboardNotificationLines, IconPaste,
-                        m_options.itemPopupInterval * 1000, false, clipboardNotificationId );
+                        m_options.itemPopupInterval * 1000, clipboardNotificationId );
         }
     }
 }

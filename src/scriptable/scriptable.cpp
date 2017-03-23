@@ -1999,7 +1999,7 @@ QString Scriptable::processUncaughtException(const QString &cmd)
                 QString("Exception in command \"%1\": %2")
                 .arg(cmd, exceptionText) );
 
-    showExceptionMessage(exceptionText);
+    showExceptionMessage(exceptionName);
 
     return exceptionText;
 }

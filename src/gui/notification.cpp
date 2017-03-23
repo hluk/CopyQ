@@ -24,7 +24,6 @@
 #include "common/textdata.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
-#include "gui/windowgeometryguard.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -42,61 +41,12 @@
 
 #include <memory>
 
-namespace {
-
-void showNotificationInspectDialog(
-        const QString &messageTitle, const QString &message, Qt::TextFormat format)
-{
-    std::unique_ptr<QDialog> dialog(new QDialog);
-    dialog->setObjectName("InspectNotificationDialog");
-    dialog->setWindowTitle( Notification::tr("CopyQ Inspect Notification") );
-
-    WindowGeometryGuard::create( dialog.get() );
-
-    if ( AppConfig().isOptionOn("always_on_top") )
-        dialog->setWindowFlags( dialog->windowFlags() ^ Qt::WindowStaysOnTopHint );
-
-    dialog->setWindowIcon( appIcon() );
-
-    auto editor = new QTextEdit(dialog.get());
-    editor->setReadOnly(true);
-    const QString title = escapeHtml(messageTitle);
-    const QString body = format == Qt::PlainText
-            ? escapeHtml(message)
-            : message;
-    editor->setHtml( QString("<h3>%1</h3><p>%2</p>")
-                     .arg(title, body) );
-
-    QDialogButtonBox *buttons = new QDialogButtonBox(
-                QDialogButtonBox::Close, Qt::Horizontal, dialog.get() );
-    QObject::connect( buttons, SIGNAL(rejected()), dialog.get(), SLOT(close()) );
-
-    QPushButton *copyButton = new QPushButton( Notification::tr("&Copy"), buttons );
-    const QIcon icon = getIcon("clipboard", IconPaste);
-    copyButton->setIcon(icon);
-    QObject::connect( copyButton, SIGNAL(clicked()), editor, SLOT(selectAll()) );
-    QObject::connect( copyButton, SIGNAL(clicked()), editor, SLOT(copy()) );
-    buttons->addButton(copyButton, QDialogButtonBox::ActionRole);
-
-    auto layout = new QVBoxLayout( dialog.get() );
-    layout->addWidget(editor);
-    layout->addWidget(buttons);
-
-    dialog->adjustSize();
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->show();
-    dialog.release();
-}
-
-} // namespace
-
 Notification::Notification(int id)
     : m_id(id)
     , m_body(nullptr)
     , m_titleLabel(nullptr)
     , m_iconLabel(nullptr)
     , m_msgLabel(nullptr)
-    , m_tipLabel(nullptr)
     , m_opacity(1.0)
     , m_icon(0)
 {
@@ -120,11 +70,6 @@ Notification::Notification(int id)
 
     m_msgLabel = new QLabel(this);
     layout->addWidget(m_msgLabel, 1, 1, Qt::AlignAbsolute);
-
-    m_tipLabel = new QLabel(this);
-    m_tipLabel->setObjectName("NotificationTip");
-    m_tipLabel->setText( tr("Right click to show") );
-    layout->addWidget(m_tipLabel, 2, 0, 1, 2, Qt::AlignRight);
 
     setWindowFlags(Qt::ToolTip);
     setWindowOpacity(m_opacity);
@@ -173,11 +118,6 @@ void Notification::setOpacity(qreal opacity)
     setWindowOpacity(m_opacity);
 }
 
-void Notification::setClickToShowEnabled(bool enabled)
-{
-    m_tipLabel->setVisible(enabled);
-}
-
 void Notification::updateIcon()
 {
     const QColor color = getDefaultIconColor(*this);
@@ -193,13 +133,8 @@ void Notification::adjust()
     adjustSize();
 }
 
-void Notification::mousePressEvent(QMouseEvent *event)
+void Notification::mousePressEvent(QMouseEvent *)
 {
-    if ( event->button() != Qt::LeftButton && m_tipLabel->isVisible() ) {
-        showNotificationInspectDialog(
-                    m_titleLabel->text(), m_msgLabel->text(), m_msgLabel->textFormat());
-    }
-
     m_timer.stop();
 
     emit closeNotification(this);

@@ -39,7 +39,6 @@ protected:
     void setIcon(ushort icon);
     void setInterval(int msec);
     void setOpacity(qreal opacity);
-    void setClickToShowEnabled(bool enabled);
 
     void updateIcon();
 
@@ -67,7 +66,6 @@ private:
     QLabel *m_titleLabel;
     QLabel *m_iconLabel;
     QLabel *m_msgLabel;
-    QLabel *m_tipLabel;
     QTimer m_timer;
     qreal m_opacity;
     ushort m_icon;
