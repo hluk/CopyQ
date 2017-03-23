@@ -41,7 +41,7 @@
 
 #include <memory>
 
-Notification::Notification(int id)
+Notification::Notification(int id, const QString &title)
     : m_id(id)
     , m_body(nullptr)
     , m_titleLabel(nullptr)
@@ -59,37 +59,34 @@ Notification::Notification(int id)
     auto layout = new QGridLayout(m_body);
     layout->setMargin(0);
 
-    m_titleLabel = new QLabel(this);
-    m_titleLabel->setObjectName("NotificationTitle");
-    layout->addWidget(m_titleLabel, 0, 0, 1, 2, Qt::AlignCenter);
-    m_titleLabel->setTextFormat(Qt::PlainText);
-    setTitle( QString() );
-
     m_iconLabel = new QLabel(this);
-    layout->addWidget(m_iconLabel, 1, 0, Qt::AlignTop);
+    m_iconLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
     m_msgLabel = new QLabel(this);
-    layout->addWidget(m_msgLabel, 1, 1, Qt::AlignAbsolute);
+
+    if ( !title.isEmpty() ) {
+        m_titleLabel = new QLabel(this);
+        m_titleLabel->setObjectName("NotificationTitle");
+        m_titleLabel->setTextFormat(Qt::PlainText);
+        m_titleLabel->setText(title);
+
+        layout->addWidget(m_iconLabel, 0, 0);
+        layout->addWidget(m_titleLabel, 0, 1, Qt::AlignCenter);
+        layout->addWidget(m_msgLabel, 1, 0, 1, 2);
+    } else {
+        layout->addWidget(m_iconLabel, 0, 0, Qt::AlignTop);
+        layout->addWidget(m_msgLabel, 0, 1);
+    }
 
     setWindowFlags(Qt::ToolTip);
     setWindowOpacity(m_opacity);
-}
-
-void Notification::setTitle(const QString &title)
-{
-    m_titleLabel->setText(title);
-    if (title.isEmpty()) {
-        m_titleLabel->hide();
-    } else {
-        m_titleLabel->show();
-        m_titleLabel->adjustSize();
-    }
 }
 
 void Notification::setMessage(const QString &msg, Qt::TextFormat format)
 {
     m_msgLabel->setTextFormat(format);
     m_msgLabel->setText(msg);
+    m_msgLabel->setVisible( !msg.isEmpty() );
 }
 
 void Notification::setPixmap(const QPixmap &pixmap)

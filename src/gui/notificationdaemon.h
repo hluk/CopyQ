@@ -82,7 +82,7 @@ private slots:
 private:
     Notification *findNotification(int id);
 
-    Notification *createNotification(int id = -1);
+    Notification *createNotification(int id, const QString &title);
 
     int offsetX() const;
     int offsetY() const;

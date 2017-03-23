@@ -58,9 +58,8 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
 
 void NotificationDaemon::create(const QString &title, const QString &msg, ushort icon, int msec, int id)
 {
-    Notification *notification = createNotification(id);
+    Notification *notification = createNotification(id, title);
 
-    notification->setTitle(title);
     notification->setIcon(icon);
     notification->setMessage(msg);
     notification->setInterval(msec);
@@ -71,7 +70,7 @@ void NotificationDaemon::create(const QString &title, const QString &msg, ushort
 void NotificationDaemon::create(
         const QVariantMap &data, int maxLines, ushort icon, int msec, int id)
 {
-    Notification *notification = createNotification(id);
+    Notification *notification = createNotification(id, QString());
 
     notification->setIcon(icon);
 
@@ -217,7 +216,7 @@ Notification *NotificationDaemon::findNotification(int id)
     return nullptr;
 }
 
-Notification *NotificationDaemon::createNotification(int id)
+Notification *NotificationDaemon::createNotification(int id, const QString &title)
 {
     Notification *notification = nullptr;
     if (id >= 0)
@@ -225,7 +224,7 @@ Notification *NotificationDaemon::createNotification(int id)
 
     const int newId = (id >= 0) ? id : -(++m_lastId);
     if (notification == nullptr) {
-        notification = new Notification(newId);
+        notification = new Notification(newId, title);
         connect(this, SIGNAL(destroyed()), notification, SLOT(deleteLater()));
         connect( notification, SIGNAL(closeNotification(Notification*)),
                  this, SLOT(onNotificationClose(Notification*)) );

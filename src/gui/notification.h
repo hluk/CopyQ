@@ -31,9 +31,8 @@ class Notification : public QWidget
     Q_OBJECT
     friend class NotificationDaemon;
 protected:
-    explicit Notification(int id);
+    Notification(int id, const QString &title);
 
-    void setTitle(const QString &title);
     void setMessage(const QString &msg, Qt::TextFormat format = Qt::PlainText);
     void setPixmap(const QPixmap &pixmap);
     void setIcon(ushort icon);
