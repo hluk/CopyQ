@@ -2647,8 +2647,10 @@ void MainWindow::updateFirstItem(QVariantMap data)
 
     if ( !outputTab.isEmpty() ) {
         auto c = tab(outputTab);
-        if (c)
+        if (c) {
             c->addUnique(data);
+            c->setCurrent(0);
+        }
     }
 }
 
