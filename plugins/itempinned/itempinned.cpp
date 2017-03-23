@@ -214,7 +214,7 @@ bool ItemPinnedSaver::canRemoveItems(const QList<QModelIndex> &indexList, QStrin
         return m_saver->canRemoveItems(indexList, error);
 
     if (error) {
-        *error = "Removing pinned items is not allowed (plugin.itempinned.unpin() items first)";
+        *error = tr("Removing pinned item is not allowed (unpin item first)");
         return false;
     }
 

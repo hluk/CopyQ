@@ -1275,7 +1275,7 @@ QScriptValue Scriptable::info()
 QScriptValue Scriptable::eval()
 {
     const auto script = arg(0);
-    const auto result = eval(script, "eval");
+    const auto result = eval(script);
     m_skipArguments = -1;
     return result;    
 }
@@ -1944,7 +1944,7 @@ void Scriptable::executeArguments(const QByteArray &bytes)
                 skipArguments += m_skipArguments;
             } else {
                 cmd = toString(fnArgs[skipArguments], this);
-                result = eval(cmd, "command-line");
+                result = eval(cmd);
                 ++skipArguments;
             }
         }
@@ -1982,11 +1982,18 @@ QString Scriptable::processUncaughtException(const QString &cmd)
     const auto exceptionName = m_engine->uncaughtException().toString()
             .remove(QRegExp("^Error: "))
             .trimmed();
-    auto backtrace = m_engine->uncaughtExceptionBacktrace().join("\n");
-    if ( !backtrace.isEmpty() )
-        backtrace = "\n--- backtrace ---\n" + backtrace + "\n--- end backtrace ---";
 
-    const auto exceptionText = exceptionName + backtrace;
+    auto backtrace = m_engine->uncaughtExceptionBacktrace();
+    for (int i = backtrace.size() - 1; i >= 0; --i) {
+        if ( backtrace[i].endsWith("-1") )
+            backtrace.removeAt(i);
+    }
+
+    QString backtraceText;
+    if ( !backtrace.isEmpty() )
+        backtraceText = "\n\n--- backtrace ---\n" + backtrace.join("\n") + "\n--- end backtrace ---";
+
+    const auto exceptionText = exceptionName + backtraceText;
 
     logScriptError(
                 QString("Exception in command \"%1\": %2")
@@ -2149,6 +2156,13 @@ QScriptValue Scriptable::eval(const QString &script, const QString &fileName)
     }
 
     return engine()->evaluate(script, fileName);
+}
+
+QScriptValue Scriptable::eval(const QString &script)
+{
+    const int i = script.indexOf('\n');
+    const QString name = quoteString( i == -1 ? script : script.mid(0, i) + "..." );
+    return eval(script, name);
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

@@ -310,6 +310,7 @@ private:
     void nextToClipboard(int where);
     QByteArray serialize(const QScriptValue &value);
     QScriptValue eval(const QString &script, const QString &fileName);
+    QScriptValue eval(const QString &script);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
