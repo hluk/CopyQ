@@ -35,7 +35,7 @@ class Notification : public QWidget
 protected:
     Notification(int id, const QString &title, const NotificationButtons &buttons);
 
-    void setMessage(const QString &msg, Qt::TextFormat format = Qt::PlainText);
+    void setMessage(const QString &msg, Qt::TextFormat format = Qt::AutoText);
     void setPixmap(const QPixmap &pixmap);
     void setIcon(ushort icon);
     void setInterval(int msec);

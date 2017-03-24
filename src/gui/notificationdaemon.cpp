@@ -120,7 +120,7 @@ void NotificationDaemon::create(
         notification->setPixmap(pix);
     } else {
         const QString text = textLabelForData(data, font, QString(), false, width, maxLines);
-        notification->setMessage(text);
+        notification->setMessage(text, Qt::PlainText);
     }
 
     notification->setInterval(msec);
