@@ -173,6 +173,7 @@ public:
 
     QList<Command> commands();
     void setCommands(const QList<Command> &commands);
+    void addCommands(const QList<Command> &commands);
 
     QString pluginsPath();
     QString themesPath();

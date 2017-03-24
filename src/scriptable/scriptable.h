@@ -275,6 +275,7 @@ public slots:
 
     QScriptValue commands();
     void setCommands();
+    void addCommands();
     QScriptValue importCommands();
     QScriptValue exportCommands();
 

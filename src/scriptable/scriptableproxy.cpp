@@ -1130,6 +1130,12 @@ void ScriptableProxy::setCommands(const QList<Command> &commands)
     m_wnd->setCommands(commands);
 }
 
+void ScriptableProxy::addCommands(const QList<Command> &commands)
+{
+    INVOKE2(addCommands(commands));
+    m_wnd->addCommands(commands);
+}
+
 QString ScriptableProxy::pluginsPath()
 {
     INVOKE(pluginsPath());

@@ -1779,6 +1779,12 @@ void Scriptable::setCommands()
     m_proxy->setCommands(commands);
 }
 
+void Scriptable::addCommands()
+{
+    const auto commands = fromScriptValue<QList<Command>>(argument(0), this);
+    m_proxy->addCommands(commands);
+}
+
 QScriptValue Scriptable::importCommands()
 {
     m_skipArguments = 1;

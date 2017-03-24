@@ -2106,10 +2106,8 @@ void MainWindow::showError(const QString &msg)
 void MainWindow::addCommands(const QList<Command> &commands)
 {
     openCommands();
-    if (m_commandDialog) {
+    if (m_commandDialog)
         m_commandDialog->addCommands(commands);
-
-    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
