@@ -1085,14 +1085,27 @@ void Scriptable::action()
 
 void Scriptable::popup()
 {
-    m_skipArguments = 3;
+    m_skipArguments = -1;
 
-    QString title = arg(0);
-    QString message = arg(1);
+    int i = 0;
+    const QString title = arg(i++);
+    const QString message = arg(i++);
     int msec;
-    if ( !toInt(argument(2), &msec) )
-        msec = 8000;
-    m_proxy->showMessage(title, message, QSystemTrayIcon::Information, msec);
+    if ( toInt(argument(i), &msec) )
+        ++i;
+    else
+        msec = i < argumentCount() ? -1 : 8000;
+
+    NotificationButtons buttons;
+    while ( i < argumentCount() ) {
+        NotificationButton button;
+        button.name = arg(i++);
+        button.script = arg(i++);
+        button.data = makeByteArray( argument(i++) );
+        buttons.append(button);
+    }
+
+    m_proxy->showMessage(title, message, QSystemTrayIcon::Information, msec, buttons);
 }
 
 void Scriptable::exportTab()
@@ -2034,7 +2047,7 @@ void Scriptable::showExceptionMessage(const QString &message)
     const auto title = m_actionName.isEmpty()
         ? tr("Exception")
         : tr("Exception in %1").arg( quoteString(m_actionName) );
-    m_proxy->showMessage(title, message, QSystemTrayIcon::Warning, 8000);
+    m_proxy->showMessage(title, message, QSystemTrayIcon::Warning, 8000, NotificationButtons());
 }
 
 QList<int> Scriptable::getRows() const

@@ -20,6 +20,8 @@
 #ifndef NOTIFICATION_H
 #define NOTIFICATION_H
 
+#include "gui/notificationbutton.h"
+
 #include <QTimer>
 #include <QWidget>
 
@@ -31,7 +33,7 @@ class Notification : public QWidget
     Q_OBJECT
     friend class NotificationDaemon;
 protected:
-    Notification(int id, const QString &title);
+    Notification(int id, const QString &title, const NotificationButtons &buttons);
 
     void setMessage(const QString &msg, Qt::TextFormat format = Qt::PlainText);
     void setPixmap(const QPixmap &pixmap);
@@ -56,8 +58,11 @@ signals:
     /** Emitted if notification needs to be closed. */
     void closeNotification(Notification *self);
 
+    void buttonClicked(const NotificationButton &button);
+
 private slots:
     void onTimeout();
+    void onButtonClicked(const NotificationButton &button);
 
 private:
     const int m_id;

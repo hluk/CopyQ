@@ -56,9 +56,15 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     initSingleShotTimer( &m_timerUpdate, 100, this, SLOT(doUpdateNotifications()) );
 }
 
-void NotificationDaemon::create(const QString &title, const QString &msg, ushort icon, int msec, int id)
+void NotificationDaemon::create(
+        const QString &title,
+        const QString &msg,
+        ushort icon,
+        int msec,
+        int id,
+        const NotificationButtons &buttons)
 {
-    Notification *notification = createNotification(id, title);
+    Notification *notification = createNotification(id, title, buttons);
 
     notification->setIcon(icon);
     notification->setMessage(msg);
@@ -68,9 +74,14 @@ void NotificationDaemon::create(const QString &title, const QString &msg, ushort
 }
 
 void NotificationDaemon::create(
-        const QVariantMap &data, int maxLines, ushort icon, int msec, int id)
+        const QVariantMap &data,
+        int maxLines,
+        ushort icon,
+        int msec,
+        int id,
+        const NotificationButtons &buttons)
 {
-    Notification *notification = createNotification(id, QString());
+    Notification *notification = createNotification(id, QString(), buttons);
 
     notification->setIcon(icon);
 
@@ -216,7 +227,8 @@ Notification *NotificationDaemon::findNotification(int id)
     return nullptr;
 }
 
-Notification *NotificationDaemon::createNotification(int id, const QString &title)
+Notification *NotificationDaemon::createNotification(
+        int id, const QString &title, const NotificationButtons &buttons)
 {
     Notification *notification = nullptr;
     if (id >= 0)
@@ -224,10 +236,12 @@ Notification *NotificationDaemon::createNotification(int id, const QString &titl
 
     const int newId = (id >= 0) ? id : -(++m_lastId);
     if (notification == nullptr) {
-        notification = new Notification(newId, title);
+        notification = new Notification(newId, title, buttons);
         connect(this, SIGNAL(destroyed()), notification, SLOT(deleteLater()));
         connect( notification, SIGNAL(closeNotification(Notification*)),
                  this, SLOT(onNotificationClose(Notification*)) );
+        connect( notification, SIGNAL(buttonClicked(NotificationButton)),
+                 this, SIGNAL(notificationButtonClicked(NotificationButton)) );
         m_notifications.append(notification);
     }
 

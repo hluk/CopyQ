@@ -1108,6 +1108,20 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              this, SLOT(hideSearchBar()) );
 }
 
+void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
+{
+    const QString mimeNotificationData = COPYQ_MIME_PREFIX "notification-data";
+
+    QVariantMap data;
+    data.insert(mimeNotificationData, button.data);
+
+    Command cmd;
+    cmd.cmd = button.script;
+    cmd.input = mimeNotificationData;
+
+    action(data, cmd);
+}
+
 int MainWindow::findTabIndexExactMatch(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -1292,8 +1306,11 @@ void MainWindow::resetTestSession(const QString &clipboardTabName)
 
 void MainWindow::updateNotifications()
 {
-    if (m_notifications == nullptr)
+    if (m_notifications == nullptr) {
         m_notifications = new NotificationDaemon(this);
+        connect( m_notifications, SIGNAL(notificationButtonClicked(NotificationButton)),
+                 this, SLOT(onNotificationButtonClicked(NotificationButton)) );
+    }
 
     notificationDaemon()->setNotificationOpacity( theme().color("notification_bg").alphaF() );
     notificationDaemon()->setNotificationStyleSheet( theme().getNotificationStyleSheet() );
@@ -2028,8 +2045,13 @@ bool MainWindow::maybeCloseCommandDialog()
     return !m_commandDialog || m_commandDialog->maybeClose(this);
 }
 
-void MainWindow::showMessage(const QString &title, const QString &msg,
-                             QSystemTrayIcon::MessageIcon icon, int msec, int notificationId)
+void MainWindow::showMessage(
+        const QString &title,
+        const QString &msg,
+        QSystemTrayIcon::MessageIcon icon,
+        int msec,
+        int notificationId,
+        const NotificationButtons &buttons)
 {
     ushort icon2 = 0;
 
@@ -2047,13 +2069,18 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
         break;
     }
 
-    showMessage(title, msg, icon2, msec, notificationId);
+    showMessage(title, msg, icon2, msec, notificationId, buttons);
 }
 
-void MainWindow::showMessage(const QString &title, const QString &msg, ushort icon,
-                             int msec, int notificationId)
+void MainWindow::showMessage(
+        const QString &title,
+        const QString &msg,
+        ushort icon,
+        int msec,
+        int notificationId,
+        const NotificationButtons &buttons)
 {
-    notificationDaemon()->create(title, msg, icon, msec, notificationId);
+    notificationDaemon()->create(title, msg, icon, msec, notificationId, buttons);
 }
 
 void MainWindow::showClipboardMessage(const QVariantMap &data)
@@ -2064,7 +2091,8 @@ void MainWindow::showClipboardMessage(const QVariantMap &data)
         } else {
             notificationDaemon()->create(
                         data, m_options.clipboardNotificationLines, IconPaste,
-                        m_options.itemPopupInterval * 1000, clipboardNotificationId );
+                        m_options.itemPopupInterval * 1000, clipboardNotificationId,
+                        NotificationButtons() );
         }
     }
 }

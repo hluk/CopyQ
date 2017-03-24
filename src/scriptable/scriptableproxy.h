@@ -21,6 +21,7 @@
 #define SCRIPTABLEPROXY_H
 
 #include "gui/clipboardbrowser.h"
+#include "gui/notificationbutton.h"
 
 #include <QClipboard>
 #include <QList>
@@ -90,7 +91,11 @@ public:
 
     void action(const QVariantMap &arg1, const Command &arg2);
 
-    void showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4);
+    void showMessage(const QString &title,
+            const QString &msg,
+            QSystemTrayIcon::MessageIcon icon,
+            int msec,
+            const NotificationButtons &buttons);
 
     QVariantMap nextItem(int where);
     void browserMoveToClipboard(int arg1);

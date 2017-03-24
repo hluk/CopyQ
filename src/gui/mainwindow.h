@@ -23,6 +23,7 @@
 #include "common/commandtester.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/menuitems.h"
+#include "gui/notificationbutton.h"
 
 #include "platform/platformnativeinterface.h"
 
@@ -215,12 +216,17 @@ public:
             QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information,
             //!< Type of popup.
             int msec = 8000, //!< Show interval.
-            int notificationId = -1 //!< ID of notification.
-            );
+            int notificationId = -1, //!< ID of notification.
+            const NotificationButtons &buttons = NotificationButtons());
 
     /** Show popup with icon. */
-    void showMessage(const QString &title, const QString &msg, ushort icon, int msec,
-                     int notificationId = -1);
+    void showMessage(
+            const QString &title,
+            const QString &msg,
+            ushort icon,
+            int msec,
+            int notificationId = -1,
+            const NotificationButtons &buttons = NotificationButtons());
 
     /** Show clipboard content in notification. */
     void showClipboardMessage(const QVariantMap &data);
@@ -579,6 +585,8 @@ private slots:
     void moveToBottom();
 
     void onBrowserCreated(ClipboardBrowser *browser);
+
+    void onNotificationButtonClicked(const NotificationButton &button);
 
 private:
     enum TabNameMatching {

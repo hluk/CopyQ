@@ -30,6 +30,7 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QGridLayout>
+#include <QHBoxLayout>
 #include <QIcon>
 #include <QLabel>
 #include <QMap>
@@ -41,7 +42,37 @@
 
 #include <memory>
 
-Notification::Notification(int id, const QString &title)
+namespace {
+
+class NotificationButtonWidget : public QPushButton
+{
+    Q_OBJECT
+
+public:
+    NotificationButtonWidget(const NotificationButton &button, QWidget *parent)
+        : QPushButton(button.name, parent)
+        , m_button(button)
+    {
+        connect( this, SIGNAL(clicked()),
+                 this, SLOT(onClicked()) );
+    }
+
+signals:
+    void clicked(const NotificationButton &button);
+
+private slots:
+    void onClicked()
+    {
+        emit clicked(m_button);
+    }
+
+private:
+    NotificationButton m_button;
+};
+
+} // namespace
+
+Notification::Notification(int id, const QString &title, const NotificationButtons &buttons)
     : m_id(id)
     , m_body(nullptr)
     , m_titleLabel(nullptr)
@@ -76,6 +107,20 @@ Notification::Notification(int id, const QString &title)
     } else {
         layout->addWidget(m_iconLabel, 0, 0, Qt::AlignTop);
         layout->addWidget(m_msgLabel, 0, 1);
+    }
+
+
+    if ( !buttons.isEmpty() ) {
+        auto buttonLayout = new QHBoxLayout();
+        buttonLayout->addStretch();
+        layout->addLayout(buttonLayout, 2, 0, 1, 2);
+
+        for (const auto &button : buttons) {
+            const auto buttonWidget = new NotificationButtonWidget(button, this);
+            connect( buttonWidget, SIGNAL(clicked(NotificationButton)),
+                     this, SLOT(onButtonClicked(NotificationButton)) );
+            buttonLayout->addWidget(buttonWidget);
+        }
     }
 
     setWindowFlags(Qt::ToolTip);
@@ -184,3 +229,11 @@ void Notification::onTimeout()
 {
     emit closeNotification(this);
 }
+
+void Notification::onButtonClicked(const NotificationButton &button)
+{
+    emit buttonClicked(button);
+    emit closeNotification(this);
+}
+
+#include "notification.moc"

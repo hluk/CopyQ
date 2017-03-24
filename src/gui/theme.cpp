@@ -319,7 +319,7 @@ QString Theme::getNotificationStyleSheet() const
 
     const QString fontString = value("notification_font").toString();
 
-    return "Notification{"
+    return "Notification, Notification QWidget{"
            "background:" + serializeColor(notificationBg) + ";"
            "}"
            "Notification QWidget{"

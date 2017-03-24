@@ -20,6 +20,8 @@
 #ifndef NOTIFICATIONDAEMON_H
 #define NOTIFICATIONDAEMON_H
 
+#include "gui/notificationbutton.h"
+
 #include <QColor>
 #include <QList>
 #include <QObject>
@@ -50,13 +52,21 @@ public:
 
     /** Create new notification or update one with same @a id (if non-negative). */
     void create(
-            const QString &title, const QString &msg, ushort icon,
-            int msec, int id = -1);
+            const QString &title,
+            const QString &msg,
+            ushort icon,
+            int msec,
+            int id,
+            const NotificationButtons &buttons);
 
     /** Create new notification or update one with same @a id (if non-negative). */
     void create(
-            const QVariantMap &data, int maxLines, ushort icon,
-            int msec, int id = -1);
+            const QVariantMap &data,
+            int maxLines,
+            ushort icon,
+            int msec,
+            int id,
+            const NotificationButtons &buttons);
 
     /** Update interval to show notification with given @a id. */
     void updateInterval(int id, int msec);
@@ -75,6 +85,9 @@ public:
 
     void removeNotification(int id);
 
+signals:
+    void notificationButtonClicked(const NotificationButton &button);
+
 private slots:
     void onNotificationClose(Notification *notification);
     void doUpdateNotifications();
@@ -82,7 +95,8 @@ private slots:
 private:
     Notification *findNotification(int id);
 
-    Notification *createNotification(int id, const QString &title);
+    Notification *createNotification(
+            int id, const QString &title, const NotificationButtons &buttons);
 
     int offsetX() const;
     int offsetY() const;

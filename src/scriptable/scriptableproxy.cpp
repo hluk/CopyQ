@@ -530,10 +530,15 @@ void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
     m_wnd->action(arg1, arg2);
 }
 
-void ScriptableProxy::showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4)
+void ScriptableProxy::showMessage(
+        const QString &title,
+        const QString &msg,
+        QSystemTrayIcon::MessageIcon icon,
+        int msec,
+        const NotificationButtons &buttons)
 {
-    INVOKE2(showMessage(arg1, arg2, arg3, arg4));
-    m_wnd->showMessage(arg1, arg2, arg3, arg4);
+    INVOKE2(showMessage(title, msg, icon, msec, buttons));
+    m_wnd->showMessage(title, msg, icon, msec, -1, buttons);
 }
 
 QVariantMap ScriptableProxy::nextItem(int where)

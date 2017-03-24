@@ -310,6 +310,26 @@ Runs command for items in current tab.
 
 Shows popup message for given time in milliseconds.
 
+If `time` argument is set to -1, the popup is hidden only after mouse click.
+
+###### popup(title, message, [time=-1], buttonName, command, data, ...)
+
+Shows popup message with buttons.
+
+Each button has assigned command and data.
+
+If button is clicked the command is executed and data are passed as stdin.
+
+The function returns immediatelly (doesn't wait on user input).
+
+Example:
+
+```js
+popup("Example", "Notification with button",
+      "OK", "copyq:popup(input())", "OK Clicked",
+      "Cancel", "copyq:popup(input())", "Cancel Clicked")
+```
+
 ###### exportTab(fileName)
 
 Exports current tab into file.
