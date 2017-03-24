@@ -26,7 +26,7 @@
 
 namespace {
 
-QString temporaryFileName()
+QString temporaryFileName(const QByteArray &content)
 {
     QTemporaryFile tmpfile;
     if ( !openTemporaryFile(&tmpfile) )
@@ -35,14 +35,15 @@ QString temporaryFileName()
         return QString();
     }
 
+    tmpfile.write(content);
     tmpfile.setAutoRemove(false);
     return tmpfile.fileName();
 }
 
 } // namespace
 
-TemporarySettings::TemporarySettings()
-    : m_settings(new QSettings(temporaryFileName(), QSettings::IniFormat))
+TemporarySettings::TemporarySettings(const QByteArray &content)
+    : m_settings(new QSettings(temporaryFileName(content), QSettings::IniFormat))
 {
 }
 

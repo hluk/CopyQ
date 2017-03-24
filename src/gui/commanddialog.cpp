@@ -26,7 +26,6 @@
 #include "common/config.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
-#include "common/temporarysettings.h"
 #include "common/textdata.h"
 #include "gui/addcommanddialog.h"
 #include "gui/commandwidget.h"
@@ -38,8 +37,6 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
-#include <QSettings>
-#include <QTemporaryFile>
 
 namespace {
 
@@ -207,14 +204,8 @@ void CommandDialog::copySelectedCommandsToClipboard()
 
 void CommandDialog::onCommandDropped(const QString &text, int row)
 {
-    QTemporaryFile tmpfile;
-    if ( !openTemporaryFile(&tmpfile) )
-        return;
-
-    tmpfile.write(text.toUtf8());
-    tmpfile.flush();
-
-    loadCommandsFromFile( tmpfile.fileName(), row );
+    const auto commands = importCommandsFromText(text);
+    addCommandsWithoutSave(commands, row);
 }
 
 void CommandDialog::onCurrentCommandWidgetIconChanged(const QString &iconString)
@@ -261,8 +252,10 @@ void CommandDialog::on_pushButtonLoadCommands_clicked()
             QFileDialog::getOpenFileNames(this, tr("Open Files with Commands"),
                                           QString(), tr("Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)"));
 
-    for (const auto &fileName : fileNames)
-        loadCommandsFromFile(fileName, -1);
+    for (const auto &fileName : fileNames) {
+        const auto commands = importCommandsFromFile(fileName);
+        addCommandsWithoutSave(commands, -1);
+    }
 }
 
 void CommandDialog::on_pushButtonSaveCommands_clicked()
@@ -377,21 +370,6 @@ void CommandDialog::addCommandsWithoutSave(const Commands &commands, int targetR
     ui->itemOrderListCommands->setSelectedRows(rowsToSelect);
 }
 
-void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
-{
-    QSettings commandsSettings(fileName, QSettings::IniFormat);
-
-    auto commands = loadCommands(&commandsSettings, AllCommands);
-    for (auto &command : commands) {
-        if (command.cmd.startsWith("\n    ")) {
-            command.cmd.remove(0, 5);
-            command.cmd.replace("\n    ", "\n");
-        }
-    }
-
-    addCommandsWithoutSave(commands, targetRow);
-}
-
 Commands CommandDialog::selectedCommands() const
 {
     const auto rows = ui->itemOrderListCommands->selectedRows();
@@ -411,56 +389,7 @@ QString CommandDialog::serializeSelectedCommands()
     if ( commands.isEmpty() )
         return QString();
 
-    TemporarySettings commandsSettings;
-    saveCommands(commands, commandsSettings.settings());
-
-    // Replace ugly '\n' with indented lines.
-    const QString data = getTextData(commandsSettings.content());
-    QString commandData;
-    commandData.reserve(data.size());
-    QRegExp re(R"(^(\d+\\)?Command="?)");
-
-    for (const auto &line : data.split('\n')) {
-        if (line.contains(re)) {
-            int i = re.matchedLength();
-            commandData.append(line.left(i));
-
-            const bool addQuotes = !commandData.endsWith('"');
-            if (addQuotes)
-                commandData.append('"');
-
-            commandData.append("\n    ");
-            bool escape = false;
-
-            for (; i < line.size(); ++i) {
-                const QChar c = line[i];
-
-                if (escape) {
-                    escape = false;
-
-                    if (c == 'n') {
-                        commandData.append("\n    ");
-                    } else {
-                        commandData.append('\\');
-                        commandData.append(c);
-                    }
-                } else if (c == '\\') {
-                    escape = !escape;
-                } else {
-                    commandData.append(c);
-                }
-            }
-
-            if (addQuotes)
-                commandData.append('"');
-        } else {
-            commandData.append(line);
-        }
-
-        commandData.append('\n');
-    }
-
-    return commandData;
+    return exportCommands(commands);
 }
 
 bool CommandDialog::hasUnsavedChanges() const

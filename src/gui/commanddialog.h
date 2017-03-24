@@ -82,7 +82,6 @@ private:
     Commands currentCommands() const;
 
     void addCommandsWithoutSave(const Commands &commands, int targetRow);
-    void loadCommandsFromFile(const QString &fileName, int targetRow);
     Commands selectedCommands() const;
     QString serializeSelectedCommands();
     bool hasUnsavedChanges() const;

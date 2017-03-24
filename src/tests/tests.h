@@ -108,6 +108,8 @@ private slots:
 
     void commandsGetSetCommands();
 
+    void commandsImportExportCommands();
+
     void classFile();
     void classDir();
     void classTemporaryFile();

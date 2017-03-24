@@ -20,8 +20,11 @@
 #include "commandstore.h"
 
 #include "common/command.h"
+#include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
+#include "common/temporarysettings.h"
+#include "common/textdata.h"
 
 #include <QSettings>
 #include <QString>
@@ -120,6 +123,19 @@ void saveCommand(const Command &c, QSettings *settings)
     saveNewValue("OutputTab", c, &Command::outputTab, settings);
 }
 
+Commands importCommands(QSettings *settings)
+{
+    auto commands = loadCommands(settings, AllCommands);
+    for (auto &command : commands) {
+        if (command.cmd.startsWith("\n    ")) {
+            command.cmd.remove(0, 5);
+            command.cmd.replace("\n    ", "\n");
+        }
+    }
+
+    return commands;
+}
+
 } // namespace
 
 Commands loadEnabledCommands()
@@ -182,4 +198,69 @@ void saveCommands(const Commands &commands, QSettings *settings)
         }
         settings->endArray();
     }
+}
+
+Commands importCommandsFromFile(const QString &filePath)
+{
+    QSettings commandsSettings(filePath, QSettings::IniFormat);
+    return importCommands(&commandsSettings);
+}
+
+Commands importCommandsFromText(const QString &commands)
+{
+    TemporarySettings temporarySettings(commands.toUtf8());
+    return importCommands( temporarySettings.settings() );
+}
+
+QString exportCommands(const Commands &commands)
+{
+    TemporarySettings temporarySettings;
+    saveCommands( commands, temporarySettings.settings() );
+
+    // Replace ugly '\n' with indented lines.
+    const QString data = getTextData( temporarySettings.content() );
+    QString commandData;
+    QRegExp re(R"(^(\d+\\)?Command="?)");
+
+    for (const auto &line : data.split('\n')) {
+        if (line.contains(re)) {
+            int i = re.matchedLength();
+            commandData.append(line.left(i));
+
+            const bool addQuotes = !commandData.endsWith('"');
+            if (addQuotes)
+                commandData.append('"');
+
+            commandData.append("\n    ");
+            bool escape = false;
+
+            for (; i < line.size(); ++i) {
+                const QChar c = line[i];
+
+                if (escape) {
+                    escape = false;
+
+                    if (c == 'n') {
+                        commandData.append("\n    ");
+                    } else {
+                        commandData.append('\\');
+                        commandData.append(c);
+                    }
+                } else if (c == '\\') {
+                    escape = !escape;
+                } else {
+                    commandData.append(c);
+                }
+            }
+
+            if (addQuotes)
+                commandData.append('"');
+        } else {
+            commandData.append(line);
+        }
+
+        commandData.append('\n');
+    }
+
+    return commandData;
 }

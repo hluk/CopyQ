@@ -275,6 +275,8 @@ public slots:
 
     QScriptValue commands();
     void setCommands();
+    QScriptValue importCommands();
+    QScriptValue exportCommands();
 
     QScriptValue networkGet();
     QScriptValue networkPost();

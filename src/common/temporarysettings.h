@@ -31,7 +31,7 @@ class TemporarySettings
 {
 public:
     /// Creates temporary settings file.
-    TemporarySettings();
+    explicit TemporarySettings(const QByteArray &content = QByteArray());
 
     /// Destroys undelying settings and removes settings file.
     ~TemporarySettings();

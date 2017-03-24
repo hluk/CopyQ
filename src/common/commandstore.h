@@ -40,4 +40,8 @@ void saveCommands(const Commands &commands);
 Commands loadCommands(QSettings *settings, CommandFilter filter);
 void saveCommands(const Commands &commands, QSettings *settings);
 
+Commands importCommandsFromFile(const QString &filePath);
+Commands importCommandsFromText(const QString &commands);
+QString exportCommands(const Commands &commands);
+
 #endif // COMMANDSTORE_H

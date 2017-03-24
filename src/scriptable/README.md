@@ -662,6 +662,14 @@ cmds.unshift({
 setCommands(cmds)
 ```
 
+###### Command[] importCommands(String)
+
+Return list of commands from exported commands text.
+
+###### String exportCommands(Command[])
+
+Return exported command text.
+
 ###### NetworkReply networkGet(url)
 
 Sends HTTP GET request.

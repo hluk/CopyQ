@@ -1191,6 +1191,23 @@ void Tests::commandsGetSetCommands()
     RUN("commands()[0].enable", "true\n");
 }
 
+void Tests::commandsImportExportCommands()
+{
+   const QString commands =
+           R"('
+           [Commands]
+           1\Name=Test 1
+           2\Name=Test 2
+           size=2
+           ')";
+   RUN("eval" << "importCommands(arguments[1]).length" << "--" << commands, "2\n");
+   RUN("eval" << "importCommands(arguments[1])[0].name" << "--" << commands, "Test 1\n");
+   RUN("eval" << "importCommands(arguments[1])[1].name" << "--" << commands, "Test 2\n");
+
+   RUN("importCommands(exportCommands([{},{}])).length", "2\n");
+   RUN("importCommands(exportCommands([{},{name: 'Test 2'}]))[1].name", "Test 2\n");
+}
+
 void Tests::classFile()
 {
     RUN("eval" <<

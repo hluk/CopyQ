@@ -23,6 +23,7 @@
 #include "common/arguments.h"
 #include "common/command.h"
 #include "common/commandstatus.h"
+#include "common/commandstore.h"
 #include "common/common.h"
 #include "common/log.h"
 #include "common/sleeptimer.h"
@@ -1763,6 +1764,27 @@ void Scriptable::setCommands()
 {
     const auto commands = fromScriptValue<QList<Command>>(argument(0), this);
     m_proxy->setCommands(commands);
+}
+
+QScriptValue Scriptable::importCommands()
+{
+    m_skipArguments = 1;
+    const auto commands = importCommandsFromText(arg(0));
+    return toScriptValue(commands, this);
+}
+
+QScriptValue Scriptable::exportCommands()
+{
+    m_skipArguments = 1;
+    const auto commands = fromScriptValue<QList<Command>>(argument(0), this);
+
+    const auto exportedCommands = ::exportCommands(commands);
+    if ( exportedCommands.isEmpty() ) {
+        throwError("Failed to export commands");
+        return QScriptValue();
+    }
+
+    return exportedCommands;
 }
 
 QScriptValue Scriptable::networkGet()

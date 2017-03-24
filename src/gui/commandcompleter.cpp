@@ -199,6 +199,8 @@ private:
         addDocumentation("dateString", "String dateString(format)", "Returns text representation of current date and time.");
         addDocumentation("commands", "Command[] commands()", "Return list of all commands.");
         addDocumentation("setCommands", "setCommands(Command[])", "Clear previous commands and set new ones.");
+        addDocumentation("importCommands", "Command[] importCommands(String)", "Return list of commands from exported commands text.");
+        addDocumentation("exportCommands", "String exportCommands(Command[])", "Return exported command text.");
         addDocumentation("networkGet", "NetworkReply networkGet(url)", "Sends HTTP GET request.");
         addDocumentation("networkPost", "NetworkReply networkPost(url, postData)", "Sends HTTP POST request.");
         addDocumentation("env", "ByteArray env(name)", "Returns value of environment variable with given name.");
