@@ -249,11 +249,9 @@ struct ScriptValueFactory<QRegExp> {
 
     static QRegExp fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
     {
-        const auto re = value.toRegExp();
-        if ( !re.isEmpty() )
-            return re;
-
-        return QRegExp( toString(value, scriptable) );
+        return value.isRegExp()
+                ? value.toRegExp()
+                : QRegExp( toString(value, scriptable) );
     }
 };
 
