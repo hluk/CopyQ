@@ -651,6 +651,12 @@ void Tests::commandEvalSyntaxError()
     RUN_EXPECT_ERROR_WITH_STDERR("eval" << "(", CommandException, "syntax error");
 }
 
+void Tests::commandEvalArguments()
+{
+    RUN("eval" << "str(arguments[1]) + ', ' + str(arguments[2])" << "Test 1" << "Test 2",
+        "Test 1, Test 2\n");
+}
+
 void Tests::commandPrint()
 {
     RUN("print" << "1", "1");

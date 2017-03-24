@@ -53,6 +53,7 @@ private slots:
     void commandEval();
     void commandEvalThrows();
     void commandEvalSyntaxError();
+    void commandEvalArguments();
     void commandPrint();
     void commandAbort();
     void commandFail();
