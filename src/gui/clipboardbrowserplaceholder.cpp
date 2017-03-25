@@ -95,9 +95,6 @@ void ClipboardBrowserPlaceholder::removeItems()
     unloadBrowser();
 
     ::removeItems(m_tabName);
-
-    if ( isVisible() )
-        createBrowser();
 }
 
 void ClipboardBrowserPlaceholder::createBrowserAgain()
