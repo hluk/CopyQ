@@ -107,7 +107,6 @@ private slots:
 
 private:
     void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
-    void shiftIndexesBetween(int from, int to = -1, int how = -1);
     void deleteItem(QTreeWidgetItem *item);
 
     QTimer m_timerUpdate;

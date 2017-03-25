@@ -166,7 +166,7 @@ void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
 void TabWidget::removeTab(int tabIndex)
 {
     if (tabIndex == currentIndex())
-        setCurrentIndex(0);
+        setCurrentIndex(tabIndex == 0 ? 1 : 0);
 
     const QString tabName = tabText(tabIndex);
     m_tabItemCounters.remove(tabName);

@@ -414,7 +414,6 @@ void TabTree::removeTab(int index)
     if (item->childCount() == 0)
         deleteItem(item);
 
-    shiftIndexesBetween(index + 1);
     updateSize();
 }
 
@@ -426,11 +425,6 @@ void TabTree::moveTab(int from, int to)
     QTreeWidgetItem *item = findTreeItem(from);
     if (item == nullptr)
         return;
-
-    if (from < to)
-        shiftIndexesBetween(from + 1, to, -1);
-    else
-        shiftIndexesBetween(to, from - 1, 1);
 
     m_tabs.removeOne(item);
     m_tabs.insert(to, item);
@@ -715,18 +709,6 @@ void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosit
     QTreeWidgetItem *item = itemAt(itemPosition);
     QString tabPath = getTabPath(item);
     emit tabMenuRequested(menuPosition, tabPath);
-}
-
-void TabTree::shiftIndexesBetween(int from, int to, int how)
-{
-    for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
-        auto item = *it;
-        const int oldIndex = getTabIndex(item);
-        if (oldIndex >= from && (to == -1 || oldIndex <= to)) {
-            m_tabs.removeOne(item);
-            m_tabs.insert(oldIndex + how, item);
-        }
-    }
 }
 
 void TabTree::deleteItem(QTreeWidgetItem *item)

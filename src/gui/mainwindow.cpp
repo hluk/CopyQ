@@ -3580,8 +3580,6 @@ void MainWindow::removeTab(bool ask, int tabIndex)
                         QMessageBox::Yes);
         }
         if (answer == QMessageBox::Yes) {
-            if ( ui->tabWidget->currentIndex() == tabIndex )
-                ui->tabWidget->setCurrentIndex(tabIndex == 0 ? 1 : 0);
             placeholder->removeItems();
             placeholder->deleteLater();
             w->removeTab(tabIndex);
