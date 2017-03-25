@@ -2754,7 +2754,8 @@ void MainWindow::setCommands(const QList<Command> &commands)
     m_commands = commands;
     saveCommands(commands);
     updateContextMenu();
-    updateTrayMenuItems();
+    if (m_options.trayCommands)
+        updateTrayMenuItems();
 }
 
 void MainWindow::runAutomaticCommands(QVariantMap data)
@@ -2831,6 +2832,9 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
         m_canUpdateTitleFromScript = false;
         updateTitle(data);
     }
+
+    // Some menu commands may depend on clipboard content.
+    updateContextMenu();
 }
 
 void MainWindow::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
