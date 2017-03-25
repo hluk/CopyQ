@@ -212,15 +212,28 @@ QScriptValue ByteArrayClass::newInstance(const QByteArray &ba)
 }
 //! [1]
 
+QScriptValue ByteArrayClass::newInstance(const QString &text)
+{
+    const auto ba = text.toUtf8();
+    engine()->reportAdditionalMemoryCost(ba.size());
+    return newInstance(ba);
+}
+
 //! [2]
 QScriptValue ByteArrayClass::construct(QScriptContext *ctx, QScriptEngine *)
 {
     ByteArrayClass *cls = qscriptvalue_cast<ByteArrayClass*>(ctx->callee().data());
     if (!cls)
         return QScriptValue();
+
     QScriptValue arg = ctx->argument(0);
+
     if (arg.instanceOf(ctx->callee()))
         return cls->newInstance(qscriptvalue_cast<QByteArray>(arg));
+
+    if (arg.isString())
+        return cls->newInstance(arg.toString());
+
     int size = arg.toInt32();
     return cls->newInstance(size);
 }

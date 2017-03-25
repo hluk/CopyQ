@@ -60,6 +60,7 @@ public:
 
     QScriptValue newInstance(int size = 0);
     QScriptValue newInstance(const QByteArray &ba);
+    QScriptValue newInstance(const QString &text);
 
     QueryFlags queryProperty(const QScriptValue &object,
                              const QScriptString &name,
