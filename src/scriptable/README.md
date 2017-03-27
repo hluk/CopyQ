@@ -150,6 +150,8 @@ This does all of the below.
 
 Returns clipboard data for MIME type (default is text).
 
+Pass argument `"?"` to list available MIME types.
+
 ###### ByteArray selection([mimeType])
 
 Same as `clipboard()` for Linux/X11 mouse selection.
@@ -277,6 +279,8 @@ Same as `clipboard()`.
 ###### ByteArray read(mimeType, row, ...);
 
 Returns concatenated data from items.
+
+Pass argument `"?"` to list available MIME types.
 
 ###### write(row, mimeType, data, [mimeType, data]...)
 
