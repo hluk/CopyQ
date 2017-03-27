@@ -537,6 +537,9 @@ ItemEncryptedLoader::~ItemEncryptedLoader()
 
 ItemWidget *ItemEncryptedLoader::create(const QModelIndex &index, QWidget *parent, bool) const
 {
+    if ( index.data(contentType::isHidden).toBool() )
+        return nullptr;
+
     const QVariantMap dataMap = index.data(contentType::data).toMap();
     return dataMap.contains(mimeEncryptedData) ? new ItemEncrypted(parent) : nullptr;
 }
