@@ -404,9 +404,24 @@ Get or set current path.
 
 Converts a value to string.
 
+If ByteArray object is the argument, it assumes UTF8 encoding.
+To use different encoding, use `toUnicode()`.
+
 ###### ByteArray input()
 
 Returns standard input passed to the script.
+
+###### String toUnicode(ByteArray, encodingName)
+
+Returns string for bytes with given encoding.
+
+###### String toUnicode(ByteArray)
+
+Returns string for bytes with encoding detected by checking Byte Order Mark (BOM).
+
+###### ByteArray fromUnicode(String, encodingName)
+
+Returns encoded text.
 
 ###### ByteArray data(mimeType)
 

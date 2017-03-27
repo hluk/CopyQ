@@ -212,6 +212,9 @@ public slots:
 
     QScriptValue str(const QScriptValue &value);
     QScriptValue input();
+    QScriptValue toUnicode();
+    QScriptValue fromUnicode();
+
     QScriptValue dataFormats();
     QScriptValue data(const QScriptValue &value);
     QScriptValue setData();

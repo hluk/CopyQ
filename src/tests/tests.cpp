@@ -751,6 +751,17 @@ void Tests::commandFocused()
     RUN("focused", "false\n");
 }
 
+void Tests::commandsUnicode()
+{
+    const QString text = "Zkouška s různými českými znaky!";
+    RUN("eval" << "str(arguments[1])" << text, text + "\n");
+
+    RUN("eval" << "fromUnicode(str(arguments[1]), 'utf8')" << text, text);
+    RUN("eval" << "toUnicode(fromUnicode(str(arguments[1]), 'utf16'), 'utf16')" << text, text + "\n");
+    RUN("eval" << "toUnicode(fromUnicode(str(arguments[1]), 'utf32le'), 'utf32le')" << text, text + "\n");
+    RUN("eval" << "toUnicode( fromUnicode(str(arguments[1]), 'utf16le') )" << text, text + "\n");
+}
+
 void Tests::commandsAddRead()
 {
     RUN("add" << "A", "");

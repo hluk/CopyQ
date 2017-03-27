@@ -54,6 +54,7 @@
 #include <QScriptValueIterator>
 #include <QSettings>
 #include <QUrl>
+#include <QTextCodec>
 #include <QThread>
 
 Q_DECLARE_METATYPE(QByteArray*)
@@ -1340,6 +1341,53 @@ QScriptValue Scriptable::input()
     }
 
     return m_input;
+}
+
+QScriptValue Scriptable::toUnicode()
+{
+    m_skipArguments = 2;
+
+    const auto bytes = makeByteArray(argument(0));
+
+    if (argumentCount() >= 2) {
+        const auto codec = QTextCodec::codecForName( makeByteArray(argument(1)) );
+        if (!codec) {
+            throwError("Available codecs are: " + QString::fromUtf8(QTextCodec::availableCodecs().join('\n')));
+            return QScriptValue();
+        }
+        return codec->toUnicode(bytes);
+    }
+
+    if (argumentCount() >= 1) {
+        const auto codec = QTextCodec::codecForUtfText(bytes, nullptr);
+        if (!codec) {
+            throwError("Failed to detect encoding");
+            return QScriptValue();
+        }
+        return codec->toUnicode(bytes);
+    }
+
+    throwError(argumentError());
+    return QScriptValue();
+}
+
+QScriptValue Scriptable::fromUnicode()
+{
+    m_skipArguments = 2;
+
+    if (argumentCount() < 2) {
+        throwError(argumentError());
+        return QScriptValue();
+    }
+
+    const auto codec = QTextCodec::codecForName( makeByteArray(argument(1)) );
+    if (!codec) {
+        throwError("Available codecs are: " + QString::fromUtf8(QTextCodec::availableCodecs().join('\n')));
+        return QScriptValue();
+    }
+
+    const auto text = arg(0);
+    return newByteArray( codec->fromUnicode(text) );
 }
 
 QScriptValue Scriptable::dataFormats()

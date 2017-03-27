@@ -66,6 +66,8 @@ private slots:
     void commandShowAt();
     void commandFocused();
 
+    void commandsUnicode();
+
     void commandsAddRead();
     void commandsWriteRead();
     void commandChange();
