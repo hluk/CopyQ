@@ -190,7 +190,7 @@ QVariantMap cloneData(const QMimeData &data, QStringList formats)
     bool imageLoaded = false;
 
     // Ignore non-text data if text is available.
-    if ( formats.contains(mimeText) ) {
+    if ( formats.contains(mimeText) && data.hasFormat(mimeText) ) {
         const auto first = std::remove_if(
                     std::begin(formats), std::end(formats),
                     [](const QString &format) {
