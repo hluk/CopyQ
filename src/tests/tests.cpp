@@ -1220,6 +1220,11 @@ void Tests::commandsImportExportCommands()
    RUN("importCommands(exportCommands([{},{name: 'Test 2'}]))[1].name", "Test 2\n");
 }
 
+void Tests::commandScreenshot()
+{
+    RUN("screenshot().size() > 0", "true\n")
+}
+
 void Tests::classFile()
 {
     RUN("eval" <<

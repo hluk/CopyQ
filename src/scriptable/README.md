@@ -738,6 +738,20 @@ Returns true only if the variable was set.
 
 Wait for given time in milliseconds.
 
+###### ByteArray screenshot(format='png', [screenName])
+
+Returns image data with screenshot.
+
+Example:
+
+```js
+copy('image/png', screenshot())
+```
+
+###### ByteArray screenshotSelect(format='png', [screenName])
+
+Same as `screenshot()` but allows to select an area on screen.
+
 ### Types
 
 ###### ByteArray

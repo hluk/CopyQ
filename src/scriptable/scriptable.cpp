@@ -39,6 +39,7 @@
 #include "../qxt/qxtglobal.h"
 
 #include <QApplication>
+#include <QBuffer>
 #include <QDateTime>
 #include <QDir>
 #include <QDesktopServices>
@@ -48,6 +49,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QPixmap>
 #include <QRegExp>
 #include <QScriptContext>
 #include <QScriptEngine>
@@ -1926,6 +1928,16 @@ QVariantList Scriptable::currentArguments()
     return arguments;
 }
 
+QScriptValue Scriptable::screenshot()
+{
+    return screenshot(false);
+}
+
+QScriptValue Scriptable::screenshotSelect()
+{
+    return screenshot(true);
+}
+
 void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 {
     COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );
@@ -2225,6 +2237,32 @@ void Scriptable::nextToClipboard(int where)
 #ifdef HAS_MOUSE_SELECTIONS
     setClipboard(&data, QClipboard::Selection);
 #endif
+}
+
+QScriptValue Scriptable::screenshot(bool select)
+{
+    m_skipArguments = 2;
+
+    const auto format = arg(0, "png");
+    const auto screen = arg(1);
+    const auto pixmap = m_proxy->screenshot(screen, select);
+
+    if (pixmap.isNull()) {
+        throwError("Failed to grab screenshot");
+        return QScriptValue();
+    }
+
+    QByteArray bytes;
+    {
+        QBuffer buffer(&bytes);
+        buffer.open(QIODevice::WriteOnly);
+        if ( !pixmap.save(&buffer, format.toUtf8().constData()) ) {
+            throwError("Failed to save screenshot");
+            return QScriptValue();
+        }
+    }
+
+    return newByteArray(bytes);
 }
 
 QScriptValue Scriptable::eval(const QString &script, const QString &fileName)

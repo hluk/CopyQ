@@ -296,6 +296,9 @@ public slots:
 
     QVariantList currentArguments();
 
+    QScriptValue screenshot();
+    QScriptValue screenshotSelect();
+
 public slots:
     void onMessageReceived(const QByteArray &bytes, int messageCode);
     void onDisconnected();
@@ -315,6 +318,7 @@ private:
     bool setClipboard(QVariantMap *data, QClipboard::Mode mode);
     void changeItem(bool create);
     void nextToClipboard(int where);
+    QScriptValue screenshot(bool select);
     QByteArray serialize(const QScriptValue &value);
     QScriptValue eval(const QString &script, const QString &fileName);
     QScriptValue eval(const QString &script);

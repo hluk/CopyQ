@@ -43,18 +43,26 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QCursor>
 #include <QDateTimeEdit>
+#include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QFile>
 #include <QFileDialog>
+#include <QWidget>
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
 #include <QMimeData>
+#include <QPainter>
+#include <QPaintEvent>
+#include <QPen>
+#include <QPixmap>
 #include <QPushButton>
+#include <QScreen>
 #include <QShortcut>
 #include <QSpinBox>
 #include <QTextEdit>
@@ -134,6 +142,75 @@ CallableFn<T, Return> createCallable(T &&lambda)
 {
     return CallableFn<T, Return>(std::forward<T>(lambda));
 }
+
+class ScreenshotRectWidget : public QLabel {
+public:
+    explicit ScreenshotRectWidget(const QPixmap &pixmap)
+    {
+        setWindowFlags(Qt::Widget | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+        setCursor(Qt::CrossCursor);
+
+        move(0, 0);
+        resize(pixmap.size());
+        setPixmap(pixmap);
+
+        show();
+    }
+
+    void paintEvent(QPaintEvent *ev) override
+    {
+        QLabel::paintEvent(ev);
+        if (selectionRect.isValid()) {
+            QPainter p(this);
+            const auto w = pointsToPixels(1);
+
+            p.setPen(QPen(Qt::white, w));
+            p.drawRect(selectionRect);
+
+            p.setPen(QPen(Qt::black, w));
+            p.drawRect(selectionRect.adjusted(-w, -w, w, w));
+        }
+    }
+
+    void keyPressEvent(QKeyEvent *ev) override
+    {
+        QWidget::keyPressEvent(ev);
+        hide();
+    }
+
+    void mousePressEvent(QMouseEvent *ev) override
+    {
+        if ( ev->button() == Qt::LeftButton ) {
+            m_pos = ev->pos();
+            selectionRect.setTopLeft(m_pos);
+            update();
+        } else {
+            hide();
+        }
+    }
+
+    void mouseReleaseEvent(QMouseEvent *) override
+    {
+        hide();
+    }
+
+    void mouseMoveEvent(QMouseEvent *ev) override
+    {
+        if ( !ev->buttons().testFlag(Qt::LeftButton) )
+            return;
+
+        const auto pos = ev->pos();
+        const auto x = std::minmax(pos.x(), m_pos.x());
+        const auto y = std::minmax(pos.y(), m_pos.y());
+        selectionRect = QRect( QPoint(x.first, y.first), QPoint(x.second, y.second) );
+        update();
+    }
+
+    QRect selectionRect;
+
+private:
+    QPoint m_pos;
+};
 
 /// Load icon from icon font, path or theme.
 QIcon loadIcon(const QString &idPathOrName)
@@ -1134,6 +1211,41 @@ void ScriptableProxy::addCommands(const QList<Command> &commands)
 {
     INVOKE2(addCommands(commands));
     m_wnd->addCommands(commands);
+}
+
+QPixmap ScriptableProxy::screenshot(const QString &screenName, bool select)
+{
+    INVOKE(screenshot(screenName, select));
+
+#if QT_VERSION < 0x050000
+    auto pixmap = QPixmap::grabWindow(QApplication::desktop()->winId());
+#else
+    QScreen *selectedScreen = nullptr;
+    if ( screenName.isEmpty() ) {
+        selectedScreen = QApplication::primaryScreen();
+    } else {
+        for ( const auto screen : QApplication::screens() ) {
+            if (screen->name() == screenName) {
+                selectedScreen = screen;
+                break;
+            }
+        }
+    }
+
+    if (!selectedScreen)
+        return QPixmap();
+
+    auto pixmap = selectedScreen->grabWindow(0);
+#endif
+
+    if (!select)
+        return pixmap;
+
+    ScreenshotRectWidget rectWidget(pixmap);
+    while ( !rectWidget.isHidden() )
+        QCoreApplication::processEvents();
+    const auto rect = rectWidget.selectionRect;
+    return rect.isValid() ? pixmap.copy(rect) : pixmap;
 }
 
 QString ScriptableProxy::pluginsPath()

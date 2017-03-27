@@ -210,6 +210,8 @@ private:
         addDocumentation("env", "ByteArray env(name)", "Returns value of environment variable with given name.");
         addDocumentation("setEnv", "bool setEnv(name, value)", "Sets environment variable with given name to given value.");
         addDocumentation("sleep", "sleep(time)", "Wait for given time in milliseconds.");
+        addDocumentation("screenshot", "ByteArray screenshot(format='png', [screenName])", "Returns image data with screenshot.");
+        addDocumentation("screenshotSelect", "ByteArray screenshotSelect(format='png', [screenName])", "Same as `screenshot()` but allows to select an area on screen.");
         addDocumentation("ByteArray", "ByteArray", "Wrapper for QByteArray Qt class.");
         addDocumentation("File", "File", "Wrapper for QFile Qt class.");
         addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");

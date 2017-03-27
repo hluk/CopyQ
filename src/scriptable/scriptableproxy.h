@@ -33,6 +33,7 @@
 
 class MainWindow;
 class QPersistentModelIndex;
+class QPixmap;
 
 struct Command;
 
@@ -174,6 +175,8 @@ public:
     QList<Command> commands();
     void setCommands(const QList<Command> &commands);
     void addCommands(const QList<Command> &commands);
+
+    QPixmap screenshot(const QString &screenName, bool select);
 
     QString pluginsPath();
     QString themesPath();
