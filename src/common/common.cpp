@@ -435,11 +435,12 @@ void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object,
 
 QString dataToText(const QByteArray &bytes, const QString &mime)
 {
-    bool isHtml = (mime == "text/html");
-    QTextCodec *defaultCodec = codecForText(bytes);
-    QTextCodec *codec = isHtml
-            ? QTextCodec::codecForHtml(bytes, defaultCodec)
-            : QTextCodec::codecForUtfText(bytes, defaultCodec);
+    auto codec = (mime == mimeHtml)
+            ? QTextCodec::codecForHtml(bytes, nullptr)
+            : QTextCodec::codecForUtfText(bytes, nullptr);
+
+    if (!codec)
+        codec = codecForText(bytes);
 
     return codec->toUnicode(bytes);
 }
