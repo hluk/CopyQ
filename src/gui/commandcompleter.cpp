@@ -154,6 +154,7 @@ private:
         addDocumentation("action", "action()", "Opens action dialog.");
         addDocumentation("action", "action(row, ..., command, outputItemSeparator)", "Runs command for items in current tab.");
         addDocumentation("popup", "popup(title, message, [time=8000])", "Shows popup message for given time in milliseconds.");
+        addDocumentation("popup", "popup(title, message, [time=-1], buttonName, command, data, ...)", "Shows popup message with buttons.");
         addDocumentation("exportTab", "exportTab(fileName)", "Exports current tab into file.");
         addDocumentation("importTab", "importTab(fileName)", "Imports items from file to a new tab.");
         addDocumentation("config", "String config()", "Returns help with list of available options.");
@@ -166,6 +167,9 @@ private:
         addDocumentation("currentPath", "String currentPath([path])", "Get or set current path.");
         addDocumentation("str", "String str(value)", "Converts a value to string.");
         addDocumentation("input", "ByteArray input()", "Returns standard input passed to the script.");
+        addDocumentation("toUnicode", "String toUnicode(ByteArray, encodingName)", "Returns string for bytes with given encoding.");
+        addDocumentation("toUnicode", "String toUnicode(ByteArray)", "Returns string for bytes with encoding detected by checking Byte Order Mark (BOM).");
+        addDocumentation("fromUnicode", "ByteArray fromUnicode(String, encodingName)", "Returns encoded text.");
         addDocumentation("data", "ByteArray data(mimeType)", "Returns data for automatic commands or selected items.");
         addDocumentation("setData", "ByteArray setData(mimeType, data)", "Modifies data for `data()` and new clipboard item.");
         addDocumentation("removeData", "ByteArray removeData(mimeType)", "Removes data for `data()` and new clipboard item.");
