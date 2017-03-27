@@ -168,11 +168,14 @@ Same as `hasClipboardFormat()` for Linux/X11 mouse selection.
 
 Sets clipboard plain text.
 
-Exception is thrown if clipboard fails to be set.
+Same as `copy(mimeText, text)`.
 
 ###### bool copy(mimeType, data, [mimeType, data]...)
 
 Sets clipboard data.
+
+This also sets `mimeOwner` format so automatic commands are not run on the new data
+and it's not store in clipboard tab.
 
 Exception is thrown if clipboard fails to be set.
 
@@ -870,6 +873,9 @@ Data contains notes for item.
 ###### mimeOwner (application/x-copyq-owner)
 
 If available, the clipboard was set from CopyQ (from script or copied items).
+
+Such clipboard is ignored in CopyQ, i.e. it won't be stored in clipboard tab and
+automatic commands won't be executed on it.
 
 ###### mimeClipboardMode (application/x-copyq-clipboard-mode)
 
