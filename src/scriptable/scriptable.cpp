@@ -1350,11 +1350,10 @@ QScriptValue Scriptable::toUnicode()
     const auto bytes = makeByteArray(argument(0));
 
     if (argumentCount() >= 2) {
-        const auto codec = QTextCodec::codecForName( makeByteArray(argument(1)) );
-        if (!codec) {
-            throwError("Available codecs are: " + QString::fromUtf8(QTextCodec::availableCodecs().join('\n')));
+        const auto codec = codecFromNameOrThrow(argument(1));
+        if (!codec)
             return QScriptValue();
-        }
+
         return codec->toUnicode(bytes);
     }
 
@@ -1380,11 +1379,9 @@ QScriptValue Scriptable::fromUnicode()
         return QScriptValue();
     }
 
-    const auto codec = QTextCodec::codecForName( makeByteArray(argument(1)) );
-    if (!codec) {
-        throwError("Available codecs are: " + QString::fromUtf8(QTextCodec::availableCodecs().join('\n')));
+    const auto codec = codecFromNameOrThrow(argument(1));
+    if (!codec)
         return QScriptValue();
-    }
 
     const auto text = arg(0);
     return newByteArray( codec->fromUnicode(text) );
@@ -2250,6 +2247,18 @@ QScriptValue Scriptable::eval(const QString &script)
     const int i = script.indexOf('\n');
     const QString name = quoteString( i == -1 ? script : script.mid(0, i) + "..." );
     return eval(script, name);
+}
+
+QTextCodec *Scriptable::codecFromNameOrThrow(const QScriptValue &codecName)
+{
+    const auto codec = QTextCodec::codecForName( makeByteArray(codecName) );
+    if (!codec) {
+        QString codecs;
+        for (const auto &availableCodecName : QTextCodec::availableCodecs())
+            codecs.append( "\n" + QString::fromUtf8(availableCodecName) );
+        throwError("Available codecs are:" + codecs);
+    }
+    return codec;
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

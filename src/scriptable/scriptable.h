@@ -40,6 +40,7 @@ class QFile;
 class QNetworkReply;
 class QNetworkAccessManager;
 class QScriptEngine;
+class QTextCodec;
 
 class Scriptable : public QObject, protected QScriptable
 {
@@ -317,6 +318,7 @@ private:
     QByteArray serialize(const QScriptValue &value);
     QScriptValue eval(const QString &script, const QString &fileName);
     QScriptValue eval(const QString &script);
+    QTextCodec *codecFromNameOrThrow(const QScriptValue &codecName);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
