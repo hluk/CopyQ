@@ -23,6 +23,7 @@
 #include "common/shortcuts.h"
 #include "common/textdata.h"
 #include "common/version.h"
+#include "gui/icons.h"
 
 namespace {
 
@@ -46,36 +47,41 @@ QString helpMail(const char *url)
     return QString("<a href='mailto:%1'>%1</a>").arg(url);
 }
 
-QString helpLink(const QString &name, const QString &link)
+QString helpLink(const QString &name, const QString &link, ushort icon)
 {
-    return QString("<tr><td class='h3'>%1</td><td class='link'>%2</td></tr>").arg(name, link);
+    return "<tr>"
+           "<td class='info'>" + name + "</td>"
+           "<td valign='middle' align='center' class='help-icon icon'>" + QString(QChar(icon)) + "</td>"
+           "<td>" + link + "</td>"
+           "</tr>";
 }
 
 QString helpDeveloper(const char *name, const char *mail)
 {
-    return QString("<div>%1 &nbsp;&nbsp;&nbsp;<span class='h3'>%2</span></div>")
+    return QString("<div>%1 &nbsp;&nbsp;&nbsp;<span class='info'>%2</span></div>")
             .arg(QString::fromUtf8(name))
             .arg(mail);
 }
 
 QString helpLib(const char *name, const QString &description, const QString &copyright, const char *url)
 {
-    return QString("<p class=\"ppp\"><span class='h2x'>%1</span>"
-                   "&nbsp;&nbsp;&nbsp;<span class='h3'>%2</span><br />%3<br />%4</p>")
+    return QString("<p><span class='library'>%1</span>"
+                   "&nbsp;&nbsp;&nbsp;<span class='info'>%2</span><br />%3<br />%4</p>")
             .arg(name)
             .arg( escapeHtml(description) )
             .arg(copyright)
             .arg( helpUrl(url) );
 }
 
-QString helpTitle(const QString &title)
+QString helpSection(const QString &title, ushort icon)
 {
-    return "<div class='h2'>" + escapeHtml(title) + "</div>";
+    return "<div class='section'>" + escapeHtml(title)
+            + "<span class='section-icon icon'>&nbsp;&nbsp;" + QString(QChar(icon)) + "</span></div>";
 }
 
 QString helpParagraph(const QString &text)
 {
-    return "<p class=\"pp\">" + escapeHtml(text) + "</p>";
+    return "<p>" + escapeHtml(text) + "</p>";
 }
 
 } // namespace
@@ -98,59 +104,55 @@ QString AboutDialog::aboutPage()
     return
         "<html>"
 
-        // CSS
-        "<head><style type=\"text/css\">"
-        "body{font-size:10pt;background:white;color:#333;margin:1.5em}"
-        "p, li{white-space:pre-wrap;margin-left:1ex}"
+        "<head><style type='text/css'>"
+        "body{font-size:10pt;background:white;color:#333;margin:1.0em}"
+        "p,li{margin-left:4ex;white-space:pre-wrap;margin-left:1ex}"
         "a{text-decoration:none}"
-        ".h1{font-size:26pt;color:#666;white-space:pre}"
-        ".h1x{font-size:16pt;color:#888;white-space:pre}"
-        ".h2{width:100%;font-size:16pt;margin-left:1ex;margin-top:0.2em}"
-        ".h2x{font-size:12pt}"
-        ".h3{font-size:9pt;color:#666}"
-        ".links td{padding:0}"
-        ".link{font-size:9pt}"
-        ".pp{margin-left:4ex}"
-        ".ppp{margin-left:4ex;font-size:9pt}"
         "table{border:0}"
-        ".odd {background:#def}"
         "td{padding:0.1em}"
+        "#title{font-size:26pt;color:#666;white-space:pre;margin-bottom:0.2em}"
+        "#subtitle{font-size:16pt;color:#888;white-space:pre;margin-bottom:0.2em}"
+        "#version{font-size:12pt}"
+        "#copyright{font-size:9pt;color:#666}"
+        ".icon{font-family:FontAwesome}"
+        ".help-icon{color:#999;padding-left:1em;padding-right:1em}"
+        ".section-icon{color:#777}"
+        ".section{font-size:16pt}"
+        ".library{font-size:12pt}"
+        ".info{color:#666}"
+        ".odd{background:#def}"
         "#keys{margin-left:4ex}"
         ".key{font-family:monospace;font-size:9pt;padding-left:0.5em}"
-        ".logo{float:left}"
-        ".info{font-size:9pt}"
         "</style></head>"
 
         "<body>"
 
-        // logo
-        "<img class='logo' src=':/images/logo.png' />"
-
-        // title
-        "<div class='h1'>CopyQ</div>"
-        // subtitle
-        "<div class=\"h1x\">" + escapeHtml(tr("Clipboard Manager"))
-            + " " COPYQ_VERSION "</div>"
+        "<table><tr valign='middle'>"
+        "<td><img src=':/images/logo.png' /></td>"
+        "<td>"
+        "<div id='title'>CopyQ</div>"
+        "<div id='subtitle'>" + escapeHtml(tr("Clipboard Manager")) + "</div>"
+        "<div id='version'>" + COPYQ_VERSION "</div>"
+        "</td>"
+        "</tr></table>"
 
         "<p>"
         "<table class='links'>"
-            + helpLink( tr("Author"), QString::fromUtf8("Lukáš Holeček") )
-            + helpLink( tr("E-mail"), helpMail("hluk@email.cz") )
-            + helpLink( tr("Web"), helpUrl("https://hluk.github.io/CopyQ/") )
-            + helpLink( tr("Wiki"), helpUrl("https://github.com/hluk/CopyQ/wiki") )
-            + helpLink( tr("Donate"), helpUrl("https://www.bountysource.com/teams/copyq") )
+            + helpLink( tr("Author"), QString::fromUtf8("Lukáš Holeček"), IconUser )
+            + helpLink( tr("E-mail"), helpMail("hluk@email.cz"), IconEnvelope )
+            + helpLink( tr("Web"), helpUrl("https://hluk.github.io/CopyQ/"), IconHome )
+            + helpLink( tr("Wiki"), helpUrl("https://github.com/hluk/CopyQ/wiki"), IconBook )
+            + helpLink( tr("Donate"), helpUrl("https://www.bountysource.com/teams/copyq"), IconGift )
             +
         "</table>"
         "</p>"
 
-        // copyright
-        "<p class='info'>Copyright (c) 2009 - 2017</p>"
+        "<p id='copyright'>Copyright (c) 2009 - 2017</p>"
 
         "<p></p>"
 
-        + helpTitle(tr("Development"))
-        + "<p class=\"pp\">"
-            // developers
+        + helpSection(tr("Development"), IconPencil)
+        + "<p>"
             + helpDeveloper("Adam Batkin", "adam@batkin.net")
             + helpDeveloper("Giacomo Margarito", "giacomomargarito@gmail.com")
             + helpDeveloper("Greg Carp", "grcarpbe@gmail.com")
@@ -175,20 +177,19 @@ QString AboutDialog::aboutPage()
             +
         "</p>"
 
-            // libraries
-            + helpLib("Qt", tr("Library used in the application", "Qt library description"),
+            + helpLib("Qt", "",
                       "The Qt Toolkit is Copyright (C) 2016 The Qt Company Ltd. and other contributors.", "https://www.qt.io/")
             + helpLib("Weblate", tr("Free web-based translation management system", "Weblate description"),
                       "Copyright (c) 2012 - 2016 Michal &#268;iha&#345;", "https://weblate.org")
             + helpLib("Font Awesome", tr("Iconic font used in the application", "Font Awesome description"),
                       "Created & Maintained by Dave Gandy", "https://fortawesome.github.io/Font-Awesome/")
-            + helpLib("LibQxt", tr("Library used in the application", "LibQxt library description"),
+            + helpLib("LibQxt", "",
                       "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
             + helpLib("Solarized", tr("Color palette used for themes", "Solarized palette/themes description"),
                       "Copyright (c) 2011 Ethan Schoonover", "http://ethanschoonover.com/solarized")
 
         // keyboard title
-        + helpTitle(tr("Keyboard"))
+        + helpSection(tr("Keyboard"), IconKeyboard)
 
         + helpParagraph(tr("Application shortcuts can be changed in Preferences dialog."))
 
@@ -199,7 +200,7 @@ QString AboutDialog::aboutPage()
         + helpParagraph(tr("Type any text to search the clipboard history."))
 
         // keyboard table
-        + "<p><table id=\"keys\">"
+        + "<p><table id='keys'>"
             + helpKeys( tr("Item list navigation"), tr("Up/Down, Page Up/Down, Home/End") )
             + helpKeys( tr("Tab navigation"),
                         tr("Left, Right, %1, %2", "Keys for tab navigation (%1, %2 are the standard keys).")
