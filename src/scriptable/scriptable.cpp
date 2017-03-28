@@ -39,7 +39,6 @@
 #include "../qxt/qxtglobal.h"
 
 #include <QApplication>
-#include <QBuffer>
 #include <QDateTime>
 #include <QDir>
 #include <QDesktopServices>
@@ -49,7 +48,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QPixmap>
 #include <QRegExp>
 #include <QScriptContext>
 #include <QScriptEngine>
@@ -2245,24 +2243,14 @@ QScriptValue Scriptable::screenshot(bool select)
 
     const auto format = arg(0, "png");
     const auto screen = arg(1);
-    const auto pixmap = m_proxy->screenshot(screen, select);
+    const auto imageData = m_proxy->screenshot(format, screen, select);
 
-    if (pixmap.isNull()) {
+    if ( imageData.isEmpty() ) {
         throwError("Failed to grab screenshot");
         return QScriptValue();
     }
 
-    QByteArray bytes;
-    {
-        QBuffer buffer(&bytes);
-        buffer.open(QIODevice::WriteOnly);
-        if ( !pixmap.save(&buffer, format.toUtf8().constData()) ) {
-            throwError("Failed to save screenshot");
-            return QScriptValue();
-        }
-    }
-
-    return newByteArray(bytes);
+    return newByteArray(imageData);
 }
 
 QScriptValue Scriptable::eval(const QString &script, const QString &fileName)

@@ -44,6 +44,7 @@
 #include <QVBoxLayout>
 
 #include <QApplication>
+#include <QBuffer>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QCursor>
@@ -1213,9 +1214,9 @@ void ScriptableProxy::addCommands(const QList<Command> &commands)
     m_wnd->addCommands(commands);
 }
 
-QPixmap ScriptableProxy::screenshot(const QString &screenName, bool select)
+QByteArray ScriptableProxy::screenshot(const QString &format, const QString &screenName, bool select)
 {
-    INVOKE(screenshot(screenName, select));
+    INVOKE(screenshot(format, screenName, select));
 
 #if QT_VERSION < 0x050000
     auto pixmap = QPixmap::grabWindow(QApplication::desktop()->winId());
@@ -1233,19 +1234,29 @@ QPixmap ScriptableProxy::screenshot(const QString &screenName, bool select)
     }
 
     if (!selectedScreen)
-        return QPixmap();
+        return QByteArray();
 
     auto pixmap = selectedScreen->grabWindow(0);
 #endif
 
-    if (!select)
-        return pixmap;
+    if (select) {
+        ScreenshotRectWidget rectWidget(pixmap);
+        while ( !rectWidget.isHidden() )
+            QCoreApplication::processEvents();
+        const auto rect = rectWidget.selectionRect;
+        if ( rect.isValid() )
+            pixmap = pixmap.copy(rect);
+    }
 
-    ScreenshotRectWidget rectWidget(pixmap);
-    while ( !rectWidget.isHidden() )
-        QCoreApplication::processEvents();
-    const auto rect = rectWidget.selectionRect;
-    return rect.isValid() ? pixmap.copy(rect) : pixmap;
+    QByteArray bytes;
+    {
+        QBuffer buffer(&bytes);
+        buffer.open(QIODevice::WriteOnly);
+        if ( !pixmap.save(&buffer, format.toUtf8().constData()) )
+            return QByteArray();
+    }
+
+    return bytes;
 }
 
 QString ScriptableProxy::pluginsPath()
