@@ -27,7 +27,6 @@
 #include <QList>
 #include <QMetaObject>
 #include <QObject>
-#include <QSystemTrayIcon>
 
 #include <memory>
 
@@ -94,9 +93,10 @@ public:
 
     void showMessage(const QString &title,
             const QString &msg,
-            QSystemTrayIcon::MessageIcon icon,
+            const QString &icon,
             int msec,
-            const NotificationButtons &buttons);
+            const QString &notificationId = QString(),
+            const NotificationButtons &buttons = NotificationButtons());
 
     QVariantMap nextItem(int where);
     void browserMoveToClipboard(int arg1);

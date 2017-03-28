@@ -33,17 +33,17 @@ class Notification : public QWidget
     Q_OBJECT
     friend class NotificationDaemon;
 protected:
-    Notification(int id, const QString &title, const NotificationButtons &buttons);
+    Notification(const QString &id, const QString &title, const NotificationButtons &buttons);
 
     void setMessage(const QString &msg, Qt::TextFormat format = Qt::AutoText);
     void setPixmap(const QPixmap &pixmap);
-    void setIcon(ushort icon);
+    void setIcon(const QString &icon);
     void setInterval(int msec);
     void setOpacity(qreal opacity);
 
     void updateIcon();
 
-    int id() const { return m_id; }
+    const QString &id() const { return m_id; }
 
     void adjust();
 
@@ -65,14 +65,14 @@ private slots:
     void onButtonClicked(const NotificationButton &button);
 
 private:
-    const int m_id;
+    QString m_id;
     QWidget *m_body;
     QLabel *m_titleLabel;
     QLabel *m_iconLabel;
     QLabel *m_msgLabel;
     QTimer m_timer;
     qreal m_opacity;
-    ushort m_icon;
+    QString m_icon;
 };
 
 #endif // NOTIFICATION_H

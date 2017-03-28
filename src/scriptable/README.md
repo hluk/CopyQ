@@ -319,22 +319,34 @@ Shows popup message for given time in milliseconds.
 
 If `time` argument is set to -1, the popup is hidden only after mouse click.
 
-###### popup(title, message, [time=-1], buttonName, command, data, ...)
+###### notification(...)
 
-Shows popup message with buttons.
+Shows popup message with icon and buttons.
 
-Each button has assigned command and data.
+Each button can have script and data.
 
-If button is clicked the command is executed and data are passed as stdin.
+If button is clicked the notification is hidden and script is executed with the data passed as stdin.
 
 The function returns immediatelly (doesn't wait on user input).
+
+Special arguments:
+
+- '.title' - notification title
+- '.message' - notification message (can contain basic HTML)
+- '.icon' - notification icon (path to image or font icon)
+- '.id' - notification ID - this replaces notification with same ID
+- '.time' - duration of notification in milliseconds (default is -1, i.e. waits for mouse click)
+- '.button' - adds button (three arguments: name, script and data)
 
 Example:
 
 ```js
-popup("Example", "Notification with button",
-      "OK", "copyq:popup(input())", "OK Clicked",
-      "Cancel", "copyq:popup(input())", "Cancel Clicked")
+notification(
+      '.title', 'Example',
+      '.message', 'Notification with button',
+      '.button', 'Cancel', '', '',
+      '.button', 'OK', 'copyq:popup(input())', 'OK Clicked'
+      )
 ```
 
 ###### exportTab(fileName)

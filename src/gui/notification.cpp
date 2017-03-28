@@ -21,6 +21,7 @@
 
 #include "common/appconfig.h"
 #include "common/common.h"
+#include "common/display.h"
 #include "common/textdata.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
@@ -72,14 +73,13 @@ private:
 
 } // namespace
 
-Notification::Notification(int id, const QString &title, const NotificationButtons &buttons)
+Notification::Notification(const QString &id, const QString &title, const NotificationButtons &buttons)
     : m_id(id)
     , m_body(nullptr)
     , m_titleLabel(nullptr)
     , m_iconLabel(nullptr)
     , m_msgLabel(nullptr)
     , m_opacity(1.0)
-    , m_icon(0)
 {
     auto bodyLayout = new QVBoxLayout(this);
     bodyLayout->setMargin(8);
@@ -139,7 +139,7 @@ void Notification::setPixmap(const QPixmap &pixmap)
     m_msgLabel->setPixmap(pixmap);
 }
 
-void Notification::setIcon(ushort icon)
+void Notification::setIcon(const QString &icon)
 {
     m_icon = icon;
 }
@@ -164,7 +164,10 @@ void Notification::updateIcon()
 {
     const QColor color = getDefaultIconColor(*this);
     const auto height = static_cast<int>( m_msgLabel->fontMetrics().lineSpacing() * 1.2 );
-    const QPixmap pixmap = createPixmap(m_icon, color, height);
+    const auto iconId = toIconId(m_icon);
+    const auto pixmap = iconId == 0
+            ? QPixmap(m_icon)
+            : createPixmap(iconId, color, height);
     m_iconLabel->setPixmap(pixmap);
     m_iconLabel->resize(pixmap.size());
 }

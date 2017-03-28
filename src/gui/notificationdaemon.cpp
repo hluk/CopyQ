@@ -44,7 +44,6 @@ int notificationMargin()
 
 NotificationDaemon::NotificationDaemon(QObject *parent)
     : QObject(parent)
-    , m_lastId(0)
     , m_position(BottomRight)
     , m_notifications()
     , m_opacity(1.0)
@@ -56,12 +55,11 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     initSingleShotTimer( &m_timerUpdate, 100, this, SLOT(doUpdateNotifications()) );
 }
 
-void NotificationDaemon::create(
-        const QString &title,
+void NotificationDaemon::create(const QString &title,
         const QString &msg,
-        ushort icon,
+        const QString &icon,
         int msec,
-        int id,
+        const QString &id,
         const NotificationButtons &buttons)
 {
     Notification *notification = createNotification(id, title, buttons);
@@ -73,12 +71,11 @@ void NotificationDaemon::create(
     updateNotifications();
 }
 
-void NotificationDaemon::create(
-        const QVariantMap &data,
+void NotificationDaemon::create(const QVariantMap &data,
         int maxLines,
-        ushort icon,
+        const QString &icon,
         int msec,
-        int id,
+        const QString &id,
         const NotificationButtons &buttons)
 {
     Notification *notification = createNotification(id, QString(), buttons);
@@ -128,7 +125,7 @@ void NotificationDaemon::create(
     updateNotifications();
 }
 
-void NotificationDaemon::updateInterval(int id, int msec)
+void NotificationDaemon::updateInterval(const QString &id, int msec)
 {
     Notification *notification = findNotification(id);
     if (notification)
@@ -168,7 +165,7 @@ void NotificationDaemon::setNotificationStyleSheet(const QString &styleSheet)
     m_styleSheet = styleSheet;
 }
 
-void NotificationDaemon::removeNotification(int id)
+void NotificationDaemon::removeNotification(const QString &id)
 {
     Notification *notification = findNotification(id);
     if (notification)
@@ -217,7 +214,7 @@ void NotificationDaemon::doUpdateNotifications()
     }
 }
 
-Notification *NotificationDaemon::findNotification(int id)
+Notification *NotificationDaemon::findNotification(const QString &id)
 {
     for (auto notification : m_notifications) {
         if (notification->id() == id)
@@ -227,16 +224,14 @@ Notification *NotificationDaemon::findNotification(int id)
     return nullptr;
 }
 
-Notification *NotificationDaemon::createNotification(
-        int id, const QString &title, const NotificationButtons &buttons)
+Notification *NotificationDaemon::createNotification(const QString &id, const QString &title, const NotificationButtons &buttons)
 {
     Notification *notification = nullptr;
-    if (id >= 0)
+    if ( !id.isEmpty() )
         notification = findNotification(id);
 
-    const int newId = (id >= 0) ? id : -(++m_lastId);
     if (notification == nullptr) {
-        notification = new Notification(newId, title, buttons);
+        notification = new Notification(id, title, buttons);
         connect(this, SIGNAL(destroyed()), notification, SLOT(deleteLater()));
         connect( notification, SIGNAL(closeNotification(Notification*)),
                  this, SLOT(onNotificationClose(Notification*)) );

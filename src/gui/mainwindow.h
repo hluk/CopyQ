@@ -210,22 +210,20 @@ public:
     void enterSearchMode(const QString &txt);
 
     /** Show notification. */
-    void showMessage(
-            const QString &title, //!< Message title.
+    void showMessage(const QString &title, //!< Message title.
             const QString &msg, //!< Message text.
-            QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information,
+            ushort icon = QSystemTrayIcon::Information,
             //!< Type of popup.
             int msec = 8000, //!< Show interval.
-            int notificationId = -1, //!< ID of notification.
+            const QString &notificationId = QString(), //!< ID of notification.
             const NotificationButtons &buttons = NotificationButtons());
 
     /** Show popup with icon. */
-    void showMessage(
-            const QString &title,
+    void showMessage(const QString &title,
             const QString &msg,
-            ushort icon,
+            const QString &icon,
             int msec,
-            int notificationId = -1,
+            const QString &notificationId = QString(),
             const NotificationButtons &buttons = NotificationButtons());
 
     /** Show clipboard content in notification. */

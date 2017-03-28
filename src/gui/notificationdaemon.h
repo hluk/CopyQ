@@ -50,26 +50,25 @@ public:
 
     explicit NotificationDaemon(QObject *parent = nullptr);
 
-    /** Create new notification or update one with same @a id (if non-negative). */
-    void create(
-            const QString &title,
+    /** Create new notification or update one with same @a id (if non-empty). */
+    void create(const QString &title,
             const QString &msg,
-            ushort icon,
+            const QString &icon,
             int msec,
-            int id,
+            const QString &id,
             const NotificationButtons &buttons);
 
-    /** Create new notification or update one with same @a id (if non-negative). */
+    /** Create new notification or update one with same @a id (if non-empty). */
     void create(
             const QVariantMap &data,
             int maxLines,
-            ushort icon,
+            const QString &icon,
             int msec,
-            int id,
+            const QString &id,
             const NotificationButtons &buttons);
 
     /** Update interval to show notification with given @a id. */
-    void updateInterval(int id, int msec);
+    void updateInterval(const QString &id, int msec);
 
     void setPosition(Position position);
 
@@ -83,7 +82,7 @@ public:
 
     void setNotificationStyleSheet(const QString &styleSheet);
 
-    void removeNotification(int id);
+    void removeNotification(const QString &id);
 
 signals:
     void notificationButtonClicked(const NotificationButton &button);
@@ -93,15 +92,14 @@ private slots:
     void doUpdateNotifications();
 
 private:
-    Notification *findNotification(int id);
+    Notification *findNotification(const QString &id);
 
     Notification *createNotification(
-            int id, const QString &title, const NotificationButtons &buttons);
+            const QString &id, const QString &title, const NotificationButtons &buttons);
 
     int offsetX() const;
     int offsetY() const;
 
-    int m_lastId;
     Position m_position;
     QList<Notification*> m_notifications;
     qreal m_opacity;

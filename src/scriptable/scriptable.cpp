@@ -29,6 +29,7 @@
 #include "common/sleeptimer.h"
 #include "common/version.h"
 #include "common/textdata.h"
+#include "gui/icons.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"
@@ -1084,27 +1085,53 @@ void Scriptable::action()
 
 void Scriptable::popup()
 {
+    m_skipArguments = 3;
+
+    const QString title = arg(0);
+    const QString message = arg(1);
+    const auto icon = QString(QChar(IconInfoSign));
+    int msec;
+    if ( !toInt(argument(2), &msec) )
+        msec = 8000;
+    m_proxy->showMessage(title, message, icon, msec);
+}
+
+void Scriptable::notification()
+{
     m_skipArguments = -1;
 
-    int i = 0;
-    const QString title = arg(i++);
-    const QString message = arg(i++);
-    int msec;
-    if ( toInt(argument(i), &msec) )
-        ++i;
-    else
-        msec = i < argumentCount() ? -1 : 8000;
-
+    QString title;
+    QString message;
+    int msec = -1;
+    auto icon = QString(QChar(IconInfoSign));
+    QString notificationId;
     NotificationButtons buttons;
-    while ( i < argumentCount() ) {
-        NotificationButton button;
-        button.name = arg(i++);
-        button.script = arg(i++);
-        button.data = makeByteArray( argument(i++) );
-        buttons.append(button);
+
+    for ( int i = 0; i < argumentCount(); ++i ) {
+        const auto name = arg(i++);
+        if ( name == QString(".title") ) {
+            title = arg(i);
+        } else if ( name == QString(".message") ) {
+            message = arg(i);
+        } else if ( name == QString(".time") ) {
+            if ( !toInt(argument(i), &msec) )
+                throwError("Expected number after .time argument");
+        } else if ( name == QString(".id") ) {
+            notificationId = arg(i);
+        } else if ( name == QString(".icon") ) {
+            icon = arg(i);
+        } else if ( name == QString(".button") ) {
+            NotificationButton button;
+            button.name = arg(i);
+            button.script = arg(++i);
+            button.data = makeByteArray( argument(++i) );
+            buttons.append(button);
+        } else {
+            throwError("Unknown argument: " + name);
+        }
     }
 
-    m_proxy->showMessage(title, message, QSystemTrayIcon::Information, msec, buttons);
+    m_proxy->showMessage(title, message, icon, msec, notificationId, buttons);
 }
 
 void Scriptable::exportTab()
@@ -2106,7 +2133,7 @@ void Scriptable::showExceptionMessage(const QString &message)
     const auto title = m_actionName.isEmpty()
         ? tr("Exception")
         : tr("Exception in %1").arg( quoteString(m_actionName) );
-    m_proxy->showMessage(title, message, QSystemTrayIcon::Warning, 8000, NotificationButtons());
+    m_proxy->showMessage(title, message, QString(QChar(IconWarningSign)), 8000);
 }
 
 QList<int> Scriptable::getRows() const

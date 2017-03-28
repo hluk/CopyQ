@@ -94,8 +94,6 @@ const QIcon iconTabNew() { return getIconFromResources("tab_new"); }
 const QIcon iconTabRemove() { return getIconFromResources("tab_remove"); }
 const QIcon iconTabRename() { return getIconFromResources("tab_rename"); }
 
-const int clipboardNotificationId = 0;
-
 const char propertyWidgetSizeGuarded[] = "CopyQ_widget_size_guarded";
 
 /// Omit size changes of a widget.
@@ -2048,36 +2046,20 @@ bool MainWindow::maybeCloseCommandDialog()
 void MainWindow::showMessage(
         const QString &title,
         const QString &msg,
-        QSystemTrayIcon::MessageIcon icon,
+        ushort icon,
         int msec,
-        int notificationId,
+        const QString &notificationId,
         const NotificationButtons &buttons)
 {
-    ushort icon2 = 0;
-
-    switch (icon) {
-    case QSystemTrayIcon::Information:
-        icon2 = IconInfoSign;
-        break;
-    case QSystemTrayIcon::Warning:
-        icon2 = IconWarningSign;
-        break;
-    case QSystemTrayIcon::Critical:
-        icon2 = IconRemoveSign;
-        break;
-    case QSystemTrayIcon::NoIcon:
-        break;
-    }
-
-    showMessage(title, msg, icon2, msec, notificationId, buttons);
+    showMessage(title, msg, QString(QChar(icon)), msec, notificationId, buttons);
 }
 
 void MainWindow::showMessage(
         const QString &title,
         const QString &msg,
-        ushort icon,
+        const QString &icon,
         int msec,
-        int notificationId,
+        const QString &notificationId,
         const NotificationButtons &buttons)
 {
     notificationDaemon()->create(title, msg, icon, msec, notificationId, buttons);
@@ -2086,11 +2068,12 @@ void MainWindow::showMessage(
 void MainWindow::showClipboardMessage(const QVariantMap &data)
 {
     if ( m_options.itemPopupInterval != 0 && m_options.clipboardNotificationLines > 0) {
+        const QString clipboardNotificationId = "CopyQ_clipboard_notification";
         if (data.isEmpty()) {
             notificationDaemon()->removeNotification(clipboardNotificationId);
         } else {
             notificationDaemon()->create(
-                        data, m_options.clipboardNotificationLines, IconPaste,
+                        data, m_options.clipboardNotificationLines, QString(QChar(IconPaste)),
                         m_options.itemPopupInterval * 1000, clipboardNotificationId,
                         NotificationButtons() );
         }
@@ -2100,7 +2083,7 @@ void MainWindow::showClipboardMessage(const QVariantMap &data)
 void MainWindow::showError(const QString &msg)
 {
     showMessage( tr("CopyQ Error", "Notification error message title"),
-                 msg, QSystemTrayIcon::Critical );
+                 msg, IconRemoveSign );
 }
 
 void MainWindow::addCommands(const QList<Command> &commands)

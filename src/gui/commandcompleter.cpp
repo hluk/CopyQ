@@ -154,7 +154,7 @@ private:
         addDocumentation("action", "action()", "Opens action dialog.");
         addDocumentation("action", "action(row, ..., command, outputItemSeparator)", "Runs command for items in current tab.");
         addDocumentation("popup", "popup(title, message, [time=8000])", "Shows popup message for given time in milliseconds.");
-        addDocumentation("popup", "popup(title, message, [time=-1], buttonName, command, data, ...)", "Shows popup message with buttons.");
+        addDocumentation("notification", "notification(...)", "Shows popup message with icon and buttons.");
         addDocumentation("exportTab", "exportTab(fileName)", "Exports current tab into file.");
         addDocumentation("importTab", "importTab(fileName)", "Imports items from file to a new tab.");
         addDocumentation("config", "String config()", "Returns help with list of available options.");

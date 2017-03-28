@@ -191,6 +191,7 @@ public slots:
 
     void action();
     void popup();
+    void notification();
 
     void exportTab();
     void exporttab() { exportTab(); }

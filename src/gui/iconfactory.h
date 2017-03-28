@@ -42,6 +42,8 @@ QIcon getIconFromResources(const QString &iconName);
 
 QIcon iconFromFile(const QString &fileName);
 
+unsigned short toIconId(const QString &fileNameOrId);
+
 QPixmap createPixmap(unsigned short id, const QColor &color, int size);
 
 /// Return app icon (color is calculated from session name).

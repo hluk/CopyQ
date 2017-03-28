@@ -296,8 +296,8 @@ QIcon iconFromFile(const QString &fileName)
     if ( fileName.isEmpty() )
         return QIcon();
 
-    ushort unicode = fileName.at(0).unicode();
-    if (fileName.size() == 1 && unicode >= IconFirst)
+    const auto unicode = toIconId(fileName);
+    if (unicode != 0)
         return loadIconFont() ? IconEngine::createIcon(unicode, "") : QIcon();
 
     return QIcon(fileName);
@@ -366,4 +366,13 @@ QColor getDefaultIconColor(const QWidget &widget, bool selected)
 
     QPalette::ColorRole role = selected ? QPalette::Highlight : parent->backgroundRole();
     return getDefaultIconColor( parent->palette().color(QPalette::Active, role) );
+}
+
+unsigned short toIconId(const QString &fileNameOrId)
+{
+    if ( fileNameOrId.size() != 1 )
+        return 0;
+
+    const auto unicode = fileNameOrId.at(0).unicode();
+    return unicode >= IconFirst ? unicode : 0;
 }
