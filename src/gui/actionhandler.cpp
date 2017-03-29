@@ -36,6 +36,8 @@
 #include <QDateTime>
 #include <QModelIndex>
 
+#include <cmath>
+
 ActionHandler::ActionHandler(MainWindow *mainWindow)
     : QObject(mainWindow)
     , m_wnd(mainWindow)
@@ -136,9 +138,14 @@ void ActionHandler::closeAction(Action *action)
     QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information;
 
     if ( action->actionFailed() ) {
-        msg += tr("Error: %1\n").arg(action->errorString()) + action->errorOutput();
+        msg = tr("Error: %1\n").arg(action->errorString()) + action->errorOutput();
         icon = QSystemTrayIcon::Critical;
-    } else if ( action->exitCode() == 0 && !action->inputFormats().isEmpty() ) {
+    } else if ( action->exitCode() != 0 ) {
+        if ( !action->ignoreExitCode() ) {
+            msg = tr("Exit code: %1\n").arg(action->exitCode()) + "\n" + action->errorOutput();
+            icon = QSystemTrayIcon::Warning;
+        }
+    } else if ( !action->inputFormats().isEmpty() ) {
         const QModelIndex index = action->index();
         ClipboardBrowser *c = m_wnd->browserForItem(index);
         if (c) {
@@ -155,10 +162,20 @@ void ActionHandler::closeAction(Action *action)
                 AppConfig().option<Config::notification_maximum_width>();
         const QString command = action->command()
                 .replace("copyq eval --", "copyq:");
-        const QString name = QString(command).replace('\n', " ");
+        const QString name = action->name().isEmpty()
+                ? QString(command).replace('\n', " ")
+                : action->name();
         const QString format = tr("Command %1").arg(quoteString("%1"));
         const QString title = elideText(name, QFont(), format, pointsToPixels(maxWidthPoints));
-        msg.append("\n---\n" + command + "\n---");
+
+        // Print command with line numbers.
+        int lineNumber = 0;
+        const auto lines = command.split("\n");
+        const auto lineNumberWidth = std::log10(lines.size()) + 1;
+        for (const auto &line : lines)
+            msg.append(QString("\n%1. %2").arg(++lineNumber, lineNumberWidth).arg(line));
+
+        log(title + "\n" + msg);
         m_wnd->showMessage(title, msg, icon);
     }
 
