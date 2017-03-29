@@ -1341,7 +1341,7 @@ QScriptValue Scriptable::source()
 
     QByteArray script;
     {
-        QFile scriptFile(scriptFilePath);
+        QFile scriptFile( getFileName(scriptFilePath) );
         if ( !scriptFile.open(QIODevice::ReadOnly) ) {
             throwError( QString("Failed to open \"%1\": %2")
                         .arg(scriptFilePath)
