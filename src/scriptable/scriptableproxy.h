@@ -33,6 +33,7 @@
 class MainWindow;
 class QPersistentModelIndex;
 class QPixmap;
+class QPoint;
 
 struct Command;
 
@@ -108,7 +109,7 @@ public:
 
     QStringList tabs();
     bool toggleVisible();
-    bool toggleMenu(const QString &tabName, int maxItemCount);
+    bool toggleMenu(const QString &tabName, int maxItemCount, const QPoint &position);
     bool toggleMenu();
     int findTabIndex(const QString &arg1);
 

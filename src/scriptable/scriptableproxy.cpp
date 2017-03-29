@@ -62,6 +62,7 @@
 #include <QPaintEvent>
 #include <QPen>
 #include <QPixmap>
+#include <QPoint>
 #include <QPushButton>
 #include <QScreen>
 #include <QShortcut>
@@ -708,10 +709,10 @@ bool ScriptableProxy::toggleVisible()
     return m_wnd->toggleVisible();
 }
 
-bool ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount)
+bool ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount, const QPoint &position)
 {
-    INVOKE(toggleMenu(tabName, maxItemCount));
-    return m_wnd->toggleMenu(tabName, maxItemCount);
+    INVOKE(toggleMenu(tabName, maxItemCount, position));
+    return m_wnd->toggleMenu(tabName, maxItemCount, position);
 }
 
 bool ScriptableProxy::toggleMenu()

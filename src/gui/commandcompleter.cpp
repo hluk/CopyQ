@@ -114,7 +114,7 @@ private:
         addDocumentation("hide", "hide()", "Hides main window.");
         addDocumentation("toggle", "bool toggle()", "Shows or hides main window.");
         addDocumentation("menu", "menu()", "Opens context menu.");
-        addDocumentation("menu", "menu(tabName, [maxItemCount])", "Shows context menu for given tab.");
+        addDocumentation("menu", "menu(tabName, [maxItemCount, [x, y]])", "Shows context menu for given tab.");
         addDocumentation("exit", "exit()", "Exits server.");
         addDocumentation("disable", "disable(), enable()", "Disables or enables clipboard content storing.");
         addDocumentation("monitoring", "bool monitoring()", "Returns true only if clipboard storing is enabled.");

@@ -103,14 +103,17 @@ Returns true only if main window is being shown.
 
 Opens context menu.
 
-###### menu(tabName, [maxItemCount])
+###### menu(tabName, [maxItemCount, [x, y]])
 
 Shows context menu for given tab.
 
 This menu doesn't show clipboard and doesn't have any special actions.
 
-Optional argument is maximum number.
+Second argument is optional maximum number of items.
 The default value same as for tray (i.e. value of `config('tray_items')`).
+
+Optional arguments x, y are coordinates in pixels on screen where menu should show up.
+By default menu shows up under the mouse cursor.
 
 ###### exit()
 

@@ -1780,14 +1780,14 @@ void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool 
         pasteClipboard(lastWindow);
 }
 
-QWidget *MainWindow::toggleMenu(TrayMenu *menu)
+QWidget *MainWindow::toggleMenu(TrayMenu *menu, const QPoint &pos)
 {
     if ( menu->isVisible() ) {
         menu->close();
         return menu;
     }
 
-    menu->popup( toScreen(QCursor::pos(), menu->width(), menu->height()) );
+    menu->popup( toScreen(pos, menu->width(), menu->height()) );
 
     menu->raise();
     menu->activateWindow();
@@ -1798,6 +1798,11 @@ QWidget *MainWindow::toggleMenu(TrayMenu *menu)
         stealFocus(*menu);
 
     return menu;
+}
+
+QWidget *MainWindow::toggleMenu(TrayMenu *menu)
+{
+    return toggleMenu(menu, QCursor::pos());
 }
 
 bool MainWindow::exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
@@ -2530,7 +2535,7 @@ bool MainWindow::toggleMenu()
     return toggleMenu(m_trayMenu);
 }
 
-bool MainWindow::toggleMenu(const QString &tabName, int itemCount)
+bool MainWindow::toggleMenu(const QString &tabName, int itemCount, const QPoint &position)
 {
     // Just close the previously opened menu if parameters are the same.
     if ( m_menu->isVisible()
@@ -2555,6 +2560,9 @@ bool MainWindow::toggleMenu(const QString &tabName, int itemCount)
 
     if ( m_menu->isEmpty() )
         return m_menu;
+
+    if (position.x() >= 0 && position.y() >= 0)
+        return toggleMenu(m_menu, position);
 
     return toggleMenu(m_menu);
 }

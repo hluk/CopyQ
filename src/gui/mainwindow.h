@@ -200,7 +200,7 @@ public:
      * Show/hide tray menu. Return true only if menu is shown.
      */
     bool toggleMenu();
-    bool toggleMenu(const QString &tabName, int itemCount);
+    bool toggleMenu(const QString &tabName, int itemCount, const QPoint &position);
 
     /** Switch between browse and search mode. */
     void enterBrowseMode();
@@ -678,6 +678,7 @@ private:
 
     void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
     void onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool omitPaste);
+    QWidget *toggleMenu(TrayMenu *menu, const QPoint &pos);
     QWidget *toggleMenu(TrayMenu *menu);
 
     bool exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);

@@ -49,6 +49,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QPoint>
 #include <QRegExp>
 #include <QScriptContext>
 #include <QScriptEngine>
@@ -712,7 +713,7 @@ QScriptValue Scriptable::toggle()
 
 void Scriptable::menu()
 {
-    m_skipArguments = 2;
+    m_skipArguments = 4;
 
     if (argumentCount() == 0) {
         m_proxy->toggleMenu();
@@ -720,15 +721,26 @@ void Scriptable::menu()
         const auto tabName = toString(argument(0), this);
 
         int maxItemCount = -1;
-        if (argumentCount() == 2) {
+        if (argumentCount() >= 2) {
             const auto value = argument(1);
             if ( !toInt(value, &maxItemCount) || maxItemCount <= 0 ) {
-                throwError(argumentError());
+                throwError("Argument maxItemCount must be positive number");
                 return;
             }
         }
 
-        m_proxy->toggleMenu(tabName, maxItemCount);
+        int x = -1;
+        int y = -1;
+        if (argumentCount() >= 3) {
+            const auto xValue = argument(2);
+            const auto yValue = argument(3);
+            if ( !toInt(xValue, &x) || x < 0 || !toInt(yValue, &y) || y < 0 ) {
+                throwError("Coordinates must be positive numbers");
+                return;
+            }
+        }
+
+        m_proxy->toggleMenu( tabName, maxItemCount, QPoint(x, y) );
     }
 }
 
