@@ -1126,8 +1126,10 @@ void Scriptable::notification()
         } else if ( name == QString(".message") ) {
             message = arg(i);
         } else if ( name == QString(".time") ) {
-            if ( !toInt(argument(i), &msec) )
+            if ( !toInt(argument(i), &msec) ) {
                 throwError("Expected number after .time argument");
+                return;
+            }
         } else if ( name == QString(".id") ) {
             notificationId = arg(i);
         } else if ( name == QString(".icon") ) {
@@ -1140,6 +1142,7 @@ void Scriptable::notification()
             buttons.append(button);
         } else {
             throwError("Unknown argument: " + name);
+            return;
         }
     }
 
@@ -1343,6 +1346,7 @@ QScriptValue Scriptable::source()
             throwError( QString("Failed to open \"%1\": %2")
                         .arg(scriptFilePath)
                         .arg(scriptFile.errorString()) );
+            return QScriptValue();
         }
 
         script = scriptFile.readAll();
