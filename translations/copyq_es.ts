@@ -9,66 +9,64 @@
         <translation>Acerca de CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="131"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="134"/>
         <source>Clipboard Manager</source>
         <translation>Administrador de portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="136"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="137"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="142"/>
         <source>E-mail</source>
         <translation>Correo electrónico</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="138"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="143"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="139"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="144"/>
         <source>Wiki</source>
         <translation>Wiki</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="140"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="145"/>
         <source>Donate</source>
         <translation>Donar</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="150"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="154"/>
         <source>Development</source>
         <translation>Desarrollo</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="178"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation>Biblioteca utilizada en la aplicación</translation>
+        <translation type="vanished">Biblioteca utilizada en la aplicación</translation>
+    </message>
+    <message>
+        <source>Library used in the application</source>
+        <comment>LibQxt library description</comment>
+        <translation type="vanished">Biblioteca utilizada en la aplicación</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="184"/>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation>Biblioteca utilizada en la aplicación</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="182"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
         <translation>Tipografía Iconic utilizada en la aplicación</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="186"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="188"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation>Paleta de colores utilizada por los temas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="180"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="182"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation>Sistema web gratuito para administración de traducciones</translation>
@@ -86,42 +84,42 @@
         <translation type="vanished">Paleta de colores utilizada por los temas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="190"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
         <source>Keyboard</source>
         <translation>Teclado</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
         <translation>Puede cambiar los atajos para aplicación en el diálogo de Preferencias.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="195"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="197"/>
         <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
         <translation>Puede cambiar los atajos globales (de todo el sistema) en el diálogo de Órdenes (F6 es su atajo predeterminado).</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="198"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="200"/>
         <source>Type any text to search the clipboard history.</source>
         <translation>Escriba cualquier texto para buscar en el historial del portapapeles.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="202"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Item list navigation</source>
         <translation>Navegación de lista de elementos</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="202"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
         <translation>Arriba/Abajo, Avance/Retroceso de Página, Inicio/Fin</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="203"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="205"/>
         <source>Tab navigation</source>
         <translation>Navegación de pestañas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="204"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="206"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
         <translation>Izquierda, Derecha, %1, %2</translation>
@@ -131,27 +129,27 @@
         <translation type="vanished">Izquierda, Derecha, Tab, Shift+Tab</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Move selected items</source>
         <translation>Mover elementos seleccionados</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
         <translation>Ctrl+Arriba/Abajo, Ctrl+Inicio/Fin</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="209"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Reset search or hide window</source>
         <translation>Reiniciar búsqueda u ocultar ventana</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="209"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Escape</source>
         <translation>Escape</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Delete item</source>
         <translation>Eliminar elemento</translation>
     </message>
@@ -160,32 +158,32 @@
         <translation type="vanished">Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Put selected items into clipboard</source>
         <translation>Poner los elementos seleccionados en el portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Change item display format</source>
         <translation>Cambiar el formato en que se muestran los elementos</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Ctrl+Left/Right</source>
         <translation>Ctrl+Izquierda/Derecha</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="215"/>
         <source>Edit Item</source>
         <translation>Editar elemento</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="215"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
@@ -301,20 +299,21 @@ Puede configurar la orden desde las preferencias.</translation>
         <translation type="obsolete">&lt;b&gt;INPUT:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="137"/>
+        <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1
 </source>
         <translation>Error: %1
 </translation>
     </message>
     <message>
+        <location filename="../src/gui/actionhandler.cpp" line="145"/>
         <source>Exit code: %1
 </source>
-        <translation type="vanished">Código de salida: %1
+        <translation>Código de salida: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="157"/>
+        <location filename="../src/gui/actionhandler.cpp" line="168"/>
         <source>Command %1</source>
         <translation>Orden %1</translation>
     </message>
@@ -539,22 +538,22 @@ Puede configurar la orden desde las preferencias.</translation>
         <translation type="vanished">Buscando %p%...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1345"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1252"/>
         <source>Cannot Add New Items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1346"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1253"/>
         <source>Tab is full. Failed to remove any items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1636"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1472"/>
         <source>Discard Changes?</source>
         <translation>¿Descartar los cambios?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1637"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1473"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>¿Está seguro de que desea &lt;strong&gt;descartar los cambios&lt;/strong&gt;?</translation>
     </message>
@@ -599,12 +598,12 @@ Puede configurar la orden desde las preferencias.</translation>
         <translation>Quitar formato</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="63"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="64"/>
         <source>CopyQ Item Content</source>
         <translation>Contenido del elemento CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="125"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="126"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
         <translation>&lt;strong&gt;Tamaño:&lt;/strong&gt; %1 bytes</translation>
@@ -664,27 +663,27 @@ Puede configurar la orden desde las preferencias.</translation>
         <translation type="vanished">¡No se pudo leer el mensaje del cliente! (%1)</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="122"/>
+        <location filename="../src/app/clipboardserver.cpp" line="124"/>
         <source>CopyQ server is already running.</source>
         <translation>El servidor CopyQ ya está en ejecución.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="315"/>
+        <location filename="../src/app/clipboardserver.cpp" line="317"/>
         <source>Cancel Active Commands</source>
         <translation>Cancelar órdenes activas</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="316"/>
+        <location filename="../src/app/clipboardserver.cpp" line="318"/>
         <source>Cancel active commands and exit?</source>
         <translation>¿Desea cancelar las órdenes activas y salir?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="319"/>
+        <location filename="../src/app/clipboardserver.cpp" line="321"/>
         <source>Cancel Exiting</source>
         <translation>Cancelar salida</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="320"/>
+        <location filename="../src/app/clipboardserver.cpp" line="322"/>
         <source>Exit Anyway</source>
         <translation>Salir de todas formas</translation>
     </message>
@@ -702,7 +701,7 @@ Puede configurar la orden desde las preferencias.</translation>
 <context>
     <name>CommandCompleter</name>
     <message>
-        <location filename="../src/gui/commandcompleter.cpp" line="349"/>
+        <location filename="../src/gui/commandcompleter.cpp" line="366"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
         <translation type="unfinished"></translation>
@@ -746,32 +745,32 @@ Puede configurar la orden desde las preferencias.</translation>
         <translation>Commandos de Pegar [CTRL+V]</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="316"/>
+        <location filename="../src/gui/commanddialog.cpp" line="174"/>
         <source>Unsaved Changes</source>
         <translation>Cambios No Guardados</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="316"/>
+        <location filename="../src/gui/commanddialog.cpp" line="174"/>
         <source>Command dialog has unsaved changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="400"/>
+        <location filename="../src/gui/commanddialog.cpp" line="252"/>
         <source>Open Files with Commands</source>
         <translation>Abrir archivos con órdenes</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="401"/>
+        <location filename="../src/gui/commanddialog.cpp" line="253"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>Órdenes (*.ini);; Configuración CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="410"/>
+        <location filename="../src/gui/commanddialog.cpp" line="264"/>
         <source>Save Selected Commands</source>
         <translation>Guardar órdenes seleccionadas</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="411"/>
+        <location filename="../src/gui/commanddialog.cpp" line="265"/>
         <source>Commands (*.ini)</source>
         <translation>Órdenes (*.ini)</translation>
     </message>
@@ -870,42 +869,42 @@ Puede configurar la orden desde las preferencias.</translation>
 <context>
     <name>CommandHelpButton</name>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="131"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
         <source>Show command help (F1)</source>
         <translation>Mostrar ayuda de la orden (F1)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="72"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
         <translation>La orden contiene una lista de programas y sus parámetros que serán ejecutados. Por ejemplo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="76"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
         <translation>Se sustituirá el parámetro de programa %1 con el texto del elemento y dessde %2 a %9 con las porciones de texto capturados por la expresión regular.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="80"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
         <translation>Puede utilizar el carácter %1 para pasar la salida estándar al siguiente programa.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="86"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
         <translation>Puede utilizar la siguiente sintaxis para pasar el resto de la orden como sólo un parámetro.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
         <translation>Esto genera la misma salida que %1 pero es más útil para órdenes más extensas.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="96"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
         <source>Functions listed below can be used as in following commands.</source>
         <translation>Puede utilizar las funciones enumeradas a continuación como órdenes.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
         <translation>&amp;portapapeles</translation>
@@ -1365,31 +1364,31 @@ Nota: si se aplica automáticamente, no se ejecutará ninguna otra orden automá
         <translation type="obsolete">Buscar texto es &quot;entrada&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="119"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="449"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Seleccionar un elemento y
 pulsar F2 para editar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="121"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="451"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
         <translation>Seleccionar los elementos y moverlos
 con CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="123"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="453"/>
         <source>Remove item with Delete key.</source>
         <translation>Quitar elementos con la tecla Suprimir.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="125"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="455"/>
         <source>Example item %1</source>
         <translation>Elemento de ejemplo %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="130"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="460"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>Algunas notas aleatorias (Shift+F2 para editar)</translation>
     </message>
@@ -1398,38 +1397,38 @@ con CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">entrada</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="115"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="445"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>elemento</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="118"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="448"/>
         <source>Search string is %1.</source>
         <translation>Buscar cadena %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="163"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="126"/>
         <source>Open Theme File</source>
         <translation>Abrir archivo de tema</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="173"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="136"/>
         <source>Save Theme File As</source>
         <translation>Guardar archivo de tema como</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="192"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="155"/>
         <source>No External Editor</source>
         <translation>No se encontró un editor externo</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="193"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="156"/>
         <source>Set external editor command first!</source>
         <translation>¡Defina la orden del editor primero!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="400"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="363"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Abc</translation>
@@ -1474,7 +1473,7 @@ con CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">&amp;Preferencias...</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="1825"/>
+        <location filename="../src/tests/tests.cpp" line="1918"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -3032,7 +3031,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">(papelera)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="357"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="359"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>El valor no es válido para la opción «%1»</translation>
     </message>
@@ -3050,22 +3049,22 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">¡No se pudo crear el directorio para la configuración %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="400"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="402"/>
         <source>Reset preferences?</source>
         <translation>¿Reiniciar preferencias?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="401"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="403"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Esta acción reiniciará todas sus preferencias (en todas las pestañas) a los valores predeterminados.&lt;br /&gt;&lt;br /&gt;¿Está seguro de que desea &lt;strong&gt;reiniciar todas las preferencias&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="494"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="496"/>
         <source>Restart Required</source>
         <translation>Necesita reinicar</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="495"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="497"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Se cambiará el idioma luego de que reinicie la aplicación.</translation>
     </message>
@@ -3297,7 +3296,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="522"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="524"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>¡No se pudo crear el directorio de sincronización «%1»!</translation>
     </message>
@@ -3314,12 +3313,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
 <context>
     <name>IconSelectButton</name>
     <message>
-        <location filename="../src/gui/iconselectbutton.cpp" line="37"/>
+        <location filename="../src/gui/iconselectbutton.cpp" line="38"/>
         <source>Select Icon...</source>
         <translation>Seleccionar ícono...</translation>
     </message>
     <message>
-        <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
+        <location filename="../src/gui/iconselectbutton.cpp" line="75"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
         <translation>...</translation>
@@ -3500,7 +3499,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">¡No se pudo abrir el archivo temporal (%1) para editar el elemento en el editor externo!</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="154"/>
+        <location filename="../src/item/itemeditor.cpp" line="155"/>
         <source>editor exit code is %1</source>
         <translation>el código de salida del editor es %1</translation>
     </message>
@@ -3509,7 +3508,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">¡No se pudo leer el archivo temporal (%1)!</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="197"/>
+        <location filename="../src/item/itemeditor.cpp" line="198"/>
         <source>Editor command: %1</source>
         <translation>Orden del editor: %1</translation>
     </message>
@@ -3607,104 +3606,104 @@ CTRL+Arriba y CTRL+Abajo.</translation>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="449"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="577"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Para compartir los elementos cifrados con otros equipos o sesiones necesitará archivos de claves pública y privada:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Mantenga esta clave privada en un lugar seguro.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="514"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="640"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>Necesitará tener GnuPG instalado para ver pestañas cifradas.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="612"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="737"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Cifrar (requiere GnuPG)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="619"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="630"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="743"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="753"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="623"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="747"/>
         <source>Decrypt</source>
         <translation>Descifrar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="634"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="757"/>
         <source>Decrypt and Copy</source>
         <translation>Descifrar y copiar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="642"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="717"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="837"/>
         <source>Error: %1</source>
         <translation>Error: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="705"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="825"/>
         <source>Failed to generate keys.</source>
         <translation>No se pudo general las claves.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="722"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="842"/>
         <source>Done</source>
         <translation>Hecho</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="744"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="864"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Creando nuevas claves (esto puede tardar unos minutos)...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="745"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="865"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="868"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="747"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
         <source>Setting new password...</source>
         <translation>Estableciendo una nueva contraseña...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="750"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>&lt;strong&gt;Debe generar&lt;/strong&gt; las claves de cifrado para poder cifrar elementos.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
         <source>Generate New Keys...</source>
         <translation>Generar nuevas claves...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="754"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="874"/>
         <source>Change Password...</source>
         <translation>Cambiar contraseña...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="327"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="325"/>
         <source>Encryption failed!</source>
         <translation>¡No se pudo cifrar!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="760"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
         <source>Decryption failed!</source>
         <translation>¡No se pudo descifrar!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.h" line="95"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.h" line="105"/>
         <source>Encryption</source>
         <translation>Cifrado</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.h" line="97"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.h" line="107"/>
         <source>Encrypt items and tabs.</source>
         <translation>Cifrar elementos y pestañas.</translation>
     </message>
@@ -3916,22 +3915,22 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="unfinished">Ctrl+Shift+P</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="208"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="223"/>
         <source>Cannot Remove Pinned Items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="209"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="224"/>
         <source>Unpin items first to remove them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="375"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="388"/>
         <source>Pin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="382"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="395"/>
         <source>Unpin</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3975,22 +3974,22 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">¿Realmente desea &lt;strong&gt;quitar los elementos y archivos asociados&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="839"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="842"/>
         <source>Open Directory for Synchronization</source>
         <translation>Abrir directorio para sincronizar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="859"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="856"/>
         <source>Failed to create synchronization directory</source>
         <translation>No se pudo crear el directorio de sincronización</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="130"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="132"/>
         <source>Synchronize</source>
         <translation>Sincronizar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="132"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="134"/>
         <source>Synchronize items and notes with a directory on disk.</source>
         <translation>Sincronizar elementos y notas con un directorio en disco.</translation>
     </message>
@@ -3998,17 +3997,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="494"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="499"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation type="unfinished">¡No se pudo sincronizar la pestaña «%1» con el directorio «%2»!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="530"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="535"/>
         <source>Remove Items?</source>
         <translation type="unfinished">¿Quitar elementos?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="531"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="536"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation type="unfinished">¿Realmente desea &lt;strong&gt;quitar los elementos y archivos asociados&lt;/strong&gt;?</translation>
     </message>
@@ -4083,23 +4082,23 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation>Quitar etiqueta %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="654"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="733"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Importante</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="675"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="754"/>
         <source>Clear all tags</source>
         <translation>Quitar todas las marcas</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="119"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="124"/>
         <source>Tags</source>
         <translation>Marcas</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="121"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="126"/>
         <source>Display tags for items.</source>
         <translation>Mostrar las marcas de los elementos.</translation>
     </message>
@@ -4221,7 +4220,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">&amp;portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="567"/>
+        <location filename="../src/gui/mainwindow.cpp" line="578"/>
         <source>Exit?</source>
         <translation>¿Salir?</translation>
     </message>
@@ -4251,17 +4250,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">&lt;DATOS&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="568"/>
+        <location filename="../src/gui/mainwindow.cpp" line="579"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>¿Desea &lt;strong&gt;salir&lt;/strong&gt; de CopyQ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="622"/>
+        <location filename="../src/gui/mainwindow.cpp" line="633"/>
         <source>&amp;File</source>
         <translation>&amp;Archivo</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2947"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3037"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Mostrar/ocultar</translation>
     </message>
@@ -4318,7 +4317,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="665"/>
+        <location filename="../src/gui/mainwindow.cpp" line="676"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
@@ -4347,12 +4346,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">&amp;Copiar Entradas Seleccionadas</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="689"/>
+        <location filename="../src/gui/mainwindow.cpp" line="700"/>
         <source>&amp;Item</source>
         <translation>&amp;Elemento</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="693"/>
+        <location filename="../src/gui/mainwindow.cpp" line="704"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Pestañas</translation>
     </message>
@@ -4411,19 +4410,19 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1554"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1602"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1557"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1605"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1570"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1618"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -4451,7 +4450,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">Ó&amp;rdenes</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="718"/>
+        <location filename="../src/gui/mainwindow.cpp" line="729"/>
         <source>&amp;Help</source>
         <translation>&amp;Ayuda</translation>
     </message>
@@ -4488,17 +4487,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">Orden &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1287"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1354"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>&amp;Activar el almacenamiento del portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1288"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1355"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>&amp;Desactivar el almacenamiento del portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2035"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2090"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>Error de CopyQ</translation>
@@ -4557,13 +4556,13 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">&lt;b&gt;ENTRADA:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2959"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3049"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Portapapeles: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="367"/>
+        <location filename="../src/gui/mainwindow.cpp" line="377"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>Elementos CopyQ (*.cpq)</translation>
     </message>
@@ -4588,82 +4587,82 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">Ejecutando: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="732"/>
+        <location filename="../src/gui/mainwindow.cpp" line="743"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Nueva pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="734"/>
+        <location filename="../src/gui/mainwindow.cpp" line="745"/>
         <source>Rename &amp;Group %1</source>
         <translation>Renombrar &amp;grupo %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="736"/>
+        <location filename="../src/gui/mainwindow.cpp" line="747"/>
         <source>Re&amp;name Tab %1</source>
         <translation>Re&amp;nombrar pestaña %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="738"/>
+        <location filename="../src/gui/mainwindow.cpp" line="749"/>
         <source>Re&amp;move Tab %1</source>
         <translation>Qu&amp;itar pestaña %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="740"/>
+        <location filename="../src/gui/mainwindow.cpp" line="751"/>
         <source>Remove Group %1</source>
         <translation>Quitar grupo %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="742"/>
+        <location filename="../src/gui/mainwindow.cpp" line="753"/>
         <source>&amp;Change Tab Icon</source>
         <translation>&amp;Cambiar ícono de la pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1865"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1923"/>
         <source>CopyQ Options for Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3176"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3267"/>
         <source>CopyQ Options for Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3196"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3287"/>
         <source>CopyQ Export Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3197"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3288"/>
         <source>Failed to export file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3278"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3374"/>
         <source>CopyQ Import Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3279"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3375"/>
         <source>Failed to import file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3423"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3519"/>
         <source>Remove All Tabs in Group?</source>
         <translation>¿Desea cerrar todas las pestañas del grupo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3424"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3520"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>¿Desea cerrar &lt;strong&gt;todas las pestañas&lt;/strong&gt; del grupo &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3469"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3567"/>
         <source>Remove Tab?</source>
         <translation>¿Desea quitar la pestaña?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3470"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3568"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>¿Desea quitar la pestaña &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -4671,19 +4670,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
 <context>
     <name>Notification</name>
     <message>
-        <location filename="../src/gui/notification.cpp" line="51"/>
         <source>CopyQ Inspect Notification</source>
-        <translation>Notificación de inspección CopyQ</translation>
+        <translation type="vanished">Notificación de inspección CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/notification.cpp" line="73"/>
         <source>&amp;Copy</source>
-        <translation>&amp;Copiar</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/notification.cpp" line="125"/>
-        <source>Right click to show</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">&amp;Copiar</translation>
     </message>
 </context>
 <context>
@@ -4759,7 +4751,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="308"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="306"/>
         <source>Information</source>
         <translation>Información</translation>
     </message>
@@ -4799,7 +4791,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
 </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="452"/>
+        <location filename="../src/common/common.cpp" line="363"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -4834,43 +4826,43 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">ERROR: %1</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="446"/>
+        <location filename="../src/common/common.cpp" line="357"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="462"/>
+        <location filename="../src/common/common.cpp" line="373"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;IMAGEN&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="464"/>
+        <location filename="../src/common/common.cpp" line="375"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
         <translation>&lt;ARCHIVOS&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="466"/>
+        <location filename="../src/common/common.cpp" line="377"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;VACÍO&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="468"/>
+        <location filename="../src/common/common.cpp" line="379"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATOS&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="485"/>
+        <location filename="../src/common/shortcuts.cpp" line="49"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
         <translation>Retroceso</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="487"/>
+        <location filename="../src/common/shortcuts.cpp" line="51"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
         <translation>Eliminar</translation>
@@ -4898,14 +4890,14 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">El servidor CopyQ ya se está ejecutando.</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="176"/>
+        <location filename="../src/main.cpp" line="175"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>¡El nombre de la sesión debe contener 16 carácteres
 como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/notificationdaemon.cpp" line="91"/>
+        <location filename="../src/gui/notificationdaemon.cpp" line="98"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -4914,7 +4906,7 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/gui/notificationdaemon.cpp" line="94"/>
+        <location filename="../src/gui/notificationdaemon.cpp" line="101"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -5523,7 +5515,7 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="66"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="73"/>
         <source>COMMAND</source>
         <translation>ORDEN</translation>
     </message>
@@ -5593,12 +5585,12 @@ Evaluar el programa ECMAScript.
 Puede acceder a los parámetros con «arguments(0..N)».</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1817"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2223"/>
         <source>Failed to set clipboard!</source>
         <translation>¡No se pudo definir el portapapeles!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="933"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1210"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>¡La opción «%1» no es válida!</translation>
     </message>
@@ -5647,37 +5639,37 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
         <translation type="obsolete">Ejecutar pruebas.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="66"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="73"/>
         <source>Usage: copyq [%1]</source>
         <translation>Uso: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="67"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="74"/>
         <source>Starts server if no command is specified.</source>
         <translation>Iniciar el servidor si no se especifica ninguna orden.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="68"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="75"/>
         <source>  COMMANDs:</source>
         <translation>  ÓRDENes:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="73"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="80"/>
         <source>NOTES:</source>
         <translation>NOTAS:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="409"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="620"/>
         <source>Built with: </source>
         <translation>Construído con: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1742"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2146"/>
         <source>Exception</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1743"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2147"/>
         <source>Exception in %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5686,24 +5678,24 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
         <translation type="obsolete">  - Cambiar la primera entrada (FILA con valor 0) también cambiará el portapapeles.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="74"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="81"/>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
         <translation>  - Use un guión (-) como parámetro para leer datos desde la entrada estándar.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="75"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="82"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Use un doble guión (--) como parámetro para leer todos los parámetros siguientes sin
     expandir secuencias de escape (es decir: \n, \t y otras).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="84"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Use ? para imprimir los tipos MIME disponibles (el valor predeterminado es «text/plain»).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="82"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="89"/>
         <source>Invalid number of arguments!</source>
         <translation>¡Cantidad incorrecta de parámetros!</translation>
     </message>
@@ -5716,12 +5708,12 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
         <translation type="obsolete">Construir con:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="439"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="650"/>
         <source>Command not found!</source>
         <translation>!No se encontró la orden!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="528"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="750"/>
         <source>Terminating server.
 </source>
         <translation>Apagando servidor.
@@ -5736,12 +5728,12 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
         <translation type="vanished">¡Ya existe una pestaña con el nombre indicado!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="880"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1157"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>!No se pudo guardar en el archivo «%1»!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="893"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1170"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>!No se pudo importar el archivo «%1»!</translation>
     </message>
@@ -5761,17 +5753,17 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="333"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="420"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation type="unfinished">¡No existe una pestaña con el nombre indicado!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="338"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="425"/>
         <source>Tab name cannot be empty!</source>
         <translation type="unfinished">¡El nombre de la pestaña no puede estar vacío!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="463"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="550"/>
         <source>Tab with given name already exists!</source>
         <translation type="unfinished">¡Ya existe una pestaña con el nombre indicado!</translation>
     </message>
@@ -5788,7 +5780,7 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
 <context>
     <name>ShortcutButton</name>
     <message>
-        <location filename="../src/gui/shortcutbutton.cpp" line="48"/>
+        <location filename="../src/gui/shortcutbutton.cpp" line="47"/>
         <source>Add shortcut</source>
         <translation>Agregar atajo</translation>
     </message>
@@ -5815,7 +5807,7 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse cualquier combinación de teclas.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; para cancelar. &lt;span style=&quot; font-weight:600;&quot;&gt;Retroceso&lt;/span&gt; para desactivar el atajo.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutdialog.cpp" line="65"/>
+        <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
         <translation>Quitar atajo</translation>
     </message>
@@ -5827,12 +5819,12 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
         <translation type="obsolete">Formulario</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="182"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
         <source>There is command overriding this shortcut.</source>
         <translation>Ya existe una orden que usa el atajo indicado.</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="184"/>
         <source>Shortcut already exists!</source>
         <translation>¡El atajo indicado ya existe!</translation>
     </message>
@@ -5893,17 +5885,17 @@ Use &lt;b&gt;/&lt;/b&gt; como separador en el árbol de pestañas.</translation>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="82"/>
+        <location filename="../src/gui/traymenu.cpp" line="84"/>
         <source>Press &apos;/&apos; to search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="82"/>
+        <location filename="../src/gui/traymenu.cpp" line="84"/>
         <source>Type to search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="95"/>
+        <location filename="../src/gui/traymenu.cpp" line="97"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
         <translation>&amp;%1: %2</translation>
