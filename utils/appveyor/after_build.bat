@@ -30,15 +30,15 @@ xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins" || goto :error
 
 %QTDIR%\bin\windeployqt --release --no-system-d3d-compiler --no-angle --no-opengl-sw "%Executable%" || goto :error
 
-"%Executable%" --help || goto :error
-"%Executable%" --version || goto :error
-"%Executable%" --info || goto :error
-"%Executable%" tests || "%Executable%" tests || goto :error
-
 7z a "%Name%.zip" -r "%Destination%" || goto :error
 
 choco install -y InnoSetup
 "C:\Program Files (x86)\Inno Setup 5\iscc" "/O%APPVEYOR_BUILD_FOLDER%" "/DAppVersion=%AppVersion%" "/DRoot=%Destination%" "/DSource=%Source%" "%Source%\Shared\copyq.iss" || goto :error
+
+"%Executable%" --help || goto :error
+"%Executable%" --version || goto :error
+"%Executable%" --info || goto :error
+"%Executable%" tests || "%Executable%" tests || goto :error
 
 :error
 exit /b %errorlevel%
