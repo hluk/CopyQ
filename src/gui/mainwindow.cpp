@@ -485,6 +485,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
              this, SLOT(onTrayActionTriggered(uint,bool)) );
 
+    connect( m_menu, SIGNAL(aboutToShow()),
+             this, SLOT(updateFocusWindows()) );
     connect( m_menu, SIGNAL(searchRequest(QString)),
              this, SLOT(addMenuItems(QString)) );
     connect( m_menu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
