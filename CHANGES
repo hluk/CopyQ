@@ -1,3 +1,22 @@
+v3.0.0
+- Pinned and protected items
+- Export/import tabs, configuration and commands in one file
+- Create and modify commands from script
+- Create temporary files from script
+- Create notifications with buttons from script
+- Take screenshots using script
+- Allow to process lines on stdout from execute() scriptable using a function
+- Safer and faster encrypt/decrypt commands (need to be re-added)
+- Improved menu scriptable function
+- Improved icon sharpness
+- Improved plugin architecture
+- Improved logging and displaying log
+- Performance and memory consumption improvements
+- Fixed configuration folder path for portable version on Windows
+- Fixed opening menu for a tab
+- Fixed using correct GPG version for encryption
+- Fixed tray menu position in KDE/Plasma
+
 v2.9.0
 - Set text style in editor
 - Search in editor
