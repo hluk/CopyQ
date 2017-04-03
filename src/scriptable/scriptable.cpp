@@ -2181,7 +2181,15 @@ QScriptValue Scriptable::copy(QClipboard::Mode mode)
 
         m_proxy->copyFromCurrentWindow();
 
-        return m_proxy->getClipboardData(mime) != value;
+        // Wait for clipboard to be set.
+        for (int i = 0; i < 10; ++i) {
+            if ( m_proxy->getClipboardData(mime) != value )
+                return true;
+            waitFor(5 + i * 25);
+        }
+
+        throwError( tr("Failed to copy!") );
+        return false;
     }
 
     if (args == 1) {
