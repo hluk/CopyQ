@@ -28,6 +28,12 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <property name="elideMode">
+      <enum>Qt::ElideNone</enum>
+     </property>
+     <property name="usesScrollButtons">
+      <bool>true</bool>
+     </property>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
        <string>&amp;General</string>
@@ -46,8 +52,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>536</width>
-            <height>595</height>
+            <width>506</width>
+            <height>582</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -295,8 +301,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>536</width>
-            <height>595</height>
+            <width>506</width>
+            <height>582</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_23">
@@ -546,8 +552,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>526</width>
-            <height>322</height>
+            <width>536</width>
+            <height>567</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -837,8 +843,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>453</width>
-            <height>170</height>
+            <width>506</width>
+            <height>582</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1052,8 +1058,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>409</width>
-            <height>295</height>
+            <width>506</width>
+            <height>582</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
