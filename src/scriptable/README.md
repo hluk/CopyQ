@@ -193,7 +193,8 @@ copy(mimeText, 'Hello, World!',
 
 Sends `Ctrl+C` to current window.
 
-Returns true only if clipboard has changed.
+Exception is thrown if clipboard doesn't change
+(clipboard is reset before sending the shortcut).
 
 ###### ByteArray copySelection(...)
 
