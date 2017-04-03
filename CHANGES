@@ -12,6 +12,8 @@ v3.0.0
 - Improved plugin architecture
 - Improved logging and displaying log
 - Performance and memory consumption improvements
+- Implemented copy() on OS X
+- Fixed focusing menu and windows on OS X
 - Fixed configuration folder path for portable version on Windows
 - Fixed opening menu for a tab
 - Fixed using correct GPG version for encryption
