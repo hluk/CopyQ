@@ -38,15 +38,15 @@ namespace {
         return nil;
     }
 
-    void sendCommandV() {
+    void sendShortcut(int modifier, int key) {
         CGEventSourceRef sourceRef = CGEventSourceCreate(
             kCGEventSourceStateCombinedSessionState);
 
-        CGEventRef commandDown = CGEventCreateKeyboardEvent(sourceRef, kVK_Command, YES);
-        CGEventRef VDown = CGEventCreateKeyboardEvent(sourceRef, kVK_ANSI_V, YES);
+        CGEventRef commandDown = CGEventCreateKeyboardEvent(sourceRef, modifier, YES);
+        CGEventRef VDown = CGEventCreateKeyboardEvent(sourceRef, key, YES);
 
-        CGEventRef VUp = CGEventCreateKeyboardEvent(sourceRef, kVK_ANSI_V, NO);
-        CGEventRef commandUp = CGEventCreateKeyboardEvent(sourceRef, kVK_Command, NO);
+        CGEventRef VUp = CGEventCreateKeyboardEvent(sourceRef, key, NO);
+        CGEventRef commandUp = CGEventCreateKeyboardEvent(sourceRef, modifier, NO);
 
         // 0x000008 is a hack to fix pasting in Emacs?
         // https://github.com/TermiT/Flycut/pull/18
@@ -66,23 +66,22 @@ namespace {
     }
 
     /**
-     * Delays a paste operation for delayInMS, and retries up to 'tries' times.
+     * Delays a sending Command+key operation for delayInMS, and retries up to 'tries' times.
      *
      * This function is necessary in order to check that the intended window has come
      * to the foreground. The "isActive" property only changes when the app gets back
      * to the "run loop", so we can't block and check it.
      */
-    void delayedPaste(int64_t delayInMS, uint tries, NSWindow *window, NSRunningApplication *app) {
+    void delayedSendShortcut(int modifier, int key, int64_t delayInMS, uint tries, NSWindow *window, NSRunningApplication *app) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInMS * NSEC_PER_MSEC), dispatch_get_main_queue(), ^(void){
             if (![app isActive] || (window && ![window isKeyWindow])) {
                 if (tries > 0) {
-                    delayedPaste(delayInMS, tries - 1, window, app);
+                    delayedSendShortcut(modifier, key, delayInMS, tries - 1, window, app);
                 } else {
                     log("Failed to raise application, will not paste.", LogWarning);
                 }
             } else {
-                // Send Command-V
-                sendCommandV();
+                sendShortcut(modifier, key);
             }
         });
     }
@@ -272,9 +271,19 @@ void MacPlatformWindow::pasteClipboard()
     raise();
 
     // Paste after after 100ms, try 5 times
-    delayedPaste(100, 5, m_window, m_runningApplication);
+    delayedSendShortcut(kVK_Command, kVK_ANSI_V, 100, 5, m_window, m_runningApplication);
 }
 
 void MacPlatformWindow::copy()
 {
+    if (!m_runningApplication) {
+        log("Failed to copy from unknown window", LogWarning);
+        return;
+    }
+
+    // Window MUST be raised, otherwise we can't send events to it
+    raise();
+
+    // Copy after after 100ms, try 5 times
+    delayedSendShortcut(kVK_Command, kVK_ANSI_C, 100, 5, m_window, m_runningApplication);
 }
