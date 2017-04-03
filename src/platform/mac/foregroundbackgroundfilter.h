@@ -21,11 +21,6 @@
 #define FOREGROUNDBACKGROUNDFILTER_H
 
 #include <QObject>
-#include <QPointer>
-
-#include <memory>
-
-class MacPlatform;
 
 /**
  * This event filter manages the "activationPolicy" for an OS X app by
@@ -33,6 +28,8 @@ class MacPlatform;
  * an "accessory" or "prohibited"/"background" app when there are none.
  *
  * This allows the app to not have a dock icon unless there is an open window.
+ *
+ * If only menu or some notifications are visible dock icon is hidden.
  */
 class ForegroundBackgroundFilter : public QObject
 {
@@ -43,15 +40,10 @@ public:
      * Install the filter to parent.
      */
     static void installFilter(QObject *parent);
-    virtual ~ForegroundBackgroundFilter();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev);
     ForegroundBackgroundFilter(QObject *parent);
-
-private:
-    std::unique_ptr<MacPlatform> m_macPlatform;
-    QPointer<QWidget> m_mainWindow;
 };
 
 #endif // FOREGROUNDBACKGROUNDFILTER_H
