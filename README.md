@@ -53,7 +53,7 @@ application.
 
 On Windows you can install [Chocolatey package](https://chocolatey.org/packages/copyq).
 
-### Ubuntu 
+### Ubuntu
 
 Install and keep CopyQ always up to date by running the following three commands from the terminal:
 
