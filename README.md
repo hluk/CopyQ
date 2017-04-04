@@ -63,6 +63,14 @@ $ sudo apt update
 $ sudo apt install copyq
 ```
 
+### OS X
+
+On OS X you can use [Homebrew](https://brew.sh/) to install the app.
+
+```bash
+brew cask install copyq
+```
+
 ### Starting CopyQ
 
 To start CopyQ run `copyq` command without parameters. The application main
