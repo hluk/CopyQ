@@ -93,7 +93,7 @@ application window.
 If you want to help with translating, fixing or writing code read
 [HACKING](https://github.com/hluk/CopyQ/blob/master/HACKING) file.
 
-[![Translations](https://hosted.weblate.org/widgets/copyq-287x66-grey.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
+[![Translations](https://hosted.weblate.org/widgets/copyq/-/287x66-white.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
 
 ## Dependencies
 
