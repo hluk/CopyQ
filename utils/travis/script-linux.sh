@@ -40,6 +40,6 @@ sleep 8
 rm -rf ~/.config/copyq.test
 
 # Run tests.
-./copyq tests -silent
+./copyq tests
 
 cd "$root"
