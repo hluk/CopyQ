@@ -1980,7 +1980,7 @@ void Tests::menu()
 void Tests::traySearch()
 {
 #ifdef Q_OS_MAC
-    SKIP("FIXME: This doesn't work on OS X on Travis CI.")
+    SKIP("FIXME: This doesn't work on OS X on Travis CI.");
 #endif
 
     RUN("add" << "C" << "B" << "A", "");
