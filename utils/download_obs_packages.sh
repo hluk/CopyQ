@@ -44,8 +44,6 @@ fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pk
 fetch_package "${pkg}_Fedora_25${xrpm}"           "$url/Fedora_25/${pkg_rpm}"
 fetch_package "${pkg}_Debian_8.0${xdeb_i386}"     "$url/Debian_8.0/${pkg_deb_i386}"
 fetch_package "${pkg}_Debian_8.0${xdeb}"          "$url/Debian_8.0/${pkg_deb}"
-fetch_package "${pkg}_Debian_7.0${xdeb_i386}"     "$url/Debian_7.0/${pkg_deb_i386}"
-fetch_package "${pkg}_Debian_7.0${xdeb}"          "$url/Debian_7.0/${pkg_deb}"
 fetch_package "${pkg}_Arch_Linux.pkg.tar.xz"      "$url/Arch_Extra/x86_64/${project}-${version}-1-x86_64.pkg.tar.xz"
 
 if [ -n "$failed" ]; then
