@@ -1954,6 +1954,7 @@ void Tests::tray()
 {
     RUN("add" << "A", "");
     RUN("menu", "");
+    waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("A");
 }
@@ -1965,11 +1966,13 @@ void Tests::menu()
     RUN("tab" << tab << "add" << "D" << "C" << "B" << "A", "");
 
     RUN("menu" << tab, "");
+    waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("A");
 
     // Show menu with 2 items from the tab and select last one.
     RUN("menu" << tab << "2", "");
+    waitFor(waitMsShow);
     RUN("keys" << "END" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
 }
@@ -1979,6 +1982,7 @@ void Tests::traySearch()
     RUN("add" << "C" << "B" << "A", "");
 
     RUN("menu", "");
+    waitFor(waitMsShow);
     RUN("keys" << "B" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
 }
@@ -1996,12 +2000,14 @@ void Tests::configTrayTab()
     RUN("config" << "tray_tab" << tab1, tab1 + "\n");
 
     RUN("menu", "");
+    waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("A");
 
     RUN("config" << "tray_tab" << tab2, tab2 + "\n");
 
     RUN("menu", "");
+    waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
 }
@@ -2013,12 +2019,14 @@ void Tests::configMove()
     RUN("config" << "move" << "true", "true\n");
 
     RUN("menu", "");
+    waitFor(waitMsShow);
     RUN("keys" << "DOWN" << "ENTER", "");
     RUN("read" << "0" << "1", "B\nA");
 
     RUN("config" << "move" << "false", "false\n");
 
     RUN("menu", "");
+    waitFor(waitMsShow);
     RUN("keys" << "DOWN" << "ENTER", "");
     RUN("read" << "0" << "1", "B\nA");
 }
@@ -2035,11 +2043,13 @@ void Tests::configTrayTabIsCurrent()
 
     RUN("setCurrentTab" << tab1, "");
     RUN("menu", "");
+    waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("A");
 
     RUN("setCurrentTab" << tab2, "");
     RUN("menu", "");
+    waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
 }
