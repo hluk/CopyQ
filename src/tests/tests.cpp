@@ -1952,10 +1952,6 @@ void Tests::pasteFromMainWindow()
 
 void Tests::tray()
 {
-#ifdef Q_OS_MAC
-    SKIP("FIXME: This often fails on Travis CI for OS X.");
-#endif
-
     RUN("add" << "A", "");
     RUN("menu", "");
     waitFor(waitMsShow);
@@ -1965,10 +1961,6 @@ void Tests::tray()
 
 void Tests::menu()
 {
-#ifdef Q_OS_MAC
-    SKIP("FIXME: This often fails on Travis CI for OS X.");
-#endif
-
     const auto tab = testTab(1);
 
     RUN("tab" << tab << "add" << "D" << "C" << "B" << "A", "");
@@ -1987,10 +1979,6 @@ void Tests::menu()
 
 void Tests::traySearch()
 {
-#ifdef Q_OS_MAC
-    SKIP("FIXME: This often fails on Travis CI for OS X.");
-#endif
-
     RUN("add" << "C" << "B" << "A", "");
 
     RUN("menu", "");
@@ -2001,10 +1989,6 @@ void Tests::traySearch()
 
 void Tests::configTrayTab()
 {
-#ifdef Q_OS_MAC
-    SKIP("FIXME: This often fails on Travis CI for OS X.");
-#endif
-
     const auto tab1 = testTab(1);
     RUN("tab" << tab1 << "add" << "A", "");
 
@@ -2030,10 +2014,6 @@ void Tests::configTrayTab()
 
 void Tests::configMove()
 {
-#ifdef Q_OS_MAC
-    SKIP("FIXME: This often fails on Travis CI for OS X.");
-#endif
-
     RUN("add" << "B" << "A", "");
 
     RUN("config" << "move" << "true", "true\n");
@@ -2053,10 +2033,6 @@ void Tests::configMove()
 
 void Tests::configTrayTabIsCurrent()
 {
-#ifdef Q_OS_MAC
-    SKIP("FIXME: This often fails on Travis CI for OS X.");
-#endif
-
     const auto tab1 = testTab(1);
     RUN("tab" << tab1 << "add" << "A", "");
 
