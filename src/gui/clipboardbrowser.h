@@ -362,7 +362,6 @@ class ClipboardBrowser : public QListView
         ClipboardModel m;
         ItemDelegate d;
         QTimer m_timerSave;
-        QTimer m_timerScroll;
         QTimer m_timerEmitItemCount;
 
         ItemEditorWidget *m_editor;

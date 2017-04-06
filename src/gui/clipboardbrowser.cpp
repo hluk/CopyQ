@@ -174,7 +174,6 @@ ClipboardBrowser::ClipboardBrowser(
     setAlternatingRowColors(true);
 
     initSingleShotTimer( &m_timerSave, 30000, this, SLOT(saveItems()) );
-    initSingleShotTimer( &m_timerScroll, 50 );
     initSingleShotTimer( &m_timerEmitItemCount, 0, this, SLOT(emitItemCount()) );
 
     // ScrollPerItem doesn't work well with hidden items
