@@ -155,25 +155,59 @@ private:
     QWidget *m_widget;
 };
 
+/**
+ * Adss functions and variables accessible from scripts/commands.
+ *
+ * New functions and variables will be available in scripts under `plugins.<PLUGIN_ID>`.
+ *
+ * Public slots will be available as functions.
+ *
+ * Public QObject properties will be available as variables.
+ */
 class ItemScriptable : public QObject
 {
     Q_OBJECT
 public:
     explicit ItemScriptable(QObject *parent) : QObject(parent) {}
 
+    /** Return scriptable object (nullptr before start() is called). */
     QObject *scriptable() const { return m_scriptable; }
+
+    /** Set scriptable (used internally before scripts starts). */
     void setScriptable(QObject *scriptable) { m_scriptable = scriptable; }
+
+    /** Called before script starts (and scriptable is valid). */
     virtual void start() {}
 
 protected:
+    /**
+     * Call scriptable function by name with given @a arguments.
+     *
+     * Shouldn't be called before start().
+     */
     QVariant call(const QString &method, const QVariantList &arguments = QVariantList());
+
+    /**
+     * Evaluate script.
+     *
+     * Shouldn't be called before start().
+     */
     QVariant eval(const QString &script);
+
+    /**
+     * Return arguments passed to slots from script.
+     *
+     * Shouldn't be called before start().
+     */
     QVariantList currentArguments();
 
 private:
     QObject *m_scriptable = nullptr;
 };
 
+/**
+ * Handles saving and modifying item models.
+ */
 class ItemSaverInterface
 {
 public:
@@ -208,6 +242,17 @@ public:
     virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
 };
 
+/**
+ * Main class for plugins (needs to be implemented).
+ *
+ * Identifies the plugin (id, name, author, description) and optionally:
+ * - loads items from file (creates ItemSaverInterface instance),
+ * - creates item widgets (creates ItemWidget instance),
+ * - adds scripting capabilities (creates ItemScriptable instance),
+ * - matches/filters items,
+ * - provides commands for Command dialog,
+ * - provides settings widget for Configuration dialog.
+ */
 class ItemLoaderInterface
 {
 public:
@@ -230,12 +275,16 @@ public:
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const;
 
     /**
-     * Simple ID of plugin (e.g. part of plugin file name).
+     * Simple ID of plugin.
+     *
+     * Name configuration sub-section and plugin object in scripts (`plugins.<PLUGIN_ID>`).
+     *
+     * Should be short and contain only lower case letters.
      */
     virtual QString id() const = 0;
 
     /**
-     * Return descriptive name.
+     * Return descriptive name (translatable).
      */
     virtual QString name() const = 0;
 
@@ -245,14 +294,16 @@ public:
     virtual QString author() const = 0;
 
     /**
-     * Return plugin description.
+     * Return plugin description (translatable).
      */
     virtual QString description() const = 0;
 
     /**
      * Return icon representing the plugin.
      *
-     * Return value can be QIcon or UInt (to render a character from icon font). Default is no icon.
+     * Return value can be QIcon or UInt (to render a character from icon font).
+     *
+     * Default is no icon.
      */
     virtual QVariant icon() const { return QVariant(); }
 
@@ -340,7 +391,7 @@ public:
     /**
      * Return scriptable object that can be used in scripts.
      *
-     * Object will be available as "plugins.<PLUGIN_ID>".
+     * Object will be available as `plugins.<PLUGIN_ID>`.
      */
     virtual ItemScriptable *scriptableObject(QObject *parent);
 
