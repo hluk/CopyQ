@@ -160,7 +160,7 @@ class ClipboardBrowser : public QListView
         void addItems(const QStringList &items);
 
         /** Set current item. */
-        void setCurrent(int row);
+        void setCurrent(int row, bool keepSelection = false, bool setCurrentOnly = false);
 
         /**
          * Save items to configuration if needed.

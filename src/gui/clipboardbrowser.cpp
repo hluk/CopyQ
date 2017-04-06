@@ -1145,18 +1145,93 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     if (m_sharedData->viMode && handleViKey(event, this))
         return;
 
-    const auto mods = event->modifiers();
+    const Qt::KeyboardModifiers mods = event->modifiers();
 
-    // TODO: Why is this needed?
-    if (mods != Qt::AltModifier) {
+    if (mods == Qt::AltModifier)
+        return; // Handled by filter completion popup.
+
+    const int key = event->key();
+
+    switch (key) {
+    // This fixes few issues with default navigation and item selections.
+    case Qt::Key_Up:
+    case Qt::Key_Down:
+    case Qt::Key_PageDown:
+    case Qt::Key_PageUp:
+    case Qt::Key_Home:
+    case Qt::Key_End: {
+        const auto current = currentIndex();
+        int row = current.row();
+        const int h = viewport()->contentsRect().height();
+
+        if (key == Qt::Key_PageDown || key == Qt::Key_PageUp) {
+            event->accept();
+
+            const int direction = (key == Qt::Key_PageDown) ? 1 : -1;
+
+            QRect rect = visualRect(current);
+
+            if ( rect.height() > h && direction < 0 ? rect.top() < 0 : rect.bottom() > h ) {
+                // Scroll within long item.
+                QScrollBar *v = verticalScrollBar();
+                v->setValue( v->value() + direction * v->pageStep() );
+                break;
+            }
+
+            if ( row == (direction > 0 ? m.rowCount() - 1 : 0) )
+                break; // Nothing to do.
+
+            rect = visualRect(current);
+
+            const int fromY = direction > 0 ? qMax(0, rect.bottom()) : qMin(h, rect.y());
+            const int y = fromY + direction * h;
+            QModelIndex ind = indexNear(y);
+            if (!ind.isValid())
+                ind = index(direction > 0 ? m.rowCount() - 1 : 0);
+
+            QRect rect2 = visualRect(ind);
+            if (direction > 0 && rect2.y() > h && rect2.bottom() - rect.bottom() > h && row + 1 < ind.row())
+                row = ind.row() - 1;
+            else if (direction < 0 && rect2.bottom() < 0 && rect.y() - rect2.y() > h && row - 1 > ind.row())
+                row = ind.row() + 1;
+            else
+                row = direction > 0 ? qMax(current.row() + 1, ind.row()) : qMin(current.row() - 1, ind.row());
+        } else {
+            if (key == Qt::Key_Up) {
+                --row;
+            } else if (key == Qt::Key_Down) {
+                ++row;
+            } else {
+                int direction;
+                if (key == Qt::Key_End) {
+                    row = model()->rowCount() - 1;
+                    direction = 1;
+                } else {
+                    row = 0;
+                    direction = -1;
+                }
+
+                for ( ; row != current.row() && hideFiltered(row); row -= direction ) {}
+            }
+        }
+
+        const QItemSelectionModel::SelectionFlags flags = selectionCommand(index(row), event);
+        const bool setCurrentOnly = flags.testFlag(QItemSelectionModel::NoUpdate);
+        const bool keepSelection = setCurrentOnly || flags.testFlag(QItemSelectionModel::SelectCurrent);
+        setCurrent(row, keepSelection, setCurrentOnly);
+        break;
+    }
+
+    default:
         // allow user defined shortcuts
         QListView::keyPressEvent(event);
         // search
         event->ignore();
+        break;
     }
 }
 
-void ClipboardBrowser::setCurrent(int row)
+void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOnly)
 {
     QModelIndex prev = currentIndex();
     int cur = prev.row();
@@ -1174,9 +1249,36 @@ void ClipboardBrowser::setCurrent(int row)
     if ( i < 0 || i >= length() || isRowHidden(i) )
         return;
 
-    const auto ind = index(i);
-    clearSelection();
-    setCurrentIndex(ind);
+    QModelIndex ind = index(i);
+    if (keepSelection) {
+        auto sel = selectionModel();
+        const bool currentSelected = sel->isSelected(prev);
+        for ( int j = prev.row(); j != i + direction; j += direction ) {
+            const auto ind = index(j);
+            if ( !ind.isValid() )
+                break;
+            if ( isRowHidden(j) )
+                continue;
+
+            if (!setCurrentOnly) {
+                if ( sel->isSelected(ind) && sel->isSelected(prev) )
+                    sel->setCurrentIndex(currentIndex(), QItemSelectionModel::Deselect);
+                sel->setCurrentIndex(ind, QItemSelectionModel::Select);
+            }
+            prev = ind;
+        }
+
+        if (setCurrentOnly)
+            sel->setCurrentIndex(prev, QItemSelectionModel::NoUpdate);
+        else if (!currentSelected)
+            sel->setCurrentIndex(prev, QItemSelectionModel::Deselect);
+    } else {
+        clearSelection();
+        if (setCurrentOnly)
+            selectionModel()->setCurrentIndex(ind, QItemSelectionModel::NoUpdate);
+        else
+            setCurrentIndex(ind);
+    }
 }
 
 void ClipboardBrowser::editSelected()
