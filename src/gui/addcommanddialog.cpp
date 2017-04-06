@@ -23,6 +23,7 @@
 #include "common/command.h"
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"
+#include "common/textdata.h"
 #include "item/itemfactory.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
@@ -214,17 +215,21 @@ QList<Command> defaultCommands()
     c->output = "image/png";
     c->inMenu = true;
 
+    const auto todoTab = AddCommandDialog::tr("Tasks", "Tab name for some predefined commands");
+    const auto todoTabQuoted = quoteString(todoTab);
     c = newCommand(&commands);
-    c->name = AddCommandDialog::tr("Add to &TODO tab");
+    c->name = AddCommandDialog::tr("Add to %1 tab", "%1 is quoted TODO tab name")
+            .arg(todoTabQuoted);
     c->icon = QString(QChar(IconShare));
-    c->tab  = "TODO";
+    c->tab  = todoTab;
     c->input = mimeText;
     c->inMenu = true;
 
     c = newCommand(&commands);
-    c->name = AddCommandDialog::tr("Move to &TODO tab");
+    c->name = AddCommandDialog::tr("Move to %1 tab", "%1 is quoted TODO tab name")
+            .arg(todoTabQuoted);
     c->icon = QString(QChar(IconShare));
-    c->tab  = "TODO";
+    c->tab  = todoTab;
     c->input = mimeText;
     c->remove = true;
     c->inMenu = true;
