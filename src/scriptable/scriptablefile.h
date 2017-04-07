@@ -17,20 +17,21 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef FILEPROTOTYPE_H
-#define FILEPROTOTYPE_H
+#ifndef SCRIPTABLEFILE_H
+#define SCRIPTABLEFILE_H
 
+#include <QJSValue>
 #include <QObject>
-#include <QScriptable>
-#include <QScriptValue>
 
+class QJSEngine;
 class QFile;
 
-class FilePrototype : public QObject, public QScriptable
+class ScriptableFile : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit FilePrototype(QObject *parent = nullptr);
+    Q_INVOKABLE explicit ScriptableFile(const QString &path = QString());
 
 public slots:
     bool open();
@@ -40,37 +41,44 @@ public slots:
 
     void close();
 
-    QScriptValue read(qint64 maxSize);
-    QScriptValue readLine(qint64 maxSize = 0);
-    QScriptValue readAll();
+    QJSValue read(qint64 maxSize);
+    QJSValue readLine(qint64 maxSize = 0);
+    QJSValue readAll();
 
-    qint64 write(const QScriptValue &value);
+    qint64 write(const QJSValue &value);
 
-    bool atEnd() const;
-    qint64 bytesAvailable() const;
-    qint64 bytesToWrite() const;
-    bool canReadLine() const;
-    QScriptValue errorString() const;
-    bool isOpen() const;
-    bool isReadable() const;
-    bool isWritable() const;
-    QScriptValue peek(qint64 maxSize);
-    qint64 pos() const;
+    bool atEnd();
+    qint64 bytesAvailable();
+    qint64 bytesToWrite();
+    bool canReadLine();
+    QJSValue errorString();
+    bool isOpen();
+    bool isReadable();
+    bool isWritable();
+    QJSValue peek(qint64 maxSize);
+    qint64 pos();
     bool reset();
     bool seek(qint64 pos);
     void setTextModeEnabled(bool enabled);
-    qint64 size() const;
+    qint64 size();
 
-    QScriptValue fileName() const;
-    bool exists() const;
+    QJSValue fileName();
+    bool exists();
     bool flush();
     bool remove();
 
-private:
-    QFile *thisFile() const;
+    virtual QFile *self();
 
-    QScriptValue newByteArray(const QByteArray &bytes);
-    QByteArray toByteArray(const QScriptValue &value);
+protected:
+    void setFile(QFile *file);
+    QJSEngine *engine() const;
+
+private:
+    QJSValue newByteArray(const QByteArray &bytes);
+    QByteArray toByteArray(const QJSValue &value);
+
+    QFile *m_self = nullptr;
+    QString m_path;
 };
 
-#endif // FILEPROTOTYPE_H
+#endif // SCRIPTABLEFILE_H

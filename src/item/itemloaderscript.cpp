@@ -28,7 +28,7 @@
 
 #include <QFileInfo>
 #include <QRegExp>
-#include <QScriptEngine>
+#include <QJSEngine>
 
 namespace {
 
@@ -72,7 +72,7 @@ private:
 class ItemSaverScript : public ItemSaverInterface
 {
 public:
-    ItemSaverScript(const ItemSaverPtr &saver, const QScriptValue &obj, Scriptable *scriptable)
+    ItemSaverScript(const ItemSaverPtr &saver, const QJSValue &obj, Scriptable *scriptable)
         : m_saver(saver)
         , m_obj(obj)
         , m_scriptable(scriptable)
@@ -117,11 +117,11 @@ private:
     void transformItemData(const QString &fnName, QVariantMap *itemData)
     {
         auto fn = m_obj.property(fnName);
-        if ( !fn.isFunction() )
+        if ( !fn.isCallable() )
             return;
 
-        const auto args = QScriptValueList() << m_scriptable->fromDataMap(*itemData);
-        const auto result = fn.call(m_obj, args);
+        const auto args = QJSValueList() << m_scriptable->fromDataMap(*itemData);
+        const auto result = fn.callWithInstance(m_obj, args);
         if ( result.isUndefined() || result.isNull() )
             return;
 
@@ -129,7 +129,7 @@ private:
     }
 
     ItemSaverPtr m_saver;
-    QScriptValue m_obj;
+    QJSValue m_obj;
     Scriptable *m_scriptable;
 };
 
@@ -162,11 +162,11 @@ public:
         if ( !m_script.isEmpty() ) {
             m_scriptable.eval(m_script, scriptFilePath);
             m_obj = m_engine.globalObject().property(scriptObjectName);
-            if (m_obj.isFunction())
+            if (m_obj.isCallable())
                 m_obj = m_obj.call();
 
             if ( processUncaughtException() )
-                m_obj = QScriptValue();
+                m_obj = QJSValue();
         }
     }
 
@@ -212,8 +212,8 @@ public:
 
     ItemSaverPtr transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *) override
     {
-        if ( m_obj.property("copyItem").isFunction()
-             || m_obj.property("transformItemData").isFunction() )
+        if ( m_obj.property("copyItem").isCallable()
+             || m_obj.property("transformItemData").isCallable() )
         {
             return std::make_shared<ItemSaverScript>(saver, m_obj, &m_scriptable);
         }
@@ -249,7 +249,7 @@ private:
     {
         const auto value = this->value(variableName);
 
-        if ( value.isValid() ) {
+        if ( !value.isUndefined() ) {
             const auto text = value.toString();
             if ( !text.isNull() )
                 return text;
@@ -258,25 +258,26 @@ private:
         return defaultValue;
     }
 
-    QScriptValue value(const QString &variableName) const
+    QJSValue value(const QString &variableName) const
     {
         auto value = m_obj.property(variableName);
-        if ( value.isFunction() )
-            value = value.call(m_obj, QScriptValueList());
+        if ( value.isCallable() )
+            value = value.callWithInstance(m_obj, QJSValueList());
 
         if ( processUncaughtException() )
-            return QScriptValue();
+            return QJSValue();
 
         return value;
     }
 
     bool processUncaughtException() const
     {
-        if ( !m_engine.hasUncaughtException() )
+        if ( !m_scriptable.hasUncaughtException() )
             return false;
 
-        log( m_engine.uncaughtException().toString(), LogWarning );
-        m_scriptable.engine()->clearExceptions();
+        log( m_scriptable.uncaughtExceptionText(), LogWarning );
+        // TODO
+        //m_scriptable.engine()->clearExceptions();
         return true;
     }
 
@@ -288,9 +289,9 @@ private:
         ::log(text, level);
     }
 
-    QScriptEngine m_engine;
+    QJSEngine m_engine;
     Scriptable m_scriptable;
-    QScriptValue m_obj;
+    QJSValue m_obj;
     QString m_baseName;
     QString m_script;
     QString m_id;

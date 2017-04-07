@@ -17,40 +17,43 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "fileclass.h"
+#include "scriptabletemporaryfile.h"
 
-#include <QDir>
+#include <QTemporaryFile>
 
-COPYQ_DECLARE_SCRIPTABLE_CLASS(FileClass)
+Q_DECLARE_METATYPE(QTemporaryFile*)
 
-FileClass::FileClass(QScriptEngine *engine)
-    : ScriptableClass(engine)
+ScriptableTemporaryFile::ScriptableTemporaryFile(const QString &path)
+    : ScriptableFile(path)
 {
 }
 
-QScriptValue FileClass::newInstance(const QString &path)
+bool ScriptableTemporaryFile::autoRemove() const
 {
-    return ScriptableClass::newInstance( new QFile(QDir(m_currentPath).absoluteFilePath(path)) );
+    return m_self->autoRemove();
 }
 
-QScriptValue FileClass::newInstance()
+QString ScriptableTemporaryFile::fileTemplate() const
 {
-    return ScriptableClass::newInstance( new QFile() );
+    return m_self->fileTemplate();
 }
 
-const QString &FileClass::getCurrentPath() const
+void ScriptableTemporaryFile::setAutoRemove(bool autoRemove)
 {
-    return m_currentPath;
+    m_self->setAutoRemove(autoRemove);
 }
 
-void FileClass::setCurrentPath(const QString &path)
+void ScriptableTemporaryFile::setFileTemplate(const QString &name)
 {
-    m_currentPath = path;
+    m_self->setFileTemplate(name);
 }
 
-QScriptValue FileClass::createInstance(const QScriptContext &context)
+QFile *ScriptableTemporaryFile::self()
 {
-    return context.argumentCount() > 0
-            ? newInstance(context.argument(0).toString())
-            : newInstance();
+    if (m_self)
+        return m_self;
+
+    m_self = new QTemporaryFile(this);
+    setFile(m_self);
+    return m_self;
 }

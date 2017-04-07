@@ -23,7 +23,6 @@
 #include "gui/commandsyntaxhighlighter.h"
 #include "gui/commandcompleter.h"
 
-#include <QScriptEngine>
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
@@ -85,47 +84,5 @@ void CommandEdit::resizeToContent()
 void CommandEdit::on_plainTextEditCommand_textChanged()
 {
     emit changed();
-
-    QString errors;
-    QList<QTextEdit::ExtraSelection> selections;
-
-    QString command = ui->plainTextEditCommand->toPlainText();
-    QRegExp scriptPrefix("(^|\\b)copyq:");
-    const int pos = command.indexOf(scriptPrefix);
-
-    if (pos != -1) {
-        const int scriptStartPos = pos + scriptPrefix.matchedLength();
-        command.remove(0, scriptStartPos);
-
-        const QScriptSyntaxCheckResult result = QScriptEngine::checkSyntax(command);
-
-        if (result.state() == QScriptSyntaxCheckResult::Error) {
-            errors = result.errorMessage();
-            if (errors.isEmpty())
-                errors = "Syntax error";
-
-            const int line = result.errorLineNumber() - 1;
-            const int column = result.errorColumnNumber() - 1;
-            QTextDocument *doc = ui->plainTextEditCommand->document();
-            const int firstBlockNumber = doc->findBlock(pos).blockNumber();
-            QTextBlock block = doc->findBlockByNumber(firstBlockNumber + line);
-            const int blockStartPos = line == 0 ? scriptStartPos : block.position();
-            const int errorPosition = column + blockStartPos;
-
-            QTextCursor cursor = ui->plainTextEditCommand->textCursor();
-            cursor.setPosition(errorPosition);
-            cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-
-            QTextEdit::ExtraSelection selection;
-            selection.cursor = cursor;
-            selection.format = cursor.blockCharFormat();
-            selection.format.setUnderlineColor(Qt::red);
-            selection.format.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
-            selections.append(selection);
-        }
-    }
-
-    ui->plainTextEditCommand->setExtraSelections(selections);
-    ui->labelErrors->setVisible(!errors.isEmpty());
-    ui->labelErrors->setText(errors);
+    // TODO: Highlight syntax errors!
 }

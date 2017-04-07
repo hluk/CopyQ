@@ -99,7 +99,7 @@ endif()
 
 # Qt modules
 if (WITH_QT5)
-    list(APPEND copyq_Qt5_Modules Network Svg Xml Script)
+    list(APPEND copyq_Qt5_Modules Network Svg Xml Qml)
     find_package(Qt5 REQUIRED COMPONENTS ${copyq_Qt5_Modules})
     qt5_use_modules(copyq ${copyq_Qt5_Modules})
 else()

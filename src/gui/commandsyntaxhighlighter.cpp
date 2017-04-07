@@ -22,13 +22,13 @@
 #include "gui/iconfactory.h"
 #include "scriptable/scriptable.h"
 
+#include <QJSEngine>
+#include <QJSValue>
+#include <QJSValueIterator>
 #include <QMetaMethod>
 #include <QMetaObject>
 #include <QPalette>
 #include <QRegExp>
-#include <QScriptEngine>
-#include <QScriptValue>
-#include <QScriptValueIterator>
 #include <QSyntaxHighlighter>
 #include <QTextEdit>
 #include <QPlainTextEdit>
@@ -334,10 +334,9 @@ QStringList scriptableObjects()
     result.append("File");
     result.append("TemporaryFile");
 
-    QScriptEngine engine;
-
-    QScriptValue globalObject = engine.globalObject();
-    QScriptValueIterator it(globalObject);
+    QJSEngine engine;
+    auto globalObject = engine.globalObject();
+    QJSValueIterator it(globalObject);
 
     while (it.hasNext()) {
         it.next();

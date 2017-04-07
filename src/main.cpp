@@ -30,9 +30,10 @@
 #include "scriptable/scriptable.h"
 
 #include <QApplication>
+#include <QJSEngine>
+#include <QJSValue>
+#include <QJSValueList>
 #include <QFile>
-#include <QScriptEngine>
-#include <QSettings>
 
 #ifdef HAS_TESTS
 #  include "tests/tests.h"
@@ -51,22 +52,21 @@ int evaluate(
 {
     App app( "Prompt", createPlatformNativeInterface()->createConsoleApplication(argc, argv), sessionName );
 
-    QScriptEngine engine;
+    QJSEngine engine;
     Scriptable scriptable(&engine, nullptr);
 
-    QScriptValue function = engine.globalObject().property(functionName);
-    QScriptValueList functionArguments;
-
+    QJSValueList functionArguments;
     functionArguments.reserve( arguments.size() );
     for (const auto &argument : arguments)
         functionArguments.append(argument);
 
-    const QScriptValue result = function.call( QScriptValue(), functionArguments );
+    auto function = engine.globalObject().property(functionName);
+    const auto result = scriptable.call(&function, functionArguments);
 
     const auto output = scriptable.fromString(result.toString());
     if ( !output.isEmpty() ) {
         QFile f;
-        if ( engine.hasUncaughtException() )
+        if ( result.isError() )
             f.open(stderr, QIODevice::WriteOnly);
         else
             f.open(stdout, QIODevice::WriteOnly);
@@ -77,7 +77,7 @@ int evaluate(
         f.close();
     }
 
-    const int exitCode = engine.hasUncaughtException() ? CommandException : 0;
+    const int exitCode = result.isError() ? CommandException : 0;
     app.exit(exitCode);
     return exitCode;
 }

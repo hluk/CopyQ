@@ -20,299 +20,229 @@
 #ifndef SCRIPTABLE_H
 #define SCRIPTABLE_H
 
-#include "common/mimetypes.h"
-
 #include <QClipboard>
+#include <QJSValue>
 #include <QObject>
-#include <QString>
-#include <QScriptable>
-#include <QScriptValue>
 #include <QVariantMap>
 
-class ByteArrayClass;
-class ClipboardBrowser;
-class DirClass;
-class FileClass;
-class ScriptableProxy;
-class TemporaryFileClass;
-
-class QFile;
-class QNetworkReply;
-class QNetworkAccessManager;
-class QScriptEngine;
+class QByteArray;
+class QJSEngine;
 class QTextCodec;
+class ScriptableProxy;
 
-class Scriptable : public QObject, protected QScriptable
+class Scriptable : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QScriptValue inputSeparator READ getInputSeparator WRITE setInputSeparator)
-    Q_PROPERTY(QScriptValue mimeText READ getMimeText)
-    Q_PROPERTY(QScriptValue mimeHtml READ getMimeHtml)
-    Q_PROPERTY(QScriptValue mimeUriList READ getMimeUriList)
-    Q_PROPERTY(QScriptValue mimeWindowTitle READ getMimeWindowTitle)
-    Q_PROPERTY(QScriptValue mimeItems READ getMimeItems)
-    Q_PROPERTY(QScriptValue mimeItemNotes READ getMimeItemNotes)
-    Q_PROPERTY(QScriptValue mimeOwner READ getMimeOwner)
-    Q_PROPERTY(QScriptValue mimeClipboardMode READ getMimeClipboardMode)
-    Q_PROPERTY(QScriptValue mimeCurrentTab READ getMimeCurrentTab)
-    Q_PROPERTY(QScriptValue mimeSelectedItems READ getMimeSelectedItems)
-    Q_PROPERTY(QScriptValue mimeCurrentItem READ getMimeCurrentItem)
-    Q_PROPERTY(QScriptValue mimeHidden READ getMimeHidden)
-    Q_PROPERTY(QScriptValue mimeShortcut READ getMimeShortcut)
-    Q_PROPERTY(QScriptValue mimeColor READ getMimeColor)
-    Q_PROPERTY(QScriptValue mimeOutputTab READ getMimeOutputTab)
-    Q_PROPERTY(QScriptValue mimeSyncToClipboard READ getMimeSyncToClipboard)
-    Q_PROPERTY(QScriptValue mimeSyncToSelection READ getMimeSyncToSelection)
-
 public:
-    explicit Scriptable(
-            QScriptEngine *engine,
-            ScriptableProxy *proxy,
-            QObject *parent = nullptr);
-
-    // WORKAROUND: These methods override the one in QScriptable,
-    //             which doesn't work well in some cases.
-    QScriptContext *context() const;
-    int argumentCount() const;
-    QScriptValue argument(int index) const;
-
-    QScriptValue newByteArray(const QByteArray &bytes);
-
-    QByteArray fromString(const QString &value) const;
-    QVariant toVariant(const QScriptValue &value);
-    bool toInt(const QScriptValue &value, int *number) const;
-    QVariantMap toDataMap(const QScriptValue &value) const;
-    QScriptValue fromDataMap(const QVariantMap &dataMap) const;
-
-    QByteArray makeByteArray(const QScriptValue &value) const;
-
-    /**
-     * Set data for item converted from @a value.
-     * Return true if data was successfuly converted and set.
-     *
-     * If mime starts with "text/" or isn't byte array the value is re-encoded
-     * from local encoding to UTF8.
-     */
-    bool toItemData(const QScriptValue &value, const QString &mime, QVariantMap *data) const;
-
-    QScriptValue getInputSeparator() const;
-    void setInputSeparator(const QScriptValue &separator);
-
-    QString getCurrentPath() const;
-    void setCurrentPath(const QString &path);
-
-    QString getFileName(const QString &fileName) const;
-
-    QString arg(int i, const QString &defaultValue = QString());
-
-    void throwError(const QString &errorMessage);
-
-    void sendMessageToClient(const QByteArray &message, int exitCode);
-
-    QScriptEngine *engine() const { return m_engine; }
+    Scriptable(QJSEngine *engine, ScriptableProxy *proxy);
 
     bool isConnected() const { return m_connected; }
 
-    const QVariantMap &data() const { return m_data; }
+    QJSValue arguments() const;
+    int argumentCount() const;
+    QJSValue argument(int index) const;
+    QString arg(int i, const QString &defaultValue = QString());
 
-    QScriptValue getMimeText() const { return mimeText; }
-    QScriptValue getMimeHtml() const { return mimeHtml; }
-    QScriptValue getMimeUriList() const { return mimeUriList; }
-    QScriptValue getMimeWindowTitle() const { return mimeWindowTitle; }
-    QScriptValue getMimeItems() const { return mimeItems; }
-    QScriptValue getMimeItemNotes() const { return mimeItemNotes; }
-    QScriptValue getMimeOwner() const { return mimeOwner; }
-    QScriptValue getMimeClipboardMode() const { return mimeClipboardMode; }
-    QScriptValue getMimeCurrentTab() const { return mimeCurrentTab; }
-    QScriptValue getMimeSelectedItems() const { return mimeSelectedItems; }
-    QScriptValue getMimeCurrentItem() const { return mimeCurrentItem; }
-    QScriptValue getMimeHidden() const { return mimeHidden; }
-    QScriptValue getMimeShortcut() const { return mimeShortcut; }
-    QScriptValue getMimeColor() const { return mimeColor; }
-    QScriptValue getMimeOutputTab() const { return mimeOutputTab; }
-    QScriptValue getMimeSyncToClipboard() const { return mimeSyncToClipboard; }
-    QScriptValue getMimeSyncToSelection() const { return mimeSyncToSelection; }
+    QJSValue throwError(const QString &errorMessage);
 
-    ByteArrayClass *byteArrayClass() const { return m_baClass; }
-    FileClass *fileClass() const { return m_fileClass; }
-    TemporaryFileClass *temporaryFileClass() const { return m_temporaryFileClass; }
+    QJSValue newByteArray(const QByteArray &bytes);
 
-    QScriptValue call(QScriptValue *fn, const QScriptValue &object, const QVariantList &arguments) const;
+    QByteArray fromString(const QString &value) const;
 
-    QScriptValue eval(const QString &script, const QString &fileName);
+    QVariant toVariant(const QJSValue &value);
+
+    bool toInt(const QJSValue &value, int *number) const;
+
+    QVariantMap toDataMap(const QJSValue &value) const;
+
+    QJSValue fromDataMap(const QVariantMap &dataMap) const;
+
+    QByteArray makeByteArray(const QJSValue &value) const;
+
+    bool toItemData(const QJSValue &value, const QString &mime, QVariantMap *data) const;
+
+    QString getFileName(const QString &fileName) const;
+
+    QJSEngine *engine() const { return m_engine; }
+
+    QJSValue call(QJSValue *function, const QJSValueList &arguments);
+
+    QJSValue eval(const QString &script, const QString &fileName);
+
+    bool hasUncaughtException() const { return m_hasUncaughtException; }
+    QString uncaughtExceptionText() const { return m_uncaughtException.toString(); }
 
 public slots:
-    QScriptValue version();
-    QScriptValue help();
+    QJSValue version();
+    QJSValue help();
 
     void show();
     void showAt();
     void hide();
-    QScriptValue toggle();
-    void menu();
+    QJSValue toggle();
+    QJSValue menu();
     void exit();
     void disable();
     void enable();
-    QScriptValue monitoring();
-    QScriptValue visible();
-    QScriptValue focused();
+    QJSValue monitoring();
+    QJSValue visible();
+    QJSValue focused();
 
     void filter();
 
     void ignore();
 
-    QScriptValue clipboard();
-    QScriptValue selection();
-    QScriptValue hasClipboardFormat();
-    QScriptValue hasSelectionFormat();
-    QScriptValue isClipboard();
-    QScriptValue copy();
-    QScriptValue copySelection();
+    QJSValue clipboard();
+    QJSValue selection();
+    QJSValue hasClipboardFormat();
+    QJSValue hasSelectionFormat();
+    QJSValue isClipboard();
+    QJSValue copy();
+    QJSValue copySelection();
     void paste();
 
-    QScriptValue tab();
-    void removeTab();
-    void removetab() { removeTab(); }
-    void renameTab();
-    void renametab() { renameTab(); }
-    QScriptValue tabIcon();
-    QScriptValue tabicon() { return tabIcon(); }
+    QJSValue tab();
+    QJSValue removeTab();
+    QJSValue removetab() { return removeTab(); }
+    QJSValue renameTab();
+    QJSValue renametab() { return renameTab(); }
+    QJSValue tabIcon();
+    QJSValue tabicon() { return tabIcon(); }
 
-    QScriptValue length();
-    QScriptValue size() { return length(); }
-    QScriptValue count() { return length(); }
+    QJSValue length();
+    QJSValue size() { return length(); }
+    QJSValue count() { return length(); }
 
     void select();
-    void next();
-    void previous();
-    void add();
-    void insert();
-    void remove();
+    QJSValue next();
+    QJSValue previous();
+    QJSValue add();
+    QJSValue insert();
+    QJSValue remove();
     void edit();
 
-    QScriptValue read();
+    QJSValue read();
     void write();
     void change();
     void separator();
 
     void action();
     void popup();
-    void notification();
+    QJSValue notification();
 
-    void exportTab();
-    void exporttab() { exportTab(); }
-    void importTab();
-    void importtab() { importTab(); }
+    QJSValue exportTab();
+    QJSValue exporttab() { return exportTab(); }
+    QJSValue importTab();
+    QJSValue importtab() { return importTab(); }
 
-    QScriptValue importData();
-    QScriptValue exportData();
+    QJSValue importData();
+    QJSValue exportData();
 
-    QScriptValue config();
-    bool toggleConfig();
+    QJSValue config();
+    QJSValue toggleConfig();
 
-    QScriptValue info();
+    QJSValue info();
 
-    QScriptValue eval();
+    QJSValue eval();
 
-    QScriptValue source();
+    QJSValue source();
 
-    QScriptValue currentPath();
-    QScriptValue currentpath() { return currentPath(); }
+    QJSValue currentPath();
+    QJSValue currentpath() { return currentPath(); }
 
-    QScriptValue str(const QScriptValue &value);
-    QScriptValue input();
-    QScriptValue toUnicode();
-    QScriptValue fromUnicode();
+    QJSValue str(const QJSValue &value);
+    QJSValue input();
+    QJSValue toUnicode();
+    QJSValue fromUnicode();
 
-    QScriptValue dataFormats();
-    QScriptValue data(const QScriptValue &value);
-    QScriptValue setData();
-    QScriptValue removeData();
-    void print(const QScriptValue &value);
-    void abort();
+    QJSValue dataFormats();
+    QJSValue data(const QJSValue &value);
+    QJSValue setData();
+    QJSValue removeData();
+    void print(const QJSValue &value);
+    QJSValue abort();
     void fail();
 
-    void keys();
-    QScriptValue testSelected();
+    QJSValue keys();
+    QJSValue testSelected();
     void resetTestSession();
     void flush();
 
     void setCurrentTab();
 
-    QScriptValue selectItems();
-    QScriptValue selectitems() { return selectItems(); }
+    QJSValue selectItems();
+    QJSValue selectitems() { return selectItems(); }
 
-    QScriptValue selectedTab();
-    QScriptValue selectedtab() { return selectedTab(); }
-    QScriptValue selectedItems();
-    QScriptValue selecteditems() { return selectedItems(); }
-    QScriptValue currentItem();
-    QScriptValue currentitem() { return currentItem(); }
-    QScriptValue index() { return currentItem(); }
+    QJSValue selectedTab();
+    QJSValue selectedtab() { return selectedTab(); }
+    QJSValue selectedItems();
+    QJSValue selecteditems() { return selectedItems(); }
+    QJSValue currentItem();
+    QJSValue currentitem() { return currentItem(); }
+    QJSValue index() { return currentItem(); }
 
-    QScriptValue selectedItemData();
-    QScriptValue setSelectedItemData();
-    QScriptValue selectedItemsData();
+    QJSValue selectedItemData();
+    QJSValue setSelectedItemData();
+    QJSValue selectedItemsData();
     void setSelectedItemsData();
 
-    QScriptValue escapeHtml();
-    QScriptValue escapeHTML() { return escapeHtml(); }
+    QJSValue escapeHtml();
+    QJSValue escapeHTML() { return escapeHtml(); }
 
-    QScriptValue unpack();
-    QScriptValue pack();
+    QJSValue unpack();
+    QJSValue pack();
 
-    QScriptValue getItem();
-    QScriptValue getitem() { return getItem(); }
-    void setItem();
+    QJSValue getItem();
+    QJSValue getitem() { return getItem(); }
+    QJSValue setItem();
     void setitem() { setItem(); }
 
-    QScriptValue toBase64();
-    QScriptValue tobase64() { return toBase64(); }
-    QScriptValue fromBase64();
-    QScriptValue frombase64() { return fromBase64(); }
+    QJSValue toBase64();
+    QJSValue tobase64() { return toBase64(); }
+    QJSValue fromBase64();
+    QJSValue frombase64() { return fromBase64(); }
 
-    QScriptValue open();
-    QScriptValue execute();
+    QJSValue open();
+    QJSValue execute();
 
-    QScriptValue currentWindowTitle();
+    QJSValue currentWindowTitle();
 
-    QScriptValue dialog();
+    QJSValue dialog();
 
-    QScriptValue settings();
+    QJSValue settings();
 
-    QScriptValue dateString();
+    QJSValue dateString();
 
     void updateFirst();
     void updateTitle();
 
-    QScriptValue commands();
+    QJSValue commands();
     void setCommands();
     void addCommands();
-    QScriptValue importCommands();
-    QScriptValue exportCommands();
+    QJSValue importCommands();
+    QJSValue exportCommands();
 
-    QScriptValue networkGet();
-    QScriptValue networkPost();
+    QJSValue networkGet();
+    QJSValue networkPost();
 
-    QScriptValue env();
-    QScriptValue setEnv();
+    QJSValue env();
+    QJSValue setEnv();
 
-    void sleep();
+    QJSValue sleep();
 
     // Call scriptable method.
     QVariant call(const QString &method, const QVariantList &arguments);
 
     QVariantList currentArguments();
 
-    QScriptValue screenshot();
-    QScriptValue screenshotSelect();
-    QScriptValue screenNames();
+    QJSValue screenshot();
+    QJSValue screenshotSelect();
+    QJSValue screenNames();
 
-    QScriptValue queryKeyboardModifiers();
+    QJSValue queryKeyboardModifiers();
 
-    QScriptValue iconColor();
+    QJSValue iconColor();
 
-public slots:
     void onMessageReceived(const QByteArray &bytes, int messageCode);
     void onDisconnected();
 
@@ -326,68 +256,43 @@ private slots:
 
 private:
     void executeArguments(const QByteArray &bytes);
-    QString processUncaughtException(const QString &cmd);
-    void showExceptionMessage(const QString &message);
     QList<int> getRows() const;
-    QScriptValue copy(QClipboard::Mode mode);
-    bool setClipboard(QVariantMap *data, QClipboard::Mode mode);
-    void changeItem(bool create);
-    void nextToClipboard(int where);
-    QScriptValue screenshot(bool select);
-    QByteArray serialize(const QScriptValue &value);
-    QScriptValue eval(const QString &script);
-    QTextCodec *codecFromNameOrThrow(const QScriptValue &codecName);
+    QJSValue copy(QClipboard::Mode mode);
+    QJSValue setClipboard(QVariantMap *data, QClipboard::Mode mode);
+    QJSValue changeItem(bool create);
+    QJSValue nextToClipboard(int where);
+    QJSValue screenshot(bool select);
+    QJSValue eval(const QString &script);
 
+    QTextCodec *codecFromNameOrNull(const QJSValue &codecName);
+    QJSValue availableCodecNamesError();
+
+    bool hasUncaughtException(const QJSValue &value);
+
+    QJSValue inputSeparator() const;
+    void setInputSeparator(const QString &separator);
+
+    QString getCurrentPath() const;
+    void setCurrentPath(const QString &path);
+
+    QJSEngine *m_engine;
     ScriptableProxy *m_proxy;
-    QScriptEngine *m_engine;
-    ByteArrayClass *m_baClass;
-    DirClass *m_dirClass;
-    FileClass *m_fileClass;
-    TemporaryFileClass *m_temporaryFileClass;
-    QString m_inputSeparator;
-    QScriptValue m_input;
-    QVariantMap m_data;
+
+    QJSValue m_input;
+    bool m_connected = true;
+
     QString m_actionName;
-    bool m_connected;
+    QVariantMap m_data;
+
     int m_skipArguments = 0;
 
-    QScriptValue m_executeStdoutCallback;
-};
+    QJSValue m_self;
 
-class NetworkReply : public QObject {
-    Q_OBJECT
-    Q_PROPERTY(QScriptValue data READ data)
-    Q_PROPERTY(QScriptValue error READ error)
-    Q_PROPERTY(QScriptValue status READ status)
-    Q_PROPERTY(QScriptValue redirect READ redirect)
-    Q_PROPERTY(QScriptValue headers READ headers)
+    QJSValue m_executeStdoutCallback;
 
-public:
-    static QScriptValue get(const QString &url, Scriptable *scriptable);
-    static QScriptValue post(const QString &url, const QByteArray &postData, Scriptable *scriptable);
-
-    ~NetworkReply();
-
-    QScriptValue data();
-
-    QScriptValue error() const;
-
-    QScriptValue status() const;
-    QScriptValue redirect() const;
-    QScriptValue headers();
-
-private:
-    explicit NetworkReply(const QString &url, const QByteArray &postData, Scriptable *scriptable);
-
-    QScriptValue toScriptValue();
-
-    void fetchHeaders();
-
-    Scriptable *m_scriptable;
-    QNetworkAccessManager *m_manager;
-    QNetworkReply *m_reply;
-    QNetworkReply *m_replyHead;
-    QScriptValue m_data;
+    bool m_hasUncaughtException = false;
+    QJSValue m_uncaughtException;
+    bool m_aborted = false;
 };
 
 #endif // SCRIPTABLE_H

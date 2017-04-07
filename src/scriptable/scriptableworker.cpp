@@ -25,11 +25,10 @@
 #include "common/commandstatus.h"
 #include "common/log.h"
 #include "item/itemwidget.h"
-#include "../qt/bytearrayclass.h"
 
 #include <QApplication>
+#include <QJSEngine>
 #include <QObject>
-#include <QScriptEngine>
 
 Q_DECLARE_METATYPE(QByteArray*)
 
@@ -66,7 +65,7 @@ void ScriptableWorker::run()
 
     setCurrentThreadName("Script-" + QString::number(socket->id()));
 
-    QScriptEngine engine;
+    QJSEngine engine;
     ScriptableProxy proxy(m_wnd);
     Scriptable scriptable(&engine, &proxy);
 
@@ -87,7 +86,7 @@ void ScriptableWorker::run()
 
     for (auto scriptableFactory : m_scriptableFactories) {
         const auto obj = scriptableFactory->create();
-        const auto value = engine.newQObject(obj, QScriptEngine::ScriptOwnership);
+        const auto value = engine.newQObject(obj);
         const auto name = scriptableFactory->name();
         plugins.setProperty(name, value);
         obj->setScriptable(&scriptable);

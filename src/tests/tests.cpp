@@ -618,8 +618,6 @@ void Tests::commandVersion()
     QVERIFY( version.contains(QRegExp("\\bCopyQ\\b.*" + QRegExp::escape(COPYQ_VERSION))) );
     // Version contains Qt version.
     QVERIFY( version.contains(QRegExp("\\bQt\\s+\\d")) );
-    // Version contains Qxt version.
-    QVERIFY( version.contains(QRegExp("\\bLibQxt\\s+\\d")) );
 }
 
 void Tests::badCommand()
@@ -654,7 +652,7 @@ void Tests::commandEval()
 
 void Tests::commandEvalThrows()
 {
-    RUN_EXPECT_ERROR_WITH_STDERR("eval" << "throw 'TEST_EXCEPTION'", CommandException, "TEST_EXCEPTION");
+    RUN_EXPECT_ERROR_WITH_STDERR("eval" << "throw Error('TEST_EXCEPTION')", CommandException, "TEST_EXCEPTION");
 }
 
 void Tests::commandEvalSyntaxError()
@@ -1297,7 +1295,7 @@ void Tests::classTemporaryFile()
                 QString(R"(
                         var f = new TemporaryFile()
                         if (!f.open())
-                            throw 'Failed to open temporary file'
+                            throw Error('Failed to open temporary file')
                         f.setAutoRemove(%1)
                         print(f.fileName())
                         )").arg(autoRemove);
