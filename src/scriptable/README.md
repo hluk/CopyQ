@@ -580,7 +580,7 @@ Returns base64-encoded data.
 
 Returns base64-decoded data.
 
-###### QScriptValue open(url, ...)
+###### bool open(url, ...)
 
 Tries to open URLs in appropriate applications.
 

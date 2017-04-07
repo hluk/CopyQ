@@ -193,7 +193,7 @@ private:
         addDocumentation("setItem", "setItem(row, item)", "Inserts item to current tab.");
         addDocumentation("toBase64", "String toBase64(data)", "Returns base64-encoded data.");
         addDocumentation("fromBase64", "ByteArray fromBase64(base64String)", "Returns base64-decoded data.");
-        addDocumentation("open", "QScriptValue open(url, ...)", "Tries to open URLs in appropriate applications.");
+        addDocumentation("open", "bool open(url, ...)", "Tries to open URLs in appropriate applications.");
         addDocumentation("execute", "FinishedCommand execute(argument, ..., null, stdinData, ...)", "Executes a command.");
         addDocumentation("currentWindowTitle", "String currentWindowTitle()", "Returns window title of currently focused window.");
         addDocumentation("dialog", "Value dialog(...)", "Shows messages or asks user for input.");
