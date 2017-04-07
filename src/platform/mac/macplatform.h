@@ -60,7 +60,7 @@ public:
 
     QString translationPrefix();
 
-    QString themePrefix() { return QString(); }
+    QString themePrefix();
 };
 
 #endif // MACPLATFORM_H

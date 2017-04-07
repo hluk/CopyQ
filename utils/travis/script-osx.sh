@@ -13,6 +13,7 @@ qt_bin="/usr/local/opt/qt5/bin"
 make
 make package_plugins
 make package_translations
+make package_themes
 
 # Create "CopyQ.app/"
 "$qt_bin/macdeployqt" CopyQ.app -verbose=2 -always-overwrite

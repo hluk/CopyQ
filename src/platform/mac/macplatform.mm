@@ -139,6 +139,11 @@ namespace {
             ::log("Unable to access shared file list, can't stop auto-load of app", LogWarning);
         }
     }
+
+    QString absoluteResourcesePath(const QString &path)
+    {
+        return QCoreApplication::applicationDirPath() + "/../Resources/" + path;
+    }
 } // namespace
 
 PlatformPtr createPlatformNativeInterface()
@@ -229,7 +234,12 @@ QString MacPlatform::defaultEditorCommand()
 
 QString MacPlatform::translationPrefix()
 {
-    return QCoreApplication::applicationDirPath() + "/../Resources/translations";
+    return absoluteResourcesePath("translations");
+}
+
+QString MacPlatform::themePrefix()
+{
+    return absoluteResourcesePath("themes");
 }
 
 PlatformWindowPtr MacPlatform::getCurrentWindow()

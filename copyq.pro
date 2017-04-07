@@ -55,8 +55,14 @@ macx {
         cp $$_PRO_FILE_PWD_/translations/*.qm copyq.app/Contents/Resources/translations
     QMAKE_EXTRA_TARGETS += package_translations
 
+    # Package the themes
+    package_themes.commands = \
+        mkdir -p copyq.app/Contents/Resources/themes && \
+        cp $$_PRO_FILE_PWD_/shared/themes/*.ini copyq.app/Contents/Resources/themes
+    QMAKE_EXTRA_TARGETS += package_themes
+
     # Rename to CopyQ.app to make it look better
-    bundle_mac.depends = package_frameworks package_plugins package_translations
+    bundle_mac.depends = package_frameworks package_plugins package_translations package_themes
     bundle_mac.target = CopyQ.app
     bundle_mac.commands = mv copyq.app CopyQ.app
     QMAKE_EXTRA_TARGETS += bundle_mac
