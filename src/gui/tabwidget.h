@@ -137,6 +137,8 @@ private:
     QMap<QString, int> m_tabItemCounters;
 
     bool m_showTabItemCount;
+
+    bool m_ignoreCurrentTabChanges = false;
 };
 
 #endif // TABWIDGET_H

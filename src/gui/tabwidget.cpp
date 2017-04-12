@@ -256,6 +256,9 @@ void TabWidget::updateTabs()
 
 void TabWidget::setCurrentIndex(int tabIndex)
 {
+    if (m_ignoreCurrentTabChanges)
+        return;
+
     QWidget *w = currentWidget();
     const int current = isTabGroupSelected() ? -1 : currentIndex();
 
@@ -308,11 +311,14 @@ void TabWidget::setTreeModeEnabled(bool enabled)
     else
         createTabBar();
 
+    m_ignoreCurrentTabChanges = true;
     for (int i = 0; i < tabs.size(); ++i) {
         const QString &tabName = tabs[i];
         m_tabs->insertTab(i, tabName);
         m_tabs->setTabItemCount(tabName, itemCountLabel(tabName));
     }
+    m_tabs->setCurrentTab( currentIndex() );
+    m_ignoreCurrentTabChanges = false;
 
     m_tabs->setCollapsedTabs(m_collapsedTabs);
 
