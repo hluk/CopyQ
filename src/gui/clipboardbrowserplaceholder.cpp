@@ -167,7 +167,7 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
         return;
 
     m_browser->saveUnsavedItems();
-    delete m_browser;
+    m_browser->deleteLater();
     m_browser = nullptr;
 }
 
