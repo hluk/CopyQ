@@ -619,8 +619,8 @@ private:
     /** Return browser widget in current tab. */
     ClipboardBrowserPlaceholder *getPlaceholder() const;
 
-    /** Call updateFocusWindows() after a small delay. */
-    void delayedUpdateFocusWindows();
+    /** Call updateFocusWindows() after a small delay if main window or menu is not active. */
+    void delayedUpdateForeignFocusWindows();
 
     /** Show/hide tab bar. **/
     void setHideTabs(bool hide);

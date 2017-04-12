@@ -1368,9 +1368,11 @@ ClipboardBrowserPlaceholder *MainWindow::getPlaceholder() const
     return qobject_cast<ClipboardBrowserPlaceholder*>( ui->tabWidget->currentWidget() );
 }
 
-void MainWindow::delayedUpdateFocusWindows()
+void MainWindow::delayedUpdateForeignFocusWindows()
 {
-    if ( m_options.activateFocuses() || m_options.activatePastes() )
+    if ( isActiveWindow() || m_trayMenu->isActiveWindow() || m_menu->isActiveWindow() )
+        m_timerUpdateFocusWindows.stop();
+    else
         m_timerUpdateFocusWindows.start();
 }
 
@@ -2241,7 +2243,8 @@ bool MainWindow::event(QEvent *event)
     QEvent::Type type = event->type();
 
     if (type == QEvent::Enter) {
-        updateFocusWindows();
+        if ( !isActiveWindow() )
+            updateFocusWindows();
         updateWindowTransparency(true);
     } else if (type == QEvent::Leave) {
         updateWindowTransparency(false);
@@ -2250,7 +2253,6 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency();
     } else if (type == QEvent::WindowDeactivate) {
         m_timerShowWindow.start();
-        m_lastWindow.reset();
         updateWindowTransparency();
         setHideTabs(m_options.hideTabs);
     } else if (type == QEvent::Hide) {
@@ -2264,26 +2266,26 @@ bool MainWindow::event(QEvent *event)
 #   ifdef COPYQ_WS_X11
 bool MainWindow::x11Event(XEvent *event)
 {
-    delayedUpdateFocusWindows();
+    delayedUpdateForeignFocusWindows();
     return QMainWindow::x11Event(event);
 }
 #   elif defined(Q_OS_WIN)
 bool MainWindow::winEvent(MSG *message, long *result)
 {
-    delayedUpdateFocusWindows();
+    delayedUpdateForeignFocusWindows();
     return QMainWindow::winEvent(message, result);
 }
 #   elif defined(Q_OS_MAC)
 bool MainWindow::macEvent(EventHandlerCallRef caller, EventRef event)
 {
-    delayedUpdateFocusWindows();
+    delayedUpdateForeignFocusWindows();
     return QMainWindow::macEvent(caller, event);
 }
 #   endif
 #else
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
 {
-    delayedUpdateFocusWindows();
+    delayedUpdateForeignFocusWindows();
     return QMainWindow::nativeEvent(eventType, message, result);
 }
 #endif
@@ -2401,8 +2403,6 @@ void MainWindow::loadSettings()
     updateIcon();
 
     ui->searchBar->loadSettings();
-
-    m_lastWindow.reset();
 
     settings.beginGroup("Shortcuts");
     loadShortcuts(&m_menuItems, settings);
@@ -2971,9 +2971,6 @@ void MainWindow::createTrayIfSupported()
 
 void MainWindow::updateFocusWindows()
 {
-    if ( isActiveWindow() || m_trayMenu->isActiveWindow() || m_menu->isActiveWindow() )
-        return;
-
     PlatformPtr platform = createPlatformNativeInterface();
     PlatformWindowPtr lastWindow = platform->getCurrentWindow();
     if (lastWindow)
