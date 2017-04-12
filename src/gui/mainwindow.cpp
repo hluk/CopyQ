@@ -1775,12 +1775,12 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCo
 
 void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool omitPaste)
 {
-    if (!c || !m_options.trayItemPaste)
+    if ( !c || !c->moveToClipboard(itemHash) )
         return;
 
     PlatformWindowPtr lastWindow = m_lastWindow;
 
-    if ( c->moveToClipboard(itemHash) && lastWindow && !omitPaste && canPaste() )
+    if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() )
         pasteClipboard(lastWindow);
 }
 

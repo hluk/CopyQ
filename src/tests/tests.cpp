@@ -1987,6 +1987,36 @@ void Tests::traySearch()
     WAIT_FOR_CLIPBOARD("B");
 }
 
+void Tests::trayPaste()
+{
+    RUN("config" << "tray_tab_is_current" << "false", "false\n");
+
+    const auto tab1 = testTab(1);
+    RUN("setCurrentTab" << tab1, "");
+    RUN("keys" << "CTRL+N" << ":NEW ", "");
+
+    RUN("add" << "TEST", "");
+    RUN("menu", "");
+    waitFor(waitMsShow);
+    RUN("keys" << "ENTER", "");
+    WAIT_FOR_CLIPBOARD("TEST");
+
+    RUN("keys" << "F2", "");
+    RUN("tab" << tab1 << "read" << "0", "NEW TEST");
+
+    RUN("keys" << "CTRL+N" << ":NEW ", "");
+
+    RUN("config" << "tray_item_paste" << "false", "false\n");
+    RUN("add" << "TEST2", "");
+    RUN("menu", "");
+    waitFor(waitMsShow);
+    RUN("keys" << "ENTER", "");
+    WAIT_FOR_CLIPBOARD("TEST2");
+
+    RUN("keys" << "F2", "");
+    RUN("tab" << tab1 << "read" << "0", "NEW ");
+}
+
 void Tests::configTrayTab()
 {
     const auto tab1 = testTab(1);

@@ -166,6 +166,7 @@ private slots:
     void menu();
 
     void traySearch();
+    void trayPaste();
 
     // Options for tray menu.
     void configTrayTab();
