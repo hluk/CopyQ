@@ -879,6 +879,11 @@ void Tests::commandDialog()
         PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
         RUN("eval" << "dialog('list', [0, 1, 2])", "0\n");
     }
+
+    {
+        PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
+        RUN("eval" << "dialog('boolean', true) === true", "true\n");
+    }
 }
 
 void Tests::commandsPackUnpack()

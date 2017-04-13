@@ -324,6 +324,9 @@ struct ScriptValueFactory<QVariant> {
         if ( !variant.isValid() )
             return QScriptValue(QScriptValue::UndefinedValue);
 
+        if (variant.type() == QVariant::Bool)
+            return ::toScriptValue(variant.toBool(), scriptable);
+
         if (variant.type() == QVariant::ByteArray)
             return ::toScriptValue(variant.toByteArray(), scriptable);
 
