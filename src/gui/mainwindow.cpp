@@ -607,14 +607,18 @@ void MainWindow::showEvent(QShowEvent *event)
 
 bool MainWindow::focusNextPrevChild(bool next)
 {
+    auto c = browser();
+    if (!c)
+        return false;
+
     // Fix tab order while searching in editor.
-    if (browser()->editing() && !browseMode()) {
+    if (c->editing() && !browseMode()) {
         if ( next && ui->searchBar->hasFocus() ) {
-            browser()->setFocus();
+            c->setFocus();
             return true;
         }
 
-        if ( !next && browser()->hasFocus() ) {
+        if ( !next && c->hasFocus() ) {
             ui->searchBar->setFocus();
             return true;
         }
@@ -852,16 +856,22 @@ void MainWindow::updateContextMenuTimeout()
 
 void MainWindow::updateItemPreview()
 {
-    ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !browser()->editing());
+    auto c = browser();
+    if (!c)
+        return;
+
+    ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !c->editing());
 
     QWidget *w = ui->dockWidgetItemPreview->isVisible() && !ui->tabWidget->isTabGroupSelected()
-            ? browser()->currentItemPreview()
+            ? c->currentItemPreview()
             : nullptr;
 
     ui->scrollAreaItemPreview->setVisible(w != nullptr);
     ui->scrollAreaItemPreview->setWidget(w);
-    if (w)
+    if (w) {
+        ui->dockWidgetItemPreview->setStyleSheet( c->styleSheet() );
         w->show();
+    }
 }
 
 void MainWindow::setItemPreviewVisible(bool visible)
@@ -1058,32 +1068,44 @@ void MainWindow::addCommandsToTrayMenu(const Command &command, bool passed)
 
 void MainWindow::nextItemFormat()
 {
-    browser()->otherItemLoader(true);
+    auto c = browser();
+    if (c)
+        c->otherItemLoader(true);
 }
 
 void MainWindow::previousItemFormat()
 {
-    browser()->otherItemLoader(false);
+    auto c = browser();
+    if (c)
+        c->otherItemLoader(false);
 }
 
 void MainWindow::moveUp()
 {
-    browser()->move(Qt::Key_Up);
+    auto c = browser();
+    if (c)
+        c->move(Qt::Key_Up);
 }
 
 void MainWindow::moveDown()
 {
-    browser()->move(Qt::Key_Down);
+    auto c = browser();
+    if (c)
+        c->move(Qt::Key_Down);
 }
 
 void MainWindow::moveToTop()
 {
-    browser()->move(Qt::Key_Home);
+    auto c = browser();
+    if (c)
+        c->move(Qt::Key_Home);
 }
 
 void MainWindow::moveToBottom()
 {
-    browser()->move(Qt::Key_End);
+    auto c = browser();
+    if (c)
+        c->move(Qt::Key_End);
 }
 
 void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
@@ -2408,8 +2430,6 @@ void MainWindow::loadSettings()
     loadShortcuts(&m_menuItems, settings);
     settings.endGroup();
 
-    ui->dockWidgetItemPreview->setStyleSheet( browser()->styleSheet() );
-
     resetStatus();
 
     COPYQ_LOG("Configuration loaded");
@@ -2659,7 +2679,9 @@ void MainWindow::tabCloseRequested(int tab)
 
 void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
 {
-    tab(tabName)->addUnique(data);
+    auto c = tab(tabName);
+    if (c)
+        c->addUnique(data);
 }
 
 void MainWindow::updateFirstItem(QVariantMap data)
@@ -2944,7 +2966,10 @@ void MainWindow::onFilterChanged(const QRegExp &re)
         enterBrowseMode();
     else if ( browseMode() )
         enterSearchMode();
-    browser()->filterItems(re);
+
+    auto c = browser();
+    if (c)
+        c->filterItems(re);
     updateItemPreview();
 }
 
@@ -3262,10 +3287,14 @@ bool MainWindow::saveTab(const QString &fileName, int tabIndex)
 
 bool MainWindow::exportData()
 {
+    auto c = browser();
+    if (!c)
+        return false;
+
     ImportExportDialog exportDialog(this);
     exportDialog.setWindowTitle( tr("CopyQ Options for Export") );
     exportDialog.setTabs( ui->tabWidget->tabs() );
-    exportDialog.setCurrentTab( browser()->tabName() );
+    exportDialog.setCurrentTab( c->tabName() );
     if ( exportDialog.exec() != QDialog::Accepted )
         return false;
 
