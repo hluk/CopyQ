@@ -271,7 +271,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
     const int row = index.row();
-    auto w = m_cache[row];
+    const auto w = m_cache[row];
     if (w == nullptr) {
         m_view->itemWidget(index);
         return;
@@ -279,19 +279,17 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     const QRect &rect = option.rect;
 
-    bool isSelected = option.state & QStyle::State_Selected;
+    const bool isSelected = option.state & QStyle::State_Selected;
 
-    /* render background (selected, alternate, ...) */
+    // Render background (selected, alternate, ...).
     QStyle *style = m_view->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_view);
 
     // Colorize item.
     const QString colorExpr = index.data(contentType::color).toString();
-    if (!colorExpr.isEmpty())
-    {
+    if (!colorExpr.isEmpty()) {
         const QColor color = m_sharedData->theme.evalColorExpression(colorExpr);
-        if (color.isValid())
-        {
+        if (color.isValid()) {
             painter->save();
             painter->setCompositionMode(QPainter::CompositionMode_Multiply);
             painter->fillRect(option.rect, color);
@@ -301,7 +299,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     const auto margins = m_sharedData->theme.margins();
 
-    /* render number */
+    // Render number.
     if ( m_sharedData->theme.showRowNumber() ) {
         const QString num = QString::number(row);
         QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
@@ -314,7 +312,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         painter->restore();
     }
 
-    /* text color for selected/unselected item */
+    // Text color for selected/unselected item.
     QWidget *ww = w->widget();
     if ( ww->property(propertySelectedItem) != isSelected ) {
         ww->setProperty(propertySelectedItem, isSelected);
