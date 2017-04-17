@@ -218,17 +218,26 @@ void ItemDelegate::setItemWidgetStatic(const QModelIndex &index, bool isStatic)
 {
     if (isStatic) {
         auto w = m_cache[index.row()];
-        if (w)
-            w->widget()->hide();
+        if (w) {
+            auto ww = w->widget();
+            if ( !ww->isHidden() ) {
+                ww->hide();
+                setWidgetSelected(ww, false);
+            }
+        }
     } else {
         const auto rect = m_view->visualRect(index);
-        const auto position = rect.topLeft();
         const auto margins = m_sharedData->theme.margins();
         const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
         const auto offset = QPoint(rowNumberSize.width() + margins.width(), margins.height());
+        const auto position = rect.topLeft() + offset;
         auto w = cache(index);
-        w->widget()->move(position + offset);
-        w->widget()->show();
+        auto ww = w->widget();
+        ww->move(position);
+        if ( ww->isHidden() ) {
+            setWidgetSelected(ww, true);
+            ww->show();
+        }
     }
 }
 
@@ -249,6 +258,19 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
     // TODO: Check if sizeHint() really changes.
     emit sizeHintChanged(index);
+}
+
+void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
+{
+    ww->setProperty(propertySelectedItem, selected);
+    if ( ww->property("CopyQ_no_style").toBool() )
+        return;
+
+    QStyle *style = m_view->style();
+    ww->setStyle(style);
+    for (auto child : ww->findChildren<QWidget *>())
+        child->setStyle(style);
+    ww->update();
 }
 
 void ItemDelegate::invalidateCache()
@@ -312,20 +334,9 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         painter->restore();
     }
 
-    // Text color for selected/unselected item.
-    QWidget *ww = w->widget();
-    if ( ww->property(propertySelectedItem) != isSelected ) {
-        ww->setProperty(propertySelectedItem, isSelected);
-        if ( !ww->property("CopyQ_no_style").toBool() ) {
-            ww->setStyle(style);
-            for (auto child : ww->findChildren<QWidget *>())
-                child->setStyle(style);
-            ww->update();
-        }
-    }
-
     highlightMatches(w);
 
+    auto ww = w->widget();
     if ( ww->isHidden() ) {
         const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
         const auto offset = rect.topLeft() + QPoint(rowNumberSize.width() + margins.width(), margins.height());

@@ -783,6 +783,7 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
         d.setItemWidgetStatic(previous, true);
 
     if ( current.isValid() ) {
+        d.setItemWidgetStatic(current, false);
         int row = -1;
         if ( previous.isValid() && current < previous) {
             row = findPreviousVisibleRow(current.row());

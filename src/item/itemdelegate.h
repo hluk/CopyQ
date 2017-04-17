@@ -132,6 +132,9 @@ class ItemDelegate : public QItemDelegate
     private:
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);
 
+        /// Updates style for selected/unselected widgets.
+        void setWidgetSelected(QWidget *ww, bool selected);
+
         ClipboardBrowser *m_view;
         ClipboardBrowserSharedPtr m_sharedData;
         bool m_saveOnReturnKey;
