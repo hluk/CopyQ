@@ -330,6 +330,10 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
         const auto offset = rect.topLeft() + QPoint(rowNumberSize.width() + margins.width(), margins.height());
         const auto p = painter->deviceTransform().map(offset);
-        ww->render(painter, p);
+        // Rendering widget with current painter doesn't work well.
+        const auto paintDevice = painter->device();
+        painter->end();
+        ww->render(paintDevice, p);
+        painter->begin(paintDevice);
     }
 }
