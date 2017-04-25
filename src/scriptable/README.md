@@ -11,7 +11,7 @@ In addition to features provided by Qt Script there are following
 
 The scripts can be executed:
 
-- from commands (in Action or Command dialogs -- <kbd>F5</kbd>, <kbd>F6</kbd> shortcuts) when prefixed with `copyq:`,
+- from commands (in Action or Command dialogs -- <kbd>F5</kbd>, <kbd>F6</kbd> shortcuts) if the first line starts with `copyq:`,
 - from command line as `copyq eval '<SCRIPT>'`,
 - from command line as `cat script.js | copyq eval -`,
 - from command line as `copyq <SCRIPT_FUNCTION> <FUNCTION_ARGUMENT_1> <FUNCTION_ARGUMENT_2> ...`.
