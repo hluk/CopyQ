@@ -20,6 +20,7 @@ function pip_with_cache() {
 }
 
 brew install qt5
+sudo pip install --upgrade pip
 sudo pip install wheel
 pip_with_cache \
     cpp-coveralls \
