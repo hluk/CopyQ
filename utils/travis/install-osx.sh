@@ -23,7 +23,6 @@ brew install qt5
 sudo pip install --upgrade pip
 sudo pip install wheel
 pip_with_cache \
-    cpp-coveralls \
     dmgbuild \
-    'pyobjc-framework-Quartz==3.0.1' \
-    'pyobjc-framework-Cocoa==3.0.1'
+    'pyobjc-framework-Quartz' \
+    'pyobjc-framework-Cocoa'
