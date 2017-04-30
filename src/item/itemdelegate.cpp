@@ -220,10 +220,7 @@ void ItemDelegate::setItemWidgetStatic(const QModelIndex &index, bool isStatic)
         auto w = m_cache[index.row()];
         if (w) {
             auto ww = w->widget();
-            if ( !ww->isHidden() ) {
-                ww->hide();
-                setWidgetSelected(ww, false);
-            }
+            setWidgetSelected(ww, false);
         }
     } else {
         const auto rect = m_view->visualRect(index);
@@ -234,10 +231,7 @@ void ItemDelegate::setItemWidgetStatic(const QModelIndex &index, bool isStatic)
         auto w = cache(index);
         auto ww = w->widget();
         ww->move(position);
-        if ( ww->isHidden() ) {
-            setWidgetSelected(ww, true);
-            ww->show();
-        }
+        setWidgetSelected(ww, true);
     }
 }
 
@@ -337,14 +331,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     highlightMatches(w);
 
     auto ww = w->widget();
-    if ( ww->isHidden() ) {
-        const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-        const auto offset = rect.topLeft() + QPoint(rowNumberSize.width() + margins.width(), margins.height());
-        const auto p = painter->deviceTransform().map(offset);
-        // Rendering widget with current painter doesn't work well.
-        const auto paintDevice = painter->device();
-        painter->end();
-        ww->render(paintDevice, p);
-        painter->begin(paintDevice);
-    }
+    const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
+    const auto offset = rect.topLeft() + QPoint(rowNumberSize.width() + margins.width(), margins.height());
+    ww->move(offset);
+    ww->show();
 }

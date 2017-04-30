@@ -873,8 +873,8 @@ void ClipboardBrowser::dropEvent(QDropEvent *event)
 void ClipboardBrowser::paintEvent(QPaintEvent *e)
 {
     const auto current = currentIndex();
-    if ( current.isValid() )
-        d.setItemWidgetStatic(current, false);
+    const int h = viewport()->contentsRect().height();
+    preload(h, h, current);
 
     QListView::paintEvent(e);
 
