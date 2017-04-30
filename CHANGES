@@ -1,3 +1,14 @@
+v3.0.1
+- Install themes on OS X
+- Improve pasting to current window
+- Fix crash when the first tab is not loaded
+- Fix crash when reloading tab after closing editor
+- Fix item rendering for high DPI displays
+- Fix theme buttons for high DPI displays
+- Fix navigating item list
+- Fix getting boolean from checkbox in dialog()
+- Fix default move action for drag'n'drop
+
 v3.0.0
 - Pinned and protected items
 - Export/import tabs, configuration and commands in one file
