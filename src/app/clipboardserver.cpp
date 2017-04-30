@@ -43,8 +43,6 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
-#include <QProxyStyle>
-#include <QScreen>
 #include <QSessionManager>
 #include <QThread>
 
@@ -53,53 +51,6 @@ class QxtGlobalShortcut {};
 #else
 #include "../qxt/qxtglobalshortcut.h"
 #endif
-
-namespace {
-
-const double lowResDpi = 96.0;
-
-int defaultDpi()
-{
-#if QT_VERSION < 0x050000
-    static const auto dpi = static_cast<int>( QWidget().logicalDpiX() );
-#else
-    static const auto dpi = static_cast<int>( QApplication::primaryScreen()->logicalDotsPerInch() );
-#endif
-    return dpi;
-}
-
-int dpiForWidget(const QWidget *widget)
-{
-    return widget ? widget->logicalDpiX() : defaultDpi();
-}
-
-// Round down to nearest quarter (1.0, 1.25, 1.5, 2.0 ...).
-double normalizeFactor(qreal f)
-{
-    return qMax(1.0, static_cast<int>(f * 4.0) / 4.0);
-}
-
-int fromPixels(int pixels, const QWidget *widget)
-{
-    const qreal f = dpiForWidget(widget) / lowResDpi;
-    return static_cast<int>( pixels * normalizeFactor(f) );
-}
-
-bool areIconsTooSmall()
-{
-    const int idealIconSize = fromPixels(16, nullptr);
-    return smallIconSize() < idealIconSize;
-}
-
-class ApplicationStyle : public QProxyStyle {
-public:
-    int pixelMetric(PixelMetric metric, const QStyleOption *option, const QWidget *widget) const override
-    {
-        return fromPixels(QProxyStyle::pixelMetric(metric, option, widget), widget);
-    }
-};
-
-} // namespace
 
 ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
@@ -127,9 +78,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     }
 
     QApplication::setQuitOnLastWindowClosed(false);
-
-    if (areIconsTooSmall())
-        QApplication::setStyle(new ApplicationStyle);
 
     m_itemFactory = new ItemFactory(this);
     m_wnd = new MainWindow(m_itemFactory);
