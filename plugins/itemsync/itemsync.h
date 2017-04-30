@@ -43,6 +43,8 @@ class ItemSync : public QWidget, public ItemWidget
 public:
     ItemSync(const QString &label, const QString &icon, ItemWidget *childItem = nullptr);
 
+    void setCurrent(bool current) override;
+
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette) override;

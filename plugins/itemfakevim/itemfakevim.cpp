@@ -487,6 +487,11 @@ ItemFakeVim::ItemFakeVim(ItemWidget *childItem, const QString &sourceFileName)
 {
 }
 
+void ItemFakeVim::setCurrent(bool current)
+{
+    m_childItem->setCurrent(current);
+}
+
 void ItemFakeVim::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
     m_childItem->setHighlight(re, highlightFont, highlightPalette);

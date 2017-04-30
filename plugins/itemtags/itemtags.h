@@ -52,6 +52,8 @@ public:
 
     ItemTags(ItemWidget *childItem, const Tags &tags);
 
+    void setCurrent(bool current) override;
+
 signals:
     void runCommand(const Command &command);
 

@@ -221,6 +221,7 @@ void ItemDelegate::setItemWidgetStatic(const QModelIndex &index, bool isStatic)
         if (w) {
             auto ww = w->widget();
             setWidgetSelected(ww, false);
+            w->setCurrent(false);
         }
     } else {
         const auto rect = m_view->visualRect(index);
@@ -232,6 +233,7 @@ void ItemDelegate::setItemWidgetStatic(const QModelIndex &index, bool isStatic)
         auto ww = w->widget();
         ww->move(position);
         setWidgetSelected(ww, true);
+        w->setCurrent(true);
     }
 }
 
@@ -249,6 +251,8 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     ww->hide();
 
     ww->installEventFilter(this);
+
+    w->setCurrent(m_view->currentIndex() == index);
 
     // TODO: Check if sizeHint() really changes.
     emit sizeHintChanged(index);

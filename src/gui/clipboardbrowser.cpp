@@ -372,6 +372,16 @@ void ClipboardBrowser::updateEditorGeometry()
     }
 }
 
+void ClipboardBrowser::updateCurrentItem()
+{
+    const QModelIndex current = currentIndex();
+    if ( current.isValid() && d.hasCache(current) ) {
+        ItemWidget *item = d.cache(current);
+        item->setCurrent(false);
+        item->setCurrent( hasFocus() );
+    }
+}
+
 QModelIndex ClipboardBrowser::indexNear(int offset) const
 {
     return ::indexNear(this, offset);
@@ -829,6 +839,7 @@ void ClipboardBrowser::focusInEvent(QFocusEvent *event)
         if ( !currentIndex().isValid() )
             setCurrent(0);
         QListView::focusInEvent(event);
+        updateCurrentItem();
     }
 }
 

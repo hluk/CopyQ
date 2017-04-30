@@ -351,6 +351,12 @@ ItemTags::ItemTags(ItemWidget *childItem, const Tags &tags)
     layout->addWidget( m_childItem->widget() );
 }
 
+void ItemTags::setCurrent(bool current)
+{
+    if (m_childItem != nullptr)
+        m_childItem->setCurrent(current);
+}
+
 void ItemTags::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
     m_childItem->setHighlight(re, highlightFont, highlightPalette);

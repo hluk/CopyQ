@@ -326,6 +326,8 @@ class ClipboardBrowser : public QListView
 
         void updateEditorGeometry();
 
+        void updateCurrentItem();
+
         /**
          * Get index near given @a point.
          * If space between items is at the @a point, return next item.
