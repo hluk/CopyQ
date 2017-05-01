@@ -122,6 +122,8 @@ private:
 
     void terminateThreads();
 
+    bool hasRunningCommands() const;
+
     MainWindow* m_wnd;
     RemoteProcess *m_monitor;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;

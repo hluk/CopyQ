@@ -250,6 +250,10 @@ void ClipboardServer::onCommitData(QSessionManager &sessionManager)
 
 void ClipboardServer::maybeQuit()
 {
+    // Wait a moment for commands to finish.
+    for ( int i = 0; i < 50 && hasRunningCommands(); ++i )
+        waitFor(50);
+
     if (askToQuit()) {
         terminateThreads();
         QCoreApplication::exit();
@@ -261,7 +265,7 @@ bool ClipboardServer::askToQuit()
     if ( !m_wnd->maybeCloseCommandDialog() )
         return false;
 
-    if ( m_clientThreads.activeThreadCount() > 0 || m_wnd->hasRunningAction() ) {
+    if ( hasRunningCommands() ) {
         QMessageBox messageBox( QMessageBox::Warning, tr("Cancel Active Commands"),
                                 tr("Cancel active commands and exit?"), QMessageBox::NoButton,
                                 m_wnd );
@@ -285,6 +289,11 @@ void ClipboardServer::terminateThreads()
     emit terminateClientThreads();
     while ( !m_clientThreads.waitForDone(0) )
         QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
+}
+
+bool ClipboardServer::hasRunningCommands() const
+{
+    return m_clientThreads.activeThreadCount() > 0 || m_wnd->hasRunningAction();
 }
 
 void ClipboardServer::doCommand(const ClientSocketPtr &client)
