@@ -22,6 +22,7 @@
 
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "common/display.h"
 #include "common/mimetypes.h"
 #include "common/option.h"
 #include "common/temporarysettings.h"
@@ -313,8 +314,8 @@ void ConfigTabAppearance::updateColorButtons()
         return;
 
     /* color indicating icons for color buttons */
-    QSize iconSize(16, 16);
-    QPixmap pix(iconSize);
+    const int iconSize = pointsToPixels(16);
+    QPixmap pix(iconSize, iconSize);
 
     QList<QPushButton *> buttons =
             ui->scrollAreaTheme->findChildren<QPushButton *>(QRegExp("^pushButtonColor"));
@@ -323,7 +324,7 @@ void ConfigTabAppearance::updateColorButtons()
         QColor color = evalColor( button->property("VALUE").toString(), m_theme );
         pix.fill(color);
         button->setIcon(pix);
-        button->setIconSize(iconSize);
+        button->setIconSize(pix.size());
     }
 }
 
@@ -332,8 +333,8 @@ void ConfigTabAppearance::updateFontButtons()
     if ( !isVisible() )
         return;
 
-    QSize iconSize(32, 16);
-    QPixmap pix(iconSize);
+    const int iconSize = pointsToPixels(16);
+    QPixmap pix(QSize(iconSize * 2, iconSize));
 
     QRegExp re("^pushButton(.*)Font$");
     QList<QPushButton *> buttons = ui->scrollAreaTheme->findChildren<QPushButton *>(re);
@@ -359,11 +360,11 @@ void ConfigTabAppearance::updateFontButtons()
 
         QFont font = m_theme.themeFontFromString( button->property("VALUE").toString() );
         painter.setFont(font);
-        painter.drawText( QRect(0, 0, iconSize.width(), iconSize.height()), Qt::AlignCenter,
+        painter.drawText( QRect(0, 0, pix.width(), pix.height()), Qt::AlignCenter,
                           tr("Abc", "Preview text for font settings in appearance dialog") );
 
         button->setIcon(pix);
-        button->setIconSize(iconSize);
+        button->setIconSize(pix.size());
     }
 }
 
