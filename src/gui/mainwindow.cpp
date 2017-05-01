@@ -797,7 +797,8 @@ void MainWindow::updateIcon()
 {
     const QIcon icon = appIcon(m_iconSnip ? AppIconRunning : AppIconNormal);
     setWindowIcon(icon);
-    updateTrayIcon();
+    if (m_tray)
+        m_tray->setIcon(icon);
 }
 
 void MainWindow::updateIconSnipTimeout()
@@ -1644,12 +1645,6 @@ void MainWindow::updateTrayTooltip()
                     tr("Clipboard:\n%1", "Tray tooltip format")
                     .arg(textLabelForData(m_clipboardData)) );
     }
-}
-
-void MainWindow::updateTrayIcon()
-{
-    if (m_tray)
-        m_tray->setIcon(windowIcon());
 }
 
 void MainWindow::initTray()
@@ -2980,15 +2975,13 @@ void MainWindow::createTrayIfSupported()
         m_tray = new QSystemTrayIcon(this);
         connect( m_tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                  this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
-        updateTrayIcon();
+        updateIcon();
         updateTrayTooltip();
         m_tray->setContextMenu(m_trayMenu);
         m_tray->show();
 
         if ( isMinimized() )
             hideWindow();
-
-        updateIcon();
     } else {
         m_timerTrayAvailable.start();
     }

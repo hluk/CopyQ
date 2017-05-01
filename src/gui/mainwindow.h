@@ -656,8 +656,6 @@ private:
 
     void updateTrayTooltip();
 
-    void updateTrayIcon();
-
     void initTray();
 
     void runAutomaticCommand(const Command &command);
