@@ -30,21 +30,31 @@
 
 namespace {
 
-bool isNormalApp()
+void becomeNormalApp()
 {
-    return [NSApp activationPolicy] == NSApplicationActivationPolicyRegular;
+    if ([NSApp activationPolicy] != NSApplicationActivationPolicyRegular) {
+        COPYQ_LOG("Become normal app");
+        if (![NSApp setActivationPolicy:NSApplicationActivationPolicyRegular])
+            COPYQ_LOG("Unable to become a normal app");
+    }
 }
 
-bool becomeNormalApp()
+void becomeAccessoryApp()
 {
-    return isNormalApp()
-            || [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+    if ([NSApp activationPolicy] != NSApplicationActivationPolicyAccessory) {
+        COPYQ_LOG("Become accessory app");
+        if (![NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory])
+            COPYQ_LOG("Unable to become a accessory app");
+    }
 }
 
-bool becomeBackgroundApp()
+void becomeBackgroundApp()
 {
-    return !isNormalApp()
-            || [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
+    if ([NSApp activationPolicy] != NSApplicationActivationPolicyProhibited) {
+        COPYQ_LOG("Become background app");
+        if (![NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited])
+            COPYQ_LOG("Unable to become a background app");
+    }
 }
 
 bool isNormalAppWindow(QWindow *window)
@@ -80,36 +90,38 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
 
     const auto eventType = ev->type();
     if (eventType == QEvent::Show) {
-        // Don't foreground if we already are
-        if (!isNormalApp()) {
-            // WORKAROUND: Transform menu to frameless dialog to fix keyboard focus.
-            if (window->type() == Qt::Popup)
-                window->setFlags(window->flags() | Qt::Dialog | Qt::FramelessWindowHint);
+        // WORKAROUND: Transform menu to frameless dialog to fix keyboard focus.
+        if (window->type() == Qt::Popup)
+            window->setFlags(window->flags() | Qt::Dialog | Qt::FramelessWindowHint);
 
-            if ( isNormalAppWindow(window) ) {
-                COPYQ_LOG("Become normal app");
-                if ( !becomeNormalApp() )
-                    COPYQ_LOG("unable to become a regular window");
-            }
-        }
+        if ( isNormalAppWindow(window) )
+            becomeNormalApp();
+        else
+            becomeAccessoryApp();
     } else if (eventType == QEvent::Hide) {
         // Don't background if there are any other visible windows..
-        const auto windows = QGuiApplication::topLevelWindows();
+        auto windows = QGuiApplication::topLevelWindows();
+        windows.removeOne(window);
+
         const bool hasFocusableWindow = std::any_of(
                     std::begin(windows), std::end(windows),
-                    [window](QWindow *aWindow) {
-                        return aWindow != window && aWindow->isVisible() && isNormalAppWindow(aWindow);
+                    [](QWindow *aWindow) {
+                        return aWindow->isVisible() && isNormalAppWindow(aWindow);
                     });
 
-        if (!hasFocusableWindow) {
-            COPYQ_LOG("Become background app");
-            if ( !becomeBackgroundApp() ) {
-                COPYQ_LOG("unable to become an accessory window");
+        if (hasFocusableWindow) {
+            becomeNormalApp();
+        } else {
+            const bool hasAccessoryWindow = std::any_of(
+                        std::begin(windows), std::end(windows),
+                        [](QWindow *aWindow) {
+                            return aWindow->isVisible();
+                        });
 
-                const auto worked = [NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
-                if (!worked)
-                    COPYQ_LOG("unable to become a background/prohibited window");
-            }
+            if (hasAccessoryWindow)
+                becomeAccessoryApp();
+            else
+                becomeBackgroundApp(); // This also focuses the previous app.
         }
     }
 
