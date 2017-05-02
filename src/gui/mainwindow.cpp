@@ -475,6 +475,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     updateIcon();
 
+    updateFocusWindows();
+
     // signals & slots
     connect( m_trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()), Qt::QueuedConnection );
