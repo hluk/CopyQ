@@ -5,9 +5,11 @@ v3.0.1
 - Fix crash when reloading tab after closing editor
 - Fix item rendering for high DPI displays
 - Fix theme buttons for high DPI displays
+- Fix window focus after closing menu or main window on OS X
 - Fix navigating item list
 - Fix getting boolean from checkbox in dialog()
 - Fix default move action for drag'n'drop
+- Fix exitting on logout when tray is disabled
 
 v3.0.0
 - Pinned and protected items
