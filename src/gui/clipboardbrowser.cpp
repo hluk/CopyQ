@@ -1099,10 +1099,12 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
     if ( (d.searchExpression().isEmpty() && re.isEmpty()) || d.searchExpression() == re )
         return;
 
-    if ( editing() )
-        m_editor->search(re);
-
     d.setSearch(re);
+
+    if ( editing() ) {
+        m_editor->search(re);
+        return;
+    }
 
     // If search string is a number, highlight item in that row.
     bool ok;
