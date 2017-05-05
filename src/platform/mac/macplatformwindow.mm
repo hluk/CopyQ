@@ -121,20 +121,13 @@ namespace {
         // Now look through the windows in NSWindowList (which are ordered from front to back)
         // the first window in this list which is also in widsForProcess is our frontmost "normal" window
         long int wid = -1;
-        NSInteger windowCount, *windows;
-        NSCountWindows(&windowCount);
-        windows = (NSInteger*) malloc(windowCount * sizeof(NSInteger));
-        if (windows) {
-            NSWindowList(windowCount, windows);
-            for (int i = 0; i < windowCount; ++i) {
-                if (widsForProcess.contains(windows[i])) {
-                    wid = windows[i];
-                    break;
-                }
+        for (NSNumber *window : [NSWindow windowNumbersWithOptions:0]) {
+            const long int wid2 = [window longValue];
+            if (widsForProcess.contains(wid2)) {
+                wid = wid2;
+                break;
             }
-            free(windows);
         }
-
         return wid;
     }
 
