@@ -157,7 +157,7 @@ Read more:
 - [Scripting](https://github.com/hluk/CopyQ/wiki/Scripting)
 - [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
 
-## Build from source code
+## Build from Source Code
 
 To build the application from source code, first install the required dependencies:
 - [Git](https://git-scm.com/)
@@ -168,7 +168,7 @@ To build the application from source code, first install the required dependenci
 
 ### Ubuntu
 
-#### Install dependencies
+#### Install Dependencies
 
 ```bash
 sudo apt install \
@@ -183,7 +183,7 @@ sudo apt install \
   libqt5svg5
 ```
 
-#### Build the app
+#### Build the App
 
 Change install prefix if needed:
 
@@ -194,7 +194,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr/local .
 make
 ```
 
-#### Install the app
+#### Install the App
 
 ```bash
 sudo make install
