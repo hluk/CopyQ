@@ -94,6 +94,13 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
         if (window->type() == Qt::Popup)
             window->setFlags(window->flags() | Qt::Dialog | Qt::FramelessWindowHint);
 
+        // Allow windows to pop up on current space.
+        const auto wid = window->winId();
+        auto nsView = reinterpret_cast<NSView*>(wid);
+        auto nsWindow = [nsView window];
+        if (nsWindow)
+            [nsWindow setCollectionBehavior: NSWindowCollectionBehaviorMoveToActiveSpace];
+
         if ( isNormalAppWindow(window) )
             becomeNormalApp();
         else
