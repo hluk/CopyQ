@@ -157,16 +157,18 @@ Read more:
 - [Scripting](https://github.com/hluk/CopyQ/wiki/Scripting)
 - [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
 
-## Build from Source Code
+## Build from source code
 
-To build the application from source code first install required dependencies:
+To build the application from source code, first install the required dependencies:
 - [Git](https://git-scm.com/)
 - [CMake](https://cmake.org/download/)
 - [Qt](https://download.qt.io/archive/qt/)
-- Optionally on Linux/X11: development files and libraries for Xtst and Xfixes
+- Optionally on Linux/X11: development files and libraries for [Xtst](https://t2-project.org/packages/libxtst.html) and [Xfixes](https://www.x.org/archive/X11R7.5/doc/man/man3/Xfixes.3.html)
 - Optionally [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) (more advanced HTML rendering)
 
-E.g. on Ubuntu:
+### Ubuntu
+
+#### Install dependencies
 
 ```bash
 sudo apt install \
@@ -181,7 +183,9 @@ sudo apt install \
   libqt5svg5
 ```
 
-Build the app (change install prefix if needed):
+#### Build the app
+
+Change install prefix if needed:
 
 ```bash
 git clone https://github.com/hluk/CopyQ.git
@@ -190,7 +194,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr/local .
 make
 ```
 
-Install the app:
+#### Install the app
 
 ```bash
 sudo make install
