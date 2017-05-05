@@ -72,11 +72,11 @@ namespace {
      * to the foreground. The "isActive" property only changes when the app gets back
      * to the "run loop", so we can't block and check it.
      */
-    void delayedSendShortcut(int modifier, int key, int64_t delayInMS, uint tries, NSWindow *window, NSRunningApplication *app) {
+    void delayedSendShortcut(int modifier, int key, int64_t delayInMS, uint tries, NSWindow *window) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInMS * NSEC_PER_MSEC), dispatch_get_main_queue(), ^(void){
-            if (![app isActive] || (window && ![window isKeyWindow])) {
+            if (window && ![window isKeyWindow]) {
                 if (tries > 0) {
-                    delayedSendShortcut(modifier, key, delayInMS, tries - 1, window, app);
+                    delayedSendShortcut(modifier, key, delayInMS, tries - 1, window);
                 } else {
                     log("Failed to raise application, will not paste.", LogWarning);
                 }
@@ -271,7 +271,7 @@ void MacPlatformWindow::pasteClipboard()
     raise();
 
     // Paste after after 100ms, try 5 times
-    delayedSendShortcut(kVK_Command, kVK_ANSI_V, 100, 5, m_window, m_runningApplication);
+    delayedSendShortcut(kVK_Command, kVK_ANSI_V, 100, 5, m_window);
 }
 
 void MacPlatformWindow::copy()
@@ -285,5 +285,5 @@ void MacPlatformWindow::copy()
     raise();
 
     // Copy after after 100ms, try 5 times
-    delayedSendShortcut(kVK_Command, kVK_ANSI_C, 100, 5, m_window, m_runningApplication);
+    delayedSendShortcut(kVK_Command, kVK_ANSI_C, 100, 5, m_window);
 }
