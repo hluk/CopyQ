@@ -30,9 +30,14 @@
 
 namespace {
 
+bool isNormalApp()
+{
+    return [NSApp activationPolicy] == NSApplicationActivationPolicyRegular;
+}
+
 void becomeNormalApp()
 {
-    if ([NSApp activationPolicy] != NSApplicationActivationPolicyRegular) {
+    if (!isNormalApp()) {
         COPYQ_LOG("Become normal app");
         if (![NSApp setActivationPolicy:NSApplicationActivationPolicyRegular])
             COPYQ_LOG("Unable to become a normal app");
@@ -103,7 +108,7 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
 
         if ( isNormalAppWindow(window) )
             becomeNormalApp();
-        else
+        else if (!isNormalApp())
             becomeAccessoryApp();
     } else if (eventType == QEvent::Hide) {
         // Don't background if there are any other visible windows..
