@@ -71,65 +71,15 @@ On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 brew cask install copyq
 ```
 
-### Starting CopyQ
+## Using the App
 
-To start CopyQ run `copyq` command without parameters. The application main
-window is accessible by clicking on system tray icon or running `copyq toggle`.
+To start the application double-click the program icon or run `copyq`.
 
-To exit the application select Exit from tray menu or press Ctrl-Q keys in the
-application window.
-
-## Developers and Translators
-
-If you want to help with translating, fixing or writing code read
-[HACKING](https://github.com/hluk/CopyQ/blob/master/HACKING) file.
-
-## Dependencies
-
-To build and run the application you'll need [Qt](https://www.qt.io/download/)
-library. To compile on OS X, you will need at least Qt 5.2.
-
-Optional dependency is [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) which
-enables the application to use advanced HTML rendering and fetching remote
-images and other data. This is available through ItemWeb plugin.
-
-Additionally X11 requires XFixes extension to be installed (fixes some
-clipboard issues).
-
-Optional dependency for X11 is XTest extension (Ubuntu package `libxtst6` and
-`libxtst-dev` for compilation). This is needed for some applications like
-`gedit` so that automatic pasting works correctly.
-
-## Keyboard navigation
-
-* `PgDown/PgUp`, `Home/End`, `Up/Down` - item list navigation
-* `Left`, `Right`, `Ctrl+Tab`, `Ctrl+Shift+Tab` - tab navigation
-* `Ctrl+T`, `Ctrl+W` - create and remove tabs
-* `Ctrl+Up`, `Ctrl+Down` - move selected items
-* `Ctrl+Left`, `Ctrl+Right` - cycle through item formats
-* `Esc` - cancel search, hide window
-* `Ctrl+Q` - exit
-* `F2` - edit selected items
-* `Ctrl+E` - edit items in an external editor
-* `F5` - open action dialog for selected items
-* `Delete` - delete selected items
-* `Ctrl+A` - select all
-* `Enter` - put current item into clipboard and paste item (optional)
-* `F1` - show help
-
-Start typing a text to search items.
-
-On OS X, use Command instead of Ctrl for the shortcuts above.
-
-## Basic Usage
-
-To start CopyQ run `copyq` from command line or just launch the application from
-menu or installed location.
-
-Application can be accessed from tray or by restoring minimized window
-if tray is unavailable.
+The list with clipboard history is accessible by clicking on system tray icon
+or running `copyq toggle`.
 
 Copying text or image to clipboard will create new item in the list.
+
 Selected items can be:
 * edited (`F2`),
 * removed (`Delete`),
@@ -139,12 +89,29 @@ Selected items can be:
 
 All items will be restored when application is started next time.
 
-To create custom action that can be triggered from menu or with
-shortcut, go to Command dialog `F6`, click Add button and select
-predefined command or create new one.
+To exit the application select Exit from tray menu or press Ctrl-Q keys in the
+application window.
+
+Read more:
+- [Basic Usage](https://github.com/hluk/CopyQ/wiki/Basic-Usage)
+- [Keyboard](https://github.com/hluk/CopyQ/wiki/Keyboard)
+
+### Adding Funcionality
+
+To create custom action that can be executed
+from menu, with shortcut or when clipboard changes:
+- go to Command dialog (`F6` shortcut),
+- click Add button and select predefined command or create new one,
+- optionally change the command details (shortcut, name),
+- click OK to save the command.
+
 One of very useful predefined commands there is "Show/hide main window".
 
-## Command Line
+Read more:
+- [Writing Commands](https://github.com/hluk/CopyQ/wiki/Writing-Commands-and-Adding-Functionality)
+- [CopyQ Commands Repository](https://github.com/hluk/copyq-commands)
+
+### Command Line
 
 CopyQ has powerful command line and scripting interface.
 
@@ -155,7 +122,6 @@ Print help for some useful command line arguments:
 
     copyq --help
     copyq --help add
-    copyq --help tab
 
 Insert some texts to the history:
 
@@ -170,10 +136,7 @@ Show current clipboard content:
 
     copyq clipboard
     copyq clipboard text/html
-
-Show formats available in clipboard:
-
-    copyq clipboard \?
+    copyq clipboard \?    # lists formats in clipboard
 
 Copy text to the clipboard:
 
@@ -190,16 +153,58 @@ Create an image items:
     copyq write image/gif - < image.gif
     copyq write image/svg - < image.svg
 
-Create items for matching files in a directory (in this case
-`$HOME/Documents/*.doc`):
+Read more:
+- [Scripting](https://github.com/hluk/CopyQ/wiki/Scripting)
+- [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
 
-    copyq action 'copyq: home = Dir().home(); home.cd("Documents") && home.entryList(["*.doc"])'
+## Build from Source Code
 
-Show notification with clipboard content:
+To build the application from source code, first install the required dependencies:
+- [Git](https://git-scm.com/)
+- [CMake](https://cmake.org/download/)
+- [Qt](https://download.qt.io/archive/qt/)
+- Optionally on Linux/X11: development files and libraries for [Xtst](https://t2-project.org/packages/libxtst.html) and [Xfixes](https://www.x.org/archive/X11R7.5/doc/man/man3/Xfixes.3.html)
+- Optionally [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) (more advanced HTML rendering)
 
-    copyq eval 'copyq: popup("Clipboard", clipboard())'
-    copyq clipboard | copyq popup Clipboard -
+### Ubuntu
 
-For more advanced usage see [Wiki](https://github.com/hluk/CopyQ/wiki) and
-[Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
+#### Install Dependencies
 
+```bash
+sudo apt install \
+  git cmake \
+  qtbase5-private-dev \
+  qtscript5-dev \
+  qttools5-dev \
+  qttools5-dev-tools \
+  libqt5svg5-dev \
+  libxfixes-dev \
+  libxtst-dev \
+  libqt5svg5
+```
+
+#### Build the App
+
+Change install prefix if needed:
+
+```bash
+git clone https://github.com/hluk/CopyQ.git
+cd CopyQ
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local .
+make
+```
+
+#### Install the App
+
+```bash
+sudo make install
+```
+
+## Contributions
+
+You can help translate the application (click the banner below)
+or help [fix issues and implement new features](https://github.com/hluk/CopyQ/issues).
+
+[![Translations](https://hosted.weblate.org/widgets/copyq/-/287x66-white.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
+
+See also [Development](https://github.com/hluk/CopyQ/wiki/Development).
