@@ -1816,9 +1816,7 @@ QWidget *MainWindow::toggleMenu(TrayMenu *menu, const QPoint &pos)
     menu->activateWindow();
     QApplication::setActiveWindow(menu);
     QApplication::processEvents();
-
-    if ( !menu->isActiveWindow() )
-        stealFocus(*menu);
+    stealFocus(*menu);
 
     return menu;
 }
