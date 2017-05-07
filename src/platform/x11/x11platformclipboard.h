@@ -44,8 +44,12 @@ public:
 
 private slots:
     void onChanged(QClipboard::Mode mode) override;
-    void checkSelectionComplete();
+
+    void onClipboardChanged();
+    void onSelectionChanged();
+
     void resetClipboard();
+    void resetSelection();
 
 private:
     bool waitIfSelectionIncomplete();
@@ -55,17 +59,17 @@ private:
      *
      * @return return true if clipboard/selection has no owner and will be reset
      */
-    bool maybeResetClipboard(QClipboard::Mode mode);
+    bool maybeResetClipboard();
+    bool maybeResetSelection();
 
     std::shared_ptr<X11DisplayGuard> d;
 
     QStringList m_formats;
 
-    bool m_resetClipboard;
-    bool m_resetSelection;
-
-    QTimer m_timerIncompleteSelection;
-    QTimer m_timerReset;
+    QTimer m_timerCheckClipboard;
+    QTimer m_timerCheckSelection;
+    QTimer m_timerResetClipboard;
+    QTimer m_timerResetSelection;
 
     QVariantMap m_clipboardData;
     QVariantMap m_selectionData;

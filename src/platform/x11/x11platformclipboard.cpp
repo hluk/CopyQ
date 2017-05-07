@@ -62,11 +62,11 @@ bool isSelectionEmpty(Display *display)
 
 X11PlatformClipboard::X11PlatformClipboard(const std::shared_ptr<X11DisplayGuard> &d)
     : d(d)
-    , m_resetClipboard(false)
-    , m_resetSelection(false)
 {
-    initSingleShotTimer( &m_timerIncompleteSelection, 100, this, SLOT(checkSelectionComplete()) );
-    initSingleShotTimer( &m_timerReset, 500, this, SLOT(resetClipboard()) );
+    initSingleShotTimer( &m_timerCheckClipboard, 50, this, SLOT(onClipboardChanged()) );
+    initSingleShotTimer( &m_timerCheckSelection, 100, this, SLOT(onSelectionChanged()) );
+    initSingleShotTimer( &m_timerResetClipboard, 500, this, SLOT(resetClipboard()) );
+    initSingleShotTimer( &m_timerResetSelection, 500, this, SLOT(resetSelection()) );
 }
 
 void X11PlatformClipboard::loadSettings(const QVariantMap &settings)
@@ -86,48 +86,70 @@ void X11PlatformClipboard::setData(Mode mode, const QVariantMap &dataMap)
 
 void X11PlatformClipboard::onChanged(QClipboard::Mode mode)
 {
-    bool isClip = (mode == QClipboard::Clipboard);
-    m_resetClipboard = m_resetClipboard && !isClip;
-    m_resetSelection = m_resetSelection && isClip;
+    // Omit checking clipboard and selection too fast.
+    if (mode == QClipboard::Clipboard)
+        m_timerCheckClipboard.start();
+    else
+        m_timerCheckSelection.start();
+}
 
-    if ( mode == QClipboard::Selection && waitIfSelectionIncomplete() )
+void X11PlatformClipboard::onClipboardChanged()
+{
+    m_timerResetClipboard.stop();
+    const QVariantMap data = DummyClipboard::data(Clipboard, m_formats);
+    const bool foreignData = !ownsClipboardData(data);
+    if ( foreignData && maybeResetClipboard() )
+        return;
+
+    if (m_clipboardData == data)
+        return;
+
+    m_clipboardData = data;
+    emit changed(Clipboard);
+
+    // Check selection too if some signals where not delivered.
+    m_timerCheckSelection.start();
+}
+
+void X11PlatformClipboard::onSelectionChanged()
+{
+    m_timerResetSelection.stop();
+
+    if ( waitIfSelectionIncomplete() )
         return;
 
     // Always assume that only plain text can be in primary selection buffer.
     // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
-    QVariantMap data =
-            DummyClipboard::data(
-                isClip ? Clipboard : Selection,
-                isClip ? m_formats : QStringList(mimeText));
-    bool foreignData = !ownsClipboardData(data);
-
-    if ( foreignData && maybeResetClipboard(mode) )
+    const QVariantMap data = DummyClipboard::data( Selection, QStringList(mimeText) );
+    const bool foreignData = !ownsClipboardData(data);
+    if ( foreignData && maybeResetSelection() )
         return;
 
-    QVariantMap &targetData = isClip ? m_clipboardData : m_selectionData;
-    targetData = data;
+    if (m_selectionData == data)
+        return;
 
-    emit changed(isClip ? Clipboard : Selection);
-}
+    m_selectionData = data;
+    emit changed(Selection);
 
-void X11PlatformClipboard::checkSelectionComplete()
-{
-    onChanged(QClipboard::Selection);
+    // Check clipboard too if some signals where not delivered.
+    m_timerCheckClipboard.start();
 }
 
 void X11PlatformClipboard::resetClipboard()
 {
-    if (m_resetSelection && !m_selectionData.isEmpty()) {
-        COPYQ_LOG("Resetting selection");
-        DummyClipboard::setData(Selection, m_selectionData);
-        m_resetSelection = false;
-    }
-
-    if (m_resetClipboard && !m_clipboardData.isEmpty()) {
+    if (!m_clipboardData.isEmpty()) {
         COPYQ_LOG("Resetting clipboard");
         DummyClipboard::setData(Clipboard, m_clipboardData);
-        m_resetClipboard = false;
     }
+}
+
+void X11PlatformClipboard::resetSelection()
+{
+    if (!m_selectionData.isEmpty()) {
+        COPYQ_LOG("Resetting selection");
+        DummyClipboard::setData(Selection, m_selectionData);
+    }
+
 }
 
 bool X11PlatformClipboard::waitIfSelectionIncomplete()
@@ -135,36 +157,38 @@ bool X11PlatformClipboard::waitIfSelectionIncomplete()
     if (!d->display())
         return true;
 
-    if ( m_timerIncompleteSelection.isActive() || isSelectionIncomplete(d->display()) ) {
-        m_timerIncompleteSelection.start();
+    if ( isSelectionIncomplete(d->display()) ) {
+        m_timerCheckSelection.start();
         return true;
     }
 
     return false;
 }
 
-bool X11PlatformClipboard::maybeResetClipboard(QClipboard::Mode mode)
+bool X11PlatformClipboard::maybeResetClipboard()
 {
     if (!d->display())
         return false;
 
-    bool isClip = (mode == QClipboard::Clipboard);
-    bool isEmpty = isClip
-            ? isClipboardEmpty(d->display())
-            : isSelectionEmpty(d->display());
-
-    QVariantMap &clipData = isClip ? m_clipboardData : m_selectionData;
-
-    bool &reset = isClip ? m_resetClipboard : m_resetSelection;
-    reset = isEmpty && !clipData.isEmpty();
-
-    // No need reset?
-    if (!reset)
+    if ( m_clipboardData.isEmpty() || !isClipboardEmpty(d->display()) )
         return false;
 
-    COPYQ_LOG( QString("%1 is empty").arg(isClip ? "Clipboard" : "Selection") );
+    COPYQ_LOG("Clipboard is empty");
+    m_timerResetClipboard.start();
 
-    m_timerReset.start();
+    return true;
+}
+
+bool X11PlatformClipboard::maybeResetSelection()
+{
+    if (!d->display())
+        return false;
+
+    if ( m_selectionData.isEmpty() || !isSelectionEmpty(d->display()) )
+        return false;
+
+    COPYQ_LOG("Selection is empty");
+    m_timerResetSelection.start();
 
     return true;
 }
