@@ -3,9 +3,10 @@ v3.0.1
 - Improve pasting to current window
 - Fix crash when the first tab is not loaded
 - Fix crash when reloading tab after closing editor
-- Fix item rendering for high DPI displays
-- Fix theme buttons for high DPI displays
+- Fix item rendering and UI elements for high DPI displays
 - Fix window focus after closing menu or main window on OS X
+- Fix opening main window on current space on OS X
+- Fix pasting to some windows on OS X
 - Fix navigating item list
 - Fix getting boolean from checkbox in dialog()
 - Fix default move action for drag'n'drop
