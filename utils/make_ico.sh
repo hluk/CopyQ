@@ -1,20 +1,19 @@
 #!/bin/bash
-img1=src/images/icon.png
-img2=src/images/logo.png
+image_dir=src/images
 out=${1:-src/images/icon.ico}
 
 args=(
     -background transparent
-    \( "$img1" -resize 16x16 \)
-    \( "$img1" -resize 20x20 \)
-    \( "$img1" -resize 24x24 \)
-    -density 600
-    \( "$img1" -resize 32x32 \)
-    \( "$img2" -resize 40x40 \)
-    \( "$img2" -resize 48x48 \)
-    \( "$img2" -resize 64x64 \)
-    \( "$img2" -resize 96x96 \)
-    \( "$img2" -resize 128x128 \)
+    ${image_dir}/icon_16x16.png
+    \( ${image_dir}/icon_22x22.png -resize 20x20 \)
+    ${image_dir}/icon_24x24.png
+    ${image_dir}/icon_32x32.png
+    \( ${image_dir}/icon_48x48.png -resize 40x40 \)
+    ${image_dir}/icon_48x48.png
+    ${image_dir}/icon_64x64.png
+    \( ${image_dir}/icon_128x128.png -resize 96x96 \)
+    ${image_dir}/icon_128x128.png
+    ${image_dir}/icon_256x256.png
     "$out"
     )
 
