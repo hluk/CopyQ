@@ -34,7 +34,7 @@ public slots:
     bool autoRemove() const;
     QString fileTemplate() const;
     void setAutoRemove(bool autoRemove);
-    void setFileTemplate(const QString &name);
+    void setFileTemplate(const QScriptValue &name);
 
 private:
     QTemporaryFile *thisTemporaryFile() const;

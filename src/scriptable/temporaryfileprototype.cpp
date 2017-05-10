@@ -45,9 +45,9 @@ void TemporaryFilePrototype::setAutoRemove(bool autoRemove)
     thisTemporaryFile()->setAutoRemove(autoRemove);
 }
 
-void TemporaryFilePrototype::setFileTemplate(const QString &name)
+void TemporaryFilePrototype::setFileTemplate(const QScriptValue &name)
 {
-    thisTemporaryFile()->setFileTemplate(name);
+    thisTemporaryFile()->setFileTemplate(name.toString());
 }
 
 QTemporaryFile *TemporaryFilePrototype::thisTemporaryFile() const
