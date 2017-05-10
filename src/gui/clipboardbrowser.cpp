@@ -265,7 +265,13 @@ bool ClipboardBrowser::hideFiltered(int row)
 {
     const bool hide = isFiltered(row);
     setRowHidden(row, hide);
-    d.setRowVisible(row, !hide);
+
+    if (!hide) {
+        auto w = d.cacheOrNull(row);
+        if (w)
+            d.highlightMatches(w);
+    }
+
     return hide;
 }
 
@@ -883,9 +889,26 @@ void ClipboardBrowser::dropEvent(QDropEvent *event)
 
 void ClipboardBrowser::paintEvent(QPaintEvent *e)
 {
-    const auto current = currentIndex();
+    // Hide items outside viewport.
+    const auto firstVisibleIndex = indexNear(0);
+    if ( firstVisibleIndex.isValid() ) {
+        int row = firstVisibleIndex.row();
+        for (row = firstVisibleIndex.row() - 1; row >= 0; --row) {
+            auto w = d.cacheOrNull(row);
+            if (w)
+                w->widget()->hide();
+        }
+    }
     const int h = viewport()->contentsRect().height();
-    preload(h, h, current);
+    const auto lastVisibleIndex = indexNear(h - spacing());
+    if ( lastVisibleIndex.isValid() ) {
+        int row = firstVisibleIndex.row();
+        for (row = firstVisibleIndex.row() + 1; row < m.rowCount(); ++row) {
+            auto w = d.cacheOrNull(row);
+            if (w)
+                w->widget()->hide();
+        }
+    }
 
     QListView::paintEvent(e);
 

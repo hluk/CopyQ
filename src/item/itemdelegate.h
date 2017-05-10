@@ -85,6 +85,9 @@ class ItemDelegate : public QItemDelegate
         /** Return cached item, create it if it doesn't exist. */
         ItemWidget *cache(const QModelIndex &index);
 
+        /** Return cached item or nullptr. */
+        ItemWidget *cacheOrNull(int row) const;
+
         /** Return true only if item at index is already in cache. */
         bool hasCache(const QModelIndex &index) const;
 
@@ -93,9 +96,6 @@ class ItemDelegate : public QItemDelegate
 
         /** Save edited item on return or ctrl+return. */
         void setSaveOnEnterKey(bool enable) { m_saveOnReturnKey = enable; }
-
-        /** Show/hide row. */
-        void setRowVisible(int row, bool visible);
 
         /** Use next/previous item loader available for @a index. */
         bool otherItemLoader(const QModelIndex &index, bool next);

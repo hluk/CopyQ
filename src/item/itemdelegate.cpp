@@ -153,6 +153,11 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     return w;
 }
 
+ItemWidget *ItemDelegate::cacheOrNull(int row) const
+{
+    return m_cache[row];
+}
+
 bool ItemDelegate::hasCache(const QModelIndex &index) const
 {
     return m_cache[index.row()] != nullptr;
@@ -169,15 +174,6 @@ void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
     for(auto w : m_cache) {
         if (w != nullptr)
             w->updateSize(m_maxSize, m_idealWidth);
-    }
-}
-
-void ItemDelegate::setRowVisible(int row, bool visible)
-{
-    ItemWidget *w = m_cache[row];
-    if (w != nullptr) {
-        if (visible)
-            highlightMatches(w);
     }
 }
 
