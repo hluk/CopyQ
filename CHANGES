@@ -1,3 +1,7 @@
+v3.0.2
+- Fix focusing editor when closing completion popup on OS X
+- Fix setting temporary file template from script
+
 v3.0.1
 - Install themes on OS X
 - Improve pasting to current window
