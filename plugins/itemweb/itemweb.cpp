@@ -137,7 +137,12 @@ void ItemWeb::updateSize(const QSize &maximumSize, int)
 
     const QSize size(w, h);
     page()->setViewportSize(size);
-    setFixedSize(size);
+    if (size != this->size()) {
+        setFixedSize(size);
+        // WORKAROUND: Setting fixed size above doesn't update parent layout.
+        if (parentWidget())
+            parentWidget()->adjustSize();
+    }
 
     connect( frame, SIGNAL(contentsSizeChanged(QSize)),
              this, SLOT(onItemChanged()) );
