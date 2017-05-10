@@ -736,12 +736,12 @@ Puede configurar la orden desde las preferencias.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
-        <source>Copy Selected [Ctrl+C]</source>
+        <source>Copy Selected</source>
         <translation>Copiado Seleccionado [CTRL+C]</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
-        <source>Paste Commands [Ctrl+V]</source>
+        <source>Paste Commands</source>
         <translation>Commandos de Pegar [CTRL+V]</translation>
     </message>
     <message>

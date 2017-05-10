@@ -579,13 +579,13 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
-        <source>Copy Selected [Ctrl+C]</source>
-        <translation>Selectie kopiëren [Ctrl+C]</translation>
+        <source>Copy Selected</source>
+        <translation>Selectie kopiëren</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
-        <source>Paste Commands [Ctrl+V]</source>
-        <translation>Opdrachten plakken [Ctrl+V]</translation>
+        <source>Paste Commands</source>
+        <translation>Opdrachten plakken</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="174"/>

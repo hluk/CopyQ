@@ -579,13 +579,13 @@ Pode definir o comando nas preferências.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
-        <source>Copy Selected [Ctrl+C]</source>
-        <translation>Copiar selecção [Ctrl+C]</translation>
+        <source>Copy Selected</source>
+        <translation>Copiar selecção</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
-        <source>Paste Commands [Ctrl+V]</source>
-        <translation>Colar comandos [Ctrl+V]</translation>
+        <source>Paste Commands</source>
+        <translation>Colar comandos</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="174"/>

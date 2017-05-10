@@ -79,7 +79,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Copy Selected [Ctrl+C]</string>
+        <string>Copy Selected</string>
        </property>
       </widget>
      </item>
@@ -89,7 +89,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Paste Commands [Ctrl+V]</string>
+        <string>Paste Commands</string>
        </property>
       </widget>
      </item>

@@ -737,13 +737,13 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
-        <source>Copy Selected [Ctrl+C]</source>
-        <translation>Copier la sélection [Ctrl+C]</translation>
+        <source>Copy Selected</source>
+        <translation>Copier la sélection</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
-        <source>Paste Commands [Ctrl+V]</source>
-        <translation>Coller les commandes [Ctrl+V]</translation>
+        <source>Paste Commands</source>
+        <translation>Coller les commandes</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="174"/>

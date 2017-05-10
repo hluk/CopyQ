@@ -580,13 +580,13 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
-        <source>Copy Selected [Ctrl+C]</source>
-        <translation>Kopier Valgte [Ctrl+C]</translation>
+        <source>Copy Selected</source>
+        <translation>Kopier Valgte</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
-        <source>Paste Commands [Ctrl+V]</source>
-        <translation>Lim inn Kommandoer [Ctrl+V]</translation>
+        <source>Paste Commands</source>
+        <translation>Lim inn Kommandoer</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="174"/>

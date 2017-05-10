@@ -564,12 +564,12 @@ You can set up the command in preferences.</source>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
-        <source>Copy Selected [Ctrl+C]</source>
+        <source>Copy Selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
-        <source>Paste Commands [Ctrl+V]</source>
+        <source>Paste Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

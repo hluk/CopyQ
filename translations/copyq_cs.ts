@@ -741,13 +741,13 @@ Příkaz je možné zmenit v nastavení.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
-        <source>Copy Selected [Ctrl+C]</source>
-        <translation>Kopírovat vybrané [Ctrl+C]</translation>
+        <source>Copy Selected</source>
+        <translation>Kopírovat vybrané</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
-        <source>Paste Commands [Ctrl+V]</source>
-        <translation>Vložit příkazy [Ctrl+V]</translation>
+        <source>Paste Commands</source>
+        <translation>Vložit příkazy</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="174"/>
