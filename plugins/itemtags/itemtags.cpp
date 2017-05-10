@@ -353,8 +353,7 @@ ItemTags::ItemTags(ItemWidget *childItem, const Tags &tags)
 
 void ItemTags::setCurrent(bool current)
 {
-    if (m_childItem != nullptr)
-        m_childItem->setCurrent(current);
+    m_childItem->setCurrent(current);
 }
 
 void ItemTags::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
@@ -364,31 +363,27 @@ void ItemTags::highlight(const QRegExp &re, const QFont &highlightFont, const QP
 
 QWidget *ItemTags::createEditor(QWidget *parent) const
 {
-    return m_childItem == nullptr ? nullptr : m_childItem->createEditor(parent);
+    return m_childItem->createEditor(parent);
 }
 
 void ItemTags::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    Q_ASSERT(m_childItem != nullptr);
     return m_childItem->setEditorData(editor, index);
 }
 
 void ItemTags::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    Q_ASSERT(m_childItem != nullptr);
     return m_childItem->setModelData(editor, model, index);
 }
 
 bool ItemTags::hasChanges(QWidget *editor) const
 {
-    Q_ASSERT(m_childItem != nullptr);
     return m_childItem->hasChanges(editor);
 }
 
 QObject *ItemTags::createExternalEditor(const QModelIndex &index, QWidget *parent) const
 {
-    return m_childItem ? m_childItem->createExternalEditor(index, parent)
-                       : ItemWidget::createExternalEditor(index, parent);
+    return m_childItem->createExternalEditor(index, parent);
 }
 
 void ItemTags::updateSize(const QSize &maximumSize, int idealWidth)
@@ -397,8 +392,7 @@ void ItemTags::updateSize(const QSize &maximumSize, int idealWidth)
 
     m_tagWidget->setFixedWidth(idealWidth);
 
-    if (m_childItem != nullptr)
-        m_childItem->updateSize(maximumSize, idealWidth);
+    m_childItem->updateSize(maximumSize, idealWidth);
 
     adjustSize();
 }
