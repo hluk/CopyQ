@@ -233,10 +233,9 @@ void CommandDialog::onFinished(int result)
 
 void CommandDialog::on_itemOrderListCommands_addButtonClicked()
 {
-    auto addCommandDialog = new AddCommandDialog(m_pluginCommands, this);
-    addCommandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
-    connect(addCommandDialog, SIGNAL(addCommands(QList<Command>)), SLOT(onAddCommands(QList<Command>)));
-    addCommandDialog->show();
+    AddCommandDialog addCommandDialog(m_pluginCommands, this);
+    connect(&addCommandDialog, SIGNAL(addCommands(QList<Command>)), SLOT(onAddCommands(QList<Command>)));
+    addCommandDialog.exec();
 }
 
 void CommandDialog::on_itemOrderListCommands_itemSelectionChanged()
