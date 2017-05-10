@@ -96,8 +96,10 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
     const auto eventType = ev->type();
     if (eventType == QEvent::Show) {
         // WORKAROUND: Transform menu to frameless dialog to fix keyboard focus.
-        if (window->type() == Qt::Popup)
+        if (window->type() == Qt::Popup && QGuiApplication::focusWindow() == nullptr) {
+            COPYQ_LOG("Fixing focus for popup");
             window->setFlags(window->flags() | Qt::Dialog | Qt::FramelessWindowHint);
+        }
 
         // Allow windows to pop up on current space.
         const auto wid = window->winId();
