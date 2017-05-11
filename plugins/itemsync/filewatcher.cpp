@@ -164,7 +164,7 @@ Ext findByExtension(const QString &fileName, const QList<FileFormat> &formatSett
                 if ( format.itemMime.isEmpty() )
                     hasUserFormat = true;
                 else
-                    return Ext( QString(), format.itemMime );
+                    return Ext(ext, format.itemMime);
             }
         }
     }
