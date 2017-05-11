@@ -1446,13 +1446,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
             for (const auto &format : formatsToAdd)
                 newData.insert(format, previousData[format]);
 
-            if ( add(newData) ) {
-                const bool reselectFirst = !editing() && hasFocus() && currentIndex().row() == 1;
-                m.removeRow(1);
-
-                if (reselectFirst)
-                    setCurrent(0);
-            }
+            m.setData(firstIndex, newData, contentType::data);
 
             return;
         }
