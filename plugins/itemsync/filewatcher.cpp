@@ -289,6 +289,12 @@ void copyFormatFiles(const QString &oldPath, const QString &newPath,
     }
 }
 
+void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
+{
+    for ( const auto &extValue : mimeToExtension.values() )
+        QFile::remove(path + extValue.toString());
+}
+
 } // namespace
 
 QString FileWatcher::getBaseName(const QModelIndex &index)
@@ -296,10 +302,40 @@ QString FileWatcher::getBaseName(const QModelIndex &index)
     return index.data(contentType::data).toMap().value(mimeBaseName).toString();
 }
 
-void FileWatcher::removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
+bool FileWatcher::isOwnBaseName(const QString &baseName)
 {
-    for ( const auto &extValue : mimeToExtension.values() )
-        QFile::remove(path + extValue.toString());
+    static const QRegExp re("copyq_\\d*");
+    return re.exactMatch(baseName);
+}
+
+void FileWatcher::removeFilesForRemovedIndex(const QString &tabPath, const QModelIndex &index)
+{
+    const QAbstractItemModel *model = index.model();
+    if (!model)
+        return;
+
+    const QString baseName = FileWatcher::getBaseName(index);
+    if ( baseName.isEmpty() )
+        return;
+
+    // Check if item is still present in list (drag'n'drop).
+    bool remove = true;
+    for (int i = 0; i < model->rowCount(); ++i) {
+        const QModelIndex index2 = model->index(i, 0);
+        if ( index2 != index && baseName == FileWatcher::getBaseName(index2) ) {
+            remove = false;
+            break;
+        }
+    }
+    if (!remove)
+        return;
+
+    const QVariantMap itemData = index.data(contentType::data).toMap();
+    const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
+    if ( mimeToExtension.isEmpty() )
+        QFile::remove(tabPath + '/' + baseName);
+    else
+        removeFormatFiles(tabPath + '/' + baseName, mimeToExtension);
 }
 
 Hash FileWatcher::calculateHash(const QByteArray &bytes)
@@ -451,6 +487,8 @@ void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
         Q_ASSERT(index.isValid());
         IndexDataList::iterator it = findIndexData(index);
         Q_ASSERT( it != m_indexData.end() );
+        if ( isOwnBaseName(it->baseName) )
+            removeFilesForRemovedIndex(m_path, index);
         m_indexData.erase(it);
     }
 }

@@ -60,7 +60,12 @@ class FileWatcher : public QObject {
 public:
     static QString getBaseName(const QModelIndex &index);
 
-    static void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension);
+    /**
+     * Return true only if base name is empty or it matches the internal format.
+     */
+    static bool isOwnBaseName(const QString &baseName);
+
+    static void removeFilesForRemovedIndex(const QString &tabPath, const QModelIndex &index);
 
     static Hash calculateHash(const QByteArray &bytes);
 

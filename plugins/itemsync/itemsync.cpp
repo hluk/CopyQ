@@ -289,10 +289,20 @@ QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSet
     return iconFromId(IconFile);
 }
 
-bool containsItemsWithFiles(const QList<QModelIndex> &indexList)
+/**
+ * Return true only if the item was created by CopyQ
+ * (i.e. has no file assigned or the file name matches internal format).
+ */
+bool isOwnItem(const QModelIndex &index)
+{
+    const QString baseName = FileWatcher::getBaseName(index);
+    return baseName.isEmpty() || FileWatcher::isOwnBaseName(baseName);
+}
+
+bool containsItemsWithNotOwnedFiles(const QList<QModelIndex> &indexList)
 {
     for (const auto &index : indexList) {
-        if ( index.data(contentType::data).toMap().contains(mimeBaseName) )
+        if ( !isOwnItem(index) )
             return true;
     }
 
@@ -529,7 +539,7 @@ bool ItemSyncSaver::saveItems(const QString &tabName, const QAbstractItemModel &
 
 bool ItemSyncSaver::canRemoveItems(const QList<QModelIndex> &indexList, QString *error)
 {
-    if ( !containsItemsWithFiles(indexList) )
+    if ( !containsItemsWithNotOwnedFiles(indexList) )
         return true;
 
     if (error) {
@@ -553,38 +563,12 @@ bool ItemSyncSaver::canMoveItems(const QList<QModelIndex> &)
 
 void ItemSyncSaver::itemsRemovedByUser(const QList<QModelIndex> &indexList)
 {
+    if ( m_tabPath.isEmpty() )
+        return;
+
     // Remove unneeded files (remaining records in the hash map).
-    for (const auto &index : indexList) {
-        const QAbstractItemModel *model = index.model();
-        if (!model)
-            continue;
-
-        if ( m_tabPath.isEmpty() )
-            continue;
-
-        const QString baseName = FileWatcher::getBaseName(index);
-        if ( baseName.isEmpty() )
-            continue;
-
-        // Check if item is still present in list (drag'n'drop).
-        bool remove = true;
-        for (int i = 0; i < model->rowCount(); ++i) {
-            const QModelIndex index2 = model->index(i, 0);
-            if ( index2 != index && baseName == FileWatcher::getBaseName(index2) ) {
-                remove = false;
-                break;
-            }
-        }
-        if (!remove)
-            continue;
-
-        const QVariantMap itemData = index.data(contentType::data).toMap();
-        const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
-        if ( mimeToExtension.isEmpty() )
-            QFile::remove(m_tabPath + '/' + baseName);
-        else
-            FileWatcher::removeFormatFiles(m_tabPath + '/' + baseName, mimeToExtension);
-    }
+    for (const auto &index : indexList)
+        FileWatcher::removeFilesForRemovedIndex(m_tabPath, index);
 }
 
 QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMap &itemData)
@@ -781,12 +765,11 @@ ItemSaverPtr ItemSyncLoader::initializeTab(const QString &tabName, QAbstractItem
 
 ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
 {
-    static const QRegExp re("copyq_\\d*");
-    const QString baseName = FileWatcher::getBaseName(index);
-    if ( baseName.isEmpty() || re.exactMatch(baseName) )
+    if ( isOwnItem(index) )
         return nullptr;
 
     itemWidget->setTagged(true);
+    const QString baseName = FileWatcher::getBaseName(index);
     return new ItemSync(baseName, iconForItem(index, m_formatSettings), itemWidget);
 }
 
