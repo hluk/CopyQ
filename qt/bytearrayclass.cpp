@@ -77,8 +77,6 @@ ByteArrayClass::ByteArrayClass(QScriptEngine *engine)
     : QObject(engine), QScriptClass(engine)
 {
     qScriptRegisterMetaType<QByteArray>(engine, toScriptValue, fromScriptValue);
-    qScriptRegisterMetaType<QString>(engine, toScriptValueFromString,
-                                     fromScriptValueToString);
 
     length = engine->toStringHandle(QLatin1String("length"));
 
@@ -246,15 +244,6 @@ QScriptValue ByteArrayClass::toScriptValue(QScriptEngine *eng, const QByteArray 
     if (!cls)
         return eng->newVariant(QVariant::fromValue(ba));
     return cls->newInstance(ba);
-}
-
-QScriptValue ByteArrayClass::toScriptValueFromString(QScriptEngine *eng, const QString &str)
-{
-    QScriptValue ctor = eng->globalObject().property("ByteArray");
-    ByteArrayClass *cls = qscriptvalue_cast<ByteArrayClass*>(ctor.data());
-    if (!cls)
-        return eng->newVariant(QVariant::fromValue(str));
-    return cls->newInstance(str.toUtf8());
 }
 
 void ByteArrayClass::fromScriptValue(const QScriptValue &obj, QByteArray &ba)

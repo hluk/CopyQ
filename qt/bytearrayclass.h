@@ -87,8 +87,6 @@ private:
     static QScriptValue toScriptValue(QScriptEngine *eng, const QByteArray &ba);
     static void fromScriptValue(const QScriptValue &obj, QByteArray &ba);
 
-    static QScriptValue toScriptValueFromString(QScriptEngine *eng,
-                                                const QString &str);
     static void fromScriptValueToString(const QScriptValue &obj, QString &str);
 
     void resize(QByteArray &ba, int newSize);
