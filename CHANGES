@@ -1,4 +1,6 @@
 v3.0.2
+- List synchronized tabs and their paths from script
+- Fix pasting from main window after switching tabs
 - Fix focusing editor when closing completion popup on OS X
 - Fix setting temporary file template from script
 
