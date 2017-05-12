@@ -36,6 +36,8 @@ class QTextEdit;
 class FileWatcher;
 struct FileFormat;
 
+using ItemSyncTabPaths = QMap<QString, QString>;
+
 class ItemSync : public QWidget, public ItemWidget
 {
     Q_OBJECT
@@ -100,6 +102,20 @@ private:
     FileWatcher *m_watcher;
 };
 
+class ItemSyncScriptable : public ItemScriptable
+{
+    Q_OBJECT
+    Q_PROPERTY(QVariantMap tabPaths READ getTabPaths)
+
+public:
+    ItemSyncScriptable(const ItemSyncTabPaths &tabPaths, QObject *parent);
+
+    QVariantMap getTabPaths() const;
+
+private:
+    QVariantMap m_tabPaths;
+};
+
 /**
  * Synchronizes selected tab with destination path.
  *
@@ -158,6 +174,8 @@ public:
 
     const QObject *signaler() const override { return this; }
 
+    ItemScriptable *scriptableObject(QObject *parent) override;
+
 signals:
     void error(const QString &);
 
@@ -169,7 +187,7 @@ private:
 
     std::unique_ptr<Ui::ItemSyncSettings> ui;
     QVariantMap m_settings;
-    QMap<QString, QString> m_tabPaths;
+    ItemSyncTabPaths m_tabPaths;
     QList<FileFormat> m_formatSettings;
 };
 
