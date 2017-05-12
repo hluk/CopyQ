@@ -1551,7 +1551,6 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
 
     // Pass current window title to commands in tray menu.
     auto data = clipboardData;
-    updateFocusWindows();
     if (m_lastWindow)
         data.insert( mimeWindowTitle, m_lastWindow->getTitle() );
 
