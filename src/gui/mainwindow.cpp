@@ -2434,9 +2434,12 @@ void MainWindow::showWindow()
     if ( isWindowVisible() )
         return;
 
-    moveToCurrentWorkspace(this);
+    m_trayMenu->close();
+    m_menu->close();
 
     updateFocusWindows();
+
+    moveToCurrentWorkspace(this);
 
     if (m_wasMaximized || isMaximized())
         showMaximized();
