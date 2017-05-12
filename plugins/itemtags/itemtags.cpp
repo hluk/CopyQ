@@ -397,15 +397,15 @@ void ItemTags::updateSize(const QSize &maximumSize, int idealWidth)
     adjustSize();
 }
 
-ItemTagsScriptable::ItemTagsScriptable(ItemTagsLoader *loader, QObject *parent)
+ItemTagsScriptable::ItemTagsScriptable(const QStringList &userTags, QObject *parent)
     : ItemScriptable(parent)
-    , m_loader(loader)
+    , m_userTags(userTags)
 {
 }
 
 QStringList ItemTagsScriptable::getUserTags() const
 {
-    return m_loader->userTags();
+    return m_userTags;
 }
 
 QStringList ItemTagsScriptable::tags()
@@ -426,7 +426,7 @@ void ItemTagsScriptable::tag()
 
     auto tagName = args.value(0).toString();
     if ( tagName.isEmpty() ) {
-        tagName = askTagName( addTagText(), m_loader->userTags() );
+        tagName = askTagName( addTagText(), m_userTags );
         if ( tagName.isEmpty() )
             return;
     }
@@ -722,7 +722,7 @@ QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
 
 ItemScriptable *ItemTagsLoader::scriptableObject(QObject *parent)
 {
-    return new ItemTagsScriptable(this, parent);
+    return new ItemTagsScriptable(userTags(), parent);
 }
 
 QList<Command> ItemTagsLoader::commands() const

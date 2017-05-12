@@ -87,7 +87,7 @@ class ItemTagsScriptable : public ItemScriptable
     Q_PROPERTY(QStringList userTags READ getUserTags)
 
 public:
-    explicit ItemTagsScriptable(ItemTagsLoader *loader, QObject *parent);
+    explicit ItemTagsScriptable(const QStringList &userTags, QObject *parent);
 
     QStringList getUserTags() const;
 
@@ -109,7 +109,7 @@ private:
     bool addTag(const QString &tagName, QStringList *tags);
     bool removeTag(const QString &tagName, QStringList *tags);
 
-    ItemTagsLoader *m_loader;
+    QStringList m_userTags;
 };
 
 class ItemTagsLoader : public QObject, public ItemLoaderInterface
@@ -148,8 +148,6 @@ public:
 
     QList<Command> commands() const override;
 
-    QStringList userTags() const;
-
 signals:
     void addCommands(const QList<Command> &commands);
 
@@ -162,6 +160,8 @@ private slots:
     void onTableWidgetItemChanged();
 
 private:
+    QStringList userTags() const;
+
     using Tag = ItemTags::Tag;
     using Tags = ItemTags::Tags;
 
