@@ -168,6 +168,8 @@ private:
  * Public slots will be available as functions.
  *
  * Public QObject properties will be available as variables.
+ *
+ * Important: The slots and properties are used in different than main thread.
  */
 class ItemScriptable : public QObject
 {
