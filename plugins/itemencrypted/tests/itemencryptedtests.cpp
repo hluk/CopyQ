@@ -55,7 +55,7 @@ void ItemEncryptedTests::encryptDecryptData()
     if ( !isGpgInstalled() )
         SKIP("gpg2 is required to run the test");
 
-    RUN("-e" << "plugins.itemencrypted.generateTestKeys()", "");
+    RUN("-e" << "plugins.itemencrypted.generateTestKeys()", "\n");
 
     // Test gpg errors first.
     RUN("-e" << "plugins.itemencrypted.encrypt(input());print('')", "");
