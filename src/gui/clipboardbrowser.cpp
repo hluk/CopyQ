@@ -892,8 +892,7 @@ void ClipboardBrowser::paintEvent(QPaintEvent *e)
     // Hide items outside viewport.
     const auto firstVisibleIndex = indexNear(0);
     if ( firstVisibleIndex.isValid() ) {
-        int row = firstVisibleIndex.row();
-        for (row = firstVisibleIndex.row() - 1; row >= 0; --row) {
+        for (int row = firstVisibleIndex.row() - 1; row >= 0; --row) {
             auto w = d.cacheOrNull(row);
             if (w)
                 w->widget()->hide();
@@ -902,8 +901,7 @@ void ClipboardBrowser::paintEvent(QPaintEvent *e)
     const int h = viewport()->contentsRect().height();
     const auto lastVisibleIndex = indexNear(h - spacing());
     if ( lastVisibleIndex.isValid() ) {
-        int row = firstVisibleIndex.row();
-        for (row = firstVisibleIndex.row() + 1; row < m.rowCount(); ++row) {
+        for (int row = lastVisibleIndex.row() + 1; row < m.rowCount(); ++row) {
             auto w = d.cacheOrNull(row);
             if (w)
                 w->widget()->hide();
