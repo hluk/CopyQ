@@ -196,9 +196,9 @@ void NotificationDaemon::doUpdateNotifications()
         if (m_position & Left)
             x = offsetX();
         else if (m_position & Right)
-            x = screen.width() - notification->width() - offsetX();
+            x = screen.right() - notification->width() - offsetX();
         else
-            x = screen.width() / 2 - notification->width() / 2;
+            x = screen.right() / 2 - notification->width() / 2;
 
         if (m_position & Bottom)
             y -= notification->height();
