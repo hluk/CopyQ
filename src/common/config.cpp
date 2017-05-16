@@ -36,6 +36,13 @@ enum class GeometryAction {
     Restore
 };
 
+int screenNumber(const QWidget &widget, GeometryAction geometryAction)
+{
+    return geometryAction == GeometryAction::Save
+            ? QApplication::desktop()->screenNumber(&widget)
+            : QApplication::desktop()->screenNumber(QCursor::pos());
+}
+
 QString geometryOptionName(const QWidget &widget, GeometryAction geometryAction, bool openOnCurrentScreen)
 {
     QString widgetName = widget.objectName();
@@ -43,9 +50,7 @@ QString geometryOptionName(const QWidget &widget, GeometryAction geometryAction,
 
     // current screen number
     if (openOnCurrentScreen) {
-        const int n = geometryAction == GeometryAction::Save
-                ? QApplication::desktop()->screenNumber(&widget)
-                : QApplication::desktop()->screenNumber(QCursor::pos());
+        const int n = screenNumber(widget, geometryAction);
         if (n > 0)
             optionName.append( QString("_screen_%1").arg(n) );
     } else {
@@ -60,9 +65,10 @@ QString getGeometryConfigurationFilePath()
     return getConfigurationFilePath("_geometry.ini");
 }
 
-QString resolutionTag(const QWidget &widget)
+QString resolutionTag(const QWidget &widget, GeometryAction geometryAction)
 {
-    const QRect screenGeometry = QApplication::desktop()->screenGeometry(&widget);
+    const int n = screenNumber(widget, geometryAction);
+    const QRect screenGeometry = QApplication::desktop()->screenGeometry(n);
     return QString("_%1x%2")
             .arg(screenGeometry.width())
             .arg(screenGeometry.height());
@@ -100,7 +106,7 @@ void setGeometryOptionValue(const QString &optionName, const QVariant &value)
 void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
     const QString optionName = geometryOptionName(*w, GeometryAction::Restore, openOnCurrentScreen);
-    const QString tag = resolutionTag(*w);
+    const QString tag = resolutionTag(*w, GeometryAction::Restore);
     QByteArray geometry = geometryOptionValue(optionName + tag).toByteArray();
 
     // If geometry for screen resolution doesn't exist, use last saved one.
@@ -130,7 +136,7 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
     const QString optionName = geometryOptionName(*w, GeometryAction::Save, openOnCurrentScreen);
-    const QString tag = resolutionTag(*w);
+    const QString tag = resolutionTag(*w, GeometryAction::Save);
     QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
     geometrySettings.setValue( optionName + tag, w->saveGeometry() );
     geometrySettings.setValue( optionName, w->saveGeometry() );
