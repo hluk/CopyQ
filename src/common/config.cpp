@@ -31,15 +31,21 @@
 
 namespace {
 
-QString geometryOptionName(const QWidget &widget, bool save, bool openOnCurrentScreen)
+enum class GeometryAction {
+    Save,
+    Restore
+};
+
+QString geometryOptionName(const QWidget &widget, GeometryAction geometryAction, bool openOnCurrentScreen)
 {
     QString widgetName = widget.objectName();
     QString optionName = "Options/" + widgetName + "_geometry";
 
     // current screen number
     if (openOnCurrentScreen) {
-        int n = save ? QApplication::desktop()->screenNumber(&widget)
-                     : QApplication::desktop()->screenNumber(QCursor::pos());
+        const int n = geometryAction == GeometryAction::Save
+                ? QApplication::desktop()->screenNumber(&widget)
+                : QApplication::desktop()->screenNumber(QCursor::pos());
         if (n > 0)
             optionName.append( QString("_screen_%1").arg(n) );
     } else {
@@ -93,7 +99,7 @@ void setGeometryOptionValue(const QString &optionName, const QVariant &value)
 
 void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
-    const QString optionName = geometryOptionName(*w, false, openOnCurrentScreen);
+    const QString optionName = geometryOptionName(*w, GeometryAction::Restore, openOnCurrentScreen);
     const QString tag = resolutionTag(*w);
     QByteArray geometry = geometryOptionValue(optionName + tag).toByteArray();
 
@@ -123,7 +129,7 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
-    const QString optionName = geometryOptionName(*w, true, openOnCurrentScreen);
+    const QString optionName = geometryOptionName(*w, GeometryAction::Save, openOnCurrentScreen);
     const QString tag = resolutionTag(*w);
     QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
     geometrySettings.setValue( optionName + tag, w->saveGeometry() );
