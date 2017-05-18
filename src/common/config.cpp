@@ -116,7 +116,16 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
         // If geometry for the screen doesn't exist, move window to the middle of the screen.
         if (geometry.isEmpty()) {
             const QRect availableGeometry = QApplication::desktop()->availableGeometry(QCursor::pos());
-            w->move( availableGeometry.center() - w->rect().center() );
+            const auto position = availableGeometry.center() - w->rect().center();
+            w->move(position);
+
+            // Adjust window size to current screen and move to center again.
+            const auto idealSize = w->size();
+            w->adjustSize();
+            const auto size = w->size().expandedTo(idealSize);
+            w->resize(size);
+            w->move(position);
+
             geometry = w->saveGeometry();
         }
     }
