@@ -31,7 +31,9 @@ class MacClipboard : public DummyClipboard {
 public:
     explicit MacClipboard();
 
-    QVariantMap data(Mode mode, const QStringList &formats) const;
+    QVariantMap data(Mode mode, const QStringList &formats) const override;
+
+    void setData(Mode mode, const QVariantMap &dataMap) override;
 
 signals:
     void changed(PlatformClipboard::Mode mode);

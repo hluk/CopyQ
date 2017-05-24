@@ -114,13 +114,18 @@ QString CopyQPasteboardMime::mimeFor(QString uti)
 
 bool CopyQPasteboardMime::canConvert(const QString &mime, QString uti)
 {
-    if (uti.isEmpty() || mime.isEmpty()) {
+    if (uti.isEmpty() || mime.isEmpty())
         return false;
-    } else if (shouldIgnoreMime(mime)) {
+
+    // Allow to set UTI directly in QMimeData.
+    if (mime == uti)
+        return true;
+
+    if (shouldIgnoreMime(mime))
         return false;
-    } else if (shouldIgnoreUTI(uti)) {
+
+    if (shouldIgnoreUTI(uti))
         return false;
-    }
 
     QString convMime = convertUtiOrMime(uti, utiToMime);
 

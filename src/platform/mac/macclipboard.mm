@@ -21,10 +21,12 @@
 
 #include "common/common.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 
 #include <QApplication>
-#include <QMimeData>
 #include <QClipboard>
+#include <QMimeData>
+#include <QTextCodec>
 
 #include "mactimer.h"
 
@@ -62,6 +64,26 @@ QVariantMap MacClipboard::data(Mode mode, const QStringList &formats) const {
     }
 
     return DummyClipboard::data(mode, macFormats);
+}
+
+void MacClipboard::setData(PlatformClipboard::Mode mode, const QVariantMap &dataMap)
+{
+    auto dataMapForMac = dataMap;
+
+    // Qt adds BOM to UTF-16 text but some application on OS X
+    // doesn't expect BOM to be present.
+    // This converts text to UTF-16 without BOM.
+    const auto text = getTextData(dataMap);
+    if ( !text.isEmpty() ) {
+        auto codec = QTextCodec::codecForName("UTF-16");
+        Q_ASSERT(codec != nullptr);
+        if (codec) {
+            auto encoder = codec->makeEncoder(QTextCodec::IgnoreHeader);
+            dataMapForMac["public.utf16-plain-text"] = encoder->fromUnicode(text);
+        }
+    }
+
+    return DummyClipboard::setData(mode, dataMapForMac);
 }
 
 
