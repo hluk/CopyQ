@@ -3,13 +3,20 @@
 
 set -e -x
 
+version=$(git describe --match='v*')
+
 root=$PWD
 mkdir -p build
 cd build
 
 qt_bin="/usr/local/opt/qt5/bin"
 
-"$qt_bin/qmake" CONFIG+=release CONFIG+=tests ..
+"$qt_bin/qmake" \
+    CONFIG+=release \
+    CONFIG+=tests \
+    DEFINES+=COPYQ_VERSION=\\\\\\\"\"$version\\\\\\\"\" \
+    ..
+
 make
 make package_plugins
 make package_translations
