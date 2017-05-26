@@ -1,8 +1,12 @@
 v3.0.2
-- List synchronized tabs and their paths from script
-- Fix pasting from main window after switching tabs
-- Fix focusing editor when closing completion popup on OS X
-- Fix setting temporary file template from script
+- Added script functions for listing synchronized tabs and their paths
+- Fixed showing window on current screen
+- Fixed notification position with multiple screens
+- Fixed rendering items when scrolling
+- Fixed pasting from main window after switching tabs
+- Fixed copy/paste to some apps on OS X
+- Fixed focusing editor when closing completion popup on OS X
+- Fixed setting temporary file template from script
 
 v3.0.1
 - Install themes on OS X
