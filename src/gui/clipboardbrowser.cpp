@@ -175,6 +175,7 @@ ClipboardBrowser::ClipboardBrowser(
 
     initSingleShotTimer( &m_timerSave, 30000, this, SLOT(saveItems()) );
     initSingleShotTimer( &m_timerEmitItemCount, 0, this, SLOT(emitItemCount()) );
+    initSingleShotTimer( &m_timerUpdateSizes, 0, this, SLOT(updateSizes()) );
 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -780,9 +781,7 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
-
-    updateItemMaximumSize();
-    updateEditorGeometry();
+    m_timerUpdateSizes.start();
 }
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
@@ -1499,6 +1498,12 @@ void ClipboardBrowser::delayedSaveItems()
         return;
 
     m_timerSave.start();
+}
+
+void ClipboardBrowser::updateSizes()
+{
+    updateItemMaximumSize();
+    updateEditorGeometry();
 }
 
 void ClipboardBrowser::saveUnsavedItems()

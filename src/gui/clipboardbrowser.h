@@ -303,6 +303,11 @@ class ClipboardBrowser : public QListView
          */
         void delayedSaveItems();
 
+        /**
+         * Update item and editor sizes.
+         */
+        void updateSizes();
+
     private:
         bool isLoaded() const;
 
@@ -365,6 +370,7 @@ class ClipboardBrowser : public QListView
         ItemDelegate d;
         QTimer m_timerSave;
         QTimer m_timerEmitItemCount;
+        QTimer m_timerUpdateSizes;
 
         ItemEditorWidget *m_editor;
 
