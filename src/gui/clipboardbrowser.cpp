@@ -267,9 +267,11 @@ bool ClipboardBrowser::hideFiltered(int row)
     const bool hide = isFiltered(row);
     setRowHidden(row, hide);
 
-    if (!hide) {
-        auto w = d.cacheOrNull(row);
-        if (w)
+    auto w = d.cacheOrNull(row);
+    if (w) {
+        if (hide)
+            w->widget()->hide();
+        else
             d.highlightMatches(w);
     }
 
