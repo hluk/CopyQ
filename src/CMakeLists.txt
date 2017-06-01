@@ -86,7 +86,7 @@ if (APPLE)
             PATH_SUFFIXES Frameworks
             NO_DEFAULT_PATH)
         if( ${FRAMEWORK_${fwname}} STREQUAL FRAMEWORK_${fwname}-NOTFOUND)
-            MESSAGE(ERROR ": Framework ${fwname} not found")
+            MESSAGE(FATAL_ERROR ": Framework ${fwname} not found")
         else()
             TARGET_LINK_LIBRARIES(${appname} "${FRAMEWORK_${fwname}}/${fwname}")
             MESSAGE(STATUS "Framework ${fwname} found at ${FRAMEWORK_${fwname}}")
