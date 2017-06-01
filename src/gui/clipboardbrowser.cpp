@@ -781,7 +781,15 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
-    m_timerUpdateSizes.start();
+
+    // WORKAROUND: Omit calling resizeEvent() recursively.
+    if (m_resizing) {
+        m_timerUpdateSizes.start();
+    } else {
+        m_resizing = true;
+        updateSizes();
+        m_resizing = false;
+    }
 }
 
 void ClipboardBrowser::showEvent(QShowEvent *event)

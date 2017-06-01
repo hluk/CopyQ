@@ -371,6 +371,7 @@ class ClipboardBrowser : public QListView
         QTimer m_timerSave;
         QTimer m_timerEmitItemCount;
         QTimer m_timerUpdateSizes;
+        bool m_resizing = false;
 
         ItemEditorWidget *m_editor;
 
