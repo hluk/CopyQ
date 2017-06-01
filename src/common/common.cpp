@@ -189,13 +189,13 @@ QVariantMap cloneData(const QMimeData &data, QStringList formats)
     QImage image;
     bool imageLoaded = false;
 
-    // Ignore non-text data if text is available.
+    // Ignore image data if text is available.
     if ( formats.contains(mimeText) && data.hasFormat(mimeText) ) {
+        const QString mimeImagePrefix = "image/";
         const auto first = std::remove_if(
                     std::begin(formats), std::end(formats),
-                    [](const QString &format) {
-                        return !format.startsWith(COPYQ_MIME_PREFIX)
-                            && !format.startsWith("text/");
+                    [&mimeImagePrefix](const QString &format) {
+                        return format.startsWith(mimeImagePrefix);
                     });
         formats.erase(first, std::end(formats));
     }
