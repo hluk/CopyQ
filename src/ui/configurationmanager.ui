@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
-    <height>695</height>
+    <width>976</width>
+    <height>893</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -52,8 +52,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>506</width>
-            <height>582</height>
+            <width>912</width>
+            <height>733</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -192,6 +192,16 @@
               </widget>
              </item>
              <item>
+              <widget class="QCheckBox" name="checkBoxAutocompleteCommands">
+               <property name="toolTip">
+                <string>Automatically show popup to complete function, type and variable names in commands</string>
+               </property>
+               <property name="text">
+                <string>Auto-complete Commands</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QGroupBox" name="groupBox">
                <property name="title">
                 <string>Clipboard Manipulation</string>
@@ -301,8 +311,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>506</width>
-            <height>582</height>
+            <width>912</width>
+            <height>733</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_23">
@@ -552,8 +562,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>536</width>
-            <height>567</height>
+            <width>912</width>
+            <height>733</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -843,8 +853,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>506</width>
-            <height>582</height>
+            <width>912</width>
+            <height>733</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1058,8 +1068,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>506</width>
-            <height>582</height>
+            <width>912</width>
+            <height>733</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1529,6 +1539,7 @@ Set to 0 to disable.</string>
   <tabstop>checkBoxAutostart</tabstop>
   <tabstop>checkBoxViMode</tabstop>
   <tabstop>checkBoxSaveFilterHistory</tabstop>
+  <tabstop>checkBoxAutocompleteCommands</tabstop>
   <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxSel</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>

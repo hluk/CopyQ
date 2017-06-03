@@ -21,6 +21,8 @@
 #include "commandsyntaxhighlighter.h"
 #include "commandcompleterdocumentation.h"
 
+#include "common/appconfig.h"
+
 #include <QAbstractItemView>
 #include <QCompleter>
 #include <QCoreApplication>
@@ -267,6 +269,10 @@ void CommandCompleter::updateCompletion(bool forceShow)
     if ( !forceShow && completionPrefix.length() < 3 ) {
         popup->hide();
     } else {
+        // Don't auto-complete if it's disabled in configuration.
+        if ( !forceShow && !AppConfig().option<Config::autocompletion>() )
+            return;
+
         if (completionPrefix != m_completer->completionPrefix()) {
             m_completer->setCompletionPrefix(completionPrefix);
             popup->setCurrentIndex(m_completer->completionModel()->index(0, 0));

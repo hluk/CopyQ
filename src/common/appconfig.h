@@ -276,6 +276,11 @@ struct show_advanced_command_settings : Config<bool> {
     static Value defaultValue() { return false; }
 };
 
+struct autocompletion : Config<bool> {
+    static QString name() { return "autocompletion"; }
+    static Value defaultValue() { return true; }
+};
+
 } // namespace Config
 
 class AppConfig
