@@ -262,7 +262,7 @@ bool X11Platform::findPluginDir(QDir *pluginsDir)
 
 QString X11Platform::defaultEditorCommand()
 {
-    return "gedit %1";
+    return "gedit --standalone -- %1";
 }
 
 QString X11Platform::translationPrefix()
