@@ -567,9 +567,9 @@ void MainWindow::exit()
     // Check if not editing in any tab (show and try to close editors).
     for ( int i = 0; i < ui->tabWidget->count(); ++i ) {
         auto c = getPlaceholder(i)->browser();
-        if ( c && c->editing() ) {
+        if ( c && (c->isInternalEditorOpen() || c->isExternalEditorOpen()) ) {
             showBrowser(i);
-            if ( !c->maybeCloseEditor() )
+            if ( !c->maybeCloseEditors() )
                 return;
         }
     }
@@ -614,7 +614,7 @@ bool MainWindow::focusNextPrevChild(bool next)
         return false;
 
     // Fix tab order while searching in editor.
-    if (c->editing() && !browseMode()) {
+    if (c->isInternalEditorOpen() && !browseMode()) {
         if ( next && ui->searchBar->hasFocus() ) {
             c->setFocus();
             return true;
@@ -821,7 +821,7 @@ void MainWindow::updateContextMenuTimeout()
         return;
 
     auto c = getPlaceholder()->createBrowser();
-    if ( !c || c->editing())
+    if ( !c || c->isInternalEditorOpen())
         return;
 
     setDisabledShortcuts(QList<QKeySequence>());
@@ -863,7 +863,7 @@ void MainWindow::updateItemPreview()
     if (!c)
         return;
 
-    ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !c->editing());
+    ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !c->isInternalEditorOpen());
 
     QWidget *w = ui->dockWidgetItemPreview->isVisible() && !ui->tabWidget->isTabGroupSelected()
             ? c->currentItemPreview()
@@ -2132,7 +2132,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 
     auto c = browser();
-    if (c && c->editing())
+    if (c && c->isInternalEditorOpen())
         return;
 
     if (m_options.hideTabs && key == Qt::Key_Alt)
@@ -2450,7 +2450,7 @@ void MainWindow::showWindow()
 
     auto c = browser();
     if (c) {
-        if ( !c->editing() )
+        if ( !c->isInternalEditorOpen() )
             c->scrollTo( c->currentIndex() );
         c->setFocus();
     }
@@ -3013,7 +3013,7 @@ void MainWindow::findNextOrPrevious()
             return;
 
         const bool next = !QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier);
-        if ( c->editing() ) {
+        if ( c->isInternalEditorOpen() ) {
             ui->searchBar->setFocus(Qt::ShortcutFocusReason);
             if (next)
                 c->findNext();
@@ -3222,7 +3222,7 @@ void MainWindow::editNewItem()
         return;
 
     showWindow();
-    if ( !c->editing() ) {
+    if ( !c->isInternalEditorOpen() ) {
         c->setFocus();
         c->editNew();
     }

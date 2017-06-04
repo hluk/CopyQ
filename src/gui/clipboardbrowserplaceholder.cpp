@@ -75,7 +75,7 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
 
 void ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
 {
-    if ( m_browser && m_browser->editing() ) {
+    if ( isEditorOpen() ) {
         m_browser->setTabName(tabName);
         reloadBrowser();
     } else {
@@ -106,7 +106,7 @@ void ClipboardBrowserPlaceholder::createBrowserAgain()
 
 void ClipboardBrowserPlaceholder::reloadBrowser()
 {
-    if ( m_browser && m_browser->editing() ) {
+    if ( isEditorOpen() ) {
         connect( m_browser, SIGNAL(editingFinished()),
                  this, SLOT(reloadBrowser()), Qt::UniqueConnection );
     } else {
@@ -175,11 +175,18 @@ bool ClipboardBrowserPlaceholder::canExpire() const
 {
     return m_browser
             && !m_browser->isVisible()
-            && !m_browser->editing();
+            && !isEditorOpen();
 }
 
 void ClipboardBrowserPlaceholder::restartExpiring()
 {
     if ( m_timerExpire.interval() > 0 )
         m_timerExpire.start();
+}
+
+bool ClipboardBrowserPlaceholder::isEditorOpen() const
+{
+    return m_browser && (
+                m_browser->isInternalEditorOpen()
+                || m_browser->isExternalEditorOpen() );
 }

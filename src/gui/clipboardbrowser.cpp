@@ -224,6 +224,10 @@ void ClipboardBrowser::closeExternalEditor(QObject *editor)
     editor->disconnect(this);
     disconnect(editor);
     editor->deleteLater();
+
+    Q_ASSERT(m_externalEditorsOpen > 0);
+    --m_externalEditorsOpen;
+    maybeEmitEditingFinished();
 }
 
 void ClipboardBrowser::emitItemCount()
@@ -299,6 +303,9 @@ bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
     connect( editor, SIGNAL(error(QString)),
              this, SIGNAL(error(QString)) );
 
+    connect( this, SIGNAL(closeExternalEditors()),
+             editor, SLOT(deleteLater()) );
+
     bool retVal = false;
     bool result = QMetaObject::invokeMethod( editor, "start", Qt::DirectConnection,
                                              Q_RETURN_ARG(bool, retVal) );
@@ -307,6 +314,8 @@ bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
         closeExternalEditor(editor);
         return false;
     }
+
+    ++m_externalEditorsOpen;
 
     return true;
 }
@@ -337,7 +346,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
             editor->setFocus();
         } else {
             setFocus();
-            emit editingFinished();
+            maybeEmitEditingFinished();
         }
     }
 
@@ -374,7 +383,7 @@ void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes, bool c
 
 void ClipboardBrowser::updateEditorGeometry()
 {
-    if ( editing() ) {
+    if ( isInternalEditorOpen() ) {
         const QRect contents = viewport()->contentsRect();
         const QMargins margins = contentsMargins();
         m_editor->setGeometry( contents.translated(margins.left(), margins.top()) );
@@ -496,7 +505,7 @@ int ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
 
 void ClipboardBrowser::focusEditedIndex()
 {
-    if ( !editing() )
+    if ( !isInternalEditorOpen() )
         return;
 
     const auto index = m_editor->index();
@@ -557,6 +566,12 @@ void ClipboardBrowser::moveToTop(const QModelIndex &index)
         m.removeRow( index.row() );
         m.insertItem(data, 0);
     }
+}
+
+void ClipboardBrowser::maybeEmitEditingFinished()
+{
+    if ( !isInternalEditorOpen() && !isExternalEditorOpen() )
+        emit editingFinished();
 }
 
 QVariantMap ClipboardBrowser::copyIndex(const QModelIndex &index) const
@@ -706,7 +721,7 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
 
 void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
 {
-    if (!editing())
+    if (!isInternalEditorOpen())
         emit updateContextMenu(this);
 }
 
@@ -744,8 +759,8 @@ void ClipboardBrowser::onEditorCancel()
 {
     focusEditedIndex();
 
-    if ( editing() && m_editor->hasFocus() )
-        maybeCloseEditor();
+    if ( isInternalEditorOpen() && m_editor->hasFocus() )
+        maybeCloseEditors();
     else
         emit searchHideRequest();
 }
@@ -764,7 +779,7 @@ void ClipboardBrowser::onEditorNeedsChangeClipboard(const QByteArray &bytes, con
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
-    if ( editing() || selectedIndexes().isEmpty() )
+    if ( isInternalEditorOpen() || selectedIndexes().isEmpty() )
         return;
 
     QPoint pos = event->globalPos();
@@ -848,7 +863,7 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
 void ClipboardBrowser::focusInEvent(QFocusEvent *event)
 {
     // Always focus active editor instead of list.
-    if (editing()) {
+    if (isInternalEditorOpen()) {
         focusNextChild();
     } else {
         if ( !currentIndex().isValid() )
@@ -1131,7 +1146,7 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
 
     d.setSearch(re);
 
-    if ( editing() ) {
+    if ( isInternalEditorOpen() ) {
         m_editor->search(re);
         return;
     }
@@ -1182,7 +1197,7 @@ void ClipboardBrowser::editNew(const QString &text, bool changeClipboard)
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
     // ignore any input if editing an item
-    if ( editing() )
+    if ( isInternalEditorOpen() )
         return;
 
     // translate keys for vi mode
@@ -1436,7 +1451,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
     if ( !isClipboardData(data)
          && newData.contains(mimeText)
          // Don't update edited item.
-         && (!editing() || currentIndex().row() != 0)
+         && (!isInternalEditorOpen() || currentIndex().row() != 0)
          )
     {
         const QModelIndex firstIndex = index(0);
@@ -1584,13 +1599,13 @@ QWidget *ClipboardBrowser::currentItemPreview()
 
 void ClipboardBrowser::findNext()
 {
-    if (editing())
+    if (isInternalEditorOpen())
         m_editor->findNext(d.searchExpression());
 }
 
 void ClipboardBrowser::findPrevious()
 {
-    if (editing())
+    if (isInternalEditorOpen())
         m_editor->findPrevious(d.searchExpression());
 }
 
@@ -1599,9 +1614,14 @@ ItemWidget *ClipboardBrowser::itemWidget(const QModelIndex &index)
     return d.cache(index);
 }
 
-bool ClipboardBrowser::editing() const
+bool ClipboardBrowser::isInternalEditorOpen() const
 {
     return m_editor != nullptr;
+}
+
+bool ClipboardBrowser::isExternalEditorOpen() const
+{
+    return m_externalEditorsOpen > 0;
 }
 
 bool ClipboardBrowser::isLoaded() const
@@ -1609,20 +1629,26 @@ bool ClipboardBrowser::isLoaded() const
     return !m_sharedData->itemFactory || m_itemSaver || tabName().isEmpty();
 }
 
-bool ClipboardBrowser::maybeCloseEditor()
+bool ClipboardBrowser::maybeCloseEditors()
 {
-    if ( editing() ) {
-        if ( m_editor->hasChanges() ) {
-            int answer = QMessageBox::question( this,
-                        tr("Discard Changes?"),
-                        tr("Do you really want to <strong>discard changes</strong>?"),
-                        QMessageBox::No | QMessageBox::Yes,
-                        QMessageBox::No );
-            if (answer == QMessageBox::No)
-                return false;
-        }
-        delete m_editor;
+    if ( (isInternalEditorOpen() && m_editor->hasChanges())
+         || isExternalEditorOpen() )
+    {
+        const int answer = QMessageBox::question( this,
+                    tr("Discard Changes?"),
+                    tr("Do you really want to <strong>discard changes</strong>?"),
+                    QMessageBox::No | QMessageBox::Yes,
+                    QMessageBox::No );
+        if (answer == QMessageBox::No)
+            return false;
     }
+
+    if (m_editor) {
+        m_editor->deleteLater();
+        m_editor = nullptr;
+    }
+
+    emit closeExternalEditors();
 
     return true;
 }

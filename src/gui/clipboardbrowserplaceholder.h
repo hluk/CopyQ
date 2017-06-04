@@ -82,6 +82,8 @@ private:
 
     void restartExpiring();
 
+    bool isEditorOpen() const;
+
     ClipboardBrowser *m_browser = nullptr;
     QPushButton *m_loadButton = nullptr;
 

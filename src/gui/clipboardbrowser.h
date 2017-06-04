@@ -91,16 +91,22 @@ class ClipboardBrowser : public QListView
         const QString &tabName() const { return m_tabName; }
 
         /**
-         * Return true if editing is active.
+         * Return true only if the internal editor widget is open.
          */
-        bool editing() const;
+        bool isInternalEditorOpen() const;
 
         /**
-         * Close editor if unless user don't want to discard changed (show message box).
-         *
-         * @return true only if editor was closed
+         * Return true only if an external editor is open.
          */
-        bool maybeCloseEditor();
+        bool isExternalEditorOpen() const;
+
+        /**
+         * Close internal and external editor
+         * unless user don't want to discard changed (show message box).
+         *
+         * @return true only if editors were closed
+         */
+        bool maybeCloseEditors();
 
         /**
          * Override to disable default QAbstractItemView search.
@@ -261,6 +267,8 @@ class ClipboardBrowser : public QListView
         void searchRequest();
         void searchHideRequest();
 
+        void closeExternalEditors();
+
     protected:
         void keyPressEvent(QKeyEvent *event) override;
         void contextMenuEvent(QContextMenuEvent *) override;
@@ -364,6 +372,8 @@ class ClipboardBrowser : public QListView
 
         void moveToTop(const QModelIndex &index);
 
+        void maybeEmitEditingFinished();
+
         ItemSaverPtr m_itemSaver;
         QString m_tabName;
         ClipboardModel m;
@@ -373,7 +383,8 @@ class ClipboardBrowser : public QListView
         QTimer m_timerUpdateSizes;
         bool m_resizing = false;
 
-        ItemEditorWidget *m_editor;
+        QPointer<ItemEditorWidget> m_editor;
+        int m_externalEditorsOpen = 0;
 
         ClipboardBrowserSharedPtr m_sharedData;
 
