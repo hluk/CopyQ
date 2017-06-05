@@ -65,13 +65,27 @@ QString getGeometryConfigurationFilePath()
     return getConfigurationFilePath("_geometry.ini");
 }
 
-QString resolutionTag(const QWidget &widget, GeometryAction geometryAction)
+QString resolutionTagForScreen(int i)
 {
-    const int n = screenNumber(widget, geometryAction);
-    const QRect screenGeometry = QApplication::desktop()->screenGeometry(n);
+    const QRect screenGeometry = QApplication::desktop()->screenGeometry(i);
     return QString("_%1x%2")
             .arg(screenGeometry.width())
             .arg(screenGeometry.height());
+}
+
+QString resolutionTag(const QWidget &widget, GeometryAction geometryAction, bool openOnCurrentScreen)
+{
+    if (openOnCurrentScreen) {
+        const int i = screenNumber(widget, geometryAction);
+        return resolutionTagForScreen(i);
+    }
+
+    QString tag;
+    const auto desktop = QApplication::desktop();
+    for ( int i = 0; i < desktop->screenCount(); ++i )
+        tag.append( resolutionTagForScreen(i) );
+
+    return tag;
 }
 
 } // namespace
@@ -106,7 +120,7 @@ void setGeometryOptionValue(const QString &optionName, const QVariant &value)
 void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
     const QString optionName = geometryOptionName(*w, GeometryAction::Restore, openOnCurrentScreen);
-    const QString tag = resolutionTag(*w, GeometryAction::Restore);
+    const QString tag = resolutionTag(*w, GeometryAction::Restore, openOnCurrentScreen);
     QByteArray geometry = geometryOptionValue(optionName + tag).toByteArray();
 
     // If geometry for screen resolution doesn't exist, use last saved one.
@@ -145,7 +159,7 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
     const QString optionName = geometryOptionName(*w, GeometryAction::Save, openOnCurrentScreen);
-    const QString tag = resolutionTag(*w, GeometryAction::Save);
+    const QString tag = resolutionTag(*w, GeometryAction::Save, openOnCurrentScreen);
     QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
     geometrySettings.setValue( optionName + tag, w->saveGeometry() );
     geometrySettings.setValue( optionName, w->saveGeometry() );
