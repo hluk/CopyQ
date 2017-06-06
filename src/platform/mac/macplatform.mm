@@ -206,7 +206,7 @@ bool MacPlatform::findPluginDir(QDir *pluginsDir)
     }
 
     if ( pluginsDir->cdUp() // Contents
-            && pluginsDir->cd("Plugins")
+            && pluginsDir->cd("PlugIns")
             && pluginsDir->cd("copyq"))
     {
         // OK, found it in the bundle
