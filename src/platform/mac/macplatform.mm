@@ -202,6 +202,10 @@ bool MacPlatform::findPluginDir(QDir *pluginsDir)
 {
     pluginsDir->setPath( qApp->applicationDirPath() );
     if (pluginsDir->dirName() != "MacOS") {
+        if ( pluginsDir->cd("plugins")) {
+            COPYQ_LOG("Found plugins in build tree");
+            return true;
+        }
         return false;
     }
 
