@@ -1,0 +1,300 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Lukas Holecek
+# This file is distributed under the same license as the CopyQ package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CopyQ \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-07 14:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: ../../command-examples.rst:4
+msgid "Command Examples"
+msgstr ""
+
+#: ../../command-examples.rst:6
+msgid ""
+"Here are some useful commands for creating custom menu items, global "
+"shortcuts and automatically process new clipboard content in CopyQ."
+msgstr ""
+
+#: ../../command-examples.rst:9
+msgid ""
+"If you want to use any of the commands below, copy it to clipboard and "
+"paste it to the command list in Command dialog (opened with F6 shortcut)."
+" For detailed info see :ref:`faq-share-commands`."
+msgstr ""
+
+#: ../../command-examples.rst:13
+msgid ""
+"All these and more commands are available at `CopyQ command repository "
+"<https://github.com/hluk/copyq-commands>`__."
+msgstr ""
+
+#: ../../command-examples.rst:17
+msgid "Join Selected Items"
+msgstr ""
+
+#: ../../command-examples.rst:19
+msgid "Creates new item containing concatenated text of selected items."
+msgstr ""
+
+#: ../../command-examples.rst:31
+msgid "Paste Current Date and Time"
+msgstr ""
+
+#: ../../command-examples.rst:33
+msgid ""
+"Copies current date/time text to clipboard and pastes to current window "
+"on global shortcut Win+Alt+T."
+msgstr ""
+
+#: ../../command-examples.rst:49
+msgid "Play Sound when Copying to Clipboard"
+msgstr ""
+
+#: ../../command-examples.rst:51
+msgid ""
+"Following command will play an audio file whenever something is copied "
+"clipboard."
+msgstr ""
+
+#: ../../command-examples.rst:54
+msgid "On Windows:"
+msgstr ""
+
+#: ../../command-examples.rst:66
+msgid "On Linux (requires VLC multimedia player):"
+msgstr ""
+
+#: ../../command-examples.rst:79
+msgid "Edit and Paste"
+msgstr ""
+
+#: ../../command-examples.rst:81
+msgid ""
+"Following command allows to edit current clipboard text before pasting "
+"it. If the editing is canceled the text won't be pasted."
+msgstr ""
+
+#: ../../command-examples.rst:100
+msgid "Ignore Images when Text is Available"
+msgstr ""
+
+#: ../../command-examples.rst:102
+msgid ""
+"This is useful for ignoring cells copied as images from Microsoft Excel "
+"and LibreOffice Calc."
+msgstr ""
+
+#: ../../command-examples.rst:121
+msgid "Remove Background and Text Colors"
+msgstr ""
+
+#: ../../command-examples.rst:123
+msgid ""
+"Removes background and text colors from rich text (e.g. text copied from "
+"web pages)."
+msgstr ""
+
+#: ../../command-examples.rst:126
+msgid ""
+"Command can be both automatically applied on text copied to clipboard and"
+" invoked from menu (or using custom shortcut)."
+msgstr ""
+
+#: ../../command-examples.rst:144
+msgid "Linkify"
+msgstr ""
+
+#: ../../command-examples.rst:146
+msgid "Creates interactive link from plain text."
+msgstr ""
+
+#: ../../command-examples.rst:167
+msgid "Highlight Text"
+msgstr ""
+
+#: ../../command-examples.rst:169
+msgid ""
+"Highlight all occurrences of a text (change ``x = \"text\"`` to match "
+"something else than ``text``)."
+msgstr ""
+
+#: ../../command-examples.rst:217
+msgid "Render HTML"
+msgstr ""
+
+#: ../../command-examples.rst:219
+msgid "Render HTML code."
+msgstr ""
+
+#: ../../command-examples.rst:234
+msgid "Translate to English"
+msgstr ""
+
+#: ../../command-examples.rst:236
+msgid "Pass to text to `Google Translate <https://translate.google.com/>`__."
+msgstr ""
+
+#: ../../command-examples.rst:256
+msgid "Paste and Forget"
+msgstr ""
+
+#: ../../command-examples.rst:258
+msgid "Paste selected items and clear clipboard."
+msgstr ""
+
+#: ../../command-examples.rst:285
+msgid "Render Math Equations"
+msgstr ""
+
+#: ../../command-examples.rst:287
+msgid ""
+"Render math equations using `MathJax <http://www.mathjax.org/>`__ (e.g. "
+"``$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$$``)."
+msgstr ""
+
+#: ../../command-examples.rst:308
+msgid "Move Images to Other Tab"
+msgstr ""
+
+#: ../../command-examples.rst:310
+msgid ""
+"With this command active, images won't be saved in the first tab. This "
+"can make application a bit more snappier since big image data won't need "
+"to be loaded when main window is displayed or clipboard is stored for the"
+" first time."
+msgstr ""
+
+#: ../../command-examples.rst:326
+msgid "Copy Clipboard to Window Tabs"
+msgstr ""
+
+#: ../../command-examples.rst:328
+msgid ""
+"Following command automatically adds new clipboard to tab with same name "
+"as title of the window where copy operation was performed."
+msgstr ""
+
+#: ../../command-examples.rst:351
+msgid "Quickly Show Current Clipboard Content"
+msgstr ""
+
+#: ../../command-examples.rst:353
+msgid ""
+"Quickly pop up notification with text in clipboard using ``Win+Alt+C`` "
+"system shortcut."
+msgstr ""
+
+#: ../../command-examples.rst:367
+msgid "Replace All Occurrences in Selected Text"
+msgstr ""
+
+#: ../../command-examples.rst:407
+msgid "Copy Nth Item"
+msgstr ""
+
+#: ../../command-examples.rst:409
+msgid ""
+"Copy item in row depending on which shortcut was pressed. E.g. Ctrl+2 for"
+" item in row \"2\"."
+msgstr ""
+
+#: ../../command-examples.rst:428
+msgid "Edit File"
+msgstr ""
+
+#: ../../command-examples.rst:430
+msgid ""
+"Opens file referenced by selected item in external editor (uses "
+"\"External editor command\" from \"History\" config tab)."
+msgstr ""
+
+#: ../../command-examples.rst:433
+msgid ""
+"Works with following path formats (some editors may not support all of "
+"these)."
+msgstr ""
+
+#: ../../command-examples.rst:436
+msgid "``C:/...``"
+msgstr ""
+
+#: ../../command-examples.rst:437
+msgid "``file://...``"
+msgstr ""
+
+#: ../../command-examples.rst:438
+msgid "``~...`` (some shells)"
+msgstr ""
+
+#: ../../command-examples.rst:439
+msgid "``%...%...`` (Windows environment variables)"
+msgstr ""
+
+#: ../../command-examples.rst:440
+msgid "``$...`` (environment variables)"
+msgstr ""
+
+#: ../../command-examples.rst:441
+msgid "``/c/...`` (gitbash)"
+msgstr ""
+
+#: ../../command-examples.rst:464
+msgid "Change Monitoring State Permanently"
+msgstr ""
+
+#: ../../command-examples.rst:466
+msgid ""
+"Disables clipboard monitoring permanently, i.e. the state is restored "
+"when clipboard changes even after application is restarted."
+msgstr ""
+
+#: ../../command-examples.rst:469
+msgid ""
+"Should be the first automatic command in the list of commands so other "
+"commands are not invoked."
+msgstr ""
+
+#: ../../command-examples.rst:498
+msgid "Show Window Title"
+msgstr ""
+
+#: ../../command-examples.rst:500
+msgid ""
+"Shows source application window title for new items in tag (\"Tags\" "
+"plugin must be enabled in \"Items\" config tab)."
+msgstr ""
+
+#: ../../command-examples.rst:517
+msgid "Show Copy Time"
+msgstr ""
+
+#: ../../command-examples.rst:519
+msgid ""
+"Shows copy time of new items in tag (\"Tags\" plugin must be enabled in "
+"\"Items\" config tab)."
+msgstr ""
+
+#: ../../command-examples.rst:538
+msgid "Mark Selected Items"
+msgstr ""
+
+#: ../../command-examples.rst:540
+msgid "Toggles highlighting of selected items."
+msgstr ""
+
+#: ../../command-examples.rst:562
+msgid "Change Upper/Lower Case of Selected Text"
+msgstr ""
+

@@ -1,0 +1,49 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Lukas Holecek
+# This file is distributed under the same license as the CopyQ package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CopyQ \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-07 14:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: ../../index.rst:2
+msgid "Welcome to CopyQ's documentation!"
+msgstr ""
+
+#: ../../index.rst:4
+msgid ""
+"CopyQ is clipboard manager -- a desktop application which stores content "
+"of the system clipboard whenever it changes and allows to search the "
+"history and copy it back to the system clipboard or paste it directly to "
+"other applications."
+msgstr ""
+
+#: ../../index.rst:8
+msgid ""
+"This documentation describes some basic concepts and workflows as well as"
+" more advanced topics like scripting and application development process."
+msgstr ""
+
+#: ../../index.rst:11
+msgid "The Basics"
+msgstr ""
+
+#: ../../index.rst:23
+msgid "Advanced Topics"
+msgstr ""
+
+#: ../../index.rst:37
+msgid "Development"
+msgstr ""
+

@@ -1,0 +1,120 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Lukas Holecek
+# This file is distributed under the same license as the CopyQ package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CopyQ \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-07 14:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: ../../fixing-bugs.rst:2
+msgid "Fixing Bugs and Adding Features"
+msgstr ""
+
+#: ../../fixing-bugs.rst:4
+msgid "This page describes how to build, fix and improve the source code."
+msgstr ""
+
+#: ../../fixing-bugs.rst:7
+msgid "Making Changes"
+msgstr ""
+
+#: ../../fixing-bugs.rst:9
+msgid ""
+"Pull requests are welcome at `github project page "
+"<https://github.com/hluk/CopyQ>`__."
+msgstr ""
+
+#: ../../fixing-bugs.rst:12
+msgid ""
+"For more info see `Creating a pull request from a fork "
+"<https://help.github.com/articles/creating-a-pull-request-"
+"from-a-fork/>`__."
+msgstr ""
+
+#: ../../fixing-bugs.rst:14
+msgid "Try to keep the code style consistent with the existing code."
+msgstr ""
+
+#: ../../fixing-bugs.rst:17
+msgid "Build the Debug Version"
+msgstr ""
+
+#: ../../fixing-bugs.rst:27
+msgid "Run Tests"
+msgstr ""
+
+#: ../../fixing-bugs.rst:29
+msgid ""
+"You can run automated tests if the application is built either in debug "
+"mode, with CMake flag ``-DWITH_TESTS=ON`` or QMake flag ``CONFIG+=tests``"
+" (releases are usually build with tests)."
+msgstr ""
+
+#: ../../fixing-bugs.rst:33
+msgid "Run the tests with following command."
+msgstr ""
+
+#: ../../fixing-bugs.rst:39
+msgid ""
+"This command will execute all test cases in new special CopyQ session so "
+"that user configuration, tabs and items are not modified. It's better to "
+"close any other CopyQ session before running tests since they can affect "
+"test results."
+msgstr ""
+
+#: ../../fixing-bugs.rst:44
+msgid ""
+"While running tests there must be **no keyboard and mouse interaction**. "
+"Preferably you can execute the tests in separate virtual environment. On "
+"Linux you can run the tests on virtual X11 server with ``xvfb-run``."
+msgstr ""
+
+#: ../../fixing-bugs.rst:52
+msgid "Test invocation examples:"
+msgstr ""
+
+#: ../../fixing-bugs.rst:54
+msgid "Print help for tests: ``copyq tests --help``"
+msgstr ""
+
+#: ../../fixing-bugs.rst:55
+msgid "Run specific tests: ``copyq tests commandHelp commandVersion``"
+msgstr ""
+
+#: ../../fixing-bugs.rst:56
+msgid "Run specific tests for a plugin: ``copyq tests 'PLUGINS:pinned' isPinned``"
+msgstr ""
+
+#: ../../fixing-bugs.rst:57
+msgid "Run tests only for specific plugins: ``copyq tests 'PLUGINS:pinned|tags'``"
+msgstr ""
+
+#: ../../fixing-bugs.rst:58
+msgid "List tests: ``copyq tests -functions``"
+msgstr ""
+
+#: ../../fixing-bugs.rst:59
+msgid "List tests for a plugin: ``copyq tests PLUGINS:tags -functions``"
+msgstr ""
+
+#: ../../fixing-bugs.rst:60
+msgid "Less verbose tests: ``copyq tests -silent``"
+msgstr ""
+
+#: ../../fixing-bugs.rst:61
+msgid ""
+"Slower GUI tests: ``COPYQ_TESTS_KEYS_WAIT=1000 COPYQ_TESTS_KEY_DELAY=50 "
+"copyq tests editItems``"
+msgstr ""
+

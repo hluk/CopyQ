@@ -1,0 +1,143 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Lukas Holecek
+# This file is distributed under the same license as the CopyQ package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CopyQ \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-07 14:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: ../../build-source-code.rst:2
+msgid "Build from Source Code"
+msgstr ""
+
+#: ../../build-source-code.rst:4
+msgid "This page describes how to build the application from source code."
+msgstr ""
+
+#: ../../build-source-code.rst:7
+msgid "Get the Source Code"
+msgstr ""
+
+#: ../../build-source-code.rst:9
+msgid "Download the source code from git repository"
+msgstr ""
+
+#: ../../build-source-code.rst:15
+msgid "or download the latest source code archive from:"
+msgstr ""
+
+#: ../../build-source-code.rst:17
+msgid "`latest release <https://github.com/hluk/CopyQ/releases>`__"
+msgstr ""
+
+#: ../../build-source-code.rst:18
+msgid ""
+"`master branch in zip "
+"<https://github.com/hluk/CopyQ/archive/master.zip>`__"
+msgstr ""
+
+#: ../../build-source-code.rst:19
+msgid ""
+"`master branch in tar.gz "
+"<https://github.com/hluk/CopyQ/archive/master.tar.gz>`__"
+msgstr ""
+
+#: ../../build-source-code.rst:22
+msgid "Install Dependencies"
+msgstr ""
+
+#: ../../build-source-code.rst:24
+msgid "The build requires:"
+msgstr ""
+
+#: ../../build-source-code.rst:26
+msgid "`CMake <https://cmake.org/download/>`__"
+msgstr ""
+
+#: ../../build-source-code.rst:27
+msgid "`Qt <https://download.qt.io/archive/qt/>`__"
+msgstr ""
+
+#: ../../build-source-code.rst:29
+msgid "On **Ubuntu** you can install all build dependencies with:"
+msgstr ""
+
+#: ../../build-source-code.rst:35
+msgid "Following is optional but recommended:"
+msgstr ""
+
+#: ../../build-source-code.rst:42
+msgid "Build and Install"
+msgstr ""
+
+#: ../../build-source-code.rst:44
+msgid ""
+"Build the source code with CMake and make or using an IDE of your choice "
+"(see next sections)."
+msgstr ""
+
+#: ../../build-source-code.rst:54
+msgid "Qt Creator"
+msgstr ""
+
+#: ../../build-source-code.rst:56
+msgid "Qt Creator is IDE focused on developing C++ and Qt applications."
+msgstr ""
+
+#: ../../build-source-code.rst:58
+msgid ""
+"Install Qt Creator from your package manager or by selecting it from Qt "
+"installation utility."
+msgstr ""
+
+#: ../../build-source-code.rst:60
+msgid "Set up Qt library, C++ compiler and CMake."
+msgstr ""
+
+#: ../../build-source-code.rst:64
+msgid "`Adding Kits <https://doc.qt.io/qtcreator/creator-targets.html>`__"
+msgstr ""
+
+#: ../../build-source-code.rst:66
+msgid "Open file ``CMakeLists.txt`` in repository clone to create new project."
+msgstr ""
+
+#: ../../build-source-code.rst:69
+msgid "Visual Studio"
+msgstr ""
+
+#: ../../build-source-code.rst:71
+msgid "You need to install Qt for given version Visual Studio."
+msgstr ""
+
+#: ../../build-source-code.rst:73
+msgid ""
+"In Visual Studio 2017 open folder containing repository clone using "
+"\"File - Open - Folder\"."
+msgstr ""
+
+#: ../../build-source-code.rst:75
+msgid ""
+"In older versions, create solution manually by running ``cmake -G "
+"\"Visual Studio 14 2015 Win64\" .`` (select appropriate generator name) "
+"in repository clone folder."
+msgstr ""
+
+#: ../../build-source-code.rst:80
+msgid ""
+"`CMake - Visual Studio Generators "
+"<https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html"
+"#visual-studio-generators>`__"
+msgstr ""
+

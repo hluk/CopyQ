@@ -1,0 +1,96 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Lukas Holecek
+# This file is distributed under the same license as the CopyQ package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CopyQ \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-07 14:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: ../../tabs-and-items.rst:2
+msgid "Tabs and Items"
+msgstr ""
+
+#: ../../tabs-and-items.rst:7
+msgid "Tabs"
+msgstr ""
+
+#: ../../tabs-and-items.rst:9
+msgid "Tabs are means to organize texts, images and other data."
+msgstr ""
+
+#: ../../tabs-and-items.rst:11
+msgid ""
+"Initially there is only one tab which is used for storing clipboard and "
+"the tab bar is hidden."
+msgstr ""
+
+#: ../../tabs-and-items.rst:14
+msgid ""
+"User can create new tabs from \"Tabs\" menu or using ``Ctrl+T``. The tab "
+"bar will appear if there is more than one tab. Using mouse, user can "
+"reorder tabs and drop items and other data into tabs."
+msgstr ""
+
+#: ../../tabs-and-items.rst:18
+msgid ""
+"If tab name contains ``&``, the following letter is used for quick access"
+" to the tab (the letter is underlined in tab bar or tab tree and ``&`` is"
+" hidden). For example, tab named \"&Clipboard\" can be opened using "
+"``Alt+C`` shortcut."
+msgstr ""
+
+#: ../../tabs-and-items.rst:23
+msgid ""
+"Option \"Tab Tree\" enables user to organize tabs into groups. Tabs with "
+"names \"Job/Tasks/1\" and \"Job/Tasks/2\" will create following structure"
+" in tab tree."
+msgstr ""
+
+#: ../../tabs-and-items.rst:35
+msgid "Storing Clipboard"
+msgstr ""
+
+#: ../../tabs-and-items.rst:37
+msgid ""
+"If \"Store Clipboard\" option is enabled (under \"General\" tab in config"
+" dialog) and \"Tab for storing clipboard\" is set (under \"History\" tab "
+"in config dialog), every time user copies something to clipboard a new "
+"item will be created in that particular tab. The item will contain only "
+"text and data that are needed by plugins (e.g. plugin \"Images\" requires"
+" ``image/svg``, ``image/png`` or similar)."
+msgstr ""
+
+#: ../../tabs-and-items.rst:44
+msgid ""
+"Any additional data to store can be specified using configuration for "
+"\"Data\" plugin (under \"Items\" tab in config dialog)."
+msgstr ""
+
+#: ../../tabs-and-items.rst:48
+msgid "Organizing Items"
+msgstr ""
+
+#: ../../tabs-and-items.rst:50
+msgid ""
+"Any data or item can be moved or copied to other tab by dragging it using"
+" mouse or by pasting it in item list."
+msgstr ""
+
+#: ../../tabs-and-items.rst:53
+msgid ""
+"Commands can automatically organize items into tabs. For example, "
+"following command will put copied images to \"Images\" tab (to use the "
+"command, copy it to the command list in configuration)."
+msgstr ""
+

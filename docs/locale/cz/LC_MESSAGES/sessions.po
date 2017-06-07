@@ -1,0 +1,55 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Lukas Holecek
+# This file is distributed under the same license as the CopyQ package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CopyQ \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-07 14:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: ../../sessions.rst:4
+msgid "Sessions"
+msgstr ""
+
+#: ../../sessions.rst:6
+msgid ""
+"You can run multiple instances of the application given that they have "
+"different session names."
+msgstr ""
+
+#: ../../sessions.rst:9
+msgid "To start new instance with ``test1`` name, run:"
+msgstr ""
+
+#: ../../sessions.rst:15
+msgid ""
+"This instance uses configuration, tabs and items unique to given session "
+"name."
+msgstr ""
+
+#: ../../sessions.rst:18
+msgid "You can still start default session (with empty session name) with just:"
+msgstr ""
+
+#: ../../sessions.rst:24
+msgid ""
+"In the same manner you can manipulate the session. E.g. to add an item to"
+" first tab in ``test1`` session, run:"
+msgstr ""
+
+#: ../../sessions.rst:31
+msgid ""
+"Default session has empty name but it can be overridden by setting "
+"``COPYQ_SESSION_NAME`` environment variable."
+msgstr ""
+

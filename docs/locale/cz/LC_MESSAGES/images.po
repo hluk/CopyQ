@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017, Lukas Holecek
+# This file is distributed under the same license as the CopyQ package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: CopyQ \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-06-07 14:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: ../../images.rst:2
+msgid "Images"
+msgstr ""
+
+#: ../../images.rst:4
+msgid "This page describes how to display and work with images in CopyQ."
+msgstr ""
+
+#: ../../images.rst:7
+msgid "Display Image Items"
+msgstr ""
+
+#: ../../images.rst:9
+msgid "Displaying images can be configured in \"Items\" configuration tab."
+msgstr ""
+
+#: ../../images.rst:11
+msgid "On Windows, \"Item Image\" plugin needs to be installed."
+msgstr ""
+
+#: ../../images.rst:13
+msgid ""
+"To disable storing and diplaying image, disable the Image plugin (uncheck"
+" the checkbox next to \"Image\" in configuration)."
+msgstr ""
+
+#: ../../images.rst:17
+msgid "Editor"
+msgstr ""
+
+#: ../../images.rst:19
+msgid "Editors for bitmap and SVG images can be set in the configuration."
+msgstr ""
+
+#: ../../images.rst:23
+msgid ""
+"Editing an image item (default shortcut is Ctrl+E) should open the image "
+"editor."
+msgstr ""
+
+#: ../../images.rst:26
+msgid ""
+"Unfortunately, sometimes an item looks like an image but is an HTML. You "
+"can list available formats in Content dialog F4."
+msgstr ""
+
+#: ../../images.rst:30
+msgid "Preview Image"
+msgstr ""
+
+#: ../../images.rst:32
+msgid ""
+"It's useful to limit size of image item to a maximum width and height in "
+"the configuration."
+msgstr ""
+
+#: ../../images.rst:35
+msgid ""
+"You can still display the whole image in Preview dock (F7) or using "
+"Content dialog (F4)."
+msgstr ""
+
+#: ../../images.rst:39
+msgid "Take Screenshots"
+msgstr ""
+
+#: ../../images.rst:41
+msgid ""
+"You can use built-in functionality for `taking screenshots "
+"<https://github.com/hluk/copyq-commands/tree/master/Global#screenshot>`__"
+" of whole or part of the desktop."
+msgstr ""
+
+#: ../../images.rst:45
+msgid "Paste taken screenshots to CopyQ to store them for later use."
+msgstr ""
+
+#: ../../images.rst:48
+msgid "Save Image to a File"
+msgstr ""
+
+#: ../../images.rst:50
+msgid ""
+"To save an image to a file, either copy it or drag'n'drop it to a file "
+"manager (if supported) or save it using command line."
+msgstr ""
+
+#: ../../images.rst:57
+msgid ""
+"Alternatively use `\"Save Item/Clipboard To a File\" command "
+"<https://github.com/hluk/copyq-commands/tree/master/Application#save-"
+"itemclipboard-to-a-file>`__."
+msgstr ""
+

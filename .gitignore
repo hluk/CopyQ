@@ -47,3 +47,6 @@ copyq.pro.user
 *.dmg
 /build
 *.qm
+
+# Generated Sphinx files
+/docs/_build
