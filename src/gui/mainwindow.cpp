@@ -2193,6 +2193,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                     activateCurrentItem();
                 return;
             default:
+                if ( !c->hasFocus() )
+                    c->setFocus();
+
                 QMainWindow::keyPressEvent(event);
                 break;
         }
