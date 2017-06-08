@@ -1448,8 +1448,8 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
 #ifdef HAS_MOUSE_SELECTIONS
     // When selecting text under X11, clipboard data may change whenever selection changes.
     // Instead of adding item for each selection change, this updates previously added item.
-    if ( !isClipboardData(data)
-         && newData.contains(mimeText)
+    // Also update previous item if the same selected text is copied to clipboard afterwards.
+    if ( newData.contains(mimeText)
          // Don't update edited item.
          && (!isInternalEditorOpen() || currentIndex().row() != 0)
          )
@@ -1457,20 +1457,25 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
         const QModelIndex firstIndex = index(0);
         const QVariantMap previousData = copyIndex(firstIndex);
 
-        if ( previousData.contains(mimeText)
-             && getTextData(newData).contains(getTextData(previousData))
-             )
-        {
-            COPYQ_LOG("New item: Merging with top item");
+        if ( previousData.contains(mimeText) ) {
+            const auto newText = getTextData(newData);
+            const auto oldText = getTextData(previousData);
+            const auto isClipboard = isClipboardData(data);
+            if ( isClipboard
+                 ? (newText == oldText)
+                 : getTextData(newData).contains(getTextData(previousData)) )
+            {
+                COPYQ_LOG("New item: Merging with top item");
 
-            const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
+                const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
 
-            for (const auto &format : formatsToAdd)
-                newData.insert(format, previousData[format]);
+                for (const auto &format : formatsToAdd)
+                    newData.insert(format, previousData[format]);
 
-            m.setData(firstIndex, newData, contentType::data);
+                m.setData(firstIndex, newData, contentType::data);
 
-            return;
+                return;
+            }
         }
     }
 #endif
