@@ -344,14 +344,14 @@ bool ItemEncryptedScriptable::isEncrypted()
 QByteArray ItemEncryptedScriptable::encrypt()
 {
     const auto args = currentArguments();
-    const auto bytes = args.first().toByteArray();
+    const auto bytes = args.value(0).toByteArray();
     return encrypt(bytes);
 }
 
 QByteArray ItemEncryptedScriptable::decrypt()
 {
     const auto args = currentArguments();
-    const auto bytes = args.first().toByteArray();
+    const auto bytes = args.value(0).toByteArray();
     return decrypt(bytes);
 }
 
