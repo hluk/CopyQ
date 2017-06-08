@@ -2686,8 +2686,8 @@ Defina como 0 para desactivar.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
-        <source>More info is available on &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation>Mais informação disponível na &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;página da wiki&lt;/a&gt;.</translation>
+        <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
+        <translation>Mais informação disponível na &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;página da wiki&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>

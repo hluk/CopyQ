@@ -4141,8 +4141,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
-        <source>More info is available on &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;wiki page&lt;/a&gt;.</source>
-        <translation>Plus d'info sur la &lt;a href="https://github.com/hluk/CopyQ/wiki/Tags"&gt;page wiki&lt;/a&gt;.</translation>
+        <source>More info is available on &lt;a href="https://copyq.readthedocs.io/en/latest/tags.html"&gt;wiki page&lt;/a&gt;.</source>
+        <translation>Plus d'info sur la &lt;a href="https://copyq.readthedocs.io/en/latest/tags.html"&gt;page wiki&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>

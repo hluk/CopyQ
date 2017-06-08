@@ -3409,8 +3409,8 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
-        <source>More info is available on &lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation>詳細情報は&lt;a href=&quot;https://github.com/hluk/CopyQ/wiki/Tags&quot;&gt;wikiページ&lt;/a&gt;で利用できます。</translation>
+        <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
+        <translation>詳細情報は&lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wikiページ&lt;/a&gt;で利用できます。</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
