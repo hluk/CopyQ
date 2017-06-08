@@ -8,7 +8,7 @@
 CopyQ is advanced clipboard manager with editing and scripting features.
 - [Downloads](https://github.com/hluk/CopyQ/releases)
 - [Web Site](https://hluk.github.io/CopyQ/)
-- [Wiki](https://github.com/hluk/CopyQ/wiki)
+- [Documentation](https://copyq.readthedocs.io)
 - [Mailing List](https://groups.google.com/group/copyq)
 - [Bug Reports](https://github.com/hluk/CopyQ/issues)
 - [Donate](https://www.bountysource.com/teams/copyq)
@@ -93,8 +93,8 @@ To exit the application select Exit from tray menu or press Ctrl-Q keys in the
 application window.
 
 Read more:
-- [Basic Usage](https://github.com/hluk/CopyQ/wiki/Basic-Usage)
-- [Keyboard](https://github.com/hluk/CopyQ/wiki/Keyboard)
+- [Basic Usage](https://copyq.readthedocs.io/en/latest/basic-usage.html)
+- [Keyboard](https://copyq.readthedocs.io/en/latest/keyboard.html)
 
 ### Adding Funcionality
 
@@ -108,7 +108,7 @@ from menu, with shortcut or when clipboard changes:
 One of very useful predefined commands there is "Show/hide main window".
 
 Read more:
-- [Writing Commands](https://github.com/hluk/CopyQ/wiki/Writing-Commands-and-Adding-Functionality)
+- [Writing Commands](https://copyq.readthedocs.io/en/latest/writing-commands-and-adding-functionality.html)
 - [CopyQ Commands Repository](https://github.com/hluk/copyq-commands)
 
 ### Command Line
@@ -154,7 +154,7 @@ Create an image items:
     copyq write image/svg - < image.svg
 
 Read more:
-- [Scripting](https://github.com/hluk/CopyQ/wiki/Scripting)
+- [Scripting](https://copyq.readthedocs.io/en/latest/scripting.html)
 - [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
 
 ## Build from Source Code
@@ -207,4 +207,7 @@ or help [fix issues and implement new features](https://github.com/hluk/CopyQ/is
 
 [![Translations](https://hosted.weblate.org/widgets/copyq/-/287x66-white.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
 
-See also [Development](https://github.com/hluk/CopyQ/wiki/Development).
+Read more:
+- [Build from Source Code](https://copyq.readthedocs.io/en/latest/build-source-code.html)
+- [Fixing Bugs and Adding Features](https://copyq.readthedocs.io/en/latest/fixing-bugs.html)
+- [Translations](https://copyq.readthedocs.io/en/latest/translations.html)
