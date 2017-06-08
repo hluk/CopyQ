@@ -1,5 +1,6 @@
 # CopyQ
 
+[![Documentation Status](https://readthedocs.org/projects/copyq/badge/?version=latest)](http://copyq.readthedocs.io/en/latest/?badge=latest)
 [![Translation Status](https://hosted.weblate.org/widgets/copyq/-/svg-badge.svg)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
 [![Build Status](https://travis-ci.org/hluk/CopyQ.svg?branch=master)](https://travis-ci.org/hluk/CopyQ)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/hluk/copyq?branch=master&svg=true)](https://ci.appveyor.com/project/hluk/copyq)
