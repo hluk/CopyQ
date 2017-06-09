@@ -53,12 +53,11 @@ QString helpDeveloper(const char *name, const char *mail)
             .arg(mail);
 }
 
-QString helpLib(const char *name, const QString &description, const QString &copyright, const char *url)
+QString helpLib(const char *name, const QString &copyright, const char *url)
 {
     return QString("<p><span class='library'>%1</span>"
-                   "&nbsp;&nbsp;&nbsp;<span class='info'>%2</span><br />%3<br />%4</p>")
+                   "&nbsp;&nbsp;&nbsp;<br />%2<br />%3</p>")
             .arg(name)
-            .arg( escapeHtml(description) )
             .arg(copyright)
             .arg( helpUrl(url) );
 }
@@ -152,15 +151,15 @@ QString AboutDialog::aboutPage()
             +
         "</p>"
 
-            + helpLib("Qt", "",
+            + helpLib("Qt",
                       "The Qt Toolkit is Copyright (C) 2016 The Qt Company Ltd. and other contributors.", "https://www.qt.io/")
-            + helpLib("Weblate", tr("Free web-based translation management system", "Weblate description"),
+            + helpLib("Weblate",
                       "Copyright (c) 2012 - 2016 Michal &#268;iha&#345;", "https://weblate.org")
-            + helpLib("Font Awesome", tr("Iconic font used in the application", "Font Awesome description"),
+            + helpLib("Font Awesome",
                       "Created & Maintained by Dave Gandy", "https://fortawesome.github.io/Font-Awesome/")
-            + helpLib("LibQxt", "",
+            + helpLib("LibQxt",
                       "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
-            + helpLib("Solarized", tr("Color palette used for themes", "Solarized palette/themes description"),
+            + helpLib("Solarized",
                       "Copyright (c) 2011 Ethan Schoonover", "http://ethanschoonover.com/solarized")
 
         + "<p></p>"
