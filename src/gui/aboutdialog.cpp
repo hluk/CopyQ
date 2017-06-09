@@ -27,16 +27,6 @@
 
 namespace {
 
-QString helpKeys(const QString &description, const QString &keys)
-{
-    static bool odd = true;
-    odd = !odd;
-    return QString("<tr class='%1'><td>%2</td><td class='key'>%3</td></tr>")
-            .arg( odd ? "odd" : "" )
-            .arg( escapeHtml(description) )
-            .arg( escapeHtml(keys) );
-}
-
 QString helpUrl(const char *url)
 {
     return QString("<a href='%1'>%1</a>").arg(url);
@@ -71,17 +61,6 @@ QString helpLib(const char *name, const QString &description, const QString &cop
             .arg( escapeHtml(description) )
             .arg(copyright)
             .arg( helpUrl(url) );
-}
-
-QString helpSection(const QString &title, ushort icon)
-{
-    return "<div class='section'>" + escapeHtml(title)
-            + "<span class='section-icon icon'>&nbsp;&nbsp;" + QString(QChar(icon)) + "</span></div>";
-}
-
-QString helpParagraph(const QString &text)
-{
-    return "<p>" + escapeHtml(text) + "</p>";
 }
 
 } // namespace
@@ -120,9 +99,6 @@ QString AboutDialog::aboutPage()
         ".section{font-size:16pt}"
         ".library{font-size:12pt}"
         ".info{color:#666}"
-        ".odd{background:#def}"
-        "#keys{margin-left:4ex}"
-        ".key{font-family:monospace;font-size:9pt;padding-left:0.5em}"
         "</style></head>"
 
         "<body>"
@@ -150,7 +126,7 @@ QString AboutDialog::aboutPage()
 
         "<p></p>"
 
-        + helpSection(tr("Development"), IconPencil)
+        + "<div class='section'>" + escapeHtml(tr("Development")) + "</div>"
         + "<p>"
             + helpDeveloper("Adam Batkin", "adam@batkin.net")
             + helpDeveloper("Giacomo Margarito", "giacomomargarito@gmail.com")
@@ -186,34 +162,6 @@ QString AboutDialog::aboutPage()
                       "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
             + helpLib("Solarized", tr("Color palette used for themes", "Solarized palette/themes description"),
                       "Copyright (c) 2011 Ethan Schoonover", "http://ethanschoonover.com/solarized")
-
-        // keyboard title
-        + helpSection(tr("Keyboard"), IconKeyboard)
-
-        + helpParagraph(tr("Application shortcuts can be changed in Preferences dialog."))
-
-#ifndef NO_GLOBAL_SHORTCUTS
-        + helpParagraph(tr("Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6)."))
-#endif
-
-        + helpParagraph(tr("Type any text to search the clipboard history."))
-
-        // keyboard table
-        + "<p><table id='keys'>"
-            + helpKeys( tr("Item list navigation"), tr("Up/Down, Page Up/Down, Home/End") )
-            + helpKeys( tr("Tab navigation"),
-                        tr("Left, Right, %1, %2", "Keys for tab navigation (%1, %2 are the standard keys).")
-                        .arg(QKeySequence(QKeySequence::NextChild).toString(QKeySequence::NativeText))
-                        .arg(QKeySequence(QKeySequence::PreviousChild).toString(QKeySequence::NativeText))
-                        )
-            + helpKeys( tr("Move selected items"), tr("Ctrl+Up/Down, Ctrl+Home/End") )
-            + helpKeys( tr("Reset search or hide window"), tr("Escape") )
-            + helpKeys( tr("Delete item"), shortcutToRemove() )
-            + helpKeys( tr("Put selected items into clipboard"), tr("Enter") )
-            + helpKeys( tr("Change item display format"), tr("Ctrl+Left/Right") )
-            + helpKeys( tr("Edit Item"), tr("F2") )
-            +
-        "</table></p>"
 
         + "<p></p>"
 
