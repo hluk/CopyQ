@@ -56,7 +56,9 @@ QString helpDeveloper(const char *name, const char *mail)
 QString helpLib(const char *name, const QString &copyright, const char *url)
 {
     return QString("<p><span class='library'>%1</span>"
-                   "&nbsp;&nbsp;&nbsp;<br />%2<br />%3</p>")
+                   "&nbsp;&nbsp;&nbsp;<br />"
+                   "<span class='copyright'>%2</span><br />"
+                   "%3</p>")
             .arg(name)
             .arg(copyright)
             .arg( helpUrl(url) );
@@ -91,7 +93,7 @@ QString AboutDialog::aboutPage()
         "#title{font-size:26pt;color:#666;white-space:pre;margin-bottom:0.2em}"
         "#subtitle{font-size:16pt;color:#888;white-space:pre;margin-bottom:0.2em}"
         "#version{font-size:12pt}"
-        "#copyright{font-size:9pt;color:#666}"
+        ".copyright{font-size:9pt;color:#666}"
         ".icon{font-family:FontAwesome}"
         ".help-icon{color:#999;padding-left:1em;padding-right:1em}"
         ".library{font-size:12pt}"
@@ -119,7 +121,7 @@ QString AboutDialog::aboutPage()
         "</table>"
         "</p>"
 
-        "<p id='copyright'>Copyright (c) 2009 - 2017</p>"
+        "<p class='copyright'>Copyright (c) 2009 - 2017</p>"
 
         "<p></p>"
 
