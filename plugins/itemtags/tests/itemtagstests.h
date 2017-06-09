@@ -17,8 +17,8 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ITEMSYNCTESTS_H
-#define ITEMSYNCTESTS_H
+#ifndef ITEMTAGSTESTS_H
+#define ITEMTAGSTESTS_H
 
 #include "tests/testinterface.h"
 
@@ -51,4 +51,4 @@ private:
     TestInterfacePtr m_test;
 };
 
-#endif // ITEMSYNCTESTS_H
+#endif // ITEMTAGSTESTS_H

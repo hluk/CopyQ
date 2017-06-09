@@ -145,4 +145,4 @@ class ItemDelegate : public QItemDelegate
         QList<ItemWidget*> m_cache;
 };
 
-#endif
+#endif // ITEMDELEGATE_H

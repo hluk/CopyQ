@@ -5,4 +5,4 @@
 #   define COPYQ_VERSION "v3.0.2"
 #endif
 
-#endif
+#endif // VERSION_H

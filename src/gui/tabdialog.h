@@ -17,8 +17,8 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TAGDIALOG_H
-#define TAGDIALOG_H
+#ifndef TABDIALOG_H
+#define TABDIALOG_H
 
 #include <QDialog>
 #include <QStringList>
@@ -81,4 +81,4 @@ private:
     QStringList m_tabs;
 };
 
-#endif // TAGDIALOG_H
+#endif // TABDIALOG_H
