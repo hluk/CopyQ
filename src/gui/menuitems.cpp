@@ -138,10 +138,12 @@ MenuItems menuItems()
     addMenuItem( items, Actions::Tabs_PreviousTab, QObject::tr("&Previous Tab"),
                   "previous_tab", QObject::tr("Left"), "go-previous", IconArrowLeft );
 
+    addMenuItem( items, Actions::Help_Help, QObject::tr("&Help"), "help", QKeySequence::HelpContents,
+                  "help-contents", IconQuestionSign );
     addMenuItem( items, Actions::Help_ShowLog, QObject::tr("&Show Log"), "show-log", QObject::tr("F12"),
                   "help-about", IconExclamationSign );
-    addMenuItem( items, Actions::Help_Help, QObject::tr("&Help"), "help", QKeySequence::HelpContents,
-                  "help-about", IconQuestionSign );
+    addMenuItem( items, Actions::Help_About, QObject::tr("&About"), "about", QKeySequence::WhatsThis,
+                  "help-about", IconInfoSign );
 
     return items;
 }

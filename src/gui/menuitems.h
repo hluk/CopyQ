@@ -67,8 +67,9 @@ enum Id {
     Tabs_NextTab,
     Tabs_PreviousTab,
 
+    Help_Help,
     Help_ShowLog,
-    Help_Help
+    Help_About
 };
 
 } // Actions

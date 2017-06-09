@@ -67,6 +67,7 @@
 
 #include <QAction>
 #include <QCloseEvent>
+#include <QDesktopServices>
 #include <QFile>
 #include <QFileDialog>
 #include <QFlags>
@@ -735,8 +736,9 @@ void MainWindow::createMenu()
 
     // Help
     menu = menubar->addMenu(tr("&Help"));
+    createAction( Actions::Help_Help, SLOT(openHelp()), menu );
     createAction( Actions::Help_ShowLog, SLOT(openLogDialog()), menu );
-    createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
+    createAction( Actions::Help_About, SLOT(openAboutDialog()), menu );
 }
 
 void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
@@ -2427,6 +2429,11 @@ void MainWindow::loadSettings()
     resetStatus();
 
     COPYQ_LOG("Configuration loaded");
+}
+
+void MainWindow::openHelp()
+{
+    QDesktopServices::openUrl( QUrl("https://copyq.readthedocs.io") );
 }
 
 void MainWindow::showWindow()
