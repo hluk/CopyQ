@@ -94,8 +94,6 @@ QString AboutDialog::aboutPage()
         "#copyright{font-size:9pt;color:#666}"
         ".icon{font-family:FontAwesome}"
         ".help-icon{color:#999;padding-left:1em;padding-right:1em}"
-        ".section-icon{color:#777}"
-        ".section{font-size:16pt}"
         ".library{font-size:12pt}"
         ".info{color:#666}"
         "</style></head>"
@@ -125,7 +123,6 @@ QString AboutDialog::aboutPage()
 
         "<p></p>"
 
-        + "<div class='section'>" + escapeHtml(tr("Development")) + "</div>"
         + "<p>"
             + helpDeveloper("Adam Batkin", "adam@batkin.net")
             + helpDeveloper("Giacomo Margarito", "giacomomargarito@gmail.com")
