@@ -695,7 +695,7 @@ Příkaz je možné zmenit v nastavení.</translation>
         <location filename="../src/gui/commandcompleter.cpp" line="231"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation>Ctrl+Space</translation>
+        <translation>Ctrl+Mezerník</translation>
     </message>
 </context>
 <context>
@@ -4145,7 +4145,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation></translation>
+        <translation>Styl</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
@@ -5036,7 +5036,7 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>&amp;Show Content...</source>
-        <translation></translation>
+        <translation>&amp;Zobrazit obsah...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
