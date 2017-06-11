@@ -2191,7 +2191,7 @@ QScriptValue Scriptable::copy(QClipboard::Mode mode)
             waitFor(5 + i * 25);
         }
 
-        throwError( tr("Failed to copy!") );
+        throwError( tr("Failed to copy to clipboard!") );
         return false;
     }
 

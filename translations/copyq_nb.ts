@@ -9,39 +9,37 @@
         <translation>Om CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="134"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="109"/>
         <source>Clipboard Manager</source>
         <translation>Clipboard Manager</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>Author</source>
         <translation>Forfatter</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="142"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>E-mail</source>
         <translation>E-post</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="143"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="118"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="144"/>
         <source>Wiki</source>
-        <translation>Wiki</translation>
+        <translation type="vanished">Wiki</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="145"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="119"/>
         <source>Donate</source>
         <translation>Donere</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="154"/>
         <source>Development</source>
-        <translation>Utviklling</translation>
+        <translation type="vanished">Utviklling</translation>
     </message>
     <message>
         <source>Library used in the application</source>
@@ -49,16 +47,14 @@
         <translation type="vanished">Bibliotek brukt i programmet</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="182"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
-        <translation>Gratis web-basert administrasjonssystem for oversetting</translation>
+        <translation type="vanished">Gratis web-basert administrasjonssystem for oversetting</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="184"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation>Ikonisk skrifttype brukt i programmet</translation>
+        <translation type="vanished">Ikonisk skrifttype brukt i programmet</translation>
     </message>
     <message>
         <source>Library used in the application</source>
@@ -66,107 +62,87 @@
         <translation type="vanished">Bibliotek brukt i programmet</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="188"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
-        <translation>Fargepalett brukt i programmet</translation>
+        <translation type="vanished">Fargepalett brukt i programmet</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
         <source>Keyboard</source>
-        <translation>Tastatur</translation>
+        <translation type="vanished">Tastatur</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation>Programsnarveier kan endres i innstillinger.</translation>
+        <translation type="vanished">Programsnarveier kan endres i innstillinger.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="197"/>
         <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation>Globale (systemomfattende) snarveier kan endres i dialogen &apos;Kommando\Globale snarveier&apos;
+        <translation type="vanished">Globale (systemomfattende) snarveier kan endres i dialogen &apos;Kommando\Globale snarveier&apos;
 (standard snarvei F6).</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="200"/>
         <source>Type any text to search the clipboard history.</source>
-        <translation>Skriv inn tekst for å søke i utklippstavle-historikken.</translation>
+        <translation type="vanished">Skriv inn tekst for å søke i utklippstavle-historikken.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Item list navigation</source>
-        <translation>Navigering i elementliste</translation>
+        <translation type="vanished">Navigering i elementliste</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation>Opp/Ned, Side Opp/Ned, Home/End</translation>
+        <translation type="vanished">Opp/Ned, Side Opp/Ned, Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="205"/>
         <source>Tab navigation</source>
-        <translation>Navigering i faner</translation>
+        <translation type="vanished">Navigering i faner</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="206"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation>Venstre, Høyre, %1, %2</translation>
+        <translation type="vanished">Venstre, Høyre, %1, %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Move selected items</source>
-        <translation>Flytt markerte elementer</translation>
+        <translation type="vanished">Flytt markerte elementer</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation>Ctrl+Opp/Ned, Ctrl+Home/End</translation>
+        <translation type="vanished">Ctrl+Opp/Ned, Ctrl+Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Reset search or hide window</source>
-        <translation>Tilbakestill søk eller skjul vindu</translation>
+        <translation type="vanished">Tilbakestill søk eller skjul vindu</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Escape</source>
-        <translation>Esc</translation>
+        <translation type="vanished">Esc</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Delete item</source>
-        <translation>Slett element</translation>
+        <translation type="vanished">Slett element</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Put selected items into clipboard</source>
-        <translation>Plasser valgte elementer på utklippstavlen</translation>
+        <translation type="vanished">Plasser valgte elementer på utklippstavlen</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Enter</source>
-        <translation>Enter</translation>
+        <translation type="vanished">Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Change item display format</source>
-        <translation>Endre visningsformat for element</translation>
+        <translation type="vanished">Endre visningsformat for element</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Ctrl+Left/Right</source>
-        <translation>Ctrl+Venstre/Høyre</translation>
+        <translation type="vanished">Ctrl+Venstre/Høyre</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="215"/>
         <source>Edit Item</source>
-        <translation>Rediger element</translation>
+        <translation type="vanished">Rediger element</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="215"/>
         <source>F2</source>
-        <translation>F2</translation>
+        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -271,163 +247,179 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation>CopyQ Legg til Kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="80"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="81"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
         <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="87"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="88"/>
         <source>Show/hide main window</source>
         <translation>Vis/skjul hovedvindu</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="89"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="90"/>
         <source>Show the tray menu</source>
         <translation>Vis systemstatusfelt-menyen</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="91"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="92"/>
         <source>Show main window under mouse cursor</source>
         <translation>Vis hovedvindu under musepeker</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="93"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="94"/>
         <source>Edit clipboard</source>
         <translation>Rediger utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="95"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="96"/>
         <source>Edit first item</source>
         <translation>Rediger første element</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="97"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="98"/>
         <source>Copy second item</source>
         <translation>Kopier element to</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="99"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="100"/>
         <source>Show action dialog</source>
         <translation>Vis handlingsdialogen</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="101"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="102"/>
         <source>Create new item</source>
         <translation>Opprett nytt element</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="103"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="104"/>
         <source>Copy next item</source>
         <translation>Kopier neste element</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="105"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="106"/>
         <source>Copy previous item</source>
         <translation>Kopier forrige element</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="107"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="108"/>
         <source>Paste clipboard as plain text</source>
         <translation>Lim inn fra utklippstavlen som ren tekst</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="109"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="110"/>
         <source>Disable clipboard storing</source>
         <translation>Deaktiver lagring på utklippstavlen</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="111"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="112"/>
         <source>Enable clipboard storing</source>
         <translation>Aktiver lagring på utklippstavlen</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="113"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="114"/>
         <source>Paste and copy next</source>
         <translation>Lim inn og kopier neste</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="115"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="116"/>
         <source>Paste and copy previous</source>
         <translation>Lim inn og kopier forrige</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="136"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="137"/>
         <source>New command</source>
         <translation>Ny kommando</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="161"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="162"/>
         <source>Ignore items with no or single character</source>
         <translation>Ignorer elementer med kun ett eller ingen tegn</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="169"/>
         <source>Open in &amp;Browser</source>
         <translation>Åpne i nettleser</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="176"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="177"/>
         <source>Paste as Plain Text</source>
         <translation>Lim inn som Ren Tekst</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="182"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="183"/>
         <source>Shift+Return</source>
         <translation>Skift+Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="185"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="186"/>
         <source>Autoplay videos</source>
         <translation>Autoavspilling av videoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="194"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="195"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>Kopier URL (webadresse) til annen fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="201"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="202"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>Opprett miniatyrbilde (trenger ImageMagic)</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="209"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="210"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation>Opprett QR-kode fra URL (trenger qrencode)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="218"/>
+        <source>Tasks</source>
+        <comment>Tab name for some predefined commands</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="221"/>
+        <source>Add to %1 tab</source>
+        <comment>%1 is quoted Tasks tab name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="229"/>
+        <source>Move to %1 tab</source>
+        <comment>%1 is quoted Tasks tab name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Add to &amp;TODO tab</source>
-        <translation>Legg til i &amp;TODO-fane</translation>
+        <translation type="vanished">Legg til i &amp;TODO-fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="225"/>
         <source>Move to &amp;TODO tab</source>
-        <translation>Flytt til &amp;TODO-fane</translation>
+        <translation type="vanished">Flytt til &amp;TODO-fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="233"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="238"/>
         <source>Ignore copied files</source>
         <translation>Ignorer kopierte filer</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="242"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="247"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation>Ignorer *&quot;Passord&quot;* vindu</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="243"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="248"/>
         <source>Password</source>
         <translation>Passord</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="251"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="256"/>
         <source>Move to Trash</source>
         <translation>Flytt til papirkurven</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="254"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="259"/>
         <source>(trash)</source>
         <translation>(papirkurv)</translation>
     </message>
@@ -447,22 +439,22 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation type="vanished">Søker %p%...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1252"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1412"/>
         <source>Cannot Add New Items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1253"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1413"/>
         <source>Tab is full. Failed to remove any items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1472"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
         <source>Discard Changes?</source>
         <translation>Forkaste Endringer?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1473"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1644"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Ønsker du virkelig å &lt;strong&gt;forkaste endringer&lt;/strong&gt;?</translation>
     </message>
@@ -517,27 +509,27 @@ Du kan sette opp kommandoen i innstillinger.</translation>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="124"/>
+        <location filename="../src/app/clipboardserver.cpp" line="75"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ serveren kjører allerede.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="317"/>
+        <location filename="../src/app/clipboardserver.cpp" line="267"/>
         <source>Cancel Active Commands</source>
         <translation>Avbryt Aktive Kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="318"/>
+        <location filename="../src/app/clipboardserver.cpp" line="268"/>
         <source>Cancel active commands and exit?</source>
         <translation>Avbryt aktive kommandoer og avslutte?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="321"/>
+        <location filename="../src/app/clipboardserver.cpp" line="271"/>
         <source>Cancel Exiting</source>
         <translation>Avbryt Avslutting</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="322"/>
+        <location filename="../src/app/clipboardserver.cpp" line="272"/>
         <source>Exit Anyway</source>
         <translation>Avslutt Alikevel</translation>
     </message>
@@ -545,7 +537,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
 <context>
     <name>CommandCompleter</name>
     <message>
-        <location filename="../src/gui/commandcompleter.cpp" line="366"/>
+        <location filename="../src/gui/commandcompleter.cpp" line="231"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
         <translation type="unfinished"></translation>
@@ -599,22 +591,22 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation>Kommandodialogen har ulagrede endringer.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="252"/>
+        <location filename="../src/gui/commanddialog.cpp" line="251"/>
         <source>Open Files with Commands</source>
         <translation>Åpne Filer med Kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="253"/>
+        <location filename="../src/gui/commanddialog.cpp" line="252"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>Kommandoer (*.ini);; CopyQ Konfigurasjon (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="264"/>
+        <location filename="../src/gui/commanddialog.cpp" line="263"/>
         <source>Save Selected Commands</source>
         <translation>Lagre Valgte Kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="265"/>
+        <location filename="../src/gui/commanddialog.cpp" line="264"/>
         <source>Commands (*.ini)</source>
         <translation>Kommandoer (*.ini)</translation>
     </message>
@@ -1017,67 +1009,67 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
         <translation>Forhåndsvisning:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="445"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="446"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>element</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="448"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="449"/>
         <source>Search string is %1.</source>
         <translation>Søkestrengen er %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="449"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="450"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Velg et element og
 trykk F2 for å redigere.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="451"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="452"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
         <translation>Velg elementer, og flytt dem med
 CTRL og opp- eller ned-tasten.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="453"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="454"/>
         <source>Remove item with Delete key.</source>
         <translation>Fjern elementer med slettetasten.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="455"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="456"/>
         <source>Example item %1</source>
         <translation>Eksempel-element %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="460"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="461"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>Noen tilfeldige notater (Shift+F2 for å redigere)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="126"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="127"/>
         <source>Open Theme File</source>
         <translation>Åpne Tema-fil</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="136"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="137"/>
         <source>Save Theme File As</source>
         <translation>Lagre Tema-fil Som</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="155"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="156"/>
         <source>No External Editor</source>
         <translation>Inget Eksternt Redigeringsprogram</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="156"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="157"/>
         <source>Set external editor command first!</source>
         <translation>Oppgi eksternt redigeringsprogram først!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="363"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="364"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Abc</translation>
@@ -1091,7 +1083,7 @@ CTRL og opp- eller ned-tasten.</translation>
         <translation>Brukertilpassede Handlinger og Globale Snarveier...</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="1918"/>
+        <location filename="../src/tests/tests.cpp" line="1922"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -1104,197 +1096,207 @@ CTRL og opp- eller ned-tasten.</translation>
         <translation>CopyQ Konfigurasjon</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="33"/>
+        <location filename="../src/ui/configurationmanager.ui" line="39"/>
         <source>&amp;General</source>
         <translation>&amp;Generelt</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="90"/>
+        <location filename="../src/ui/configurationmanager.ui" line="96"/>
         <source>&amp;Language:</source>
         <translation>Språk:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="118"/>
+        <location filename="../src/ui/configurationmanager.ui" line="124"/>
         <source>Break text if it&apos;s too long to fit on line</source>
         <translation>Bryt teksten hvis den er for å lang til å passe på linjen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="121"/>
+        <location filename="../src/ui/configurationmanager.ui" line="127"/>
         <source>Wrap l&amp;ong text</source>
         <translation>Tekstbryting</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="128"/>
+        <location filename="../src/ui/configurationmanager.ui" line="134"/>
         <source>Keep main window above other windows</source>
         <translation>Behold hovedvinduet over andre vinduer</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="131"/>
+        <location filename="../src/ui/configurationmanager.ui" line="137"/>
         <source>Alwa&amp;ys on Top</source>
         <translation>Alltid Øverst</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="138"/>
+        <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
         <translation>Aktiver for å åpne vinduer på skjerm med fokus. Deaktiver for å åpne vinduer der de ble lukket sist</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="141"/>
+        <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>O&amp;pen windows on current screen</source>
         <translation>Å&amp;pne vinduer på skjerm med fokus</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="148"/>
+        <location filename="../src/ui/configurationmanager.ui" line="154"/>
         <source>Confirm application exit</source>
         <translation>Bekreft avslutning av programmet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="151"/>
+        <location filename="../src/ui/configurationmanager.ui" line="157"/>
         <source>Confirm application e&amp;xit</source>
         <translation>Bekreft Avslutning</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="161"/>
+        <location filename="../src/ui/configurationmanager.ui" line="167"/>
         <source>Run the application on system startup</source>
         <translation>Starter programmet ved systemstart</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="164"/>
+        <location filename="../src/ui/configurationmanager.ui" line="170"/>
         <source>&amp;Autostart</source>
         <translation>&amp;Autostart</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="171"/>
+        <location filename="../src/ui/configurationmanager.ui" line="177"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
         <translation>Støtte for Vi navigasjons-taster (H, J, K og flere), skråstrek (/) for å søke</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="174"/>
+        <location filename="../src/ui/configurationmanager.ui" line="180"/>
         <source>&amp;Vi style navigation</source>
         <translation>Naviger i &amp;Vi stil</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="181"/>
+        <location filename="../src/ui/configurationmanager.ui" line="187"/>
         <source>Save and restore history of item filters</source>
         <translation>Lagrings- og opprettingshistorikk for elementfiltre</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="184"/>
+        <location filename="../src/ui/configurationmanager.ui" line="190"/>
         <source>Save Filter History</source>
         <translation>Lagre Filterhistorikk</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="191"/>
+        <location filename="../src/ui/configurationmanager.ui" line="197"/>
+        <source>Automatically show popup to complete function, type and variable names in commands</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="200"/>
+        <source>Auto-complete Commands</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>Clipboard Manipulation</source>
         <translation>Manipulasjon av Utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="203"/>
+        <location filename="../src/ui/configurationmanager.ui" line="219"/>
         <source>Save text selected with mouse (primary selection) in history</source>
         <translation>Lagre tekst markert med musen (primærvalg) i historikken</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="206"/>
+        <location filename="../src/ui/configurationmanager.ui" line="222"/>
         <source>(&amp;2) Store text selected using mouse</source>
         <translation>(&amp;2) Lagre tekst markert med musen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="213"/>
+        <location filename="../src/ui/configurationmanager.ui" line="229"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
         <translation>Tillater å lime inn musemarkeringer ved hjelp av snarveier (vanligvis Ctrl+V eller Shift+Insert)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="216"/>
+        <location filename="../src/ui/configurationmanager.ui" line="232"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
         <translation>(&amp;4) Lim inn musemarkeringer med tastaturet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="223"/>
+        <location filename="../src/ui/configurationmanager.ui" line="239"/>
         <source>Save clipboard in history</source>
         <translation>Lagre utklippstavlen i historikk</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="226"/>
+        <location filename="../src/ui/configurationmanager.ui" line="242"/>
         <source>(&amp;1) Store clipboard</source>
         <translation>(&amp;1) Lagre utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="236"/>
+        <location filename="../src/ui/configurationmanager.ui" line="252"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
         <translation>Tillat å lime inn kopiert innhold på samme måte som musemarkeringer (vanligvis med å trykke på midtre museknapp)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="239"/>
+        <location filename="../src/ui/configurationmanager.ui" line="255"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
         <translation>(&amp;3) Lim inn uklippstavle med musen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="282"/>
+        <location filename="../src/ui/configurationmanager.ui" line="298"/>
         <source>&amp;Layout</source>
         <translation>&amp;Oppsett</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="336"/>
+        <location filename="../src/ui/configurationmanager.ui" line="352"/>
         <source>Show/Hide</source>
         <translation>Vis/Skjul</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="342"/>
+        <location filename="../src/ui/configurationmanager.ui" line="358"/>
         <source>Hide tabs (press Alt key to show)</source>
         <translation>Skjul faner (trykk Alt-tasten for å vise)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="345"/>
+        <location filename="../src/ui/configurationmanager.ui" line="361"/>
         <source>Hi&amp;de tabs</source>
         <translation>Skjul faner</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="352"/>
+        <location filename="../src/ui/configurationmanager.ui" line="368"/>
         <source>Hide toolbar</source>
         <translation>Skjul verktøyslinjen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="355"/>
+        <location filename="../src/ui/configurationmanager.ui" line="371"/>
         <source>Hide too&amp;lbar</source>
         <translation>Skju&amp;l verktøyslinjen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="362"/>
+        <location filename="../src/ui/configurationmanager.ui" line="378"/>
         <source>Hide tool&amp;bar labels</source>
         <translation>Skjul tekst på verktøyslinjen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="369"/>
+        <location filename="../src/ui/configurationmanager.ui" line="385"/>
         <source>Hide main window when closed</source>
         <translation>Skjul hovedvinduet når lukket</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="372"/>
+        <location filename="../src/ui/configurationmanager.ui" line="388"/>
         <source>Hide &amp;main window</source>
         <translation>Skjul &amp;hovedvinduet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="382"/>
+        <location filename="../src/ui/configurationmanager.ui" line="398"/>
         <source>Layout and Transparency</source>
         <translation>Oppsett og Gjennomsiktighet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="391"/>
+        <location filename="../src/ui/configurationmanager.ui" line="407"/>
         <source>Show tree with tabs instead of tab bar</source>
         <translation>Vis tre med faner i stedet for fanelinje</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="394"/>
+        <location filename="../src/ui/configurationmanager.ui" line="410"/>
         <source>Tab T&amp;ree</source>
         <translation>Fanet&amp;re</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="401"/>
+        <location filename="../src/ui/configurationmanager.ui" line="417"/>
         <source>&amp;Focused transparency:</source>
         <translation>Gjennomsiktighet ved &amp;fokus:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="413"/>
+        <location filename="../src/ui/configurationmanager.ui" line="429"/>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
@@ -1303,12 +1305,12 @@ Note: This is not be supported on all systems.</source>
 Merk: Dette støttes ikke av alle systemer.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="443"/>
+        <location filename="../src/ui/configurationmanager.ui" line="459"/>
         <source>&amp;Unfocused transparency:</source>
         <translation>Gjennomsiktighet &amp;uten fokus:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="455"/>
+        <location filename="../src/ui/configurationmanager.ui" line="471"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
@@ -1317,37 +1319,37 @@ Note: This is not be supported on all systems.</source>
 Merk: Dette støttes ikke av alle systemer.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="485"/>
+        <location filename="../src/ui/configurationmanager.ui" line="501"/>
         <source>Show number of items in tabs</source>
         <translation>Vis antall elementer i faner</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="488"/>
+        <location filename="../src/ui/configurationmanager.ui" line="504"/>
         <source>Sho&amp;w Item Count</source>
         <translation>Vis Antall Elementer</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="533"/>
+        <location filename="../src/ui/configurationmanager.ui" line="549"/>
         <source>&amp;History</source>
         <translation>&amp;Historikk</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="590"/>
+        <location filename="../src/ui/configurationmanager.ui" line="606"/>
         <source>Maximum &amp;number of items in history:</source>
         <translation>Maksimalt antall elementer i historikk:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="602"/>
+        <location filename="../src/ui/configurationmanager.ui" line="618"/>
         <source>Maximum number of items in each tab</source>
         <translation>Makimalt antall elementer i hver fane</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="630"/>
+        <location filename="../src/ui/configurationmanager.ui" line="646"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
         <translation>L&amp;ukk fane etter et intervall i minutter:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="642"/>
+        <location filename="../src/ui/configurationmanager.ui" line="658"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
@@ -1356,12 +1358,12 @@ Set to 0 not to unload tabs.</source>
 Sett til 0 for ikke å fjerne faner.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="669"/>
+        <location filename="../src/ui/configurationmanager.ui" line="685"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
         <translation>Kommando for ekstern redigering (%1 er filen som skal redigeres):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="679"/>
+        <location filename="../src/ui/configurationmanager.ui" line="695"/>
         <source>External editor command (%1 is file to edit).
   Examples:
     gedit %1
@@ -1377,12 +1379,12 @@ Sett til 0 for ikke å fjerne faner.</translation>
     xterm -e vim %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="694"/>
+        <location filename="../src/ui/configurationmanager.ui" line="710"/>
         <source>Ta&amp;b for storing clipboard:</source>
         <translation>Fane for lagring av utklippstavle:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="704"/>
+        <location filename="../src/ui/configurationmanager.ui" line="720"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
@@ -1391,7 +1393,7 @@ Leave empty to disable automatic storing.</source>
 La være tom for å deaktivere automatisk lagring.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="718"/>
+        <location filename="../src/ui/configurationmanager.ui" line="734"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
@@ -1400,12 +1402,12 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
 Merk: Redigerte elementer kan lagres med F2 uansett.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="723"/>
+        <location filename="../src/ui/configurationmanager.ui" line="739"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
         <translation>Lagre redigerte elementer med Ctrl+Enter og opprett ny linje med Enter-tasten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="730"/>
+        <location filename="../src/ui/configurationmanager.ui" line="746"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
@@ -1414,182 +1416,182 @@ Use Item Preview to display whole items.</source>
 Bruk Forhåndsvisning av Element for å vise hele elementer.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="735"/>
+        <location filename="../src/ui/configurationmanager.ui" line="751"/>
         <source>Sho&amp;w simple items</source>
         <translation>Vis enkle elementer</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="742"/>
+        <location filename="../src/ui/configurationmanager.ui" line="758"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
         <translation>Etter element er aktivert (dobbelklikk eller Enter-tast), kopier til utklippstavle og...</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="748"/>
+        <location filename="../src/ui/configurationmanager.ui" line="764"/>
         <source>Move item to the top of the list after it is activated</source>
         <translation>Flytt element til toppen av listen etter at det er aktivert</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="751"/>
+        <location filename="../src/ui/configurationmanager.ui" line="767"/>
         <source>Move item to the t&amp;op</source>
         <translation>Flytt element til t&amp;oppen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="758"/>
+        <location filename="../src/ui/configurationmanager.ui" line="774"/>
         <source>Close main window after item is activated</source>
         <translation>Lukk hovedvinduet etter at element er aktivert</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="761"/>
+        <location filename="../src/ui/configurationmanager.ui" line="777"/>
         <source>&amp;Close main window</source>
         <translation>Lukk hovedvinduet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="768"/>
+        <location filename="../src/ui/configurationmanager.ui" line="784"/>
         <source>Focus last window after item is activated</source>
         <translation>Sett fokus på siste vindu etter at element er aktivert</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="771"/>
+        <location filename="../src/ui/configurationmanager.ui" line="787"/>
         <source>&amp;Focus last window</source>
         <translation>&amp;Fokus på siste vindu</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="778"/>
+        <location filename="../src/ui/configurationmanager.ui" line="794"/>
         <source>Paste to current window after item is activated</source>
         <translation>Lim inn i vindu med fokus etter at element er aktivert</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="781"/>
+        <location filename="../src/ui/configurationmanager.ui" line="797"/>
         <source>&amp;Paste to current window</source>
         <translation>Lim inn i vindu med fokus</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="824"/>
+        <location filename="../src/ui/configurationmanager.ui" line="840"/>
         <source>&amp;Tray</source>
         <translation>S&amp;tatusfelt</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="876"/>
+        <location filename="../src/ui/configurationmanager.ui" line="892"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
         <translation>Ikke vis ikon i systemstatusfeltet; minimer vindu når lukket</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="879"/>
+        <location filename="../src/ui/configurationmanager.ui" line="895"/>
         <source>Disabl&amp;e tray</source>
         <translation>Deaktiv&amp;er i systemstatusfelt</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="886"/>
+        <location filename="../src/ui/configurationmanager.ui" line="902"/>
         <source>Show command for current clipboard content in tray menu</source>
         <translation>Vis kommando for nåværende utklippstavle-innhold i systemstatusfelt-menyen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="889"/>
+        <location filename="../src/ui/configurationmanager.ui" line="905"/>
         <source>Sho&amp;w commands for clipboard content</source>
         <translation>Vis kommandoer for utklippstavle-innhold</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="898"/>
+        <location filename="../src/ui/configurationmanager.ui" line="914"/>
         <source>N&amp;umber of items in tray menu:</source>
         <translation>Antall elementer i systemstat&amp;usfelt-menyen:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="908"/>
+        <location filename="../src/ui/configurationmanager.ui" line="924"/>
         <source>Number of items in tray menu</source>
         <translation>Antall elementer i systemstatusfelt-menyen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="935"/>
+        <location filename="../src/ui/configurationmanager.ui" line="951"/>
         <source>Show items from current tab in tray menu</source>
         <translation>Vis elementer fra aktiv fane i systemstatusfelt-menyen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="938"/>
+        <location filename="../src/ui/configurationmanager.ui" line="954"/>
         <source>Show cu&amp;rrent tab in menu,</source>
         <translation>Vis aktiv fane i menyen,</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="945"/>
+        <location filename="../src/ui/configurationmanager.ui" line="961"/>
         <source>or &amp;choose other tab:</source>
         <translation>eller velg en annen fane:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="961"/>
+        <location filename="../src/ui/configurationmanager.ui" line="977"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
         <translation>Navn på fane som skal vises i systemstatusfelt-meny (tomt for første fane)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="986"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1002"/>
         <source>Paste item to current window after selecting it in menu</source>
         <translation>Lim inn element i vindu med fokus etter å ha valgt det i menyen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="989"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1005"/>
         <source>&amp;Paste activated item to current window</source>
         <translation>Lim inn aktivert element i vindu med fokus</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="996"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1012"/>
         <source>Show image preview next to menu items</source>
         <translation>Forhåndsvisning av bilder ved siden av meny-elementer</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="999"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1015"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
         <translation>Forhåndsvis bilder som menyelement-ikon</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1039"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1055"/>
         <source>&amp;Notifications</source>
         <translation>Meldi&amp;nger</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1096"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1112"/>
         <source>&amp;Notification position:</source>
         <translation>Plassering av meldi&amp;nger:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1108"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1124"/>
         <source>Position on screen for notifications</source>
         <translation>Skjermposisjon for meldinger</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1112"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1128"/>
         <source>Top</source>
         <translation>Topp</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1117"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1133"/>
         <source>Bottom</source>
         <translation>Bunn</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1122"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1138"/>
         <source>Top Right</source>
         <translation>Høyre Topp</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1127"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1143"/>
         <source>Bottom Right</source>
         <translation>Høyre Bunn</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1132"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1148"/>
         <source>Bottom Left</source>
         <translation>Venstre Bunn</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1137"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1153"/>
         <source>Top Left</source>
         <translation>Venstre Topp</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1160"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1176"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
         <translation>Int&amp;ervall i sekunder for visning av meldinger:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1172"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1188"/>
         <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
@@ -1603,12 +1605,12 @@ Settes til 0 for å deaktivere.
 Settes til -1 for å vises til den klikkes på.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1204"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1220"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
         <translation>Antall linjer i melding for utklippstavle:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1216"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1232"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
@@ -1617,92 +1619,92 @@ Set to 0 to disable.</source>
 Settes til 0 for å deaktivere.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1245"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1261"/>
         <source>Notification Geometry (in screen points)</source>
         <translation>Meldingsgeometri (i skjermpunkter)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1251"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1267"/>
         <source>Ho&amp;rizontal offset:</source>
         <translation>Ho&amp;risontal forskyvning:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1263"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1279"/>
         <source>Notification distance from left or right screen edge in screen points</source>
         <translation>Meldingens avstand til skjermens høyre eller venstre kant oppgitt i skjermpunkter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1288"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1304"/>
         <source>&amp;Vertical offset:</source>
         <translation>&amp;Vertikal forskyvning:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1300"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1316"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
         <translation>Meldingens avstand til skjermens topp eller bunn oppgitt i skjermpunkter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1325"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1341"/>
         <source>Maximum &amp;width:</source>
         <translation>Maksimal bredde:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1337"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1353"/>
         <source>Maximum width for notification in screen points</source>
         <translation>Maksimal bredde for meldingen oppgitt i skjermpunkter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1362"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1378"/>
         <source>Ma&amp;ximum height:</source>
         <translation>Maksimal høyde:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1374"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1390"/>
         <source>Maximum height for notification in screen points</source>
         <translation>Maksimal høyde for meldingen oppgitt i skjermpunkter</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1435"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1451"/>
         <source>&amp;Items</source>
         <translation>Elementer</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1447"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1463"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
         <translation>Visningsformat for valgte elementer i historikken kan endres med å trykke &lt;b&gt;Ctrl+Venstre&lt;/b&gt; eller &lt;b&gt;Ctrl+Høyre&lt;/b&gt;. Du kan endre prioritet eller format som vises ved å reorganisere elementer nedenfor.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1465"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1481"/>
         <source>&amp;Shortcuts</source>
         <translation>&amp;Snarveier</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1475"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1491"/>
         <source>&amp;Appearance</source>
         <translation>Utseende</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="359"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="360"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Ugyldig verdi for valget &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="402"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="403"/>
         <source>Reset preferences?</source>
         <translation>Tilbakestill innstillinger?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="403"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="404"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Denne handlingen vil tilbakestille alle dine innstillinger (i alle faner) til standardverdier.&lt;br/&gt;&lt;br/&gt;Ønsker du virkelig å &lt;strong&gt;tilbakestille alle innstillinger&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="496"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="497"/>
         <source>Restart Required</source>
         <translation>Omstart Påkrevd</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="497"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="498"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Språk vil bli endret etter at programmet er startet på nytt.</translation>
     </message>
@@ -1915,7 +1917,7 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="524"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="562"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Kunne ikke opprette synkroniseringsmappen &quot;%1&quot;!</translation>
     </message>
@@ -2321,17 +2323,17 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>ItemFakeVimLoader</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.h" line="73"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.h" line="75"/>
         <source>FakeVim</source>
         <translation>FakeVim</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.h" line="75"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.h" line="77"/>
         <source>FakeVim plugin is part of Qt Creator</source>
         <translation>FakeVim udvidelsen er en del av Qt Creator</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.h" line="77"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.h" line="79"/>
         <source>Emulate Vim editor while editing items.</source>
         <translation>Emuler Vim-redigeringsprogrammet ved redigering av elementer.</translation>
     </message>
@@ -2352,12 +2354,12 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>ItemImageLoader</name>
     <message>
-        <location filename="../plugins/itemimage/itemimage.h" line="83"/>
+        <location filename="../plugins/itemimage/itemimage.h" line="85"/>
         <source>Images</source>
         <translation>Bilder</translation>
     </message>
     <message>
-        <location filename="../plugins/itemimage/itemimage.h" line="85"/>
+        <location filename="../plugins/itemimage/itemimage.h" line="87"/>
         <source>Display images.</source>
         <translation>Vis bilder.</translation>
     </message>
@@ -2408,12 +2410,12 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>ItemNotesLoader</name>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="92"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="91"/>
         <source>Notes</source>
         <translation>Notater</translation>
     </message>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="94"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="93"/>
         <source>Display notes for items.</source>
         <translation>Vis notater for elementer.</translation>
     </message>
@@ -2542,22 +2544,22 @@ Settes til 0 for å deaktivere.</translation>
         <translation type="vanished">Ønsker du virkelig å &lt;strong&gt;fjerne elementer og tilhørende filer&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="842"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
         <translation>Åpne mappe for synkronisering</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="856"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
         <translation>Kunne ikke opprette synkroniseringskatalog</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="132"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="150"/>
         <source>Synchronize</source>
         <translation>Synkroniser</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="134"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="152"/>
         <source>Synchronize items and notes with a directory on disk.</source>
         <translation>Synkroniser elementer og notater med en mappe på disken.</translation>
     </message>
@@ -2565,17 +2567,17 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="499"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="515"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation type="unfinished">Kunne ikke synkronisere fanen &quot;%1&quot; med katalogen &quot;%2&quot;!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="535"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="551"/>
         <source>Remove Items?</source>
         <translation type="unfinished">Fjerne elementer?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="536"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="552"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation type="unfinished">Ønsker du virkelig å &lt;strong&gt;fjerne elementer og tilhørende filer&lt;/strong&gt;?</translation>
     </message>
@@ -2661,12 +2663,12 @@ Settes til 0 for å deaktivere.</translation>
         <translation>Fjern alle etiketter</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="124"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="126"/>
         <source>Tags</source>
         <translation>Etiketter</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="126"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="128"/>
         <source>Display tags for items.</source>
         <translation>Vis etiketten til elementer.</translation>
     </message>
@@ -2761,94 +2763,94 @@ Settes til 0 for å deaktivere.</translation>
         <translation>CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="578"/>
+        <location filename="../src/gui/mainwindow.cpp" line="583"/>
         <source>Exit?</source>
         <translation>Avslutte?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="579"/>
+        <location filename="../src/gui/mainwindow.cpp" line="584"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>Vil du &lt;strong&gt;avslutte&lt;/strong&gt; CopyQ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="633"/>
+        <location filename="../src/gui/mainwindow.cpp" line="642"/>
         <source>&amp;File</source>
         <translation>&amp;Fil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="676"/>
+        <location filename="../src/gui/mainwindow.cpp" line="685"/>
         <source>&amp;Edit</source>
         <translation>R&amp;ediger</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="700"/>
+        <location filename="../src/gui/mainwindow.cpp" line="709"/>
         <source>&amp;Item</source>
         <translation>Element</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="704"/>
+        <location filename="../src/gui/mainwindow.cpp" line="713"/>
         <source>&amp;Tabs</source>
         <translation>Faner</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="729"/>
+        <location filename="../src/gui/mainwindow.cpp" line="738"/>
         <source>&amp;Help</source>
         <translation>&amp;Hjelp</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="743"/>
+        <location filename="../src/gui/mainwindow.cpp" line="753"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Ny Fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="745"/>
+        <location filename="../src/gui/mainwindow.cpp" line="755"/>
         <source>Rename &amp;Group %1</source>
         <translation>Gi Nytt navn til &amp;Gruppe %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="747"/>
+        <location filename="../src/gui/mainwindow.cpp" line="757"/>
         <source>Re&amp;name Tab %1</source>
         <translation>Gi Nytt Navn til Fane %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="749"/>
+        <location filename="../src/gui/mainwindow.cpp" line="759"/>
         <source>Re&amp;move Tab %1</source>
         <translation>Fjern Fane %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="751"/>
+        <location filename="../src/gui/mainwindow.cpp" line="761"/>
         <source>Remove Group %1</source>
         <translation>Fjern Gruppe %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="753"/>
+        <location filename="../src/gui/mainwindow.cpp" line="763"/>
         <source>&amp;Change Tab Icon</source>
         <translation>Endre Faneikon</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1354"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1383"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>Aktiv&amp;er Lagring av Utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1355"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1384"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>Deaktiv&amp;er Lagring av Utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1602"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1632"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1605"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1635"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1618"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1648"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -2856,43 +2858,43 @@ Settes til 0 for å deaktivere.</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1923"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1945"/>
         <source>CopyQ Options for Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2090"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2112"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Feil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3037"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3063"/>
         <source>&amp;Show/Hide</source>
         <translation>Vi&amp;s/Skjul</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3267"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3297"/>
         <source>CopyQ Options for Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3287"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3317"/>
         <source>CopyQ Export Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3288"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3318"/>
         <source>Failed to export file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3374"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3404"/>
         <source>CopyQ Import Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3375"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3405"/>
         <source>Failed to import file %1!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2901,13 +2903,13 @@ Settes til 0 for å deaktivere.</translation>
         <translation type="vanished">Åpne handlingsdialog</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3049"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3075"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>Utklippstavle: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="377"/>
+        <location filename="../src/gui/mainwindow.cpp" line="378"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ Elementer (*.cpq)</translation>
     </message>
@@ -2928,22 +2930,22 @@ Settes til 0 for å deaktivere.</translation>
         <translation type="vanished">Kan ikke åpne filen %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3519"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3549"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Fjerne alle faner i gruppen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3520"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3550"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vil du fjerne &lt;strong&gt;alle faner&lt;/strong&gt; i gruppen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3567"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3597"/>
         <source>Remove Tab?</source>
         <translation>Fjern Fane?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3568"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3598"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vil du fjerne fanen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -3404,17 +3406,22 @@ Settes til 0 for å deaktivere.</translation>
         <translation>Venstre</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
         <translation>Vi&amp;s Logg</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>F12</source>
         <translation>F12</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="143"/>
+        <location filename="../src/gui/menuitems.cpp" line="145"/>
+        <source>&amp;About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
         <translation>&amp;Hjelp</translation>
     </message>
@@ -3857,8 +3864,13 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation>Ugyldig antall argumenter!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2146"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2153"/>
         <source>Exception</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/scriptable.cpp" line="2194"/>
+        <source>Failed to copy to clipboard!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3866,44 +3878,44 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation type="vanished">Navnet &quot;%1&quot; refererer ikke til en funksjon.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="620"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="623"/>
         <source>Built with: </source>
         <translation>Bygget med: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="650"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="653"/>
         <source>Command not found!</source>
         <translation>Kommandoen ble ikke funnet!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="750"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="753"/>
         <source>Terminating server.
 </source>
         <translation>Avslutter serveren.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1157"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1163"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Kan ikke lagre til filen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1170"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1176"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Kan ikke importere filen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1210"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1216"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Ugyldig parameter &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2147"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2154"/>
         <source>Exception in %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2223"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2238"/>
         <source>Failed to set clipboard!</source>
         <translation>Angi utklippstavle feilet!</translation>
     </message>

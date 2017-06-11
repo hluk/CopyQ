@@ -218,7 +218,7 @@ QList<Command> defaultCommands()
     const auto todoTab = AddCommandDialog::tr("Tasks", "Tab name for some predefined commands");
     const auto todoTabQuoted = quoteString(todoTab);
     c = newCommand(&commands);
-    c->name = AddCommandDialog::tr("Add to %1 tab", "%1 is quoted TODO tab name")
+    c->name = AddCommandDialog::tr("Add to %1 tab", "%1 is quoted Tasks tab name")
             .arg(todoTabQuoted);
     c->icon = QString(QChar(IconShare));
     c->tab  = todoTab;
@@ -226,7 +226,7 @@ QList<Command> defaultCommands()
     c->inMenu = true;
 
     c = newCommand(&commands);
-    c->name = AddCommandDialog::tr("Move to %1 tab", "%1 is quoted TODO tab name")
+    c->name = AddCommandDialog::tr("Move to %1 tab", "%1 is quoted Tasks tab name")
             .arg(todoTabQuoted);
     c->icon = QString(QChar(IconShare));
     c->tab  = todoTab;
