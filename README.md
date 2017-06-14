@@ -13,7 +13,7 @@ CopyQ is advanced clipboard manager with editing and scripting features.
 - [Mailing List](https://groups.google.com/group/copyq)
 - [Bug Reports](https://github.com/hluk/CopyQ/issues)
 - [Donate](https://www.bountysource.com/teams/copyq)
-- [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
+- [Scripting API](https://copyq.readthedocs.io/en/latest/scripting-api.html)
 
 ## Overview
 
@@ -156,7 +156,7 @@ Create an image items:
 
 Read more:
 - [Scripting](https://copyq.readthedocs.io/en/latest/scripting.html)
-- [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
+- [Scripting API](https://copyq.readthedocs.io/en/latest/scripting-api.html)
 
 ## Build from Source Code
 

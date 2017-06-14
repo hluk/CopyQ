@@ -291,7 +291,7 @@ omitted.
 
    Throws an exception if some items cannot be removed.
 
-.. js:function:: edit([row\|text] ...)
+.. js:function:: edit([row|text] ...)
 
    Edits items in current tab.
 
@@ -400,8 +400,7 @@ omitted.
 
 .. js:function:: String config(optionName, value, ...)
 
-   Sets multiple options and return list with values in format
-   ``optionName=newValue``.
+   Sets multiple options and return list with values in format ``optionName=newValue``.
 
    Throws an exception if there is an invalid option in which case it won't
    set any options.
@@ -422,8 +421,7 @@ omitted.
 
 .. js:function:: Value source(fileName)
 
-   Evaluates script file and returns result of last expression in the
-   script.
+   Evaluates script file and returns result of last expression in the script.
 
    This is useful to move some common code out of commands.
 
@@ -464,8 +462,7 @@ omitted.
 
 .. js:function:: String toUnicode(ByteArray)
 
-   Returns string for bytes with encoding detected by checking Byte Order
-   Mark (BOM).
+   Returns string for bytes with encoding detected by checking Byte Order Mark (BOM).
 
 .. js:function:: ByteArray fromUnicode(String, encodingName)
 
@@ -863,7 +860,9 @@ Types
 
 .. js:class:: Item (Object)
 
-   Type is ``Object`` and each property is MIME type with data.
+   Object with MIME types of an item.
+
+   Each property is MIME type with data.
 
    Example:
 
@@ -876,7 +875,9 @@ Types
 
 .. js:class:: FinishedCommand (Object)
 
-   Type is ``Object`` and properties are:
+   Properties of finished command.
+
+   Properties are:
 
    -  ``stdout`` - standard output
    -  ``stderr`` - standard error output
@@ -884,7 +885,9 @@ Types
 
 .. js:class:: NetworkReply (Object)
 
-   Type is ``Object`` and properties are:
+   Received network reply object.
+
+   Properties are:
 
    -  ``data`` - reply data
    -  ``error`` - error string (set only if an error occurred)
@@ -950,8 +953,7 @@ These MIME types values are assigned to global variables prefixed with
 
 .. js:data:: mimeOwner (application/x-copyq-owner)
 
-   If available, the clipboard was set from CopyQ (from script or copied
-   items).
+   If available, the clipboard was set from CopyQ (from script or copied items).
 
    Such clipboard is ignored in CopyQ, i.e. it won't be stored in clipboard
    tab and automatic commands won't be executed on it.
