@@ -189,7 +189,7 @@ ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent, b
     // scale pixmap
     const int w = preview ? 0 : m_settings.value("max_image_width", 320).toInt();
     const int h = preview ? 0 : m_settings.value("max_image_height", 240).toInt();
-    if ( w > 0 && pix.width() > w && (h <= 0 || pix.width()/w > pix.height()/h) ) {
+    if ( w > 0 && pix.width() > w && (h <= 0 || 1.0 * pix.width()/w > 1.0 * pix.height()/h) ) {
         pix = pix.scaledToWidth(w, Qt::SmoothTransformation);
     } else if (h > 0 && pix.height() > h) {
         pix = pix.scaledToHeight(h, Qt::SmoothTransformation);
