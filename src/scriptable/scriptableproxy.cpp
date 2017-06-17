@@ -151,12 +151,7 @@ public:
     {
         setWindowFlags(Qt::Widget | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
         setCursor(Qt::CrossCursor);
-
-        move(0, 0);
-        resize(pixmap.size());
         setPixmap(pixmap);
-
-        show();
     }
 
     void paintEvent(QPaintEvent *ev) override
@@ -1242,6 +1237,9 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
 
     if (select) {
         ScreenshotRectWidget rectWidget(pixmap);
+        rectWidget.setGeometry( selectedScreen->geometry() );
+        rectWidget.show();
+
         while ( !rectWidget.isHidden() )
             QCoreApplication::processEvents();
         const auto rect = rectWidget.selectionRect;
