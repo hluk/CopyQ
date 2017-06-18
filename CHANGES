@@ -1,3 +1,15 @@
+v3.0.3
+- Added new documentation
+- Added option to disable auto-completion for commands
+- Improved image thumbnail rendering
+- Fixed opening window on current screen
+- Fixed item rendering when searching
+- Fixed tab reloading and closing external editor
+- Fixed image sizes
+- Fixed loading plugins on OS X
+- Fixed selecting area in screenshot
+- Fixed rendering and showing tooltip for notes
+
 v3.0.2
 - Added script functions for listing synchronized tabs and their paths
 - Fixed showing window on current screen
