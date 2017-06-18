@@ -79,6 +79,7 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QToolBar>
+#include <QUrl>
 
 #ifdef HAS_TESTS
 #   include <QTest>
