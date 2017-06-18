@@ -334,5 +334,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
     const auto offset = rect.topLeft() + QPoint(rowNumberSize.width() + margins.width(), margins.height());
     ww->move(offset);
-    ww->show();
+    if ( ww->isHidden() ) {
+        ww->show();
+        w->updateSize(m_maxSize, m_idealWidth);
+    }
 }
