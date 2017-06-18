@@ -145,6 +145,8 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
 
 void ItemNotes::setCurrent(bool current)
 {
+    m_isCurrent = current;
+
     ItemWidget::setCurrent(current);
 
     if (m_timerShowToolTip == nullptr)
@@ -267,12 +269,18 @@ void ItemNotes::paintEvent(QPaintEvent *event)
 
 bool ItemNotes::eventFilter(QObject *, QEvent *event)
 {
+    if ( event->type() == QEvent::Show && m_timerShowToolTip && m_isCurrent )
+        m_timerShowToolTip->start();
+
     return ItemWidget::filterMouseEvents(m_notes, event);
 }
 
 void ItemNotes::showToolTip()
 {
     QToolTip::hideText();
+
+    if ( !isVisible() )
+        return;
 
     QPoint toolTipPosition = QPoint(parentWidget()->contentsRect().width() - 16, height() - 16);
     toolTipPosition = mapToGlobal(toolTipPosition);

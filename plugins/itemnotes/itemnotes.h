@@ -75,6 +75,7 @@ private:
     bool m_notesAtBottom;
     QTimer *m_timerShowToolTip;
     QString m_toolTipText;
+    bool m_isCurrent = false;
 };
 
 class ItemNotesLoader : public QObject, public ItemLoaderInterface
