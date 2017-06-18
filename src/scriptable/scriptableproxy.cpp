@@ -1216,6 +1216,7 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
 
 #if QT_VERSION < 0x050000
     auto pixmap = QPixmap::grabWindow(QApplication::desktop()->winId());
+    const auto geometry = QApplication::desktop()->geometry();
 #else
     QScreen *selectedScreen = nullptr;
     if ( screenName.isEmpty() ) {
@@ -1233,11 +1234,13 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
         return QByteArray();
 
     auto pixmap = selectedScreen->grabWindow(0);
+
+    const auto geometry = selectedScreen->geometry();
 #endif
 
     if (select) {
         ScreenshotRectWidget rectWidget(pixmap);
-        rectWidget.setGeometry( selectedScreen->geometry() );
+        rectWidget.setGeometry(geometry);
         rectWidget.show();
 
         while ( !rectWidget.isHidden() )
