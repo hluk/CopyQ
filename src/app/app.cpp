@@ -162,6 +162,7 @@ App::~App()
 {
     QCoreApplication::processEvents();
     App::exit();
+    delete m_app;
 }
 
 void App::restoreSettings(bool canModifySettings)
