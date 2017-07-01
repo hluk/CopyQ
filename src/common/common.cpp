@@ -38,7 +38,6 @@
 #include <QObject>
 #include <QPoint>
 #include <QProcess>
-#include <QStyle>
 #include <QTemporaryFile>
 #include <QTextCodec>
 #include <QThread>
