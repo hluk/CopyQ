@@ -9,6 +9,7 @@ v3.0.3
 - Fixed loading plugins on OS X
 - Fixed selecting area in screenshot
 - Fixed rendering and showing tooltip for notes
+- Fixed hang on exit when using QtCurve theme
 
 v3.0.2
 - Added script functions for listing synchronized tabs and their paths
