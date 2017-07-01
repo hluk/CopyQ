@@ -63,6 +63,7 @@ bool CommandAction::event(QEvent *event)
 
 void CommandAction::onTriggered()
 {
-    emit triggerCommand(this, m_triggeredShortcut);
+    const auto triggeredShortcut = m_triggeredShortcut;
     m_triggeredShortcut.clear();
+    emit triggerCommand(this, triggeredShortcut);
 }
