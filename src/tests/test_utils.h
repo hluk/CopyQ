@@ -91,6 +91,12 @@ do { \
 /// Interval to wait (in ms) until window is shown and focused.
 const int waitMsShow = 1000;
 
+/// Interval to wait (in ms) before setting clipboard.
+const int waitMsSetClipboard = 1000;
+
+/// Interval to wait (in ms) before getting clipboard.
+const int waitMsGetClipboard = 100;
+
 using Args = QStringList;
 
 inline QByteArray toByteArray(const QString &text)

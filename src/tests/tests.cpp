@@ -97,14 +97,14 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
 QByteArray getClipboard(const QString &mime = QString("text/plain"))
 {
-    QApplication::processEvents();
+    waitFor(waitMsGetClipboard);
     const QMimeData *data = QApplication::clipboard()->mimeData();
     return (data != nullptr) ? data->data(mime) : QByteArray();
 }
 
 QByteArray waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString("text/plain"))
 {
-    SleepTimer t(200);
+    SleepTimer t(waitMsSetClipboard * 5);
     do {
         if (getClipboard(mime) == data)
             return data;
@@ -368,6 +368,8 @@ public:
         if ( !m_monitor->isConnected() )
             return "Failed to start clipboard monitor!";
 
+        waitFor(waitMsSetClipboard);
+
         const QVariantMap data = createDataMap(mime, bytes);
         m_monitor->writeMessage( serializeData(data), MonitorChangeClipboard );
 
@@ -376,7 +378,7 @@ public:
         if ( !error.isEmpty() )
             return "Failed to set clipboard! " + error;
 
-        waitFor(200);
+        waitFor(waitMsSetClipboard);
 
         error = testClipboard(bytes, mime);
         if ( !error.isEmpty() )
