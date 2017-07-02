@@ -54,22 +54,22 @@ application.
 
 On Windows you can install [Chocolatey package](https://chocolatey.org/packages/copyq).
 
-### Ubuntu
-
-Install and keep CopyQ always up to date by running the following three commands from the terminal:
-
-```bash
-$ sudo add-apt-repository ppa:hluk/copyq
-$ sudo apt update
-$ sudo apt install copyq
-```
-
 ### OS X
 
 On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 
 ```bash
 brew cask install copyq
+```
+
+### Ubuntu
+
+Install and keep CopyQ always up to date by running the following three commands from the terminal:
+
+```bash
+sudo add-apt-repository ppa:hluk/copyq
+sudo apt update
+sudo apt install copyq
 ```
 
 ### Arch Linux
