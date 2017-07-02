@@ -20,15 +20,6 @@ CopyQ is advanced clipboard manager with editing and scripting features.
 CopyQ monitors system clipboard and saves its content in customized tabs.
 Saved clipboard can be later copied and pasted directly into any application.
 
-Items can be:
-
-* edited with internal editor or with preferred text editor,
-* moved to other tabs,
-* drag'n'dropped to applications,
-* marked with tag or a note,
-* passed to or changed by custom commands,
-* or simply removed.
-
 ## Features
 
 * Support for Linux, Windows and OS X 10.9+
@@ -44,25 +35,16 @@ Items can be:
 * Support for simple Vim-like editor and shortcuts
 * Many more features
 
-## Install and Run
+## Install
 
-To install CopyQ, use the binary package or installer provided for your system. For system-specific information, please see below. For unlisted systems, please follow the instructions in
-[INSTALL](https://github.com/hluk/CopyQ/blob/master/INSTALL) to build the
-application.
+To install CopyQ, use the binary package or installer provided for your system.
+
+For unlisted systems, please follow the instructions in
+[Build from Source Code](https://copyq.readthedocs.io/en/latest/build-source-code.html).
 
 ### Windows
 
 On Windows you can install [Chocolatey package](https://chocolatey.org/packages/copyq).
-
-### Ubuntu
-
-Install and keep CopyQ always up to date by running the following three commands from the terminal:
-
-```bash
-$ sudo add-apt-repository ppa:hluk/copyq
-$ sudo apt update
-$ sudo apt install copyq
-```
 
 ### OS X
 
@@ -71,6 +53,24 @@ On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 ```bash
 brew cask install copyq
 ```
+
+### Ubuntu
+
+Install and keep CopyQ always up to date by running the following three commands from the terminal:
+
+```bash
+sudo add-apt-repository ppa:hluk/copyq
+sudo apt update
+sudo apt install copyq
+```
+
+### Fedora
+
+Install `copyq` package.
+
+### Arch Linux
+
+Install [copyq](https://aur.archlinux.org/packages/copyq/)<sup>AUR</sup> package.
 
 ## Using the App
 
