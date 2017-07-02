@@ -35,6 +35,10 @@ cache:
     directories:
     - $HOME/.wheelhouse
 
+# Don't omit tags (default is git --depth=50).
+git:
+  depth: 9999999
+
 before_install:
   - utils/travis/before-install-${TRAVIS_OS_NAME}.sh
 
