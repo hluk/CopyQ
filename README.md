@@ -72,6 +72,10 @@ On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 brew cask install copyq
 ```
 
+### Arch Linux
+
+Install [copyq](https://aur.archlinux.org/packages/copyq/)<sup>AUR</sup> package.
+
 ## Using the App
 
 To start the application double-click the program icon or run `copyq`.
