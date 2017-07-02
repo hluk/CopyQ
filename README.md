@@ -35,11 +35,12 @@ Saved clipboard can be later copied and pasted directly into any application.
 * Support for simple Vim-like editor and shortcuts
 * Many more features
 
-## Install and Run
+## Install
 
-To install CopyQ, use the binary package or installer provided for your system. For system-specific information, please see below. For unlisted systems, please follow the instructions in
-[INSTALL](https://github.com/hluk/CopyQ/blob/master/INSTALL) to build the
-application.
+To install CopyQ, use the binary package or installer provided for your system.
+
+For unlisted systems, please follow the instructions in
+[Build from Source Code](https://copyq.readthedocs.io/en/latest/build-source-code.html).
 
 ### Windows
 

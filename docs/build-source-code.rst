@@ -79,3 +79,22 @@ In older versions, create solution manually by running ``cmake -G "Visual Studio
 
     `CMake - Visual Studio Generators <https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html#visual-studio-generators>`__
 
+Building and Packaging for OS X
+-------------------------------
+
+On OS X, required Qt 5 libraries and utilities can be easily installed with `Homebrew <https://brew.sh/>`__.
+
+::
+
+    brew install qt5
+
+Build with the following commands.
+
+::
+
+    /usr/local/opt/qt5/bin/qmake
+    make copyq.app
+
+This will produce a self-contained application bundle ``copyq.app``
+which can then be copied or moved into ``/Applications``.
+
