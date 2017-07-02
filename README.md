@@ -20,15 +20,6 @@ CopyQ is advanced clipboard manager with editing and scripting features.
 CopyQ monitors system clipboard and saves its content in customized tabs.
 Saved clipboard can be later copied and pasted directly into any application.
 
-Items can be:
-
-* edited with internal editor or with preferred text editor,
-* moved to other tabs,
-* drag'n'dropped to applications,
-* marked with tag or a note,
-* passed to or changed by custom commands,
-* or simply removed.
-
 ## Features
 
 * Support for Linux, Windows and OS X 10.9+
