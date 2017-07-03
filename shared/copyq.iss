@@ -31,6 +31,7 @@ Name: en; MessagesFile: "compiler:Default.isl"
 Name: cz; MessagesFile: "compiler:Languages\Czech.isl"
 Name: de; MessagesFile: "compiler:Languages\German.isl"
 Name: es; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: it; MessagesFile: "compiler:Languages\Italian.isl"
 
 [CustomMessages]
 en.ProgramFiles=Program Files
@@ -67,6 +68,20 @@ es.PluginText=Texto resaltado
 es.PluginImages=Imágenes
 es.PluginWeb=Páginas web
 es.PluginData=Varios datos
+
+it.ProgramFiles=File programma
+it.Translations=Traduzioni
+it.Plugins=Plugin
+it.PluginText=Testo evidenziato
+it.PluginImages=Immagini
+it.PluginWeb=Pagine web
+it.PluginData=Tipi dati vari
+it.PluginNotes=Note
+it.PluginEncrypted=Criptazione
+it.PluginFakeVim=Editor FakeVim
+it.PluginSynchronize=Sincronizza elementi nel disco
+it.PluginTags=Tag elementi
+
 
 [Types]
 Name: "full"; Description: "{code:GetFullInstallation}"
