@@ -74,6 +74,7 @@ License: BSD-3-clause
 
 Files: debian/*
 Copyright: Dmitry Smirnov <onlyjob@debian.org>
+           2017 Boyuan Yang <073plan@gmail.com>
 License: GPL-3+
 
 License: GPL-3+
