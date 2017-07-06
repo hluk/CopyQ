@@ -2,22 +2,27 @@ Source: copyq
 Section: misc
 Priority: optional
 Maintainer: Lukas Holecek <hluk@email.cz>
-Build-Depends: debhelper (>= 9), cmake
- ,qtbase5-private-dev
- ,qtscript5-dev
- ,qttools5-dev
- ,qttools5-dev-tools
- ,libqt5svg5-dev
- ,libxfixes-dev
- ,libxtst-dev
-Standards-Version: 3.9.7
+Build-Depends:
+ cmake,
+ debhelper (>= 9),
+ libqt5svg5-dev,
+ libxfixes-dev,
+ libxtst-dev,
+ qtbase5-private-dev,
+ qtscript5-dev,
+ qttools5-dev,
+ qttools5-dev-tools,
+Standards-Version: 4.0.0
 Homepage: https://hluk.github.io/CopyQ/
 Vcs-Browser: https://github.com/hluk/CopyQ
 Vcs-Git: https://github.com/hluk/CopyQ.git
 
 Package: copyq
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}, libqt5svg5
+Depends:
+ libqt5svg5,
+ ${misc:Depends},
+ ${shlibs:Depends},
 Description: Advanced clipboard manager with editing and scripting features
  CopyQ monitors system clipboard and saves its content in customized tabs.
  Saved clipboard can be later copied and pasted directly into any application.
