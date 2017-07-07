@@ -26,6 +26,7 @@ advanced topics like scripting and application development process.
 
     command-line
     sessions
+    pin-items
     password-protection
     writing-commands-and-adding-functionality
     scripting
