@@ -47,7 +47,7 @@
     </message>
     <message>
         <source>Color palette used for themes</source>
-        <translation type="vanished">Palette de couleurs utilisé pour les thèmes</translation>
+        <translation>Palette de couleurs utilisée pour les thèmes</translation>
     </message>
     <message>
         <source>Keyboard</source>
