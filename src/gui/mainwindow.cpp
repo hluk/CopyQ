@@ -2776,6 +2776,8 @@ void MainWindow::setCommands(const QList<Command> &commands)
     updateContextMenu();
     if (m_options.trayCommands)
         updateTrayMenuItems();
+    updateContextMenu();
+    emit commandsSaved();
 }
 
 void MainWindow::runAutomaticCommands(QVariantMap data)
