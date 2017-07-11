@@ -45,6 +45,7 @@ en.PluginEncrypted=Encryption
 en.PluginFakeVim=FakeVim Editor
 en.PluginSynchronize=Synchronize Items to Disk
 en.PluginTags=Item Tags
+en.PluginPinned=Pinned Items
 
 cz.ProgramFiles=Soubory programu
 cz.Translations=Překlady
@@ -58,6 +59,7 @@ cz.PluginEncrypted=Šifrování
 cz.PluginFakeVim=FakeVim editor
 cz.PluginSynchronize=Synchronizace prvků na disk
 cz.PluginTags=Štítky u prvků
+cz.PluginPinned=Připnuté prvky
 
 de.AutoStartProgram=Starte %1 automatisch
 
@@ -85,6 +87,7 @@ Name: "plugins/encrypted"; Description: "{cm:PluginEncrypted}"; Types: full
 Name: "plugins/fakevim"; Description: "{cm:PluginFakeVim}"; Types: full
 Name: "plugins/synchronize"; Description: "{cm:PluginSynchronize}"; Types: full
 Name: "plugins/tags"; Description: "{cm:PluginTags}"; Types: full
+Name: "plugins/pinned"; Description: "{cm:PluginPinned}"; Types: full
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; Flags: unchecked
@@ -105,6 +108,7 @@ Source: "{#Root}\plugins\*itemencrypted.dll"; DestDir: "{app}\plugins"; Componen
 Source: "{#Root}\plugins\*itemfakevim.dll"; DestDir: "{app}\plugins"; Components: plugins/fakevim; Flags: ignoreversion
 Source: "{#Root}\plugins\*itemsync.dll"; DestDir: "{app}\plugins"; Components: plugins/synchronize; Flags: ignoreversion
 Source: "{#Root}\plugins\*itemtags.dll"; DestDir: "{app}\plugins"; Components: plugins/tags; Flags: ignoreversion
+Source: "{#Root}\plugins\*itempinned.dll"; DestDir: "{app}\plugins"; Components: plugins/pinned; Flags: ignoreversion
 
 ; Qt and toolchain
 Source: "{#Root}\bearer\*.dll"; DestDir: "{app}\bearer"; Components: program; Flags: recursesubdirs createallsubdirs
