@@ -28,6 +28,7 @@ advanced topics like scripting and application development process.
     sessions
     pin-items
     password-protection
+    synchronize
     writing-commands-and-adding-functionality
     scripting
     command-examples
