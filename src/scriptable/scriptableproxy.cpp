@@ -197,8 +197,9 @@ public:
             return;
 
         const auto pos = ev->pos();
-        const auto x = std::minmax(pos.x(), m_pos.x());
-        const auto y = std::minmax(pos.y(), m_pos.y());
+        // Types need to be explicitly specified because minmax() returns pair of references.
+        const std::pair<int,int> x = std::minmax(pos.x(), m_pos.x());
+        const std::pair<int,int> y = std::minmax(pos.y(), m_pos.y());
         selectionRect = QRect( QPoint(x.first, y.first), QPoint(x.second, y.second) );
         update();
     }
@@ -418,6 +419,18 @@ QString tabNotFoundError()
 QString tabNameEmptyError()
 {
     return ScriptableProxy::tr("Tab name cannot be empty!");
+}
+
+void raiseWindow(QWidget *window)
+{
+    window->raise();
+    window->activateWindow();
+    QApplication::setActiveWindow(window);
+    QApplication::processEvents();
+    const auto wid = window->winId();
+    const auto platformWindow = createPlatformNativeInterface()->getWindow(wid);
+    if (platformWindow)
+        platformWindow->raise();
 }
 
 } // namespace
@@ -1130,8 +1143,7 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
     dialog.setWindowIcon(icon);
 
     dialog.show();
-    dialog.raise();
-    dialog.activateWindow();
+    raiseWindow(&dialog);
 
     if ( !dialog.exec() )
         return NamedValueList();
@@ -1241,7 +1253,10 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
     if (select) {
         ScreenshotRectWidget rectWidget(pixmap);
         rectWidget.setGeometry(geometry);
+        rectWidget.setWindowState(Qt::WindowFullScreen);
+        rectWidget.setWindowModality(Qt::ApplicationModal);
         rectWidget.show();
+        raiseWindow(&rectWidget);
 
         while ( !rectWidget.isHidden() )
             QCoreApplication::processEvents();
