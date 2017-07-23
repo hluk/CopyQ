@@ -106,10 +106,13 @@ QByteArray waitUntilClipboardSet(const QByteArray &data, const QString &mime = Q
 {
     SleepTimer t(waitMsSetClipboard * 5);
     do {
-        if (getClipboard(mime) == data)
+        if (getClipboard(mime) == data) {
+            waitFor(waitMsSetClipboard);
             return data;
+        }
     } while (t.sleep());
 
+    waitFor(waitMsSetClipboard);
     return getClipboard(mime);
 }
 
@@ -377,8 +380,6 @@ public:
         QByteArray error = testClipboard(bytes, mime);
         if ( !error.isEmpty() )
             return "Failed to set clipboard! " + error;
-
-        waitFor(waitMsSetClipboard);
 
         error = testClipboard(bytes, mime);
         if ( !error.isEmpty() )

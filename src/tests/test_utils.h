@@ -91,7 +91,7 @@ do { \
 /// Interval to wait (in ms) until window is shown and focused.
 const int waitMsShow = 1000;
 
-/// Interval to wait (in ms) before setting clipboard.
+/// Interval to wait (in ms) before and after setting clipboard.
 const int waitMsSetClipboard = 1000;
 
 /// Interval to wait (in ms) before getting clipboard.
