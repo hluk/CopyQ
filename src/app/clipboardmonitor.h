@@ -26,6 +26,7 @@
 #include "platform/platformnativeinterface.h"
 #include "platform/platformclipboard.h"
 
+#include <QTimer>
 #include <QVariantMap>
 
 /**
@@ -53,10 +54,16 @@ private slots:
 
     void onConnectionFailed() override;
 
+    void setNewClipboard();
+
 private:
+    void setNewClipboard(PlatformClipboard::Mode mode);
+
     PlatformClipboardPtr m_clipboard;
     QStringList m_formats;
     QVariantMap m_lastData[3]; /// Last data sent for each clipboard mode
+    QMap<int, QVariantMap> m_newData; /// New data to set for each clipboard mode
+    QTimer m_timerSetNewClipboard;
 };
 
 #endif // CLIPBOARDMONITOR_H

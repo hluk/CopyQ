@@ -19,6 +19,7 @@
 
 #include "clipboardmonitor.h"
 
+#include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
@@ -68,6 +69,8 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv, const QString &server
 #endif
 
     startClientSocket(serverName, argc, argv, 0, 0);
+
+    initSingleShotTimer( &m_timerSetNewClipboard, 0, this, SLOT(setNewClipboard()) );
 }
 
 void ClipboardMonitor::onClipboardChanged(PlatformClipboard::Mode mode)
@@ -141,10 +144,12 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
 
         QVariantMap data;
         deserializeData(&data, message);
+        // Set clipboard after processing all messages and returning to event loop which is safer.
         if (messageCode == MonitorChangeClipboard)
-            m_clipboard->setData(PlatformClipboard::Clipboard, data);
+            m_newData.insert(PlatformClipboard::Clipboard, data);
         if (messageCode == MonitorChangeSelection)
-            m_clipboard->setData(PlatformClipboard::Selection, data);
+            m_newData.insert(PlatformClipboard::Selection, data);
+        m_timerSetNewClipboard.start();
     } else {
         log( QString("Unknown message code %1!").arg(messageCode), LogError );
     }
@@ -158,4 +163,19 @@ void ClipboardMonitor::onDisconnected()
 void ClipboardMonitor::onConnectionFailed()
 {
     exit(1);
+}
+
+void ClipboardMonitor::setNewClipboard()
+{
+    if ( m_timerSetNewClipboard.isActive() )
+        return;
+
+    setNewClipboard(PlatformClipboard::Clipboard);
+    setNewClipboard(PlatformClipboard::Selection);
+}
+
+void ClipboardMonitor::setNewClipboard(PlatformClipboard::Mode mode)
+{
+    if ( m_newData.contains(mode) )
+        m_clipboard->setData( mode, m_newData.take(mode) );
 }
