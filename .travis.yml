@@ -1,3 +1,5 @@
+dist: trusty
+sudo: required
 language: cpp
 
 matrix:
@@ -8,26 +10,13 @@ matrix:
     - os: linux
       compiler: gcc
       env:
-        - COMPILER=g++-4.8
-        - GCOV=gcov-4.8
-      addons:
-        apt:
-          sources:
-          - ubuntu-toolchain-r-test
-          packages:
-          - g++-4.8
+        - COMPILER=g++
+        - GCOV=gcov
 
     - os: linux
       compiler: clang
       env:
-        - COMPILER=clang++-3.6
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
-          packages:
-            - clang-3.6
+        - COMPILER=clang++
 
 cache:
     apt: true
