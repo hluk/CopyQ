@@ -172,10 +172,16 @@ bool isMainThread()
 const QMimeData *clipboardData(QClipboard::Mode mode)
 {
     Q_ASSERT( isMainThread() );
-    COPYQ_LOG( QString("Getting %1 data.").arg(mode == QClipboard::Clipboard ? "clipboard"
-                                                                             : "selection") );
+
+    const auto modeText = mode == QClipboard::Clipboard ? "clipboard" : "selection";
+    COPYQ_LOG_VERBOSE( QString("Getting %1 data.").arg(modeText) );
+
     const QMimeData *data = QApplication::clipboard()->mimeData(mode);
-    COPYQ_LOG(data != nullptr ? "Got data." : "Data is nullptr!");
+    if (data)
+        COPYQ_LOG_VERBOSE( QString("Got %1 data.").arg(modeText) );
+    else
+        log( QString("Null data in %1.").arg(modeText), LogError );
+
     return data;
 }
 
