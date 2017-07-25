@@ -142,7 +142,7 @@ public:
         return m_hasText ? ItemWidget::createEditor(parent) : nullptr;
     }
 
-    void updateSize(const QSize &, int idealWidth) override
+    void updateSize(QSize, int idealWidth) override
     {
         setFixedWidth(idealWidth);
 
@@ -409,8 +409,8 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
     // Match formats if the filter expression contains single '/'.
     if (re.pattern().count('/') == 1) {
         const QVariantMap data = index.data(contentType::data).toMap();
-        for (const auto &format : data.keys()) {
-            if (re.exactMatch(format))
+        for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+            if ( re.exactMatch(it.key()) )
                 return true;
         }
     }

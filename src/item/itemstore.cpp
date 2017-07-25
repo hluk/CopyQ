@@ -56,10 +56,10 @@ void printItemFileError(
         const QString &action, const QString &id, const QString &fileName, const QFile &file)
 {
     log( QString("Cannot %1 tab %2 to %3 (%4)!")
-         .arg(action)
-         .arg( quoteString(id) )
-         .arg( quoteString(fileName) )
-         .arg( file.errorString() )
+         .arg(action,
+              quoteString(id),
+              quoteString(fileName),
+              file.errorString())
          , LogError );
 }
 
@@ -210,7 +210,7 @@ void moveItems(const QString &oldId, const QString &newId)
         QFile::remove(oldFileName);
     } else {
         COPYQ_LOG( QString("Failed to move items from \"%1\" (tab \"%2\") to \"%3\" (tab \"%4\")")
-                   .arg(oldFileName).arg(oldId)
-                   .arg(newFileName).arg(newId) );
+                   .arg(oldFileName, oldId,
+                        newFileName, newId) );
     }
 }

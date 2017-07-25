@@ -260,10 +260,10 @@ QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSet
     const QVariantMap mimeToExtension = dataMap.value(mimeExtensionMap).toMap();
 
     QStringList fileNames;
-    for ( const auto &format : mimeToExtension.keys() ) {
+    for (auto it = mimeToExtension.constBegin(); it != mimeToExtension.constEnd(); ++it) {
         // Don't change icon for notes.
-        if (format != mimeItemNotes)
-            fileNames.append( baseName + mimeToExtension[format].toString() );
+        if (it.key() != mimeItemNotes)
+            fileNames.append( baseName + it.value().toString() );
     }
 
     // Try to get user icon from file extension.
@@ -317,7 +317,7 @@ void fixUserExtensions(QStringList *exts)
             ext.prepend('.');
         // Use "_user.dat" instead of "*.dat" to avoid collisions with extension "_copy.dat"
         // internally used to store data of unknown MIME type.
-        if ( ext.toLower().endsWith(".dat") )
+        if ( ext.endsWith(".dat", Qt::CaseInsensitive) )
             ext.insert(ext.size() - 4, "_user");
         // Remove invalid extensions containing path separator.
         if ( ext.contains('/') )
@@ -444,12 +444,12 @@ QWidget *ItemSync::createEditor(QWidget *parent) const
 
 void ItemSync::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    return m_childItem->setEditorData(editor, index);
+    m_childItem->setEditorData(editor, index);
 }
 
 void ItemSync::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    return m_childItem->setModelData(editor, model, index);
+    m_childItem->setModelData(editor, model, index);
 }
 
 bool ItemSync::hasChanges(QWidget *editor) const
@@ -462,7 +462,7 @@ QObject *ItemSync::createExternalEditor(const QModelIndex &index, QWidget *paren
     return m_childItem->createExternalEditor(index, parent);
 }
 
-void ItemSync::updateSize(const QSize &maximumSize, int idealWidth)
+void ItemSync::updateSize(QSize maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
 
@@ -513,8 +513,7 @@ bool ItemSyncSaver::saveItems(const QString &tabName, const QAbstractItemModel &
 
     if ( !m_watcher->isValid() ) {
         log( tr("Failed to synchronize tab \"%1\" with directory \"%2\"!")
-             .arg(tabName)
-             .arg(path),
+             .arg(tabName, path),
              LogError );
         return false;
     }
@@ -528,7 +527,7 @@ bool ItemSyncSaver::saveItems(const QString &tabName, const QAbstractItemModel &
         const QString baseName = FileWatcher::getBaseName(index);
         const QString filePath = dir.absoluteFilePath(baseName);
 
-        for (const auto &ext : mimeToExtension.values())
+        for (const auto &ext : mimeToExtension)
             savedFiles.prepend( filePath + ext.toString() );
     }
 
@@ -586,9 +585,8 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
         const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
         const QString basePath = m_tabPath + '/' + itemData.value(mimeBaseName).toString();
 
-        for ( const auto &format : mimeToExtension.keys() ) {
-            const QString ext = mimeToExtension[format].toString();
-            const QString filePath = basePath + ext;
+        for (const auto &extension : mimeToExtension) {
+            const QString filePath = basePath + extension.toString();
 
             if (updateUriData) {
                 if ( !uriData.isEmpty() )
@@ -625,8 +623,8 @@ ItemSyncScriptable::ItemSyncScriptable(
         const ItemSyncTabPaths &tabPaths, QObject *parent)
     : ItemScriptable(parent)
 {
-    for (const auto &key : tabPaths.keys())
-        m_tabPaths.insert(key, tabPaths[key]);
+    for (auto it = tabPaths.constBegin(); it != tabPaths.constEnd(); ++it)
+        m_tabPaths.insert( it.key(), it.value() );
 }
 
 QVariantMap ItemSyncScriptable::getTabPaths() const

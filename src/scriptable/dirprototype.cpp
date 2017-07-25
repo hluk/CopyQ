@@ -133,7 +133,7 @@ QScriptValue DirPrototype::path() const
 
 void DirPrototype::refresh() const
 {
-    return thisDir().refresh();
+    thisDir().refresh();
 }
 
 QScriptValue DirPrototype::relativeFilePath(const QScriptValue &fileName) const
@@ -163,17 +163,17 @@ bool DirPrototype::rmpath(const QScriptValue &dirPath) const
 
 void DirPrototype::setNameFilters(const QStringList &nameFilters)
 {
-    return thisDir().setNameFilters(nameFilters);
+    thisDir().setNameFilters(nameFilters);
 }
 
 void DirPrototype::setPath(const QScriptValue &path)
 {
-    return thisDir().setPath(path.toString());
+    thisDir().setPath(path.toString());
 }
 
 void DirPrototype::addSearchPath(const QScriptValue &prefix, const QScriptValue &path) const
 {
-    return QDir::addSearchPath(prefix.toString(), path.toString());
+    QDir::addSearchPath(prefix.toString(), path.toString());
 }
 
 QScriptValue DirPrototype::cleanPath(const QScriptValue &path) const
@@ -248,7 +248,7 @@ bool DirPrototype::setCurrent(const QScriptValue &path) const
 
 void DirPrototype::setSearchPaths(const QScriptValue &prefix, const QStringList &searchPaths) const
 {
-    return QDir::setSearchPaths(prefix.toString(), searchPaths);
+    QDir::setSearchPaths(prefix.toString(), searchPaths);
 }
 
 QScriptValue DirPrototype::temp() const

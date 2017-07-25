@@ -66,7 +66,7 @@ bool FilePrototype::openAppend()
 
 void FilePrototype::close()
 {
-    return thisFile()->close();
+    thisFile()->close();
 }
 
 QScriptValue FilePrototype::read(qint64 maxSize)
@@ -151,7 +151,7 @@ bool FilePrototype::seek(qint64 pos)
 
 void FilePrototype::setTextModeEnabled(bool enabled)
 {
-    return thisFile()->setTextModeEnabled(enabled);
+    thisFile()->setTextModeEnabled(enabled);
 }
 
 qint64 FilePrototype::size() const

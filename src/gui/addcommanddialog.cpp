@@ -336,6 +336,7 @@ void AddCommandDialog::accept()
     if (!indexes.isEmpty()) {
         QList<Command> commands;
 
+        commands.reserve( indexes.size() );
         for (const auto &index : indexes)
             commands.append( index.data(Qt::UserRole).value<Command>() );
 

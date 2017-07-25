@@ -143,6 +143,9 @@ public:
 
     bool isLocked() const { return m_locked; }
 
+    SystemMutexLocker(const SystemMutexLocker &) = delete;
+    SystemMutexLocker &operator=(const SystemMutexLocker &) = delete;
+
 private:
     SystemMutexPtr m_mutex;
     bool m_locked;
@@ -161,8 +164,7 @@ SystemMutexPtr initSessionMutexHelper(QSystemSemaphore::AccessMode accessMode)
     } else {
         COPYQ_LOG_VERBOSE(
                     QString("%1 session mutex: %2")
-                    .arg(create ? "Created" : "Opened")
-                    .arg(mutexName) );
+                    .arg(create ? "Created" : "Opened", mutexName) );
     }
 
     if (qApp)

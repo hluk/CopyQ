@@ -40,8 +40,6 @@ IconSelectDialog::IconSelectDialog(const QString &defaultIcon, QWidget *parent)
     connect( m_iconList, SIGNAL(activated(QModelIndex)),
              this, SLOT(onIconListItemActivated(QModelIndex)) );
 
-    QFontMetrics fm( iconFont() );
-
     const int gridSize = iconFontSizePixels() + 8;
     const QSize size(gridSize, gridSize);
     m_iconList->setFont( iconFont() );

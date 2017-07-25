@@ -66,7 +66,7 @@ public:
 
     void close();
     bool showWindow();
-    bool showWindowAt(const QRect &rect);
+    bool showWindowAt(QRect rect);
     bool pasteToCurrentWindow();
     bool copyFromCurrentWindow();
 
@@ -86,7 +86,7 @@ public:
     void setTabIcon(const QString &tabName, const QString &icon);
 
     bool showBrowser(const QString &tabName);
-    bool showBrowserAt(const QString &tabName, const QRect &rect);
+    bool showBrowserAt(const QString &tabName, QRect rect);
 
     bool showBrowser();
 
@@ -109,7 +109,7 @@ public:
 
     QStringList tabs();
     bool toggleVisible();
-    bool toggleMenu(const QString &tabName, int maxItemCount, const QPoint &position);
+    bool toggleMenu(const QString &tabName, int maxItemCount, QPoint position);
     bool toggleMenu();
     int findTabIndex(const QString &arg1);
 

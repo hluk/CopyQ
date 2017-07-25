@@ -92,7 +92,7 @@ class ItemDelegate : public QItemDelegate
         bool hasCache(const QModelIndex &index) const;
 
         /** Set maximum size for all items. */
-        void setItemSizes(const QSize &size, int idealWidth);
+        void setItemSizes(QSize size, int idealWidth);
 
         /** Save edited item on return or ctrl+return. */
         void setSaveOnEnterKey(bool enable) { m_saveOnReturnKey = enable; }

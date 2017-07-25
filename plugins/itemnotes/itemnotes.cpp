@@ -208,13 +208,13 @@ QWidget *ItemNotes::createEditor(QWidget *parent) const
 void ItemNotes::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     Q_ASSERT(m_childItem != nullptr);
-    return m_childItem->setEditorData(editor, index);
+    m_childItem->setEditorData(editor, index);
 }
 
 void ItemNotes::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     Q_ASSERT(m_childItem != nullptr);
-    return m_childItem->setModelData(editor, model, index);
+    m_childItem->setModelData(editor, model, index);
 }
 
 bool ItemNotes::hasChanges(QWidget *editor) const
@@ -229,7 +229,7 @@ QObject *ItemNotes::createExternalEditor(const QModelIndex &index, QWidget *pare
                        : ItemWidget::createExternalEditor(index, parent);
 }
 
-void ItemNotes::updateSize(const QSize &maximumSize, int idealWidth)
+void ItemNotes::updateSize(QSize maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
 

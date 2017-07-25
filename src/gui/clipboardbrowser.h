@@ -347,7 +347,7 @@ class ClipboardBrowser : public QListView
          */
         QModelIndex indexNear(int offset) const;
 
-        int getDropRow(const QPoint &position);
+        int getDropRow(QPoint position);
 
         void connectModelAndDelegate();
 

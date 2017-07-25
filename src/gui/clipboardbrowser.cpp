@@ -236,7 +236,7 @@ void ClipboardBrowser::emitItemCount()
         emit itemCountChanged( tabName(), length() );
 }
 
-bool ClipboardBrowser::eventFilter(QObject *, QEvent *event)
+bool ClipboardBrowser::eventFilter(QObject *obj, QEvent *event)
 {
     // WORKAROUND: Update drag'n'drop when modifiers are pressed/released (QTBUG-57168).
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
@@ -252,7 +252,7 @@ bool ClipboardBrowser::eventFilter(QObject *, QEvent *event)
         }
     }
 
-    return false;
+    return QListView::eventFilter(obj, event);
 }
 
 bool ClipboardBrowser::isFiltered(int row) const
@@ -405,7 +405,7 @@ QModelIndex ClipboardBrowser::indexNear(int offset) const
     return ::indexNear(this, offset);
 }
 
-int ClipboardBrowser::getDropRow(const QPoint &position)
+int ClipboardBrowser::getDropRow(QPoint position)
 {
     const QModelIndex index = indexNear( position.y() );
     return index.isValid() ? index.row() : length();
@@ -424,32 +424,32 @@ void ClipboardBrowser::connectModelAndDelegate()
     setItemDelegate(&d);
 
     // Delegate receives model signals first to update internal item list.
-    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
-             &d, SLOT(rowsInserted(QModelIndex, int, int)) );
+    connect( &m, SIGNAL(rowsInserted(QModelIndex,int,int)),
+             &d, SLOT(rowsInserted(QModelIndex,int,int)) );
     connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
              &d, SLOT(rowsRemoved(QModelIndex,int,int)) );
-    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex, int, int, QModelIndex, int)),
-             &d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
+    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex,int,int,QModelIndex,int)),
+             &d, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)) );
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              &d, SLOT(dataChanged(QModelIndex,QModelIndex)) );
 
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(onDataChanged(QModelIndex,QModelIndex)) );
-    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
-             SLOT(onRowsInserted(QModelIndex, int, int)));
+    connect( &m, SIGNAL(rowsInserted(QModelIndex,int,int)),
+             SLOT(onRowsInserted(QModelIndex,int,int)));
 
     // Item count change
-    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+    connect( &m, SIGNAL(rowsInserted(QModelIndex,int,int)),
              SLOT(onItemCountChanged()) );
     connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              SLOT(onItemCountChanged()) );
 
     // Save on change
-    connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+    connect( &m, SIGNAL(rowsInserted(QModelIndex,int,int)),
              SLOT(delayedSaveItems()) );
     connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
              SLOT(delayedSaveItems()) );
-    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex, int, int, QModelIndex, int)),
+    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex,int,int,QModelIndex,int)),
              SLOT(delayedSaveItems()) );
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(delayedSaveItems()) );
@@ -603,14 +603,15 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes) const
             appendTextData(itemData, mimeText, &text);
             appendTextData(itemData, mimeUriList, &uriList);
 
-            for ( const auto &format : itemData.keys() ) {
+            for (auto it = itemData.constBegin(); it != itemData.constEnd(); ++it) {
+                const auto &format = it.key();
                 if ( usedFormats.contains(format) ) {
                     if ( format.startsWith(COPYQ_MIME_PREFIX) )
                         data[format].clear();
                     else
                         data.remove(format);
                 } else {
-                    data[format] = itemData[format];
+                    data[format] = it.value();
                     usedFormats.insert(format);
                 }
             }
@@ -1011,6 +1012,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
     // Save persistent indexes so after the items are dropped (and added) these indexes remain valid.
     QList<QPersistentModelIndex> indexesToRemove;
+    indexesToRemove.reserve( selected.size() );
     for (const auto &index : selected)
         indexesToRemove.append(index);
 

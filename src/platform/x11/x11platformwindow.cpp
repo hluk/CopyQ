@@ -148,7 +148,8 @@ void simulateKeyPress(Display *display, Window window, unsigned int modifiers, u
 }
 #endif
 
-struct X11WindowProperty {
+class X11WindowProperty {
+public:
     X11WindowProperty(Display *display, Window w, Atom property, long longOffset,
                       long longLength, Atom reqType)
     {
@@ -166,6 +167,9 @@ struct X11WindowProperty {
     }
 
     bool isValid() const { return data != nullptr; }
+
+    X11WindowProperty(const X11WindowProperty &) = delete;
+    X11WindowProperty &operator=(const X11WindowProperty &) = delete;
 
     Atom type{};
     int format{};

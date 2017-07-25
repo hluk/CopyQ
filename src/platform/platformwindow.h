@@ -30,6 +30,8 @@ class QString;
 class PlatformWindow
 {
 public:
+    PlatformWindow() = default;
+
     virtual ~PlatformWindow() = default;
 
     /**
@@ -51,6 +53,9 @@ public:
      * Copy to clipboard from window.
      */
     virtual void copy() = 0;
+
+    PlatformWindow(const PlatformWindow &) = delete;
+    PlatformWindow &operator=(const PlatformWindow &) = delete;
 };
 
 #endif // PLATFORMWINDOW_H

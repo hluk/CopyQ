@@ -128,7 +128,7 @@ bool ItemEditor::start()
 
     // create editor process
     m_editor = new QProcess(this);
-    connect( m_editor, SIGNAL(finished(int, QProcess::ExitStatus)),
+    connect( m_editor, SIGNAL(finished(int,QProcess::ExitStatus)),
             this, SLOT(close()) );
     connect( m_editor, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(onError()) );

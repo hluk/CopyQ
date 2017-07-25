@@ -35,6 +35,9 @@ public:
     operator QLocalSocket*() { return m_socket; }
     operator bool() { return m_socket != nullptr; }
 
+    LocalSocketGuard(const LocalSocketGuard &) = delete;
+    LocalSocketGuard &operator=(const LocalSocketGuard &) = delete;
+
 private:
     QPointer<QLocalSocket> m_socket;
 };

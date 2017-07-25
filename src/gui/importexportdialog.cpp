@@ -86,8 +86,9 @@ void ImportExportDialog::setCommandsEnabled(bool enabled)
 
 QStringList ImportExportDialog::selectedTabs() const
 {
-    QStringList result;
     const auto items = ui->listTabs->selectedItems();
+    QStringList result;
+    result.reserve( items.size() );
     for (const auto item : items)
         result.append( item->text() );
     return result;

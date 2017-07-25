@@ -192,9 +192,11 @@ void ClipboardDialog::setData(const QVariantMap &data)
     m_data.clear();
 
     // Show only data that can be displayed.
-    for ( const auto &mime : data.keys() ) {
-        if ( data[mime].canConvert<QByteArray>() ) {
-            m_data.insert(mime, data[mime]);
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const auto &mime = it.key();
+        const auto &bytes = it.value();
+        if ( bytes.canConvert<QByteArray>() ) {
+            m_data.insert(mime, bytes);
             ui->listWidgetFormats->addItem(mime);
             if (mime == currentFormat) {
                 ui->listWidgetFormats->setCurrentRow(

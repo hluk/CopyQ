@@ -91,8 +91,8 @@ void cloneImageData(
     bool saved = image.save(&buffer, format.toUtf8().constData());
 
     COPYQ_LOG( QString("Converting image to \"%1\" format: %2")
-               .arg(format)
-               .arg(saved ? "Done" : "Failed") );
+               .arg(format,
+                    saved ? "Done" : "Failed") );
 
     if (saved)
         dataMap->insert(mime, buffer.buffer());
@@ -405,7 +405,8 @@ void renameToUnique(QString *name, const QStringList &names)
 
 bool containsAnyData(const QVariantMap &data)
 {
-    for ( const auto &mime : data.keys() ) {
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const auto &mime = it.key();
         if (mime != mimeOwner
                 && mime != mimeWindowTitle
                 && mime != mimeHidden
@@ -456,9 +457,10 @@ bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data)
     if (!clipboardData)
         return false;
 
-    for ( const auto &format : data.keys() ) {
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const auto &format = it.key();
         if ( !format.startsWith(COPYQ_MIME_PREFIX)
-             && data.value(format).toByteArray() != getUtf8Data(*clipboardData, format) )
+             && it.value().toByteArray() != getUtf8Data(*clipboardData, format) )
         {
             return false;
         }

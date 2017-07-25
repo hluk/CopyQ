@@ -44,7 +44,9 @@ uint hash(const QVariantMap &data)
 {
     uint hash = 0;
 
-    for ( const auto &mime : data.keys() ) {
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const auto &mime = it.key();
+
         // Skip some special data.
         if (mime == mimeWindowTitle || mime == mimeOwner || mime == mimeClipboardMode)
             continue;

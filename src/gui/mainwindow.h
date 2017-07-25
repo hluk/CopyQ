@@ -200,7 +200,7 @@ public:
      * Show/hide tray menu. Return true only if menu is shown.
      */
     bool toggleMenu();
-    bool toggleMenu(const QString &tabName, int itemCount, const QPoint &position);
+    bool toggleMenu(const QString &tabName, int itemCount, QPoint position);
 
     /** Switch between browse and search mode. */
     void enterBrowseMode();
@@ -535,8 +535,8 @@ private slots:
     void saveTabPositions();
     void doSaveTabPositions();
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix);
-    void tabMenuRequested(const QPoint &pos, int tab);
-    void tabMenuRequested(const QPoint &pos, const QString &groupPath);
+    void tabMenuRequested(QPoint pos, int tab);
+    void tabMenuRequested(QPoint pos, const QString &groupPath);
     void tabCloseRequested(int tab);
     void onFilterChanged(const QRegExp &re);
     void createTrayIfSupported();
@@ -567,7 +567,7 @@ private slots:
 
     void on_tabWidget_dropItems(const QString &tabName, const QMimeData *data);
 
-    void showContextMenu(const QPoint &position);
+    void showContextMenu(QPoint position);
 
     void updateContextMenu(const ClipboardBrowser *browser);
 
@@ -605,7 +605,7 @@ private:
     void createMenu();
 
     /** Create context menu for @a tab. It will be automatically deleted after closed. */
-    void popupTabBarMenu(const QPoint &pos, const QString &tab);
+    void popupTabBarMenu(QPoint pos, const QString &tab);
 
     void updateContextMenu();
 
@@ -679,7 +679,7 @@ private:
 
     void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
     void onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool omitPaste);
-    QWidget *toggleMenu(TrayMenu *menu, const QPoint &pos);
+    QWidget *toggleMenu(TrayMenu *menu, QPoint pos);
     QWidget *toggleMenu(TrayMenu *menu);
 
     bool exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);

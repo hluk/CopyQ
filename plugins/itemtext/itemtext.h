@@ -43,7 +43,7 @@ protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette) override;
 
-    void updateSize(const QSize &maximumSize, int idealWidth) override;
+    void updateSize(QSize maximumSize, int idealWidth) override;
 
     bool eventFilter(QObject *, QEvent *event) override;
 

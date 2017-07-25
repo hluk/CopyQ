@@ -44,7 +44,11 @@ namespace {
  */
 bool isTesting()
 {
+#if QT_VERSION < 0x050100
     return !qgetenv("COPYQ_TEST_ID").isEmpty();
+#else
+    return !qEnvironmentVariableIsEmpty("COPYQ_TEST_ID");
+#endif
 }
 
 /**

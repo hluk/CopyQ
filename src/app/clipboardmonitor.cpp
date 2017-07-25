@@ -33,7 +33,8 @@ namespace {
 
 bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
 {
-    for (const auto &format : lastData.keys()) {
+    for (auto it = lastData.constBegin(); it != lastData.constEnd(); ++it) {
+        const auto &format = it.key();
         if ( !format.startsWith(COPYQ_MIME_PREFIX)
              && !data.contains(format) )
         {
@@ -41,7 +42,8 @@ bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
         }
     }
 
-    for (const auto &format : data.keys()) {
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const auto &format = it.key();
         if ( !format.startsWith(COPYQ_MIME_PREFIX)
              && !data[format].toByteArray().isEmpty()
              && data[format] != lastData.value(format) )
@@ -117,11 +119,12 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
 
         if ( hasLogLevel(LogDebug) ) {
             COPYQ_LOG("Loading configuration:");
-            for (const auto &key : settings.keys()) {
-                const QVariant val = settings[key];
+            for (auto it = settings.constBegin(); it != settings.constEnd(); ++it) {
+                const auto &key = it.key();
+                const auto &val = it.value();
                 const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
                                                                   : val.toString();
-                COPYQ_LOG( QString(" %1=%2").arg(key).arg(str) );
+                COPYQ_LOG( QString(" %1=%2").arg(key, str) );
             }
         }
 

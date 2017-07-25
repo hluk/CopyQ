@@ -241,7 +241,7 @@ BaseNameExtensionsList listFiles(const QStringList &files,
 }
 
 /// Load hash of all existing files to map (hash -> filename).
-QStringList listFiles(const QDir &dir, const QDir::SortFlags &sortFlags = QDir::NoSort)
+QStringList listFiles(const QDir &dir, QDir::SortFlags sortFlags = QDir::NoSort)
 {
     QStringList files;
 
@@ -274,7 +274,7 @@ bool isUniqueBaseName(const QString &baseName, const QStringList &fileNames,
 void moveFormatFiles(const QString &oldPath, const QString &newPath,
                      const QVariantMap &mimeToExtension)
 {
-    for ( const auto &extValue : mimeToExtension.values() ) {
+    for (const auto &extValue : mimeToExtension) {
         const QString ext = extValue.toString();
         QFile::rename(oldPath + ext, newPath + ext);
     }
@@ -283,7 +283,7 @@ void moveFormatFiles(const QString &oldPath, const QString &newPath,
 void copyFormatFiles(const QString &oldPath, const QString &newPath,
                      const QVariantMap &mimeToExtension)
 {
-    for ( const auto &extValue : mimeToExtension.values() ) {
+    for (const auto &extValue : mimeToExtension) {
         const QString ext = extValue.toString();
         QFile::copy(oldPath + ext, newPath + ext);
     }
@@ -291,7 +291,7 @@ void copyFormatFiles(const QString &oldPath, const QString &newPath,
 
 void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
 {
-    for ( const auto &extValue : mimeToExtension.values() )
+    for (const auto &extValue : mimeToExtension)
         QFile::remove(path + extValue.toString());
 }
 
@@ -358,23 +358,26 @@ FileWatcher::FileWatcher(
     , m_indexData()
     , m_maxItems(maxItems)
 {
+    m_updateTimer.setInterval(updateItemsIntervalMs);
+    m_updateTimer.setSingleShot(true);
+
 #ifdef HAS_TESTS
     // Use smaller update interval for tests.
-    if ( qgetenv("COPYQ_TEST_ID").isEmpty() )
-        m_updateTimer.setInterval(updateItemsIntervalMs);
-    else
-        m_updateTimer.setInterval(100);
+#if QT_VERSION < 0x050100
+    if ( !qgetenv("COPYQ_TEST_ID").isEmpty() )
 #else
-    m_updateTimer.setInterval(updateItemsIntervalMs);
+    if ( !qEnvironmentVariableIsEmpty("COPYQ_TEST_ID") )
 #endif
-    m_updateTimer.setSingleShot(true);
+        m_updateTimer.setInterval(100);
+#endif
+
     connect( &m_updateTimer, SIGNAL(timeout()),
              SLOT(updateItems()) );
 
-    connect( m_model.data(), SIGNAL(rowsInserted(QModelIndex, int, int)),
-             this, SLOT(onRowsInserted(QModelIndex, int, int)), Qt::UniqueConnection );
-    connect( m_model.data(), SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)),
-             this, SLOT(onRowsRemoved(QModelIndex, int, int)), Qt::UniqueConnection );
+    connect( m_model.data(), SIGNAL(rowsInserted(QModelIndex,int,int)),
+             this, SLOT(onRowsInserted(QModelIndex,int,int)), Qt::UniqueConnection );
+    connect( m_model.data(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
+             this, SLOT(onRowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection );
     connect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(onDataChanged(QModelIndex,QModelIndex)), Qt::UniqueConnection );
 
@@ -544,6 +547,7 @@ void FileWatcher::updateIndexData(const QModelIndex &index, const QVariantMap &i
 QList<QModelIndex> FileWatcher::indexList(int first, int last)
 {
     QList<QModelIndex> indexList;
+    indexList.reserve(last - first + 1);
     for (int i = first; i <= last; ++i)
         indexList.append( m_model->index(i, 0) );
     return indexList;
@@ -607,8 +611,8 @@ void FileWatcher::saveItems(int first, int last)
             }
         }
 
-        for ( QVariantMap::const_iterator it = oldMimeToExtension.begin();
-              it != oldMimeToExtension.end(); ++it )
+        for ( auto it = oldMimeToExtension.constBegin();
+              it != oldMimeToExtension.constEnd(); ++it )
         {
             if ( it.key().startsWith(mimeNoFormat) )
                 mimeToExtension.insert( it.key(), it.value() );

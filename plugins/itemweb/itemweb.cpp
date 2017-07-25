@@ -118,7 +118,7 @@ void ItemWeb::onItemChanged()
     updateSize(m_maximumSize, 0);
 }
 
-void ItemWeb::updateSize(const QSize &maximumSize, int)
+void ItemWeb::updateSize(QSize maximumSize, int)
 {
     QWebFrame *frame = page()->mainFrame();
     disconnect( frame, SIGNAL(contentsSizeChanged(QSize)),

@@ -290,7 +290,7 @@ void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &for
 {
     setChangedByUser(ui->comboBoxInputFormat);
 
-    bool show = format.toLower().startsWith(QString("text"));
+    const bool show = format.startsWith("text", Qt::CaseInsensitive);
     ui->inputText->setVisible(show);
 
     QString text;
@@ -303,11 +303,11 @@ void ActionDialog::on_comboBoxOutputFormat_editTextChanged(const QString &text)
 {
     setChangedByUser(ui->comboBoxOutputFormat);
 
-    bool showSeparator = text.toLower().startsWith(QString("text"));
+    const bool showSeparator = text.startsWith("text", Qt::CaseInsensitive);
     ui->separatorLabel->setVisible(showSeparator);
     ui->separatorEdit->setVisible(showSeparator);
 
-    bool showOutputTab = !text.isEmpty();
+    const bool showOutputTab = !text.isEmpty();
     ui->labelOutputTab->setVisible(showOutputTab);
     ui->comboBoxOutputTab->setVisible(showOutputTab);
 }

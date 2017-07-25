@@ -374,8 +374,8 @@ void ItemEncryptedScriptable::encryptItem()
 
     call("setData", QVariantList() << mimeEncryptedData << encryptedBytes);
 
-    for ( const auto &format : dataMap.keys() )
-        call("removeData", QVariantList() << format);
+    for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it)
+        call("removeData", QVariantList() << it.key());
 }
 
 void ItemEncryptedScriptable::decryptItem()
@@ -386,8 +386,10 @@ void ItemEncryptedScriptable::decryptItem()
         return;
 
     const auto dataMap = call("unpack", QVariantList() << itemData).toMap();
-    for ( const auto &format : dataMap.keys() )
+    for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {
+        const auto &format = it.key();
         call("setData", QVariantList() << format << dataMap[format]);
+    }
 }
 
 void ItemEncryptedScriptable::encryptItems()
@@ -399,7 +401,8 @@ void ItemEncryptedScriptable::encryptItems()
         auto itemData = itemDataValue.toMap();
 
         QVariantMap itemDataToEncrypt;
-        for ( const auto &format : itemData.keys() ) {
+        const auto formats = itemData.keys();
+        for (const auto &format : formats) {
             if ( !format.startsWith(COPYQ_MIME_PREFIX) ) {
                 itemDataToEncrypt.insert(format, itemData[format]);
                 itemData.remove(format);
@@ -435,8 +438,8 @@ void ItemEncryptedScriptable::decryptItems()
                 return;
 
             const auto decryptedItemData = call("unpack", QVariantList() << decryptedBytes).toMap();
-            for ( const auto &format : decryptedItemData.keys() )
-                itemData.insert(format, decryptedItemData[format]);
+            for (auto it = decryptedItemData.constBegin(); it != decryptedItemData.constEnd(); ++it)
+                itemData.insert(it.key(), it.value());
         }
 
         dataList.append(itemData);
@@ -485,8 +488,8 @@ QString ItemEncryptedScriptable::generateTestKeys()
 
     if ( !waitOrTerminate(&process) || !verifyProcess(&process) ) {
         return QString("ItemEncrypt ERROR: %1; stderr: %2")
-                .arg( process.errorString() )
-                .arg( QString::fromUtf8(process.readAllStandardError()) );
+                .arg( process.errorString(),
+                      QString::fromUtf8(process.readAllStandardError()) );
     }
 
     const auto error = exportImportGpgKeys();
@@ -581,8 +584,8 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
                                         "<li>%2<br />(Keep this secret key in a safe place.)</li>"
                                         "</ul>"
                                         )
-                                     .arg( quoteString(keys.pub) )
-                                     .arg( quoteString(keys.sec) )
+                                     .arg( quoteString(keys.pub),
+                                           quoteString(keys.sec) )
                                      );
     }
 
@@ -607,7 +610,9 @@ bool ItemEncryptedLoader::canLoadItems(QIODevice *file) const
 
 bool ItemEncryptedLoader::canSaveItems(const QString &tabName) const
 {
-    for ( const auto &encryptTabName : m_settings.value("encrypt_tabs").toStringList() ) {
+    const auto encryptTabNames = m_settings.value("encrypt_tabs").toStringList();
+
+    for (const auto &encryptTabName : encryptTabNames) {
         if ( encryptTabName.isEmpty() )
             continue;
 

@@ -80,7 +80,7 @@ QString TabBar::tabText(int tabIndex) const
 
 void TabBar::setTabText(int tabIndex, const QString &tabText)
 {
-    return QTabBar::setTabText(tabIndex, tabText);
+    QTabBar::setTabText(tabIndex, tabText);
 }
 
 void TabBar::setTabItemCount(const QString &tabName, const QString &itemCount)

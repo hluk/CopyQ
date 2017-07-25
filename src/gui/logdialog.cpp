@@ -115,7 +115,7 @@ namespace {
 class LogDecorator : public Decorator
 {
 public:
-    LogDecorator(QFont font, QObject *parent)
+    LogDecorator(const QFont &font, QObject *parent)
         : Decorator(QRegExp("^[^\\]]*\\]"), parent)
         , m_labelNote(logLevelLabel(LogNote))
         , m_labelError(logLevelLabel(LogError))

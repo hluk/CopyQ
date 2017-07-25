@@ -29,7 +29,7 @@ int smallIconSize()
     return QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
 }
 
-QPoint toScreen(const QPoint &pos, int w, int h)
+QPoint toScreen(QPoint pos, int w, int h)
 {
     const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
     return QPoint(

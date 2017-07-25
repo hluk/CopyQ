@@ -190,8 +190,8 @@ bool ClipboardServer::isMonitoring()
 
 void ClipboardServer::removeGlobalShortcuts()
 {
-    for (auto s : m_shortcutActions.keys())
-        delete s;
+    for (auto it = m_shortcutActions.constBegin(); it != m_shortcutActions.constEnd(); ++it)
+        delete it.key();
     m_shortcutActions.clear();
 }
 
@@ -360,8 +360,8 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
     auto s = new QxtGlobalShortcut(shortcut, this);
     if (!s->isValid()) {
         log(QString("Failed to set global shortcut \"%1\" for command \"%2\".")
-            .arg(shortcut.toString())
-            .arg(command.name),
+            .arg(shortcut.toString(),
+                 command.name),
             LogWarning);
         delete s;
         return;
@@ -422,8 +422,8 @@ void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
     m_ignoreKeysTimer.start();
 
     const QMap<QxtGlobalShortcut*, Command>::const_iterator it =
-            m_shortcutActions.find(shortcut);
-    if ( it != m_shortcutActions.end() ) {
+            m_shortcutActions.constFind(shortcut);
+    if ( it != m_shortcutActions.constEnd() ) {
         QVariantMap data;
         const QString shortcutText = portableShortcutText(shortcut->shortcut());
         data.insert(mimeShortcut, shortcutText.toUtf8());

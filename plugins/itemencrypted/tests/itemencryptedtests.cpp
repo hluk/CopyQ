@@ -62,7 +62,6 @@ void ItemEncryptedTests::encryptDecryptData()
 
     const QByteArray input("\x00\x01\x02\x03\x04", 5);
     QByteArray stdoutActual;
-    QByteArray stderrActual;
 
     // Encrypted data differs.
     QCOMPARE( m_test->run(Args("-e") << "plugins.itemencrypted.encrypt(input())", &stdoutActual, nullptr, input), 0 );

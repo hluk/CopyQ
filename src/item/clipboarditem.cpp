@@ -78,7 +78,8 @@ bool ClipboardItem::setData(const QVariantMap &data)
 bool ClipboardItem::updateData(const QVariantMap &data)
 {
     const int oldSize = m_data.size();
-    for ( const auto &format : data.keys() ) {
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const auto &format = it.key();
         if ( !format.startsWith(COPYQ_MIME_PREFIX) ) {
             clearDataExceptInternal(&m_data);
             break;
@@ -87,8 +88,9 @@ bool ClipboardItem::updateData(const QVariantMap &data)
 
     bool changed = (oldSize != m_data.size());
 
-    for ( const auto &format : data.keys() ) {
-        const auto &value = data[format];
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const auto &format = it.key();
+        const auto &value = it.value();
         if ( !value.isValid() ) {
             m_data.remove(format);
             changed = true;

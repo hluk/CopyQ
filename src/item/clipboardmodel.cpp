@@ -235,6 +235,7 @@ bool ClipboardModel::moveItemsWithKeyboard(const QModelIndexList &indexList, int
     bool res = false;
 
     QList<int> list;
+    list.reserve( indexList.size() );
     for (const auto &i : indexList)
         list.append( i.row() );
 

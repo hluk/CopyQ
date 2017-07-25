@@ -368,12 +368,12 @@ QWidget *ItemTags::createEditor(QWidget *parent) const
 
 void ItemTags::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    return m_childItem->setEditorData(editor, index);
+    m_childItem->setEditorData(editor, index);
 }
 
 void ItemTags::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    return m_childItem->setModelData(editor, model, index);
+    m_childItem->setModelData(editor, model, index);
 }
 
 bool ItemTags::hasChanges(QWidget *editor) const
@@ -386,7 +386,7 @@ QObject *ItemTags::createExternalEditor(const QModelIndex &index, QWidget *paren
     return m_childItem->createExternalEditor(index, parent);
 }
 
-void ItemTags::updateSize(const QSize &maximumSize, int idealWidth)
+void ItemTags::updateSize(QSize maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
 
@@ -435,6 +435,7 @@ void ItemTagsScriptable::tag()
         const auto dataValueList = call("selectedItemsData").toList();
 
         QVariantList dataList;
+        dataList.reserve( dataValueList.size() );
         for (const auto &itemDataValue : dataValueList) {
             auto itemData = itemDataValue.toMap();
             auto itemTags = tags(itemData);
@@ -474,6 +475,7 @@ void ItemTagsScriptable::untag()
         }
 
         QVariantList dataList;
+        dataList.reserve( dataValueList.size() );
         for (const auto &itemDataValue : dataValueList) {
             auto itemData = itemDataValue.toMap();
             auto itemTags = tags(itemData);
@@ -761,6 +763,7 @@ QList<Command> ItemTagsLoader::commands() const
 QStringList ItemTagsLoader::userTags() const
 {
     QStringList tags;
+    tags.reserve( m_tags.size() );
 
     for (const auto &tag : m_tags)
         tags.append(tag.name);

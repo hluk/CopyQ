@@ -650,8 +650,10 @@ void TabTree::rowsInserted(const QModelIndex &parent, int start, int end)
 {
     QTreeWidget::rowsInserted(parent, start, end);
 
+    QList<QTreeWidgetItem *> items;
+
     for (int row = start; row <= end; ++row) {
-        QList<QTreeWidgetItem *> items;
+        items.clear();
         items.append( parent.isValid() ? itemFromIndex(parent.child(row, 0))
                                        : topLevelItem(row) );
         while ( !items.isEmpty() ) {
@@ -704,7 +706,7 @@ void TabTree::doUpdateSize()
     setFixedWidth(w);
 }
 
-void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition)
+void TabTree::requestTabMenu(QPoint itemPosition, QPoint menuPosition)
 {
     QTreeWidgetItem *item = itemAt(itemPosition);
     QString tabPath = getTabPath(item);

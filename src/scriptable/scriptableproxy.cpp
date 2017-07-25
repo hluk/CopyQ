@@ -389,7 +389,7 @@ QWidget *createWidget(const QString &name, const QVariant &value, InputDialog *i
     }
 }
 
-void setGeometryWithoutSave(QWidget *window, const QRect &geometry)
+void setGeometryWithoutSave(QWidget *window, QRect geometry)
 {
     WindowGeometryGuard::blockUntilHidden(window);
 
@@ -477,7 +477,7 @@ bool ScriptableProxy::showWindow()
     return m_wnd->isVisible();
 }
 
-bool ScriptableProxy::showWindowAt(const QRect &rect)
+bool ScriptableProxy::showWindowAt(QRect rect)
 {
     INVOKE(showWindowAt(rect));
     setGeometryWithoutSave(m_wnd, rect);
@@ -598,7 +598,7 @@ bool ScriptableProxy::showBrowser(const QString &tabName)
     return m_wnd->isVisible();
 }
 
-bool ScriptableProxy::showBrowserAt(const QString &tabName, const QRect &rect)
+bool ScriptableProxy::showBrowserAt(const QString &tabName, QRect rect)
 {
     INVOKE(showBrowserAt(tabName, rect));
     setGeometryWithoutSave(m_wnd, rect);
@@ -717,7 +717,7 @@ bool ScriptableProxy::toggleVisible()
     return m_wnd->toggleVisible();
 }
 
-bool ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount, const QPoint &position)
+bool ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount, QPoint position)
 {
     INVOKE(toggleMenu(tabName, maxItemCount, position));
     return m_wnd->toggleMenu(tabName, maxItemCount, position);
@@ -855,12 +855,11 @@ bool ScriptableProxy::browserChange(const QVariantMap &data, int row)
 
     const auto index = c->index(row);
     QVariantMap itemData = c->model()->data(index, contentType::data).toMap();
-    for ( const auto &format : data.keys() ) {
-        const auto value = data[format];
-        if (value.isValid())
-            itemData[format] = value;
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        if ( it.value().isValid() )
+            itemData.insert( it.key(), it.value() );
         else
-            itemData.remove(format);
+            itemData.remove( it.key() );
     }
 
     return c->model()->setData(index, itemData, contentType::data);
@@ -1149,6 +1148,7 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
         return NamedValueList();
 
     NamedValueList result;
+    result.reserve( widgets.size() );
 
     for ( auto w : widgets ) {
         const QString propertyName = w->property(propertyWidgetProperty).toString();

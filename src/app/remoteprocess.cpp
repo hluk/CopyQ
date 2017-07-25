@@ -75,8 +75,8 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
     m_server->start();
 
     COPYQ_LOG( QString("Remote process: Starting new remote process \"%1 %2\".")
-               .arg(QCoreApplication::applicationFilePath())
-               .arg(arguments.join(" ")) );
+               .arg(QCoreApplication::applicationFilePath(),
+                    arguments.join(" ")) );
 
     m_process = new QProcess(this);
     m_process->start(QCoreApplication::applicationFilePath(), arguments, QIODevice::NotOpen);
@@ -131,8 +131,8 @@ void RemoteProcess::onMessageReceived(const QByteArray &message, int messageCode
     if (messageCode == MonitorPong) {
         if (m_pongRetryCount > 0)
             COPYQ_LOG( QString("Remote process: Pong received on try %1/%2")
-                   .arg(QString::number(m_pongRetryCount))
-                   .arg(QString::number(pingMaxRetries)) );
+                   .arg(m_pongRetryCount)
+                   .arg(pingMaxRetries) );
         m_pongRetryCount = 0;
         m_timerPongTimeout.stop();
         m_timerPing.start();
@@ -206,8 +206,8 @@ void RemoteProcess::pongTimeout()
     if (m_pongRetryCount < pingMaxRetries) {
         ++m_pongRetryCount;
         COPYQ_LOG( QString("Remote process: Resending ping %1/%2")
-                   .arg(QString::number(m_pongRetryCount))
-                   .arg(QString::number(pingMaxRetries)) );
+                   .arg(m_pongRetryCount)
+                   .arg(pingMaxRetries) );
         ping();
     } else {
         onConnectionError("Connection timeout");

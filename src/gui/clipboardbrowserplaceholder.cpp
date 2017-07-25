@@ -61,7 +61,7 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
     }
 
     if (m_timerExpire.interval() > 0) {
-        connect( c.get(), SIGNAL(updateContextMenu(const ClipboardBrowser *)),
+        connect( c.get(), SIGNAL(updateContextMenu(const ClipboardBrowser*)),
                  &m_timerExpire, SLOT(start()) );
     }
 

@@ -154,7 +154,7 @@ QString FakeVimSettings::trySetValue(const QString &name, const QString &value)
     if (code == ConfigTabStop || code == ConfigShiftWidth) {
         if (value.toInt() <= 0)
             return FakeVimHandler::tr("Argument must be positive: %1=%2")
-                    .arg(name).arg(value);
+                    .arg(name, value);
     }
     SavedAction *act = item(code);
     if (!act)

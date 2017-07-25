@@ -43,6 +43,6 @@ void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &
 
 void moveToCurrentWorkspace(QWidget *w);
 
-void moveWindowOnScreen(QWidget *w, const QPoint &pos);
+void moveWindowOnScreen(QWidget *w, QPoint pos);
 
 #endif // CONFIG_H

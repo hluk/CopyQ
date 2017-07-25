@@ -68,6 +68,7 @@ Arguments::Arguments(const QStringList &arguments)
     reset();
 
     bool readRaw = false;
+    m_args.reserve( arguments.size() );
     for (const auto &arg : arguments) {
         readRaw = readRaw || arg == "--";
         if (readRaw)

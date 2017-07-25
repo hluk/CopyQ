@@ -25,6 +25,8 @@ class QStringList;
 
 class TabsWidgetInterface {
 public:
+    TabsWidgetInterface() = default;
+
     virtual ~TabsWidgetInterface() = default;
 
     /** Return path to current group in tree (empty string if this is not a tree). */
@@ -62,6 +64,9 @@ public:
     virtual void setCurrentTab(int index) = 0;
 
     virtual void adjustSize() = 0;
+
+    TabsWidgetInterface(const TabsWidgetInterface &) = delete;
+    TabsWidgetInterface &operator=(const TabsWidgetInterface &) = delete;
 };
 
 #endif // TABSWIDGETINTERFACE_H

@@ -42,6 +42,9 @@ public:
     /// Return content of settings file.
     QByteArray content();
 
+    TemporarySettings(const TemporarySettings &) = delete;
+    TemporarySettings &operator=(const TemporarySettings &) = delete;
+
 private:
     QSettings *m_settings;
 };

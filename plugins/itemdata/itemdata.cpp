@@ -105,7 +105,8 @@ ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
     QString text;
 
     const QVariantMap data = index.data(contentType::data).toMap();
-    for ( const auto &format : data.keys() ) {
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const auto &format = it.key();
         QByteArray bytes = data[format].toByteArray();
         const int size = bytes.size();
         bool trimmed = size > maxBytes;

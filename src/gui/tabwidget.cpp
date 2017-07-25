@@ -186,7 +186,7 @@ void TabWidget::removeTab(int tabIndex)
 QStringList TabWidget::tabs() const
 {
     QStringList tabs;
-
+    tabs.reserve( count() );
     for( int i = 0; i < count(); ++i )
         tabs.append( tabText(i) );
 
@@ -219,6 +219,7 @@ void TabWidget::addToolBars(QMainWindow *mainWindow)
 void TabWidget::saveTabInfo()
 {
     QStringList tabs;
+    tabs.reserve( count() );
     for ( int i = 0; i < count(); ++i )
         tabs.append( tabText(i) );
 
@@ -244,8 +245,8 @@ void TabWidget::loadTabInfo()
 
     QVariantMap tabItemCounters = settings.value("TabWidget/tab_item_counters").toMap();
     m_tabItemCounters.clear();
-    for (const auto &key : tabItemCounters.keys())
-        m_tabItemCounters[key] = tabItemCounters[key].toInt();
+    for (auto it = tabItemCounters.constBegin(); it != tabItemCounters.constEnd(); ++it)
+        m_tabItemCounters[it.key()] = it.value().toInt();
 }
 
 void TabWidget::updateTabs()
@@ -404,8 +405,8 @@ void TabWidget::createTabBar()
     tabBar->setExpanding(false);
     tabBar->setMovable(true);
 
-    connect( tabBar, SIGNAL(tabMenuRequested(QPoint, int)),
-             this, SIGNAL(tabMenuRequested(QPoint, int)) );
+    connect( tabBar, SIGNAL(tabMenuRequested(QPoint,int)),
+             this, SIGNAL(tabMenuRequested(QPoint,int)) );
     connect( tabBar, SIGNAL(tabRenamed(QString,int)),
              this, SIGNAL(tabRenamed(QString,int)) );
     connect( tabBar, SIGNAL(tabCloseRequested(int)),
@@ -414,8 +415,8 @@ void TabWidget::createTabBar()
              this, SIGNAL(dropItems(QString,const QMimeData*)) );
     connect( tabBar, SIGNAL(currentChanged(int)),
              this, SLOT(setCurrentIndex(int)) );
-    connect( tabBar, SIGNAL(tabMoved(int, int)),
-             this, SLOT(onTabMoved(int, int)) );
+    connect( tabBar, SIGNAL(tabMoved(int,int)),
+             this, SLOT(onTabMoved(int,int)) );
 
     delete m_tabs;
     m_tabs = tabBar;

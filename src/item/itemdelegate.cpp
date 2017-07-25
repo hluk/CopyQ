@@ -99,7 +99,7 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
             emit sizeHintChanged(index);
     }
 
-    return false;
+    return QItemDelegate::eventFilter(obj, event);
 }
 
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
@@ -163,7 +163,7 @@ bool ItemDelegate::hasCache(const QModelIndex &index) const
     return m_cache[index.row()] != nullptr;
 }
 
-void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
+void ItemDelegate::setItemSizes(QSize size, int idealWidth)
 {
     const auto margins = m_sharedData->theme.margins();
     const auto rowNumberSize = m_sharedData->theme.rowNumberSize();

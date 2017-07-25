@@ -91,15 +91,15 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
     result.append( QString(";font-family: \"%1\"").arg(font.family()) );
     result.append( QString(";font:%1 %2 %3%4")
                    .arg(font.style() == QFont::StyleItalic
-                        ? "italic" : font.style() == QFont::StyleOblique ? "oblique" : "normal")
-                   .arg(font.bold() ? "bold" : "")
+                        ? "italic" : font.style() == QFont::StyleOblique ? "oblique" : "normal",
+                        font.bold() ? "bold" : "")
                    .arg(size)
                    .arg(sizeUnits)
                    );
     result.append( QString(";text-decoration:%1 %2 %3")
-                   .arg(font.strikeOut() ? "line-through" : "")
-                   .arg(font.underline() ? "underline" : "")
-                   .arg(font.overline() ? "overline" : "")
+                   .arg(font.strikeOut() ? "line-through" : "",
+                        font.underline() ? "underline" : "",
+                        font.overline() ? "overline" : "")
                    );
     // QFont::weight -> CSS
     // (normal) 50 -> 400
@@ -500,8 +500,8 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
                 );
 
     Theme unfocusedTheme;
-    for ( const auto &key : m_theme.keys() )
-        unfocusedTheme.m_theme[key] = Option(m_theme[key].value());
+    for (auto it = m_theme.constBegin(); it != m_theme.constEnd(); ++it)
+        unfocusedTheme.m_theme[it.key()] = Option(it.value().value());
     unfocusedTheme.m_theme["sel_bg"].setValue( serializeColor(unfocusedSelectedBg) );
 
     // colors and font

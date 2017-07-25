@@ -329,6 +329,7 @@ void CommandDialog::onClipboardChanged()
 Commands CommandDialog::currentCommands() const
 {
     Commands commands;
+    commands.reserve( ui->itemOrderListCommands->itemCount() );
 
     for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
         Command c;
@@ -352,10 +353,11 @@ Commands CommandDialog::currentCommands() const
 
 void CommandDialog::addCommandsWithoutSave(const Commands &commands, int targetRow)
 {
-    QList<int> rowsToSelect;
-
     const int count = ui->itemOrderListCommands->rowCount();
     int row = targetRow >= 0 ? targetRow : count;
+
+    QList<int> rowsToSelect;
+    rowsToSelect.reserve( commands.size() );
 
     for (auto &command : commands) {
         ItemOrderList::ItemPtr item(new CommandItem(command, m_formats, this));

@@ -106,7 +106,7 @@ private slots:
     void doUpdateSize();
 
 private:
-    void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
+    void requestTabMenu(QPoint itemPosition, QPoint menuPosition);
     void deleteItem(QTreeWidgetItem *item);
 
     QTimer m_timerUpdate;

@@ -45,12 +45,16 @@ const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
 
 QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enabled = true)
 {
+    if ( shortcuts.isEmpty() )
+        return QStringList();
+
     QStringList shortcutTexts;
+    shortcutTexts.reserve( shortcuts.size() + (enabled ? 1 : 0) );
 
     for (const auto &shortcut : shortcuts)
         shortcutTexts.append(portableShortcutText(shortcut));
 
-    if (!enabled && !shortcutTexts.isEmpty())
+    if (!enabled)
         shortcutTexts.append(globalShortcutsDisabled);
 
     return shortcutTexts;

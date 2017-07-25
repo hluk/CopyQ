@@ -100,12 +100,12 @@ void ActionHandler::action(Action *action)
 
     m_lastAction = action;
 
-    connect( action, SIGNAL(newItems(QStringList, QString, QString)),
-             this, SLOT(addItems(QStringList, QString, QString)) );
-    connect( action, SIGNAL(newItem(QByteArray, QString, QString)),
-             this, SLOT(addItem(QByteArray, QString, QString)) );
-    connect( action, SIGNAL(changeItem(QByteArray, QString, QModelIndex)),
-             this, SLOT(changeItem(QByteArray, QString, QModelIndex)) );
+    connect( action, SIGNAL(newItems(QStringList,QString,QString)),
+             this, SLOT(addItems(QStringList,QString,QString)) );
+    connect( action, SIGNAL(newItem(QByteArray,QString,QString)),
+             this, SLOT(addItem(QByteArray,QString,QString)) );
+    connect( action, SIGNAL(changeItem(QByteArray,QString,QModelIndex)),
+             this, SLOT(changeItem(QByteArray,QString,QModelIndex)) );
     connect( action, SIGNAL(actionStarted(Action*)),
              this, SLOT(actionStarted(Action*)) );
     connect( action, SIGNAL(actionFinished(Action*)),

@@ -228,7 +228,11 @@ PlatformClipboardPtr X11Platform::clipboard()
 
 QStringList X11Platform::getCommandLineArguments(int argc, char **argv)
 {
+    if (argc == 0)
+        return QStringList();
+
     QStringList arguments;
+    arguments.reserve(argc - 1);
 
     for (int i = 1; i < argc; ++i)
         arguments.append( QString::fromUtf8(argv[i]) );

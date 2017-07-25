@@ -53,7 +53,7 @@ protected:
 
     QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
 
-    void updateSize(const QSize &maximumSize, int idealWidth) override;
+    void updateSize(QSize maximumSize, int idealWidth) override;
 
 private:
     QWidget *m_border;

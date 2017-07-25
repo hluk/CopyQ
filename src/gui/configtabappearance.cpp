@@ -176,7 +176,7 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
     connect( editor, SIGNAL(fileModified(QByteArray,QString,QModelIndex)),
              this, SLOT(onThemeModified(QByteArray)) );
 
-    connect( editor, SIGNAL(closed(QObject *)),
+    connect( editor, SIGNAL(closed(QObject*)),
              editor, SLOT(deleteLater()) );
 
     if ( !editor->start() )

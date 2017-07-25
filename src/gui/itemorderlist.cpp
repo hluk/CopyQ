@@ -63,7 +63,7 @@ void ItemOrderList::setAddRemoveButtonsVisible(bool visible)
 void ItemOrderList::clearItems()
 {
     ui->listWidgetItems->clear();
-    for ( const auto &pair : m_items.values() )
+    for (const auto &pair : m_items)
         deleteWidget(pair.widget);
     m_items.clear();
 }

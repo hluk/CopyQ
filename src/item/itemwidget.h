@@ -120,7 +120,7 @@ public:
     /**
      * Size of widget needs to be updated (because maximum size chaged).
      */
-    virtual void updateSize(const QSize &maximumSize, int idealWidth);
+    virtual void updateSize(QSize maximumSize, int idealWidth);
 
     /**
      * Called if widget is set or unset as current.
@@ -133,6 +133,9 @@ public:
      * Used to hide unimportant data when notes or tags are present.
      */
     virtual void setTagged(bool) {}
+
+    ItemWidget(const ItemWidget &) = delete;
+    ItemWidget &operator=(const ItemWidget &) = delete;
 
 protected:
     /**
@@ -218,6 +221,8 @@ private:
 class ItemSaverInterface
 {
 public:
+    ItemSaverInterface() = default;
+
     virtual ~ItemSaverInterface() = default;
 
     /**
@@ -247,6 +252,9 @@ public:
      * Return copy of items data.
      */
     virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
+
+    ItemSaverInterface(const ItemSaverInterface &) = delete;
+    ItemSaverInterface &operator=(const ItemSaverInterface &) = delete;
 };
 
 /**
@@ -406,6 +414,9 @@ public:
      * Adds commands from scripts for command dialog.
      */
     virtual QList<Command> commands() const;
+
+    ItemLoaderInterface(const ItemLoaderInterface &) = delete;
+    ItemLoaderInterface &operator=(const ItemLoaderInterface &) = delete;
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)

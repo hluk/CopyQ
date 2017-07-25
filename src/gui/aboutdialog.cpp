@@ -49,8 +49,7 @@ QString helpLink(const QString &name, const QString &link, ushort icon)
 QString helpDeveloper(const char *name, const char *mail)
 {
     return QString("<div>%1 &nbsp;&nbsp;&nbsp;<span class='info'>%2</span></div>")
-            .arg(QString::fromUtf8(name))
-            .arg(mail);
+            .arg(QString::fromUtf8(name), mail);
 }
 
 QString helpLib(const char *name, const QString &copyright, const char *url)
@@ -59,9 +58,7 @@ QString helpLib(const char *name, const QString &copyright, const char *url)
                    "&nbsp;&nbsp;&nbsp;<br />"
                    "<span class='copyright'>%2</span><br />"
                    "%3</p>")
-            .arg(name)
-            .arg(copyright)
-            .arg( helpUrl(url) );
+            .arg( name, copyright, helpUrl(url) );
 }
 
 } // namespace

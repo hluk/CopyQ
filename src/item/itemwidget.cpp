@@ -176,7 +176,7 @@ QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const
     return nullptr;
 }
 
-void ItemWidget::updateSize(const QSize &maximumSize, int idealWidth)
+void ItemWidget::updateSize(QSize maximumSize, int idealWidth)
 {
     QWidget *w = widget();
     w->setMaximumSize(maximumSize);
@@ -253,8 +253,8 @@ QVariant ItemScriptable::call(const QString &method, const QVariantList &argumen
     QMetaObject::invokeMethod(
                 m_scriptable, "call", Qt::DirectConnection,
                 Q_RETURN_ARG(QVariant, result),
-                Q_ARG(const QString &, method),
-                Q_ARG(const QVariantList &, arguments));
+                Q_ARG(QString, method),
+                Q_ARG(QVariantList, arguments));
     return result;
 }
 

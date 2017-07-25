@@ -66,6 +66,9 @@ public:
 
     void run() override;
 
+    ScriptableWorker(const ScriptableWorker &) = delete;
+    ScriptableWorker &operator=(const ScriptableWorker &) = delete;
+
 private:
     MainWindow *m_wnd;
     QPointer<ScriptableWorkerSocketGuard> m_socketGuard;

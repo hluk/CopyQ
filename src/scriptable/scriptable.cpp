@@ -190,8 +190,8 @@ struct ScriptValueFactory<QVariantMap> {
     {
         QScriptValue value = scriptable->engine()->newObject();
 
-        for ( const auto &format : dataMap.keys() )
-            value.setProperty( format, ::toScriptValue(dataMap[format], scriptable) );
+        for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it)
+            value.setProperty( it.key(), ::toScriptValue(it.value(), scriptable) );
 
         return value;
     }
@@ -934,6 +934,7 @@ void Scriptable::add()
     m_skipArguments = -1;
 
     QStringList texts;
+    texts.reserve( argumentCount() );
 
     for (int i = 0; i < argumentCount(); ++i)
         texts.append( toString(argument(i), this) );
@@ -1198,6 +1199,7 @@ QScriptValue Scriptable::config()
     m_skipArguments = -1;
 
     QStringList nameValueInput;
+    nameValueInput.reserve( argumentCount() );
 
     for (int i = 0; i < argumentCount(); ++i)
         nameValueInput.append( arg(i) );
@@ -1323,8 +1325,8 @@ QScriptValue Scriptable::info()
         return info.value(name);
 
     QString result;
-    for (InfoMap::const_iterator it = info.begin(); it != info.end(); ++it)
-        result.append(QString("%1: %2\n").arg(it.key(), it.value()));
+    for (auto it = info.constBegin(); it != info.constEnd(); ++it)
+        result.append( QString("%1: %2\n").arg(it.key(), it.value()) );
     result.chop(1);
 
     return result;
@@ -1347,8 +1349,8 @@ QScriptValue Scriptable::source()
         QFile scriptFile( getFileName(scriptFilePath) );
         if ( !scriptFile.open(QIODevice::ReadOnly) ) {
             throwError( QString("Failed to open \"%1\": %2")
-                        .arg(scriptFilePath)
-                        .arg(scriptFile.errorString()) );
+                        .arg(scriptFilePath,
+                             scriptFile.errorString()) );
             return QScriptValue();
         }
 
@@ -1745,7 +1747,7 @@ QScriptValue Scriptable::execute()
     if ( m_executeStdoutCallback.isFunction() ) {
         action.setItemSeparator(QRegExp("\n"));
         action.setOutputFormat(mimeText);
-        connect( &action, SIGNAL(newItems(QStringList, QString, QString)),
+        connect( &action, SIGNAL(newItems(QStringList,QString,QString)),
                  this, SLOT(onExecuteOutput(QStringList)) );
     } else {
         action.setOutputFormat("DATA");
@@ -1955,6 +1957,7 @@ QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
     m_skipArguments = 2;
 
     QScriptValueList fnArgs;
+    fnArgs.reserve( arguments.size() );
     for (const auto &argument : arguments)
         fnArgs.append( toScriptValue(argument, this) );
 
@@ -1967,6 +1970,7 @@ QVariantList Scriptable::currentArguments()
 {
     m_skipArguments = -1;
     QVariantList arguments;
+    arguments.reserve( argumentCount() );
     for ( int i = 0; i < argumentCount(); ++i )
         arguments.append( toVariant(argument(i)) );
     return arguments;

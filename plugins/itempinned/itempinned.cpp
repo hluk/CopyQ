@@ -106,12 +106,12 @@ QWidget *ItemPinned::createEditor(QWidget *parent) const
 
 void ItemPinned::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    return m_childItem->setEditorData(editor, index);
+    m_childItem->setEditorData(editor, index);
 }
 
 void ItemPinned::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    return m_childItem->setModelData(editor, model, index);
+    m_childItem->setModelData(editor, model, index);
 }
 
 bool ItemPinned::hasChanges(QWidget *editor) const
@@ -124,7 +124,7 @@ QObject *ItemPinned::createExternalEditor(const QModelIndex &index, QWidget *par
     return m_childItem->createExternalEditor(index, parent);
 }
 
-void ItemPinned::updateSize(const QSize &maximumSize, int idealWidth)
+void ItemPinned::updateSize(QSize maximumSize, int idealWidth)
 {
     setMinimumWidth(idealWidth);
     setMaximumWidth(maximumSize.width());

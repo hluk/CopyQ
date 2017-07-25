@@ -111,6 +111,9 @@ public:
         return &m_settings;
     }
 
+    Settings(const Settings &) = delete;
+    Settings &operator=(const Settings &) = delete;
+
 private:
     QSettings m_settings;
 

@@ -312,8 +312,9 @@ void ConfigurationManager::updateTabComboBoxes()
 QStringList ConfigurationManager::options() const
 {
     QStringList options;
-    for ( const auto &option : m_options.keys() ) {
-        if ( m_options[option].value().canConvert(QVariant::String)
+    for (auto it = m_options.constBegin(); it != m_options.constEnd(); ++it) {
+        const auto &option = it.key();
+        if ( it.value().value().canConvert(QVariant::String)
              && !optionToolTip(option).isEmpty() )
         {
             options.append(option);
@@ -353,13 +354,15 @@ void ConfigurationManager::loadSettings()
     QSettings settings;
 
     settings.beginGroup("Options");
-    for ( const auto &key : m_options.keys() ) {
-        if ( settings.contains(key) ) {
-            QVariant value = settings.value(key);
-            if ( !value.isValid() || !m_options[key].setValue(value) )
-                log( tr("Invalid value for option \"%1\"").arg(key), LogWarning );
+    for (auto it = m_options.begin(); it != m_options.end(); ++it) {
+        const auto &option = it.key();
+        auto &value = it.value();
+        if ( settings.contains(option) ) {
+            const auto newValue = settings.value(option);
+            if ( !newValue.isValid() || !value.setValue(newValue) )
+                log( tr("Invalid value for option \"%1\"").arg(option), LogWarning );
         } else {
-            m_options[key].reset();
+            value.reset();
         }
     }
     settings.endGroup();
@@ -406,9 +409,8 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
         if (answer == QMessageBox::Yes) {
-            for ( const auto &key : m_options.keys() ) {
-                m_options[key].reset();
-            }
+            for (auto it = m_options.begin(); it != m_options.end(); ++it)
+                it.value().reset();
         }
         break;
     default:
@@ -431,9 +433,8 @@ void ConfigurationManager::apply()
     Settings settings;
 
     settings.beginGroup("Options");
-    for ( const auto &key : m_options.keys() ) {
-        settings.setValue( key, m_options[key].value() );
-    }
+    for (auto it = m_options.constBegin(); it != m_options.constEnd(); ++it)
+        settings.setValue( it.key(), it.value().value() );
     settings.endGroup();
 
     // Save configuration without command line alternatives only if option widgets are initialized
@@ -450,6 +451,7 @@ void ConfigurationManager::apply()
     settings.beginGroup("Plugins");
 
     QStringList pluginPriority;
+    pluginPriority.reserve( ui->itemOrderListPlugins->itemCount() );
 
     for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
         const QString loaderId = ui->itemOrderListPlugins->data(i).toString();
@@ -464,8 +466,8 @@ void ConfigurationManager::apply()
             PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
             const auto &loader = pluginWidget->loader();
             const QVariantMap s = loader->applySettings();
-            for (const auto &name : s.keys())
-                settings.setValue(name, s[name]);
+            for (auto it = s.constBegin(); it != s.constEnd(); ++it)
+                settings.setValue( it.key(), it.value() );
         }
 
         const bool isPluginEnabled = ui->itemOrderListPlugins->isItemChecked(i);

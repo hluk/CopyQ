@@ -43,6 +43,8 @@ using PlatformClipboardPtr = std::shared_ptr<PlatformClipboard>;
 class PlatformNativeInterface
 {
 public:
+    PlatformNativeInterface() = default;
+
     virtual ~PlatformNativeInterface() = default;
 
     /**
@@ -146,6 +148,9 @@ public:
      * Note: Customized themes are saved to settings path.
      */
     virtual QString themePrefix() = 0;
+
+    PlatformNativeInterface(const PlatformNativeInterface &) = delete;
+    PlatformNativeInterface &operator=(const PlatformNativeInterface &) = delete;
 };
 
 /**

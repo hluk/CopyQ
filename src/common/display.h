@@ -24,7 +24,7 @@ class QPoint;
 
 int smallIconSize();
 
-QPoint toScreen(const QPoint &pos, int w = 0, int h = 0);
+QPoint toScreen(QPoint pos, int w = 0, int h = 0);
 
 int pointsToPixels(int points);
 

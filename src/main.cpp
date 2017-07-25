@@ -55,6 +55,7 @@ int evaluate(
     QScriptValue function = engine.globalObject().property(functionName);
     QScriptValueList functionArguments;
 
+    functionArguments.reserve( arguments.size() );
     for (const auto &argument : arguments)
         functionArguments.append(argument);
 

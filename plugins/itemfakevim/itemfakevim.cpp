@@ -440,7 +440,7 @@ protected:
             m_editor->setFont(font());
             m_editor->editor()->setFont(font());
         }
-        return false;
+        return QWidget::event(event);
     }
 
 private:
@@ -497,7 +497,7 @@ void ItemFakeVim::highlight(const QRegExp &re, const QFont &highlightFont, const
     m_childItem->setHighlight(re, highlightFont, highlightPalette);
 }
 
-void ItemFakeVim::updateSize(const QSize &maximumSize, int idealWidth)
+void ItemFakeVim::updateSize(QSize maximumSize, int idealWidth)
 {
     m_childItem->updateSize(maximumSize, idealWidth);
 }
@@ -541,7 +541,7 @@ QObject *ItemFakeVim::createExternalEditor(const QModelIndex &index, QWidget *pa
 
 void ItemFakeVim::setTagged(bool tagged)
 {
-    return m_childItem->setTagged(tagged);
+    m_childItem->setTagged(tagged);
 }
 
 ItemFakeVimLoader::ItemFakeVimLoader()

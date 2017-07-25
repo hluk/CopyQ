@@ -53,6 +53,9 @@ public:
      */
     bool wasClosed() const;
 
+    App(const App &) = delete;
+    App &operator=(const App &) = delete;
+
 private:
     QCoreApplication *m_app;
     int m_exitCode;

@@ -40,6 +40,8 @@ public:
         ReadErrorsWithoutScriptException = 2
     };
 
+    TestInterface() = default;
+
     virtual ~TestInterface() = default;
 
     /// Start or restart GUI server and return true if successful.
@@ -92,6 +94,9 @@ public:
 
     /// Platform specific key to remove (usually Delete, Backspace on OS X).
     virtual QString shortcutToRemove() = 0;
+
+    TestInterface(const TestInterface &) = delete;
+    TestInterface &operator=(const TestInterface &) = delete;
 };
 
 using TestInterfacePtr = std::shared_ptr<TestInterface>;

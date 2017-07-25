@@ -424,8 +424,8 @@ void resetTestsSettings()
         settings.beginGroup(testId);
     }
 
-    for (const auto &key : testSettingsMap.keys())
-        settings.setValue(key, testSettingsMap[key]);
+    for (auto it = testSettingsMap.constBegin(); it != testSettingsMap.constEnd(); ++it)
+        settings.setValue( it.key(), it.value() );
 
     if (pluginsTest) {
         settings.endGroup();
@@ -498,7 +498,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     connect( ui->tabWidget, SIGNAL(currentChanged(int,int)),
              this, SLOT(tabChanged(int,int)) );
-    connect( ui->tabWidget, SIGNAL(tabMoved(int, int)),
+    connect( ui->tabWidget, SIGNAL(tabMoved(int,int)),
              this, SLOT(saveTabPositions()) );
     connect( ui->tabWidget, SIGNAL(tabsMoved(QString,QString)),
              this, SLOT(tabsMoved(QString,QString)) );
@@ -742,7 +742,7 @@ void MainWindow::createMenu()
     createAction( Actions::Help_About, SLOT(openAboutDialog()), menu );
 }
 
-void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
+void MainWindow::popupTabBarMenu(QPoint pos, const QString &tab)
 {
     QMenu menu(ui->tabWidget);
 
@@ -994,7 +994,7 @@ void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData 
     }
 }
 
-void MainWindow::showContextMenu(const QPoint &position)
+void MainWindow::showContextMenu(QPoint position)
 {
     m_menuItem->exec(position);
 }
@@ -1128,8 +1128,8 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              ui->tabWidget, SLOT(setTabItemCount(QString,int)) );
     connect( browser, SIGNAL(showContextMenu(QPoint)),
              this, SLOT(showContextMenu(QPoint)) );
-    connect( browser, SIGNAL(updateContextMenu(const ClipboardBrowser *)),
-             this, SLOT(updateContextMenu(const ClipboardBrowser *)) );
+    connect( browser, SIGNAL(updateContextMenu(const ClipboardBrowser*)),
+             this, SLOT(updateContextMenu(const ClipboardBrowser*)) );
     connect( browser, SIGNAL(searchRequest()),
              this, SLOT(findNextOrPrevious()) );
     connect( browser, SIGNAL(searchHideRequest()),
@@ -1215,14 +1215,13 @@ void MainWindow::keyClicks(const QString &keys, int delay)
     const auto className = widget->metaObject()->className();
 
     auto widgetName = QString("%1:%2")
-            .arg(widget->objectName())
-            .arg(className);
+            .arg(widget->objectName(), className);
 
     if (widget != widget->window()) {
         widgetName.append(
                     QString(" in %1:%2")
-                    .arg(widget->window()->objectName())
-                    .arg(widget->window()->metaObject()->className()) );
+                    .arg(widget->window()->objectName(),
+                         widget->window()->metaObject()->className()) );
     }
 
     // There could be some animation/transition effect on check boxes
@@ -1231,15 +1230,13 @@ void MainWindow::keyClicks(const QString &keys, int delay)
         waitFor(100);
 
     COPYQ_LOG( QString("Sending keys \"%1\" to %2.")
-               .arg(keys)
-               .arg(widgetName) );
+               .arg(keys, widgetName) );
 
     if ( keys.startsWith(":") ) {
         const auto text = keys.mid(1);
 
         const auto popupMessage = QString("%1 (%2)")
-                .arg( quoteString(text) )
-                .arg(widgetName);
+                .arg( quoteString(text), widgetName );
         const int msec = std::max( 1500, delay * text.size() );
         showMessage(QString(), popupMessage, IconKeyboard, msec);
 
@@ -1259,8 +1256,7 @@ void MainWindow::keyClicks(const QString &keys, int delay)
         }
 
         const auto popupMessage = QString("%1 (%2)")
-                .arg(shortcut.toString())
-                .arg(widgetName);
+                .arg( shortcut.toString(), widgetName );
         const int msec = std::min( 8000, std::max( 1500, delay * 40 ) );
         showMessage(QString(), popupMessage, IconKeyboard, msec);
 
@@ -1272,15 +1268,14 @@ void MainWindow::keyClicks(const QString &keys, int delay)
     }
 
     COPYQ_LOG( QString("Key \"%1\" sent to %2.")
-               .arg(keys)
-               .arg(widgetName) );
+               .arg(keys, widgetName) );
 }
 
 uint MainWindow::sendKeyClicks(const QString &keys, int delay)
 {
     // Don't stop when modal window is open.
     QMetaObject::invokeMethod( this, "keyClicks", Qt::QueuedConnection,
-                               Q_ARG(const QString &, keys),
+                               Q_ARG(QString, keys),
                                Q_ARG(int, delay)
                                );
 
@@ -1501,6 +1496,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
     QList<QKeySequence> usedShortcuts = m_disabledShortcuts;
 
     QList<Command> disabledCommands;
+    QList<QKeySequence> uniqueShortcuts;
 
     for (const auto &command : commands) {
         QString name = command.name;
@@ -1516,7 +1512,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
         connect(act, SIGNAL(triggerCommand(CommandAction*,QString)),
                 this, SLOT(onItemCommandActionTriggered(CommandAction*,QString)));
 
-        QList<QKeySequence> uniqueShortcuts;
+        uniqueShortcuts.clear();
 
         for (const auto &shortcutText : command.shortcuts) {
             const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
@@ -1635,8 +1631,7 @@ void MainWindow::updateWindowTitle()
                   .arg(clipboardContent)
                 : tr("%1 - %2 - CopyQ",
                      "Main window title format (%1 is clipboard content label, %2 is session name)")
-                  .arg(clipboardContent)
-                  .arg(sessionName);
+                  .arg(clipboardContent, sessionName);
 
         setWindowTitle(title);
     }
@@ -1805,7 +1800,7 @@ void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool 
         pasteClipboard(lastWindow);
 }
 
-QWidget *MainWindow::toggleMenu(TrayMenu *menu, const QPoint &pos)
+QWidget *MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
 {
     if ( menu->isVisible() ) {
         menu->close();
@@ -1886,6 +1881,7 @@ bool MainWindow::exportDataV3(QDataStream *out, const QStringList &tabs, bool ex
         QSettings settings;
 
         const int commandCount = settings.beginReadArray("Commands");
+        commandsList.reserve(commandCount);
         for (int i = 0; i < commandCount; ++i) {
             settings.setArrayIndex(i);
 
@@ -1929,6 +1925,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
     const auto tabsList = data.value("tabs").toList();
 
     QStringList tabs;
+    tabs.reserve( tabsList.size() );
     for (const auto &tabMapValue : tabsList) {
         const auto tabMap = tabMapValue.toMap();
         const auto oldTabName = tabMap["name"].toString();
@@ -1992,8 +1989,8 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
         Settings settings;
 
-        for ( const auto &name : settingsMap.keys() )
-            settings.setValue(name, settingsMap[name]);
+        for (auto it = settingsMap.constBegin(); it != settingsMap.constEnd(); ++it)
+            settings.setValue( it.key(), it.value() );
 
         emit configurationChanged();
     }
@@ -2019,8 +2016,8 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         for ( const auto &commandDataValue : commandsList ) {
             settings.setArrayIndex(i++);
             const auto commandMap = commandDataValue.toMap();
-            for ( const auto &key : commandMap.keys() )
-                settings.setValue(key, commandMap[key]);
+            for (auto it = commandMap.constBegin(); it != commandMap.constEnd(); ++it)
+                settings.setValue( it.key(), it.value() );
         }
 
         settings.endArray();
@@ -2562,7 +2559,7 @@ bool MainWindow::toggleMenu()
     return toggleMenu(m_trayMenu);
 }
 
-bool MainWindow::toggleMenu(const QString &tabName, int itemCount, const QPoint &position)
+bool MainWindow::toggleMenu(const QString &tabName, int itemCount, QPoint position)
 {
     // Just close the previously opened menu if parameters are the same.
     if ( m_menu->isVisible()
@@ -2663,7 +2660,7 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
     saveTabPositions();
 }
 
-void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
+void MainWindow::tabMenuRequested(QPoint pos, int tab)
 {
     auto placeholder = getPlaceholder(tab);
     if (placeholder == nullptr)
@@ -2672,7 +2669,7 @@ void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
     popupTabBarMenu(pos, tabName);
 }
 
-void MainWindow::tabMenuRequested(const QPoint &pos, const QString &groupPath)
+void MainWindow::tabMenuRequested(QPoint pos, const QString &groupPath)
 {
     popupTabBarMenu(pos, groupPath);
 }
@@ -3437,8 +3434,9 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
         QString outputTab = cmd.outputTab;
 
         // Insert tab labels to action dialog's combo box.
-        QStringList tabs;
         TabWidget *w = ui->tabWidget;
+        QStringList tabs;
+        tabs.reserve( w->count() );
         for( int i = 0; i < w->count(); ++i )
             tabs << w->tabText(i);
         if ( outputTab.isEmpty() && w->currentIndex() > 0 )
@@ -3482,7 +3480,7 @@ void MainWindow::newTab(const QString &name)
 
     d->setTabName( tabPath.mid(0, tabPath.lastIndexOf('/') + 1) );
 
-    connect( d, SIGNAL(accepted(QString, int)),
+    connect( d, SIGNAL(accepted(QString,int)),
              this, SLOT(addTab(QString)) );
 
     d->open();
@@ -3495,8 +3493,8 @@ void MainWindow::renameTabGroup(const QString &name)
     d->setTabs(ui->tabWidget->tabs());
     d->setTabGroupName(name);
 
-    connect( d, SIGNAL(accepted(QString, QString)),
-             this, SLOT(renameTabGroup(QString, QString)) );
+    connect( d, SIGNAL(accepted(QString,QString)),
+             this, SLOT(renameTabGroup(QString,QString)) );
 
     d->open();
 }
@@ -3525,8 +3523,8 @@ void MainWindow::renameTab(int tab)
     d->setTabs(ui->tabWidget->tabs());
     d->setTabName(browser(i)->tabName());
 
-    connect( d, SIGNAL(accepted(QString, int)),
-             this, SLOT(renameTab(QString, int)) );
+    connect( d, SIGNAL(accepted(QString,int)),
+             this, SLOT(renameTab(QString,int)) );
 
     d->open();
 }

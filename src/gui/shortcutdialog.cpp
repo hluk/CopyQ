@@ -82,7 +82,7 @@ QKeySequence ShortcutDialog::shortcut() const
 bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
 {
     if (object != ui->lineEditShortcut)
-        return false;
+        return QDialog::eventFilter(object, event);
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
@@ -93,7 +93,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
 
         if (mods == Qt::NoModifier) {
             if (key == Qt::Key_Tab)
-                return false;
+                return QDialog::eventFilter(object, event);
 
             if (key == Qt::Key_Escape) {
                 reject();
@@ -110,7 +110,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
             accept();
         }
 
-        return false;
+        return QDialog::eventFilter(object, event);
     }
 
     if (event->type() == QEvent::KeyRelease) {
@@ -124,7 +124,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
         return true;
     }
 
-    return false;
+    return QDialog::eventFilter(object, event);
 }
 
 void ShortcutDialog::onResetButtonClicked()

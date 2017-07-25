@@ -190,7 +190,7 @@ void moveToCurrentWorkspace(QWidget *w)
 #endif
 }
 
-void moveWindowOnScreen(QWidget *w, const QPoint &pos)
+void moveWindowOnScreen(QWidget *w, QPoint pos)
 {
     const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
     const int x = qMax(0, qMin(pos.x(), availableGeometry.right() - w->width()));

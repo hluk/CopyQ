@@ -214,8 +214,9 @@ void ProcessManagerDialog::onDeleteShortcut()
 {
     const QList<QTableWidgetItem *> selectedItems = ui->tableWidgetCommands->selectedItems();
 
-    QVector<int> rows( selectedItems.size() );
+    QVector<int> rows;
 
+    rows.reserve( selectedItems.size() );
     for (auto item : selectedItems)
         rows.append( ui->tableWidgetCommands->row(item) );
 
