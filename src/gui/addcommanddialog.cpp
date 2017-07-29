@@ -160,6 +160,7 @@ QList<Command> defaultCommands()
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore items with no or single character");
+    c->input = mimeText;
     c->re   = QRegExp("^\\s*\\S?\\s*$");
     c->icon = QString(QChar(IconExclamationSign));
     c->remove = true;
