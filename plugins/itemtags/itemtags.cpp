@@ -394,7 +394,8 @@ void ItemTags::updateSize(QSize maximumSize, int idealWidth)
 
     m_childItem->updateSize(maximumSize, idealWidth);
 
-    adjustSize();
+    // For some child widgets, adjustSize() doesn't properly set minimum size.
+    setFixedHeight(m_childItem->widget()->height() + m_tagWidget->height());
 }
 
 ItemTagsScriptable::ItemTagsScriptable(const QStringList &userTags, QObject *parent)
