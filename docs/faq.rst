@@ -212,7 +212,7 @@ You can find configuration and saved items in:
 
 - Windows folder ``%APPDATA%\copyq`` for installed version of the app or ``config``
   folder in unzipped portable version,
-- Linux directory ``-/.config/copyq``.
+- Linux directory ``~/.config/copyq``.
 
 Run ``copyq info config`` to get absolute path to the configuration file
 (parent directory contains saved items).
