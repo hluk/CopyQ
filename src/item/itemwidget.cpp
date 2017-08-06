@@ -114,11 +114,6 @@ ItemWidget::ItemWidget(QWidget *widget)
 void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
                               const QPalette &highlightPalette)
 {
-    QPalette palette( widget()->palette() );
-    palette.setColor(QPalette::Highlight, highlightPalette.base().color());
-    palette.setColor(QPalette::HighlightedText, highlightPalette.text().color());
-    widget()->setPalette(palette);
-
     if (m_re == re)
         return;
     m_re = re;

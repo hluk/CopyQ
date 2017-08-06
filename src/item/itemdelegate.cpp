@@ -210,27 +210,37 @@ void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
     itemWidget->setHighlight(m_re, font, palette);
 }
 
-void ItemDelegate::setItemWidgetStatic(const QModelIndex &index, bool isStatic)
+void ItemDelegate::setItemWidgetCurrent(const QModelIndex &index, bool isCurrent)
 {
-    if (isStatic) {
-        auto w = m_cache[index.row()];
-        if (w) {
-            auto ww = w->widget();
-            setWidgetSelected(ww, false);
-            w->setCurrent(false);
-        }
-    } else {
-        const auto rect = m_view->visualRect(index);
-        const auto margins = m_sharedData->theme.margins();
-        const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-        const auto offset = QPoint(rowNumberSize.width() + margins.width(), margins.height());
-        const auto position = rect.topLeft() + offset;
-        auto w = cache(index);
+    ItemWidget *w;
+    if (isCurrent) {
+        w = cache(index);
+
         auto ww = w->widget();
-        ww->move(position);
-        setWidgetSelected(ww, true);
-        w->setCurrent(true);
+        QPalette palette( ww->palette() );
+        const auto highlightPalette = m_sharedData->theme.searchPalette();
+        palette.setColor(QPalette::Highlight, highlightPalette.base().color());
+        palette.setColor(QPalette::HighlightedText, highlightPalette.text().color());
+        ww->setPalette(palette);
+        for ( auto childWidget : ww->findChildren<QWidget*>() )
+            childWidget->setPalette(palette);
+    } else {
+        w = m_cache[index.row()];
+        if (!w)
+            return;
     }
+
+    w->setCurrent(isCurrent);
+}
+
+void ItemDelegate::setItemWidgetSelected(const QModelIndex &index, bool isSelected)
+{
+    auto w = m_cache[index.row()];
+    if (!w)
+        return;
+
+    auto ww = w->widget();
+    setWidgetSelected(ww, isSelected);
 }
 
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
@@ -241,14 +251,18 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
     QWidget *ww = w->widget();
 
+    const bool isCurrent = m_view->currentIndex() == index;
+    setItemWidgetCurrent(index, isCurrent);
+
+    const bool isSelected = m_view->selectionModel()->isSelected(index);
+    setWidgetSelected(ww, isSelected);
+
     // Try to get proper size by showing item momentarily.
     ww->show();
     w->updateSize(m_maxSize, m_idealWidth);
     ww->hide();
 
     ww->installEventFilter(this);
-
-    w->setCurrent(m_view->currentIndex() == index);
 
     // TODO: Check if sizeHint() really changes.
     emit sizeHintChanged(index);

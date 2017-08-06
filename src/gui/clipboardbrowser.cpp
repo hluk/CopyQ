@@ -821,10 +821,10 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     if (previous.isValid())
-        d.setItemWidgetStatic(previous, true);
+        d.setItemWidgetCurrent(previous, false);
 
     if ( current.isValid() ) {
-        d.setItemWidgetStatic(current, false);
+        d.setItemWidgetCurrent(current, true);
         int row = -1;
         if ( previous.isValid() && current < previous) {
             row = findPreviousVisibleRow(current.row());
@@ -858,6 +858,10 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
                                         const QItemSelection &deselected)
 {
     QListView::selectionChanged(selected, deselected);
+    for ( auto index : selected.indexes() )
+        d.setItemWidgetSelected(index, true);
+    for ( auto index : deselected.indexes() )
+        d.setItemWidgetSelected(index, false);
     emit updateContextMenu(this);
 }
 

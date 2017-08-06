@@ -70,18 +70,6 @@ class ItemDelegate : public QItemDelegate
         /** Return regular expression for highlighting. */
         const QRegExp &searchExpression() const { return m_re; }
 
-        /** Search highlight style. */
-        void setSearchStyle(const QFont &font, const QPalette &palette);
-
-        /** Editor widget style. */
-        void setEditorStyle(const QFont &font, const QPalette &palette);
-
-        /** Item number style. */
-        void setNumberStyle(const QFont &font, const QPalette &palette);
-
-        /** Show/hide item number. */
-        void setRowNumberVisibility(bool show);
-
         /** Return cached item, create it if it doesn't exist. */
         ItemWidget *cache(const QModelIndex &index);
 
@@ -110,13 +98,20 @@ class ItemDelegate : public QItemDelegate
         void highlightMatches(ItemWidget *itemWidget) const;
 
         /**
-         * Make item widget static or dynamic.
+         * Set or unset item widget as current.
          *
-         * Static item widget doesn't receive any mouse events.
+         * Only current item widget should receive mouse events (e.g. text selection).
          *
          * This allows interaction only for current item widget.
          */
-        void setItemWidgetStatic(const QModelIndex &index, bool isStatic);
+        void setItemWidgetCurrent(const QModelIndex &index, bool isCurrent);
+
+        /**
+         * Set or unset item widget as selected.
+         *
+         * This changes item appearace according to current theme/style.
+         */
+        void setItemWidgetSelected(const QModelIndex &index, bool isSelected);
 
     public slots:
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
@@ -131,6 +126,8 @@ class ItemDelegate : public QItemDelegate
 
     private:
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);
+
+        void setWidgetCurrent(QWidget *ww, bool isCurrent);
 
         /// Updates style for selected/unselected widgets.
         void setWidgetSelected(QWidget *ww, bool selected);
