@@ -28,6 +28,7 @@
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
 #include "common/shortcuts.h"
+#include "common/sleeptimer.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/commanddialog.h"
 #include "gui/configtabshortcuts.h"
@@ -335,8 +336,13 @@ void ClipboardServer::monitorConnectionError(const QString &error)
 void ClipboardServer::changeClipboard(const QVariantMap &data, QClipboard::Mode mode)
 {
     if ( !isMonitoring() ) {
-        COPYQ_LOG("Cannot send message to monitor!");
-        return;
+        COPYQ_LOG("Waiting for monitor to start");
+        SleepTimer t(5000);
+        while ( t.sleep() && !isMonitoring() ) {}
+        if ( !isMonitoring() ) {
+            log("Failed to send message to clipboard monitor.", LogError);
+            return;
+        }
     }
 
     const MonitorMessageCode code =
