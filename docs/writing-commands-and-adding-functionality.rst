@@ -104,7 +104,7 @@ application shortcut, from context menu or "Item" menu. The command can
 be also run from tray menu.
 
 Shortcuts can be assigned by clicking on the button next to the option.
-These shortcuts work only when CopyQ window has focus.
+These **application shortcuts work only while CopyQ window has focus**.
 
 If the command is run from **tray menu**, it is **applied on clipboard
 data**, otherwise it's **applied on data in selected items**.
@@ -112,8 +112,10 @@ data**, otherwise it's **applied on data in selected items**.
 c. Global Shortcut
 """"""""""""""""""
 
-If enabled, the command is triggered whenever assigned shortcut is
-pressed. These shortcuts work even when CopyQ window doesn't have focus.
+Global or system shortcut is a keyboard shortcut that **works even if the main
+application window is not focused**.
+
+If enabled, the command is triggered whenever assigned shortcut is pressed.
 
 This command is **not applied on data** in clipboard nor selected items.
 
