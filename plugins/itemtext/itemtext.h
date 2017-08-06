@@ -47,9 +47,16 @@ protected:
 
     bool eventFilter(QObject *, QEvent *event) override;
 
+    QMimeData *createMimeDataFromSelection() const override;
+
+private slots:
+    void onSelectionChanged();
+
 private:
     QTextDocument m_textDocument;
+    int m_ellipsisPosition = -1;
     int m_maximumHeight;
+    bool m_isRichText;
 };
 
 class ItemTextLoader : public QObject, public ItemLoaderInterface

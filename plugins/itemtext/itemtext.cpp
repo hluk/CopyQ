@@ -23,7 +23,9 @@
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
 
+#include <QCoreApplication>
 #include <QContextMenuEvent>
+#include <QMimeData>
 #include <QModelIndex>
 #include <QMouseEvent>
 #include <QScrollBar>
@@ -92,6 +94,7 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
     , ItemWidget(this)
     , m_textDocument()
     , m_maximumHeight(maximumHeight)
+    , m_isRichText(isRichText)
 {
     m_textDocument.setDefaultFont(font());
 
@@ -120,6 +123,7 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
             tc.setPosition(block.position() - 1);
             tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
             tc.removeSelectedText();
+            m_ellipsisPosition = tc.position();
             tc.insertHtml( " &nbsp;"
                            "<span style='background:rgba(0,0,0,30);border-radius:4px'>"
                            "&nbsp;&hellip;&nbsp;"
@@ -128,6 +132,9 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
     }
 
     setDocument(&m_textDocument);
+
+    connect( this, SIGNAL(selectionChanged()),
+             this, SLOT(onSelectionChanged()) );
 }
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
@@ -193,6 +200,43 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
 bool ItemText::eventFilter(QObject *, QEvent *event)
 {
     return ItemWidget::filterMouseEvents(this, event);
+}
+
+QMimeData *ItemText::createMimeDataFromSelection() const
+{
+    const auto data = QTextBrowser::createMimeDataFromSelection();
+    if (!data)
+        return nullptr;
+
+    // Copy only plain text if rich text is not available.
+    if (!m_isRichText) {
+        const auto text = data->text();
+        data->clear();
+        data->setText(text);
+    }
+
+    const auto owner = qApp->property("CopyQ_session_name").toString();
+    data->setData( mimeOwner, owner.toUtf8() );
+
+    return data;
+}
+
+void ItemText::onSelectionChanged()
+{
+    // Disallow selecting ellipsis.
+    auto cursor = textCursor();
+    if ( cursor.selectionEnd() <= m_ellipsisPosition )
+        return;
+
+    const auto pos = cursor.position();
+    const auto anchor = cursor.anchor();
+    if (pos < anchor) {
+        cursor.setPosition(m_ellipsisPosition);
+        cursor.setPosition(pos, QTextCursor::KeepAnchor);
+    } else {
+        cursor.setPosition(m_ellipsisPosition, QTextCursor::KeepAnchor);
+    }
+    setTextCursor(cursor);
 }
 
 ItemTextLoader::ItemTextLoader()
