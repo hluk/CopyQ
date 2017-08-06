@@ -122,7 +122,10 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
             QTextCursor tc(&m_textDocument);
             tc.setPosition(block.position() - 1);
             tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+
+            m_elidedFragment = tc.selection();
             tc.removeSelectedText();
+
             m_ellipsisPosition = tc.position();
             tc.insertHtml( " &nbsp;"
                            "<span style='background:rgba(0,0,0,30);border-radius:4px'>"
@@ -223,20 +226,17 @@ QMimeData *ItemText::createMimeDataFromSelection() const
 
 void ItemText::onSelectionChanged()
 {
-    // Disallow selecting ellipsis.
-    auto cursor = textCursor();
-    if ( cursor.selectionEnd() <= m_ellipsisPosition )
+    // Expand the ellipsis if selected.
+    if ( m_ellipsisPosition == -1 || textCursor().selectionEnd() <= m_ellipsisPosition )
         return;
 
-    const auto pos = cursor.position();
-    const auto anchor = cursor.anchor();
-    if (pos < anchor) {
-        cursor.setPosition(m_ellipsisPosition);
-        cursor.setPosition(pos, QTextCursor::KeepAnchor);
-    } else {
-        cursor.setPosition(m_ellipsisPosition, QTextCursor::KeepAnchor);
-    }
-    setTextCursor(cursor);
+    QTextCursor tc(&m_textDocument);
+    tc.setPosition(m_ellipsisPosition);
+    m_ellipsisPosition = -1;
+    tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+
+    tc.insertFragment(m_elidedFragment);
+    m_elidedFragment = QTextDocumentFragment();
 }
 
 ItemTextLoader::ItemTextLoader()

@@ -24,6 +24,7 @@
 #include "item/itemwidget.h"
 
 #include <QTextDocument>
+#include <QTextDocumentFragment>
 #include <QTextBrowser>
 
 #include <memory>
@@ -54,6 +55,7 @@ private slots:
 
 private:
     QTextDocument m_textDocument;
+    QTextDocumentFragment m_elidedFragment;
     int m_ellipsisPosition = -1;
     int m_maximumHeight;
     bool m_isRichText;
