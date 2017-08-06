@@ -31,6 +31,7 @@
 #include "platform/platformnativeinterface.h"
 
 #include <QAbstractListModel>
+#include <QLocale>
 #include <QSortFilterProxyModel>
 
 Q_DECLARE_METATYPE(Command)
@@ -42,6 +43,24 @@ var imageData = screenshotSelect()
 write('image/png', imageData)
 copy('image/png', imageData)
 )";
+
+constexpr auto commandPasteDateTimeTemplate = R"(
+// http://doc.qt.io/qt-5/qdatetime.html#toString
+var format = '%1'
+var dateTime = dateString(format)
+copy(dateTime)
+paste()
+)";
+
+QString commandPasteDateTime()
+{
+    const auto format = QLocale::system().dateTimeFormat(QLocale::LongFormat)
+            .replace("\\", "\\\\")
+            .replace("'", "\\'")
+            .replace("\n", "\\n");
+
+    return QString(commandPasteDateTimeTemplate).arg(format);
+}
 
 Command *newCommand(QList<Command> *commands)
 {
@@ -75,7 +94,8 @@ enum GlobalAction {
     GlobalActionEnableClipboardStoring,
     GlobalActionPasteAndCopyNext,
     GlobalActionPasteAndCopyPrevious,
-    GlobalActionScreenshot
+    GlobalActionScreenshot,
+    GlobalActionPasteDateTime
 };
 
 void createGlobalShortcut(const QString &name, const QString &script, IconId icon,
@@ -123,6 +143,8 @@ void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QS
         createGlobalShortcut( AddCommandDialog::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleOUp, s, c );
     else if (id == GlobalActionScreenshot)
         createGlobalShortcut( AddCommandDialog::tr("Take screenshot"), commandScreenshot, IconCamera, s, c );
+    else if (id == GlobalActionPasteDateTime)
+        createGlobalShortcut( AddCommandDialog::tr("Paste current date and time"), commandPasteDateTime(), IconClockO, s, c );
     else
         Q_ASSERT(false);
 }
@@ -166,6 +188,7 @@ QList<Command> defaultCommands()
     createGlobalShortcut(GlobalActionPasteAndCopyNext, &commands);
     createGlobalShortcut(GlobalActionPasteAndCopyPrevious, &commands);
     createGlobalShortcut(GlobalActionScreenshot, &commands);
+    createGlobalShortcut(GlobalActionPasteDateTime, &commands);
 #endif
 
     c = newCommand(&commands);

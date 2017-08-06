@@ -33,6 +33,7 @@ enum IconId {
     IconTrash = 0xf014,
     IconHome = 0xf015,
     IconFileAlt = 0xf016,
+    IconClockO = 0xf017,
     IconDownloadAlt = 0xf019,
     IconArrowCircleODown = 0xf01a,
     IconArrowCircleOUp = 0xf01b,
