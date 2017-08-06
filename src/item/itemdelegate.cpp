@@ -271,8 +271,6 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
 {
     ww->setProperty(propertySelectedItem, selected);
-    if ( ww->property("CopyQ_no_style").toBool() )
-        return;
 
     QStyle *style = m_view->style();
     ww->setStyle(style);

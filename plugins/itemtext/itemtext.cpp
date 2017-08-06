@@ -114,8 +114,6 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
 
     m_textDocument.setDocumentMargin(0);
 
-    setProperty("CopyQ_no_style", isRichText);
-
     if (maxLines > 0) {
         QTextBlock block = m_textDocument.findBlockByLineNumber(maxLines);
         if (block.isValid()) {
