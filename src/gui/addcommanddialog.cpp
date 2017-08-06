@@ -37,6 +37,12 @@ Q_DECLARE_METATYPE(Command)
 
 namespace {
 
+constexpr auto commandScreenshot = R"(
+var imageData = screenshotSelect()
+write('image/png', imageData)
+copy('image/png', imageData)
+)";
+
 Command *newCommand(QList<Command> *commands)
 {
     commands->append(Command());
@@ -68,7 +74,8 @@ enum GlobalAction {
     GlobalActionDisableClipboardStoring,
     GlobalActionEnableClipboardStoring,
     GlobalActionPasteAndCopyNext,
-    GlobalActionPasteAndCopyPrevious
+    GlobalActionPasteAndCopyPrevious,
+    GlobalActionScreenshot
 };
 
 void createGlobalShortcut(const QString &name, const QString &script, IconId icon,
@@ -114,6 +121,8 @@ void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QS
         createGlobalShortcut( AddCommandDialog::tr("Paste and copy next"), "paste(); next()", IconArrowCircleODown, s, c );
     else if (id == GlobalActionPasteAndCopyPrevious)
         createGlobalShortcut( AddCommandDialog::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleOUp, s, c );
+    else if (id == GlobalActionScreenshot)
+        createGlobalShortcut( AddCommandDialog::tr("Take screenshot"), commandScreenshot, IconCamera, s, c );
     else
         Q_ASSERT(false);
 }
@@ -156,6 +165,7 @@ QList<Command> defaultCommands()
     createGlobalShortcut(GlobalActionEnableClipboardStoring, &commands);
     createGlobalShortcut(GlobalActionPasteAndCopyNext, &commands);
     createGlobalShortcut(GlobalActionPasteAndCopyPrevious, &commands);
+    createGlobalShortcut(GlobalActionScreenshot, &commands);
 #endif
 
     c = newCommand(&commands);
@@ -252,6 +262,14 @@ QList<Command> defaultCommands()
         c->automatic = true;
         c->cmd = "copyq ignore";
     }
+
+    c = newCommand(&commands);
+    c->name = AddCommandDialog::tr("Move to Trash");
+    c->icon = QString(QChar(IconTrash));
+    c->inMenu = true;
+    c->tab  = AddCommandDialog::tr("(trash)");
+    c->remove = true;
+    c->shortcuts.append( toPortableShortcutText(shortcutToRemove()) );
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Move to Trash");
