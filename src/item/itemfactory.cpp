@@ -116,7 +116,6 @@ public:
         setMargin(0);
         setWordWrap(true);
         setTextFormat(Qt::PlainText);
-        setTextInteractionFlags(Qt::TextSelectableByMouse);
         setFocusPolicy(Qt::NoFocus);
         setContextMenuPolicy(Qt::NoContextMenu);
 
