@@ -237,6 +237,7 @@ bool isAltTabWindow(HWND window)
     return !cls.isEmpty()
             && cls != "Shell_TrayWnd"
             && cls != "Shell_SecondaryTrayWnd"
+            && cls != "Shell_CharmWindow"
             && cls != "DV2ControlHost"
             && cls != "MsgrIMEWindowClass"
             && cls != "SysShadow"
