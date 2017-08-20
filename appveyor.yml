@@ -46,5 +46,9 @@ artifacts:
 - path: 'copyq-*-setup.exe'
   name: CopyQ Setup
 
+# Upload test log files.
+on_finish:
+- ps: Get-ChildItem -recurse -include copyq*.log* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+
 matrix:
   fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
