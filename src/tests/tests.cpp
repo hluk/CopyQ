@@ -262,6 +262,7 @@ public:
         if (stderrData != nullptr)
             stderrData->clear();
 
+        SleepTimer t(waitClientRun);
         while ( p.state() == QProcess::Running ) {
             const auto out = p.readAllStandardOutput();
             const auto err = p.readAllStandardError();
@@ -271,7 +272,10 @@ public:
             if (stderrData != nullptr)
                 stderrData->append(err);
 
-            QCoreApplication::processEvents();
+            if ( !t.sleep() ) {
+                qWarning() << "client process timed out";
+                return -1;
+            }
         }
 
         if (stderrData != nullptr) {
