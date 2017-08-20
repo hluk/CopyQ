@@ -65,7 +65,7 @@ public:
         : m_test(test)
         , m_args(args)
     {
-        startTimer(1000);
+        startTimer(2000);
     }
 
 protected:
