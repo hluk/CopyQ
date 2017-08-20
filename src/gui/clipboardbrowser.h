@@ -156,6 +156,8 @@ class ClipboardBrowser : public QListView
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
         /** Move item to clipboard. */
         void moveToClipboard(const QModelIndex &ind);
+        /** Move items to clipboard. */
+        void moveToClipboard(const QModelIndexList &indexes);
         /** Show only items matching the regular expression. */
         void filterItems(const QRegExp &re);
         /** Open editor. */

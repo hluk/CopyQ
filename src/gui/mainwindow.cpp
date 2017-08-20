@@ -2883,12 +2883,7 @@ void MainWindow::activateCurrentItem()
         return;
 
     // Copy current item or selection to clipboard.
-    if ( c->selectionModel()->selectedIndexes().count() > 1 ) {
-        c->add( c->selectedText() );
-        c->setCurrent(0);
-    }
-
-    c->moveToClipboard( c->currentIndex() );
+    c->moveToClipboard();
 
     resetStatus();
 

@@ -1177,14 +1177,17 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
 
 void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
 {
-    if ( !ind.isValid() )
-        return;
+    if ( ind.isValid() )
+        moveToClipboard(QModelIndexList() << ind);
+}
 
-    const auto data = copyIndex(ind);
+void ClipboardBrowser::moveToClipboard(const QModelIndexList &indexes)
+{
+    const auto data = copyIndexes(indexes);
 
-    if (m_sharedData->moveItemOnReturnKey && ind.row() != 0) {
-        moveToTop(ind);
-        scrollToTop();
+    if (m_sharedData->moveItemOnReturnKey) {
+        m.moveItemsWithKeyboard(indexes, Qt::Key_Home);
+        scrollTo( currentIndex() );
     }
 
     emit changeClipboard(data);
@@ -1525,7 +1528,7 @@ bool ClipboardBrowser::saveItems()
 
 void ClipboardBrowser::moveToClipboard()
 {
-    moveToClipboard(currentIndex());
+    moveToClipboard( selectionModel()->selectedIndexes() );
 }
 
 void ClipboardBrowser::delayedSaveItems()
