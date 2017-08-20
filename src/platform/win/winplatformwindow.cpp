@@ -70,13 +70,8 @@ void logWindow(const char *text, HWND window)
     COPYQ_LOG( windowLogText(text, window) );
 }
 
-bool raiseWindow(HWND window)
+bool raiseWindowHelper(HWND window)
 {
-    if (!IsWindowVisible(window)) {
-        logWindow("Failed to raise: IsWindowVisible() == false", window);
-        return false;
-    }
-
     if (!SetForegroundWindow(window)) {
         logWindow("Failed to raise:  SetForegroundWindow() == false", window);
         return false;
@@ -88,6 +83,30 @@ bool raiseWindow(HWND window)
     logWindow("Raised", window);
 
     return true;
+}
+
+bool raiseWindow(HWND window)
+{
+    if (!IsWindowVisible(window)) {
+        logWindow("Failed to raise: IsWindowVisible() == false", window);
+        return false;
+    }
+
+    // WORKAROUND: Set foreground window if even this process is not in foreground.
+    const auto thisThreadId = GetCurrentThreadId();
+    const auto foregroundThreadId = GetWindowThreadProcessId(GetForegroundWindow(), NULL);
+    if (thisThreadId != foregroundThreadId) {
+        if ( AttachThreadInput(thisThreadId, foregroundThreadId, true) ) {
+            logWindow("Attached foreground thread", window);
+            const bool result = raiseWindowHelper(window);
+            AttachThreadInput(thisThreadId, foregroundThreadId, false);
+            return result;
+        }
+
+        logWindow("Failed to attach foreground thread", window);
+    }
+
+    return raiseWindowHelper(window);
 }
 
 bool isKeyPressed(int key)
