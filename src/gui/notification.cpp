@@ -125,6 +125,7 @@ Notification::Notification(const QString &id, const QString &title, const Notifi
 
     setWindowFlags(Qt::ToolTip);
     setWindowOpacity(m_opacity);
+    setAttribute(Qt::WA_ShowWithoutActivating);
 }
 
 void Notification::setMessage(const QString &msg, Qt::TextFormat format)
