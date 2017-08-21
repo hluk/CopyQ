@@ -1276,6 +1276,12 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
     return bytes;
 }
 
+Qt::KeyboardModifiers ScriptableProxy::queryKeyboardModifiers()
+{
+    INVOKE(queryKeyboardModifiers());
+    return QApplication::queryKeyboardModifiers();
+}
+
 QString ScriptableProxy::pluginsPath()
 {
     INVOKE(pluginsPath());

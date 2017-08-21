@@ -804,6 +804,10 @@ omitted.
 
    Same as ``screenshot()`` but allows to select an area on screen.
 
+.. js:function:: String[] queryKeyboardModifiers()
+
+   Returns list of currently pressed keyboard modifiers which can be 'Ctrl', 'Shift', 'Alt', 'Meta'.
+
 Types
 -----
 

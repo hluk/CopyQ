@@ -1986,6 +1986,21 @@ QScriptValue Scriptable::screenshotSelect()
     return screenshot(true);
 }
 
+QScriptValue Scriptable::queryKeyboardModifiers()
+{
+    const auto modifiers = m_proxy->queryKeyboardModifiers();
+    QStringList modifierList;
+    if (modifiers.testFlag(Qt::ControlModifier))
+        modifierList.append("Ctrl");
+    if (modifiers.testFlag(Qt::ShiftModifier))
+        modifierList.append("Shift");
+    if (modifiers.testFlag(Qt::AltModifier))
+        modifierList.append("Alt");
+    if (modifiers.testFlag(Qt::MetaModifier))
+        modifierList.append("Meta");
+    return toScriptValue(modifierList, this);
+}
+
 void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 {
     COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );

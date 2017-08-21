@@ -112,6 +112,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("sleep", "sleep(time)", "Wait for given time in milliseconds.");
     addDocumentation("screenshot", "ByteArray screenshot(format='png', [screenName])", "Returns image data with screenshot.");
     addDocumentation("screenshotSelect", "ByteArray screenshotSelect(format='png', [screenName])", "Same as `screenshot()` but allows to select an area on screen.");
+    addDocumentation("queryKeyboardModifiers", "String[] queryKeyboardModifiers()", "Returns list of currently pressed keyboard modifiers which can be 'Ctrl', 'Shift', 'Alt', 'Meta'.");
     addDocumentation("ByteArray", "ByteArray", "Wrapper for QByteArray Qt class.");
     addDocumentation("File", "File", "Wrapper for QFile Qt class.");
     addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");

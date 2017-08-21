@@ -300,6 +300,8 @@ public slots:
     QScriptValue screenshot();
     QScriptValue screenshotSelect();
 
+    QScriptValue queryKeyboardModifiers();
+
 public slots:
     void onMessageReceived(const QByteArray &bytes, int messageCode);
     void onDisconnected();
