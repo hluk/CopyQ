@@ -94,6 +94,7 @@ Notification::Notification(const QString &id, const QString &title, const Notifi
     m_iconLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
     m_msgLabel = new QLabel(this);
+    m_msgLabel->setAlignment(Qt::AlignTop | Qt::AlignAbsolute);
 
     if ( !title.isEmpty() ) {
         m_titleLabel = new QLabel(this);
