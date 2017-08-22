@@ -382,6 +382,7 @@ ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *
             auto saver = loader->loadItems(tabName, model, file, maxItems);
             if (!saver)
                 return nullptr;
+            file->close();
             saver = saveWithOther(tabName, model, saver, &loader, loaders, maxItems);
             return transformSaver(model, saver, loader, loaders);
         }
