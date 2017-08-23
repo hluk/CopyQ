@@ -46,7 +46,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("remove", "remove(row, ...)", "Removes items in current tab.");
     addDocumentation("edit", "edit([row|text] ...)", "Edits items in current tab.");
     addDocumentation("read", "ByteArray read([mimeType]);", "Same as `clipboard()`.");
-    addDocumentation("read", "ByteArray read(mimeType, row, ...);", "Returns concatenated data from items.");
+    addDocumentation("read", "ByteArray read(mimeType, row, ...);", "Returns concatenated data from items or clipboard if row is negative.");
     addDocumentation("write", "write(row, mimeType, data, [mimeType, data]...)", "Inserts new item to current tab.");
     addDocumentation("change", "change(row, mimeType, data, [mimeType, data]...)", "Changes data in item in current tab.");
     addDocumentation("separator", "String separator()", "Returns item separator (used when concatenating item data).");

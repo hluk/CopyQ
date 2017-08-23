@@ -303,7 +303,7 @@ omitted.
 
 .. js:function:: ByteArray read(mimeType, row, ...);
 
-   Returns concatenated data from items.
+   Returns concatenated data from items or clipboard if row is negative.
 
    Pass argument ``"?"`` to list available MIME types.
 
