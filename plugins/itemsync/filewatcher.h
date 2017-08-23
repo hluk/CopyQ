@@ -120,13 +120,13 @@ private:
 
     void updateIndexData(const QModelIndex &index, const QVariantMap &itemData);
 
-    QList<QModelIndex> indexList(int first, int last);
+    QList<QPersistentModelIndex> indexList(int first, int last);
 
     void saveItems(int first, int last);
 
     bool renameToUnique(const QDir &dir, const QStringList &baseNames, QString *name);
 
-    bool renameMoveCopy(const QDir &dir, const QList<QModelIndex> &indexList);
+    bool renameMoveCopy(const QDir &dir, const QList<QPersistentModelIndex> &indexList);
 
     void updateDataAndWatchFile(
             const QDir &dir, const BaseNameExtensions &baseNameWithExts,

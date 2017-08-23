@@ -544,9 +544,9 @@ void FileWatcher::updateIndexData(const QModelIndex &index, const QVariantMap &i
     }
 }
 
-QList<QModelIndex> FileWatcher::indexList(int first, int last)
+QList<QPersistentModelIndex> FileWatcher::indexList(int first, int last)
 {
-    QList<QModelIndex> indexList;
+    QList<QPersistentModelIndex> indexList;
     indexList.reserve(last - first + 1);
     for (int i = first; i <= last; ++i)
         indexList.append( m_model->index(i, 0) );
@@ -558,7 +558,7 @@ void FileWatcher::saveItems(int first, int last)
     if ( !lock() )
         return;
 
-    const QList<QModelIndex> indexList = this->indexList(first, last);
+    const auto indexList = this->indexList(first, last);
 
     // Create path if doesn't exist.
     QDir dir(m_path);
@@ -686,7 +686,7 @@ bool FileWatcher::renameToUnique(const QDir &dir, const QStringList &baseNames, 
     return true;
 }
 
-bool FileWatcher::renameMoveCopy(const QDir &dir, const QList<QModelIndex> &indexList)
+bool FileWatcher::renameMoveCopy(const QDir &dir, const QList<QPersistentModelIndex> &indexList)
 {
     QStringList baseNames;
 
