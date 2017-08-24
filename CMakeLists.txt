@@ -34,6 +34,7 @@ set(CMAKE_AUTOMOC ON)
 
 if (WITH_QT5)
     cmake_minimum_required(VERSION 2.8.8)
+    list(APPEND copyq_Qt5_Modules Widgets)
     find_package(Qt5Widgets)
     if (NOT Qt5Widgets_FOUND)
         message(FATAL_ERROR "Qt 5 is unavailable. To compile with Qt 4 use -DWITH_QT5=OFF.")

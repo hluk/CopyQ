@@ -99,8 +99,9 @@ endif()
 
 # Qt modules
 if (WITH_QT5)
-    find_package(Qt5 REQUIRED COMPONENTS Network Svg Xml Script)
-    qt5_use_modules(copyq Widgets Network Svg Xml Script ${copyq_Qt5_Modules})
+    list(APPEND copyq_Qt5_Modules Network Svg Xml Script)
+    find_package(Qt5 REQUIRED COMPONENTS ${copyq_Qt5_Modules})
+    qt5_use_modules(copyq ${copyq_Qt5_Modules})
 else()
     set(QT_USE_QTNETWORK TRUE)
     set(QT_USE_QTSVG TRUE)
