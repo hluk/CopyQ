@@ -99,6 +99,7 @@ endif()
 
 # Qt modules
 if (WITH_QT5)
+    find_package(Qt5 REQUIRED COMPONENTS Network Svg Xml Script)
     qt5_use_modules(copyq Widgets Network Svg Xml Script ${copyq_Qt5_Modules})
 else()
     set(QT_USE_QTNETWORK TRUE)
