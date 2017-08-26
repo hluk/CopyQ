@@ -328,10 +328,9 @@ QWidget *ItemNotesLoader::createSettingsWidget(QWidget *parent)
 ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
 {
     const QString text = index.data(contentType::notes).toString();
-    if ( text.isEmpty() )
-        return nullptr;
-
     const QByteArray icon = index.data(contentType::data).toMap().value(mimeIcon).toByteArray();
+    if ( text.isEmpty() && icon.isEmpty() )
+        return nullptr;
 
     itemWidget->setTagged(true);
     return new ItemNotes( itemWidget, text, icon,
