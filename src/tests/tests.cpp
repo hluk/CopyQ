@@ -461,9 +461,11 @@ public:
         if ( !errors.isEmpty() )
             return errors;
 
-        errors = startServer();
-        if ( !errors.isEmpty() )
-            return "Failed to start server:\n" + errors;
+        if ( !isServerRunning() ) {
+            errors = startServer();
+            if ( !errors.isEmpty() )
+                return "Failed to start server:\n" + errors;
+        }
 
         errors = setClipboard(QByteArray(), mimeText);
         if ( !errors.isEmpty() )
@@ -480,7 +482,7 @@ public:
 
     QByteArray cleanup() override
     {
-        return isServerRunning() ? stopServer() : QByteArray();
+        return QByteArray();
     }
 
     QString shortcutToRemove() override
