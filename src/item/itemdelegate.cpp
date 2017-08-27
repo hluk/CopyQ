@@ -231,6 +231,7 @@ void ItemDelegate::setItemWidgetCurrent(const QModelIndex &index, bool isCurrent
     }
 
     w->setCurrent(isCurrent);
+    w->updateSize(m_maxSize, m_idealWidth);
 }
 
 void ItemDelegate::setItemWidgetSelected(const QModelIndex &index, bool isSelected)

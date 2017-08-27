@@ -49,11 +49,14 @@ public:
 
     QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
 
+    void updateSize(QSize maximumSize, int idealWidth) override;
+
     void setCurrent(bool current) override;
 
 protected:
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     void startAnimation();

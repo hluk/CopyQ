@@ -29,6 +29,8 @@
 #include <QFontDatabase>
 #include <QIcon>
 #include <QPainter>
+#include <QPaintDevice>
+#include <QPaintEngine>
 #include <QPixmap>
 #include <QPointer>
 #include <QVariant>
@@ -191,6 +193,10 @@ public:
                 return icon.pixmap(size, mode, state);
         }
 
+#if QT_VERSION >= 0x050000
+        if (painter)
+            size *= painter->paintEngine()->paintDevice()->devicePixelRatio();
+#endif
         QPixmap pixmap(size);
         pixmap.fill(Qt::transparent);
 

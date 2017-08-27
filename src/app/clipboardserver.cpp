@@ -78,6 +78,10 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
         return;
     }
 
+#if QT_VERSION >= 0x050000
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+#endif
+
     QApplication::setQuitOnLastWindowClosed(false);
 
     m_itemFactory = new ItemFactory(this);

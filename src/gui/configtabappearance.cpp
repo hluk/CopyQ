@@ -300,7 +300,8 @@ void ConfigTabAppearance::colorButtonClicked(QObject *button)
         button->setProperty( "VALUE", serializeColor(color) );
         decoratePreview();
 
-        QPixmap pix(16, 16);
+        const int iconSize = pointsToPixels(16);
+        QPixmap pix(iconSize, iconSize);
         pix.fill(color);
         button->setProperty("icon", QIcon(pix));
 
