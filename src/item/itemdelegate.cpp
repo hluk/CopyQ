@@ -270,6 +270,9 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
 void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
 {
+    if ( ww->property(propertySelectedItem).toBool() == selected )
+        return;
+
     ww->setProperty(propertySelectedItem, selected);
 
     QStyle *style = m_view->style();
