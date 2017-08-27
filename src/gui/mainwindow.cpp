@@ -1155,7 +1155,7 @@ int MainWindow::findTabIndexExactMatch(const QString &name)
     TabWidget *w = ui->tabWidget;
 
     for( int i = 0; i < w->count(); ++i ) {
-        if ( name == w->tabText(i) )
+        if ( name == w->tabName(i) )
             return i;
     }
 
@@ -2044,7 +2044,7 @@ int MainWindow::findTabIndex(const QString &name)
     // Ignore key hints ('&').
     if ( !hasKeyHint(name) ) {
         for( int i = 0; i < w->count(); ++i ) {
-            QString tabName = w->tabText(i);
+            QString tabName = w->tabName(i);
             if ( name == removeKeyHint(&tabName) )
                 return i;
         }
@@ -3433,9 +3433,9 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
         QStringList tabs;
         tabs.reserve( w->count() );
         for( int i = 0; i < w->count(); ++i )
-            tabs << w->tabText(i);
+            tabs << w->tabName(i);
         if ( outputTab.isEmpty() && w->currentIndex() > 0 )
-            outputTab = w->tabText( w->currentIndex() );
+            outputTab = w->tabName( w->currentIndex() );
         actionDialog->setOutputTabs(tabs, outputTab);
 
         actionDialog->show();
@@ -3533,7 +3533,7 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
     if (placeholder) {
         updateTabIcon(name, placeholder->tabName());
         placeholder->setTabName(name);
-        ui->tabWidget->setTabText(tabIndex, name);
+        ui->tabWidget->setTabName(tabIndex, name);
         saveTabPositions();
     }
 }
@@ -3592,7 +3592,7 @@ void MainWindow::removeTab(bool ask, int tabIndex)
                         this,
                         tr("Remove Tab?"),
                         tr("Do you want to remove tab <strong>%1</strong>?"
-                           ).arg( w->tabText(tabIndex).remove('&') ),
+                           ).arg( w->tabName(tabIndex).remove('&') ),
                         QMessageBox::Yes | QMessageBox::No,
                         QMessageBox::Yes);
         }

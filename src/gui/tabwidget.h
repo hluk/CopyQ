@@ -60,17 +60,17 @@ public:
     int count() const;
 
     /** Return path of tab in tree or label in tab bar. */
-    QString tabText(int tabIndex) const;
+    QString tabName(int tabIndex) const;
 
-    void setTabText(int tabIndex, const QString &tabName);
+    void setTabName(int tabIndex, const QString &tabName);
 
     void setTabItemCountVisible(bool visible);
 
     void updateTabIcon(const QString &tabName);
 
-    void insertTab(int tabIndex, QWidget *widget, const QString &tabText);
+    void insertTab(int tabIndex, QWidget *widget, const QString &tabName);
 
-    void addTab(QWidget *widget, const QString &tabText) { insertTab( count(), widget, tabText); }
+    void addTab(QWidget *widget, const QString &tabName) { insertTab( count(), widget, tabName); }
 
     void removeTab(int tabIndex);
 

@@ -291,21 +291,21 @@ bool TabTree::isTabGroup(const QString &tab) const
     return isTabGroup( findTreeItem(tab) );
 }
 
-QString TabTree::tabText(int tabIndex) const
+QString TabTree::tabName(int tabIndex) const
 {
     return getTabPath( findTreeItem(tabIndex) );
 }
 
-void TabTree::setTabText(int tabIndex, const QString &tabText)
+void TabTree::setTabName(int tabIndex, const QString &tabName)
 {
     QTreeWidgetItem *item = findTreeItem(tabIndex);
     Q_ASSERT(item);
 
-    if (getTabPath(item) == tabText)
+    if (getTabPath(item) == tabName)
         return;
 
     const QString itemCount = item->data(0, DataItemCount).toString();
-    insertTab(tabIndex, tabText);
+    insertTab(tabIndex, tabName);
     if (item == currentItem())
         setCurrentTab(tabIndex);
 
@@ -316,10 +316,10 @@ void TabTree::setTabText(int tabIndex, const QString &tabText)
 
     item = findTreeItem(tabIndex);
     Q_ASSERT(item);
-    Q_ASSERT(getTabPath(item) == tabText);
+    Q_ASSERT(getTabPath(item) == tabName);
 
     if ( !itemCount.isEmpty() )
-        setTabItemCount(tabText, itemCount);
+        setTabItemCount(tabName, itemCount);
 
     updateItemSize(item);
     updateSize();

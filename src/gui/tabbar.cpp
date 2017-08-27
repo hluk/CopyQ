@@ -37,19 +37,19 @@ int dropItemsTabIndex(const QDropEvent &event, const QTabBar &parent)
     return canDropToTab(event) ? parent.tabAt( event.pos() ) : -1;
 }
 
-int tabIndex(const QString &tabName, const QTabBar &parent)
+int tabIndex(const QString &tabName, const TabBar &parent)
 {
     for (int i = 0; i < parent.count(); ++i) {
-        if (parent.tabText(i) == tabName)
+        if (parent.tabName(i) == tabName)
             return i;
     }
 
     return -1;
 }
 
-void updateTabIcon(int i, QTabBar *parent)
+void updateTabIcon(int i, TabBar *parent)
 {
-    const QIcon icon = getIconForTabName(parent->tabText(i));
+    const QIcon icon = getIconForTabName(parent->tabName(i));
     parent->setTabIcon(i, icon);
 }
 
@@ -73,14 +73,17 @@ QString TabBar::getCurrentTabPath() const
     return QString();
 }
 
-QString TabBar::tabText(int tabIndex) const
+QString TabBar::tabName(int tabIndex) const
 {
-    return QTabBar::tabText(tabIndex);
+    return QTabBar::tabData(tabIndex).toString();
 }
 
-void TabBar::setTabText(int tabIndex, const QString &tabText)
+void TabBar::setTabName(int tabIndex, const QString &tabName)
 {
-    QTabBar::setTabText(tabIndex, tabText);
+    // Use tab data to store tab name because tab text can change externally,
+    // e.g. Breeze theme adds missing accelerators (renames "test" to "&test).
+    setTabData(tabIndex, tabName);
+    QTabBar::setTabText(tabIndex, tabName);
 }
 
 void TabBar::setTabItemCount(const QString &tabName, const QString &itemCount)
@@ -120,9 +123,10 @@ void TabBar::updateTabIcon(const QString &tabName)
     ::updateTabIcon(i, this);
 }
 
-void TabBar::insertTab(int index, const QString &text)
+void TabBar::insertTab(int index, const QString &tabName)
 {
-    QTabBar::insertTab(index, text);
+    const int i = QTabBar::insertTab(index, tabName);
+    setTabData(i, tabName);
 }
 
 void TabBar::removeTab(int index)
@@ -202,7 +206,7 @@ void TabBar::dropEvent(QDropEvent *event)
     int tabIndex = dropItemsTabIndex(*event, *this);
 
     if ( tabIndex != -1 )
-        emit dropItems( tabText(tabIndex), event->mimeData() );
+        emit dropItems( tabName(tabIndex), event->mimeData() );
     else
         QTabBar::dropEvent(event);
 }

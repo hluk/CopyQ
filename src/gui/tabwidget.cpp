@@ -118,18 +118,18 @@ int TabWidget::count() const
     return m_stackedWidget->count();
 }
 
-QString TabWidget::tabText(int tabIndex) const
+QString TabWidget::tabName(int tabIndex) const
 {
-    return m_tabs->tabText(tabIndex);
+    return m_tabs->tabName(tabIndex);
 }
 
-void TabWidget::setTabText(int tabIndex, const QString &tabName)
+void TabWidget::setTabName(int tabIndex, const QString &tabName)
 {
-    const QString oldTabName = tabText(tabIndex);
+    const QString oldTabName = this->tabName(tabIndex);
     if ( m_tabItemCounters.contains(oldTabName) )
         m_tabItemCounters.insert( tabName, m_tabItemCounters.take(oldTabName) );
 
-    m_tabs->setTabText(tabIndex, tabName);
+    m_tabs->setTabName(tabIndex, tabName);
 
     m_tabs->adjustSize();
 }
@@ -138,7 +138,7 @@ void TabWidget::setTabItemCountVisible(bool visible)
 {
     m_showTabItemCount = visible;
     for (int i = 0; i < count(); ++i)
-        updateTabItemCount( tabText(i) );
+        updateTabItemCount( tabName(i) );
 
     m_tabs->adjustSize();
 }
@@ -148,18 +148,18 @@ void TabWidget::updateTabIcon(const QString &tabName)
     m_tabs->updateTabIcon(tabName);
 }
 
-void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
+void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabName)
 {
     const bool firstTab = count() == 0;
     m_stackedWidget->insertWidget(tabIndex, widget);
 
-    m_tabs->insertTab(tabIndex, tabText);
+    m_tabs->insertTab(tabIndex, tabName);
     m_toolBarCurrent->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
     if (firstTab)
         emit currentChanged(0, -1);
 
-    updateTabItemCount(tabText);
+    updateTabItemCount(tabName);
     updateToolBar();
 }
 
@@ -168,7 +168,7 @@ void TabWidget::removeTab(int tabIndex)
     if (tabIndex == currentIndex())
         setCurrentIndex(tabIndex == 0 ? 1 : 0);
 
-    const QString tabName = tabText(tabIndex);
+    const QString tabName = this->tabName(tabIndex);
     m_tabItemCounters.remove(tabName);
 
     // Item count must be updated If tab is removed but tab group remains.
@@ -188,7 +188,7 @@ QStringList TabWidget::tabs() const
     QStringList tabs;
     tabs.reserve( count() );
     for( int i = 0; i < count(); ++i )
-        tabs.append( tabText(i) );
+        tabs.append( tabName(i) );
 
     return tabs;
 }
@@ -221,7 +221,7 @@ void TabWidget::saveTabInfo()
     QStringList tabs;
     tabs.reserve( count() );
     for ( int i = 0; i < count(); ++i )
-        tabs.append( tabText(i) );
+        tabs.append( tabName(i) );
 
     QSettings settings(getTabWidgetConfigurationFilePath(), QSettings::IniFormat);
 

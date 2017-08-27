@@ -36,15 +36,15 @@ public:
     virtual bool isTabGroup(const QString &tab) const = 0;
 
     /** Return path of tab in tree or label in tab bar. */
-    virtual QString tabText(int tabIndex) const = 0;
+    virtual QString tabName(int tabIndex) const = 0;
 
-    virtual void setTabText(int tabIndex, const QString &tabName) = 0;
+    virtual void setTabName(int tabIndex, const QString &tabName) = 0;
 
     virtual void setTabItemCount(const QString &tabName, const QString &itemCount) = 0;
 
     virtual void updateTabIcon(const QString &tabName) = 0;
 
-    virtual void insertTab(int tabIndex, const QString &tabText) = 0;
+    virtual void insertTab(int tabIndex, const QString &tabName) = 0;
 
     /** Remove tab with given @a index. */
     virtual void removeTab(int index) = 0;

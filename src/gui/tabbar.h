@@ -40,14 +40,14 @@ public:
 
     bool isTabGroup(const QString &) const override { return false; }
 
-    QString tabText(int tabIndex) const override;
-    void setTabText(int tabIndex, const QString &tabText) override;
+    QString tabName(int tabIndex) const override;
+    void setTabName(int tabIndex, const QString &tabName) override;
 
     void setTabItemCount(const QString &tabName, const QString &itemCount) override;
 
     void updateTabIcon(const QString &tabName) override;
 
-    void insertTab(int index, const QString &text) override;
+    void insertTab(int index, const QString &tabName) override;
     void removeTab(int index) override;
     void moveTab(int from, int to) override;
 
