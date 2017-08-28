@@ -95,9 +95,11 @@ namespace {
             unsigned long int wid = (unsigned long) [(NSNumber*)[dict objectForKey:@"kCGWindowNumber"] longValue];
 
             if (wid == find_wid) {
+                CFRelease(array);
                 return pid;
             }
         }
+        CFRelease(array);
 
         return 0;
     }
@@ -117,6 +119,7 @@ namespace {
                 widsForProcess.insert(wid);
             }
         }
+        CFRelease(array);
 
         // Now look through the windows in NSWindowList (which are ordered from front to back)
         // the first window in this list which is also in widsForProcess is our frontmost "normal" window
@@ -146,6 +149,8 @@ namespace {
         for (NSDictionary* dict in array) {
             title = QString::fromNSString([dict objectForKey:@"kCGWindowName"]);
         }
+
+        CFRelease(array);
         CFRelease(windowArray);
 
         return title;
