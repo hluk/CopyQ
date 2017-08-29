@@ -35,7 +35,8 @@
 #include <QTimer>
 #include <QToolTip>
 #include <QtPlugin>
-#include <QDebug>
+
+#include <cmath>
 
 namespace {
 
@@ -61,8 +62,9 @@ QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
             const int side = ratio * (iconFontSizePixels() + 2);
             p = p.scaled(side, side, Qt::KeepAspectRatio, Qt::SmoothTransformation);
             QLabel *label = new QLabel(parent);
-            const int m = side / 4;
-            label->setContentsMargins(m, m, m, m);
+            const auto m = side / 4;
+            label->setFixedSize( p.size() / ratio + QSize(m, m) );
+            label->setAlignment(Qt::AlignCenter);
             label->setPixmap(p);
             return label;
         }
@@ -123,7 +125,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
         labelLayout->setContentsMargins(notesIndent, 0, 0, 0);
 
         if (m_icon)
-            labelLayout->addWidget(m_icon, 0, Qt::AlignLeft);
+            labelLayout->addWidget(m_icon, 0, Qt::AlignLeft | Qt::AlignTop);
 
         labelLayout->addWidget(m_notes, 1, Qt::AlignLeft);
 
@@ -268,8 +270,9 @@ void ItemNotes::paintEvent(QPaintEvent *event)
         p.setBrush(c);
         p.setPen(Qt::NoPen);
         QWidget *w = m_icon ? m_icon : m_notes;
+        const auto height = std::max(w->height(), m_notes->height()) - 8;
         p.drawRect(w->x() - notesIndent + 4, w->y() + 4,
-                   notesIndent - 4, m_notes->height() - 8);
+                   notesIndent - 4, height);
     }
 }
 
