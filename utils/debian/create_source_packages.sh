@@ -4,8 +4,8 @@ set -e
 distros=(
     trusty
     xenial
-    yakkety
     zesty
+    artful
 )
 
 for distro in "${distros[@]}"; do
