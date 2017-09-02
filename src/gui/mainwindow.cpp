@@ -806,7 +806,7 @@ void MainWindow::updateIcon()
         m_tray->setIcon(icon);
 
         // WORKAROUND: Tray icon sometimes pixelated on high DPI displays.
-        if ( icon.name().startsWith("copyq-") ) {
+        if ( QSystemTrayIcon::isSystemTrayAvailable() && icon.name().startsWith("copyq-") ) {
             const auto size = m_tray->geometry().size();
             if ( size.isValid() )
                 m_tray->setIcon( icon.pixmap(size) );
