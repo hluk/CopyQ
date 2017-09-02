@@ -1261,8 +1261,15 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
         while ( !rectWidget.isHidden() )
             QCoreApplication::processEvents();
         const auto rect = rectWidget.selectionRect;
-        if ( rect.isValid() )
+        if ( rect.isValid() ) {
+#if QT_VERSION < 0x050000
             pixmap = pixmap.copy(rect);
+#else
+            const auto ratio = pixmap.devicePixelRatio();
+            const QRect rect2( rect.topLeft() * ratio, rect.size() * ratio );
+            pixmap = pixmap.copy(rect2);
+#endif
+        }
     }
 
     QByteArray bytes;
