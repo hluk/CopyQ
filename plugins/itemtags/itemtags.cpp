@@ -390,6 +390,7 @@ void ItemTags::updateSize(QSize maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
 
+    m_tagWidget->adjustSize();
     m_tagWidget->setFixedWidth(idealWidth);
 
     m_childItem->updateSize(maximumSize, idealWidth);
