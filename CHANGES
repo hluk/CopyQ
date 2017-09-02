@@ -1,3 +1,35 @@
+v3.0.4
+- Add "Paste current date and time" predefined command
+- Add "Take screenshot" predefined command
+- Add scriptable function queryKeyboardModifiers()
+- Add scriptable function screenNames()
+- Add scriptable function isClipboard()
+- Add scriptable function toggleConfig()
+- Expand text ellipsis if selected
+- Avoid copying ellipsis if selected and copy rich text only if needed
+- Fix item rendering on high DPI screens
+- Fix tray icon on high DPI screens
+- Fix taking screenshots on multiple monitors and on high DPI screens
+- Fix flicker when rendering items for the first time
+- Fix icon layout for notes
+- Fix showing icon if notes are empty
+- Fix copying/drag'n'dropping files into a synchronized tab
+- Fix long message alignment in notifications
+- Fix activating simple items with double-click
+- Fix styling of current and selected items
+- Fix setting clipboard immediately after start
+- Fix size of items with tags
+- Fix moving multiple items to clipboard and to the top of the list
+- Fix updating global shortcuts with setCommands()
+- Fix clearing search after opening internal editor
+- OSX: Fix some memory leaks
+- Linux: Fix getting icon for non-default session from theme
+- Linux: Fix settings tab name in KDE/Plasma
+- Windows: Add pinned items to installer
+- Windows: Fix saving tab with another plugin
+- Windows: Fix pasting to a window
+- Windows: Fix setting foreground window even if app is in background
+
 v3.0.3
 - Added new documentation
 - Added option to disable auto-completion for commands
