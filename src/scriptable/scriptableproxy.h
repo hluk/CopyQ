@@ -179,6 +179,8 @@ public:
 
     QByteArray screenshot(const QString &format, const QString &screenName, bool select);
 
+    QStringList screenNames();
+
     Qt::KeyboardModifiers queryKeyboardModifiers();
 
     QString pluginsPath();

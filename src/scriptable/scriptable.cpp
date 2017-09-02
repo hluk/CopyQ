@@ -1986,6 +1986,16 @@ QScriptValue Scriptable::screenshotSelect()
     return screenshot(true);
 }
 
+QScriptValue Scriptable::screenNames()
+{
+#if QT_VERSION < 0x050000
+    throwError("Screen names are unsupported on version compiled with Qt 4");
+    return QScriptValue();
+#else
+    return toScriptValue( m_proxy->screenNames(), this );
+#endif
+}
+
 QScriptValue Scriptable::queryKeyboardModifiers()
 {
     const auto modifiers = m_proxy->queryKeyboardModifiers();
@@ -2318,8 +2328,20 @@ QScriptValue Scriptable::screenshot(bool select)
     const auto screen = arg(1);
     const auto imageData = m_proxy->screenshot(format, screen, select);
 
+#if QT_VERSION < 0x050000
+    if ( !screen.isEmpty() ) {
+        throwError("Screen names are unsupported on version compiled with Qt 4");
+        return QScriptValue();
+    }
+#endif
+
     if ( imageData.isEmpty() ) {
-        throwError("Failed to grab screenshot");
+        QString error = "Failed to grab screenshot";
+        if ( !screen.isEmpty() ) {
+            const auto screenNames = m_proxy->screenNames();
+            error.append( " (valid screen names are " + screenNames.join(", ") + ")" );
+        }
+        throwError(error);
         return QScriptValue();
     }
 

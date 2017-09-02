@@ -299,6 +299,7 @@ public slots:
 
     QScriptValue screenshot();
     QScriptValue screenshotSelect();
+    QScriptValue screenNames();
 
     QScriptValue queryKeyboardModifiers();
 

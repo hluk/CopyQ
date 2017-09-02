@@ -794,6 +794,10 @@ omitted.
 
    Returns image data with screenshot.
 
+   Default ``screenName`` is name of the screen with mouse cursor.
+
+   You can list valid values for ``screenName`` with ``screenNames()``.
+
    Example:
 
    .. code-block:: js
@@ -803,6 +807,10 @@ omitted.
 .. js:function:: ByteArray screenshotSelect(format='png', [screenName])
 
    Same as ``screenshot()`` but allows to select an area on screen.
+
+.. js:function:: String[] screenNames()
+
+   Returns list of available screen names.
 
 .. js:function:: String[] queryKeyboardModifiers()
 
