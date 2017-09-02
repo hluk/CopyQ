@@ -53,22 +53,6 @@ const int lightThreshold = 100;
 
 QPointer<QObject> activePaintDevice;
 
-QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
-{
-    QLinearGradient gradient(pix.width() / 2, 0, 0, pix.height());
-    bool dark = color.lightness() < lightThreshold;
-    gradient.setColorAt(0.0, color.darker(dark ? 200 : 120));
-    gradient.setColorAt(0.5, color);
-    gradient.setColorAt(1.0, color.lighter(dark ? 150 : 120));
-
-    QPixmap pix2(pix);
-    QPainter painter(&pix2);
-    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-    painter.fillRect(pix.rect(), gradient);
-
-    return pix2;
-}
-
 void replaceColor(QPixmap *pix, const QColor &from, const QColor &to)
 {
     QPixmap pix2( pix->size() );
@@ -185,7 +169,10 @@ public:
             if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
                 QPixmap pixmap(m_iconName);
                 pixmap = pixmap.scaled(size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-                return colorizedPixmap( pixmap, color(painter, mode) );
+                QPainter painter2(&pixmap);
+                painter2.setCompositionMode(QPainter::CompositionMode_SourceIn);
+                painter2.fillRect( pixmap.rect(), color(painter, mode) );
+                return pixmap;
             }
 
             QIcon icon = m_iconName.startsWith(':') ? QIcon(m_iconName) : QIcon::fromTheme(m_iconName);
