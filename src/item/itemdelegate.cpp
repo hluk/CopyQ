@@ -302,13 +302,6 @@ void ItemDelegate::setSearch(const QRegExp &re)
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
-    const int row = index.row();
-    const auto w = m_cache[row];
-    if (w == nullptr) {
-        m_view->itemWidget(index);
-        return;
-    }
-
     const QRect &rect = option.rect;
 
     const bool isSelected = option.state & QStyle::State_Selected;
@@ -316,6 +309,13 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     // Render background (selected, alternate, ...).
     QStyle *style = m_view->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_view);
+
+    const int row = index.row();
+    const auto w = m_cache[row];
+    if (w == nullptr) {
+        m_view->itemWidget(index);
+        return;
+    }
 
     // Colorize item.
     const QString colorExpr = index.data(contentType::color).toString();
