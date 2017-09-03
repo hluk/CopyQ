@@ -44,7 +44,16 @@ For unlisted systems, please follow the instructions in
 
 ### Windows
 
-On Windows you can install [Chocolatey package](https://chocolatey.org/packages/copyq).
+On Windows you can install the [Chocolatey package](https://chocolatey.org/packages/copyq).
+
+```
+choco install copyq
+```
+
+#### Optional choco parameters
+- `/NoDesktopIcon` - Do not create a desktop icon
+- `/NoStartup` - Do not run CopyQ on OS startup
+- `/ToggleShortcut` - Specify a global shortcut to launch copyq, for example `/ToggleShortcut:ctrl+q`
 
 ### OS X
 
