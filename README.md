@@ -70,7 +70,7 @@ Install `copyq` package.
 
 ### Arch Linux
 
-Install [copyq](https://aur.archlinux.org/packages/copyq/)<sup>AUR</sup> package.
+Install [copyq](https://aur.archlinux.org/packages/copyq/) <sup>AUR</sup> package.
 
 ## Using the App
 
