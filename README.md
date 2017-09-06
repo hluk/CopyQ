@@ -44,7 +44,11 @@ For unlisted systems, please follow the instructions in
 
 ### Windows
 
-On Windows you can install [Chocolatey package](https://chocolatey.org/packages/copyq).
+On Windows you can install the copyq [Chocolatey package](https://chocolatey.org/packages/copyq).
+
+```
+choco install copyq
+```
 
 ### OS X
 
