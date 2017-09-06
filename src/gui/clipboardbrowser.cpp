@@ -322,6 +322,8 @@ bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
 
 void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClipboard)
 {
+    emit searchHideRequest();
+
     bool active = editor != nullptr;
 
     if (m_editor != editor) {
@@ -364,7 +366,6 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
     setHorizontalScrollBarPolicy(scrollbarPolicy);
 
     emit updateContextMenu(this);
-    emit searchHideRequest();
 }
 
 void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes, bool changeClipboard)
@@ -1146,16 +1147,17 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
 
 void ClipboardBrowser::filterItems(const QRegExp &re)
 {
+    // Search in editor if open.
+    if ( isInternalEditorOpen() ) {
+        m_editor->search(re);
+        return;
+    }
+
     // Do nothing if same regexp was already set or both are empty (don't compare regexp options).
     if ( (d.searchExpression().isEmpty() && re.isEmpty()) || d.searchExpression() == re )
         return;
 
     d.setSearch(re);
-
-    if ( isInternalEditorOpen() ) {
-        m_editor->search(re);
-        return;
-    }
 
     // If search string is a number, highlight item in that row.
     bool ok;
