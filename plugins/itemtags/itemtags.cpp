@@ -316,7 +316,13 @@ private:
         if ( isTagValid(tag) ) {
             QWidget tagWidget;
             initTagWidget(&tagWidget, tag, smallerFont(QFont()));
-            m_pixmap = QPixmap(tagWidget.sizeHint());
+#if QT_VERSION < 0x050000
+            m_pixmap = QPixmap( tagWidget.sizeHint() );
+#else
+            const auto ratio = tagWidget.devicePixelRatio();
+            m_pixmap = QPixmap( tagWidget.sizeHint() * ratio );
+            m_pixmap.setDevicePixelRatio(ratio);
+#endif
             m_pixmap.fill(Qt::transparent);
             QPainter painter(&m_pixmap);
             tagWidget.render(&painter);
