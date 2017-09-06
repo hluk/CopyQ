@@ -44,7 +44,9 @@ For unlisted systems, please follow the instructions in
 
 ### Windows
 
-On Windows you can install the copyq [Chocolatey package](https://chocolatey.org/packages/copyq).
+On Windows you either use installer ([setup.exe](https://github.com/hluk/CopyQ/releases)),
+portable [zip](https://github.com/hluk/CopyQ/releases)
+or you can install the copyq [Chocolatey package](https://chocolatey.org/packages/copyq).
 
 ```
 choco install copyq
