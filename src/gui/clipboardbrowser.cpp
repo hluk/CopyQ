@@ -52,10 +52,17 @@
 #include <QElapsedTimer>
 
 #include <algorithm>
+#include <cmath>
+#include <cstdlib>
 #include <functional>
 #include <memory>
 
 namespace {
+
+enum class MoveType {
+    Absolute,
+    Relative
+};
 
 /// Save drag'n'drop image data in temporary file (required by some applications).
 class TemporaryDragAndDropImage : public QObject {
@@ -143,6 +150,99 @@ void appendTextData(const QVariantMap &data, const QString &mime, QByteArray *li
     if ( !lines->isEmpty() )
         lines->append('\n');
     lines->append(text.toUtf8());
+}
+
+
+QList<QPersistentModelIndex> toPersistentModelIndexList(const QList<QModelIndex> &indexes)
+{
+    QList<QPersistentModelIndex> result;
+    result.reserve( indexes.size() );
+
+    for (const auto &index : indexes) {
+        if ( index.isValid() )
+            result.append(index);
+    }
+
+    return result;
+}
+
+int removeIndexes(const QModelIndexList &indexes, QAbstractItemModel *model)
+{
+    auto toRemove = toPersistentModelIndexList(indexes);
+    std::sort( std::begin(toRemove), std::end(toRemove) );
+
+    const auto first = toRemove.value(0).row();
+
+    // Remove ranges of rows instead of a single rows.
+    for (auto it1 = std::begin(toRemove); it1 != std::end(toRemove); ) {
+        if ( it1->isValid() ) {
+            const auto firstRow = it1->row();
+            auto rowCount = 0;
+
+            for ( ++it1, ++rowCount; it1 != std::end(toRemove)
+                  && it1->isValid()
+                  && it1->row() == firstRow + rowCount; ++it1, ++rowCount ) {}
+
+            model->removeRows(firstRow, rowCount);
+        } else {
+            ++it1;
+        }
+    }
+
+    return first;
+}
+
+void moveIndexes(QList<QPersistentModelIndex> &indexesToMove, int targetRow, ClipboardModel *model, MoveType moveType)
+{
+    if ( indexesToMove.isEmpty() )
+        return;
+
+    const auto minMaxPair = std::minmax_element( std::begin(indexesToMove), std::end(indexesToMove) );
+    const auto start = minMaxPair.first->row();
+    const auto end = minMaxPair.second->row();
+
+    if (moveType == MoveType::Relative) {
+        if (targetRow < 0 && start == 0)
+            targetRow = model->rowCount();
+        else if (targetRow > 0 && end == model->rowCount() - 1)
+            targetRow = 0;
+        else if (targetRow < 0)
+            targetRow += start;
+        else
+            targetRow += end + 1;
+    }
+
+    if (start < targetRow)
+        std::sort( std::begin(indexesToMove), std::end(indexesToMove) );
+    else if (targetRow < end)
+        std::sort( std::begin(indexesToMove), std::end(indexesToMove), std::not2(std::less<QModelIndex>()) );
+    else
+        return;
+
+    // Move ranges of rows instead of a single rows.
+    for (auto it = std::begin(indexesToMove); it != std::end(indexesToMove); ) {
+        if ( it->isValid() ) {
+            const auto row = it->row();
+            auto rowCount = 0;
+
+            for ( ++it, ++rowCount; it != std::end(indexesToMove)
+                  && it->isValid()
+                  && std::abs(it->row() - row) == rowCount; ++it, ++rowCount ) {}
+
+            if (row < targetRow)
+                model->moveRows(QModelIndex(), row, rowCount, QModelIndex(), targetRow);
+            else
+                model->moveRows(QModelIndex(), row - rowCount + 1, rowCount, QModelIndex(), targetRow);
+        } else {
+            ++it;
+        }
+    }
+}
+
+void moveIndexes(const QModelIndexList &indexesToMove, int targetRow, ClipboardModel *model, MoveType moveType)
+{
+    auto indexesToMove2 = toPersistentModelIndexList(indexesToMove);
+    moveIndexes(indexesToMove2, targetRow, model, moveType);
 }
 
 } // namespace
@@ -473,35 +573,7 @@ void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
 
 int ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
 {
-    QList<QPersistentModelIndex> toRemove;
-    toRemove.reserve( indexes.size() );
-
-    for (const auto &index : indexes) {
-        if ( index.isValid() )
-            toRemove.append(index);
-    }
-
-    std::sort( std::begin(toRemove), std::end(toRemove) );
-
-    const auto first = toRemove.value(0).row();
-
-    // Remove ranges of rows instead of a single rows.
-    for (auto it1 = std::begin(toRemove); it1 != std::end(toRemove); ) {
-        if ( it1->isValid() ) {
-            const auto firstRow = it1->row();
-            auto rowCount = 0;
-
-            for ( ++it1, ++rowCount; it1 != std::end(toRemove)
-                  && it1->isValid()
-                  && it1->row() == firstRow + rowCount; ++it1, ++rowCount ) {}
-
-            m.removeRows(firstRow, rowCount);
-        } else {
-            ++it1;
-        }
-    }
-
-    return first;
+    return ::removeIndexes(indexes, &m);
 }
 
 void ClipboardBrowser::focusEditedIndex()
@@ -564,8 +636,11 @@ void ClipboardBrowser::moveToTop(const QModelIndex &index)
 
     const auto data = index.data(contentType::data).toMap();
     if ( m_itemSaver->canMoveItems(QList<QModelIndex>() << index) ) {
-        m.removeRow( index.row() );
-        m.insertItem(data, 0);
+#if QT_VERSION < 0x050000
+        m.moveRow(index.row(), 0);
+#else
+        m.moveRow(QModelIndex(), index.row(), QModelIndex(), 0);
+#endif
     }
 }
 
@@ -1032,10 +1107,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
             TemporaryDragAndDropImage::create(drag->mimeData(), this);
 
     // Save persistent indexes so after the items are dropped (and added) these indexes remain valid.
-    QList<QPersistentModelIndex> indexesToRemove;
-    indexesToRemove.reserve( selected.size() );
-    for (const auto &index : selected)
-        indexesToRemove.append(index);
+    auto indexesToRemove = toPersistentModelIndexList(selected);
 
     // Start dragging (doesn't block event loop).
     // Default action is "copy" which works for most apps,
@@ -1053,14 +1125,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
         // Move items only if target is this app.
         if (target == this || target == viewport()) {
-            for (const auto &index : indexesToRemove) {
-                const int sourceRow = index.row();
-                const int targetRow =
-                        sourceRow < m_dragTargetRow ? m_dragTargetRow - 1 : m_dragTargetRow;
-                m.move(sourceRow, targetRow);
-                if (sourceRow > m_dragTargetRow)
-                    ++m_dragTargetRow;
-            }
+            moveIndexes(indexesToRemove, m_dragTargetRow, &m, MoveType::Absolute);
         } else if ( target && target->window() == window()
                     && m_itemSaver->canMoveItems(selected) )
         {
@@ -1203,8 +1268,10 @@ void ClipboardBrowser::moveToClipboard(const QModelIndexList &indexes)
 {
     const auto data = copyIndexes(indexes);
 
-    if (m_sharedData->moveItemOnReturnKey) {
-        m.moveItemsWithKeyboard(indexes, Qt::Key_Home);
+    if ( m_sharedData->moveItemOnReturnKey
+         && m_itemSaver && m_itemSaver->canMoveItems(indexes) )
+    {
+        moveIndexes(indexes, 0, &m, MoveType::Absolute);
         scrollTo( currentIndex() );
     }
 
@@ -1319,23 +1386,25 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
 void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOnly)
 {
+    if ( m.rowCount() == 0 )
+        return;
+
     QModelIndex prev = currentIndex();
     int cur = prev.row();
 
     const int direction = cur <= row ? 1 : -1;
 
     // select first visible
-    int i = m.getRowNumber(row);
+    int i = std::max(0, std::min(row, m.rowCount() - 1));
     cur = i;
     while ( 0 <= i && i < length() && isRowHidden(i) ) {
-        i = m.getRowNumber(i + direction);
+        i = std::max(0, std::min(i + direction, m.rowCount() - 1));
         if ( i == 0 || i == m.rowCount() - 1 || i == cur)
             break;
     }
     if ( i < 0 || i >= length() || isRowHidden(i) )
         return;
 
-    QModelIndex ind = index(i);
     if (keepSelection) {
         auto sel = selectionModel();
         const bool currentSelected = sel->isSelected(prev);
@@ -1359,6 +1428,7 @@ void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOn
         else if (!currentSelected)
             sel->setCurrentIndex(prev, QItemSelectionModel::Deselect);
     } else {
+        const auto ind = index(i);
         clearSelection();
         if (setCurrentOnly)
             selectionModel()->setCurrentIndex(ind, QItemSelectionModel::NoUpdate);
@@ -1609,7 +1679,14 @@ void ClipboardBrowser::otherItemLoader(bool next)
 
 void ClipboardBrowser::move(int key)
 {
-    m.moveItemsWithKeyboard(selectedIndexes(), key);
+    if (key == Qt::Key_Home)
+        moveIndexes( selectedIndexes(), 0, &m, MoveType::Absolute );
+    else if (key == Qt::Key_End)
+        moveIndexes( selectedIndexes(), m.rowCount(), &m, MoveType::Absolute );
+    else if (key == Qt::Key_Down)
+        moveIndexes( selectedIndexes(), 1, &m, MoveType::Relative );
+    else if (key == Qt::Key_Up)
+        moveIndexes( selectedIndexes(), -1, &m, MoveType::Relative );
     scrollTo( currentIndex() );
 }
 

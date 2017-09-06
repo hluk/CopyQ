@@ -58,13 +58,14 @@ void ClipboardItemList::move(int from, int count, int to)
 {
     if (to < from) {
         std::swap(from, to);
-        ++to;
+        to += count;
+        count = to - from - count;
     }
 
-    const auto start = std::begin(m_items) + from;
-    const auto end = start + count;
-    const auto dest = std::begin(m_items) + to;
-    std::rotate(start, end, dest);
+    const auto start1 = std::begin(m_items) + from;
+    const auto start2 = start1 + count;
+    const auto end2 = std::begin(m_items) + to;
+    std::rotate(start1, start2, end2);
 }
 
 ClipboardModel::ClipboardModel(QObject *parent)
@@ -196,11 +197,14 @@ bool ClipboardModel::moveRows(
     if (sourceParent.isValid() || destinationParent.isValid())
         return false;
 
-    if (sourceRow < 0 || destinationRow < 0 || rows <= 0 || sourceRow + rows > rowCount())
+    if (sourceRow < 0 || destinationRow < 0 || destinationRow > rowCount()
+            || rows <= 0 || sourceRow + rows > rowCount())
+    {
         return false;
+    }
 
     const int last = sourceRow + rows - 1;
-    if (sourceRow <= destinationRow && destinationRow <= last)
+    if (sourceRow <= destinationRow && destinationRow <= last + 1)
         return false;
 
     beginMoveRows(sourceParent, sourceRow, last, destinationParent, destinationRow);
@@ -208,90 +212,6 @@ bool ClipboardModel::moveRows(
     endMoveRows();
 
     return true;
-}
-
-int ClipboardModel::getRowNumber(int row, bool cycle) const
-{
-    int n = rowCount();
-    if (n == 0)
-        return -1;
-
-    if (row >= n)
-        return cycle ? 0 : n - 1;
-
-    if (row < 0)
-        return cycle ? n - 1 : 0;
-
-    return row;
-}
-
-bool ClipboardModel::move(int pos, int newpos)
-{
-    int from = getRowNumber(pos,true);
-    int to   = getRowNumber(newpos,true);
-
-    if( from == -1 || to == -1 )
-        return false;
-
-    const int sourceRow = from;
-    const int targetRow = to;
-    if (from < to)
-        ++to;
-
-    if ( !beginMoveRows(QModelIndex(), from, from, QModelIndex(), to) )
-        return false;
-
-    m_clipboardList.move(sourceRow, targetRow);
-
-    endMoveRows();
-
-    return true;
-}
-
-bool ClipboardModel::moveItemsWithKeyboard(const QModelIndexList &indexList, int key, int count) {
-    int from, to;
-    bool res = false;
-
-    QList<int> list;
-    list.reserve( indexList.size() );
-    for (const auto &i : indexList)
-        list.append( i.row() );
-
-    if ( key == Qt::Key_Down || key == Qt::Key_End )
-        std::sort( list.begin(), list.end(), std::greater<int>() );
-    else
-        std::sort( list.begin(), list.end(), std::less<int>() );
-
-    for ( int i = 0, d = 0; i<list.length(); ++i ) {
-        from = list.at(i) + d;
-
-        switch (key) {
-        case Qt::Key_Down:
-            to = from + count;
-            break;
-        case Qt::Key_Up:
-            to = from - count;
-            break;
-        case Qt::Key_End:
-            to = rowCount()-i-1;
-            break;
-        default:
-            to = 0+i;
-            break;
-        }
-
-        if ( to < 0 )
-            --d;
-        else if (to >= rowCount() )
-            ++d;
-
-        if ( !move(from, to) )
-            return false;
-        if (!res)
-            res = to==0 || from==0 || to == rowCount();
-    }
-
-    return res;
 }
 
 void ClipboardModel::sortItems(const QModelIndexList &indexList, CompareItems *compare)

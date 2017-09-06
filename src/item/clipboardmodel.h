@@ -130,27 +130,6 @@ public:
     /** insert new item to model. */
     void insertItem(const QVariantMap &data, int row);
 
-    /**
-     * Move an item.
-     * @return True only if item was successfully moved.
-     */
-    bool move(
-            int pos, //!< Source row number.
-            int newpos //!< Destination row number.
-            );
-    /**
-     * Move items.
-     * @return True only if all items was successfully moved.
-     */
-    bool moveItemsWithKeyboard(
-            const QModelIndexList &indexList, //!< Indexed of items to move.
-            int key,
-            /*!< Key representing direction for movement (can be one of
-             *   Qt::Key_Down, Qt::Key_Up, Qt::Key_End, Qt::Key_Home).
-             */
-            int count = 1
-            );
-
     void insertItems(const QList<QVariantMap> &dataList, int row);
 
     /**
@@ -163,17 +142,6 @@ public:
      * @return Row number with found item or -1 if no item was found.
      */
     int findItem(uint itemHash) const;
-
-    /**
-     * Return row index for given @a row.
-     * @return Value of @a row if such index is in model.
-     * @return -1 if model is empty.
-     * @return 0 if @a cycle is true and @a row is bigger than last row index.
-     * @return 0 if @a cycle is false and @a row is negative.
-     * @return Last row index if @a cycle is false and @a row is bigger than last row index.
-     * @return Last row index if @a cycle is true and @a row is negative.
-     */
-    int getRowNumber(int row, bool cycle = false) const;
 
 public slots:
 #if QT_VERSION < 0x050000

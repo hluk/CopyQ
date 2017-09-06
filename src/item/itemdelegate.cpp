@@ -123,10 +123,18 @@ void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
 void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd,
                              const QModelIndex &, int destinationRow)
 {
-    int dest = sourceStart < destinationRow ? destinationRow-1 : destinationRow;
-    for( int i = sourceStart; i <= sourceEnd; ++i ) {
-        m_cache.move(i,dest);
-        ++dest;
+    if (sourceStart < destinationRow) {
+        int dest = destinationRow;
+        for( int i = sourceEnd; i >= sourceStart; --i ) {
+            --dest;
+            m_cache.move(i, dest);
+        }
+    } else {
+        int dest = destinationRow;
+        for( int i = sourceStart; i <= sourceEnd; ++i ) {
+            m_cache.move(i, dest);
+            ++dest;
+        }
     }
 }
 
