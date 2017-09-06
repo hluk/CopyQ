@@ -652,32 +652,37 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *err
 
 void ClipboardBrowser::paste(const QVariantMap &data, int destinationRow)
 {
-    int count = 0;
+    if ( !isLoaded() ) {
+        loadItems();
+        if ( !isLoaded() )
+            return;
+    }
 
     // Insert items from clipboard or just clipboard content.
     if ( data.contains(mimeItems) ) {
         const QByteArray bytes = data[mimeItems].toByteArray();
         QDataStream stream(bytes);
 
+        QList<QVariantMap> dataList;
         while ( !stream.atEnd() ) {
             QVariantMap dataMap;
             stream >> dataMap;
-            add(dataMap, destinationRow + count);
-            ++count;
+            dataList.append(dataMap);
         }
+
+        // list size limit
+        if ( !allocateSpaceForNewItems(dataList.size()) ) {
+            QMessageBox::information(
+                        this, tr("Cannot Add New Items"),
+                        tr("Tab is full. Failed to remove any items.") );
+            return;
+        }
+
+        // create new item
+        const int newRow = destinationRow < 0 ? m.rowCount() : qMin(destinationRow, m.rowCount());
+        m.insertItems(dataList, newRow);
     } else {
         add(data, destinationRow);
-        count = 1;
-    }
-
-    // Select new items.
-    if (count > 0) {
-        QItemSelection sel;
-        QModelIndex first = index(destinationRow);
-        QModelIndex last = index(destinationRow + count - 1);
-        sel.select(first, last);
-        setCurrentIndex(first);
-        selectionModel()->select(sel, QItemSelectionModel::ClearAndSelect);
     }
 
     saveItems();
@@ -727,12 +732,23 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
         emit updateContextMenu(this);
 }
 
-void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int)
+void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int last)
 {
-    if ( !hideFiltered(first) ) {
-        selectionModel()->clearSelection();
-        const auto newIndex = index(first);
-        setCurrentIndex(newIndex);
+    QModelIndex current;
+    QItemSelection selection;
+
+    for (int row = first; row <= last; ++row) {
+        if ( !hideFiltered(row) ) {
+            const auto newIndex = index(row);
+            if ( !current.isValid() )
+                current = newIndex;
+            selection.select(newIndex, newIndex);
+        }
+    }
+
+    if ( !selection.isEmpty() ) {
+        setCurrentIndex(current);
+        selectionModel()->select(selection, QItemSelectionModel::ClearAndSelect);
     }
 }
 

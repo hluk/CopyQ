@@ -140,6 +140,24 @@ void ClipboardModel::insertItem(const QVariantMap &data, int row)
     endInsertRows();
 }
 
+void ClipboardModel::insertItems(const QList<QVariantMap> &dataList, int row)
+{
+    if ( dataList.isEmpty() )
+        return;
+
+    int targetRow = row;
+    m_clipboardList.reserve( m_clipboardList.size() + dataList.size() );
+
+    beginInsertRows(QModelIndex(), row, row + dataList.size() - 1);
+
+    for ( auto it = std::begin(dataList); it != std::end(dataList); ++it ) {
+        m_clipboardList.insert(targetRow, ClipboardItem(*it));
+        ++targetRow;
+    }
+
+    endInsertRows();
+}
+
 bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 {
     if ( rows <= 0 || position < 0 )

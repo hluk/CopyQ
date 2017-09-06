@@ -151,6 +151,8 @@ public:
             int count = 1
             );
 
+    void insertItems(const QList<QVariantMap> &dataList, int row);
+
     /**
      * Sort items in ascending order.
      */

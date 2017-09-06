@@ -48,6 +48,12 @@ ClipboardItem::ClipboardItem()
 {
 }
 
+ClipboardItem::ClipboardItem(const QVariantMap &data)
+    : m_data(data)
+    , m_hash(0)
+{
+}
+
 bool ClipboardItem::operator ==(const ClipboardItem &item) const
 {
     return dataHash() == item.dataHash();
