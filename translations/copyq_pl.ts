@@ -169,12 +169,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij dane danego typu MIME do standardowego wejścia polecenia (pozostaw puste, aby wyłączyć)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tworzenie elementów ze standardowego wyjścia programu (pozostaw puste, aby wyłączyć)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -185,7 +185,8 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Wyrażenie regularne dotyczące dzielenia danych wyjściowych na wiele elementów.&lt;\p&gt;
+&lt;p&gt;Użyj &lt;b&gt;\n&lt;/b&gt; do przechowywania każdej linii, aby oddzielić element.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -200,7 +201,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz pozycje na karcie z podaną nazwą (pozostaw puste, aby zapisać w bieżącej karcie)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="242"/>
