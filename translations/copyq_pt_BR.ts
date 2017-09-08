@@ -375,19 +375,19 @@ Você pode configurar o comando nas preferências.</translation>
         <location filename="../src/gui/addcommanddialog.cpp" line="218"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tarefas</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="221"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar à aba %1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="229"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mover para aba %1</translation>
     </message>
     <message>
         <source>Add to &amp;TODO tab</source>
@@ -440,12 +440,12 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1412"/>
         <source>Cannot Add New Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível adicionar novos itens</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1413"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aba cheia. Falha ao remover itens.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
@@ -539,7 +539,7 @@ Você pode configurar o comando nas preferências.</translation>
         <location filename="../src/gui/commandcompleter.cpp" line="231"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Espaço</translation>
     </message>
 </context>
 <context>
@@ -751,7 +751,7 @@ Deixe em branco para desabilitar esta.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="189"/>
         <source>Global Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Atalho Global</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="251"/>
@@ -826,7 +826,7 @@ Nota: Se este é aplicado automaticamente, não há outros comandos automáticos
     <message>
         <location filename="../src/ui/commandwidget.ui" line="579"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Avançado</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="62"/>
@@ -861,7 +861,7 @@ Nota: Se este é aplicado automaticamente, não há outros comandos automáticos
     <message>
         <location filename="../src/ui/commandwidget.ui" line="515"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation type="unfinished">Separator para combinar para dividir a saída de vários itens</translation>
+        <translation>Separador a combinar para dividir a saída de vários itens</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="518"/>
@@ -1028,7 +1028,7 @@ pressione F2 para editar.</translation>
         <location filename="../src/gui/configtabappearance.cpp" line="452"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation type="unfinished">Selecione os itens e mova os com
+        <translation>Selecione os itens e mova-os com
 CTRL + para cima ou para baixo.</translation>
     </message>
     <message>
@@ -1428,7 +1428,7 @@ CTRL + para cima ou para baixo.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="398"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished">Traçado e Transparência</translation>
+        <translation>Disposição e Transparência</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="407"/>
@@ -1516,12 +1516,12 @@ Nota: Isso pode não ser suportado em todos os sistemas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="895"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Desabilitar bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="764"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">Mover item para o topo da lista depois de ser ativado</translation>
+        <translation>Mover item para o topo da lista depois de ativado</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="767"/>
