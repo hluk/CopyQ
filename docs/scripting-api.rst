@@ -842,14 +842,35 @@ Types
 
    See `QFile <http://doc.qt.io/qt-5/qfile.html>`__.
 
+   To open file in different modes use:
+
+   - `open()` - read/write
+   - `openReadOnly()` - read only
+   - `openWriteOnly()` - write only, truncates the file
+   - `openAppend()` - write only, appends to the file
+
    Following code reads contents of "README.md" file from current
    directory.
 
    .. code-block:: js
 
-       var f = new File("README.md")
-       f.open()
+       var f = new File('README.md')
+       if (!f.openReadOnly())
+         raise 'Failed to open the file: ' + f.errorString()
        var bytes = f.readAll()
+
+   Following code writes to a file in home directory.
+
+   .. code-block:: js
+       var dataToWrite = 'Hello, World!'
+       var filePath = Dir().homePath() + '/copyq.txt'
+       var f = new File(filePath)
+       if (!f.openWriteOnly() || f.write(dataToWrite) == -1)
+         raise 'Failed to save the file: ' + f.errorString()
+
+       // Always flush the data and close the file,
+       // before opening the file in other application.
+       f.close()
 
 .. js:class:: Dir
 
@@ -869,6 +890,8 @@ Types
        f.open()
        f.setAutoRemove(false)
        popup('New temporary file', f.fileName())
+
+   To open file in different modes, use same open methods as for `File`.
 
 .. js:class:: Item (Object)
 
