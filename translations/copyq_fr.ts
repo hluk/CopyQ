@@ -3743,7 +3743,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation>Pour chiffrer et déchiffrer ales éléments ajouter les commandes appropriées dans l'onglet Commandes.</translation>
+        <translation>Pour chiffrer et déchiffrer les éléments ajouter les commandes appropriées dans l'onglet Commandes.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="72"/>
