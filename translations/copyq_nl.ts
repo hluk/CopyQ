@@ -375,19 +375,19 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <location filename="../src/gui/addcommanddialog.cpp" line="218"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Taken</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="221"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voeg toe aan tab %1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="229"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verplaats naar tab %1</translation>
     </message>
     <message>
         <source>Add to &amp;TODO tab</source>
@@ -440,12 +440,12 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1412"/>
         <source>Cannot Add New Items</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kan geen nieuw item toevoegen</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1413"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tab is vol. Verwijderen van items mislukt.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
@@ -539,7 +539,7 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <location filename="../src/gui/commandcompleter.cpp" line="231"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Spatie</translation>
     </message>
 </context>
 <context>
@@ -704,7 +704,7 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="189"/>
         <source>Global Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Algemene snelkoppeling</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="199"/>
@@ -736,7 +736,7 @@ Laat leeg om uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="261"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt; 1Gebruik opdracht alleen voor items wiens tekst overeenkomt met deze reguliere expressie (laat leeg om alles te matchen).&lt;/p&gt; 2&lt;p&gt; 3&lt;span style=&quot; font-weight:600;&quot;&gt; 4Voorbeelden:&lt;/span&gt; 5&lt;/p&gt; 6&lt;p&gt; 7  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt; 8^(https?|ftp)://&lt;/span&gt; 9&lt;/p&gt; 0&lt;p&gt;  Match PDF bestandsnamen    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match enkel karakter    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match multimedia op afstand    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="274"/>
@@ -757,7 +757,13 @@ Laat leeg om uit te schakelen.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt; 1Gebruik opdracht alleen als filter opdracht slaagt.&lt;/p&gt; 2
+
+&lt;p&gt; 3Item tekst is door gegeven aan &lt;b&gt; 4standaard input&lt;/b&gt; 5 van de filteropdracht. Het item wordt &lt;b&gt; 6alleen gematched als de filteropdracht exitcode 0 is&lt;/b&gt; 7.&lt;/p&gt; 8
+
+&lt;p&gt; 9Gebruik &lt;b&gt; 0%1&lt;/b&gt; voor de tekst van het item doorgegeven als argument en &lt;b&gt;%2&lt;/b&gt; naar &lt;b&gt;%9&lt;/b&gt; voor argumenten opgepakt door een reguliere expressie (onderdelen ingesloten in haakjes).&lt;/p&gt;
+
+&lt;p&gt;Gebruik &lt;b&gt;|&lt;/b&gt; om opdrachten in een keten te zetten (geef standaard uitvoer door aan de volgende opdracht).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="319"/>
@@ -871,7 +877,7 @@ Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatis
     <message>
         <location filename="../src/ui/commandwidget.ui" line="579"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Toon geavanceerd</translation>
     </message>
 </context>
 <context>
