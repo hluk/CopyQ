@@ -2716,7 +2716,7 @@ void MainWindow::updateFirstItem(QVariantMap data)
     }
 }
 
-QStringList MainWindow::config(const QStringList &nameValue)
+QVariant MainWindow::config(const QStringList &nameValue)
 {
     ConfigurationManager configurationManager;
 
@@ -2726,37 +2726,37 @@ QStringList MainWindow::config(const QStringList &nameValue)
         QString opts;
         for (const auto &option : options)
             opts.append( option + "\n  " + configurationManager.optionToolTip(option).replace('\n', "\n  ") + '\n' );
-        return QStringList(opts);
+        return opts;
     }
 
-    QStringList result;
+    QStringList unknownOptions;
+    const auto validOptions = configurationManager.options();
 
     // Check if option names are valid.
     for (int i = 0; i < nameValue.size(); i += 2) {
         const auto &name = nameValue[i];
-        if ( !configurationManager.options().contains(name) ) {
-            result.append(nameValue[i]);
-            result.append(QString());
-        }
+        if ( !validOptions.contains(name) )
+            unknownOptions.append( nameValue[i] );
     }
+
+    if ( !unknownOptions.isEmpty() )
+        return unknownOptions;
 
     configurationManager.loadSettings();
 
-    if ( result.isEmpty() ) {
-        bool emitConfigurationChanged = false;
-        for (int i = 0; i < nameValue.size(); i += 2) {
-            const auto &name = nameValue[i];
-            const auto value = nameValue.value(i + 1);
-            if ( !value.isNull() && configurationManager.setOptionValue(name, value) )
-                emitConfigurationChanged = true;
+    QVariantMap result;
+    bool emitConfigurationChanged = false;
+    for (int i = 0; i < nameValue.size(); i += 2) {
+        const auto &name = nameValue[i];
+        const auto value = nameValue.value(i + 1);
+        if ( !value.isNull() && configurationManager.setOptionValue(name, value) )
+            emitConfigurationChanged = true;
 
-            result.append(nameValue[i]);
-            result.append( configurationManager.optionValue(name) );
-        }
-
-        if (emitConfigurationChanged)
-            emit configurationChanged();
+        result.insert( nameValue[i], configurationManager.optionValue(name) );
     }
+
+    if (emitConfigurationChanged)
+        emit configurationChanged();
 
     return result;
 }

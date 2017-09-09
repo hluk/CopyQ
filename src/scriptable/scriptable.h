@@ -202,6 +202,7 @@ public slots:
     QScriptValue exportData();
 
     QScriptValue config();
+    bool toggleConfig();
 
     QScriptValue info();
 

@@ -324,9 +324,9 @@ QStringList ConfigurationManager::options() const
     return options;
 }
 
-QString ConfigurationManager::optionValue(const QString &name) const
+QVariant ConfigurationManager::optionValue(const QString &name) const
 {
-    return m_options.value(name).value().toString();
+    return m_options.value(name).value();
 }
 
 bool ConfigurationManager::setOptionValue(const QString &name, const QString &value)
@@ -334,7 +334,7 @@ bool ConfigurationManager::setOptionValue(const QString &name, const QString &va
     if ( !m_options.contains(name) )
         return false;
 
-    const QString oldValue = optionValue(name);
+    const QString oldValue = optionValue(name).toString();
     m_options[name].setValue(value);
     if ( optionValue(name) == oldValue )
         return false;

@@ -75,6 +75,7 @@ private slots:
     void commandSetCurrentTab();
 
     void commandConfig();
+    void commandToggleConfig();
 
     void commandDialog();
 

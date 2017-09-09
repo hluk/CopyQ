@@ -405,6 +405,10 @@ omitted.
    Throws an exception if there is an invalid option in which case it won't
    set any options.
 
+.. js:function:: bool toggleConfig(optionName)
+
+   Toggles an option (true to false and vice versa) and returns the new value.
+
 .. js:function:: String info([pathName])
 
    Returns paths and flags used by the application.

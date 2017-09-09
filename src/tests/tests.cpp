@@ -862,6 +862,18 @@ void Tests::commandConfig()
     RUN("config" << "tab_tree", "false\n");
 }
 
+void Tests::commandToggleConfig()
+{
+    RUN("toggleConfig" << "check_clipboard", "false\n");
+    RUN("config" << "check_clipboard", "false\n");
+    RUN("toggleConfig" << "check_clipboard", "true\n");
+    RUN("config" << "check_clipboard", "true\n");
+
+    RUN_EXPECT_ERROR("toggleConfig", CommandException);
+    RUN_EXPECT_ERROR_WITH_STDERR("toggleConfig" << "xxx", CommandException, "xxx");
+    RUN_EXPECT_ERROR_WITH_STDERR("toggleConfig" << "clipboard_tab", CommandException, "clipboard_tab");
+}
+
 void Tests::commandDialog()
 {
     {
