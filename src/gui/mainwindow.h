@@ -304,7 +304,7 @@ public:
     void updateFirstItem(QVariantMap data);
 
     /// Used by config() command.
-    QStringList config(const QStringList &nameValue);
+    QVariant config(const QStringList &nameValue);
 
     QVariantMap actionData(int id) const;
     void setActionData(int id, const QVariantMap &data);

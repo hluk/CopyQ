@@ -121,7 +121,8 @@ public:
     bool importData(const QString &fileName);
     bool exportData(const QString &fileName);
 
-    QStringList config(const QStringList &nameValue);
+    QVariant config(const QStringList &nameValue);
+    QVariant toggleConfig(const QString &optionName);
 
     QByteArray getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
     bool hasClipboardFormat(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
@@ -178,6 +179,8 @@ public:
     void addCommands(const QList<Command> &commands);
 
     QByteArray screenshot(const QString &format, const QString &screenName, bool select);
+
+    QStringList screenNames();
 
     Qt::KeyboardModifiers queryKeyboardModifiers();
 

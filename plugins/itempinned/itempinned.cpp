@@ -55,6 +55,11 @@ Command dummyPinCommand()
     return c;
 }
 
+bool containsPinnedItems(const QModelIndexList &indexList)
+{
+    return std::any_of( std::begin(indexList), std::end(indexList), isPinned );
+}
+
 } // namespace
 
 ItemPinned::ItemPinned(ItemWidget *childItem)
@@ -207,10 +212,7 @@ bool ItemPinnedSaver::saveItems(const QString &tabName, const QAbstractItemModel
 
 bool ItemPinnedSaver::canRemoveItems(const QList<QModelIndex> &indexList, QString *error)
 {
-    const bool containsPinnedItems = std::any_of(
-                std::begin(indexList), std::end(indexList), isPinned);
-
-    if (!containsPinnedItems)
+    if ( !containsPinnedItems(indexList) )
         return m_saver->canRemoveItems(indexList, error);
 
     if (error) {
@@ -227,7 +229,8 @@ bool ItemPinnedSaver::canRemoveItems(const QList<QModelIndex> &indexList, QStrin
 
 bool ItemPinnedSaver::canMoveItems(const QList<QModelIndex> &indexList)
 {
-    return m_saver->canMoveItems(indexList);
+    return !containsPinnedItems(indexList)
+            && m_saver->canMoveItems(indexList);
 }
 
 void ItemPinnedSaver::itemsRemovedByUser(const QList<QModelIndex> &indexList)
@@ -284,16 +287,40 @@ void ItemPinnedSaver::onRowsRemoved(const QModelIndex &, int start, int end)
 
 void ItemPinnedSaver::onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow)
 {
-    if ( (m_lastPinned < start && m_lastPinned < destinationRow)
-         || (end < m_lastPinned && destinationRow < m_lastPinned) )
-    {
+    if (!m_model)
         return;
+
+    if ( (m_lastPinned >= start || m_lastPinned >= destinationRow)
+         && (end >= m_lastPinned || destinationRow >= m_lastPinned) )
+    {
+        if (start < destinationRow)
+            updateLastPinned(start, destinationRow + end - start + 1);
+        else
+            updateLastPinned(destinationRow, end);
     }
 
-    if (start < destinationRow)
-        updateLastPinned(start, destinationRow + end - start + 1);
-    else
-        updateLastPinned(destinationRow, end);
+    if (destinationRow != 0 || start < destinationRow)
+        return;
+
+    const int rowCount = end - start + 1;
+
+    for (int row = destinationRow; row < destinationRow + rowCount; ++row) {
+        if ( isPinned(m_model->index(row, 0)) )
+            return;
+    }
+
+    disconnect( m_model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+                this, SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
+
+    // Shift rows below inserted up.
+    for (int row = destinationRow + rowCount; row <= std::min(m_lastPinned, end); ++row) {
+        const auto index = m_model->index(row, 0);
+        if ( isPinned(index) )
+            moveRow(row, row - rowCount);
+    }
+
+    connect( m_model, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+             SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
 }
 
 void ItemPinnedSaver::onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)

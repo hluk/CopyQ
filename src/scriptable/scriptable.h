@@ -160,6 +160,7 @@ public slots:
     QScriptValue selection();
     QScriptValue hasClipboardFormat();
     QScriptValue hasSelectionFormat();
+    QScriptValue isClipboard();
     QScriptValue copy();
     QScriptValue copySelection();
     void paste();
@@ -202,6 +203,7 @@ public slots:
     QScriptValue exportData();
 
     QScriptValue config();
+    bool toggleConfig();
 
     QScriptValue info();
 
@@ -299,6 +301,7 @@ public slots:
 
     QScriptValue screenshot();
     QScriptValue screenshotSelect();
+    QScriptValue screenNames();
 
     QScriptValue queryKeyboardModifiers();
 

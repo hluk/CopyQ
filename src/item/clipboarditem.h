@@ -36,6 +36,8 @@ class ClipboardItem
 public:
     ClipboardItem();
 
+    explicit ClipboardItem(const QVariantMap &data);
+
     /** Compare with other item (using hash). */
     bool operator ==(const ClipboardItem &item) const;
 

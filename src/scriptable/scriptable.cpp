@@ -833,6 +833,11 @@ QScriptValue Scriptable::hasSelectionFormat()
 #endif
 }
 
+QScriptValue Scriptable::isClipboard()
+{
+    return !m_data.keys().contains(mimeClipboardMode);
+}
+
 QScriptValue Scriptable::copy()
 {
     m_skipArguments = -1;
@@ -1204,37 +1209,51 @@ QScriptValue Scriptable::config()
     for (int i = 0; i < argumentCount(); ++i)
         nameValueInput.append( arg(i) );
 
-    const auto nameValue = m_proxy->config(nameValueInput);
-    if ( nameValue.size() == 1 )
-        return nameValue.first();
+    const auto result = m_proxy->config(nameValueInput);
+    if ( result.type() == QVariant::String )
+        return result.toString();
 
-    QString errors;
-    for (int i = 0; i < nameValue.size(); i += 2) {
-        const auto &name = nameValue[i];
-        const auto value = nameValue.value(i + 1);
-        if ( value.isNull() ) {
+    if ( result.type() == QVariant::StringList ) {
+        QString errors;
+        const auto unknownOptions = result.toStringList();
+        for (const auto &name : unknownOptions) {
             if ( !errors.isEmpty() )
                 errors.append('\n');
             errors.append( tr("Invalid option \"%1\"!").arg(name) );
         }
-    }
 
-    if ( !errors.isEmpty() ) {
         throwError(errors);
         return QScriptValue();
     }
 
-    if ( nameValue.size() == 2 )
-        return nameValue.last();
+    const auto nameValue = result.toMap();
+    if ( nameValue.size() == 1 )
+        return nameValue.constBegin().value().toString();
 
     QStringList output;
-    for (int i = 0; i < nameValue.size(); i += 2) {
-        const auto &name = nameValue[i];
-        const auto value = nameValue.value(i + 1);
-        output.append(name + "=" + value);
+    for (auto it = nameValue.constBegin(); it != nameValue.constEnd(); ++it) {
+        const auto name = it.key();
+        const auto value = it.value();
+        output.append( name + "=" + value.toString() );
     }
 
     return toScriptValue(output, this);
+}
+
+bool Scriptable::toggleConfig()
+{
+    m_skipArguments = 1;
+    const auto optionName = arg(0);
+    if ( optionName.isEmpty() )
+        throwError(argumentError());
+
+    const auto result = m_proxy->toggleConfig(optionName);
+    if ( result.type() != QVariant::Bool ) {
+        throwError( QString("Invalid boolean option \"%1\"!").arg(optionName) );
+        return false;
+    }
+
+    return result.toBool();
 }
 
 QScriptValue Scriptable::info()
@@ -1986,6 +2005,16 @@ QScriptValue Scriptable::screenshotSelect()
     return screenshot(true);
 }
 
+QScriptValue Scriptable::screenNames()
+{
+#if QT_VERSION < 0x050000
+    throwError("Screen names are unsupported on version compiled with Qt 4");
+    return QScriptValue();
+#else
+    return toScriptValue( m_proxy->screenNames(), this );
+#endif
+}
+
 QScriptValue Scriptable::queryKeyboardModifiers()
 {
     const auto modifiers = m_proxy->queryKeyboardModifiers();
@@ -2318,8 +2347,20 @@ QScriptValue Scriptable::screenshot(bool select)
     const auto screen = arg(1);
     const auto imageData = m_proxy->screenshot(format, screen, select);
 
+#if QT_VERSION < 0x050000
+    if ( !screen.isEmpty() ) {
+        throwError("Screen names are unsupported on version compiled with Qt 4");
+        return QScriptValue();
+    }
+#endif
+
     if ( imageData.isEmpty() ) {
-        throwError("Failed to grab screenshot");
+        QString error = "Failed to grab screenshot";
+        if ( !screen.isEmpty() ) {
+            const auto screenNames = m_proxy->screenNames();
+            error.append( " (valid screen names are " + screenNames.join(", ") + ")" );
+        }
+        throwError(error);
         return QScriptValue();
     }
 

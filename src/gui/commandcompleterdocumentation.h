@@ -26,6 +26,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("selection", "ByteArray selection([mimeType])", "Same as `clipboard()` for Linux/X11 mouse selection.");
     addDocumentation("hasClipboardFormat", "bool hasClipboardFormat(mimeType)", "Returns true only if clipboard contains MIME type.");
     addDocumentation("hasSelectionFormat", "bool hasSelectionFormat(mimeType)", "Same as `hasClipboardFormat()` for Linux/X11 mouse selection.");
+    addDocumentation("isClipboard", "bool isClipboard()", "Returns true only in automatic command triggered by clipboard change.");
     addDocumentation("copy", "bool copy(text)", "Sets clipboard plain text.");
     addDocumentation("copy", "bool copy(mimeType, data, [mimeType, data]...)", "Sets clipboard data.");
     addDocumentation("copy", "bool copy()", "Sends `Ctrl+C` to current window.");
@@ -61,6 +62,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("config", "String config(optionName)", "Returns value of given option.");
     addDocumentation("config", "String config(optionName, value)", "Sets option and returns new value.");
     addDocumentation("config", "String config(optionName, value, ...)", "Sets multiple options and return list with values in format `optionName=newValue`.");
+    addDocumentation("toggleConfig", "bool toggleConfig(optionName)", "Toggles an option (true to false and vice versa) and returns the new value.");
     addDocumentation("info", "String info([pathName])", "Returns paths and flags used by the application.");
     addDocumentation("eval", "Value eval(script)", "Evaluates script and returns result.");
     addDocumentation("source", "Value source(fileName)", "Evaluates script file and returns result of last expression in the script.");
@@ -112,6 +114,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("sleep", "sleep(time)", "Wait for given time in milliseconds.");
     addDocumentation("screenshot", "ByteArray screenshot(format='png', [screenName])", "Returns image data with screenshot.");
     addDocumentation("screenshotSelect", "ByteArray screenshotSelect(format='png', [screenName])", "Same as `screenshot()` but allows to select an area on screen.");
+    addDocumentation("screenNames", "String[] screenNames()", "Returns list of available screen names.");
     addDocumentation("queryKeyboardModifiers", "String[] queryKeyboardModifiers()", "Returns list of currently pressed keyboard modifiers which can be 'Ctrl', 'Shift', 'Alt', 'Meta'.");
     addDocumentation("ByteArray", "ByteArray", "Wrapper for QByteArray Qt class.");
     addDocumentation("File", "File", "Wrapper for QFile Qt class.");

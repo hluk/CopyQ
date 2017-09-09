@@ -183,6 +183,13 @@ omitted.
 
    Same as ``hasClipboardFormat()`` for Linux/X11 mouse selection.
 
+.. js:function:: bool isClipboard()
+
+   Returns true only in automatic command triggered by clipboard change.
+
+   This can be used to check if current automatic command was triggered by
+   clipboard and not Linux/X11 mouse selection change.
+
 .. js:function:: bool copy(text)
 
    Sets clipboard plain text.
@@ -404,6 +411,10 @@ omitted.
 
    Throws an exception if there is an invalid option in which case it won't
    set any options.
+
+.. js:function:: bool toggleConfig(optionName)
+
+   Toggles an option (true to false and vice versa) and returns the new value.
 
 .. js:function:: String info([pathName])
 
@@ -794,6 +805,10 @@ omitted.
 
    Returns image data with screenshot.
 
+   Default ``screenName`` is name of the screen with mouse cursor.
+
+   You can list valid values for ``screenName`` with ``screenNames()``.
+
    Example:
 
    .. code-block:: js
@@ -803,6 +818,10 @@ omitted.
 .. js:function:: ByteArray screenshotSelect(format='png', [screenName])
 
    Same as ``screenshot()`` but allows to select an area on screen.
+
+.. js:function:: String[] screenNames()
+
+   Returns list of available screen names.
 
 .. js:function:: String[] queryKeyboardModifiers()
 
@@ -834,14 +853,35 @@ Types
 
    See `QFile <http://doc.qt.io/qt-5/qfile.html>`__.
 
+   To open file in different modes use:
+
+   - `open()` - read/write
+   - `openReadOnly()` - read only
+   - `openWriteOnly()` - write only, truncates the file
+   - `openAppend()` - write only, appends to the file
+
    Following code reads contents of "README.md" file from current
    directory.
 
    .. code-block:: js
 
-       var f = new File("README.md")
-       f.open()
+       var f = new File('README.md')
+       if (!f.openReadOnly())
+         raise 'Failed to open the file: ' + f.errorString()
        var bytes = f.readAll()
+
+   Following code writes to a file in home directory.
+
+   .. code-block:: js
+       var dataToWrite = 'Hello, World!'
+       var filePath = Dir().homePath() + '/copyq.txt'
+       var f = new File(filePath)
+       if (!f.openWriteOnly() || f.write(dataToWrite) == -1)
+         raise 'Failed to save the file: ' + f.errorString()
+
+       // Always flush the data and close the file,
+       // before opening the file in other application.
+       f.close()
 
 .. js:class:: Dir
 
@@ -861,6 +901,8 @@ Types
        f.open()
        f.setAutoRemove(false)
        popup('New temporary file', f.fileName())
+
+   To open file in different modes, use same open methods as for `File`.
 
 .. js:class:: Item (Object)
 

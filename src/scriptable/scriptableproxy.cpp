@@ -770,10 +770,28 @@ bool ScriptableProxy::exportData(const QString &fileName)
     return m_wnd->exportAllData(fileName);
 }
 
-QStringList ScriptableProxy::config(const QStringList &nameValue)
+QVariant ScriptableProxy::config(const QStringList &nameValue)
 {
     INVOKE(config(nameValue));
     return m_wnd->config(nameValue);
+}
+
+QVariant ScriptableProxy::toggleConfig(const QString &optionName)
+{
+    INVOKE(toggleConfig(optionName));
+
+    QStringList nameValue(optionName);
+    const auto values = m_wnd->config(nameValue);
+    if ( values.type() == QVariant::StringList )
+        return values;
+
+    const auto oldValue = values.toMap().constBegin().value();
+    if ( oldValue.type() != QVariant::Bool )
+        return QVariant();
+
+    const auto newValue = !QVariant(oldValue).toBool();
+    nameValue.append( QVariant(newValue).toString() );
+    return m_wnd->config(nameValue).toMap().constBegin().value();
 }
 
 QByteArray ScriptableProxy::getClipboardData(const QString &mime, QClipboard::Mode mode)
@@ -1232,7 +1250,13 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
 #else
     QScreen *selectedScreen = nullptr;
     if ( screenName.isEmpty() ) {
-        selectedScreen = QApplication::primaryScreen();
+        const auto mousePosition = QCursor::pos();
+        for ( const auto screen : QApplication::screens() ) {
+            if ( screen->geometry().contains(mousePosition) ) {
+                selectedScreen = screen;
+                break;
+            }
+        }
     } else {
         for ( const auto screen : QApplication::screens() ) {
             if (screen->name() == screenName) {
@@ -1261,8 +1285,15 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
         while ( !rectWidget.isHidden() )
             QCoreApplication::processEvents();
         const auto rect = rectWidget.selectionRect;
-        if ( rect.isValid() )
+        if ( rect.isValid() ) {
+#if QT_VERSION < 0x050000
             pixmap = pixmap.copy(rect);
+#else
+            const auto ratio = pixmap.devicePixelRatio();
+            const QRect rect2( rect.topLeft() * ratio, rect.size() * ratio );
+            pixmap = pixmap.copy(rect2);
+#endif
+        }
     }
 
     QByteArray bytes;
@@ -1274,6 +1305,24 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
     }
 
     return bytes;
+}
+
+QStringList ScriptableProxy::screenNames()
+{
+#if QT_VERSION < 0x050000
+    return QStringList();
+#else
+    INVOKE(screenNames());
+
+    QStringList result;
+    const auto screens = QApplication::screens();
+    result.reserve( screens.size() );
+
+    for ( const auto screen : screens )
+        result.append(screen->name());
+
+    return result;
+#endif
 }
 
 Qt::KeyboardModifiers ScriptableProxy::queryKeyboardModifiers()
