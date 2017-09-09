@@ -334,10 +334,20 @@ void ConfigTabAppearance::updateFontButtons()
     if ( !isVisible() )
         return;
 
-    const int iconSize = pointsToPixels(16);
-    QPixmap pix(QSize(iconSize * 2, iconSize));
+    const int iconExtent = pointsToPixels(16);
+    const QSize iconSize(iconExtent * 2, iconExtent);
 
-    QRegExp re("^pushButton(.*)Font$");
+#if QT_VERSION < 0x050000
+    QPixmap pix(iconSize);
+#else
+    const auto ratio = ui->scrollAreaTheme->devicePixelRatio();
+    QPixmap pix(iconSize * ratio);
+    pix.setDevicePixelRatio(ratio);
+#endif
+
+    const QRect textRect( QPoint(0, 0), iconSize );
+
+    const QRegExp re("^pushButton(.*)Font$");
     QList<QPushButton *> buttons = ui->scrollAreaTheme->findChildren<QPushButton *>(re);
 
     for (auto button : buttons) {
@@ -361,11 +371,11 @@ void ConfigTabAppearance::updateFontButtons()
 
         QFont font = m_theme.themeFontFromString( button->property("VALUE").toString() );
         painter.setFont(font);
-        painter.drawText( QRect(0, 0, pix.width(), pix.height()), Qt::AlignCenter,
+        painter.drawText( textRect, Qt::AlignCenter,
                           tr("Abc", "Preview text for font settings in appearance dialog") );
 
         button->setIcon(pix);
-        button->setIconSize(pix.size());
+        button->setIconSize(iconSize);
     }
 }
 
