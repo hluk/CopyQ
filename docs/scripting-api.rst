@@ -183,6 +183,13 @@ omitted.
 
    Same as ``hasClipboardFormat()`` for Linux/X11 mouse selection.
 
+.. js:function:: bool isClipboard()
+
+   Returns true only in automatic command triggered by clipboard change.
+
+   This can be used to check if current automatic command was triggered by
+   clipboard and not Linux/X11 mouse selection change.
+
 .. js:function:: bool copy(text)
 
    Sets clipboard plain text.

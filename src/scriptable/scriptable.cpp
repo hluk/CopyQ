@@ -833,6 +833,11 @@ QScriptValue Scriptable::hasSelectionFormat()
 #endif
 }
 
+QScriptValue Scriptable::isClipboard()
+{
+    return !m_data.keys().contains(mimeClipboardMode);
+}
+
 QScriptValue Scriptable::copy()
 {
     m_skipArguments = -1;

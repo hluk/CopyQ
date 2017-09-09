@@ -160,6 +160,7 @@ public slots:
     QScriptValue selection();
     QScriptValue hasClipboardFormat();
     QScriptValue hasSelectionFormat();
+    QScriptValue isClipboard();
     QScriptValue copy();
     QScriptValue copySelection();
     void paste();
