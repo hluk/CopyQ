@@ -257,5 +257,5 @@ void CommandWidget::updateWidgets()
     ui->groupBoxInMenu->setVisible(inMenu);
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->commandEdit->isEmpty());
 
-    ui->widgetSpacer->setVisible(!ui->groupBoxCommand->isVisible());
+    ui->widgetSpacer->setVisible(ui->groupBoxCommand->isHidden());
 }
