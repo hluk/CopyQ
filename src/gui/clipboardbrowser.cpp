@@ -1020,7 +1020,7 @@ void ClipboardBrowser::paintEvent(QPaintEvent *e)
         }
     }
     const int h = viewport()->contentsRect().height();
-    const auto lastVisibleIndex = indexNear(h - spacing());
+    const auto lastVisibleIndex = indexNear(h - 3 * spacing());
     if ( lastVisibleIndex.isValid() ) {
         for (int row = lastVisibleIndex.row() + 1; row < m.rowCount(); ++row) {
             auto w = d.cacheOrNull(row);
