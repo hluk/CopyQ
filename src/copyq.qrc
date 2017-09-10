@@ -2,11 +2,11 @@
     <qresource prefix="/">
         <file>images/icon.svg</file>
         <file>images/icon-running.svg</file>
-        <file alias="images/logo.png">images/icon_128x128.png</file>
         <file>images/tab_icon.svg</file>
         <file>images/tab_new.svg</file>
         <file>images/tab_rename.svg</file>
         <file>images/tab_remove.svg</file>
         <file>images/fontawesome-webfont.ttf</file>
+        <file alias="images/logo.png">images/icon_512x512.png</file>
     </qresource>
 </RCC>

@@ -100,7 +100,7 @@ QString AboutDialog::aboutPage()
         "<body>"
 
         "<table><tr valign='middle'>"
-        "<td><img src=':/images/logo.png' /></td>"
+        "<td><img src=':/images/logo.png' width='128' /></td>"
         "<td>"
         "<div id='title'>CopyQ</div>"
         "<div id='subtitle'>" + escapeHtml(tr("Clipboard Manager")) + "</div>"
