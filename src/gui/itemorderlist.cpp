@@ -86,9 +86,11 @@ void ItemOrderList::insertItem(const QString &label, bool checked, bool highligh
     m_items[listItem] = ItemWidgetPair(item);
 
     // Resize list to minimal size.
-    const int w = list->sizeHintForColumn(0)
-                + list->verticalScrollBar()->sizeHint().width() + 4;
-    list->setMaximumWidth(w);
+    if ( !isVisible() ) {
+        const int w = list->sizeHintForColumn(0)
+                    + list->verticalScrollBar()->sizeHint().width() + 4;
+        list->resize( w, list->height() );
+    }
 
     if ( list->currentItem() == nullptr )
         list->setCurrentRow(row);

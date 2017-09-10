@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>296</width>
+    <width>297</width>
     <height>770</height>
    </rect>
   </property>
@@ -143,173 +143,189 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QGroupBox" name="groupBox_2">
-        <property name="title">
-         <string>Type of Action</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <property name="leftMargin">
-          <number>4</number>
-         </property>
-         <property name="topMargin">
-          <number>4</number>
-         </property>
-         <property name="rightMargin">
-          <number>4</number>
-         </property>
-         <property name="bottomMargin">
-          <number>4</number>
-         </property>
-         <item>
-          <widget class="QCheckBox" name="checkBoxAutomatic">
-           <property name="toolTip">
-            <string>Run the command automatically if clipboard has new content</string>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item alignment="Qt::AlignTop">
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>Type of Action</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="spacing">
+            <number>2</number>
            </property>
-           <property name="text">
-            <string>Auto&amp;matic</string>
+           <property name="leftMargin">
+            <number>4</number>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBoxInMenu">
-           <property name="toolTip">
-            <string>Show command in context menu of matching items</string>
+           <property name="topMargin">
+            <number>4</number>
            </property>
-           <property name="text">
-            <string>In M&amp;enu</string>
+           <property name="rightMargin">
+            <number>4</number>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBoxGlobalShortcut">
-           <property name="text">
-            <string>Global Shortcut</string>
+           <property name="bottomMargin">
+            <number>4</number>
            </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBoxMatchItems">
-        <property name="title">
-         <string>Match Items</string>
-        </property>
-        <layout class="QFormLayout" name="formLayout_2">
-         <property name="horizontalSpacing">
-          <number>2</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>2</number>
-         </property>
-         <property name="leftMargin">
-          <number>4</number>
-         </property>
-         <property name="topMargin">
-          <number>4</number>
-         </property>
-         <property name="rightMargin">
-          <number>4</number>
-         </property>
-         <property name="bottomMargin">
-          <number>4</number>
-         </property>
-         <item row="3" column="1">
-          <widget class="QComboBox" name="comboBoxInputFormat">
-           <property name="toolTip">
-            <string>Data of this MIME type will be sent to standard input of command.
-Leave empty to disable this.</string>
+           <item>
+            <widget class="QCheckBox" name="checkBoxAutomatic">
+             <property name="toolTip">
+              <string>Run the command automatically if clipboard has new content</string>
+             </property>
+             <property name="text">
+              <string>Auto&amp;matic</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxInMenu">
+             <property name="toolTip">
+              <string>Show command in context menu of matching items</string>
+             </property>
+             <property name="text">
+              <string>In M&amp;enu</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxGlobalShortcut">
+             <property name="text">
+              <string>Global Shortcut</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignTop">
+         <widget class="QGroupBox" name="groupBoxMatchItems">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>1</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>Match Items</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_2">
+           <property name="horizontalSpacing">
+            <number>2</number>
            </property>
-           <property name="editable">
-            <bool>true</bool>
+           <property name="verticalSpacing">
+            <number>2</number>
            </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>F&amp;ormat:</string>
+           <property name="leftMargin">
+            <number>4</number>
            </property>
-           <property name="buddy">
-            <cstring>comboBoxInputFormat</cstring>
+           <property name="topMargin">
+            <number>4</number>
            </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEditWindow">
-           <property name="toolTip">
-            <string>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</string>
+           <property name="rightMargin">
+            <number>4</number>
            </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="labelWindow">
-           <property name="text">
-            <string>&amp;Window:</string>
+           <property name="bottomMargin">
+            <number>4</number>
            </property>
-           <property name="buddy">
-            <cstring>lineEditWindow</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineEditMatch">
-           <property name="toolTip">
-            <string>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>&amp;Content:</string>
-           </property>
-           <property name="buddy">
-            <cstring>lineEditMatch</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>&amp;Filter:</string>
-           </property>
-           <property name="buddy">
-            <cstring>lineEditMatchCmd</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="lineEditMatchCmd">
-           <property name="toolTip">
-            <string>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>&amp;Content:</string>
+             </property>
+             <property name="buddy">
+              <cstring>lineEditMatch</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineEditMatch">
+             <property name="toolTip">
+              <string>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="labelWindow">
+             <property name="text">
+              <string>&amp;Window:</string>
+             </property>
+             <property name="buddy">
+              <cstring>lineEditWindow</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="lineEditWindow">
+             <property name="toolTip">
+              <string>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>&amp;Filter:</string>
+             </property>
+             <property name="buddy">
+              <cstring>lineEditMatchCmd</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="lineEditMatchCmd">
+             <property name="toolTip">
+              <string>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
 &lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>For&amp;mat:</string>
+             </property>
+             <property name="buddy">
+              <cstring>comboBoxInputFormat</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="comboBoxInputFormat">
+             <property name="toolTip">
+              <string>Data of this MIME type will be sent to standard input of command.
+Leave empty to disable this.</string>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QGroupBox" name="groupBoxCommand">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>1</verstretch>
          </sizepolicy>
         </property>
         <property name="focusPolicy">
@@ -319,8 +335,26 @@ Leave empty to disable this.</string>
          <string>Comman&amp;d</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_6">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="CommandEdit" name="commandEdit" native="true">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>1</verstretch>
+            </sizepolicy>
+           </property>
            <property name="focusPolicy">
             <enum>Qt::WheelFocus</enum>
            </property>
@@ -355,7 +389,7 @@ Leave empty to disable this.</string>
            <item row="0" column="0">
             <widget class="QLabel" name="label_6">
              <property name="text">
-              <string>Co&amp;py to tab:</string>
+              <string>Cop&amp;y to tab:</string>
              </property>
              <property name="buddy">
               <cstring>comboBoxCopyToTab</cstring>
