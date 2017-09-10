@@ -938,7 +938,7 @@ bool ScriptableProxy::selectItems(const QList<int> &items)
 
         for (int i : items) {
             const QModelIndex index = c->index(i);
-            if (index.isValid())
+            if ( index.isValid() && !c->isFiltered(i) )
                 c->selectionModel()->select(index, QItemSelectionModel::Select);
         }
     }

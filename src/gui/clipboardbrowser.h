@@ -211,6 +211,11 @@ class ClipboardBrowser : public QListView
          */
         bool loadItems();
 
+        /**
+         * Return true only if row is filtered and should be hidden.
+         */
+        bool isFiltered(int row) const;
+
     public slots:
         /**
          * Save items to configuration.
@@ -320,8 +325,6 @@ class ClipboardBrowser : public QListView
 
     private:
         bool isLoaded() const;
-
-        bool isFiltered(int row) const;
 
         /**
          * Hide row if filtered out, otherwise show.
