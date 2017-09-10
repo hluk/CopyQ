@@ -368,7 +368,7 @@ Leave empty to disable this.</string>
         <property name="title">
          <string>Action</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
          <property name="leftMargin">
           <number>4</number>
          </property>
@@ -462,7 +462,7 @@ Note: If this is applied automatically, no other automatic commands are executed
         <property name="title">
          <string>Command options</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
          <property name="spacing">
           <number>2</number>
          </property>
@@ -478,33 +478,6 @@ Note: If this is applied automatically, no other automatic commands are executed
          <property name="bottomMargin">
           <number>4</number>
          </property>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <property name="spacing">
-            <number>16</number>
-           </property>
-           <item>
-            <widget class="QCheckBox" name="checkBoxWait">
-             <property name="toolTip">
-              <string>Show action dialog before executing the command</string>
-             </property>
-             <property name="text">
-              <string>&amp;Wait</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBoxTransform">
-             <property name="toolTip">
-              <string>Change item, don't create any new items</string>
-             </property>
-             <property name="text">
-              <string>Tr&amp;ansform</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
          <item>
           <layout class="QFormLayout" name="formLayout">
            <property name="fieldGrowthPolicy">
@@ -570,6 +543,33 @@ Note: If this is applied automatically, no other automatic commands are executed
              </property>
              <property name="editable">
               <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>16</number>
+           </property>
+           <item>
+            <widget class="QCheckBox" name="checkBoxWait">
+             <property name="toolTip">
+              <string>Show action dialog before executing the command</string>
+             </property>
+             <property name="text">
+              <string>&amp;Wait</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxTransform">
+             <property name="toolTip">
+              <string>Change item, don't create any new items</string>
+             </property>
+             <property name="text">
+              <string>Tr&amp;ansform</string>
              </property>
             </widget>
            </item>
@@ -652,9 +652,7 @@ Note: If this is applied automatically, no other automatic commands are executed
   <tabstop>comboBoxInputFormat</tabstop>
   <tabstop>commandEdit</tabstop>
   <tabstop>comboBoxCopyToTab</tabstop>
-  <tabstop>checkBoxIgnore</tabstop>
   <tabstop>checkBoxHideWindow</tabstop>
-  <tabstop>checkBoxWait</tabstop>
   <tabstop>checkBoxTransform</tabstop>
   <tabstop>comboBoxOutputFormat</tabstop>
   <tabstop>lineEditSeparator</tabstop>

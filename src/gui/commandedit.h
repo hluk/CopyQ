@@ -41,18 +41,15 @@ public:
 
     QFont commandFont() const;
 
+    void resizeToContent();
+
 signals:
     void changed();
-
-protected:
-    void resizeEvent(QResizeEvent *event) override;
 
 private slots:
     void on_plainTextEditCommand_textChanged();
 
 private:
-    void updateCommandEditSize();
-
     Ui::CommandEdit *ui;
 };
 

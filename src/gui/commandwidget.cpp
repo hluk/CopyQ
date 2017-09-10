@@ -178,6 +178,12 @@ void CommandWidget::setFormats(const QStringList &formats)
     setComboBoxItems(ui->comboBoxOutputFormat, formats);
 }
 
+void CommandWidget::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    ui->commandEdit->resizeToContent();
+}
+
 void CommandWidget::showEvent(QShowEvent *event)
 {
     AppConfig appConfig;
@@ -258,4 +264,6 @@ void CommandWidget::updateWidgets()
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->commandEdit->isEmpty());
 
     ui->widgetSpacer->setVisible(ui->groupBoxCommand->isHidden());
+
+    ui->commandEdit->resizeToContent();
 }

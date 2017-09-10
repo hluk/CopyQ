@@ -71,15 +71,19 @@ QFont CommandEdit::commandFont() const
     return font;
 }
 
-void CommandEdit::resizeEvent(QResizeEvent *event)
+void CommandEdit::resizeToContent()
 {
-    QWidget::resizeEvent(event);
-    updateCommandEditSize();
+    auto document = ui->plainTextEditCommand->document();
+    QTextCursor tc(document);
+    tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+    const auto cursorRect = ui->plainTextEditCommand->cursorRect(tc);
+    const auto h = static_cast<int>( cursorRect.bottom() + 2 * cursorRect.height() );
+    const auto margins = ui->plainTextEditCommand->contentsMargins();
+    ui->plainTextEditCommand->setMinimumHeight( h + margins.top() + margins.bottom() );
 }
 
 void CommandEdit::on_plainTextEditCommand_textChanged()
 {
-    updateCommandEditSize();
     emit changed();
 
     QString errors;
@@ -124,14 +128,4 @@ void CommandEdit::on_plainTextEditCommand_textChanged()
     ui->plainTextEditCommand->setExtraSelections(selections);
     ui->labelErrors->setVisible(!errors.isEmpty());
     ui->labelErrors->setText(errors);
-}
-
-void CommandEdit::updateCommandEditSize()
-{
-    const QFontMetrics fm( ui->plainTextEditCommand->document()->defaultFont() );
-    const auto height = static_cast<int>( ui->plainTextEditCommand->document()->size().height() );
-    const int lines = height + 2;
-    const int visibleLines = qBound(3, lines, 20);
-    const int h = visibleLines * fm.lineSpacing();
-    ui->plainTextEditCommand->setMinimumHeight(h);
 }
