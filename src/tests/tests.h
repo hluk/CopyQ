@@ -115,6 +115,8 @@ private slots:
 
     void commandScreenshot();
 
+    void commandIcon();
+
     void classFile();
     void classDir();
     void classTemporaryFile();

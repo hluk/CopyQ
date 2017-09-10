@@ -55,6 +55,9 @@ QPointer<QObject> activePaintDevice;
 
 void replaceColor(QPixmap *pix, const QColor &from, const QColor &to)
 {
+    if (from == to)
+        return;
+
     QPixmap pix2( pix->size() );
     pix2.fill(to);
     pix2.setMask( pix->createMaskFromColor(from, Qt::MaskOutColor) );
@@ -63,10 +66,33 @@ void replaceColor(QPixmap *pix, const QColor &from, const QColor &to)
     p.drawPixmap(0, 0, pix2);
 }
 
+QString sessionName()
+{
+    return qApp->property("CopyQ_session_name").toString();
+}
+
+QColor colorFromEnv(const char *envVaribleName)
+{
+    const auto name = qgetenv(envVaribleName);
+    return QColor( QString::fromUtf8(name) );
+}
+
+QColor appIconColorHelper()
+{
+    const auto color = colorFromEnv("COPYQ_APP_COLOR");
+    return color.isValid() ? QColor(color) : QColor(0x7f, 0xca, 0x9b);
+}
+
+QColor appIconColor()
+{
+    static const QColor color = appIconColorHelper();
+    return color;
+}
+
 QColor sessionNameToColor(const QString &name)
 {
     if (name.isEmpty())
-        return QColor(Qt::white);
+        return appIconColor();
 
     int r = 0;
     int g = 0;
@@ -88,6 +114,18 @@ QColor sessionNameToColor(const QString &name)
     b = b * 255 / max;
 
     return QColor(r, g, b);
+}
+
+QColor sessionIconColorHelper()
+{
+    const auto color = colorFromEnv("COPYQ_SESSION_COLOR");
+    return color.isValid() ? QColor(color) : sessionNameToColor( sessionName() );
+}
+
+QColor &sessionIconColorVariable()
+{
+    static QColor color = sessionIconColorHelper();
+    return color;
 }
 
 QPixmap imageFromPrefix(const QString &iconSuffix, const QString &resources)
@@ -259,6 +297,23 @@ void updateIcon(QIcon *icon, const QPixmap &pix, int extent)
         icon->addPixmap( pix.scaledToHeight(extent, Qt::SmoothTransformation) );
 }
 
+QIcon colorizedIcon(QPixmap *pix, QColor appColor, QColor sessionColor)
+{
+    if (sessionColor != appColor)
+        replaceColor(pix, appColor, sessionColor);
+
+    QIcon icon;
+    icon.addPixmap(*pix);
+
+    // This makes the icon smoother on some systems.
+    updateIcon(&icon, *pix, 48);
+    updateIcon(&icon, *pix, 32);
+    updateIcon(&icon, *pix, 24);
+    updateIcon(&icon, *pix, 16);
+
+    return icon;
+}
+
 } // namespace
 
 QIcon getIcon(const QString &themeName, unsigned short id)
@@ -311,7 +366,7 @@ QIcon appIcon(AppIconType iconType)
 {
     const bool running = iconType == AppIconRunning;
     const QString suffix = running ? "-busy" : "-normal";
-    const QString sessionName = qApp->property("CopyQ_session_name").toString();
+    const QString sessionName = ::sessionName();
 
     QIcon icon;
 
@@ -320,23 +375,22 @@ QIcon appIcon(AppIconType iconType)
     else
         icon = QIcon::fromTheme("copyq_" + sessionName + "-" + suffix);
 
+    const auto sessionColor = sessionIconColor();
+    const auto appColor = appIconColor();
+
     if (icon.isNull()) {
         const QString resourceSuffix = running ? "-running" : "";
         QPixmap pix = imageFromPrefix(suffix + ".svg", "icon" + resourceSuffix);
+        return colorizedIcon(&pix, appColor, sessionColor);
+    }
 
-        if (!sessionName.isEmpty()) {
-            const QColor color1(0x7f, 0xca, 0x9b);
-            const QColor color2 = sessionNameToColor(sessionName);
-            replaceColor(&pix, color1, color2);
-        }
-
-        icon.addPixmap(pix);
-
-        // This makes the icon smoother on some systems.
-        updateIcon(&icon, pix, 48);
-        updateIcon(&icon, pix, 32);
-        updateIcon(&icon, pix, 24);
-        updateIcon(&icon, pix, 16);
+    if (sessionColor != appColor) {
+        QIcon icon2;
+        QPixmap pix = icon.pixmap(128);
+#if QT_VERSION >= 0x050000
+        pix.setDevicePixelRatio(1);
+#endif
+        return colorizedIcon(&pix, appColor, sessionColor);
     }
 
     return icon;
@@ -368,4 +422,14 @@ unsigned short toIconId(const QString &fileNameOrId)
 
     const auto unicode = fileNameOrId.at(0).unicode();
     return unicode >= IconFirst ? unicode : 0;
+}
+
+void setSessionIconColor(QColor color)
+{
+    sessionIconColorVariable() = color;
+}
+
+QColor sessionIconColor()
+{
+    return ::sessionIconColorVariable();
 }

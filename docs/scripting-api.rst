@@ -827,6 +827,23 @@ omitted.
 
    Returns list of currently pressed keyboard modifiers which can be 'Ctrl', 'Shift', 'Alt', 'Meta'.
 
+.. js:function:: iconColor([colorName])
+
+   Get or set current tray and window icon color name.
+
+   Throws exception is the color name is invalid.
+
+   .. code-block:: js
+
+       // Flash icon for few moments to get attention.
+       var color = iconColor()
+       for (var i = 0; i < 10; ++i) {
+         iconColor("red")
+         sleep(500)
+         iconColor(color)
+         sleep(500)
+       }
+
 Types
 -----
 

@@ -2030,6 +2030,20 @@ QScriptValue Scriptable::queryKeyboardModifiers()
     return toScriptValue(modifierList, this);
 }
 
+QScriptValue Scriptable::iconColor()
+{
+    m_skipArguments = 1;
+
+    if (argumentCount() == 0)
+        return m_proxy->iconColor();
+
+    const auto color = arg(0);
+    if ( !m_proxy->setIconColor(color) )
+        throwError("Invalid color name");
+
+    return QScriptValue();
+}
+
 void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 {
     COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );

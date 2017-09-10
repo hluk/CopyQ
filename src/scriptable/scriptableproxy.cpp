@@ -1349,6 +1349,23 @@ QString ScriptableProxy::translationsPath()
     return ::translationsPath();
 }
 
+QString ScriptableProxy::iconColor()
+{
+    INVOKE(iconColor());
+    return m_wnd->sessionIconColor().name();
+}
+
+bool ScriptableProxy::setIconColor(const QString &colorName)
+{
+    INVOKE(setIconColor(colorName));
+    QColor color(colorName);
+    if ( !color.isValid() )
+        return false;
+
+    m_wnd->setSessionIconColor(color);
+    return true;
+}
+
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
 {
     ASSERT_MAIN_THREAD();

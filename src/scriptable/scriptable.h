@@ -305,6 +305,8 @@ public slots:
 
     QScriptValue queryKeyboardModifiers();
 
+    QScriptValue iconColor();
+
 public slots:
     void onMessageReceived(const QByteArray &bytes, int messageCode);
     void onDisconnected();

@@ -52,6 +52,7 @@
 namespace {
 
 const auto clipboardTabName = "CLIPBOARD";
+const auto defaultSessionColor = "#ff8800";
 
 /**
  * Run a process after a delay.
@@ -172,6 +173,7 @@ public:
         , m_env(QProcessEnvironment::systemEnvironment())
     {
         m_env.insert("COPYQ_LOG_LEVEL", "DEBUG");
+        m_env.insert("COPYQ_SESSION_COLOR", defaultSessionColor);
     }
 
     ~TestInterfaceImpl()
@@ -1249,6 +1251,20 @@ void Tests::commandsImportExportCommands()
 void Tests::commandScreenshot()
 {
     RUN("screenshot().size() > 0", "true\n")
+}
+
+void Tests::commandIcon()
+{
+    RUN("iconColor", QByteArray(defaultSessionColor) + "\n");
+
+    RUN("iconColor" << "red", "");
+    RUN("iconColor", "#ff0000\n");
+
+    RUN_EXPECT_ERROR("iconColor" << "BAD_COLOR_NAME", CommandException);
+    RUN("iconColor", "#ff0000\n");
+
+    RUN("iconColor" << defaultSessionColor, "");
+    RUN("iconColor", QByteArray(defaultSessionColor) + "\n");
 }
 
 void Tests::classFile()

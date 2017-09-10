@@ -188,6 +188,9 @@ public:
     QString themesPath();
     QString translationsPath();
 
+    QString iconColor();
+    bool setIconColor(const QString &name);
+
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
 

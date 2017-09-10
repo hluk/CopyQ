@@ -2785,6 +2785,17 @@ void MainWindow::setCommands(const QList<Command> &commands)
     emit commandsSaved();
 }
 
+void MainWindow::setSessionIconColor(QColor color)
+{
+    ::setSessionIconColor(color);
+    updateIcon();
+}
+
+QColor MainWindow::sessionIconColor() const
+{
+    return ::sessionIconColor();
+}
+
 void MainWindow::runAutomaticCommands(QVariantMap data)
 {
     bool isClipboard = isClipboardData(data);

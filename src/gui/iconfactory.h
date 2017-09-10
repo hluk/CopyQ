@@ -53,4 +53,8 @@ void setActivePaintDevice(QObject *device);
 
 QColor getDefaultIconColor(const QWidget &widget, bool selected = false);
 
+void setSessionIconColor(QColor color);
+
+QColor sessionIconColor();
+
 #endif // ICONFACTORY_H

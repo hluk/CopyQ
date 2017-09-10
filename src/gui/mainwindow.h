@@ -311,6 +311,10 @@ public:
 
     void setCommands(const QList<Command> &commands);
 
+    void setSessionIconColor(QColor color);
+
+    QColor sessionIconColor() const;
+
 public slots:
     /** Close main window and exit the application. */
     void exit();

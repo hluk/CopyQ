@@ -30,3 +30,12 @@ to first tab in ``test1`` session, run:
 
 Default session has empty name but it can be overridden by setting
 ``COPYQ_SESSION_NAME`` environment variable.
+
+Icon for each session is bit different. The color is generated from session
+name and can be changed using ``COPYQ_SESSION_COLOR`` environment variable (the
+color to override can be set with ``COPYQ_APP_COLOR`` environment variable).
+
+::
+
+    COPYQ_SESSION_COLOR="yellow" copyq
+    COPYQ_SESSION_COLOR="#f90" copyq

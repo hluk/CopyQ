@@ -116,6 +116,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("screenshotSelect", "ByteArray screenshotSelect(format='png', [screenName])", "Same as `screenshot()` but allows to select an area on screen.");
     addDocumentation("screenNames", "String[] screenNames()", "Returns list of available screen names.");
     addDocumentation("queryKeyboardModifiers", "String[] queryKeyboardModifiers()", "Returns list of currently pressed keyboard modifiers which can be 'Ctrl', 'Shift', 'Alt', 'Meta'.");
+    addDocumentation("iconColor", "iconColor([colorName])", "Get or set current tray and window icon color name.");
     addDocumentation("ByteArray", "ByteArray", "Wrapper for QByteArray Qt class.");
     addDocumentation("File", "File", "Wrapper for QFile Qt class.");
     addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");
