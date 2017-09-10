@@ -301,9 +301,8 @@ void CommandCompleter::showCompletion()
 QString CommandCompleter::textUnderCursor() const
 {
     auto tc = m_editor->textCursor();
-    const auto c = tc.document()->characterAt(tc.position() - 1);
-    if (!c.isLetter())
-        return QString();
+    tc.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
     tc.select(QTextCursor::WordUnderCursor);
-    return tc.selectedText();
+    const auto text = tc.selectedText();
+    return text;
 }
