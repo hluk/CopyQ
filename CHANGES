@@ -1,10 +1,12 @@
-v3.0.4
+v3.1.0
 - Add "Paste current date and time" predefined command
 - Add "Take screenshot" predefined command
 - Add scriptable function queryKeyboardModifiers()
 - Add scriptable function screenNames()
 - Add scriptable function isClipboard()
 - Add scriptable function toggleConfig()
+- Add scriptable function iconColor()
+- Allow to change icon color using COPYQ_SESSION_COLOR
 - Expand text ellipsis if selected
 - Avoid copying ellipsis if selected and copy rich text only if needed
 - Fix item rendering on high DPI screens
