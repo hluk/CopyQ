@@ -1,0 +1,205 @@
+.TH CopyQ 1
+.SH NAME
+CopyQ \- Clipboard Manager with Advanced Features
+
+
+.SH SYNOPSIS
+.B copyq
+[\fBCOMMAND\fR]
+
+
+.SH DESCRIPTION
+.B CopyQ
+is advanced clipboard manager with editing and scripting features. It monitors system clipboard and saves its content in customized tabs. Saved clipboard can be later copied and pasted directly into any application.
+
+
+.SH COMMANDS
+Starts server if no command is specified.
+
+.TP
+.BR show " [\fINAME\fR]"
+Show main window and optionally open tab with given name.
+.TP
+.B hide
+Hide main window.
+.TP
+.B toggle
+Show or hide main window.
+.TP
+.B menu
+Open context menu.
+.TP
+.B exit
+Exit server.
+.TP
+.BR disable ", " enable
+Disable or enable clipboard content storing.
+
+.sp
+.TP
+.BR clipboard " [\fIMIME\fR]"
+Print clipboard content.
+.TP
+.BR selection " [\fIMIME\fR]"
+Print X11 selection content.
+.TP
+.B paste
+Paste clipboard to current window (may not work with some applications).
+.TP
+.BR copy " \fITEXT\fR"
+Set clipboard text.
+.TP
+.BR copy " \fIMIME\fR \fIDATA\fR [\fIMIME\fR \fIDATA\fR]..."
+Set clipboard content.
+
+.sp
+.TP
+.B count
+Print amount of items in current tab.
+.TP
+.BR select " [\fIROW=0\fR]"
+Copy item in the row to clipboard.
+.TP
+.B next
+Copy next item from current tab to clipboard.
+.TP
+.B previous
+Copy previous item from current tab to clipboard.
+.TP
+.BR add " \fITEXT\fR..."
+Add text into clipboard.
+.TP
+.BR insert " \fIROW\fR \fITEXT\fR"
+Insert text into given row.
+.TP
+.BR remove " [\fIROWS=0\fR...]"
+Remove items in given rows.
+.TP
+.BR edit " [\fIROW=-1\fR...]"
+Edit items or edit new one.
+Value -1 is for current text in clipboard.
+
+.sp
+.TP
+.BR separator " \fISEPARATOR\fR"
+Set separator for items on output.
+.TP
+.BR read " [\fIMIME\fR|\fIROW\fR]..."
+Print raw data of clipboard or item in row.
+.TP
+.BR write " [\fIROW=0\fR] \fIMIME\fR \fIDATA\fR [\fIMIME\fR \fIDATA\fR]..."
+Write raw data to given row.
+
+.sp
+.TP
+.BR action " [\fIROWS=0.\fR..]"
+Show action dialog.
+.TP
+.BR action " [\fIROWS=0\fR...] [\fIPROGRAM\fR [\fISEPARATOR=\[rs]n\fR]]"
+Run PROGRAM on item text in the rows.
+Use %1 in PROGRAM to pass text as argument.
+.TP
+.BR popup " \fITITLE\fR \fIMESSAGE\fR [\fITIME=8000\fR]"
+Show tray popup message for TIME milliseconds.
+
+.sp
+.TP
+.B tab
+List available tab names.
+.TP
+.BR tab " \fINAME\fR [\fICOMMAND\fR]"
+Run command on tab with given name.
+Tab is created if it doesn't exist.
+Default is the first tab.
+.TP
+.BR removetab " \fINAME\fR"
+Remove tab.
+.TP
+.BR renametab " \fINAME\fR \fINEW_NAME\fR"
+Rename tab.
+
+.sp
+.TP
+.BR exporttab " \fIFILE_NAME\fR"
+Export items to file.
+.TP
+.BR importtab " \fIFILE_NAME\fR"
+Import items from file.
+
+.sp
+.TP
+.B config
+List all options.
+.TP
+.BR config " \fIOPTION\fR"
+Get option value.
+.TP
+.BR config " \fIOPTION\fR \fIVALUE\fR"
+Set option value.
+
+.sp
+.TP
+.BR eval ", " \-e " [\fISCRIPT\fR] [\fIARGUMENTS\fR]..."
+Evaluate ECMAScript program.
+Arguments are accessible using with "arguments[0..N]".
+.TP
+.BR session ", " \-s ", " \-\-session " \fISESSION\fR"
+Starts or connects to application instance with given session name.
+.TP
+.BR help ", " \-h ", " \-\-help " [\fICOMMAND\fR]..."
+Print help for COMMAND or all commands.
+
+
+.SH NOTES
+Use \fBdash argument\fR (\fB\-\fR) to read data from stdandard input.
+.sp
+Use \fBdouble-dash argument\fR (\fB\-\-\fR) to read all following arguments without expanding escape sequences (i.e. \\n, \\t and others).
+.sp
+Use \fB?\fR for MIME to print available MIME types (default is "text/plain").
+.sp
+You can read more about it at
+.B https://copyq.readthedocs.io/en/latest/basic-usage.html
+
+
+.SH EXAMPLES
+
+.TP
+Insert some texts to the history:
+copyq add "first item" "second item" "third item"
+
+.TP
+Print content of the first three items:
+copyq read 0 1 2
+copyq separator "," read 0 1 2
+
+.TP
+Show current clipboard content:
+copyq clipboard
+copyq clipboard text/html
+copyq clipboard \\? # lists formats in clipboard
+
+.TP
+Copy text to the clipboard:
+copyq copy "Some Text"
+
+.TP
+Load file content into clipboard:
+copyq copy - < file.txt
+copyq copy text/html < index.html
+copyq copy image/jpeg - < image.jpg
+
+.TP
+Create an image items:
+copyq write image/gif - < image.gif
+copyq write image/svg - < image.svg
+
+
+.SH SEE ALSO
+.B http://copyq.readthedocs.io/
+
+
+.SH AUTHOR
+.B CopyQ
+The maintainer of CopyQ is Lukas Holecek <hluk@email.cz>. A comprehensive list of authors and contributors is available in the website mentioned above.
+
+This manual page was written by GengYu Rao (zouyoo@outlook.com), for the Debian project (and may be used by others).
