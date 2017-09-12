@@ -78,7 +78,7 @@ QString helpHead()
 QString helpTail()
 {
     return Scriptable::tr("NOTES:") + "\n"
-        + Scriptable::tr("  - Use dash argument (-) to read data from stdandard input.") + "\n"
+        + Scriptable::tr("  - Use dash argument (-) to read data from standard input.") + "\n"
         + Scriptable::tr("  - Use double-dash argument (--) to read all following arguments without\n"
                       "    expanding escape sequences (i.e. \\n, \\t and others).") + "\n"
         + Scriptable::tr("  - Use ? for MIME to print available MIME types (default is \"text/plain\").");
@@ -1356,7 +1356,7 @@ QScriptValue Scriptable::eval()
     const auto script = arg(0);
     const auto result = eval(script);
     m_skipArguments = -1;
-    return result;    
+    return result;
 }
 
 QScriptValue Scriptable::source()
