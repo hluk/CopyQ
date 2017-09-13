@@ -1,7 +1,7 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of Qt Creator.
 **
@@ -9,22 +9,17 @@
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.  For licensing terms and
-** conditions see http://www.qt.io/licensing.  For further information
-** use the contact form at http://www.qt.io/contact-us.
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 or version 3 as published by the Free
-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
-** LICENSE.LGPLv3 included in the packaging of this file.  Please review the
-** following information to ensure the GNU Lesser General Public License
-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, Digia gives you certain additional
-** rights.  These rights are described in the Digia Qt LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3 as published by the Free Software
+** Foundation with exceptions as appearing in the file LICENSE.GPL3-EXCEPT
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ****************************************************************************/
 
@@ -41,14 +36,17 @@
 #include <QStyle>
 
 /*!
-    The FancyLineEdit class is an enhanced line edit with several
+    \class Utils::FancyLineEdit
+
+    \brief The FancyLineEdit class is an enhanced line edit with several
     opt-in features.
 
     A FancyLineEdit instance can have:
 
-    - An embedded pixmap on one side that is connected to a menu.
+    \list
+    \li An embedded pixmap on one side that is connected to a menu.
 
-    - A grayed hintText (like "Type Here to")
+    \li A grayed hintText (like "Type Here to")
     when not focused and empty. When connecting to the changed signals and
     querying text, one has to be aware that the text is set to that hint
     text if isShowingHintText() returns true (that is, does not contain
@@ -184,18 +182,16 @@ void FancyLineEdit::updateMargins()
     Side realLeft = (leftToRight ? Left : Right);
     Side realRight = (leftToRight ? Right : Left);
 
-    const qreal ratio = ::devicePixelRatio(*this);
-    auto leftMargin = static_cast<int>( d->m_iconbutton[realLeft]->sizeHint().width() + ratio * 8 );
-    auto rightMargin = static_cast<int>( d->m_iconbutton[realRight]->sizeHint().width() + ratio * 8 );
+    auto leftMargin = static_cast<int>( d->m_iconbutton[realLeft]->sizeHint().width() + 8 );
+    auto rightMargin = static_cast<int>( d->m_iconbutton[realRight]->sizeHint().width() + 8 );
     // Note KDE does not reserve space for the highlight color
     if (style()->inherits("OxygenStyle")) {
         leftMargin = qMax(24, leftMargin);
         rightMargin = qMax(24, rightMargin);
     }
 
-    const auto m = static_cast<int>(2 * ratio);
-    QMargins margins((d->m_iconEnabled[realLeft] ? leftMargin : m), m,
-                     (d->m_iconEnabled[realRight] ? rightMargin : m), m);
+    QMargins margins((d->m_iconEnabled[realLeft] ? leftMargin : 0), 0,
+                     (d->m_iconEnabled[realRight] ? rightMargin : 0), 0);
 
     setTextMargins(margins);
 }
@@ -225,7 +221,7 @@ void FancyLineEdit::resizeEvent(QResizeEvent *)
 
 void FancyLineEdit::setButtonIcon(Side side, const QIcon &icon)
 {
-    d->m_iconbutton[side]->setIcon(icon);
+    d->m_iconbutton[side]->setIcon( icon.pixmap(16) );
     updateMargins();
     updateButtonPositions();
     update();
@@ -284,8 +280,12 @@ void IconButton::paintEvent(QPaintEvent *)
     const qreal ratio = ::devicePixelRatio(*this);
     const auto iconSize = static_cast<int>( qMin(width(), height()) - ratio * 8 );
     const QPixmap pixmap = m_icon.pixmap(iconSize);
+
     QRect pixmapRect = pixmap.rect();
-    pixmapRect.moveCenter(rect().center());
+    auto pixmapCenter = rect().center();
+    if (m_hasMenu)
+        pixmapCenter.setX( pixmapCenter.x() - 3 );
+    pixmapRect.moveCenter(pixmapCenter);
 
     QStylePainter painter(this);
 
@@ -295,14 +295,12 @@ void IconButton::paintEvent(QPaintEvent *)
         // small triangle next to icon to indicate menu
         QPolygon triangle;
         triangle.append(QPoint(0, 0));
-        const auto ratio6 = static_cast<int>(ratio * 6);
-        const auto ratio3 = static_cast<int>(ratio * 3);
-        triangle.append(QPoint(ratio6, 0));
-        triangle.append(QPoint(ratio3, ratio3));
+        triangle.append(QPoint(6, 0));
+        triangle.append(QPoint(3, 3));
 
         const QColor c = getDefaultIconColor(*this);
         painter.save();
-        painter.translate(pixmapRect.bottomRight() + QPoint(0, - ratio6));
+        painter.translate(pixmapRect.bottomRight() + QPoint(0, -6));
         painter.setBrush(c);
         painter.setPen(Qt::NoPen);
         painter.drawPolygon(triangle);
@@ -323,9 +321,7 @@ void IconButton::paintEvent(QPaintEvent *)
 
 QSize IconButton::sizeHint() const
 {
-    const qreal ratio = ::devicePixelRatio(*this);
-    const auto extent = static_cast<int>(ratio * 16);
-    return QSize(extent + static_cast<int>(ratio * 6), extent);
+    return QSize(16 + (m_hasMenu ? 3 : 0), 16);
 }
 
 void IconButton::keyPressEvent(QKeyEvent *ke)
