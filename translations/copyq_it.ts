@@ -21,7 +21,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>E-mail</source>
-        <translation>E-mail</translation>
+        <translation>Email</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="118"/>
@@ -35,7 +35,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="119"/>
         <source>Donate</source>
-        <translation>donare</translation>
+        <translation>Dona</translation>
     </message>
     <message>
         <source>Development</source>
@@ -164,12 +164,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Invia dati del tipo MIME fornito all&apos;input standard del comando (lascia vuoto per disabilitarlo)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea elementi dall&apos;output standard del programma (lascia vuoto per disabilitarlo)</translation>
     </message>
     <message>
         <source>Send data of given MIME type to standard input of command (leave empty to disable).</source>
@@ -182,7 +182,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;mando:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -271,176 +271,176 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Comandi Aggiungi CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="81"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="88"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza/nascondi menu principale</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="90"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza menu barra di sistema</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="92"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza finestra principale sotto al cursore del mouse</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="94"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica Appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="96"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica primo elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="98"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia secondo elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="100"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza finestra azione</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="102"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea nuovo elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="104"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea elemento successivo</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="106"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia elemento precedente</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="108"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla Appunto come testo semplice</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="110"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilita cronologia Appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="112"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita cronologia Appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="114"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla e copia successivo</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="116"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla e copia precedente</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="137"/>
         <source>New command</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuovo commando</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="162"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora elementi con nessuno o singolo carattere</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="169"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri nel &amp;browser</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="177"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla come testo semplice</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="183"/>
         <source>Shift+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Shift+INVIO</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="186"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Riproduci automaticamente video</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="195"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia URL (indirizzo web) in un altra scheda</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="202"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea anteprima (necessario ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="210"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea codice QR da URL (necessita qrencode)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="218"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Attività</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="221"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi a scheda %1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="229"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Sposta nella scheda %1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="238"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora file copiati</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="247"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingonra finestra *&quot;Password&quot;*</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="248"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Password</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="256"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Sposta nel Cestino</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="259"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Cestino)</translation>
     </message>
 </context>
 <context>
@@ -460,12 +460,12 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1412"/>
         <source>Cannot Add New Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile aggiungere nuovi elementi</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1413"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Scheda piena. Impossibile rimuovere qualsiasi elemento.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
@@ -475,7 +475,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1644"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation>Volete veramente &lt;strong&gt;tralasciare le modifiche&lt;/strong&gt;?</translation>
+        <translation>Vuoi veramente &lt;strong&gt;tralasciare le modifiche&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -496,7 +496,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>CopyQ Clipboard Content</source>
-        <translation>Contenuto dgli appunti di CopyQ</translation>
+        <translation>Contenuto Appunti di CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -511,18 +511,18 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation>Rimuovi il formato</translation>
+        <translation>Rimuovi formato</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="64"/>
         <source>CopyQ Item Content</source>
-        <translation>Contenuto dell&apos;elemento di CopyQ</translation>
+        <translation>Contenuto elemento CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="126"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;Dimensione:&lt;/strong&gt; %1 byte</translation>
     </message>
     <message>
         <source>&lt;strong&gt; mime:&lt;/strong&gt; %1 &lt;strong&gt;size:&lt;/strong&gt; %2 bytes</source>
@@ -549,22 +549,22 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="75"/>
         <source>CopyQ server is already running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il server CopyQ è già in esecuzione.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="267"/>
         <source>Cancel Active Commands</source>
-        <translation>Annulla i comandi attivi</translation>
+        <translation>Annulla comandi attivi</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="268"/>
         <source>Cancel active commands and exit?</source>
-        <translation>Annullare i comandi attivi ed uscire?</translation>
+        <translation>Vuoi annullare i comandi attivi ed uscire?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="271"/>
         <source>Cancel Exiting</source>
-        <translation>Annulla l&apos;uscita</translation>
+        <translation>Annulla uscita</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="272"/>
@@ -582,7 +582,7 @@ Potete impostare il comando nelle preferenze.</translation>
         <location filename="../src/gui/commandcompleter.cpp" line="231"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+SPAZIO</translation>
     </message>
 </context>
 <context>
@@ -590,67 +590,67 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Comandi CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisci nuovi comandi che possono essere invocati automaticamente in base al contenuto Appunti o dall&apos;utente dal menu o usando le scorciatoie di sistema.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Trova:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="62"/>
         <source>&amp;Load Commands...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Carica comandi...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="72"/>
         <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sal&amp;va comandi selezionati...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
         <source>Copy Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia selezionato</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
         <source>Paste Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla comandi</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="174"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifiche non salvate</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="174"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>La finestra di dialogo ha comandi non salvati.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="251"/>
         <source>Open Files with Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri file con comandi</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="252"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>Coamndi (*.ini);; Configurazione CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="263"/>
         <source>Save Selected Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva comandi selezionati</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="264"/>
         <source>Commands (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation>Comandi (*.ini)</translation>
     </message>
 </context>
 <context>
@@ -658,43 +658,43 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
         <source>Show command help (F1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza aiuto comando (F1)</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>Il comando contiene l&apos;elenco dei programmi con argomenti che verranno eseguitii. Ad esempio:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il parametro programma %1 verrà sostituito dall&apos;elemento testo, e da %2 fino %9 per i testi catturati da espressioni regolari.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il carattere %1 può essere usato per passare l&apos;output standard al programma successivo.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation>La seguente sintassi può essere usata per passare il resto del comando come parametro singolo.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questo fornirà lo stesso output come %1 ma è molto più utile per i comandi lunghi.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le funzioni elencate sotto possono essere usate nei seguenti comandi.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Appunti</translation>
     </message>
 </context>
 <context>
@@ -707,17 +707,17 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation>Nome del comando visualizzato nel menu</translation>
+        <translation>Nome comando visualizzato nel menu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="148"/>
         <source>Type of Action</source>
-        <translation>Tipo di azione</translation>
+        <translation>Tipo azione</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="169"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation>Esegui automaticamente il comando se ci sono nuovi contenuti degli appunti</translation>
+        <translation>Esegui automaticamente il comando se ci sono nuovi contenuti degli Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="172"/>
@@ -742,7 +742,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="189"/>
         <source>Global Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Scorciatoia globale</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="199"/>
@@ -753,43 +753,43 @@ Potete impostare il comando nelle preferenze.</translation>
         <location filename="../src/ui/commandwidget.ui" line="223"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation>I dati di questo tipo di MIME verranno inviati al comando standard di input.
-Lasciare vuoto per disabilitare.</translation>
+        <translation>I dati di questo tipo di MIME verranno inviati al comando input standard.
+Lascialo vuoto per disabilitarlo.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="234"/>
         <source>F&amp;ormat:</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormato:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="319"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
+        <translation>Coman&amp;do</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="358"/>
         <source>Co&amp;py to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;pia nella scheda:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi la finestra dopo l&apos;attivazione del comando dal menu contestuale di un elemento</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="465"/>
         <source>Change item, don&apos;t create any new items</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica elemento, non creare nessun nuovo elemento</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="468"/>
         <source>Tr&amp;ansform</source>
-        <translation type="unfinished"></translation>
+        <translation>Tr&amp;asforma</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="495"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea elementi dall&apos;output standard del programma (lascia vuoto per disabilitarlo)</translation>
     </message>
     <message>
         <source>&amp;Format:</source>
@@ -798,7 +798,7 @@ Lasciare vuoto per disabilitare.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="244"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Usa il comando solo per gli elementi con il testo del titolo che combacia con questa espressione regolare (lasciare vuoto per la corrispondenza con qualunque finestra). Su OS X, questo contiene il nome del programma seguito da un trattino (&amp;quot;-&amp;quot;) poi il titolo della finestra. Ad es. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Usa il comando solo per gli elementi copiati negli Appunti con il testo del titolo che combacia con questa espressione regolare (lascia vuoto per la corrispondenza con qualunque finestra). In OS X, questo contiene il nome del programma seguito da un trattino (&amp;quot;-&amp;quot;) poi il titolo della finestra. Ad esempio &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="251"/>
@@ -808,17 +808,17 @@ Lasciare vuoto per disabilitare.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="261"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Usa il comando solo per gli elementi in cui il testo corrisponde con l&apos;espressione regolare (lascialo vuoto per la corrispondenza con tutto).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Esempi:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Corrispondenza URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Corrispondenza nomi file PDF    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Corrispondenza singolo carattere    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Corrispondenza multimedia remoto    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="274"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Contenuto:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="284"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Filtro:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="294"/>
@@ -829,69 +829,77 @@ Lasciare vuoto per disabilitare.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Usa i comandi se il comando filtro corrisponde.&lt;/p&gt;
+
+&lt;p&gt;L&apos;elemento testo è passato all&apos;&lt;b&gt;input standard&lt;/b&gt; del comando filtro. L&apos;elemento &lt;b&gt;corrisponde solo se il codice di uscita del comando filtro è 0&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p&gt;Usa &lt;b&gt;%1&lt;/b&gt; per l&apos;elemento passato come parametro e da &lt;b&gt;%2&lt;/b&gt; a &lt;b&gt;%9&lt;/b&gt; per i parametri catturati da un&apos;espressione regolare (parti incluse tra parentesi).&lt;/p&gt;
+
+&lt;p&gt;Usa &lt;b&gt;|&lt;/b&gt; per collegare i comandi (passa l&apos;output standard al comando successivo).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="335"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Azione</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="368"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome della scheda in cui copiare i nuovi elementi (lascia vuoto per non copiare)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="380"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi elementi corrispondenti
+
+Nota: se questo è applicato automaticamente, nessun altro comando automatico verrà esegiito.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="385"/>
         <source>&amp;Remove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rimuovi elemento</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="395"/>
         <source>Menu Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Menu azione</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="419"/>
         <source>&amp;Hide main window after activation</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nascondi finestra principale dopo l&apos;attivazione</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="579"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza avanzate</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="62"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Scorciatoia:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="429"/>
         <source>Command options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni comando</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="455"/>
         <source>Show action dialog before executing the command</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualiza finestra azione prima dell&apos;esecuzione del comando</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="458"/>
         <source>&amp;Wait</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Attendi</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="485"/>
         <source>O&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>O&amp;utput:</translation>
     </message>
     <message>
         <source>Create items from standard output of the program (leave empty to disable).</source>
@@ -900,27 +908,27 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="505"/>
         <source>&amp;Separator:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Separatore:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="515"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation type="unfinished"></translation>
+        <translation>Separatore da usare per suddividere l&apos;output in elementi multipli</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="518"/>
         <source>\n</source>
-        <translation type="unfinished">\n</translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="525"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished">Scheda &amp;output:</translation>
+        <translation>Scheda &amp;output:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="535"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva elementi in una scheda con un determinato nome (lascia vuoto per salvare nella prima scheda)</translation>
     </message>
 </context>
 <context>
@@ -928,52 +936,52 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Sfondo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Note</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Trovato</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionati</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normale</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Font</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternato</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Sfondo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
