@@ -27,6 +27,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(THEME_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/copyq/themes" CACHE PATH "Install path for themes")
     set(DESKTOP_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/applications" CACHE PATH "Install path for \"copyq.desktop\"")
     set(APPDATA_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/appdata" CACHE PATH "Install path for \"copyq.appdata.xml\"")
+    set(MANPAGE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/man/man1" CACHE PATH "Install path for manual pages")
     set(TRANSLATION_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/copyq/translations" CACHE PATH "Install path for translations")
 endif()
 
@@ -58,6 +59,7 @@ set(copyq_ICON_NORMAL src/images/icon.svg)
 set(copyq_ICON_BUSY   src/images/icon-running.svg)
 set(copyq_DESKTOP     shared/copyq.desktop)
 set(copyq_APPDATA     shared/copyq.appdata.xml)
+set(copyq_MANPAGE     debian/copyq.1)
 
 # Be more strict while compiling debugging version
 if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -173,6 +175,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     install(FILES ${copyq_ICON_BUSY}   DESTINATION ${ICON_INSTALL_PREFIX} RENAME copyq-busy.svg)
     install(FILES ${copyq_DESKTOP}     DESTINATION ${DESKTOP_INSTALL_PREFIX})
     install(FILES ${copyq_APPDATA}     DESTINATION ${APPDATA_INSTALL_PREFIX})
+    install(FILES ${copyq_MANPAGE}     DESTINATION ${MANPAGE_INSTALL_PREFIX})
 
     foreach (copyq_ICON_EXTENT 16 22 24 32 48 64 128)
         set(copyq_ICON_SIZE "${copyq_ICON_EXTENT}x${copyq_ICON_EXTENT}")
