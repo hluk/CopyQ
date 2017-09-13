@@ -23,6 +23,8 @@
 #include <QCoreApplication>
 #include <QElapsedTimer>
 
+#include <cmath>
+
 class SleepTimer
 {
 public:
@@ -36,6 +38,12 @@ public:
     {
         QCoreApplication::processEvents(QEventLoop::AllEvents, 5);
         return m_timer.elapsed() < m_timeoutMs;
+    }
+
+    int remaining() const
+    {
+        const auto remaining = static_cast<int>(m_timeoutMs - m_timer.elapsed());
+        return std::max(0, remaining);
     }
 
 private:

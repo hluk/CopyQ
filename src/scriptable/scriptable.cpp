@@ -59,6 +59,8 @@
 #include <QTextCodec>
 #include <QThread>
 
+#include <cmath>
+
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(QFile*)
 
@@ -1964,8 +1966,17 @@ void Scriptable::sleep()
         return;
     }
 
-    if (msec > 0)
+    if (msec > 2000) {
+        // Allow aborting sleep.
+        SleepTimer t(msec);
+        while ( m_connected && t.sleep() )
+            ThreadSleep::msleep( static_cast<unsigned long>(std::min(t.remaining(), 2000)) );
+    } else if (msec > 0) {
         ThreadSleep::msleep( static_cast<unsigned long>(msec) );
+    }
+
+    // This is for some reason required to receive pending signals.
+    QCoreApplication::processEvents();
 }
 
 QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
@@ -2059,6 +2070,7 @@ void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 void Scriptable::onDisconnected()
 {
     m_connected = false;
+    abort();
 }
 
 void Scriptable::onExecuteOutput(const QStringList &lines)
