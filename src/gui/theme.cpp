@@ -522,8 +522,8 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
           "background:" + themeColorString("sel_bg") + ";"
         "}"
 
-        "#item,#item #item_child{background:transparent}"
-        "#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{background:transparent}"
+        "#item #item_child{background:transparent}"
+        "#item[CopyQ_selected=\"true\"] #item_child{background:transparent}"
 
         // Desaturate selected item background if item list is not focused.
         "#ClipboardBrowser::item:selected:!active{"

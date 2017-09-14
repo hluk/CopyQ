@@ -88,6 +88,10 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *
     page()->setPalette(pal);
     setAttribute(Qt::WA_OpaquePaintEvent, false);
 
+    // FIXME: This makes black scroll bar.
+    setProperty("CopyQ_TEST", true);
+    setStyleSheet("*[CopyQ_TEST=\"true\"]{background-color:transparent}");
+
     setContextMenuPolicy(Qt::NoContextMenu);
 
     // Selecting text copies it to clipboard.
