@@ -89,8 +89,7 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *
     setAttribute(Qt::WA_OpaquePaintEvent, false);
 
     // FIXME: This makes black scroll bar.
-    setProperty("CopyQ_TEST", true);
-    setStyleSheet("*[CopyQ_TEST=\"true\"]{background-color:transparent}");
+    setStyleSheet("background-color:transparent");
 
     setContextMenuPolicy(Qt::NoContextMenu);
 
