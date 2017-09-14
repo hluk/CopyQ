@@ -88,9 +88,6 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *
     page()->setPalette(pal);
     setAttribute(Qt::WA_OpaquePaintEvent, false);
 
-    // FIXME: This makes black scroll bar.
-    setStyleSheet("background-color:transparent");
-
     setContextMenuPolicy(Qt::NoContextMenu);
 
     // Selecting text copies it to clipboard.
@@ -144,6 +141,9 @@ void ItemWeb::updateSize(QSize maximumSize, int)
         if (parentWidget())
             parentWidget()->adjustSize();
     }
+
+    // FIXME: This fixes background color but makes black scroll bar.
+    setStyleSheet("background-color:transparent");
 
     connect( frame, SIGNAL(contentsSizeChanged(QSize)),
              this, SLOT(onItemChanged()) );
