@@ -1416,7 +1416,7 @@ void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOn
                 continue;
 
             if (!setCurrentOnly) {
-                if ( sel->isSelected(ind) && sel->isSelected(prev) )
+                if ( currentIndex() != ind && sel->isSelected(ind) && sel->isSelected(prev) )
                     sel->setCurrentIndex(currentIndex(), QItemSelectionModel::Deselect);
                 sel->setCurrentIndex(ind, QItemSelectionModel::Select);
             }
@@ -1429,11 +1429,7 @@ void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOn
             sel->setCurrentIndex(prev, QItemSelectionModel::Deselect);
     } else {
         const auto ind = index(i);
-        clearSelection();
-        if (setCurrentOnly)
-            selectionModel()->setCurrentIndex(ind, QItemSelectionModel::NoUpdate);
-        else
-            setCurrentIndex(ind);
+        selectionModel()->setCurrentIndex(ind, QItemSelectionModel::ClearAndSelect);
     }
 }
 
