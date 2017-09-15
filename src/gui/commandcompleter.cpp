@@ -168,11 +168,16 @@ protected:
     void showEvent(QShowEvent *event) override
     {
         QTableView::showEvent(event);
-        startTimer(0);
+        m_resizeTimer = startTimer(0);
     }
 
     void timerEvent(QTimerEvent *event) override
     {
+        if (m_resizeTimer) {
+            killTimer(m_resizeTimer);
+            m_resizeTimer = 0;
+        }
+
         QTableView::timerEvent(event);
 
         if (!model())
@@ -204,6 +209,8 @@ private:
             height += rowHeight(row);
         return height;
     }
+
+    int m_resizeTimer = 0;
 };
 
 } // namespace
