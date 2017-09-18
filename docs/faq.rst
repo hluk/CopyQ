@@ -143,7 +143,7 @@ Set environment variable ``COPYQ_LOG_LEVEL`` to ``DEBUG`` for verbose logging
 and set ``COPYQ_LOG_FILE`` to a file path for the log.
 
 You can copy current log file path to clipboard from Action dialog (F5 shortcut)
-by entering command ``copyq 'copy(info("log"))'``.
+by entering command ``copyq 'copy(info("log"))'``. Alternatively, press ``F12`` to directly access the log.
 
 How to preserve the order of copied items on copy or pasting multiple items?
 ----------------------------------------------------------------------------
