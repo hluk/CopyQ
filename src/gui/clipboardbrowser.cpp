@@ -1170,17 +1170,20 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
 
     ItemWidget *item = d.cache(index);
     QObject *editor = item->createExternalEditor(index, this);
-    if (editor == nullptr) {
+    if ( editor != nullptr && startEditor(editor) )
+        return true;
+
+    if ( !m_sharedData->editor.trimmed().isEmpty() ) {
         const QVariantMap data = copyIndex(index);
-        if ( data.contains(mimeText) )
-        {
-            ItemEditor *itemEditor = new ItemEditor(data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this);
+        if ( data.contains(mimeText) ) {
+            auto itemEditor = new ItemEditor( data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this );
             itemEditor->setIndex(index);
-            editor = itemEditor;
+            if ( startEditor(itemEditor) )
+                return true;
         }
     }
 
-    return editor != nullptr && startEditor(editor);
+    return false;
 }
 
 void ClipboardBrowser::addItems(const QStringList &items)
