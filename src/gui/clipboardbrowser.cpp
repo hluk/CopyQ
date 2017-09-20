@@ -474,11 +474,12 @@ void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes, bool c
         return;
 
     ItemEditorWidget *editor = d.createCustomEditor(this, index, editNotes);
-    if (editor != nullptr) {
-        if ( editor->isValid() )
-            setEditorWidget(editor, changeClipboard);
-        else
-            delete editor;
+    if (editor != nullptr && editor->isValid() ) {
+        setEditorWidget(editor, changeClipboard);
+    } else {
+        delete editor;
+        if (!editNotes)
+            openEditor(index);
     }
 }
 
