@@ -1328,16 +1328,19 @@ QScriptValue Scriptable::info()
                 );
 
     info.insert("platform",
-#ifdef COPYQ_WS_X11
-                "Linux/X11"
-#elif defined(Q_OS_WIN)
+#if defined(Q_OS_WIN)
                 "Windows"
 #elif defined(Q_OS_MAC)
                 "OS X"
 #elif defined(Q_OS_LINUX)
                 "Linux"
+#elif defined(Q_OS_UNIX)
+                "Unix"
 #else
                 "?"
+#endif
+#ifdef COPYQ_WS_X11
+                "/X11"
 #endif
                 );
 
