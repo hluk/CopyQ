@@ -46,7 +46,7 @@ macro (copyq_add_plugin)
 
     target_link_libraries(${copyq_pkg} ${QT_LIBRARIES} ${copyq_plugin_${copyq_pkg}_LIBRARIES})
 
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    if (UNIX AND NOT APPLE)
         install(TARGETS ${copyq_pkg} DESTINATION ${PLUGIN_INSTALL_PREFIX})
     endif()
 endmacro()
