@@ -1928,11 +1928,11 @@ Set to 0 to disable.</source>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
         <source>%n lines indented.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Una
+%n linee indentate</numerusform>
+        <numerusform>Altra
+%n linee indentate</numerusform>
+        </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
         <source>%n lines %1ed %2 time.</source>
@@ -1952,12 +1952,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
         <source>Already at oldest change.</source>
-        <translation type="unfinished"></translation>
+        <translation>Già nella vecchia modifica.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7749"/>
         <source>Already at newest change.</source>
-        <translation type="unfinished"></translation>
+        <translation>Già nella nuova modifica.</translation>
     </message>
 </context>
 <context>
