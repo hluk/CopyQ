@@ -1592,112 +1592,114 @@ Nota: gli elementi modificati possono eessere salvati con &apos;F2&apos; indipen
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza descrizione singola linea per ogni elemento.
+
+Usa &apos;Anteprime elemento&apos; per visualizzare l&apos;intero elemento.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="751"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Visualizza elementi semplici</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="758"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Dopo che l&apos;elemento è stato attivato (con doppio clic o tasto &apos;Invio&apos;). copialo negli Appunti e ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="777"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Chiudi finestra principale</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="787"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Focus su ultima finestra</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="797"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Incolla nella finestra attuale</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="840"/>
         <source>&amp;Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Barra di sis&amp;tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="905"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Visualizza comandi per contenuto Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="914"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished"></translation>
+        <translation>N&amp;umero elementi nel menu barra di sistema:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="924"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero elementi nel menu barra di sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="977"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome scheda da visualizzare nel menu barra di sistema (vuoto per la prima scheda)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1005"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Incolla elemento attivato nella finestra attuale</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1012"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza anteprima immagine vicino agli elementi menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1055"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Notifiche</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1112"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione &amp;notifiche:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1124"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione sullo schermo delle notifiche</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1128"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>In alto</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1133"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>In basso</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1138"/>
         <source>Top Right</source>
-        <translation type="unfinished"></translation>
+        <translation>In alto a destra</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1143"/>
         <source>Bottom Right</source>
-        <translation type="unfinished"></translation>
+        <translation>In basso a destra</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1148"/>
         <source>Bottom Left</source>
-        <translation type="unfinished"></translation>
+        <translation>In basso a sinistra</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1153"/>
         <source>Top Left</source>
-        <translation type="unfinished"></translation>
+        <translation>In alto a sinistra</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1188"/>
