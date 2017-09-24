@@ -864,12 +864,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">格式(&amp;M):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>輸出之分頁(&amp;T):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="502"/>
@@ -4239,7 +4239,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - 用短橫線參元 (-) 使從標準輸入讀入資料。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="625"/>

@@ -1147,12 +1147,12 @@ Dejar en blanco para desactivarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormato:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;piar a pestaña:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="414"/>

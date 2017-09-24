@@ -1145,12 +1145,12 @@ Laissez vide pour le désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormat :</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;pie vers un onglet :</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="414"/>
@@ -5684,7 +5684,7 @@ Affiche la version du programme et de ses librairies.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - L'argument utilisation de tiret (-) pour lire des données depuis l'entrée standard.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="625"/>

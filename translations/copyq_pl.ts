@@ -788,7 +788,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiuj do karty:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="402"/>

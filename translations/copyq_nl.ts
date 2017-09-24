@@ -859,12 +859,12 @@ Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatis
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Opmaak:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko&amp;piëren naar tabblad:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="502"/>

@@ -1190,12 +1190,12 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormat:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>In folgenden Reiter ko&amp;pieren:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="512"/>
@@ -5868,7 +5868,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Nutze Bindestrichargument (-) um von der Standardeingabe zu lesen.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="625"/>

@@ -805,7 +805,7 @@ Deixe em branco para desabilitar esta.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="369"/>
@@ -815,7 +815,7 @@ Deixe em branco para desabilitar esta.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar para o guia:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="402"/>

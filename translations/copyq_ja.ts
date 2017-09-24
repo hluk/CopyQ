@@ -827,7 +827,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーマット(&amp;O):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="310"/>
@@ -982,7 +982,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>タブにコピー(&amp;T):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="463"/>
@@ -4618,7 +4618,7 @@ Print version of program and libraries.</source>
     </message>
     <message>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
-        <translation type="vanished">  - 標準入力からデータを読み込むには引数にダッシュ (-) を使用してください。</translation>
+        <translation>  - 標準入力からデータを読み込むには引数にダッシュ (-) を使用してください。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="84"/>
@@ -4686,7 +4686,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">  - 標準入力からデータを読み込むには引数にダッシュ (-) を使用してください。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1184"/>

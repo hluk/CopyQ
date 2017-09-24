@@ -860,12 +860,12 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormat:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko&amp;pier til fane:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="502"/>
@@ -3901,7 +3901,7 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Bruk bindestrek-argument (-) for å lese data fra standard inndata.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="625"/>

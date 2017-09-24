@@ -991,12 +991,12 @@ Bemærk: Hvis dette anvendes automatisk, udføres ingen andre automatiske komman
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormat:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko&amp;pier til fane:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="512"/>
@@ -4573,7 +4573,7 @@ Udskriv programversion og biblioteker.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  -Brug bindestreg argument (-) til at læse data fra standard input.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1184"/>

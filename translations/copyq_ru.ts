@@ -853,7 +853,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Формат:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="369"/>
@@ -863,7 +863,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>К&amp;опировать во вкладку:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="402"/>

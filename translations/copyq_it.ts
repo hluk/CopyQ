@@ -852,7 +852,7 @@ Lascialo vuoto per disabilitarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormato:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="369"/>
@@ -862,7 +862,7 @@ Lascialo vuoto per disabilitarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;pia nella scheda:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="402"/>
