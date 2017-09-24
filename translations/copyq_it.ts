@@ -921,7 +921,7 @@ Nota: se questo è applicato automaticamente, nessun altro comando automatico ve
     <message>
         <location filename="../src/ui/commandwidget.ui" line="492"/>
         <source>O&amp;utput:</source>
-        <translation>O&amp;utput:</translation>
+        <translation>&amp;Destinazione:</translation>
     </message>
     <message>
         <source>Create items from standard output of the program (leave empty to disable).</source>
@@ -958,191 +958,193 @@ Nota: se questo è applicato automaticamente, nessun altro comando automatico ve
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Sfondo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Note</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Trovate</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Seelzionate</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normale</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Font</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternato</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Primo piano</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Notifica</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
         <source>Show &amp;Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza &amp;numero</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza barra di scorrimento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>S&amp;crollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Ba&amp;rra di scorrimento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"></translation>
+        <translation>Usa quando possibile icone del dekstop native</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta colori per sch&amp;ede, barra strumenti e menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Icone di &amp;sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
         <source>&amp;Antialias</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Antialias</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ripristina tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Carica tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Salva tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica tema attuale con un editor esterno</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Mo&amp;difica tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anteprima:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="457"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="460"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stringa da cercare %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="461"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona un elemento e
+premi F2 per modificarlo.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="463"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona gli elementi e spostali con
+CTRL e tasto su o giù.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="465"/>
         <source>Remove item with Delete key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi elemento con tasto Canc.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="467"/>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Elemento esempio %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="472"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Alcune note casuali (Shift+F2 per modificarle)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="127"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri file tema</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="137"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva file tema come</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="156"/>
         <source>No External Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun editor esterno</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="157"/>
         <source>Set external editor command first!</source>
-        <translation type="unfinished"></translation>
+        <translation>Prima imposta il comando editor esterno!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="375"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Abc</translation>
     </message>
 </context>
 <context>
@@ -1150,7 +1152,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/tests/tests.cpp" line="1959"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <source>F6</source>
@@ -1175,7 +1177,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
         <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="unfinished"></translation>
+        <translation>Azioni personalizzate e s&amp;corciatoie globali...</translation>
     </message>
 </context>
 <context>
@@ -1183,57 +1185,57 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="39"/>
         <source>&amp;General</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Generale</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="134"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Mantieni finestra principale sempre in primo piano</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished"></translation>
+        <translation>A%pri finestra nello schermo attuale</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="154"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Conferma uscita dall&apos;applicazione</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="157"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Conferma &amp;uscita dall&apos;applicazione</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="167"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Esegui l&apos;applicazione all&apos;avvio del sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="170"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Avvio automatico</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="177"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto per tasti navigazione Vi (H, J, K, L e altri), tasto slash (/) per ricerca</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="180"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>Stile navigazione &amp;Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Manipolazione Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="219"/>
@@ -1847,16 +1849,16 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
         <source>Move lines into themselves.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sposta linee al proprio interno.</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
         <source>%n lines moved.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Una
+%n linee spostate.</numerusform>
+        <numerusform>Altro
+%n linee spostate.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
         <source>File &quot;%1&quot; exists (add ! to override)</source>
@@ -1929,18 +1931,18 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
         <source>%n lines indented.</source>
         <translation><numerusform>Una
-%n linee indentate</numerusform>
+%n linee indentate.</numerusform>
         <numerusform>Altra
-%n linee indentate</numerusform>
+%n linee indentate.</numerusform>
         </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
         <source>%n lines %1ed %2 time.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>Una
+%linee %1ed %2 volte.</numerusform>
+        <numerusform>Altra
+%linee %1ed %2 volte.</numerusform>
+        </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
