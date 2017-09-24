@@ -334,7 +334,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
         <source>Paste current date and time</source>
-        <translation>Colar data e hora actuais</translation>
+        <translation>Colar data e hora atual</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
@@ -1473,7 +1473,7 @@ Use a antevisão dos itens para os ver completos.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="758"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Depois de activar o item (duplo clique ou tecla Enter), copie-o para a área de transferência e ...</translation>
+        <translation>Depois de ativado o item (duplo clique ou tecla Enter), copia-o para a área de transferência e ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="764"/>
@@ -1513,7 +1513,7 @@ Use a antevisão dos itens para os ver completos.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="797"/>
         <source>&amp;Paste to current window</source>
-        <translation>&amp;Colar na janela actual</translation>
+        <translation>&amp;Colar na janela atual</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="840"/>
@@ -1671,7 +1671,7 @@ Defina como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1279"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation>Distância da notificação à margem direita/esquerda em pontos do ecrã</translation>
+        <translation>Distância da notificação da margem direita/esquerda em pontos de ecrã</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1304"/>
