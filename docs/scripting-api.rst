@@ -890,6 +890,7 @@ Types
    Following code writes to a file in home directory.
 
    .. code-block:: js
+
        var dataToWrite = 'Hello, World!'
        var filePath = Dir().homePath() + '/copyq.txt'
        var f = new File(filePath)
