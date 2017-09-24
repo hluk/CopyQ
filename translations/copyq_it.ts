@@ -257,7 +257,7 @@ Potete impostare il comando nelle preferenze.</translation>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
         <source>Exit code: %1
 </source>
-        <translation>Codice in uscita: %1
+        <translation>Codice uscita: %1
 </translation>
     </message>
     <message>
@@ -271,13 +271,13 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation>Comandi Aggiungi CopyQ</translation>
+        <translation>Comandi aggiungi CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="108"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation>CTRL+Miausc+1</translation>
+        <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="115"/>
@@ -357,12 +357,12 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Cattura immagine schermo</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla data e ora attuali</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
@@ -852,7 +852,7 @@ Lascialo vuoto per disabilitarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>For&amp;mato:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="369"/>
@@ -862,7 +862,7 @@ Lascialo vuoto per disabilitarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia nella sc&amp;heda:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="402"/>
@@ -1240,188 +1240,194 @@ CTRL e tasto su o giù.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="219"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva testo selezionato con il mouse (selezione primaria) nella cronologia</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="222"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;2) Salva testo selezionato usando il mouse</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="232"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;4) Incolla selezione mouse con la tastiera</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="239"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva gli Appunti nella cronologia</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="242"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;1) Salva gli Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="124"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished"></translation>
+        <translation>Testo a capo se troppo lungo per una linea</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="127"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"></translation>
+        <translation>A cap&amp;o automatico</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="137"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Sempre in &amp;primo piano</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita per aprire una finestra nello schermo attuale. Disabilita per per aprire una finestra dove le altre sono state chiuse</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="187"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva e ripristina cronologia degli elementi filtrati</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="190"/>
         <source>Save Filter History</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva cronologia filtri</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="229"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished"></translation>
+        <translation>Permetti incollaggio selezioni mouse usando una scorciatoia (di solito Ctrl+V o Shift+Ins)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="252"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished"></translation>
+        <translation>Permetti incollaggio contenuto nello stesso modo come la selezione mouse (di solito usando il tasto centrale del mouse)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="255"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;3) Incolla Appunti con il mouse</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="398"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Disposizione e trasparenza</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="407"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza struttura con schede invece che con barra schede</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="410"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished"></translation>
+        <translation>Scheda st&amp;ruttura</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="417"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Focus trasparenza:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="429"/>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Trasparenza finestra principale se in focus.
+
+Nota: non è supportata da tutti i sistemi.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="459"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Trasparenza non in foc&amp;us:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="471"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Trasparenza finestra principale se non in focus.
+
+Nota: non è supportata da tutti i sistemi.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="501"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza numero elementi nella scheda</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="504"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Visualizza numero elementi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="352"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza/nascondi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="358"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi schede (premi ALt per visualizzarle)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="361"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascon&amp;di schede</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="368"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi barra strumenti</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="371"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nascondi barra strumenti</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="378"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi etichette &amp;barra strumenti</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="892"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Non visualizzare icona nella barra di sistema; minimma finestra alla chiusura</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="895"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilita icona nella barra di sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="710"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>Scheda per salvata&amp;ggio Appunti:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="720"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome della scheda che salverà automaticamnete il nuovo contenuto Appunti.
+
+Lascia vuoto per disabilitare il salvataggio automatico.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="764"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Sposta elemento in cima all&apos;elenco dopo che è stato attivato</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="767"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"></translation>
+        <translation>Sp&amp;osta elemento in cima</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="774"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi finestra principale dopo che l&apos;elemento è stato attivato</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="784"/>
