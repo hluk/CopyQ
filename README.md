@@ -1,6 +1,6 @@
 # CopyQ
 
-[![Documentation Status](https://readthedocs.org/projects/copyq/badge/?version=latest)](http://copyq.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/copyq/badge/?version=latest)](https://copyq.readthedocs.io/en/latest/?badge=latest)
 [![Translation Status](https://hosted.weblate.org/widgets/copyq/-/svg-badge.svg)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
 [![Build Status](https://travis-ci.org/hluk/CopyQ.svg?branch=master)](https://travis-ci.org/hluk/CopyQ)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/hluk/copyq?branch=master&svg=true)](https://ci.appveyor.com/project/hluk/copyq)
@@ -60,7 +60,17 @@ On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 brew cask install copyq
 ```
 
-### Ubuntu
+### Debian and its derivatives
+
+Users of Debian unstable, Debian 10+, Ubuntu 18.04+ and later derivatives can
+install stable version of copyq from their distribution's official repository:
+
+```bash
+sudo apt install copyq
+# copyq-plugins and copyq-doc is splitted out and can be installed independently
+```
+
+### Ubuntu PPA
 
 Install and keep CopyQ always up to date by running the following three commands from the terminal:
 

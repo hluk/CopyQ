@@ -29,8 +29,10 @@
 #include "platform/platformnativeinterface.h"
 #include "scriptable/scriptable.h"
 
+#include <QApplication>
 #include <QFile>
 #include <QScriptEngine>
+#include <QSettings>
 
 #ifdef HAS_TESTS
 #  include "tests/tests.h"
@@ -80,9 +82,48 @@ int evaluate(
     return exitCode;
 }
 
-int startServer(int argc, char *argv[], const QString &sessionName)
+bool containsOnlyValidCharacters(const QString &sessionName)
 {
-    ClipboardServer app(argc, argv, sessionName);
+    for (const auto &c : sessionName) {
+        if ( !c.isLetterOrNumber() && c != '-' && c != '_' )
+            return false;
+    }
+
+    return true;
+}
+
+bool isValidSessionName(const QString &sessionName)
+{
+    return !sessionName.isNull() &&
+           sessionName.length() < 16 &&
+           containsOnlyValidCharacters(sessionName);
+}
+
+QString restoreSessionName(const QString &sessionId)
+{
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "copyq", "copyq_no_session");
+    const auto sessionNameKey = "session_" + sessionId;
+    const auto sessionName = settings.value(sessionNameKey).toString();
+    settings.remove(sessionNameKey);
+    return sessionName;
+}
+
+int startServer(int argc, char *argv[], QString sessionName)
+{
+    auto qapp = createPlatformNativeInterface()->createServerApplication(argc, argv);
+    if ( qapp->isSessionRestored() ) {
+        const auto sessionId = qapp->sessionId();
+        sessionName = restoreSessionName(sessionId);
+        COPYQ_LOG( QString("Restoring session ID \"%1\", session name \"%2\"")
+                   .arg(sessionId)
+                   .arg(sessionName) );
+        if ( !sessionName.isEmpty() && !isValidSessionName(sessionName) ) {
+            log("Failed to restore session name", LogError);
+            return 2;
+        }
+    }
+
+    ClipboardServer app(qapp, sessionName);
     return app.exec();
 }
 
@@ -126,23 +167,6 @@ bool needsTests(const QString &arg)
 }
 #endif
 
-bool containsOnlyValidCharacters(const QString &sessionName)
-{
-    for (const auto &c : sessionName) {
-        if ( !c.isLetterOrNumber() && c != '-' && c != '_' )
-            return false;
-    }
-
-    return true;
-}
-
-bool isValidSessionName(const QString &sessionName)
-{
-    return !sessionName.isNull() &&
-           sessionName.length() < 16 &&
-           containsOnlyValidCharacters(sessionName);
-}
-
 QString getSessionName(const QStringList &arguments, int *skipArguments)
 {
     const QString firstArgument = arguments.value(0);
@@ -157,6 +181,10 @@ QString getSessionName(const QStringList &arguments, int *skipArguments)
         *skipArguments = 1;
         return firstArgument.mid( firstArgument.indexOf('=') + 1 );
     }
+
+    // Skip session arguments passed from session manager.
+    if (arguments.size() == 2 && firstArgument == "-session")
+        *skipArguments = 2;
 
     return getTextData( qgetenv("COPYQ_SESSION_NAME") );
 }

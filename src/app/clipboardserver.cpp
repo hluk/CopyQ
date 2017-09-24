@@ -53,10 +53,9 @@ class QxtGlobalShortcut {};
 #include "../qxt/qxtglobalshortcut.h"
 #endif
 
-ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
+ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     : QObject()
-    , App("Server", createPlatformNativeInterface()->createServerApplication(argc, argv),
-          sessionName)
+    , App("Server", app, sessionName)
     , m_wnd(nullptr)
     , m_monitor(nullptr)
     , m_shortcutActions()
@@ -95,6 +94,9 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 
     connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
              this, SLOT(onCommitData(QSessionManager&)) );
+
+    connect( qApp, SIGNAL(saveStateRequest(QSessionManager&)),
+             this, SLOT(onSaveState(QSessionManager&)) );
 
     connect( m_wnd, SIGNAL(changeClipboard(QVariantMap,QClipboard::Mode)),
              this, SLOT(changeClipboard(QVariantMap,QClipboard::Mode)) );
@@ -249,6 +251,25 @@ void ClipboardServer::onCommitData(QSessionManager &sessionManager)
         m_wnd->hide();
         exit();
     }
+}
+
+void ClipboardServer::onSaveState(QSessionManager &sessionManager)
+{
+    COPYQ_LOG("Got save state request from session manager.");
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "copyq", "copyq_no_session");
+    const auto sessionNameKey = "session_" + sessionManager.sessionId();
+    const auto sessionName = qApp->property("CopyQ_session_name").toString();
+    settings.setValue(sessionNameKey, sessionName);
+
+    // Remove last session name from configuration.
+    const auto lastSessionIdKey = "last_session_id_for_" + sessionName;
+    const auto lastSessionId = settings.value(lastSessionIdKey).toString();
+    if ( !lastSessionId.isEmpty() ) {
+        const auto lastSessionNameKey = "session_" + lastSessionId;
+        settings.remove(lastSessionNameKey);
+    }
+    settings.setValue(lastSessionIdKey, sessionNameKey);
 }
 
 void ClipboardServer::maybeQuit()

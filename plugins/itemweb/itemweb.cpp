@@ -142,6 +142,9 @@ void ItemWeb::updateSize(QSize maximumSize, int)
             parentWidget()->adjustSize();
     }
 
+    // FIXME: This fixes background color but makes black scroll bar.
+    setStyleSheet("background-color:transparent");
+
     connect( frame, SIGNAL(contentsSizeChanged(QSize)),
              this, SLOT(onItemChanged()) );
 }

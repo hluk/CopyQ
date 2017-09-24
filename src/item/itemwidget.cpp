@@ -109,6 +109,10 @@ ItemWidget::ItemWidget(QWidget *widget)
 
     // Disable drag'n'drop by default.
     widget->setAcceptDrops(false);
+
+    // Make background transparent.
+    widget->setAttribute(Qt::WA_NoSystemBackground);
+    widget->setAttribute(Qt::WA_TranslucentBackground);
 }
 
 void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,

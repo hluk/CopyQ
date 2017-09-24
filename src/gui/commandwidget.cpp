@@ -209,6 +209,7 @@ void CommandWidget::on_checkBoxShowAdvanced_stateChanged(int state)
     AppConfig appConfig;
     appConfig.setOption(Config::show_advanced_command_settings::name(), showAdvanced);
     ui->widgetAdvanced->setVisible(showAdvanced);
+    updateWidgets();
 }
 
 void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
@@ -263,7 +264,8 @@ void CommandWidget::updateWidgets()
     ui->groupBoxInMenu->setVisible(inMenu);
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->commandEdit->isEmpty());
 
-    ui->widgetSpacer->setVisible(ui->groupBoxCommand->isHidden());
+    ui->widgetSpacer->setVisible(
+                ui->widgetAdvanced->isHidden() || ui->groupBoxCommand->isHidden());
 
     ui->commandEdit->resizeToContent();
 }

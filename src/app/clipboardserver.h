@@ -36,6 +36,7 @@ class ClientSocket;
 class ItemFactory;
 class RemoteProcess;
 class QxtGlobalShortcut;
+class QApplication;
 class QSessionManager;
 
 /**
@@ -50,7 +51,7 @@ class ClipboardServer : public QObject, public App
     Q_OBJECT
 
 public:
-    ClipboardServer(int &argc, char **argv, const QString &sessionName);
+    ClipboardServer(QApplication *app, const QString &sessionName);
     ~ClipboardServer();
 
     /** Stop monitor application. */
@@ -112,6 +113,11 @@ private slots:
      * allow user to cancel quitting (if session manager supports it).
      */
     void onCommitData(QSessionManager &sessionManager);
+
+    /**
+     * Save session name for next time.
+     */
+    void onSaveState(QSessionManager &sessionManager);
 
     /** Quit application, but ask to cancel exit if there are any active commands. */
     void maybeQuit();

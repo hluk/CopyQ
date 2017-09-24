@@ -474,11 +474,12 @@ void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes, bool c
         return;
 
     ItemEditorWidget *editor = d.createCustomEditor(this, index, editNotes);
-    if (editor != nullptr) {
-        if ( editor->isValid() )
-            setEditorWidget(editor, changeClipboard);
-        else
-            delete editor;
+    if (editor != nullptr && editor->isValid() ) {
+        setEditorWidget(editor, changeClipboard);
+    } else {
+        delete editor;
+        if (!editNotes)
+            openEditor(index);
     }
 }
 
@@ -1169,17 +1170,20 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
 
     ItemWidget *item = d.cache(index);
     QObject *editor = item->createExternalEditor(index, this);
-    if (editor == nullptr) {
+    if ( editor != nullptr && startEditor(editor) )
+        return true;
+
+    if ( !m_sharedData->editor.trimmed().isEmpty() ) {
         const QVariantMap data = copyIndex(index);
-        if ( data.contains(mimeText) )
-        {
-            ItemEditor *itemEditor = new ItemEditor(data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this);
+        if ( data.contains(mimeText) ) {
+            auto itemEditor = new ItemEditor( data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this );
             itemEditor->setIndex(index);
-            editor = itemEditor;
+            if ( startEditor(itemEditor) )
+                return true;
         }
     }
 
-    return editor != nullptr && startEditor(editor);
+    return false;
 }
 
 void ClipboardBrowser::addItems(const QStringList &items)
@@ -1416,7 +1420,7 @@ void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOn
                 continue;
 
             if (!setCurrentOnly) {
-                if ( sel->isSelected(ind) && sel->isSelected(prev) )
+                if ( currentIndex() != ind && sel->isSelected(ind) && sel->isSelected(prev) )
                     sel->setCurrentIndex(currentIndex(), QItemSelectionModel::Deselect);
                 sel->setCurrentIndex(ind, QItemSelectionModel::Select);
             }
@@ -1429,11 +1433,7 @@ void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOn
             sel->setCurrentIndex(prev, QItemSelectionModel::Deselect);
     } else {
         const auto ind = index(i);
-        clearSelection();
-        if (setCurrentOnly)
-            selectionModel()->setCurrentIndex(ind, QItemSelectionModel::NoUpdate);
-        else
-            setCurrentIndex(ind);
+        selectionModel()->setCurrentIndex(ind, QItemSelectionModel::ClearAndSelect);
     }
 }
 
