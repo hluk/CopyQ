@@ -945,7 +945,7 @@ Nota: se questo è applicato automaticamente, nessun altro comando automatico ve
     <message>
         <location filename="../src/ui/commandwidget.ui" line="532"/>
         <source>Output &amp;tab:</source>
-        <translation>Scheda &amp;output:</translation>
+        <translation>Scheda des&amp;tinazione:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="542"/>
