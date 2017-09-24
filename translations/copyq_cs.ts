@@ -369,12 +369,12 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Snímek obrazovky</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit datum a čas</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
@@ -1189,12 +1189,12 @@ Poznámka: Pokud je akce provedena automaticky, žádné následující příkaz
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Formát:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Do &amp;záložky:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="512"/>
@@ -5671,7 +5671,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Použij pomlčku (-) jako argument pro načtení dat ze standardního vstupu.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="625"/>
