@@ -369,12 +369,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>进行截图</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>粘贴当前日期和时间</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
@@ -616,7 +616,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandcompleter.cpp" line="238"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation>Ctrl+Space</translation>
+        <translation>Ctrl + 空格</translation>
     </message>
 </context>
 <context>
@@ -786,7 +786,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>格式(&amp;M)：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="310"/>
@@ -937,7 +937,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>复制到标签页(&amp;Y)：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="463"/>
@@ -2106,7 +2106,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
         <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation type="unfinished">&quot;%1&quot; %2 %3L，%4C 已写入。</translation>
+        <translation>&quot;%1&quot; %2 %3L，%4C 已写入。</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
@@ -2116,7 +2116,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
         <source>&quot;%1&quot; %2L, %3C</source>
-        <translation type="unfinished">&quot;%1&quot; %2L，%3C</translation>
+        <translation>&quot;%1&quot; %2L，%3C</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
@@ -2197,7 +2197,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"/>
         <source>Recursive mapping</source>
-        <translation type="unfinished">递归映射</translation>
+        <translation>递归映射</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
@@ -2207,7 +2207,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
         <source> [New] </source>
-        <translation type="unfinished"> [New] </translation>
+        <translation> [新] </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
@@ -3771,7 +3771,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation>关于(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
@@ -4221,7 +4221,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - 使用短横线（-）作为参数以从标准输入读取数据。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
