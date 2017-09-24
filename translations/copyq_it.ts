@@ -387,7 +387,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
         <source>Shift+Return</source>
-        <translation>Maiusc+INVIO</translation>
+        <translation>Shift+Invio</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="220"/>
@@ -1432,129 +1432,131 @@ Lascia vuoto per disabilitare il salvataggio automatico.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="784"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Focus ultima finestra dopo che l&apos;elemento è stato attivato</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="794"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla nella fienstra attuale dopo che l&apos;elemento è stato attivato</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="902"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza comando per contenuto attuale Appunti nel menu barra di sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="951"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza elementi dalla finestra attuale nel menu barra di sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="954"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza sc&amp;heda attuale nel menu,</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="961"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>o s&amp;cegli un&apos;altra scheda:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1002"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla elemento nella finestra attuale dopo averlo selezionato nel menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1015"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza anteprima immagine come ic&amp;ona elemento menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1176"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished"></translation>
+        <translation>Int&amp;ervallo in secondi per visualizzare le notifiche:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1279"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Distanza notifiche dagli angoli sinistro destro nei punti dello schermo</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1316"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Distanza notifiche degli angoli superiore e inferiore dello schermo in punti</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1353"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Larghezza massima per le notifiche in punti</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1390"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Altezza massima notifiche in punti</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="549"/>
         <source>&amp;History</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cronologia</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="96"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Lingua:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="197"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza automaticamente popup per completamento azione, tipo e nome variabile nei comandi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="200"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto completamento comandi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="298"/>
         <source>&amp;Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Disposizione</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="385"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi finestra principale quando chiusa</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="388"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi &amp;finestra principale</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="606"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Numero max elementi nella cronologia:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="618"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero max di elementi in ogni scheda</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="646"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi scheda dopo intervallo in min&amp;uti:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="658"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuove ogni scheda dalla memoria dopo uno specificato numero di minuti.
+
+Se impostato a 0 non viene rimossa la scheda dalla memoria.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="685"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando &amp;editor esterno (%1 è il file da modificare):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
@@ -1564,19 +1566,26 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando editor esterno (%1 è il file da modificare).
+  Esempi:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="734"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lascia non spuntato per usare il tasto &apos;invio&apos; per salvare elementi modificati e &apos;Ctrl+R&apos; per creare una nuova linea.
+
+Nota: gli elementi modificati possono eessere salvati con &apos;F2&apos; indipendentemente da questa opzione.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="739"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished"></translation>
+        <translation>Sal&amp;va elementi modificati con &apos;Ctrl+Invio&apos; e crea un nuova linea con &apos;Invio&apos;</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="746"/>
@@ -2065,7 +2074,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished">Co&amp;mandi</translation>
+        <translation>Co&amp;mandi</translation>
     </message>
 </context>
 <context>
@@ -2303,8 +2312,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="842"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Errore: %1
- {1?}</translation>
+        <translation>Errore: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="830"/>
@@ -3153,7 +3161,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished">&amp;Appunti</translation>
+        <translation>&amp;Appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
@@ -3198,7 +3206,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
@@ -3288,7 +3296,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -3298,7 +3306,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>F7</source>
-        <translation type="unfinished">F7</translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
@@ -3313,7 +3321,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
@@ -3343,7 +3351,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
@@ -3473,7 +3481,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>F12</source>
-        <translation type="unfinished">F12</translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="145"/>
@@ -3713,7 +3721,7 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza finestra principale e opzionalmente apri scheda con il nome indicato.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="95"/>
@@ -3964,7 +3972,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished">&amp;Trova:</translation>
+        <translation>&amp;Trova:</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
@@ -3989,7 +3997,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished">&amp;Nome:</translation>
+        <translation>&amp;Nome:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="35"/>
