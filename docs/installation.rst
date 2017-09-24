@@ -12,7 +12,15 @@ On **OS X** you can use `Homebrew <https://brew.sh/>`__ to install the app.
 
     brew cask install copyq
 
-On **Ubuntu** set up the official repository and install the app from terminal.
+On Debian unstable, **Debian 10+**, **Ubuntu 18.04+** and later derivatives can
+install stable version from official repositories:
+
+.. code-block:: bash
+
+    sudo apt install copyq
+    # copyq-plugins and copyq-doc is splitted out and can be installed independently
+
+On **Ubuntu** set up the official PPA repository and install the app from terminal.
 
 .. code-block:: bash
 
