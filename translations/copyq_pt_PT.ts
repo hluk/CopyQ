@@ -329,12 +329,12 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Capturar ecrã</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Colar data e hora actuais</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
@@ -859,12 +859,12 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>For&amp;mato:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="392"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cop&amp;iar para separador:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="502"/>
@@ -3840,7 +3840,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Usar argumento (-) para ler dados da entrada padrão.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="84"/>
