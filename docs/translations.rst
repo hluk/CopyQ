@@ -5,6 +5,8 @@ Translations can be done either via
 `Weblate <https://hosted.weblate.org/projects/copyq/>`__ (preferred) or
 by using Qt utilities.
 
+For explanation for some frequent words see :ref:`glossary`.
+
 Translating Keyboard Accelerators
 ---------------------------------
 
