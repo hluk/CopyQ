@@ -19,6 +19,7 @@ advanced topics like scripting and application development process.
     images
     tags
     faq
+    glossary
 
 .. toctree::
     :caption: Advanced Topics
