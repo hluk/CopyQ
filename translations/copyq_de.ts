@@ -385,12 +385,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Screenshot erstellen</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelles Datum und Uhrzeit einfügen</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
