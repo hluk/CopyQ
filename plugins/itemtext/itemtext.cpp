@@ -23,6 +23,7 @@
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
 
+#include <QAbstractTextDocumentLayout>
 #include <QCoreApplication>
 #include <QContextMenuEvent>
 #include <QCursor>
@@ -34,8 +35,8 @@
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
-#include <QAbstractTextDocumentLayout>
 #include <QtPlugin>
+#include <QUrl>
 
 namespace {
 
