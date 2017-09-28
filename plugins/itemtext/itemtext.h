@@ -25,7 +25,7 @@
 
 #include <QTextDocument>
 #include <QTextDocumentFragment>
-#include <QTextBrowser>
+#include <QTextEdit>
 
 #include <memory>
 
@@ -33,7 +33,7 @@ namespace Ui {
 class ItemTextSettings;
 }
 
-class ItemText : public QTextBrowser, public ItemWidget
+class ItemText : public QTextEdit, public ItemWidget
 {
     Q_OBJECT
 
