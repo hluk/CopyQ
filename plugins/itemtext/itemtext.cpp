@@ -25,6 +25,8 @@
 
 #include <QCoreApplication>
 #include <QContextMenuEvent>
+#include <QCursor>
+#include <QDesktopServices>
 #include <QMimeData>
 #include <QModelIndex>
 #include <QMouseEvent>
@@ -90,7 +92,7 @@ QString normalizeText(QString text)
 } // namespace
 
 ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maximumHeight, QWidget *parent)
-    : QTextBrowser(parent)
+    : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
     , m_maximumHeight(maximumHeight)
@@ -100,7 +102,9 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
 
     setReadOnly(true);
     setUndoRedoEnabled(false);
-    setOpenExternalLinks(true);
+    setTextInteractionFlags(
+                textInteractionFlags() | Qt::LinksAccessibleByMouse);
+    setMouseTracking(true);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
@@ -140,10 +144,10 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
-    QList<QTextBrowser::ExtraSelection> selections;
+    QList<QTextEdit::ExtraSelection> selections;
 
     if ( !re.isEmpty() ) {
-        QTextBrowser::ExtraSelection selection;
+        QTextEdit::ExtraSelection selection;
         selection.format.setBackground( highlightPalette.base() );
         selection.format.setForeground( highlightPalette.text() );
         selection.format.setFont(highlightFont);
@@ -200,12 +204,38 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
 
 bool ItemText::eventFilter(QObject *, QEvent *event)
 {
-    return ItemWidget::filterMouseEvents(this, event);
+    const bool result = ItemWidget::filterMouseEvents(this, event);
+    if (result)
+        return true;
+
+    if ( !event->isAccepted() ) {
+        viewport()->setCursor( QCursor() );
+        return false;
+    }
+
+    const auto type = event->type();
+
+    if (type == QEvent::MouseButtonPress || type == QEvent::MouseMove) {
+        const auto e = static_cast<QMouseEvent*>(event);
+        const auto anchor = anchorAt(e->pos());
+        if ( anchor.isEmpty() ) {
+            viewport()->setCursor( QCursor(Qt::IBeamCursor) );
+        } else {
+            viewport()->setCursor( QCursor(Qt::PointingHandCursor) );
+            if (type == QEvent::MouseButtonPress) {
+                QDesktopServices::openUrl( QUrl(anchor) );
+                e->accept();
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 QMimeData *ItemText::createMimeDataFromSelection() const
 {
-    const auto data = QTextBrowser::createMimeDataFromSelection();
+    const auto data = QTextEdit::createMimeDataFromSelection();
     if (!data)
         return nullptr;
 
