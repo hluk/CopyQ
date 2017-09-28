@@ -9,6 +9,8 @@ if [ "$distro" == "trusty" ]; then
     cp debian/rules{-qt4,}
 else
     git checkout HEAD debian/control debian/rules
+    sed -i 's/debhelper .*,/debhelper (>= 9),/' 'debian/control'
+    sed -i 's/Standards-Version:.*/Standards-Version: 3.9.7/' 'debian/control'
 fi
 
 git checkout HEAD debian/changelog
