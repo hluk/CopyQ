@@ -8,8 +8,8 @@ project=${4:-"copyq"}
 base_url="http://download.opensuse.org/repositories/home:/"
 url=$base_url$user:/$project
 
-xdeb="_amd64.deb"
-xdeb_i386="_i386.deb"
+xdeb="-1_amd64.deb"
+xdeb_i386="-1_i386.deb"
 xrpm=".x86_64.rpm"
 
 pkg="${project}_${version}"
