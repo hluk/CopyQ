@@ -9,6 +9,8 @@ v3.1.0
 - Allow to change icon color using COPYQ_SESSION_COLOR
 - Expand text ellipsis if selected
 - Avoid copying ellipsis if selected and copy rich text only if needed
+- Improved command widget layout
+- Open external editor if internal fails
 - Fix item rendering on high DPI screens
 - Fix tray icon on high DPI screens
 - Fix taking screenshots on multiple monitors and on high DPI screens
@@ -24,9 +26,14 @@ v3.1.0
 - Fix moving multiple items to clipboard and to the top of the list
 - Fix updating global shortcuts with setCommands()
 - Fix clearing search after opening internal editor
+- Fix aborting script execution
+- Fix black scroll bar in items
+- Fix completion popup resizing
 - OSX: Fix some memory leaks
+- Linux: Add manual pages
 - Linux: Fix getting icon for non-default session from theme
 - Linux: Fix settings tab name in KDE/Plasma
+- Linux: Fix restoring with session manager
 - Windows: Add pinned items to installer
 - Windows: Fix saving tab with another plugin
 - Windows: Fix pasting to a window
