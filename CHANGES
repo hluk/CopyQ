@@ -10,6 +10,7 @@ v3.1.0
 - Expand text ellipsis if selected
 - Avoid copying ellipsis if selected and copy rich text only if needed
 - Improved command widget layout
+- Copy encrypted items as hidden in UI
 - Open external editor if internal fails
 - Fix item rendering on high DPI screens
 - Fix tray icon on high DPI screens
