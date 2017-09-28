@@ -472,7 +472,10 @@ void ItemEncryptedScriptable::copyEncryptedItems()
         }
     }
 
-    call("copy", QVariantList() << text);
+    const auto args = QVariantList()
+            << mimeText << text
+            << mimeHidden << "1";
+    call("copy", args);
 }
 
 QString ItemEncryptedScriptable::generateTestKeys()
