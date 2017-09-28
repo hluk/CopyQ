@@ -42,6 +42,9 @@ namespace {
 // Limit number of characters for performance reasons.
 const int defaultMaxBytes = 100*1024;
 
+// Limit line length for performance reasons.
+const int maxLineLength = 1024;
+
 const char optionUseRichText[] = "use_rich_text";
 const char optionMaximumLines[] = "max_lines";
 const char optionMaximumHeight[] = "max_height";
@@ -89,6 +92,14 @@ QString normalizeText(QString text)
     return text.left(defaultMaxBytes);
 }
 
+void insertEllipsis(QTextCursor *tc)
+{
+    tc->insertHtml( " &nbsp;"
+                    "<span style='background:rgba(0,0,0,30);border-radius:4px'>"
+                    "&nbsp;&hellip;&nbsp;"
+                    "</span>" );
+}
+
 } // namespace
 
 ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maximumHeight, QWidget *parent)
@@ -129,10 +140,17 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
             tc.removeSelectedText();
 
             m_ellipsisPosition = tc.position();
-            tc.insertHtml( " &nbsp;"
-                           "<span style='background:rgba(0,0,0,30);border-radius:4px'>"
-                           "&nbsp;&hellip;&nbsp;"
-                           "</span>");
+            insertEllipsis(&tc);
+        }
+    }
+
+    // For performance reasons, crop long lines.
+    for ( auto block = m_textDocument.begin(); block.isValid(); block = block.next() ) {
+        if ( block.length() > maxLineLength ) {
+            QTextCursor tc(&m_textDocument);
+            tc.setPosition(block.position() + maxLineLength);
+            tc.setPosition(block.position() + block.length() - 1, QTextCursor::KeepAnchor);
+            insertEllipsis(&tc);
         }
     }
 
