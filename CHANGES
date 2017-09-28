@@ -1,3 +1,7 @@
+v3.1.1
+- Improve performance for items with long lines
+- Linux: Fix tray icon
+
 v3.1.0
 - Add "Paste current date and time" predefined command
 - Add "Take screenshot" predefined command
