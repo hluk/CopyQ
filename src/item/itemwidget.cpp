@@ -235,8 +235,13 @@ void ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
     }
 
     Qt::TextInteractionFlags flags = edit->textInteractionFlags();
-    flags.setFlag(Qt::TextSelectableByMouse, allowMouseInteraction);
-    flags.setFlag(Qt::LinksAccessibleByMouse, allowMouseInteraction);
+    if (allowMouseInteraction) {
+        flags |= Qt::TextSelectableByMouse;
+        flags |= Qt::LinksAccessibleByMouse;
+    } else {
+        flags &= ~Qt::TextSelectableByMouse;
+        flags &= ~Qt::LinksAccessibleByMouse;
+    }
     edit->setTextInteractionFlags(flags);
 }
 

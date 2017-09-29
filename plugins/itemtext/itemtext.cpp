@@ -225,28 +225,27 @@ bool ItemText::eventFilter(QObject *, QEvent *event)
 {
     ItemWidget::filterMouseEvents(this, event);
 
-    if ( !event->isAccepted() ) {
-        viewport()->setCursor( QCursor() );
-        return false;
-    }
-
     const auto type = event->type();
 
     if (type == QEvent::MouseButtonPress || type == QEvent::MouseMove) {
         const auto e = static_cast<QMouseEvent*>(event);
-        const auto anchor = anchorAt(e->pos());
-        if ( anchor.isEmpty() ) {
-            if ( textInteractionFlags().testFlag(Qt::TextSelectableByMouse) )
-                viewport()->setCursor( QCursor(Qt::IBeamCursor) );
-            else
-                viewport()->setCursor( QCursor() );
-        } else {
-            viewport()->setCursor( QCursor(Qt::PointingHandCursor) );
-            if (type == QEvent::MouseButtonPress) {
-                QDesktopServices::openUrl( QUrl(anchor) );
-                e->accept();
-                return true;
+        if ( textInteractionFlags().testFlag(Qt::LinksAccessibleByMouse) ) {
+            const auto anchor = anchorAt(e->pos());
+            if ( anchor.isEmpty() ) {
+                if ( textInteractionFlags().testFlag(Qt::TextSelectableByMouse) )
+                    viewport()->setCursor( QCursor(Qt::IBeamCursor) );
+                else
+                    viewport()->setCursor( QCursor() );
+            } else {
+                viewport()->setCursor( QCursor(Qt::PointingHandCursor) );
+                if (type == QEvent::MouseButtonPress) {
+                    QDesktopServices::openUrl( QUrl(anchor) );
+                    e->accept();
+                    return true;
+                }
             }
+        } else {
+            viewport()->setCursor( QCursor() );
         }
     }
 
