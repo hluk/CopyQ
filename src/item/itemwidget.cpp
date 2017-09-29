@@ -191,9 +191,11 @@ void ItemWidget::setCurrent(bool current)
     widget()->setAttribute(Qt::WA_TransparentForMouseEvents, !current);
 }
 
-bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
+void ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
 {
     QEvent::Type type = event->type();
+
+    bool allowMouseInteraction = true;
 
     switch (type) {
     case QEvent::MouseButtonPress:
@@ -201,7 +203,7 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
         QMouseEvent *e = static_cast<QMouseEvent*>(event);
 
         if ( !canMouseInteract(*e) )
-            e->ignore();
+            allowMouseInteraction = false;
         else if (e->button() == Qt::LeftButton)
             edit->setTextCursor( edit->cursorForPosition(e->pos()) );
 
@@ -212,7 +214,7 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
         QMouseEvent *e = static_cast<QMouseEvent*>(event);
 
         if ( !canMouseInteract(*e) )
-            e->ignore();
+            allowMouseInteraction = false;
 
         break;
     }
@@ -223,23 +225,19 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
         if ( canMouseInteract(*e) && edit->textCursor().hasSelection() )
             edit->copy();
 
-        e->ignore();
+        allowMouseInteraction = false;
 
         break;
     }
 
     default:
-        return false;
+        return;
     }
 
     Qt::TextInteractionFlags flags = edit->textInteractionFlags();
-    if (event->isAccepted())
-        flags |= Qt::TextSelectableByMouse;
-    else
-        flags &= ~Qt::TextSelectableByMouse;
+    flags.setFlag(Qt::TextSelectableByMouse, allowMouseInteraction);
+    flags.setFlag(Qt::LinksAccessibleByMouse, allowMouseInteraction);
     edit->setTextInteractionFlags(flags);
-
-    return false;
 }
 
 QVariant ItemScriptable::call(const QString &method, const QVariantList &arguments)

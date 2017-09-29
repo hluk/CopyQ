@@ -223,9 +223,7 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
 
 bool ItemText::eventFilter(QObject *, QEvent *event)
 {
-    const bool result = ItemWidget::filterMouseEvents(this, event);
-    if (result)
-        return true;
+    ItemWidget::filterMouseEvents(this, event);
 
     if ( !event->isAccepted() ) {
         viewport()->setCursor( QCursor() );
@@ -238,7 +236,10 @@ bool ItemText::eventFilter(QObject *, QEvent *event)
         const auto e = static_cast<QMouseEvent*>(event);
         const auto anchor = anchorAt(e->pos());
         if ( anchor.isEmpty() ) {
-            viewport()->setCursor( QCursor(Qt::IBeamCursor) );
+            if ( textInteractionFlags().testFlag(Qt::TextSelectableByMouse) )
+                viewport()->setCursor( QCursor(Qt::IBeamCursor) );
+            else
+                viewport()->setCursor( QCursor() );
         } else {
             viewport()->setCursor( QCursor(Qt::PointingHandCursor) );
             if (type == QEvent::MouseButtonPress) {

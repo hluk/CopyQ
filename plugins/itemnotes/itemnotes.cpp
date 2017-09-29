@@ -281,7 +281,8 @@ bool ItemNotes::eventFilter(QObject *, QEvent *event)
     if ( event->type() == QEvent::Show && m_timerShowToolTip && m_isCurrent )
         m_timerShowToolTip->start();
 
-    return ItemWidget::filterMouseEvents(m_notes, event);
+    ItemWidget::filterMouseEvents(m_notes, event);
+    return false;
 }
 
 void ItemNotes::showToolTip()
