@@ -260,6 +260,10 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
     QWidget *ww = w->widget();
 
+    // Make background transparent.
+    ww->setAttribute(Qt::WA_NoSystemBackground);
+    ww->setAttribute(Qt::WA_TranslucentBackground);
+
     const bool isCurrent = m_view->currentIndex() == index;
     setItemWidgetCurrent(index, isCurrent);
 
