@@ -156,7 +156,7 @@ protected:
      * Use QWidget::installEventFilter() on QTextEdit::viewport() and call this method from
      * overridden QWidget::eventFilter().
      */
-    void filterMouseEvents(QTextEdit *edit, QEvent *event);
+    bool filterMouseEvents(QTextEdit *edit, QEvent *event);
 
 private:
     QRegExp m_re;

@@ -479,8 +479,7 @@ void ItemSync::updateSize(QSize maximumSize, int idealWidth)
 
 bool ItemSync::eventFilter(QObject *, QEvent *event)
 {
-    ItemWidget::filterMouseEvents(m_label, event);
-    return false;
+    return ItemWidget::filterMouseEvents(m_label, event);
 }
 
 ItemSyncSaver::ItemSyncSaver(const QString &tabPath)

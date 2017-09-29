@@ -26,6 +26,7 @@
 #include <QAbstractItemModel>
 #include <QApplication>
 #include <QClipboard>
+#include <QDesktopServices>
 #include <QEvent>
 #include <QFont>
 #include <QMimeData>
@@ -191,13 +192,18 @@ void ItemWidget::setCurrent(bool current)
     widget()->setAttribute(Qt::WA_TransparentForMouseEvents, !current);
 }
 
-void ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
+bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
 {
-    QEvent::Type type = event->type();
+    const auto type = event->type();
 
     bool allowMouseInteraction = true;
 
     switch (type) {
+    case QEvent::Enter:
+        edit->setMouseTracking(true);
+        edit->viewport()->setCursor( QCursor() );
+        return false;
+
     case QEvent::MouseButtonPress:
     case QEvent::MouseButtonDblClick: {
         QMouseEvent *e = static_cast<QMouseEvent*>(event);
@@ -231,7 +237,7 @@ void ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
     }
 
     default:
-        return;
+        return false;
     }
 
     Qt::TextInteractionFlags flags = edit->textInteractionFlags();
@@ -243,6 +249,27 @@ void ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
         flags &= ~Qt::LinksAccessibleByMouse;
     }
     edit->setTextInteractionFlags(flags);
+
+    if (type == QEvent::MouseButtonPress || type == QEvent::MouseMove) {
+        const auto e = static_cast<QMouseEvent*>(event);
+        if (allowMouseInteraction) {
+            const auto anchor = edit->anchorAt(e->pos());
+            if ( anchor.isEmpty() ) {
+                edit->viewport()->setCursor( QCursor(Qt::IBeamCursor) );
+            } else {
+                edit->viewport()->setCursor( QCursor(Qt::PointingHandCursor) );
+                if (type == QEvent::MouseButtonPress) {
+                    QDesktopServices::openUrl( QUrl(anchor) );
+                    e->accept();
+                    return true;
+                }
+            }
+        } else {
+            edit->viewport()->setCursor( QCursor() );
+        }
+    }
+
+    return false;
 }
 
 QVariant ItemScriptable::call(const QString &method, const QVariantList &arguments)

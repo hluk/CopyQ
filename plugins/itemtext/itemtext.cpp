@@ -27,7 +27,6 @@
 #include <QCoreApplication>
 #include <QContextMenuEvent>
 #include <QCursor>
-#include <QDesktopServices>
 #include <QMimeData>
 #include <QModelIndex>
 #include <QMouseEvent>
@@ -116,7 +115,6 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
     setUndoRedoEnabled(false);
     setTextInteractionFlags(
                 textInteractionFlags() | Qt::LinksAccessibleByMouse);
-    setMouseTracking(true);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
@@ -223,33 +221,7 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
 
 bool ItemText::eventFilter(QObject *, QEvent *event)
 {
-    ItemWidget::filterMouseEvents(this, event);
-
-    const auto type = event->type();
-
-    if (type == QEvent::MouseButtonPress || type == QEvent::MouseMove) {
-        const auto e = static_cast<QMouseEvent*>(event);
-        if ( textInteractionFlags().testFlag(Qt::LinksAccessibleByMouse) ) {
-            const auto anchor = anchorAt(e->pos());
-            if ( anchor.isEmpty() ) {
-                if ( textInteractionFlags().testFlag(Qt::TextSelectableByMouse) )
-                    viewport()->setCursor( QCursor(Qt::IBeamCursor) );
-                else
-                    viewport()->setCursor( QCursor() );
-            } else {
-                viewport()->setCursor( QCursor(Qt::PointingHandCursor) );
-                if (type == QEvent::MouseButtonPress) {
-                    QDesktopServices::openUrl( QUrl(anchor) );
-                    e->accept();
-                    return true;
-                }
-            }
-        } else {
-            viewport()->setCursor( QCursor() );
-        }
-    }
-
-    return false;
+    return ItemWidget::filterMouseEvents(this, event);
 }
 
 QMimeData *ItemText::createMimeDataFromSelection() const
