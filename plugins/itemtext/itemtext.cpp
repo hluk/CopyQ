@@ -40,10 +40,15 @@
 namespace {
 
 // Limit number of characters for performance reasons.
-const int defaultMaxBytes = 100*1024;
+const int maxCharacters = 100 * 1024;
 
 // Limit line length for performance reasons.
 const int maxLineLength = 1024;
+const int maxLineLengthInPreview = 16 * maxLineLength;
+
+// Limit line count for performance reasons.
+const int maxLineCount = 4 * 1024;
+const int maxLineCountInPreview = 16 * maxLineCount;
 
 const char optionUseRichText[] = "use_rich_text";
 const char optionMaximumLines[] = "max_lines";
@@ -89,7 +94,7 @@ bool getText(const QModelIndex &index, QString *text)
 QString normalizeText(QString text)
 {
     removeTrailingNull(&text);
-    return text.left(defaultMaxBytes);
+    return text.left(maxCharacters);
 }
 
 void insertEllipsis(QTextCursor *tc)
@@ -102,7 +107,7 @@ void insertEllipsis(QTextCursor *tc)
 
 } // namespace
 
-ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maximumHeight, QWidget *parent)
+ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxLineLength, int maximumHeight, QWidget *parent)
     : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
@@ -122,9 +127,9 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
     setContextMenuPolicy(Qt::NoContextMenu);
 
     if (isRichText)
-        m_textDocument.setHtml( normalizeText(text) );
+        m_textDocument.setHtml(text);
     else
-        m_textDocument.setPlainText( normalizeText(text) );
+        m_textDocument.setPlainText(text);
 
     m_textDocument.setDocumentMargin(0);
 
@@ -143,13 +148,14 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
         }
     }
 
-    // For performance reasons, crop long lines.
-    for ( auto block = m_textDocument.begin(); block.isValid(); block = block.next() ) {
-        if ( block.length() > maxLineLength ) {
-            QTextCursor tc(&m_textDocument);
-            tc.setPosition(block.position() + maxLineLength);
-            tc.setPosition(block.position() + block.length() - 1, QTextCursor::KeepAnchor);
-            insertEllipsis(&tc);
+    if (maxLineLength > 0) {
+        for ( auto block = m_textDocument.begin(); block.isValid(); block = block.next() ) {
+            if ( block.length() > maxLineLength ) {
+                QTextCursor tc(&m_textDocument);
+                tc.setPosition(block.position() + maxLineLength);
+                tc.setPosition(block.position() + block.length() - 1, QTextCursor::KeepAnchor);
+                insertEllipsis(&tc);
+            }
         }
     }
 
@@ -276,13 +282,20 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent, bo
     if ( !isRichText && !getText(index, &text) )
         return nullptr;
 
-    const int maxLines = preview ? 0 : m_settings.value(optionMaximumLines, 0).toInt();
-    const int maxHeight = preview ? 0 : m_settings.value(optionMaximumHeight, 0).toInt();
-    auto item = new ItemText(text, isRichText, maxLines, maxHeight, parent);
+    text = normalizeText(text);
 
-    // Allow faster selection in preview window.
-    if (!preview)
+    ItemText *item = nullptr;
+    // Always limit text size for performance reasons.
+    if (preview) {
+        item = new ItemText(text, isRichText, maxLineCountInPreview, maxLineLengthInPreview, 0, parent);
+    } else {
+        int maxLines = m_settings.value(optionMaximumLines, maxLineCount).toInt();
+        if (maxLines <= 0 || maxLines > maxLineCount)
+            maxLines = maxLineCount;
+        const int maxHeight = m_settings.value(optionMaximumHeight, 0).toInt();
+        item = new ItemText(text, isRichText, maxLines, maxLineLength, maxHeight, parent);
         item->viewport()->installEventFilter(item);
+    }
 
     return item;
 }
