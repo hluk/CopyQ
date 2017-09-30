@@ -97,6 +97,10 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *
     page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
     connect( page(), SIGNAL(linkClicked(QUrl)), SLOT(onLinkClicked(QUrl)) );
 
+    settings()->setAttribute(QWebSettings::LinksIncludedInFocusChain, false);
+    settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, false);
+    settings()->setAttribute(QWebSettings::PrivateBrowsingEnabled, true);
+
     // Set some remote URL as base URL so we can include remote scripts.
     setHtml(html, QUrl("http://example.com/"));
 }
