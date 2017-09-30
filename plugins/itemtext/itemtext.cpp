@@ -35,7 +35,6 @@
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QtPlugin>
-#include <QUrl>
 
 namespace {
 

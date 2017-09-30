@@ -35,9 +35,8 @@
 #include <QPalette>
 #include <QTextEdit>
 #include <QTextFormat>
+#include <QUrl>
 #include <QWidget>
-
-#include <QDebug>
 
 namespace {
 
