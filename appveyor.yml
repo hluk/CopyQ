@@ -5,11 +5,11 @@ environment:
   VCINSTALLDIR: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\
 
   matrix:
-    - QTDIR: C:\Qt\5.9\mingw53_32
+    - QTDIR: C:\Qt\5.7\mingw53_32
       CMAKE_GENERATOR: MinGW Makefiles
       MINGW_PATH: C:\Qt\Tools\mingw530_32
 
-    - QTDIR: C:\Qt\5.7\mingw53_32
+    - QTDIR: C:\Qt\5.9\mingw53_32
       CMAKE_GENERATOR: MinGW Makefiles
       MINGW_PATH: C:\Qt\Tools\mingw530_32
 
