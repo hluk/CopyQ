@@ -2867,7 +2867,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="714"/>
         <source>&amp;Tabs</source>
-        <translation>Sc&amp;hede:</translation>
+        <translation>Sc&amp;hede</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="739"/>
@@ -2897,7 +2897,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3332"/>
         <source>Failed to export file %1!</source>
-        <translation>Esportazione fallita nel file %1</translation>
+        <translation>Esportazione fallita nel file %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1387"/>
@@ -2984,7 +2984,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3419"/>
         <source>Failed to import file %1!</source>
-        <translation>Impossibile importare il file %1</translation>
+        <translation>Impossibile importare il file %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3564"/>
@@ -3185,12 +3185,12 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="64"/>
         <source>&amp;Export...</source>
-        <translation>&amp;Esporta</translation>
+        <translation>&amp;Esporta...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>&amp;Preferences...</source>
-        <translation>Im&amp;postazioni</translation>
+        <translation>Im&amp;postazioni...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
@@ -3200,7 +3200,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation>C&amp;omandi/scorciatoie globali</translation>
+        <translation>C&amp;omandi/scorciatoie globali...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
