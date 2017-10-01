@@ -1790,7 +1790,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="407"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Questa azione ripristinerà tutte le impostazioni (in tutte le schede) ai valori predefiniti. &lt;br/&gt;&lt;/br&gt;. Vuoi veramente &lt;strong&gt;ripristinare tutte le impostazioni&lt;/strong&gt;?</translation>
+        <translation>Questa azione ripristinerà tutte le impostazioni (in tutte le schede) ai valori predefiniti. &lt;br/&gt;&lt;br/&gt;. Vuoi veramente &lt;strong&gt;ripristinare tutte le impostazioni&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="499"/>
