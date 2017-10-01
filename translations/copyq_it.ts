@@ -435,7 +435,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="281"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>Ingnora finestra *&quot;Password&quot;*</translation>
+        <translation>Ignora finestra *&quot;Password&quot;*</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="282"/>
@@ -2179,7 +2179,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="155"/>
         <source>editor exit code is %1</source>
-        <translation>Coodice uscita editor: %1</translation>
+        <translation>coodice uscita editor: %1</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="198"/>
@@ -2208,12 +2208,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="340"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="342"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla modifica e inverti modifiche</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="343"/>
@@ -2229,7 +2229,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="373"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Grassetto</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="379"/>
@@ -2239,12 +2239,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="385"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Sottolineato</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="391"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Ribattuto</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="398"/>
@@ -2254,7 +2254,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="403"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Sfondo</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="410"/>
@@ -2269,7 +2269,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="352"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla azione</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="359"/>
@@ -2298,22 +2298,22 @@ Imposta a 0 per disabilitare.</translation>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="758"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Decripta</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Decripta e copia</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="767"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="842"/>
@@ -2328,23 +2328,23 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="847"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Fatto</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="869"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Creazione nuove chiavi (può richiedere alcuni minuti)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="873"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
         <source>Setting new password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazione nuova password...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="875"/>
@@ -2359,7 +2359,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica password...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="325"/>
@@ -2369,7 +2369,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Decriptazione fallita!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="105"/>
@@ -2387,17 +2387,17 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per criptare e decriptare gli elementi aggiungi il comando relativo nella scheda &apos;Comandi&apos;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="72"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi azioni al menu e barra strumenti</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="94"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementi e schede condivise criptate</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="116"/>
@@ -2452,7 +2452,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="90"/>
         <source>Display images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza immagini.</translation>
     </message>
 </context>
 <context>
@@ -2490,7 +2490,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor comando SVG:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
@@ -2508,7 +2508,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="94"/>
         <source>Display notes for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza note degli elementi.</translation>
     </message>
 </context>
 <context>
@@ -2536,7 +2536,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>Visua&amp;lizza suggerimenti</translation>
     </message>
 </context>
 <context>
@@ -2544,7 +2544,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aggiungi</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="53"/>
@@ -2559,12 +2559,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>&amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Su</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>&amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Giù</translation>
     </message>
 </context>
 <context>
@@ -2573,7 +2573,7 @@ Imposta a 0 per disabilitare.</translation>
         <location filename="../plugins/itempinned/itempinned.cpp" line="54"/>
         <source>Ctrl+Shift+P</source>
         <comment>Shortcut to pin and unpin items</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+P</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="225"/>
@@ -2611,7 +2611,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinnedsettings.ui" line="19"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi azioni al menu e barra strumenti</translation>
     </message>
 </context>
 <context>
@@ -2620,7 +2620,7 @@ Imposta a 0 per disabilitare.</translation>
         <location filename="../plugins/itemsync/itemsync.cpp" line="130"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished"></translation>
+        <translation>Sfoglia...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="847"/>
@@ -2635,12 +2635,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="150"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronizza</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="152"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronizza elementi e note con una cartella su disco.</translation>
     </message>
 </context>
 <context>
@@ -2658,7 +2658,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="551"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi veramente &lt;strong&gt;rimuovere gli elementi e i file associati&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -2666,7 +2666,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
         <source>Synchronization Tabs and Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronizzazione schede e cartelle</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
@@ -2677,7 +2677,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome scheda</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
@@ -2711,7 +2711,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="159"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aggiungi un tag</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="164"/>
@@ -2721,7 +2721,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="183"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Marca come %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="189"/>
@@ -2737,17 +2737,17 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="765"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Azzera tutti tag</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="126"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="128"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza tag degli elementi.</translation>
     </message>
 </context>
 <context>
@@ -2765,7 +2765,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome tag</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
@@ -2775,12 +2775,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Stile foglio</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Colore</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
@@ -2790,7 +2790,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="68"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi azioni al menu e barra strumenti</translation>
     </message>
 </context>
 <context>
@@ -2798,12 +2798,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="77"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Testo</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="79"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza elementi testo semplice e HTML semplice.</translation>
     </message>
 </context>
 <context>
@@ -2913,7 +2913,7 @@ Imposta a 0 per disabilitare.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="2118"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation>errroe opyQ</translation>
+        <translation>Errore CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="754"/>
@@ -3067,7 +3067,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="306"/>
         <source>Information</source>
-        <translation>informazione</translation>
+        <translation>Informazione</translation>
     </message>
 </context>
 <context>
@@ -3147,7 +3147,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="511"/>
         <source>Loading plugin: %1</source>
-        <translation>caricamento plugin: %1</translation>
+        <translation>Caricamento plugin: %1</translation>
     </message>
     <message>
         <location filename="../src/item/serialize.cpp" line="183"/>
@@ -3508,7 +3508,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
         <source>Show or hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza/nascondi finestra principale.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="70"/>
@@ -3523,7 +3523,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
         <source>Disable or enable clipboard content storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Disabilita/abilita cronologia contenuto Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="77"/>
@@ -3555,14 +3555,14 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="87"/>
         <source>Set clipboard text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta testo Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="88"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="105"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="109"/>
         <source>TEXT</source>
-        <translation type="unfinished"></translation>
+        <translation>TESTO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
@@ -3576,12 +3576,12 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
         <source>DATA</source>
-        <translation type="unfinished"></translation>
+        <translation>DATI</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia elemento nella colonna negli Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
@@ -3595,17 +3595,17 @@ Set clipboard content.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia elemento successivo dalla scheda attuale negli Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="102"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia elemento precedente dalla scheda attuale negli Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="104"/>
         <source>Add text into clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi testo negli Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="107"/>
@@ -3633,13 +3633,13 @@ Value -1 is for current text in clipboard.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="119"/>
         <source>Set separator for items on output.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta separatore epr elementi nella destinazione.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="120"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
         <source>SEPARATOR</source>
-        <translation type="unfinished"></translation>
+        <translation>SEPARATORE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
@@ -3655,7 +3655,7 @@ Write raw data to given row.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <source>Show action dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza finestra azione.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
@@ -3678,7 +3678,7 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="140"/>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>TITOLO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
@@ -3688,7 +3688,7 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="142"/>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation>ORA</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
@@ -3737,7 +3737,7 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
         <location filename="../src/scriptable/scriptable.cpp" line="75"/>
         <source>COMMAND</source>
-        <translation type="unfinished"></translation>
+        <translation>COMANDO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
@@ -3789,12 +3789,12 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
         <source>Set option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta valore opzione.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>VALUE</source>
-        <translation type="unfinished"></translation>
+        <translation>VALORE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
@@ -3804,7 +3804,7 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
         <source>ARGUMENTS</source>
-        <translation type="unfinished"></translation>
+        <translation>ARGOMENTI</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
@@ -3815,7 +3815,7 @@ Starts or connects to application instance with given session name.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>SESSION</source>
-        <translation type="unfinished"></translation>
+        <translation>SESSIONE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
@@ -3832,12 +3832,12 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="75"/>
         <source>Usage: copyq [%1]</source>
-        <translation type="unfinished"></translation>
+        <translation>Uso: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="76"/>
         <source>Starts server if no command is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvia il server se non è specificato nessun comando.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="77"/>
@@ -3868,18 +3868,19 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="625"/>
         <source>Built with: </source>
-        <translation type="unfinished"></translation>
+        <translation>Creato con: </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="655"/>
         <source>Command not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando non trovato!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="755"/>
         <source>Terminating server.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Chiusura server
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2230"/>
@@ -3904,7 +3905,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1171"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile salvare nel file &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
@@ -3914,7 +3915,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
         <source>Cannot import file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile importare il file &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1224"/>
@@ -4050,7 +4051,7 @@ Usa &lt;b&gt;/&lt;/b&gt;  come separatore percorso nella vista struttura.</trans
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="119"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora maisucole/minuscole</translation>
     </message>
 </context>
 </TS>
