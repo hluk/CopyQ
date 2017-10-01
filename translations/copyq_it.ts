@@ -2111,7 +2111,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="45"/>
         <source>&amp;Examples (double click to add to active formats):</source>
-        <translation>Esempio (doppio clic per aggiungerlo ai formati attivi):</translation>
+        <translation>&amp;Esempio (doppio clic per aggiungerlo ai formati attivi):</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="70"/>
@@ -2166,12 +2166,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="164"/>
         <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation type="unfinished"></translation>
+        <translation>Elenco tipi mime Appunti memorizzati nella cronologia (nell&apos;ordine visualizzazione indicato)</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="181"/>
         <source>&amp;Maximum number of characters per format to display:</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero &amp;max caratteri da visualizzare per formato:</translation>
     </message>
 </context>
 <context>
@@ -2811,17 +2811,17 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva e visualizza HTML e rich text</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero max linee da visualizzare (0 per visualizzarle tutte):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Aletzza max in pixel (0 per nessun limite):</translation>
     </message>
 </context>
 <context>
@@ -2829,7 +2829,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>CopyQ Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Registro eventi CopyQ</translation>
     </message>
 </context>
 <context>
@@ -2837,32 +2837,32 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="584"/>
         <source>Exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi uscire?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="585"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi &lt;strong&gt;uscire&lt;/strong&gt;da  CopyQ?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="643"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;File</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="686"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Modifica</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="710"/>
         <source>&amp;Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="714"/>
@@ -3012,54 +3012,54 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/processmanagerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestione elaborazione CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="63"/>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Avviato</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="65"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="171"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="278"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Completato</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="67"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="69"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Stato</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="278"/>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>In avvio</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="297"/>
         <source>Terminate</source>
-        <translation type="unfinished"></translation>
+        <translation>In chiusura</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="161"/>
         <source>Running</source>
-        <translation type="unfinished"></translation>
+        <translation>In esecuzione</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="171"/>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallito</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="181"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi</translation>
     </message>
 </context>
 <context>
@@ -3067,7 +3067,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="306"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>informazione</translation>
     </message>
 </context>
 <context>
@@ -3255,7 +3255,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="85"/>
         <source>&amp;Sort Selected Items</source>
-        <translation>Ordine elementi &amp;selezionati</translation>
+        <translation>Ordina elementi &amp;selezionati</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
@@ -3927,17 +3927,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="416"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished"></translation>
+        <translation>Lla scheda con il nome indicato non esiste!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="421"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>Il mome scheda non può essere vuoto!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="558"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>La scheda con il nome indicato esiste già!</translation>
     </message>
 </context>
 <context>
@@ -3945,7 +3945,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="47"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi scorciatoia</translation>
     </message>
 </context>
 <context>
@@ -3953,22 +3953,22 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>CopyQ New Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuova scorciatoia CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Premi qualsiasi combinazione tasti. &lt;span style=&quot; font-weight:600;&quot;&gt;Esc&lt;/span&gt; per annullare.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation type="unfinished"></translation>
+        <translation>Fai clic qui e premi qualsiasi combinazione tasti</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi scorciatoia</translation>
     </message>
 </context>
 <context>
@@ -3981,12 +3981,12 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
         <source>There is command overriding this shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>C&apos;è un comando che sovrascrive questa scorciatoia.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="184"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>La scorciatoia esiste già!</translation>
     </message>
 </context>
 <context>
@@ -3996,7 +3996,9 @@ Print version of program and libraries.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il nome scheda non può essere vuoto e deve essere univoco.&lt;br/&gt;
+La scheda &lt;b&gt;No&amp;amp;ta&lt;/b&gt; può essere aperta usando &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Usa &lt;b&gt;/&lt;/b&gt;  come separatore percorso nella vista struttura.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -4006,17 +4008,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="35"/>
         <source>CopyQ New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuova scheda CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="38"/>
         <source>CopyQ Rename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina scheda CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="41"/>
         <source>CopyQ Rename Tab Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Rinomina gruppo scheda CopyQ</translation>
     </message>
 </context>
 <context>
