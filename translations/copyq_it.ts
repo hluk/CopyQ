@@ -3125,8 +3125,8 @@ Imposta a 0 per disabilitare.</translation>
         <location filename="../src/gui/notificationdaemon.cpp" line="98"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
-        <translation><numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linea &amp;mdash;&lt;/small&gt;&lt;/div</numerusform>
-        <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linee &amp;mdash;&lt;/small&gt;&lt;/div</numerusform>
+        <translation><numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linea &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+        <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linee &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation></message>
     <message>
         <location filename="../src/gui/notificationdaemon.cpp" line="101"/>
