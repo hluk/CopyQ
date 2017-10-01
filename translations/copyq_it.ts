@@ -2259,7 +2259,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="410"/>
         <source>Erase Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Elimina stile</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="417"/>
@@ -2292,7 +2292,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="742"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>Cripta (richiede GnuPG)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
@@ -2364,7 +2364,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="325"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Criptazione fallita!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
@@ -2374,12 +2374,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="105"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Criptazione</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="107"/>
         <source>Encrypt items and tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cripta elementi e schede.</translation>
     </message>
 </context>
 <context>
@@ -2402,7 +2402,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="116"/>
         <source>Encrypted Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Cripta schede</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="122"/>
@@ -2426,7 +2426,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="79"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Emula editor Vim mentre modifichi il testo.</translation>
     </message>
 </context>
 <context>
@@ -2434,7 +2434,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita FakeVim per modifica elementi</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
@@ -2485,7 +2485,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando editor per formati immagini supportate diverso da SVG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
@@ -2495,7 +2495,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando editor per immagine formato SVG.</translation>
     </message>
 </context>
 <context>
@@ -2549,7 +2549,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="53"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="66"/>
@@ -2698,7 +2698,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Estensioni</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
@@ -3518,7 +3518,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
         <source>Exit server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esci dal server.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
@@ -3568,7 +3568,8 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
         <source>
 Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Imposta contenuto Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
@@ -3628,7 +3629,7 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica elementi o elemento nuovo. valore -1 per testo attuale negli Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="119"/>
@@ -3650,7 +3651,8 @@ Value -1 is for current text in clipboard.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="124"/>
         <source>
 Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Scrivi dati RAW nella colonna indicata.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
@@ -3673,7 +3675,8 @@ Use %1 in PROGRAM to pass text as argument.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>
 Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Visualizza popup barra sistema per TEMPO in millisecondi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="140"/>
@@ -3757,7 +3760,7 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="161"/>
         <source>Export items to file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta elementi in un file.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3810,7 +3813,8 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
         <source>
 Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Avvia o connetti all&apos;istanza applicazione con nome sessione indicato.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
@@ -3842,7 +3846,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="77"/>
         <source>  COMMANDs:</source>
-        <translation type="unfinished"></translation>
+        <translation>  COMANDI:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="82"/>
@@ -3885,17 +3889,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2230"/>
         <source>Exception</source>
-        <translation type="unfinished"></translation>
+        <translation>Eccezione</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2231"/>
         <source>Exception in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Eccezione in %1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2271"/>
         <source>Failed to copy to clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile copiare negli Appunti!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2315"/>
