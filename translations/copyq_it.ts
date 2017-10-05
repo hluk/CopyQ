@@ -3554,7 +3554,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
         <translation>Incolla contenuto Appunti nella finestra attuale.
-(potrebbe non funzionare con alcune applicazioni)</translation>
+(potrebbe non funzionare con alcune applicazioni).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="87"/>
