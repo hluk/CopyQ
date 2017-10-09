@@ -106,12 +106,11 @@ void insertEllipsis(QTextCursor *tc)
 
 } // namespace
 
-ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxLineLength, int maximumHeight, QWidget *parent)
+ItemText::ItemText(const QString &text, const QString &richText, int maxLines, int maxLineLength, int maximumHeight, QWidget *parent)
     : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
     , m_maximumHeight(maximumHeight)
-    , m_isRichText(isRichText)
 {
     m_textDocument.setDefaultFont(font());
 
@@ -125,9 +124,13 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxLi
 
     setContextMenuPolicy(Qt::NoContextMenu);
 
-    if (isRichText)
-        m_textDocument.setHtml(text);
-    else
+    if ( !richText.isEmpty() ) {
+        m_textDocument.setHtml(richText);
+        // Use plain text instead if rendering HTML fails or result is empty.
+        m_isRichText = !m_textDocument.isEmpty();
+    }
+
+    if (!m_isRichText)
         m_textDocument.setPlainText(text);
 
     m_textDocument.setDocumentMargin(0);
@@ -274,25 +277,29 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent, bo
     if ( index.data(contentType::isHidden).toBool() )
         return nullptr;
 
-    QString text;
-    bool isRichText = m_settings.value(optionUseRichText, true).toBool()
-            && getRichText(index, &text);
+    QString richText;
+    const bool isRichText = m_settings.value(optionUseRichText, true).toBool()
+            && getRichText(index, &richText);
 
-    if ( !isRichText && !getText(index, &text) )
+    QString text;
+    const bool isPlainText = getText(index, &text);
+
+    if (!isRichText && !isPlainText)
         return nullptr;
 
+    richText = normalizeText(richText);
     text = normalizeText(text);
 
     ItemText *item = nullptr;
     // Always limit text size for performance reasons.
     if (preview) {
-        item = new ItemText(text, isRichText, maxLineCountInPreview, maxLineLengthInPreview, 0, parent);
+        item = new ItemText(text, richText, maxLineCountInPreview, maxLineLengthInPreview, 0, parent);
     } else {
         int maxLines = m_settings.value(optionMaximumLines, maxLineCount).toInt();
         if (maxLines <= 0 || maxLines > maxLineCount)
             maxLines = maxLineCount;
         const int maxHeight = m_settings.value(optionMaximumHeight, 0).toInt();
-        item = new ItemText(text, isRichText, maxLines, maxLineLength, maxHeight, parent);
+        item = new ItemText(text, richText, maxLines, maxLineLength, maxHeight, parent);
         item->viewport()->installEventFilter(item);
     }
 

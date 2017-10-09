@@ -38,7 +38,7 @@ class ItemText : public QTextEdit, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemText(const QString &text, bool isRichText, int maxLines, int maxLineLength, int maximumHeight, QWidget *parent);
+    ItemText(const QString &text, const QString &richText, int maxLines, int maxLineLength, int maximumHeight, QWidget *parent);
 
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
@@ -58,7 +58,7 @@ private:
     QTextDocumentFragment m_elidedFragment;
     int m_ellipsisPosition = -1;
     int m_maximumHeight;
-    bool m_isRichText;
+    bool m_isRichText = false;
 };
 
 class ItemTextLoader : public QObject, public ItemLoaderInterface
