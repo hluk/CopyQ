@@ -802,16 +802,8 @@ void MainWindow::updateIcon()
 {
     const QIcon icon = appIcon(m_iconSnip ? AppIconRunning : AppIconNormal);
     setWindowIcon(icon);
-    if (m_tray) {
+    if (m_tray)
         m_tray->setIcon(icon);
-
-        // WORKAROUND: Tray icon sometimes pixelated on high DPI displays.
-        if ( QSystemTrayIcon::isSystemTrayAvailable() && icon.name().startsWith("copyq-") ) {
-            const auto size = m_tray->geometry().size();
-            if ( size.isValid() && size != QSize(0, 0) )
-                m_tray->setIcon( icon.pixmap(size) );
-        }
-    }
 }
 
 void MainWindow::updateIconSnipTimeout()
