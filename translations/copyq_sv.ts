@@ -2862,19 +2862,19 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../src/common/common.cpp" line="378"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;BILD&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="380"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;FILER&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="382"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;TOM&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="384"/>
@@ -2892,12 +2892,12 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../src/common/shortcuts.cpp" line="51"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Delete</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nytt objekt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2907,17 +2907,17 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>&amp;Import...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Importera…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="64"/>
         <source>&amp;Export...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Exportera…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Inställningar…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
@@ -2927,7 +2927,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="unfinished"></translation>
+        <translation>K&amp;ommandon/globala genvägar…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
@@ -2942,7 +2942,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Visa &amp;urklippsinnehåll</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="77"/>
@@ -2962,7 +2962,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">P&amp;rocesshanterare</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
@@ -2972,7 +2972,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A&amp;vsluta</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
@@ -2982,7 +2982,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="85"/>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sortera valda objekt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
@@ -2992,7 +2992,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Vänd valda objekt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="89"/>
@@ -3002,27 +3002,27 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Klistra in objekt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
         <source>&amp;Copy Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Kopiera valda objekt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="95"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sök</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
         <source>Move to &amp;Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Flytta till &amp;urklipp</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>&amp;Show Content...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi&amp;sa innehåll…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
@@ -3032,7 +3032,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>&amp;Show Preview</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vi&amp;sa förhandsvisning</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
@@ -3042,12 +3042,12 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bo&amp;rt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>R&amp;edigera</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -3057,7 +3057,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera a&amp;nteckningar</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
@@ -3067,7 +3067,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>E&amp;dit with editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Re&amp;digera med redigerare</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
@@ -3077,7 +3077,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>&amp;Action...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Å&amp;tgärd…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
@@ -3107,7 +3107,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytta upp</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"/>
@@ -3117,7 +3117,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytta ned</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
@@ -3127,7 +3127,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytta överst</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="124"/>
@@ -3137,7 +3137,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="125"/>
         <source>Move to Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Flytta nederst</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
@@ -3157,7 +3157,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>R&amp;ename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">B&amp;yt namn på flik</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
@@ -3167,7 +3167,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>Re&amp;move Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ta &amp;bort flik</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
@@ -3187,7 +3187,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="136"/>
         <source>Ne&amp;xt Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nä&amp;sta flik</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
@@ -3197,7 +3197,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>&amp;Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Föregående flik</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"/>
@@ -3207,7 +3207,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi&amp;sa logg</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
@@ -3237,7 +3237,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../src/gui/notificationdaemon.cpp" line="101"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1</translation>
     </message>
     <message>
         <location filename="../src/item/itemstore.cpp" line="91"/>
@@ -3247,12 +3247,12 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="278"/>
         <source>No plugins loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga insticksmoduler inlästa</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="511"/>
         <source>Loading plugin: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Läser in insticksmodul: %1</translation>
     </message>
     <message>
         <location filename="../src/item/serialize.cpp" line="183"/>
@@ -3279,17 +3279,17 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="154"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="157"/>
         <source>NAME</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">NAMN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="66"/>
         <source>Hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dölj huvudfönster.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
         <source>Show or hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa eller dölj huvudfönster.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="70"/>
@@ -3320,7 +3320,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="126"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
         <source>MIME</source>
-        <translation type="unfinished"></translation>
+        <translation>MIME</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
@@ -3343,7 +3343,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="105"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="109"/>
         <source>TEXT</source>
-        <translation type="unfinished"></translation>
+        <translation>TEXT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
@@ -3357,17 +3357,17 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
         <source>DATA</source>
-        <translation type="unfinished"></translation>
+        <translation>DATA</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="95"/>
         <source>Print amount of items in current tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv ut antal objekt i aktuell flik.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiera objekt i raden till urklipp.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
@@ -3376,7 +3376,7 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
         <source>ROW</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">RAD</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
@@ -3396,19 +3396,19 @@ Set clipboard content.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="107"/>
         <source>Insert text into given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Infoga text i angiven rad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
         <source>Remove items in given rows.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort objekt i angivna rader.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="112"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="132"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>ROWS</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">RADER</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
@@ -3441,7 +3441,7 @@ Write raw data to given row.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <source>Show action dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa åtgärdsdialog.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
@@ -3453,7 +3453,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
         <source>PROGRAM</source>
-        <translation type="unfinished"></translation>
+        <translation>PROGRAM</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
@@ -3464,22 +3464,22 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="140"/>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">TITEL</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
         <source>MESSAGE</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MEDDELANDE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="142"/>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">TID</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>List available tab names.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista tillgängliga fliknamn.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
@@ -3493,38 +3493,38 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
         <location filename="../src/scriptable/scriptable.cpp" line="75"/>
         <source>COMMAND</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">KOMMANDO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
         <source>Remove tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort flik.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>Rename tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Byt namn på flik.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
         <source>NEW_NAME</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">NYTT_NAMN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="161"/>
         <source>Export items to file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportera objekt till fil.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
         <source>FILE_NAME</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">FILNAMN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Import items from file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Importera objekt från fil.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
@@ -3550,7 +3550,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>VALUE</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">VÄRDE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
@@ -3562,12 +3562,12 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
         <source>SCRIPT</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SKRIPT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
         <source>ARGUMENTS</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ARGUMENT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
@@ -3578,7 +3578,7 @@ Starts or connects to application instance with given session name.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>SESSION</source>
-        <translation type="unfinished"></translation>
+        <translation>SESSION</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
