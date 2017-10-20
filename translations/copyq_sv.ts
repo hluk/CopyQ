@@ -54,7 +54,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lagra standard &amp;ut:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -119,7 +119,8 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
         <source>Exit code: %1
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Avslutningskod: %1
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="168"/>
@@ -158,7 +159,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="121"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigera urklipp</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="123"/>
@@ -1002,7 +1003,7 @@ CTRL samt upp- eller ned-tangenten.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivera för att öppna fönster på aktuell skärm. Inaktivera för att öppna fönster där de senast stängdes</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="147"/>
@@ -1057,12 +1058,12 @@ CTRL samt upp- eller ned-tangenten.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="219"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spara text markerad med musen (primär markering) i historik</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="222"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(&amp;2) Lagra text markerad med musen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="229"/>
@@ -1082,7 +1083,7 @@ CTRL samt upp- eller ned-tangenten.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="242"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(&amp;1) Lagra urklipp</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="252"/>
@@ -1092,7 +1093,7 @@ CTRL samt upp- eller ned-tangenten.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="255"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">(&amp;3) klistra in urklipp med musen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="298"/>
@@ -1127,7 +1128,7 @@ CTRL samt upp- eller ned-tangenten.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="378"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dölj verk&amp;tygsfältsetiketter</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="892"/>
@@ -1238,7 +1239,7 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="685"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommando för extern r&amp;edigerare (%1 är filen som ska redigeras):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
@@ -1248,12 +1249,17 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommando för extern redigerare (%1 är filen som ska redigeras):
+  Exempel:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="710"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fli&amp;k för att lagra urklipp:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="720"/>
@@ -3435,7 +3441,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="82"/>
         <source>NOTES:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ANTECKNINGAR:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
@@ -3456,53 +3462,54 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="91"/>
         <source>Invalid number of arguments!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogiltigt antal argument!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="625"/>
         <source>Built with: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Byggd med: </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="655"/>
         <source>Command not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommando hittades inte!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="755"/>
         <source>Terminating server.
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Avslutar server.
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1171"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Det går inte att spara till filen ”%1”!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
         <source>Cannot import file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Det går inte att importera filen ”%1”!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1224"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ogiltigt alternativ ”%1”!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2230"/>
         <source>Exception</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Undantag</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2231"/>
         <source>Exception in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Undantag i %1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2271"/>
         <source>Failed to copy to clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>Misslyckades med att kopiera till urklipp!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2315"/>
@@ -3515,17 +3522,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="416"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns ingen flik med det angivna namnet!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="421"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fliknamn kan inte vara tomt!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="558"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Det finns redan en flik med det angivna namnet!</translation>
     </message>
 </context>
 <context>
@@ -3533,7 +3540,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="47"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Lägg till genväg</translation>
     </message>
 </context>
 <context>
@@ -3546,17 +3553,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tryck in valfri tangentkombination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; för att avbryta.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klicka här och tryck ned valfri tangentkombination</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort genväg</translation>
     </message>
 </context>
 <context>
@@ -3569,12 +3576,12 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
         <source>There is command overriding this shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Det finns ett kommando som åsidosätter denna genväg.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="184"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Genväg finns redan!</translation>
     </message>
 </context>
 <context>
@@ -3612,12 +3619,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="84"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryck ”/” för att söka</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="84"/>
         <source>Type to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv för att söka</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="97"/>
@@ -3631,12 +3638,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="116"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Reguljärt uttryck</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="119"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skiftlägesokänsligt</translation>
     </message>
 </context>
 </TS>
