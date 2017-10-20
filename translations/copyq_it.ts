@@ -1867,7 +1867,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
         <source>Trailing characters:</source>
-        <translation type="unfinished"></translation>
+        <translation>Caratteri da rimuovere:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
@@ -1931,22 +1931,22 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizia ricerca dal BASSO, continua verso l&apos;ALTO.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6300"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizia ricerca dall&apos;ALTO, continua verso il BASSO.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
         <source>Search hit BOTTOM without match for: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizia ricerca dal BASSO senza corrispondenza per: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6306"/>
         <source>Search hit TOP without match for: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizia ricerca dall&apos;ALTO senza corrispondenza per: %1</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
@@ -1967,11 +1967,9 @@ Imposta a 0 per disabilitare.</translation>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%n linea estratta.</numerusform>
+        <numerusform>%n linee estratte.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
         <source>Already at oldest change.</source>
@@ -2522,12 +2520,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>A&amp;bove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Elemento soprastante</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>B&amp;elow Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Elemento sottostante</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
@@ -2579,32 +2577,32 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="225"/>
         <source>Cannot Remove Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile rimuovere elementi bloccati</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="226"/>
         <source>Unpin items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sblocca gli elementi prima di rimuoverli.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="415"/>
         <source>Pin</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocca</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="422"/>
         <source>Unpin</source>
-        <translation type="unfinished"></translation>
+        <translation>Sblocca</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="125"/>
         <source>Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementi bloccati</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="128"/>
         <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocca l&apos;elemento per bloccarlo nella colonna attuale ed evitare l&apos;eliminazione (a meno che lo sblocchi).</translation>
     </message>
 </context>
 <context>
