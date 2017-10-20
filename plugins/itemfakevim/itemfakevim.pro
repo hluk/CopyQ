@@ -14,3 +14,8 @@ CONFIG(debug, debug|release) {
 
 include(fakevim/fakevim.pri)
 
+# Omit translating texts for FakeVim.
+lupdate_only {
+    SOURCES = itemfakevim.cpp
+}
+
