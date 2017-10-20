@@ -31,6 +31,8 @@
 
 namespace {
 
+const char propertyGeometryLockedUntilHide[] = "CopyQ_geometry_locked_until_hide";
+
 enum class GeometryAction {
     Save,
     Restore
@@ -182,7 +184,10 @@ void moveToCurrentWorkspace(QWidget *w)
 #ifdef COPYQ_WS_X11
     /* Re-initialize window in window manager so it can popup on current workspace. */
     if (w->isVisible()) {
+        const auto blockUntilHide = isGeometryGuardBlockedUntilHidden(w);
         w->hide();
+        if (blockUntilHide)
+            setGeometryGuardBlockedUntilHidden(w);
         w->show();
     }
 #else
@@ -197,4 +202,14 @@ void moveWindowOnScreen(QWidget *w, QPoint pos)
     const int y = qMax(0, qMin(pos.y(), availableGeometry.bottom() - w->height()));
     w->move(x, y);
     moveToCurrentWorkspace(w);
+}
+
+void setGeometryGuardBlockedUntilHidden(QWidget *w, bool blocked)
+{
+    w->setProperty(propertyGeometryLockedUntilHide, blocked);
+}
+
+bool isGeometryGuardBlockedUntilHidden(const QWidget *w)
+{
+    return w->property(propertyGeometryLockedUntilHide).toBool();
 }
