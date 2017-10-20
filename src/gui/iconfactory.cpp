@@ -297,23 +297,6 @@ void updateIcon(QIcon *icon, const QPixmap &pix, int extent)
         icon->addPixmap( pix.scaledToHeight(extent, Qt::SmoothTransformation) );
 }
 
-QIcon colorizedIcon(QPixmap *pix, QColor appColor, QColor sessionColor)
-{
-    if (sessionColor != appColor)
-        replaceColor(pix, appColor, sessionColor);
-
-    QIcon icon;
-    icon.addPixmap(*pix);
-
-    // This makes the icon smoother on some systems.
-    updateIcon(&icon, *pix, 48);
-    updateIcon(&icon, *pix, 32);
-    updateIcon(&icon, *pix, 24);
-    updateIcon(&icon, *pix, 16);
-
-    return icon;
-}
-
 } // namespace
 
 QIcon getIcon(const QString &themeName, unsigned short id)
@@ -378,22 +361,30 @@ QIcon appIcon(AppIconType iconType)
     const auto sessionColor = sessionIconColor();
     const auto appColor = appIconColor();
 
-    if (icon.isNull()) {
-        const QString resourceSuffix = running ? "-running" : "";
-        QPixmap pix = imageFromPrefix(suffix + ".svg", "icon" + resourceSuffix);
-        return colorizedIcon(&pix, appColor, sessionColor);
-    }
+    QPixmap pix;
 
-    if (sessionColor != appColor) {
-        QIcon icon2;
-        QPixmap pix = icon.pixmap(128);
+    if (icon.isNull())
+        pix = imageFromPrefix(suffix + ".svg", running ? "icon-running" : "icon");
+    else
+        pix = icon.pixmap(128);
+
 #if QT_VERSION >= 0x050000
-        pix.setDevicePixelRatio(1);
+    pix.setDevicePixelRatio(1);
 #endif
-        return colorizedIcon(&pix, appColor, sessionColor);
-    }
 
-    return icon;
+    if (sessionColor != appColor)
+        replaceColor(&pix, appColor, sessionColor);
+
+    QIcon icon2;
+    icon2.addPixmap(pix);
+
+    // This makes the icon smoother on some systems.
+    updateIcon(&icon2, pix, 48);
+    updateIcon(&icon2, pix, 32);
+    updateIcon(&icon2, pix, 24);
+    updateIcon(&icon2, pix, 16);
+
+    return icon2;
 }
 
 void setActivePaintDevice(QObject *device)

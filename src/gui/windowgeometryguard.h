@@ -29,7 +29,6 @@ class WindowGeometryGuard : public QObject
 
 public:
     static void create(QWidget *window);
-    static void blockUntilHidden(QWidget *window);
 
     bool eventFilter(QObject *object, QEvent *event) override;
 

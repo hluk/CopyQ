@@ -32,7 +32,6 @@
 namespace {
 
 const char propertyGeometryLocked[] = "CopyQ_geometry_locked";
-const char propertyGeometryLockedUntilHide[] = "CopyQ_geometry_locked_until_hide";
 
 bool openOnCurrentScreen()
 {
@@ -44,11 +43,6 @@ bool openOnCurrentScreen()
 void WindowGeometryGuard::create(QWidget *window)
 {
     new WindowGeometryGuard(window);
-}
-
-void WindowGeometryGuard::blockUntilHidden(QWidget *window)
-{
-    window->setProperty(propertyGeometryLockedUntilHide, true);
 }
 
 bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
@@ -67,7 +61,7 @@ bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
         break;
 
     case QEvent::Hide:
-        m_window->setProperty(propertyGeometryLockedUntilHide, false);
+        setGeometryGuardBlockedUntilHidden(m_window, false);
         break;
 
     default:
@@ -93,7 +87,7 @@ WindowGeometryGuard::WindowGeometryGuard(QWidget *window)
 bool WindowGeometryGuard::isWindowGeometryLocked() const
 {
     return m_window->property(propertyGeometryLocked).toBool()
-        || m_window->property(propertyGeometryLockedUntilHide).toBool();
+        || isGeometryGuardBlockedUntilHidden(m_window);
 }
 
 bool WindowGeometryGuard::lockWindowGeometry()

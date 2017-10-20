@@ -476,6 +476,7 @@ void ItemEncryptedScriptable::copyEncryptedItems()
             << mimeText << text
             << mimeHidden << "1";
     call("copy", args);
+    call("copySelection", args);
 }
 
 QString ItemEncryptedScriptable::generateTestKeys()

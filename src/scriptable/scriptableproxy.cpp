@@ -391,7 +391,7 @@ QWidget *createWidget(const QString &name, const QVariant &value, InputDialog *i
 
 void setGeometryWithoutSave(QWidget *window, QRect geometry)
 {
-    WindowGeometryGuard::blockUntilHidden(window);
+    setGeometryGuardBlockedUntilHidden(window);
 
     int x = pointsToPixels(geometry.x());
     int y = pointsToPixels(geometry.y());
