@@ -1569,206 +1569,26 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>FakeVim::Internal</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="194"/>
-        <source>Use Vim-style Editing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="196"/>
-        <source>Read .vimrc</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="198"/>
         <source>Path to .vimrc</source>
-        <translation>Sökväg till .vimrc</translation>
+        <translation type="vanished">Sökväg till .vimrc</translation>
     </message>
 </context>
 <context>
     <name>FakeVim::Internal::FakeVimHandler</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="153"/>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="161"/>
-        <source>Unknown option: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="156"/>
-        <source>Argument must be positive: %1=%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark &quot;%1&quot; not set.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
-        <source>%1%2%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3540"/>
-        <source>%1All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3554"/>
         <source>Not implemented in FakeVim.</source>
-        <translation>Inte implementerat i FakeVim.</translation>
+        <translation type="vanished">Inte implementerat i FakeVim.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5719"/>
-        <source>Unknown option:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5730"/>
         <source>Invalid argument:</source>
-        <translation>Ogiltigt argument:</translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
-        <source>Trailing characters:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
-        <source>Move lines into themselves.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
-        <source>%n lines moved.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
-        <source>%n lines filtered.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6093"/>
-        <source>Cannot open file %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6259"/>
-        <source>Invalid regular expression: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6295"/>
-        <source>Pattern not found: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
-        <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6300"/>
-        <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
-        <source>Search hit BOTTOM without match for: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6306"/>
-        <source>Search hit TOP without match for: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
-        <source>%n lines indented.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
-        <source>%n lines %1ed %2 time.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
-        <source>%n lines yanked.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
-        <source>Already at oldest change.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7749"/>
-        <source>Already at newest change.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Ogiltigt argument:</translation>
     </message>
 </context>
 <context>
     <name>FakeVim::Internal::FakeVimHandler::Private</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"/>
-        <source>Recursive mapping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation>Tryck Alt-V, Alt-V för att avsluta FakeVim-läge.</translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
-        <source> [New] </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
-        <source>Not an editor command: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Tryck Alt-V, Alt-V för att avsluta FakeVim-läge.</translation>
     </message>
 </context>
 <context>
@@ -2045,84 +1865,84 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="580"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="584"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation type="unfinished">För att dela krypterade objekt på andra datorer eller sessioner behöver du öppna och hemliga nyckelfiler:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Förvara denna hemliga nyckel på ett säkert ställe.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="645"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="649"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>GnuPG måste vara installerat för att visa krypterade flikar.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="742"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="746"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Kryptera (kräver GnuPG)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="758"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="756"/>
         <source>Decrypt</source>
         <translation>Dekryptera</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="766"/>
         <source>Decrypt and Copy</source>
         <translation>Dekryptera och kopiera</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="767"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="771"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Skift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="842"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="846"/>
         <source>Error: %1</source>
         <translation>Fel: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="830"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="834"/>
         <source>Failed to generate keys.</source>
         <translation>Misslyckades med att generera nycklar.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="847"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="851"/>
         <source>Done</source>
         <translation>Klar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="869"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="873"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Skapa nya nycklar (detta kan ta några minuter)…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="873"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="874"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
         <source>Setting new password...</source>
         <translation>Ställer in nytt lösenord…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="875"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Krypteringsnycklar &lt;strong&gt;måste genereras&lt;/strong&gt; innan objektkryptering kan användas.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="881"/>
         <source>Generate New Keys...</source>
         <translation>Generera nya nycklar…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="883"/>
         <source>Change Password...</source>
         <translation>Ändra lösenord…</translation>
     </message>
@@ -2132,7 +1952,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Kryptering misslyckades!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="889"/>
         <source>Decryption failed!</source>
         <translation>Dekryptering misslyckades!</translation>
     </message>
@@ -2268,7 +2088,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="92"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anteckningar</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="94"/>
@@ -2319,7 +2139,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="66"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ta bo&amp;rt</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
@@ -2376,7 +2196,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinnedsettings.ui" line="19"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lägg till åtgärder till meny och verktygsfält</translation>
     </message>
 </context>
 <context>
@@ -2555,7 +2375,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="68"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lägg till åtgärder till meny och verktygsfält</translation>
     </message>
 </context>
 <context>
@@ -2670,29 +2490,29 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1387"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1379"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation type="unfinished">&amp;Aktivera urklippslagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1388"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1380"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation type="unfinished">&amp;Inaktivera urklippslagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1637"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1629"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1640"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1632"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1652"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1644"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -2700,38 +2520,38 @@ Ställ in till 0 för att inaktivera.</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1951"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1943"/>
         <source>CopyQ Options for Import</source>
         <translation type="unfinished">CopyQ-alternativ för import</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2118"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2110"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ-fel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3077"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3069"/>
         <source>&amp;Show/Hide</source>
         <translation type="unfinished">&amp;Visa/dölj</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3311"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3303"/>
         <source>CopyQ Options for Export</source>
         <translation type="unfinished">CopyQ-alternativ för Export</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3331"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3323"/>
         <source>CopyQ Export Error</source>
         <translation type="unfinished">CopyQ-exportfel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3332"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3324"/>
         <source>Failed to export file %1!</source>
         <translation>Misslyckades med att exportera filen %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3089"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3081"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation type="unfinished">&amp;Urklipp: %1</translation>
@@ -2742,32 +2562,32 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>CopyQ-objekt (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3418"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3410"/>
         <source>CopyQ Import Error</source>
         <translation type="unfinished">CopyQ-importfel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3419"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3411"/>
         <source>Failed to import file %1!</source>
         <translation>Misslyckades med att importera filen %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3564"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3556"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Ta bort alla flikar i grupp?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3565"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3557"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vill du ta bort &lt;strong&gt;alla flikar&lt;/strong&gt; i gruppen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3612"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3604"/>
         <source>Remove Tab?</source>
         <translation>Ta bort flik?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3613"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3605"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vill du ta bort fliken &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2844,13 +2664,13 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="unfinished">&amp;urklipp</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="362"/>
+        <location filename="../src/common/common.cpp" line="371"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation type="unfinished">&lt;DOLD&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="368"/>
+        <location filename="../src/common/common.cpp" line="377"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -2859,25 +2679,25 @@ Ställ in till 0 för att inaktivera.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="378"/>
+        <location filename="../src/common/common.cpp" line="387"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation type="unfinished">&lt;BILD&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="380"/>
+        <location filename="../src/common/common.cpp" line="389"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
         <translation type="unfinished">&lt;FILER&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="382"/>
+        <location filename="../src/common/common.cpp" line="391"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation type="unfinished">&lt;TOM&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="384"/>
+        <location filename="../src/common/common.cpp" line="393"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
@@ -3744,7 +3564,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Sök:</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
@@ -3769,7 +3589,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Namn:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="35"/>

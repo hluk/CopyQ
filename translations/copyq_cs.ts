@@ -3125,215 +3125,174 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 <context>
     <name>FakeVim::Internal</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="194"/>
         <source>Use Vim-style Editing</source>
-        <translation>Použít úpravy v režimu Vim</translation>
+        <translation type="vanished">Použít úpravy v režimu Vim</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="196"/>
         <source>Read .vimrc</source>
-        <translation>Číst .vimrc</translation>
+        <translation type="vanished">Číst .vimrc</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="198"/>
         <source>Path to .vimrc</source>
-        <translation>Cesta k .vimrc</translation>
+        <translation type="vanished">Cesta k .vimrc</translation>
     </message>
 </context>
 <context>
     <name>FakeVim::Internal::FakeVimHandler</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="153"/>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="161"/>
         <source>Unknown option: %1</source>
-        <translation>Neznámý přepínač: %1</translation>
+        <translation type="vanished">Neznámý přepínač: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="156"/>
         <source>Argument must be positive: %1=%2</source>
-        <translation>Parametr musí být kladný: %1=%2</translation>
+        <translation type="vanished">Parametr musí být kladný: %1=%2</translation>
     </message>
     <message>
         <source>Mark &apos;%1&apos; not set.</source>
         <translation type="vanished">Značka &apos;%1&apos; není nastavena.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
         <source>Mark &quot;%1&quot; not set.</source>
-        <translation>Značka &quot;%1&quot; není nastavena.</translation>
+        <translation type="vanished">Značka &quot;%1&quot; není nastavena.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
         <source>%1%2%</source>
-        <translation>%1%2%</translation>
+        <translation type="vanished">%1%2%</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3540"/>
         <source>%1All</source>
-        <translation>%1Vše</translation>
+        <translation type="vanished">%1Vše</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3554"/>
         <source>Not implemented in FakeVim.</source>
-        <translation>Není implementováno v režimu FakeVim.</translation>
+        <translation type="vanished">Není implementováno v režimu FakeVim.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5719"/>
         <source>Unknown option:</source>
-        <translation>Neznámý přepínač:</translation>
+        <translation type="vanished">Neznámý přepínač:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5730"/>
         <source>Invalid argument:</source>
-        <translation>Neznámý argument:</translation>
+        <translation type="vanished">Neznámý argument:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
         <source>Trailing characters:</source>
-        <translation>Přebytečné znaky:</translation>
+        <translation type="vanished">Přebytečné znaky:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
         <source>Move lines into themselves.</source>
-        <translation>Přesunout řádky do nich samotných.</translation>
+        <translation type="vanished">Přesunout řádky do nich samotných.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
         <source>%n lines moved.</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>Přesunuta %n řádka.</numerusform>
             <numerusform>Přesunuty %n řádky.</numerusform>
             <numerusform>Přesunuto %n řádek.</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
         <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation>Soubor &quot;%1&quot; již existuje (Přidejte znak ! chcete-li jej přepsat)</translation>
+        <translation type="vanished">Soubor &quot;%1&quot; již existuje (Přidejte znak ! chcete-li jej přepsat)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
         <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation>Soubor &quot;%1&quot; nelze otevřít pro zápis</translation>
+        <translation type="vanished">Soubor &quot;%1&quot; nelze otevřít pro zápis</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
         <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation>&quot;%1&quot; %2 %3L, %4C zapsáno.</translation>
+        <translation type="vanished">&quot;%1&quot; %2 %3L, %4C zapsáno.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
         <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation>Soubor &quot;%1&quot; nelze otevřít pro čtení</translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation></translation>
+        <translation type="vanished">Soubor &quot;%1&quot; nelze otevřít pro čtení</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
         <source>%n lines filtered.</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>%n řádek přefiltrován.</numerusform>
             <numerusform>%n řádky přefiltrovány.</numerusform>
             <numerusform>%n řádků přefiltrováno.</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6093"/>
         <source>Cannot open file %1</source>
-        <translation>Nelze otevřít soubor %1</translation>
+        <translation type="vanished">Nelze otevřít soubor %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6259"/>
         <source>Invalid regular expression: %1</source>
-        <translation>Neplatný regulární výraz: %1</translation>
+        <translation type="vanished">Neplatný regulární výraz: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6295"/>
         <source>Pattern not found: %1</source>
-        <translation>Vzor hledání nenalezen: %1</translation>
+        <translation type="vanished">Vzor hledání nenalezen: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation>Hledání dosáhlo na konec, pokračuje se na začátku.</translation>
+        <translation type="vanished">Hledání dosáhlo na konec, pokračuje se na začátku.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6300"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation>Hledání dosáhlo na začátek, pokračuje se na konci.</translation>
+        <translation type="vanished">Hledání dosáhlo na začátek, pokračuje se na konci.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
         <source>Search hit BOTTOM without match for: %1</source>
-        <translation>Hledání dosáhlo na konec, aniž by se našla shoda pro: %1</translation>
+        <translation type="vanished">Hledání dosáhlo na konec, aniž by se našla shoda pro: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6306"/>
         <source>Search hit TOP without match for: %1</source>
-        <translation>Hledání dosáhlo na začátek, aniž by se našla shoda pro: %1</translation>
+        <translation type="vanished">Hledání dosáhlo na začátek, aniž by se našla shoda pro: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
         <source>%n lines indented.</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>%n řádek odsazen.</numerusform>
             <numerusform>%n řádky odsazeny.</numerusform>
             <numerusform>%n řádků odsazeno.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
         <source>%n lines %1ed %2 time.</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>Na %n řádek %2-krát provedeno %1.</numerusform>
             <numerusform>Na %n řádky %2-krát provedeno %1.</numerusform>
             <numerusform>Na %n řádků %2-krát provedeno %1.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>%n řádek zkopírován.</numerusform>
             <numerusform>%n řádky zkopírovány.</numerusform>
             <numerusform>%n řádků zkopírováno.</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
         <source>Already at oldest change.</source>
-        <translation>Dosažena nejstarší změna.</translation>
+        <translation type="vanished">Dosažena nejstarší změna.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7749"/>
         <source>Already at newest change.</source>
-        <translation>Dosažena poslední změna.</translation>
+        <translation type="vanished">Dosažena poslední změna.</translation>
     </message>
 </context>
 <context>
     <name>FakeVim::Internal::FakeVimHandler::Private</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"/>
         <source>Recursive mapping</source>
-        <translation>Rekurzivní přiřazení</translation>
+        <translation type="vanished">Rekurzivní přiřazení</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation>Napište Alt-V, Alt-V pro ukončení režimu FakeVim.</translation>
+        <translation type="vanished">Napište Alt-V, Alt-V pro ukončení režimu FakeVim.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
         <source> [New] </source>
-        <translation> [Nový] </translation>
+        <translation type="vanished"> [Nový] </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
         <source>Not an editor command: %1</source>
-        <translation>Není příkazem editoru: %1</translation>
+        <translation type="vanished">Není příkazem editoru: %1</translation>
     </message>
 </context>
 <context>
@@ -3641,84 +3600,84 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="580"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="584"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Pro sdílení zašifrovaných prvků na jíném počítači nebo v jiném sezení jsou zapotřebí soubory klíčů:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Ulož tento soukromí klíč na bezpečném místě.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="645"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="649"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>GnuGP musí být nainstalován pro zobrazení zašifrovaných záložek.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="742"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="746"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Zašifrovat (vyžaduje GnuPG)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="758"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="756"/>
         <source>Decrypt</source>
         <translation>Dešifrovat</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="766"/>
         <source>Decrypt and Copy</source>
         <translation>Dešifrovat a kopírovat</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="767"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="771"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="842"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="846"/>
         <source>Error: %1</source>
         <translation>Chyba: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="830"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="834"/>
         <source>Failed to generate keys.</source>
         <translation>Došlo k chybě pří generování klíčů.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="847"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="851"/>
         <source>Done</source>
         <translation>Hotovo</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="869"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="873"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Vytváření nových klíčů (může zabrat i několik minut)...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="873"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="874"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
         <source>Setting new password...</source>
         <translation>Nastavuje se nové heslo...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="875"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Pro šifrování prvků &lt;strong&gt;je nutné vygenerovat&lt;/strong&gt; klíče.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="881"/>
         <source>Generate New Keys...</source>
         <translation>Vygenerovat nové klíče...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="883"/>
         <source>Change Password...</source>
         <translation>Změnit heslo...</translation>
     </message>
@@ -3728,7 +3687,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>Šifrování selhalo!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="889"/>
         <source>Decryption failed!</source>
         <translation>Dešifrování selhalo!</translation>
     </message>
@@ -4293,7 +4252,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>&amp;Soubor</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3077"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3069"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Zobrazit/Skrýt</translation>
     </message>
@@ -4397,7 +4356,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">Příkaz %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2118"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2110"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ chyba</translation>
@@ -4416,19 +4375,19 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">CopyQ chyba</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1637"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1629"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1640"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1632"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1652"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1644"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -4485,12 +4444,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">Příkaz: &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1387"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1379"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>Po&amp;vol ukládání schránky</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1388"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1380"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>Za&amp;kaž ukládání schránky</translation>
     </message>
@@ -4545,7 +4504,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">&lt;b&gt;VSTUP:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3089"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3081"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Schránka:
@@ -4607,52 +4566,52 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>&amp;Změnit ikonu záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1951"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1943"/>
         <source>CopyQ Options for Import</source>
         <translation>CopyQ Nastavení pro import</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3311"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3303"/>
         <source>CopyQ Options for Export</source>
         <translation>CopyQ Nastavení pro export</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3331"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3323"/>
         <source>CopyQ Export Error</source>
         <translation>CopyQ Chyba exportu</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3332"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3324"/>
         <source>Failed to export file %1!</source>
         <translation>Nepodařilo se exportovat soubor %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3418"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3410"/>
         <source>CopyQ Import Error</source>
         <translation>CopyQ Chyba importu</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3419"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3411"/>
         <source>Failed to import file %1!</source>
         <translation>Nepodařilo se importovat soubor %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3564"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3556"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Odstranit všechny záložky ve skupině?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3565"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3557"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Opravdu chcete odebrat &lt;strong&gt;všechny záložky&lt;/strong&gt; ve skupině &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3612"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3604"/>
         <source>Remove Tab?</source>
         <translation>Odebrat záložku?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3613"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3605"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Opravdu chcete odebrat záložku &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -4771,7 +4730,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="368"/>
+        <location filename="../src/common/common.cpp" line="377"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -4808,31 +4767,31 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">CHYBA: %1</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="362"/>
+        <location filename="../src/common/common.cpp" line="371"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;SKRYTÁ&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="378"/>
+        <location filename="../src/common/common.cpp" line="387"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;OBRÁZEK&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="380"/>
+        <location filename="../src/common/common.cpp" line="389"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
         <translation>&lt;SOUBORY&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="382"/>
+        <location filename="../src/common/common.cpp" line="391"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;PRÁZDNÁ&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="384"/>
+        <location filename="../src/common/common.cpp" line="393"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>

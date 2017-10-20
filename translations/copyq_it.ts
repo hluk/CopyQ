@@ -1806,202 +1806,175 @@ Imposta a 0 per disabilitare.</translation>
 <context>
     <name>FakeVim::Internal</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="194"/>
         <source>Use Vim-style Editing</source>
-        <translation>Usa edititor stile Vim</translation>
+        <translation type="vanished">Usa edititor stile Vim</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="196"/>
         <source>Read .vimrc</source>
-        <translation>Leggi .vimrc</translation>
+        <translation type="vanished">Leggi .vimrc</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="198"/>
         <source>Path to .vimrc</source>
-        <translation>Path .vimrc</translation>
+        <translation type="vanished">Path .vimrc</translation>
     </message>
 </context>
 <context>
     <name>FakeVim::Internal::FakeVimHandler</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="153"/>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="161"/>
         <source>Unknown option: %1</source>
-        <translation>Opzione sconosciuta: %1</translation>
+        <translation type="vanished">Opzione sconosciuta: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="156"/>
         <source>Argument must be positive: %1=%2</source>
-        <translation>L&apos;argomento deve essere positivo: %1=%2</translation>
+        <translation type="vanished">L&apos;argomento deve essere positivo: %1=%2</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
         <source>Mark &quot;%1&quot; not set.</source>
-        <translation>Marcatore &quot;%1&quot; non impostato.</translation>
+        <translation type="vanished">Marcatore &quot;%1&quot; non impostato.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
         <source>%1%2%</source>
-        <translation>%1%2%</translation>
+        <translation type="vanished">%1%2%</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3540"/>
         <source>%1All</source>
-        <translation>%1All</translation>
+        <translation type="vanished">%1All</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3554"/>
         <source>Not implemented in FakeVim.</source>
-        <translation>Non implementato in FakeVim.</translation>
+        <translation type="vanished">Non implementato in FakeVim.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5719"/>
         <source>Unknown option:</source>
-        <translation>Opzione sconosciuta:</translation>
+        <translation type="vanished">Opzione sconosciuta:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5730"/>
         <source>Invalid argument:</source>
-        <translation>Argomento non valido:</translation>
+        <translation type="vanished">Argomento non valido:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
         <source>Trailing characters:</source>
-        <translation>Caratteri da rimuovere:</translation>
+        <translation type="vanished">Caratteri da rimuovere:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
         <source>Move lines into themselves.</source>
-        <translation>Sposta linee al proprio interno.</translation>
+        <translation type="vanished">Sposta linee al proprio interno.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
         <source>%n lines moved.</source>
-        <translation><numerusform>Una
+        <translation type="vanished">
+            <numerusform>Una
 %n linee spostate.</numerusform>
-        <numerusform>Altro
+            <numerusform>Altro
 %n linee spostate.</numerusform>
-        </translation></message>
+        </translation>
+    </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
         <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation>Il file &quot;%1&quot; esiste già (aggiungi ! per sovrascriverlo)</translation>
+        <translation type="vanished">Il file &quot;%1&quot; esiste già (aggiungi ! per sovrascriverlo)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
         <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation>Impossibile aprire il file &quot;%1&quot; in scrittura</translation>
+        <translation type="vanished">Impossibile aprire il file &quot;%1&quot; in scrittura</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
         <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation>&quot;%1&quot; %2 %3L, %4C scritti.</translation>
+        <translation type="vanished">&quot;%1&quot; %2 %3L, %4C scritti.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
         <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation>Impossibile aprire il file &quot;%1&quot; in lettura</translation>
+        <translation type="vanished">Impossibile aprire il file &quot;%1&quot; in lettura</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
         <source>&quot;%1&quot; %2L, %3C</source>
-        <translation>&quot;%1&quot; %2L, %3C</translation>
+        <translation type="vanished">&quot;%1&quot; %2L, %3C</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
         <source>%n lines filtered.</source>
-        <translation><numerusform>%n linea filtrata.</numerusform>
-        <numerusform>%n linee filtrate.</numerusform>
-        </translation></message>
+        <translation type="vanished">
+            <numerusform>%n linea filtrata.</numerusform>
+            <numerusform>%n linee filtrate.</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6093"/>
         <source>Cannot open file %1</source>
-        <translation>Impossibile aprire il file %1</translation>
+        <translation type="vanished">Impossibile aprire il file %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6259"/>
         <source>Invalid regular expression: %1</source>
-        <translation>Espressione regolare non valida: %1</translation>
+        <translation type="vanished">Espressione regolare non valida: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6295"/>
         <source>Pattern not found: %1</source>
-        <translation>Pattern non trovato: %1</translation>
+        <translation type="vanished">Pattern non trovato: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation>Inizia ricerca dal BASSO, continua verso l&apos;ALTO.</translation>
+        <translation type="vanished">Inizia ricerca dal BASSO, continua verso l&apos;ALTO.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6300"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation>Inizia ricerca dall&apos;ALTO, continua verso il BASSO.</translation>
+        <translation type="vanished">Inizia ricerca dall&apos;ALTO, continua verso il BASSO.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
         <source>Search hit BOTTOM without match for: %1</source>
-        <translation>Inizia ricerca dal BASSO senza corrispondenza per: %1</translation>
+        <translation type="vanished">Inizia ricerca dal BASSO senza corrispondenza per: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6306"/>
         <source>Search hit TOP without match for: %1</source>
-        <translation>Inizia ricerca dall&apos;ALTO senza corrispondenza per: %1</translation>
+        <translation type="vanished">Inizia ricerca dall&apos;ALTO senza corrispondenza per: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
         <source>%n lines indented.</source>
-        <translation><numerusform>Una
+        <translation type="vanished">
+            <numerusform>Una
 %n linee indentate.</numerusform>
-        <numerusform>Altra
+            <numerusform>Altra
 %n linee indentate.</numerusform>
-        </translation></message>
+        </translation>
+    </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
         <source>%n lines %1ed %2 time.</source>
-        <translation><numerusform>Una
+        <translation type="vanished">
+            <numerusform>Una
 %n linea %1ed %2 volta.</numerusform>
-        <numerusform>Altra
+            <numerusform>Altra
 %n linee %1ed %2 volte.</numerusform>
-        </translation></message>
+        </translation>
+    </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
-        <translation><numerusform>%n linea estratta.</numerusform>
-        <numerusform>%n linee estratte.</numerusform>
-        </translation></message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
-        <source>Already at oldest change.</source>
-        <translation>Già nella vecchia modifica.</translation>
+        <translation type="vanished">
+            <numerusform>%n linea estratta.</numerusform>
+            <numerusform>%n linee estratte.</numerusform>
+        </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7749"/>
+        <source>Already at oldest change.</source>
+        <translation type="vanished">Già nella vecchia modifica.</translation>
+    </message>
+    <message>
         <source>Already at newest change.</source>
-        <translation>Già nella nuova modifica.</translation>
+        <translation type="vanished">Già nella nuova modifica.</translation>
     </message>
 </context>
 <context>
     <name>FakeVim::Internal::FakeVimHandler::Private</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"/>
         <source>Recursive mapping</source>
-        <translation>Mappatura ricorsiva</translation>
+        <translation type="vanished">Mappatura ricorsiva</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation>Digita ALT+V, Alt+V per uscire dal modo FakeVim.</translation>
+        <translation type="vanished">Digita ALT+V, Alt+V per uscire dal modo FakeVim.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
         <source> [New] </source>
-        <translation> [Nuova] </translation>
+        <translation type="vanished"> [Nuova] </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
         <source>Not an editor command: %1</source>
-        <translation>Non è un comando editor: %1</translation>
+        <translation type="vanished">Non è un comando editor: %1</translation>
     </message>
 </context>
 <context>
@@ -2278,84 +2251,84 @@ Imposta a 0 per disabilitare.</translation>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="580"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="584"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Per condividere elementi criptati in altri computer o sessioni, sono necessari i file chiave pubblico e segreto:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(mantieni la chiave segreta in un posto sicuro.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="645"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="649"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>Pe visualizzare le schede criptate deve essere installato GnuPG.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="742"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="746"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Cripta (richiede GnuPG)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="758"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="756"/>
         <source>Decrypt</source>
         <translation>Decripta</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="766"/>
         <source>Decrypt and Copy</source>
         <translation>Decripta e copia</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="767"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="771"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="842"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="846"/>
         <source>Error: %1</source>
         <translation>Errore: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="830"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="834"/>
         <source>Failed to generate keys.</source>
         <translation>Impossibile generare le chiavi.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="847"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="851"/>
         <source>Done</source>
         <translation>Fatto</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="869"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="873"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Creazione nuove chiavi (può richiedere alcuni minuti)...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="873"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="874"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
         <source>Setting new password...</source>
         <translation>Impostazione nuova password...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="875"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Le chiavi di criptazione &lt;strong&gt;devono essere generate&lt;/strong&gt; prima dell&apos;uso dell&apos;elemento criptato.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="881"/>
         <source>Generate New Keys...</source>
         <translation>Generazione nuove chiavi...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="883"/>
         <source>Change Password...</source>
         <translation>Modifica password...</translation>
     </message>
@@ -2365,7 +2338,7 @@ Imposta a 0 per disabilitare.</translation>
         <translation>Criptazione fallita!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="889"/>
         <source>Decryption failed!</source>
         <translation>Decriptazione fallita!</translation>
     </message>
@@ -2876,42 +2849,42 @@ Imposta a 0 per disabilitare.</translation>
         <translation>&amp;Aiuto</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1951"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1943"/>
         <source>CopyQ Options for Import</source>
         <translation>Opzioni importazione CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3077"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3069"/>
         <source>&amp;Show/Hide</source>
         <translation>Vi&amp;sualizza/nascondi</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3311"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3303"/>
         <source>CopyQ Options for Export</source>
         <translation>Opzioni esportazionei CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3331"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3323"/>
         <source>CopyQ Export Error</source>
         <translation>Errore esportazione CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3332"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3324"/>
         <source>Failed to export file %1!</source>
         <translation>Esportazione fallita nel file %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1387"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1379"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>Abili&amp;ta cronologuia Appunti</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1388"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1380"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>&amp;Disabilita cronologia Appunti</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2118"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2110"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>Errore CopyQ</translation>
@@ -2947,7 +2920,7 @@ Imposta a 0 per disabilitare.</translation>
         <translation>Modifi&amp;ca icona scheda</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1652"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1644"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -2955,19 +2928,19 @@ Imposta a 0 per disabilitare.</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1637"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1629"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1640"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1632"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3089"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3081"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Appunti: %1</translation>
@@ -2978,32 +2951,32 @@ Imposta a 0 per disabilitare.</translation>
         <translation>Elementi CopyQ (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3418"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3410"/>
         <source>CopyQ Import Error</source>
         <translation>Errore importazione CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3419"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3411"/>
         <source>Failed to import file %1!</source>
         <translation>Impossibile importare il file %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3564"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3556"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Vuoi rimuovere tutte le schede nel gruppo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3565"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3557"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vuoi rimuovere &lt;strong&gt;tutte le schede&lt;/strong&gt; nel gruppo &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3612"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3604"/>
         <source>Remove Tab?</source>
         <translation>Vuoi rimuovere la scheda?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3613"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3605"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vuoi rimuovere la scheda &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -3074,38 +3047,40 @@ Imposta a 0 per disabilitare.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="362"/>
+        <location filename="../src/common/common.cpp" line="371"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;NASCOSTO&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="368"/>
+        <location filename="../src/common/common.cpp" line="377"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
-        <translation><numerusform>%1 (%n linea)</numerusform>
-        <numerusform>%1 (%n linee)</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%1 (%n linea)</numerusform>
+            <numerusform>%1 (%n linee)</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../src/common/common.cpp" line="378"/>
+        <location filename="../src/common/common.cpp" line="387"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;IMMAGINE&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="380"/>
+        <location filename="../src/common/common.cpp" line="389"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
         <translation>&lt;FILE&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="382"/>
+        <location filename="../src/common/common.cpp" line="391"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;VUOTO&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="384"/>
+        <location filename="../src/common/common.cpp" line="393"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATI&gt;</translation>
@@ -3126,9 +3101,11 @@ Imposta a 0 per disabilitare.</translation>
         <location filename="../src/gui/notificationdaemon.cpp" line="98"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
-        <translation><numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linea &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
-        <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linee &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
-        </translation></message>
+        <translation>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linea &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linee &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+        </translation>
+    </message>
     <message>
         <location filename="../src/gui/notificationdaemon.cpp" line="101"/>
         <source>%1</source>

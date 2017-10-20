@@ -84,7 +84,7 @@
     </message>
     <message>
         <source>Item list navigation</source>
-        <translation>Nawigacja wśród elementów listy</translation>
+        <translation type="vanished">Nawigacja wśród elementów listy</translation>
     </message>
     <message>
         <source>Up/Down, Page Up/Down, Home/End</source>
@@ -97,7 +97,7 @@
     <message>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation>W lewo, W prawo, %1,%2</translation>
+        <translation type="vanished">W lewo, W prawo, %1,%2</translation>
     </message>
     <message>
         <source>Move selected items</source>
@@ -714,7 +714,7 @@ Pozostaw puste, aby wyłączyć.</translation>
     </message>
     <message>
         <source>Co&amp;py to tab:</source>
-        <translation>Ko&amp;piuj do karty:</translation>
+        <translation type="vanished">Ko&amp;piuj do karty:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="450"/>
@@ -1075,11 +1075,11 @@ klawisza CTRL raz up/down.</translation>
     <name>ConfigTabShortcuts</name>
     <message>
         <source>&amp;New Item</source>
-        <translation>&amp;Nowy Element</translation>
+        <translation type="vanished">&amp;Nowy Element</translation>
     </message>
     <message>
         <source>&amp;Import Tab...</source>
-        <translation>&amp;Importuj Kartę...</translation>
+        <translation type="vanished">&amp;Importuj Kartę...</translation>
     </message>
     <message>
         <source>Ctrl+I</source>
@@ -1087,7 +1087,7 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>&amp;Export Tab...</source>
-        <translation>&amp;Eksportuj Kartę...</translation>
+        <translation type="vanished">&amp;Eksportuj Kartę...</translation>
     </message>
     <message>
         <source>&amp;Preferences...</source>
@@ -1100,7 +1100,7 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation>P&amp;olecenia/Skróty Globalne...</translation>
+        <translation type="vanished">P&amp;olecenia/Skróty Globalne...</translation>
     </message>
     <message>
         <source>C&amp;ommands...</source>
@@ -1112,7 +1112,7 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>Show &amp;Clipboard Content</source>
-        <translation>Pokaż &amp;Zawartość Schowka</translation>
+        <translation type="vanished">Pokaż &amp;Zawartość Schowka</translation>
     </message>
     <message>
         <source>Ctrl+Shift+C</source>
@@ -1120,7 +1120,7 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>P&amp;rocess Manager</source>
-        <translation>Menedżer P&amp;rocesów</translation>
+        <translation type="vanished">Menedżer P&amp;rocesów</translation>
     </message>
     <message>
         <source>Ctrl+Shift+Z</source>
@@ -1144,15 +1144,15 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>&amp;Reverse Selected Items</source>
-        <translation>So&amp;rtuj Zaznaczone Elementy Malejąco</translation>
+        <translation type="vanished">So&amp;rtuj Zaznaczone Elementy Malejąco</translation>
     </message>
     <message>
         <source>&amp;Paste Items</source>
-        <translation>Wst&amp;aw Elementy</translation>
+        <translation type="vanished">Wst&amp;aw Elementy</translation>
     </message>
     <message>
         <source>&amp;Copy Selected Items</source>
-        <translation>&amp;Kopiuj Zaznaczone Elementy</translation>
+        <translation type="vanished">&amp;Kopiuj Zaznaczone Elementy</translation>
     </message>
     <message>
         <source>&amp;Find</source>
@@ -1160,11 +1160,11 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>Move to &amp;Clipboard</source>
-        <translation>Przenieś do S&amp;chowka</translation>
+        <translation type="vanished">Przenieś do S&amp;chowka</translation>
     </message>
     <message>
         <source>&amp;Show Content...</source>
-        <translation>&amp;Pokaż Zawartość...</translation>
+        <translation type="vanished">&amp;Pokaż Zawartość...</translation>
     </message>
     <message>
         <source>F4</source>
@@ -1172,7 +1172,7 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>&amp;Edit</source>
-        <translation>&amp;Edytuj</translation>
+        <translation type="vanished">&amp;Edytuj</translation>
     </message>
     <message>
         <source>F2</source>
@@ -1180,15 +1180,15 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>Edit &amp;Notes</source>
-        <translation>Edytuj &amp;Notatki</translation>
+        <translation type="vanished">Edytuj &amp;Notatki</translation>
     </message>
     <message>
         <source>E&amp;dit with editor</source>
-        <translation>E&amp;dytuj w Zewnętrznym Edytorze</translation>
+        <translation type="vanished">E&amp;dytuj w Zewnętrznym Edytorze</translation>
     </message>
     <message>
         <source>&amp;Action...</source>
-        <translation>&amp;Makropolecenia...</translation>
+        <translation type="vanished">&amp;Makropolecenia...</translation>
     </message>
     <message>
         <source>F5</source>
@@ -1196,19 +1196,19 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>Next Format</source>
-        <translation>Następny Format</translation>
+        <translation type="vanished">Następny Format</translation>
     </message>
     <message>
         <source>Ctrl+Right</source>
-        <translation>Ctrl+W Prawo</translation>
+        <translation type="vanished">Ctrl+W Prawo</translation>
     </message>
     <message>
         <source>Previous Format</source>
-        <translation>Poprzedni Format</translation>
+        <translation type="vanished">Poprzedni Format</translation>
     </message>
     <message>
         <source>Ctrl+Left</source>
-        <translation>Ctrl+W Lewo</translation>
+        <translation type="vanished">Ctrl+W Lewo</translation>
     </message>
     <message>
         <source>&amp;Remove</source>
@@ -1216,19 +1216,19 @@ klawisza CTRL raz up/down.</translation>
     </message>
     <message>
         <source>&amp;New Tab</source>
-        <translation>&amp;Nowa Karta</translation>
+        <translation type="vanished">&amp;Nowa Karta</translation>
     </message>
     <message>
         <source>R&amp;ename Tab</source>
-        <translation>Zmi&amp;eń Nazwę Karty</translation>
+        <translation type="vanished">Zmi&amp;eń Nazwę Karty</translation>
     </message>
     <message>
         <source>Re&amp;move Tab</source>
-        <translation>Usuń &amp;Kartę</translation>
+        <translation type="vanished">Usuń &amp;Kartę</translation>
     </message>
     <message>
         <source>&amp;Change Tab Icon</source>
-        <translation>Zmień Ikonę Ka&amp;rty</translation>
+        <translation type="vanished">Zmień Ikonę Ka&amp;rty</translation>
     </message>
     <message>
         <source>F12</source>
@@ -1869,216 +1869,6 @@ Set to 0 to disable.</source>
     </message>
 </context>
 <context>
-    <name>FakeVim::Internal</name>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="194"/>
-        <source>Use Vim-style Editing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="196"/>
-        <source>Read .vimrc</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="198"/>
-        <source>Path to .vimrc</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler</name>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="153"/>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="161"/>
-        <source>Unknown option: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="156"/>
-        <source>Argument must be positive: %1=%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark &quot;%1&quot; not set.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
-        <source>%1%2%</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3540"/>
-        <source>%1All</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3554"/>
-        <source>Not implemented in FakeVim.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5719"/>
-        <source>Unknown option:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5730"/>
-        <source>Invalid argument:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
-        <source>Trailing characters:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
-        <source>Move lines into themselves.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
-        <source>%n lines moved.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
-        <source>%n lines filtered.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6093"/>
-        <source>Cannot open file %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6259"/>
-        <source>Invalid regular expression: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6295"/>
-        <source>Pattern not found: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
-        <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6300"/>
-        <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
-        <source>Search hit BOTTOM without match for: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6306"/>
-        <source>Search hit TOP without match for: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
-        <source>%n lines indented.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
-        <source>%n lines %1ed %2 time.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
-        <source>%n lines yanked.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
-        <source>Already at oldest change.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7749"/>
-        <source>Already at newest change.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler::Private</name>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"/>
-        <source>Recursive mapping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
-        <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
-        <source> [New] </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
-        <source>Not an editor command: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="566"/>
@@ -2352,85 +2142,85 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="580"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="584"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="645"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="649"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="742"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="746"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="758"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
         <source>Ctrl+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="752"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="756"/>
         <source>Decrypt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="762"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="766"/>
         <source>Decrypt and Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="767"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="771"/>
         <source>Ctrl+Shift+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="842"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="846"/>
         <source>Error: %1</source>
         <translation type="unfinished">Błąd: %1
  {1?}</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="830"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="834"/>
         <source>Failed to generate keys.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="847"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="851"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="869"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="873"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="873"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="874"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
         <source>Setting new password...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="875"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="881"/>
         <source>Generate New Keys...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="883"/>
         <source>Change Password...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2440,7 +2230,7 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="889"/>
         <source>Decryption failed!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2948,7 +2738,7 @@ Set to 0 to disable.</source>
         <translation>&amp;Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3077"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3069"/>
         <source>&amp;Show/Hide</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2983,62 +2773,62 @@ Set to 0 to disable.</source>
         <translation type="unfinished">Zmień ikonę ka&amp;rty</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1387"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1379"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1388"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1380"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1951"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1943"/>
         <source>CopyQ Options for Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2118"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2110"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3311"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3303"/>
         <source>CopyQ Options for Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3331"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3323"/>
         <source>CopyQ Export Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3332"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3324"/>
         <source>Failed to export file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1652"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1644"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1637"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1629"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1640"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1632"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3089"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3081"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation type="unfinished"></translation>
@@ -3049,32 +2839,32 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3418"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3410"/>
         <source>CopyQ Import Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3419"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3411"/>
         <source>Failed to import file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3564"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3556"/>
         <source>Remove All Tabs in Group?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3565"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3557"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3612"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3604"/>
         <source>Remove Tab?</source>
         <translation>Usunąć kartę?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3613"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3605"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Czy chcesz usunąć kartę &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -3152,13 +2942,13 @@ Set to 0 to disable.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="362"/>
+        <location filename="../src/common/common.cpp" line="371"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="368"/>
+        <location filename="../src/common/common.cpp" line="377"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -3168,25 +2958,25 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="378"/>
+        <location filename="../src/common/common.cpp" line="387"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="380"/>
+        <location filename="../src/common/common.cpp" line="389"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="382"/>
+        <location filename="../src/common/common.cpp" line="391"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="384"/>
+        <location filename="../src/common/common.cpp" line="393"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation type="unfinished"></translation>
