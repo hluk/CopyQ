@@ -1,3 +1,16 @@
+v3.1.2
+- Don't show mouse cursor for selecting text after clicking on item
+- Fix rendering background for item preview dock
+- Fix showing main window under mouse pointer
+- Fix loading tray icon
+- Fix scrollbar interaction in items
+- Fix performance for eliding huge text
+- Fix correct mouse pointer in text items
+- itemtext: Render plain text instead of empty HTML
+- itemtext: Always limit text size in items
+- itemweb: Use some sane settings for items
+- itemencrypted: Copy to selection with copyEncryptedItems()
+
 v3.1.1
 - Improve performance for items with long lines
 - Linux: Fix tray icon
