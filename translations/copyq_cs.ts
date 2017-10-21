@@ -68,11 +68,11 @@
     <message>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="vanished">Šípka doleva, doprava, %1, %2</translation>
+        <translation type="vanished">Šipka doleva, doprava, %1, %2</translation>
     </message>
     <message>
         <source>Left, Right, Tab, Shift+Tab</source>
-        <translation type="vanished">Šípka doprava, doleva, Tab, Shift+Tab</translation>
+        <translation type="vanished">Šipka doprava, doleva, Tab, Shift+Tab</translation>
     </message>
     <message>
         <source>Library used in the application</source>
