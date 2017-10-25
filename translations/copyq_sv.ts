@@ -1219,7 +1219,7 @@ Observera: Detta stöds inte på alla system.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="504"/>
         <source>Sho&amp;w Item Count</source>
-        <translation>%Visa objektantal</translation>
+        <translation>&amp;Visa objektantal</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="549"/>
