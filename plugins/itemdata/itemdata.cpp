@@ -82,7 +82,7 @@ QString stringFromBytes(const QByteArray &bytes, const QString &format)
     return codec->toUnicode(bytes);
 }
 
-bool emptyIntersection(const QStringList &lhs, const QStringList &rhs)
+bool isIntersectionEmpty(const QStringList &lhs, const QStringList &rhs)
 {
     for (const auto &l : lhs) {
         if ( rhs.contains(l) )
@@ -165,7 +165,7 @@ ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent, bo
         return nullptr;
 
     const QStringList formats = index.data(contentType::data).toMap().keys();
-    if ( emptyIntersection(formats, formatsToSave()) )
+    if ( isIntersectionEmpty(formats, formatsToSave()) )
         return nullptr;
 
     const int bytes = preview ? 4096 : m_settings.value("max_bytes", defaultMaxBytes).toInt();
