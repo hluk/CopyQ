@@ -182,7 +182,7 @@ QStringList ItemDataLoader::formatsToSave() const
 QVariantMap ItemDataLoader::applySettings()
 {
     Q_ASSERT(ui != nullptr);
-    m_settings["formats"] = ui->plainTextEditFormats->toPlainText().split( QRegExp("[;,\\s]+") );
+    m_settings["formats"] = ui->plainTextEditFormats->toPlainText().split("\n");
     m_settings["max_bytes"] = ui->spinBoxMaxChars->value();
     return  m_settings;
 }
