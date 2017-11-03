@@ -651,6 +651,21 @@ void ClipboardBrowser::maybeEmitEditingFinished()
         emit editingFinished();
 }
 
+QModelIndex ClipboardBrowser::firstUnpinnedIndex() const
+{
+    if (!m_itemSaver)
+        return QModelIndex();
+
+    auto indexes = QModelIndexList() << QModelIndex();
+    for (int row = 0; row < length(); ++row) {
+        indexes[0] = index(row);
+        if ( m_itemSaver->canMoveItems(indexes) )
+            return indexes[0];
+    }
+
+    return QModelIndex();
+}
+
 QVariantMap ClipboardBrowser::copyIndex(const QModelIndex &index) const
 {
     auto data = index.data(contentType::data).toMap();
@@ -1546,15 +1561,15 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
     // When selecting text under X11, clipboard data may change whenever selection changes.
     // Instead of adding item for each selection change, this updates previously added item.
     // Also update previous item if the same selected text is copied to clipboard afterwards.
-    if ( newData.contains(mimeText)
-         // Don't update edited item.
-         && (!isInternalEditorOpen() || currentIndex().row() != 0)
-         )
-    {
-        const QModelIndex firstIndex = index(0);
+    if ( newData.contains(mimeText) ) {
+        const auto firstIndex = firstUnpinnedIndex();
         const QVariantMap previousData = copyIndex(firstIndex);
 
-        if ( previousData.contains(mimeText) ) {
+        if ( firstIndex.isValid()
+             && previousData.contains(mimeText)
+             // Don't update edited item.
+             && (!isInternalEditorOpen() || currentIndex() != firstIndex) )
+        {
             const auto newText = getTextData(newData);
             const auto oldText = getTextData(previousData);
             const auto isClipboard = isClipboardData(data);

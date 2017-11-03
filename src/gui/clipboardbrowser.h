@@ -379,6 +379,8 @@ class ClipboardBrowser : public QListView
 
         void maybeEmitEditingFinished();
 
+        QModelIndex firstUnpinnedIndex() const;
+
         ItemSaverPtr m_itemSaver;
         QString m_tabName;
         ClipboardModel m;
