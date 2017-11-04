@@ -184,6 +184,7 @@ SOURCES += \
     item/itemeditor.cpp \
     item/itemeditorwidget.cpp \
     item/itemfactory.cpp \
+    item/itemloaderscript.cpp \
     item/itemwidget.cpp \
     item/serialize.cpp \
     main.cpp \

@@ -24,6 +24,11 @@ if (HAS_WEBKIT)
         set(QT_USE_QTWEBKIT ON)
     endif()
 
+    set(copyq_plugin_itemweb_SOURCES
+        ../../src/common/mimetypes.cpp
+        ../../src/common/textdata.cpp
+        )
+
     copyq_add_plugin(itemweb)
 endif(HAS_WEBKIT)
 

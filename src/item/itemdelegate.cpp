@@ -151,10 +151,11 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     ItemWidget *w = m_cache[n];
     if (w == nullptr) {
         QWidget *parent = m_view->viewport();
+        const auto data = m_view->itemData(index);
         const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
         w = m_sharedData->showSimpleItems
-                ? m_sharedData->itemFactory->createSimpleItem(index, parent, antialiasing)
-                : m_sharedData->itemFactory->createItem(index, parent, antialiasing);
+                ? m_sharedData->itemFactory->createSimpleItem(data, parent, antialiasing)
+                : m_sharedData->itemFactory->createItem(data, parent, antialiasing);
         setIndexWidget(index, w);
     }
 
@@ -189,8 +190,9 @@ bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
 {
     ItemWidget *w = m_cache[index.row()];
     if (w != nullptr) {
+        const auto data = m_view->itemData(index);
         const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
-        auto w2 = m_sharedData->itemFactory->otherItemLoader(index, w, next, antialiasing);
+        auto w2 = m_sharedData->itemFactory->otherItemLoader(data, w, next, antialiasing);
         if (w2 != nullptr) {
             setIndexWidget(index, w2);
             return true;

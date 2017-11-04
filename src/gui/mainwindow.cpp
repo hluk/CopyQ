@@ -541,9 +541,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
             this, SLOT(addCommands(QList<Command>)));
 
     m_commands = loadEnabledCommands();
-    loadSettings();
-
-    ui->tabWidget->setCurrentIndex(0);
 
     initSingleShotTimer( &m_timerUpdateFocusWindows, 50, this, SLOT(updateFocusWindows()) );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
@@ -551,9 +548,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
     initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, SLOT(doSaveTabPositions()) );
-
-    // browse mode by default
-    enterBrowseMode();
 
     m_trayMenu->setObjectName("TrayMenu");
     m_menu->setObjectName("Menu");

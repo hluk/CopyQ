@@ -103,8 +103,6 @@ private:
     QString askRemoveTagName(const QStringList &tags);
     QList<int> rows(const QVariantList &arguments, int skip);
     QStringList tags(int row);
-    QStringList tags(const QVariant &tags);
-    QStringList tags(const QVariantMap &itemData);
     void setTags(int row, const QStringList &tags);
     bool addTag(const QString &tagName, QStringList *tags);
     bool removeTag(const QString &tagName, QStringList *tags);
@@ -136,7 +134,7 @@ public:
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
-    ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
+    ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data) override;
 
     bool matches(const QModelIndex &index, const QRegExp &re) const override;
 
@@ -168,7 +166,7 @@ private:
     static QString serializeTag(const Tag &tag);
     static Tag deserializeTag(const QString &tagText);
 
-    Tags toTags(const QString &tagsContent);
+    Tags toTags(const QStringList &tagList);
 
     void addTagToSettingsTable(const Tag &tag = Tag());
 

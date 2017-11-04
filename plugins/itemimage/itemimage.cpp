@@ -21,6 +21,7 @@
 #include "ui_itemimagesettings.h"
 
 #include "common/contenttype.h"
+#include "common/mimetypes.h"
 #include "item/itemeditor.h"
 
 #include <QBuffer>
@@ -52,10 +53,8 @@ QString findImageFormat(const QList<QString> &formats)
     return QString();
 }
 
-bool getImageData(const QModelIndex &index, QByteArray *data, QString *mime)
+bool getImageData(const QVariantMap &dataMap, QByteArray *data, QString *mime)
 {
-    QVariantMap dataMap = index.data(contentType::data).toMap();
-
     *mime = findImageFormat(dataMap.keys());
     if ( mime->isEmpty() )
         return false;
@@ -65,10 +64,8 @@ bool getImageData(const QModelIndex &index, QByteArray *data, QString *mime)
     return true;
 }
 
-bool getAnimatedImageData(const QModelIndex &index, QByteArray *data, QByteArray *format)
+bool getAnimatedImageData(const QVariantMap &dataMap, QByteArray *data, QByteArray *format)
 {
-    QVariantMap dataMap = index.data(contentType::data).toMap();
-
     for (const auto &movieFormat : QMovie::supportedFormats()) {
         const QByteArray mime = "image/" + movieFormat;
         if (dataMap.contains(mime)) {
@@ -81,11 +78,11 @@ bool getAnimatedImageData(const QModelIndex &index, QByteArray *data, QByteArray
     return false;
 }
 
-bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
+bool getPixmapFromData(const QVariantMap &dataMap, QPixmap *pix)
 {
     QString mime;
     QByteArray data;
-    if ( !getImageData(index, &data, &mime) )
+    if ( !getImageData(dataMap, &data, &mime) )
         return false;
 
     pix->loadFromData( data, mime.toLatin1() );
@@ -117,7 +114,8 @@ QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *pare
 {
     QString mime;
     QByteArray data;
-    if ( !getImageData(index, &data, &mime) )
+    const auto dataMap = index.data(contentType::data).toMap();
+    if ( !getImageData(dataMap, &data, &mime) )
         return nullptr;
 
     const QString &cmd = mime.contains("svg") ? m_svgEditor : m_editor;
@@ -208,14 +206,14 @@ ItemImageLoader::ItemImageLoader()
 
 ItemImageLoader::~ItemImageLoader() = default;
 
-ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
+ItemWidget *ItemImageLoader::create(const QVariantMap &data, QWidget *parent, bool preview) const
 {
-    if ( index.data(contentType::isHidden).toBool() )
+    if ( data.value(mimeHidden).toBool() )
         return nullptr;
 
     // TODO: Just check if image provided and load it in different thread.
     QPixmap pix;
-    if ( !getPixmapFromData(index, &pix) )
+    if ( !getPixmapFromData(data, &pix) )
         return nullptr;
 
 #if QT_VERSION >= 0x050000
@@ -233,7 +231,7 @@ ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent, b
 
     QByteArray animationData;
     QByteArray animationFormat;
-    getAnimatedImageData(index, &animationData, &animationFormat);
+    getAnimatedImageData(data, &animationData, &animationFormat);
 
     return new ItemImage(pix,
                          animationData, animationFormat,

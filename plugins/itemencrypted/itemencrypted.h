@@ -99,7 +99,7 @@ public:
 
     ~ItemEncryptedLoader();
 
-    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool) const override;
+    ItemWidget *create(const QVariantMap &data, QWidget *parent, bool) const override;
 
     QString id() const override { return "itemencrypted"; }
     QString name() const override { return tr("Encryption"); }

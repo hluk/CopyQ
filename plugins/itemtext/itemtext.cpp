@@ -20,15 +20,14 @@
 #include "itemtext.h"
 #include "ui_itemtextsettings.h"
 
-#include "common/contenttype.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 
 #include <QAbstractTextDocumentLayout>
 #include <QCoreApplication>
 #include <QContextMenuEvent>
 #include <QCursor>
 #include <QMimeData>
-#include <QModelIndex>
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QTextBlock>
@@ -63,27 +62,30 @@ void removeTrailingNull(QString *text)
         text->chop(1);
 }
 
-bool getRichText(const QModelIndex &index, QString *text)
+bool getRichText(const QVariantMap &dataMap, QString *text)
 {
-    if ( index.data(contentType::hasHtml).toBool() ) {
-        *text = index.data(contentType::html).toString();
+    if ( dataMap.contains(mimeHtml) ) {
+        *text = getTextData(dataMap, mimeHtml);
         return true;
     }
 
-    const QVariantMap dataMap = index.data(contentType::data).toMap();
-    if ( !dataMap.contains(mimeRichText) )
-        return false;
+    if ( dataMap.contains(mimeRichText) ) {
+        *text = getTextData(dataMap, mimeRichText);
+        return true;
+    }
 
-    const QByteArray data = dataMap[mimeRichText].toByteArray();
-    *text = QString::fromUtf8(data);
-
-    return true;
+    return false;
 }
 
-bool getText(const QModelIndex &index, QString *text)
+bool getText(const QVariantMap &dataMap, QString *text)
 {
-    if ( index.data(contentType::hasText).toBool() ) {
-        *text = index.data(contentType::text).toString();
+    if ( dataMap.contains(mimeText) ) {
+        *text = getTextData(dataMap, mimeText);
+        return true;
+    }
+
+    if ( dataMap.contains(mimeUriList) ) {
+        *text = getTextData(dataMap, mimeUriList);
         return true;
     }
 
@@ -278,17 +280,17 @@ ItemTextLoader::ItemTextLoader()
 
 ItemTextLoader::~ItemTextLoader() = default;
 
-ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
+ItemWidget *ItemTextLoader::create(const QVariantMap &data, QWidget *parent, bool preview) const
 {
-    if ( index.data(contentType::isHidden).toBool() )
+    if ( data.value(mimeHidden).toBool() )
         return nullptr;
 
     QString richText;
     const bool isRichText = m_settings.value(optionUseRichText, true).toBool()
-            && getRichText(index, &richText);
+            && getRichText(data, &richText);
 
     QString text;
-    const bool isPlainText = getText(index, &text);
+    const bool isPlainText = getText(data, &text);
 
     if (!isRichText && !isPlainText)
         return nullptr;

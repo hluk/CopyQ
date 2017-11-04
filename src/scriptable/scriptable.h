@@ -82,6 +82,7 @@ public:
     QVariant toVariant(const QScriptValue &value);
     bool toInt(const QScriptValue &value, int *number) const;
     QVariantMap toDataMap(const QScriptValue &value) const;
+    QScriptValue fromDataMap(const QVariantMap &dataMap) const;
 
     QByteArray makeByteArray(const QScriptValue &value) const;
 
@@ -135,6 +136,10 @@ public:
     ByteArrayClass *byteArrayClass() const { return m_baClass; }
     FileClass *fileClass() const { return m_fileClass; }
     TemporaryFileClass *temporaryFileClass() const { return m_temporaryFileClass; }
+
+    QScriptValue call(QScriptValue *fn, const QScriptValue &object, const QVariantList &arguments) const;
+
+    QScriptValue eval(const QString &script, const QString &fileName);
 
 public slots:
     QScriptValue version();
@@ -328,7 +333,6 @@ private:
     void nextToClipboard(int where);
     QScriptValue screenshot(bool select);
     QByteArray serialize(const QScriptValue &value);
-    QScriptValue eval(const QString &script, const QString &fileName);
     QScriptValue eval(const QString &script);
     QTextCodec *codecFromNameOrThrow(const QScriptValue &codecName);
 

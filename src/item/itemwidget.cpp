@@ -320,7 +320,11 @@ QVariantMap ItemSaverInterface::copyItem(const QAbstractItemModel &, const QVari
     return itemData;
 }
 
-ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *, bool) const
+void ItemSaverInterface::transformItemData(const QAbstractItemModel &, QVariantMap *)
+{
+}
+
+ItemWidget *ItemLoaderInterface::create(const QVariantMap &, QWidget *, bool) const
 {
     return nullptr;
 }
@@ -345,7 +349,7 @@ ItemSaverPtr ItemLoaderInterface::initializeTab(const QString &, QAbstractItemMo
     return nullptr;
 }
 
-ItemWidget *ItemLoaderInterface::transform(ItemWidget *, const QModelIndex &)
+ItemWidget *ItemLoaderInterface::transform(ItemWidget *, const QVariantMap &)
 {
     return nullptr;
 }

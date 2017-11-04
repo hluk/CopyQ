@@ -21,6 +21,8 @@
 #include "ui_itemnotessettings.h"
 
 #include "common/contenttype.h"
+#include "common/mimetypes.h"
+#include "common/textdata.h"
 #include "gui/iconfont.h"
 #include "gui/iconwidget.h"
 
@@ -334,10 +336,10 @@ QWidget *ItemNotesLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
+ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QVariantMap &data)
 {
-    const QString text = index.data(contentType::notes).toString();
-    const QByteArray icon = index.data(contentType::data).toMap().value(mimeIcon).toByteArray();
+    const auto text = getTextData(data, mimeItemNotes);
+    const QByteArray icon = data.value(mimeIcon).toByteArray();
     if ( text.isEmpty() && icon.isEmpty() )
         return nullptr;
 

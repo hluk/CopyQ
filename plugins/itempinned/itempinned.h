@@ -93,6 +93,8 @@ public:
 
     QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
 
+    void transformItemData(const QAbstractItemModel &model, QVariantMap *itemData) override;
+
 private slots:
     void onRowsInserted(const QModelIndex &parent, int start, int end);
     void onRowsRemoved(const QModelIndex &parent, int start, int end);
@@ -137,7 +139,7 @@ public:
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
-    ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
+    ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data) override;
 
     ItemSaverPtr transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model) override;
 

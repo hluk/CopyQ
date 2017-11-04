@@ -60,6 +60,8 @@ class FileWatcher : public QObject {
 public:
     static QString getBaseName(const QModelIndex &index);
 
+    static QString getBaseName(const QVariantMap &data);
+
     /**
      * Return true only if base name is empty or it matches the internal format.
      */

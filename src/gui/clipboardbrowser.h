@@ -216,6 +216,8 @@ class ClipboardBrowser : public QListView
          */
         bool isFiltered(int row) const;
 
+        QVariantMap itemData(const QModelIndex &index) const;
+
     public slots:
         /**
          * Save items to configuration.

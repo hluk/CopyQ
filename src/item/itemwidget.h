@@ -253,6 +253,11 @@ public:
      */
     virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
 
+    /**
+     * Return item data for ItemLoaderInterface::create().
+     */
+    virtual void transformItemData(const QAbstractItemModel &model, QVariantMap *itemData);
+
     ItemSaverInterface(const ItemSaverInterface &) = delete;
     ItemSaverInterface &operator=(const ItemSaverInterface &) = delete;
 };
@@ -287,7 +292,7 @@ public:
      *
      * @return nullptr if index hasn't appropriate data
      */
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const;
+    virtual ItemWidget *create(const QVariantMap &data, QWidget *parent, bool preview) const;
 
     /**
      * Simple ID of plugin.
@@ -372,7 +377,7 @@ public:
      * By default returns nullptr not to wrap the widget.
      * New ItemWidget must take care of deleting the old one!
      */
-    virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
+    virtual ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data);
 
     /**
      * Transform loader.
