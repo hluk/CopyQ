@@ -20,12 +20,12 @@
 #include "itemweb.h"
 #include "ui_itemwebsettings.h"
 
-#include "common/contenttype.h"
+#include "common/mimetypes.h"
+#include "common/textdata.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QDesktopServices>
-#include <QModelIndex>
 #include <QMouseEvent>
 #include <QPalette>
 #include <QtPlugin>
@@ -43,9 +43,9 @@ namespace {
 
 const char optionMaximumHeight[] = "max_height";
 
-bool getHtml(const QModelIndex &index, QString *text)
+bool getHtml(const QVariantMap &data, QString *text)
 {
-    *text = index.data(contentType::html).toString();
+    *text = getTextData(data, mimeHtml);
     if ( text->isEmpty() )
         return false;
 
@@ -220,13 +220,13 @@ ItemWebLoader::ItemWebLoader()
 
 ItemWebLoader::~ItemWebLoader() = default;
 
-ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
+ItemWidget *ItemWebLoader::create(const QVariantMap &data, QWidget *parent, bool preview) const
 {
-    if ( index.data(contentType::isHidden).toBool() )
+    if ( data.value(mimeHidden).toBool() )
         return nullptr;
 
     QString html;
-    if ( getHtml(index, &html) ) {
+    if ( getHtml(data, &html) ) {
         const int maxHeight = preview ? 0 : m_settings.value(optionMaximumHeight, 0).toInt();
         return new ItemWeb(html, maxHeight, preview, parent);
     }

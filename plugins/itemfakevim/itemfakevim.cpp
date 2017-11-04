@@ -583,7 +583,7 @@ QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-ItemWidget *ItemFakeVimLoader::transform(ItemWidget *itemWidget, const QModelIndex &)
+ItemWidget *ItemFakeVimLoader::transform(ItemWidget *itemWidget, const QVariantMap &)
 {
     return m_enabled ? new ItemFakeVim(itemWidget, m_sourceFileName) : nullptr;
 }

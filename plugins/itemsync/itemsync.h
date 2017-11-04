@@ -166,7 +166,7 @@ public:
 
     ItemSaverPtr initializeTab(const QString &tabName, QAbstractItemModel *model, int maxItems) override;
 
-    ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
+    ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data) override;
 
     bool matches(const QModelIndex &index, const QRegExp &re) const override;
 

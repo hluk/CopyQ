@@ -85,7 +85,7 @@ public:
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
-    ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index) override;
+    ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data) override;
 
     QObject *tests(const TestInterfacePtr &test) const override;
 

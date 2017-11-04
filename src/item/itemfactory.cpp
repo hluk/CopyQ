@@ -21,10 +21,12 @@
 
 #include "common/command.h"
 #include "common/common.h"
+#include "common/config.h"
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
+#include "item/itemloaderscript.h"
 #include "item/itemstore.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
@@ -106,13 +108,12 @@ private:
 
 class DummyItem : public QLabel, public ItemWidget {
 public:
-    DummyItem(const QModelIndex &index, QWidget *parent, bool preview)
+    DummyItem(const QVariantMap &data, QWidget *parent, bool preview)
         : QLabel(parent)
         , ItemWidget(this)
-        , m_hasText(false)
-        , m_data(index.data(contentType::data).toMap())
+        , m_hasText( data.contains(mimeText) || data.contains(mimeUriList) )
+        , m_data(data)
     {
-        m_hasText = index.data(contentType::hasText).toBool();
         setMargin(0);
         setWordWrap(true);
         setTextFormat(Qt::PlainText);
@@ -122,7 +123,7 @@ public:
         if (!preview)
             setFixedHeight(sizeHint().height());
 
-        if ( !index.data(contentType::isHidden).toBool() ) {
+        if ( !data.value(mimeHidden).toBool() ) {
             const int height = preview ? -1 : contentsRect().height();
             trySetPixmap(this, m_data, height);
         }
@@ -181,9 +182,9 @@ public:
     QString author() const override { return QString(); }
     QString description() const override { return QString(); }
 
-    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const override
+    ItemWidget *create(const QVariantMap &data, QWidget *parent, bool preview) const override
     {
-        return new DummyItem(index, parent, preview);
+        return new DummyItem(data, parent, preview);
     }
 
     bool canLoadItems(QIODevice *) const override { return true; }
@@ -272,10 +273,6 @@ ItemFactory::ItemFactory(QObject *parent)
     , m_disabledLoaders()
     , m_loaderChildren()
 {
-    loadPlugins();
-
-    if ( m_loaders.isEmpty() )
-        log( QObject::tr("No plugins loaded"), LogNote );
 }
 
 ItemFactory::~ItemFactory()
@@ -283,16 +280,17 @@ ItemFactory::~ItemFactory()
     // Plugins are unloaded at application exit.
 }
 
-ItemWidget *ItemFactory::createItem(const ItemLoaderPtr &loader, const QModelIndex &index,
+ItemWidget *ItemFactory::createItem(
+        const ItemLoaderPtr &loader, const QVariantMap &data,
         QWidget *parent, bool antialiasing, bool transform, bool preview)
 {
-    ItemWidget *item = loader->create(index, parent, preview);
+    ItemWidget *item = loader->create(data, parent, preview);
 
     if (item != nullptr) {
         if (transform)
-            item = transformItem(item, index);
+            item = transformItem(item, data);
         QWidget *w = item->widget();
-        QString notes = index.data(contentType::notes).toString();
+        const auto notes = getTextData(data, mimeItemNotes);
         if (!notes.isEmpty())
             w->setToolTip(notes);
 
@@ -313,10 +311,10 @@ ItemWidget *ItemFactory::createItem(const ItemLoaderPtr &loader, const QModelInd
 }
 
 ItemWidget *ItemFactory::createItem(
-        const QModelIndex &index, QWidget *parent, bool antialiasing, bool transform, bool preview)
+        const QVariantMap &data, QWidget *parent, bool antialiasing, bool transform, bool preview)
 {
     for ( auto &loader : enabledLoaders() ) {
-        ItemWidget *item = createItem(loader, index, parent, antialiasing, transform, preview);
+        ItemWidget *item = createItem(loader, data, parent, antialiasing, transform, preview);
         if (item != nullptr)
             return item;
     }
@@ -325,9 +323,9 @@ ItemWidget *ItemFactory::createItem(
 }
 
 ItemWidget *ItemFactory::createSimpleItem(
-        const QModelIndex &index, QWidget *parent, bool antialiasing)
+        const QVariantMap &data, QWidget *parent, bool antialiasing)
 {
-    return createItem(m_dummyLoader, index, parent, antialiasing);
+    return createItem(m_dummyLoader, data, parent, antialiasing);
 }
 
 QStringList ItemFactory::formatsToSave() const
@@ -460,7 +458,7 @@ void ItemFactory::loaderChildDestroyed(QObject *obj)
 }
 
 ItemWidget *ItemFactory::otherItemLoader(
-        const QModelIndex &index, ItemWidget *current, bool next, bool antialiasing)
+        const QVariantMap &data, ItemWidget *current, bool next, bool antialiasing)
 {
     Q_ASSERT(current->widget() != nullptr);
 
@@ -483,7 +481,7 @@ ItemWidget *ItemFactory::otherItemLoader(
         else if (i < 0)
             i = size - 1;
 
-        ItemWidget *item = createItem(loaders[i], index, w->parentWidget(), antialiasing);
+        ItemWidget *item = createItem(loaders[i], data, w->parentWidget(), antialiasing);
         if (item != nullptr)
             return item;
     }
@@ -491,7 +489,7 @@ ItemWidget *ItemFactory::otherItemLoader(
     return nullptr;
 }
 
-bool ItemFactory::loadPlugins()
+bool ItemFactory::loadPlugins(ScriptableProxy *scriptableProxy)
 {
 #ifdef COPYQ_PLUGIN_PREFIX
     QDir pluginsDir(COPYQ_PLUGIN_PREFIX);
@@ -521,6 +519,17 @@ bool ItemFactory::loadPlugins()
         }
     }
 
+    QDir scriptsDir(settingsDirectoryPath() + "/plugins/");
+    for (const auto &fileName : scriptsDir.entryList(QStringList("*.js"), QDir::Files)) {
+        const QString path = scriptsDir.absoluteFilePath(fileName);
+        log( QObject::tr("Loading script: %1").arg(path), LogNote );
+        const auto loader = createItemLoaderScript(path, scriptableProxy);
+        if (loader)
+            addLoader(loader);
+        else
+            log( QObject::tr("Failed to load script: %1").arg(path), LogWarning );
+    }
+
     std::sort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
 
     return true;
@@ -540,11 +549,11 @@ ItemLoaderList ItemFactory::enabledLoaders() const
     return enabledLoaders;
 }
 
-ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &index)
+ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QVariantMap &data)
 {
     for (auto &loader : m_loaders) {
         if ( isLoaderEnabled(loader) ) {
-            ItemWidget *newItem = loader->transform(item, index);
+            ItemWidget *newItem = loader->transform(item, data);
             if (newItem != nullptr)
                 item = newItem;
         }

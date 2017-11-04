@@ -366,6 +366,14 @@ bool ClipboardBrowser::isFiltered(int row) const
             && !m_sharedData->itemFactory->matches( ind, d.searchExpression() );
 }
 
+QVariantMap ClipboardBrowser::itemData(const QModelIndex &index) const
+{
+    auto data = index.data(contentType::data).toMap();
+    if (m_itemSaver)
+        m_itemSaver->transformItemData(m, &data);
+    return data;
+}
+
 bool ClipboardBrowser::hideFiltered(int row)
 {
     const bool hide = isFiltered(row);
@@ -1712,8 +1720,9 @@ QWidget *ClipboardBrowser::currentItemPreview()
 
     const QModelIndex index = currentIndex();
     const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
+    const auto data = itemData(index);
     ItemWidget *itemWidget =
-            m_sharedData->itemFactory->createItem(index, this, antialiasing, false, true);
+            m_sharedData->itemFactory->createItem(data, this, antialiasing, false, true);
     QWidget *w = itemWidget->widget();
 
     d.highlightMatches(itemWidget);

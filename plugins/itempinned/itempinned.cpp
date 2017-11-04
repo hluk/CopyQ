@@ -243,6 +243,11 @@ QVariantMap ItemPinnedSaver::copyItem(const QAbstractItemModel &model, const QVa
     return m_saver->copyItem(model, itemData);
 }
 
+void ItemPinnedSaver::transformItemData(const QAbstractItemModel &model, QVariantMap *itemData)
+{
+    return m_saver->transformItemData(model, itemData);
+}
+
 void ItemPinnedSaver::onRowsInserted(const QModelIndex &, int start, int end)
 {
     if (!m_model || m_lastPinned < start) {
@@ -379,9 +384,9 @@ QWidget *ItemPinnedLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-ItemWidget *ItemPinnedLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
+ItemWidget *ItemPinnedLoader::transform(ItemWidget *itemWidget, const QVariantMap &data)
 {
-    return isPinned(index) ? new ItemPinned(itemWidget) : nullptr;
+    return data.contains(mimePinned) ? new ItemPinned(itemWidget) : nullptr;
 }
 
 ItemSaverPtr ItemPinnedLoader::transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model)

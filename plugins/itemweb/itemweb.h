@@ -84,7 +84,7 @@ public:
     ItemWebLoader();
     ~ItemWebLoader();
 
-    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const override;
+    ItemWidget *create(const QVariantMap &data, QWidget *parent, bool preview) const override;
 
     int priority() const override { return 10; }
 

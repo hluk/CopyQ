@@ -38,7 +38,7 @@ class ItemData : public QLabel, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemData(const QModelIndex &index, int maxBytes, QWidget *parent);
+    ItemData(const QVariantMap &data, int maxBytes, QWidget *parent);
 
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
@@ -63,7 +63,7 @@ public:
     ItemDataLoader();
     ~ItemDataLoader();
 
-    ItemWidget *create(const QModelIndex &index, QWidget *parent, bool preview) const override;
+    ItemWidget *create(const QVariantMap &data, QWidget *parent, bool preview) const override;
 
     int priority() const override { return -20; }
 

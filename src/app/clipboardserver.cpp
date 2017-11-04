@@ -86,6 +86,15 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     m_itemFactory = new ItemFactory(this);
     m_wnd = new MainWindow(m_itemFactory);
 
+    ScriptableProxy *scriptableProxy = new ScriptableProxy(m_wnd);
+    m_itemFactory->loadPlugins(scriptableProxy);
+    if ( !m_itemFactory->hasLoaders() )
+        log("No plugins loaded", LogNote);
+
+    m_wnd->loadSettings();
+    m_wnd->setCurrentTab(0);
+    m_wnd->enterBrowseMode();
+
     connect( server, SIGNAL(newConnection(ClientSocketPtr)),
              this, SLOT(doCommand(ClientSocketPtr)) );
 

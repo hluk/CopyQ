@@ -253,10 +253,8 @@ QString iconFromMime(const QString &format)
     return iconFromId(iconFromMimeHelper(format));
 }
 
-QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSettings)
+QString iconForItem(const QVariantMap &dataMap, const QString &baseName, const QList<FileFormat> &formatSettings)
 {
-    const QString baseName = FileWatcher::getBaseName(index);
-    const QVariantMap dataMap = index.data(contentType::data).toMap();
     const QVariantMap mimeToExtension = dataMap.value(mimeExtensionMap).toMap();
 
     QStringList fileNames;
@@ -293,6 +291,11 @@ QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSet
  * Return true only if the item was created by CopyQ
  * (i.e. has no file assigned or the file name matches internal format).
  */
+bool isOwnItem(const QString &baseName)
+{
+    return baseName.isEmpty() || FileWatcher::isOwnBaseName(baseName);
+}
+
 bool isOwnItem(const QModelIndex &index)
 {
     const QString baseName = FileWatcher::getBaseName(index);
@@ -774,14 +777,15 @@ ItemSaverPtr ItemSyncLoader::initializeTab(const QString &tabName, QAbstractItem
     return loadItems(tabName, model, QStringList(), maxItems);
 }
 
-ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
+ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QVariantMap &data)
 {
-    if ( isOwnItem(index) )
+    const auto baseName = FileWatcher::getBaseName(data);
+    if ( isOwnItem(baseName) )
         return nullptr;
 
     itemWidget->setTagged(true);
-    const QString baseName = FileWatcher::getBaseName(index);
-    return new ItemSync(baseName, iconForItem(index, m_formatSettings), itemWidget);
+    const auto icon = iconForItem(data, baseName, m_formatSettings);
+    return new ItemSync(baseName, icon, itemWidget);
 }
 
 bool ItemSyncLoader::matches(const QModelIndex &index, const QRegExp &re) const

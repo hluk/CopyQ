@@ -31,6 +31,7 @@
 
 class ItemLoaderInterface;
 class ItemWidget;
+class ScriptableProxy;
 class QAbstractItemModel;
 class QIODevice;
 class QModelIndex;
@@ -60,24 +61,21 @@ public:
      * Instantiate ItemWidget using given @a loader if possible.
      */
     ItemWidget *createItem(
-            const ItemLoaderPtr &loader, const QModelIndex &index, QWidget *parent,
+            const ItemLoaderPtr &loader, const QVariantMap &data, QWidget *parent,
             bool antialiasing, bool transform = true, bool preview = false);
 
     /**
      * Instantiate ItemWidget using appropriate loader or creates simple ItemWidget (DummyItem).
      */
-    ItemWidget *createItem(
-            const QModelIndex &index, QWidget *parent, bool antialiasing,
+    ItemWidget *createItem(const QVariantMap &data, QWidget *parent, bool antialiasing,
             bool transform = true, bool preview = false);
 
-    ItemWidget *createSimpleItem(
-            const QModelIndex &index, QWidget *parent, bool antialiasing);
+    ItemWidget *createSimpleItem(const QVariantMap &data, QWidget *parent, bool antialiasing);
 
     /**
      * Uses next/previous item loader to instantiate ItemWidget.
      */
-    ItemWidget *otherItemLoader(
-            const QModelIndex &index, ItemWidget *current, bool next, bool antialiasing);
+    ItemWidget *otherItemLoader(const QVariantMap &data, ItemWidget *current, bool next, bool antialiasing);
 
     /**
      * Formats to save in history, union of enabled ItemLoaderInterface objects.
@@ -140,6 +138,8 @@ public:
 
     void emitError(const QString &errorString);
 
+    bool loadPlugins(ScriptableProxy *scriptableProxy);
+
 signals:
     void error(const QString &errorString);
     void addCommands(const QList<Command> &commands);
@@ -149,13 +149,11 @@ private slots:
     void loaderChildDestroyed(QObject *obj);
 
 private:
-    bool loadPlugins();
-
     /** Return enabled plugins with dummy item loader. */
     ItemLoaderList enabledLoaders() const;
 
     /** Calls ItemLoaderInterface::transform() for all plugins in reverse order. */
-    ItemWidget *transformItem(ItemWidget *item, const QModelIndex &index);
+    ItemWidget *transformItem(ItemWidget *item, const QVariantMap &data);
 
     void addLoader(const ItemLoaderPtr &loader);
 

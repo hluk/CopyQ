@@ -20,12 +20,10 @@
 #include "itemdata.h"
 #include "ui_itemdatasettings.h"
 
-#include "common/contenttype.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
 
 #include <QContextMenuEvent>
-#include <QModelIndex>
 #include <QMouseEvent>
 #include <QTextCodec>
 #include <QtPlugin>
@@ -82,10 +80,10 @@ QString stringFromBytes(const QByteArray &bytes, const QString &format)
     return codec->toUnicode(bytes);
 }
 
-bool isIntersectionEmpty(const QStringList &lhs, const QStringList &rhs)
+bool isIntersectionEmpty(const QVariantMap &data, const QStringList &keys)
 {
-    for (const auto &l : lhs) {
-        if ( rhs.contains(l) )
+    for (const auto &key : keys) {
+        if ( data.contains(key) )
             return false;
     }
 
@@ -94,7 +92,7 @@ bool isIntersectionEmpty(const QStringList &lhs, const QStringList &rhs)
 
 } // namespace
 
-ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
+ItemData::ItemData(const QVariantMap &data, int maxBytes, QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
 {
@@ -104,10 +102,9 @@ ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
 
     QString text;
 
-    const QVariantMap data = index.data(contentType::data).toMap();
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
         const auto &format = it.key();
-        QByteArray bytes = data[format].toByteArray();
+        auto bytes = it.value().toByteArray();
         const int size = bytes.size();
         bool trimmed = size > maxBytes;
         if (trimmed)
@@ -159,17 +156,16 @@ ItemDataLoader::ItemDataLoader()
 
 ItemDataLoader::~ItemDataLoader() = default;
 
-ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent, bool preview) const
+ItemWidget *ItemDataLoader::create(const QVariantMap &data, QWidget *parent, bool preview) const
 {
-    if ( index.data(contentType::isHidden).toBool() )
+    if ( data.value(mimeHidden).toBool() )
         return nullptr;
 
-    const QStringList formats = index.data(contentType::data).toMap().keys();
-    if ( isIntersectionEmpty(formats, formatsToSave()) )
+    if ( isIntersectionEmpty(data, formatsToSave()) )
         return nullptr;
 
     const int bytes = preview ? 4096 : m_settings.value("max_bytes", defaultMaxBytes).toInt();
-    return new ItemData(index, bytes, parent);
+    return new ItemData(data, bytes, parent);
 }
 
 QStringList ItemDataLoader::formatsToSave() const

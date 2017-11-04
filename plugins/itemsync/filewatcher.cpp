@@ -299,7 +299,12 @@ void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
 
 QString FileWatcher::getBaseName(const QModelIndex &index)
 {
-    return index.data(contentType::data).toMap().value(mimeBaseName).toString();
+    return getBaseName( index.data(contentType::data).toMap() );
+}
+
+QString FileWatcher::getBaseName(const QVariantMap &data)
+{
+    return data.value(mimeBaseName).toString();
 }
 
 bool FileWatcher::isOwnBaseName(const QString &baseName)

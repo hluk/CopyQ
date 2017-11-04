@@ -542,13 +542,12 @@ ItemEncryptedLoader::~ItemEncryptedLoader()
     terminateGpgProcess();
 }
 
-ItemWidget *ItemEncryptedLoader::create(const QModelIndex &index, QWidget *parent, bool) const
+ItemWidget *ItemEncryptedLoader::create(const QVariantMap &data, QWidget *parent, bool) const
 {
-    if ( index.data(contentType::isHidden).toBool() )
+    if ( data.value(mimeHidden).toBool() )
         return nullptr;
 
-    const QVariantMap dataMap = index.data(contentType::data).toMap();
-    return dataMap.contains(mimeEncryptedData) ? new ItemEncrypted(parent) : nullptr;
+    return data.contains(mimeEncryptedData) ? new ItemEncrypted(parent) : nullptr;
 }
 
 QStringList ItemEncryptedLoader::formatsToSave() const

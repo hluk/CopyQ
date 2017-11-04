@@ -438,7 +438,7 @@ void raiseWindow(QWidget *window)
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
     : m_wnd(mainWindow)
     , m_tabName()
-    , m_invoked(false)
+    , m_invoked( QThread::currentThread() == qApp->thread() )
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
 }

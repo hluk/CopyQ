@@ -142,11 +142,15 @@ QVariant cellWidgetProperty(QTableWidget *table, int row, int column, const char
     return table->cellWidget(row, column)->property(property);
 }
 
-QString tags(const QModelIndex &index)
+QStringList tags(const QVariant &tags)
 {
-    const QByteArray tagsData =
-            index.data(contentType::data).toMap().value(mimeTags).toByteArray();
-    return getTextData(tagsData);
+    return getTextData( tags.toByteArray() )
+            .split(',', QString::SkipEmptyParts);
+}
+
+QStringList tags(const QVariantMap &itemData)
+{
+    return tags( itemData.value(mimeTags) );
 }
 
 QString toScriptString(const QString &text)
@@ -447,7 +451,7 @@ void ItemTagsScriptable::tag()
         dataList.reserve( dataValueList.size() );
         for (const auto &itemDataValue : dataValueList) {
             auto itemData = itemDataValue.toMap();
-            auto itemTags = tags(itemData);
+            auto itemTags = ::tags(itemData);
             if ( addTag(tagName, &itemTags) )
                 itemData.insert( mimeTags, itemTags.join(",") );
             dataList.append(itemData);
@@ -475,7 +479,7 @@ void ItemTagsScriptable::untag()
             QStringList allTags;
             for (const auto &itemDataValue : dataValueList) {
                 const auto itemData = itemDataValue.toMap();
-                allTags.append( tags(itemData) );
+                allTags.append( ::tags(itemData) );
             }
 
             tagName = askRemoveTagName(allTags);
@@ -487,7 +491,7 @@ void ItemTagsScriptable::untag()
         dataList.reserve( dataValueList.size() );
         for (const auto &itemDataValue : dataValueList) {
             auto itemData = itemDataValue.toMap();
-            auto itemTags = tags(itemData);
+            auto itemTags = ::tags(itemData);
             if ( removeTag(tagName, &itemTags) )
                 itemData.insert( mimeTags, itemTags.join(",") );
             dataList.append(itemData);
@@ -582,18 +586,7 @@ QList<int> ItemTagsScriptable::rows(const QVariantList &arguments, int skip)
 QStringList ItemTagsScriptable::tags(int row)
 {
     const auto value = call("read", QVariantList() << mimeTags << row);
-    return tags(value);
-}
-
-QStringList ItemTagsScriptable::tags(const QVariant &tags)
-{
-    return getTextData( tags.toByteArray() )
-            .split(',', QString::SkipEmptyParts);
-}
-
-QStringList ItemTagsScriptable::tags(const QVariantMap &itemData)
-{
-    return tags( itemData.value(mimeTags) );
+    return ::tags(value);
 }
 
 void ItemTagsScriptable::setTags(int row, const QStringList &tags)
@@ -692,10 +685,9 @@ QWidget *ItemTagsLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-ItemWidget *ItemTagsLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
+ItemWidget *ItemTagsLoader::transform(ItemWidget *itemWidget, const QVariantMap &data)
 {
-    const QString tagsContent = tags(index);
-    const Tags tags = toTags(tagsContent);
+    const Tags tags = toTags(::tags(data));
     if ( tags.isEmpty() )
         return nullptr;
 
@@ -705,7 +697,10 @@ ItemWidget *ItemTagsLoader::transform(ItemWidget *itemWidget, const QModelIndex 
 
 bool ItemTagsLoader::matches(const QModelIndex &index, const QRegExp &re) const
 {
-    return re.indexIn(tags(index)) != -1;
+    const QByteArray tagsData =
+            index.data(contentType::data).toMap().value(mimeTags).toByteArray();
+    const auto tags = getTextData(tagsData);
+    return re.indexIn(tags) != -1;
 }
 
 QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
@@ -846,11 +841,11 @@ ItemTagsLoader::Tag ItemTagsLoader::deserializeTag(const QString &tagText)
     return tag;
 }
 
-ItemTagsLoader::Tags ItemTagsLoader::toTags(const QString &tagsContent)
+ItemTagsLoader::Tags ItemTagsLoader::toTags(const QStringList &tagList)
 {
     Tags tags;
 
-    for (const auto &tagText : tagsContent.split(',', QString::SkipEmptyParts)) {
+    for (const auto &tagText : tagList) {
         QString tagName = tagText.trimmed();
         Tag tag = findMatchingTag(tagName, m_tags);
 

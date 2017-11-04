@@ -127,12 +127,12 @@ QVariant toVariant(const QScriptValue &value)
 
 template <typename T>
 struct ScriptValueFactory {
-    static QScriptValue toScriptValue(const T &value, Scriptable *)
+    static QScriptValue toScriptValue(const T &value, const Scriptable *)
     {
         return QScriptValue(value);
     }
 
-    static T fromScriptValue(const QScriptValue &value, Scriptable *)
+    static T fromScriptValue(const QScriptValue &value, const Scriptable *)
     {
         const auto variant = toVariant(value);
         Q_ASSERT( variant.canConvert<T>() );
@@ -141,19 +141,19 @@ struct ScriptValueFactory {
 };
 
 template <typename T>
-QScriptValue toScriptValue(const T &value, Scriptable *scriptable)
+QScriptValue toScriptValue(const T &value, const Scriptable *scriptable)
 {
     return ScriptValueFactory<T>::toScriptValue(value, scriptable);
 }
 
 template <typename T>
-T fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+T fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
 {
     return ScriptValueFactory<T>::fromScriptValue(value, scriptable);
 }
 
 template <typename T>
-void fromScriptValueIfValid(const QScriptValue &value, Scriptable *scriptable, T *outputValue)
+void fromScriptValueIfValid(const QScriptValue &value, const Scriptable *scriptable, T *outputValue)
 {
     if (value.isValid())
         *outputValue = ScriptValueFactory<T>::fromScriptValue(value, scriptable);
@@ -161,7 +161,7 @@ void fromScriptValueIfValid(const QScriptValue &value, Scriptable *scriptable, T
 
 template <typename T>
 struct ScriptValueFactory< QList<T> > {
-    static QScriptValue toScriptValue(const QList<T> &list, Scriptable *scriptable)
+    static QScriptValue toScriptValue(const QList<T> &list, const Scriptable *scriptable)
     {
         QScriptValue array = scriptable->engine()->newArray();
         for ( int i = 0; i < list.size(); ++i ) {
@@ -171,7 +171,7 @@ struct ScriptValueFactory< QList<T> > {
         return array;
     }
 
-    static QList<T> fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+    static QList<T> fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
     {
         if ( !value.isArray() )
             return QList<T>();
@@ -188,7 +188,7 @@ struct ScriptValueFactory< QList<T> > {
 
 template <>
 struct ScriptValueFactory<QVariantMap> {
-    static QScriptValue toScriptValue(const QVariantMap &dataMap, Scriptable *scriptable)
+    static QScriptValue toScriptValue(const QVariantMap &dataMap, const Scriptable *scriptable)
     {
         QScriptValue value = scriptable->engine()->newObject();
 
@@ -198,7 +198,7 @@ struct ScriptValueFactory<QVariantMap> {
         return value;
     }
 
-    static QVariantMap fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+    static QVariantMap fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
     {
         QVariantMap result;
         QScriptValueIterator it(value);
@@ -213,7 +213,7 @@ struct ScriptValueFactory<QVariantMap> {
 
 template <>
 struct ScriptValueFactory<QByteArray> {
-    static QScriptValue toScriptValue(const QByteArray &bytes, Scriptable *scriptable)
+    static QScriptValue toScriptValue(const QByteArray &bytes, const Scriptable *scriptable)
     {
         return scriptable->byteArrayClass()->newInstance(bytes);
     }
@@ -221,12 +221,12 @@ struct ScriptValueFactory<QByteArray> {
 
 template <>
 struct ScriptValueFactory<QStringList> {
-    static QScriptValue toScriptValue(const QStringList &list, Scriptable *scriptable)
+    static QScriptValue toScriptValue(const QStringList &list, const Scriptable *scriptable)
     {
         return ScriptValueFactory< QList<QString> >::toScriptValue(list, scriptable);
     }
 
-    static QStringList fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+    static QStringList fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
     {
         return ScriptValueFactory< QList<QString> >::fromScriptValue(value, scriptable);
     }
@@ -234,12 +234,12 @@ struct ScriptValueFactory<QStringList> {
 
 template <>
 struct ScriptValueFactory<QString> {
-    static QScriptValue toScriptValue(const QString &text, Scriptable *)
+    static QScriptValue toScriptValue(const QString &text, const Scriptable *)
     {
         return QScriptValue(text);
     }
 
-    static QString fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+    static QString fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
     {
         return toString(value, scriptable);
     }
@@ -247,12 +247,12 @@ struct ScriptValueFactory<QString> {
 
 template <>
 struct ScriptValueFactory<QRegExp> {
-    static QScriptValue toScriptValue(const QRegExp &re, Scriptable *scriptable)
+    static QScriptValue toScriptValue(const QRegExp &re, const Scriptable *scriptable)
     {
         return scriptable->engine()->newRegExp(re);
     }
 
-    static QRegExp fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+    static QRegExp fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
     {
         return value.isRegExp()
                 ? value.toRegExp()
@@ -262,7 +262,7 @@ struct ScriptValueFactory<QRegExp> {
 
 template <>
 struct ScriptValueFactory<Command> {
-    static QScriptValue toScriptValue(const Command &command, Scriptable *scriptable)
+    static QScriptValue toScriptValue(const Command &command, const Scriptable *scriptable)
     {
         QScriptValue value = scriptable->engine()->newObject();
 
@@ -290,7 +290,7 @@ struct ScriptValueFactory<Command> {
         return value;
     }
 
-    static Command fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+    static Command fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
     {
         Command command;
 
@@ -321,7 +321,7 @@ struct ScriptValueFactory<Command> {
 
 template <>
 struct ScriptValueFactory<QVariant> {
-    static QScriptValue toScriptValue(const QVariant &variant, Scriptable *scriptable)
+    static QScriptValue toScriptValue(const QVariant &variant, const Scriptable *scriptable)
     {
         if ( !variant.isValid() )
             return QScriptValue(QScriptValue::UndefinedValue);
@@ -347,7 +347,7 @@ struct ScriptValueFactory<QVariant> {
         return scriptable->engine()->newVariant(variant);
     }
 
-    static QVariant fromScriptValue(const QScriptValue &value, Scriptable *scriptable)
+    static QVariant fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
     {
         auto bytes = getByteArray(value, scriptable);
         if (bytes)
@@ -543,6 +543,11 @@ QVariantMap Scriptable::toDataMap(const QScriptValue &value) const
     return dataMap;
 }
 
+QScriptValue Scriptable::fromDataMap(const QVariantMap &dataMap) const
+{
+    return toScriptValue(dataMap, this);
+}
+
 QByteArray Scriptable::makeByteArray(const QScriptValue &value) const
 {
     QByteArray *data = getByteArray(value, this);
@@ -616,6 +621,16 @@ void Scriptable::throwError(const QString &errorMessage)
 void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
 {
     emit sendMessage(message, exitCode);
+}
+
+QScriptValue Scriptable::call(QScriptValue *fn, const QScriptValue &object, const QVariantList &arguments) const
+{
+    QScriptValueList fnArgs;
+    fnArgs.reserve( arguments.size() );
+    for (const auto &argument : arguments)
+        fnArgs.append( toScriptValue(argument, this) );
+
+    return fn->call(object, fnArgs);
 }
 
 QScriptValue Scriptable::version()
@@ -1989,13 +2004,10 @@ QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
 
     m_skipArguments = 2;
 
-    QScriptValueList fnArgs;
-    fnArgs.reserve( arguments.size() );
-    for (const auto &argument : arguments)
-        fnArgs.append( toScriptValue(argument, this) );
-
     auto fn = m_engine->globalObject().property(method);
-    const auto result = fn.call(QScriptValue(), fnArgs);
+    const auto result = call(&fn, QScriptValue(), arguments);
+    if ( result.isUndefined() || result.isNull() || result.isValid() )
+        return QVariant();
     return toVariant(result);
 }
 
