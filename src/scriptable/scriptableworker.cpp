@@ -71,9 +71,6 @@ void ScriptableWorker::run()
     ScriptableProxy proxy(m_wnd);
     Scriptable scriptable(&engine, &proxy);
 
-    QObject::connect( &proxy, SIGNAL(sendMessage(QByteArray,int)),
-                      socket, SLOT(sendMessage(QByteArray,int)) );
-
     QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
                       socket, SLOT(sendMessage(QByteArray,int)) );
     QObject::connect( socket, SIGNAL(messageReceived(QByteArray,int)),

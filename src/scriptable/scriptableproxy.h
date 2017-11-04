@@ -46,9 +46,10 @@ struct NamedValue {
 
 using NamedValueList = QVector<NamedValue>;
 
-class ScriptableProxy : public QObject
+class ScriptableProxy
 {
-    Q_OBJECT
+    Q_DECLARE_TR_FUNCTIONS(ScriptableProxy)
+
 public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
     explicit ScriptableProxy(MainWindow* mainWindow);
@@ -190,9 +191,6 @@ public:
 
     QString iconColor();
     bool setIconColor(const QString &name);
-
-signals:
-    void sendMessage(const QByteArray &message, int messageCode);
 
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);

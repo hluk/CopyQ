@@ -436,13 +436,11 @@ void raiseWindow(QWidget *window)
 } // namespace
 
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
-    : QObject(nullptr)
-    , m_wnd(mainWindow)
+    : m_wnd(mainWindow)
     , m_tabName()
     , m_invoked(false)
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
-    moveToThread(m_wnd->thread());
 }
 
 QVariantMap ScriptableProxy::getActionData(int id)
@@ -555,7 +553,7 @@ QString ScriptableProxy::renameTab(const QString &arg1, const QString &arg2)
         return tabNotFoundError();
 
     if ( m_wnd->findTabIndex(arg1) != -1 )
-        return tr("Tab with given name already exists!");
+        return ScriptableProxy::tr("Tab with given name already exists!");
 
     m_wnd->renameTab(arg1, i);
 
@@ -1151,8 +1149,8 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
 
     QDialogButtonBox buttons(
                 QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
-    connect( &buttons, SIGNAL(accepted()), &dialog, SLOT(accept()) );
-    connect( &buttons, SIGNAL(rejected()), &dialog, SLOT(reject()) );
+    QObject::connect( &buttons, SIGNAL(accepted()), &dialog, SLOT(accept()) );
+    QObject::connect( &buttons, SIGNAL(rejected()), &dialog, SLOT(reject()) );
     layout.addWidget(&buttons);
 
     if (icon.isNull())
