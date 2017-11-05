@@ -303,11 +303,6 @@ void ItemDelegate::invalidateCache()
         reset(&w);
 }
 
-void ItemDelegate::invalidateCache(int row)
-{
-    reset(&m_cache[row]);
-}
-
 void ItemDelegate::setSearch(const QRegExp &re)
 {
     m_re = re;
@@ -327,7 +322,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     const int row = index.row();
     const auto w = m_cache[row];
     if (w == nullptr) {
-        m_view->itemWidget(index);
+        m_view->updateItemWidget(index);
         return;
     }
 

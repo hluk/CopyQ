@@ -275,6 +275,7 @@ ClipboardBrowser::ClipboardBrowser(
     initSingleShotTimer( &m_timerSave, 30000, this, SLOT(saveItems()) );
     initSingleShotTimer( &m_timerEmitItemCount, 0, this, SLOT(emitItemCount()) );
     initSingleShotTimer( &m_timerUpdateSizes, 0, this, SLOT(updateSizes()) );
+    initSingleShotTimer( &m_timerUpdateItemWidgets, 0, this, SLOT(updateItemWidgets()) );
 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -606,34 +607,28 @@ int ClipboardBrowser::findPreviousVisibleRow(int row)
     return row >= 0 ? row : -1;
 }
 
-void ClipboardBrowser::preload(int pixelsAboveCurrent, int pixelsBelowCurrent, const QModelIndex &current)
-{
-    preload(pixelsAboveCurrent, true, current);
-    preload(pixelsBelowCurrent, false, current);
-}
-
-void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &current)
+void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &start)
 {
     const int s = 2 * spacing();
     const int direction = above ? -1 : 1;
-    int row = current.row() + direction;
+    int row = start.row();
+    QModelIndex ind = index(row);
     int y = 0;
-    for ( auto ind = index(row); ind.isValid() && y < pixels; ind = index(row) ) {
-        if ( isRowHidden(row) ) {
-            d.invalidateCache(row);
-        } else {
-            itemWidget(ind);
+
+    for ( ; ind.isValid() && y < pixels; ind = index(row) ) {
+        if ( !isRowHidden(row) ) {
+            d.cache(ind);
             y += s + d.sizeHint(ind).height();
         }
         row += direction;
     }
 
-    // Unload item widgets below the threshold (unloding pixels above would change the scroll offset).
-    if (!above) {
-        for ( auto ind = index(row); ind.isValid(); ind = index(row) ) {
-            d.invalidateCache(row);
-            row += direction;
-        }
+    // Preload one more item outside offset.
+    for ( ; ind.isValid() && isRowHidden(row); ind = index(row) )
+        row += direction;
+    if ( ind.isValid() ) {
+        d.cache(ind);
+        y += s + d.sizeHint(ind).height();
     }
 }
 
@@ -955,15 +950,6 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
             setCurrentIndex( index(row) );
             return;
         }
-
-        itemWidget(current);
-
-        // Preload next and previous pages so that up/down and page up/down keys scroll correctly.
-        const int h = viewport()->contentsRect().height();
-        preload(h, h, current);
-
-        scheduleDelayedItemsLayout();
-        executeDelayedItemsLayout();
     }
 
     QListView::currentChanged(current, previous);
@@ -1053,6 +1039,9 @@ void ClipboardBrowser::paintEvent(QPaintEvent *e)
     }
 
     QListView::paintEvent(e);
+
+    if (!m_itemWidgetsToUpdate.isEmpty())
+        m_timerUpdateItemWidgets.start();
 
     // If dragging an item into list, draw indicator for dropping items.
     if (m_dragTargetRow != -1) {
@@ -1342,6 +1331,18 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         const auto current = currentIndex();
         int row = current.row();
         const int h = viewport()->contentsRect().height();
+
+        // Preload next and previous pages so that up/down and page up/down keys scroll correctly.
+        if ( m_itemWidgetsToUpdate.isEmpty() ) {
+            setUpdatesEnabled(false);
+            if (key == Qt::Key_PageDown || key == Qt::Key_PageUp)
+                preload(h, (key == Qt::Key_PageUp), current);
+            else if (key == Qt::Key_Down || key == Qt::Key_Up)
+                preload(0, (key == Qt::Key_Up), current);
+            scheduleDelayedItemsLayout();
+            executeDelayedItemsLayout();
+            setUpdatesEnabled(true);
+        }
 
         if (key == Qt::Key_PageDown || key == Qt::Key_PageUp) {
             event->accept();
@@ -1655,6 +1656,19 @@ void ClipboardBrowser::updateSizes()
     updateEditorGeometry();
 }
 
+void ClipboardBrowser::updateItemWidgets()
+{
+    for (auto index : m_itemWidgetsToUpdate) {
+        if (index.isValid()) {
+            setUpdatesEnabled(false);
+            d.cache(index);
+        }
+    }
+
+    m_itemWidgetsToUpdate.clear();
+    setUpdatesEnabled(true);
+}
+
 void ClipboardBrowser::saveUnsavedItems()
 {
     if ( m_timerSave.isActive() )
@@ -1741,9 +1755,9 @@ void ClipboardBrowser::findPrevious()
         m_editor->findPrevious(d.searchExpression());
 }
 
-ItemWidget *ClipboardBrowser::itemWidget(const QModelIndex &index)
+void ClipboardBrowser::updateItemWidget(const QModelIndex &index)
 {
-    return d.cache(index);
+    m_itemWidgetsToUpdate.append(index);
 }
 
 bool ClipboardBrowser::isInternalEditorOpen() const

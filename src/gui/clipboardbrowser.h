@@ -32,6 +32,7 @@
 #include <QPointer>
 #include <QTimer>
 #include <QVariantMap>
+#include <QVector>
 
 #include <memory>
 
@@ -202,7 +203,7 @@ class ClipboardBrowser : public QListView
 
         void findPrevious();
 
-        ItemWidget *itemWidget(const QModelIndex & index);
+        void updateItemWidget(const QModelIndex &index);
 
         /**
          * Load items from configuration.
@@ -321,6 +322,8 @@ class ClipboardBrowser : public QListView
          */
         void updateSizes();
 
+        void updateItemWidgets();
+
     private:
         bool isLoaded() const;
 
@@ -368,8 +371,7 @@ class ClipboardBrowser : public QListView
         int findNextVisibleRow(int row);
         int findPreviousVisibleRow(int row);
 
-        void preload(int pixelsAboveCurrent, int pixelsBelowCurrent, const QModelIndex &current);
-        void preload(int pixels, bool above, const QModelIndex &current);
+        void preload(int pixels, bool above, const QModelIndex &start);
 
         void updateCurrentIndex();
 
@@ -386,6 +388,7 @@ class ClipboardBrowser : public QListView
         QTimer m_timerSave;
         QTimer m_timerEmitItemCount;
         QTimer m_timerUpdateSizes;
+        QTimer m_timerUpdateItemWidgets;
         bool m_resizing = false;
 
         QPointer<ItemEditorWidget> m_editor;
@@ -397,6 +400,8 @@ class ClipboardBrowser : public QListView
         QPoint m_dragStartPosition;
 
         int m_filterRow = -1;
+
+        QVector<QPersistentModelIndex> m_itemWidgetsToUpdate;
 };
 
 #endif // CLIPBOARDBROWSER_H
