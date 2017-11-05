@@ -318,6 +318,8 @@ public slots:
 
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
+    void dataReceived();
+    void finished();
 
 private slots:
     void onExecuteOutput(const QStringList &lines);

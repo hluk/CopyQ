@@ -60,7 +60,7 @@ public:
     ScriptableWorker(
             MainWindow *mainWindow,
             const ClientSocketPtr &socket,
-            const QList<ItemScriptable*> &scriptables);
+            const QList<ItemScriptableFactoryPtr> &scriptableFactories);
 
     ~ScriptableWorker();
 
@@ -72,7 +72,7 @@ public:
 private:
     MainWindow *m_wnd;
     QPointer<ScriptableWorkerSocketGuard> m_socketGuard;
-    QList<ItemScriptable*> m_scriptables;
+    QList<ItemScriptableFactoryPtr> m_scriptableFactories;
 };
 
 #endif // SCRIPTABLEWORKER_H

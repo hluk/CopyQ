@@ -405,9 +405,9 @@ QObject *ItemPinnedLoader::tests(const TestInterfacePtr &test) const
 #endif
 }
 
-ItemScriptable *ItemPinnedLoader::scriptableObject(QObject *parent)
+ItemScriptableFactoryPtr ItemPinnedLoader::scriptableFactory()
 {
-    return new ItemPinnedScriptable(parent);
+    return std::make_shared<ItemPinnedScriptableFactory>();
 }
 
 QList<Command> ItemPinnedLoader::commands() const

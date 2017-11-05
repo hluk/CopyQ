@@ -421,19 +421,19 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
     return false;
 }
 
-QList<ItemScriptable*> ItemFactory::scriptableObjects(QObject *parent) const
+QList<ItemScriptableFactoryPtr> ItemFactory::scriptableFactories() const
 {
-    QList<ItemScriptable*> scriptables;
+    QList<ItemScriptableFactoryPtr> factories;
 
     for ( const auto &loader : enabledLoaders() ) {
-        auto scriptable = loader->scriptableObject(parent);
-        if (scriptable) {
-            scriptable->setObjectName( loader->id() );
-            scriptables.append(scriptable);
+        auto factory = loader->scriptableFactory();
+        if (factory) {
+            factory->setName(loader->id());
+            factories.append(factory);
         }
     }
 
-    return scriptables;
+    return factories;
 }
 
 QList<Command> ItemFactory::commands() const

@@ -732,9 +732,9 @@ QObject *ItemEncryptedLoader::tests(const TestInterfacePtr &test) const
 #endif
 }
 
-ItemScriptable *ItemEncryptedLoader::scriptableObject(QObject *parent)
+ItemScriptableFactoryPtr ItemEncryptedLoader::scriptableFactory()
 {
-    return new ItemEncryptedScriptable(parent);
+    return std::make_shared<ItemEncryptedScriptableFactory>();
 }
 
 QList<Command> ItemEncryptedLoader::commands() const

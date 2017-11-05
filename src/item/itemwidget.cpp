@@ -374,7 +374,7 @@ const QObject *ItemLoaderInterface::signaler() const
     return nullptr;
 }
 
-ItemScriptable *ItemLoaderInterface::scriptableObject(QObject *)
+ItemScriptableFactoryPtr ItemLoaderInterface::scriptableFactory()
 {
     return nullptr;
 }

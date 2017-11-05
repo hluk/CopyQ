@@ -87,7 +87,10 @@ class ItemTagsScriptable : public ItemScriptable
     Q_PROPERTY(QStringList userTags READ getUserTags)
 
 public:
-    explicit ItemTagsScriptable(const QStringList &userTags, QObject *parent);
+    explicit ItemTagsScriptable(const QStringList &userTags)
+        : m_userTags(userTags)
+    {
+    }
 
     QStringList getUserTags() const;
 
@@ -107,6 +110,23 @@ private:
     bool addTag(const QString &tagName, QStringList *tags);
     bool removeTag(const QString &tagName, QStringList *tags);
 
+    QStringList m_userTags;
+};
+
+class ItemTagsScriptableFactory : public ItemScriptableFactoryInterface
+{
+public:
+    explicit ItemTagsScriptableFactory(const QStringList &userTags)
+        : m_userTags(userTags)
+    {
+    }
+
+    ItemScriptable *create() const override
+    {
+        return new ItemTagsScriptable(m_userTags);
+    }
+
+private:
     QStringList m_userTags;
 };
 
@@ -142,7 +162,7 @@ public:
 
     const QObject *signaler() const override { return this; }
 
-    ItemScriptable *scriptableObject(QObject *parent) override;
+    ItemScriptableFactoryPtr scriptableFactory() override;
 
     QList<Command> commands() const override;
 

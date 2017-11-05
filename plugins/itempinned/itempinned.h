@@ -63,9 +63,6 @@ private:
 class ItemPinnedScriptable : public ItemScriptable
 {
     Q_OBJECT
-public:
-    explicit ItemPinnedScriptable(QObject *parent) : ItemScriptable(parent) {}
-
 public slots:
     bool isPinned();
 
@@ -74,6 +71,15 @@ public slots:
 
     void pinData();
     void unpinData();
+};
+
+class ItemPinnedScriptableFactory : public ItemScriptableFactoryInterface
+{
+public:
+    ItemScriptable *create() const override
+    {
+        return new ItemPinnedScriptable();
+    }
 };
 
 class ItemPinnedSaver : public QObject, public ItemSaverInterface
@@ -147,7 +153,7 @@ public:
 
     const QObject *signaler() const override { return this; }
 
-    ItemScriptable *scriptableObject(QObject *parent) override;
+    ItemScriptableFactoryPtr scriptableFactory() override;
 
     QList<Command> commands() const override;
 

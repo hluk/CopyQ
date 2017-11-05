@@ -410,12 +410,6 @@ void ItemTags::updateSize(QSize maximumSize, int idealWidth)
     setFixedHeight(m_childItem->widget()->height() + m_tagWidget->height());
 }
 
-ItemTagsScriptable::ItemTagsScriptable(const QStringList &userTags, QObject *parent)
-    : ItemScriptable(parent)
-    , m_userTags(userTags)
-{
-}
-
 QStringList ItemTagsScriptable::getUserTags() const
 {
     return m_userTags;
@@ -726,9 +720,9 @@ QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
 #endif
 }
 
-ItemScriptable *ItemTagsLoader::scriptableObject(QObject *parent)
+ItemScriptableFactoryPtr ItemTagsLoader::scriptableFactory()
 {
-    return new ItemTagsScriptable(userTags(), parent);
+    return std::make_shared<ItemTagsScriptableFactory>(userTags());
 }
 
 QList<Command> ItemTagsLoader::commands() const

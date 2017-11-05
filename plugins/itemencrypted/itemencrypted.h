@@ -64,9 +64,6 @@ private:
 class ItemEncryptedScriptable : public ItemScriptable
 {
     Q_OBJECT
-public:
-    explicit ItemEncryptedScriptable(QObject *parent) : ItemScriptable(parent) {}
-
 public slots:
     bool isEncrypted();
     QByteArray encrypt();
@@ -86,6 +83,15 @@ public slots:
 private:
     QByteArray encrypt(const QByteArray &bytes);
     QByteArray decrypt(const QByteArray &bytes);
+};
+
+class ItemEncryptedScriptableFactory : public ItemScriptableFactoryInterface
+{
+public:
+    ItemScriptable *create() const override
+    {
+        return new ItemEncryptedScriptable();
+    }
 };
 
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface
@@ -127,7 +133,7 @@ public:
 
     const QObject *signaler() const override { return this; }
 
-    ItemScriptable *scriptableObject(QObject *parent) override;
+    ItemScriptableFactoryPtr scriptableFactory() override;
 
     QList<Command> commands() const override;
 

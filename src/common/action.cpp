@@ -26,13 +26,15 @@
 #include "item/serialize.h"
 
 #include <QCoreApplication>
+#include <QEventLoop>
 #include <QProcessEnvironment>
+#include <QTimer>
 
 #include <cstring>
 
 namespace {
 
-void startProcess(QProcess *process, const QStringList &args)
+void startProcess(QProcess *process, const QStringList &args, QIODevice::OpenModeFlag mode)
 {
     QString executable = args.value(0);
 
@@ -40,7 +42,7 @@ void startProcess(QProcess *process, const QStringList &args)
     if (executable == "copyq")
         executable = QCoreApplication::applicationFilePath();
 
-    process->start(executable, args.mid(1), QIODevice::ReadWrite);
+    process->start(executable, args.mid(1), mode);
 }
 
 template <typename Entry, typename Container>
@@ -271,11 +273,21 @@ void Action::start()
     connect( m_processes.first(), SIGNAL(bytesWritten(qint64)),
              this, SLOT(onBytesWritten()), Qt::QueuedConnection );
 
-    if (m_outputFormat.isEmpty())
-        m_processes.last()->closeReadChannel(QProcess::StandardOutput);
-
-    for (int i = 0; i < m_processes.size(); ++i)
-        startProcess(m_processes[i], cmds[i]);
+    const bool needWrite = !m_input.isEmpty();
+    const bool needRead = !m_outputFormat.isEmpty();
+    if (m_processes.size() == 1) {
+        const auto mode =
+                (needWrite && needRead) ? QIODevice::ReadWrite
+              : needWrite ? QIODevice::WriteOnly
+              : needRead ? QIODevice::ReadOnly
+              : QIODevice::NotOpen;
+        startProcess(m_processes.first(), cmds.first(), mode);
+    } else {
+        startProcess(m_processes.first(), cmds.first(), needWrite ? QIODevice::ReadWrite : QIODevice::ReadOnly);
+        for (int i = 1; i < m_processes.size() - 1; ++i)
+            startProcess(m_processes[i], cmds[i], QIODevice::ReadWrite);
+        startProcess(m_processes.last(), cmds.last(), needRead ? QIODevice::ReadWrite : QIODevice::WriteOnly);
+    }
 }
 
 bool Action::waitForStarted(int msecs)
@@ -288,12 +300,12 @@ bool Action::waitForFinished(int msecs)
     if ( !isRunning() )
         return true;
 
-    for ( int waitMsec = 0;
-          waitMsec < msecs && !m_processes.isEmpty() && !m_processes.last()->waitForFinished(100);
-          waitMsec += 100 )
-    {
-        QCoreApplication::processEvents();
-    }
+    QEventLoop loop;
+    QTimer t;
+    connect(m_processes.last(), SIGNAL(finished(int)), &loop, SLOT(quit()));
+    connect(&t, SIGNAL(timeout()), &loop, SLOT(quit()));
+    t.start(msecs);
+    loop.exec(QEventLoop::ExcludeUserInputEvents);
 
     return !isRunning();
 }
@@ -349,6 +361,9 @@ void Action::onSubProcessOutput()
         return;
 
     auto p = m_processes.last();
+    if ( !p->isReadable() )
+        return;
+
     const auto output = p->readAll();
     if ( output.isEmpty() )
         return;
