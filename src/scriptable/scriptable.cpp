@@ -1776,6 +1776,7 @@ QScriptValue Scriptable::execute()
             args.append( toString(arg, this) );
     }
 
+
     Action action;
     for ( ++i ; i < argumentCount(); ++i ) {
         const auto arg = argument(i);

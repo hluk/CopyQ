@@ -61,9 +61,6 @@ class ItemDelegate : public QItemDelegate
         /** Remove all cached items. */
         void invalidateCache();
 
-        /** Remove cached item. */
-        void invalidateCache(int row);
-
         /** Set regular expression for highlighting. */
         void setSearch(const QRegExp &re);
 
