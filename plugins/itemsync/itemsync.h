@@ -108,9 +108,26 @@ class ItemSyncScriptable : public ItemScriptable
     Q_PROPERTY(QVariantMap tabPaths READ getTabPaths)
 
 public:
-    ItemSyncScriptable(const ItemSyncTabPaths &tabPaths, QObject *parent);
+    explicit ItemSyncScriptable(const QVariantMap &tabPaths)
+        : m_tabPaths(tabPaths)
+    {
+    }
 
-    QVariantMap getTabPaths() const;
+    QVariantMap getTabPaths() const { return m_tabPaths; }
+
+private:
+    QVariantMap m_tabPaths;
+};
+
+class ItemSyncScriptableFactory : public ItemScriptableFactoryInterface
+{
+public:
+    explicit ItemSyncScriptableFactory(const ItemSyncTabPaths &tabPaths);
+
+    ItemScriptable *create() const override
+    {
+        return new ItemSyncScriptable(m_tabPaths);
+    }
 
 private:
     QVariantMap m_tabPaths;
@@ -174,7 +191,7 @@ public:
 
     const QObject *signaler() const override { return this; }
 
-    ItemScriptable *scriptableObject(QObject *parent) override;
+    ItemScriptableFactoryPtr scriptableFactory() override;
 
 signals:
     void error(const QString &);

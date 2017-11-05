@@ -129,7 +129,7 @@ public:
      */
     bool matches(const QModelIndex &index, const QRegExp &re) const;
 
-    QList<ItemScriptable *> scriptableObjects(QObject *parent) const;
+    QList<ItemScriptableFactoryPtr> scriptableFactories() const;
 
     /**
      * Adds commands from scripts for command dialog.

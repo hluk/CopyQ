@@ -24,6 +24,7 @@
 #include "common/server.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/mainwindow.h"
+#include "item/itemwidget.h"
 
 #include <QMap>
 #include <QProcess>
@@ -136,6 +137,7 @@ private:
     QThreadPool m_clientThreads;
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;
+    QList<ItemScriptableFactoryPtr> m_scriptableFactories;
 };
 
 #endif // CLIPBOARDSERVER_H

@@ -45,6 +45,9 @@ using ItemLoaderPtr = std::shared_ptr<ItemLoaderInterface>;
 class ItemSaverInterface;
 using ItemSaverPtr = std::shared_ptr<ItemSaverInterface>;
 
+class ItemScriptableFactoryInterface;
+using ItemScriptableFactoryPtr = std::shared_ptr<ItemScriptableFactoryInterface>;
+
 #define COPYQ_PLUGIN_ITEM_LOADER_ID "org.CopyQ.ItemPlugin.ItemLoader/1.0"
 
 #if QT_VERSION < 0x050000
@@ -178,8 +181,6 @@ class ItemScriptable : public QObject
 {
     Q_OBJECT
 public:
-    explicit ItemScriptable(QObject *parent) : QObject(parent) {}
-
     /** Return scriptable object (nullptr before start() is called). */
     QObject *scriptable() const { return m_scriptable; }
 
@@ -213,6 +214,34 @@ protected:
 
 private:
     QObject *m_scriptable = nullptr;
+};
+
+/**
+ * Factory for creating script objects.
+ */
+class ItemScriptableFactoryInterface
+{
+public:
+    virtual ~ItemScriptableFactoryInterface() = default;
+
+    /**
+     * Create script object.
+     *
+     * This method must be thread-safe.
+     */
+    virtual ItemScriptable *create() const = 0;
+
+    /**
+     * Variable name for scriptable object in script.
+     *
+     * This method is thread-safe.
+     */
+    QString name() const { return m_name; }
+
+    void setName(const QString &name) { m_name = name; }
+
+private:
+    QString m_name;
 };
 
 /**
@@ -409,11 +438,9 @@ public:
     virtual const QObject *signaler() const;
 
     /**
-     * Return scriptable object that can be used in scripts.
-     *
-     * Object will be available as `plugins.<PLUGIN_ID>`.
+     * Return factory for creating script objects.
      */
-    virtual ItemScriptable *scriptableObject(QObject *parent);
+    virtual ItemScriptableFactoryPtr scriptableFactory();
 
     /**
      * Adds commands from scripts for command dialog.

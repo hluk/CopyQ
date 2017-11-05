@@ -335,7 +335,7 @@ void ClipboardServer::doCommand(const ClientSocketPtr &client)
     // There is no parent so as it's possible to move the worker to another thread.
     // QThreadPool takes ownership and worker will be automatically deleted
     // after run() (see QRunnable::setAutoDelete()).
-    auto worker = new ScriptableWorker(m_wnd, client, m_itemFactory->scriptableObjects(this));
+    auto worker = new ScriptableWorker(m_wnd, client, m_scriptableFactories);
 
     // Terminate worker at application exit.
     connect( this, SIGNAL(terminateClientThreads()),
@@ -452,6 +452,8 @@ void ClipboardServer::loadSettings()
     // reload clipboard monitor configuration
     if ( isMonitoring() )
         loadMonitorSettings();
+
+    m_scriptableFactories = m_itemFactory->scriptableFactories();
 }
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)

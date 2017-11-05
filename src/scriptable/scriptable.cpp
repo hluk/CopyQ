@@ -1426,8 +1426,10 @@ QScriptValue Scriptable::input()
 
     if ( !getByteArray(m_input, this) ) {
         sendMessageToClient(QByteArray(), CommandReadInput);
-        while ( m_connected && !getByteArray(m_input, this) )
-            QApplication::processEvents();
+        QEventLoop loop;
+        connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
+        connect(this, SIGNAL(dataReceived()), &loop, SLOT(quit()));
+        loop.exec(QEventLoop::ExcludeUserInputEvents);
     }
 
     return m_input;
@@ -2077,18 +2079,21 @@ void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 {
     COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );
 
-    if (messageCode == CommandArguments)
+    if (messageCode == CommandArguments) {
         executeArguments(bytes);
-    else if (messageCode == CommandReadInputReply)
+    } else if (messageCode == CommandReadInputReply) {
         m_input = newByteArray(bytes);
-    else
+        emit dataReceived();
+    } else {
         log("Incorrect message code from client", LogError);
+    }
 }
 
 void Scriptable::onDisconnected()
 {
     m_connected = false;
     abort();
+    emit finished();
 }
 
 void Scriptable::onExecuteOutput(const QStringList &lines)

@@ -54,15 +54,31 @@ class ItemScriptableScript : public ItemScriptable
 {
     Q_OBJECT
 public:
-    ItemScriptableScript(const QString &script, QObject *parent)
-        : ItemScriptable(parent)
-        , m_script(script)
+    explicit ItemScriptableScript(const QString &script)
+        : m_script(script)
     {
     }
 
     void start() override
     {
         eval(m_script);
+    }
+
+private:
+    QString m_script;
+};
+
+class ItemScriptableScriptFactory : public ItemScriptableFactoryInterface
+{
+public:
+    explicit ItemScriptableScriptFactory(const QString &script)
+        : m_script(script)
+    {
+    }
+
+    ItemScriptable *create() const override
+    {
+        return new ItemScriptableScript(m_script);
     }
 
 private:
@@ -228,9 +244,9 @@ public:
         return saver;
     }
 
-    ItemScriptable *scriptableObject(QObject *parent) override
+    ItemScriptableFactoryPtr scriptableFactory() override
     {
-        return new ItemScriptableScript(m_script, parent);
+        return std::make_shared<ItemScriptableScriptFactory>(m_script);
     }
 
 private slots:
