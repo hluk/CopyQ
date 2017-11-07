@@ -3163,6 +3163,9 @@ void MainWindow::openPreferences()
     connect( &configurationManager, SIGNAL(openCommandDialogRequest()),
              this, SLOT(openCommands()) );
 
+    // WORKAROUND: Fix drag'n'drop in list in modal dialog for Qt 5.9.2 (QTBUG-63846).
+    configurationManager.setWindowModality(Qt::WindowModal);
+
     cm = &configurationManager;
     configurationManager.exec();
     cm = nullptr;
