@@ -2117,7 +2117,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="368"/>
         <source>Font</source>
-        <translation type="unfinished">Skrifttype</translation>
+        <translation>Skrift</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="373"/>
@@ -2559,12 +2559,12 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="550"/>
         <source>Remove Items?</source>
-        <translation type="unfinished">Fjerne elementer?</translation>
+        <translation>Fjern elementer?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="551"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished">Ønsker du virkelig å &lt;strong&gt;fjerne elementer og tilhørende filer&lt;/strong&gt;?</translation>
+        <translation>Ønsker du virkelig å &lt;strong&gt;fjerne elementer og tilhørende filer&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
