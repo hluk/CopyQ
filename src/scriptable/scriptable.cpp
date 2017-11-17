@@ -2093,7 +2093,9 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     QDataStream stream(bytes);
     stream >> args;
     if ( stream.status() != QDataStream::Ok ) {
-        log("Failed to read client arguments", LogError);
+        const auto message = "Failed to read client arguments";
+        log(message, LogError);
+        emit sendMessage(message, CommandError);
         return;
     }
 
