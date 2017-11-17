@@ -56,6 +56,7 @@
 #include <QScriptValueIterator>
 #include <QSettings>
 #include <QUrl>
+#include <QVector>
 #include <QTextCodec>
 #include <QThread>
 
@@ -159,9 +160,9 @@ void fromScriptValueIfValid(const QScriptValue &value, const Scriptable *scripta
         *outputValue = ScriptValueFactory<T>::fromScriptValue(value, scriptable);
 }
 
-template <typename T>
-struct ScriptValueFactory< QList<T> > {
-    static QScriptValue toScriptValue(const QList<T> &list, const Scriptable *scriptable)
+template <typename List, typename T>
+struct ScriptValueListFactory {
+    static QScriptValue toScriptValue(const List &list, const Scriptable *scriptable)
     {
         QScriptValue array = scriptable->engine()->newArray();
         for ( int i = 0; i < list.size(); ++i ) {
@@ -171,13 +172,13 @@ struct ScriptValueFactory< QList<T> > {
         return array;
     }
 
-    static QList<T> fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
+    static List fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
     {
         if ( !value.isArray() )
-            return QList<T>();
+            return List();
 
         const quint32 length = value.property("length").toUInt32();
-        QList<T> list;
+        List list;
         for ( quint32 i = 0; i < length; ++i ) {
             const auto item = value.property(i);
             list.append( ScriptValueFactory<T>::fromScriptValue(item, scriptable) );
@@ -185,6 +186,12 @@ struct ScriptValueFactory< QList<T> > {
         return list;
     }
 };
+
+template <typename T>
+struct ScriptValueFactory< QList<T> > : ScriptValueListFactory< QList<T>, T > {};
+
+template <typename T>
+struct ScriptValueFactory< QVector<T> > : ScriptValueListFactory< QVector<T>, T > {};
 
 template <>
 struct ScriptValueFactory<QVariantMap> {
@@ -1910,13 +1917,13 @@ QScriptValue Scriptable::commands()
 
 void Scriptable::setCommands()
 {
-    const auto commands = fromScriptValue<QList<Command>>(argument(0), this);
+    const auto commands = fromScriptValue<QVector<Command>>(argument(0), this);
     m_proxy->setCommands(commands);
 }
 
 void Scriptable::addCommands()
 {
-    const auto commands = fromScriptValue<QList<Command>>(argument(0), this);
+    const auto commands = fromScriptValue<QVector<Command>>(argument(0), this);
     m_proxy->addCommands(commands);
 }
 
@@ -1930,7 +1937,7 @@ QScriptValue Scriptable::importCommands()
 QScriptValue Scriptable::exportCommands()
 {
     m_skipArguments = 1;
-    const auto commands = fromScriptValue<QList<Command>>(argument(0), this);
+    const auto commands = fromScriptValue<QVector<Command>>(argument(0), this);
 
     const auto exportedCommands = ::exportCommands(commands);
     if ( exportedCommands.isEmpty() ) {

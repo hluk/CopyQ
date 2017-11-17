@@ -234,7 +234,7 @@ void CommandDialog::onFinished(int result)
 void CommandDialog::on_itemOrderListCommands_addButtonClicked()
 {
     AddCommandDialog addCommandDialog(m_pluginCommands, this);
-    connect(&addCommandDialog, SIGNAL(addCommands(QList<Command>)), SLOT(onAddCommands(QList<Command>)));
+    connect(&addCommandDialog, SIGNAL(addCommands(QVector<Command>)), SLOT(onAddCommands(QVector<Command>)));
     addCommandDialog.exec();
 }
 
@@ -315,7 +315,7 @@ void CommandDialog::on_buttonBox_clicked(QAbstractButton *button)
     }
 }
 
-void CommandDialog::onAddCommands(const QList<Command> &commands)
+void CommandDialog::onAddCommands(const QVector<Command> &commands)
 {
     const int targetRow = qMax( 0, ui->itemOrderListCommands->currentRow() );
     addCommandsWithoutSave(commands, targetRow);

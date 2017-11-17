@@ -176,7 +176,7 @@ Command dummyTagCommand()
     return c;
 }
 
-void addTagCommands(const QString &tagName, const QString &match, QList<Command> *commands)
+void addTagCommands(const QString &tagName, const QString &match, QVector<Command> *commands)
 {
     Command c;
 
@@ -737,9 +737,9 @@ ItemScriptableFactoryPtr ItemTagsLoader::scriptableFactory()
     return std::make_shared<ItemTagsScriptableFactory>(userTags());
 }
 
-QList<Command> ItemTagsLoader::commands() const
+QVector<Command> ItemTagsLoader::commands() const
 {
-    QList<Command> commands;
+    QVector<Command> commands;
 
     if (m_tags.isEmpty()) {
         addTagCommands(tr("Important", "Tag name for example command"), QString(), &commands);

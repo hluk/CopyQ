@@ -537,10 +537,10 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     connect(itemFactory, SIGNAL(error(QString)),
             this, SLOT(showError(QString)));
-    connect(itemFactory, SIGNAL(addCommands(QList<Command>)),
-            this, SLOT(addCommands(QList<Command>)));
+    connect(itemFactory, SIGNAL(addCommands(QVector<Command>)),
+            this, SLOT(addCommands(QVector<Command>)));
 
-    m_commands = loadEnabledCommands();
+    updateCommands();
 
     initSingleShotTimer( &m_timerUpdateFocusWindows, 50, this, SLOT(updateFocusWindows()) );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
@@ -905,7 +905,7 @@ void MainWindow::onAboutToQuit()
 
 void MainWindow::onCommandDialogSaved()
 {
-    m_commands = loadEnabledCommands();
+    updateCommands();
     updateContextMenu();
     emit commandsSaved();
 }
@@ -1304,7 +1304,7 @@ void MainWindow::resetTestSession(const QString &clipboardTabName)
         c->saveItems();
     }
 
-    setCommands(QList<Command>());
+    setCommands(QVector<Command>());
 
     resetTestsSettings();
 
@@ -1464,11 +1464,11 @@ QAction *MainWindow::addItemAction(int id, QObject *receiver, const char *slot)
     return act;
 }
 
-QList<Command> MainWindow::commandsForMenu(const QVariantMap &data, const QString &tabName)
+QVector<Command> MainWindow::commandsForMenu(const QVariantMap &data, const QString &tabName)
 {
-    QList<Command> commands;
-    for (const auto &command : m_commands) {
-        if ( command.inMenu && !command.name.isEmpty() && canExecuteCommand(command, data, tabName) ) {
+    QVector<Command> commands;
+    for (const auto &command : m_menuCommands) {
+        if ( canExecuteCommand(command, data, tabName) ) {
             Command cmd = command;
             if ( cmd.outputTab.isEmpty() )
                 cmd.outputTab = tabName;
@@ -1481,15 +1481,15 @@ QList<Command> MainWindow::commandsForMenu(const QVariantMap &data, const QStrin
 
 void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
 {
-    if ( m_commands.isEmpty() )
+    if ( m_menuCommands.isEmpty() )
         return;
 
     const auto data = addSelectionData(*c);
-    const QList<Command> commands = commandsForMenu(data, c->tabName());
+    const auto commands = commandsForMenu(data, c->tabName());
 
     QList<QKeySequence> usedShortcuts = m_disabledShortcuts;
 
-    QList<Command> disabledCommands;
+    QVector<Command> disabledCommands;
     QList<QKeySequence> uniqueShortcuts;
 
     for (const auto &command : commands) {
@@ -1532,7 +1532,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
 
 void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
 {
-    if ( m_commands.isEmpty() )
+    if ( m_menuCommands.isEmpty() )
         return;
 
     auto c = getTabForTrayMenu();
@@ -1547,9 +1547,9 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
     if (m_lastWindow)
         data.insert( mimeWindowTitle, m_lastWindow->getTitle() );
 
-    const QList<Command> commands = commandsForMenu(data, c->tabName());
+    const auto commands = commandsForMenu(data, c->tabName());
 
-    QList<Command> disabledCommands;
+    QVector<Command> disabledCommands;
 
     for (const auto &command : commands) {
         QString name = command.name;
@@ -2022,6 +2022,20 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
     return in->status() == QDataStream::Ok;
 }
 
+void MainWindow::updateCommands()
+{
+    m_automaticCommands.clear();
+    m_menuCommands.clear();
+    const auto commands = loadEnabledCommands();
+    for (const auto &command : commands) {
+        if (command.automatic)
+            m_automaticCommands.append(command);
+
+        if ( command.inMenu && !command.name.isEmpty() )
+            m_menuCommands.append(command);
+    }
+}
+
 const Theme &MainWindow::theme() const
 {
     return m_sharedData->theme;
@@ -2105,7 +2119,7 @@ void MainWindow::showError(const QString &msg)
                  msg, IconRemoveSign );
 }
 
-void MainWindow::addCommands(const QList<Command> &commands)
+void MainWindow::addCommands(const QVector<Command> &commands)
 {
     openCommands();
     if (m_commandDialog)
@@ -2757,13 +2771,13 @@ void MainWindow::setActionData(int id, const QVariantMap &data)
     m_actionHandler->setActionData(id, data);
 }
 
-void MainWindow::setCommands(const QList<Command> &commands)
+void MainWindow::setCommands(const QVector<Command> &commands)
 {
     if ( !maybeCloseCommandDialog() )
         return;
 
-    m_commands = commands;
     saveCommands(commands);
+    updateCommands();
     updateContextMenu();
     if (m_options.trayCommands)
         updateTrayMenuItems();
@@ -2790,14 +2804,11 @@ void MainWindow::runAutomaticCommands(QVariantMap data)
     if (!isClipboard && (!m_automaticCommandTester.isCompleted() || m_currentAutomaticCommand))
         return;
 
-    QList<Command> commands;
+    auto commands = m_automaticCommands;
     const QString tabName = defaultTabName();
-    for (const auto &command : m_commands) {
-        if (command.automatic) {
-            commands.append(command);
-            if ( command.outputTab.isEmpty() )
-                commands.last().outputTab = tabName;
-        }
+    for (auto &command : m_automaticCommands) {
+        if ( command.outputTab.isEmpty() )
+            command.outputTab = tabName;
     }
 
     const bool storeData = needStore(data);
@@ -3174,7 +3185,7 @@ void MainWindow::openCommands()
         m_commandDialog->show();
         m_commandDialog->activateWindow();
     } else {
-        const QList<Command> pluginCommands = m_sharedData->itemFactory->commands();
+        const QVector<Command> pluginCommands = m_sharedData->itemFactory->commands();
         QStringList formats = m_sharedData->itemFactory->formatsToSave();
         formats.prepend(mimeText);
         formats.removeDuplicates();

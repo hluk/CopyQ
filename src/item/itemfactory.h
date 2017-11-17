@@ -134,7 +134,7 @@ public:
     /**
      * Adds commands from scripts for command dialog.
      */
-    QList<Command> commands() const;
+    QVector<Command> commands() const;
 
     void emitError(const QString &errorString);
 
@@ -142,7 +142,7 @@ public:
 
 signals:
     void error(const QString &errorString);
-    void addCommands(const QList<Command> &commands);
+    void addCommands(const QVector<Command> &commands);
 
 private slots:
     /** Called if child ItemWidget destroyed. **/

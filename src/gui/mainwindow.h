@@ -30,10 +30,11 @@
 #include <QAction>
 #include <QClipboard>
 #include <QMainWindow>
+#include <QModelIndex>
 #include <QPointer>
 #include <QSystemTrayIcon>
 #include <QTimer>
-#include <QModelIndex>
+#include <QVector>
 
 class Action;
 class ActionHandler;
@@ -309,7 +310,7 @@ public:
     QVariantMap actionData(int id) const;
     void setActionData(int id, const QVariantMap &data);
 
-    void setCommands(const QList<Command> &commands);
+    void setCommands(const QVector<Command> &commands);
 
     void setSessionIconColor(QColor color);
 
@@ -380,7 +381,7 @@ public slots:
     void showError(const QString &msg);
 
     /** Open command dialog and add commands. */
-    void addCommands(const QList<Command> &commands);
+    void addCommands(const QVector<Command> &commands);
 
     /** Execute command on given input data. */
     Action *action(
@@ -651,7 +652,7 @@ private:
 
     QAction *addItemAction(int id, QObject *receiver, const char *slot);
 
-    QList<Command> commandsForMenu(const QVariantMap &data, const QString &tabName);
+    QVector<Command> commandsForMenu(const QVariantMap &data, const QString &tabName);
     void addCommandsToItemMenu(ClipboardBrowser *c);
     void addCommandsToTrayMenu(const QVariantMap &clipboardData);
 
@@ -690,6 +691,8 @@ private:
     bool exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool importDataV3(QDataStream *in, ImportOptions options);
 
+    void updateCommands();
+
     const Theme &theme() const;
 
     ConfigurationManager *cm;
@@ -706,7 +709,8 @@ private:
     QPointer<QAction> m_actionToggleClipboardStoring;
 
     ClipboardBrowserSharedPtr m_sharedData;
-    QList<Command> m_commands;
+    QVector<Command> m_automaticCommands;
+    QVector<Command> m_menuCommands;
 
     PlatformWindowPtr m_lastWindow;
 

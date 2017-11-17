@@ -410,9 +410,9 @@ ItemScriptableFactoryPtr ItemPinnedLoader::scriptableFactory()
     return std::make_shared<ItemPinnedScriptableFactory>();
 }
 
-QList<Command> ItemPinnedLoader::commands() const
+QVector<Command> ItemPinnedLoader::commands() const
 {
-    QList<Command> commands;
+    QVector<Command> commands;
 
     Command c;
 

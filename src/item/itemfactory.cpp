@@ -441,9 +441,9 @@ QList<ItemScriptableFactoryPtr> ItemFactory::scriptableFactories() const
     return factories;
 }
 
-QList<Command> ItemFactory::commands() const
+QVector<Command> ItemFactory::commands() const
 {
-    QList<Command> commands;
+    QVector<Command> commands;
 
     for ( const auto &loader : enabledLoaders() )
         commands << loader->commands();
@@ -577,7 +577,7 @@ void ItemFactory::addLoader(const ItemLoaderPtr &loader)
         if ( loaderMetaObject->indexOfSignal("error(QString)") != -1 )
             connect( signaler, SIGNAL(error(QString)), this, SIGNAL(error(QString)) );
 
-        if ( loaderMetaObject->indexOfSignal("addCommands(QList<Command>)") != -1 )
-            connect( signaler, SIGNAL(addCommands(QList<Command>)), this, SIGNAL(addCommands(QList<Command>)) );
+        if ( loaderMetaObject->indexOfSignal("addCommands(QVector<Command>)") != -1 )
+            connect( signaler, SIGNAL(addCommands(QVector<Command>)), this, SIGNAL(addCommands(QVector<Command>)) );
     }
 }

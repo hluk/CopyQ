@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QVector>
 
 Q_DECLARE_METATYPE(Command)
 
@@ -39,7 +40,7 @@ public:
     void abort();
 
     /// Abort current processing set new commands and data.
-    void setCommands(const QList<Command> &commands, const QVariantMap &data);
+    void setCommands(const QVector<Command> &commands, const QVariantMap &data);
 
     bool isCompleted() const;
 
@@ -65,7 +66,8 @@ private:
     void startNext();
     void commandPassed(bool passed);
 
-    QList<Command> m_commands;
+    QVector<Command> m_commands;
+    int m_currentCommandIndex = 0;
     QVariantMap m_data;
     Action *m_action;
     bool m_abort;

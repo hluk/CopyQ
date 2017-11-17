@@ -379,7 +379,7 @@ ItemScriptableFactoryPtr ItemLoaderInterface::scriptableFactory()
     return nullptr;
 }
 
-QList<Command> ItemLoaderInterface::commands() const
+QVector<Command> ItemLoaderInterface::commands() const
 {
-    return QList<Command>();
+    return QVector<Command>();
 }

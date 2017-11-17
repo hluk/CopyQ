@@ -74,7 +74,7 @@ private slots:
     void on_lineEditFilterCommands_textChanged(const QString &text);
     void on_buttonBox_clicked(QAbstractButton* button);
 
-    void onAddCommands(const QList<Command> &commands);
+    void onAddCommands(const QVector<Command> &commands);
 
     void onClipboardChanged();
 

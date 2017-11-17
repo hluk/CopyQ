@@ -43,9 +43,10 @@ void CommandTester::abort()
 }
 
 void CommandTester::setCommands(
-        const QList<Command> &commands, const QVariantMap &data)
+        const QVector<Command> &commands, const QVariantMap &data)
 {
     abort();
+    m_currentCommandIndex = 0;
     m_commands = commands;
     m_data = data;
 }
@@ -57,7 +58,7 @@ bool CommandTester::isCompleted() const
 
 bool CommandTester::hasCommands() const
 {
-    return !m_commands.isEmpty();
+    return m_currentCommandIndex < m_commands.size();
 }
 
 QVariantMap CommandTester::data() const
@@ -113,7 +114,7 @@ void CommandTester::startNext()
     if (!hasCommands())
         return;
 
-    Command *command = &m_commands[0];
+    Command *command = &m_commands[m_currentCommandIndex];
 
     if (command->matchCmd.isEmpty()) {
         commandPassed(true);
@@ -137,6 +138,7 @@ void CommandTester::startNext()
 void CommandTester::commandPassed(bool passed)
 {
     Q_ASSERT(hasCommands());
-    const Command command = m_commands.takeFirst();
+    const Command &command = m_commands[m_currentCommandIndex];
+    ++m_currentCommandIndex;
     emit commandPassed(command, passed);
 }

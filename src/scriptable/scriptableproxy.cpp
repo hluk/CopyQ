@@ -1220,19 +1220,19 @@ void ScriptableProxy::filter(const QString &text)
     m_wnd->setFilter(text);
 }
 
-QList<Command> ScriptableProxy::commands()
+QVector<Command> ScriptableProxy::commands()
 {
     INVOKE(commands());
     return loadAllCommands();
 }
 
-void ScriptableProxy::setCommands(const QList<Command> &commands)
+void ScriptableProxy::setCommands(const QVector<Command> &commands)
 {
     INVOKE2(setCommands(commands));
     m_wnd->setCommands(commands);
 }
 
-void ScriptableProxy::addCommands(const QList<Command> &commands)
+void ScriptableProxy::addCommands(const QVector<Command> &commands)
 {
     INVOKE2(addCommands(commands));
     m_wnd->addCommands(commands);

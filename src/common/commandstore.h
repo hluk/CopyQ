@@ -20,13 +20,13 @@
 #ifndef COMMANDSTORE_H
 #define COMMANDSTORE_H
 
-#include <QList>
+#include <QVector>
 
 class QSettings;
 
 struct Command;
 
-using Commands = QList<Command>;
+using Commands = QVector<Command>;
 
 enum CommandFilter {
     EnabledCommands,

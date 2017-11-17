@@ -135,11 +135,11 @@ public:
 
     ItemScriptableFactoryPtr scriptableFactory() override;
 
-    QList<Command> commands() const override;
+    QVector<Command> commands() const override;
 
 signals:
     void error(const QString &);
-    void addCommands(const QList<Command> &commands);
+    void addCommands(const QVector<Command> &commands);
 
 private slots:
     void setPassword();

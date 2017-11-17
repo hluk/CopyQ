@@ -62,7 +62,7 @@ QString commandPasteDateTime()
     return QString(commandPasteDateTimeTemplate).arg(format);
 }
 
-Command *newCommand(QList<Command> *commands)
+Command *newCommand(QVector<Command> *commands)
 {
     commands->append(Command());
     return &commands->last();
@@ -149,19 +149,19 @@ void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QS
         Q_ASSERT(false);
 }
 
-void createGlobalShortcut(GlobalAction id, QList<Command> *commands)
+void createGlobalShortcut(GlobalAction id, QVector<Command> *commands)
 {
     Command *c = newCommand(commands);
     createGlobalShortcut(id, c);
 }
 #endif // !NO_GLOBAL_SHORTCUTS
 
-QList<Command> defaultCommands()
+QVector<Command> defaultCommands()
 {
     const QRegExp reURL("^(https?|ftps?|file)://");
     const QRegExp reNotURL("^(?!(http|ftp)s?://)");
 
-    QList<Command> commands;
+    QVector<Command> commands;
     Command *c;
 
     c = newCommand(&commands);
@@ -307,7 +307,7 @@ QList<Command> defaultCommands()
 
 class CommandModel : public QAbstractListModel {
 public:
-    explicit CommandModel(const QList<Command> &commands, QObject *parent = nullptr)
+    explicit CommandModel(const QVector<Command> &commands, QObject *parent = nullptr)
         : QAbstractListModel(parent)
         , m_commands(commands)
     {
@@ -343,12 +343,12 @@ public:
     }
 
 private:
-    QList<Command> m_commands;
+    QVector<Command> m_commands;
 };
 
 } // namespace
 
-AddCommandDialog::AddCommandDialog(const QList<Command> &pluginCommands, QWidget *parent)
+AddCommandDialog::AddCommandDialog(const QVector<Command> &pluginCommands, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddCommandDialog)
     , m_filterModel(new QSortFilterProxyModel(this))
@@ -376,7 +376,7 @@ void AddCommandDialog::accept()
             ui->listViewCommands->selectionModel()->selectedIndexes();
 
     if (!indexes.isEmpty()) {
-        QList<Command> commands;
+        QVector<Command> commands;
 
         commands.reserve( indexes.size() );
         for (const auto &index : indexes)

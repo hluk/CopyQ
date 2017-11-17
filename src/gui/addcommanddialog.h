@@ -21,6 +21,7 @@
 #define ADDCOMMANDDIALOG_H
 
 #include <QDialog>
+#include <QVector>
 
 namespace Ui {
 class AddCommandDialog;
@@ -34,14 +35,14 @@ class AddCommandDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddCommandDialog(const QList<Command> &pluginCommands, QWidget *parent = nullptr);
+    explicit AddCommandDialog(const QVector<Command> &pluginCommands, QWidget *parent = nullptr);
     ~AddCommandDialog();
 
 public slots:
     void accept() override;
 
 signals:
-    void addCommands(const QList<Command> &commands);
+    void addCommands(const QVector<Command> &commands);
 
 private slots:
     void on_filterLineEdit_filterChanged(const QRegExp &re);

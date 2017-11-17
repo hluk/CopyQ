@@ -26,6 +26,7 @@
 #include <QStringList>
 #include <QtPlugin>
 #include <QVariantMap>
+#include <QVector>
 
 #include <memory>
 
@@ -433,7 +434,7 @@ public:
      * Return QObject instance with signals (by default null pointer).
      *
      * Returned QObject can have signal error(QString) for signaling errors
-     * and addCommands(QList<Command>) to open and add commands to Command dialog.
+     * and addCommands(QVector<Command>) to open and add commands to Command dialog.
      */
     virtual const QObject *signaler() const;
 
@@ -445,7 +446,7 @@ public:
     /**
      * Adds commands from scripts for command dialog.
      */
-    virtual QList<Command> commands() const;
+    virtual QVector<Command> commands() const;
 
     ItemLoaderInterface(const ItemLoaderInterface &) = delete;
     ItemLoaderInterface &operator=(const ItemLoaderInterface &) = delete;
