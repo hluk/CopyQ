@@ -223,8 +223,14 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
 
     QTextCursor tc(&m_textDocument);
     tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
-    const auto h = static_cast<int>( cursorRect(tc).bottom() + 4 * logicalDpiY() / 96.0 );
-    setFixedHeight(0 < m_maximumHeight && m_maximumHeight < h ? m_maximumHeight : h);
+    const auto h = static_cast<int>( cursorRect(tc).bottom() + 2 * logicalDpiY() / 96.0 );
+    if (0 < m_maximumHeight && m_maximumHeight < h) {
+        setFixedHeight(m_maximumHeight);
+        setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    } else {
+        setFixedHeight(h);
+        setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    }
 }
 
 bool ItemText::eventFilter(QObject *, QEvent *event)
