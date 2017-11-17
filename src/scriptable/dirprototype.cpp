@@ -236,9 +236,9 @@ QStringList DirPrototype::searchPaths(const QScriptValue &prefix) const
     return QDir::searchPaths(prefix.toString());
 }
 
-QChar DirPrototype::separator() const
+QScriptValue DirPrototype::separator() const
 {
-    return QDir::separator();
+    return QString(QDir::separator());
 }
 
 bool DirPrototype::setCurrent(const QScriptValue &path) const

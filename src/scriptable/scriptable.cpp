@@ -335,6 +335,9 @@ struct ScriptValueFactory<QVariant> {
         if (variant.type() == QVariant::String)
             return ::toScriptValue(variant.toString(), scriptable);
 
+        if (variant.type() == QVariant::Char)
+            return ::toScriptValue(variant.toString(), scriptable);
+
         if (variant.type() == QVariant::RegExp)
             return ::toScriptValue(variant.toRegExp(), scriptable);
 

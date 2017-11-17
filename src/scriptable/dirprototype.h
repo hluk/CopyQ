@@ -85,7 +85,7 @@ public slots:
     QScriptValue root() const;
     QScriptValue rootPath() const;
     QStringList searchPaths(const QScriptValue &prefix) const;
-    QChar separator() const;
+    QScriptValue separator() const;
     bool setCurrent(const QScriptValue &path) const;
     void setSearchPaths(const QScriptValue &prefix, const QStringList &searchPaths) const;
     QScriptValue temp() const;
