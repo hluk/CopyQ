@@ -29,6 +29,16 @@ class CommandWidget;
 class QComboBox;
 struct Command;
 
+namespace CommandType {
+enum CommandType {
+    Automatic,
+    GlobalShortcut,
+    Shortcut,
+    Menu,
+    Script
+};
+} // namespace CommandType
+
 /** Widget (set of widgets) for creating or modifying Command object. */
 class CommandWidget : public QWidget
 {
@@ -48,20 +58,18 @@ public:
     void setFormats(const QStringList &formats);
 
 signals:
-    void iconChanged(const QString &iconString);
+    void iconChanged(const QString &iconString, int commandType);
 
     void nameChanged(const QString &name);
-
-    void automaticChanged(bool automatic);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void showEvent(QShowEvent *event) override;
 
 private slots:
-    void on_lineEditName_textChanged(const QString &name);
+    void on_lineEditName_textChanged(const QString &text);
 
-    void on_buttonIcon_currentIconChanged(const QString &iconString);
+    void on_buttonIcon_currentIconChanged();
 
     void on_checkBoxShowAdvanced_stateChanged(int state);
 
@@ -81,6 +89,8 @@ private:
     void init();
 
     void updateWidgets();
+
+    void emitIconChanged();
 
     Ui::CommandWidget *ui;
 };

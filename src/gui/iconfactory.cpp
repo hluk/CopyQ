@@ -29,6 +29,7 @@
 #include <QFontDatabase>
 #include <QIcon>
 #include <QPainter>
+#include <QPainterPath>
 #include <QPaintDevice>
 #include <QPaintEngine>
 #include <QPixmap>
@@ -210,12 +211,14 @@ public:
                 QPainter painter2(&pixmap);
                 painter2.setCompositionMode(QPainter::CompositionMode_SourceIn);
                 painter2.fillRect( pixmap.rect(), color(painter, mode) );
-                return pixmap;
+                return taggedIcon(&pixmap);
             }
 
             QIcon icon = m_iconName.startsWith(':') ? QIcon(m_iconName) : QIcon::fromTheme(m_iconName);
-            if ( !icon.isNull() )
-                return icon.pixmap(size, mode, state);
+            if ( !icon.isNull() ) {
+                auto pixmap = icon.pixmap(size, mode, state);
+                return taggedIcon(&pixmap);
+            }
         }
 
 #if QT_VERSION >= 0x050000
@@ -226,11 +229,11 @@ public:
         pixmap.fill(Qt::transparent);
 
         if (m_iconId == 0)
-            return pixmap;
+            return taggedIcon(&pixmap);
 
         drawFontIcon( &pixmap, m_iconId, size.width(), size.height(), color(painter, mode) );
 
-        return pixmap;
+        return taggedIcon(&pixmap);
     }
 
     // QIconEngine doesn't seem to work in menus on OS X.
@@ -248,9 +251,9 @@ public:
         updateIcon(icon, size, QIcon::Active);
     }
 
-    static QIcon createIcon(ushort iconId, const QString &iconName)
+    static QIcon createIcon(ushort iconId, const QString &iconName, const QString &tag = QString(), const QColor &tagColor = QColor())
     {
-        IconEngine iconEngine(iconId, iconName);
+        IconEngine iconEngine(iconId, iconName, tag, tagColor);
         QIcon icon;
         iconEngine.updateIcon(&icon, 16);
         iconEngine.updateIcon(&icon, 32);
@@ -259,16 +262,18 @@ public:
         return icon;
     }
 #else
-    static QIcon createIcon(ushort iconId, const QString &iconName)
+    static QIcon createIcon(ushort iconId, const QString &iconName, const QString &tag = QString(), const QColor &tagColor = QColor())
     {
-        return QIcon( new IconEngine(iconId, iconName) );
+        return QIcon( new IconEngine(iconId, iconName, tag, tagColor) );
     }
 #endif
 
 private:
-    IconEngine(ushort iconId, const QString &iconName)
+    IconEngine(ushort iconId, const QString &iconName, const QString &tag, const QColor &tagColor)
         : m_iconId(iconId)
         , m_iconName(iconName)
+        , m_tag(tag)
+        , m_tagColor(tagColor)
     {
     }
 
@@ -287,8 +292,44 @@ private:
         return color;
     }
 
+    QPixmap taggedIcon(QPixmap *pix)
+    {
+        if ( m_tag.isEmpty() )
+            return *pix;
+
+        QPainter painter(pix);
+        painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+
+        const int h = pix->height();
+        const int w = pix->width();
+        const int strokeWidth = 3;
+
+        QFont font;
+        if ( m_tag.size() == 1 && m_tag.at(0).unicode() > IconFirst )
+            font = iconFont();
+        font.setPixelSize(h * 2 / 5);
+        font.setBold(true);
+        painter.setFont(font);
+
+        const auto flags = Qt::AlignBottom | Qt::AlignRight;
+        const auto boundingRect = painter.boundingRect(0, 0, w, h, flags, m_tag);
+        const auto pos = QPoint(w - boundingRect.width() - strokeWidth, h - strokeWidth - 1);
+
+        QPainterPath path;
+        path.addText(pos, font, m_tag);
+        const auto strokeColor = m_tagColor.lightness() < 100 ? Qt::white : Qt::black;
+        painter.strokePath(path, QPen(strokeColor, strokeWidth));
+
+        painter.setPen(m_tagColor);
+        painter.drawText(pos, m_tag);
+
+        return *pix;
+    }
+
     ushort m_iconId;
     QString m_iconName;
+    QString m_tag;
+    QColor m_tagColor;
 };
 
 void updateIcon(QIcon *icon, const QPixmap &pix, int extent)
@@ -322,16 +363,16 @@ QIcon getIconFromResources(const QString &iconName)
     return IconEngine::createIcon(0, imagesRecourcePath + iconName);
 }
 
-QIcon iconFromFile(const QString &fileName)
+QIcon iconFromFile(const QString &fileName, const QString &tag, const QColor &color)
 {
     if ( fileName.isEmpty() )
         return QIcon();
 
     const auto unicode = toIconId(fileName);
     if (unicode != 0)
-        return loadIconFont() ? IconEngine::createIcon(unicode, "") : QIcon();
+        return loadIconFont() ? IconEngine::createIcon(unicode, "", tag, color) : QIcon();
 
-    return QIcon(fileName);
+    return IconEngine::createIcon(0, fileName, tag, color);
 }
 
 QPixmap createPixmap(unsigned short id, const QColor &color, int size)

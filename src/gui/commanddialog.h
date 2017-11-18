@@ -59,9 +59,8 @@ private slots:
     void copySelectedCommandsToClipboard();
     void onCommandDropped(const QString &text, int row);
 
-    void onCurrentCommandWidgetIconChanged(const QString &iconString);
+    void onCurrentCommandWidgetIconChanged(const QString &iconString, int commandType);
     void onCurrentCommandWidgetNameChanged(const QString &name);
-    void onCurrentCommandWidgetAutomaticChanged(bool automatic);
 
     void onFinished(int result);
 

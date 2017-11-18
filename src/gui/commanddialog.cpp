@@ -37,6 +37,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QPainter>
 
 namespace {
 
@@ -63,12 +64,10 @@ private:
         cmdWidget->setFormats(m_formats);
         cmdWidget->setCommand(m_command);
 
-        QObject::connect( cmdWidget, SIGNAL(iconChanged(QString)),
-                          m_cmdDialog, SLOT(onCurrentCommandWidgetIconChanged(QString)) );
+        QObject::connect( cmdWidget, SIGNAL(iconChanged(QString,int)),
+                          m_cmdDialog, SLOT(onCurrentCommandWidgetIconChanged(QString,int)) );
         QObject::connect( cmdWidget, SIGNAL(nameChanged(QString)),
                           m_cmdDialog, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
-        QObject::connect( cmdWidget, SIGNAL(automaticChanged(bool)),
-                          m_cmdDialog, SLOT(onCurrentCommandWidgetAutomaticChanged(bool)) );
 
         return cmdWidget;
     }
@@ -78,9 +77,24 @@ private:
     QStringList m_formats;
 };
 
-QIcon getCommandIcon(const QString &iconString)
+QIcon getCommandIcon(const QString &iconString, int commandType)
 {
-    return iconFromFile(iconString);
+    switch (commandType) {
+    case CommandType::Automatic:
+        return iconFromFile(iconString, QString(QChar(IconFile)), QColor(255,150,100));
+
+    case CommandType::GlobalShortcut:
+        return iconFromFile(iconString, QString(QChar(IconKeyboard)), QColor(100,255,150));
+
+    case CommandType::Script:
+        return iconFromFile(iconString, QString(QChar(IconCog)), Qt::yellow);
+
+    case CommandType::Shortcut:
+        return iconFromFile(iconString, QString(QChar(IconBars)), QColor(100,200,255));
+
+    default:
+        return iconFromFile(iconString);
+    }
 }
 
 bool hasCommandsToPaste(const QString &text)
@@ -208,19 +222,15 @@ void CommandDialog::onCommandDropped(const QString &text, int row)
     addCommandsWithoutSave(commands, row);
 }
 
-void CommandDialog::onCurrentCommandWidgetIconChanged(const QString &iconString)
+void CommandDialog::onCurrentCommandWidgetIconChanged(const QString &iconString, int commandType)
 {
-    ui->itemOrderListCommands->setCurrentItemIcon( getCommandIcon(iconString) );
+    const auto icon = getCommandIcon(iconString, commandType);
+    ui->itemOrderListCommands->setCurrentItemIcon(icon);
 }
 
 void CommandDialog::onCurrentCommandWidgetNameChanged(const QString &name)
 {
     ui->itemOrderListCommands->setCurrentItemLabel(name);
-}
-
-void CommandDialog::onCurrentCommandWidgetAutomaticChanged(bool automatic)
-{
-    ui->itemOrderListCommands->setCurrentItemHighlight(automatic);
 }
 
 void CommandDialog::onFinished(int result)
@@ -361,9 +371,15 @@ void CommandDialog::addCommandsWithoutSave(const Commands &commands, int targetR
 
     for (auto &command : commands) {
         ItemOrderList::ItemPtr item(new CommandItem(command, m_formats, this));
+        const auto commandType =
+                command.automatic ? CommandType::Automatic
+              : !command.globalShortcuts.isEmpty() && !command.globalShortcuts.contains("DISABLED") ? CommandType::GlobalShortcut
+              : command.inMenu && !command.shortcuts.isEmpty() ? CommandType::Shortcut
+              : command.inMenu ? CommandType::Menu
+              : CommandType::Script;
+        const auto icon = getCommandIcon(command.icon, commandType);
         ui->itemOrderListCommands->insertItem(
-                    command.name, command.enable, command.automatic,
-                    getCommandIcon(command.icon), item, row);
+                    command.name, command.enable, icon, item, row);
         rowsToSelect.append(row);
         ++row;
     }

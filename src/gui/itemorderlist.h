@@ -61,9 +61,9 @@ public:
 
     void clearItems();
 
-    void appendItem(const QString &label, bool checked, bool highlight, const QIcon &icon, const ItemPtr &item);
+    void appendItem(const QString &label, bool checked, const QIcon &icon, const ItemPtr &item);
 
-    void insertItem(const QString &label, bool checked, bool highlight, const QIcon &icon, const ItemPtr &item, int targetRow);
+    void insertItem(const QString &label, bool checked, const QIcon &icon, const ItemPtr &item, int targetRow);
 
     /// Returns widget created by Item::createWidget() given @a row
     /// (could be nullptr is not yet created).
@@ -83,8 +83,6 @@ public:
     void setCurrentItemIcon(const QIcon &icon);
 
     void setCurrentItemLabel(const QString &label);
-
-    void setCurrentItemHighlight(bool highlight);
 
     QString itemLabel(int row) const;
 
@@ -127,7 +125,6 @@ private:
 
     QListWidgetItem *listItem(int row) const;
     void setCurrentItemWidget(QWidget *widget);
-    void setItemHighlight(QListWidgetItem *item, bool highlight);
     QWidget *createWidget(QListWidgetItem *item);
 
     Ui::ItemOrderList *ui;

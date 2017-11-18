@@ -145,7 +145,7 @@ void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
         const QIcon icon = getIcon(loader->icon());
         ui->itemOrderListPlugins->appendItem(
-                    loader->name(), itemFactory->isLoaderEnabled(loader), false, icon, pluginItem );
+                    loader->name(), itemFactory->isLoaderEnabled(loader), icon, pluginItem );
     }
 }
 

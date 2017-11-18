@@ -193,14 +193,14 @@ void CommandWidget::showEvent(QShowEvent *event)
     QWidget::showEvent(event);
 }
 
-void CommandWidget::on_lineEditName_textChanged(const QString &name)
+void CommandWidget::on_lineEditName_textChanged(const QString &text)
 {
-    emit nameChanged(name);
+    emit nameChanged(text);
 }
 
-void CommandWidget::on_buttonIcon_currentIconChanged(const QString &iconString)
+void CommandWidget::on_buttonIcon_currentIconChanged()
 {
-    emit iconChanged(iconString);
+    emitIconChanged();
 }
 
 void CommandWidget::on_checkBoxShowAdvanced_stateChanged(int state)
@@ -215,17 +215,19 @@ void CommandWidget::on_checkBoxShowAdvanced_stateChanged(int state)
 void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
 {
     updateWidgets();
-    emit automaticChanged(ui->checkBoxAutomatic->isChecked());
+    emitIconChanged();
 }
 
 void CommandWidget::on_checkBoxInMenu_stateChanged(int)
 {
     updateWidgets();
+    emitIconChanged();
 }
 
 void CommandWidget::on_checkBoxGlobalShortcut_stateChanged(int)
 {
     updateWidgets();
+    emitIconChanged();
 }
 
 void CommandWidget::on_shortcutButtonGlobalShortcut_shortcutAdded(const QKeySequence &)
@@ -259,4 +261,16 @@ void CommandWidget::updateWidgets()
     ui->widgetSpacer->setVisible(ui->widgetAdvanced->isHidden());
 
     ui->commandEdit->resizeToContent();
+}
+
+void CommandWidget::emitIconChanged()
+{
+    const auto tag =
+            ui->checkBoxAutomatic->isChecked() ? CommandType::Automatic
+          : ui->checkBoxGlobalShortcut->isChecked() ? CommandType::GlobalShortcut
+          : ui->checkBoxInMenu->isChecked() && ui->shortcutButton->shortcutCount() > 0 ? CommandType::Shortcut
+          : ui->checkBoxInMenu->isChecked() ? CommandType::Menu
+          : CommandType::Script;
+
+    emit iconChanged( ui->buttonIcon->currentIcon(), tag );
 }
