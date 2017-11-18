@@ -72,7 +72,7 @@ QSize ItemDelegate::sizeHint(const QModelIndex &index) const
                           qMax(ww->height() + 2 * margins.height(), rowNumberSize.height()) );
         }
     }
-    return QSize(0, 512);
+    return QSize(0, 100);
 }
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
