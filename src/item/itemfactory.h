@@ -141,6 +141,7 @@ public:
     bool loadPlugins();
 
     void setScriptCommands(const QVector<Command> &commands, ScriptableProxy *scriptableProxy);
+    bool hasScriptCommands() const { return !m_scriptLoaders.isEmpty(); }
 
 signals:
     void error(const QString &errorString);

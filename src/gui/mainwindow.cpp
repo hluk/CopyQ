@@ -2356,6 +2356,13 @@ void MainWindow::loadSettings()
     m_options.transparencyFocused = appConfig.option<Config::transparency_focused>();
     updateWindowTransparency();
 
+    // save unsaved tab data
+    if ( ui->tabWidget->count() != 0 ) {
+        if ( m_timerSaveTabPositions.isActive() )
+            doSaveTabPositions();
+        ui->tabWidget->saveTabInfo();
+    }
+
     // tab bar position
     const bool tabTreeEnabled = appConfig.option<Config::tab_tree>();
     ui->tabWidget->setTreeModeEnabled(tabTreeEnabled);
@@ -2393,6 +2400,8 @@ void MainWindow::loadSettings()
         setTabs(tabs); // Save any tabs loaded from new tab files.
 
     ui->tabWidget->updateTabs();
+
+    m_timerSaveTabPositions.stop();
 
     updateContextMenu();
 

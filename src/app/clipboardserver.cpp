@@ -234,9 +234,11 @@ void ClipboardServer::onCommandsSaved()
         }
     }
 
-    m_itemFactory->setScriptCommands(scriptCommands, m_scriptableProxy);
-    m_scriptableFactories = m_itemFactory->scriptableFactories();
-    m_wnd->loadSettings();
+    if ( !scriptCommands.isEmpty() || m_itemFactory->hasScriptCommands() ) {
+        m_itemFactory->setScriptCommands(scriptCommands, m_scriptableProxy);
+        m_scriptableFactories = m_itemFactory->scriptableFactories();
+        m_wnd->loadSettings();
+    }
 }
 
 void ClipboardServer::onAboutToQuit()
