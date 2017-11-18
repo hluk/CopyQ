@@ -53,6 +53,7 @@ namespace {
 
 const auto clipboardTabName = "CLIPBOARD";
 const auto defaultSessionColor = "#ff8800";
+const auto defaultTagColor = "#000000";
 
 /**
  * Run a process after a delay.
@@ -1265,6 +1266,31 @@ void Tests::commandIcon()
 
     RUN("iconColor" << defaultSessionColor, "");
     RUN("iconColor", QByteArray(defaultSessionColor) + "\n");
+}
+
+void Tests::commandIconTag()
+{
+    RUN("iconTag", "\n");
+
+    RUN("iconTag" << "TEST", "");
+    RUN("iconTag", "TEST\n");
+
+    RUN("iconTag" << "", "");
+    RUN("iconTag", "\n");
+}
+
+void Tests::commandIconTagColor()
+{
+    RUN("iconTagColor", QByteArray(defaultTagColor) + "\n");
+
+    RUN("iconTagColor" << "red", "");
+    RUN("iconTagColor", "#ff0000\n");
+
+    RUN_EXPECT_ERROR("iconTagColor" << "BAD_COLOR_NAME", CommandException);
+    RUN("iconTagColor", "#ff0000\n");
+
+    RUN("iconTagColor" << defaultTagColor, "");
+    RUN("iconTagColor", QByteArray(defaultTagColor) + "\n");
 }
 
 void Tests::classFile()

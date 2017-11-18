@@ -57,6 +57,14 @@ QColor getDefaultIconColor(const QWidget &widget, bool selected = false);
 
 void setSessionIconColor(QColor color);
 
+void setSessionIconTag(const QString &tag);
+
+void setSessionIconTagColor(QColor color);
+
 QColor sessionIconColor();
+
+QString sessionIconTag();
+
+QColor sessionIconTagColor();
 
 #endif // ICONFACTORY_H

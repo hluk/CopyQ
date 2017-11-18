@@ -314,7 +314,15 @@ public:
 
     void setSessionIconColor(QColor color);
 
+    void setSessionIconTag(const QString &tag);
+
+    void setSessionIconTagColor(QColor color);
+
     QColor sessionIconColor() const;
+
+    QString sessionIconTag() const;
+
+    QColor sessionIconTagColor() const;
 
 public slots:
     /** Close main window and exit the application. */

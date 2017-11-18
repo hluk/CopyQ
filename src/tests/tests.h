@@ -116,6 +116,8 @@ private slots:
     void commandScreenshot();
 
     void commandIcon();
+    void commandIconTag();
+    void commandIconTagColor();
 
     void classFile();
     void classDir();

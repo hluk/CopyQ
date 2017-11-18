@@ -72,10 +72,15 @@ QString sessionName()
     return qApp->property("CopyQ_session_name").toString();
 }
 
-QColor colorFromEnv(const char *envVaribleName)
+QString textFromEnv(const char *envVaribleName)
 {
     const auto name = qgetenv(envVaribleName);
-    return QColor( QString::fromUtf8(name) );
+    return QString::fromUtf8(name);
+}
+
+QColor colorFromEnv(const char *envVaribleName)
+{
+    return QColor( textFromEnv(envVaribleName) );
 }
 
 QColor appIconColorHelper()
@@ -126,6 +131,18 @@ QColor sessionIconColorHelper()
 QColor &sessionIconColorVariable()
 {
     static QColor color = sessionIconColorHelper();
+    return color;
+}
+
+QString &sessionIconTagVariable()
+{
+    static QString tag = textFromEnv("COPYQ_SESSION_TAG");
+    return tag;
+}
+
+QColor &sessionIconTagColorVariable()
+{
+    static QColor color = colorFromEnv("COPYQ_SESSION_TAG_COLOR");
     return color;
 }
 
@@ -268,8 +285,40 @@ public:
     }
 #endif
 
+    static void tagIcon(QPixmap *pix, const QString &tag, QColor color)
+    {
+        if ( tag.isEmpty() )
+            return;
+
+        QPainter painter(pix);
+        painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+
+        const int h = pix->height();
+        const int w = pix->width();
+        const int strokeWidth = 3;
+
+        QFont font;
+        if ( tag.size() == 1 && tag.at(0).unicode() > IconFirst )
+            font = iconFont();
+        font.setPixelSize(h * 2 / 5);
+        font.setBold(true);
+        painter.setFont(font);
+
+        const auto flags = Qt::AlignBottom | Qt::AlignRight;
+        const auto boundingRect = painter.boundingRect(0, 0, w, h, flags, tag);
+        const auto pos = QPoint(w - boundingRect.width() - strokeWidth, h - strokeWidth - 1);
+
+        QPainterPath path;
+        path.addText(pos, font, tag);
+        const auto strokeColor = color.lightness() < 100 ? Qt::white : Qt::black;
+        painter.strokePath(path, QPen(strokeColor, strokeWidth));
+
+        painter.setPen(color);
+        painter.drawText(pos, tag);
+    }
+
 private:
-    IconEngine(ushort iconId, const QString &iconName, const QString &tag, const QColor &tagColor)
+    IconEngine(ushort iconId, const QString &iconName, const QString &tag, QColor tagColor)
         : m_iconId(iconId)
         , m_iconName(iconName)
         , m_tag(tag)
@@ -294,35 +343,7 @@ private:
 
     QPixmap taggedIcon(QPixmap *pix)
     {
-        if ( m_tag.isEmpty() )
-            return *pix;
-
-        QPainter painter(pix);
-        painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-
-        const int h = pix->height();
-        const int w = pix->width();
-        const int strokeWidth = 3;
-
-        QFont font;
-        if ( m_tag.size() == 1 && m_tag.at(0).unicode() > IconFirst )
-            font = iconFont();
-        font.setPixelSize(h * 2 / 5);
-        font.setBold(true);
-        painter.setFont(font);
-
-        const auto flags = Qt::AlignBottom | Qt::AlignRight;
-        const auto boundingRect = painter.boundingRect(0, 0, w, h, flags, m_tag);
-        const auto pos = QPoint(w - boundingRect.width() - strokeWidth, h - strokeWidth - 1);
-
-        QPainterPath path;
-        path.addText(pos, font, m_tag);
-        const auto strokeColor = m_tagColor.lightness() < 100 ? Qt::white : Qt::black;
-        painter.strokePath(path, QPen(strokeColor, strokeWidth));
-
-        painter.setPen(m_tagColor);
-        painter.drawText(pos, m_tag);
-
+        tagIcon(pix, m_tag, m_tagColor);
         return *pix;
     }
 
@@ -399,9 +420,6 @@ QIcon appIcon(AppIconType iconType)
     else
         icon = QIcon::fromTheme("copyq_" + sessionName + "-" + suffix);
 
-    const auto sessionColor = sessionIconColor();
-    const auto appColor = appIconColor();
-
     QPixmap pix;
 
     if (icon.isNull())
@@ -413,8 +431,15 @@ QIcon appIcon(AppIconType iconType)
     pix.setDevicePixelRatio(1);
 #endif
 
+    const auto sessionColor = sessionIconColor();
+    const auto appColor = appIconColor();
+
     if (sessionColor != appColor)
         replaceColor(&pix, appColor, sessionColor);
+
+    const auto &tag = sessionIconTagVariable();
+    if ( !tag.isEmpty() )
+        IconEngine::tagIcon(&pix, tag, sessionIconTagColorVariable());
 
     QIcon icon2;
     icon2.addPixmap(pix);
@@ -461,7 +486,29 @@ void setSessionIconColor(QColor color)
     sessionIconColorVariable() = color;
 }
 
+void setSessionIconTag(const QString &tag)
+{
+    sessionIconTagVariable() = tag;
+}
+
+void setSessionIconTagColor(QColor color)
+{
+    sessionIconTagColorVariable() = color;
+}
+
 QColor sessionIconColor()
 {
     return ::sessionIconColorVariable();
+}
+
+QString sessionIconTag()
+{
+
+    return ::sessionIconTagVariable();
+}
+
+QColor sessionIconTagColor()
+{
+
+    return ::sessionIconTagColorVariable();
 }

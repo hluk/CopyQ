@@ -1364,6 +1364,35 @@ bool ScriptableProxy::setIconColor(const QString &colorName)
     return true;
 }
 
+QString ScriptableProxy::iconTag()
+{
+    INVOKE(iconTag());
+    return m_wnd->sessionIconTag();
+}
+
+void ScriptableProxy::setIconTag(const QString &tag)
+{
+    INVOKE2(setIconTag(tag));
+    m_wnd->setSessionIconTag(tag);
+}
+
+QString ScriptableProxy::iconTagColor()
+{
+    INVOKE(iconTagColor());
+    return m_wnd->sessionIconTagColor().name();
+}
+
+bool ScriptableProxy::setIconTagColor(const QString &colorName)
+{
+    INVOKE(setIconTagColor(colorName));
+    QColor color(colorName);
+    if ( !color.isValid() )
+        return false;
+
+    m_wnd->setSessionIconTagColor(color);
+    return true;
+}
+
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
 {
     ASSERT_MAIN_THREAD();

@@ -2082,6 +2082,33 @@ QScriptValue Scriptable::iconColor()
     return QScriptValue();
 }
 
+QScriptValue Scriptable::iconTag()
+{
+    m_skipArguments = 1;
+
+    if (argumentCount() == 0)
+        return m_proxy->iconTag();
+
+    const auto tag = arg(0);
+    m_proxy->setIconTag(tag);
+
+    return QScriptValue();
+}
+
+QScriptValue Scriptable::iconTagColor()
+{
+    m_skipArguments = 1;
+
+    if (argumentCount() == 0)
+        return m_proxy->iconTagColor();
+
+    const auto color = arg(0);
+    if ( !m_proxy->setIconTagColor(color) )
+        throwError("Invalid color name");
+
+    return QScriptValue();
+}
+
 void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 {
     COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );

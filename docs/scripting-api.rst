@@ -844,6 +844,16 @@ omitted.
          sleep(500)
        }
 
+.. js:function:: iconTag([tag])
+
+   Get or set current tray and window tag text.
+
+.. js:function:: iconTagColor([colorName])
+
+   Get or set current tray and window tag color name.
+
+   Throws exception is the color name is invalid.
+
 Types
 -----
 

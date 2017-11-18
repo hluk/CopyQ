@@ -2791,9 +2791,31 @@ void MainWindow::setSessionIconColor(QColor color)
     updateIcon();
 }
 
+void MainWindow::setSessionIconTag(const QString &tag)
+{
+    ::setSessionIconTag(tag);
+    updateIcon();
+}
+
+void MainWindow::setSessionIconTagColor(QColor color)
+{
+    ::setSessionIconTagColor(color);
+    updateIcon();
+}
+
 QColor MainWindow::sessionIconColor() const
 {
     return ::sessionIconColor();
+}
+
+QString MainWindow::sessionIconTag() const
+{
+    return ::sessionIconTag();
+}
+
+QColor MainWindow::sessionIconTagColor() const
+{
+    return ::sessionIconTagColor();
 }
 
 void MainWindow::runAutomaticCommands(QVariantMap data)

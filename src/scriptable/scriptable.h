@@ -312,6 +312,10 @@ public slots:
 
     QScriptValue iconColor();
 
+    QScriptValue iconTag();
+
+    QScriptValue iconTagColor();
+
 public slots:
     void onMessageReceived(const QByteArray &bytes, int messageCode);
     void onDisconnected();

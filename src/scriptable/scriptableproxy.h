@@ -187,6 +187,12 @@ public:
     QString iconColor();
     bool setIconColor(const QString &name);
 
+    QString iconTag();
+    void setIconTag(const QString &tag);
+
+    QString iconTagColor();
+    bool setIconTagColor(const QString &name);
+
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
     ClipboardBrowser *fetchBrowser();
