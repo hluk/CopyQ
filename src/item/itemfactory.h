@@ -138,7 +138,9 @@ public:
 
     void emitError(const QString &errorString);
 
-    bool loadPlugins(ScriptableProxy *scriptableProxy);
+    bool loadPlugins();
+
+    void setScriptCommands(const QVector<Command> &commands, ScriptableProxy *scriptableProxy);
 
 signals:
     void error(const QString &errorString);
@@ -158,6 +160,7 @@ private:
     void addLoader(const ItemLoaderPtr &loader);
 
     ItemLoaderList m_loaders;
+    ItemLoaderList m_scriptLoaders;
     ItemLoaderPtr m_dummyLoader;
     ItemLoaderList m_disabledLoaders;
     QMap<QObject *, ItemLoaderPtr> m_loaderChildren;

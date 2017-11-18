@@ -165,28 +165,18 @@ class ItemLoaderScript : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemLoaderScript(const QString &scriptFilePath, ScriptableProxy *proxy)
+    ItemLoaderScript(const QString &name, const QString &script, ScriptableProxy *proxy)
         : m_engine()
         , m_scriptable(&m_engine, proxy)
-        , m_baseName( QFileInfo(scriptFilePath).baseName() )
-        , m_id( m_baseName.replace(QRegExp("[^a-zA-Z0-9_]"), "_") )
+        , m_name(name)
+        , m_id( QString(name).replace(QRegExp("[^a-zA-Z0-9_]"), "_") )
+        , m_script(script)
     {
         QObject::connect( &m_scriptable, SIGNAL(sendMessage(QByteArray,int)),
                           this, SLOT(sendMessage(QByteArray,int)) );
 
-        {
-            QFile scriptFile(scriptFilePath);
-            if ( !scriptFile.open(QIODevice::ReadOnly) ) {
-                log( QString("Failed to open \"%1\": %2")
-                     .arg(scriptFilePath, scriptFile.errorString()),
-                     LogError );
-            }
-
-            m_script = scriptFile.readAll();
-        }
-
         if ( !m_script.isEmpty() ) {
-            m_scriptable.eval(m_script, scriptFilePath);
+            m_scriptable.eval(m_script, m_name);
             m_obj = m_engine.globalObject().property(scriptFunctionName);
             if (m_obj.isFunction())
                 m_obj = m_obj.call();
@@ -194,11 +184,6 @@ public:
             if ( processUncaughtException(m_scriptable, m_id, scriptFunctionName) )
                 m_obj = QScriptValue();
         }
-    }
-
-    bool isLoaded() const
-    {
-        return m_obj.isObject();
     }
 
     int priority() const override { return 20; }
@@ -210,7 +195,7 @@ public:
 
     QString name() const override
     {
-        return stringValue("name", m_baseName);
+        return stringValue("name", m_name);
     }
 
     QString author() const override
@@ -304,19 +289,16 @@ private:
     QScriptEngine m_engine;
     Scriptable m_scriptable;
     QScriptValue m_obj;
-    QString m_baseName;
-    QString m_script;
+    QString m_name;
     QString m_id;
+    QString m_script;
 };
 
 } // namespace
 
-ItemLoaderPtr createItemLoaderScript(const QString &scriptFilePath, ScriptableProxy *proxy)
+ItemLoaderPtr createItemLoaderScript(const QString &script, const QString &name, ScriptableProxy *proxy)
 {
-    auto loader = std::make_shared<ItemLoaderScript>(scriptFilePath, proxy);
-    if ( loader->isLoaded() )
-        return loader;
-    return nullptr;
+    return std::make_shared<ItemLoaderScript>(script, name, proxy);
 }
 
 #include "itemloaderscript.moc"

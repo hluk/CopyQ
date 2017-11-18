@@ -247,25 +247,16 @@ void CommandWidget::updateWidgets()
 {
     bool inMenu = ui->checkBoxInMenu->isChecked();
     bool copyOrExecute = inMenu || ui->checkBoxAutomatic->isChecked();
-#ifdef NO_GLOBAL_SHORTCUTS
-    bool globalShortcut = false;
-#else
-    bool globalShortcut =
-            ui->checkBoxGlobalShortcut->isChecked()
-            && ui->shortcutButtonGlobalShortcut->shortcutCount() > 0;
-#endif
 
     ui->widgetGlobalShortcut->setVisible(ui->checkBoxGlobalShortcut->isChecked());
     ui->widgetMenuShortcut->setVisible(inMenu);
 
     ui->groupBoxMatchItems->setVisible(copyOrExecute);
-    ui->groupBoxCommand->setVisible(copyOrExecute || globalShortcut);
     ui->groupBoxAction->setVisible(copyOrExecute);
     ui->groupBoxInMenu->setVisible(inMenu);
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->commandEdit->isEmpty());
 
-    ui->widgetSpacer->setVisible(
-                ui->widgetAdvanced->isHidden() || ui->groupBoxCommand->isHidden());
+    ui->widgetSpacer->setVisible(ui->widgetAdvanced->isHidden());
 
     ui->commandEdit->resizeToContent();
 }

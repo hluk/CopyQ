@@ -36,6 +36,7 @@
 class ClientSocket;
 class ItemFactory;
 class RemoteProcess;
+class ScriptableProxy;
 class QxtGlobalShortcut;
 class QApplication;
 class QSessionManager;
@@ -104,7 +105,9 @@ private slots:
     void shortcutActivated(QxtGlobalShortcut *shortcut);
 
     void removeGlobalShortcuts();
-    void createGlobalShortcuts();
+
+    /** Called when new commands are available. */
+    void onCommandsSaved();
 
     /** Clean up before quitting. */
     void onAboutToQuit();
@@ -132,6 +135,7 @@ private:
     bool hasRunningCommands() const;
 
     MainWindow* m_wnd;
+    ScriptableProxy *m_scriptableProxy = nullptr;
     RemoteProcess *m_monitor;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QThreadPool m_clientThreads;

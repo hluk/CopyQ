@@ -494,7 +494,7 @@ ItemWidget *ItemFactory::otherItemLoader(
     return nullptr;
 }
 
-bool ItemFactory::loadPlugins(ScriptableProxy *scriptableProxy)
+bool ItemFactory::loadPlugins()
 {
 #ifdef COPYQ_PLUGIN_PREFIX
     QDir pluginsDir(COPYQ_PLUGIN_PREFIX);
@@ -524,20 +524,22 @@ bool ItemFactory::loadPlugins(ScriptableProxy *scriptableProxy)
         }
     }
 
-    QDir scriptsDir(settingsDirectoryPath() + "/plugins/");
-    for (const auto &fileName : scriptsDir.entryList(QStringList("*.js"), QDir::Files)) {
-        const QString path = scriptsDir.absoluteFilePath(fileName);
-        log( QObject::tr("Loading script: %1").arg(path), LogNote );
-        const auto loader = createItemLoaderScript(path, scriptableProxy);
-        if (loader)
-            addLoader(loader);
-        else
-            log( QObject::tr("Failed to load script: %1").arg(path), LogWarning );
-    }
-
     std::sort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
 
     return true;
+}
+
+void ItemFactory::setScriptCommands(const QVector<Command> &commands, ScriptableProxy *scriptableProxy)
+{
+    m_scriptLoaders.clear();
+
+    for (const auto &command : commands) {
+        const auto loader = createItemLoaderScript(command.name, command.cmd, scriptableProxy);
+        if (loader)
+            m_scriptLoaders.append(loader);
+        else
+            log( QObject::tr("Failed to load script: %1").arg(command.name), LogWarning );
+    }
 }
 
 ItemLoaderList ItemFactory::enabledLoaders() const
@@ -549,6 +551,9 @@ ItemLoaderList ItemFactory::enabledLoaders() const
             enabledLoaders.append(loader);
     }
 
+    for (auto &loader : m_scriptLoaders)
+        enabledLoaders.append(loader);
+
     enabledLoaders.append(m_dummyLoader);
 
     return enabledLoaders;
@@ -556,6 +561,12 @@ ItemLoaderList ItemFactory::enabledLoaders() const
 
 ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QVariantMap &data)
 {
+    for (auto &loader : m_scriptLoaders) {
+        ItemWidget *newItem = loader->transform(item, data);
+        if (newItem != nullptr)
+            item = newItem;
+    }
+
     for (auto &loader : m_loaders) {
         if ( isLoaderEnabled(loader) ) {
             ItemWidget *newItem = loader->transform(item, data);

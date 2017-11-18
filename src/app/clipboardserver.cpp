@@ -85,9 +85,9 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     m_itemFactory = new ItemFactory(this);
     m_wnd = new MainWindow(m_itemFactory);
+    m_scriptableProxy = new ScriptableProxy(m_wnd);
 
-    ScriptableProxy *scriptableProxy = new ScriptableProxy(m_wnd);
-    m_itemFactory->loadPlugins(scriptableProxy);
+    m_itemFactory->loadPlugins();
     if ( !m_itemFactory->hasLoaders() )
         log("No plugins loaded", LogNote);
 
@@ -119,11 +119,9 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( m_wnd, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 
-#ifndef NO_GLOBAL_SHORTCUTS
     connect( m_wnd, SIGNAL(commandsSaved()),
-             this, SLOT(createGlobalShortcuts()) );
-    createGlobalShortcuts();
-#endif
+             this, SLOT(onCommandsSaved()) );
+    onCommandsSaved();
 
     // Allow to run at least few client and internal threads concurrently.
     m_clientThreads.setMaxThreadCount( qMax(m_clientThreads.maxThreadCount(), 8) );
@@ -211,14 +209,23 @@ void ClipboardServer::removeGlobalShortcuts()
     m_shortcutActions.clear();
 }
 
-void ClipboardServer::createGlobalShortcuts()
+void ClipboardServer::onCommandsSaved()
 {
     removeGlobalShortcuts();
 
     QList<QKeySequence> usedShortcuts;
+    QVector<Command> scriptCommands;
 
-    for ( const auto &command : loadEnabledCommands() ) {
-        if ( !command.globalShortcuts.contains("DISABLED") ) {
+    const auto commands = loadEnabledCommands();
+    for (const auto &command : commands) {
+        const bool hasGlobalShortcut =
+                !command.globalShortcuts.isEmpty()
+                && !command.globalShortcuts.contains("DISABLED");
+
+        if ( !command.automatic && !command.inMenu && !hasGlobalShortcut )
+            scriptCommands.append(command);
+
+        if (hasGlobalShortcut) {
             for (const auto &shortcutText : command.globalShortcuts) {
                 QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
                 if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
@@ -228,6 +235,10 @@ void ClipboardServer::createGlobalShortcuts()
             }
         }
     }
+
+    m_itemFactory->setScriptCommands(scriptCommands, m_scriptableProxy);
+    m_scriptableFactories = m_itemFactory->scriptableFactories();
+    m_wnd->loadSettings();
 }
 
 void ClipboardServer::onAboutToQuit()
