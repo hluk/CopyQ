@@ -58,8 +58,9 @@ private slots:
     void tryPasteCommandFromClipboard();
     void copySelectedCommandsToClipboard();
     void onCommandDropped(const QString &text, int row);
+    void onCommandEnabledDisabled(int row);
 
-    void onCurrentCommandWidgetIconChanged(const QString &iconString, int commandType);
+    void onCurrentCommandWidgetIconChanged();
     void onCurrentCommandWidgetNameChanged(const QString &name);
 
     void onFinished(int result);
@@ -78,12 +79,15 @@ private slots:
     void onClipboardChanged();
 
 private:
+    Command currentCommand(int row) const;
     Commands currentCommands() const;
 
     void addCommandsWithoutSave(const Commands &commands, int targetRow);
     Commands selectedCommands() const;
     QString serializeSelectedCommands();
     bool hasUnsavedChanges() const;
+
+    void updateIcon(int row);
 
     Ui::CommandDialog *ui;
     Commands m_savedCommands;

@@ -24,6 +24,18 @@
 #include <QStringList>
 #include <QRegExp>
 
+namespace CommandType {
+enum CommandType {
+    None = 0,
+    Invalid = 1,
+    Automatic = 1 << 1,
+    GlobalShortcut = 1 << 2,
+    Menu = 1 << 3,
+    Script = 1 << 4,
+    Disabled = 1 << 5
+};
+} // namespace CommandType
+
 /**
  * Command for matched items.
  *
@@ -46,6 +58,7 @@ struct Command {
         , wait(false)
         , automatic(false)
         , inMenu(false)
+        , isScript(false)
         , transform(false)
         , remove(false)
         , hideWindow(false)
@@ -69,6 +82,7 @@ struct Command {
             && wait == other.wait
             && automatic == other.automatic
             && inMenu == other.inMenu
+            && isScript == other.isScript
             && transform == other.transform
             && remove == other.remove
             && hideWindow == other.hideWindow
@@ -82,6 +96,23 @@ struct Command {
 
     bool operator!=(const Command &other) const {
         return !(*this == other);
+    }
+
+    int type() const
+    {
+        auto type =
+               (automatic ? CommandType::Automatic : 0)
+             | (!globalShortcuts.isEmpty() && !globalShortcuts.contains("DISABLED") ? CommandType::GlobalShortcut : 0)
+             | (inMenu ? CommandType::Menu : 0)
+             | (isScript ? CommandType::Script : 0);
+
+        if (type == CommandType::None)
+            type = CommandType::Invalid;
+
+        if (!enable)
+            type |= CommandType::Disabled;
+
+        return type;
     }
 
     /** Name or short description. Used for menu item. */
@@ -127,6 +158,9 @@ struct Command {
 
     /** If true show command in context menu on matching items. */
     bool inMenu;
+
+    /** If true, overrides scripting functionality. */
+    bool isScript;
 
     /** If true change item data, don't create any new items. */
     bool transform;

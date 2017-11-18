@@ -26,7 +26,9 @@
 #include <QBitmap>
 #include <QCoreApplication>
 #include <QFile>
+#include <QFont>
 #include <QFontDatabase>
+#include <QFontMetrics>
 #include <QIcon>
 #include <QPainter>
 #include <QPainterPath>
@@ -290,23 +292,29 @@ public:
         if ( tag.isEmpty() )
             return;
 
+#if QT_VERSION >= 0x050000
+        const auto ratio = pix->devicePixelRatioF();
+        pix->setDevicePixelRatio(1);
+#else
+        const auto ratio = 1.0;
+#endif
         QPainter painter(pix);
         painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
         const int h = pix->height();
-        const int w = pix->width();
-        const int strokeWidth = 3;
+        const int strokeWidth = static_cast<int>(ratio + h / 16);
 
         QFont font;
         if ( tag.size() == 1 && tag.at(0).unicode() > IconFirst )
             font = iconFont();
-        font.setPixelSize(h * 2 / 5);
+        const auto pixelSize = h * 2 / 5;
+        font.setPixelSize(pixelSize);
         font.setBold(true);
         painter.setFont(font);
 
-        const auto flags = Qt::AlignBottom | Qt::AlignRight;
-        const auto boundingRect = painter.boundingRect(0, 0, w, h, flags, tag);
-        const auto pos = QPoint(w - boundingRect.width() - strokeWidth, h - strokeWidth - 1);
+        const auto rect = painter.fontMetrics().tightBoundingRect(tag);
+        const auto baseLineY = rect.bottom();
+        const auto pos = QPoint(strokeWidth, h - strokeWidth - baseLineY);
 
         QPainterPath path;
         path.addText(pos, font, tag);

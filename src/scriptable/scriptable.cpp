@@ -284,6 +284,7 @@ struct ScriptValueFactory<Command> {
         value.setProperty("wait", command.wait);
         value.setProperty("automatic", command.automatic);
         value.setProperty("inMenu", command.inMenu);
+        value.setProperty("isScript", command.isScript);
         value.setProperty("transform", command.transform);
         value.setProperty("remove", command.remove);
         value.setProperty("hideWindow", command.hideWindow);
@@ -312,6 +313,7 @@ struct ScriptValueFactory<Command> {
         ::fromScriptValueIfValid( value.property("wait"), scriptable, &command.wait );
         ::fromScriptValueIfValid( value.property("automatic"), scriptable, &command.automatic );
         ::fromScriptValueIfValid( value.property("inMenu"), scriptable, &command.inMenu );
+        ::fromScriptValueIfValid( value.property("isScript"), scriptable, &command.isScript );
         ::fromScriptValueIfValid( value.property("transform"), scriptable, &command.transform );
         ::fromScriptValueIfValid( value.property("remove"), scriptable, &command.remove );
         ::fromScriptValueIfValid( value.property("hideWindow"), scriptable, &command.hideWindow );

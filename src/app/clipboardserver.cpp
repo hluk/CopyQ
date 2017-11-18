@@ -218,14 +218,12 @@ void ClipboardServer::onCommandsSaved()
 
     const auto commands = loadEnabledCommands();
     for (const auto &command : commands) {
-        const bool hasGlobalShortcut =
-                !command.globalShortcuts.isEmpty()
-                && !command.globalShortcuts.contains("DISABLED");
+        const auto type = command.type();
 
-        if ( !command.automatic && !command.inMenu && !hasGlobalShortcut )
+        if (type & CommandType::Script)
             scriptCommands.append(command);
 
-        if (hasGlobalShortcut) {
+        if (type & CommandType::GlobalShortcut) {
             for (const auto &shortcutText : command.globalShortcuts) {
                 QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
                 if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {

@@ -198,6 +198,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxIsScript">
+             <property name="text">
+              <string>Script</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -646,6 +653,7 @@ Note: If this is applied automatically, no other automatic commands are executed
   <tabstop>checkBoxAutomatic</tabstop>
   <tabstop>checkBoxInMenu</tabstop>
   <tabstop>checkBoxGlobalShortcut</tabstop>
+  <tabstop>checkBoxIsScript</tabstop>
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
   <tabstop>lineEditMatchCmd</tabstop>

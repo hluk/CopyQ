@@ -78,11 +78,11 @@ void ItemOrderList::insertItem(const QString &label, bool checked, const QIcon &
 {
     QListWidget *list = ui->listWidgetItems;
     auto listItem = new QListWidgetItem(icon, label);
+    listItem->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
+    m_items[listItem] = ItemWidgetPair(item, checked);
+
     const int row = targetRow >= 0 ? qMin(list->count(), targetRow) : list->count();
     list->insertItem(row, listItem);
-    listItem->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
-
-    m_items[listItem] = ItemWidgetPair(item);
 
     // Resize list to minimal size.
     if ( !isVisible() ) {
@@ -140,6 +140,13 @@ void ItemOrderList::setCurrentItemLabel(const QString &label)
     QListWidgetItem *current = ui->listWidgetItems->currentItem();
     if(current != nullptr)
         current->setText(label);
+}
+
+void ItemOrderList::setItemIcon(int row, const QIcon &icon)
+{
+    QListWidgetItem *item = listItem(row);
+    if(item != nullptr)
+        item->setIcon(icon);
 }
 
 QString ItemOrderList::itemLabel(int row) const
@@ -273,6 +280,17 @@ void ItemOrderList::on_listWidgetItems_itemSelectionChanged()
     const QItemSelectionModel *sel = ui->listWidgetItems->selectionModel();
     ui->pushButtonRemove->setEnabled( sel->hasSelection() );
     emit itemSelectionChanged();
+}
+
+void ItemOrderList::on_listWidgetItems_itemChanged(QListWidgetItem *item)
+{
+    const auto row = ui->listWidgetItems->row(item);
+    const bool checked = isItemChecked(row);
+
+    if ( m_items[item].lastCheckedState != checked ) {
+        m_items[item].lastCheckedState = checked;
+        emit itemCheckStateChanged(row, checked);
+    }
 }
 
 QListWidgetItem *ItemOrderList::listItem(int row) const

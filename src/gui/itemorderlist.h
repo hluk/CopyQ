@@ -84,6 +84,8 @@ public:
 
     void setCurrentItemLabel(const QString &label);
 
+    void setItemIcon(int row, const QIcon &icon);
+
     QString itemLabel(int row) const;
 
     QList<int> selectedRows() const;
@@ -99,6 +101,7 @@ signals:
     void addButtonClicked();
     void itemSelectionChanged();
     void dropped(const QString &text, int row);
+    void itemCheckStateChanged(int row, bool checked);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -113,14 +116,19 @@ private slots:
 
     void on_listWidgetItems_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listWidgetItems_itemSelectionChanged();
+    void on_listWidgetItems_itemChanged(QListWidgetItem *item);
 
 private:
     struct ItemWidgetPair {
         ItemWidgetPair() {}
-        explicit ItemWidgetPair(const ItemPtr &item) : item(item) {}
+        explicit ItemWidgetPair(const ItemPtr &item, bool checked)
+            : item(item)
+            , lastCheckedState(checked)
+        {}
 
         ItemPtr item;
         QPointer<QWidget> widget;
+        bool lastCheckedState = true;
     };
 
     QListWidgetItem *listItem(int row) const;

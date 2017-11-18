@@ -64,8 +64,8 @@ private:
         cmdWidget->setFormats(m_formats);
         cmdWidget->setCommand(m_command);
 
-        QObject::connect( cmdWidget, SIGNAL(iconChanged(QString,int)),
-                          m_cmdDialog, SLOT(onCurrentCommandWidgetIconChanged(QString,int)) );
+        QObject::connect( cmdWidget, SIGNAL(iconChanged()),
+                          m_cmdDialog, SLOT(onCurrentCommandWidgetIconChanged()) );
         QObject::connect( cmdWidget, SIGNAL(nameChanged(QString)),
                           m_cmdDialog, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
 
@@ -79,22 +79,21 @@ private:
 
 QIcon getCommandIcon(const QString &iconString, int commandType)
 {
-    switch (commandType) {
-    case CommandType::Automatic:
-        return iconFromFile(iconString, QString(QChar(IconFile)), QColor(255,150,100));
+    const auto icon =
+            commandType & CommandType::Automatic ? IconFile
+          : commandType & CommandType::GlobalShortcut ? IconSquare
+          : commandType & CommandType::Script ? IconCog
+          : commandType & CommandType::Menu ? IconBars
+          : IconWarningSign;
+    const auto color =
+            commandType & CommandType::Disabled ? QColor(Qt::lightGray)
+          : commandType & CommandType::Automatic ? QColor(240,220,200)
+          : commandType & CommandType::GlobalShortcut ? QColor(100,255,150)
+          : commandType & CommandType::Script ? QColor(255,220,100)
+          : commandType & CommandType::Menu ? QColor(100,220,255)
+          : QColor(255,100,100);
 
-    case CommandType::GlobalShortcut:
-        return iconFromFile(iconString, QString(QChar(IconKeyboard)), QColor(100,255,150));
-
-    case CommandType::Script:
-        return iconFromFile(iconString, QString(QChar(IconCog)), Qt::yellow);
-
-    case CommandType::Shortcut:
-        return iconFromFile(iconString, QString(QChar(IconBars)), QColor(100,200,255));
-
-    default:
-        return iconFromFile(iconString);
-    }
+    return iconFromFile(iconString, QString(QChar(icon)), color);
 }
 
 bool hasCommandsToPaste(const QString &text)
@@ -150,6 +149,9 @@ CommandDialog::CommandDialog(
     ui->itemOrderListCommands->setDragAndDropValidator(QRegExp("\\[Commands?\\]"));
     connect( ui->itemOrderListCommands, SIGNAL(dropped(QString,int)),
              SLOT(onCommandDropped(QString,int)) );
+
+    connect( ui->itemOrderListCommands, SIGNAL(itemCheckStateChanged(int,bool)),
+             SLOT(onCommandEnabledDisabled(int)) );
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
@@ -222,10 +224,15 @@ void CommandDialog::onCommandDropped(const QString &text, int row)
     addCommandsWithoutSave(commands, row);
 }
 
-void CommandDialog::onCurrentCommandWidgetIconChanged(const QString &iconString, int commandType)
+void CommandDialog::onCommandEnabledDisabled(int row)
 {
-    const auto icon = getCommandIcon(iconString, commandType);
-    ui->itemOrderListCommands->setCurrentItemIcon(icon);
+    updateIcon(row);
+}
+
+void CommandDialog::onCurrentCommandWidgetIconChanged()
+{
+    const auto row = ui->itemOrderListCommands->currentRow();
+    updateIcon(row);
 }
 
 void CommandDialog::onCurrentCommandWidgetNameChanged(const QString &name)
@@ -336,27 +343,31 @@ void CommandDialog::onClipboardChanged()
     ui->pushButtonPasteCommands->setEnabled(!commandsToPaste().isEmpty());
 }
 
+Command CommandDialog::currentCommand(int row) const
+{
+    Command c;
+
+    QWidget *w = ui->itemOrderListCommands->widget(row);
+    if (w) {
+        const CommandWidget *commandWidget = qobject_cast<const CommandWidget *>(w);
+        Q_ASSERT(commandWidget);
+        c = commandWidget->command();
+    } else {
+        c = ui->itemOrderListCommands->data(row).value<Command>();
+    }
+
+    c.enable = ui->itemOrderListCommands->isItemChecked(row);
+
+    return c;
+}
+
 Commands CommandDialog::currentCommands() const
 {
     Commands commands;
     commands.reserve( ui->itemOrderListCommands->itemCount() );
 
-    for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
-        Command c;
-
-        QWidget *w = ui->itemOrderListCommands->widget(i);
-        if (w) {
-            const CommandWidget *commandWidget = qobject_cast<const CommandWidget *>(w);
-            Q_ASSERT(commandWidget);
-            c = commandWidget->command();
-        } else {
-            c = ui->itemOrderListCommands->data(i).value<Command>();
-        }
-
-        c.enable = ui->itemOrderListCommands->isItemChecked(i);
-
-        commands.append(c);
-    }
+    for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i)
+        commands.append( currentCommand(i) );
 
     return commands;
 }
@@ -371,13 +382,7 @@ void CommandDialog::addCommandsWithoutSave(const Commands &commands, int targetR
 
     for (auto &command : commands) {
         ItemOrderList::ItemPtr item(new CommandItem(command, m_formats, this));
-        const auto commandType =
-                command.automatic ? CommandType::Automatic
-              : !command.globalShortcuts.isEmpty() && !command.globalShortcuts.contains("DISABLED") ? CommandType::GlobalShortcut
-              : command.inMenu && !command.shortcuts.isEmpty() ? CommandType::Shortcut
-              : command.inMenu ? CommandType::Menu
-              : CommandType::Script;
-        const auto icon = getCommandIcon(command.icon, commandType);
+        const auto icon = getCommandIcon(command.icon, command.type());
         ui->itemOrderListCommands->insertItem(
                     command.name, command.enable, icon, item, row);
         rowsToSelect.append(row);
@@ -412,4 +417,11 @@ QString CommandDialog::serializeSelectedCommands()
 bool CommandDialog::hasUnsavedChanges() const
 {
     return m_savedCommands != currentCommands();
+}
+
+void CommandDialog::updateIcon(int row)
+{
+    const auto command = currentCommand(row);
+    const auto icon = getCommandIcon(command.icon, command.type());
+    ui->itemOrderListCommands->setItemIcon(row, icon);
 }

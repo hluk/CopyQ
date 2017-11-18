@@ -42,6 +42,7 @@ const char globalShortcutsDisabled[] = "DISABLED";
 const QIcon iconClipboard() { return getIcon("", IconPaste); }
 const QIcon iconMenu() { return getIcon("", IconBars); }
 const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
+const QIcon iconScript() { return getIcon("", IconCog); }
 
 QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enabled = true)
 {
@@ -103,6 +104,7 @@ CommandWidget::CommandWidget(QWidget *parent)
 
     ui->checkBoxAutomatic->setIcon(iconClipboard());
     ui->checkBoxInMenu->setIcon(iconMenu());
+    ui->checkBoxIsScript->setIcon(iconScript());
 
     // Add tab names to combo boxes.
     initTabComboBox(ui->comboBoxCopyToTab);
@@ -131,6 +133,7 @@ Command CommandWidget::command() const
     c.wait   = ui->checkBoxWait->isChecked();
     c.automatic = ui->checkBoxAutomatic->isChecked();
     c.inMenu  = ui->checkBoxInMenu->isChecked();
+    c.isScript  = ui->checkBoxIsScript->isChecked();
     c.transform = ui->checkBoxTransform->isChecked();
     c.remove = ui->checkBoxIgnore->isChecked();
     c.hideWindow = ui->checkBoxHideWindow->isChecked();
@@ -159,6 +162,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->checkBoxWait->setChecked(c.wait);
     ui->checkBoxAutomatic->setChecked(c.automatic);
     ui->checkBoxInMenu->setChecked(c.inMenu);
+    ui->checkBoxIsScript->setChecked(c.isScript);
     ui->checkBoxTransform->setChecked(c.transform);
     ui->checkBoxIgnore->setChecked(c.remove);
     ui->checkBoxHideWindow->setChecked(c.hideWindow);
@@ -215,19 +219,21 @@ void CommandWidget::on_checkBoxShowAdvanced_stateChanged(int state)
 void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
 {
     updateWidgets();
-    emitIconChanged();
 }
 
 void CommandWidget::on_checkBoxInMenu_stateChanged(int)
 {
     updateWidgets();
-    emitIconChanged();
+}
+
+void CommandWidget::on_checkBoxIsScript_stateChanged(int)
+{
+    updateWidgets();
 }
 
 void CommandWidget::on_checkBoxGlobalShortcut_stateChanged(int)
 {
     updateWidgets();
-    emitIconChanged();
 }
 
 void CommandWidget::on_shortcutButtonGlobalShortcut_shortcutAdded(const QKeySequence &)
@@ -261,16 +267,11 @@ void CommandWidget::updateWidgets()
     ui->widgetSpacer->setVisible(ui->widgetAdvanced->isHidden());
 
     ui->commandEdit->resizeToContent();
+
+    emitIconChanged();
 }
 
 void CommandWidget::emitIconChanged()
 {
-    const auto tag =
-            ui->checkBoxAutomatic->isChecked() ? CommandType::Automatic
-          : ui->checkBoxGlobalShortcut->isChecked() ? CommandType::GlobalShortcut
-          : ui->checkBoxInMenu->isChecked() && ui->shortcutButton->shortcutCount() > 0 ? CommandType::Shortcut
-          : ui->checkBoxInMenu->isChecked() ? CommandType::Menu
-          : CommandType::Script;
-
-    emit iconChanged( ui->buttonIcon->currentIcon(), tag );
+    emit iconChanged();
 }

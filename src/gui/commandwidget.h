@@ -29,16 +29,6 @@ class CommandWidget;
 class QComboBox;
 struct Command;
 
-namespace CommandType {
-enum CommandType {
-    Automatic,
-    GlobalShortcut,
-    Shortcut,
-    Menu,
-    Script
-};
-} // namespace CommandType
-
 /** Widget (set of widgets) for creating or modifying Command object. */
 class CommandWidget : public QWidget
 {
@@ -58,7 +48,7 @@ public:
     void setFormats(const QStringList &formats);
 
 signals:
-    void iconChanged(const QString &iconString, int commandType);
+    void iconChanged();
 
     void nameChanged(const QString &name);
 
@@ -76,6 +66,8 @@ private slots:
     void on_checkBoxAutomatic_stateChanged(int);
 
     void on_checkBoxInMenu_stateChanged(int);
+
+    void on_checkBoxIsScript_stateChanged(int);
 
     void on_checkBoxGlobalShortcut_stateChanged(int);
 

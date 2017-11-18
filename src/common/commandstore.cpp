@@ -64,6 +64,7 @@ void loadCommand(const QSettings &settings, CommandFilter filter, Commands *comm
     c.tab = settings.value("Tab").toString();
     c.outputTab = settings.value("OutputTab").toString();
     c.inMenu = settings.value("InMenu").toBool();
+    c.isScript = settings.value("IsScript").toBool();
 
     if (c.globalShortcuts.size() == 1 && c.globalShortcuts[0] == "DISABLED")
         c.globalShortcuts = QStringList();
@@ -112,6 +113,7 @@ void saveCommand(const Command &c, QSettings *settings)
     saveNewValue("Wait", c, &Command::wait, settings);
     saveNewValue("Automatic", c, &Command::automatic, settings);
     saveNewValue("InMenu", c, &Command::inMenu, settings);
+    saveNewValue("IsScript", c, &Command::isScript, settings);
     saveNewValue("Transform", c, &Command::transform, settings);
     saveNewValue("Remove", c, &Command::remove, settings);
     saveNewValue("HideWindow", c, &Command::hideWindow, settings);
