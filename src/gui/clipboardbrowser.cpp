@@ -276,6 +276,7 @@ ClipboardBrowser::ClipboardBrowser(
     initSingleShotTimer( &m_timerEmitItemCount, 0, this, SLOT(emitItemCount()) );
     initSingleShotTimer( &m_timerUpdateSizes, 0, this, SLOT(updateSizes()) );
     initSingleShotTimer( &m_timerUpdateItemWidgets, 0, this, SLOT(updateItemWidgets()) );
+    initSingleShotTimer( &m_timerUpdateCurrent, 0, this, SLOT(updateCurrent()) );
 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -927,22 +928,7 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
     if (previous.isValid())
         d.setItemWidgetCurrent(previous, false);
 
-    if ( current.isValid() ) {
-        d.setItemWidgetCurrent(current, true);
-        int row = -1;
-        if ( previous.isValid() && current < previous) {
-            row = findPreviousVisibleRow(current.row());
-            if (row == -1)
-                row = findNextVisibleRow(current.row());
-        } else {
-            row = findNextVisibleRow(current.row());
-            if (row == -1)
-                row = findPreviousVisibleRow(current.row());
-        }
-
-        if ( row != -1 && row != current.row() )
-            setCurrentIndex( index(row) );
-    }
+    m_timerUpdateCurrent.start();
 }
 
 void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
@@ -1665,6 +1651,18 @@ void ClipboardBrowser::updateItemWidgets()
     }
 
     m_itemWidgetsToUpdate.clear();
+}
+
+void ClipboardBrowser::updateCurrent()
+{
+    if ( !updatesEnabled() ) {
+        m_timerUpdateCurrent.start();
+        return;
+    }
+
+    const auto current = currentIndex();
+    if ( current.isValid() )
+        d.setItemWidgetCurrent(current, true);
 }
 
 void ClipboardBrowser::saveUnsavedItems()

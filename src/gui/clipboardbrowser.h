@@ -354,6 +354,8 @@ class ClipboardBrowser : public QListView
 
         void updateItemWidgets();
 
+        void updateCurrent();
+
     private:
         bool isLoaded() const;
 
@@ -419,6 +421,7 @@ class ClipboardBrowser : public QListView
         QTimer m_timerEmitItemCount;
         QTimer m_timerUpdateSizes;
         QTimer m_timerUpdateItemWidgets;
+        QTimer m_timerUpdateCurrent;
         bool m_resizing = false;
 
         QPointer<ItemEditorWidget> m_editor;
