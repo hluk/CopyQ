@@ -20,6 +20,7 @@
 #include "itemloaderscript.h"
 
 #include "common/commandstatus.h"
+#include "common/common.h"
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "gui/icons.h"
@@ -36,11 +37,13 @@
 #include <QScriptEngine>
 #include <QScriptValueIterator>
 #include <QHBoxLayout>
+#include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
 
 namespace {
 
+const int scriptTimeoutMs = 1000;
 const char scriptFunctionName[] = "CopyQScript";
 
 QWidget *label(Qt::Orientation orientation, const QString &name, QWidget *w)
@@ -233,8 +236,22 @@ private:
         if ( !fn.isFunction() )
             return itemData;
 
+        QTimer timer;
+        initSingleShotTimer( &timer, scriptTimeoutMs, m_scriptable, SLOT(abort()) );
+        timer.start();
+
         const auto args = QScriptValueList() << m_scriptable->fromDataMap(itemData);
         const auto result = fn.call(m_obj, args);
+
+        const auto takesTooLong = !timer.isActive();
+        timer.stop();
+
+        if (takesTooLong) {
+            const auto message = QString("Script %1: %2 timed out").arg(m_id, fnName);
+            log(message, LogWarning);
+            m_obj = QScriptValue();
+            return itemData;
+        }
 
         if ( processUncaughtException(*m_scriptable, m_id, fnName) )
             return itemData;

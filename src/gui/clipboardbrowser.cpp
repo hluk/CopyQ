@@ -1324,7 +1324,9 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
         // Preload next and previous pages so that up/down and page up/down keys scroll correctly.
         if ( m_itemWidgetsToUpdate.isEmpty() ) {
-            setUpdatesEnabled(false);
+            UpdatesLocker locker(this);
+            locker.lock();
+
             if (key == Qt::Key_PageDown || key == Qt::Key_PageUp)
                 preload(h, (key == Qt::Key_PageUp), current);
             else if (key == Qt::Key_Down || key == Qt::Key_Up)
@@ -1333,7 +1335,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                 preload(h, true, index(length() - 1));
             scheduleDelayedItemsLayout();
             executeDelayedItemsLayout();
-            setUpdatesEnabled(true);
         }
 
         if (key == Qt::Key_PageDown || key == Qt::Key_PageUp) {
@@ -1650,19 +1651,20 @@ void ClipboardBrowser::updateSizes()
 
 void ClipboardBrowser::updateItemWidgets()
 {
+    UpdatesLocker locker(this);
+
     const auto contents = viewport()->contentsRect();
     for (auto index : m_itemWidgetsToUpdate) {
         if (index.isValid()) {
             const auto rect = visualRect(index);
             if (contents.top() < rect.bottom() && rect.top() < contents.bottom()) {
-                setUpdatesEnabled(false);
+                locker.lock();
                 d.cache(index);
             }
         }
     }
 
     m_itemWidgetsToUpdate.clear();
-    setUpdatesEnabled(true);
 }
 
 void ClipboardBrowser::saveUnsavedItems()

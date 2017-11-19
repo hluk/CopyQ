@@ -152,6 +152,9 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     if (w == nullptr) {
         QWidget *parent = m_view->viewport();
 
+        UpdatesLocker locker(m_view);
+        locker.lock();
+
         const QPersistentModelIndex persistentIndex = index;
         const auto data = m_view->itemData(index);
 

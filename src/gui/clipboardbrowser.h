@@ -41,6 +41,36 @@ class ItemFactory;
 class QProgressBar;
 class QPushButton;
 
+class UpdatesLocker {
+public:
+    explicit UpdatesLocker(QWidget *widget)
+        : m_widget(widget)
+    {
+    }
+
+    ~UpdatesLocker()
+    {
+        if (m_updatesDisabled)
+            m_widget->setUpdatesEnabled(true);
+    }
+
+    void lock() {
+        if (m_updatesDisabled)
+            return;
+
+        m_updatesDisabled = m_widget->updatesEnabled();
+        if (m_updatesDisabled)
+            m_widget->setUpdatesEnabled(false);
+    }
+
+private:
+    UpdatesLocker(const UpdatesLocker &) = delete;
+    UpdatesLocker &operator =(const UpdatesLocker &) = delete;
+
+    QWidget *m_widget;
+    bool m_updatesDisabled = false;
+};
+
 /** List view of clipboard items. */
 class ClipboardBrowser : public QListView
 {

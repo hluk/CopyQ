@@ -1533,6 +1533,7 @@ void Scriptable::print(const QScriptValue &value)
 void Scriptable::abort()
 {
     m_skipArguments = 0;
+    m_connected = false;
 
     QScriptEngine *eng = engine() ? engine() : m_engine;
     if (eng)
@@ -2127,7 +2128,6 @@ void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 
 void Scriptable::onDisconnected()
 {
-    m_connected = false;
     abort();
     emit finished();
 }
