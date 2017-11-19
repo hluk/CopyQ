@@ -531,14 +531,23 @@ bool ItemFactory::loadPlugins()
 
 void ItemFactory::setScriptCommands(const QVector<Command> &commands, ScriptableProxy *scriptableProxy)
 {
+    for (const auto &scriptLoader : m_scriptLoaders) {
+        m_loaders.remove( m_loaders.indexOf(scriptLoader) );
+
+        const int i = m_disabledLoaders.indexOf(scriptLoader);
+        if (i != -1)
+            m_disabledLoaders.remove(i);
+    }
     m_scriptLoaders.clear();
 
     for (const auto &command : commands) {
-        const auto loader = createItemLoaderScript(command.name, command.cmd, scriptableProxy);
-        if (loader)
+        const auto loader = createItemLoaderScript(command, scriptableProxy);
+        if (loader) {
             m_scriptLoaders.append(loader);
-        else
+            addLoader(loader);
+        } else {
             log( QObject::tr("Failed to load script: %1").arg(command.name), LogWarning );
+        }
     }
 }
 
@@ -551,9 +560,6 @@ ItemLoaderList ItemFactory::enabledLoaders() const
             enabledLoaders.append(loader);
     }
 
-    for (auto &loader : m_scriptLoaders)
-        enabledLoaders.append(loader);
-
     enabledLoaders.append(m_dummyLoader);
 
     return enabledLoaders;
@@ -561,12 +567,6 @@ ItemLoaderList ItemFactory::enabledLoaders() const
 
 ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QVariantMap &data)
 {
-    for (auto &loader : m_scriptLoaders) {
-        ItemWidget *newItem = loader->transform(item, data);
-        if (newItem != nullptr)
-            item = newItem;
-    }
-
     for (auto &loader : m_loaders) {
         if ( isLoaderEnabled(loader) ) {
             ItemWidget *newItem = loader->transform(item, data);

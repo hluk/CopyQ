@@ -320,8 +320,9 @@ QVariantMap ItemSaverInterface::copyItem(const QAbstractItemModel &, const QVari
     return itemData;
 }
 
-void ItemSaverInterface::transformItemData(const QAbstractItemModel &, QVariantMap *)
+QVariantMap ItemSaverInterface::displayItem(const QAbstractItemModel &, const QVariantMap &itemData)
 {
+    return itemData;
 }
 
 ItemWidget *ItemLoaderInterface::create(const QVariantMap &, QWidget *, bool) const

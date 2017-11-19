@@ -286,7 +286,7 @@ public:
     /**
      * Return item data for ItemLoaderInterface::create().
      */
-    virtual void transformItemData(const QAbstractItemModel &model, QVariantMap *itemData);
+    virtual QVariantMap displayItem(const QAbstractItemModel &model, const QVariantMap &itemData);
 
     ItemSaverInterface(const ItemSaverInterface &) = delete;
     ItemSaverInterface &operator=(const ItemSaverInterface &) = delete;

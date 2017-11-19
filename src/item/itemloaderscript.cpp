@@ -23,16 +23,110 @@
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "gui/icons.h"
+#include "gui/iconfactory.h"
 #include "scriptable/scriptable.h"
 #include "scriptable/scriptableproxy.h"
 
+#include <QCheckBox>
+#include <QComboBox>
 #include <QFileInfo>
+#include <QLabel>
+#include <QLineEdit>
 #include <QRegExp>
 #include <QScriptEngine>
+#include <QScriptValueIterator>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QWidget>
 
 namespace {
 
-const char scriptFunctionName[] = "copyq_script";
+const char scriptFunctionName[] = "CopyQScript";
+
+QWidget *label(Qt::Orientation orientation, const QString &name, QWidget *w)
+{
+    QWidget *parent = w->parentWidget();
+
+    QBoxLayout *layout;
+    if (orientation == Qt::Horizontal)
+        layout = new QHBoxLayout;
+    else
+        layout = new QVBoxLayout;
+
+    parent->layout()->addItem(layout);
+
+    auto label = new QLabel(name + ":", parent);
+    label->setBuddy(w);
+    layout->addWidget(label);
+    layout->addWidget(w, 1);
+
+    return w;
+}
+
+QWidget *settingsWidgetForValue(
+        const QVariant &value, const QString &name, QWidget *parent,
+        const QScriptValue &defaultValue)
+{
+    if ( defaultValue.isBool() ) {
+        auto checkBox = new QCheckBox(parent);
+        checkBox->setChecked( value.toBool() );
+        checkBox->setText(name);
+        parent->layout()->addWidget(checkBox);
+        return checkBox;
+    }
+
+    if ( defaultValue.isString() ) {
+        auto lineEdit = new QLineEdit(parent);
+        lineEdit->setText(value.toString());
+        return label(Qt::Horizontal, name, lineEdit);
+    }
+
+    if ( defaultValue.isArray() ) {
+        auto items = defaultValue.toVariant().toStringList();
+        auto w = new QComboBox(parent);
+        w->addItems(items);
+        const auto index = w->findText(value.toString());
+        if (index != -1)
+            w->setCurrentIndex(index);
+        return label(Qt::Horizontal, name, w);
+    }
+
+    return nullptr;
+}
+
+QVariant valueForSettingsWidget(QWidget *w)
+{
+    if ( auto checkBox = qobject_cast<QCheckBox*>(w) )
+        return checkBox->isChecked();
+
+    if ( auto lineEdit = qobject_cast<QLineEdit*>(w) )
+        return lineEdit->text();
+
+    if ( auto comboBox = qobject_cast<QComboBox*>(w) )
+        return comboBox->currentText();
+
+    Q_ASSERT(false);
+    return QVariant();
+}
+
+QString variableNameToLabel(const QString &name)
+{
+    QString label;
+    label.reserve(name.size());
+
+    for (const auto c : name) {
+        if ( label.isEmpty() )
+            label += c.toUpper();
+        else if (c.isUpper())
+            label += ' ' + c.toUpper();
+        else if (c == '_')
+            label += ' ';
+        else
+            label += c;
+    }
+
+    return label;
+}
 
 bool processUncaughtException(const Scriptable &scriptable, const QString &id, const QString &name)
 {
@@ -122,35 +216,33 @@ public:
 
     QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override
     {
-        auto itemData2 = m_saver->copyItem(model, itemData);
-
-        transformItemData("copyItem", &itemData2);
-        return itemData2;
+        const auto itemData2 = m_saver->copyItem(model, itemData);
+        return transformData("copyItem", itemData2);
     }
 
-    void transformItemData(const QAbstractItemModel &model, QVariantMap *itemData) override
+    QVariantMap displayItem(const QAbstractItemModel &model, const QVariantMap &itemData) override
     {
-        m_saver->transformItemData(model, itemData);
-        transformItemData("transformItemData", itemData);
+        const auto itemData2 = m_saver->displayItem(model, itemData);
+        return transformData("displayItem", itemData2);
     }
 
 private:
-    void transformItemData(const QString &fnName, QVariantMap *itemData)
+    QVariantMap transformData(const QString &fnName, const QVariantMap &itemData)
     {
         auto fn = m_obj.property(fnName);
         if ( !fn.isFunction() )
-            return;
+            return itemData;
 
-        const auto args = QScriptValueList() << m_scriptable->fromDataMap(*itemData);
+        const auto args = QScriptValueList() << m_scriptable->fromDataMap(itemData);
         const auto result = fn.call(m_obj, args);
 
         if ( processUncaughtException(*m_scriptable, m_id, fnName) )
-            return;
+            return itemData;
 
         if ( result.isUndefined() || result.isNull() )
-            return;
+            return itemData;
 
-        *itemData = m_scriptable->toDataMap(result);
+        return m_scriptable->toDataMap(result);
     }
 
     QString m_id;
@@ -165,12 +257,13 @@ class ItemLoaderScript : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemLoaderScript(const QString &name, const QString &script, ScriptableProxy *proxy)
+    ItemLoaderScript(const Command &command, ScriptableProxy *proxy)
         : m_engine()
         , m_scriptable(&m_engine, proxy)
-        , m_name(name)
-        , m_id( QString(name).replace(QRegExp("[^a-zA-Z0-9_]"), "_") )
-        , m_script(script)
+        , m_name(command.name)
+        , m_id( m_name.toLower().replace(QRegExp("[^a-zA-Z0-9_]"), "_") )
+        , m_script(command.cmd)
+        , m_icon(command.icon)
     {
         QObject::connect( &m_scriptable, SIGNAL(sendMessage(QByteArray,int)),
                           this, SLOT(sendMessage(QByteArray,int)) );
@@ -186,7 +279,13 @@ public:
         }
     }
 
-    int priority() const override { return 20; }
+    int priority() const override
+    {
+        const auto priorityValue = value("priority");
+        bool ok;
+        const auto priority = priorityValue.toVariant().toInt(&ok);
+        return ok ? priority : 20;
+    }
 
     QString id() const override
     {
@@ -210,7 +309,14 @@ public:
 
     QVariant icon() const override
     {
-        return IconCog;
+        if ( m_icon.isEmpty() )
+            return IconCog;
+
+        const auto iconId = toIconId(m_icon);
+        if (iconId != 0)
+            return iconId;
+
+        return m_icon;
     }
 
     QStringList formatsToSave() const override
@@ -218,10 +324,66 @@ public:
         return value("formatsToSave").toVariant().toStringList();
     }
 
+    QVariantMap applySettings() override
+    {
+        for (auto it = m_settingsWidgets.constBegin(); it != m_settingsWidgets.constEnd(); ++it) {
+            const auto name = it.key();
+            const auto widget = it.value();
+            m_settings[name] = valueForSettingsWidget(widget);
+        }
+
+        return m_settings;
+    }
+
+    void loadSettings(const QVariantMap &settings) override
+    {
+        m_settings = settings;
+
+        auto fn = m_obj.property("loadSettings");
+        if ( fn.isFunction() ) {
+            const auto args = QScriptValueList() << m_scriptable.fromDataMap(m_settings);
+            fn.call(m_obj, args);
+            if ( processUncaughtException(m_scriptable, m_id, "loadSettings") )
+                m_obj = QScriptValue();
+        }
+    }
+
+    QWidget *createSettingsWidget(QWidget *parent) override
+    {
+        m_settingsWidgets.clear();
+
+        auto settingsObject = value("defaultSettings");
+
+        auto settingsWidget = new QWidget(parent);
+        auto layout = new QVBoxLayout(settingsWidget);
+
+        QScriptValueIterator it(settingsObject);
+        while (it.hasNext()) {
+            it.next();
+            if ( it.flags() & QScriptValue::SkipInEnumeration )
+                continue;
+
+            const auto id = it.name();
+            const auto defaultValue = it.value();
+            const auto value = m_settings.value(id, defaultValue.toVariant());
+            const auto label = variableNameToLabel(id);
+
+            auto ww = settingsWidgetForValue(value, label, settingsWidget, defaultValue);
+            if (ww) {
+                ww->setObjectName(id);
+                m_settingsWidgets.insert(id, ww);
+            }
+        }
+
+        layout->addStretch(1);
+
+        return settingsWidget;
+    }
+
     ItemSaverPtr transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *) override
     {
         if ( m_obj.property("copyItem").isFunction()
-             || m_obj.property("transformItemData").isFunction() )
+             || m_obj.property("displayItem").isFunction() )
         {
             return std::make_shared<ItemSaverScript>(m_id, saver, m_obj, &m_scriptable);
         }
@@ -292,13 +454,16 @@ private:
     QString m_name;
     QString m_id;
     QString m_script;
+    QString m_icon;
+    QVariantMap m_settings;
+    QMap<QString, QWidget*> m_settingsWidgets;
 };
 
 } // namespace
 
-ItemLoaderPtr createItemLoaderScript(const QString &script, const QString &name, ScriptableProxy *proxy)
+ItemLoaderPtr createItemLoaderScript(const Command &command, ScriptableProxy *proxy)
 {
-    return std::make_shared<ItemLoaderScript>(script, name, proxy);
+    return std::make_shared<ItemLoaderScript>(command, proxy);
 }
 
 #include "itemloaderscript.moc"

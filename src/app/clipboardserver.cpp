@@ -223,6 +223,7 @@ void ClipboardServer::onCommandsSaved()
         if (type & CommandType::Script)
             scriptCommands.append(command);
 
+#ifndef NO_GLOBAL_SHORTCUTS
         if (type & CommandType::GlobalShortcut) {
             for (const auto &shortcutText : command.globalShortcuts) {
                 QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
@@ -232,11 +233,12 @@ void ClipboardServer::onCommandsSaved()
                 }
             }
         }
+#endif
     }
 
     if ( !scriptCommands.isEmpty() || m_itemFactory->hasScriptCommands() ) {
         m_itemFactory->setScriptCommands(scriptCommands, m_scriptableProxy);
-        m_scriptableFactories = m_itemFactory->scriptableFactories();
+        loadSettings();
         m_wnd->loadSettings();
     }
 }

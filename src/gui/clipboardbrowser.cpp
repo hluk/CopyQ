@@ -368,9 +368,9 @@ bool ClipboardBrowser::isFiltered(int row) const
 
 QVariantMap ClipboardBrowser::itemData(const QModelIndex &index) const
 {
-    auto data = index.data(contentType::data).toMap();
+    const auto data = index.data(contentType::data).toMap();
     if (m_itemSaver)
-        m_itemSaver->transformItemData(m, &data);
+        return m_itemSaver->displayItem(m, data);
     return data;
 }
 

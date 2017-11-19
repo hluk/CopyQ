@@ -32,6 +32,6 @@ using ItemLoaderPtr = std::shared_ptr<ItemLoaderInterface>;
 /**
  * Returns new loader or nullptr if script couldn't be loaded properly.
  */
-ItemLoaderPtr createItemLoaderScript(const QString &script, const QString &name, ScriptableProxy *proxy);
+ItemLoaderPtr createItemLoaderScript(const Command &command, ScriptableProxy *proxy);
 
 #endif // ITEMLOADERSCRIPT_H
