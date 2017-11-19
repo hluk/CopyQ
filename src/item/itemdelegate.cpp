@@ -151,12 +151,20 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     ItemWidget *w = m_cache[n];
     if (w == nullptr) {
         QWidget *parent = m_view->viewport();
+
+        const QPersistentModelIndex persistentIndex = index;
         const auto data = m_view->itemData(index);
+
         const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
+
         w = m_sharedData->showSimpleItems
                 ? m_sharedData->itemFactory->createSimpleItem(data, parent, antialiasing)
                 : m_sharedData->itemFactory->createItem(data, parent, antialiasing);
-        setIndexWidget(index, w);
+
+        // Running a user script (displayItem() function) can invalidate data.
+        Q_ASSERT(persistentIndex.isValid());
+        if (persistentIndex.isValid())
+            setIndexWidget(persistentIndex, w);
     }
 
     return w;
