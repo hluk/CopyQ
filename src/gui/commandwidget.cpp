@@ -253,10 +253,18 @@ void CommandWidget::on_commandEdit_changed()
 
 void CommandWidget::updateWidgets()
 {
-    bool inMenu = ui->checkBoxInMenu->isChecked();
-    bool copyOrExecute = inMenu || ui->checkBoxAutomatic->isChecked();
+    const bool isScript = ui->checkBoxIsScript->isChecked();
+    const bool isAutomatic = !isScript && ui->checkBoxAutomatic->isChecked();
+    const bool inMenu = !isScript && ui->checkBoxInMenu->isChecked();
+    const bool isGlobalShortcut = !isScript && ui->checkBoxGlobalShortcut->isChecked();
+    const bool copyOrExecute = inMenu || isAutomatic;
 
-    ui->widgetGlobalShortcut->setVisible(ui->checkBoxGlobalShortcut->isChecked());
+    ui->checkBoxAutomatic->setVisible(!isScript);
+    ui->checkBoxInMenu->setVisible(!isScript);
+    ui->checkBoxGlobalShortcut->setVisible(!isScript);
+    ui->checkBoxIsScript->setVisible(!isAutomatic && !inMenu && !isGlobalShortcut);
+
+    ui->widgetGlobalShortcut->setVisible(isGlobalShortcut);
     ui->widgetMenuShortcut->setVisible(inMenu);
 
     ui->groupBoxMatchItems->setVisible(copyOrExecute);

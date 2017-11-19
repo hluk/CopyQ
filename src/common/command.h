@@ -103,8 +103,11 @@ struct Command {
         auto type =
                (automatic ? CommandType::Automatic : 0)
              | (!globalShortcuts.isEmpty() && !globalShortcuts.contains("DISABLED") ? CommandType::GlobalShortcut : 0)
-             | (inMenu ? CommandType::Menu : 0)
-             | (isScript ? CommandType::Script : 0);
+             | (inMenu ? CommandType::Menu : 0);
+
+        // Scripts cannot be used in other types of commands.
+        if (isScript)
+            type = CommandType::Script;
 
         if (type == CommandType::None)
             type = CommandType::Invalid;
