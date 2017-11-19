@@ -267,16 +267,6 @@ public:
     {
         QObject::connect( &m_scriptable, SIGNAL(sendMessage(QByteArray,int)),
                           this, SLOT(sendMessage(QByteArray,int)) );
-
-        if ( !m_script.isEmpty() ) {
-            m_scriptable.eval(m_script, m_name);
-            m_obj = m_engine.globalObject().property(scriptFunctionName);
-            if (m_obj.isFunction())
-                m_obj = m_obj.call();
-
-            if ( processUncaughtException(m_scriptable, m_id, scriptFunctionName) )
-                m_obj = QScriptValue();
-        }
     }
 
     int priority() const override
@@ -396,6 +386,19 @@ public:
         return std::make_shared<ItemScriptableScriptFactory>(m_script);
     }
 
+    bool init()
+    {
+        if ( m_script.isEmpty() )
+            return false;
+
+        m_scriptable.eval(m_script, m_name);
+        m_obj = m_engine.globalObject().property(scriptFunctionName);
+        if (m_obj.isFunction())
+            m_obj = m_obj.call();
+
+        return !processUncaughtException(m_scriptable, m_id, scriptFunctionName);
+    }
+
 private slots:
     void sendMessage(const QByteArray &message, int messageCode)
     {
@@ -463,7 +466,10 @@ private:
 
 ItemLoaderPtr createItemLoaderScript(const Command &command, ScriptableProxy *proxy)
 {
-    return std::make_shared<ItemLoaderScript>(command, proxy);
+    auto loader = std::make_shared<ItemLoaderScript>(command, proxy);
+    if ( loader->init() )
+        return loader;
+    return nullptr;
 }
 
 #include "itemloaderscript.moc"
