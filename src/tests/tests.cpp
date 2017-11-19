@@ -2382,6 +2382,64 @@ void Tests::automaticCommandNoOutputTab()
     RUN("tab" << QString(clipboardTabName) << "size", "0\n");
 }
 
+void Tests::scriptCommandLoaded()
+{
+    const auto script = R"(
+        setCommands([{
+            isScript: true,
+            cmd: 'add("LOADED")'
+        }])
+        )";
+    RUN(script, "");
+    RUN("read(0)", "LOADED");
+}
+
+void Tests::scriptCommandAddFunction()
+{
+    const auto script = R"(
+        setCommands([{
+            isScript: true,
+            cmd: 'test = function() { return "TEST"; }'
+        }])
+        )";
+    RUN(script, "");
+    RUN("test", "TEST\n");
+}
+
+void Tests::scriptCommandOverrideFunction()
+{
+    const auto script = R"(
+        setCommands([{
+            isScript: true,
+            cmd: 'popup = function(msg) { return msg; }'
+        }])
+        )";
+    RUN(script, "");
+    RUN("popup" << "test" << "xxx", "test");
+}
+
+void Tests::scriptCommandDisplayItem()
+{
+    const auto script = R"(
+        setCommands([{
+            isScript: true,
+            cmd: 'if (registerDisplayFunction) {'
+               + '  registerDisplayFunction(function(data, tabName) {'
+               + '    text = str(data[mimeText]);'
+               + '    if (text !== "a" && text != "b") return;'
+               + '    add("CALLED in " + tabName);'
+               + '  })'
+               + '}'
+        }])
+        )";
+    RUN("add('b', 'a'); " + QString(script), "");
+    WAIT_ON_OUTPUT(
+                "read(0,1,2,3,4)",
+                QString("CALLED in %1\nCALLED in %1\na\nb\n")
+                .arg(clipboardTabName)
+                .toUtf8() );
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);
