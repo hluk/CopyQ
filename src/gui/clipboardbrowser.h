@@ -38,6 +38,7 @@
 
 class ItemEditorWidget;
 class ItemFactory;
+class PersistentDisplayItem;
 class QProgressBar;
 class QPushButton;
 
@@ -249,6 +250,8 @@ class ClipboardBrowser : public QListView
 
         QVariantMap itemData(const QModelIndex &index) const;
 
+        void reemitItemWidgetCreated();
+
     public slots:
         /**
          * Save items to configuration.
@@ -304,6 +307,8 @@ class ClipboardBrowser : public QListView
         void searchHideRequest();
 
         void closeExternalEditors();
+
+        void itemWidgetCreated(const PersistentDisplayItem &selection);
 
     protected:
         void keyPressEvent(QKeyEvent *event) override;

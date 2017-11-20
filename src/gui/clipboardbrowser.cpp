@@ -375,6 +375,11 @@ QVariantMap ClipboardBrowser::itemData(const QModelIndex &index) const
     return data;
 }
 
+void ClipboardBrowser::reemitItemWidgetCreated()
+{
+    d.reemitItemWidgetCreated();
+}
+
 bool ClipboardBrowser::hideFiltered(int row)
 {
     const bool hide = isFiltered(row);
@@ -564,6 +569,9 @@ void ClipboardBrowser::connectModelAndDelegate()
              SLOT(delayedSaveItems()) );
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(delayedSaveItems()) );
+
+    connect( &d, SIGNAL(itemWidgetCreated(PersistentDisplayItem)),
+             this, SIGNAL(itemWidgetCreated(PersistentDisplayItem)) );
 }
 
 void ClipboardBrowser::updateItemMaximumSize()

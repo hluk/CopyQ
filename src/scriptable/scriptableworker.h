@@ -27,6 +27,7 @@
 
 #include <QObject>
 #include <QRunnable>
+#include <QThread>
 
 class ClientSocket;
 using ClientSocketPtr = std::shared_ptr<ClientSocket>;
@@ -60,9 +61,8 @@ public:
     ScriptableWorker(
             MainWindow *mainWindow,
             const ClientSocketPtr &socket,
-            const QList<ItemScriptableFactoryPtr> &scriptableFactories);
-
-    ~ScriptableWorker();
+            const QList<ItemScriptableFactoryPtr> &scriptableFactories,
+            const QVector<Command> &scriptCommands);
 
     void run() override;
 
@@ -71,8 +71,36 @@ public:
 
 private:
     MainWindow *m_wnd;
-    QPointer<ScriptableWorkerSocketGuard> m_socketGuard;
+    ScriptableWorkerSocketGuard *m_socketGuard;
     QList<ItemScriptableFactoryPtr> m_scriptableFactories;
+    QVector<Command> m_scriptCommands;
+};
+
+class MainScriptableWorker : public QThread
+{
+    Q_OBJECT
+
+public:
+    MainScriptableWorker(
+            MainWindow *mainWindow,
+            const QList<ItemScriptableFactoryPtr> &scriptableFactories,
+            const QVector<Command> &scriptCommands,
+            QObject *parent);
+
+public slots:
+    void close();
+
+signals:
+    void closed();
+    void scriptStarted();
+
+protected:
+    void run() override;
+
+private:
+    MainWindow *m_wnd;
+    QList<ItemScriptableFactoryPtr> m_scriptableFactories;
+    QVector<Command> m_scriptCommands;
 };
 
 #endif // SCRIPTABLEWORKER_H

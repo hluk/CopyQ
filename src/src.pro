@@ -81,6 +81,7 @@ HEADERS += \
     item/itemeditorwidget.h \
     item/itemfactory.h \
     item/itemwidget.h \
+    item/persistentdisplayitem.h \
     item/serialize.h \
     platform/dummy/dummyplatform.h \
     platform/platformnativeinterface.h \
@@ -184,8 +185,8 @@ SOURCES += \
     item/itemeditor.cpp \
     item/itemeditorwidget.cpp \
     item/itemfactory.cpp \
-    item/itemloaderscript.cpp \
     item/itemwidget.cpp \
+    item/persistentdisplayitem.cpp \
     item/serialize.cpp \
     main.cpp \
     ../qt/bytearrayclass.cpp \

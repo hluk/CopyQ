@@ -26,7 +26,6 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
-#include "item/itemloaderscript.h"
 #include "item/itemstore.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
@@ -527,28 +526,6 @@ bool ItemFactory::loadPlugins()
     std::sort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
 
     return true;
-}
-
-void ItemFactory::setScriptCommands(const QVector<Command> &commands, ScriptableProxy *scriptableProxy)
-{
-    for (const auto &scriptLoader : m_scriptLoaders) {
-        m_loaders.remove( m_loaders.indexOf(scriptLoader) );
-
-        const int i = m_disabledLoaders.indexOf(scriptLoader);
-        if (i != -1)
-            m_disabledLoaders.remove(i);
-    }
-    m_scriptLoaders.clear();
-
-    for (const auto &command : commands) {
-        const auto loader = createItemLoaderScript(command, scriptableProxy);
-        if (loader) {
-            m_scriptLoaders.append(loader);
-            addLoader(loader);
-        } else {
-            log( QObject::tr("Failed to load script: %1").arg(command.name), LogWarning );
-        }
-    }
 }
 
 ItemLoaderList ItemFactory::enabledLoaders() const

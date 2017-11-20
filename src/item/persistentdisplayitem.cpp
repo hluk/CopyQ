@@ -16,22 +16,34 @@
     You should have received a copy of the GNU General Public License
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ITEMLOADERSCRIPT_H
-#define ITEMLOADERSCRIPT_H
 
-#include "itemwidget.h"
+#include "persistentdisplayitem.h"
 
-#include <QObject>
+#include "item/itemdelegate.h"
 
-#include <memory>
+#include <QCoreApplication>
+#include <QThread>
 
-class ScriptableProxy;
+PersistentDisplayItem::PersistentDisplayItem(
+        ItemDelegate *delegate,
+        const QString &tabName,
+        const QVariantMap &data,
+        QObject *widget)
+    : m_tabName(tabName)
+    , m_data(data)
+    , m_widget(widget)
+    , m_delegate(delegate)
+{
+}
 
-using ItemLoaderPtr = std::shared_ptr<ItemLoaderInterface>;
+bool PersistentDisplayItem::isValid() const
+{
+    Q_ASSERT(QThread::currentThread() == qApp->thread());
+    return !m_widget.isNull();
+}
 
-/**
- * Returns new loader or nullptr if script couldn't be loaded properly.
- */
-ItemLoaderPtr createItemLoaderScript(const Command &command, ScriptableProxy *proxy);
-
-#endif // ITEMLOADERSCRIPT_H
+void PersistentDisplayItem::setData(const QVariantMap &data) const
+{
+    if ( isValid() && m_delegate && data != m_data )
+        m_delegate->updateCache(m_widget, data);
+}

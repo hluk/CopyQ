@@ -2112,11 +2112,24 @@ QScriptValue Scriptable::iconTagColor()
     return QScriptValue();
 }
 
+void Scriptable::registerDisplayFunction()
+{
+    m_skipArguments = 1;
+    auto fn = argument(0);
+    if ( !fn.isFunction() ) {
+        throwError(argumentError());
+        return;
+    }
+
+    m_displayFunctions.append(fn);
+}
+
 void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
 {
     COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );
 
     if (messageCode == CommandArguments) {
+        m_displayFunctions.clear();
         executeArguments(bytes);
     } else if (messageCode == CommandReadInputReply) {
         m_input = newByteArray(bytes);
@@ -2130,6 +2143,21 @@ void Scriptable::onDisconnected()
 {
     abort();
     emit finished();
+}
+
+void Scriptable::onItemWidgetCreated(PersistentDisplayItem selection)
+{
+    m_displayItemSelections.append(selection);
+
+    if (m_displayFunctionsLock)
+        return;
+
+    m_displayFunctionsLock = true;
+
+    while ( !m_displayItemSelections.isEmpty() )
+        callDisplayFunctions(m_displayFunctions);
+
+    m_displayFunctionsLock = false;
 }
 
 void Scriptable::onExecuteOutput(const QStringList &lines)
@@ -2247,6 +2275,71 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     sendMessageToClient(response, exitCode);
 
     COPYQ_LOG("DONE");
+}
+
+void Scriptable::runScripts(const QVector<Command> &scriptCommands)
+{
+    if ( !sourceScriptCommands(scriptCommands) )
+        return;
+
+    if ( !m_displayFunctions.isEmpty() ) {
+        m_input = newByteArray(QByteArray());
+        m_proxy->connectSignal(this);
+
+        QEventLoop loop;
+        connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
+        loop.exec(QEventLoop::ExcludeUserInputEvents);
+    }
+
+    sendMessageToClient(QByteArray(), CommandFinished);
+}
+
+void Scriptable::callDisplayFunctions(QScriptValueList displayFunctions)
+{
+    QElapsedTimer t;
+    t.start();
+
+    auto selections = m_displayItemSelections;
+    m_displayItemSelections.clear();
+
+    if ( selections.size() > 5 )
+        m_proxy->removeInvalidSelections(&selections);
+
+    QVector<QVariantMap> dataList;
+    dataList.reserve( selections.size() );
+
+    for (const auto &selection : selections) {
+        auto data = selection.data();
+        auto args = QScriptValueList()
+                << QScriptValue()
+                << toScriptValue( selection.tabName(), this );
+
+        for (auto &fn : displayFunctions) {
+            args[0] = toScriptValue(data, this);
+            const auto result = fn.call( QScriptValue(), args );
+            if ( m_engine->hasUncaughtException() ) {
+                processUncaughtException("callDisplayFunctions");
+                m_displayFunctions.clear();
+                abort();
+                return;
+            }
+
+            const auto data2 = toDataMap(result);
+            if ( !data2.isEmpty() )
+                data = data2;
+
+            QCoreApplication::processEvents();
+            if (!m_connected)
+                return;
+        }
+
+        dataList.append(data);
+
+        if (t.elapsed() > 500)
+            break;
+    }
+
+    m_proxy->setDisplayData(selections, dataList);
 }
 
 QString Scriptable::processUncaughtException(const QString &cmd)
@@ -2456,7 +2549,7 @@ QScriptValue Scriptable::screenshot(bool select)
 
 QScriptValue Scriptable::eval(const QString &script, const QString &fileName)
 {
-    const auto syntaxResult = engine()->checkSyntax(script);
+    const auto syntaxResult = QScriptEngine::checkSyntax(script);
     if (syntaxResult.state() != QScriptSyntaxCheckResult::Valid) {
         throwError( QString("%1:%2:%3: syntax error: %4")
                     .arg(fileName)
@@ -2467,6 +2560,21 @@ QScriptValue Scriptable::eval(const QString &script, const QString &fileName)
     }
 
     return engine()->evaluate(script, fileName);
+}
+
+bool Scriptable::sourceScriptCommands(const QVector<Command> &scriptCommands)
+{
+    for (const auto &scriptCommand : scriptCommands) {
+        eval(scriptCommand.cmd, scriptCommand.name);
+        if ( engine()->hasUncaughtException() ) {
+            const auto exceptionText = processUncaughtException(scriptCommand.cmd);
+            const auto response = createScriptErrorMessage(exceptionText).toUtf8();
+            sendMessageToClient(response, CommandException);
+            return false;
+        }
+    }
+
+    return true;
 }
 
 QScriptValue Scriptable::eval(const QString &script)

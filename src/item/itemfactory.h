@@ -140,9 +140,6 @@ public:
 
     bool loadPlugins();
 
-    void setScriptCommands(const QVector<Command> &commands, ScriptableProxy *scriptableProxy);
-    bool hasScriptCommands() const { return !m_scriptLoaders.isEmpty(); }
-
 signals:
     void error(const QString &errorString);
     void addCommands(const QVector<Command> &commands);
@@ -161,7 +158,6 @@ private:
     void addLoader(const ItemLoaderPtr &loader);
 
     ItemLoaderList m_loaders;
-    ItemLoaderList m_scriptLoaders;
     ItemLoaderPtr m_dummyLoader;
     ItemLoaderList m_disabledLoaders;
     QMap<QObject *, ItemLoaderPtr> m_loaderChildren;

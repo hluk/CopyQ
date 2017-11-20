@@ -45,6 +45,7 @@ class CommandDialog;
 class ConfigurationManager;
 class ItemFactory;
 class NotificationDaemon;
+class PersistentDisplayItem;
 class Theme;
 class TrayMenu;
 struct Command;
@@ -324,6 +325,8 @@ public:
 
     QColor sessionIconTagColor() const;
 
+    void reemitItemWidgetCreated();
+
 public slots:
     /** Close main window and exit the application. */
     void exit();
@@ -509,6 +512,8 @@ signals:
     void stopTrayMenuCommandTester();
 
     void configurationChanged();
+
+    void itemWidgetCreated(const PersistentDisplayItem &selection);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

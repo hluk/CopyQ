@@ -27,6 +27,7 @@
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
 #include "item/itemeditorwidget.h"
+#include "item/persistentdisplayitem.h"
 
 #include <QEvent>
 #include <QPainter>
@@ -85,14 +86,8 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
 {
     // resize event for items
     if ( event->type() == QEvent::Resize ) {
-        int row = 0;
-        for (; row < m_cache.size(); ++row) {
-            auto w = m_cache[row];
-            if (w && w->widget() == obj)
-                break;
-        }
-
-        Q_ASSERT( row < m_cache.size() );
+        const int row = findWidgetRow(obj);
+        Q_ASSERT(row != -1);
 
         const auto index = m_view->model()->index(row, 0);
         if ( index.isValid() )
@@ -150,27 +145,32 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
     ItemWidget *w = m_cache[n];
     if (w == nullptr) {
-        QWidget *parent = m_view->viewport();
-
-        UpdatesLocker locker(m_view->parentWidget());
-        locker.lock();
-
-        const QPersistentModelIndex persistentIndex = index;
         const auto data = m_view->itemData(index);
-
-        const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
-
-        w = m_sharedData->showSimpleItems
-                ? m_sharedData->itemFactory->createSimpleItem(data, parent, antialiasing)
-                : m_sharedData->itemFactory->createItem(data, parent, antialiasing);
-
-        // Running a user script (displayItem() function) can invalidate data.
-        Q_ASSERT(persistentIndex.isValid());
-        if (persistentIndex.isValid())
-            setIndexWidget(persistentIndex, w);
+        w = updateCache(index, data);
+        emit itemWidgetCreated(PersistentDisplayItem(this, m_view->tabName(), data, w->widget()));
     }
 
     return w;
+}
+
+void ItemDelegate::updateCache(QObject *widget, const QVariantMap &data)
+{
+    const auto row = findWidgetRow(widget);
+    if (row == -1)
+        return;
+
+    const auto index = m_view->index(row);
+    if ( data.isEmpty() ) {
+        auto ww = qobject_cast<QWidget*>(widget);
+        if ( ww->isVisible() ) {
+            const auto oldData = m_view->itemData(index);
+            emit itemWidgetCreated(PersistentDisplayItem(this, m_view->tabName(), oldData, ww));
+        } else {
+            setIndexWidget(index, nullptr);
+        }
+    } else {
+        updateCache(index, data);
+    }
 }
 
 ItemWidget *ItemDelegate::cacheOrNull(int row) const
@@ -265,6 +265,18 @@ void ItemDelegate::setItemWidgetSelected(const QModelIndex &index, bool isSelect
     setWidgetSelected(ww, isSelected);
 }
 
+void ItemDelegate::reemitItemWidgetCreated()
+{
+    for (int i = 0; i < m_cache.size(); ++i) {
+        const auto w = m_cache[i];
+        if (w) {
+            const auto index = m_view->index(i);
+            const auto data = m_view->itemData(index);
+            emit itemWidgetCreated(PersistentDisplayItem(this, m_view->tabName(), data, w->widget()));
+        }
+    }
+}
+
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 {
     reset(&m_cache[index.row()], w);
@@ -306,6 +318,30 @@ void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
     for (auto child : ww->findChildren<QWidget *>())
         child->setStyle(style);
     ww->update();
+}
+
+int ItemDelegate::findWidgetRow(const QObject *obj) const
+{
+    for (int row = 0; row < m_cache.size(); ++row) {
+        auto w = m_cache[row];
+        if (w && w->widget() == obj)
+            return row;
+    }
+
+    return -1;
+}
+
+ItemWidget *ItemDelegate::updateCache(const QModelIndex &index, const QVariantMap &data)
+{
+    const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
+    QWidget *parent = m_view->viewport();
+
+    auto w = m_sharedData->showSimpleItems
+            ? m_sharedData->itemFactory->createSimpleItem(data, parent, antialiasing)
+            : m_sharedData->itemFactory->createItem(data, parent, antialiasing);
+
+    setIndexWidget(index, w);
+    return w;
 }
 
 void ItemDelegate::invalidateCache()

@@ -1128,6 +1128,8 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              this, SLOT(findNextOrPrevious()) );
     connect( browser, SIGNAL(searchHideRequest()),
              this, SLOT(hideSearchBar()) );
+    connect( browser, SIGNAL(itemWidgetCreated(PersistentDisplayItem)),
+             this, SIGNAL(itemWidgetCreated(PersistentDisplayItem)) );
 }
 
 void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
@@ -2825,6 +2827,15 @@ QString MainWindow::sessionIconTag() const
 QColor MainWindow::sessionIconTagColor() const
 {
     return ::sessionIconTagColor();
+}
+
+void MainWindow::reemitItemWidgetCreated()
+{
+    for ( int i = 0; i < ui->tabWidget->count(); ++i ) {
+        auto c = getPlaceholder(i)->browser();
+        if (c)
+            c->reemitItemWidgetCreated();
+    }
 }
 
 void MainWindow::runAutomaticCommands(QVariantMap data)

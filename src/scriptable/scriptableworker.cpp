@@ -33,6 +33,64 @@
 
 Q_DECLARE_METATYPE(QByteArray*)
 
+namespace {
+
+void createPluginObjects(
+        const QList<ItemScriptableFactoryPtr> &criptableFactories,
+        Scriptable *scriptable)
+{
+    const auto engine = scriptable->engine();
+    auto plugins = engine->newObject();
+    engine->globalObject().setProperty("plugins", plugins);
+
+    for (auto scriptableFactory : criptableFactories) {
+        const auto obj = scriptableFactory->create();
+        const auto value = engine->newQObject(obj, QScriptEngine::ScriptOwnership);
+        const auto name = scriptableFactory->name();
+        plugins.setProperty(name, value);
+        obj->setScriptable(scriptable);
+        obj->start();
+    }
+}
+
+class FakeSocket : public QObject {
+    Q_OBJECT
+
+public slots:
+    void sendMessage(const QByteArray &message, int messageCode)
+    {
+        switch (messageCode) {
+        case CommandFinished:
+            log("finished", LogDebug);
+            break;
+
+        case CommandError:
+        case CommandBadSyntax:
+        case CommandException:
+            log(message, LogWarning);
+            break;
+
+        case CommandPrint:
+            log("print: " + message, LogNote);
+            break;
+
+        case CommandReadInput:
+            break;
+
+        default:
+            break;
+        }
+    }
+
+private:
+    void log(const QString &message, LogLevel logLevel)
+    {
+        ::log("scripts: " + message, logLevel);
+    }
+};
+
+} // namespace
+
 ScriptableWorkerSocketGuard::ScriptableWorkerSocketGuard(const ClientSocketPtr &socket)
     : m_socket(socket)
 {
@@ -50,15 +108,15 @@ ClientSocket *ScriptableWorkerSocketGuard::socket() const
 
 ScriptableWorker::ScriptableWorker(MainWindow *mainWindow,
         const ClientSocketPtr &socket,
-        const QList<ItemScriptableFactoryPtr> &scriptableFactories)
+        const QList<ItemScriptableFactoryPtr> &scriptableFactories,
+        const QVector<Command> &scriptCommands)
     : QRunnable()
     , m_wnd(mainWindow)
     , m_socketGuard(new ScriptableWorkerSocketGuard(socket))
     , m_scriptableFactories(scriptableFactories)
+    , m_scriptCommands(scriptCommands)
 {
 }
-
-ScriptableWorker::~ScriptableWorker() = default;
 
 void ScriptableWorker::run()
 {
@@ -82,20 +140,56 @@ void ScriptableWorker::run()
 
     QMetaObject::invokeMethod(socket, "start", Qt::QueuedConnection);
 
-    auto plugins = engine.newObject();
-    engine.globalObject().setProperty("plugins", plugins);
+    engine.globalObject().setProperty("registerDisplayFunction", QScriptValue::UndefinedValue);
 
-    for (auto scriptableFactory : m_scriptableFactories) {
-        const auto obj = scriptableFactory->create();
-        const auto value = engine.newQObject(obj, QScriptEngine::ScriptOwnership);
-        const auto name = scriptableFactory->name();
-        plugins.setProperty(name, value);
-        obj->setScriptable(&scriptable);
-        obj->start();
+    createPluginObjects(m_scriptableFactories, &scriptable);
+
+    if ( scriptable.sourceScriptCommands(m_scriptCommands) ) {
+        while ( scriptable.isConnected() )
+            QCoreApplication::processEvents();
     }
-
-    while ( scriptable.isConnected() )
-        QCoreApplication::processEvents();
 
     QMetaObject::invokeMethod(m_socketGuard, "deleteLater", Qt::QueuedConnection);
 }
+
+MainScriptableWorker::MainScriptableWorker(
+        MainWindow *mainWindow,
+        const QList<ItemScriptableFactoryPtr> &scriptableFactories,
+        const QVector<Command> &scriptCommands,
+        QObject *parent)
+    : QThread(parent)
+    , m_wnd(mainWindow)
+    , m_scriptableFactories(scriptableFactories)
+    , m_scriptCommands(scriptCommands)
+{
+}
+
+void MainScriptableWorker::close()
+{
+    connect( this, SIGNAL(scriptStarted()), SLOT(close())  );
+    emit closed();
+}
+
+void MainScriptableWorker::run()
+{
+    setCurrentThreadName("MainScript");
+    FakeSocket socket;
+
+    QScriptEngine engine;
+    ScriptableProxy proxy(m_wnd);
+    Scriptable scriptable(&engine, &proxy);
+
+    QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
+                      &socket, SLOT(sendMessage(QByteArray,int)) );
+
+    QObject::connect( this, SIGNAL(closed()),
+                      &scriptable, SLOT(onDisconnected()) );
+
+    emit scriptStarted();
+
+    createPluginObjects(m_scriptableFactories, &scriptable);
+
+    scriptable.runScripts(m_scriptCommands);
+}
+
+#include "scriptableworker.moc"

@@ -30,6 +30,7 @@ class ItemEditorWidget;
 class ItemFactory;
 class ItemWidget;
 class ClipboardBrowser;
+class PersistentDisplayItem;
 
 /**
  * Delegate for items in ClipboardBrowser.
@@ -69,6 +70,14 @@ class ItemDelegate : public QItemDelegate
 
         /** Return cached item, create it if it doesn't exist. */
         ItemWidget *cache(const QModelIndex &index);
+
+        /**
+         * Update data to display.
+         *
+         * If data is empty and widget is still visible, itemWidgetCreated() is reemitted.
+         * If data is empty and widget is not visible, widget is destroyed.
+         */
+        void updateCache(QObject *widget, const QVariantMap &data);
 
         /** Return cached item or nullptr. */
         ItemWidget *cacheOrNull(int row) const;
@@ -110,6 +119,11 @@ class ItemDelegate : public QItemDelegate
          */
         void setItemWidgetSelected(const QModelIndex &index, bool isSelected);
 
+        void reemitItemWidgetCreated();
+
+    signals:
+        void itemWidgetCreated(const PersistentDisplayItem &selection);
+
     public slots:
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
         void rowsRemoved(const QModelIndex &parent, int start, int end);
@@ -128,6 +142,10 @@ class ItemDelegate : public QItemDelegate
 
         /// Updates style for selected/unselected widgets.
         void setWidgetSelected(QWidget *ww, bool selected);
+
+        int findWidgetRow(const QObject *obj) const;
+
+        ItemWidget *updateCache(const QModelIndex &index, const QVariantMap &data);
 
         ClipboardBrowser *m_view;
         ClipboardBrowserSharedPtr m_sharedData;
