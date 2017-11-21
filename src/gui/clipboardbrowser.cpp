@@ -20,7 +20,6 @@
 #include "clipboardbrowser.h"
 
 #include "common/appconfig.h"
-#include "common/action.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/log.h"

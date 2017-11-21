@@ -251,10 +251,6 @@ class ClipboardBrowser : public QListView
         bool eventFilter(QObject *watched, QEvent *event) override;
 
     signals:
-        /** Action dialog requested. */
-        void requestActionDialog(const QVariantMap &data);
-        /** Action dialog requested. */
-        void requestActionDialog(const QVariantMap &data, const Command &cmd, const QModelIndex &index);
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
         /** Request clipboard change. */
