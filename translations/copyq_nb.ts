@@ -330,12 +330,12 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Utfør skjermavbildning</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Lim inn aktuell dato og tid</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
@@ -386,19 +386,19 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <location filename="../src/gui/addcommanddialog.cpp" line="252"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gjøremål</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="255"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Legg til på %1-fane</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="263"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Flytt til %1-fane</translation>
     </message>
     <message>
         <source>Add to &amp;TODO tab</source>
@@ -454,13 +454,13 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="752"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1509"/>
         <source>Cannot Add New Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke legge til nye elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="753"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1510"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanen er full. Kan ikke fjerne noen elementer.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1747"/>
@@ -554,7 +554,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <location filename="../src/gui/commandcompleter.cpp" line="238"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+mellomrom</translation>
     </message>
 </context>
 <context>
@@ -719,7 +719,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="197"/>
         <source>Global Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global snarvei</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="213"/>
@@ -900,7 +900,7 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
     <message>
         <location filename="../src/ui/commandwidget.ui" line="613"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis avanserte valg</translation>
     </message>
 </context>
 <context>
@@ -1958,22 +1958,22 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="17"/>
         <source>&amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Alle</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Faner:</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
         <source>Co&amp;nfiguration</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Oppsett</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko&amp;mmandoer</translation>
     </message>
 </context>
 <context>
@@ -2122,22 +2122,22 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="373"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Fet</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="379"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Kursiv</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="385"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Understreket</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="391"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Gjennomstreket</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="398"/>
@@ -2152,12 +2152,12 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="410"/>
         <source>Erase Style</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Korrigeringsstil</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="417"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Søk</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="352"/>
@@ -2285,7 +2285,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="72"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til handlinger i meny og verktøyslinje</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="94"/>
@@ -2467,32 +2467,32 @@ Settes til 0 for å deaktivere.</translation>
         <location filename="../plugins/itempinned/itempinned.cpp" line="54"/>
         <source>Ctrl+Shift+P</source>
         <comment>Shortcut to pin and unpin items</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+P</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="225"/>
         <source>Cannot Remove Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan ikke fjerne festede elementer</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="226"/>
         <source>Unpin items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Løsne elementer først for å fjerne dem.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="415"/>
         <source>Pin</source>
-        <translation type="unfinished"></translation>
+        <translation>Fest</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="422"/>
         <source>Unpin</source>
-        <translation type="unfinished"></translation>
+        <translation>Løsne</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="125"/>
         <source>Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Festede elementer</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="128"/>
@@ -2845,7 +2845,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1943"/>
         <source>CopyQ Options for Import</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ-innstillinger for import</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2110"/>
@@ -2861,27 +2861,27 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3303"/>
         <source>CopyQ Options for Export</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ-alternativ for eksport</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3323"/>
         <source>CopyQ Export Error</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ-eksportfeil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3324"/>
         <source>Failed to export file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Klarte ikke å eksportere fila %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3410"/>
         <source>CopyQ Import Error</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ-importfeil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3411"/>
         <source>Failed to import file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Klarte ikke å importere fila %1.</translation>
     </message>
     <message>
         <source>Open action dialog</source>
@@ -3093,12 +3093,12 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>&amp;Import...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Importer…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="64"/>
         <source>&amp;Export...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Eksporter…</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
@@ -3403,7 +3403,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Om</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
@@ -3850,12 +3850,12 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2230"/>
         <source>Exception</source>
-        <translation type="unfinished"></translation>
+        <translation>Unntak</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2271"/>
         <source>Failed to copy to clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>Klarte ikke å kopiere til utklippstavle.</translation>
     </message>
     <message>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
@@ -3901,7 +3901,7 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2231"/>
         <source>Exception in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Unntak i %1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2315"/>
@@ -4013,12 +4013,12 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
     <message>
         <location filename="../src/gui/traymenu.cpp" line="84"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Trykk &quot;/&quot; for å søke</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="84"/>
         <source>Type to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv for å søke</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="97"/>
