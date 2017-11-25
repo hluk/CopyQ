@@ -1,5 +1,6 @@
 set(copyq_plugin_itemtags_SOURCES
     ../../src/common/config.cpp
+    ../../src/common/log.cpp
     ../../src/common/mimetypes.cpp
     ../../src/common/textdata.cpp
     ../../src/gui/iconselectbutton.cpp
