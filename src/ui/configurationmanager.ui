@@ -1278,8 +1278,11 @@ Set to 0 to disable.</string>
                     <property name="toolTip">
                      <string>Notification distance from left or right screen edge in screen points</string>
                     </property>
+                    <property name="minimum">
+                     <number>-99999</number>
+                    </property>
                     <property name="maximum">
-                     <number>9999</number>
+                     <number>99999</number>
                     </property>
                    </widget>
                   </item>
@@ -1315,8 +1318,11 @@ Set to 0 to disable.</string>
                     <property name="toolTip">
                      <string>Notification distance from top or bottom screen edge in screen points</string>
                     </property>
+                    <property name="minimum">
+                     <number>-99999</number>
+                    </property>
                     <property name="maximum">
-                     <number>9999</number>
+                     <number>99999</number>
                     </property>
                    </widget>
                   </item>
