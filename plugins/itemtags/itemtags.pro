@@ -5,6 +5,7 @@ HEADERS += itemtags.h \
     ../../src/gui/iconselectdialog.h
 SOURCES += itemtags.cpp \
     ../../src/common/config.cpp \
+    ../../src/common/log.cpp \
     ../../src/common/mimetypes.cpp \
     ../../src/common/textdata.cpp \
     ../../src/gui/iconselectbutton.cpp \
