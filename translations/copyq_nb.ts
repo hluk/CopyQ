@@ -1200,12 +1200,12 @@ CTRL og opp- eller ned-tasten.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="197"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis et oppsprettsvindu automatisk for fullførelse av funksjon, type og variabelnavn i kommandoer</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="200"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto-fullfør kommandoer</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="207"/>
@@ -2497,7 +2497,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="128"/>
         <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
-        <translation type="unfinished"></translation>
+        <translation>Fest emner for å låse dem i nåværende rad og forhindre sletting (om de ikke løsnes).</translation>
     </message>
 </context>
 <context>
@@ -2505,7 +2505,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinnedsettings.ui" line="19"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til handlinger i meny og verktøyslinje</translation>
     </message>
 </context>
 <context>
@@ -2698,7 +2698,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="68"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Legg til handlinger i meny og verktøyslinje</translation>
     </message>
 </context>
 <context>
