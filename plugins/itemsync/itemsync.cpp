@@ -622,12 +622,6 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
     return copiedItemData;
 }
 
-ItemSyncScriptableFactory::ItemSyncScriptableFactory(const ItemSyncTabPaths &tabPaths)
-{
-    for (auto it = tabPaths.constBegin(); it != tabPaths.constEnd(); ++it)
-        m_tabPaths.insert( it.key(), it.value() );
-}
-
 ItemSyncLoader::ItemSyncLoader()
 {
 }
@@ -823,9 +817,12 @@ QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const
 #endif
 }
 
-ItemScriptableFactoryPtr ItemSyncLoader::scriptableFactory()
+ItemScriptable *ItemSyncLoader::scriptableObject()
 {
-    return std::make_shared<ItemSyncScriptableFactory>(m_tabPaths);
+    QVariantMap tabPaths;
+    for (auto it = m_tabPaths.constBegin(); it != m_tabPaths.constEnd(); ++it)
+        tabPaths.insert( it.key(), it.value() );
+    return new ItemSyncScriptable(tabPaths);
 }
 
 void ItemSyncLoader::onBrowseButtonClicked()

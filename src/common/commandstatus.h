@@ -32,13 +32,13 @@ enum CommandStatus {
     CommandException = 4,
 
     /** Print on stdout */
-    CommandPrint,
-    /** Ask client to send data from its stdin */
-    CommandReadInput,
-    /** Arguments/script from client */
-    CommandArguments,
-    /** Client data from its stdin */
-    CommandReadInputReply
+    CommandPrint = 5,
+
+    CommandGetScripts = 6,
+    CommandSetScripts = 7,
+
+    CommandFunctionCall = 8,
+    CommandFunctionCallReturnValue = 9,
 };
 
 #endif // COMMANDSTATUS_H

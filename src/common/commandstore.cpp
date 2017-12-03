@@ -56,6 +56,7 @@ void loadCommand(const QSettings &settings, CommandFilter filter, Commands *comm
 
     c.wait = settings.value("Wait").toBool();
     c.automatic = settings.value("Automatic").toBool();
+    c.display = settings.value("Display").toBool();
     c.transform = settings.value("Transform").toBool();
     c.hideWindow = settings.value("HideWindow").toBool();
     c.icon = settings.value("Icon").toString();
@@ -112,6 +113,7 @@ void saveCommand(const Command &c, QSettings *settings)
 
     saveNewValue("Wait", c, &Command::wait, settings);
     saveNewValue("Automatic", c, &Command::automatic, settings);
+    saveNewValue("Display", c, &Command::display, settings);
     saveNewValue("InMenu", c, &Command::inMenu, settings);
     saveNewValue("IsScript", c, &Command::isScript, settings);
     saveNewValue("Transform", c, &Command::transform, settings);

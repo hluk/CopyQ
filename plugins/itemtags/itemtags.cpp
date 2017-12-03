@@ -732,9 +732,9 @@ QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
 #endif
 }
 
-ItemScriptableFactoryPtr ItemTagsLoader::scriptableFactory()
+ItemScriptable *ItemTagsLoader::scriptableObject()
 {
-    return std::make_shared<ItemTagsScriptableFactory>(userTags());
+    return new ItemTagsScriptable(userTags());
 }
 
 QVector<Command> ItemTagsLoader::commands() const

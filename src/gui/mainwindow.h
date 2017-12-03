@@ -24,6 +24,7 @@
 #include "gui/clipboardbrowsershared.h"
 #include "gui/menuitems.h"
 #include "gui/notificationbutton.h"
+#include "item/persistentdisplayitem.h"
 
 #include "platform/platformnativeinterface.h"
 
@@ -45,7 +46,6 @@ class CommandDialog;
 class ConfigurationManager;
 class ItemFactory;
 class NotificationDaemon;
-class PersistentDisplayItem;
 class Theme;
 class TrayMenu;
 struct Command;
@@ -123,14 +123,6 @@ struct MainWindowOptions {
     bool trayItemPaste;
 
     QString clipboardTab;
-};
-
-class Callable {
-public:
-    Callable() = default;
-    Callable(Callable &&) = default;
-    virtual ~Callable() = default;
-    virtual void operator()() = 0;
 };
 
 /**
@@ -325,8 +317,6 @@ public:
 
     QColor sessionIconTagColor() const;
 
-    void reemitItemWidgetCreated();
-
 public slots:
     /** Close main window and exit the application. */
     void exit();
@@ -468,8 +458,6 @@ public slots:
 
     void hideSearchBar();
 
-    void invoke(Callable *callable);
-
 #ifdef HAS_TESTS
     /**
      * Send key clicks to currently focused widget.
@@ -512,8 +500,6 @@ signals:
     void stopTrayMenuCommandTester();
 
     void configurationChanged();
-
-    void itemWidgetCreated(const PersistentDisplayItem &selection);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
@@ -590,6 +576,7 @@ private slots:
     void updateContextMenu(const ClipboardBrowser *browser);
 
     void automaticCommandTestFinished(const Command &command, bool passed);
+    void displayCommandTestFinished(const Command &command, bool passed);
 
     QAction *enableActionForCommand(QMenu *menu, const Command &command, bool enable);
     void addCommandsToItemMenu(const Command &command, bool passed);
@@ -607,11 +594,17 @@ private slots:
 
     void onNotificationButtonClicked(const NotificationButton &button);
 
+    void onItemWidgetCreated(const PersistentDisplayItem &item);
+
+    void onDisplayCommandTesterFinished();
+
 private:
     enum TabNameMatching {
         MatchExactTabName,
         MatchSimilarTabName
     };
+
+    void runDisplayCommands();
 
     ClipboardBrowserPlaceholder *createTab(const QString &name, TabNameMatching nameMatch);
 
@@ -680,6 +673,7 @@ private:
     void initTray();
 
     void runAutomaticCommand(const Command &command);
+    void runDisplayCommand(const Command &command);
 
     bool isWindowVisible() const;
 
@@ -749,8 +743,10 @@ private:
     CommandTester m_itemMenuCommandTester;
     CommandTester m_trayMenuCommandTester;
     CommandTester m_automaticCommandTester;
+    CommandTester m_displayCommandTester;
 
     QPointer<Action> m_currentAutomaticCommand;
+    QPointer<Action> m_currentDisplayCommand;
     bool m_canUpdateTitleFromScript;
 
     bool m_iconSnip;
@@ -763,6 +759,8 @@ private:
 
     QVector< QPointer<QAction> > m_actions;
     MenuItems m_menuItems;
+
+    QList<PersistentDisplayItem> m_displayItemList;
 
 #ifdef HAS_TESTS
     /// Key clicks sequence number last returned by sendKeyClicks().

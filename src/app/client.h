@@ -32,9 +32,11 @@ public:
     explicit Client(QObject *parent = nullptr);
 
 protected:
-    void startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc, int messageCode);
+    void startClientSocket(const QString &serverName);
 
     void sendMessage(const QByteArray &message, int messageCode);
+
+    void waitForReadyRead();
 
 private slots:
     /** Message received from server. */

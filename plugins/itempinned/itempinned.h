@@ -73,15 +73,6 @@ public slots:
     void unpinData();
 };
 
-class ItemPinnedScriptableFactory : public ItemScriptableFactoryInterface
-{
-public:
-    ItemScriptable *create() const override
-    {
-        return new ItemPinnedScriptable();
-    }
-};
-
 class ItemPinnedSaver : public QObject, public ItemSaverInterface
 {
     Q_OBJECT
@@ -153,7 +144,7 @@ public:
 
     const QObject *signaler() const override { return this; }
 
-    ItemScriptableFactoryPtr scriptableFactory() override;
+    ItemScriptable *scriptableObject() override;
 
     QVector<Command> commands() const override;
 

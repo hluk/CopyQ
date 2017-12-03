@@ -23,6 +23,11 @@
 #include "app.h"
 #include "client.h"
 
+#include <QStringList>
+
+class Scriptable;
+class ScriptableProxy;
+
 class InputReader : public QObject
 {
     Q_OBJECT
@@ -63,13 +68,25 @@ private slots:
 
     void exit(int exitCode) override;
 
-private:
+    void sendFunctionCall(const QByteArray &bytes);
+
     void startInputReader();
+
+signals:
+    void functionCallResultReceived();
+
+private:
     void abortInputReader();
     bool isInputReaderFinished() const;
+    void start(const QByteArray &scriptsData);
 
     QThread *m_inputReaderThread;
     QByteArray m_input;
+
+    Scriptable *m_scriptable;
+    ScriptableProxy *m_scriptableProxy;
+
+    QStringList m_arguments;
 };
 
 #endif // CLIPBOARDCLIENT_H

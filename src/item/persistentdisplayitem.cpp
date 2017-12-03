@@ -26,11 +26,9 @@
 
 PersistentDisplayItem::PersistentDisplayItem(
         ItemDelegate *delegate,
-        const QString &tabName,
         const QVariantMap &data,
         QObject *widget)
-    : m_tabName(tabName)
-    , m_data(data)
+    : m_data(data)
     , m_widget(widget)
     , m_delegate(delegate)
 {

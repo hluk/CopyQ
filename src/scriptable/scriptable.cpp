@@ -58,7 +58,7 @@
 #include <QUrl>
 #include <QVector>
 #include <QTextCodec>
-#include <QThread>
+#include <QTimer>
 
 #include <cmath>
 
@@ -283,6 +283,7 @@ struct ScriptValueFactory<Command> {
         value.setProperty("output", command.output);
         value.setProperty("wait", command.wait);
         value.setProperty("automatic", command.automatic);
+        value.setProperty("display", command.display);
         value.setProperty("inMenu", command.inMenu);
         value.setProperty("isScript", command.isScript);
         value.setProperty("transform", command.transform);
@@ -312,6 +313,7 @@ struct ScriptValueFactory<Command> {
         ::fromScriptValueIfValid( value.property("output"), scriptable, &command.output );
         ::fromScriptValueIfValid( value.property("wait"), scriptable, &command.wait );
         ::fromScriptValueIfValid( value.property("automatic"), scriptable, &command.automatic );
+        ::fromScriptValueIfValid( value.property("display"), scriptable, &command.display );
         ::fromScriptValueIfValid( value.property("inMenu"), scriptable, &command.inMenu );
         ::fromScriptValueIfValid( value.property("isScript"), scriptable, &command.isScript );
         ::fromScriptValueIfValid( value.property("transform"), scriptable, &command.transform );
@@ -429,18 +431,6 @@ QString createScriptErrorMessage(const QString &text)
 void logScriptError(const QString &text)
 {
     log( createScriptErrorMessage(text), LogNote );
-}
-
-QString messageCodeToString(int code)
-{
-    switch (code) {
-    case CommandArguments:
-        return "CommandArguments";
-    case CommandReadInputReply:
-        return "CommandReadInputReply";
-    default:
-        return QString("Unknown(%1)").arg(code);
-    }
 }
 
 } // namespace
@@ -748,7 +738,7 @@ void Scriptable::menu()
     m_skipArguments = 4;
 
     if (argumentCount() == 0) {
-        m_proxy->toggleMenu();
+        m_proxy->toggleCurrentMenu();
     } else {
         const auto tabName = toString(argument(0), this);
 
@@ -1034,7 +1024,7 @@ void Scriptable::edit()
     bool changeClipboard = row < 0;
 
     if ( !m_proxy->browserOpenEditor(fromString(text), changeClipboard) ) {
-        m_proxy->showBrowser();
+        m_proxy->showCurrentBrowser();
         if (len == 1 && row >= 0) {
             m_proxy->browserSetCurrent(row);
             m_proxy->browserEditRow(row);
@@ -1434,11 +1424,13 @@ QScriptValue Scriptable::input()
     m_skipArguments = 0;
 
     if ( !getByteArray(m_input, this) ) {
-        sendMessageToClient(QByteArray(), CommandReadInput);
-        QEventLoop loop;
-        connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
-        connect(this, SIGNAL(dataReceived()), &loop, SLOT(quit()));
-        loop.exec(QEventLoop::ExcludeUserInputEvents);
+        emit readInput();
+        if (m_connected) {
+            QEventLoop loop;
+            connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
+            connect(this, SIGNAL(dataReceived()), &loop, SLOT(quit()));
+            loop.exec(QEventLoop::ExcludeUserInputEvents);
+        }
     }
 
     return m_input;
@@ -1508,9 +1500,7 @@ QScriptValue Scriptable::setData()
     if ( !toItemData(argument(1), mime, &m_data) )
         return false;
 
-    if ( m_data.value(mimeSelectedItems).isValid() )
-        m_proxy->setSelectedItemsData(mime, m_data.value(mime));
-
+    m_proxy->setSelectedItemsData(mime, m_data.value(mime));
     return true;
 }
 
@@ -1593,12 +1583,6 @@ void Scriptable::resetTestSession()
     m_skipArguments = 1;
     m_proxy->resetTestSession( arg(0) );
 }
-
-void Scriptable::flush()
-{
-    m_skipArguments = 1;
-    log("flush ID: " + arg(0), LogAlways);
-}
 #else // HAS_TESTS
 void Scriptable::keys()
 {
@@ -1615,12 +1599,13 @@ void Scriptable::resetTestSession()
 {
     m_skipArguments = 1;
 }
+#endif // HAS_TESTS
 
-void Scriptable::flush()
+void Scriptable::serverLog()
 {
     m_skipArguments = 1;
+    m_proxy->serverLog(arg(0));
 }
-#endif // HAS_TESTS
 
 void Scriptable::setCurrentTab()
 {
@@ -1986,30 +1971,23 @@ void Scriptable::sleep()
 {
     m_skipArguments = 1;
 
-    class ThreadSleep : public QThread {
-    public:
-        static void msleep(unsigned long msec) {
-            QThread::msleep(msec);
-        }
-    };
-
     int msec;
     if ( !toInt(argument(0), &msec) ) {
         throwError(argumentError());
         return;
     }
 
-    if (msec > 2000) {
-        // Allow aborting sleep.
-        SleepTimer t(msec);
-        while ( m_connected && t.sleep() )
-            ThreadSleep::msleep( static_cast<unsigned long>(std::min(t.remaining(), 2000)) );
-    } else if (msec > 0) {
-        ThreadSleep::msleep( static_cast<unsigned long>(msec) );
-    }
+    if (m_connected) {
+        QEventLoop loop;
+        connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
 
-    // This is for some reason required to receive pending signals.
-    QCoreApplication::processEvents();
+        QTimer t;
+        t.setInterval(msec);
+        connect(&t, SIGNAL(timeout()), &loop, SLOT(quit()));
+        t.start();
+
+        loop.exec();
+    }
 }
 
 QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
@@ -2112,52 +2090,10 @@ QScriptValue Scriptable::iconTagColor()
     return QScriptValue();
 }
 
-void Scriptable::registerDisplayFunction()
-{
-    m_skipArguments = 1;
-    auto fn = argument(0);
-    if ( !fn.isFunction() ) {
-        throwError(argumentError());
-        return;
-    }
-
-    m_displayFunctions.append(fn);
-}
-
-void Scriptable::onMessageReceived(const QByteArray &bytes, int messageCode)
-{
-    COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );
-
-    if (messageCode == CommandArguments) {
-        m_displayFunctions.clear();
-        executeArguments(bytes);
-    } else if (messageCode == CommandReadInputReply) {
-        m_input = newByteArray(bytes);
-        emit dataReceived();
-    } else {
-        log("Incorrect message code from client", LogError);
-    }
-}
-
 void Scriptable::onDisconnected()
 {
     abort();
     emit finished();
-}
-
-void Scriptable::onItemWidgetCreated(PersistentDisplayItem selection)
-{
-    m_displayItemSelections.append(selection);
-
-    if (m_displayFunctionsLock)
-        return;
-
-    m_displayFunctionsLock = true;
-
-    while ( !m_displayItemSelections.isEmpty() )
-        callDisplayFunctions(m_displayFunctions);
-
-    m_displayFunctionsLock = false;
 }
 
 void Scriptable::onExecuteOutput(const QStringList &lines)
@@ -2168,18 +2104,8 @@ void Scriptable::onExecuteOutput(const QStringList &lines)
     }
 }
 
-void Scriptable::executeArguments(const QByteArray &bytes)
+void Scriptable::executeArguments(const Arguments &args)
 {
-    Arguments args;
-    QDataStream stream(bytes);
-    stream >> args;
-    if ( stream.status() != QDataStream::Ok ) {
-        const auto message = "Failed to read client arguments";
-        log(message, LogError);
-        emit sendMessage(message, CommandError);
-        return;
-    }
-
     if ( hasLogLevel(LogDebug) ) {
         const bool isEval = args.length() == Arguments::Rest + 3
                 && args.at(Arguments::Rest) == "eval"
@@ -2277,69 +2203,10 @@ void Scriptable::executeArguments(const QByteArray &bytes)
     COPYQ_LOG("DONE");
 }
 
-void Scriptable::runScripts(const QVector<Command> &scriptCommands)
+void Scriptable::setInput(const QByteArray &input)
 {
-    if ( !sourceScriptCommands(scriptCommands) )
-        return;
-
-    if ( !m_displayFunctions.isEmpty() ) {
-        m_input = newByteArray(QByteArray());
-        m_proxy->connectSignal(this);
-
-        QEventLoop loop;
-        connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
-        loop.exec(QEventLoop::ExcludeUserInputEvents);
-    }
-
-    sendMessageToClient(QByteArray(), CommandFinished);
-}
-
-void Scriptable::callDisplayFunctions(QScriptValueList displayFunctions)
-{
-    QElapsedTimer t;
-    t.start();
-
-    auto selections = m_displayItemSelections;
-    m_displayItemSelections.clear();
-
-    if ( selections.size() > 5 )
-        m_proxy->removeInvalidSelections(&selections);
-
-    QVector<QVariantMap> dataList;
-    dataList.reserve( selections.size() );
-
-    for (const auto &selection : selections) {
-        auto data = selection.data();
-        auto args = QScriptValueList()
-                << QScriptValue()
-                << toScriptValue( selection.tabName(), this );
-
-        for (auto &fn : displayFunctions) {
-            args[0] = toScriptValue(data, this);
-            const auto result = fn.call( QScriptValue(), args );
-            if ( m_engine->hasUncaughtException() ) {
-                processUncaughtException("callDisplayFunctions");
-                m_displayFunctions.clear();
-                abort();
-                return;
-            }
-
-            const auto data2 = toDataMap(result);
-            if ( !data2.isEmpty() )
-                data = data2;
-
-            QCoreApplication::processEvents();
-            if (!m_connected)
-                return;
-        }
-
-        dataList.append(data);
-
-        if (t.elapsed() > 500)
-            break;
-    }
-
-    m_proxy->setDisplayData(selections, dataList);
+    m_input = newByteArray(input);
+    emit dataReceived();
 }
 
 QString Scriptable::processUncaughtException(const QString &cmd)

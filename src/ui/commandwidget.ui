@@ -205,6 +205,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxDisplay">
+             <property name="text">
+              <string>Display</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -654,6 +661,7 @@ Note: If this is applied automatically, no other automatic commands are executed
   <tabstop>checkBoxInMenu</tabstop>
   <tabstop>checkBoxGlobalShortcut</tabstop>
   <tabstop>checkBoxIsScript</tabstop>
+  <tabstop>checkBoxDisplay</tabstop>
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
   <tabstop>lineEditMatchCmd</tabstop>

@@ -106,9 +106,9 @@ void RemoteProcess::onNewConnection(const ClientSocketPtr &socket)
     } else {
         connect( this, SIGNAL(sendMessage(QByteArray,int)),
                  socket.get(), SLOT(sendMessage(QByteArray,int)) );
-        connect( socket.get(), SIGNAL(messageReceived(QByteArray,int)),
+        connect( socket.get(), SIGNAL(messageReceived(QByteArray,int,ClientSocket*)),
                  this, SLOT(onMessageReceived(QByteArray,int)) );
-        connect( socket.get(), SIGNAL(disconnected()),
+        connect( socket.get(), SIGNAL(disconnected(ClientSocket*)),
                  this, SLOT(onDisconnected()) );
 
         m_socket = socket;

@@ -402,13 +402,13 @@ public:
 
             // Flush server output.
             if (m_server->state() != QProcess::NotRunning) {
-                const QByteArray data = generateData();
-                if ( run(Args("flush") << data) == 0 ) {
+                const QByteArray data = "flush ID: " + generateData();
+                if ( run(Args("serverLog") << data) == 0 ) {
                     SleepTimer t(5000);
                     bool isFlushed = false;
                     do {
                         output.append(m_server->readAllStandardError());
-                        isFlushed = output.contains("ID: " + data);
+                        isFlushed = output.contains(data);
                     } while (!isFlushed && t.sleep());
 
                     if (!isFlushed)

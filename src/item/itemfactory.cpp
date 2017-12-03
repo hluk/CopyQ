@@ -37,6 +37,7 @@
 #include <QLabel>
 #include <QMetaObject>
 #include <QModelIndex>
+#include <QSettings>
 #include <QPluginLoader>
 
 #include <algorithm>
@@ -425,19 +426,19 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
     return false;
 }
 
-QList<ItemScriptableFactoryPtr> ItemFactory::scriptableFactories() const
+QList<ItemScriptable*> ItemFactory::scriptableObjects() const
 {
-    QList<ItemScriptableFactoryPtr> factories;
+    QList<ItemScriptable*> scriptables;
 
     for ( const auto &loader : enabledLoaders() ) {
-        auto factory = loader->scriptableFactory();
-        if (factory) {
-            factory->setName(loader->id());
-            factories.append(factory);
+        auto scriptable = loader->scriptableObject();
+        if (scriptable) {
+            scriptable->setObjectName(loader->id());
+            scriptables.append(scriptable);
         }
     }
 
-    return factories;
+    return scriptables;
 }
 
 QVector<Command> ItemFactory::commands() const
@@ -526,6 +527,30 @@ bool ItemFactory::loadPlugins()
     std::sort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
 
     return true;
+}
+
+void ItemFactory::loadItemFactorySettings(QSettings *settings)
+{
+    // load settings for each plugin
+    settings->beginGroup("Plugins");
+    for ( auto &loader : loaders() ) {
+        settings->beginGroup(loader->id());
+
+        QVariantMap s;
+        for (const auto &name : settings->allKeys()) {
+            s[name] = settings->value(name);
+        }
+        loader->loadSettings(s);
+        setLoaderEnabled( loader, settings->value("enabled", true).toBool() );
+
+        settings->endGroup();
+    }
+    settings->endGroup();
+
+    // load plugin priority
+    const QStringList pluginPriority =
+            settings->value("plugin_priority", QStringList()).toStringList();
+    setPluginPriority(pluginPriority);
 }
 
 ItemLoaderList ItemFactory::enabledLoaders() const

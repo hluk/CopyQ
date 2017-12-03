@@ -43,6 +43,7 @@ const QIcon iconClipboard() { return getIcon("", IconPaste); }
 const QIcon iconMenu() { return getIcon("", IconBars); }
 const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
 const QIcon iconScript() { return getIcon("", IconCog); }
+const QIcon iconDisplay() { return getIcon("", IconEyeOpen); }
 
 QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enabled = true)
 {
@@ -105,6 +106,7 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->checkBoxAutomatic->setIcon(iconClipboard());
     ui->checkBoxInMenu->setIcon(iconMenu());
     ui->checkBoxIsScript->setIcon(iconScript());
+    ui->checkBoxDisplay->setIcon(iconDisplay());
 
     // Add tab names to combo boxes.
     initTabComboBox(ui->comboBoxCopyToTab);
@@ -132,6 +134,7 @@ Command CommandWidget::command() const
     c.output = ui->comboBoxOutputFormat->currentText();
     c.wait   = ui->checkBoxWait->isChecked();
     c.automatic = ui->checkBoxAutomatic->isChecked();
+    c.display = ui->checkBoxDisplay->isChecked();
     c.inMenu  = ui->checkBoxInMenu->isChecked();
     c.isScript  = ui->checkBoxIsScript->isChecked();
     c.transform = ui->checkBoxTransform->isChecked();
@@ -161,6 +164,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->comboBoxOutputFormat->setEditText(c.output);
     ui->checkBoxWait->setChecked(c.wait);
     ui->checkBoxAutomatic->setChecked(c.automatic);
+    ui->checkBoxDisplay->setChecked(c.display);
     ui->checkBoxInMenu->setChecked(c.inMenu);
     ui->checkBoxIsScript->setChecked(c.isScript);
     ui->checkBoxTransform->setChecked(c.transform);
@@ -221,6 +225,11 @@ void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
     updateWidgets();
 }
 
+void CommandWidget::on_checkBoxDisplay_stateChanged(int)
+{
+    updateWidgets();
+}
+
 void CommandWidget::on_checkBoxInMenu_stateChanged(int)
 {
     updateWidgets();
@@ -254,12 +263,14 @@ void CommandWidget::on_commandEdit_changed()
 void CommandWidget::updateWidgets()
 {
     const bool isScript = ui->checkBoxIsScript->isChecked();
-    const bool isAutomatic = !isScript && ui->checkBoxAutomatic->isChecked();
+    const bool isAutomatic = !isScript
+            && (ui->checkBoxAutomatic->isChecked() || ui->checkBoxDisplay->isChecked());
     const bool inMenu = !isScript && ui->checkBoxInMenu->isChecked();
     const bool isGlobalShortcut = !isScript && ui->checkBoxGlobalShortcut->isChecked();
     const bool copyOrExecute = inMenu || isAutomatic;
 
     ui->checkBoxAutomatic->setVisible(!isScript);
+    ui->checkBoxDisplay->setVisible(!isScript);
     ui->checkBoxInMenu->setVisible(!isScript);
     ui->checkBoxGlobalShortcut->setVisible(!isScript);
     ui->checkBoxIsScript->setVisible(!isAutomatic && !inMenu && !isGlobalShortcut);

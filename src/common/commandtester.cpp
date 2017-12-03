@@ -36,19 +36,15 @@ CommandTester::CommandTester(QObject *parent)
 
 void CommandTester::abort()
 {
-    m_commands.clear();
-    m_data.clear();
     m_abort = true;
     m_restart = false;
 }
 
-void CommandTester::setCommands(
-        const QVector<Command> &commands, const QVariantMap &data)
+void CommandTester::setCommands(const QVector<Command> &commands)
 {
     abort();
     m_currentCommandIndex = 0;
     m_commands = commands;
-    m_data = data;
 }
 
 bool CommandTester::isCompleted() const
@@ -66,12 +62,19 @@ QVariantMap CommandTester::data() const
     return m_data;
 }
 
+void CommandTester::setData(const QVariantMap &data)
+{
+    abort();
+    m_currentCommandIndex = 0;
+    m_data = data;
+}
+
 void CommandTester::waitForAction(Action *action)
 {
     connect(action, SIGNAL(destroyed()),
             this, SLOT(start()));
     connect(action, SIGNAL(dataChanged(QVariantMap)),
-            this, SLOT(setData(QVariantMap)));
+            this, SLOT(onDataChanged(QVariantMap)));
 }
 
 void CommandTester::start()
@@ -98,7 +101,7 @@ void CommandTester::actionFinished()
         start();
 }
 
-void CommandTester::setData(const QVariantMap &data)
+void CommandTester::onDataChanged(const QVariantMap &data)
 {
     if (!m_abort)
         m_data = data;
@@ -111,8 +114,10 @@ void CommandTester::startNext()
     m_abort = false;
     m_restart = false;
 
-    if (!hasCommands())
+    if (!hasCommands()) {
+        emit finished();
         return;
+    }
 
     Command *command = &m_commands[m_currentCommandIndex];
 

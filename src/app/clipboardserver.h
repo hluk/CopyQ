@@ -24,7 +24,6 @@
 #include "common/server.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/mainwindow.h"
-#include "item/itemwidget.h"
 
 #include <QMap>
 #include <QProcess>
@@ -34,8 +33,8 @@
 #include <QWidget>
 
 class ItemFactory;
-class MainScriptableWorker;
 class RemoteProcess;
+class ScriptableProxy;
 class QxtGlobalShortcut;
 class QApplication;
 class QSessionManager;
@@ -82,17 +81,16 @@ public slots:
     void loadMonitorSettings();
 
 signals:
-    void terminateClientThreads();
+    void terminateClients();
 
 protected:
     bool eventFilter(QObject *object, QEvent *ev) override;
 
 private slots:
-    /**
-     * Execute command in different thread.
-     */
-    void doCommand(const ClientSocketPtr &client //!< For sending responses.
-            );
+    void onClientNewConnection(const ClientSocketPtr &client);
+    void onClientMessageReceived(const QByteArray &message, int messageCode, ClientSocket *client);
+    void onClientDisconnected(ClientSocket *client);
+    void onClientConnectionFailed(ClientSocket *client);
 
     /** New message from monitor process. */
     void newMonitorMessage(const QByteArray &message);
@@ -129,21 +127,26 @@ private:
     /** Ask to cancel application exit if there are any active commands. */
     bool askToQuit();
 
-    void terminateThreads();
-
     bool hasRunningCommands() const;
-
-    void restartMainScript();
 
     MainWindow* m_wnd;
     RemoteProcess *m_monitor;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
-    QThreadPool m_clientThreads;
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;
-    QList<ItemScriptableFactoryPtr> m_scriptableFactories;
     QVector<Command> m_scriptCommands;
-    QPointer<MainScriptableWorker> m_mainScriptableWorker;
+
+    struct ClientData {
+        ClientData() = default;
+        ClientData(const ClientSocketPtr &client, ScriptableProxy *proxy)
+            : client(client)
+            , proxy(proxy)
+        {
+        }
+        ClientSocketPtr client;
+        ScriptableProxy *proxy = nullptr;
+    };
+    QMap<ClientSocket*, ClientData> m_clients;
 };
 
 #endif // CLIPBOARDSERVER_H

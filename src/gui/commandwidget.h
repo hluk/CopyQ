@@ -65,6 +65,8 @@ private slots:
 
     void on_checkBoxAutomatic_stateChanged(int);
 
+    void on_checkBoxDisplay_stateChanged(int);
+
     void on_checkBoxInMenu_stateChanged(int);
 
     void on_checkBoxIsScript_stateChanged(int);

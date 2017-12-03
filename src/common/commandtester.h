@@ -40,13 +40,16 @@ public:
     void abort();
 
     /// Abort current processing set new commands and data.
-    void setCommands(const QVector<Command> &commands, const QVariantMap &data);
+    void setCommands(const QVector<Command> &commands);
+    const QVector<Command> &commands() const { return m_commands; }
 
     bool isCompleted() const;
 
     bool hasCommands() const;
 
     QVariantMap data() const;
+
+    void setData(const QVariantMap &data);
 
     /** Start next test after action finishes and update data from action. */
     void waitForAction(Action *action);
@@ -57,10 +60,11 @@ public slots:
 signals:
     void commandPassed(const Command &command, bool passed);
     void requestActionStart(Action *action);
+    void finished();
 
 private slots:
     void actionFinished();
-    void setData(const QVariantMap &data);
+    void onDataChanged(const QVariantMap &data);
 
 private:
     void startNext();

@@ -85,15 +85,6 @@ private:
     QByteArray decrypt(const QByteArray &bytes);
 };
 
-class ItemEncryptedScriptableFactory : public ItemScriptableFactoryInterface
-{
-public:
-    ItemScriptable *create() const override
-    {
-        return new ItemEncryptedScriptable();
-    }
-};
-
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
@@ -133,7 +124,7 @@ public:
 
     const QObject *signaler() const override { return this; }
 
-    ItemScriptableFactoryPtr scriptableFactory() override;
+    ItemScriptable *scriptableObject() override;
 
     QVector<Command> commands() const override;
 

@@ -113,23 +113,6 @@ private:
     QStringList m_userTags;
 };
 
-class ItemTagsScriptableFactory : public ItemScriptableFactoryInterface
-{
-public:
-    explicit ItemTagsScriptableFactory(const QStringList &userTags)
-        : m_userTags(userTags)
-    {
-    }
-
-    ItemScriptable *create() const override
-    {
-        return new ItemTagsScriptable(m_userTags);
-    }
-
-private:
-    QStringList m_userTags;
-};
-
 class ItemTagsLoader : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
@@ -162,7 +145,7 @@ public:
 
     const QObject *signaler() const override { return this; }
 
-    ItemScriptableFactoryPtr scriptableFactory() override;
+    ItemScriptable *scriptableObject() override;
 
     QVector<Command> commands() const override;
 

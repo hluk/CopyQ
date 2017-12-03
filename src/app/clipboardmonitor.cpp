@@ -70,7 +70,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv, const QString &server
         qApp->setProperty("CopyQ_testing", true);
 #endif
 
-    startClientSocket(serverName, argc, argv, 0, 0);
+    startClientSocket(serverName);
 
     initSingleShotTimer( &m_timerSetNewClipboard, 0, this, SLOT(setNewClipboard()) );
 }

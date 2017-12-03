@@ -23,6 +23,7 @@
 #include "common/appconfig.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
+#include "common/commandstatus.h"
 #include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -36,7 +37,7 @@
 #include "gui/mainwindow.h"
 #include "item/itemfactory.h"
 #include "item/serialize.h"
-#include "scriptable/scriptableworker.h"
+#include "scriptable/scriptableproxy.h"
 
 #include <QAction>
 #include <QApplication>
@@ -45,7 +46,6 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QSessionManager>
-#include <QThread>
 
 #ifdef NO_GLOBAL_SHORTCUTS
 class QxtGlobalShortcut {};
@@ -59,7 +59,6 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     , m_wnd(nullptr)
     , m_monitor(nullptr)
     , m_shortcutActions()
-    , m_clientThreads()
     , m_ignoreKeysTimer()
 {
     const QString serverName = clipboardServerName();
@@ -95,7 +94,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     m_wnd->enterBrowseMode();
 
     connect( server, SIGNAL(newConnection(ClientSocketPtr)),
-             this, SLOT(doCommand(ClientSocketPtr)) );
+             this, SLOT(onClientNewConnection(ClientSocketPtr)) );
 
     connect( qApp, SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()));
@@ -121,9 +120,6 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( m_wnd, SIGNAL(commandsSaved()),
              this, SLOT(onCommandsSaved()) );
     onCommandsSaved();
-
-    // Allow to run at least few client and internal threads concurrently.
-    m_clientThreads.setMaxThreadCount( qMax(m_clientThreads.maxThreadCount(), 8) );
 
     // run clipboard monitor
     startMonitoring();
@@ -213,14 +209,13 @@ void ClipboardServer::onCommandsSaved()
     removeGlobalShortcuts();
 
     QList<QKeySequence> usedShortcuts;
-    QVector<Command> scriptCommands;
 
     const auto commands = loadEnabledCommands();
     for (const auto &command : commands) {
         const auto type = command.type();
 
         if (type & CommandType::Script)
-            scriptCommands.append(command);
+            m_scriptCommands.append(command);
 
 #ifndef NO_GLOBAL_SHORTCUTS
         if (type & CommandType::GlobalShortcut) {
@@ -234,13 +229,6 @@ void ClipboardServer::onCommandsSaved()
         }
 #endif
     }
-
-    if (m_scriptCommands != scriptCommands) {
-        m_scriptCommands = scriptCommands;
-        loadSettings();
-        m_wnd->loadSettings();
-        restartMainScript();
-    }
 }
 
 void ClipboardServer::onAboutToQuit()
@@ -252,7 +240,7 @@ void ClipboardServer::onAboutToQuit()
     if( isMonitoring() )
         stopMonitoring();
 
-    terminateThreads();
+    emit terminateClients();
 }
 
 void ClipboardServer::onCommitData(QSessionManager &sessionManager)
@@ -301,7 +289,7 @@ void ClipboardServer::maybeQuit()
         waitFor(50);
 
     if (askToQuit()) {
-        terminateThreads();
+        emit terminateClients();
         QCoreApplication::exit();
     }
 }
@@ -325,56 +313,59 @@ bool ClipboardServer::askToQuit()
     return true;
 }
 
-void ClipboardServer::terminateThreads()
-{
-    if (m_mainScriptableWorker) {
-        m_mainScriptableWorker->close();
-        while ( m_mainScriptableWorker && m_mainScriptableWorker->isRunning() )
-            QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
-    }
-
-    const auto activeThreads = m_clientThreads.activeThreadCount();
-    if (activeThreads == 0)
-        return;
-
-    COPYQ_LOG( QString("Terminating %1 clients").arg(activeThreads) );
-    emit terminateClientThreads();
-    while ( !m_clientThreads.waitForDone(0) )
-        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
-}
-
 bool ClipboardServer::hasRunningCommands() const
 {
-    return m_wnd->hasRunningAction() || m_clientThreads.activeThreadCount() > 0;
+    return m_wnd->hasRunningAction() || !m_clients.isEmpty();
 }
 
-void ClipboardServer::restartMainScript()
+void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 {
-    if (m_mainScriptableWorker) {
-        m_mainScriptableWorker->close();
-        m_mainScriptableWorker = nullptr;
-    }
-
-    m_mainScriptableWorker = new MainScriptableWorker(m_wnd, m_scriptableFactories, m_scriptCommands, this);
-    connect( m_mainScriptableWorker, SIGNAL(finished()),
-             m_mainScriptableWorker, SLOT(deleteLater()) );
-    m_mainScriptableWorker->start();
-}
-
-void ClipboardServer::doCommand(const ClientSocketPtr &client)
-{
-    // Worker object without parent needs to be deleted afterwards!
-    // There is no parent so as it's possible to move the worker to another thread.
-    // QThreadPool takes ownership and worker will be automatically deleted
-    // after run() (see QRunnable::setAutoDelete()).
-    auto worker = new ScriptableWorker(m_wnd, client, m_scriptableFactories, m_scriptCommands);
-
-    // Terminate worker at application exit.
-    connect( this, SIGNAL(terminateClientThreads()),
+    auto proxy = new ScriptableProxy(m_wnd, client.get());
+    m_clients.insert( client.get(), ClientData(client, proxy) );
+    connect( this, SIGNAL(terminateClients()),
              client.get(), SLOT(close()) );
+    connect( client.get(), SIGNAL(messageReceived(QByteArray,int,ClientSocket*)),
+             this, SLOT(onClientMessageReceived(QByteArray,int,ClientSocket*)) );
+    connect( client.get(), SIGNAL(disconnected(ClientSocket*)),
+             this, SLOT(onClientDisconnected(ClientSocket*)) );
+    connect( client.get(), SIGNAL(connectionFailed(ClientSocket*)),
+             this, SLOT(onClientConnectionFailed(ClientSocket*)) );
+    client->start();
+}
 
-    // Add client thread to pool.
-    m_clientThreads.start(worker);
+void ClipboardServer::onClientMessageReceived(
+        const QByteArray &message, int messageCode, ClientSocket *client)
+{
+    Q_UNUSED(client);
+    switch (messageCode) {
+    case CommandGetScripts: {
+        const auto data = exportCommands(m_scriptCommands).toUtf8();
+        client->sendMessage(data, CommandSetScripts);
+        break;
+    }
+    case CommandFunctionCall: {
+        auto proxy = m_clients.value(client).proxy;
+        if (!proxy)
+            return;
+        const auto result = proxy->callFunction(message);
+        client->sendMessage(result, CommandFunctionCallReturnValue);
+        break;
+    }
+    default:
+        log(QString("Unhandled command status: %1").arg(messageCode));
+        break;
+    }
+}
+
+void ClipboardServer::onClientDisconnected(ClientSocket *client)
+{
+    m_clients.remove(client);
+}
+
+void ClipboardServer::onClientConnectionFailed(ClientSocket *client)
+{
+    log("Client connection failed", LogWarning);
+    m_clients.remove(client);
 }
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
@@ -484,8 +475,6 @@ void ClipboardServer::loadSettings()
     // reload clipboard monitor configuration
     if ( isMonitoring() )
         loadMonitorSettings();
-
-    m_scriptableFactories = m_itemFactory->scriptableFactories();
 }
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)

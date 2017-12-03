@@ -57,6 +57,8 @@ public:
     /// Return socket ID unique in process (thread-safe).
     int id() const { return m_socketId; }
 
+    void waitForReadyRead();
+
 public slots:
     /// Start emiting messageReceived().
     void start();
@@ -72,9 +74,9 @@ public slots:
     bool isClosed() const;
 
 signals:
-    void messageReceived(const QByteArray &message, int messageCode);
-    void disconnected();
-    void connectionFailed();
+    void messageReceived(const QByteArray &message, int messageCode, ClientSocket *client);
+    void disconnected(ClientSocket *client);
+    void connectionFailed(ClientSocket *client);
 
 private slots:
     void onReadyRead();

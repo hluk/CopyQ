@@ -32,7 +32,8 @@ enum CommandType {
     GlobalShortcut = 1 << 2,
     Menu = 1 << 3,
     Script = 1 << 4,
-    Disabled = 1 << 5
+    Display = 1 << 5,
+    Disabled = 1 << 6
 };
 } // namespace CommandType
 
@@ -57,6 +58,7 @@ struct Command {
         , output()
         , wait(false)
         , automatic(false)
+        , display(false)
         , inMenu(false)
         , isScript(false)
         , transform(false)
@@ -81,6 +83,7 @@ struct Command {
             && output == other.output
             && wait == other.wait
             && automatic == other.automatic
+            && display == other.display
             && inMenu == other.inMenu
             && isScript == other.isScript
             && transform == other.transform
@@ -102,6 +105,7 @@ struct Command {
     {
         auto type =
                (automatic ? CommandType::Automatic : 0)
+             | (display ? CommandType::Display : 0)
              | (!globalShortcuts.isEmpty() && !globalShortcuts.contains("DISABLED") ? CommandType::GlobalShortcut : 0)
              | (inMenu ? CommandType::Menu : 0);
 
@@ -158,6 +162,9 @@ struct Command {
 
     /** If true run command automatically on new matched items. */
     bool automatic;
+
+    /** If true, run command automatically when displaying matched items. */
+    bool display;
 
     /** If true show command in context menu on matching items. */
     bool inMenu;

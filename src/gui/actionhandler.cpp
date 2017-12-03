@@ -38,6 +38,19 @@
 
 #include <cmath>
 
+namespace {
+
+QString actionDescription(const Action &action)
+{
+    const auto name = action.name();
+    if ( !name.isEmpty() )
+        return name;
+
+    return action.command();
+}
+
+} // namespace
+
 ActionHandler::ActionHandler(MainWindow *mainWindow)
     : QObject(mainWindow)
     , m_wnd(mainWindow)
@@ -119,7 +132,7 @@ void ActionHandler::action(Action *action)
         action->setOutputTab(m_currentTabName);
 
     m_activeActionDialog->actionAboutToStart(action);
-    COPYQ_LOG( QString("Executing: %1").arg(action->command()) );
+    COPYQ_LOG( QString("Executing: %1").arg(actionDescription(*action)) );
     action->start();
 }
 

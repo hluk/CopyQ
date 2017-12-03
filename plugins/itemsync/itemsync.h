@@ -119,20 +119,6 @@ private:
     QVariantMap m_tabPaths;
 };
 
-class ItemSyncScriptableFactory : public ItemScriptableFactoryInterface
-{
-public:
-    explicit ItemSyncScriptableFactory(const ItemSyncTabPaths &tabPaths);
-
-    ItemScriptable *create() const override
-    {
-        return new ItemSyncScriptable(m_tabPaths);
-    }
-
-private:
-    QVariantMap m_tabPaths;
-};
-
 /**
  * Synchronizes selected tab with destination path.
  *
@@ -191,7 +177,7 @@ public:
 
     const QObject *signaler() const override { return this; }
 
-    ItemScriptableFactoryPtr scriptableFactory() override;
+    ItemScriptable *scriptableObject() override;
 
 signals:
     void error(const QString &);

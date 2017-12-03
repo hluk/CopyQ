@@ -93,7 +93,6 @@ HEADERS += \
     scriptable/scriptableclass.h \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
-    scriptable/scriptableworker.h \
     scriptable/temporaryfileclass.h \
     scriptable/temporaryfileprototype.h \
     tests/testinterface.h \
@@ -197,7 +196,6 @@ SOURCES += \
     scriptable/scriptableclass.cpp \
     scriptable/scriptable.cpp \
     scriptable/scriptableproxy.cpp \
-    scriptable/scriptableworker.cpp \
     scriptable/temporaryfileclass.cpp \
     scriptable/temporaryfileprototype.cpp \
     app/client.cpp \

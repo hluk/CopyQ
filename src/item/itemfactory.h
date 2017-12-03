@@ -35,6 +35,7 @@ class ScriptableProxy;
 class QAbstractItemModel;
 class QIODevice;
 class QModelIndex;
+class QSettings;
 class QWidget;
 struct Command;
 struct CommandMenu;
@@ -129,7 +130,7 @@ public:
      */
     bool matches(const QModelIndex &index, const QRegExp &re) const;
 
-    QList<ItemScriptableFactoryPtr> scriptableFactories() const;
+    QList<ItemScriptable*> scriptableObjects() const;
 
     /**
      * Adds commands from scripts for command dialog.
@@ -139,6 +140,8 @@ public:
     void emitError(const QString &errorString);
 
     bool loadPlugins();
+
+    void loadItemFactorySettings(QSettings *settings);
 
 signals:
     void error(const QString &errorString);

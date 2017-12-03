@@ -41,7 +41,7 @@ public:
     PersistentDisplayItem() = default;
 
     PersistentDisplayItem(
-            ItemDelegate *delegate, const QString &tabName, const QVariantMap &data, QObject *widget);
+            ItemDelegate *delegate, const QVariantMap &data, QObject *widget);
 
     /**
      * Returns display data of the item.
@@ -49,13 +49,6 @@ public:
      * This method is thread-safe.
      */
     const QVariantMap &data() const { return m_data; }
-
-    /**
-     * Returns tab name of the item.
-     *
-     * This method is thread-safe.
-     */
-    const QString &tabName() const { return m_tabName; }
 
     /**
      * Returns true only if display item widget is still available.
@@ -70,7 +63,6 @@ public:
     void setData(const QVariantMap &data) const;
 
 private:
-    QString m_tabName;
     QVariantMap m_data;
     QPointer<QObject> m_widget;
     QPointer<ItemDelegate> m_delegate;

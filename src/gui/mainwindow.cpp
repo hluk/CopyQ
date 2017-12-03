@@ -342,30 +342,6 @@ QString defaultTabName()
     return tab.isEmpty() ? defaultClipboardTabName() : tab;
 }
 
-void loadItemFactorySettings(ItemFactory *itemFactory, QSettings *settings)
-{
-    // load settings for each plugin
-    settings->beginGroup("Plugins");
-    for ( auto &loader : itemFactory->loaders() ) {
-        settings->beginGroup(loader->id());
-
-        QVariantMap s;
-        for (const auto &name : settings->allKeys()) {
-            s[name] = settings->value(name);
-        }
-        loader->loadSettings(s);
-        itemFactory->setLoaderEnabled( loader, settings->value("enabled", true).toBool() );
-
-        settings->endGroup();
-    }
-    settings->endGroup();
-
-    // load plugin priority
-    const QStringList pluginPriority =
-            settings->value("plugin_priority", QStringList()).toStringList();
-    itemFactory->setPluginPriority(pluginPriority);
-}
-
 bool isItemActivationShortcut(const QKeySequence &shortcut)
 {
     return (shortcut[0] == Qt::Key_Return || shortcut[0] == Qt::Key_Enter)
@@ -527,12 +503,18 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
             SLOT(addCommandsToTrayMenu(Command,bool)));
     connect(&m_automaticCommandTester, SIGNAL(commandPassed(Command,bool)),
             SLOT(automaticCommandTestFinished(Command,bool)));
+    connect(&m_displayCommandTester, SIGNAL(commandPassed(Command,bool)),
+            SLOT(displayCommandTestFinished(Command,bool)));
+    connect(&m_displayCommandTester, SIGNAL(finished()),
+            SLOT(onDisplayCommandTesterFinished()));
 
     connect(&m_itemMenuCommandTester, SIGNAL(requestActionStart(Action*)),
             m_actionHandler, SLOT(action(Action*)));
     connect(&m_trayMenuCommandTester, SIGNAL(requestActionStart(Action*)),
             m_actionHandler, SLOT(action(Action*)));
     connect(&m_automaticCommandTester, SIGNAL(requestActionStart(Action*)),
+            m_actionHandler, SLOT(action(Action*)));
+    connect(&m_displayCommandTester, SIGNAL(requestActionStart(Action*)),
             m_actionHandler, SLOT(action(Action*)));
 
     connect(itemFactory, SIGNAL(error(QString)),
@@ -1007,6 +989,14 @@ void MainWindow::automaticCommandTestFinished(const Command &command, bool passe
         m_automaticCommandTester.start();
 }
 
+void MainWindow::displayCommandTestFinished(const Command &command, bool passed)
+{
+    if ( passed && canExecuteCommand(command, m_displayCommandTester.data(), defaultTabName()) )
+        runDisplayCommand(command);
+    else
+        m_displayCommandTester.start();
+}
+
 QAction *MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
 {
     CommandAction *act = nullptr;
@@ -1129,7 +1119,7 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
     connect( browser, SIGNAL(searchHideRequest()),
              this, SLOT(hideSearchBar()) );
     connect( browser, SIGNAL(itemWidgetCreated(PersistentDisplayItem)),
-             this, SIGNAL(itemWidgetCreated(PersistentDisplayItem)) );
+             this, SLOT(onItemWidgetCreated(PersistentDisplayItem)) );
 }
 
 void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
@@ -1144,6 +1134,46 @@ void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
     cmd.input = mimeNotificationData;
 
     action(data, cmd);
+}
+
+void MainWindow::onItemWidgetCreated(const PersistentDisplayItem &item)
+{
+    if ( m_displayCommandTester.commands().isEmpty() )
+        return;
+
+    m_displayItemList.append(item);
+    runDisplayCommands();
+}
+
+void MainWindow::onDisplayCommandTesterFinished()
+{
+    if ( m_displayCommandTester.commands().isEmpty() )
+        return;
+
+    m_displayItemList[0].setData( m_displayCommandTester.data() );
+    m_displayItemList.pop_front();
+
+    for (int i = m_displayItemList.size() - 1; i >= 0; --i) {
+        const auto &item = m_displayItemList[i];
+        if ( !item.isValid() )
+            m_displayItemList.removeAt(i);
+    }
+
+    runDisplayCommands();
+}
+
+void MainWindow::runDisplayCommands()
+{
+    if ( m_currentDisplayCommand
+         || !m_displayCommandTester.isCompleted()
+         || m_displayItemList.isEmpty() )
+    {
+        return;
+    }
+
+    const auto &data = m_displayItemList[0].data();
+    m_displayCommandTester.setData(data);
+    m_displayCommandTester.start();
 }
 
 int MainWindow::findTabIndexExactMatch(const QString &name)
@@ -1179,11 +1209,6 @@ void MainWindow::setFilter(const QString &text)
 {
     ui->searchBar->setText(text);
     enterBrowseMode();
-}
-
-void MainWindow::invoke(Callable *callable)
-{
-    (*callable)();
 }
 
 #ifdef HAS_TESTS
@@ -1528,7 +1553,8 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
 
     setDisabledShortcuts(usedShortcuts);
 
-    m_itemMenuCommandTester.setCommands(disabledCommands, data);
+    m_itemMenuCommandTester.setCommands(disabledCommands);
+    m_itemMenuCommandTester.setData(data);
     m_itemMenuCommandTester.start();
 }
 
@@ -1567,7 +1593,8 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
                 this, SLOT(onClipboardCommandActionTriggered(CommandAction*,QString)));
     }
 
-    m_trayMenuCommandTester.setCommands(disabledCommands, data);
+    m_trayMenuCommandTester.setCommands(disabledCommands);
+    m_trayMenuCommandTester.setData(data);
     m_trayMenuCommandTester.start();
 }
 
@@ -1687,6 +1714,25 @@ void MainWindow::runAutomaticCommand(const Command &command)
         m_automaticCommandTester.waitForAction(m_currentAutomaticCommand);
     else
         m_automaticCommandTester.start();
+}
+
+void MainWindow::runDisplayCommand(const Command &command)
+{
+    Q_ASSERT(!m_currentDisplayCommand);
+
+    const QVariantMap data = m_displayCommandTester.data();
+
+    if ( command.input.isEmpty()
+         || command.input == mimeItems
+         || data.contains(command.input) )
+    {
+        m_currentDisplayCommand = action(data, command);
+    }
+
+    if (m_currentDisplayCommand)
+        m_displayCommandTester.waitForAction(m_currentDisplayCommand);
+    else
+        m_displayCommandTester.start();
 }
 
 bool MainWindow::isWindowVisible() const
@@ -2026,6 +2072,8 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
 void MainWindow::updateCommands()
 {
+    QVector<Command> displayCommands;
+
     m_automaticCommands.clear();
     m_menuCommands.clear();
     const auto commands = loadEnabledCommands();
@@ -2033,8 +2081,17 @@ void MainWindow::updateCommands()
         if (command.automatic)
             m_automaticCommands.append(command);
 
+        if (command.display)
+            displayCommands.append(command);
+
         if ( command.inMenu && !command.name.isEmpty() )
             m_menuCommands.append(command);
+    }
+
+    if ( m_displayCommandTester.commands() != displayCommands ) {
+        m_displayCommandTester.setCommands(displayCommands);
+        m_displayItemList.clear();
+        emit configurationChanged();
     }
 }
 
@@ -2328,8 +2385,7 @@ void MainWindow::loadSettings()
     COPYQ_LOG("Loading configuration");
 
     QSettings settings;
-
-    loadItemFactorySettings(m_sharedData->itemFactory, &settings);
+    m_sharedData->itemFactory->loadItemFactorySettings(&settings);
 
     settings.beginGroup("Theme");
     m_sharedData->theme.loadTheme(settings);
@@ -2829,15 +2885,6 @@ QColor MainWindow::sessionIconTagColor() const
     return ::sessionIconTagColor();
 }
 
-void MainWindow::reemitItemWidgetCreated()
-{
-    for ( int i = 0; i < ui->tabWidget->count(); ++i ) {
-        auto c = getPlaceholder(i)->browser();
-        if (c)
-            c->reemitItemWidgetCreated();
-    }
-}
-
 void MainWindow::runAutomaticCommands(QVariantMap data)
 {
     bool isClipboard = isClipboardData(data);
@@ -2880,7 +2927,8 @@ void MainWindow::runAutomaticCommands(QVariantMap data)
     }
 
     m_automaticCommandTester.abort();
-    m_automaticCommandTester.setCommands(commands, data);
+    m_automaticCommandTester.setCommands(commands);
+    m_automaticCommandTester.setData(data);
 
     if (!m_currentAutomaticCommand)
         m_automaticCommandTester.start();

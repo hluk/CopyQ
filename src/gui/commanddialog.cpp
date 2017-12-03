@@ -83,6 +83,7 @@ QIcon getCommandIcon(const QString &iconString, int commandType)
             commandType & CommandType::Automatic ? IconFile
           : commandType & CommandType::GlobalShortcut ? IconSquare
           : commandType & CommandType::Script ? IconCog
+          : commandType & CommandType::Display ? IconEyeOpen
           : commandType & CommandType::Menu ? IconBars
           : IconWarningSign;
     const auto color =
@@ -90,6 +91,7 @@ QIcon getCommandIcon(const QString &iconString, int commandType)
           : commandType & CommandType::Automatic ? QColor(240,220,200)
           : commandType & CommandType::GlobalShortcut ? QColor(100,255,150)
           : commandType & CommandType::Script ? QColor(255,220,100)
+          : commandType & CommandType::Display ? QColor(100,220,255)
           : commandType & CommandType::Menu ? QColor(100,220,255)
           : QColor(255,100,100);
 

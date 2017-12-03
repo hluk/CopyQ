@@ -37,25 +37,21 @@ void Client::sendMessage(const QByteArray &message, int messageCode)
     m_socket->sendMessage(message, messageCode);
 }
 
-void Client::startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc, int messageCode)
+void Client::waitForReadyRead()
 {
-    Arguments arguments(
-                createPlatformNativeInterface()->getCommandLineArguments(argc, argv)
-                .mid(skipArgc) );
+    m_socket->waitForReadyRead();
+}
 
+void Client::startClientSocket(const QString &serverName)
+{
     m_socket = new ClientSocket(serverName, this);
 
-    connect( m_socket, SIGNAL(messageReceived(QByteArray,int)),
-             this, SLOT(onMessageReceived(QByteArray,int)) );
-    connect( m_socket, SIGNAL(disconnected()),
+    connect( m_socket, SIGNAL(messageReceived(QByteArray,int,ClientSocket*)),
+             this, SLOT(onMessageReceived(QByteArray,int)), Qt::QueuedConnection );
+    connect( m_socket, SIGNAL(disconnected(ClientSocket*)),
              this, SLOT(onDisconnected()) );
-    connect( m_socket, SIGNAL(connectionFailed()),
+    connect( m_socket, SIGNAL(connectionFailed(ClientSocket*)),
              this, SLOT(onConnectionFailed()) );
 
     m_socket->start();
-
-    QByteArray msg;
-    QDataStream out(&msg, QIODevice::WriteOnly);
-    out << arguments;
-    sendMessage(msg, messageCode);
 }

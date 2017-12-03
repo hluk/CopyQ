@@ -138,11 +138,17 @@ ClientSocket::~ClientSocket()
     close();
 }
 
+void ClientSocket::waitForReadyRead()
+{
+    if (m_socket)
+        m_socket->waitForReadyRead(2000);
+}
+
 void ClientSocket::start()
 {
     if ( !m_socket || !m_socket->waitForConnected(4000) )
     {
-        emit connectionFailed();
+        emit connectionFailed(this);
         return;
     }
 
@@ -232,7 +238,7 @@ void ClientSocket::onReadyRead()
         m_hasMessageLength = false;
         m_message = m_message.mid(length);
 
-        emit messageReceived(msg, messageCode);
+        emit messageReceived(msg, messageCode, this);
     }
 }
 
@@ -261,7 +267,7 @@ void ClientSocket::onStateChanged(QLocalSocket::LocalSocketState state)
             if (m_hasMessageLength)
                 log("ERROR: Socket disconnected before receiving message", LogError);
 
-            emit disconnected();
+            emit disconnected(this);
         }
     }
 }

@@ -19,13 +19,20 @@
 
 #include "clipboardclient.h"
 
+#include "common/arguments.h"
 #include "common/client_server.h"
 #include "common/commandstatus.h"
+#include "common/commandstore.h"
 #include "common/log.h"
+#include "item/itemfactory.h"
 #include "platform/platformnativeinterface.h"
+#include "scriptable/scriptable.h"
+#include "scriptable/scriptableproxy.h"
 
 #include <QCoreApplication>
 #include <QFile>
+#include <QScriptEngine>
+#include <QSettings>
 #include <QThread>
 
 namespace {
@@ -43,8 +50,10 @@ QString messageCodeToString(int code)
         return "CommandException";
     case CommandPrint:
         return "CommandPrint";
-    case CommandReadInput:
-        return "CommandReadInput";
+    case CommandSetScripts:
+        return "CommandSetScripts";
+    case CommandFunctionCallReturnValue:
+        return "CommandFunctionCallReturnValue";
     default:
         return QString("Unknown(%1)").arg(code);
     }
@@ -81,10 +90,23 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
     : Client()
     , App("Client", createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
     , m_inputReaderThread(nullptr)
+    , m_arguments( createPlatformNativeInterface()->getCommandLineArguments(argc, argv).mid(skipArgc) )
 {
     restoreSettings();
 
-    startClientSocket(clipboardServerName(), argc, argv, skipArgc, CommandArguments);
+    auto engine = new QScriptEngine(this);
+    m_scriptableProxy = new ScriptableProxy(nullptr, this);
+    m_scriptable = new Scriptable(engine, m_scriptableProxy);
+
+    QObject::connect( m_scriptable, SIGNAL(sendMessage(QByteArray,int)),
+                      this, SLOT(onMessageReceived(QByteArray,int)) );
+    QObject::connect( m_scriptable, SIGNAL(readInput()),
+                      this, SLOT(startInputReader()) );
+    QObject::connect( m_scriptableProxy, SIGNAL(sendFunctionCall(QByteArray)),
+                      this, SLOT(sendFunctionCall(QByteArray)) );
+
+    startClientSocket(clipboardServerName());
+    sendMessage(QByteArray(), CommandGetScripts);
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
@@ -98,6 +120,9 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         break;
 
     case CommandError:
+        exit(1);
+        break;
+
     case CommandBadSyntax:
     case CommandException:
         printClientStderr(data);
@@ -108,11 +133,17 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         printClientStdout(data);
         break;
 
-    case CommandReadInput:
-        startInputReader();
+    case CommandSetScripts:
+        start(data);
+        break;
+
+    case CommandFunctionCallReturnValue:
+        m_scriptableProxy->setReturnValue(data);
+        emit functionCallResultReceived();
         break;
 
     default:
+        log( "Unhandled message: " + messageCodeToString(messageCode), LogError );
         break;
     }
 }
@@ -145,13 +176,24 @@ void ClipboardClient::setInput(const QByteArray &input)
 void ClipboardClient::sendInput()
 {
     if ( !wasClosed() )
-        sendMessage(m_input, CommandReadInputReply);
+        m_scriptable->setInput(m_input);
 }
 
 void ClipboardClient::exit(int exitCode)
 {
+    m_scriptableProxy->setReturnValue(QByteArray());
     abortInputReader();
     App::exit(exitCode);
+}
+
+void ClipboardClient::sendFunctionCall(const QByteArray &bytes)
+{
+    sendMessage(bytes, CommandFunctionCall);
+
+    QEventLoop loop;
+    connect(this, SIGNAL(functionCallResultReceived()), &loop, SLOT(quit()));
+    connect(qApp, SIGNAL(aboutToQuit()), &loop, SLOT(quit()));
+    loop.exec();
 }
 
 void ClipboardClient::startInputReader()
@@ -187,4 +229,34 @@ void ClipboardClient::abortInputReader()
 bool ClipboardClient::isInputReaderFinished() const
 {
     return m_inputReaderThread && m_inputReaderThread->isFinished();
+}
+
+void ClipboardClient::start(const QByteArray &scriptsData)
+{
+    const auto commands = importCommandsFromText( QString::fromUtf8(scriptsData) );
+
+    ItemFactory factory;
+    factory.loadPlugins();
+
+    QSettings settings;
+    factory.loadItemFactorySettings(&settings);
+
+    const auto scriptableObjects = factory.scriptableObjects();
+
+    const auto engine = m_scriptable->engine();
+    auto plugins = engine->newObject();
+    engine->globalObject().setProperty("plugins", plugins);
+
+    for (auto obj : scriptableObjects) {
+        const auto value = engine->newQObject(obj, QScriptEngine::ScriptOwnership);
+        const auto name = obj->objectName();
+        plugins.setProperty(name, value);
+        obj->setScriptable(m_scriptable);
+        obj->start();
+    }
+
+    if ( !m_scriptable->sourceScriptCommands(commands) )
+        return;
+
+    m_scriptable->executeArguments( Arguments(m_arguments) );
 }

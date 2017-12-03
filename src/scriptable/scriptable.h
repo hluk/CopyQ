@@ -22,7 +22,6 @@
 
 #include "common/command.h"
 #include "common/mimetypes.h"
-#include "item/persistentdisplayitem.h"
 
 #include <QClipboard>
 #include <QObject>
@@ -32,6 +31,7 @@
 #include <QVariantMap>
 #include <QVector>
 
+class Arguments;
 class ByteArrayClass;
 class ClipboardBrowser;
 class DirClass;
@@ -146,7 +146,9 @@ public:
 
     bool sourceScriptCommands(const QVector<Command> &scriptCommands);
 
-    void runScripts(const QVector<Command> &scriptCommands);
+    void executeArguments(const Arguments &args);
+
+    void setInput(const QByteArray &input);
 
 public slots:
     QScriptValue version();
@@ -242,7 +244,7 @@ public slots:
     void keys();
     QScriptValue testSelected();
     void resetTestSession();
-    void flush();
+    void serverLog();
 
     void setCurrentTab();
 
@@ -323,24 +325,19 @@ public slots:
 
     QScriptValue iconTagColor();
 
-    void registerDisplayFunction();
-
 public slots:
-    void onMessageReceived(const QByteArray &bytes, int messageCode);
     void onDisconnected();
-
-    void onItemWidgetCreated(PersistentDisplayItem selection);
 
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
     void dataReceived();
     void finished();
+    void readInput();
 
 private slots:
     void onExecuteOutput(const QStringList &lines);
 
 private:
-    void executeArguments(const QByteArray &bytes);
     void callDisplayFunctions(QScriptValueList displayFunctions);
     QString processUncaughtException(const QString &cmd);
     void showExceptionMessage(const QString &message);
@@ -370,8 +367,6 @@ private:
     QScriptValue m_executeStdoutCallback;
 
     bool m_displayFunctionsLock = false;
-    QScriptValueList m_displayFunctions;
-    QVector<PersistentDisplayItem> m_displayItemSelections;
 };
 
 class NetworkReply : public QObject {

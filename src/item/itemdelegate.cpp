@@ -147,7 +147,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     if (w == nullptr) {
         const auto data = m_view->itemData(index);
         w = updateCache(index, data);
-        emit itemWidgetCreated(PersistentDisplayItem(this, m_view->tabName(), data, w->widget()));
+        emit itemWidgetCreated(PersistentDisplayItem(this, data, w->widget()));
     }
 
     return w;
@@ -164,7 +164,7 @@ void ItemDelegate::updateCache(QObject *widget, const QVariantMap &data)
         auto ww = qobject_cast<QWidget*>(widget);
         if ( ww->isVisible() ) {
             const auto oldData = m_view->itemData(index);
-            emit itemWidgetCreated(PersistentDisplayItem(this, m_view->tabName(), oldData, ww));
+            emit itemWidgetCreated(PersistentDisplayItem(this, oldData, ww));
         } else {
             setIndexWidget(index, nullptr);
         }
@@ -272,7 +272,7 @@ void ItemDelegate::reemitItemWidgetCreated()
         if (w) {
             const auto index = m_view->index(i);
             const auto data = m_view->itemData(index);
-            emit itemWidgetCreated(PersistentDisplayItem(this, m_view->tabName(), data, w->widget()));
+            emit itemWidgetCreated(PersistentDisplayItem(this, data, w->widget()));
         }
     }
 }

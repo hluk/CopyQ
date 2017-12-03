@@ -22,7 +22,6 @@
 
 #include "gui/clipboardbrowser.h"
 #include "gui/notificationbutton.h"
-#include "item/persistentdisplayitem.h"
 
 #include <QClipboard>
 #include <QList>
@@ -48,14 +47,37 @@ struct NamedValue {
 
 using NamedValueList = QVector<NamedValue>;
 
-class ScriptableProxy
+Q_DECLARE_METATYPE(NamedValueList)
+Q_DECLARE_METATYPE(NotificationButtons)
+Q_DECLARE_METATYPE(QList<QVariantMap>)
+Q_DECLARE_METATYPE(QVector<QVariantMap>)
+Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
+
+#if QT_VERSION < 0x050000
+Q_DECLARE_METATYPE(QList<int>)
+Q_DECLARE_METATYPE(QVector<Command>)
+#endif
+
+QDataStream &operator<<(QDataStream &out, const NotificationButton &button);
+QDataStream &operator>>(QDataStream &in, NotificationButton &button);
+QDataStream &operator<<(QDataStream &out, const QList<QVariantMap> &list);
+QDataStream &operator>>(QDataStream &in, QList<QVariantMap> &list);
+QDataStream &operator<<(QDataStream &out, const NamedValueList &list);
+QDataStream &operator>>(QDataStream &in, NamedValueList &list);
+
+class ScriptableProxy : public QObject
 {
-    Q_DECLARE_TR_FUNCTIONS(ScriptableProxy)
+    Q_OBJECT
 
 public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
-    explicit ScriptableProxy(MainWindow* mainWindow);
+    ScriptableProxy(MainWindow* mainWindow, QObject *parent);
 
+    QByteArray callFunction(const QByteArray &serializedFunctionCall);
+
+    void setReturnValue(const QByteArray &returnValue);
+
+public slots:
     QVariantMap getActionData(int id);
     void setActionData(int id, const QVariantMap &data);
 
@@ -73,7 +95,7 @@ public:
     bool isMainWindowVisible();
     bool isMainWindowFocused();
     void disableMonitoring(bool arg1);
-    void setClipboard(const QVariantMap &data, QClipboard::Mode mode);
+    void setClipboard(const QVariantMap &data, int mode);
 
     QString renameTab(const QString &arg1, const QString &arg2);
 
@@ -85,7 +107,7 @@ public:
     bool showBrowser(const QString &tabName);
     bool showBrowserAt(const QString &tabName, QRect rect);
 
-    bool showBrowser();
+    bool showCurrentBrowser();
 
     void action(const QVariantMap &arg1, const Command &arg2);
 
@@ -107,7 +129,7 @@ public:
     QStringList tabs();
     bool toggleVisible();
     bool toggleMenu(const QString &tabName, int maxItemCount, QPoint position);
-    bool toggleMenu();
+    bool toggleCurrentMenu();
     int findTabIndex(const QString &arg1);
 
     void openActionDialog(const QVariantMap &arg1);
@@ -121,8 +143,8 @@ public:
     QVariant config(const QStringList &nameValue);
     QVariant toggleConfig(const QString &optionName);
 
-    QByteArray getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
-    bool hasClipboardFormat(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
+    QByteArray getClipboardData(const QString &mime, int mode = QClipboard::Clipboard);
+    bool hasClipboardFormat(const QString &mime, int mode = QClipboard::Clipboard);
 
     int browserLength();
     bool browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
@@ -159,6 +181,8 @@ public:
     void resetTestSession(const QString &clipboardTabName);
 #endif // HAS_TESTS
 
+    void serverLog(const QString &text);
+
     QString currentWindowTitle();
 
     NamedValueList inputDialog(const NamedValueList &values);
@@ -194,11 +218,8 @@ public:
     QString iconTagColor();
     bool setIconTagColor(const QString &name);
 
-    void connectSignal(QObject *receiver);
-
-    void removeInvalidSelections(QVector<PersistentDisplayItem> *selections);
-    void setDisplayData(
-            const QVector<PersistentDisplayItem> &selections, const QVector<QVariantMap> &dataList);
+signals:
+    void sendFunctionCall(const QByteArray &bytes);
 
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
@@ -213,9 +234,10 @@ private:
     MainWindow* m_wnd;
     QString m_tabName;
     QVariantMap m_actionData;
-    bool m_invoked;
 
     uint m_sentKeyClicks = 0;
+
+    QVariant m_returnValue;
 };
 
 QString pluginsPath();

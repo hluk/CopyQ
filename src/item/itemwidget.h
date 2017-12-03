@@ -439,9 +439,9 @@ public:
     virtual const QObject *signaler() const;
 
     /**
-     * Return factory for creating script objects.
+     * Return scriptable object.
      */
-    virtual ItemScriptableFactoryPtr scriptableFactory();
+    virtual ItemScriptable *scriptableObject();
 
     /**
      * Adds commands from scripts for command dialog.
