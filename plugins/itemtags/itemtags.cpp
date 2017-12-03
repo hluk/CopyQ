@@ -541,6 +541,18 @@ bool ItemTagsScriptable::hasTag()
 {
     const auto args = currentArguments();
     const auto tagName = args.value(0).toString();
+
+    if ( args.size() <= 1 ) {
+        const auto dataValueList = call("selectedItemsData").toList();
+        for (const auto &itemDataValue : dataValueList) {
+            const auto itemData = itemDataValue.toMap();
+            const auto itemTags = tags(itemData);
+            if ( itemTags.contains(tagName) )
+                return true;
+        }
+        return false;
+    }
+
     const auto row = args.value(1).toInt();
     return tags(row).contains(tagName);
 }
