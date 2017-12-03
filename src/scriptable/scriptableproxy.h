@@ -54,12 +54,6 @@ public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
     explicit ScriptableProxy(MainWindow* mainWindow);
 
-    const QVariant &value() const;
-
-    void unsetValue();
-
-    bool isValueUnset();
-
     QVariantMap getActionData(int id);
     void setActionData(int id, const QVariantMap &data);
 
