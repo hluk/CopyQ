@@ -92,17 +92,6 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
 {
     restoreSettings();
 
-    auto engine = new QScriptEngine(this);
-    m_scriptableProxy = new ScriptableProxy(nullptr, this);
-    m_scriptable = new Scriptable(engine, m_scriptableProxy);
-
-    QObject::connect( m_scriptable, SIGNAL(sendMessage(QByteArray,int)),
-                      this, SLOT(onMessageReceived(QByteArray,int)) );
-    QObject::connect( m_scriptable, SIGNAL(readInput()),
-                      this, SLOT(startInputReader()) );
-    QObject::connect( m_scriptableProxy, SIGNAL(sendFunctionCall(QByteArray)),
-                      this, SLOT(sendFunctionCall(QByteArray)) );
-
     startClientSocket(clipboardServerName());
     sendMessage(QByteArray(), CommandGetScripts);
 }
@@ -136,8 +125,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         break;
 
     case CommandFunctionCallReturnValue:
-        m_scriptableProxy->setReturnValue(data);
-        emit functionCallResultReceived();
+        emit functionCallResultReceived(data);
         break;
 
     default:
@@ -174,12 +162,12 @@ void ClipboardClient::setInput(const QByteArray &input)
 void ClipboardClient::sendInput()
 {
     if ( !wasClosed() )
-        m_scriptable->setInput(m_input);
+        emit inputReceived(m_input);
 }
 
 void ClipboardClient::exit(int exitCode)
 {
-    m_scriptableProxy->setReturnValue(QByteArray());
+    emit functionCallResultReceived(QByteArray());
     abortInputReader();
     App::exit(exitCode);
 }
@@ -189,7 +177,7 @@ void ClipboardClient::sendFunctionCall(const QByteArray &bytes)
     sendMessage(bytes, CommandFunctionCall);
 
     QEventLoop loop;
-    connect(this, SIGNAL(functionCallResultReceived()), &loop, SLOT(quit()));
+    connect(this, SIGNAL(functionCallResultReceived(QByteArray)), &loop, SLOT(quit()));
     connect(qApp, SIGNAL(aboutToQuit()), &loop, SLOT(quit()));
     loop.exec();
 }
@@ -232,8 +220,25 @@ bool ClipboardClient::isInputReaderFinished() const
 void ClipboardClient::start(const QByteArray &scriptsData)
 {
     const auto commands = importCommandsFromText( QString::fromUtf8(scriptsData) );
-    if ( !m_scriptable->sourceScriptCommands(commands) )
+
+    QScriptEngine engine;
+    ScriptableProxy scriptableProxy(nullptr, nullptr);
+    Scriptable scriptable(&engine, &scriptableProxy);
+
+    connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
+             this, SLOT(onMessageReceived(QByteArray,int)) );
+    connect( &scriptable, SIGNAL(readInput()),
+             this, SLOT(startInputReader()) );
+    connect( &scriptableProxy, SIGNAL(sendFunctionCall(QByteArray)),
+             this, SLOT(sendFunctionCall(QByteArray)) );
+
+    connect( this, SIGNAL(inputReceived(QByteArray)),
+             &scriptable, SLOT(setInput(QByteArray)) );
+    connect( this, SIGNAL(functionCallResultReceived(QByteArray)),
+             &scriptableProxy, SLOT(setReturnValue(QByteArray)) );
+
+    if ( !scriptable.sourceScriptCommands(commands) )
         return;
 
-    m_scriptable->executeArguments(m_arguments);
+    scriptable.executeArguments(m_arguments);
 }

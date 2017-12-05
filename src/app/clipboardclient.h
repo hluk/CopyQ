@@ -25,9 +25,6 @@
 
 #include <QStringList>
 
-class Scriptable;
-class ScriptableProxy;
-
 class InputReader : public QObject
 {
     Q_OBJECT
@@ -73,7 +70,8 @@ private slots:
     void startInputReader();
 
 signals:
-    void functionCallResultReceived();
+    void functionCallResultReceived(const QByteArray &returnValue);
+    void inputReceived(const QByteArray &input);
 
 private:
     void abortInputReader();
@@ -82,9 +80,6 @@ private:
 
     QThread *m_inputReaderThread;
     QByteArray m_input;
-
-    Scriptable *m_scriptable;
-    ScriptableProxy *m_scriptableProxy;
 
     QStringList m_arguments;
 };

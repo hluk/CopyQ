@@ -75,9 +75,9 @@ public:
 
     QByteArray callFunction(const QByteArray &serializedFunctionCall);
 
+public slots:
     void setReturnValue(const QByteArray &returnValue);
 
-public slots:
     QVariantMap getActionData(int id);
     void setActionData(int id, const QVariantMap &data);
 

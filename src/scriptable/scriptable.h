@@ -153,9 +153,9 @@ public:
 
     void executeArguments(const QStringList &args);
 
+public slots:
     void setInput(const QByteArray &input);
 
-public slots:
     QScriptValue version();
     QScriptValue help();
 
