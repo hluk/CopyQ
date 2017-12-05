@@ -29,6 +29,7 @@
 #include "common/version.h"
 #include "common/textdata.h"
 #include "gui/icons.h"
+#include "item/itemfactory.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"
@@ -649,6 +650,32 @@ void Scriptable::throwError(const QString &errorMessage)
 void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
 {
     emit sendMessage(message, exitCode);
+}
+
+QScriptValue Scriptable::getPlugins()
+{
+    // Load plugins on demand.
+    if ( !m_plugins.isValid() ) {
+        ItemFactory factory;
+        factory.loadPlugins();
+
+        QSettings settings;
+        factory.loadItemFactorySettings(&settings);
+
+        const auto scriptableObjects = factory.scriptableObjects();
+
+        m_plugins = m_engine->newObject();
+
+        for (auto obj : scriptableObjects) {
+            const auto value = m_engine->newQObject(obj, QScriptEngine::ScriptOwnership);
+            const auto name = obj->objectName();
+            m_plugins.setProperty(name, value);
+            obj->setScriptable(this);
+            obj->start();
+        }
+    }
+
+    return m_plugins;
 }
 
 QScriptValue Scriptable::call(QScriptValue *fn, const QScriptValue &object, const QVariantList &arguments) const

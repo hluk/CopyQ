@@ -36,6 +36,7 @@ class ByteArrayClass;
 class ClipboardBrowser;
 class DirClass;
 class FileClass;
+class ItemFactory;
 class ScriptableProxy;
 class TemporaryFileClass;
 
@@ -66,6 +67,8 @@ class Scriptable : public QObject, protected QScriptable
     Q_PROPERTY(QScriptValue mimeOutputTab READ getMimeOutputTab)
     Q_PROPERTY(QScriptValue mimeSyncToClipboard READ getMimeSyncToClipboard)
     Q_PROPERTY(QScriptValue mimeSyncToSelection READ getMimeSyncToSelection)
+
+    Q_PROPERTY(QScriptValue plugins READ getPlugins)
 
 public:
     explicit Scriptable(
@@ -135,6 +138,8 @@ public:
     QScriptValue getMimeOutputTab() const { return mimeOutputTab; }
     QScriptValue getMimeSyncToClipboard() const { return mimeSyncToClipboard; }
     QScriptValue getMimeSyncToSelection() const { return mimeSyncToSelection; }
+
+    QScriptValue getPlugins();
 
     ByteArrayClass *byteArrayClass() const { return m_baClass; }
     FileClass *fileClass() const { return m_fileClass; }
@@ -367,6 +372,8 @@ private:
     QScriptValue m_executeStdoutCallback;
 
     bool m_displayFunctionsLock = false;
+
+    QScriptValue m_plugins;
 };
 
 class NetworkReply : public QObject {

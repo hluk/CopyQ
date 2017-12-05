@@ -23,7 +23,6 @@
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
 #include "common/log.h"
-#include "item/itemfactory.h"
 #include "platform/platformnativeinterface.h"
 #include "scriptable/scriptable.h"
 #include "scriptable/scriptableproxy.h"
@@ -233,27 +232,6 @@ bool ClipboardClient::isInputReaderFinished() const
 void ClipboardClient::start(const QByteArray &scriptsData)
 {
     const auto commands = importCommandsFromText( QString::fromUtf8(scriptsData) );
-
-    ItemFactory factory;
-    factory.loadPlugins();
-
-    QSettings settings;
-    factory.loadItemFactorySettings(&settings);
-
-    const auto scriptableObjects = factory.scriptableObjects();
-
-    const auto engine = m_scriptable->engine();
-    auto plugins = engine->newObject();
-    engine->globalObject().setProperty("plugins", plugins);
-
-    for (auto obj : scriptableObjects) {
-        const auto value = engine->newQObject(obj, QScriptEngine::ScriptOwnership);
-        const auto name = obj->objectName();
-        plugins.setProperty(name, value);
-        obj->setScriptable(m_scriptable);
-        obj->start();
-    }
-
     if ( !m_scriptable->sourceScriptCommands(commands) )
         return;
 
