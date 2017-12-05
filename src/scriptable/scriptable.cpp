@@ -20,7 +20,6 @@
 #include "scriptable.h"
 
 #include "common/action.h"
-#include "common/arguments.h"
 #include "common/command.h"
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
@@ -431,6 +430,33 @@ QString createScriptErrorMessage(const QString &text)
 void logScriptError(const QString &text)
 {
     log( createScriptErrorMessage(text), LogNote );
+}
+
+QString parseCommandLineArgument(const QString &arg)
+{
+    QString result;
+    bool escape = false;
+
+    for (const auto &c : arg) {
+        if (escape) {
+            escape = false;
+
+            if (c == 'n')
+                result.append('\n');
+            else if (c == 't')
+                result.append('\t');
+            else if (c == '\\')
+                result.append('\\');
+            else
+                result.append(c);
+        } else if (c == '\\') {
+            escape = true;
+        } else {
+            result.append(c);
+        }
+    }
+
+    return result;
 }
 
 } // namespace
@@ -2104,36 +2130,15 @@ void Scriptable::onExecuteOutput(const QStringList &lines)
     }
 }
 
-void Scriptable::executeArguments(const Arguments &args)
+void Scriptable::executeArguments(const QStringList &args)
 {
-    if ( hasLogLevel(LogDebug) ) {
-        const bool isEval = args.length() == Arguments::Rest + 3
-                && args.at(Arguments::Rest) == "eval"
-                && args.at(Arguments::Rest + 1) == "--";
-
-        const int skipArgs = isEval ? 2 : 0;
-        auto msg = QString("Client-%1:").arg( getTextData(args.at(Arguments::ProcessId)) );
-        for (int i = Arguments::Rest + skipArgs; i < args.length(); ++i) {
-            const QString indent = isEval
-                    ? QString()
-                    : (QString::number(i - Arguments::Rest + 1) + " ");
-            msg.append( "\n" + indent + getTextData(args.at(i)) );
-        }
-        COPYQ_LOG(msg);
-    }
-
-    const QString currentPath = getTextData(args.at(Arguments::CurrentPath));
-    m_fileClass->setCurrentPath(currentPath);
-    m_temporaryFileClass->setCurrentPath(currentPath);
-    m_dirClass->setCurrentPath(currentPath);
-
     bool hasData;
-    const int id = args.at(Arguments::ActionId).toInt(&hasData);
+    const int id = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);
     if (hasData)
         m_data = m_proxy->getActionData(id);
     const auto oldData = m_data;
 
-    m_actionName = getTextData( args.at(Arguments::ActionName) );
+    m_actionName = getTextData( qgetenv("COPYQ_ACTION_NAME") );
 
     QByteArray response;
     int exitCode;
@@ -2148,14 +2153,18 @@ void Scriptable::executeArguments(const Arguments &args)
              */
         QScriptValueList fnArgs;
         bool readRaw = false;
-        for ( int i = Arguments::Rest; i < args.length(); ++i ) {
-            const QByteArray &arg = args.at(i);
-            if (!readRaw && arg == "--") {
+        for (const auto &arg : args) {
+            if (readRaw) {
+                fnArgs.append( newByteArray(arg.toUtf8()) );
+            } else if (arg == "--") {
                 readRaw = true;
+            } else if (arg == "-") {
+                fnArgs.append( input() );
+            } else if (arg == "-e") {
+                fnArgs.append("eval");
             } else {
-                const QScriptValue value = readRaw || arg != "-"
-                        ? newByteArray(arg)
-                        : input();
+                const auto unescapedArg = parseCommandLineArgument(arg);
+                const auto value = newByteArray( unescapedArg.toUtf8() );
                 fnArgs.append(value);
             }
         }

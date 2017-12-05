@@ -34,7 +34,6 @@ HEADERS += \
     app/clipboardserver.h \
     app/remoteprocess.h \
     common/action.h \
-    common/arguments.h \
     common/client_server.h \
     common/clientsocket.h \
     common/command.h \
@@ -135,7 +134,6 @@ SOURCES += \
     app/clipboardserver.cpp \
     app/remoteprocess.cpp \
     common/action.cpp \
-    common/arguments.cpp \
     common/client_server.cpp \
     common/clientsocket.cpp \
     common/common.cpp \

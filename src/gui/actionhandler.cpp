@@ -44,7 +44,7 @@ QString actionDescription(const Action &action)
 {
     const auto name = action.name();
     if ( !name.isEmpty() )
-        return name;
+        return QString("Command \"%1\"").arg(name);
 
     return action.command();
 }

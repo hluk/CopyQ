@@ -19,7 +19,6 @@
 
 #include "clipboardclient.h"
 
-#include "common/arguments.h"
 #include "common/client_server.h"
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
@@ -258,5 +257,5 @@ void ClipboardClient::start(const QByteArray &scriptsData)
     if ( !m_scriptable->sourceScriptCommands(commands) )
         return;
 
-    m_scriptable->executeArguments( Arguments(m_arguments) );
+    m_scriptable->executeArguments(m_arguments);
 }

@@ -651,6 +651,9 @@ void Tests::commandEval()
     RUN("eval" << "[1,2,3]", "1\n2\n3\n");
     RUN("eval" << "'123'", "123\n");
     RUN("eval" << "'123'", "123\n");
+
+    RUN("-e" << "", "");
+    RUN("-e" << "1", "1\n");
 }
 
 void Tests::commandEvalThrows()

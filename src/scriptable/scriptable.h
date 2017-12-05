@@ -146,7 +146,7 @@ public:
 
     bool sourceScriptCommands(const QVector<Command> &scriptCommands);
 
-    void executeArguments(const Arguments &args);
+    void executeArguments(const QStringList &args);
 
     void setInput(const QByteArray &input);
 

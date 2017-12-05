@@ -19,7 +19,6 @@
 
 #include "client.h"
 
-#include "common/arguments.h"
 #include "common/clientsocket.h"
 #include "platform/platformnativeinterface.h"
 
