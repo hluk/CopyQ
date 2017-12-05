@@ -27,7 +27,7 @@
 
 class ItemDelegate;
 class QModelIndex;
-class QObject;
+class QWidget;
 class QString;
 
 /**
@@ -41,7 +41,7 @@ public:
     PersistentDisplayItem() = default;
 
     PersistentDisplayItem(
-            ItemDelegate *delegate, const QVariantMap &data, QObject *widget);
+            ItemDelegate *delegate, const QVariantMap &data, QWidget *widget);
 
     /**
      * Returns display data of the item.
@@ -53,18 +53,18 @@ public:
     /**
      * Returns true only if display item widget is still available.
      */
-    bool isValid() const;
+    bool isValid();
 
     /**
      * Sets display data.
      *
      * If data is empty, the item will be displayed later again.
      */
-    void setData(const QVariantMap &data) const;
+    void setData(const QVariantMap &data);
 
 private:
     QVariantMap m_data;
-    QPointer<QObject> m_widget;
+    QPointer<QWidget> m_widget;
     QPointer<ItemDelegate> m_delegate;
 };
 

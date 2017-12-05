@@ -160,17 +160,7 @@ void ItemDelegate::updateCache(QObject *widget, const QVariantMap &data)
         return;
 
     const auto index = m_view->index(row);
-    if ( data.isEmpty() ) {
-        auto ww = qobject_cast<QWidget*>(widget);
-        if ( ww->isVisible() ) {
-            const auto oldData = m_view->itemData(index);
-            emit itemWidgetCreated(PersistentDisplayItem(this, oldData, ww));
-        } else {
-            setIndexWidget(index, nullptr);
-        }
-    } else {
-        updateCache(index, data);
-    }
+    updateCache(index, data);
 }
 
 ItemWidget *ItemDelegate::cacheOrNull(int row) const
@@ -348,6 +338,18 @@ void ItemDelegate::invalidateCache()
 {
     for(auto &w : m_cache)
         reset(&w);
+}
+
+bool ItemDelegate::invalidateHidden(QWidget *widget)
+{
+    if ( widget->isVisible() && m_view->isVisible() )
+        return false;
+
+    const auto row = findWidgetRow(widget);
+    Q_ASSERT(row != -1);
+    const auto index = m_view->index(row);
+    setIndexWidget(index, nullptr);
+    return true;
 }
 
 void ItemDelegate::setSearch(const QRegExp &re)

@@ -1150,11 +1150,10 @@ void MainWindow::onDisplayCommandTesterFinished()
     if ( m_displayCommandTester.commands().isEmpty() )
         return;
 
-    m_displayItemList[0].setData( m_displayCommandTester.data() );
-    m_displayItemList.pop_front();
+    m_currentDisplayItem.setData( m_displayCommandTester.data() );
 
     for (int i = m_displayItemList.size() - 1; i >= 0; --i) {
-        const auto &item = m_displayItemList[i];
+        auto &item = m_displayItemList[i];
         if ( !item.isValid() )
             m_displayItemList.removeAt(i);
     }
@@ -1171,8 +1170,8 @@ void MainWindow::runDisplayCommands()
         return;
     }
 
-    const auto &data = m_displayItemList[0].data();
-    m_displayCommandTester.setData(data);
+    m_currentDisplayItem = m_displayItemList.takeFirst();
+    m_displayCommandTester.setData( m_currentDisplayItem.data() );
     m_displayCommandTester.start();
 }
 

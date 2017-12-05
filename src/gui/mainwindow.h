@@ -761,6 +761,7 @@ private:
     MenuItems m_menuItems;
 
     QList<PersistentDisplayItem> m_displayItemList;
+    PersistentDisplayItem m_currentDisplayItem;
 
 #ifdef HAS_TESTS
     /// Key clicks sequence number last returned by sendKeyClicks().

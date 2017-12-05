@@ -62,6 +62,9 @@ class ItemDelegate : public QItemDelegate
         /** Remove all cached items. */
         void invalidateCache();
 
+        /** Remove item widget if not currently visible and return true if removed. */
+        bool invalidateHidden(QWidget *widget);
+
         /** Set regular expression for highlighting. */
         void setSearch(const QRegExp &re);
 
@@ -73,9 +76,6 @@ class ItemDelegate : public QItemDelegate
 
         /**
          * Update data to display.
-         *
-         * If data is empty and widget is still visible, itemWidgetCreated() is reemitted.
-         * If data is empty and widget is not visible, widget is destroyed.
          */
         void updateCache(QObject *widget, const QVariantMap &data);
 

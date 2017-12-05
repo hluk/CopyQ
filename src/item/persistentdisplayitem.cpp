@@ -21,27 +21,25 @@
 
 #include "item/itemdelegate.h"
 
-#include <QCoreApplication>
-#include <QThread>
-
-PersistentDisplayItem::PersistentDisplayItem(
-        ItemDelegate *delegate,
+PersistentDisplayItem::PersistentDisplayItem(ItemDelegate *delegate,
         const QVariantMap &data,
-        QObject *widget)
+        QWidget *widget)
     : m_data(data)
     , m_widget(widget)
     , m_delegate(delegate)
 {
 }
 
-bool PersistentDisplayItem::isValid() const
+bool PersistentDisplayItem::isValid()
 {
-    Q_ASSERT(QThread::currentThread() == qApp->thread());
-    return !m_widget.isNull();
+    if ( m_widget.isNull() || m_delegate.isNull() )
+        return false;
+
+    return !m_delegate->invalidateHidden( m_widget.data() );
 }
 
-void PersistentDisplayItem::setData(const QVariantMap &data) const
+void PersistentDisplayItem::setData(const QVariantMap &data)
 {
-    if ( isValid() && m_delegate && data != m_data )
+    if ( !data.isEmpty() && isValid() && m_delegate && data != m_data )
         m_delegate->updateCache(m_widget, data);
 }
