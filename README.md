@@ -113,7 +113,7 @@ Read more:
 - [Basic Usage](https://copyq.readthedocs.io/en/latest/basic-usage.html)
 - [Keyboard](https://copyq.readthedocs.io/en/latest/keyboard.html)
 
-### Adding Funcionality
+### Adding Functionality
 
 To create custom action that can be executed
 from menu, with shortcut or when clipboard changes:
