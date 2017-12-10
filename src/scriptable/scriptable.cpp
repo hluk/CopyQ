@@ -2157,13 +2157,11 @@ void Scriptable::onExecuteOutput(const QStringList &lines)
     }
 }
 
-void Scriptable::executeArguments(const QStringList &args)
+void Scriptable::executeArguments(const QStringList &args, const QVariantMap &actionData)
 {
     bool hasData;
     const int id = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);
-    if (hasData)
-        m_data = m_proxy->getActionData(id);
-    const auto oldData = m_data;
+    m_data = actionData;
 
     m_actionName = getTextData( qgetenv("COPYQ_ACTION_NAME") );
 
@@ -2227,7 +2225,7 @@ void Scriptable::executeArguments(const QStringList &args)
         }
     }
 
-    if (exitCode == CommandFinished && hasData && oldData != m_data)
+    if (exitCode == CommandFinished && hasData && actionData != m_data)
         m_proxy->setActionData(id, data());
 
     // Destroy objects so destructors are run before script finishes

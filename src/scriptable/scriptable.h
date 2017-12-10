@@ -151,7 +151,7 @@ public:
 
     bool sourceScriptCommands(const QVector<Command> &scriptCommands);
 
-    void executeArguments(const QStringList &args);
+    void executeArguments(const QStringList &args, const QVariantMap &actionData);
 
 public slots:
     void setInput(const QByteArray &input);

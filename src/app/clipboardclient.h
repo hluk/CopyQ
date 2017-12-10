@@ -76,7 +76,7 @@ signals:
 private:
     void abortInputReader();
     bool isInputReaderFinished() const;
-    void start(const QByteArray &scriptsData);
+    void start(const QByteArray &data);
 
     QThread *m_inputReaderThread;
     QByteArray m_input;

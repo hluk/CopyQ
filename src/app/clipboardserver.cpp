@@ -340,9 +340,26 @@ void ClipboardServer::onClientMessageReceived(
 {
     Q_UNUSED(client);
     switch (messageCode) {
-    case CommandGetScripts: {
-        const auto data = exportCommands(m_scriptCommands).toUtf8();
-        client->sendMessage(data, CommandSetScripts);
+    case CommandGetData: {
+        auto proxy = m_clients.value(client).proxy;
+        if (!proxy)
+            return;
+
+        QVariantMap actionData;
+        if ( !message.isEmpty() ) {
+            QDataStream in(message);
+            int actionId;
+            in >> actionId;
+            Q_ASSERT(in.status() == QDataStream::Ok);
+            actionData = proxy->getActionData(actionId);
+        }
+
+        QByteArray bytes;
+        QDataStream out(&bytes, QIODevice::WriteOnly);
+        out << m_scriptCommands << actionData;
+        Q_ASSERT(out.status() == QDataStream::Ok);
+
+        client->sendMessage(bytes, CommandSetData);
         break;
     }
     case CommandFunctionCall: {

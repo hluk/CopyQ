@@ -48,8 +48,8 @@ QString messageCodeToString(int code)
         return "CommandException";
     case CommandPrint:
         return "CommandPrint";
-    case CommandSetScripts:
-        return "CommandSetScripts";
+    case CommandSetData:
+        return "CommandSetData";
     case CommandFunctionCallReturnValue:
         return "CommandFunctionCallReturnValue";
     default:
@@ -93,7 +93,16 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
     restoreSettings();
 
     startClientSocket(clipboardServerName());
-    sendMessage(QByteArray(), CommandGetScripts);
+
+    bool hasActionData;
+    const int id = qgetenv("COPYQ_ACTION_ID").toInt(&hasActionData);
+    QByteArray message;
+    if (hasActionData) {
+        QDataStream out(&message, QIODevice::WriteOnly);
+        out << id;
+    }
+
+    sendMessage(message, CommandGetData);
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
@@ -120,7 +129,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         printClientStdout(data);
         break;
 
-    case CommandSetScripts:
+    case CommandSetData:
         start(data);
         break;
 
@@ -217,9 +226,13 @@ bool ClipboardClient::isInputReaderFinished() const
     return m_inputReaderThread && m_inputReaderThread->isFinished();
 }
 
-void ClipboardClient::start(const QByteArray &scriptsData)
+void ClipboardClient::start(const QByteArray &data)
 {
-    const auto commands = importCommandsFromText( QString::fromUtf8(scriptsData) );
+    QDataStream in(data);
+    QVector<Command> scriptCommands;
+    QVariantMap actionData;
+    in >> scriptCommands >> actionData;
+    Q_ASSERT(in.status() == QDataStream::Ok);
 
     QScriptEngine engine;
     ScriptableProxy scriptableProxy(nullptr, nullptr);
@@ -237,8 +250,8 @@ void ClipboardClient::start(const QByteArray &scriptsData)
     connect( this, SIGNAL(functionCallResultReceived(QByteArray)),
              &scriptableProxy, SLOT(setReturnValue(QByteArray)) );
 
-    if ( !scriptable.sourceScriptCommands(commands) )
+    if ( !scriptable.sourceScriptCommands(scriptCommands) )
         return;
 
-    scriptable.executeArguments(m_arguments);
+    scriptable.executeArguments(m_arguments, actionData);
 }
