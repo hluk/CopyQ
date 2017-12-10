@@ -250,8 +250,6 @@ class ClipboardBrowser : public QListView
 
         QVariantMap itemData(const QModelIndex &index) const;
 
-        void reemitItemWidgetCreated();
-
     public slots:
         /**
          * Save items to configuration.

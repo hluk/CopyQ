@@ -256,19 +256,6 @@ void ItemDelegate::setItemWidgetSelected(const QModelIndex &index, bool isSelect
     setWidgetSelected(ww, isSelected);
 }
 
-void ItemDelegate::reemitItemWidgetCreated()
-{
-    for (int i = 0; i < m_cache.size(); ++i) {
-        const auto w = m_cache[i];
-        if (w) {
-            const auto index = m_view->index(i);
-            auto data = m_view->itemData(index);
-            data.insert(mimeCurrentTab, m_view->tabName());
-            emit itemWidgetCreated(PersistentDisplayItem(this, data, w->widget()));
-        }
-    }
-}
-
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 {
     reset(&m_cache[index.row()], w);

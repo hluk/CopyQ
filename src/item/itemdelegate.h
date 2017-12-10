@@ -119,8 +119,6 @@ class ItemDelegate : public QItemDelegate
          */
         void setItemWidgetSelected(const QModelIndex &index, bool isSelected);
 
-        void reemitItemWidgetCreated();
-
     signals:
         void itemWidgetCreated(const PersistentDisplayItem &selection);
 

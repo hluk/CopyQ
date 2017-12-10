@@ -372,11 +372,6 @@ QVariantMap ClipboardBrowser::itemData(const QModelIndex &index) const
     return index.data(contentType::data).toMap();
 }
 
-void ClipboardBrowser::reemitItemWidgetCreated()
-{
-    d.reemitItemWidgetCreated();
-}
-
 bool ClipboardBrowser::hideFiltered(int row)
 {
     const bool hide = isFiltered(row);
