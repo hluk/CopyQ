@@ -115,6 +115,10 @@ void X11PlatformClipboard::onSelectionChanged()
 {
     m_timerResetSelection.stop();
 
+    // Qt clipboard data can be in invalid state after this call.
+    if ( waitIfSelectionIncomplete() )
+        return;
+
     // Always assume that only plain text can be in primary selection buffer.
     // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
     const QVariantMap data = DummyClipboard::data( Selection, QStringList(mimeText) );
@@ -123,10 +127,6 @@ void X11PlatformClipboard::onSelectionChanged()
         return;
 
     if (m_selectionData == data)
-        return;
-
-    // Qt clipboard data can be in invalid state after this call.
-    if ( waitIfSelectionIncomplete() )
         return;
 
     m_selectionData = data;
