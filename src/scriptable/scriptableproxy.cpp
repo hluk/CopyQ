@@ -81,7 +81,7 @@
 #define INVOKE(function, arguments) \
     if (!m_wnd) { \
         using Result = decltype(function arguments); \
-        FunctionCallSerializer f(STR(#function), QVariant::fromValue(Result())); \
+        FunctionCallSerializer f(m_tabName, STR(#function), QVariant::fromValue(Result())); \
         f.setArguments arguments; \
         emit sendFunctionCall(f.serialize()); \
         return m_returnValue.value<Result>(); \
@@ -89,7 +89,7 @@
 
 #define INVOKE2(function, arguments) \
     if (!m_wnd) { \
-        FunctionCallSerializer f(STR(#function)); \
+        FunctionCallSerializer f(m_tabName, STR(#function)); \
         f.setArguments arguments; \
         emit sendFunctionCall(f.serialize()); \
         return; \
@@ -99,18 +99,20 @@ Q_DECLARE_METATYPE(QFile*)
 
 QDataStream &operator<<(QDataStream &out, const NotificationButton &button)
 {
-    return out
-            << button.name
-            << button.script
-            << button.data;
+    out << button.name
+        << button.script
+        << button.data;
+    Q_ASSERT(out.status() == QDataStream::Ok);
+    return out;
 }
 
 QDataStream &operator>>(QDataStream &in, NotificationButton &button)
 {
-    return in
-            >> button.name
-            >> button.script
-            >> button.data;
+    in >> button.name
+       >> button.script
+       >> button.data;
+    Q_ASSERT(in.status() == QDataStream::Ok);
+    return in;
 }
 
 QDataStream &operator<<(QDataStream &out, const QList<QVariantMap> &list)
@@ -118,6 +120,7 @@ QDataStream &operator<<(QDataStream &out, const QList<QVariantMap> &list)
     out << list.size();
     for (const auto &item : list)
         serializeData(&out, item);
+    Q_ASSERT(out.status() == QDataStream::Ok);
     return out;
 }
 
@@ -130,6 +133,7 @@ QDataStream &operator>>(QDataStream &in, QList<QVariantMap> &list)
         deserializeData(&in, &item);
         list.append(item);
     }
+    Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
 }
 
@@ -138,6 +142,7 @@ QDataStream &operator<<(QDataStream &out, const NamedValueList &list)
     out << list.size();
     for (const auto &item : list)
         out << item.name << item.value;
+    Q_ASSERT(out.status() == QDataStream::Ok);
     return out;
 }
 
@@ -150,6 +155,63 @@ QDataStream &operator>>(QDataStream &in, NamedValueList &list)
         in >> item.name >> item.value;
         list.append(item);
     }
+    Q_ASSERT(in.status() == QDataStream::Ok);
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const Command &command)
+{
+    out << command.name
+        << command.re
+        << command.wndre
+        << command.matchCmd
+        << command.cmd
+        << command.sep
+        << command.input
+        << command.output
+        << command.wait
+        << command.automatic
+        << command.display
+        << command.inMenu
+        << command.isScript
+        << command.transform
+        << command.remove
+        << command.hideWindow
+        << command.enable
+        << command.icon
+        << command.shortcuts
+        << command.globalShortcuts
+        << command.tab
+        << command.outputTab;
+    Q_ASSERT(out.status() == QDataStream::Ok);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Command &command)
+{
+    in >> command.name
+       >> command.re
+       >> command.wndre
+       >> command.matchCmd
+       >> command.cmd
+       >> command.sep
+       >> command.input
+       >> command.output
+       >> command.wait
+       >> command.automatic
+       >> command.display
+       >> command.inMenu
+       >> command.isScript
+       >> command.transform
+       >> command.remove
+       >> command.hideWindow
+       >> command.enable
+       >> command.icon
+       >> command.shortcuts
+       >> command.globalShortcuts
+       >> command.tab
+       >> command.outputTab;
+    Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
 }
 
@@ -167,9 +229,9 @@ struct InputDialog {
 
 class FunctionCallSerializer {
 public:
-    explicit FunctionCallSerializer(const char *functionName, const QVariant &returnValue = noReturnType)
+    explicit FunctionCallSerializer(const QString &tabName, const char *functionName, const QVariant &returnValue = noReturnType)
     {
-        m_args << QString(functionName) << returnValue;
+        m_args << tabName << QByteArray(functionName) << returnValue;
     }
 
     QByteArray serialize() const
@@ -497,8 +559,11 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     , m_tabName()
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
+    qRegisterMetaTypeStreamOperators<Command>("Command");
     qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
     qRegisterMetaTypeStreamOperators<NotificationButtons>("NotificationButtons");
+    qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
+    qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
     qRegisterMetaTypeStreamOperators<QList<QVariantMap>>("QList<QVariantMap>");
 }
 
@@ -510,9 +575,10 @@ QByteArray ScriptableProxy::callFunction(const QByteArray &serializedFunctionCal
         stream >> functionCall;
     }
 
-    const auto functionName = functionCall.value(0).toByteArray();
-    QVariant returnValue = functionCall.value(1);
-    const int argumentsStartIndex = 2;
+    m_tabName = functionCall.value(0).toString();
+    const auto functionName = functionCall.value(1).toByteArray();
+    QVariant returnValue = functionCall.value(2);
+    const int argumentsStartIndex = 3;
 
     QGenericArgument args[9];
     for (int i = argumentsStartIndex, j = 0; i < functionCall.size(); i += 2, ++j) {

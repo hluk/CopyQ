@@ -243,11 +243,6 @@ QVariantMap ItemPinnedSaver::copyItem(const QAbstractItemModel &model, const QVa
     return m_saver->copyItem(model, itemData);
 }
 
-QVariantMap ItemPinnedSaver::displayItem(const QAbstractItemModel &model, const QVariantMap &itemData)
-{
-    return m_saver->displayItem(model, itemData);
-}
-
 void ItemPinnedSaver::onRowsInserted(const QModelIndex &, int start, int end)
 {
     if (!m_model || m_lastPinned < start) {

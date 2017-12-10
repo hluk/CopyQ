@@ -71,21 +71,24 @@ void CommandTester::setData(const QVariantMap &data)
 
 void CommandTester::waitForAction(Action *action)
 {
+    Q_ASSERT(!m_action);
     connect(action, SIGNAL(destroyed()),
-            this, SLOT(start()));
+            this, SLOT(onActionFinished()));
     connect(action, SIGNAL(dataChanged(QVariantMap)),
             this, SLOT(onDataChanged(QVariantMap)));
 }
 
 void CommandTester::start()
 {
-    if (m_action)
+    if (m_action) {
         m_restart = true;
-    else
+        m_abort = false;
+    } else {
         startNext();
+    }
 }
 
-void CommandTester::actionFinished()
+void CommandTester::onTestActionFinished()
 {
     Q_ASSERT(m_action);
     Q_ASSERT(!m_action->isRunning());
@@ -98,6 +101,14 @@ void CommandTester::actionFinished()
         commandPassed(passed);
 
     if (m_restart)
+        start();
+}
+
+void CommandTester::onActionFinished()
+{
+    if (m_restart)
+        m_currentCommandIndex = 0;
+    if (!m_abort)
         start();
 }
 
@@ -134,7 +145,7 @@ void CommandTester::startNext()
         const QString arg = getTextData(m_action->input());
         m_action->setCommand(command->matchCmd, QStringList(arg));
 
-        connect(m_action, SIGNAL(actionFinished(Action*)), SLOT(actionFinished()));
+        connect(m_action, SIGNAL(actionFinished(Action*)), SLOT(onTestActionFinished()));
 
         emit requestActionStart(m_action);
     }

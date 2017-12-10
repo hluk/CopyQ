@@ -145,7 +145,8 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
     ItemWidget *w = m_cache[n];
     if (w == nullptr) {
-        const auto data = m_view->itemData(index);
+        auto data = m_view->itemData(index);
+        data.insert(mimeCurrentTab, m_view->tabName());
         w = updateCache(index, data);
         emit itemWidgetCreated(PersistentDisplayItem(this, data, w->widget()));
     }
@@ -261,7 +262,8 @@ void ItemDelegate::reemitItemWidgetCreated()
         const auto w = m_cache[i];
         if (w) {
             const auto index = m_view->index(i);
-            const auto data = m_view->itemData(index);
+            auto data = m_view->itemData(index);
+            data.insert(mimeCurrentTab, m_view->tabName());
             emit itemWidgetCreated(PersistentDisplayItem(this, data, w->widget()));
         }
     }

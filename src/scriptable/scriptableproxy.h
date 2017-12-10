@@ -64,6 +64,8 @@ QDataStream &operator<<(QDataStream &out, const QList<QVariantMap> &list);
 QDataStream &operator>>(QDataStream &in, QList<QVariantMap> &list);
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list);
 QDataStream &operator>>(QDataStream &in, NamedValueList &list);
+QDataStream &operator<<(QDataStream &out, const Command &list);
+QDataStream &operator>>(QDataStream &in, Command &command);
 
 class ScriptableProxy : public QObject
 {

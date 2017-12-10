@@ -210,6 +210,8 @@ void ClipboardServer::onCommandsSaved()
 
     QList<QKeySequence> usedShortcuts;
 
+    m_scriptCommands.clear();
+
     const auto commands = loadEnabledCommands();
     for (const auto &command : commands) {
         const auto type = command.type();

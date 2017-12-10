@@ -90,8 +90,6 @@ public:
 
     QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
 
-    QVariantMap displayItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
-
 private slots:
     void onRowsInserted(const QModelIndex &parent, int start, int end);
     void onRowsRemoved(const QModelIndex &parent, int start, int end);

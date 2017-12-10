@@ -25,6 +25,7 @@ COPYQ_DECLARE_SCRIPTABLE_CLASS(DirClass)
 
 DirClass::DirClass(QScriptEngine *engine)
     : ScriptableClass(engine)
+    , m_currentPath(QDir::currentPath())
 {
 }
 

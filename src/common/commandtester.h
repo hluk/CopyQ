@@ -54,7 +54,6 @@ public:
     /** Start next test after action finishes and update data from action. */
     void waitForAction(Action *action);
 
-public slots:
     void start();
 
 signals:
@@ -63,7 +62,8 @@ signals:
     void finished();
 
 private slots:
-    void actionFinished();
+    void onTestActionFinished();
+    void onActionFinished();
     void onDataChanged(const QVariantMap &data);
 
 private:

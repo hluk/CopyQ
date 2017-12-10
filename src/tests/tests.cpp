@@ -2423,18 +2423,17 @@ void Tests::scriptCommandOverrideFunction()
 
 void Tests::scriptCommandDisplayItem()
 {
-    const auto script = R"(
+    const auto script = QString(R"(
         setCommands([{
-            isScript: true,
-            cmd: 'if (registerDisplayFunction) {'
-               + '  registerDisplayFunction(function(data, tabName) {'
-               + '    text = str(data[mimeText]);'
-               + '    if (text !== "a" && text != "b") return;'
-               + '    add("CALLED in " + tabName);'
-               + '  })'
-               + '}'
+            display: true,
+            input: '%1',
+            cmd: 'copyq:'
+               + 'var data = unpack(input());'
+               + 'text = str(data[mimeText]);'
+               + 'if (text !== "a" && text != "b") abort();'
+               + 'add("CALLED in " + str(data[mimeCurrentTab]));'
         }])
-        )";
+        )").arg(mimeItems);
     RUN("add('b', 'a'); " + QString(script), "");
     WAIT_ON_OUTPUT(
                 "read(0,1,2,3,4)",

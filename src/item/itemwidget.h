@@ -283,11 +283,6 @@ public:
      */
     virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
 
-    /**
-     * Return item data for ItemLoaderInterface::create().
-     */
-    virtual QVariantMap displayItem(const QAbstractItemModel &model, const QVariantMap &itemData);
-
     ItemSaverInterface(const ItemSaverInterface &) = delete;
     ItemSaverInterface &operator=(const ItemSaverInterface &) = delete;
 };

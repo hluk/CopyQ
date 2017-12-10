@@ -85,7 +85,7 @@ do { \
     do { \
         TEST( m_test->getClientOutput((Args() << ARGUMENTS), &out_) ); \
     } while (out_ != expected_ && t_.sleep()); \
-    QCOMPARE(out_, expected_); \
+    QCOMPARE(QString(out_), QString(expected_)); \
 } while(false)
 
 /// Interval to wait (in ms) until window is shown and focused.
