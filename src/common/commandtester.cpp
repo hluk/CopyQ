@@ -29,15 +29,16 @@
 CommandTester::CommandTester(QObject *parent)
     : QObject(parent)
     , m_action(nullptr)
-    , m_abort(false)
-    , m_restart(false)
+    , m_state(CommandTesterState::NotRunning)
 {
 }
 
 void CommandTester::abort()
 {
-    m_abort = true;
-    m_restart = false;
+    if (m_action)
+        m_state = CommandTesterState::Aborting;
+    else
+        m_state = CommandTesterState::NotRunning;
 }
 
 void CommandTester::setCommands(const QVector<Command> &commands)
@@ -81,9 +82,10 @@ void CommandTester::waitForAction(Action *action)
 void CommandTester::start()
 {
     if (m_action) {
-        m_restart = true;
-        m_abort = false;
+        m_state = CommandTesterState::Restarting;
     } else {
+        m_state = CommandTesterState::Running;
+        m_currentCommandIndex = 0;
         startNext();
     }
 }
@@ -93,28 +95,26 @@ void CommandTester::onTestActionFinished()
     Q_ASSERT(m_action);
     Q_ASSERT(!m_action->isRunning());
 
-    bool passed = !m_action->actionFailed() && m_action->exitCode() == 0;
+    const bool passed = !m_action->actionFailed() && m_action->exitCode() == 0;
     m_action->deleteLater();
     m_action = nullptr;
 
-    if (!m_abort)
-        commandPassed(passed);
-
-    if (m_restart)
+    if (m_state == CommandTesterState::Aborting)
+        abort();
+    else if (m_state == CommandTesterState::Restarting)
         start();
+    else
+        commandPassed(passed);
 }
 
 void CommandTester::onActionFinished()
 {
-    if (m_restart)
-        m_currentCommandIndex = 0;
-    if (!m_abort)
-        start();
+    startNext();
 }
 
 void CommandTester::onDataChanged(const QVariantMap &data)
 {
-    if (!m_abort)
+    if (m_state == CommandTesterState::Running)
         m_data = data;
 }
 
@@ -122,10 +122,18 @@ void CommandTester::startNext()
 {
     Q_ASSERT(!m_action);
 
-    m_abort = false;
-    m_restart = false;
+    if (m_state == CommandTesterState::Aborting) {
+        abort();
+        return;
+    }
 
-    if (!hasCommands()) {
+    if (m_state == CommandTesterState::Restarting) {
+        start();
+        return;
+    }
+
+    if ( !hasCommands() || m_state != CommandTesterState::Running ) {
+        m_state = CommandTesterState::NotRunning;
         emit finished();
         return;
     }

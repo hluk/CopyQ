@@ -986,7 +986,7 @@ void MainWindow::automaticCommandTestFinished(const Command &command, bool passe
     if ( passed && canExecuteCommand(command, m_automaticCommandTester.data(), defaultTabName()) )
         runAutomaticCommand(command);
     else
-        m_automaticCommandTester.start();
+        m_automaticCommandTester.startNext();
 }
 
 void MainWindow::displayCommandTestFinished(const Command &command, bool passed)
@@ -994,7 +994,7 @@ void MainWindow::displayCommandTestFinished(const Command &command, bool passed)
     if ( passed && canExecuteCommand(command, m_displayCommandTester.data(), defaultTabName()) )
         runDisplayCommand(command);
     else
-        m_displayCommandTester.start();
+        m_displayCommandTester.startNext();
 }
 
 QAction *MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
@@ -1047,13 +1047,13 @@ void MainWindow::addCommandsToItemMenu(const Command &command, bool passed)
 
         updateToolBar();
     }
-    m_itemMenuCommandTester.start();
+    m_itemMenuCommandTester.startNext();
 }
 
 void MainWindow::addCommandsToTrayMenu(const Command &command, bool passed)
 {
     enableActionForCommand(m_trayMenu, command, passed);
-    m_trayMenuCommandTester.start();
+    m_trayMenuCommandTester.startNext();
 }
 
 void MainWindow::nextItemFormat()
@@ -1712,7 +1712,7 @@ void MainWindow::runAutomaticCommand(const Command &command)
     if (m_currentAutomaticCommand)
         m_automaticCommandTester.waitForAction(m_currentAutomaticCommand);
     else
-        m_automaticCommandTester.start();
+        m_automaticCommandTester.startNext();
 }
 
 void MainWindow::runDisplayCommand(const Command &command)
@@ -1731,7 +1731,7 @@ void MainWindow::runDisplayCommand(const Command &command)
     if (m_currentDisplayCommand)
         m_displayCommandTester.waitForAction(m_currentDisplayCommand);
     else
-        m_displayCommandTester.start();
+        m_displayCommandTester.startNext();
 }
 
 bool MainWindow::isWindowVisible() const
@@ -2928,9 +2928,7 @@ void MainWindow::runAutomaticCommands(QVariantMap data)
     m_automaticCommandTester.abort();
     m_automaticCommandTester.setCommands(commands);
     m_automaticCommandTester.setData(data);
-
-    if (!m_currentAutomaticCommand)
-        m_automaticCommandTester.start();
+    m_automaticCommandTester.start();
 }
 
 void MainWindow::nextTab()

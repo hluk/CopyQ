@@ -39,8 +39,9 @@ public:
     /// Stop current processing and clear commands and data.
     void abort();
 
-    /// Abort current processing set new commands and data.
+    /// Abort current processing set new commands.
     void setCommands(const QVector<Command> &commands);
+
     const QVector<Command> &commands() const { return m_commands; }
 
     bool isCompleted() const;
@@ -49,12 +50,23 @@ public:
 
     QVariantMap data() const;
 
+    /// Abort current processing and set new data.
     void setData(const QVariantMap &data);
 
-    /** Start next test after action finishes and update data from action. */
+    /// Start next test after action finishes and update data from action.
     void waitForAction(Action *action);
 
+    /// Restarts running command tests.
     void start();
+
+    /**
+     * Start next command test.
+     *
+     * Must be called after commandPassed() is emitted.
+     *
+     * Emits finished() if there are no commands to start.
+     */
+    void startNext();
 
 signals:
     void commandPassed(const Command &command, bool passed);
@@ -67,15 +79,20 @@ private slots:
     void onDataChanged(const QVariantMap &data);
 
 private:
-    void startNext();
+    enum class CommandTesterState {
+        NotRunning,
+        Running,
+        Aborting,
+        Restarting,
+    };
+
     void commandPassed(bool passed);
 
     QVector<Command> m_commands;
     int m_currentCommandIndex = 0;
     QVariantMap m_data;
     Action *m_action;
-    bool m_abort;
-    bool m_restart;
+    CommandTesterState m_state;
 };
 
 #endif // COMMANDTESTER_H
