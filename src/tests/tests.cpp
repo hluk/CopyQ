@@ -2486,6 +2486,7 @@ int runTests(int argc, char *argv[])
 
     if (runPluginTests) {
         ItemFactory itemFactory;
+        itemFactory.loadPlugins();
         for ( const auto &loader : itemFactory.loaders() ) {
             if ( loader->id().contains(onlyPlugins) ) {
                 std::unique_ptr<QObject> pluginTests( loader->tests(test) );
