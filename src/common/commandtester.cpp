@@ -73,6 +73,7 @@ void CommandTester::setData(const QVariantMap &data)
 void CommandTester::waitForAction(Action *action)
 {
     Q_ASSERT(!m_action);
+    m_action = action;
     connect(action, SIGNAL(destroyed()),
             this, SLOT(onActionFinished()));
     connect(action, SIGNAL(dataChanged(QVariantMap)),
@@ -109,6 +110,7 @@ void CommandTester::onTestActionFinished()
 
 void CommandTester::onActionFinished()
 {
+    m_action = nullptr;
     startNext();
 }
 
