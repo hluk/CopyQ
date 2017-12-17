@@ -1175,6 +1175,12 @@ void MainWindow::runDisplayCommands()
     m_displayCommandTester.start();
 }
 
+void MainWindow::reloadBrowsers()
+{
+    for( int i = 0; i < ui->tabWidget->count(); ++i )
+        getPlaceholder(i)->reloadBrowser();
+}
+
 int MainWindow::findTabIndexExactMatch(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -2090,7 +2096,7 @@ void MainWindow::updateCommands()
     if ( m_displayCommandTester.commands() != displayCommands ) {
         m_displayCommandTester.setCommands(displayCommands);
         m_displayItemList.clear();
-        emit configurationChanged();
+        reloadBrowsers();
     }
 }
 
@@ -2442,9 +2448,7 @@ void MainWindow::loadSettings()
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
 
-    // reload settings of existing tabs
-    for( int i = 0; i < ui->tabWidget->count(); ++i )
-        getPlaceholder(i)->reloadBrowser();
+    reloadBrowsers();
 
     // create tabs
     const QStringList tabs = savedTabs();

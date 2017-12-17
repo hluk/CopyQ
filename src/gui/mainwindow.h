@@ -606,6 +606,8 @@ private:
 
     void runDisplayCommands();
 
+    void reloadBrowsers();
+
     ClipboardBrowserPlaceholder *createTab(const QString &name, TabNameMatching nameMatch);
 
     int findTabIndexExactMatch(const QString &name);
