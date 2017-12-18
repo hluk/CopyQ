@@ -161,6 +161,11 @@ void CommandTester::startNext()
     }
 }
 
+QString CommandTester::currentActionName() const
+{
+    return m_action ? m_action->name() : QString();
+}
+
 void CommandTester::commandPassed(bool passed)
 {
     Q_ASSERT(hasCommands());

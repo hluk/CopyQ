@@ -1163,8 +1163,7 @@ void MainWindow::onDisplayCommandTesterFinished()
 
 void MainWindow::runDisplayCommands()
 {
-    if ( m_currentDisplayCommand
-         || !m_displayCommandTester.isCompleted()
+    if ( !m_displayCommandTester.isCompleted()
          || m_displayItemList.isEmpty() )
     {
         return;
@@ -1696,8 +1695,6 @@ void MainWindow::initTray()
 
 void MainWindow::runAutomaticCommand(const Command &command)
 {
-    Q_ASSERT(!m_currentAutomaticCommand);
-
     const QVariantMap data = m_automaticCommandTester.data();
 
     if (command.remove || command.transform) {
@@ -1705,37 +1702,39 @@ void MainWindow::runAutomaticCommand(const Command &command)
         m_automaticCommandTester.abort();
     }
 
+    Action *act = nullptr;
+
     if ( command.input.isEmpty()
          || command.input == mimeItems
          || data.contains(command.input) )
     {
-        m_currentAutomaticCommand = action(data, command);
+        act = action(data, command);
     }
 
     if (!command.tab.isEmpty())
         addToTab(data, command.tab);
 
-    if (m_currentAutomaticCommand)
-        m_automaticCommandTester.waitForAction(m_currentAutomaticCommand);
+    if (act)
+        m_automaticCommandTester.waitForAction(act);
     else
         m_automaticCommandTester.startNext();
 }
 
 void MainWindow::runDisplayCommand(const Command &command)
 {
-    Q_ASSERT(!m_currentDisplayCommand);
-
     const QVariantMap data = m_displayCommandTester.data();
+
+    Action *act = nullptr;
 
     if ( command.input.isEmpty()
          || command.input == mimeItems
          || data.contains(command.input) )
     {
-        m_currentDisplayCommand = action(data, command);
+        act = action(data, command);
     }
 
-    if (m_currentDisplayCommand)
-        m_displayCommandTester.waitForAction(m_currentDisplayCommand);
+    if (act)
+        m_displayCommandTester.waitForAction(act);
     else
         m_displayCommandTester.startNext();
 }
@@ -2893,7 +2892,7 @@ void MainWindow::runAutomaticCommands(QVariantMap data)
     bool isClipboard = isClipboardData(data);
 
     // Don't abort currently commands if X11 selection changes rapidly.
-    if (!isClipboard && (!m_automaticCommandTester.isCompleted() || m_currentAutomaticCommand))
+    if (!isClipboard && !m_automaticCommandTester.isCompleted())
         return;
 
     auto commands = m_automaticCommands;
@@ -3039,8 +3038,8 @@ void MainWindow::abortAutomaticCommands()
 {
     m_automaticCommandTester.abort();
 
-    if (m_currentAutomaticCommand)
-        COPYQ_LOG("Aborting automatic commands (current is \"" + m_currentAutomaticCommand->name() + "\")");
+    if ( !m_automaticCommandTester.isCompleted() )
+        COPYQ_LOG("Aborting automatic commands (current is \"" + m_automaticCommandTester.currentActionName() + "\")");
 }
 
 QStringList MainWindow::tabs() const

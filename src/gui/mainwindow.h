@@ -747,8 +747,6 @@ private:
     CommandTester m_automaticCommandTester;
     CommandTester m_displayCommandTester;
 
-    QPointer<Action> m_currentAutomaticCommand;
-    QPointer<Action> m_currentDisplayCommand;
     bool m_canUpdateTitleFromScript;
 
     bool m_iconSnip;

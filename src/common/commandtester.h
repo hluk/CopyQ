@@ -68,6 +68,8 @@ public:
      */
     void startNext();
 
+    QString currentActionName() const;
+
 signals:
     void commandPassed(const Command &command, bool passed);
     void requestActionStart(Action *action);
