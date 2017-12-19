@@ -1105,7 +1105,7 @@ These MIME types values are assigned to global variables prefixed with
 
    If exists the X11 selection data will be copied to clipboard.
 
-   The synchronization will happend after all automatic commands are run.
+   The synchronization will happened after all automatic commands are run.
 
    .. code-block:: js
 
@@ -1117,7 +1117,7 @@ These MIME types values are assigned to global variables prefixed with
 
    If exists the clipboard data will be copied to X11 selection.
 
-   The synchronization will happend after all automatic commands are run.
+   The synchronization will happened after all automatic commands are run.
 
    .. code-block:: js
 
