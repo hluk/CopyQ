@@ -1359,7 +1359,7 @@ void MainWindow::updateNotifications()
     const int h = appConfig.option<Config::notification_maximum_height>();
     m_notifications->setMaximumSize(w, h);
 
-    m_notifications->updateInterval(0, m_options.itemPopupInterval);
+    m_notifications->updateInterval(0, m_options.itemPopupInterval * 1000);
 
     m_notifications->updateNotifications();
 }
