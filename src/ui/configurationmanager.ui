@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>ConfigurationManager</class>
  <widget class="QDialog" name="ConfigurationManager">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>976</width>
-    <height>893</height>
-   </rect>
-  </property>
   <property name="minimumSize">
    <size>
     <width>320</width>
@@ -52,8 +44,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>912</width>
-            <height>733</height>
+            <width>537</width>
+            <height>444</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -311,8 +303,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>912</width>
-            <height>733</height>
+            <width>537</width>
+            <height>444</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_23">
@@ -562,8 +554,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>912</width>
-            <height>733</height>
+            <width>537</width>
+            <height>444</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -682,7 +674,7 @@ Set to 0 not to unload tabs.</string>
                <item row="3" column="0">
                 <widget class="QLabel" name="label_6">
                  <property name="text">
-                  <string>External &amp;editor command (%1 is file to edit):</string>
+                  <string>External editor command (%&amp;1 is file to edit):</string>
                  </property>
                  <property name="buddy">
                   <cstring>lineEditEditor</cstring>
@@ -853,8 +845,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>912</width>
-            <height>733</height>
+            <width>537</width>
+            <height>444</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1068,8 +1060,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>912</width>
-            <height>733</height>
+            <width>537</width>
+            <height>444</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1264,7 +1256,7 @@ Set to 0 to disable.</string>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_7">
                   <property name="text">
-                   <string>Ho&amp;rizontal offset:</string>
+                   <string>Hori&amp;zontal offset:</string>
                   </property>
                   <property name="buddy">
                    <cstring>spinBoxNotificationHorizontalOffset</cstring>
