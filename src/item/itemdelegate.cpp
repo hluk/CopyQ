@@ -369,10 +369,10 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     if (!colorExpr.isEmpty()) {
         const QColor color = m_sharedData->theme.evalColorExpression(colorExpr);
         if (color.isValid()) {
-            painter->save();
+            const auto oldMode = painter->compositionMode();
             painter->setCompositionMode(QPainter::CompositionMode_Multiply);
             painter->fillRect(option.rect, color);
-            painter->restore();
+            painter->setCompositionMode(oldMode);
         }
     }
 
