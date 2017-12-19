@@ -293,10 +293,10 @@ public:
             return;
 
 #if QT_VERSION >= 0x050000
-        const auto ratio = pix->devicePixelRatioF();
+        const auto ratio = pix->devicePixelRatio();
         pix->setDevicePixelRatio(1);
 #else
-        const auto ratio = 1.0;
+        const auto ratio = 1;
 #endif
         QPainter painter(pix);
         painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
