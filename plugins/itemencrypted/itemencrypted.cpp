@@ -669,6 +669,10 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
     }
 
     p.closeWriteChannel();
+
+    // Wait for password entry dialog.
+    p.waitForFinished(-1);
+
     if ( !waitOrTerminate(&p) || !verifyProcess(&p) ) {
         emitDecryptFailed();
         return nullptr;

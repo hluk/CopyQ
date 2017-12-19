@@ -85,16 +85,7 @@ ItemSaverPtr loadItems(
         return nullptr;
     }
 
-    auto loader = itemFactory->loadItems(tabName, &model, &tabFile, maxItems);
-    if (!loader) {
-        const QString errorString =
-                QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
-                .arg( quoteString(tabFileName) );
-        itemFactory->emitError(errorString);
-        return nullptr;
-    }
-
-    return loader;
+    return itemFactory->loadItems(tabName, &model, &tabFile, maxItems);
 }
 
 ItemSaverPtr createTab(

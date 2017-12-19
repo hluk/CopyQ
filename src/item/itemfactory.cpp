@@ -388,6 +388,11 @@ ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *
         }
     }
 
+    const auto errorString =
+            QObject::tr("Tab %1 is corrupted or some CopyQ plugins are missing!")
+            .arg( quoteString(tabName) );
+    emitError(errorString);
+
     return nullptr;
 }
 
