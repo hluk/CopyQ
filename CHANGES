@@ -1,6 +1,6 @@
 v3.2.0
 - Add option to close main window when unfocused
-- Add script command type for enhacing scripting API and CLI
+- Add script command type for enhancing scripting API and CLI
 - Add display command type for overriding item display data
 - Add documentation for plugins scripting API
 - Improve scripting API for plugins
