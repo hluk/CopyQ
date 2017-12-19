@@ -223,6 +223,7 @@ void ConfigurationManager::initOptions()
     bind<Config::save_filter_history>(ui->checkBoxSaveFilterHistory);
     bind<Config::autocompletion>(ui->checkBoxAutocompleteCommands);
     bind<Config::always_on_top>(ui->checkBoxAlwaysOnTop);
+    bind<Config::close_on_unfocus>(ui->checkBoxCloseOnUnfocus);
     bind<Config::open_windows_on_current_screen>(ui->checkBoxOpenWindowsOnCurrentScreen);
     bind<Config::transparency_focused>(ui->spinBoxTransparencyFocused);
     bind<Config::transparency>(ui->spinBoxTransparencyUnfocused);

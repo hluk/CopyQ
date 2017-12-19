@@ -2342,6 +2342,8 @@ bool MainWindow::event(QEvent *event)
         m_timerShowWindow.start();
         updateWindowTransparency();
         setHideTabs(m_options.hideTabs);
+        if ( AppConfig().option<Config::close_on_unfocus>() )
+            hideWindow();
     } else if (type == QEvent::Hide) {
         m_wasMaximized = isMaximized();
     }

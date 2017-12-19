@@ -135,6 +135,11 @@ struct always_on_top : Config<bool> {
     static QString name() { return "always_on_top"; }
 };
 
+struct close_on_unfocus : Config<bool> {
+    static QString name() { return "close_on_unfocus"; }
+    static Value defaultValue() { return true; }
+};
+
 struct open_windows_on_current_screen : Config<bool> {
     static QString name() { return "open_windows_on_current_screen"; }
     static Value defaultValue() { return true; }

@@ -131,6 +131,16 @@
               </widget>
              </item>
              <item>
+              <widget class="QCheckBox" name="checkBoxCloseOnUnfocus">
+               <property name="toolTip">
+                <string>Close main window when other application has focus</string>
+               </property>
+               <property name="text">
+                <string>Close When Unfocused</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QCheckBox" name="checkBoxOpenWindowsOnCurrentScreen">
                <property name="toolTip">
                 <string>Enable to open windows on current screen. Disable to open windows where they were last closed</string>
