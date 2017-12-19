@@ -1166,3 +1166,42 @@ Use ``plugins`` object to access functionality of plugins.
 
    Known file suffix/extension can be missing in the base name.
 
+.. js:data:: plugins.itemtags.userTags (Array)
+
+   List of user-defined tags.
+
+.. js:function:: plugins.itemtags.tags(row, ...)
+
+   List of tags for items in given rows.
+
+.. js:function:: plugins.itemtags.tag(tagName, [rows, ...])
+
+   Add given tag to items in given rows or selected items.
+
+   See `Selected Items`_.
+
+.. js:function:: plugins.itemtags.untag(tagName, [rows, ...])
+
+   Remove given tag from items in given rows or selected items.
+
+   See `Selected Items`_.
+
+.. js:function:: plugins.itemtags.clearTags([rows, ...])
+
+   Remove all tags from items in given rows or selected items.
+
+   See `Selected Items`_.
+
+.. js:function:: plugins.itemtags.hasTag(tagName, [rows, ...])
+
+   Return true if given tag is present in any of items in given rows or
+   selected items.
+
+   See `Selected Items`_.
+
+.. js:data:: plugins.itemtags.mimeTags (application/x-copyq-tags)
+
+   MIME type for accessing list of tags.
+
+   Tags are separated by comma.
+

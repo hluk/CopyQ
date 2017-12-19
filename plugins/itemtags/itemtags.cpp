@@ -415,6 +415,11 @@ QStringList ItemTagsScriptable::getUserTags() const
     return m_userTags;
 }
 
+QString ItemTagsScriptable::getMimeTags() const
+{
+    return mimeTags;
+}
+
 QStringList ItemTagsScriptable::tags()
 {
     const auto args = currentArguments();

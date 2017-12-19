@@ -85,6 +85,7 @@ class ItemTagsScriptable : public ItemScriptable
 {
     Q_OBJECT
     Q_PROPERTY(QStringList userTags READ getUserTags)
+    Q_PROPERTY(QString mimeTags READ getMimeTags)
 
 public:
     explicit ItemTagsScriptable(const QStringList &userTags)
@@ -93,6 +94,8 @@ public:
     }
 
     QStringList getUserTags() const;
+
+    QString getMimeTags() const;
 
 public slots:
     QStringList tags();
