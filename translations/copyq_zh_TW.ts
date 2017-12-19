@@ -439,7 +439,7 @@ You can set up the command in preferences.</source>
     <name>ClientSocket</name>
     <message>
         <source>Failed to read message from client!</source>
-        <translation type="vanished">無法從客戶端讀取訊息！</translation>
+        <translation>從客戶端讀取訊息失敗！</translation>
     </message>
 </context>
 <context>
@@ -2221,7 +2221,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="566"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation>無法建立同步(雙向更新)用的目錄 &quot;%1&quot;！</translation>
+        <translation>建立同步(雙向更新)用的目錄 &quot;%1&quot; 失敗！</translation>
     </message>
 </context>
 <context>
@@ -2537,7 +2537,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="834"/>
         <source>Failed to generate keys.</source>
-        <translation>無法產生金鑰。</translation>
+        <translation>產生金鑰失敗。</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="851"/>
@@ -2578,12 +2578,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="325"/>
         <source>Encryption failed!</source>
-        <translation>無法加密！</translation>
+        <translation>加密失敗！</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="889"/>
         <source>Decryption failed!</source>
-        <translation>無法解密！</translation>
+        <translation>解密失敗！</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="105"/>
@@ -2839,7 +2839,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="vanished">無法同步(雙向更新)分頁 &quot;%1&quot; 與目錄 &quot;%2&quot;！</translation>
+        <translation>同步(雙向更新)分頁 &quot;%1&quot; 與目錄 &quot;%2&quot; 失敗！</translation>
     </message>
     <message>
         <source>Remove Items?</source>
@@ -2857,7 +2857,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="861"/>
         <source>Failed to create synchronization directory</source>
-        <translation>無法建立用來同步(雙向更新)的目錄</translation>
+        <translation>建立用來同步(雙向更新)的目錄失敗</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="150"/>
@@ -2875,7 +2875,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="515"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation>無法同步分頁 &quot;%1&quot; 與目錄 &quot;%2&quot;(雙向更新)！</translation>
+        <translation>同步(雙向更新)分頁 &quot;%1&quot; 與目錄 &quot;%2&quot; 失敗！</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="550"/>
@@ -3192,7 +3192,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3324"/>
         <source>Failed to export file %1!</source>
-        <translation>無法匯出檔案 %1！</translation>
+        <translation>匯出檔案 %1失敗！</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3410"/>
@@ -3202,7 +3202,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3411"/>
         <source>Failed to import file %1!</source>
-        <translation>無法匯入檔案 %1！</translation>
+        <translation>匯入檔案 %1失敗！</translation>
     </message>
     <message>
         <source>Open action dialog</source>
@@ -3426,7 +3426,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/serialize.cpp" line="183"/>
         <source>Data deserialization failed: %1</source>
-        <translation>無法反系列化資料：%1</translation>
+        <translation>反序列化資料失敗：%1</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="204"/>
@@ -4193,7 +4193,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2271"/>
         <source>Failed to copy to clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>複製到剪貼簿失敗！</translation>
     </message>
     <message>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
@@ -4244,7 +4244,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2315"/>
         <source>Failed to set clipboard!</source>
-        <translation>無法設定剪貼簿！</translation>
+        <translation>設定剪貼簿失敗！</translation>
     </message>
 </context>
 <context>
