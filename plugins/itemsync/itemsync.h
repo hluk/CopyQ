@@ -106,6 +106,7 @@ class ItemSyncScriptable : public ItemScriptable
 {
     Q_OBJECT
     Q_PROPERTY(QVariantMap tabPaths READ getTabPaths)
+    Q_PROPERTY(QString mimeBaseName READ getMimeBaseName)
 
 public:
     explicit ItemSyncScriptable(const QVariantMap &tabPaths)
@@ -114,6 +115,11 @@ public:
     }
 
     QVariantMap getTabPaths() const { return m_tabPaths; }
+
+    QString getMimeBaseName() const;
+
+public slots:
+    QString selectedTabPath();
 
 private:
     QVariantMap m_tabPaths;

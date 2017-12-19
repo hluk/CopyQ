@@ -1134,3 +1134,35 @@ in menu.
 
 Selected items are indexed from top to bottom as they appeared in the
 current tab at the time the command is executed.
+
+Plugins
+-------
+
+Use ``plugins`` object to access functionality of plugins.
+
+.. js:function:: plugins.itemsync.selectedTabPath()
+
+   Returns synchronization path for current tab (mimeCurrentTab).
+
+   .. code-block:: js
+
+       var path = plugins.itemsync.selectedTabPath()
+       var baseName = str(data(plugins.itemsync.mimeBaseName))
+       var absoluteFilePath = Dir(path).absoluteFilePath(baseName)
+       // NOTE: Known file suffix/extension can be missing in the full path.
+
+.. js:class:: plugins.itemsync.tabPaths (Object)
+
+   Object that maps tab name to synchronization path.
+
+   .. code-block:: js
+
+       var tabName = 'Downloads'
+       var path = plugins.itemsync.tabPaths[tabName]
+
+.. js:data:: plugins.itemsync.mimeBaseName (application/x-copyq-itemsync-basename)
+
+   MIME type for accessing base name (without full path).
+
+   Known file suffix/extension can be missing in the base name.
+

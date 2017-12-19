@@ -544,3 +544,24 @@ void ItemSyncTests::customFormats()
         data5 + data6 + ";" + data3 + ";" + data1 + data4);
     RUN(args << "size", "3\n");
 }
+
+void ItemSyncTests::getAbsoluteFilePath()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "separator" << ";" << "tab" << tab1;
+
+    const auto code = QString(
+            R"(
+            var path = plugins.itemsync.tabPaths["%1"]
+            var baseName = str(getItem(0)[plugins.itemsync.mimeBaseName])
+            var absoluteFilePath = Dir(path).absoluteFilePath(baseName)
+            print(absoluteFilePath)
+            )")
+            .arg(tab1);
+
+    createFile(dir1, "test1.txt", QByteArray());
+    WAIT_ON_OUTPUT(args << "size", "1\n");
+
+    RUN(args << code, dir1.filePath("test1"));
+}

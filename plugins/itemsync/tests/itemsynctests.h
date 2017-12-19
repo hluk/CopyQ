@@ -56,6 +56,8 @@ private slots:
 
     void customFormats();
 
+    void getAbsoluteFilePath();
+
 private:
     TestInterfacePtr m_test;
 };

@@ -622,6 +622,17 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
     return copiedItemData;
 }
 
+QString ItemSyncScriptable::getMimeBaseName() const
+{
+    return mimeBaseName;
+}
+
+QString ItemSyncScriptable::selectedTabPath()
+{
+    const auto tab = call("selectedTab", QVariantList()).toString();
+    return m_tabPaths.value(tab).toString();
+}
+
 ItemSyncLoader::ItemSyncLoader()
 {
 }
