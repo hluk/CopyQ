@@ -365,5 +365,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     if ( ww->isHidden() ) {
         ww->show();
         w->updateSize(m_maxSize, m_idealWidth);
+
+        // Workaround: This fixes badly rendered items.
+        ww->update();
     }
 }
