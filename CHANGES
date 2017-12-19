@@ -1,3 +1,19 @@
+v3.2.0
+- Add option to close main window when unfocused
+- Add script command type for enhacing scripting API and CLI
+- Add display command type for overriding item display data
+- Add documentation for plugins scripting API
+- Improve scripting API for plugins
+- Show command type with icon in command dialog
+- Allow to set tray and window icon tag
+- Allow to store MIME types with spaces
+- Allow to set negative offsets for notifications
+- Hide vertical scroll bar in text items if not needed
+- Run scripts safely in client process
+- Fix merging X11 selection if the first item is pinned
+- Fix Dir().separator() return value type
+- Fix item rendering
+
 v3.1.2
 - Don't show mouse cursor for selecting text after clicking on item
 - Fix rendering background for item preview dock
