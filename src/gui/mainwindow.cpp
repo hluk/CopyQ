@@ -382,6 +382,9 @@ void resetTestsSettings()
     Settings settings;
     settings.clear();
 
+    // Workaround for some test environments.
+    AppConfig().setOption( Config::close_on_unfocus::name(), false );
+
     const auto settingsData = qgetenv("COPYQ_TEST_SETTINGS");
     if ( settingsData.isEmpty() )
         return;
