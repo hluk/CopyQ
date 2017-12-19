@@ -159,22 +159,30 @@ bool ItemPinnedScriptable::isPinned()
 void ItemPinnedScriptable::pin()
 {
     const auto args = currentArguments();
-    for (const auto &arg : args) {
-        bool ok;
-        const int row = arg.toInt(&ok);
-        if (ok)
-            call("change", QVariantList() << row << mimePinned << QString());
+    if (args.isEmpty()) {
+        pinData();
+    } else {
+        for (const auto &arg : args) {
+            bool ok;
+            const int row = arg.toInt(&ok);
+            if (ok)
+                call("change", QVariantList() << row << mimePinned << QString());
+        }
     }
 }
 
 void ItemPinnedScriptable::unpin()
 {
     const auto args = currentArguments();
-    for (const auto &arg : args) {
-        bool ok;
-        const int row = arg.toInt(&ok);
-        if (ok)
-            call("change", QVariantList() << row << mimePinned << QVariant());
+    if (args.isEmpty()) {
+        unpinData();
+    } else {
+        for (const auto &arg : args) {
+            bool ok;
+            const int row = arg.toInt(&ok);
+            if (ok)
+                call("change", QVariantList() << row << mimePinned << QVariant());
+        }
     }
 }
 
@@ -415,13 +423,13 @@ QVector<Command> ItemPinnedLoader::commands() const
     c.name = tr("Pin");
     c.input = "!OUTPUT";
     c.output = mimePinned;
-    c.cmd = "copyq: plugins.itempinned.pinData()";
+    c.cmd = "copyq: plugins.itempinned.pin()";
     commands.append(c);
 
     c = dummyPinCommand();
     c.name = tr("Unpin");
     c.input = mimePinned;
-    c.cmd = "copyq: plugins.itempinned.unpinData()";
+    c.cmd = "copyq: plugins.itempinned.unpin()";
     commands.append(c);
 
     return commands;

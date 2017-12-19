@@ -1205,3 +1205,16 @@ Use ``plugins`` object to access functionality of plugins.
 
    Tags are separated by comma.
 
+.. js:function:: plugins.itempinned.isPinned(rows, ...)
+
+   Returns true only if any item in given rows is pinned.
+
+.. js:function:: plugins.itempinned.pin(rows, ...)
+
+   Pin items in given rows or selected items or new item created from clipboard
+   (if called from automatic command).
+
+.. js:function:: plugins.itempinned.unpin(rows, ...)
+
+   Unpin items in given rows or selected items.
+
