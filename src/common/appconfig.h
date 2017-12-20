@@ -196,12 +196,13 @@ struct activate_closes : Config<bool> {
 
 struct activate_focuses : Config<bool> {
     static QString name() { return "activate_focuses"; }
+    static Value defaultValue() { return true; }
 };
 
 struct activate_pastes : Config<bool> {
     static QString name() { return "activate_pastes"; }
+    static Value defaultValue() { return true; }
 };
-
 
 struct tray_items : Config<int> {
     static QString name() { return "tray_items"; }
