@@ -1442,7 +1442,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="197"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished"></translation>
+        <translation>自動顯示快顯至完整的功能表，在命令中輸入和變數名稱</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="200"/>
