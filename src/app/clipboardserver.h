@@ -28,7 +28,6 @@
 #include <QMap>
 #include <QProcess>
 #include <QTimer>
-#include <QThreadPool>
 #include <QVariantMap>
 #include <QWidget>
 
