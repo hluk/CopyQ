@@ -4239,7 +4239,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2231"/>
         <source>Exception in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>在 %1 有異常</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2315"/>
