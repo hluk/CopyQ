@@ -164,6 +164,16 @@ QByteArray getUtf8Data(const QMimeData &data, const QString &format)
     return data.data(format);
 }
 
+bool hasNonInternalFormats(const QStringList &formats) {
+    for (auto it = formats.constBegin(); it != formats.constEnd(); ++it) {
+        if ( !it->startsWith(COPYQ_MIME_PREFIX) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 } // namespace
 
 bool isMainThread()
@@ -387,7 +397,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
         label = QObject::tr("<IMAGE>", "Label for image in clipboard");
     } else if ( formats.indexOf(mimeUriList) != -1 ) {
         label = QObject::tr("<FILES>", "Label for URLs/files in clipboard");
-    } else if ( formats.isEmpty() ) {
+    } else if ( !hasNonInternalFormats(formats) ) {
         label = QObject::tr("<EMPTY>", "Label for empty clipboard");
     } else {
         label = QObject::tr("<DATA>", "Label for data in clipboard");
