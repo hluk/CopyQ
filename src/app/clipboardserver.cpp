@@ -206,21 +206,14 @@ void ClipboardServer::removeGlobalShortcuts()
 
 void ClipboardServer::onCommandsSaved()
 {
+#ifndef NO_GLOBAL_SHORTCUTS
     removeGlobalShortcuts();
 
     QList<QKeySequence> usedShortcuts;
 
-    m_scriptCommands.clear();
-
     const auto commands = loadEnabledCommands();
     for (const auto &command : commands) {
-        const auto type = command.type();
-
-        if (type & CommandType::Script)
-            m_scriptCommands.append(command);
-
-#ifndef NO_GLOBAL_SHORTCUTS
-        if (type & CommandType::GlobalShortcut) {
+        if (command.type() & CommandType::GlobalShortcut) {
             for (const auto &shortcutText : command.globalShortcuts) {
                 QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
                 if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
@@ -229,8 +222,8 @@ void ClipboardServer::onCommandsSaved()
                 }
             }
         }
-#endif
     }
+#endif
 }
 
 void ClipboardServer::onAboutToQuit()
@@ -340,28 +333,6 @@ void ClipboardServer::onClientMessageReceived(
 {
     Q_UNUSED(client);
     switch (messageCode) {
-    case CommandGetData: {
-        auto proxy = m_clients.value(client).proxy;
-        if (!proxy)
-            return;
-
-        QVariantMap actionData;
-        if ( !message.isEmpty() ) {
-            QDataStream in(message);
-            int actionId;
-            in >> actionId;
-            Q_ASSERT(in.status() == QDataStream::Ok);
-            actionData = proxy->getActionData(actionId);
-        }
-
-        QByteArray bytes;
-        QDataStream out(&bytes, QIODevice::WriteOnly);
-        out << m_scriptCommands << actionData;
-        Q_ASSERT(out.status() == QDataStream::Ok);
-
-        client->sendMessage(bytes, CommandSetData);
-        break;
-    }
     case CommandFunctionCall: {
         auto proxy = m_clients.value(client).proxy;
         if (!proxy)

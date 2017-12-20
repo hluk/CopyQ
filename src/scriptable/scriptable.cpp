@@ -2157,10 +2157,29 @@ void Scriptable::onExecuteOutput(const QStringList &lines)
     }
 }
 
-void Scriptable::executeArguments(const QStringList &args, const QVariantMap &actionData)
+bool Scriptable::sourceScriptCommands()
+{
+    const auto commands = loadEnabledCommands();
+    for (const auto &command : commands) {
+        if (command.type() & CommandType::Script) {
+            eval(command.cmd, command.name);
+            if ( engine()->hasUncaughtException() ) {
+                const auto exceptionText = processUncaughtException(command.cmd);
+                const auto response = createScriptErrorMessage(exceptionText).toUtf8();
+                sendMessageToClient(response, CommandException);
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void Scriptable::executeArguments(const QStringList &args)
 {
     bool hasData;
     const int id = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);
+    const auto actionData = hasData ? m_proxy->getActionData(id) : QVariantMap();
     m_data = actionData;
 
     m_actionName = getTextData( qgetenv("COPYQ_ACTION_NAME") );
@@ -2193,6 +2212,9 @@ void Scriptable::executeArguments(const QStringList &args, const QVariantMap &ac
                 fnArgs.append(value);
             }
         }
+
+        if ( !sourceScriptCommands() )
+            return;
 
         QString cmd;
         QScriptValue result;
@@ -2461,21 +2483,6 @@ QScriptValue Scriptable::eval(const QString &script, const QString &fileName)
     }
 
     return engine()->evaluate(script, fileName);
-}
-
-bool Scriptable::sourceScriptCommands(const QVector<Command> &scriptCommands)
-{
-    for (const auto &scriptCommand : scriptCommands) {
-        eval(scriptCommand.cmd, scriptCommand.name);
-        if ( engine()->hasUncaughtException() ) {
-            const auto exceptionText = processUncaughtException(scriptCommand.cmd);
-            const auto response = createScriptErrorMessage(exceptionText).toUtf8();
-            sendMessageToClient(response, CommandException);
-            return false;
-        }
-    }
-
-    return true;
 }
 
 QScriptValue Scriptable::eval(const QString &script)

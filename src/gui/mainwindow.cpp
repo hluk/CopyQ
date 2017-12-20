@@ -2083,15 +2083,18 @@ void MainWindow::updateCommands()
 
     m_automaticCommands.clear();
     m_menuCommands.clear();
+
     const auto commands = loadEnabledCommands();
     for (const auto &command : commands) {
-        if (command.automatic)
+        const auto type = command.type();
+
+        if (type & CommandType::Automatic)
             m_automaticCommands.append(command);
 
-        if (command.display)
+        if (type & CommandType::Display)
             displayCommands.append(command);
 
-        if ( command.inMenu && !command.name.isEmpty() )
+        if (type & CommandType::Menu)
             m_menuCommands.append(command);
     }
 

@@ -149,9 +149,7 @@ public:
 
     QScriptValue eval(const QString &script, const QString &fileName);
 
-    bool sourceScriptCommands(const QVector<Command> &scriptCommands);
-
-    void executeArguments(const QStringList &args, const QVariantMap &actionData);
+    void executeArguments(const QStringList &args);
 
 public slots:
     void setInput(const QByteArray &input);
@@ -343,6 +341,7 @@ private slots:
     void onExecuteOutput(const QStringList &lines);
 
 private:
+    bool sourceScriptCommands();
     void callDisplayFunctions(QScriptValueList displayFunctions);
     QString processUncaughtException(const QString &cmd);
     void showExceptionMessage(const QString &message);

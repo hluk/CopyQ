@@ -133,7 +133,6 @@ private:
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;
-    QVector<Command> m_scriptCommands;
 
     struct ClientData {
         ClientData() = default;

@@ -48,8 +48,6 @@ QString messageCodeToString(int code)
         return "CommandException";
     case CommandPrint:
         return "CommandPrint";
-    case CommandSetData:
-        return "CommandSetData";
     case CommandFunctionCallReturnValue:
         return "CommandFunctionCallReturnValue";
     default:
@@ -88,7 +86,6 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
     : Client()
     , App("Client", createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
     , m_inputReaderThread(nullptr)
-    , m_arguments( createPlatformNativeInterface()->getCommandLineArguments(argc, argv).mid(skipArgc) )
 {
     restoreSettings();
 
@@ -102,7 +99,9 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
         out << id;
     }
 
-    sendMessage(message, CommandGetData);
+    const auto arguments =
+            createPlatformNativeInterface()->getCommandLineArguments(argc, argv).mid(skipArgc);
+    start(arguments);
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
@@ -127,10 +126,6 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 
     case CommandPrint:
         printClientStdout(data);
-        break;
-
-    case CommandSetData:
-        start(data);
         break;
 
     case CommandFunctionCallReturnValue:
@@ -226,14 +221,8 @@ bool ClipboardClient::isInputReaderFinished() const
     return m_inputReaderThread && m_inputReaderThread->isFinished();
 }
 
-void ClipboardClient::start(const QByteArray &data)
+void ClipboardClient::start(const QStringList &arguments)
 {
-    QDataStream in(data);
-    QVector<Command> scriptCommands;
-    QVariantMap actionData;
-    in >> scriptCommands >> actionData;
-    Q_ASSERT(in.status() == QDataStream::Ok);
-
     QScriptEngine engine;
     ScriptableProxy scriptableProxy(nullptr, nullptr);
     Scriptable scriptable(&engine, &scriptableProxy);
@@ -250,8 +239,5 @@ void ClipboardClient::start(const QByteArray &data)
     connect( this, SIGNAL(functionCallResultReceived(QByteArray)),
              &scriptableProxy, SLOT(setReturnValue(QByteArray)) );
 
-    if ( !scriptable.sourceScriptCommands(scriptCommands) )
-        return;
-
-    scriptable.executeArguments(m_arguments, actionData);
+    scriptable.executeArguments(arguments);
 }
