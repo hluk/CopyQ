@@ -2128,92 +2128,8 @@ QScriptValue Scriptable::iconTagColor()
 
 void Scriptable::runAutomaticCommands()
 {
-    auto commands = loadEnabledCommands();
-    const QString tabName = getTextData(m_data, mimeCurrentTab);
-    for (auto &command : commands) {
-        if (command.type() & CommandType::Automatic) {
-            // Verify that an action is provided.
-            if ( command.cmd.isEmpty() && !command.remove
-                 && (command.tab.isEmpty() || command.tab == tabName) )
-            {
-                continue;
-            }
-
-            // Verify that data for given MIME is available.
-            if ( !command.input.isEmpty() ) {
-                if (command.input == mimeItems || command.input == "!OUTPUT") {
-                    // Disallow applying action that takes serialized item more times.
-                    if ( m_data.contains(command.output) )
-                        continue;
-                } else if ( !m_data.contains(command.input) ) {
-                    continue;
-                }
-            }
-
-            // Verify that and text matches given regexp.
-            if ( !matchData(command.re, m_data, mimeText) )
-                continue;
-
-            // Verify that window title matches given regexp.
-            if ( !matchData(command.wndre, m_data, mimeWindowTitle) )
-                continue;
-
-            if ( command.outputTab.isEmpty() )
-                command.outputTab = tabName;
-
-            // Run filter command.
-            if ( !command.matchCmd.isEmpty() ) {
-                Action action;
-
-                const QString text = getTextData(m_data);
-                action.setInput(text.toUtf8());
-                action.setData(m_data);
-
-                const QString arg = getTextData(action.input());
-                action.setCommand(command.matchCmd, QStringList(arg));
-
-                if ( !runAction(&action) || action.exitCode() != 0 ) {
-                    COPYQ_LOG( QString("Automatic command \"%1\": Filter command failed, skipping")
-                               .arg(command.name) );
-                    continue;
-                }
-            }
-
-            if ( m_connected && !command.cmd.isEmpty() ) {
-                Action action;
-                action.setCommand( command.cmd, QStringList(getTextData(m_data)) );
-                action.setInput(m_data, command.input);
-                action.setOutputFormat(command.output);
-                action.setItemSeparator(QRegExp(command.sep));
-                action.setOutputTab(command.outputTab);
-                action.setName(command.name);
-                action.setData(m_data);
-
-                if ( !runAction(&action) && m_connected ) {
-                    throwError( QString("Failed to start automatic command %1")
-                                .arg(command.name) );
-                    return;
-                }
-            }
-
-            if (!m_connected) {
-                COPYQ_LOG( QString("Automatic command \"%1\": Interrupted")
-                           .arg(command.name) );
-                return;
-            }
-
-            m_data = m_proxy->getActionData(m_actionId);
-
-            if ( command.remove || command.transform || m_data.contains(mimeIgnore) ) {
-                COPYQ_LOG( QString("Automatic command \"%1\": Ignoring data")
-                           .arg(command.name) );
-                return;
-            }
-
-            COPYQ_LOG( QString("Automatic command \"%1\": Finished")
-                       .arg(command.name) );
-        }
-    }
+    if ( !runCommands(CommandType::Automatic) )
+        return;
 
     const bool syncClipboardToSelection = m_data.contains(mimeSyncToSelection);
     const bool syncSelectionToClipboard = m_data.contains(mimeSyncToClipboard);
@@ -2227,6 +2143,11 @@ void Scriptable::runAutomaticCommands()
     const bool isClipboard = isClipboardData(m_data);
     if (isClipboard)
         m_proxy->updateTitle(m_actionId, m_data);
+}
+
+void Scriptable::runDisplayCommands()
+{
+    runCommands(CommandType::Display);
 }
 
 void Scriptable::onDisconnected()
@@ -2605,6 +2526,100 @@ bool Scriptable::runAction(Action *action)
     if ( action->isRunning() && !action->waitForFinished(5000) ) {
         action->terminate();
         return false;
+    }
+
+    return true;
+}
+
+bool Scriptable::runCommands(CommandType::CommandType type)
+{
+    const auto label = type == CommandType::Automatic
+            ? "Automatic command \"%1\": %2"
+            : "Display command \"%1\": %2";
+
+    auto commands = loadEnabledCommands();
+    const QString tabName = getTextData(m_data, mimeCurrentTab);
+
+    for (auto &command : commands) {
+        if (command.type() & type) {
+            if ( command.outputTab.isEmpty() )
+                command.outputTab = tabName;
+
+            if ( !canExecuteCommand(command) )
+                continue;
+
+            if ( m_connected && !command.cmd.isEmpty() ) {
+                Action action;
+                action.setCommand( command.cmd, QStringList(getTextData(m_data)) );
+                action.setInput(m_data, command.input);
+                action.setOutputFormat(command.output);
+                action.setItemSeparator(QRegExp(command.sep));
+                action.setOutputTab(command.outputTab);
+                action.setName(command.name);
+                action.setData(m_data);
+
+                if ( !runAction(&action) && m_connected ) {
+                    throwError( QString(label).arg(command.name, "Failed to start") );
+                    return false;
+                }
+            }
+
+            if (!m_connected) {
+                COPYQ_LOG( QString(label).arg(command.name, "Interrupted") );
+                return false;
+            }
+
+            m_data = m_proxy->getActionData(m_actionId);
+
+            if ( command.remove || command.transform || m_data.contains(mimeIgnore) ) {
+                COPYQ_LOG( QString(label).arg(command.name, "Ignoring data") );
+                return false;
+            }
+
+            COPYQ_LOG( QString(label).arg(command.name, "Finished") );
+        }
+    }
+
+    return true;
+}
+
+bool Scriptable::canExecuteCommand(const Command &command)
+{
+    // Verify that data for given MIME is available.
+    if ( !command.input.isEmpty() ) {
+        if (command.input == mimeItems || command.input == "!OUTPUT") {
+            // Disallow applying action that takes serialized item more times.
+            if ( m_data.contains(command.output) )
+                return false;
+        } else if ( !m_data.contains(command.input) ) {
+            return false;
+        }
+    }
+
+    // Verify that and text matches given regexp.
+    if ( !matchData(command.re, m_data, mimeText) )
+        return false;
+
+    // Verify that window title matches given regexp.
+    if ( !matchData(command.wndre, m_data, mimeWindowTitle) )
+        return false;
+
+    // Run filter command.
+    if ( !command.matchCmd.isEmpty() ) {
+        Action action;
+
+        const QString text = getTextData(m_data);
+        action.setInput(text.toUtf8());
+        action.setData(m_data);
+
+        const QString arg = getTextData(action.input());
+        action.setCommand(command.matchCmd, QStringList(arg));
+
+        if ( !runAction(&action) || action.exitCode() != 0 ) {
+            COPYQ_LOG( QString("Automatic command \"%1\": Filter command failed, skipping")
+                       .arg(command.name) );
+            return false;
+        }
     }
 
     return true;

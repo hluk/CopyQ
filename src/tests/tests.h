@@ -198,7 +198,7 @@ private slots:
     void scriptCommandLoaded();
     void scriptCommandAddFunction();
     void scriptCommandOverrideFunction();
-    void scriptCommandDisplayItem();
+    void displayCommand();
 
 private:
     void clearServerErrors();

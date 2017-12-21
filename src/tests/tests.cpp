@@ -2421,7 +2421,7 @@ void Tests::scriptCommandOverrideFunction()
     RUN("popup" << "test" << "xxx", "test");
 }
 
-void Tests::scriptCommandDisplayItem()
+void Tests::displayCommand()
 {
     const auto script = QString(R"(
         setCommands([{

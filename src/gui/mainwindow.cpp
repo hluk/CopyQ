@@ -493,16 +493,10 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
             SLOT(addCommandsToItemMenu(Command,bool)));
     connect(&m_trayMenuCommandTester, SIGNAL(commandPassed(Command,bool)),
             SLOT(addCommandsToTrayMenu(Command,bool)));
-    connect(&m_displayCommandTester, SIGNAL(commandPassed(Command,bool)),
-            SLOT(displayCommandTestFinished(Command,bool)));
-    connect(&m_displayCommandTester, SIGNAL(finished()),
-            SLOT(onDisplayCommandTesterFinished()));
 
     connect(&m_itemMenuCommandTester, SIGNAL(requestActionStart(Action*)),
             m_actionHandler, SLOT(action(Action*)));
     connect(&m_trayMenuCommandTester, SIGNAL(requestActionStart(Action*)),
-            m_actionHandler, SLOT(action(Action*)));
-    connect(&m_displayCommandTester, SIGNAL(requestActionStart(Action*)),
             m_actionHandler, SLOT(action(Action*)));
 
     connect(itemFactory, SIGNAL(error(QString)),
@@ -969,14 +963,6 @@ void MainWindow::updateContextMenu(const ClipboardBrowser *browser)
         updateContextMenu();
 }
 
-void MainWindow::displayCommandTestFinished(const Command &command, bool passed)
-{
-    if ( passed && canExecuteCommand(command, m_displayCommandTester.data(), defaultTabName()) )
-        runDisplayCommand(command);
-    else
-        m_displayCommandTester.startNext();
-}
-
 QAction *MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
 {
     CommandAction *act = nullptr;
@@ -1118,19 +1104,18 @@ void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
 
 void MainWindow::onItemWidgetCreated(const PersistentDisplayItem &item)
 {
-    if ( m_displayCommandTester.commands().isEmpty() )
+    if (!m_hasDisplayCommands)
         return;
 
     m_displayItemList.append(item);
-    runDisplayCommands();
+    if (!m_currentDisplayAction)
+        runDisplayCommands();
 }
 
-void MainWindow::onDisplayCommandTesterFinished()
+void MainWindow::onDisplayActionFinished(Action *act)
 {
-    if ( m_displayCommandTester.commands().isEmpty() )
-        return;
-
-    m_currentDisplayItem.setData( m_displayCommandTester.data() );
+    const auto data = act->data();
+    m_currentDisplayItem.setData(data);
 
     for (int i = m_displayItemList.size() - 1; i >= 0; --i) {
         auto &item = m_displayItemList[i];
@@ -1143,15 +1128,16 @@ void MainWindow::onDisplayCommandTesterFinished()
 
 void MainWindow::runDisplayCommands()
 {
-    if ( !m_displayCommandTester.isCompleted()
-         || m_displayItemList.isEmpty() )
-    {
+    if ( m_displayItemList.isEmpty() )
         return;
-    }
 
     m_currentDisplayItem = m_displayItemList.takeFirst();
-    m_displayCommandTester.setData( m_currentDisplayItem.data() );
-    m_displayCommandTester.start();
+
+    Command c;
+    c.cmd = "copyq runDisplayCommands";
+    m_currentDisplayAction = action(m_currentDisplayItem.data(), c);
+    connect( m_currentDisplayAction.data(), SIGNAL(actionFinished(Action*)),
+             this, SLOT(onDisplayActionFinished(Action*)) );
 }
 
 void MainWindow::reloadBrowsers()
@@ -1668,25 +1654,6 @@ void MainWindow::initTray()
         minimizeWindow();
 }
 
-void MainWindow::runDisplayCommand(const Command &command)
-{
-    const QVariantMap data = m_displayCommandTester.data();
-
-    Action *act = nullptr;
-
-    if ( command.input.isEmpty()
-         || command.input == mimeItems
-         || data.contains(command.input) )
-    {
-        act = action(data, command);
-    }
-
-    if (act)
-        m_displayCommandTester.waitForAction(act);
-    else
-        m_displayCommandTester.startNext();
-}
-
 bool MainWindow::isWindowVisible() const
 {
     return !isMinimized() && isVisible() && isActiveWindow();
@@ -2024,26 +1991,23 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
 void MainWindow::updateCommands()
 {
-    QVector<Command> displayCommands;
-
     m_menuCommands.clear();
+    m_hasDisplayCommands = false;
+    m_displayItemList.clear();
 
     const auto commands = loadEnabledCommands();
     for (const auto &command : commands) {
         const auto type = command.type();
 
         if (type & CommandType::Display)
-            displayCommands.append(command);
+            m_hasDisplayCommands = true;
 
         if (type & CommandType::Menu)
             m_menuCommands.append(command);
     }
 
-    if ( m_displayCommandTester.commands() != displayCommands ) {
-        m_displayCommandTester.setCommands(displayCommands);
-        m_displayItemList.clear();
+    if (m_hasDisplayCommands)
         reloadBrowsers();
-    }
 }
 
 const Theme &MainWindow::theme() const

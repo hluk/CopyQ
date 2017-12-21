@@ -573,8 +573,6 @@ private slots:
 
     void updateContextMenu(const ClipboardBrowser *browser);
 
-    void displayCommandTestFinished(const Command &command, bool passed);
-
     QAction *enableActionForCommand(QMenu *menu, const Command &command, bool enable);
     void addCommandsToItemMenu(const Command &command, bool passed);
     void addCommandsToTrayMenu(const Command &command, bool passed);
@@ -593,7 +591,7 @@ private slots:
 
     void onItemWidgetCreated(const PersistentDisplayItem &item);
 
-    void onDisplayCommandTesterFinished();
+    void onDisplayActionFinished(Action *act);
 
 private:
     enum TabNameMatching {
@@ -737,7 +735,6 @@ private:
 
     CommandTester m_itemMenuCommandTester;
     CommandTester m_trayMenuCommandTester;
-    CommandTester m_displayCommandTester;
 
     bool m_iconSnip;
 
@@ -752,6 +749,8 @@ private:
 
     QList<PersistentDisplayItem> m_displayItemList;
     PersistentDisplayItem m_currentDisplayItem;
+    QPointer<Action> m_currentDisplayAction;
+    bool m_hasDisplayCommands = false;
 
     int m_currentAutomaticCommandId = 0;
     int m_currentAutomaticCommandSelectionId = 0;

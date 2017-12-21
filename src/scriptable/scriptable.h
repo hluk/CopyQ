@@ -327,6 +327,8 @@ public slots:
 
     void runAutomaticCommands();
 
+    void runDisplayCommands();
+
 public slots:
     void onDisconnected();
 
@@ -354,6 +356,8 @@ private:
     QScriptValue eval(const QString &script);
     QTextCodec *codecFromNameOrThrow(const QScriptValue &codecName);
     bool runAction(Action *action);
+    bool runCommands(CommandType::CommandType type);
+    bool canExecuteCommand(const Command &command);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
