@@ -68,6 +68,7 @@ Q_DECLARE_METATYPE(QFile*)
 namespace {
 
 const char *const programName = "CopyQ Clipboard Manager";
+const char *const mimeIgnore = COPYQ_MIME_PREFIX "ignore";
 
 const int setClipboardMaxRetries = 3;
 
@@ -458,6 +459,15 @@ QString parseCommandLineArgument(const QString &arg)
     }
 
     return result;
+}
+
+bool matchData(const QRegExp &re, const QVariantMap &data, const QString &format)
+{
+    if ( re.isEmpty() )
+        return true;
+
+    const QString text = getTextData(data, format);
+    return re.indexIn(text) != -1;
 }
 
 } // namespace
@@ -866,7 +876,7 @@ void Scriptable::filter()
 void Scriptable::ignore()
 {
     m_skipArguments = 0;
-    m_proxy->abortAutomaticCommands();
+    m_data[mimeIgnore] = QByteArray();
 }
 
 QScriptValue Scriptable::clipboard()
@@ -1846,20 +1856,8 @@ QScriptValue Scriptable::execute()
     }
 
     action.setCommand(args);
-    action.setWorkingDirectory( m_dirClass->getCurrentPath() );
-    action.start();
 
-    if ( !action.waitForStarted(5000) )
-        return QScriptValue();
-
-    while ( !action.waitForFinished(5000) && m_connected ) {}
-
-    if ( action.isRunning() && !action.waitForFinished(5000) ) {
-        action.terminate();
-        return QScriptValue();
-    }
-
-    if ( action.actionFailed() )
+    if ( !runAction(&action) || action.actionFailed() )
         return QScriptValue();
 
     QScriptValue actionResult = m_engine->newObject();
@@ -1934,21 +1932,6 @@ QScriptValue Scriptable::dateString()
     m_skipArguments = 1;
     const QDateTime dateTime = QDateTime::currentDateTime();
     return dateTime.toString(arg(0));
-}
-
-void Scriptable::updateFirst()
-{
-    m_skipArguments = 0;
-    m_proxy->updateFirstItem(m_data);
-}
-
-void Scriptable::updateTitle()
-{
-    m_skipArguments = 1;
-    if (argumentCount() == 0)
-        m_proxy->updateTitle(m_data);
-    else
-        m_proxy->updateTitle(QVariantMap());
 }
 
 QScriptValue Scriptable::commands()
@@ -2143,6 +2126,109 @@ QScriptValue Scriptable::iconTagColor()
     return QScriptValue();
 }
 
+void Scriptable::runAutomaticCommands()
+{
+    auto commands = loadEnabledCommands();
+    const QString tabName = getTextData(m_data, mimeCurrentTab);
+    for (auto &command : commands) {
+        if (command.type() & CommandType::Automatic) {
+            // Verify that an action is provided.
+            if ( command.cmd.isEmpty() && !command.remove
+                 && (command.tab.isEmpty() || command.tab == tabName) )
+            {
+                continue;
+            }
+
+            // Verify that data for given MIME is available.
+            if ( !command.input.isEmpty() ) {
+                if (command.input == mimeItems || command.input == "!OUTPUT") {
+                    // Disallow applying action that takes serialized item more times.
+                    if ( m_data.contains(command.output) )
+                        continue;
+                } else if ( !m_data.contains(command.input) ) {
+                    continue;
+                }
+            }
+
+            // Verify that and text matches given regexp.
+            if ( !matchData(command.re, m_data, mimeText) )
+                continue;
+
+            // Verify that window title matches given regexp.
+            if ( !matchData(command.wndre, m_data, mimeWindowTitle) )
+                continue;
+
+            if ( command.outputTab.isEmpty() )
+                command.outputTab = tabName;
+
+            // Run filter command.
+            if ( !command.matchCmd.isEmpty() ) {
+                Action action;
+
+                const QString text = getTextData(m_data);
+                action.setInput(text.toUtf8());
+                action.setData(m_data);
+
+                const QString arg = getTextData(action.input());
+                action.setCommand(command.matchCmd, QStringList(arg));
+
+                if ( !runAction(&action) || action.exitCode() != 0 ) {
+                    COPYQ_LOG( QString("Automatic command \"%1\": Filter command failed, skipping")
+                               .arg(command.name) );
+                    continue;
+                }
+            }
+
+            if ( m_connected && !command.cmd.isEmpty() ) {
+                Action action;
+                action.setCommand( command.cmd, QStringList(getTextData(m_data)) );
+                action.setInput(m_data, command.input);
+                action.setOutputFormat(command.output);
+                action.setItemSeparator(QRegExp(command.sep));
+                action.setOutputTab(command.outputTab);
+                action.setName(command.name);
+                action.setData(m_data);
+
+                if ( !runAction(&action) && m_connected ) {
+                    throwError( QString("Failed to start automatic command %1")
+                                .arg(command.name) );
+                    return;
+                }
+            }
+
+            if (!m_connected) {
+                COPYQ_LOG( QString("Automatic command \"%1\": Interrupted")
+                           .arg(command.name) );
+                return;
+            }
+
+            m_data = m_proxy->getActionData(m_actionId);
+
+            if ( command.remove || command.transform || m_data.contains(mimeIgnore) ) {
+                COPYQ_LOG( QString("Automatic command \"%1\": Ignoring data")
+                           .arg(command.name) );
+                return;
+            }
+
+            COPYQ_LOG( QString("Automatic command \"%1\": Finished")
+                       .arg(command.name) );
+        }
+    }
+
+    const bool syncClipboardToSelection = m_data.contains(mimeSyncToSelection);
+    const bool syncSelectionToClipboard = m_data.contains(mimeSyncToClipboard);
+    const bool storeData = m_data.contains(mimeOutputTab);
+
+    // Add clipboard data to clipboard tab (if configured) and synchronize clipboard/selection.
+    if (syncClipboardToSelection || syncSelectionToClipboard || storeData)
+        m_proxy->updateFirstItem(m_actionId, m_data);
+
+    // Update window title and tool tip on clipboard change.
+    const bool isClipboard = isClipboardData(m_data);
+    if (isClipboard)
+        m_proxy->updateTitle(m_actionId, m_data);
+}
+
 void Scriptable::onDisconnected()
 {
     abort();
@@ -2178,8 +2264,8 @@ bool Scriptable::sourceScriptCommands()
 void Scriptable::executeArguments(const QStringList &args)
 {
     bool hasData;
-    const int id = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);
-    const auto actionData = hasData ? m_proxy->getActionData(id) : QVariantMap();
+    m_actionId = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);
+    const auto actionData = hasData ? m_proxy->getActionData(m_actionId) : QVariantMap();
     m_data = actionData;
 
     m_actionName = getTextData( qgetenv("COPYQ_ACTION_NAME") );
@@ -2248,7 +2334,7 @@ void Scriptable::executeArguments(const QStringList &args)
     }
 
     if (exitCode == CommandFinished && hasData && actionData != m_data)
-        m_proxy->setActionData(id, data());
+        m_proxy->setActionData(m_actionId, data());
 
     // Destroy objects so destructors are run before script finishes
     // (e.g. file writes are flushed or temporary files are automatically removed).
@@ -2502,6 +2588,26 @@ QTextCodec *Scriptable::codecFromNameOrThrow(const QScriptValue &codecName)
         throwError("Available codecs are:" + codecs);
     }
     return codec;
+}
+
+bool Scriptable::runAction(Action *action)
+{
+    action->setWorkingDirectory( m_dirClass->getCurrentPath() );
+    action->start();
+
+    if ( !action->waitForStarted(5000) ) {
+        action->terminate();
+        return false;
+    }
+
+    while ( !action->waitForFinished(5000) && m_connected ) {}
+
+    if ( action->isRunning() && !action->waitForFinished(5000) ) {
+        action->terminate();
+        return false;
+    }
+
+    return true;
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

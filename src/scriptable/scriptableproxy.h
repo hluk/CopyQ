@@ -91,8 +91,6 @@ public slots:
     bool pasteToCurrentWindow();
     bool copyFromCurrentWindow();
 
-    void abortAutomaticCommands();
-
     bool isMonitoringEnabled();
     bool isMainWindowVisible();
     bool isMainWindowFocused();
@@ -191,8 +189,9 @@ public slots:
 
     void setUserValue(const QString &key, const QVariant &value);
 
-    void updateFirstItem(const QVariantMap &data);
-    void updateTitle(const QVariantMap &data);
+    bool isCurrentAutomaticCommand(int actionId);
+    void updateFirstItem(int actionId, const QVariantMap &data);
+    void updateTitle(int actionId, const QVariantMap &data);
     void setSelectedItemsData(const QString &mime, const QVariant &value);
 
     void filter(const QString &text);

@@ -686,13 +686,6 @@ bool ScriptableProxy::copyFromCurrentWindow()
     return true;
 }
 
-void ScriptableProxy::abortAutomaticCommands()
-{
-    INVOKE2(abortAutomaticCommands, ());
-
-    m_wnd->abortAutomaticCommands();
-}
-
 bool ScriptableProxy::isMonitoringEnabled()
 {
     INVOKE(isMonitoringEnabled, ());
@@ -1372,16 +1365,24 @@ void ScriptableProxy::setUserValue(const QString &key, const QVariant &value)
     settings.setValue(key, value);
 }
 
-void ScriptableProxy::updateFirstItem(const QVariantMap &data)
+bool ScriptableProxy::isCurrentAutomaticCommand(int actionId)
 {
-    INVOKE2(updateFirstItem, (data));
-    m_wnd->updateFirstItem(data);
+    INVOKE(isCurrentAutomaticCommand, (actionId));
+    return actionId == m_wnd->currentAutomaticCommandId()
+            || actionId == m_wnd->currentAutomaticCommandSelectionId();
 }
 
-void ScriptableProxy::updateTitle(const QVariantMap &data)
+void ScriptableProxy::updateFirstItem(int actionId, const QVariantMap &data)
 {
-    INVOKE2(updateTitle, (data));
-    if (m_wnd->canUpdateTitleFromScript())
+    INVOKE2(updateFirstItem, (actionId, data));
+    if ( isCurrentAutomaticCommand(actionId) )
+        m_wnd->updateFirstItem(data);
+}
+
+void ScriptableProxy::updateTitle(int actionId, const QVariantMap &data)
+{
+    INVOKE2(updateTitle, (actionId, data));
+    if ( isCurrentAutomaticCommand(actionId) )
         m_wnd->updateTitle(data);
 }
 

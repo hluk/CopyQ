@@ -31,7 +31,7 @@
 #include <QVariantMap>
 #include <QVector>
 
-class Arguments;
+class Action;
 class ByteArrayClass;
 class ClipboardBrowser;
 class DirClass;
@@ -294,9 +294,6 @@ public slots:
 
     QScriptValue dateString();
 
-    void updateFirst();
-    void updateTitle();
-
     QScriptValue commands();
     void setCommands();
     void addCommands();
@@ -328,6 +325,8 @@ public slots:
 
     QScriptValue iconTagColor();
 
+    void runAutomaticCommands();
+
 public slots:
     void onDisconnected();
 
@@ -354,6 +353,7 @@ private:
     QByteArray serialize(const QScriptValue &value);
     QScriptValue eval(const QString &script);
     QTextCodec *codecFromNameOrThrow(const QScriptValue &codecName);
+    bool runAction(Action *action);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
@@ -364,6 +364,7 @@ private:
     QString m_inputSeparator;
     QScriptValue m_input;
     QVariantMap m_data;
+    int m_actionId = -1;
     QString m_actionName;
     bool m_connected;
     int m_skipArguments = 0;
