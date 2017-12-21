@@ -20,7 +20,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "common/commandtester.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/menuitems.h"
 #include "gui/notificationbutton.h"
@@ -314,6 +313,8 @@ public:
 
     QColor sessionIconTagColor() const;
 
+    bool enableMenuItem(int actionId, const Command &command);
+
 public slots:
     /** Close main window and exit the application. */
     void exit();
@@ -494,9 +495,6 @@ signals:
 
     void commandsSaved();
 
-    void stopItemMenuCommandTester();
-    void stopTrayMenuCommandTester();
-
     void configurationChanged();
 
 protected:
@@ -573,9 +571,7 @@ private slots:
 
     void updateContextMenu(const ClipboardBrowser *browser);
 
-    QAction *enableActionForCommand(QMenu *menu, const Command &command, bool enable);
-    void addCommandsToItemMenu(const Command &command, bool passed);
-    void addCommandsToTrayMenu(const Command &command, bool passed);
+    void enableActionForCommand(QMenu *menu, const Command &command);
 
     void nextItemFormat();
     void previousItemFormat();
@@ -733,9 +729,6 @@ private:
 
     QPointer<CommandDialog> m_commandDialog;
 
-    CommandTester m_itemMenuCommandTester;
-    CommandTester m_trayMenuCommandTester;
-
     bool m_iconSnip;
 
     bool m_wasMaximized;
@@ -754,6 +747,9 @@ private:
 
     int m_currentAutomaticCommandId = 0;
     int m_currentAutomaticCommandSelectionId = 0;
+
+    int m_currentItemMenuCommandId = 0;
+    int m_currentTrayMenuCommandId = 0;
 
 #ifdef HAS_TESTS
     /// Key clicks sequence number last returned by sendKeyClicks().

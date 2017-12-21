@@ -2150,6 +2150,24 @@ void Scriptable::runDisplayCommands()
     runCommands(CommandType::Display);
 }
 
+void Scriptable::runMenuCommandFilters()
+{
+    auto commands = loadEnabledCommands();
+    const QString tabName = getTextData(m_data, mimeCurrentTab);
+
+    for (auto &command : commands) {
+        if ( command.type() & CommandType::Menu && !command.matchCmd.isEmpty() ) {
+            if ( command.outputTab.isEmpty() )
+                command.outputTab = tabName;
+
+            if ( canExecuteCommand(command) ) {
+                if ( !m_proxy->enableMenuItem(m_actionId, command) )
+                    return;
+            }
+        }
+    }
+}
+
 void Scriptable::onDisconnected()
 {
     abort();

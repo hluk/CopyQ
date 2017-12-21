@@ -20,6 +20,7 @@
 #ifndef SCRIPTABLEPROXY_H
 #define SCRIPTABLEPROXY_H
 
+#include "common/command.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/notificationbutton.h"
 
@@ -36,8 +37,6 @@ class QPersistentModelIndex;
 class QPixmap;
 class QPoint;
 
-struct Command;
-
 struct NamedValue {
     NamedValue() {}
     NamedValue(const QString &name, const QVariant &value) : name(name), value(value) {}
@@ -52,6 +51,7 @@ Q_DECLARE_METATYPE(NotificationButtons)
 Q_DECLARE_METATYPE(QList<QVariantMap>)
 Q_DECLARE_METATYPE(QVector<QVariantMap>)
 Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
+Q_DECLARE_METATYPE(Command)
 
 #if QT_VERSION < 0x050000
 Q_DECLARE_METATYPE(QList<int>)
@@ -218,6 +218,8 @@ public slots:
 
     QString iconTagColor();
     bool setIconTagColor(const QString &name);
+
+    bool enableMenuItem(int actionId, const Command &command);
 
 signals:
     void sendFunctionCall(const QByteArray &bytes);

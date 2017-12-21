@@ -329,6 +329,8 @@ public slots:
 
     void runDisplayCommands();
 
+    void runMenuCommandFilters();
+
 public slots:
     void onDisconnected();
 

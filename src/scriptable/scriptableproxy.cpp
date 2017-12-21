@@ -1582,6 +1582,12 @@ bool ScriptableProxy::setIconTagColor(const QString &colorName)
     return true;
 }
 
+bool ScriptableProxy::enableMenuItem(int actionId, const Command &command)
+{
+    INVOKE(enableMenuItem, (actionId, command));
+    return m_wnd->enableMenuItem(actionId, command);
+}
+
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
 {
     if (tabName.isEmpty()) {
