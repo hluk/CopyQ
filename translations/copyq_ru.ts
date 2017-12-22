@@ -1713,9 +1713,11 @@ Use Item Preview to display whole items.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Интервал в секундах отображения уведомлений для нового содержимого буфера обмена (только если главное окно закрыто)
-Установите в 0 что бы выключить
-Установите в -1 что бы отображать до клика мышью</translation>
+        <translation>Интервал в секундах отображения уведомлений для нового содержимого буфера обмена (только если главное окно закрыто).
+
+Установите в 0, чтобы выключить.
+
+Установите в -1, чтобы отображать до момента клика мышью.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1220"/>
