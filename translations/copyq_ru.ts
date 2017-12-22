@@ -1512,12 +1512,12 @@ Leave empty to disable automatic storing.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="197"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматически отображать всплывающие окна для ввода функций, типов и переменных в командах</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="200"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Автодополнение команд</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="298"/>
@@ -1713,7 +1713,9 @@ Use Item Preview to display whole items.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Интервал в секундах отображения уведомлений для нового содержимого буфера обмена (только если главное окно закрыто)
+Установите в 0 что бы выключить
+Установите в -1 что бы отображать до клика мышью</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1220"/>
