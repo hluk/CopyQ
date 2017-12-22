@@ -1741,7 +1741,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1267"/>
         <source>Ho&amp;rizontal offset:</source>
-        <translation>Горизонтальный отступ</translation>
+        <translation>Го&amp;ризонтальный отступ:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1304"/>
