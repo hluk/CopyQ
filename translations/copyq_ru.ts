@@ -1729,7 +1729,8 @@ Set to -1 to keep visible until clicked.</source>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество строк для отображения нового содержимого буфера обмена
+Установите в 0 что бы выключить</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1261"/>
