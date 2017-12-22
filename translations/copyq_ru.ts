@@ -1722,7 +1722,7 @@ Set to -1 to keep visible until clicked.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1220"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation>Количество  строк в уведомлении буфера обмена</translation>
+        <translation>Число строк в уведомлении &amp;буфера обмена:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1232"/>
