@@ -125,7 +125,7 @@
     </message>
     <message>
         <source>Escape</source>
-        <translation type="vanished">Escape</translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <source>Delete item</source>
@@ -649,7 +649,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="174"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation>В диалоге Комманды есть несохранённые изменения</translation>
+        <translation>В диалоге Команды есть несохранённые изменения.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="251"/>
