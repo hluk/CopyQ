@@ -1746,7 +1746,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1304"/>
         <source>&amp;Vertical offset:</source>
-        <translation>Вертикальный отступ</translation>
+        <translation>&amp;Вертикальный отступ:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1341"/>
