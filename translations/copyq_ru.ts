@@ -433,19 +433,19 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/addcommanddialog.cpp" line="252"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Задачи</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="255"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Добавить на вкладку %1</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="263"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Переместить на вкладку %1</translation>
     </message>
     <message>
         <source>Add to &amp;TODO tab</source>
@@ -501,7 +501,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="752"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1509"/>
         <source>Cannot Add New Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось добавить новые элементы</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="753"/>
