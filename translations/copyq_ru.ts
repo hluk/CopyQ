@@ -1736,12 +1736,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1261"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished"></translation>
+        <translation>Размеры окна уведомлений (в точках экрана)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1267"/>
         <source>Ho&amp;rizontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Горизонтальный отступ</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1304"/>
