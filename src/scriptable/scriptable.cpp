@@ -2194,8 +2194,6 @@ void Scriptable::executeArguments(const QStringList &args)
     const auto actionData = hasData ? m_proxy->getActionData(m_actionId) : QVariantMap();
     m_data = actionData;
 
-    m_actionName = getTextData( qgetenv("COPYQ_ACTION_NAME") );
-
     QByteArray response;
     int exitCode;
 
@@ -2312,9 +2310,10 @@ void Scriptable::showExceptionMessage(const QString &message)
     if (!m_proxy)
         return;
 
-    const auto title = m_actionName.isEmpty()
+    const auto actionName = getTextData( qgetenv("COPYQ_ACTION_NAME") );
+    const auto title = actionName.isEmpty()
         ? tr("Exception")
-        : tr("Exception in %1").arg( quoteString(m_actionName) );
+        : tr("Exception in %1").arg( quoteString(actionName) );
     m_proxy->showMessage(title, message, QString(QChar(IconWarningSign)), 8000);
 }
 

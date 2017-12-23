@@ -371,7 +371,6 @@ private:
     QScriptValue m_input;
     QVariantMap m_data;
     int m_actionId = -1;
-    QString m_actionName;
     bool m_connected;
     int m_skipArguments = 0;
 
