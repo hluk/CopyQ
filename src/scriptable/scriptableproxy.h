@@ -217,7 +217,7 @@ public slots:
     QString iconTagColor();
     bool setIconTagColor(const QString &name);
 
-    bool enableMenuItem(int actionId, const Command &command);
+    bool enableMenuItem(int actionId, const Command &command, bool enabled);
 
 signals:
     void sendFunctionCall(const QByteArray &bytes);

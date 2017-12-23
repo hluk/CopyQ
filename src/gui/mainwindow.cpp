@@ -405,6 +405,16 @@ void resetTestsSettings()
 }
 #endif
 
+CommandAction *findCommandAction(QMenu *menu, const Command &command)
+{
+    for (auto action : menu->findChildren<CommandAction*>()) {
+        if ( action->command() == command )
+            return action;
+    }
+
+    return nullptr;
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -951,29 +961,6 @@ void MainWindow::updateContextMenu(const ClipboardBrowser *browser)
 {
     if ( browser == getPlaceholder()->browser() )
         updateContextMenu();
-}
-
-void MainWindow::enableActionForCommand(QMenu *menu, const Command &command)
-{
-    for (auto action : menu->findChildren<CommandAction*>()) {
-        if (!action->isEnabled() && action->command() == command) {
-            action->setEnabled(true);
-
-            const auto shortcuts = action->shortcuts();
-            if ( !shortcuts.isEmpty() ) {
-                setDisabledShortcuts(m_disabledShortcuts + shortcuts);
-
-                if ( !isItemMenuDefaultActionValid() ) {
-                    for (const auto &shortcut : shortcuts) {
-                        if ( isItemActivationShortcut(shortcut) ) {
-                            m_menuItem->setDefaultAction(action);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 void MainWindow::nextItemFormat()
@@ -1544,7 +1531,7 @@ void MainWindow::updateToolBar()
     for ( auto action : m_menuItem->actions() ) {
         if ( action->isSeparator() ) {
             ui->toolBar->addSeparator();
-        } else if ( action->isEnabled() && !action->icon().isNull() ) {
+        } else if ( !action->icon().isNull() ) {
             const QIcon icon = action->icon();
             const QString text = action->text().remove("&");
             const QString shortcut = action->shortcut().toString(QKeySequence::NativeText);
@@ -1553,6 +1540,12 @@ void MainWindow::updateToolBar()
                     + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
             act = ui->toolBar->addAction( icon, label, action, SIGNAL(triggered()) );
             act->setToolTip(tooltip);
+
+            if ( !action->isEnabled() ) {
+                act->setEnabled(false);
+                connect( action, SIGNAL(enabled(bool)),
+                         act, SLOT(setEnabled(bool)) );
+            }
 
             if ( action->isCheckable() ) {
                 act->setCheckable(true);
@@ -2738,20 +2731,41 @@ QColor MainWindow::sessionIconTagColor() const
     return ::sessionIconTagColor();
 }
 
-bool MainWindow::enableMenuItem(int actionId, const Command &command)
+bool MainWindow::setMenuItemEnabled(int actionId, const Command &command, bool enabled)
 {
-    if (actionId == m_currentItemMenuCommandId) {
-        enableActionForCommand(m_menuItem, command);
-        updateToolBar();
+    auto menu = actionId == m_currentItemMenuCommandId ? m_menuItem
+              : actionId == m_currentItemMenuCommandId ? m_trayMenu
+              : nullptr;
+
+    if (!menu)
+        return false;
+
+    auto action = findCommandAction(menu, command);
+    Q_ASSERT(action != nullptr);
+    if (!action)
         return true;
+
+    action->setEnabled(enabled);
+
+    if (enabled) {
+        const auto shortcuts = action->shortcuts();
+        if ( !shortcuts.isEmpty() ) {
+            setDisabledShortcuts(m_disabledShortcuts + shortcuts);
+
+            if ( !isItemMenuDefaultActionValid() ) {
+                for (const auto &shortcut : shortcuts) {
+                    if ( isItemActivationShortcut(shortcut) ) {
+                        m_menuItem->setDefaultAction(action);
+                        break;
+                    }
+                }
+            }
+        }
+    } else if ( menu->isHidden() ) {
+        action->deleteLater();
     }
 
-    if (actionId == m_currentItemMenuCommandId) {
-        enableActionForCommand(m_trayMenu, command);
-        return true;
-    }
-
-    return false;
+    return true;
 }
 
 void MainWindow::runAutomaticCommands(QVariantMap data)

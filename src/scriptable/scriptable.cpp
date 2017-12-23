@@ -2147,8 +2147,9 @@ void Scriptable::runMenuCommandFilters()
             if ( command.outputTab.isEmpty() )
                 command.outputTab = tabName;
 
-            if ( canExecuteCommand(command) ) {
-                if ( !m_proxy->enableMenuItem(m_actionId, command) )
+            if ( !command.matchCmd.isEmpty() ) {
+                const bool enabled = canExecuteCommand(command);
+                if ( !m_proxy->enableMenuItem(m_actionId, command, enabled) )
                     return;
             }
         }

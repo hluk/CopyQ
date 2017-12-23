@@ -310,7 +310,7 @@ public:
 
     QColor sessionIconTagColor() const;
 
-    bool enableMenuItem(int actionId, const Command &command);
+    bool setMenuItemEnabled(int actionId, const Command &command, bool enabled);
 
 public slots:
     /** Close main window and exit the application. */
@@ -567,8 +567,6 @@ private slots:
     void showContextMenu(QPoint position);
 
     void updateContextMenu(const ClipboardBrowser *browser);
-
-    void enableActionForCommand(QMenu *menu, const Command &command);
 
     void nextItemFormat();
     void previousItemFormat();
