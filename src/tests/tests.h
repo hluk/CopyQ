@@ -194,6 +194,7 @@ private slots:
     void automaticCommandSetData();
     void automaticCommandOutputTab();
     void automaticCommandNoOutputTab();
+    void automaticCommandChaining();
 
     void scriptCommandLoaded();
     void scriptCommandAddFunction();

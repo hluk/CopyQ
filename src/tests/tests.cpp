@@ -2385,6 +2385,20 @@ void Tests::automaticCommandNoOutputTab()
     RUN("tab" << QString(clipboardTabName) << "size", "0\n");
 }
 
+void Tests::automaticCommandChaining()
+{
+    const auto script = R"(
+        setCommands([
+            {automatic: true, cmd: 'copyq: setData(mimeText, 1)'},
+            {automatic: true, cmd: 'copyq: setData(mimeText, str(data(mimeText)) + 2)'},
+            {automatic: true, cmd: 'copyq: setData(mimeText, str(data(mimeText)) + 3)'}
+        ])
+        )";
+    RUN(script, "");
+    TEST( m_test->setClipboard("TEST") );
+    WAIT_ON_OUTPUT("read" << "0", "123");
+}
+
 void Tests::scriptCommandLoaded()
 {
     const auto script = R"(
