@@ -2128,21 +2128,8 @@ QScriptValue Scriptable::iconTagColor()
 
 void Scriptable::runAutomaticCommands()
 {
-    if ( !runCommands(CommandType::Automatic) )
-        return;
-
-    const bool syncClipboardToSelection = m_data.contains(mimeSyncToSelection);
-    const bool syncSelectionToClipboard = m_data.contains(mimeSyncToClipboard);
-    const bool storeData = m_data.contains(mimeOutputTab);
-
-    // Add clipboard data to clipboard tab (if configured) and synchronize clipboard/selection.
-    if (syncClipboardToSelection || syncSelectionToClipboard || storeData)
-        m_proxy->updateFirstItem(m_actionId, m_data);
-
-    // Update window title and tool tip on clipboard change.
-    const bool isClipboard = isClipboardData(m_data);
-    if (isClipboard)
-        m_proxy->updateTitle(m_actionId, m_data);
+    if ( runCommands(CommandType::Automatic) )
+        m_proxy->automaticCommandsFinished(m_actionId, m_data);
 }
 
 void Scriptable::runDisplayCommands()

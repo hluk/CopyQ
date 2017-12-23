@@ -290,9 +290,6 @@ public:
 
     QStringList tabs() const;
 
-    /** Update the first item in the first tab. */
-    void updateFirstItem(QVariantMap data);
-
     /// Used by config() command.
     QVariant config(const QStringList &nameValue);
 

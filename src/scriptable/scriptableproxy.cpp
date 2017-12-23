@@ -29,6 +29,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
+#include "common/textdata.h"
 #include "gui/filedialog.h"
 #include "gui/iconfactory.h"
 #include "gui/mainwindow.h"
@@ -1365,24 +1366,37 @@ void ScriptableProxy::setUserValue(const QString &key, const QVariant &value)
     settings.setValue(key, value);
 }
 
-bool ScriptableProxy::isCurrentAutomaticCommand(int actionId)
+void ScriptableProxy::automaticCommandsFinished(int actionId, QVariantMap data)
 {
-    INVOKE(isCurrentAutomaticCommand, (actionId));
-    return actionId == m_wnd->currentAutomaticCommandId()
-            || actionId == m_wnd->currentAutomaticCommandSelectionId();
-}
+    INVOKE2(automaticCommandsFinished, (actionId, data));
 
-void ScriptableProxy::updateFirstItem(int actionId, const QVariantMap &data)
-{
-    INVOKE2(updateFirstItem, (actionId, data));
-    if ( isCurrentAutomaticCommand(actionId) )
-        m_wnd->updateFirstItem(data);
-}
+    if ( actionId != m_wnd->currentAutomaticCommandId()
+      && actionId != m_wnd->currentAutomaticCommandSelectionId() )
+    {
+        return;
+    }
 
-void ScriptableProxy::updateTitle(int actionId, const QVariantMap &data)
-{
-    INVOKE2(updateTitle, (actionId, data));
-    if ( isCurrentAutomaticCommand(actionId) )
+    const bool syncToSelection = data.remove(mimeSyncToSelection) != 0;
+    const bool syncToClipboard = data.remove(mimeSyncToClipboard) != 0;
+    const QString outputTab = getTextData( data.take(mimeOutputTab).toByteArray() );
+
+    if (syncToSelection)
+        m_wnd->setClipboard(data, QClipboard::Selection);
+
+    if (syncToClipboard)
+        m_wnd->setClipboard(data, QClipboard::Clipboard);
+
+    if ( !outputTab.isEmpty() ) {
+        auto c = m_wnd->tab(outputTab);
+        if (c) {
+            c->addUnique(data);
+            c->setCurrent(0);
+        }
+    }
+
+    // Update window title and tool tip on clipboard change.
+    const bool isClipboard = isClipboardData(data);
+    if (isClipboard)
         m_wnd->updateTitle(data);
 }
 

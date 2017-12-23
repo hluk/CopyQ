@@ -189,9 +189,7 @@ public slots:
 
     void setUserValue(const QString &key, const QVariant &value);
 
-    bool isCurrentAutomaticCommand(int actionId);
-    void updateFirstItem(int actionId, const QVariantMap &data);
-    void updateTitle(int actionId, const QVariantMap &data);
+    void automaticCommandsFinished(int actionId, QVariantMap data);
     void setSelectedItemsData(const QString &mime, const QVariant &value);
 
     void filter(const QString &text);

@@ -2636,28 +2636,6 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
         c->addUnique(data);
 }
 
-void MainWindow::updateFirstItem(QVariantMap data)
-{
-    const bool syncToSelection = data.remove(mimeSyncToSelection) != 0;
-    const bool syncToClipboard = data.remove(mimeSyncToClipboard) != 0;
-    const QString outputTab = getTextData( data.take(mimeOutputTab).toByteArray() );
-
-    // Synchronize clipboard and X11 selection.
-    if (syncToSelection)
-        emit changeClipboard(data, QClipboard::Selection);
-
-    if (syncToClipboard)
-        emit changeClipboard(data, QClipboard::Clipboard);
-
-    if ( !outputTab.isEmpty() ) {
-        auto c = tab(outputTab);
-        if (c) {
-            c->addUnique(data);
-            c->setCurrent(0);
-        }
-    }
-}
-
 QVariant MainWindow::config(const QStringList &nameValue)
 {
     ConfigurationManager configurationManager;
