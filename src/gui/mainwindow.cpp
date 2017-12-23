@@ -1053,17 +1053,9 @@ void MainWindow::onItemWidgetCreated(const PersistentDisplayItem &item)
         runDisplayCommands();
 }
 
-void MainWindow::onDisplayActionFinished(Action *act)
+void MainWindow::onDisplayActionFinished()
 {
-    const auto data = act->data();
-    m_currentDisplayItem.setData(data);
-
-    for (int i = m_displayItemList.size() - 1; i >= 0; --i) {
-        auto &item = m_displayItemList[i];
-        if ( !item.isValid() )
-            m_displayItemList.removeAt(i);
-    }
-
+    clearHiddenDisplayData();
     runDisplayCommands();
 }
 
@@ -1077,8 +1069,17 @@ void MainWindow::runDisplayCommands()
     Command c;
     c.cmd = "copyq runDisplayCommands";
     m_currentDisplayAction = action(m_currentDisplayItem.data(), c);
-    connect( m_currentDisplayAction.data(), SIGNAL(actionFinished(Action*)),
-             this, SLOT(onDisplayActionFinished(Action*)) );
+    connect( m_currentDisplayAction.data(), SIGNAL(destroyed()),
+             this, SLOT(onDisplayActionFinished()) );
+}
+
+void MainWindow::clearHiddenDisplayData()
+{
+    for (int i = m_displayItemList.size() - 1; i >= 0; --i) {
+        auto &item = m_displayItemList[i];
+        if ( !item.isValid() )
+            m_displayItemList.removeAt(i);
+    }
 }
 
 void MainWindow::reloadBrowsers()
@@ -2766,6 +2767,23 @@ bool MainWindow::setMenuItemEnabled(int actionId, const Command &command, bool e
     }
 
     return true;
+}
+
+QVariantMap MainWindow::setDisplayData(int actionId, const QVariantMap &data)
+{
+    if (!m_currentDisplayAction || m_currentDisplayAction->id() != actionId)
+        return QVariantMap();
+
+    m_currentDisplayItem.setData(data);
+
+    clearHiddenDisplayData();
+
+    if ( m_displayItemList.isEmpty() )
+        return QVariantMap();
+
+    m_currentDisplayItem = m_displayItemList.takeFirst();
+    m_actionHandler->setActionData(actionId, m_currentDisplayItem.data());
+    return m_currentDisplayItem.data();
 }
 
 void MainWindow::runAutomaticCommands(QVariantMap data)

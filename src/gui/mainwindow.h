@@ -312,6 +312,8 @@ public:
 
     bool setMenuItemEnabled(int actionId, const Command &command, bool enabled);
 
+    QVariantMap setDisplayData(int actionId, const QVariantMap &data);
+
 public slots:
     /** Close main window and exit the application. */
     void exit();
@@ -582,7 +584,7 @@ private slots:
 
     void onItemWidgetCreated(const PersistentDisplayItem &item);
 
-    void onDisplayActionFinished(Action *act);
+    void onDisplayActionFinished();
 
 private:
     enum TabNameMatching {
@@ -591,6 +593,8 @@ private:
     };
 
     void runDisplayCommands();
+
+    void clearHiddenDisplayData();
 
     void reloadBrowsers();
 

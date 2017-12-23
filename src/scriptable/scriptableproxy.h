@@ -219,6 +219,8 @@ public slots:
 
     bool enableMenuItem(int actionId, const Command &command, bool enabled);
 
+    QVariantMap setDisplayData(int actionId, const QVariantMap &displayData);
+
 signals:
     void sendFunctionCall(const QByteArray &bytes);
 

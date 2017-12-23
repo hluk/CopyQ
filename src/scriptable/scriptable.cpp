@@ -2134,7 +2134,8 @@ void Scriptable::runAutomaticCommands()
 
 void Scriptable::runDisplayCommands()
 {
-    runCommands(CommandType::Display);
+    while ( !m_data.isEmpty() && runCommands(CommandType::Display) )
+        m_data = m_proxy->setDisplayData(m_actionId, m_data);
 }
 
 void Scriptable::runMenuCommandFilters()

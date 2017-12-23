@@ -1602,6 +1602,13 @@ bool ScriptableProxy::enableMenuItem(int actionId, const Command &command, bool 
     return m_wnd->setMenuItemEnabled(actionId, command, enabled);
 }
 
+QVariantMap ScriptableProxy::setDisplayData(int actionId, const QVariantMap &displayData)
+{
+    INVOKE(setDisplayData, (actionId, displayData));
+    m_actionData = m_wnd->setDisplayData(actionId, displayData);
+    return m_actionData;
+}
+
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
 {
     if (tabName.isEmpty()) {
