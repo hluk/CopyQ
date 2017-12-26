@@ -388,7 +388,8 @@ void Action::onSubProcessErrorOutput()
     QProcess *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
 
-    m_errorOutput.append( getTextData(p->readAllStandardError()) );
+    if ( p->isReadable() )
+        m_errorOutput.append( getTextData(p->readAllStandardError()) );
 }
 
 void Action::writeInput()
