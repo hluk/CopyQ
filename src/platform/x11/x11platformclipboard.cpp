@@ -30,6 +30,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
+#include <QClipboard>
+
 namespace {
 
 /// Return true only if selection is incomplete, i.e. mouse button or shift key is pressed.
@@ -74,17 +76,17 @@ void X11PlatformClipboard::loadSettings(const QVariantMap &settings)
     m_formats = settings.value("formats", m_formats).toStringList();
 }
 
-QVariantMap X11PlatformClipboard::data(Mode mode, const QStringList &) const
+QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) const
 {
-    return mode == PlatformClipboard::Clipboard ? m_clipboardData : m_selectionData;
+    return mode == ClipboardMode::Clipboard ? m_clipboardData : m_selectionData;
 }
 
-void X11PlatformClipboard::setData(Mode mode, const QVariantMap &dataMap)
+void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
 {
     DummyClipboard::setData(mode, dataMap);
 }
 
-void X11PlatformClipboard::onChanged(QClipboard::Mode mode)
+void X11PlatformClipboard::onChanged(int mode)
 {
     // Omit checking clipboard and selection too fast.
     if (mode == QClipboard::Clipboard)
@@ -96,7 +98,7 @@ void X11PlatformClipboard::onChanged(QClipboard::Mode mode)
 void X11PlatformClipboard::onClipboardChanged()
 {
     m_timerResetClipboard.stop();
-    const QVariantMap data = DummyClipboard::data(Clipboard, m_formats);
+    const QVariantMap data = DummyClipboard::data(ClipboardMode::Clipboard, m_formats);
     const bool foreignData = !ownsClipboardData(data);
     if ( foreignData && maybeResetClipboard() )
         return;
@@ -105,7 +107,7 @@ void X11PlatformClipboard::onClipboardChanged()
         return;
 
     m_clipboardData = data;
-    emit changed(Clipboard);
+    emit changed(ClipboardMode::Clipboard);
 
     // Check selection too if some signals where not delivered.
     m_timerCheckSelection.start();
@@ -121,7 +123,7 @@ void X11PlatformClipboard::onSelectionChanged()
 
     // Always assume that only plain text can be in primary selection buffer.
     // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
-    const QVariantMap data = DummyClipboard::data( Selection, QStringList(mimeText) );
+    const QVariantMap data = DummyClipboard::data( ClipboardMode::Selection, QStringList(mimeText) );
     const bool foreignData = !ownsClipboardData(data);
     if ( foreignData && maybeResetSelection() )
         return;
@@ -130,7 +132,7 @@ void X11PlatformClipboard::onSelectionChanged()
         return;
 
     m_selectionData = data;
-    emit changed(Selection);
+    emit changed(ClipboardMode::Selection);
 
     // Check clipboard too if some signals where not delivered.
     m_timerCheckClipboard.start();
@@ -140,7 +142,7 @@ void X11PlatformClipboard::resetClipboard()
 {
     if (!m_clipboardData.isEmpty()) {
         COPYQ_LOG("Resetting clipboard");
-        DummyClipboard::setData(Clipboard, m_clipboardData);
+        DummyClipboard::setData(ClipboardMode::Clipboard, m_clipboardData);
     }
 }
 
@@ -148,7 +150,7 @@ void X11PlatformClipboard::resetSelection()
 {
     if (!m_selectionData.isEmpty()) {
         COPYQ_LOG("Resetting selection");
-        DummyClipboard::setData(Selection, m_selectionData);
+        DummyClipboard::setData(ClipboardMode::Selection, m_selectionData);
     }
 
 }

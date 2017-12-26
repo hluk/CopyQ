@@ -20,7 +20,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <QClipboard>
+#include "common/clipboardmode.h"
+
 #include <QtGlobal> // Q_WS_*
 #include <QVariantMap>
 
@@ -58,7 +59,7 @@ class QWidget;
 
 bool isMainThread();
 
-const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
+const QMimeData *clipboardData(ClipboardMode mode = ClipboardMode::Clipboard);
 
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */
 QVariantMap cloneData(const QMimeData &data, QStringList formats);
@@ -117,7 +118,7 @@ void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object 
 
 QString dataToText(const QByteArray &bytes, const QString &mime);
 
-bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data);
+bool clipboardContains(ClipboardMode mode, const QVariantMap &data);
 
 bool isClipboardData(const QVariantMap &data);
 

@@ -105,8 +105,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( qApp, SIGNAL(saveStateRequest(QSessionManager&)),
              this, SLOT(onSaveState(QSessionManager&)) );
 
-    connect( m_wnd, SIGNAL(changeClipboard(QVariantMap,QClipboard::Mode)),
-             this, SLOT(changeClipboard(QVariantMap,QClipboard::Mode)) );
+    connect( m_wnd, SIGNAL(changeClipboard(QVariantMap,ClipboardMode)),
+             this, SLOT(changeClipboard(QVariantMap,ClipboardMode)) );
 
     connect( m_wnd, SIGNAL(requestExit()),
              this, SLOT(maybeQuit()) );
@@ -380,7 +380,7 @@ void ClipboardServer::monitorConnectionError(const QString &error)
     startMonitoring();
 }
 
-void ClipboardServer::changeClipboard(const QVariantMap &data, QClipboard::Mode mode)
+void ClipboardServer::changeClipboard(const QVariantMap &data, ClipboardMode mode)
 {
     if ( !isMonitoring() ) {
         COPYQ_LOG("Waiting for monitor to start");
@@ -393,7 +393,7 @@ void ClipboardServer::changeClipboard(const QVariantMap &data, QClipboard::Mode 
     }
 
     const MonitorMessageCode code =
-            mode == QClipboard::Clipboard ? MonitorChangeClipboard : MonitorChangeSelection;
+            mode == ClipboardMode::Clipboard ? MonitorChangeClipboard : MonitorChangeSelection;
 
     const auto message = serializeData(data);
 

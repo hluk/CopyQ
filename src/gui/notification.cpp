@@ -27,7 +27,6 @@
 #include "gui/icons.h"
 
 #include <QApplication>
-#include <QClipboard>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QGridLayout>

@@ -21,6 +21,7 @@
 #define CLIPBOARDSERVER_H
 
 #include "app.h"
+#include "common/clipboardmode.h"
 #include "common/server.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/mainwindow.h"
@@ -71,7 +72,7 @@ public:
 
 public slots:
     /** Load @a item data to clipboard. */
-    void changeClipboard(const QVariantMap &data, QClipboard::Mode mode);
+    void changeClipboard(const QVariantMap &data, ClipboardMode mode);
 
     /** Load settings. */
     void loadSettings();

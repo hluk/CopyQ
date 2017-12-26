@@ -20,6 +20,7 @@
 #ifndef DUMMYCLIPBOARD_H
 #define DUMMYCLIPBOARD_H
 
+#include "common/clipboardmode.h"
 #include "platform/platformclipboard.h"
 
 #include <QClipboard>
@@ -32,15 +33,18 @@ public:
 
     void loadSettings(const QVariantMap &) override {}
 
-    QVariantMap data(Mode mode, const QStringList &formats) const override;
+    QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
 
-    void setData(Mode mode, const QVariantMap &dataMap) override;
+    void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
+
+protected:
+    virtual void onChanged(int mode);
 
 signals:
-    void changed(PlatformClipboard::Mode mode);
+    void changed(ClipboardMode mode);
 
 private slots:
-    virtual void onChanged(QClipboard::Mode mode);
+    void onChanged(QClipboard::Mode mode);
 };
 
 #endif // DUMMYCLIPBOARD_H

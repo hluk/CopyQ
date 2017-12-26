@@ -20,6 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "common/clipboardmode.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/menuitems.h"
 #include "gui/notificationbutton.h"
@@ -28,7 +29,6 @@
 #include "platform/platformnativeinterface.h"
 
 #include <QAction>
-#include <QClipboard>
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QPointer>
@@ -402,7 +402,7 @@ public slots:
     void runAutomaticCommands(QVariantMap data);
 
     /** Set clipboard. */
-    void setClipboard(const QVariantMap &data, QClipboard::Mode mode);
+    void setClipboard(const QVariantMap &data, ClipboardMode mode);
 
     /** Set clipboard and synchronize selection if needed. */
     void setClipboard(const QVariantMap &data);
@@ -486,7 +486,7 @@ public slots:
 
 signals:
     /** Request clipboard change. */
-    void changeClipboard(const QVariantMap &data, QClipboard::Mode mode);
+    void changeClipboard(const QVariantMap &data, ClipboardMode mode);
 
     void tabGroupSelected(bool selected);
 

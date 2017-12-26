@@ -75,22 +75,22 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv, const QString &server
     initSingleShotTimer( &m_timerSetNewClipboard, 0, this, SLOT(setNewClipboard()) );
 }
 
-void ClipboardMonitor::onClipboardChanged(PlatformClipboard::Mode mode)
+void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
 {
     QVariantMap data = m_clipboard->data(mode, m_formats);
-    QVariantMap &lastData = m_lastData[mode];
+    QVariantMap &lastData = m_lastData[mode == ClipboardMode::Clipboard ? 0 : 1];
 
     if ( hasSameData(data, lastData) ) {
         COPYQ_LOG( QString("Ignoring unchanged %1")
-                   .arg(mode == PlatformClipboard::Clipboard ? "clipboard" : "selection") );
+                   .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
         return;
     }
 
     COPYQ_LOG( QString("%1 changed")
-               .arg(mode == PlatformClipboard::Clipboard ? "Clipboard" : "Selection") );
+               .arg(mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection") );
 
-    if (mode != PlatformClipboard::Clipboard) {
-        const QString modeName = mode == PlatformClipboard::Selection
+    if (mode != ClipboardMode::Clipboard) {
+        const QString modeName = mode == ClipboardMode::Selection
                 ? "selection"
                 : "find buffer";
         data.insert(mimeClipboardMode, modeName);
@@ -131,8 +131,8 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
         if ( settings.contains("formats") )
             m_formats = settings["formats"].toStringList();
 
-        connect( m_clipboard.get(), SIGNAL(changed(PlatformClipboard::Mode)),
-                 this, SLOT(onClipboardChanged(PlatformClipboard::Mode)),
+        connect( m_clipboard.get(), SIGNAL(changed(ClipboardMode)),
+                 this, SLOT(onClipboardChanged(ClipboardMode)),
                  Qt::UniqueConnection );
 
         m_clipboard->loadSettings(settings);
@@ -149,9 +149,9 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
         deserializeData(&data, message);
         // Set clipboard after processing all messages and returning to event loop which is safer.
         if (messageCode == MonitorChangeClipboard)
-            m_newData.insert(PlatformClipboard::Clipboard, data);
+            m_newData.insert(ClipboardMode::Clipboard, data);
         if (messageCode == MonitorChangeSelection)
-            m_newData.insert(PlatformClipboard::Selection, data);
+            m_newData.insert(ClipboardMode::Selection, data);
         m_timerSetNewClipboard.start();
     } else {
         log( QString("Unknown message code %1!").arg(messageCode), LogError );
@@ -173,11 +173,11 @@ void ClipboardMonitor::setNewClipboard()
     if ( m_timerSetNewClipboard.isActive() )
         return;
 
-    setNewClipboard(PlatformClipboard::Clipboard);
-    setNewClipboard(PlatformClipboard::Selection);
+    setNewClipboard(ClipboardMode::Clipboard);
+    setNewClipboard(ClipboardMode::Selection);
 }
 
-void ClipboardMonitor::setNewClipboard(PlatformClipboard::Mode mode)
+void ClipboardMonitor::setNewClipboard(ClipboardMode mode)
 {
     if ( m_newData.contains(mode) )
         m_clipboard->setData( mode, m_newData.take(mode) );

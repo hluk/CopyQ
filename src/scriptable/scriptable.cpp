@@ -94,7 +94,7 @@ QString argumentError()
 }
 
 bool clipboardContains(
-        QClipboard::Mode mode, ScriptableProxy *proxy,
+        ClipboardMode mode, ScriptableProxy *proxy,
         const QString &format, const QByteArray &content)
 {
     return content == proxy->getClipboardData(format, mode);
@@ -891,7 +891,7 @@ QScriptValue Scriptable::selection()
     m_skipArguments = 1;
 #ifdef HAS_MOUSE_SELECTIONS
     const QString &mime = arg(0, mimeText);
-    return newByteArray( m_proxy->getClipboardData(mime, QClipboard::Selection) );
+    return newByteArray( m_proxy->getClipboardData(mime, ClipboardMode::Selection) );
 #else
     return QScriptValue();
 #endif
@@ -901,7 +901,7 @@ QScriptValue Scriptable::hasClipboardFormat()
 {
     m_skipArguments = 1;
     const QString &mime = arg(0);
-    return m_proxy->hasClipboardFormat(mime, QClipboard::Clipboard);
+    return m_proxy->hasClipboardFormat(mime, ClipboardMode::Clipboard);
 }
 
 QScriptValue Scriptable::hasSelectionFormat()
@@ -909,7 +909,7 @@ QScriptValue Scriptable::hasSelectionFormat()
     m_skipArguments = 1;
 #ifdef HAS_MOUSE_SELECTIONS
     const QString &mime = arg(0);
-    return m_proxy->hasClipboardFormat(mime, QClipboard::Selection);
+    return m_proxy->hasClipboardFormat(mime, ClipboardMode::Selection);
 #else
     return false;
 #endif
@@ -923,14 +923,14 @@ QScriptValue Scriptable::isClipboard()
 QScriptValue Scriptable::copy()
 {
     m_skipArguments = -1;
-    return copy(QClipboard::Clipboard);
+    return copy(ClipboardMode::Clipboard);
 }
 
 QScriptValue Scriptable::copySelection()
 {
     m_skipArguments = -1;
 #ifdef HAS_MOUSE_SELECTIONS
-    return copy(QClipboard::Selection);
+    return copy(ClipboardMode::Selection);
 #else
     return QScriptValue();
 #endif
@@ -2333,7 +2333,7 @@ QList<int> Scriptable::getRows() const
     return rows;
 }
 
-QScriptValue Scriptable::copy(QClipboard::Mode mode)
+QScriptValue Scriptable::copy(ClipboardMode mode)
 {
     const int args = argumentCount();
     QVariantMap data;
@@ -2381,7 +2381,7 @@ QScriptValue Scriptable::copy(QClipboard::Mode mode)
     return false;
 }
 
-bool Scriptable::setClipboard(QVariantMap *data, QClipboard::Mode mode)
+bool Scriptable::setClipboard(QVariantMap *data, ClipboardMode mode)
 {
     const QString mime = COPYQ_MIME_PREFIX "hash";
     data->remove(mime);
@@ -2449,9 +2449,9 @@ void Scriptable::nextToClipboard(int where)
     if (data.isEmpty())
         return;
 
-    setClipboard(&data, QClipboard::Clipboard);
+    setClipboard(&data, ClipboardMode::Clipboard);
 #ifdef HAS_MOUSE_SELECTIONS
-    setClipboard(&data, QClipboard::Selection);
+    setClipboard(&data, ClipboardMode::Selection);
 #endif
 }
 

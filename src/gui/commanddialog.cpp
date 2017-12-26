@@ -33,6 +33,7 @@
 #include "gui/icons.h"
 #include "platform/platformnativeinterface.h"
 
+#include <QClipboard>
 #include <QFileDialog>
 #include <QMenu>
 #include <QMessageBox>
@@ -105,7 +106,7 @@ bool hasCommandsToPaste(const QString &text)
 
 QString commandsToPaste()
 {
-    const QMimeData *data = clipboardData(QClipboard::Clipboard);
+    const QMimeData *data = clipboardData();
     if (data && data->hasText()) {
         const QString text = data->text().trimmed();
         if (hasCommandsToPaste(text))

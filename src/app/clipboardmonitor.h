@@ -46,7 +46,7 @@ public:
     ClipboardMonitor(int &argc, char **argv, const QString &serverName, const QString &sessionName);
 
 private slots:
-    void onClipboardChanged(PlatformClipboard::Mode mode);
+    void onClipboardChanged(ClipboardMode mode);
 
     void onMessageReceived(const QByteArray &message, int messageCode) override;
 
@@ -57,12 +57,12 @@ private slots:
     void setNewClipboard();
 
 private:
-    void setNewClipboard(PlatformClipboard::Mode mode);
+    void setNewClipboard(ClipboardMode mode);
 
     PlatformClipboardPtr m_clipboard;
     QStringList m_formats;
-    QVariantMap m_lastData[3]; /// Last data sent for each clipboard mode
-    QMap<int, QVariantMap> m_newData; /// New data to set for each clipboard mode
+    QVariantMap m_lastData[2]; /// Last data sent for each clipboard mode
+    QMap<ClipboardMode, QVariantMap> m_newData; /// New data to set for each clipboard mode
     QTimer m_timerSetNewClipboard;
 };
 

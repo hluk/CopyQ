@@ -20,24 +20,20 @@
 #ifndef PLATFORMCLIPBOARD_H
 #define PLATFORMCLIPBOARD_H
 
+#include "common/clipboardmode.h"
+
 #include <QObject>
 #include <QVariantMap>
 
 /**
  * Interface for clipboard.
  *
- * Define signal changed(PlatformClipboard::Mode) in derived class.
+ * Define signal changed(ClipboardMode) in derived class.
  * This signal notifies about clipboard changes.
  */
 class PlatformClipboard : public QObject
 {
 public:
-    enum Mode {
-        Clipboard,
-        Selection,
-        FindBuffer
-    };
-
     /**
      * Load settings from GUI.
      *
@@ -51,12 +47,12 @@ public:
     /**
      * Return clipboard data containing specified @a formats if available.
      */
-    virtual QVariantMap data(Mode mode, const QStringList &formats) const = 0;
+    virtual QVariantMap data(ClipboardMode mode, const QStringList &formats) const = 0;
 
     /**
      * Set data to clipboard.
      */
-    virtual void setData(Mode mode, const QVariantMap &dataMap) = 0;
+    virtual void setData(ClipboardMode mode, const QVariantMap &dataMap) = 0;
 };
 
 #endif // PLATFORMCLIPBOARD_H

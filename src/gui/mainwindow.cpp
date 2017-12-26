@@ -280,14 +280,14 @@ bool needSyncClipboardToSelection(const QVariantMap &data)
 {
     return isClipboardData(data)
             && AppConfig().option<Config::copy_clipboard>()
-            && !clipboardContains(QClipboard::Selection, data);
+            && !clipboardContains(ClipboardMode::Selection, data);
 }
 
 bool needSyncSelectionToClipboard(const QVariantMap &data)
 {
     return !isClipboardData(data)
             && AppConfig().option<Config::copy_selection>()
-            && !clipboardContains(QClipboard::Clipboard, data);
+            && !clipboardContains(ClipboardMode::Clipboard, data);
 }
 
 bool needStore(const QVariantMap &data)
@@ -2839,16 +2839,16 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
     updateContextMenu();
 }
 
-void MainWindow::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
+void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
     emit changeClipboard(data, mode);
 }
 
 void MainWindow::setClipboard(const QVariantMap &data)
 {
-    setClipboard(data, QClipboard::Clipboard);
+    setClipboard(data, ClipboardMode::Clipboard);
 #ifdef HAS_MOUSE_SELECTIONS
-    setClipboard(data, QClipboard::Selection);
+    setClipboard(data, ClipboardMode::Selection);
 #endif
 }
 

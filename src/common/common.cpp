@@ -181,14 +181,18 @@ bool isMainThread()
     return QThread::currentThread() == qApp->thread();
 }
 
-const QMimeData *clipboardData(QClipboard::Mode mode)
+const QMimeData *clipboardData(ClipboardMode mode)
 {
     Q_ASSERT( isMainThread() );
 
-    const auto modeText = mode == QClipboard::Clipboard ? "clipboard" : "selection";
+    const auto modeText = mode == ClipboardMode::Clipboard ? "clipboard" : "selection";
     COPYQ_LOG_VERBOSE( QString("Getting %1 data.").arg(modeText) );
 
-    const QMimeData *data = QApplication::clipboard()->mimeData(mode);
+    const auto qtmode = mode == ClipboardMode::Clipboard
+            ? QClipboard::Clipboard
+            : QClipboard::Selection;
+    const QMimeData *data = QApplication::clipboard()->mimeData(qtmode);
+
     if (data)
         COPYQ_LOG_VERBOSE( QString("Got %1 data.").arg(modeText) );
     else
@@ -475,7 +479,7 @@ QString dataToText(const QByteArray &bytes, const QString &mime)
     return codec->toUnicode(bytes);
 }
 
-bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data)
+bool clipboardContains(ClipboardMode mode, const QVariantMap &data)
 {
     const QMimeData *clipboardData = ::clipboardData(mode);
     if (!clipboardData)

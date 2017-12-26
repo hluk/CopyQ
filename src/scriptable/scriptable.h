@@ -20,10 +20,10 @@
 #ifndef SCRIPTABLE_H
 #define SCRIPTABLE_H
 
+#include "common/clipboardmode.h"
 #include "common/command.h"
 #include "common/mimetypes.h"
 
-#include <QClipboard>
 #include <QObject>
 #include <QString>
 #include <QScriptable>
@@ -349,8 +349,8 @@ private:
     QString processUncaughtException(const QString &cmd);
     void showExceptionMessage(const QString &message);
     QList<int> getRows() const;
-    QScriptValue copy(QClipboard::Mode mode);
-    bool setClipboard(QVariantMap *data, QClipboard::Mode mode);
+    QScriptValue copy(ClipboardMode mode);
+    bool setClipboard(QVariantMap *data, ClipboardMode mode);
     void changeItem(bool create);
     void nextToClipboard(int where);
     QScriptValue screenshot(bool select);

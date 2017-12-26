@@ -17,31 +17,12 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MACCLIPBOARD_H
-#define MACCLIPBOARD_H
+#ifndef CLIPBOARDMODE_H
+#define CLIPBOARDMODE_H
 
-#include "platform/dummy/dummyclipboard.h"
-
-class MacTimer;
-
-class MacClipboard : public DummyClipboard {
-    Q_OBJECT
-public:
-    explicit MacClipboard();
-
-    QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
-
-    void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
-
-signals:
-    void changed(ClipboardMode mode);
-
-private:
-    long int m_prevChangeCount;
-    MacTimer *m_clipboardCheckTimer;
-
-private slots:
-    virtual void clipboardTimeout();
+enum class ClipboardMode {
+    Clipboard,
+    Selection,
 };
 
-#endif // MACCLIPBOARD_H
+#endif // CLIPBOARDMODE_H

@@ -216,6 +216,23 @@ QDataStream &operator>>(QDataStream &in, Command &command)
     return in;
 }
 
+QDataStream &operator<<(QDataStream &out, ClipboardMode mode)
+{
+    const int modeId = static_cast<int>(mode);
+    out << modeId;
+    Q_ASSERT(out.status() == QDataStream::Ok);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, ClipboardMode &mode)
+{
+    int modeId;
+    in >> modeId;
+    Q_ASSERT(in.status() == QDataStream::Ok);
+    mode = static_cast<ClipboardMode>(modeId);
+    return in;
+}
+
 namespace {
 
 const char propertyWidgetName[] = "CopyQ_widget_name";
@@ -545,13 +562,6 @@ void raiseWindow(QWidget *window)
         platformWindow->raise();
 }
 
-QClipboard::Mode clipboardMode(int mode)
-{
-    return mode == QClipboard::Clipboard
-            ? QClipboard::Clipboard
-            : QClipboard::Selection;
-}
-
 } // namespace
 
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
@@ -560,6 +570,7 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     , m_tabName()
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
+    qRegisterMetaTypeStreamOperators<ClipboardMode>("ClipboardMode");
     qRegisterMetaTypeStreamOperators<Command>("Command");
     qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
     qRegisterMetaTypeStreamOperators<NotificationButtons>("NotificationButtons");
@@ -711,10 +722,10 @@ void ScriptableProxy::disableMonitoring(bool arg1)
     m_wnd->disableClipboardStoring(arg1);
 }
 
-void ScriptableProxy::setClipboard(const QVariantMap &data, int mode)
+void ScriptableProxy::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
     INVOKE2(setClipboard, (data, mode));
-    m_wnd->setClipboard(data, clipboardMode(mode));
+    m_wnd->setClipboard(data, mode);
 }
 
 QString ScriptableProxy::renameTab(const QString &arg1, const QString &arg2)
@@ -968,10 +979,10 @@ QVariant ScriptableProxy::toggleConfig(const QString &optionName)
     return m_wnd->config(nameValue).toMap().constBegin().value();
 }
 
-QByteArray ScriptableProxy::getClipboardData(const QString &mime, int mode)
+QByteArray ScriptableProxy::getClipboardData(const QString &mime, ClipboardMode mode)
 {
     INVOKE(getClipboardData, (mime, mode));
-    const QMimeData *data = clipboardData( clipboardMode(mode) );
+    const QMimeData *data = clipboardData(mode);
     if (!data)
         return QByteArray();
 
@@ -981,10 +992,10 @@ QByteArray ScriptableProxy::getClipboardData(const QString &mime, int mode)
     return cloneData(*data, QStringList(mime)).value(mime).toByteArray();
 }
 
-bool ScriptableProxy::hasClipboardFormat(const QString &mime, int mode)
+bool ScriptableProxy::hasClipboardFormat(const QString &mime, ClipboardMode mode)
 {
     INVOKE(hasClipboardFormat, (mime, mode));
-    const QMimeData *data = clipboardData( clipboardMode(mode) );
+    const QMimeData *data = clipboardData(mode);
     return data && data->hasFormat(mime);
 }
 
@@ -1381,10 +1392,10 @@ void ScriptableProxy::automaticCommandsFinished(int actionId, QVariantMap data)
     const QString outputTab = getTextData( data.take(mimeOutputTab).toByteArray() );
 
     if (syncToSelection)
-        m_wnd->setClipboard(data, QClipboard::Selection);
+        m_wnd->setClipboard(data, ClipboardMode::Selection);
 
     if (syncToClipboard)
-        m_wnd->setClipboard(data, QClipboard::Clipboard);
+        m_wnd->setClipboard(data, ClipboardMode::Clipboard);
 
     if ( !outputTab.isEmpty() ) {
         auto c = m_wnd->tab(outputTab);
