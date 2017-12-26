@@ -106,7 +106,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 {
-    COPYQ_LOG( "Message received: " + messageCodeToString(messageCode) );
+    COPYQ_LOG_VERBOSE( "Message received: " + messageCodeToString(messageCode) );
 
     switch (messageCode) {
     case CommandFinished:

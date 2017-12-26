@@ -511,7 +511,7 @@ bool ItemFactory::loadPlugins()
             const QString path = pluginsDir.absoluteFilePath(fileName);
             QPluginLoader pluginLoader(path);
             QObject *plugin = pluginLoader.instance();
-            log( QObject::tr("Loading plugin: %1").arg(path), LogNote );
+            COPYQ_LOG_VERBOSE( QString("Loading plugin: %1").arg(path) );
             if (plugin == nullptr) {
                 log( pluginLoader.errorString(), LogError );
             } else {
