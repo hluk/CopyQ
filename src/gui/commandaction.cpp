@@ -35,7 +35,7 @@ CommandAction::CommandAction(
     : QAction(parentMenu)
     , m_command(command)
 {
-    setText( elideText(name, parentMenu->font()) );
+    setText( elideText(name, parentMenu->font(), QString()) );
 
     setIcon( iconFromFile(m_command.icon) );
     if (m_command.icon.size() == 1)

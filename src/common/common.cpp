@@ -414,6 +414,11 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
     return label;
 }
 
+QString textLabelForData(const QVariantMap &data)
+{
+    return textLabelForData(data, QFont(), QString());
+}
+
 void renameToUnique(QString *name, const QStringList &names)
 {
     const QString baseName = *name;

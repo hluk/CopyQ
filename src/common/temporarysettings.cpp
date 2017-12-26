@@ -29,7 +29,7 @@ namespace {
 QString temporaryFileName(const QByteArray &content)
 {
     QTemporaryFile tmpfile;
-    if ( !openTemporaryFile(&tmpfile) )
+    if ( !openTemporaryFile(&tmpfile, ".ini") )
     {
         log("Failed to create temporary settings file", LogError);
         return QString();
