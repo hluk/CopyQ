@@ -133,9 +133,9 @@ int startMonitor(int argc, char *argv[], const QString &serverName, const QStrin
     return app.exec();
 }
 
-int startClient(int argc, char *argv[], int skipArguments, const QString &sessionName)
+int startClient(int argc, char *argv[], const QStringList &arguments, const QString &sessionName)
 {
-    ClipboardClient app(argc, argv, skipArguments, sessionName);
+    ClipboardClient app(argc, argv, arguments, sessionName);
     return app.exec();
 }
 
@@ -239,7 +239,7 @@ int startApplication(int argc, char **argv)
 
     // If argument was specified and server is running
     // then run this process as client.
-    return startClient(argc, argv, skipArguments, sessionName);
+    return startClient(argc, argv, arguments.mid(skipArguments), sessionName);
 }
 
 } // namespace

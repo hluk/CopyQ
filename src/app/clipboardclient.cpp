@@ -82,7 +82,7 @@ void InputReader::readInput()
     emit inputRead(input);
 }
 
-ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QString &sessionName)
+ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &arguments, const QString &sessionName)
     : Client()
     , App("Client", createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
     , m_inputReaderThread(nullptr)
@@ -99,8 +99,6 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
         out << id;
     }
 
-    const auto arguments =
-            createPlatformNativeInterface()->getCommandLineArguments(argc, argv).mid(skipArgc);
     start(arguments);
 }
 

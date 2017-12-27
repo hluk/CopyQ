@@ -50,7 +50,7 @@ class ClipboardClient : public Client, public App
 
 public:
     ClipboardClient(
-            int &argc, char **argv, int skipArgc, const QString &sessionName);
+            int &argc, char **argv, const QStringList &arguments, const QString &sessionName);
 
 private slots:
     void onMessageReceived(const QByteArray &data, int messageCode) override;
