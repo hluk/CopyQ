@@ -72,13 +72,7 @@ private:
 
 } // namespace
 
-Notification::Notification(const QString &id, const QString &title, const NotificationButtons &buttons)
-    : m_id(id)
-    , m_body(nullptr)
-    , m_titleLabel(nullptr)
-    , m_iconLabel(nullptr)
-    , m_msgLabel(nullptr)
-    , m_opacity(1.0)
+Notification::Notification()
 {
     auto bodyLayout = new QVBoxLayout(this);
     bodyLayout->setMargin(8);
@@ -86,8 +80,8 @@ Notification::Notification(const QString &id, const QString &title, const Notifi
     bodyLayout->addWidget(m_body);
     bodyLayout->setSizeConstraint(QLayout::SetMaximumSize);
 
-    auto layout = new QGridLayout(m_body);
-    layout->setMargin(0);
+    m_layout = new QGridLayout(m_body);
+    m_layout->setMargin(0);
 
     m_iconLabel = new QLabel(this);
     m_iconLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
@@ -95,37 +89,35 @@ Notification::Notification(const QString &id, const QString &title, const Notifi
     m_msgLabel = new QLabel(this);
     m_msgLabel->setAlignment(Qt::AlignTop | Qt::AlignAbsolute);
 
-    if ( !title.isEmpty() ) {
-        m_titleLabel = new QLabel(this);
-        m_titleLabel->setObjectName("NotificationTitle");
-        m_titleLabel->setTextFormat(Qt::PlainText);
-        m_titleLabel->setText(title);
-
-        layout->addWidget(m_iconLabel, 0, 0);
-        layout->addWidget(m_titleLabel, 0, 1, Qt::AlignCenter);
-        layout->addWidget(m_msgLabel, 1, 0, 1, 2);
-    } else {
-        layout->addWidget(m_iconLabel, 0, 0, Qt::AlignTop);
-        layout->addWidget(m_msgLabel, 0, 1);
-    }
-
-
-    if ( !buttons.isEmpty() ) {
-        auto buttonLayout = new QHBoxLayout();
-        buttonLayout->addStretch();
-        layout->addLayout(buttonLayout, 2, 0, 1, 2);
-
-        for (const auto &button : buttons) {
-            const auto buttonWidget = new NotificationButtonWidget(button, this);
-            connect( buttonWidget, SIGNAL(clicked(NotificationButton)),
-                     this, SLOT(onButtonClicked(NotificationButton)) );
-            buttonLayout->addWidget(buttonWidget);
-        }
-    }
+    setTitle(QString());
 
     setWindowFlags(Qt::ToolTip);
     setWindowOpacity(m_opacity);
     setAttribute(Qt::WA_ShowWithoutActivating);
+}
+
+void Notification::setTitle(const QString &title)
+{
+    if ( !title.isEmpty() ) {
+        if (!m_titleLabel)
+            m_titleLabel = new QLabel(this);
+
+        m_titleLabel->setObjectName("NotificationTitle");
+        m_titleLabel->setTextFormat(Qt::PlainText);
+        m_titleLabel->setText(title);
+
+        m_layout->addWidget(m_iconLabel, 0, 0);
+        m_layout->addWidget(m_titleLabel, 0, 1, Qt::AlignCenter);
+        m_layout->addWidget(m_msgLabel, 1, 0, 1, 2);
+    } else {
+        if (m_titleLabel) {
+            m_titleLabel->deleteLater();
+            m_titleLabel = nullptr;
+        }
+
+        m_layout->addWidget(m_iconLabel, 0, 0, Qt::AlignTop);
+        m_layout->addWidget(m_msgLabel, 0, 1);
+    }
 }
 
 void Notification::setMessage(const QString &msg, Qt::TextFormat format)
@@ -145,6 +137,11 @@ void Notification::setIcon(const QString &icon)
     m_icon = icon;
 }
 
+void Notification::setIcon(ushort icon)
+{
+    m_icon = QString(QChar(icon));
+}
+
 void Notification::setInterval(int msec)
 {
     if (msec >= 0) {
@@ -159,6 +156,30 @@ void Notification::setOpacity(qreal opacity)
 {
     m_opacity = opacity;
     setWindowOpacity(m_opacity);
+}
+
+void Notification::setButtons(const NotificationButtons &buttons)
+{
+    for (const auto &buttonWidget : findChildren<NotificationButtonWidget*>())
+        buttonWidget->deleteLater();
+
+    if ( !buttons.isEmpty() ) {
+        if (!m_buttonLayout)
+            m_buttonLayout = new QHBoxLayout();
+
+        m_buttonLayout->addStretch();
+        m_layout->addLayout(m_buttonLayout, 2, 0, 1, 2);
+
+        for (const auto &button : buttons) {
+            const auto buttonWidget = new NotificationButtonWidget(button, this);
+            connect( buttonWidget, SIGNAL(clicked(NotificationButton)),
+                     this, SLOT(onButtonClicked(NotificationButton)) );
+            m_buttonLayout->addWidget(buttonWidget);
+        }
+    } else if (m_buttonLayout) {
+        m_buttonLayout->deleteLater();
+        m_buttonLayout = nullptr;
+    }
 }
 
 void Notification::updateIcon()

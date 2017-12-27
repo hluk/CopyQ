@@ -28,6 +28,7 @@
 #include "common/mimetypes.h"
 #include "common/textdata.h"
 #include "gui/actiondialog.h"
+#include "gui/notification.h"
 #include "gui/processmanagerdialog.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/mainwindow.h"
@@ -187,7 +188,11 @@ void ActionHandler::closeAction(Action *action)
             msg.append(QString("\n%1. %2").arg(++lineNumber, lineNumberWidth).arg(line));
 
         log(title + "\n" + msg);
-        m_wnd->showMessage(title, msg, icon);
+
+        auto notification = m_wnd->createNotification();
+        notification->setTitle(title);
+        notification->setMessage(msg);
+        notification->setIcon(icon);
     }
 
     m_activeActionDialog->actionFinished(action);

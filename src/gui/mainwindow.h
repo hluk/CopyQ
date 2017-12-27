@@ -44,6 +44,7 @@ class CommandAction;
 class CommandDialog;
 class ConfigurationManager;
 class ItemFactory;
+class Notification;
 class NotificationDaemon;
 class Theme;
 class TrayMenu;
@@ -82,8 +83,6 @@ struct MainWindowOptions {
         , trayItems(5)
         , trayImages(true)
         , trayMenuOpenOnLeftClick(false)
-        , itemPopupInterval(0)
-        , clipboardNotificationLines(0)
         , transparency(0)
         , transparencyFocused(0)
         , hideTabs(false)
@@ -106,8 +105,6 @@ struct MainWindowOptions {
     int trayItems;
     bool trayImages;
     bool trayMenuOpenOnLeftClick;
-    int itemPopupInterval;
-    int clipboardNotificationLines;
     int transparency;
     int transparencyFocused;
 
@@ -202,26 +199,6 @@ public:
 
     void enterSearchMode(const QString &txt);
 
-    /** Show notification. */
-    void showMessage(const QString &title, //!< Message title.
-            const QString &msg, //!< Message text.
-            ushort icon = QSystemTrayIcon::Information,
-            //!< Type of popup.
-            int msec = 8000, //!< Show interval.
-            const QString &notificationId = QString(), //!< ID of notification.
-            const NotificationButtons &buttons = NotificationButtons());
-
-    /** Show popup with icon. */
-    void showMessage(const QString &title,
-            const QString &msg,
-            const QString &icon,
-            int msec,
-            const QString &notificationId = QString(),
-            const NotificationButtons &buttons = NotificationButtons());
-
-    /** Show clipboard content in notification. */
-    void showClipboardMessage(const QVariantMap &data);
-
     /** Show and focus main window. */
     void showWindow();
     /** Hide window to tray or minimize if tray is not available. */
@@ -310,6 +287,8 @@ public:
 
     QColor sessionIconTagColor() const;
 
+    void setTrayTooltip(const QString &tooltip);
+
     bool setMenuItemEnabled(int actionId, const Command &command, bool enabled);
 
     QVariantMap setDisplayData(int actionId, const QVariantMap &data);
@@ -378,6 +357,8 @@ public slots:
     /** Show error popup message. */
     void showError(const QString &msg);
 
+    Notification *createNotification(const QString &id = QString());
+
     /** Open command dialog and add commands. */
     void addCommands(const QVector<Command> &commands);
 
@@ -386,14 +367,6 @@ public slots:
             const QVariantMap &data,
             const Command &cmd,
             const QModelIndex &outputIndex = QModelIndex());
-
-    /** Add @a data to tab with given name (create if tab doesn't exist). */
-    void addToTab(
-            /// Item data (it may be updated if item with same text exists).
-            const QVariantMap &data,
-            /// Tab name of target tab.
-            const QString &tabName
-            );
 
     /**
      * Run automatic commands and add @a new clipboard to the first tab
@@ -445,8 +418,7 @@ public slots:
     /** Set previous or last tab as current. */
     void previousTab();
 
-    /** Set window title and tray tool tip from data. */
-    void updateTitle(const QVariantMap &data);
+    void setClipboardData(const QVariantMap &data);
 
     int currentAutomaticCommandId() const { return m_currentAutomaticCommandId; }
     int currentAutomaticCommandSelectionId() const { return m_currentAutomaticCommandSelectionId; }
@@ -594,6 +566,9 @@ private:
 
     void runDisplayCommands();
 
+    /** Clear window title, tray tool tip and clipboard notification. */
+    void clearTitleAndNotification();
+
     void clearHiddenDisplayData();
 
     void reloadBrowsers();
@@ -656,10 +631,6 @@ private:
 
     void updateToolBar();
 
-    void updateWindowTitle();
-
-    void updateTrayTooltip();
-
     void initTray();
 
     void runDisplayCommand(const Command &command);
@@ -690,6 +661,8 @@ private:
     void updateCommands();
 
     const Theme &theme() const;
+
+    Action *runScript(const QString &function, const QVariantMap &data = QVariantMap());
 
     ConfigurationManager *cm;
     Ui::MainWindow *ui;

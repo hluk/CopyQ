@@ -431,23 +431,6 @@ void renameToUnique(QString *name, const QStringList &names)
         *name = baseName + " (" + QString::number(++i) + ')';
 }
 
-bool containsAnyData(const QVariantMap &data)
-{
-    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
-        const auto &mime = it.key();
-        if (mime != mimeOwner
-                && mime != mimeWindowTitle
-                && mime != mimeHidden
-                && mime != mimeClipboardMode
-                && mime != mimeItems)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
 {
     const QString tmpFileName = "CopyQ.XXXXXX" + suffix;

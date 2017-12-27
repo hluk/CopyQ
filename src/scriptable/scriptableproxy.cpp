@@ -19,6 +19,7 @@
 
 #include "scriptableproxy.h"
 
+#include "common/appconfig.h"
 #include "common/commandstatus.h"
 #include "common/command.h"
 #include "common/commandstore.h"
@@ -32,7 +33,9 @@
 #include "common/textdata.h"
 #include "gui/filedialog.h"
 #include "gui/iconfactory.h"
+#include "gui/icons.h"
 #include "gui/mainwindow.h"
+#include "gui/notification.h"
 #include "gui/tabicons.h"
 #include "gui/windowgeometryguard.h"
 #include "item/serialize.h"
@@ -810,7 +813,13 @@ void ScriptableProxy::showMessage(const QString &title,
         const NotificationButtons &buttons)
 {
     INVOKE2(showMessage, (title, msg, icon, msec, notificationId, buttons));
-    m_wnd->showMessage(title, msg, icon, msec, notificationId, buttons);
+
+    auto notification = m_wnd->createNotification(notificationId);
+    notification->setTitle(title);
+    notification->setMessage(msg);
+    notification->setIcon(icon);
+    notification->setInterval(msec);
+    notification->setButtons(buttons);
 }
 
 QVariantMap ScriptableProxy::nextItem(int where)
@@ -1377,40 +1386,6 @@ void ScriptableProxy::setUserValue(const QString &key, const QVariant &value)
     settings.setValue(key, value);
 }
 
-void ScriptableProxy::automaticCommandsFinished(int actionId, QVariantMap data)
-{
-    INVOKE2(automaticCommandsFinished, (actionId, data));
-
-    if ( actionId != m_wnd->currentAutomaticCommandId()
-      && actionId != m_wnd->currentAutomaticCommandSelectionId() )
-    {
-        return;
-    }
-
-    const bool syncToSelection = data.remove(mimeSyncToSelection) != 0;
-    const bool syncToClipboard = data.remove(mimeSyncToClipboard) != 0;
-    const QString outputTab = getTextData( data.take(mimeOutputTab).toByteArray() );
-
-    if (syncToSelection)
-        m_wnd->setClipboard(data, ClipboardMode::Selection);
-
-    if (syncToClipboard)
-        m_wnd->setClipboard(data, ClipboardMode::Clipboard);
-
-    if ( !outputTab.isEmpty() ) {
-        auto c = m_wnd->tab(outputTab);
-        if (c) {
-            c->addUnique(data);
-            c->setCurrent(0);
-        }
-    }
-
-    // Update window title and tool tip on clipboard change.
-    const bool isClipboard = isClipboardData(data);
-    if (isClipboard)
-        m_wnd->updateTitle(data);
-}
-
 void ScriptableProxy::setSelectedItemsData(const QString &mime, const QVariant &value)
 {
     INVOKE2(setSelectedItemsData, (mime, value));
@@ -1605,6 +1580,106 @@ bool ScriptableProxy::setIconTagColor(const QString &colorName)
 
     m_wnd->setSessionIconTagColor(color);
     return true;
+}
+
+void ScriptableProxy::setTitle(const QString &title)
+{
+    INVOKE2(setTitle, (title));
+
+    const QString sessionName = qApp->property("CopyQ_session_name").toString();
+    if (title.isEmpty()) {
+        m_wnd->setWindowTitle("CopyQ");
+        m_wnd->setTrayTooltip("CopyQ");
+    } else {
+        const QString fullTitle = sessionName.isEmpty()
+                ? tr("%1 - CopyQ",
+                     "Main window title format (%1 is clipboard content label)")
+                  .arg(title)
+                : tr("%1 - %2 - CopyQ",
+                     "Main window title format (%1 is clipboard content label, %2 is session name)")
+                  .arg(title, sessionName);
+
+        m_wnd->setWindowTitle(fullTitle);
+        m_wnd->setTrayTooltip(fullTitle);
+    }
+}
+
+void ScriptableProxy::setTitleForData(const QVariantMap &data)
+{
+    INVOKE2(setTitleForData, (data));
+
+    const QString clipboardContent = textLabelForData(data);
+    setTitle(clipboardContent);
+}
+
+void ScriptableProxy::saveData(const QString &tab, const QVariantMap &data)
+{
+    INVOKE2(saveData, (tab, data));
+
+    auto c = m_wnd->tab(tab);
+    if (c) {
+        c->addUnique(data);
+        c->setCurrent(0);
+    }
+}
+
+void ScriptableProxy::showDataNotification(const QVariantMap &data)
+{
+    INVOKE2(showDataNotification, (data));
+
+    const AppConfig appConfig;
+    const auto maxLines = appConfig.option<Config::clipboard_notification_lines>();
+    if (maxLines <= 0)
+        return;
+
+    const auto intervalSeconds = appConfig.option<Config::item_popup_interval>();
+    if (intervalSeconds == 0)
+        return;
+
+    auto notification = m_wnd->createNotification("CopyQ_clipboard_notification");
+    notification->setIcon( QString(QChar(IconPaste)) );
+    notification->setInterval(intervalSeconds * 1000);
+
+    const int maximumWidthPoints = appConfig.option<Config::notification_maximum_width>();
+    const int width = pointsToPixels(maximumWidthPoints) - 16 - 8;
+
+    const QStringList formats = data.keys();
+    const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
+    const QFont &font = notification->font();
+    const bool isHidden = data.contains(mimeHidden);
+
+    if (data.isEmpty()) {
+        notification->setInterval(0);
+    } if ( !isHidden && data.contains(mimeText) ) {
+        QString text = getTextData(data);
+        const int n = text.count('\n') + 1;
+
+        QString format;
+        if (n > 1) {
+            format = QObject::tr("%1<div align=\"right\"><small>&mdash; %n lines &mdash;</small></div>",
+                                 "Notification label for multi-line text in clipboard", n);
+        } else {
+            format = QObject::tr("%1", "Notification label for single-line text in clipboard");
+        }
+
+        text = elideText(text, font, QString(), false, width, maxLines);
+        text = escapeHtml(text);
+        text.replace( QString("\n"), QString("<br />") );
+        notification->setMessage( format.arg(text), Qt::RichText );
+    } else if (!isHidden && imageIndex != -1) {
+        QPixmap pix;
+        const QString &imageFormat = formats[imageIndex];
+        pix.loadFromData( data[imageFormat].toByteArray(), imageFormat.toLatin1() );
+
+        const int height = maxLines * QFontMetrics(font).lineSpacing();
+        if (pix.width() > width || pix.height() > height)
+            pix = pix.scaled(QSize(width, height), Qt::KeepAspectRatio);
+
+        notification->setPixmap(pix);
+    } else {
+        const QString text = textLabelForData(data, font, QString(), false, width, maxLines);
+        notification->setMessage(text, Qt::PlainText);
+    }
 }
 
 bool ScriptableProxy::enableMenuItem(int actionId, const Command &command, bool enabled)

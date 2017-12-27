@@ -192,7 +192,6 @@ public slots:
 
     void setUserValue(const QString &key, const QVariant &value);
 
-    void automaticCommandsFinished(int actionId, QVariantMap data);
     void setSelectedItemsData(const QString &mime, const QVariant &value);
 
     void filter(const QString &text);
@@ -219,6 +218,11 @@ public slots:
 
     QString iconTagColor();
     bool setIconTagColor(const QString &name);
+
+    void setTitle(const QString &title);
+    void setTitleForData(const QVariantMap &data);
+    void saveData(const QString &tab, const QVariantMap &data);
+    void showDataNotification(const QVariantMap &data);
 
     bool enableMenuItem(int actionId, const Command &command, bool enabled);
 

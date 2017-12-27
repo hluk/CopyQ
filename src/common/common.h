@@ -69,9 +69,6 @@ QVariantMap cloneData(const QMimeData &data);
 
 QMimeData* createMimeData(const QVariantMap &data);
 
-/** Return true only if data map contains useful data. */
-bool containsAnyData(const QVariantMap &data);
-
 /** Return true if clipboard content was created by any session of this application. */
 bool ownsClipboardData(const QVariantMap &data);
 

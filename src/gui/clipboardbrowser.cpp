@@ -1524,25 +1524,12 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
 
 void ClipboardBrowser::addUnique(const QVariantMap &data)
 {
-    if ( moveToTop(hash(data)) ) {
+    auto newData = data;
+
+    if ( moveToTop(hash(newData)) ) {
         COPYQ_LOG("New item: Moving existing to top");
         return;
     }
-
-    QVariantMap newData = data;
-
-    // Don't store internal formats.
-    newData.remove(mimeWindowTitle);
-    newData.remove(mimeOwner);
-    newData.remove(mimeClipboardMode);
-    newData.remove(mimeCurrentTab);
-    newData.remove(mimeSelectedItems);
-    newData.remove(mimeCurrentItem);
-    newData.remove(mimeHidden);
-    newData.remove(mimeShortcut);
-    newData.remove(mimeOutputTab);
-    newData.remove(mimeSyncToClipboard);
-    newData.remove(mimeSyncToSelection);
 
 #ifdef HAS_MOUSE_SELECTIONS
     // When selecting text under X11, clipboard data may change whenever selection changes.

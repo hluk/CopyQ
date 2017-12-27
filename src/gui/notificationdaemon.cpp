@@ -55,83 +55,6 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     initSingleShotTimer( &m_timerUpdate, 100, this, SLOT(doUpdateNotifications()) );
 }
 
-void NotificationDaemon::create(const QString &title,
-        const QString &msg,
-        const QString &icon,
-        int msec,
-        const QString &id,
-        const NotificationButtons &buttons)
-{
-    Notification *notification = createNotification(id, title, buttons);
-
-    notification->setIcon(icon);
-    notification->setMessage(msg);
-    notification->setInterval(msec);
-
-    updateNotifications();
-}
-
-void NotificationDaemon::create(const QVariantMap &data,
-        int maxLines,
-        const QString &icon,
-        int msec,
-        const QString &id,
-        const NotificationButtons &buttons)
-{
-    Notification *notification = createNotification(id, QString(), buttons);
-
-    notification->setIcon(icon);
-
-    const int width = pointsToPixels(m_maximumWidthPoints) - 16 - 8;
-
-    const QStringList formats = data.keys();
-    const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
-    const QFont &font = notification->font();
-    const bool isHidden = data.contains(mimeHidden);
-
-    if ( !isHidden && data.contains(mimeText) ) {
-        QString text = getTextData(data);
-        const int n = text.count('\n') + 1;
-
-        QString format;
-        if (n > 1) {
-            format = QObject::tr("%1<div align=\"right\"><small>&mdash; %n lines &mdash;</small></div>",
-                                 "Notification label for multi-line text in clipboard", n);
-        } else {
-            format = QObject::tr("%1", "Notification label for single-line text in clipboard");
-        }
-
-        text = elideText(text, font, QString(), false, width, maxLines);
-        text = escapeHtml(text);
-        text.replace( QString("\n"), QString("<br />") );
-        notification->setMessage( format.arg(text), Qt::RichText );
-    } else if (!isHidden && imageIndex != -1) {
-        QPixmap pix;
-        const QString &imageFormat = formats[imageIndex];
-        pix.loadFromData( data[imageFormat].toByteArray(), imageFormat.toLatin1() );
-
-        const int height = maxLines * QFontMetrics(font).lineSpacing();
-        if (pix.width() > width || pix.height() > height)
-            pix = pix.scaled(QSize(width, height), Qt::KeepAspectRatio);
-
-        notification->setPixmap(pix);
-    } else {
-        const QString text = textLabelForData(data, font, QString(), false, width, maxLines);
-        notification->setMessage(text, Qt::PlainText);
-    }
-
-    notification->setInterval(msec);
-
-    updateNotifications();
-}
-
-void NotificationDaemon::updateInterval(const QString &id, int msec)
-{
-    Notification *notification = findNotification(id);
-    if (notification)
-        notification->setInterval(msec);
-}
-
 void NotificationDaemon::setPosition(NotificationDaemon::Position position)
 {
     m_position = position;
@@ -174,7 +97,13 @@ void NotificationDaemon::removeNotification(const QString &id)
 
 void NotificationDaemon::onNotificationClose(Notification *notification)
 {
-    m_notifications.removeOne(notification);
+    for (auto it = std::begin(m_notifications); it != std::end(m_notifications); ++it) {
+        if (it->notification == notification) {
+            m_notifications.erase(it);
+            break;
+        }
+    }
+
     notification->deleteLater();
     updateNotifications();
 }
@@ -185,7 +114,8 @@ void NotificationDaemon::doUpdateNotifications()
 
     int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
 
-    for (auto notification : m_notifications) {
+    for (auto &notificationData : m_notifications) {
+        auto notification = notificationData.notification;
         notification->setOpacity(m_opacity);
         notification->setStyleSheet(m_styleSheet);
         notification->updateIcon();
@@ -216,29 +146,32 @@ void NotificationDaemon::doUpdateNotifications()
 
 Notification *NotificationDaemon::findNotification(const QString &id)
 {
-    for (auto notification : m_notifications) {
-        if (notification->id() == id)
-            return notification;
+    for (auto &notificationData : m_notifications) {
+        if (notificationData.id == id)
+            return notificationData.notification;
     }
 
     return nullptr;
 }
 
-Notification *NotificationDaemon::createNotification(const QString &id, const QString &title, const NotificationButtons &buttons)
+Notification *NotificationDaemon::createNotification(const QString &id)
 {
     Notification *notification = nullptr;
     if ( !id.isEmpty() )
         notification = findNotification(id);
 
     if (notification == nullptr) {
-        notification = new Notification(id, title, buttons);
+        notification = new Notification();
         connect(this, SIGNAL(destroyed()), notification, SLOT(deleteLater()));
         connect( notification, SIGNAL(closeNotification(Notification*)),
                  this, SLOT(onNotificationClose(Notification*)) );
         connect( notification, SIGNAL(buttonClicked(NotificationButton)),
                  this, SIGNAL(notificationButtonClicked(NotificationButton)) );
-        m_notifications.append(notification);
+
+        m_notifications.append(NotificationData{id, notification});
     }
+
+    updateNotifications();
 
     return notification;
 }

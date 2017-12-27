@@ -470,6 +470,28 @@ bool matchData(const QRegExp &re, const QVariantMap &data, const QString &format
     return re.indexIn(text) != -1;
 }
 
+QVariantMap copyWithoutInternalData(const QVariantMap &data) {
+    QVariantMap newData;
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        if ( it.key() != mimeWindowTitle
+          && it.key() != mimeItems
+          && it.key() != mimeOwner
+          && it.key() != mimeClipboardMode
+          && it.key() != mimeCurrentTab
+          && it.key() != mimeSelectedItems
+          && it.key() != mimeCurrentItem
+          && it.key() != mimeShortcut
+          && it.key() != mimeOutputTab
+          && it.key() != mimeSyncToClipboard
+          && it.key() != mimeSyncToSelection)
+        {
+            newData.insert(it.key(), it.value());
+        }
+    }
+
+    return newData;
+}
+
 } // namespace
 
 Scriptable::Scriptable(
@@ -2129,10 +2151,65 @@ QScriptValue Scriptable::iconTagColor()
     return QScriptValue();
 }
 
-void Scriptable::runAutomaticCommands()
+void Scriptable::onClipboardChanged()
 {
-    if ( runCommands(CommandType::Automatic) )
-        m_proxy->automaticCommandsFinished(m_actionId, m_data);
+    eval(R"(
+    if (runAutomaticCommands()) {
+        synchronizeSelection();
+        saveData();
+        updateTitle();
+        showDataNotification();
+    }
+    )");
+}
+
+void Scriptable::updateTitle()
+{
+    if ( isClipboardData(m_data) )
+        m_proxy->setTitleForData(m_data);
+}
+
+void Scriptable::setTitle()
+{
+    m_skipArguments = 1;
+    const auto title = arg(0);
+    m_proxy->setTitle(title);
+}
+
+void Scriptable::synchronizeSelection()
+{
+    const bool syncToSelection = m_data.contains(mimeSyncToSelection);
+    const bool syncToClipboard = m_data.contains(mimeSyncToClipboard);
+    if (!syncToClipboard && !syncToSelection)
+        return;
+
+    auto data = copyWithoutInternalData(m_data);
+
+    if (syncToSelection)
+        setClipboard(&data, ClipboardMode::Selection);
+
+    if (syncToClipboard)
+        setClipboard(&data, ClipboardMode::Clipboard);
+}
+
+void Scriptable::saveData()
+{
+    const QString outputTab = getTextData(m_data, mimeOutputTab);
+
+    if ( !outputTab.isEmpty() ) {
+        auto data = copyWithoutInternalData(m_data);
+        m_proxy->saveData(outputTab, data);
+    }
+}
+
+void Scriptable::showDataNotification()
+{
+    m_proxy->showDataNotification(m_data);
+}
+
+QScriptValue Scriptable::runAutomaticCommands()
+{
+    return runCommands(CommandType::Automatic);
 }
 
 void Scriptable::runDisplayCommands()

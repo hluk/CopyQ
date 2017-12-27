@@ -25,25 +25,27 @@
 #include <QTimer>
 #include <QWidget>
 
-class NotificationDaemon;
 class QLabel;
+class QGridLayout;
+class QHBoxLayout;
 
 class Notification : public QWidget
 {
     Q_OBJECT
-    friend class NotificationDaemon;
-protected:
-    Notification(const QString &id, const QString &title, const NotificationButtons &buttons);
 
+public:
+    Notification();
+
+    void setTitle(const QString &title);
     void setMessage(const QString &msg, Qt::TextFormat format = Qt::AutoText);
     void setPixmap(const QPixmap &pixmap);
     void setIcon(const QString &icon);
+    void setIcon(ushort icon);
     void setInterval(int msec);
     void setOpacity(qreal opacity);
+    void setButtons(const NotificationButtons &buttons);
 
     void updateIcon();
-
-    const QString &id() const { return m_id; }
 
     void adjust();
 
@@ -65,13 +67,14 @@ private slots:
     void onButtonClicked(const NotificationButton &button);
 
 private:
-    QString m_id;
-    QWidget *m_body;
-    QLabel *m_titleLabel;
-    QLabel *m_iconLabel;
-    QLabel *m_msgLabel;
+    QWidget *m_body = nullptr;
+    QGridLayout *m_layout = nullptr;
+    QHBoxLayout *m_buttonLayout = nullptr;
+    QLabel *m_titleLabel = nullptr;
+    QLabel *m_iconLabel = nullptr;
+    QLabel *m_msgLabel = nullptr;
     QTimer m_timer;
-    qreal m_opacity;
+    qreal m_opacity = 1.0;
     QString m_icon;
 };
 

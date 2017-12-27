@@ -909,10 +909,13 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
     }
 
     if ( !command.tab.isEmpty() && command.tab != c->tabName() ) {
-        for (int i = selected.size() - 1; i >= 0; --i) {
-            const auto data = c->copyIndex(selected[i]);
-            if ( !data.isEmpty() )
-                addToTab(data, command.tab);
+        auto c2 = tab(command.tab);
+        if (c2) {
+            for (int i = selected.size() - 1; i >= 0; --i) {
+                const auto data = c->copyIndex(selected[i]);
+                if ( !data.isEmpty() )
+                    c2->addUnique(data);
+            }
         }
     }
 
@@ -1066,11 +1069,14 @@ void MainWindow::runDisplayCommands()
 
     m_currentDisplayItem = m_displayItemList.takeFirst();
 
-    Command c;
-    c.cmd = "copyq runDisplayCommands";
-    m_currentDisplayAction = action(m_currentDisplayItem.data(), c);
+    m_currentDisplayAction = runScript("runDisplayCommands()", m_currentDisplayItem.data());
     connect( m_currentDisplayAction.data(), SIGNAL(destroyed()),
              this, SLOT(onDisplayActionFinished()) );
+}
+
+void MainWindow::clearTitleAndNotification()
+{
+    runScript("setTitle(); showDataNotification()");
 }
 
 void MainWindow::clearHiddenDisplayData()
@@ -1100,16 +1106,10 @@ int MainWindow::findTabIndexExactMatch(const QString &name)
     return -1;
 }
 
-void MainWindow::updateTitle(const QVariantMap &data)
+void MainWindow::setClipboardData(const QVariantMap &data)
 {
-    COPYQ_LOG("Updating window title");
-
-    m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
-
-    updateWindowTitle();
-    updateTrayTooltip();
+    m_clipboardData = data;
     updateTrayMenuItems();
-    showClipboardMessage(m_clipboardData);
 }
 
 void MainWindow::setFilter(const QString &text)
@@ -1166,7 +1166,11 @@ void MainWindow::keyClicks(const QString &keys, int delay)
         const auto popupMessage = QString("%1 (%2)")
                 .arg( quoteString(text), widgetName );
         const int msec = std::max( 1500, delay * text.size() );
-        showMessage(QString(), popupMessage, IconKeyboard, msec);
+
+        auto notification = createNotification();
+        notification->setMessage(popupMessage);
+        notification->setIcon(IconKeyboard);
+        notification->setInterval(msec);
 
         QTest::keyClicks(widget, text, Qt::NoModifier, delay);
 
@@ -1186,7 +1190,11 @@ void MainWindow::keyClicks(const QString &keys, int delay)
         const auto popupMessage = QString("%1 (%2)")
                 .arg( shortcut.toString(), widgetName );
         const int msec = std::min( 8000, std::max( 1500, delay * 40 ) );
-        showMessage(QString(), popupMessage, IconKeyboard, msec);
+
+        auto notification = createNotification();
+        notification->setMessage(popupMessage);
+        notification->setIcon(IconKeyboard);
+        notification->setInterval(msec);
 
         const auto key = static_cast<uint>(shortcut[0]);
         QTest::keyClick( widget,
@@ -1286,8 +1294,6 @@ void MainWindow::updateNotifications()
     const int w = appConfig.option<Config::notification_maximum_width>();
     const int h = appConfig.option<Config::notification_maximum_height>();
     m_notifications->setMaximumSize(w, h);
-
-    m_notifications->updateInterval(0, m_options.itemPopupInterval * 1000);
 
     m_notifications->updateNotifications();
 }
@@ -1461,9 +1467,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
     setDisabledShortcuts(usedShortcuts);
 
     if (runMenuCommandFilters) {
-        Command command;
-        command.cmd = "copyq runMenuCommandFilters";
-        const auto act = action(data, command);
+        const auto act = runScript("runMenuCommandFilters()", data);
         m_currentItemMenuCommandId = act->id();
     }
 }
@@ -1504,9 +1508,7 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
     }
 
     if (runMenuCommandFilters) {
-        Command command;
-        command.cmd = "copyq runMenuCommandFilters";
-        const auto act = action(data, command);
+        const auto act = runScript("runMenuCommandFilters()", data);
         m_currentTrayMenuCommandId = act->id();
     }
 }
@@ -1557,34 +1559,6 @@ void MainWindow::updateToolBar()
                          act, SLOT(setChecked(bool)) );
             }
         }
-    }
-}
-
-void MainWindow::updateWindowTitle()
-{
-    if (m_clipboardData.isEmpty()) {
-        setWindowTitle("CopyQ");
-    } else {
-        const QString clipboardContent = textLabelForData(m_clipboardData);
-        const QString sessionName = qApp->property("CopyQ_session_name").toString();
-        const QString title = sessionName.isEmpty()
-                ? tr("%1 - CopyQ",
-                     "Main window title format (%1 is clipboard content label)")
-                  .arg(clipboardContent)
-                : tr("%1 - %2 - CopyQ",
-                     "Main window title format (%1 is clipboard content label, %2 is session name)")
-                  .arg(clipboardContent, sessionName);
-
-        setWindowTitle(title);
-    }
-}
-
-void MainWindow::updateTrayTooltip()
-{
-    if (m_tray) {
-        m_tray->setToolTip(
-                    tr("Clipboard:\n%1", "Tray tooltip format")
-                    .arg(textLabelForData(m_clipboardData)) );
     }
 }
 
@@ -1969,6 +1943,15 @@ const Theme &MainWindow::theme() const
     return m_sharedData->theme;
 }
 
+Action *MainWindow::runScript(const QString &script, const QVariantMap &data)
+{
+    auto act = new Action();
+    act->setCommand(QStringList() << "copyq" << "eval" << "--" << script);
+    act->setData(data);
+    m_actionHandler->action(act);
+    return act;
+}
+
 int MainWindow::findTabIndex(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -2004,47 +1987,17 @@ bool MainWindow::maybeCloseCommandDialog()
     return !m_commandDialog || m_commandDialog->maybeClose(this);
 }
 
-void MainWindow::showMessage(
-        const QString &title,
-        const QString &msg,
-        ushort icon,
-        int msec,
-        const QString &notificationId,
-        const NotificationButtons &buttons)
-{
-    showMessage(title, msg, QString(QChar(icon)), msec, notificationId, buttons);
-}
-
-void MainWindow::showMessage(
-        const QString &title,
-        const QString &msg,
-        const QString &icon,
-        int msec,
-        const QString &notificationId,
-        const NotificationButtons &buttons)
-{
-    notificationDaemon()->create(title, msg, icon, msec, notificationId, buttons);
-}
-
-void MainWindow::showClipboardMessage(const QVariantMap &data)
-{
-    if ( m_options.itemPopupInterval != 0 && m_options.clipboardNotificationLines > 0) {
-        const QString clipboardNotificationId = "CopyQ_clipboard_notification";
-        if (data.isEmpty()) {
-            notificationDaemon()->removeNotification(clipboardNotificationId);
-        } else {
-            notificationDaemon()->create(
-                        data, m_options.clipboardNotificationLines, QString(QChar(IconPaste)),
-                        m_options.itemPopupInterval * 1000, clipboardNotificationId,
-                        NotificationButtons() );
-        }
-    }
-}
-
 void MainWindow::showError(const QString &msg)
 {
-    showMessage( tr("CopyQ Error", "Notification error message title"),
-                 msg, IconRemoveSign );
+    auto notification = createNotification();
+    notification->setTitle( tr("CopyQ Error", "Notification error message title") );
+    notification->setMessage(msg);
+    notification->setIcon(IconRemoveSign);
+}
+
+Notification *MainWindow::createNotification(const QString &id)
+{
+    return notificationDaemon()->createNotification(id);
 }
 
 void MainWindow::addCommands(const QVector<Command> &commands)
@@ -2347,8 +2300,6 @@ void MainWindow::loadSettings()
     m_options.trayTabName = appConfig.option<Config::tray_tab>();
     m_options.trayImages = appConfig.option<Config::tray_images>();
     m_options.trayMenuOpenOnLeftClick = appConfig.option<Config::tray_menu_open_on_left_click>();
-    m_options.itemPopupInterval = appConfig.option<Config::item_popup_interval>();
-    m_options.clipboardNotificationLines = appConfig.option<Config::clipboard_notification_lines>();
     m_options.clipboardTab = appConfig.option<Config::clipboard_tab>();
 
     m_trayMenu->setStyleSheet( theme().getToolTipStyleSheet() );
@@ -2623,13 +2574,6 @@ void MainWindow::tabCloseRequested(int tab)
     removeTab(true, tab);
 }
 
-void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
-{
-    auto c = tab(tabName);
-    if (c)
-        c->addUnique(data);
-}
-
 QVariant MainWindow::config(const QStringList &nameValue)
 {
     ConfigurationManager configurationManager;
@@ -2732,6 +2676,12 @@ QColor MainWindow::sessionIconTagColor() const
     return ::sessionIconTagColor();
 }
 
+void MainWindow::setTrayTooltip(const QString &tooltip)
+{
+    if (m_tray)
+        m_tray->setToolTip(tooltip);
+}
+
 bool MainWindow::setMenuItemEnabled(int actionId, const Command &command, bool enabled)
 {
     auto menu = actionId == m_currentItemMenuCommandId ? m_menuItem
@@ -2790,7 +2740,7 @@ void MainWindow::runAutomaticCommands(QVariantMap data)
 {
     const bool isClipboard = isClipboardData(data);
     if (isClipboard)
-        updateTitle(QVariantMap());
+        clearTitleAndNotification();
 
     setTextData(&data, defaultTabName(), mimeCurrentTab);
 
@@ -2803,9 +2753,7 @@ void MainWindow::runAutomaticCommands(QVariantMap data)
     if ( needSyncSelectionToClipboard(data) )
         data.insert(mimeSyncToClipboard, QByteArray());
 
-    Command c;
-    c.cmd = "copyq runAutomaticCommands";
-    const auto act = action(data, c);
+    const auto act = runScript("onClipboardChanged()", data);
     if (isClipboard)
         m_currentAutomaticCommandId = act->id();
     else
@@ -2826,13 +2774,12 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
 {
     // Don't process the data further if any running clipboard monitor set the clipboard.
     if ( !ownsClipboardData(data)
-         && !isClipboardDataHidden(data)
-         && containsAnyData(data) )
+         && !isClipboardDataHidden(data) )
     {
         runAutomaticCommands(data);
     } else if (isClipboardData(data)) {
         m_currentAutomaticCommandId = -1;
-        updateTitle(data);
+        runScript("updateTitle(); showDataNotification()", data);
     }
 
     // Some menu commands may depend on clipboard content.
@@ -2895,7 +2842,7 @@ void MainWindow::disableClipboardStoring(bool disable)
     updateIconSnip();
 
     if (m_clipboardStoringDisabled)
-        updateTitle(QVariantMap());
+        clearTitleAndNotification();
 
     COPYQ_LOG( QString("Clipboard monitoring %1.")
                .arg(m_clipboardStoringDisabled ? "disabled" : "enabled") );
@@ -2955,7 +2902,6 @@ void MainWindow::createTrayIfSupported()
         connect( m_tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                  this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
         updateIcon();
-        updateTrayTooltip();
         m_tray->setContextMenu(m_trayMenu);
         m_tray->show();
 

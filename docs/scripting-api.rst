@@ -854,6 +854,41 @@ omitted.
 
    Throws exception is the color name is invalid.
 
+.. js:function:: onClipboardChanged()
+
+   Called when clipboard or X11 selection changes.
+
+   By default executes automatic commands and if these don't call `ignore()`
+   or have "Remove Item" or "Transform" check box enabled, calls:
+
+   - `synchronizeSelection()`
+   - `saveData()`
+   - `updateTitle()`
+   - `showDataNotification()`
+
+.. js:function:: updateTitle()
+
+   Update main window title and tool tip from current data.
+
+   Called when clipboard changes.
+
+.. js:function:: setTitle([title])
+
+   Set main window title and tool tip.
+
+.. js:function:: synchronizeSelection()
+
+   Synchronize current data with clipboard and X11 selection
+   (depends on `mimeSyncToSelection` and `mimeSyncToClipboard`).
+
+.. js:function:: saveData()
+
+   Save current data (depends on `mimeOutputTab`).
+
+.. js:function:: showDataNotification()
+
+   Show notification for current data.
+
 Types
 -----
 
