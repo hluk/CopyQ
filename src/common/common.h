@@ -20,33 +20,21 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <QClipboard>
-#include <QFont>
-#include <QFontMetrics>
-#include <QString>
+#include "common/clipboardmode.h"
+
 #include <QtGlobal> // Q_WS_*
 #include <QVariantMap>
-
-#ifdef COPYQ_DEBUG
-#   include <QDebug>
-#   define QDEBUG() qDebug()
-#else
-#   define QDEBUG() if (false) DummyDebug()
-class DummyDebug {
-public:
-    template <typename T>
-    DummyDebug operator<<(T&&) { return DummyDebug(); }
-};
-#endif
 
 class QAction;
 class QByteArray;
 class QDropEvent;
+class QFont;
 class QIODevice;
 class QKeyEvent;
 class QMimeData;
 class QPoint;
 class QProcess;
+class QString;
 class QStringList;
 class QTemporaryFile;
 class QTimer;
@@ -71,7 +59,7 @@ class QWidget;
 
 bool isMainThread();
 
-const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
+const QMimeData *clipboardData(ClipboardMode mode = ClipboardMode::Clipboard);
 
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */
 QVariantMap cloneData(const QMimeData &data, QStringList formats);
@@ -99,8 +87,8 @@ bool ownsClipboardData(const QVariantMap &data);
  *
  * @return shortened text (or same text if not too long)
  */
-QString elideText(const QString &text, const QFont &font = QFont(),
-                  const QString &format = QString(), bool escapeAmpersands = false,
+QString elideText(const QString &text, const QFont &font,
+                  const QString &format, bool escapeAmpersands = false,
                   int maxWidthPixels = -1, int maxLines = 1);
 
 /**
@@ -116,19 +104,21 @@ QString elideText(const QString &text, const QFont &font = QFont(),
  *
  * @return result text
  */
-QString textLabelForData(const QVariantMap &data, const QFont &font = QFont(),
-                         const QString &format = QString(), bool escapeAmpersands = false,
+QString textLabelForData(const QVariantMap &data, const QFont &font,
+                         const QString &format, bool escapeAmpersands = false,
                          int maxWidthPixels = -1, int maxLines = 1);
+
+QString textLabelForData(const QVariantMap &data);
 
 void renameToUnique(QString *name, const QStringList &names);
 
-bool openTemporaryFile(QTemporaryFile *file, const QString &suffix = ".ini");
+bool openTemporaryFile(QTemporaryFile *file, const QString &suffix);
 
 void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object = nullptr, const char *slot = nullptr);
 
 QString dataToText(const QByteArray &bytes, const QString &mime);
 
-bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data);
+bool clipboardContains(ClipboardMode mode, const QVariantMap &data);
 
 bool isClipboardData(const QVariantMap &data);
 

@@ -20,10 +20,11 @@
 #ifndef SCRIPTABLEPROXY_H
 #define SCRIPTABLEPROXY_H
 
+#include "common/clipboardmode.h"
+#include "common/command.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/notificationbutton.h"
 
-#include <QClipboard>
 #include <QList>
 #include <QMetaObject>
 #include <QObject>
@@ -35,8 +36,6 @@ class MainWindow;
 class QPersistentModelIndex;
 class QPixmap;
 class QPoint;
-
-struct Command;
 
 struct NamedValue {
     NamedValue() {}
@@ -52,6 +51,8 @@ Q_DECLARE_METATYPE(NotificationButtons)
 Q_DECLARE_METATYPE(QList<QVariantMap>)
 Q_DECLARE_METATYPE(QVector<QVariantMap>)
 Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
+Q_DECLARE_METATYPE(Command)
+Q_DECLARE_METATYPE(ClipboardMode)
 
 #if QT_VERSION < 0x050000
 Q_DECLARE_METATYPE(QList<int>)
@@ -64,8 +65,10 @@ QDataStream &operator<<(QDataStream &out, const QList<QVariantMap> &list);
 QDataStream &operator>>(QDataStream &in, QList<QVariantMap> &list);
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list);
 QDataStream &operator>>(QDataStream &in, NamedValueList &list);
-QDataStream &operator<<(QDataStream &out, const Command &list);
+QDataStream &operator<<(QDataStream &out, const Command &command);
 QDataStream &operator>>(QDataStream &in, Command &command);
+QDataStream &operator<<(QDataStream &out, ClipboardMode mode);
+QDataStream &operator>>(QDataStream &in, ClipboardMode &mode);
 
 class ScriptableProxy : public QObject
 {
@@ -91,13 +94,11 @@ public slots:
     bool pasteToCurrentWindow();
     bool copyFromCurrentWindow();
 
-    void abortAutomaticCommands();
-
     bool isMonitoringEnabled();
     bool isMainWindowVisible();
     bool isMainWindowFocused();
     void disableMonitoring(bool arg1);
-    void setClipboard(const QVariantMap &data, int mode);
+    void setClipboard(const QVariantMap &data, ClipboardMode mode);
 
     QString renameTab(const QString &arg1, const QString &arg2);
 
@@ -145,8 +146,8 @@ public slots:
     QVariant config(const QStringList &nameValue);
     QVariant toggleConfig(const QString &optionName);
 
-    QByteArray getClipboardData(const QString &mime, int mode = QClipboard::Clipboard);
-    bool hasClipboardFormat(const QString &mime, int mode = QClipboard::Clipboard);
+    QByteArray getClipboardData(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
+    bool hasClipboardFormat(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
 
     int browserLength();
     bool browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
@@ -191,8 +192,7 @@ public slots:
 
     void setUserValue(const QString &key, const QVariant &value);
 
-    void updateFirstItem(const QVariantMap &data);
-    void updateTitle(const QVariantMap &data);
+    void automaticCommandsFinished(int actionId, QVariantMap data);
     void setSelectedItemsData(const QString &mime, const QVariant &value);
 
     void filter(const QString &text);
@@ -219,6 +219,10 @@ public slots:
 
     QString iconTagColor();
     bool setIconTagColor(const QString &name);
+
+    bool enableMenuItem(int actionId, const Command &command, bool enabled);
+
+    QVariantMap setDisplayData(int actionId, const QVariantMap &displayData);
 
 signals:
     void sendFunctionCall(const QByteArray &bytes);

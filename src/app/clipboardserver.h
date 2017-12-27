@@ -21,6 +21,7 @@
 #define CLIPBOARDSERVER_H
 
 #include "app.h"
+#include "common/clipboardmode.h"
 #include "common/server.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/mainwindow.h"
@@ -28,7 +29,6 @@
 #include <QMap>
 #include <QProcess>
 #include <QTimer>
-#include <QThreadPool>
 #include <QVariantMap>
 #include <QWidget>
 
@@ -72,7 +72,7 @@ public:
 
 public slots:
     /** Load @a item data to clipboard. */
-    void changeClipboard(const QVariantMap &data, QClipboard::Mode mode);
+    void changeClipboard(const QVariantMap &data, ClipboardMode mode);
 
     /** Load settings. */
     void loadSettings();
@@ -134,7 +134,6 @@ private:
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;
-    QVector<Command> m_scriptCommands;
 
     struct ClientData {
         ClientData() = default;

@@ -20,7 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "common/commandtester.h"
+#include "common/clipboardmode.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/menuitems.h"
 #include "gui/notificationbutton.h"
@@ -29,7 +29,6 @@
 #include "platform/platformnativeinterface.h"
 
 #include <QAction>
-#include <QClipboard>
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QPointer>
@@ -289,13 +288,7 @@ public:
     /** Return true only if monitoring is enabled. */
     bool isMonitoringEnabled() const;
 
-    /** Abort execution of automatic commands. */
-    void abortAutomaticCommands();
-
     QStringList tabs() const;
-
-    /** Update the first item in the first tab. */
-    void updateFirstItem(QVariantMap data);
 
     /// Used by config() command.
     QVariant config(const QStringList &nameValue);
@@ -316,6 +309,10 @@ public:
     QString sessionIconTag() const;
 
     QColor sessionIconTagColor() const;
+
+    bool setMenuItemEnabled(int actionId, const Command &command, bool enabled);
+
+    QVariantMap setDisplayData(int actionId, const QVariantMap &data);
 
 public slots:
     /** Close main window and exit the application. */
@@ -405,7 +402,7 @@ public slots:
     void runAutomaticCommands(QVariantMap data);
 
     /** Set clipboard. */
-    void setClipboard(const QVariantMap &data, QClipboard::Mode mode);
+    void setClipboard(const QVariantMap &data, ClipboardMode mode);
 
     /** Set clipboard and synchronize selection if needed. */
     void setClipboard(const QVariantMap &data);
@@ -451,7 +448,8 @@ public slots:
     /** Set window title and tray tool tip from data. */
     void updateTitle(const QVariantMap &data);
 
-    bool canUpdateTitleFromScript() const;
+    int currentAutomaticCommandId() const { return m_currentAutomaticCommandId; }
+    int currentAutomaticCommandSelectionId() const { return m_currentAutomaticCommandSelectionId; }
 
     /** Set text for filtering items. */
     void setFilter(const QString &text);
@@ -488,16 +486,13 @@ public slots:
 
 signals:
     /** Request clipboard change. */
-    void changeClipboard(const QVariantMap &data, QClipboard::Mode mode);
+    void changeClipboard(const QVariantMap &data, ClipboardMode mode);
 
     void tabGroupSelected(bool selected);
 
     void requestExit();
 
     void commandsSaved();
-
-    void stopItemMenuCommandTester();
-    void stopTrayMenuCommandTester();
 
     void configurationChanged();
 
@@ -575,13 +570,6 @@ private slots:
 
     void updateContextMenu(const ClipboardBrowser *browser);
 
-    void automaticCommandTestFinished(const Command &command, bool passed);
-    void displayCommandTestFinished(const Command &command, bool passed);
-
-    QAction *enableActionForCommand(QMenu *menu, const Command &command, bool enable);
-    void addCommandsToItemMenu(const Command &command, bool passed);
-    void addCommandsToTrayMenu(const Command &command, bool passed);
-
     void nextItemFormat();
     void previousItemFormat();
 
@@ -596,7 +584,7 @@ private slots:
 
     void onItemWidgetCreated(const PersistentDisplayItem &item);
 
-    void onDisplayCommandTesterFinished();
+    void onDisplayActionFinished();
 
 private:
     enum TabNameMatching {
@@ -606,13 +594,13 @@ private:
 
     void runDisplayCommands();
 
+    void clearHiddenDisplayData();
+
     void reloadBrowsers();
 
     ClipboardBrowserPlaceholder *createTab(const QString &name, TabNameMatching nameMatch);
 
     int findTabIndexExactMatch(const QString &name);
-
-    void clearTitle() { updateTitle(QVariantMap()); }
 
     /** Create menu bar and tray menu with items. Called once. */
     void createMenu();
@@ -674,7 +662,6 @@ private:
 
     void initTray();
 
-    void runAutomaticCommand(const Command &command);
     void runDisplayCommand(const Command &command);
 
     bool isWindowVisible() const;
@@ -718,7 +705,6 @@ private:
     QPointer<QAction> m_actionToggleClipboardStoring;
 
     ClipboardBrowserSharedPtr m_sharedData;
-    QVector<Command> m_automaticCommands;
     QVector<Command> m_menuCommands;
 
     PlatformWindowPtr m_lastWindow;
@@ -742,13 +728,6 @@ private:
 
     QPointer<CommandDialog> m_commandDialog;
 
-    CommandTester m_itemMenuCommandTester;
-    CommandTester m_trayMenuCommandTester;
-    CommandTester m_automaticCommandTester;
-    CommandTester m_displayCommandTester;
-
-    bool m_canUpdateTitleFromScript;
-
     bool m_iconSnip;
 
     bool m_wasMaximized;
@@ -762,6 +741,14 @@ private:
 
     QList<PersistentDisplayItem> m_displayItemList;
     PersistentDisplayItem m_currentDisplayItem;
+    QPointer<Action> m_currentDisplayAction;
+    bool m_hasDisplayCommands = false;
+
+    int m_currentAutomaticCommandId = 0;
+    int m_currentAutomaticCommandSelectionId = 0;
+
+    int m_currentItemMenuCommandId = 0;
+    int m_currentTrayMenuCommandId = 0;
 
 #ifdef HAS_TESTS
     /// Key clicks sequence number last returned by sendKeyClicks().

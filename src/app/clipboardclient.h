@@ -76,12 +76,10 @@ signals:
 private:
     void abortInputReader();
     bool isInputReaderFinished() const;
-    void start(const QByteArray &data);
+    void start(const QStringList &arguments);
 
     QThread *m_inputReaderThread;
     QByteArray m_input;
-
-    QStringList m_arguments;
 };
 
 #endif // CLIPBOARDCLIENT_H

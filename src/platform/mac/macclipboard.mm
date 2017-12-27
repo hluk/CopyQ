@@ -24,7 +24,6 @@
 #include "common/textdata.h"
 
 #include <QApplication>
-#include <QClipboard>
 #include <QMimeData>
 #include <QTextCodec>
 
@@ -45,7 +44,7 @@ MacClipboard::MacClipboard():
     m_clipboardCheckTimer->start();
 }
 
-QVariantMap MacClipboard::data(Mode mode, const QStringList &formats) const {
+QVariantMap MacClipboard::data(ClipboardMode mode, const QStringList &formats) const {
     Q_UNUSED(mode);
 
     // On OS X, when you copy files in Finder, etc. you get:
@@ -55,8 +54,8 @@ QVariantMap MacClipboard::data(Mode mode, const QStringList &formats) const {
     // We really only want the URI list, so throw the rest away
 
     QStringList macFormats = QStringList(formats); // Copy so we can modify
-    if (mode == PlatformClipboard::Clipboard) {
-        const QMimeData *data = clipboardData(QClipboard::Clipboard);
+    if (mode == ClipboardMode::Clipboard) {
+        const QMimeData *data = clipboardData(ClipboardMode::Clipboard);
 
         if (data && data->formats().contains(mimeUriList) && macFormats.contains(mimeUriList)) {
             macFormats = QStringList() << mimeUriList;
@@ -66,7 +65,7 @@ QVariantMap MacClipboard::data(Mode mode, const QStringList &formats) const {
     return DummyClipboard::data(mode, macFormats);
 }
 
-void MacClipboard::setData(PlatformClipboard::Mode mode, const QVariantMap &dataMap)
+void MacClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
 {
     auto dataMapForMac = dataMap;
 
@@ -93,6 +92,6 @@ void MacClipboard::clipboardTimeout() {
 
     if (newCount != m_prevChangeCount) {
         m_prevChangeCount = newCount;
-        emit changed(PlatformClipboard::Clipboard);
+        emit changed(ClipboardMode::Clipboard);
     }
 }

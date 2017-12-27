@@ -105,8 +105,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( qApp, SIGNAL(saveStateRequest(QSessionManager&)),
              this, SLOT(onSaveState(QSessionManager&)) );
 
-    connect( m_wnd, SIGNAL(changeClipboard(QVariantMap,QClipboard::Mode)),
-             this, SLOT(changeClipboard(QVariantMap,QClipboard::Mode)) );
+    connect( m_wnd, SIGNAL(changeClipboard(QVariantMap,ClipboardMode)),
+             this, SLOT(changeClipboard(QVariantMap,ClipboardMode)) );
 
     connect( m_wnd, SIGNAL(requestExit()),
              this, SLOT(maybeQuit()) );
@@ -206,21 +206,14 @@ void ClipboardServer::removeGlobalShortcuts()
 
 void ClipboardServer::onCommandsSaved()
 {
+#ifndef NO_GLOBAL_SHORTCUTS
     removeGlobalShortcuts();
 
     QList<QKeySequence> usedShortcuts;
 
-    m_scriptCommands.clear();
-
     const auto commands = loadEnabledCommands();
     for (const auto &command : commands) {
-        const auto type = command.type();
-
-        if (type & CommandType::Script)
-            m_scriptCommands.append(command);
-
-#ifndef NO_GLOBAL_SHORTCUTS
-        if (type & CommandType::GlobalShortcut) {
+        if (command.type() & CommandType::GlobalShortcut) {
             for (const auto &shortcutText : command.globalShortcuts) {
                 QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
                 if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
@@ -229,8 +222,8 @@ void ClipboardServer::onCommandsSaved()
                 }
             }
         }
-#endif
     }
+#endif
 }
 
 void ClipboardServer::onAboutToQuit()
@@ -340,28 +333,6 @@ void ClipboardServer::onClientMessageReceived(
 {
     Q_UNUSED(client);
     switch (messageCode) {
-    case CommandGetData: {
-        auto proxy = m_clients.value(client).proxy;
-        if (!proxy)
-            return;
-
-        QVariantMap actionData;
-        if ( !message.isEmpty() ) {
-            QDataStream in(message);
-            int actionId;
-            in >> actionId;
-            Q_ASSERT(in.status() == QDataStream::Ok);
-            actionData = proxy->getActionData(actionId);
-        }
-
-        QByteArray bytes;
-        QDataStream out(&bytes, QIODevice::WriteOnly);
-        out << m_scriptCommands << actionData;
-        Q_ASSERT(out.status() == QDataStream::Ok);
-
-        client->sendMessage(bytes, CommandSetData);
-        break;
-    }
     case CommandFunctionCall: {
         auto proxy = m_clients.value(client).proxy;
         if (!proxy)
@@ -409,7 +380,7 @@ void ClipboardServer::monitorConnectionError(const QString &error)
     startMonitoring();
 }
 
-void ClipboardServer::changeClipboard(const QVariantMap &data, QClipboard::Mode mode)
+void ClipboardServer::changeClipboard(const QVariantMap &data, ClipboardMode mode)
 {
     if ( !isMonitoring() ) {
         COPYQ_LOG("Waiting for monitor to start");
@@ -422,7 +393,7 @@ void ClipboardServer::changeClipboard(const QVariantMap &data, QClipboard::Mode 
     }
 
     const MonitorMessageCode code =
-            mode == QClipboard::Clipboard ? MonitorChangeClipboard : MonitorChangeSelection;
+            mode == ClipboardMode::Clipboard ? MonitorChangeClipboard : MonitorChangeSelection;
 
     const auto message = serializeData(data);
 

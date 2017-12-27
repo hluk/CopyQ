@@ -107,7 +107,7 @@ struct Command {
                (automatic ? CommandType::Automatic : 0)
              | (display ? CommandType::Display : 0)
              | (!globalShortcuts.isEmpty() && !globalShortcuts.contains("DISABLED") ? CommandType::GlobalShortcut : 0)
-             | (inMenu ? CommandType::Menu : 0);
+             | (inMenu && !name.isEmpty() ? CommandType::Menu : 0);
 
         // Scripts cannot be used in other types of commands.
         if (isScript)

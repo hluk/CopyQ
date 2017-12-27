@@ -20,10 +20,10 @@
 #ifndef SCRIPTABLE_H
 #define SCRIPTABLE_H
 
+#include "common/clipboardmode.h"
 #include "common/command.h"
 #include "common/mimetypes.h"
 
-#include <QClipboard>
 #include <QObject>
 #include <QString>
 #include <QScriptable>
@@ -31,7 +31,7 @@
 #include <QVariantMap>
 #include <QVector>
 
-class Arguments;
+class Action;
 class ByteArrayClass;
 class ClipboardBrowser;
 class DirClass;
@@ -149,9 +149,7 @@ public:
 
     QScriptValue eval(const QString &script, const QString &fileName);
 
-    bool sourceScriptCommands(const QVector<Command> &scriptCommands);
-
-    void executeArguments(const QStringList &args, const QVariantMap &actionData);
+    void executeArguments(const QStringList &args);
 
 public slots:
     void setInput(const QByteArray &input);
@@ -296,9 +294,6 @@ public slots:
 
     QScriptValue dateString();
 
-    void updateFirst();
-    void updateTitle();
-
     QScriptValue commands();
     void setCommands();
     void addCommands();
@@ -330,6 +325,12 @@ public slots:
 
     QScriptValue iconTagColor();
 
+    void runAutomaticCommands();
+
+    void runDisplayCommands();
+
+    void runMenuCommandFilters();
+
 public slots:
     void onDisconnected();
 
@@ -343,18 +344,22 @@ private slots:
     void onExecuteOutput(const QStringList &lines);
 
 private:
+    bool sourceScriptCommands();
     void callDisplayFunctions(QScriptValueList displayFunctions);
     QString processUncaughtException(const QString &cmd);
     void showExceptionMessage(const QString &message);
     QList<int> getRows() const;
-    QScriptValue copy(QClipboard::Mode mode);
-    bool setClipboard(QVariantMap *data, QClipboard::Mode mode);
+    QScriptValue copy(ClipboardMode mode);
+    bool setClipboard(QVariantMap *data, ClipboardMode mode);
     void changeItem(bool create);
     void nextToClipboard(int where);
     QScriptValue screenshot(bool select);
     QByteArray serialize(const QScriptValue &value);
     QScriptValue eval(const QString &script);
     QTextCodec *codecFromNameOrThrow(const QScriptValue &codecName);
+    bool runAction(Action *action);
+    bool runCommands(CommandType::CommandType type);
+    bool canExecuteCommand(const Command &command);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
@@ -365,7 +370,7 @@ private:
     QString m_inputSeparator;
     QScriptValue m_input;
     QVariantMap m_data;
-    QString m_actionName;
+    int m_actionId = -1;
     bool m_connected;
     int m_skipArguments = 0;
 

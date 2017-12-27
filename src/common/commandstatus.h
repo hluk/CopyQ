@@ -34,9 +34,6 @@ enum CommandStatus {
     /** Print on stdout */
     CommandPrint = 5,
 
-    CommandGetData = 6,
-    CommandSetData = 7,
-
     CommandFunctionCall = 8,
     CommandFunctionCallReturnValue = 9,
 };

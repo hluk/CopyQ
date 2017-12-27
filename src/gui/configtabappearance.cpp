@@ -219,7 +219,7 @@ void ConfigTabAppearance::on_comboBoxThemes_activated(const QString &text)
 void ConfigTabAppearance::onThemeModified(const QByteArray &bytes)
 {
     QTemporaryFile tmpfile;
-    if ( !openTemporaryFile(&tmpfile) )
+    if ( !openTemporaryFile(&tmpfile, ".ini") )
         return;
 
     tmpfile.write(bytes);

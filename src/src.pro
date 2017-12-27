@@ -114,7 +114,6 @@ HEADERS += \
     scriptable/dirprototype.h \
     gui/commandaction.h \
     gui/addcommanddialog.h \
-    common/commandtester.h \
     gui/filtercompleter.h \
     common/sleeptimer.h \
     tests/test_utils.h \
@@ -213,7 +212,6 @@ SOURCES += \
     scriptable/dirprototype.cpp \
     gui/commandaction.cpp \
     gui/addcommanddialog.cpp \
-    common/commandtester.cpp \
     gui/filtercompleter.cpp \
     gui/filedialog.cpp \
     gui/windowgeometryguard.cpp \

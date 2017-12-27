@@ -35,13 +35,14 @@ CommandAction::CommandAction(
     : QAction(parentMenu)
     , m_command(command)
 {
-    setText( elideText(name, parentMenu->font()) );
+    setText( elideText(name, parentMenu->font(), QString()) );
 
     setIcon( iconFromFile(m_command.icon) );
     if (m_command.icon.size() == 1)
         setProperty( "CopyQ_icon_id", m_command.icon[0].unicode() );
 
     connect(this, SIGNAL(triggered()), this, SLOT(onTriggered()));
+    connect(this, SIGNAL(changed()), this, SLOT(onChanged()));
 
     parentMenu->addAction(this);
 }
@@ -66,4 +67,12 @@ void CommandAction::onTriggered()
     const auto triggeredShortcut = m_triggeredShortcut;
     m_triggeredShortcut.clear();
     emit triggerCommand(this, triggeredShortcut);
+}
+
+void CommandAction::onChanged()
+{
+    if (m_wasEnabled != isEnabled()) {
+        m_wasEnabled = isEnabled();
+        emit enabled(m_wasEnabled);
+    }
 }

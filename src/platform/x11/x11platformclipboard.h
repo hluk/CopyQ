@@ -22,7 +22,6 @@
 
 #include "platform/dummy/dummyclipboard.h"
 
-#include <QClipboard>
 #include <QStringList>
 #include <QTimer>
 
@@ -38,13 +37,14 @@ public:
 
     void loadSettings(const QVariantMap &settings) override;
 
-    QVariantMap data(Mode mode, const QStringList &formats) const override;
+    QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
 
-    void setData(Mode mode, const QVariantMap &dataMap) override;
+    void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
+
+protected:
+    void onChanged(int mode) override;
 
 private slots:
-    void onChanged(QClipboard::Mode mode) override;
-
     void onClipboardChanged();
     void onSelectionChanged();
 

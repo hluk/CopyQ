@@ -25,7 +25,6 @@
 
 #include <QAbstractItemModel>
 #include <QApplication>
-#include <QClipboard>
 #include <QDesktopServices>
 #include <QEvent>
 #include <QFont>

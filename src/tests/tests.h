@@ -194,11 +194,12 @@ private slots:
     void automaticCommandSetData();
     void automaticCommandOutputTab();
     void automaticCommandNoOutputTab();
+    void automaticCommandChaining();
 
     void scriptCommandLoaded();
     void scriptCommandAddFunction();
     void scriptCommandOverrideFunction();
-    void scriptCommandDisplayItem();
+    void displayCommand();
 
 private:
     void clearServerErrors();
