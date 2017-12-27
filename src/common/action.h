@@ -115,8 +115,6 @@ public slots:
     void terminate();
 
 signals:
-    /** Emitted on error. */
-    void actionError(Action *act);
     /** Emitted when finished. */
     void actionFinished(Action *act);
     /** Emitter when started. */

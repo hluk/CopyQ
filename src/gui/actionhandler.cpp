@@ -124,8 +124,6 @@ void ActionHandler::action(Action *action)
              this, SLOT(actionStarted(Action*)) );
     connect( action, SIGNAL(actionFinished(Action*)),
              this, SLOT(closeAction(Action*)) );
-    connect( action, SIGNAL(actionError(Action*)),
-             this, SLOT(closeAction(Action*)) );
 
     ++m_actionCounter;
 
