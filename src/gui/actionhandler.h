@@ -51,7 +51,7 @@ public:
      */
     ActionDialog *createActionDialog(const QStringList &tabs);
 
-    bool hasRunningAction() const;
+    int runningActionCount() const { return m_actions.size(); }
 
     /** Open dialog with active commands. */
     void showProcessManagerDialog();
@@ -87,7 +87,6 @@ private slots:
 private:
     MainWindow *m_wnd;
     QPointer<Action> m_lastAction;
-    int m_actionCounter;
     ProcessManagerDialog *m_activeActionDialog;
     QString m_currentTabName;
     Command m_lastActionDialogCommand;

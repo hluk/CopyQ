@@ -20,50 +20,39 @@
 #ifndef CLIPBOARDMONITOR_H
 #define CLIPBOARDMONITOR_H
 
-#include "app.h"
-#include "client.h"
-
 #include "platform/platformnativeinterface.h"
 #include "platform/platformclipboard.h"
 
 #include <QTimer>
 #include <QVariantMap>
 
-/**
- * Monitors clipboard and sends new clipboard data to server.
- * Server can send back new data for clipboard.
- *
- * Only the monitor should change the clipboard content.
- *
- * After monitor is executed it needs to be configured by sending special data
- * packet containing configuration.
- */
-class ClipboardMonitor : public Client, public App
+class ClipboardMonitor : public QObject
 {
     Q_OBJECT
 
 public:
-    ClipboardMonitor(int &argc, char **argv, const QString &serverName, const QString &sessionName);
+    explicit ClipboardMonitor(const QStringList &formats);
+
+signals:
+    void runScriptRequest(const QString &script, const QVariantMap &data);
 
 private slots:
     void onClipboardChanged(ClipboardMode mode);
 
-    void onMessageReceived(const QByteArray &message, int messageCode) override;
-
-    void onDisconnected() override;
-
-    void onConnectionFailed() override;
-
-    void setNewClipboard();
-
 private:
-    void setNewClipboard(ClipboardMode mode);
+    struct ClipboardData {
+        QVariantMap lastData;
+        bool runAutomaticCommands = false;
+    };
+
+    bool m_executingAutomaticCommands = false;
+    ClipboardData m_clipboardData;
+    ClipboardData m_selectionData;
+
+    void runAutomaticCommands();
 
     PlatformClipboardPtr m_clipboard;
     QStringList m_formats;
-    QVariantMap m_lastData[2]; /// Last data sent for each clipboard mode
-    QMap<ClipboardMode, QVariantMap> m_newData; /// New data to set for each clipboard mode
-    QTimer m_timerSetNewClipboard;
 };
 
 #endif // CLIPBOARDMONITOR_H

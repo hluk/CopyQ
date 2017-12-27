@@ -19,10 +19,12 @@
 
 #include "clipboardmonitor.h"
 
+#include "common/action.h"
+#include "common/appconfig.h"
 #include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
-#include "common/monitormessagecode.h"
+#include "common/textdata.h"
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
 #include "platform/platformwindow.h"
@@ -55,32 +57,72 @@ bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
     return true;
 }
 
-} // namespace
-
-ClipboardMonitor::ClipboardMonitor(int &argc, char **argv, const QString &serverName, const QString &sessionName)
-    : Client()
-    , App("Monitor", createPlatformNativeInterface()->createMonitorApplication(argc, argv),
-          sessionName)
-    , m_clipboard(createPlatformNativeInterface()->clipboard())
+#ifdef HAS_MOUSE_SELECTIONS
+bool needSyncClipboardToSelection(const QVariantMap &data)
 {
-    restoreSettings();
+    return isClipboardData(data)
+            && AppConfig().option<Config::copy_clipboard>()
+            && !clipboardContains(ClipboardMode::Selection, data);
+}
 
-#ifdef HAS_TESTS
-    if ( serverName == QString("copyq_TEST") )
-        qApp->setProperty("CopyQ_testing", true);
+bool needSyncSelectionToClipboard(const QVariantMap &data)
+{
+    return !isClipboardData(data)
+            && AppConfig().option<Config::copy_selection>()
+            && !clipboardContains(ClipboardMode::Clipboard, data);
+}
+
+bool needStore(const QVariantMap &data)
+{
+    return isClipboardData(data)
+            ? AppConfig().option<Config::check_clipboard>()
+            : AppConfig().option<Config::check_selection>();
+}
+#else
+bool needSyncClipboardToSelection(const QVariantMap &)
+{
+    return false;
+}
+
+bool needSyncSelectionToClipboard(const QVariantMap &)
+{
+    return false;
+}
+
+bool needStore(const QVariantMap &data)
+{
+    return isClipboardData(data)
+            && AppConfig().option<Config::check_clipboard>();
+}
 #endif
 
-    startClientSocket(serverName);
+bool isClipboardDataHidden(const QVariantMap &data)
+{
+    return data.value(mimeHidden).toByteArray() == "1";
+}
 
-    initSingleShotTimer( &m_timerSetNewClipboard, 0, this, SLOT(setNewClipboard()) );
+} // namespace
+
+ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
+    : m_clipboard(createPlatformNativeInterface()->clipboard())
+    , m_formats(formats)
+{
+    // TODO: Remove or simplify PlatformClipboard::loadSettings().
+    QVariantMap settings;
+    settings.insert("formats", m_formats);
+    m_clipboard->loadSettings(settings);
+
+    connect( m_clipboard.get(), SIGNAL(changed(ClipboardMode)),
+             this, SLOT(onClipboardChanged(ClipboardMode)) );
 }
 
 void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
 {
     QVariantMap data = m_clipboard->data(mode, m_formats);
-    QVariantMap &lastData = m_lastData[mode == ClipboardMode::Clipboard ? 0 : 1];
+    auto clipboardData = mode == ClipboardMode::Clipboard
+            ? &m_clipboardData : &m_selectionData;
 
-    if ( hasSameData(data, lastData) ) {
+    if ( hasSameData(data, clipboardData->lastData) ) {
         COPYQ_LOG( QString("Ignoring unchanged %1")
                    .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
         return;
@@ -104,81 +146,51 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
             data.insert( mimeWindowTitle, currentWindow->getTitle().toUtf8() );
     }
 
-    sendMessage( serializeData(data), MonitorClipboardChanged );
-    lastData = data;
+    clipboardData->lastData = data;
+    clipboardData->runAutomaticCommands = true;
+    runAutomaticCommands();
 }
 
-void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageCode)
+void ClipboardMonitor::runAutomaticCommands()
 {
-    if (messageCode == MonitorPing) {
-        sendMessage( QByteArray(), MonitorPong );
-    } else if (messageCode == MonitorSettings) {
-        QVariantMap settings;
-        QDataStream stream(message);
-        stream >> settings;
-
-        if ( hasLogLevel(LogDebug) ) {
-            COPYQ_LOG("Loading configuration:");
-            for (auto it = settings.constBegin(); it != settings.constEnd(); ++it) {
-                const auto &key = it.key();
-                const auto &val = it.value();
-                const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
-                                                                  : val.toString();
-                COPYQ_LOG( QString(" %1=%2").arg(key, str) );
-            }
-        }
-
-        if ( settings.contains("formats") )
-            m_formats = settings["formats"].toStringList();
-
-        connect( m_clipboard.get(), SIGNAL(changed(ClipboardMode)),
-                 this, SLOT(onClipboardChanged(ClipboardMode)),
-                 Qt::UniqueConnection );
-
-        m_clipboard->loadSettings(settings);
-
-        COPYQ_LOG("Configured");
-    } else if (messageCode == MonitorChangeClipboard
-            || messageCode == MonitorChangeSelection)
-    {
-        COPYQ_LOG( QString("Received change %1 request (%2 KiB)")
-                   .arg(messageCode == MonitorChangeClipboard ? "clipboard" : "selection")
-                   .arg(message.size() / 1024.0) );
-
-        QVariantMap data;
-        deserializeData(&data, message);
-        // Set clipboard after processing all messages and returning to event loop which is safer.
-        if (messageCode == MonitorChangeClipboard)
-            m_newData.insert(ClipboardMode::Clipboard, data);
-        if (messageCode == MonitorChangeSelection)
-            m_newData.insert(ClipboardMode::Selection, data);
-        m_timerSetNewClipboard.start();
-    } else {
-        log( QString("Unknown message code %1!").arg(messageCode), LogError );
-    }
-}
-
-void ClipboardMonitor::onDisconnected()
-{
-    exit(0);
-}
-
-void ClipboardMonitor::onConnectionFailed()
-{
-    exit(1);
-}
-
-void ClipboardMonitor::setNewClipboard()
-{
-    if ( m_timerSetNewClipboard.isActive() )
+    if (m_executingAutomaticCommands)
         return;
 
-    setNewClipboard(ClipboardMode::Clipboard);
-    setNewClipboard(ClipboardMode::Selection);
-}
+    for (;;) {
+        ClipboardData *clipboardData = nullptr;
+        if (m_clipboardData.runAutomaticCommands) {
+            clipboardData = &m_clipboardData;
+        } else if (m_selectionData.runAutomaticCommands) {
+            clipboardData = &m_selectionData;
+        }
 
-void ClipboardMonitor::setNewClipboard(ClipboardMode mode)
-{
-    if ( m_newData.contains(mode) )
-        m_clipboard->setData( mode, m_newData.take(mode) );
+        if (clipboardData == nullptr)
+            return;
+
+        m_executingAutomaticCommands = true;
+
+        clipboardData->runAutomaticCommands = false;
+        auto &data = clipboardData->lastData;
+
+        if ( ownsClipboardData(data) || isClipboardDataHidden(data) ) {
+            emit runScriptRequest("updateTitle(); showDataNotification()", data);
+        } else {
+            setTextData(&data, defaultTabName(), mimeCurrentTab);
+
+            if ( needStore(data) ) {
+                const auto clipboardTab = AppConfig().option<Config::clipboard_tab>();
+                setTextData(&data, clipboardTab, mimeOutputTab);
+            }
+
+            if ( needSyncClipboardToSelection(data) )
+                data.insert(mimeSyncToSelection, QByteArray());
+
+            if ( needSyncSelectionToClipboard(data) )
+                data.insert(mimeSyncToClipboard, QByteArray());
+
+            emit runScriptRequest("onClipboardChanged()", data);
+        }
+
+        m_executingAutomaticCommands = false;
+    }
 }

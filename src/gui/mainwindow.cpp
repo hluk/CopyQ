@@ -58,6 +58,7 @@
 #include "gui/windowgeometryguard.h"
 #include "item/itemfactory.h"
 #include "item/serialize.h"
+#include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 
@@ -270,50 +271,6 @@ void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
     }
 }
 
-bool isClipboardDataHidden(const QVariantMap &data)
-{
-    return data.value(mimeHidden).toByteArray() == "1";
-}
-
-#ifdef HAS_MOUSE_SELECTIONS
-bool needSyncClipboardToSelection(const QVariantMap &data)
-{
-    return isClipboardData(data)
-            && AppConfig().option<Config::copy_clipboard>()
-            && !clipboardContains(ClipboardMode::Selection, data);
-}
-
-bool needSyncSelectionToClipboard(const QVariantMap &data)
-{
-    return !isClipboardData(data)
-            && AppConfig().option<Config::copy_selection>()
-            && !clipboardContains(ClipboardMode::Clipboard, data);
-}
-
-bool needStore(const QVariantMap &data)
-{
-    return isClipboardData(data)
-            ? AppConfig().option<Config::check_clipboard>()
-            : AppConfig().option<Config::check_selection>();
-}
-#else
-bool needSyncClipboardToSelection(const QVariantMap &)
-{
-    return false;
-}
-
-bool needSyncSelectionToClipboard(const QVariantMap &)
-{
-    return false;
-}
-
-bool needStore(const QVariantMap &data)
-{
-    return isClipboardData(data)
-            && AppConfig().option<Config::check_clipboard>();
-}
-#endif
-
 template <typename Dialog>
 Dialog *openDialog(QWidget *dialogParent)
 {
@@ -324,12 +281,6 @@ Dialog *openDialog(QWidget *dialogParent)
     dialog->activateWindow();
     dialog->show();
     return dialog.release();
-}
-
-QString defaultTabName()
-{
-    const QString tab = AppConfig().option<Config::clipboard_tab>();
-    return tab.isEmpty() ? defaultClipboardTabName() : tab;
 }
 
 bool isItemActivationShortcut(const QKeySequence &shortcut)
@@ -766,7 +717,7 @@ void MainWindow::updateIcon()
 
 void MainWindow::updateIconSnipTimeout()
 {
-    const bool shouldSnip = hasRunningAction() || m_clipboardStoringDisabled;
+    const bool shouldSnip = m_actionHandler->runningActionCount() != 1;
     if (m_iconSnip != shouldSnip) {
         m_iconSnip = shouldSnip;
         m_timerTrayIconSnip.start(250);
@@ -1074,11 +1025,6 @@ void MainWindow::runDisplayCommands()
              this, SLOT(onDisplayActionFinished()) );
 }
 
-void MainWindow::clearTitleAndNotification()
-{
-    runScript("setTitle(); showDataNotification()");
-}
-
 void MainWindow::clearHiddenDisplayData()
 {
     for (int i = m_displayItemList.size() - 1; i >= 0; --i) {
@@ -1109,6 +1055,7 @@ int MainWindow::findTabIndexExactMatch(const QString &name)
 void MainWindow::setClipboardData(const QVariantMap &data)
 {
     m_clipboardData = data;
+    updateContextMenu();
     updateTrayMenuItems();
 }
 
@@ -1948,7 +1895,7 @@ Action *MainWindow::runScript(const QString &script, const QVariantMap &data)
     auto act = new Action();
     act->setCommand(QStringList() << "copyq" << "eval" << "--" << script);
     act->setData(data);
-    m_actionHandler->action(act);
+    runAction(act);
     return act;
 }
 
@@ -1979,7 +1926,7 @@ ClipboardBrowser *MainWindow::tab(const QString &name)
 
 bool MainWindow::hasRunningAction() const
 {
-    return m_actionHandler->hasRunningAction();
+    return m_actionHandler->runningActionCount() > 0;
 }
 
 bool MainWindow::maybeCloseCommandDialog()
@@ -2736,30 +2683,6 @@ QVariantMap MainWindow::setDisplayData(int actionId, const QVariantMap &data)
     return m_currentDisplayItem.data();
 }
 
-void MainWindow::runAutomaticCommands(QVariantMap data)
-{
-    const bool isClipboard = isClipboardData(data);
-    if (isClipboard)
-        clearTitleAndNotification();
-
-    setTextData(&data, defaultTabName(), mimeCurrentTab);
-
-    if ( needStore(data) )
-        setTextData(&data, m_options.clipboardTab, mimeOutputTab);
-
-    if ( needSyncClipboardToSelection(data) )
-        data.insert(mimeSyncToSelection, QByteArray());
-
-    if ( needSyncSelectionToClipboard(data) )
-        data.insert(mimeSyncToClipboard, QByteArray());
-
-    const auto act = runScript("onClipboardChanged()", data);
-    if (isClipboard)
-        m_currentAutomaticCommandId = act->id();
-    else
-        m_currentAutomaticCommandSelectionId = act->id();
-}
-
 void MainWindow::nextTab()
 {
     ui->tabWidget->nextTab();
@@ -2770,25 +2693,18 @@ void MainWindow::previousTab()
     ui->tabWidget->previousTab();
 }
 
-void MainWindow::clipboardChanged(const QVariantMap &data)
-{
-    // Don't process the data further if any running clipboard monitor set the clipboard.
-    if ( !ownsClipboardData(data)
-         && !isClipboardDataHidden(data) )
-    {
-        runAutomaticCommands(data);
-    } else if (isClipboardData(data)) {
-        m_currentAutomaticCommandId = -1;
-        runScript("updateTitle(); showDataNotification()", data);
-    }
-
-    // Some menu commands may depend on clipboard content.
-    updateContextMenu();
-}
-
 void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
-    emit changeClipboard(data, mode);
+    // Set clipboard directly so it's immediatelly available.
+    // move to subprocess so it GUI don't have to provide huge clipboard data.
+    createPlatformNativeInterface()->clipboard()->setData(mode, data);
+
+    const auto argument = mode == ClipboardMode::Clipboard
+            ? "provideClipboard" : "provideSelection";
+    auto act = new Action();
+    act->setCommand(QStringList() << "copyq" << argument);
+    act->setData(data);
+    runAction(act);
 }
 
 void MainWindow::setClipboard(const QVariantMap &data)
@@ -2837,12 +2753,13 @@ void MainWindow::disableClipboardStoring(bool disable)
         return;
 
     m_clipboardStoringDisabled = disable;
+    emit disableClipboardStoringRequest(disable);
 
     updateMonitoringActions();
     updateIconSnip();
 
     if (m_clipboardStoringDisabled)
-        clearTitleAndNotification();
+        runScript("setTitle(); showDataNotification()");
 
     COPYQ_LOG( QString("Clipboard monitoring %1.")
                .arg(m_clipboardStoringDisabled ? "disabled" : "enabled") );
@@ -3381,6 +3298,11 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
     }
 
     return nullptr;
+}
+
+void MainWindow::runAction(Action *action)
+{
+    m_actionHandler->action(action);
 }
 
 void MainWindow::newTab(const QString &name)

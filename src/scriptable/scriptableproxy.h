@@ -219,6 +219,7 @@ public slots:
     QString iconTagColor();
     bool setIconTagColor(const QString &name);
 
+    void setClipboardData(const QVariantMap &data);
     void setTitle(const QString &title);
     void setTitleForData(const QVariantMap &data);
     void saveData(const QString &tab, const QVariantMap &data);

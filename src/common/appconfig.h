@@ -27,6 +27,7 @@
 class QString;
 
 QString defaultClipboardTabName();
+QString defaultTabName();
 
 namespace Config {
 

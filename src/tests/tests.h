@@ -25,7 +25,6 @@
 #include <QObject>
 #include <QStringList>
 
-class RemoteProcess;
 class QProcess;
 class QByteArray;
 

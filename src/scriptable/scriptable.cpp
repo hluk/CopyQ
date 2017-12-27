@@ -19,6 +19,7 @@
 
 #include "scriptable.h"
 
+#include "app/clipboardmonitor.h"
 #include "common/action.h"
 #include "common/command.h"
 #include "common/commandstatus.h"
@@ -31,6 +32,7 @@
 #include "gui/icons.h"
 #include "item/itemfactory.h"
 #include "item/serialize.h"
+#include "platform/platformclipboard.h"
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"
 #include "scriptable/fileclass.h"
@@ -40,6 +42,7 @@
 #include "../qxt/qxtglobal.h"
 
 #include <QApplication>
+#include <QClipboard>
 #include <QDateTime>
 #include <QDir>
 #include <QDesktopServices>
@@ -490,6 +493,17 @@ QVariantMap copyWithoutInternalData(const QVariantMap &data) {
     }
 
     return newData;
+}
+
+QStringList monitorFormatsToSave()
+{
+    ItemFactory factory;
+    factory.loadPlugins();
+
+    QSettings settings;
+    factory.loadItemFactorySettings(&settings);
+
+    return factory.formatsToSave();
 }
 
 } // namespace
@@ -1613,6 +1627,8 @@ void Scriptable::abort()
     QScriptEngine *eng = engine() ? engine() : m_engine;
     if (eng)
         eng->abortEvaluation();
+
+    emit finished();
 }
 
 void Scriptable::fail()
@@ -2154,19 +2170,32 @@ QScriptValue Scriptable::iconTagColor()
 void Scriptable::onClipboardChanged()
 {
     eval(R"(
+    if (isClipboard()) {
+        setTitle();
+        showDataNotification();
+    }
+
     if (runAutomaticCommands()) {
         synchronizeSelection();
         saveData();
-        updateTitle();
-        showDataNotification();
+        if (isClipboard()) {
+            updateTitle();
+            showDataNotification();
+        }
+        setClipboardData();
     }
     )");
 }
 
+void Scriptable::setClipboardData()
+{
+    auto data = copyWithoutInternalData(m_data);
+    m_proxy->setClipboardData(data);
+}
+
 void Scriptable::updateTitle()
 {
-    if ( isClipboardData(m_data) )
-        m_proxy->setTitleForData(m_data);
+    m_proxy->setTitleForData(m_data);
 }
 
 void Scriptable::setTitle()
@@ -2237,10 +2266,33 @@ void Scriptable::runMenuCommandFilters()
     }
 }
 
+void Scriptable::monitorClipboard()
+{
+    if (!verifyClipboardAccess())
+        return;
+
+    ClipboardMonitor monitor( monitorFormatsToSave() );
+
+    QEventLoop loop;
+    connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
+    connect( &monitor, SIGNAL(runScriptRequest(QString,QVariantMap)),
+             this, SLOT(onMonitorRunScriptRequest(QString,QVariantMap)) );
+    loop.exec();
+}
+
+void Scriptable::provideClipboard()
+{
+    provideClipboard(ClipboardMode::Clipboard);
+}
+
+void Scriptable::provideSelection()
+{
+    provideClipboard(ClipboardMode::Selection);
+}
+
 void Scriptable::onDisconnected()
 {
     abort();
-    emit finished();
 }
 
 void Scriptable::onExecuteOutput(const QStringList &lines)
@@ -2249,6 +2301,25 @@ void Scriptable::onExecuteOutput(const QStringList &lines)
         const auto arg = toScriptValue(lines, this);
         m_executeStdoutCallback.call( QScriptValue(), QScriptValueList() << arg );
     }
+}
+
+void Scriptable::onMonitorRunScriptRequest(const QString &script, const QVariantMap &data)
+{
+    m_data = data;
+    m_proxy->setActionData(m_actionId, m_data);
+    eval(script);
+}
+
+void Scriptable::onProvidedClipboardChanged()
+{
+    if ( !qApp->clipboard()->ownsClipboard() )
+        emit finished();
+}
+
+void Scriptable::onProvidedSelectionChanged()
+{
+    if ( !qApp->clipboard()->ownsSelection() )
+        emit finished();
 }
 
 bool Scriptable::sourceScriptCommands()
@@ -2709,6 +2780,35 @@ bool Scriptable::canExecuteCommand(const Command &command)
     }
 
     return true;
+}
+
+bool Scriptable::verifyClipboardAccess()
+{
+    if ( qobject_cast<QApplication*>(qApp) != nullptr )
+        return true;
+
+    throwError("Cannot access system clipboard with QCoreApplication");
+    return false;
+}
+
+void Scriptable::provideClipboard(ClipboardMode mode)
+{
+    if (!verifyClipboardAccess())
+        return;
+
+    auto clipboard = createPlatformNativeInterface()->clipboard();
+    clipboard->setData(mode, m_data);
+
+    const auto slot = mode == ClipboardMode::Clipboard
+            ? SLOT(onProvidedClipboardChanged())
+            : SLOT(onProvidedSelectionChanged());
+
+    QTimer::singleShot(1000, this, slot);
+
+    QEventLoop loop;
+    connect( this, SIGNAL(finished()), &loop, SLOT(quit()) );
+    connect( clipboard.get(), SIGNAL(changed(ClipboardMode)), this, slot );
+    loop.exec();
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

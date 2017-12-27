@@ -27,7 +27,7 @@
 #include "scriptable/scriptable.h"
 #include "scriptable/scriptableproxy.h"
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QFile>
 #include <QScriptEngine>
 #include <QSettings>
@@ -71,6 +71,20 @@ void printClientStderr(const QByteArray &output)
         f.write("\n");
 }
 
+QCoreApplication *createClientApplication(int &argc, char **argv, const QStringList &arguments)
+{
+    // Clipboard access requires QApplication.
+    if ( !arguments.isEmpty() && (
+             arguments[0] == "monitorClipboard"
+             || arguments[0] == "provideClipboard"
+             || arguments[0] == "provideSelection") )
+    {
+        return createPlatformNativeInterface()->createMonitorApplication(argc, argv);
+    }
+
+    return createPlatformNativeInterface()->createClientApplication(argc, argv);
+}
+
 } // namespace
 
 void InputReader::readInput()
@@ -84,7 +98,7 @@ void InputReader::readInput()
 
 ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &arguments, const QString &sessionName)
     : Client()
-    , App("Client", createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
+    , App("Client", createClientApplication(argc, argv, arguments), sessionName)
     , m_inputReaderThread(nullptr)
 {
     restoreSettings();

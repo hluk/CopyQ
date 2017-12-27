@@ -20,7 +20,6 @@
 #include "app/app.h"
 #include "app/applicationexceptionhandler.h"
 #include "app/clipboardclient.h"
-#include "app/clipboardmonitor.h"
 #include "app/clipboardserver.h"
 #include "common/commandstatus.h"
 #include "common/log.h"
@@ -127,12 +126,6 @@ int startServer(int argc, char *argv[], QString sessionName)
     return app.exec();
 }
 
-int startMonitor(int argc, char *argv[], const QString &serverName, const QString &sessionName)
-{
-    ClipboardMonitor app(argc, argv, serverName, sessionName);
-    return app.exec();
-}
-
 int startClient(int argc, char *argv[], const QStringList &arguments, const QString &sessionName)
 {
     ClipboardClient app(argc, argv, arguments, sessionName);
@@ -231,11 +224,6 @@ int startApplication(int argc, char **argv)
     // then run this process as server.
     if ( arguments.size() - skipArguments == 0 )
         return startServer(argc, argv, sessionName);
-
-    // If first argument is "monitor" (second is monitor server name/ID)
-    // then run this process as clipboard monitor.
-    if ( arguments.size() == 4 && arguments[2] == "monitor" )
-        return startMonitor(argc, argv, arguments[3], sessionName);
 
     // If argument was specified and server is running
     // then run this process as client.

@@ -27,6 +27,7 @@
 
 #include <QCoreApplication>
 #include <QEventLoop>
+#include <QPointer>
 #include <QProcessEnvironment>
 #include <QTimer>
 
@@ -300,6 +301,7 @@ bool Action::waitForFinished(int msecs)
     if ( !isRunning() )
         return true;
 
+    QPointer<QObject> self(this);
     QEventLoop loop;
     QTimer t;
     connect(m_processes.last(), SIGNAL(finished(int)), &loop, SLOT(quit()));
@@ -307,7 +309,7 @@ bool Action::waitForFinished(int msecs)
     t.start(msecs);
     loop.exec(QEventLoop::ExcludeUserInputEvents);
 
-    return !isRunning();
+    return !self || !isRunning();
 }
 
 bool Action::isRunning() const

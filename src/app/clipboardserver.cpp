@@ -19,7 +19,7 @@
 
 #include "clipboardserver.h"
 
-#include "app/remoteprocess.h"
+#include "common/action.h"
 #include "common/appconfig.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
@@ -27,7 +27,6 @@
 #include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
-#include "common/monitormessagecode.h"
 #include "common/shortcuts.h"
 #include "common/sleeptimer.h"
 #include "gui/clipboardbrowser.h"
@@ -57,7 +56,6 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     : QObject()
     , App("Server", app, sessionName)
     , m_wnd(nullptr)
-    , m_monitor(nullptr)
     , m_shortcutActions()
     , m_ignoreKeysTimer()
 {
@@ -105,11 +103,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( qApp, SIGNAL(saveStateRequest(QSessionManager&)),
              this, SLOT(onSaveState(QSessionManager&)) );
 
-    connect( m_wnd, SIGNAL(changeClipboard(QVariantMap,ClipboardMode)),
-             this, SLOT(changeClipboard(QVariantMap,ClipboardMode)) );
-
     connect( m_wnd, SIGNAL(requestExit()),
              this, SLOT(maybeQuit()) );
+    connect( m_wnd, SIGNAL(disableClipboardStoringRequest(bool)),
+             this, SLOT(onDisableClipboardStoringRequest(bool)) );
 
     loadSettings();
 
@@ -141,13 +138,14 @@ ClipboardServer::~ClipboardServer()
 
 void ClipboardServer::stopMonitoring()
 {
-    if (m_monitor == nullptr)
+    if (!m_monitor)
         return;
 
     COPYQ_LOG("Terminating monitor");
 
-    m_monitor->disconnect();
-    delete m_monitor;
+    disconnect( m_monitor, SIGNAL(destroyed()),
+                this, SLOT(onMonitorFinished()) );
+    m_monitor->terminate();
     m_monitor = nullptr;
 
     COPYQ_LOG("Monitor terminated");
@@ -155,46 +153,16 @@ void ClipboardServer::stopMonitoring()
 
 void ClipboardServer::startMonitoring()
 {
-    COPYQ_LOG("Starting monitor");
-
-    if ( m_monitor == nullptr ) {
-        m_monitor = new RemoteProcess(this);
-        connect( m_monitor, SIGNAL(newMessage(QByteArray)),
-                 this, SLOT(newMonitorMessage(QByteArray)) );
-        connect( m_monitor, SIGNAL(connectionError(QString)),
-                 this, SLOT(monitorConnectionError(QString)) );
-        connect( m_monitor, SIGNAL(connected()),
-                 this, SLOT(loadMonitorSettings()) );
-
-        const QString name = serverName("m");
-        const auto session = qApp->property("CopyQ_session_name").toString();
-        m_monitor->start( name, QStringList() << "-s" << session << "monitor" << name );
-    }
-}
-
-void ClipboardServer::loadMonitorSettings()
-{
-    if ( !isMonitoring() )
+    if (m_monitor || !m_wnd->isMonitoringEnabled())
         return;
 
-    COPYQ_LOG("Configuring monitor");
+    COPYQ_LOG("Starting monitor");
 
-    QVariantMap settings;
-    settings["formats"] = m_itemFactory->formatsToSave();
-#ifdef HAS_MOUSE_SELECTIONS
-    settings["check_selection"] = AppConfig().option<Config::check_selection>();
-#endif
-
-    QByteArray settingsData;
-    QDataStream settingsOut(&settingsData, QIODevice::WriteOnly);
-    settingsOut << settings;
-
-    m_monitor->writeMessage(settingsData, MonitorSettings);
-}
-
-bool ClipboardServer::isMonitoring()
-{
-    return m_monitor != nullptr && m_monitor->isConnected();
+    m_monitor = new Action();
+    m_monitor->setCommand("copyq monitorClipboard");
+    connect( m_monitor, SIGNAL(destroyed()),
+             this, SLOT(onMonitorFinished()) );
+    m_wnd->runAction(m_monitor);
 }
 
 void ClipboardServer::removeGlobalShortcuts()
@@ -232,8 +200,7 @@ void ClipboardServer::onAboutToQuit()
 
     m_wnd->saveTabs();
 
-    if( isMonitoring() )
-        stopMonitoring();
+    stopMonitoring();
 
     emit terminateClients();
 }
@@ -277,8 +244,17 @@ void ClipboardServer::onSaveState(QSessionManager &sessionManager)
     settings.setValue(lastSessionIdKey, sessionNameKey);
 }
 
+void ClipboardServer::onDisableClipboardStoringRequest(bool disabled)
+{
+    stopMonitoring();
+    if (!disabled)
+        startMonitoring();
+}
+
 void ClipboardServer::maybeQuit()
 {
+    stopMonitoring();
+
     // Wait a moment for commands to finish.
     for ( int i = 0; i < 50 && hasRunningCommands(); ++i )
         waitFor(50);
@@ -286,6 +262,8 @@ void ClipboardServer::maybeQuit()
     if (askToQuit()) {
         emit terminateClients();
         QCoreApplication::exit();
+    } else {
+        startMonitoring();
     }
 }
 
@@ -358,50 +336,11 @@ void ClipboardServer::onClientConnectionFailed(ClientSocket *client)
     m_clients.remove(client);
 }
 
-void ClipboardServer::newMonitorMessage(const QByteArray &message)
+void ClipboardServer::onMonitorFinished()
 {
-    if ( !m_wnd->isMonitoringEnabled() )
-        return;
-
-    QVariantMap data;
-
-    if ( !deserializeData(&data, message) ) {
-        log("Failed to read message from monitor.", LogError);
-        return;
-    }
-
-    m_wnd->clipboardChanged(data);
-}
-
-void ClipboardServer::monitorConnectionError(const QString &error)
-{
-    log("Restarting clipboard monitor (" + error + ")", LogError);
+    COPYQ_LOG("Monitor finished");
     stopMonitoring();
     startMonitoring();
-}
-
-void ClipboardServer::changeClipboard(const QVariantMap &data, ClipboardMode mode)
-{
-    if ( !isMonitoring() ) {
-        COPYQ_LOG("Waiting for monitor to start");
-        SleepTimer t(5000);
-        while ( t.sleep() && !isMonitoring() ) {}
-        if ( !isMonitoring() ) {
-            log("Failed to send message to clipboard monitor.", LogError);
-            return;
-        }
-    }
-
-    const MonitorMessageCode code =
-            mode == ClipboardMode::Clipboard ? MonitorChangeClipboard : MonitorChangeSelection;
-
-    const auto message = serializeData(data);
-
-    COPYQ_LOG( QString("Sending change %1 request to monitor (%2 KiB)")
-               .arg(code == MonitorChangeClipboard ? "clipboard" : "selection")
-               .arg(message.size() / 1024.0) );
-
-    m_monitor->writeMessage(message, code);
 }
 
 void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const Command &command)
@@ -462,9 +401,8 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 
 void ClipboardServer::loadSettings()
 {
-    // reload clipboard monitor configuration
-    if ( isMonitoring() )
-        loadMonitorSettings();
+    stopMonitoring();
+    startMonitoring();
 }
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)

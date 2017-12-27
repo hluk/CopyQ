@@ -1582,6 +1582,12 @@ bool ScriptableProxy::setIconTagColor(const QString &colorName)
     return true;
 }
 
+void ScriptableProxy::setClipboardData(const QVariantMap &data)
+{
+    INVOKE2(setClipboardData, (data));
+    m_wnd->setClipboardData(data);
+}
+
 void ScriptableProxy::setTitle(const QString &title)
 {
     INVOKE2(setTitle, (title));

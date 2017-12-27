@@ -256,9 +256,6 @@ public:
      */
     bool exportAllData(const QString &fileName);
 
-    /** Called after clipboard content changes. */
-    void clipboardChanged(const QVariantMap &data);
-
     /** Temporarily disable monitoring (i.e. adding new clipboard content to the first tab). */
     void disableClipboardStoring(bool disable);
 
@@ -368,11 +365,7 @@ public slots:
             const Command &cmd,
             const QModelIndex &outputIndex = QModelIndex());
 
-    /**
-     * Run automatic commands and add @a new clipboard to the first tab
-     * if commands didn't remove or transform the data.
-     */
-    void runAutomaticCommands(QVariantMap data);
+    void runAction(Action *action);
 
     /** Set clipboard. */
     void setClipboard(const QVariantMap &data, ClipboardMode mode);
@@ -420,9 +413,6 @@ public slots:
 
     void setClipboardData(const QVariantMap &data);
 
-    int currentAutomaticCommandId() const { return m_currentAutomaticCommandId; }
-    int currentAutomaticCommandSelectionId() const { return m_currentAutomaticCommandSelectionId; }
-
     /** Set text for filtering items. */
     void setFilter(const QString &text);
 
@@ -467,6 +457,8 @@ signals:
     void commandsSaved();
 
     void configurationChanged();
+
+    void disableClipboardStoringRequest(bool disable);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
@@ -566,9 +558,6 @@ private:
 
     void runDisplayCommands();
 
-    /** Clear window title, tray tool tip and clipboard notification. */
-    void clearTitleAndNotification();
-
     void clearHiddenDisplayData();
 
     void reloadBrowsers();
@@ -662,7 +651,7 @@ private:
 
     const Theme &theme() const;
 
-    Action *runScript(const QString &function, const QVariantMap &data = QVariantMap());
+    Action *runScript(const QString &script, const QVariantMap &data = QVariantMap());
 
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
@@ -716,9 +705,6 @@ private:
     PersistentDisplayItem m_currentDisplayItem;
     QPointer<Action> m_currentDisplayAction;
     bool m_hasDisplayCommands = false;
-
-    int m_currentAutomaticCommandId = 0;
-    int m_currentAutomaticCommandSelectionId = 0;
 
     int m_currentItemMenuCommandId = 0;
     int m_currentTrayMenuCommandId = 0;

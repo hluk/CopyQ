@@ -55,7 +55,6 @@ QString actionDescription(const Action &action)
 ActionHandler::ActionHandler(MainWindow *mainWindow)
     : QObject(mainWindow)
     , m_wnd(mainWindow)
-    , m_actionCounter(0)
     , m_activeActionDialog(new ProcessManagerDialog(mainWindow))
 {
     Q_ASSERT(mainWindow);
@@ -74,11 +73,6 @@ ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
              this, SLOT(actionDialogClosed(ActionDialog*)) );
 
     return actionDialog;
-}
-
-bool ActionHandler::hasRunningAction() const
-{
-    return m_actionCounter > 0;
 }
 
 void ActionHandler::showProcessManagerDialog()
@@ -124,8 +118,6 @@ void ActionHandler::action(Action *action)
              this, SLOT(actionStarted(Action*)) );
     connect( action, SIGNAL(actionFinished(Action*)),
              this, SLOT(closeAction(Action*)) );
-
-    ++m_actionCounter;
 
     if ( !action->outputFormat().isEmpty() && action->outputTab().isEmpty() )
         action->setOutputTab(m_currentTabName);
@@ -194,8 +186,7 @@ void ActionHandler::closeAction(Action *action)
     }
 
     m_activeActionDialog->actionFinished(action);
-    Q_ASSERT(m_actionCounter > 0);
-    --m_actionCounter;
+    Q_ASSERT(runningActionCount() >= 0);
 
     emit runningActionsCountChanged();
 

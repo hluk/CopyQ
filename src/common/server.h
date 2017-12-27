@@ -26,6 +26,7 @@
 #include <memory>
 
 class ClientSocket;
+class QEventLoop;
 class QLocalServer;
 
 using ClientSocketPtr = std::shared_ptr<ClientSocket>;
@@ -57,6 +58,7 @@ private:
     QLocalServer *m_server;
     QObject *m_systemMutex;
     int m_socketCount;
+    QEventLoop *m_loop = nullptr;
 };
 
 #endif // SERVER_H

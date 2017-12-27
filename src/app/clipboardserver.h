@@ -32,8 +32,8 @@
 #include <QVariantMap>
 #include <QWidget>
 
+class Action;
 class ItemFactory;
-class RemoteProcess;
 class ScriptableProxy;
 class QxtGlobalShortcut;
 class QApplication;
@@ -60,9 +60,6 @@ public:
     /** Start monitor application. */
     void startMonitoring();
 
-    /** Return true if monitor is running. */
-    bool isMonitoring();
-
     /**
      * Create global shortcut for command.
      *
@@ -71,14 +68,8 @@ public:
     void createGlobalShortcut(const QKeySequence &shortcut, const Command &command);
 
 public slots:
-    /** Load @a item data to clipboard. */
-    void changeClipboard(const QVariantMap &data, ClipboardMode mode);
-
     /** Load settings. */
     void loadSettings();
-
-    /** Send configuration to monitor. */
-    void loadMonitorSettings();
 
 signals:
     void terminateClients();
@@ -92,11 +83,8 @@ private slots:
     void onClientDisconnected(ClientSocket *client);
     void onClientConnectionFailed(ClientSocket *client);
 
-    /** New message from monitor process. */
-    void newMonitorMessage(const QByteArray &message);
-
     /** An error occurred on monitor connection. */
-    void monitorConnectionError(const QString &error);
+    void onMonitorFinished();
 
     /** Shortcut was pressed on host system. */
     void shortcutActivated(QxtGlobalShortcut *shortcut);
@@ -120,6 +108,8 @@ private slots:
      */
     void onSaveState(QSessionManager &sessionManager);
 
+    void onDisableClipboardStoringRequest(bool disabled);
+
     /** Quit application, but ask to cancel exit if there are any active commands. */
     void maybeQuit();
 
@@ -130,7 +120,7 @@ private:
     bool hasRunningCommands() const;
 
     MainWindow* m_wnd;
-    RemoteProcess *m_monitor;
+    QPointer<Action> m_monitor;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;

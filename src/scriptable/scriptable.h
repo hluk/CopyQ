@@ -326,6 +326,7 @@ public slots:
     QScriptValue iconTagColor();
 
     void onClipboardChanged();
+    void setClipboardData();
     void updateTitle();
     void setTitle();
     void synchronizeSelection();
@@ -336,6 +337,10 @@ public slots:
     void runDisplayCommands();
 
     void runMenuCommandFilters();
+
+    void monitorClipboard();
+    void provideClipboard();
+    void provideSelection();
 
 public slots:
     void onDisconnected();
@@ -348,6 +353,9 @@ signals:
 
 private slots:
     void onExecuteOutput(const QStringList &lines);
+    void onMonitorRunScriptRequest(const QString &script, const QVariantMap &data);
+    void onProvidedClipboardChanged();
+    void onProvidedSelectionChanged();
 
 private:
     bool sourceScriptCommands();
@@ -366,6 +374,8 @@ private:
     bool runAction(Action *action);
     bool runCommands(CommandType::CommandType type);
     bool canExecuteCommand(const Command &command);
+    bool verifyClipboardAccess();
+    void provideClipboard(ClipboardMode mode);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;

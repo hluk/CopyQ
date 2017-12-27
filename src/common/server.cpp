@@ -26,6 +26,7 @@
 
 #include <QCoreApplication>
 #include <QDataStream>
+#include <QEventLoop>
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QSharedMemory>
@@ -108,7 +109,7 @@ Server::Server(const QString &name, QObject *parent)
             log("Failed to create server: " + m_server->errorString(), LogError);
     }
 
-    connect( qApp, SIGNAL(aboutToQuit()), SLOT(close()) );
+    connect( qApp, SIGNAL(aboutToQuit()), this, SLOT(close()) );
 }
 
 Server::~Server()
@@ -137,8 +138,11 @@ void Server::close()
 
     if (m_socketCount > 0) {
         COPYQ_LOG( QString("Waiting for %1 sockets to disconnect").arg(m_socketCount) );
-        while (m_socketCount > 0)
-            QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
+
+        QEventLoop loop;
+        m_loop = &loop;
+        loop.exec(QEventLoop::ExcludeUserInputEvents);
+        m_loop = nullptr;
     }
 
     delete m_systemMutex;
@@ -167,4 +171,6 @@ void Server::onSocketDestroyed()
 {
     Q_ASSERT(m_socketCount > 0);
     --m_socketCount;
+    if (m_loop)
+        m_loop->quit();
 }

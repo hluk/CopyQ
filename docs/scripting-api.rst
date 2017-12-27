@@ -858,13 +858,15 @@ omitted.
 
    Called when clipboard or X11 selection changes.
 
-   By default executes automatic commands and if these don't call `ignore()`
-   or have "Remove Item" or "Transform" check box enabled, calls:
+   By default clears title and notification for clipboard and executes
+   automatic commands.  If the commands don't call `ignore()` or have "Remove
+   Item" or "Transform" check box enabled, following functions are called:
 
    - `synchronizeSelection()`
    - `saveData()`
-   - `updateTitle()`
-   - `showDataNotification()`
+   - `updateTitle()` (only for clipboard)
+   - `showDataNotification()` (only for clipboard)
+   - `setClipboardData()`
 
 .. js:function:: updateTitle()
 
@@ -888,6 +890,10 @@ omitted.
 .. js:function:: showDataNotification()
 
    Show notification for current data.
+
+.. js:function:: setClipboardData()
+
+   Sets clipboard data for menu commands.
 
 Types
 -----

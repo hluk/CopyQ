@@ -20,11 +20,9 @@
 #include "tests.h"
 #include "test_utils.h"
 
-#include "app/remoteprocess.h"
 #include "common/client_server.h"
 #include "common/common.h"
 #include "common/mimetypes.h"
-#include "common/monitormessagecode.h"
 #include "common/shortcuts.h"
 #include "common/textdata.h"
 #include "common/version.h"
@@ -170,7 +168,6 @@ class TestInterfaceImpl : public TestInterface {
 public:
     TestInterfaceImpl()
         : m_server(nullptr)
-        , m_monitor(nullptr)
         , m_env(QProcessEnvironment::systemEnvironment())
     {
         m_env.insert("COPYQ_LOG_LEVEL", "DEBUG");
@@ -366,22 +363,11 @@ public:
 
     QByteArray setClipboard(const QByteArray &bytes, const QString &mime) override
     {
-        if (m_monitor == nullptr) {
-            m_monitor.reset(new RemoteProcess);
-            const QString name = "copyq_TEST";
-            m_monitor->start( name, QStringList() << "-s" << "" << "monitor" << name );
-
-            SleepTimer t(4000);
-            while( !m_monitor->isConnected() && t.sleep() ) {}
-        }
-
-        if ( !m_monitor->isConnected() )
-            return "Failed to start clipboard monitor!";
-
         waitFor(waitMsSetClipboard);
 
-        const QVariantMap data = createDataMap(mime, bytes);
-        m_monitor->writeMessage( serializeData(data), MonitorChangeClipboard );
+        auto mimeData = new QMimeData();
+        mimeData->setData(mime, bytes);
+        QApplication::clipboard()->setMimeData(mimeData);
 
         waitUntilClipboardSet(bytes, mime);
         QByteArray error = testClipboard(bytes, mime);
@@ -518,9 +504,6 @@ private:
 
     QByteArray testClipboard(const QByteArray &bytes, const QString &mime)
     {
-        if ( !m_monitor || !m_monitor->isConnected() )
-            return "Clipboard monitor is not running!";
-
         const QByteArray actualBytes = getClipboard(mime);
         if (actualBytes != bytes) {
             return QString("Test failed (clipboard data for MIME \"%1\"): ")
@@ -533,7 +516,6 @@ private:
     }
 
     std::unique_ptr<QProcess> m_server;
-    std::unique_ptr<RemoteProcess> m_monitor; /// Process to provide clipboard set by tests.
     QProcessEnvironment m_env;
     QVariantMap m_settings;
 };
