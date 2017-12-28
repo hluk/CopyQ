@@ -2316,16 +2316,14 @@ void Scriptable::onProvidedSelectionChanged()
 
 bool Scriptable::sourceScriptCommands()
 {
-    const auto commands = loadEnabledCommands();
+    const auto commands = m_proxy->scriptCommands();
     for (const auto &command : commands) {
-        if (command.type() & CommandType::Script) {
-            eval(command.cmd, command.name);
-            if ( engine()->hasUncaughtException() ) {
-                const auto exceptionText = processUncaughtException(command.cmd);
-                const auto response = createScriptErrorMessage(exceptionText).toUtf8();
-                sendMessageToClient(response, CommandException);
-                return false;
-            }
+        eval(command.cmd, command.name);
+        if ( engine()->hasUncaughtException() ) {
+            const auto exceptionText = processUncaughtException(command.cmd);
+            const auto response = createScriptErrorMessage(exceptionText).toUtf8();
+            sendMessageToClient(response, CommandException);
+            return false;
         }
     }
 
@@ -2682,51 +2680,53 @@ bool Scriptable::runAction(Action *action)
 
 bool Scriptable::runCommands(CommandType::CommandType type)
 {
+    Q_ASSERT(type == CommandType::Automatic || type == CommandType::Display);
+
     const auto label = type == CommandType::Automatic
             ? "Automatic command \"%1\": %2"
             : "Display command \"%1\": %2";
 
-    auto commands = loadEnabledCommands();
+    auto commands = type == CommandType::Automatic
+            ? m_proxy->automaticCommands()
+            : m_proxy->displayCommands();
     const QString tabName = getTextData(m_data, mimeCurrentTab);
 
     for (auto &command : commands) {
-        if (command.type() & type) {
-            if ( command.outputTab.isEmpty() )
-                command.outputTab = tabName;
+        if ( command.outputTab.isEmpty() )
+            command.outputTab = tabName;
 
-            if ( !canExecuteCommand(command) )
-                continue;
+        if ( !canExecuteCommand(command) )
+            continue;
 
-            if ( m_connected && !command.cmd.isEmpty() ) {
-                Action action;
-                action.setCommand( command.cmd, QStringList(getTextData(m_data)) );
-                action.setInput(m_data, command.input);
-                action.setOutputFormat(command.output);
-                action.setItemSeparator(QRegExp(command.sep));
-                action.setOutputTab(command.outputTab);
-                action.setName(command.name);
-                action.setData(m_data);
+        if ( m_connected && !command.cmd.isEmpty() ) {
+            Action action;
+            action.setCommand( command.cmd, QStringList(getTextData(m_data)) );
+            action.setInput(m_data, command.input);
+            action.setOutputFormat(command.output);
+            action.setItemSeparator(QRegExp(command.sep));
+            action.setOutputTab(command.outputTab);
+            action.setName(command.name);
+            action.setData(m_data);
 
-                if ( !runAction(&action) && m_connected ) {
-                    throwError( QString(label).arg(command.name, "Failed to start") );
-                    return false;
-                }
-            }
-
-            if (!m_connected) {
-                COPYQ_LOG( QString(label).arg(command.name, "Interrupted") );
+            if ( !runAction(&action) && m_connected ) {
+                throwError( QString(label).arg(command.name, "Failed to start") );
                 return false;
             }
-
-            m_data = m_proxy->getActionData(m_actionId);
-
-            if ( command.remove || command.transform || m_data.contains(mimeIgnore) ) {
-                COPYQ_LOG( QString(label).arg(command.name, "Ignoring data") );
-                return false;
-            }
-
-            COPYQ_LOG( QString(label).arg(command.name, "Finished") );
         }
+
+        if (!m_connected) {
+            COPYQ_LOG( QString(label).arg(command.name, "Interrupted") );
+            return false;
+        }
+
+        m_data = m_proxy->getActionData(m_actionId);
+
+        if ( command.remove || command.transform || m_data.contains(mimeIgnore) ) {
+            COPYQ_LOG( QString(label).arg(command.name, "Ignoring data") );
+            return false;
+        }
+
+        COPYQ_LOG( QString(label).arg(command.name, "Finished") );
     }
 
     return true;

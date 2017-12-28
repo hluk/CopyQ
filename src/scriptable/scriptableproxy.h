@@ -232,6 +232,10 @@ public slots:
 
     QVariantMap setDisplayData(int actionId, const QVariantMap &displayData);
 
+    QVector<Command> automaticCommands();
+    QVector<Command> displayCommands();
+    QVector<Command> scriptCommands();
+
 signals:
     void sendFunctionCall(const QByteArray &bytes);
 

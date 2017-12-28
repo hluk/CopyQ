@@ -291,6 +291,10 @@ public:
 
     QVariantMap setDisplayData(int actionId, const QVariantMap &data);
 
+    QVector<Command> automaticCommands() const { return m_automaticCommands; }
+    QVector<Command> displayCommands() const { return m_displayCommands; }
+    QVector<Command> scriptCommands() const { return m_scriptCommands; }
+
 public slots:
     /** Close main window and exit the application. */
     void exit();
@@ -678,7 +682,11 @@ private:
     QPointer<QAction> m_actionToggleClipboardStoring;
 
     ClipboardBrowserSharedPtr m_sharedData;
+
+    QVector<Command> m_automaticCommands;
+    QVector<Command> m_displayCommands;
     QVector<Command> m_menuCommands;
+    QVector<Command> m_scriptCommands;
 
     PlatformWindowPtr m_lastWindow;
 
@@ -715,7 +723,6 @@ private:
     QList<PersistentDisplayItem> m_displayItemList;
     PersistentDisplayItem m_currentDisplayItem;
     QPointer<Action> m_currentDisplayAction;
-    bool m_hasDisplayCommands = false;
 
     MenuMatchCommands m_trayMenuMatchCommands;
     MenuMatchCommands m_itemMenuMatchCommands;

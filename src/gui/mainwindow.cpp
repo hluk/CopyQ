@@ -989,7 +989,7 @@ void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
 
 void MainWindow::onItemWidgetCreated(const PersistentDisplayItem &item)
 {
-    if (!m_hasDisplayCommands)
+    if ( m_displayCommands.isEmpty() )
         return;
 
     m_displayItemList.append(item);
@@ -1861,23 +1861,34 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
 void MainWindow::updateCommands()
 {
+    m_automaticCommands.clear();
     m_menuCommands.clear();
-    m_hasDisplayCommands = false;
-    m_displayItemList.clear();
+    m_scriptCommands.clear();
+
+    QVector<Command> displayCommands;
 
     const auto commands = loadEnabledCommands();
     for (const auto &command : commands) {
         const auto type = command.type();
 
+        if (type & CommandType::Automatic)
+            m_automaticCommands.append(command);
+
         if (type & CommandType::Display)
-            m_hasDisplayCommands = true;
+            displayCommands.append(command);
 
         if (type & CommandType::Menu)
             m_menuCommands.append(command);
+
+        if (type & CommandType::Script)
+            m_scriptCommands.append(command);
     }
 
-    if (m_hasDisplayCommands)
+    if (m_displayCommands != displayCommands) {
+        m_displayItemList.clear();
+        m_displayCommands = displayCommands;
         reloadBrowsers();
+    }
 }
 
 const Theme &MainWindow::theme() const

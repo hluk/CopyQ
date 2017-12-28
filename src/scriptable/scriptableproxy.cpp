@@ -1708,6 +1708,24 @@ QVariantMap ScriptableProxy::setDisplayData(int actionId, const QVariantMap &dis
     return m_actionData;
 }
 
+QVector<Command> ScriptableProxy::automaticCommands()
+{
+    INVOKE(automaticCommands, ());
+    return m_wnd->automaticCommands();
+}
+
+QVector<Command> ScriptableProxy::displayCommands()
+{
+    INVOKE(displayCommands, ());
+    return m_wnd->displayCommands();
+}
+
+QVector<Command> ScriptableProxy::scriptCommands()
+{
+    INVOKE(scriptCommands, ());
+    return m_wnd->scriptCommands();
+}
+
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
 {
     if (tabName.isEmpty()) {
