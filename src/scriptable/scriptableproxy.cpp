@@ -1689,10 +1689,16 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
     }
 }
 
-bool ScriptableProxy::enableMenuItem(int actionId, const Command &command, bool enabled)
+QStringList ScriptableProxy::menuItemMatchCommands(int actionId)
 {
-    INVOKE(enableMenuItem, (actionId, command, enabled));
-    return m_wnd->setMenuItemEnabled(actionId, command, enabled);
+    INVOKE(menuItemMatchCommands, (actionId));
+    return m_wnd->menuItemMatchCommands(actionId);
+}
+
+bool ScriptableProxy::enableMenuItem(int actionId, int menuItemMatchCommandIndex, bool enabled)
+{
+    INVOKE(enableMenuItem, (actionId, menuItemMatchCommandIndex, enabled));
+    return m_wnd->setMenuItemEnabled(actionId, menuItemMatchCommandIndex, enabled);
 }
 
 QVariantMap ScriptableProxy::setDisplayData(int actionId, const QVariantMap &displayData)

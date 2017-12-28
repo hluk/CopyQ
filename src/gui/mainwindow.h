@@ -286,7 +286,8 @@ public:
 
     void setTrayTooltip(const QString &tooltip);
 
-    bool setMenuItemEnabled(int actionId, const Command &command, bool enabled);
+    QStringList menuItemMatchCommands(int actionId);
+    bool setMenuItemEnabled(int actionId, int menuItemMatchCommandIndex, bool enabled);
 
     QVariantMap setDisplayData(int actionId, const QVariantMap &data);
 
@@ -557,6 +558,13 @@ private:
         MatchSimilarTabName
     };
 
+    struct MenuMatchCommands {
+        int actionId = -1;
+        QStringList matchCommands;
+        QVector< QPointer<QAction> > actions;
+        QMenu *menu = nullptr;
+    };
+
     void runDisplayCommands();
 
     void clearHiddenDisplayData();
@@ -616,6 +624,8 @@ private:
     QVector<Command> commandsForMenu(const QVariantMap &data, const QString &tabName);
     void addCommandsToItemMenu(ClipboardBrowser *c);
     void addCommandsToTrayMenu(const QVariantMap &clipboardData);
+    void addMenuMatchCommand(MenuMatchCommands *menuMatchCommands, const QString &matchCommand, QAction *act);
+    void runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, const QVariantMap &data);
 
     bool isItemMenuDefaultActionValid() const;
 
@@ -707,8 +717,8 @@ private:
     QPointer<Action> m_currentDisplayAction;
     bool m_hasDisplayCommands = false;
 
-    int m_currentItemMenuCommandId = 0;
-    int m_currentTrayMenuCommandId = 0;
+    MenuMatchCommands m_trayMenuMatchCommands;
+    MenuMatchCommands m_itemMenuMatchCommands;
 
 #ifdef HAS_TESTS
     /// Key clicks sequence number last returned by sendKeyClicks().

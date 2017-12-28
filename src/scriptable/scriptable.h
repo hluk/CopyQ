@@ -374,6 +374,7 @@ private:
     bool runAction(Action *action);
     bool runCommands(CommandType::CommandType type);
     bool canExecuteCommand(const Command &command);
+    bool canExecuteCommandFilter(const QString &matchCommand);
     bool verifyClipboardAccess();
     void provideClipboard(ClipboardMode mode);
 

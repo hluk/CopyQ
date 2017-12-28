@@ -2249,20 +2249,12 @@ void Scriptable::runDisplayCommands()
 
 void Scriptable::runMenuCommandFilters()
 {
-    auto commands = loadEnabledCommands();
-    const QString tabName = getTextData(m_data, mimeCurrentTab);
+    const auto matchCommands = m_proxy->menuItemMatchCommands(m_actionId);
 
-    for (auto &command : commands) {
-        if ( command.type() & CommandType::Menu && !command.matchCmd.isEmpty() ) {
-            if ( command.outputTab.isEmpty() )
-                command.outputTab = tabName;
-
-            if ( !command.matchCmd.isEmpty() ) {
-                const bool enabled = canExecuteCommand(command);
-                if ( !m_proxy->enableMenuItem(m_actionId, command, enabled) )
-                    return;
-            }
-        }
+    for (int i = 0; i < matchCommands.length(); ++i) {
+        const bool enabled = canExecuteCommandFilter(matchCommands[i]);
+        if ( !m_proxy->enableMenuItem(m_actionId, i, enabled) )
+            return;
     }
 }
 
@@ -2761,22 +2753,24 @@ bool Scriptable::canExecuteCommand(const Command &command)
     if ( !matchData(command.wndre, m_data, mimeWindowTitle) )
         return false;
 
-    // Run filter command.
-    if ( !command.matchCmd.isEmpty() ) {
-        Action action;
+    return canExecuteCommandFilter(command.matchCmd);
+}
 
-        const QString text = getTextData(m_data);
-        action.setInput(text.toUtf8());
-        action.setData(m_data);
+bool Scriptable::canExecuteCommandFilter(const QString &matchCommand)
+{
+    if ( matchCommand.isEmpty() )
+        return true;
 
-        const QString arg = getTextData(action.input());
-        action.setCommand(command.matchCmd, QStringList(arg));
+    Action action;
 
-        if ( !runAction(&action) || action.exitCode() != 0 )
-            return false;
-    }
+    const QString text = getTextData(m_data);
+    action.setInput(text.toUtf8());
+    action.setData(m_data);
 
-    return true;
+    const QString arg = getTextData(action.input());
+    action.setCommand(matchCommand, QStringList(arg));
+
+    return runAction(&action) && action.exitCode() == 0;
 }
 
 bool Scriptable::verifyClipboardAccess()
