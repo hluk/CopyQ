@@ -640,6 +640,7 @@ QVariantMap ScriptableProxy::getActionData(int id)
 {
     INVOKE(getActionData, (id));
     m_actionData = m_wnd->actionData(id);
+    m_actionId = id;
 
     auto data = m_actionData;
     data.remove(mimeSelectedItems);

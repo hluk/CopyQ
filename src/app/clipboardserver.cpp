@@ -162,7 +162,7 @@ void ClipboardServer::startMonitoring()
     m_monitor->setCommand("copyq monitorClipboard");
     connect( m_monitor, SIGNAL(destroyed()),
              this, SLOT(onMonitorFinished()) );
-    m_wnd->runAction(m_monitor);
+    m_wnd->runInternalAction(m_monitor);
 }
 
 void ClipboardServer::removeGlobalShortcuts()
@@ -288,7 +288,16 @@ bool ClipboardServer::askToQuit()
 
 bool ClipboardServer::hasRunningCommands() const
 {
-    return m_wnd->hasRunningAction() || !m_clients.isEmpty();
+    if ( m_wnd->hasRunningAction() )
+        return true;
+
+    for (auto it = m_clients.constBegin(); it != m_clients.constEnd(); ++it) {
+        const auto actionId = it.value().proxy->actionId();
+        if ( !m_wnd->isInternalActionId(actionId) )
+            return true;
+    }
+
+    return false;
 }
 
 void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)

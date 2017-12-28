@@ -80,6 +80,8 @@ public:
 
     QByteArray callFunction(const QByteArray &serializedFunctionCall);
 
+    int actionId() const { return m_actionId; }
+
 public slots:
     void setReturnValue(const QByteArray &returnValue);
 
@@ -245,6 +247,7 @@ private:
     MainWindow* m_wnd;
     QString m_tabName;
     QVariantMap m_actionData;
+    int m_actionId = -1;
 
     uint m_sentKeyClicks = 0;
 

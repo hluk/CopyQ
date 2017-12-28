@@ -365,7 +365,8 @@ public slots:
             const Command &cmd,
             const QModelIndex &outputIndex = QModelIndex());
 
-    void runAction(Action *action);
+    void runInternalAction(Action *action);
+    bool isInternalActionId(int id) const;
 
     /** Set clipboard. */
     void setClipboard(const QVariantMap &data, ClipboardMode mode);

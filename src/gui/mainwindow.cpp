@@ -717,7 +717,7 @@ void MainWindow::updateIcon()
 
 void MainWindow::updateIconSnipTimeout()
 {
-    const bool shouldSnip = m_actionHandler->runningActionCount() != 1;
+    const bool shouldSnip = m_clipboardStoringDisabled || hasRunningAction();
     if (m_iconSnip != shouldSnip) {
         m_iconSnip = shouldSnip;
         m_timerTrayIconSnip.start(250);
@@ -1895,7 +1895,7 @@ Action *MainWindow::runScript(const QString &script, const QVariantMap &data)
     auto act = new Action();
     act->setCommand(QStringList() << "copyq" << "eval" << "--" << script);
     act->setData(data);
-    runAction(act);
+    runInternalAction(act);
     return act;
 }
 
@@ -2704,7 +2704,7 @@ void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
     auto act = new Action();
     act->setCommand(QStringList() << "copyq" << argument);
     act->setData(data);
-    runAction(act);
+    runInternalAction(act);
 }
 
 void MainWindow::setClipboard(const QVariantMap &data)
@@ -3300,9 +3300,14 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
     return nullptr;
 }
 
-void MainWindow::runAction(Action *action)
+void MainWindow::runInternalAction(Action *action)
 {
-    m_actionHandler->action(action);
+    m_actionHandler->internalAction(action);
+}
+
+bool MainWindow::isInternalActionId(int id) const
+{
+    return m_actionHandler->isInternalActionId(id);
 }
 
 void MainWindow::newTab(const QString &name)

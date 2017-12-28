@@ -27,6 +27,7 @@
 #include <QObject>
 #include <QPointer>
 #include <QMap>
+#include <QSet>
 
 class Action;
 class ActionDialog;
@@ -51,7 +52,7 @@ public:
      */
     ActionDialog *createActionDialog(const QStringList &tabs);
 
-    int runningActionCount() const { return m_actions.size(); }
+    int runningActionCount() const { return m_actions.size() - m_internalActions.size(); }
 
     /** Open dialog with active commands. */
     void showProcessManagerDialog();
@@ -62,6 +63,9 @@ public:
 
     QVariantMap actionData(int id) const;
     void setActionData(int id, const QVariantMap &data);
+
+    void internalAction(Action *action);
+    bool isInternalActionId(int id) const;
 
 public slots:
     /** Execute action. */
@@ -91,6 +95,7 @@ private:
     QString m_currentTabName;
     Command m_lastActionDialogCommand;
     QHash<int, Action*> m_actions;
+    QSet<int> m_internalActions;
     int m_lastActionId = -1;
 };
 

@@ -98,6 +98,18 @@ void ActionHandler::setActionData(int id, const QVariantMap &data)
         action->setData(data);
 }
 
+void ActionHandler::internalAction(Action *action)
+{
+    this->action(action);
+    if ( m_actions.contains(action->id()) )
+        m_internalActions.insert(action->id());
+}
+
+bool ActionHandler::isInternalActionId(int id) const
+{
+    return m_internalActions.contains(id);
+}
+
 void ActionHandler::action(Action *action)
 {
     action->setParent(this);
@@ -136,6 +148,7 @@ void ActionHandler::actionStarted(Action *action)
 void ActionHandler::closeAction(Action *action)
 {
     m_actions.remove(action->id());
+    m_internalActions.remove(action->id());
 
     QString msg;
 
