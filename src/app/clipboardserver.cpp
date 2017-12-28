@@ -52,6 +52,20 @@ class QxtGlobalShortcut {};
 #include "../qxt/qxtglobalshortcut.h"
 #endif
 
+namespace {
+
+bool hasScriptCommand(const QVector<Command> &commands)
+{
+    for (const auto &command : commands) {
+        if (command.type() == CommandType::Script)
+            return true;
+    }
+
+    return false;
+}
+
+} // namespace
+
 ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     : QObject()
     , App("Server", app, sessionName)
@@ -174,12 +188,13 @@ void ClipboardServer::removeGlobalShortcuts()
 
 void ClipboardServer::onCommandsSaved()
 {
+    const auto commands = loadEnabledCommands();
+
 #ifndef NO_GLOBAL_SHORTCUTS
     removeGlobalShortcuts();
 
     QList<QKeySequence> usedShortcuts;
 
-    const auto commands = loadEnabledCommands();
     for (const auto &command : commands) {
         if (command.type() & CommandType::GlobalShortcut) {
             for (const auto &shortcutText : command.globalShortcuts) {
@@ -192,6 +207,11 @@ void ClipboardServer::onCommandsSaved()
         }
     }
 #endif
+
+    if ( m_monitor && hasScriptCommand(commands) ) {
+        stopMonitoring();
+        startMonitoring();
+    }
 }
 
 void ClipboardServer::onAboutToQuit()
@@ -410,8 +430,10 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 
 void ClipboardServer::loadSettings()
 {
-    stopMonitoring();
-    startMonitoring();
+    if (m_monitor) {
+        stopMonitoring();
+        startMonitoring();
+    }
 }
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
