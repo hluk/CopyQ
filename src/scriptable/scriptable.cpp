@@ -2772,11 +2772,8 @@ bool Scriptable::canExecuteCommand(const Command &command)
         const QString arg = getTextData(action.input());
         action.setCommand(command.matchCmd, QStringList(arg));
 
-        if ( !runAction(&action) || action.exitCode() != 0 ) {
-            COPYQ_LOG( QString("Automatic command \"%1\": Filter command failed, skipping")
-                       .arg(command.name) );
+        if ( !runAction(&action) || action.exitCode() != 0 )
             return false;
-        }
     }
 
     return true;
