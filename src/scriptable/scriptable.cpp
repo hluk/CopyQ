@@ -2018,6 +2018,9 @@ void Scriptable::sleep()
         connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
 
         QTimer t;
+#if QT_VERSION >= 0x050000
+        t.setTimerType(Qt::PreciseTimer);
+#endif
         t.setInterval(msec);
         connect(&t, SIGNAL(timeout()), &loop, SLOT(quit()));
         t.start();
