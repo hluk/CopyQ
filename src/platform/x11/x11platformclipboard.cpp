@@ -71,9 +71,9 @@ X11PlatformClipboard::X11PlatformClipboard(const std::shared_ptr<X11DisplayGuard
     initSingleShotTimer( &m_timerResetSelection, 500, this, SLOT(resetSelection()) );
 }
 
-void X11PlatformClipboard::loadSettings(const QVariantMap &settings)
+void X11PlatformClipboard::setFormats(const QStringList &formats)
 {
-    m_formats = settings.value("formats", m_formats).toStringList();
+    m_formats = formats;
 }
 
 QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) const

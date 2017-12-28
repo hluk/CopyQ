@@ -35,14 +35,9 @@ class PlatformClipboard : public QObject
 {
 public:
     /**
-     * Load settings from GUI.
-     *
-     * Settings keys are:
-     *   - "check_selection" (bool) - emit changed() when X11 selection changes
-     *   - "formats" (QStringList)  - string list with MIME formats to store
-     *     (formats are also passed to data() method call from ClipboardMonitor)
+     * Set MIME types to monitor.
      */
-    virtual void loadSettings(const QVariantMap &settings) = 0;
+    virtual void setFormats(const QStringList &formats) = 0;
 
     /**
      * Return clipboard data containing specified @a formats if available.

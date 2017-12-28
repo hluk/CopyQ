@@ -107,11 +107,7 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     : m_clipboard(createPlatformNativeInterface()->clipboard())
     , m_formats(formats)
 {
-    // TODO: Remove or simplify PlatformClipboard::loadSettings().
-    QVariantMap settings;
-    settings.insert("formats", m_formats);
-    m_clipboard->loadSettings(settings);
-
+    m_clipboard->setFormats(formats);
     connect( m_clipboard.get(), SIGNAL(changed(ClipboardMode)),
              this, SLOT(onClipboardChanged(ClipboardMode)) );
 }

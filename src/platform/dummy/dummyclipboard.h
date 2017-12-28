@@ -31,7 +31,7 @@ class DummyClipboard : public PlatformClipboard
 public:
     explicit DummyClipboard(bool connectClipboardSignal = true);
 
-    void loadSettings(const QVariantMap &) override {}
+    void setFormats(const QStringList &) override {}
 
     QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
 
