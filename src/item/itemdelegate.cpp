@@ -182,9 +182,11 @@ void ItemDelegate::setItemSizes(QSize size, int idealWidth)
     m_maxSize.setWidth(size.width() - margin);
     m_idealWidth = idealWidth - margin;
 
-    for(auto w : m_cache) {
-        if (w != nullptr)
-            w->updateSize(m_maxSize, m_idealWidth);
+    if (m_idealWidth > 0) {
+        for(auto w : m_cache) {
+            if (w != nullptr)
+                w->updateSize(m_maxSize, m_idealWidth);
+        }
     }
 }
 
@@ -243,7 +245,8 @@ void ItemDelegate::setItemWidgetCurrent(const QModelIndex &index, bool isCurrent
     }
 
     w->setCurrent(isCurrent);
-    w->updateSize(m_maxSize, m_idealWidth);
+    if (m_idealWidth > 0)
+        w->updateSize(m_maxSize, m_idealWidth);
 }
 
 void ItemDelegate::setItemWidgetSelected(const QModelIndex &index, bool isSelected)
@@ -274,9 +277,11 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     setWidgetSelected(ww, isSelected);
 
     // Try to get proper size by showing item momentarily.
-    ww->show();
-    w->updateSize(m_maxSize, m_idealWidth);
-    ww->hide();
+    if (m_idealWidth > 0) {
+        ww->show();
+        w->updateSize(m_maxSize, m_idealWidth);
+        ww->hide();
+    }
 
     ww->installEventFilter(this);
 
@@ -398,7 +403,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     ww->move(offset);
     if ( ww->isHidden() ) {
         ww->show();
-        w->updateSize(m_maxSize, m_idealWidth);
+        if (m_idealWidth > 0)
+            w->updateSize(m_maxSize, m_idealWidth);
 
         // Workaround: This fixes badly rendered items.
         ww->update();
