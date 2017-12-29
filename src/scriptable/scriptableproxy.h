@@ -22,20 +22,22 @@
 
 #include "common/clipboardmode.h"
 #include "common/command.h"
-#include "gui/clipboardbrowser.h"
 #include "gui/notificationbutton.h"
 
 #include <QList>
 #include <QMetaObject>
 #include <QObject>
+#include <QPoint>
+#include <QRect>
+#include <QVariant>
 #include <QVector>
 
 #include <memory>
 
+class ClipboardBrowser;
 class MainWindow;
 class QPersistentModelIndex;
 class QPixmap;
-class QPoint;
 
 struct NamedValue {
     NamedValue() {}

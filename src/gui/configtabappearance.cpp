@@ -445,7 +445,8 @@ void ConfigTabAppearance::decoratePreview()
         m_preview = nullptr;
     }
 
-    const auto sharedData = std::make_shared<ClipboardBrowserShared>(m_itemFactory);
+    const auto sharedData = std::make_shared<ClipboardBrowserShared>();
+    sharedData->itemFactory = m_itemFactory;
     sharedData->theme = m_theme;
 
     auto c = new ClipboardBrowser(QString(), sharedData, this);

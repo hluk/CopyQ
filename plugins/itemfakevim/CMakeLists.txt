@@ -36,6 +36,7 @@ if (PEDANTIC)
         -Wno-shadow \
         -Wno-missing-declarations \
         -Wno-strict-overflow \
+        -Wno-zero-as-null-pointer-constant \
         ${IGNORE_PEDANTIC_FLAGS} \
         ")
 endif()

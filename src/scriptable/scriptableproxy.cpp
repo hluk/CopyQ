@@ -20,7 +20,6 @@
 #include "scriptableproxy.h"
 
 #include "common/appconfig.h"
-#include "common/commandstatus.h"
 #include "common/command.h"
 #include "common/commandstore.h"
 #include "common/common.h"
@@ -31,6 +30,7 @@
 #include "common/mimetypes.h"
 #include "common/settings.h"
 #include "common/textdata.h"
+#include "gui/clipboardbrowser.h"
 #include "gui/filedialog.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
@@ -66,7 +66,6 @@
 #include <QPaintEvent>
 #include <QPen>
 #include <QPixmap>
-#include <QPoint>
 #include <QPushButton>
 #include <QScreen>
 #include <QShortcut>
@@ -803,7 +802,7 @@ bool ScriptableProxy::showCurrentBrowser()
 void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
 {
     INVOKE2(action, (arg1, arg2));
-    m_wnd->action(arg1, arg2);
+    m_wnd->action(arg1, arg2, QModelIndex());
 }
 
 void ScriptableProxy::showMessage(const QString &title,

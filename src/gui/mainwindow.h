@@ -21,14 +21,13 @@
 #define MAINWINDOW_H
 
 #include "common/clipboardmode.h"
+#include "common/command.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/menuitems.h"
-#include "gui/notificationbutton.h"
 #include "item/persistentdisplayitem.h"
 
 #include "platform/platformnativeinterface.h"
 
-#include <QAction>
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QPointer>
@@ -46,10 +45,12 @@ class ConfigurationManager;
 class ItemFactory;
 class Notification;
 class NotificationDaemon;
+class QAction;
+class QMimeData;
 class Theme;
 class TrayMenu;
-struct Command;
 struct MainWindowOptions;
+struct NotificationButton;
 
 Q_DECLARE_METATYPE(QPersistentModelIndex)
 Q_DECLARE_METATYPE(QList<QPersistentModelIndex>)
@@ -368,7 +369,7 @@ public slots:
     Action *action(
             const QVariantMap &data,
             const Command &cmd,
-            const QModelIndex &outputIndex = QModelIndex());
+            const QModelIndex &outputIndex);
 
     void runInternalAction(Action *action);
     bool isInternalActionId(int id) const;

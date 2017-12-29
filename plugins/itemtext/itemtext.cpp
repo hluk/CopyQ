@@ -108,7 +108,7 @@ void insertEllipsis(QTextCursor *tc)
 
 } // namespace
 
-ItemText::ItemText(const QString &text, const QString &richText, int maxLines, int maxLineLength, int maximumHeight, QWidget *parent)
+ItemText::ItemText(const QString &text, const QString &richText, int maxLines, int lineLength, int maximumHeight, QWidget *parent)
     : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
@@ -152,11 +152,11 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
         }
     }
 
-    if (maxLineLength > 0) {
+    if (lineLength > 0) {
         for ( auto block = m_textDocument.begin(); block.isValid(); block = block.next() ) {
-            if ( block.length() > maxLineLength ) {
+            if ( block.length() > lineLength ) {
                 QTextCursor tc(&m_textDocument);
-                tc.setPosition(block.position() + maxLineLength);
+                tc.setPosition(block.position() + lineLength);
                 tc.setPosition(block.position() + block.length() - 1, QTextCursor::KeepAnchor);
                 insertEllipsis(&tc);
             }

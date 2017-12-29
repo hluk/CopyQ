@@ -36,17 +36,14 @@
 #include <QStyle>
 
 /*!
-    \class Utils::FancyLineEdit
-
-    \brief The FancyLineEdit class is an enhanced line edit with several
+    The FancyLineEdit class is an enhanced line edit with several
     opt-in features.
 
     A FancyLineEdit instance can have:
 
-    \list
-    \li An embedded pixmap on one side that is connected to a menu.
+    - An embedded pixmap on one side that is connected to a menu.
 
-    \li A grayed hintText (like "Type Here to")
+    - A grayed hintText (like "Type Here to")
     when not focused and empty. When connecting to the changed signals and
     querying text, one has to be aware that the text is set to that hint
     text if isShowingHintText() returns true (that is, does not contain

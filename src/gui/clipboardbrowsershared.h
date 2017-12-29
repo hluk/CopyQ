@@ -28,23 +28,18 @@
 class ItemFactory;
 
 struct ClipboardBrowserShared {
-    explicit ClipboardBrowserShared(ItemFactory *itemFactory);
-
-    void loadFromConfiguration();
-
     QString editor;
-    int maxItems;
-    bool textWrap;
-    bool viMode;
-    bool saveOnReturnKey;
-    bool moveItemOnReturnKey;
-    bool showSimpleItems;
-    int minutesToExpire;
-
-    ItemFactory *itemFactory;
-
+    int maxItems = 100;
+    bool textWrap = true;
+    bool viMode = false;
+    bool saveOnReturnKey = false;
+    bool moveItemOnReturnKey = false;
+    bool showSimpleItems = false;
+    int minutesToExpire = 0;
+    ItemFactory *itemFactory = nullptr;
     Theme theme;
 };
+
 using ClipboardBrowserSharedPtr = std::shared_ptr<ClipboardBrowserShared>;
 
 #endif // CLIPBOARDBROWSERSHARED_H

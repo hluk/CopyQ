@@ -22,7 +22,6 @@
 
 #include "gui/theme.h"
 
-#include <QHash>
 #include <QWidget>
 
 namespace Ui {

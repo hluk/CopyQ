@@ -25,11 +25,9 @@
 #include <memory>
 
 class QApplication;
-class QByteArray;
 class QCoreApplication;
 class QDir;
 class QKeyEvent;
-class QWidget;
 
 class PlatformWindow;
 class PlatformClipboard;

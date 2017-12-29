@@ -49,6 +49,7 @@
 #include "gui/icons.h"
 #include "gui/logdialog.h"
 #include "gui/notification.h"
+#include "gui/notificationbutton.h"
 #include "gui/notificationdaemon.h"
 #include "gui/tabdialog.h"
 #include "gui/tabicons.h"
@@ -367,7 +368,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_tray(nullptr)
     , m_clipboardStoringDisabled(false)
     , m_actionToggleClipboardStoring()
-    , m_sharedData(new ClipboardBrowserShared(itemFactory))
+    , m_sharedData(std::make_shared<ClipboardBrowserShared>())
     , m_lastWindow()
     , m_notifications(nullptr)
     , m_actionHandler(new ActionHandler(this))
@@ -393,6 +394,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     restoreState( mainWindowState(objectName()) );
     // NOTE: QWidget::isVisible() returns false if parent is not visible.
     m_showItemPreview = !ui->dockWidgetItemPreview->isHidden();
+
+    m_sharedData->itemFactory = itemFactory;
 
     updateIcon();
 
@@ -984,7 +987,7 @@ void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
     cmd.cmd = button.script;
     cmd.input = mimeNotificationData;
 
-    action(data, cmd);
+    action(data, cmd, QModelIndex());
 }
 
 void MainWindow::onItemWidgetCreated(const PersistentDisplayItem &item)
@@ -2218,7 +2221,14 @@ void MainWindow::loadSettings()
     m_options.hideMainWindow = appConfig.option<Config::hide_main_window>();
 
     // shared data for browsers
-    m_sharedData->loadFromConfiguration();
+    m_sharedData->editor = appConfig.option<Config::editor>();
+    m_sharedData->maxItems = appConfig.option<Config::maxitems>();
+    m_sharedData->textWrap = appConfig.option<Config::text_wrap>();
+    m_sharedData->viMode = appConfig.option<Config::vi>();
+    m_sharedData->saveOnReturnKey = !appConfig.option<Config::edit_ctrl_return>();
+    m_sharedData->moveItemOnReturnKey = appConfig.option<Config::move>();
+    m_sharedData->showSimpleItems = appConfig.option<Config::show_simple_items>();
+    m_sharedData->minutesToExpire = appConfig.option<Config::expire_tab>();
 
     reloadBrowsers();
 

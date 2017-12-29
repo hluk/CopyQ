@@ -23,21 +23,19 @@
 #include "app.h"
 #include "common/clipboardmode.h"
 #include "common/server.h"
-#include "gui/configtabshortcuts.h"
-#include "gui/mainwindow.h"
 
 #include <QMap>
-#include <QProcess>
+#include <QPointer>
 #include <QTimer>
-#include <QVariantMap>
-#include <QWidget>
 
 class Action;
 class ItemFactory;
+class MainWindow;
 class ScriptableProxy;
 class QxtGlobalShortcut;
 class QApplication;
 class QSessionManager;
+struct Command;
 
 /**
  * The application main server.

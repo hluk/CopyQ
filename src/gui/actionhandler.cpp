@@ -186,7 +186,7 @@ void ActionHandler::closeAction(Action *action)
         // Print command with line numbers.
         int lineNumber = 0;
         const auto lines = command.split("\n");
-        const auto lineNumberWidth = std::log10(lines.size()) + 1;
+        const auto lineNumberWidth = static_cast<int>(std::log10(lines.size())) + 1;
         for (const auto &line : lines)
             msg.append(QString("\n%1. %2").arg(++lineNumber, lineNumberWidth).arg(line));
 

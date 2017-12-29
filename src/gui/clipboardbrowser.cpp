@@ -853,7 +853,7 @@ void ClipboardBrowser::onEditorDestroyed()
 
 void ClipboardBrowser::onEditorSave()
 {
-    Q_ASSERT(m_editor != nullptr);
+    Q_ASSERT(!m_editor.isNull());
     m_editor->commitData(&m);
     focusEditedIndex();
     saveItems();
@@ -1745,7 +1745,7 @@ void ClipboardBrowser::updateItemWidget(const QModelIndex &index)
 
 bool ClipboardBrowser::isInternalEditorOpen() const
 {
-    return m_editor != nullptr;
+    return !m_editor.isNull();
 }
 
 bool ClipboardBrowser::isExternalEditorOpen() const

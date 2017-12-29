@@ -33,7 +33,7 @@ public:
     QLocalSocket *get() const { return m_socket; }
     QLocalSocket *operator->() const { return m_socket; }
     operator QLocalSocket*() { return m_socket; }
-    operator bool() { return m_socket != nullptr; }
+    operator bool() { return !m_socket.isNull(); }
 
     LocalSocketGuard(const LocalSocketGuard &) = delete;
     LocalSocketGuard &operator=(const LocalSocketGuard &) = delete;
