@@ -159,6 +159,16 @@ void ClipboardServer::stopMonitoring()
 
     disconnect( m_monitor, SIGNAL(destroyed()),
                 this, SLOT(onMonitorFinished()) );
+
+    for (auto it = m_clients.constBegin(); it != m_clients.constEnd(); ++it) {
+        const auto actionId = it.value().proxy->actionId();
+        if ( actionId == m_monitor->id() ) {
+            const auto client = it.key();
+            client->sendMessage(QByteArray(), CommandFinished);
+            break;
+        }
+    }
+
     m_monitor->terminate();
     m_monitor = nullptr;
 
