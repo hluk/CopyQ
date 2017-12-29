@@ -155,10 +155,10 @@ void ActionHandler::closeAction(Action *action)
     QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information;
 
     if ( action->actionFailed() ) {
-        msg = tr("Error: %1\n").arg(action->errorString()) + action->errorOutput();
+        msg = tr("Error: %1").arg(action->errorString());
         icon = QSystemTrayIcon::Critical;
     } else if ( action->exitCode() != 0 ) {
-        msg = tr("Exit code: %1\n").arg(action->exitCode()) + "\n" + action->errorOutput();
+        msg = tr("Exit code: %1").arg(action->exitCode());
         icon = QSystemTrayIcon::Warning;
     } else if ( !action->inputFormats().isEmpty() ) {
         const QModelIndex index = action->index();
@@ -173,6 +173,9 @@ void ActionHandler::closeAction(Action *action)
     }
 
     if ( !msg.isEmpty() ) {
+        if ( !action->errorOutput().isEmpty() )
+            msg.append( "\n" + action->errorOutput() );
+
         const int maxWidthPoints =
                 AppConfig().option<Config::notification_maximum_width>();
         const QString command = action->command()
