@@ -18,7 +18,7 @@
 */
 
 #include "common/sleeptimer.h"
-#include "clipboardspy.h"
+#include "gui/clipboardspy.h"
 #include "platform/platformcommon.h"
 #include "x11platformwindow.h"
 #include "x11displayguard.h"
@@ -272,9 +272,9 @@ void X11PlatformWindow::pasteClipboard()
 
 void X11PlatformWindow::copy()
 {
-    ClipboardSpy spy;
+    ClipboardSpy spy(ClipboardMode::Clipboard);
     sendKeyPress(XK_Control_L, XK_C);
-    spy.wait(2000);
+    spy.wait();
 }
 
 bool X11PlatformWindow::isValid() const

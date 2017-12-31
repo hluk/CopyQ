@@ -46,6 +46,7 @@ HEADERS += \
     gui/clipboardbrowser.h \
     gui/clipboardbrowserplaceholder.h \
     gui/clipboarddialog.h \
+    gui/clipboardspy.h \
     gui/commandwidget.h \
     gui/configtabappearance.h \
     gui/configtabshortcuts.h \
@@ -147,6 +148,7 @@ SOURCES += \
     gui/clipboardbrowser.cpp \
     gui/clipboardbrowserplaceholder.cpp \
     gui/clipboarddialog.cpp \
+    gui/clipboardspy.cpp \
     gui/commandwidget.cpp \
     gui/configtabappearance.cpp \
     gui/configtabshortcuts.cpp \

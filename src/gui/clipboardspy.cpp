@@ -21,24 +21,43 @@
 
 #include <QApplication>
 #include <QClipboard>
-#include <QElapsedTimer>
+#include <QTimer>
 
-ClipboardSpy::ClipboardSpy()
-    : m_clipboardChanged(false)
+namespace {
+
+void connectClipboardSignal(ClipboardMode mode, QObject *receiver, const char *slot)
 {
-    connect( QApplication::clipboard(), SIGNAL(dataChanged()),
-             this, SLOT(clipboardChanged()) );
+    const auto signal = mode == ClipboardMode::Clipboard
+            ? SIGNAL(dataChanged())
+            : SIGNAL(selectionChanged());
+    QObject::connect( QApplication::clipboard(), signal, receiver, slot );
+}
+
+} // namespace
+
+ClipboardSpy::ClipboardSpy(ClipboardMode mode)
+    : m_mode(mode)
+{
+    connectClipboardSignal(mode, this, SLOT(onChanged()));
 }
 
 void ClipboardSpy::wait(int ms)
 {
-    QElapsedTimer t;
+    if (m_changed)
+        return;
+
+    QEventLoop loop;
+    connectClipboardSignal(m_mode, &loop, SLOT(quit()));
+
+    QTimer t;
+    t.setInterval(ms);
+    connect( &t, SIGNAL(timeout()), &loop, SLOT(quit()) );
+
     t.start();
-    while ( !m_clipboardChanged && t.elapsed() < ms )
-        QApplication::processEvents(QEventLoop::AllEvents, 100);
+    loop.exec();
 }
 
-void ClipboardSpy::clipboardChanged()
+void ClipboardSpy::onChanged()
 {
-    m_clipboardChanged = true;
+    m_changed = true;
 }

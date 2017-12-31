@@ -20,22 +20,25 @@
 #ifndef CLIPBOARDSPY_H
 #define CLIPBOARDSPY_H
 
+#include "common/clipboardmode.h"
+
 #include <QObject>
 
 class ClipboardSpy : public QObject
 {
     Q_OBJECT
 public:
-    ClipboardSpy();
+    explicit ClipboardSpy(ClipboardMode mode);
 
-    /// Actively wait for clipboard to change.
-    void wait(int ms);
+    /// Actively wait for clipboard/selection to change.
+    void wait(int ms = 2000);
 
 private slots:
-    void clipboardChanged();
+    void onChanged();
 
 private:
-    bool m_clipboardChanged;
+    ClipboardMode m_mode;
+    bool m_changed = false;
 };
 
 #endif // CLIPBOARDSPY_H

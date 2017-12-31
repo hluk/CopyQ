@@ -39,6 +39,7 @@
 #include "gui/clipboardbrowserplaceholder.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/clipboarddialog.h"
+#include "gui/clipboardspy.h"
 #include "gui/commandaction.h"
 #include "gui/commanddialog.h"
 #include "gui/configurationmanager.h"
@@ -2724,16 +2725,16 @@ void MainWindow::previousTab()
 
 void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
-    // Set clipboard directly so it's immediatelly available.
-    // move to subprocess so it GUI don't have to provide huge clipboard data.
-    createPlatformNativeInterface()->clipboard()->setData(mode, data);
-
     const auto argument = mode == ClipboardMode::Clipboard
             ? "provideClipboard" : "provideSelection";
     auto act = new Action();
     act->setCommand(QStringList() << "copyq" << argument);
     act->setData(data);
+
+    // Wait for clipboard/selection change.
+    ClipboardSpy spy(mode);
     runInternalAction(act);
+    spy.wait();
 }
 
 void MainWindow::setClipboard(const QVariantMap &data)
