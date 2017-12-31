@@ -319,7 +319,7 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     QStringList lines = text.split('\n');
 
     // Ignore empty lines at beginning.
-    const QRegExp reNonEmpty("\\S");
+    const QRegExp reNonEmpty(".*\\S.*");
     const int firstLine = qMax(0, lines.indexOf(reNonEmpty));
     const int lastLine = qMax(0, lines.lastIndexOf(reNonEmpty, firstLine + maxLines - 1));
 
