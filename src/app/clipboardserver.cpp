@@ -418,6 +418,13 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
         return true;
     }
 
+    if ( type == QEvent::KeyPress
+         || type == QEvent::Shortcut
+         || type == QEvent::ShortcutOverride )
+    {
+        m_wnd->updateShortcuts();
+    }
+
     // Close menu on Escape key and give focus back to search edit or browser.
     if (type == QEvent::KeyPress) {
         QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);

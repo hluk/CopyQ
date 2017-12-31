@@ -456,6 +456,8 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
             setFocus();
             maybeEmitEditingFinished();
         }
+
+        emit internalEditorStateChanged(this);
     }
 
     setFocusProxy(m_editor);
@@ -470,8 +472,6 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
     }
     setVerticalScrollBarPolicy(scrollbarPolicy);
     setHorizontalScrollBarPolicy(scrollbarPolicy);
-
-    emit updateContextMenu(this);
 }
 
 void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes, bool changeClipboard)
@@ -555,9 +555,9 @@ void ClipboardBrowser::connectModelAndDelegate()
     // Save on change
     connect( &m, SIGNAL(rowsInserted(QModelIndex,int,int)),
              SLOT(delayedSaveItems()) );
-    connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
+    connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              SLOT(delayedSaveItems()) );
-    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex,int,int,QModelIndex,int)),
+    connect( &m, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
              SLOT(delayedSaveItems()) );
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(delayedSaveItems()) );
@@ -814,8 +814,7 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
 
 void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
 {
-    if (!isInternalEditorOpen())
-        emit updateContextMenu(this);
+    emit itemsChanged(this);
 }
 
 void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int last)
@@ -939,7 +938,7 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
         d.setItemWidgetSelected(index, true);
     for ( auto index : deselected.indexes() )
         d.setItemWidgetSelected(index, false);
-    emit updateContextMenu(this);
+    emit selectionChanged(this);
 }
 
 void ClipboardBrowser::focusInEvent(QFocusEvent *event)
@@ -1610,10 +1609,13 @@ void ClipboardBrowser::moveToClipboard()
 
 void ClipboardBrowser::delayedSaveItems()
 {
-    if ( !isLoaded() || tabName().isEmpty() || m_timerSave.isActive() )
+    if ( !isLoaded() || tabName().isEmpty() )
         return;
 
-    m_timerSave.start();
+    if ( !m_timerSave.isActive() )
+        m_timerSave.start();
+
+    emit itemsChanged(this);
 }
 
 void ClipboardBrowser::updateSizes()

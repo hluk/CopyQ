@@ -299,7 +299,11 @@ class ClipboardBrowser : public QListView
 
         void showContextMenu(const QPoint &position);
 
-        void updateContextMenu(const ClipboardBrowser *self);
+        void itemsChanged(const ClipboardBrowser *self);
+
+        void selectionChanged(const ClipboardBrowser *self);
+
+        void internalEditorStateChanged(const ClipboardBrowser *self);
 
         void searchRequest();
         void searchHideRequest();

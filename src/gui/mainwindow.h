@@ -425,6 +425,8 @@ public slots:
 
     void hideSearchBar();
 
+    void updateShortcuts();
+
 #ifdef HAS_TESTS
     /**
      * Send key clicks to currently focused widget.
@@ -494,7 +496,6 @@ protected:
 private slots:
     ClipboardBrowser *getTabForMenu();
     ClipboardBrowser *getTabForTrayMenu();
-    void updateTrayMenuItems();
     void addMenuItems(const QString &searchText);
     void addTrayMenuItems(const QString &searchText);
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
@@ -520,6 +521,8 @@ private slots:
 
     void updateContextMenuTimeout();
 
+    void updateTrayMenuTimeout();
+
     void updateItemPreview();
     void setItemPreviewVisible(bool visible);
 
@@ -539,8 +542,6 @@ private slots:
 
     void showContextMenu(QPoint position);
 
-    void updateContextMenu(const ClipboardBrowser *browser);
-
     void nextItemFormat();
     void previousItemFormat();
 
@@ -550,6 +551,10 @@ private slots:
     void moveToBottom();
 
     void onBrowserCreated(ClipboardBrowser *browser);
+
+    void onSelectionChanged(const ClipboardBrowser *browser);
+    void onItemsChanged(const ClipboardBrowser *browser);
+    void onInternalEditorStateChanged(const ClipboardBrowser *self);
 
     void onNotificationButtonClicked(const NotificationButton &button);
 
@@ -586,7 +591,9 @@ private:
     /** Create context menu for @a tab. It will be automatically deleted after closed. */
     void popupTabBarMenu(QPoint pos, const QString &tab);
 
-    void updateContextMenu();
+    void updateContextMenu(int intervalMsec);
+
+    void updateTrayMenu();
 
     void updateNotifications();
 
@@ -693,6 +700,7 @@ private:
 
     QTimer m_timerUpdateFocusWindows;
     QTimer m_timerUpdateContextMenu;
+    QTimer m_timerUpdateTrayMenu;
     QTimer m_timerShowWindow;
     QTimer m_timerTrayAvailable;
     QTimer m_timerTrayIconSnip;

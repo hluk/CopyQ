@@ -93,6 +93,9 @@
 
 namespace {
 
+const int contextMenuUpdateInvervalMsec = 250;
+const int trayMenuUpdateInvervalMsec = 2000;
+
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 const QIcon iconTabIcon() { return getIconFromResources("tab_icon"); }
 const QIcon iconTabNew() { return getIconFromResources("tab_new"); }
@@ -451,6 +454,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     initSingleShotTimer( &m_timerUpdateFocusWindows, 50, this, SLOT(updateFocusWindows()) );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
+    initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateInvervalMsec, this, SLOT(updateTrayMenuTimeout()) );
     initSingleShotTimer( &m_timerShowWindow, 250 );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
     initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
@@ -681,7 +685,7 @@ void MainWindow::popupTabBarMenu(QPoint pos, const QString &tab)
     }
 }
 
-void MainWindow::updateContextMenu()
+void MainWindow::updateContextMenu(int intervalMsec)
 {
     m_itemMenuMatchCommands = MenuMatchCommands();
 
@@ -696,7 +700,13 @@ void MainWindow::updateContextMenu()
     ui->toolBar->setUpdatesEnabled(false);
     ui->toolBar->setEnabled(false);
 
-    m_timerUpdateContextMenu.start();
+    m_timerUpdateContextMenu.start(intervalMsec);
+}
+
+void MainWindow::updateTrayMenu()
+{
+    if ( !m_timerUpdateTrayMenu.isActive() )
+        m_timerUpdateTrayMenu.start();
 }
 
 void MainWindow::updateIcon()
@@ -813,7 +823,7 @@ void MainWindow::onAboutToQuit()
 void MainWindow::onCommandDialogSaved()
 {
     updateCommands();
-    updateContextMenu();
+    updateContextMenu(contextMenuUpdateInvervalMsec);
     emit commandsSaved();
 }
 
@@ -903,12 +913,6 @@ void MainWindow::showContextMenu(QPoint position)
     m_menuItem->exec(position);
 }
 
-void MainWindow::updateContextMenu(const ClipboardBrowser *browser)
-{
-    if ( browser == getPlaceholder()->browser() )
-        updateContextMenu();
-}
-
 void MainWindow::nextItemFormat()
 {
     auto c = browser();
@@ -965,14 +969,38 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              ui->tabWidget, SLOT(setTabItemCount(QString,int)) );
     connect( browser, SIGNAL(showContextMenu(QPoint)),
              this, SLOT(showContextMenu(QPoint)) );
-    connect( browser, SIGNAL(updateContextMenu(const ClipboardBrowser*)),
-             this, SLOT(updateContextMenu(const ClipboardBrowser*)) );
+    connect( browser, SIGNAL(selectionChanged(const ClipboardBrowser*)),
+             this, SLOT(onSelectionChanged(const ClipboardBrowser*)) );
+    connect( browser, SIGNAL(itemsChanged(const ClipboardBrowser*)),
+             this, SLOT(onItemsChanged(const ClipboardBrowser*)) );
+    connect( browser, SIGNAL(internalEditorStateChanged(const ClipboardBrowser*)),
+             this, SLOT(onInternalEditorStateChanged(const ClipboardBrowser*)) );
     connect( browser, SIGNAL(searchRequest()),
              this, SLOT(findNextOrPrevious()) );
     connect( browser, SIGNAL(searchHideRequest()),
              this, SLOT(hideSearchBar()) );
     connect( browser, SIGNAL(itemWidgetCreated(PersistentDisplayItem)),
              this, SLOT(onItemWidgetCreated(PersistentDisplayItem)) );
+}
+
+void MainWindow::onSelectionChanged(const ClipboardBrowser *browser)
+{
+    if (browser == this->browser())
+        updateContextMenu(0);
+}
+
+void MainWindow::onItemsChanged(const ClipboardBrowser *browser)
+{
+    if (browser == this->browser())
+        updateContextMenu(contextMenuUpdateInvervalMsec);
+    if (browser == getTabForTrayMenu())
+        updateTrayMenu();
+}
+
+void MainWindow::onInternalEditorStateChanged(const ClipboardBrowser *browser)
+{
+    if (browser == this->browser())
+        updateContextMenu(contextMenuUpdateInvervalMsec);
 }
 
 void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
@@ -1047,8 +1075,8 @@ int MainWindow::findTabIndexExactMatch(const QString &name)
 void MainWindow::setClipboardData(const QVariantMap &data)
 {
     m_clipboardData = data;
-    updateContextMenu();
-    updateTrayMenuItems();
+    updateContextMenu(contextMenuUpdateInvervalMsec);
+    updateTrayMenu();
 }
 
 void MainWindow::setFilter(const QString &text)
@@ -2245,7 +2273,7 @@ void MainWindow::loadSettings()
 
     m_timerSaveTabPositions.stop();
 
-    updateContextMenu();
+    updateContextMenu(contextMenuUpdateInvervalMsec);
 
     m_options.itemActivationCommands = ActivateNoCommand;
     if ( appConfig.option<Config::activate_closes>() )
@@ -2268,7 +2296,7 @@ void MainWindow::loadSettings()
     m_menu->setStyleSheet( theme().getToolTipStyleSheet() );
 
     initTray();
-    updateTrayMenuItems();
+    updateTrayMenu();
 
     if (m_notifications != nullptr)
         updateNotifications();
@@ -2474,10 +2502,10 @@ void MainWindow::tabChanged(int current, int)
         }
     }
 
-    updateContextMenu();
+    updateContextMenu(0);
 
     if (m_options.trayCurrentTab)
-        updateTrayMenuItems();
+        updateTrayMenu();
 }
 
 void MainWindow::saveTabPositions()
@@ -2598,9 +2626,9 @@ void MainWindow::setCommands(const QVector<Command> &commands)
 
     saveCommands(commands);
     updateCommands();
-    updateContextMenu();
+    updateContextMenu(contextMenuUpdateInvervalMsec);
     if (m_options.trayCommands)
-        updateTrayMenuItems();
+        updateTrayMenu();
     emit commandsSaved();
 }
 
@@ -2870,6 +2898,14 @@ void MainWindow::hideSearchBar()
     ui->searchBar->clear();
 }
 
+void MainWindow::updateShortcuts()
+{
+    if ( m_timerUpdateContextMenu.isActive() ) {
+        m_timerUpdateContextMenu.stop();
+        updateContextMenuTimeout();
+    }
+}
+
 void MainWindow::findNextOrPrevious()
 {
     if (browseMode()) {
@@ -2912,8 +2948,14 @@ void MainWindow::enterSearchMode(const QString &txt)
     ui->searchBar->setText( ui->searchBar->text() + txt );
 }
 
-void MainWindow::updateTrayMenuItems()
+void MainWindow::updateTrayMenuTimeout()
 {
+    // Update tray only if not currently visible.
+    if ( m_trayMenu->isVisible() ) {
+        updateTrayMenu();
+        return;
+    }
+
     WidgetSizeGuard sizeGuard(m_trayMenu);
 
     m_trayMenuMatchCommands = MenuMatchCommands();
