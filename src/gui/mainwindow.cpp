@@ -2601,7 +2601,6 @@ void MainWindow::setCommands(const QVector<Command> &commands)
     updateContextMenu();
     if (m_options.trayCommands)
         updateTrayMenuItems();
-    updateContextMenu();
     emit commandsSaved();
 }
 
