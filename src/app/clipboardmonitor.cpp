@@ -168,8 +168,10 @@ void ClipboardMonitor::runAutomaticCommands()
         clipboardData->runAutomaticCommands = false;
         auto &data = clipboardData->lastData;
 
-        if ( ownsClipboardData(data) || isClipboardDataHidden(data) ) {
-            emit runScriptRequest("updateTitle(); showDataNotification()", data);
+        if ( ownsClipboardData(data) ) {
+            emit runScriptRequest("onOwnClipboardChanged()", data);
+        } else if ( isClipboardDataHidden(data) ) {
+            emit runScriptRequest("onHiddenClipboardChanged()", data);
         } else {
             setTextData(&data, defaultTabName(), mimeCurrentTab);
 

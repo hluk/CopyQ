@@ -2170,21 +2170,24 @@ QScriptValue Scriptable::iconTagColor()
 void Scriptable::onClipboardChanged()
 {
     eval(R"(
-    if (isClipboard()) {
-        setTitle();
-        showDataNotification();
-    }
-
     if (runAutomaticCommands()) {
         synchronizeSelection();
         saveData();
-        if (isClipboard()) {
-            updateTitle();
-            showDataNotification();
-        }
-        setClipboardData();
+        updateClipboardData();
+    } else {
+        clearClipboardData();
     }
     )");
+}
+
+void Scriptable::onOwnClipboardChanged()
+{
+    eval("updateClipboardData()");
+}
+
+void Scriptable::onHiddenClipboardChanged()
+{
+    eval("updateClipboardData()");
 }
 
 void Scriptable::setClipboardData()
@@ -2234,6 +2237,32 @@ void Scriptable::saveData()
 void Scriptable::showDataNotification()
 {
     m_proxy->showDataNotification(m_data);
+}
+
+void Scriptable::hideDataNotification()
+{
+    m_proxy->showDataNotification(QVariantMap());
+}
+
+void Scriptable::updateClipboardData()
+{
+    eval(R"(
+    if (isClipboard()) {
+        updateTitle();
+        showDataNotification();
+        setClipboardData();
+    }
+    )");
+}
+
+void Scriptable::clearClipboardData()
+{
+    eval(R"(
+    if (isClipboard()) {
+        setTitle();
+        hideDataNotification();
+    }
+    )");
 }
 
 QScriptValue Scriptable::runAutomaticCommands()

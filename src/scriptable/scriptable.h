@@ -326,12 +326,18 @@ public slots:
     QScriptValue iconTagColor();
 
     void onClipboardChanged();
+    void onOwnClipboardChanged();
+    void onHiddenClipboardChanged();
+
     void setClipboardData();
     void updateTitle();
     void setTitle();
     void synchronizeSelection();
     void saveData();
     void showDataNotification();
+    void hideDataNotification();
+    void updateClipboardData();
+    void clearClipboardData();
     QScriptValue runAutomaticCommands();
 
     void runDisplayCommands();

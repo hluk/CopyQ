@@ -858,21 +858,74 @@ omitted.
 
    Called when clipboard or X11 selection changes.
 
-   By default clears title and notification for clipboard and executes
-   automatic commands.  If the commands don't call `ignore()` or have "Remove
-   Item" or "Transform" check box enabled, following functions are called:
+   Default implementation is:
 
-   - `synchronizeSelection()`
-   - `saveData()`
-   - `updateTitle()` (only for clipboard)
-   - `showDataNotification()` (only for clipboard)
-   - `setClipboardData()`
+   .. code-block:: js
+
+       if (runAutomaticCommands()) {
+           synchronizeSelection();
+           saveData();
+           updateClipboardData();
+       } else {
+           clearClipboardData();
+       }
+
+.. js:function:: onOwnClipboardChanged()
+
+   Called when clipboard or X11 selection changes by a CopyQ instance.
+
+   Owned clipboard data contains ``mimeOwner`` format.
+
+   Default implementation calls ``updateClipboardData()``.
+
+.. js:function:: onHiddenClipboardChanged()
+
+   Called when hidden clipboard or X11 selection changes.
+
+   Hidden clipboard data contains ``mimeHidden`` format set to ``1``.
+
+   Default implementation calls ``updateClipboardData()``.
+
+.. js:function:: runAutomaticCommands()
+
+   Executes automatic commands on current data.
+
+   If an executed command calls ``ignore()`` or have "Remove Item" or "Transform"
+   check box enabled, following automatic commands won't be executed and the
+   function returns false. Otherwise true is returned.
 
 .. js:function:: updateTitle()
 
    Update main window title and tool tip from current data.
 
    Called when clipboard changes.
+
+.. js:function:: updateClipboardData()
+
+   Sets current clipboard data for tray menu, window title and notification.
+
+   Default implementation is:
+
+   .. code-block:: js
+
+       if (isClipboard()) {
+           updateTitle();
+           showDataNotification();
+           setClipboardData();
+       }
+
+.. js:function:: updateClipboardData()
+
+   Clears current clipboard data for tray menu, window title and notification.
+
+   Default implementation is:
+
+   .. code-block:: js
+
+       if (isClipboard()) {
+           setTitle();
+           hideDataNotification();
+       }
 
 .. js:function:: setTitle([title])
 
@@ -890,6 +943,10 @@ omitted.
 .. js:function:: showDataNotification()
 
    Show notification for current data.
+
+.. js:function:: hideDataNotification()
+
+   Hide notification for current data.
 
 .. js:function:: setClipboardData()
 
