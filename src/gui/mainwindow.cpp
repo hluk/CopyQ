@@ -404,8 +404,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     // signals & slots
     connect( m_trayMenu, SIGNAL(aboutToShow()),
-             this, SLOT(updateTrayMenuItems()), Qt::QueuedConnection );
-    connect( m_trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateFocusWindows()) );
     connect( m_trayMenu, SIGNAL(searchRequest(QString)),
              this, SLOT(addTrayMenuItems(QString)) );
@@ -2689,7 +2687,7 @@ bool MainWindow::setMenuItemEnabled(int actionId, int menuItemMatchCommandIndex,
                 }
             }
         }
-    } else if ( actionId == m_itemMenuMatchCommands.actionId && !m_menuItem->isVisible() ) {
+    } else if ( actionId == m_trayMenuMatchCommands.actionId || !m_menuItem->isVisible() ) {
         action->deleteLater();
     }
 
