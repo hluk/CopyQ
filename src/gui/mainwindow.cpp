@@ -721,12 +721,12 @@ void MainWindow::updateContextMenuTimeout()
 {
     updateItemPreview();
 
-    if ( ui->tabWidget->isTabGroupSelected() )
-        return;
-
     auto c = getPlaceholder()->createBrowser();
-    if ( !c || c->isInternalEditorOpen())
+    if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
+        ui->toolBar->clear();
+        ui->toolBar->setUpdatesEnabled(true);
         return;
+    }
 
     setDisabledShortcuts(QList<QKeySequence>());
 
