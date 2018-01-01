@@ -33,7 +33,7 @@ class TemporaryFileClass : public ScriptableClass<QTemporaryFile, TemporaryFileP
 {
     Q_OBJECT
 public:
-    explicit TemporaryFileClass(QScriptEngine *engine);
+    TemporaryFileClass(QScriptEngine *engine, const QScriptValue &objectPrototype);
 
     QScriptValue newInstance(const QString &templateName);
     QScriptValue newInstance();

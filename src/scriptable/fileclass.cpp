@@ -23,8 +23,8 @@
 
 COPYQ_DECLARE_SCRIPTABLE_CLASS(FileClass)
 
-FileClass::FileClass(QScriptEngine *engine)
-    : ScriptableClass(engine)
+FileClass::FileClass(QScriptEngine *engine, const QScriptValue &objectPrototype)
+    : ScriptableClass(engine, objectPrototype)
 {
 }
 

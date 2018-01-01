@@ -56,14 +56,13 @@ QScriptValue ScriptableClassBase::newInstance(QObject *instance)
     return engine()->newObject(this, data);
 }
 
-void ScriptableClassBase::init(QObject *prototype)
+void ScriptableClassBase::init(QObject *prototype, const QScriptValue &objectPrototype)
 {
     proto = engine()->newQObject(
                 prototype,
                 QScriptEngine::QtOwnership,
                 QScriptEngine::SkipMethodsInEnumeration);
-    QScriptValue global = engine()->globalObject();
-    proto.setPrototype(global.property("Object").property("prototype"));
+    proto.setPrototype(objectPrototype);
 
     ctor = engine()->newFunction(construct, proto);
     ctor.setData(engine()->toScriptValue(this));

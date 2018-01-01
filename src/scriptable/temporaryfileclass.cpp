@@ -24,8 +24,8 @@
 
 COPYQ_DECLARE_SCRIPTABLE_CLASS(TemporaryFileClass)
 
-TemporaryFileClass::TemporaryFileClass(QScriptEngine *engine)
-    : ScriptableClass(engine)
+TemporaryFileClass::TemporaryFileClass(QScriptEngine *engine, const QScriptValue &objectPrototype)
+    : ScriptableClass(engine, objectPrototype)
 {
 }
 

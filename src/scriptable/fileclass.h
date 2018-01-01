@@ -34,7 +34,7 @@ class FileClass : public ScriptableClass<QFile, FilePrototype>
 {
     Q_OBJECT
 public:
-    explicit FileClass(QScriptEngine *engine);
+    FileClass(QScriptEngine *engine, const QScriptValue &objectPrototype);
 
     QScriptValue newInstance(const QString &path);
     QScriptValue newInstance();

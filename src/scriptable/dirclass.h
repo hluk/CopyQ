@@ -33,7 +33,7 @@ class DirClass : public ScriptableClass<DirWrapper, DirPrototype>
 {
     Q_OBJECT
 public:
-    explicit DirClass(QScriptEngine *engine);
+    DirClass(QScriptEngine *engine, const QScriptValue &objectPrototype);
 
     QScriptValue newInstance(const QDir &dir);
     QScriptValue newInstance(const QString &path);

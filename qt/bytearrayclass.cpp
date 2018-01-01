@@ -73,7 +73,7 @@ private:
 };
 
 //! [0]
-ByteArrayClass::ByteArrayClass(QScriptEngine *engine)
+ByteArrayClass::ByteArrayClass(QScriptEngine *engine, const QScriptValue &objectPrototype)
     : QObject(engine), QScriptClass(engine)
 {
     qScriptRegisterMetaType<QByteArray>(engine, toScriptValue, fromScriptValue);
@@ -85,8 +85,7 @@ ByteArrayClass::ByteArrayClass(QScriptEngine *engine)
                                QScriptEngine::SkipMethodsInEnumeration
                                | QScriptEngine::ExcludeSuperClassMethods
                                | QScriptEngine::ExcludeSuperClassProperties);
-    QScriptValue global = engine->globalObject();
-    proto.setPrototype(global.property("Object").property("prototype"));
+    proto.setPrototype(objectPrototype);
 
     ctor = engine->newFunction(construct, proto);
     ctor.setData(engine->toScriptValue(this));

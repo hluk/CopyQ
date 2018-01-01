@@ -535,21 +535,24 @@ Scriptable::Scriptable(
     QScriptValue obj = m_engine->newQObject(this, QScriptEngine::QtOwnership, opts);
 
     // Keep internal functions as parseInt() or encodeURIComponent().
-    obj.setPrototype( m_engine->globalObject() );
+    const auto oldObj = m_engine->globalObject();
+    obj.setPrototype(oldObj);
 
     m_engine->setGlobalObject(obj);
     m_engine->setProcessEventsInterval(1000);
 
-    m_baClass = new ByteArrayClass(m_engine);
+    const auto objectPrototype = oldObj.property("Object").property("prototype");
+
+    m_baClass = new ByteArrayClass(m_engine, objectPrototype);
     addScriptableClass(&obj, m_baClass);
 
-    m_fileClass = new FileClass(m_engine);
+    m_fileClass = new FileClass(m_engine, objectPrototype);
     addScriptableClass(&obj, m_fileClass);
 
-    m_temporaryFileClass = new TemporaryFileClass(m_engine);
+    m_temporaryFileClass = new TemporaryFileClass(m_engine, objectPrototype);
     addScriptableClass(&obj, m_temporaryFileClass);
 
-    m_dirClass = new DirClass(m_engine);
+    m_dirClass = new DirClass(m_engine, objectPrototype);
     addScriptableClass(&obj, m_dirClass);
 }
 

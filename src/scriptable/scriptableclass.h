@@ -45,7 +45,7 @@ public:
     QScriptValue newInstance(QObject *instance);
 
 protected:
-    void init(QObject *prototype);
+    void init(QObject *prototype, const QScriptValue &objectPrototype);
 
     static QScriptValue toScriptValue(QScriptEngine *eng, QObject* const &instance);
 
@@ -60,11 +60,11 @@ class ScriptableClass : public ScriptableClassBase
 public:
     using ScriptableValueType = Object;
 
-    explicit ScriptableClass(QScriptEngine *engine)
+    ScriptableClass(QScriptEngine *engine, const QScriptValue &objectPrototype)
         : ScriptableClassBase(engine)
     {
         qScriptRegisterMetaType<Object*>(engine, toScriptValue, fromScriptValue);
-        init(new ObjectPrototype(this));
+        init(new ObjectPrototype(this), objectPrototype);
     }
 
 private:
