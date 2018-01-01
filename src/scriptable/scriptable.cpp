@@ -535,12 +535,7 @@ Scriptable::Scriptable(
     QScriptValue obj = m_engine->newQObject(this, QScriptEngine::QtOwnership, opts);
 
     // Keep internal functions as parseInt() or encodeURIComponent().
-    QScriptValue oldObj = m_engine->globalObject();
-    QScriptValueIterator it(oldObj);
-    while (it.hasNext()) {
-        it.next();
-        obj.setProperty(it.name(), it.value(), it.flags());
-    }
+    obj.setPrototype( m_engine->globalObject() );
 
     m_engine->setGlobalObject(obj);
     m_engine->setProcessEventsInterval(1000);
