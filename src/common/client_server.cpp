@@ -34,20 +34,6 @@ QString serverName(const QString &name)
     const QString appName = QCoreApplication::applicationName().toLower();
 
 #ifdef Q_OS_UNIX
-    // Compatibility with version 2.4.6 and below: An older version of app can
-    // be still running after upgrade so check if old socket file exists.
-    const QString oldSocketName = appName + "_" + qgetenv("USER") + "_" + name;
-    const QStringList tmpDirs = QStringList()
-            << QString::fromUtf8(qgetenv("TMPDIR"))
-            << QString("/tmp");
-    for (const auto &tmpDir : tmpDirs) {
-        if (!tmpDir.isEmpty()) {
-            const QString oldSocketPath = tmpDir + "/" + oldSocketName;
-            if (QFile::exists(oldSocketPath))
-                return oldSocketPath;
-        }
-    }
-
     const QString socketPath = settingsDirectoryPath();
     QDir(socketPath).mkpath(".");
 
