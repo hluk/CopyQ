@@ -1857,6 +1857,8 @@ QScriptValue Scriptable::execute()
 {
     m_skipArguments = -1;
 
+    m_executeStdoutData.clear();
+    m_executeStdoutLastLine.clear();
     m_executeStdoutCallback = QScriptValue();
 
     // Pass all arguments until null to command. The rest will be sent to stdin.
@@ -1882,24 +1884,28 @@ QScriptValue Scriptable::execute()
             action.setInput( action.input() + makeByteArray(arg) );
     }
 
-    if ( m_executeStdoutCallback.isFunction() ) {
-        action.setItemSeparator(QRegExp("\n"));
-        action.setOutputFormat(mimeText);
-        connect( &action, SIGNAL(newItems(QStringList,QString,QString)),
-                 this, SLOT(onExecuteOutput(QStringList)) );
-    } else {
-        action.setOutputFormat("DATA");
-    }
-
     action.setCommand(args);
+    action.setReadOutput(true);
+
+    connect( &action, SIGNAL(actionOutput(QByteArray)),
+             this, SLOT(onExecuteOutput(QByteArray)) );
 
     if ( !runAction(&action) || action.actionFailed() )
         return QScriptValue();
 
+    if ( m_executeStdoutCallback.isFunction() ) {
+        const auto arg = toScriptValue(m_executeStdoutLastLine, this);
+        m_executeStdoutCallback.call( QScriptValue(), QScriptValueList() << arg );
+    }
+
     QScriptValue actionResult = m_engine->newObject();
-    actionResult.setProperty( "stdout", newByteArray(action.outputData()) );
+    actionResult.setProperty( "stdout", newByteArray(m_executeStdoutData) );
     actionResult.setProperty( "stderr", action.errorOutput() );
     actionResult.setProperty( "exit_code", action.exitCode() );
+
+    m_executeStdoutData.clear();
+    m_executeStdoutLastLine.clear();
+    m_executeStdoutCallback = QScriptValue();
 
     return actionResult;
 }
@@ -2314,11 +2320,18 @@ void Scriptable::onDisconnected()
     abort();
 }
 
-void Scriptable::onExecuteOutput(const QStringList &lines)
+void Scriptable::onExecuteOutput(const QByteArray &output)
 {
+    m_executeStdoutData.append(output);
+
     if ( m_executeStdoutCallback.isFunction() ) {
-        const auto arg = toScriptValue(lines, this);
-        m_executeStdoutCallback.call( QScriptValue(), QScriptValueList() << arg );
+        m_executeStdoutLastLine.append( getTextData(output) );
+        auto lines = m_executeStdoutLastLine.split('\n');
+        m_executeStdoutLastLine = lines.takeLast();
+        if ( !lines.isEmpty() ) {
+            const auto arg = toScriptValue(lines, this);
+            m_executeStdoutCallback.call( QScriptValue(), QScriptValueList() << arg );
+        }
     }
 }
 
@@ -2729,11 +2742,13 @@ bool Scriptable::runCommands(CommandType::CommandType type)
             Action action;
             action.setCommand( command.cmd, QStringList(getTextData(m_data)) );
             action.setInput(m_data, command.input);
-            action.setOutputFormat(command.output);
-            action.setItemSeparator(QRegExp(command.sep));
-            action.setOutputTab(command.outputTab);
             action.setName(command.name);
             action.setData(m_data);
+
+            // FIXME: Handle automatic and display command output.
+            //action.setOutputFormat(command.output);
+            //action.setItemSeparator(QRegExp(command.sep));
+            //action.setOutputTab(command.outputTab);
 
             if ( !runAction(&action) && m_connected ) {
                 throwError( QString(label).arg(command.name, "Failed to start") );

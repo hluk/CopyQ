@@ -33,6 +33,7 @@ HEADERS += \
     app/clipboardmonitor.h \
     app/clipboardserver.h \
     common/action.h \
+    common/actionoutput.h \
     common/client_server.h \
     common/clientsocket.h \
     common/command.h \
@@ -132,6 +133,7 @@ SOURCES += \
     app/clipboardmonitor.cpp \
     app/clipboardserver.cpp \
     common/action.cpp \
+    common/actionoutput.cpp \
     common/client_server.cpp \
     common/clientsocket.cpp \
     common/common.cpp \

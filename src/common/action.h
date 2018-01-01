@@ -84,8 +84,6 @@ public:
     /** Return human-readable name for action. */
     QString name() const { return m_name; }
 
-    QByteArray outputData() const { return m_outputData; }
-
     int exitCode() const { return m_exitCode; }
     QString errorString() const { return m_errorString; }
 
@@ -94,6 +92,8 @@ public:
 
     void setId(int actionId) { m_id = actionId; }
     int id() const { return m_id; }
+
+    void setReadOutput(bool read) { m_readOutput = read; }
 
 public slots:
     /** Terminate (kill) process. */
@@ -105,7 +105,7 @@ signals:
     /** Emitter when started. */
     void actionStarted(Action *act);
 
-    void standardOutput(const QByteArray &output);
+    void actionOutput(const QByteArray &output);
 
     void dataChanged(const QVariantMap &data);
 
@@ -127,8 +127,8 @@ private:
     QStringList m_inputFormats;
     QString m_workingDirectoryPath;
     QString m_errorOutput;
-    QByteArray m_outputData;
     bool m_failed;
+    bool m_readOutput = false;
     int m_currentLine;
     QString m_name;
     QVariantMap m_data;

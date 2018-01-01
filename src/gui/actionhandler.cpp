@@ -102,14 +102,6 @@ void ActionHandler::action(Action *action)
     action->setId(id);
     m_actions.insert(id, action);
 
-    m_lastAction = action;
-
-    connect( action, SIGNAL(newItems(QStringList,QString,QString)),
-             this, SLOT(addItems(QStringList,QString,QString)) );
-    connect( action, SIGNAL(newItem(QByteArray,QString,QString)),
-             this, SLOT(addItem(QByteArray,QString,QString)) );
-    connect( action, SIGNAL(changeItem(QByteArray,QString,QModelIndex)),
-             this, SLOT(changeItem(QByteArray,QString,QModelIndex)) );
     connect( action, SIGNAL(actionStarted(Action*)),
              this, SLOT(actionStarted(Action*)) );
     connect( action, SIGNAL(actionFinished(Action*)),
@@ -141,16 +133,6 @@ void ActionHandler::closeAction(Action *action)
     } else if ( action->exitCode() != 0 ) {
         msg = tr("Exit code: %1").arg(action->exitCode());
         icon = QSystemTrayIcon::Warning;
-    } else if ( !action->inputFormats().isEmpty() ) {
-        const QModelIndex index = action->index();
-        ClipboardBrowser *c = m_wnd->browserForItem(index);
-        if (c) {
-            QStringList removeFormats = action->inputFormats();
-            removeFormats.removeAll( action->outputFormat() );
-
-            if ( !removeFormats.isEmpty() )
-                c->model()->setData(index, removeFormats, contentType::removeFormats);
-        }
     }
 
     if ( !msg.isEmpty() ) {
@@ -188,43 +170,4 @@ void ActionHandler::closeAction(Action *action)
     emit runningActionsCountChanged();
 
     action->deleteLater();
-}
-
-void ActionHandler::addItems(const QStringList &items, const QString &format, const QString &tabName)
-{
-    ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser() : m_wnd->tab(tabName);
-    for (const auto &item : items)
-        c->add( createDataMap(format, item) );
-
-    if (m_lastAction) {
-        if (m_lastAction == sender())
-            c->setCurrent(items.size() - 1);
-        m_lastAction = nullptr;
-    }
-}
-
-void ActionHandler::addItem(const QByteArray &data, const QString &format, const QString &tabName)
-{
-    ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser() : m_wnd->tab(tabName);
-    c->add( createDataMap(format, data) );
-
-    if (m_lastAction) {
-        if (m_lastAction == sender())
-            c->setCurrent(0);
-        m_lastAction = nullptr;
-    }
-}
-
-void ActionHandler::changeItem(const QByteArray &data, const QString &format, const QModelIndex &index)
-{
-    ClipboardBrowser *c = m_wnd->browserForItem(index);
-    if (c == nullptr)
-        return;
-
-    QVariantMap dataMap;
-    if (format == mimeItems)
-        deserializeData(&dataMap, data);
-    else
-        dataMap.insert(format, data);
-    c->model()->setData(index, dataMap, contentType::updateData);
 }

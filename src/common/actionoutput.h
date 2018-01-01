@@ -20,53 +20,32 @@
 #ifndef ACTIONOUTPUT_H
 #define ACTIONOUTPUT_H
 
-class ActionOutputItems : public QObject
-{
-    Q_OBJECT
-public:
-    explicit ActionOutputItems(Action *action);
+class Action;
+class MainWindow;
+class QString;
+class QRegExp;
+class QModelIndex;
 
-    void setOutputFormat(const QString &outputItemFormat) { m_outputFormat = outputItemFormat; }
-    void setItemSeparator(const QRegExp &itemSeparator) { m_sep = itemSeparator; }
-    void setOutputTab(const QString &outputTabName) { m_tab = outputTabName; }
+void actionOutput(
+        MainWindow *wnd,
+        Action *action,
+        const QString &outputItemFormat,
+        const QString &outputTabName,
+        const QRegExp &itemSeparator
+        );
 
-private:
-    QRegExp m_sep;
-    QString m_tab;
-    QString m_outputFormat;
-    QString m_lastOutput;
-};
+void actionOutput(
+        MainWindow *wnd,
+        Action *action,
+        const QString &outputItemFormat,
+        const QString &outputTabName
+        );
 
-class ActionOutputItem : public QObject
-{
-    Q_OBJECT
-public:
-    explicit ActionOutputItem(Action *action);
-
-    void setOutputFormat(const QString &outputItemFormat) { m_outputFormat = outputItemFormat; }
-    void setOutputTab(const QString &outputTabName) { m_tab = outputTabName; }
-
-private:
-    QString m_tab;
-    QString m_outputFormat;
-    QByteArray m_lastData;
-};
-
-class ActionOutputIndex : public QObject
-{
-    Q_OBJECT
-public:
-    ActionOutputIndex(const QModelIndex &index, Action *action)
-        : QObject(action)
-        , m_index(index)
-    {
-    }
-
-private slots:
-    void onStandardOutput(const QByteArray &output);
-
-private:
-    QPersistentModelIndex m_index;
-};
+void actionOutput(
+        MainWindow *wnd,
+        Action *action,
+        const QString &outputItemFormat,
+        const QModelIndex &index
+        );
 
 #endif // ACTIONOUTPUT_H

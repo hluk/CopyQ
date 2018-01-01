@@ -21,6 +21,7 @@
 #include "ui_mainwindow.h"
 
 #include "common/action.h"
+#include "common/actionoutput.h"
 #include "common/appconfig.h"
 #include "common/common.h"
 #include "common/command.h"
@@ -1038,11 +1039,16 @@ void MainWindow::onActionDialogAccepted(const Command &command, const QStringLis
     auto act = new Action();
     act->setCommand(command.cmd, arguments);
     act->setInput(data, command.input);
-    act->setOutputFormat(command.output);
-    act->setItemSeparator(QRegExp(command.sep));
-    act->setOutputTab(command.outputTab);
     act->setName(command.name);
     act->setData(data);
+
+    if ( !command.output.isEmpty() ) {
+        if ( !command.sep.isEmpty() )
+            actionOutput(this, act, command.output, command.outputTab, QRegExp(command.sep));
+        else
+            actionOutput(this, act, command.output, command.outputTab);
+    }
+
     m_actionHandler->action(act);
 }
 
@@ -3368,12 +3374,18 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
         auto act = new Action();
         act->setCommand( cmd.cmd, QStringList(getTextData(data)) );
         act->setInput(data, cmd.input);
-        act->setOutputFormat(cmd.output);
-        act->setItemSeparator(QRegExp(cmd.sep));
-        act->setOutputTab(cmd.outputTab);
-        act->setIndex(outputIndex);
         act->setName(cmd.name);
         act->setData(data);
+
+        if ( !cmd.output.isEmpty() ) {
+            if ( outputIndex.isValid() )
+                actionOutput(this, act, cmd.output, outputIndex);
+            else if ( !cmd.sep.isEmpty() )
+                actionOutput(this, act, cmd.output, cmd.outputTab, QRegExp(cmd.sep));
+            else
+                actionOutput(this, act, cmd.output, cmd.outputTab);
+        }
+
         m_actionHandler->action(act);
         return act;
     }

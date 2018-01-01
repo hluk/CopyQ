@@ -275,19 +275,18 @@ void Action::start()
              this, SLOT(onBytesWritten()), Qt::QueuedConnection );
 
     const bool needWrite = !m_input.isEmpty();
-    const bool needRead = !m_outputFormat.isEmpty();
     if (m_processes.size() == 1) {
         const auto mode =
-                (needWrite && needRead) ? QIODevice::ReadWrite
+                (needWrite && m_readOutput) ? QIODevice::ReadWrite
               : needWrite ? QIODevice::WriteOnly
-              : needRead ? QIODevice::ReadOnly
+              : m_readOutput ? QIODevice::ReadOnly
               : QIODevice::NotOpen;
         startProcess(m_processes.first(), cmds.first(), mode);
     } else {
         startProcess(m_processes.first(), cmds.first(), needWrite ? QIODevice::ReadWrite : QIODevice::ReadOnly);
         for (int i = 1; i < m_processes.size() - 1; ++i)
             startProcess(m_processes[i], cmds[i], QIODevice::ReadWrite);
-        startProcess(m_processes.last(), cmds.last(), needRead ? QIODevice::ReadWrite : QIODevice::WriteOnly);
+        startProcess(m_processes.last(), cmds.last(), m_readOutput ? QIODevice::ReadWrite : QIODevice::WriteOnly);
     }
 }
 
@@ -370,21 +369,7 @@ void Action::onSubProcessOutput()
     if ( output.isEmpty() )
         return;
 
-    emit standardOutput(output);
-
-    if ( !m_outputFormat.isEmpty() ) {
-        m_outputData.append(output);
-
-        if ( !m_sep.isEmpty() ) {
-            m_lastOutput.append( getTextData(output) );
-            auto items = m_lastOutput.split(m_sep);
-            m_lastOutput = items.takeLast();
-            if ( !items.isEmpty() )
-                emit newItems(items, m_outputFormat, m_tab);
-        } else if ( m_outputFormat == mimeText && m_index.isValid() ) {
-            emit changeItem(m_outputData, m_outputFormat, m_index);
-        }
-    }
+    emit actionOutput(output);
 }
 
 void Action::onSubProcessErrorOutput()
@@ -448,18 +433,5 @@ void Action::closeSubCommands()
 void Action::actionFinished()
 {
     closeSubCommands();
-
-    if ( !m_outputFormat.isEmpty() ) {
-        if ( !m_sep.isEmpty() ) {
-            if ( !m_lastOutput.isEmpty() )
-                emit newItems(QStringList() << m_lastOutput, m_outputFormat, m_tab);
-        } else if ( !m_outputData.isEmpty() ) {
-            if ( m_index.isValid() )
-                emit changeItem(m_outputData, m_outputFormat, m_index);
-            else
-                emit newItem(m_outputData, m_outputFormat, m_tab);
-        }
-    }
-
     emit actionFinished(this);
 }

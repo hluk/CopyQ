@@ -73,13 +73,8 @@ private slots:
     /** Delete finished action and its menu item. */
     void closeAction(Action *action);
 
-    void addItems(const QStringList &items, const QString &format, const QString &tabName);
-    void addItem(const QByteArray &data, const QString &format, const QString &tabName);
-    void changeItem(const QByteArray &data, const QString &format, const QModelIndex &index);
-
 private:
     MainWindow *m_wnd;
-    QPointer<Action> m_lastAction;
     ProcessManagerDialog *m_activeActionDialog;
     QHash<int, Action*> m_actions;
     QSet<int> m_internalActions;

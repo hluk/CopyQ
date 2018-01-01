@@ -358,7 +358,7 @@ signals:
     void readInput();
 
 private slots:
-    void onExecuteOutput(const QStringList &lines);
+    void onExecuteOutput(const QByteArray &output);
     void onMonitorRunScriptRequest(const QString &script, const QVariantMap &data);
     void onProvidedClipboardChanged();
     void onProvidedSelectionChanged();
@@ -397,6 +397,9 @@ private:
     bool m_connected;
     int m_skipArguments = 0;
 
+    // FIXME: Parameters for execute() shouldn't be global.
+    QByteArray m_executeStdoutData;
+    QString m_executeStdoutLastLine;
     QScriptValue m_executeStdoutCallback;
 
     bool m_displayFunctionsLock = false;
