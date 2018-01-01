@@ -21,7 +21,6 @@
 #include "ui_actiondialog.h"
 
 #include "common/appconfig.h"
-#include "common/action.h"
 #include "common/command.h"
 #include "common/config.h"
 #include "common/mimetypes.h"
@@ -68,7 +67,6 @@ ActionDialog::ActionDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ActionDialog)
     , m_data()
-    , m_capturedTexts()
     , m_currentCommandIndex(-1)
 {
     ui->setupUi(this);
@@ -134,36 +132,6 @@ void ActionDialog::saveHistory()
     }
 }
 
-void ActionDialog::createAction()
-{
-    const QString cmd = ui->commandEdit->command();
-
-    if ( cmd.isEmpty() )
-        return;
-
-    const QString inputFormat = ui->comboBoxInputFormat->currentText();
-    const QString input =
-            ui->inputText->isVisible() ? ui->inputText->toPlainText() : QString();
-
-    // Expression %1 in command is always replaced with item text.
-    if ( m_capturedTexts.isEmpty() )
-        m_capturedTexts.append(QString());
-    m_capturedTexts[0] = getTextData(m_data);
-
-    std::unique_ptr<Action> act( new Action() );
-    act->setCommand(cmd, m_capturedTexts);
-    if (input.isEmpty() && !inputFormat.isEmpty())
-        act->setInput(m_data, inputFormat);
-    else
-        act->setInput(input.toUtf8());
-    act->setOutputFormat(ui->comboBoxOutputFormat->currentText());
-    act->setItemSeparator(QRegExp(ui->separatorEdit->text()));
-    act->setOutputTab(ui->comboBoxOutputTab->currentText());
-    act->setName(m_actionName);
-    act->setData(m_data);
-    emit accepted(act.release());
-}
-
 void ActionDialog::setCommand(const Command &cmd)
 {
     ui->comboBoxCommands->setCurrentIndex(0);
@@ -178,20 +146,19 @@ void ActionDialog::setCommand(const Command &cmd)
     ui->comboBoxInputFormat->setCurrentIndex(index);
 
     ui->comboBoxOutputFormat->setEditText(cmd.output);
-
-    m_capturedTexts = cmd.re.isEmpty() ? QStringList() : cmd.re.capturedTexts();
-    m_actionName = cmd.name;
-    m_actionName.remove('&');
 }
 
-void ActionDialog::setOutputTabs(const QStringList &tabs,
-                                 const QString &currentTabName)
+void ActionDialog::setOutputTabs(const QStringList &tabs)
 {
     QComboBox *w = ui->comboBoxOutputTab;
     w->clear();
     w->addItem("");
     w->addItems(tabs);
-    w->setEditText(currentTabName);
+}
+
+void ActionDialog::setCurrentTab(const QString &currentTabName)
+{
+    ui->comboBoxOutputTab->setEditText(currentTabName);
 }
 
 void ActionDialog::loadSettings()
@@ -215,24 +182,17 @@ Command ActionDialog::command() const
     return cmd;
 }
 
-void ActionDialog::done(int r)
-{
-    emit closed(this);
-
-    QDialog::done(r);
-}
-
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 {
     switch ( ui->buttonBox->standardButton(button) ) {
     case QDialogButtonBox::Ok:
-        createAction();
+        acceptCommand();
         saveCurrentCommandToHistory();
         close();
         break;
 
     case QDialogButtonBox::Apply:
-        createAction();
+        acceptCommand();
         saveCurrentCommandToHistory();
         break;
 
@@ -282,8 +242,9 @@ void ActionDialog::on_comboBoxCommands_currentIndexChanged(int index)
     if ( !wasChangedByUser(ui->separatorEdit) )
         ui->separatorEdit->setText(values.value("sep").toString());
 
-    if ( !wasChangedByUser(ui->comboBoxOutputTab) )
-        ui->comboBoxOutputTab->setEditText(values.value("outputTab").toString());
+    const auto outputTab = values.value("outputTab").toString();
+    if ( !wasChangedByUser(ui->comboBoxOutputTab) && !outputTab.isEmpty() )
+        ui->comboBoxOutputTab->setEditText(values.value(outputTab).toString());
 }
 
 void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &format)
@@ -320,6 +281,24 @@ void ActionDialog::on_comboBoxOutputTab_editTextChanged(const QString &)
 void ActionDialog::on_separatorEdit_textEdited(const QString &)
 {
     setChangedByUser(ui->separatorEdit);
+}
+
+void ActionDialog::acceptCommand()
+{
+    const auto command = this->command();
+
+    auto re = command.re;
+    const QString text = getTextData(m_data);
+    re.indexIn(text);
+    auto capturedTexts = re.capturedTexts();
+    if ( capturedTexts.isEmpty() )
+        capturedTexts.append(QString());
+    capturedTexts[0] = text;
+
+    if ( ui->inputText->isVisible() )
+        m_data[mimeText] = ui->inputText->toPlainText();
+
+    emit accepted(command, capturedTexts, m_data);
 }
 
 QVariant ActionDialog::createCurrentItemData()

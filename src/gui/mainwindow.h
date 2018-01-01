@@ -36,6 +36,7 @@
 #include <QVector>
 
 class Action;
+class ActionDialog;
 class ActionHandler;
 class ClipboardBrowser;
 class ClipboardBrowserPlaceholder;
@@ -319,7 +320,7 @@ public slots:
     void showProcessManagerDialog();
 
     /** Open action dialog with given input data. */
-    void openActionDialog(const QVariantMap &data);
+    ActionDialog *openActionDialog(const QVariantMap &data);
 
     /** Open action dialog with input data from selected items. */
     void openActionDialog();
@@ -561,6 +562,8 @@ private slots:
     void onItemWidgetCreated(const PersistentDisplayItem &item);
 
     void onDisplayActionFinished();
+
+    void onActionDialogAccepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
 
 private:
     enum TabNameMatching {

@@ -27,7 +27,6 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
-#include "gui/actiondialog.h"
 #include "gui/notification.h"
 #include "gui/processmanagerdialog.h"
 #include "gui/clipboardbrowser.h"
@@ -58,21 +57,6 @@ ActionHandler::ActionHandler(MainWindow *mainWindow)
     , m_activeActionDialog(new ProcessManagerDialog(mainWindow))
 {
     Q_ASSERT(mainWindow);
-}
-
-ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
-{
-    auto actionDialog = new ActionDialog(m_wnd);
-    actionDialog->setAttribute(Qt::WA_DeleteOnClose, true);
-    actionDialog->setOutputTabs(tabs, QString());
-    actionDialog->setCommand(m_lastActionDialogCommand);
-
-    connect( actionDialog, SIGNAL(accepted(Action*)),
-             this, SLOT(action(Action*)) );
-    connect( actionDialog, SIGNAL(closed(ActionDialog*)),
-             this, SLOT(actionDialogClosed(ActionDialog*)) );
-
-    return actionDialog;
 }
 
 void ActionHandler::showProcessManagerDialog()
@@ -130,9 +114,6 @@ void ActionHandler::action(Action *action)
              this, SLOT(actionStarted(Action*)) );
     connect( action, SIGNAL(actionFinished(Action*)),
              this, SLOT(closeAction(Action*)) );
-
-    if ( !action->outputFormat().isEmpty() && action->outputTab().isEmpty() )
-        action->setOutputTab(m_currentTabName);
 
     m_activeActionDialog->actionAboutToStart(action);
     COPYQ_LOG( QString("Executing: %1").arg(actionDescription(*action)) );
@@ -207,11 +188,6 @@ void ActionHandler::closeAction(Action *action)
     emit runningActionsCountChanged();
 
     action->deleteLater();
-}
-
-void ActionHandler::actionDialogClosed(ActionDialog *dialog)
-{
-    m_lastActionDialogCommand = dialog->command();
 }
 
 void ActionHandler::addItems(const QStringList &items, const QString &format, const QString &tabName)

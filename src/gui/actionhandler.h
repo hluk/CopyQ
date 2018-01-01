@@ -32,7 +32,6 @@
 class Action;
 class ActionDialog;
 class ProcessManagerDialog;
-class ClipboardBrowser;
 class QDialog;
 class MainWindow;
 class QModelIndex;
@@ -46,18 +45,10 @@ class ActionHandler : public QObject
 public:
     explicit ActionHandler(MainWindow *mainWindow);
 
-    /**
-     * Create new action dialog.
-     * Dialog is destroyed when closed.
-     */
-    ActionDialog *createActionDialog(const QStringList &tabs);
-
     int runningActionCount() const { return m_actions.size() - m_internalActions.size(); }
 
     /** Open dialog with active commands. */
     void showProcessManagerDialog();
-
-    void setCurrentTab(const QString &tabName) { m_currentTabName = tabName; }
 
     void addFinishedAction(const QString &name);
 
@@ -82,8 +73,6 @@ private slots:
     /** Delete finished action and its menu item. */
     void closeAction(Action *action);
 
-    void actionDialogClosed(ActionDialog *dialog);
-
     void addItems(const QStringList &items, const QString &format, const QString &tabName);
     void addItem(const QByteArray &data, const QString &format, const QString &tabName);
     void changeItem(const QByteArray &data, const QString &format, const QModelIndex &index);
@@ -92,8 +81,6 @@ private:
     MainWindow *m_wnd;
     QPointer<Action> m_lastAction;
     ProcessManagerDialog *m_activeActionDialog;
-    QString m_currentTabName;
-    Command m_lastActionDialogCommand;
     QHash<int, Action*> m_actions;
     QSet<int> m_internalActions;
     int m_lastActionId = -1;

@@ -26,7 +26,6 @@
 #include <QRegExp>
 #include <QVariantMap>
 
-class Action;
 class QAbstractButton;
 struct Command;
 
@@ -34,7 +33,7 @@ namespace Ui {
     class ActionDialog;
 }
 
-/** Dialog class for creating Action objects. */
+/** Dialog class for executing Command objects. */
 class ActionDialog : public QDialog {
     Q_OBJECT
 public:
@@ -55,7 +54,9 @@ public:
     /** Set command for dialog. */
     void setCommand(const Command &cmd);
     /** Set texts for tabs in combo box. */
-    void setOutputTabs(const QStringList &tabs, const QString &currentTabName);
+    void setOutputTabs(const QStringList &tabs);
+
+    void setCurrentTab(const QString &currentTabName);
 
     /** Load settings. */
     void loadSettings();
@@ -63,23 +64,13 @@ public:
     /** Return current command. */
     Command command() const;
 
-public slots:
-    void done(int r) override;
-
 signals:
     /** Emitted if dialog was accepted. */
-    void accepted(
-            Action *action //!< The accepted action.
-            );
+    void accepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
 
     void saveCommand(const Command &command);
 
-    void closed(ActionDialog *self);
-
 private slots:
-    /** Create action from dialog's content. */
-    void createAction();
-
     void on_buttonBox_clicked(QAbstractButton* button);
     void on_comboBoxCommands_currentIndexChanged(int index);
     void on_comboBoxInputFormat_currentIndexChanged(const QString &format);
@@ -88,16 +79,14 @@ private slots:
     void on_separatorEdit_textEdited(const QString &text);
 
 private:
+    void acceptCommand();
     QVariant createCurrentItemData();
     void saveCurrentCommandToHistory();
 
     Ui::ActionDialog *ui;
     QVariantMap m_data;
-    QStringList m_capturedTexts;
 
     int m_currentCommandIndex;
-
-    QString m_actionName;
 };
 
 #endif // ACTIONDIALOG_H

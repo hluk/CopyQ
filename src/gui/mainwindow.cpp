@@ -1033,6 +1033,19 @@ void MainWindow::onDisplayActionFinished()
     runDisplayCommands();
 }
 
+void MainWindow::onActionDialogAccepted(const Command &command, const QStringList &arguments, const QVariantMap &data)
+{
+    auto act = new Action();
+    act->setCommand(command.cmd, arguments);
+    act->setInput(data, command.input);
+    act->setOutputFormat(command.output);
+    act->setItemSeparator(QRegExp(command.sep));
+    act->setOutputTab(command.outputTab);
+    act->setName(command.name);
+    act->setData(data);
+    m_actionHandler->action(act);
+}
+
 void MainWindow::runDisplayCommands()
 {
     if ( m_displayItemList.isEmpty() )
@@ -2482,9 +2495,7 @@ void MainWindow::tabChanged(int current, int)
 
     emit tabGroupSelected(currentIsTabGroup);
 
-    if (currentIsTabGroup) {
-        m_actionHandler->setCurrentTab(QString());
-    } else {
+    if (!currentIsTabGroup) {
         // update item menu (necessary for keyboard shortcuts to work)
         auto c = browser();
         if (c) {
@@ -2497,8 +2508,6 @@ void MainWindow::tabChanged(int current, int)
             }
 
             setTabOrder(ui->searchBar, c);
-
-            m_actionHandler->setCurrentTab(c->tabName());
         }
     }
 
@@ -3020,15 +3029,32 @@ void MainWindow::showProcessManagerDialog()
     m_actionHandler->showProcessManagerDialog();
 }
 
-void MainWindow::openActionDialog(const QVariantMap &data)
+ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
 {
-    std::unique_ptr<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
-    connect( actionDialog.get(), SIGNAL(saveCommand(Command)),
-             this, SLOT(onSaveCommand(Command)) );
+    auto actionDialog = new ActionDialog(this);
+    actionDialog->setAttribute(Qt::WA_DeleteOnClose, true);
 
     actionDialog->setInputData(data);
+
+    const auto tabs = ui->tabWidget->tabs();
+    actionDialog->setOutputTabs(tabs);
+
+    const int currentTabIndex = ui->tabWidget->currentIndex();
+    if (currentTabIndex >= 0) {
+        const auto currentTab = ui->tabWidget->tabName(currentTabIndex);
+        actionDialog->setCurrentTab(currentTab);
+    }
+
+    connect( actionDialog, SIGNAL(accepted(Command,QStringList,QVariantMap)),
+             this, SLOT(onActionDialogAccepted(Command,QStringList,QVariantMap)) );
+
+    connect( actionDialog, SIGNAL(saveCommand(Command)),
+             this, SLOT(onSaveCommand(Command)) );
+
     actionDialog->show();
-    stealFocus(*actionDialog.release());
+    stealFocus(*actionDialog);
+
+    return actionDialog;
 }
 
 void MainWindow::openActionDialog()
@@ -3332,24 +3358,10 @@ void MainWindow::reverseSelectedItems()
 Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QModelIndex &outputIndex)
 {
     if (cmd.wait) {
-        std::unique_ptr<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
-
-        actionDialog->setInputData(data);
+        auto actionDialog = openActionDialog(data);
+        if ( !cmd.outputTab.isEmpty() )
+            actionDialog->setCurrentTab(cmd.outputTab);
         actionDialog->setCommand(cmd);
-        QString outputTab = cmd.outputTab;
-
-        // Insert tab labels to action dialog's combo box.
-        TabWidget *w = ui->tabWidget;
-        QStringList tabs;
-        tabs.reserve( w->count() );
-        for( int i = 0; i < w->count(); ++i )
-            tabs << w->tabName(i);
-        if ( outputTab.isEmpty() && w->currentIndex() > 0 )
-            outputTab = w->tabName( w->currentIndex() );
-        actionDialog->setOutputTabs(tabs, outputTab);
-
-        actionDialog->show();
-        actionDialog.release();
     } else if ( cmd.cmd.isEmpty() ) {
         m_actionHandler->addFinishedAction(cmd.name);
     } else {
