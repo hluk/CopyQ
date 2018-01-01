@@ -22,7 +22,6 @@
 
 class QString;
 
-QString serverName(const QString &name);
 QString clipboardServerName();
 
 #endif // CLIENT_SERVER_H

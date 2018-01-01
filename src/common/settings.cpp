@@ -117,9 +117,6 @@ Settings::~Settings()
 
 void Settings::restore()
 {
-    if (!canModifySettings())
-        return;
-
     Settings appSettings;
 
     if ( isLastSaveUnfinished() ) {

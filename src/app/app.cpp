@@ -175,7 +175,8 @@ void App::restoreSettings(bool canModifySettings)
 
     createPlatformNativeInterface()->loadSettings();
 
-    Settings::restore();
+    if (canModifySettings)
+        Settings::restore();
 
     installTranslator();
 }

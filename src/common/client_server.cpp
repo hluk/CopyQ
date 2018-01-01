@@ -27,7 +27,7 @@
 #include <QStringList>
 #include <QtGlobal>
 
-QString serverName(const QString &name)
+QString clipboardServerName()
 {
     // applicationName changes case depending on whether this is a GUI app
     // or a console app on OS X.
@@ -41,13 +41,8 @@ QString serverName(const QString &name)
     // overridden by environment variable. This can lead to having multiple
     // instances that can write simultaneously to same settings and data files.
     // It's ugly but creating socket files in settings directory should fix this.
-    return socketPath + "/." + appName + "_" + name;
+    return socketPath + "/." + appName + "_s";
 #else
-    return appName + "_" + qgetenv("USERNAME") + "_" + name;
+    return appName + "_" + qgetenv("USERNAME") + "_s";
 #endif
-}
-
-QString clipboardServerName()
-{
-    return serverName("s");
 }
