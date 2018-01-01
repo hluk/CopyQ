@@ -66,21 +66,6 @@ public:
     /** Return input formats. */
     const QStringList &inputFormats() const { return m_inputFormats; }
 
-    /** Return output format. */
-    const QString &outputFormat() const { return m_outputFormat; }
-    void setOutputFormat(const QString &outputItemFormat) { m_outputFormat = outputItemFormat; }
-
-    /// Set separator for items on standard output.
-    void setItemSeparator(const QRegExp &itemSeparator) { m_sep = itemSeparator; }
-
-    /// Return tab name for output items.
-    QString outputTab() const { return m_tab; }
-    void setOutputTab(const QString &outputTabName) { m_tab = outputTabName; }
-
-    /** Return destination index. */
-    QModelIndex index() const { return m_index; }
-    void setIndex(const QModelIndex &index) { m_index = index; }
-
     /** Set working directory path (default is empty so it doesn't change working directory). */
     void setWorkingDirectory(const QString &path) { m_workingDirectoryPath = path; }
 
@@ -120,27 +105,7 @@ signals:
     /** Emitter when started. */
     void actionStarted(Action *act);
 
-    /**
-     * Emitted if standard output can be split into items.
-     *
-     * Output format and separator's must be set to valid values.
-     */
-    void newItems(const QStringList &, const QString &format, const QString &outputTabName);
-
-    /**
-     * Emitted after all standard output is read.
-     *
-     * Output format must be set to a valid value and both separator and index invalid.
-     */
-    void newItem(const QByteArray &data, const QString &format, const QString &outputTabName);
-
-    /**
-     * Emitted if standard output has some items available.
-     *
-     * Output format and index must be set to a valid value and separator empty.
-     */
-    void changeItem(
-            const QByteArray &data, const QString &format, const QModelIndex &index);
+    void standardOutput(const QByteArray &output);
 
     void dataChanged(const QVariantMap &data);
 
@@ -158,15 +123,10 @@ private:
     void actionFinished();
 
     QByteArray m_input;
-    QRegExp m_sep;
     QList< QList<QStringList> > m_cmds;
-    QString m_tab;
     QStringList m_inputFormats;
-    QString m_outputFormat;
-    QPersistentModelIndex m_index;
     QString m_workingDirectoryPath;
     QString m_errorOutput;
-    QString m_lastOutput;
     QByteArray m_outputData;
     bool m_failed;
     int m_currentLine;

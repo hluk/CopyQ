@@ -370,6 +370,8 @@ void Action::onSubProcessOutput()
     if ( output.isEmpty() )
         return;
 
+    emit standardOutput(output);
+
     if ( !m_outputFormat.isEmpty() ) {
         m_outputData.append(output);
 
