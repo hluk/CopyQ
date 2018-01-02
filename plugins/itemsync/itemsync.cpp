@@ -204,15 +204,15 @@ int iconFromBaseNameExtensionHelper(const QString &baseName)
     if (i != -1)  {
         const QString ext = baseName.mid(i + 1);
         if ( hasVideoExtension(ext) )
-            return IconPlayCircle;
+            return IconFileVideo;
         if ( hasAudioExtension(ext) )
-            return IconVolumeUp;
+            return IconFileAudio;
         if ( hasImageExtension(ext) )
-            return IconCamera;
+            return IconFileImage;
         if ( hasArchiveExtension(ext) )
-            return IconFileText;
+            return IconFileArchive;
         if ( hasTextExtension(ext) )
-            return IconFileText;
+            return IconFileAlt;
     }
 
     return -1;
@@ -227,7 +227,7 @@ int iconFromMimeHelper(const QString &format)
     if ( format.startsWith("image/") )
         return IconCamera;
     if ( format.startsWith("text/") )
-        return IconFileText;
+        return IconFileAlt;
     return -1;
 }
 

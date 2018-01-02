@@ -154,7 +154,7 @@ void FilterLineEdit::loadSettings()
     // falling back to a bundled resource.
     QIcon icon1 = QIcon::fromTheme(layoutDirection() == Qt::LeftToRight ?
                      "edit-clear-locationbar-rtl" : "edit-clear-locationbar-ltr",
-                     getIcon("edit-clear", IconRemove));
+                     getIcon("edit-clear", IconTrash));
     setButtonIcon(Right, icon1);
 
     QIcon icon2 = getIcon("edit-find", IconSearch);

@@ -1207,7 +1207,7 @@ void Scriptable::popup()
 
     const QString title = arg(0);
     const QString message = arg(1);
-    const auto icon = QString(QChar(IconInfoSign));
+    const auto icon = QString(QChar(IconInfoCircle));
     int msec;
     if ( !toInt(argument(2), &msec) )
         msec = 8000;
@@ -1221,7 +1221,7 @@ void Scriptable::notification()
     QString title;
     QString message;
     int msec = -1;
-    auto icon = QString(QChar(IconInfoSign));
+    auto icon = QString(QChar(IconInfoCircle));
     QString notificationId;
     NotificationButtons buttons;
 
@@ -2467,7 +2467,7 @@ void Scriptable::showExceptionMessage(const QString &message)
     const auto title = actionName.isEmpty()
         ? tr("Exception")
         : tr("Exception in %1").arg( quoteString(actionName) );
-    m_proxy->showMessage(title, message, QString(QChar(IconWarningSign)), 8000);
+    m_proxy->showMessage(title, message, QString(QChar(IconExclamationCircle)), 8000);
 }
 
 QVector<int> Scriptable::getRows() const

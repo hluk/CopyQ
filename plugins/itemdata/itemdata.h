@@ -71,7 +71,7 @@ public:
     QString name() const override { return tr("Data"); }
     QString author() const override { return QString(); }
     QString description() const override { return tr("Various data to save."); }
-    QVariant icon() const override { return QVariant(IconFileText); }
+    QVariant icon() const override { return QVariant(IconFileAlt); }
 
     QStringList formatsToSave() const override;
 

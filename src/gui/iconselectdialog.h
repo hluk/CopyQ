@@ -22,8 +22,9 @@
 
 #include <QDialog>
 
-class QListWidget;
 class QModelIndex;
+
+class IconListWidget;
 
 class IconSelectDialog : public QDialog
 {
@@ -49,9 +50,9 @@ private slots:
 
 private:
     void addIcons();
-    void addIcon(ushort unicode);
+    void addIcon(ushort unicode, bool isBrand, const QStringList &searchTerms);
 
-    QListWidget *m_iconList;
+    IconListWidget *m_iconList;
     QString m_selectedIcon;
 };
 

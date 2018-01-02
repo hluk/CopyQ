@@ -43,7 +43,7 @@ const QIcon iconClipboard() { return getIcon("", IconPaste); }
 const QIcon iconMenu() { return getIcon("", IconBars); }
 const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
 const QIcon iconScript() { return getIcon("", IconCog); }
-const QIcon iconDisplay() { return getIcon("", IconEyeOpen); }
+const QIcon iconDisplay() { return getIcon("", IconEye); }
 
 QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enabled = true)
 {

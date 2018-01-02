@@ -48,7 +48,7 @@ bool isPinned(const QModelIndex &index)
 Command dummyPinCommand()
 {
     Command c;
-    c.icon = QString(QChar(IconThumbTack));
+    c.icon = QString(QChar(IconThumbtack));
     c.inMenu = true;
     c.shortcuts = QStringList()
             << ItemPinnedLoader::tr("Ctrl+Shift+P", "Shortcut to pin and unpin items");

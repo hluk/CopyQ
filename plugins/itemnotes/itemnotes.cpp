@@ -72,7 +72,7 @@ QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
         }
     }
 
-    return new IconWidget(IconEditSign, parent);
+    return new IconWidget(IconPenSquare, parent);
 }
 
 } // namespace

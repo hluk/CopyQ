@@ -25,31 +25,141 @@
 
 #include <QDialogButtonBox>
 #include <QFileDialog>
+#include <QKeyEvent>
 #include <QListWidget>
+#include <QLineEdit>
 #include <QPushButton>
 #include <QVBoxLayout>
 
+class IconListWidget : public QListWidget {
+    Q_OBJECT
+public:
+    explicit IconListWidget(QWidget *parent)
+        : QListWidget(parent)
+    {
+        const int gridSize = iconFontSizePixels() + 8;
+        const QSize size(gridSize, gridSize);
+
+        setViewMode(QListView::IconMode);
+
+        setFont( iconFont() );
+        setGridSize(size);
+        setResizeMode(QListView::Adjust);
+        setSelectionMode(QAbstractItemView::SingleSelection);
+        setDragDropMode(QAbstractItemView::NoDragDrop);
+
+        addItem( QString("") );
+        item(0)->setSizeHint(size);
+    }
+
+    QString addIcon(ushort unicode, bool isBrand, const QStringList &searchTerms)
+    {
+        const QString icon(unicode);
+        auto item = new QListWidgetItem(icon, this);
+        item->setSizeHint( gridSize() );
+        item->setToolTip( searchTerms.join(", ") );
+        if (isBrand)
+            item->setBackgroundColor( QColor(90,90,90,100) );
+        return icon;
+    }
+
+    QString icon(const QModelIndex &index) const
+    {
+        return item(index.row())->text();
+    }
+
+    bool isIconSelected() const
+    {
+        const QModelIndex index = currentIndex();
+        return index.isValid() && item(index.row())->isSelected();
+    }
+
+    void keyboardSearch(const QString &search) override
+    {
+        if (!m_search) {
+            m_search = new QLineEdit(this);
+            connect( m_search, SIGNAL(textChanged(QString)),
+                     this, SLOT(onSearchTextChanged(QString)) );
+            m_search->show();
+            updateSearchPosition();
+        }
+
+        m_search->setText( m_search->text() + search );
+    }
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override
+    {
+        if (m_search && event->key() == Qt::Key_Escape) {
+            event->accept();
+            stopSearch();
+            return;
+        }
+
+        QListView::keyPressEvent(event);
+    }
+
+    void resizeEvent(QResizeEvent *event) override
+    {
+        QListWidget::resizeEvent(event);
+        if (m_search)
+            updateSearchPosition();
+    }
+
+private slots:
+    void onSearchTextChanged(const QString &text)
+    {
+        if ( text.isEmpty() )
+            stopSearch();
+        else
+            search( text.toLower() );
+    }
+
+private:
+    void updateSearchPosition()
+    {
+        if (!m_search)
+            return;
+
+        const auto sizeDiff = this->size() - m_search->size();
+        m_search->move( sizeDiff.width(), sizeDiff.height() );
+    }
+
+    void search(const QString &text)
+    {
+        setCurrentItem(nullptr);
+        for (int row = 0; row < count(); ++row) {
+            auto item = this->item(row);
+            const bool matches = item->toolTip().contains(text);
+            item->setHidden(!matches);
+            if (matches && currentItem() == nullptr)
+                setCurrentItem(item);
+        }
+    }
+
+    void stopSearch()
+    {
+        if (!m_search)
+            return;
+
+        m_search->deleteLater();
+        m_search = nullptr;
+        search(QString());
+        setFocus();
+    }
+
+    QLineEdit *m_search = nullptr;
+};
+
 IconSelectDialog::IconSelectDialog(const QString &defaultIcon, QWidget *parent)
     : QDialog(parent)
-    , m_iconList(new QListWidget(this))
+    , m_iconList(new IconListWidget(this))
     , m_selectedIcon(defaultIcon)
 {
     setWindowTitle( tr("CopyQ Select Icon") );
 
-    m_iconList->setViewMode(QListView::IconMode);
     connect( m_iconList, SIGNAL(activated(QModelIndex)),
              this, SLOT(onIconListItemActivated(QModelIndex)) );
-
-    const int gridSize = iconFontSizePixels() + 8;
-    const QSize size(gridSize, gridSize);
-    m_iconList->setFont( iconFont() );
-    m_iconList->setGridSize(size);
-    m_iconList->setResizeMode(QListView::Adjust);
-    m_iconList->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_iconList->setDragDropMode(QAbstractItemView::NoDragDrop);
-
-    m_iconList->addItem( QString("") );
-    m_iconList->item(0)->setSizeHint(size);
 
     addIcons();
 
@@ -92,7 +202,7 @@ void IconSelectDialog::done(int result)
 
 void IconSelectDialog::onIconListItemActivated(const QModelIndex &index)
 {
-    m_selectedIcon = m_iconList->item(index.row())->text();
+    m_selectedIcon = m_iconList->icon(index);
     accept();
 }
 
@@ -109,9 +219,8 @@ void IconSelectDialog::onBrowse()
 
 void IconSelectDialog::onAcceptCurrent()
 {
-    const QModelIndex index = m_iconList->currentIndex();
-    if ( index.isValid() && m_iconList->item(index.row())->isSelected() )
-        onIconListItemActivated(index);
+    if ( m_iconList->isIconSelected() )
+        onIconListItemActivated( m_iconList->currentIndex() );
     else
         reject();
 }
@@ -121,11 +230,11 @@ void IconSelectDialog::addIcons()
 #include "add_icons.h"
 }
 
-void IconSelectDialog::addIcon(ushort unicode)
+void IconSelectDialog::addIcon(ushort unicode, bool isBrand, const QStringList &searchTerms)
 {
-    const QString icon(unicode);
-    auto item = new QListWidgetItem(icon, m_iconList);
-    item->setSizeHint( m_iconList->gridSize() );
+    const auto icon = m_iconList->addIcon(unicode, isBrand, searchTerms);
     if (m_selectedIcon == icon)
         m_iconList->setCurrentRow(m_iconList->count() - 1);
 }
+
+#include "iconselectdialog.moc"

@@ -124,7 +124,7 @@ public:
     QString description() const override {
         return tr("Pin items to lock them in current row and avoid deletion (unless unpinned).");
     }
-    QVariant icon() const override { return QVariant(IconThumbTack); }
+    QVariant icon() const override { return QVariant(IconThumbtack); }
 
     QStringList formatsToSave() const override;
 

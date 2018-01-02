@@ -178,8 +178,8 @@ void ShortcutsWidget::onShortcutRemoved(const QKeySequence &shortcut)
 
 void ShortcutsWidget::checkAmbiguousShortcuts()
 {
-    const auto iconOverriden = getIcon("", IconInfoSign);
-    const auto iconAmbiguous = getIcon("", IconExclamationSign);
+    const auto iconOverriden = getIcon("", IconInfoCircle);
+    const auto iconAmbiguous = getIcon("", IconExclamationCircle);
     const auto toolTipOverriden = tr("There is command overriding this shortcut.");
     const auto toolTipAmbiguous = tr("Shortcut already exists!");
 

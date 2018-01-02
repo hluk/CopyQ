@@ -153,7 +153,7 @@ void ClipboardBrowserPlaceholder::createLoadButton()
     m_loadButton = new QPushButton(this);
     m_loadButton->setFlat(true);
 
-    const QIcon icon( getIcon("", IconRepeat) );
+    const QIcon icon( getIcon("", IconRedo) );
     m_loadButton->setIconSize( QSize(64, 64) );
     m_loadButton->setIcon(icon);
 

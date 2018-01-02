@@ -56,7 +56,7 @@ void IconSelectButton::setCurrentIcon(const QString &iconString)
 
     if ( iconString.size() == 1 ) {
         const QChar c = iconString[0];
-        if ( c.unicode() >= IconFirst && QFontMetrics(iconFont()).inFont(c) ) {
+        if ( QFontMetrics(iconFont()).inFont(c) ) {
             setFont(iconFont());
             setText(iconString);
         } else {

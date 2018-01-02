@@ -178,7 +178,7 @@ void ClipboardDialog::init()
 
     WindowGeometryGuard::create(this);
 
-    ui->actionRemove_Format->setIcon( getIcon("list-remove", IconRemove) );
+    ui->actionRemove_Format->setIcon( getIcon("list-remove", IconTrash) );
     ui->actionRemove_Format->setShortcut(shortcutToRemove());
     ui->listWidgetFormats->addAction(ui->actionRemove_Format);
 

@@ -159,7 +159,7 @@ public:
     QString name() const override { return tr("Synchronize"); }
     QString author() const override { return QString(); }
     QString description() const override { return tr("Synchronize items and notes with a directory on disk."); }
-    QVariant icon() const override { return QVariant(IconUploadAlt); }
+    QVariant icon() const override { return QVariant(IconUpload); }
 
     QVariantMap applySettings() override;
 

@@ -179,7 +179,7 @@ void ProcessManagerDialog::actionFinished(Action *action)
     statusItem->setData(statusItemData::status, QProcess::NotRunning);
     t->item(row, tableCommandsColumns::endTime)->setText(currentTime());
     button->setToolTip( tr("Remove") );
-    button->setProperty( "text", QString(IconRemove) );
+    button->setProperty( "text", QString(IconTrash) );
     updateTable();
 
     button->disconnect();
@@ -290,7 +290,7 @@ void ProcessManagerDialog::createTableRow(const QString &name, Action *action)
 QWidget *ProcessManagerDialog::createRemoveButton(Action *action)
 {
     QPushButton *button = new QPushButton(
-                action ? QString(IconRemoveSign) : QString(IconRemove));
+                action ? QString(IconBan) : QString(IconTrash));
 
     button->setFlat(true);
     button->setFont(iconFont());

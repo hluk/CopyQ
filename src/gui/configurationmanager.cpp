@@ -132,9 +132,9 @@ void ConfigurationManager::initTabIcons()
     tw->setTabIcon( tw->indexOf(ui->tabHistory), getIcon("", IconListAlt) );
     tw->setTabIcon( tw->indexOf(ui->tabItems), getIcon("", IconThList) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), getIcon("", IconInbox) );
-    tw->setTabIcon( tw->indexOf(ui->tabNotifications), getIcon("", IconInfoSign) );
+    tw->setTabIcon( tw->indexOf(ui->tabNotifications), getIcon("", IconInfoCircle) );
     tw->setTabIcon( tw->indexOf(ui->tabShortcuts), getIcon("", IconKeyboard) );
-    tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconPicture) );
+    tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconImage) );
 }
 
 void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)

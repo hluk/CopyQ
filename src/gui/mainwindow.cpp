@@ -1997,7 +1997,7 @@ void MainWindow::showError(const QString &msg)
     auto notification = createNotification();
     notification->setTitle( tr("CopyQ Error", "Notification error message title") );
     notification->setMessage(msg);
-    notification->setIcon(IconRemoveSign);
+    notification->setIcon(IconTimesCircle);
 }
 
 Notification *MainWindow::createNotification(const QString &id)

@@ -40,10 +40,10 @@
 namespace {
 
 const QIcon iconSave() { return getIcon("document-save", IconSave); }
-const QIcon iconCancel() { return getIcon("document-revert", IconRemove); }
+const QIcon iconCancel() { return getIcon("document-revert", IconTrash); }
 
 const QIcon iconUndo() { return getIcon("edit-undo", IconUndo); }
-const QIcon iconRedo() { return getIcon("edit-redo", IconRepeat); }
+const QIcon iconRedo() { return getIcon("edit-redo", IconRedo); }
 
 const QIcon iconFont() { return getIcon("preferences-desktop-font", IconFont); }
 const QIcon iconBold() { return getIcon("format-text-bold", IconBold); }
@@ -51,7 +51,7 @@ const QIcon iconItalic() { return getIcon("format-text-italic", IconItalic); }
 const QIcon iconUnderline() { return getIcon("format-text-underline", IconUnderline); }
 const QIcon iconStrikethrough() { return getIcon("format-text-strikethrough", IconStrikethrough); }
 
-const QIcon iconForeground() { return getIcon(IconSquareO); }
+const QIcon iconForeground() { return getIcon(IconPaintBrush); }
 const QIcon iconBackground() { return getIcon(IconSquare); }
 
 const QIcon iconEraseStyle() { return getIcon(IconEraser); }

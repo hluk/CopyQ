@@ -136,15 +136,15 @@ void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QS
     else if (id == GlobalActionDisableClipboardStoring)
         createGlobalShortcut( AddCommandDialog::tr("Disable clipboard storing"), "disable()", IconEyeSlash, s, c );
     else if (id == GlobalActionEnableClipboardStoring)
-        createGlobalShortcut( AddCommandDialog::tr("Enable clipboard storing"), "enable()", IconEyeOpen, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Enable clipboard storing"), "enable()", IconEye, s, c );
     else if (id == GlobalActionPasteAndCopyNext)
-        createGlobalShortcut( AddCommandDialog::tr("Paste and copy next"), "paste(); next()", IconArrowCircleODown, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Paste and copy next"), "paste(); next()", IconArrowCircleDown, s, c );
     else if (id == GlobalActionPasteAndCopyPrevious)
-        createGlobalShortcut( AddCommandDialog::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleOUp, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleUp, s, c );
     else if (id == GlobalActionScreenshot)
         createGlobalShortcut( AddCommandDialog::tr("Take screenshot"), commandScreenshot, IconCamera, s, c );
     else if (id == GlobalActionPasteDateTime)
-        createGlobalShortcut( AddCommandDialog::tr("Paste current date and time"), commandPasteDateTime(), IconClockO, s, c );
+        createGlobalShortcut( AddCommandDialog::tr("Paste current date and time"), commandPasteDateTime(), IconClock, s, c );
     else
         Q_ASSERT(false);
 }
@@ -195,7 +195,7 @@ QVector<Command> defaultCommands()
     c->name = AddCommandDialog::tr("Ignore items with no or single character");
     c->input = mimeText;
     c->re   = QRegExp("^\\s*\\S?\\s*$");
-    c->icon = QString(QChar(IconExclamationSign));
+    c->icon = QString(QChar(IconExclamationCircle));
     c->remove = true;
     c->automatic = true;
 
@@ -234,7 +234,7 @@ QVector<Command> defaultCommands()
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Create thumbnail (needs ImageMagick)");
-    c->icon = QString(QChar(IconPicture));
+    c->icon = QString(QChar(IconImage));
     c->cmd  = "convert - -resize 92x92 png:-";
     c->input = "image/png";
     c->output = "image/png";
@@ -243,7 +243,7 @@ QVector<Command> defaultCommands()
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Create QR Code from URL (needs qrencode)");
     c->re   = reURL;
-    c->icon = QString(QChar(IconQRCode));
+    c->icon = QString(QChar(IconQrcode));
     c->cmd  = "qrencode -o - -t PNG -s 6";
     c->input = mimeText;
     c->output = "image/png";
@@ -271,7 +271,7 @@ QVector<Command> defaultCommands()
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore copied files");
     c->re   = reNotURL;
-    c->icon = QString(QChar(IconExclamationSign));
+    c->icon = QString(QChar(IconExclamationCircle));
     c->input = mimeUriList;
     c->remove = true;
     c->automatic = true;

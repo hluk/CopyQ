@@ -22,17 +22,51 @@
 #include <QApplication>
 #include <QFont>
 #include <QFontDatabase>
+#include <QFontMetrics>
 #include <QStyle>
+
+namespace {
+
+const int iconFontMaxHeight = 128;
+
+int solidIconFontId()
+{
+    static const auto
+            fontId = QFontDatabase::addApplicationFont(":/images/fontawesome-solid.ttf");
+    return fontId;
+}
+
+int brandsIconFontId()
+{
+    static const auto fontId =
+            QFontDatabase::addApplicationFont(":/images/fontawesome-brands.ttf");
+    return fontId;
+}
+
+const QString &iconFontFamily()
+{
+    static const QString fontFamily =
+            QFontDatabase::applicationFontFamilies(solidIconFontId()).value(0);
+    return fontFamily;
+}
+
+int iconFontMaxWidth() {
+    QFont font = iconFont();
+    font.setPixelSize(iconFontMaxHeight);
+    const auto maxWidth = QFontMetrics(font).maxWidth();
+    return maxWidth;
+}
+
+} // namespace
+
+bool loadIconFont()
+{
+    return solidIconFontId() != -1 && brandsIconFontId() != -1;
+}
 
 QFont iconFont()
 {
-    static bool init = true;
-    if (init) {
-        init = false;
-        QFontDatabase::addApplicationFont(":/images/fontawesome-webfont.ttf");
-    }
-
-    QFont font("FontAwesome");
+    QFont font(iconFontFamily());
     font.setPixelSize( iconFontSizePixels() );
     return font;
 }
@@ -40,4 +74,15 @@ QFont iconFont()
 int iconFontSizePixels()
 {
     return QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
+}
+
+QFont iconFontFitSize(int w, int h)
+{
+    static const auto iconFontMaxWidth = ::iconFontMaxWidth();
+    QFont font = iconFont();
+    if (w < h)
+        font.setPixelSize(w * iconFontMaxWidth / iconFontMaxHeight);
+    else
+        font.setPixelSize(h * iconFontMaxHeight / iconFontMaxWidth);
+    return font;
 }
