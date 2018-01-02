@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'CopyQ'
-copyright = '2017, Lukas Holecek'
+copyright = '2018, Lukas Holecek'
 author = 'Lukas Holecek'
 
 # The version info for the project you're documenting, acts as replacement for
