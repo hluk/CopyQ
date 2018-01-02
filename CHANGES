@@ -8,11 +8,17 @@ v3.2.0
 - Allow to set tray and window icon tag
 - Allow to store MIME types with spaces
 - Allow to set negative offsets for notifications
+- Allow to override clipboard handling with script commands
 - Hide vertical scroll bar in text items if not needed
 - Run scripts safely in client process
-- Fix merging X11 selection if the first item is pinned
+- Fix sleep() timing out before interval
 - Fix Dir().separator() return value type
 - Fix item rendering
+- Fix window title and tool tip for multi-line clipboard
+- Fix tool bar rendering while editing an item
+- Linux: Fix merging X11 selection if the first item is pinned
+- Linux: Fix displaying tray menu on KDE/Plasma
+- Windows: Fix negative item size warnings
 
 v3.1.2
 - Don't show mouse cursor for selecting text after clicking on item
