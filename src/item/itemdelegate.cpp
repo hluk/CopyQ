@@ -206,8 +206,9 @@ bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
 ItemEditorWidget *ItemDelegate::createCustomEditor(
         QWidget *parent, const QModelIndex &index, bool editNotes)
 {
-    const auto w = cache(index);
-    auto editor = new ItemEditorWidget(w, index, editNotes, parent);
+    cache(index);
+    const int row = index.row();
+    auto editor = new ItemEditorWidget(m_cache[row], index, editNotes, parent);
     editor->setEditorPalette( m_sharedData->theme.editorPalette() );
     editor->setEditorFont( m_sharedData->theme.editorFont() );
     editor->setSaveOnReturnKey(m_sharedData->saveOnReturnKey);

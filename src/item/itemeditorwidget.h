@@ -24,6 +24,8 @@
 #include <QRegExp>
 #include <QWidget>
 
+#include <memory>
+
 class ItemWidget;
 class QAbstractItemModel;
 class QPlainTextEdit;
@@ -38,8 +40,9 @@ class ItemEditorWidget : public QWidget
 {
     Q_OBJECT
 public:
-    ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &index, bool editNotes,
-                     QWidget *parent = nullptr);
+    ItemEditorWidget(
+            const std::shared_ptr<ItemWidget> &itemWidget,
+            const QModelIndex &index, bool editNotes, QWidget *parent = nullptr);
 
     bool isValid() const;
 
@@ -71,7 +74,6 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private slots:
-    void onItemWidgetDestroyed();
     void saveAndExit();
 
     void setFont();
@@ -84,7 +86,7 @@ private slots:
     void eraseStyle();
 
 private:
-    QWidget *createEditor(const ItemWidget *itemWidget);
+    QWidget *createEditor();
     void initEditor(QWidget *editor);
     void initMenuItems();
 
@@ -97,7 +99,7 @@ private:
     QTextCursor textCursor() const;
     void setTextCursor(const QTextCursor &tc);
 
-    ItemWidget *m_itemWidget;
+    std::shared_ptr<ItemWidget> m_itemWidget;
     QPersistentModelIndex m_index;
     QWidget *m_editor;
     QPlainTextEdit *m_noteEditor;

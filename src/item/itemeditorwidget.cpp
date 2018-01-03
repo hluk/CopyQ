@@ -60,8 +60,9 @@ const QIcon iconSearch() { return getIcon("edit-find", IconSearch); }
 
 } // namespace
 
-ItemEditorWidget::ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &index,
-                                   bool editNotes, QWidget *parent)
+ItemEditorWidget::ItemEditorWidget(
+        const std::shared_ptr<ItemWidget> &itemWidget,
+        const QModelIndex &index, bool editNotes, QWidget *parent)
     : QWidget(parent)
     , m_itemWidget(itemWidget)
     , m_index(index)
@@ -71,13 +72,11 @@ ItemEditorWidget::ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &in
     , m_saveOnReturnKey(false)
 {
     m_noteEditor = editNotes ? new QPlainTextEdit(parent) : nullptr;
-    QWidget *editor = editNotes ? m_noteEditor : createEditor(itemWidget);
+    QWidget *editor = editNotes ? m_noteEditor : createEditor();
 
     if (editor == nullptr) {
         m_itemWidget = nullptr;
     } else {
-        connect( m_itemWidget->widget(), SIGNAL(destroyed()),
-                 this, SLOT(onItemWidgetDestroyed()) );
         initEditor(editor);
         if (m_noteEditor != nullptr)
             m_noteEditor->setPlainText( index.data(contentType::notes).toString() );
@@ -182,12 +181,6 @@ bool ItemEditorWidget::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-void ItemEditorWidget::onItemWidgetDestroyed()
-{
-    m_itemWidget = nullptr;
-    emit invalidate();
-}
-
 void ItemEditorWidget::saveAndExit()
 {
     emit save();
@@ -279,9 +272,9 @@ void ItemEditorWidget::eraseStyle()
     textCursor().setCharFormat( QTextCharFormat() );
 }
 
-QWidget *ItemEditorWidget::createEditor(const ItemWidget *itemWidget)
+QWidget *ItemEditorWidget::createEditor()
 {
-    QWidget *editor = itemWidget->createEditor(this);
+    QWidget *editor = m_itemWidget->createEditor(this);
 
     if (editor) {
         const QMetaObject *metaObject = editor->metaObject();

@@ -293,6 +293,7 @@ ClipboardBrowser::ClipboardBrowser(
 
 ClipboardBrowser::~ClipboardBrowser()
 {
+    delete m_editor.data();
     d.invalidateCache();
     saveUnsavedItems();
 }

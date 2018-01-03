@@ -151,7 +151,7 @@ class ItemDelegate : public QItemDelegate
         QSize m_maxSize;
         int m_idealWidth;
 
-        std::vector<std::unique_ptr<ItemWidget>> m_cache;
+        std::vector<std::shared_ptr<ItemWidget>> m_cache;
 };
 
 #endif // ITEMDELEGATE_H
