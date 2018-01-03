@@ -339,11 +339,11 @@ class ClipboardBrowser : public QListView
 
         void onItemCountChanged();
 
-        void onEditorDestroyed();
-
         void onEditorSave();
 
         void onEditorCancel();
+
+        void onEditorInvalidate();
 
         void onEditorNeedsChangeClipboard();
 

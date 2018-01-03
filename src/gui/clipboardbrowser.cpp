@@ -433,10 +433,14 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
     bool active = editor != nullptr;
 
     if (m_editor != editor) {
+        if (m_editor) {
+            focusEditedIndex();
+            m_editor->hide();
+            m_editor->deleteLater();
+        }
+
         m_editor = editor;
         if (active) {
-            connect( editor, SIGNAL(destroyed()),
-                     this, SLOT(onEditorDestroyed()) );
             connect( editor, SIGNAL(save()),
                      this, SLOT(onEditorSave()) );
             if (changeClipboard) {
@@ -446,7 +450,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
             connect( editor, SIGNAL(cancel()),
                      this, SLOT(onEditorCancel()) );
             connect( editor, SIGNAL(invalidate()),
-                     editor, SLOT(deleteLater()) );
+                     this, SLOT(onEditorInvalidate()) );
             connect( editor, SIGNAL(searchRequest()),
                      this, SIGNAL(searchRequest()) );
             updateEditorGeometry();
@@ -461,6 +465,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
     }
 
     setFocusProxy(m_editor);
+    setFocus();
 
     setAcceptDrops(!active);
 
@@ -843,13 +848,6 @@ void ClipboardBrowser::onItemCountChanged()
         m_timerEmitItemCount.start();
 }
 
-void ClipboardBrowser::onEditorDestroyed()
-{
-    setEditorWidget(nullptr);
-    // Set the focus back on the browser
-    setFocus();
-}
-
 void ClipboardBrowser::onEditorSave()
 {
     Q_ASSERT(!m_editor.isNull());
@@ -860,12 +858,16 @@ void ClipboardBrowser::onEditorSave()
 
 void ClipboardBrowser::onEditorCancel()
 {
-    focusEditedIndex();
-
-    if ( isInternalEditorOpen() && m_editor->hasFocus() )
+    if ( isInternalEditorOpen() && m_editor->hasFocus() ) {
         maybeCloseEditors();
-    else
+    } else {
         emit searchHideRequest();
+    }
+}
+
+void ClipboardBrowser::onEditorInvalidate()
+{
+    setEditorWidget(nullptr);
 }
 
 void ClipboardBrowser::onEditorNeedsChangeClipboard()
@@ -1774,10 +1776,7 @@ bool ClipboardBrowser::maybeCloseEditors()
             return false;
     }
 
-    if (m_editor) {
-        m_editor->deleteLater();
-        m_editor = nullptr;
-    }
+    setEditorWidget(nullptr);
 
     emit closeExternalEditors();
 
