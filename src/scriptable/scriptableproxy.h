@@ -48,7 +48,12 @@ struct NamedValue {
 
 using NamedValueList = QVector<NamedValue>;
 
+struct ScriptablePath {
+    QString path;
+};
+
 Q_DECLARE_METATYPE(NamedValueList)
+Q_DECLARE_METATYPE(ScriptablePath)
 Q_DECLARE_METATYPE(NotificationButtons)
 Q_DECLARE_METATYPE(QVector<QVariantMap>)
 Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
@@ -68,6 +73,8 @@ QDataStream &operator<<(QDataStream &out, const Command &command);
 QDataStream &operator>>(QDataStream &in, Command &command);
 QDataStream &operator<<(QDataStream &out, ClipboardMode mode);
 QDataStream &operator>>(QDataStream &in, ClipboardMode &mode);
+QDataStream &operator<<(QDataStream &out, const ScriptablePath &path);
+QDataStream &operator>>(QDataStream &in, ScriptablePath &path);
 
 class ScriptableProxy : public QObject
 {

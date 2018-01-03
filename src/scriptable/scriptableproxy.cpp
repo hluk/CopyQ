@@ -213,6 +213,16 @@ QDataStream &operator>>(QDataStream &in, ClipboardMode &mode)
     return in;
 }
 
+QDataStream &operator<<(QDataStream &out, const ScriptablePath &path)
+{
+    return out << path.path;
+}
+
+QDataStream &operator>>(QDataStream &in, ScriptablePath &path)
+{
+    return in >> path.path;
+}
+
 namespace {
 
 const char propertyWidgetName[] = "CopyQ_widget_name";
@@ -433,7 +443,7 @@ QWidget *createLineEdit(const QVariant &value, QWidget *parent)
     return lineEdit;
 }
 
-QWidget *createFileNameEdit(const QString &name, const QFile &file, QWidget *parent)
+QWidget *createFileNameEdit(const QString &name, const QString &path, QWidget *parent)
 {
     QWidget *w = new QWidget(parent);
     parent->layout()->addWidget(w);
@@ -441,12 +451,12 @@ QWidget *createFileNameEdit(const QString &name, const QFile &file, QWidget *par
     auto layout = new QHBoxLayout(w);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    QWidget *lineEdit = createLineEdit(file.fileName(), w);
+    QWidget *lineEdit = createLineEdit(path, w);
     lineEdit->setProperty(propertyWidgetName, name);
 
     QPushButton *browseButton = new QPushButton("...");
 
-    FileDialog *dialog = new FileDialog(w, name, file.fileName());
+    FileDialog *dialog = new FileDialog(w, name, path);
     QObject::connect( browseButton, SIGNAL(clicked()),
                       dialog, SLOT(exec()) );
     QObject::connect( dialog, SIGNAL(fileSelected(QString)),
@@ -486,9 +496,10 @@ QWidget *createWidget(const QString &name, const QVariant &value, InputDialog *i
     case QVariant::StringList:
         return createListWidget(name, value.toStringList(), inputDialog);
     default:
-        QFile *file = value.value<QFile*>();
-        if (file)
-            return createFileNameEdit(name, *file, parent);
+        if ( value.userType() == qMetaTypeId<ScriptablePath>() ) {
+            const auto path = value.value<ScriptablePath>();
+            return createFileNameEdit(name, path.path, parent);
+        }
 
         const QString text = value.toString();
         if (text.contains('\n'))
@@ -554,6 +565,7 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     qRegisterMetaTypeStreamOperators<Command>("Command");
     qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
     qRegisterMetaTypeStreamOperators<NotificationButtons>("NotificationButtons");
+    qRegisterMetaTypeStreamOperators<ScriptablePath>("ScriptablePath");
     qRegisterMetaTypeStreamOperators<QVector<int>>("QVector<int>");
     qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
     qRegisterMetaTypeStreamOperators<QVector<QVariantMap>>("QVector<QVariantMap>");

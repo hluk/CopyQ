@@ -48,6 +48,7 @@
 #include <QDesktopServices>
 #include <QElapsedTimer>
 #include <QFile>
+#include <QFileInfo>
 #include <QMap>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -372,8 +373,11 @@ struct ScriptValueFactory<QVariant> {
             return QVariant(*bytes);
 
         auto file = getFile(value, scriptable);
-        if (file)
-            return QVariant::fromValue(file);
+        if (file) {
+            const QFileInfo fileInfo(*file);
+            const auto path = fileInfo.absoluteFilePath();
+            return QVariant::fromValue( ScriptablePath{path} );
+        }
 
         if (value.isArray())
             return ScriptValueFactory<QVariantList>::fromScriptValue(value, scriptable);
