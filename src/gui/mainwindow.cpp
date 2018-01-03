@@ -824,8 +824,6 @@ void MainWindow::onAboutToQuit()
 void MainWindow::onCommandDialogSaved()
 {
     updateCommands();
-    updateContextMenu(contextMenuUpdateInvervalMsec);
-    emit commandsSaved();
 }
 
 void MainWindow::onSaveCommand(const Command &command)
@@ -1938,6 +1936,11 @@ void MainWindow::updateCommands()
         m_displayCommands = displayCommands;
         reloadBrowsers();
     }
+
+    updateContextMenu(contextMenuUpdateInvervalMsec);
+    if (m_options.trayCommands)
+        updateTrayMenu();
+    emit commandsSaved();
 }
 
 const Theme &MainWindow::theme() const
@@ -2641,10 +2644,6 @@ void MainWindow::setCommands(const QVector<Command> &commands)
 
     saveCommands(commands);
     updateCommands();
-    updateContextMenu(contextMenuUpdateInvervalMsec);
-    if (m_options.trayCommands)
-        updateTrayMenu();
-    emit commandsSaved();
 }
 
 void MainWindow::setSessionIconColor(QColor color)
