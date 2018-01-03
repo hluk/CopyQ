@@ -392,7 +392,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         painter->save();
         painter->setFont( m_sharedData->theme.rowNumberFont() );
         const auto rowNumberPalette = m_sharedData->theme.rowNumberPalette();
-        style->drawItemText(painter, rect.translated(margins.width() / 2, margins.height()), 0,
+        style->drawItemText(painter, rect.translated(margins.width() / 2, margins.height()),
+                            Qt::AlignTop | Qt::AlignLeft,
                             rowNumberPalette, true, num,
                             role);
         painter->restore();
