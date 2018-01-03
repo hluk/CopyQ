@@ -1001,7 +1001,7 @@ void MainWindow::onItemsChanged(const ClipboardBrowser *browser)
 void MainWindow::onInternalEditorStateChanged(const ClipboardBrowser *browser)
 {
     if (browser == this->browser())
-        updateContextMenu(contextMenuUpdateInvervalMsec);
+        updateContextMenu(0);
 }
 
 void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
