@@ -728,7 +728,7 @@ omitted.
 
    Returns value for an option.
 
-.. js:function:: settings(optionName)
+.. js:function:: settings(optionName, value)
 
    Sets value for a new option or overrides existing option.
 
