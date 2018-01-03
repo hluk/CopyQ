@@ -50,21 +50,18 @@ using NamedValueList = QVector<NamedValue>;
 
 Q_DECLARE_METATYPE(NamedValueList)
 Q_DECLARE_METATYPE(NotificationButtons)
-Q_DECLARE_METATYPE(QList<QVariantMap>)
 Q_DECLARE_METATYPE(QVector<QVariantMap>)
 Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
 Q_DECLARE_METATYPE(Command)
 Q_DECLARE_METATYPE(ClipboardMode)
 
 #if QT_VERSION < 0x050000
-Q_DECLARE_METATYPE(QList<int>)
+Q_DECLARE_METATYPE(QVector<int>)
 Q_DECLARE_METATYPE(QVector<Command>)
 #endif
 
 QDataStream &operator<<(QDataStream &out, const NotificationButton &button);
 QDataStream &operator>>(QDataStream &in, NotificationButton &button);
-QDataStream &operator<<(QDataStream &out, const QList<QVariantMap> &list);
-QDataStream &operator>>(QDataStream &in, QList<QVariantMap> &list);
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list);
 QDataStream &operator>>(QDataStream &in, NamedValueList &list);
 QDataStream &operator<<(QDataStream &out, const Command &command);
@@ -128,7 +125,7 @@ public slots:
     QVariantMap nextItem(int where);
     void browserMoveToClipboard(int arg1);
     void browserSetCurrent(int arg1);
-    QString browserRemoveRows(QList<int> rows);
+    QString browserRemoveRows(QVector<int> rows);
 
     void browserEditRow(int arg1);
     void browserEditNew(const QString &arg1, bool changeClipboard);
@@ -156,8 +153,7 @@ public slots:
     int browserLength();
     bool browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
 
-    QString browserAdd(const QStringList &texts);
-    QString browserAdd(const QVariantMap &arg1, int arg2);
+    QString browserInsert(int row, const QVector<QVariantMap> &items);
     bool browserChange(const QVariantMap &data, int row);
 
     QByteArray browserItemData(int arg1, const QString &arg2);
@@ -170,16 +166,16 @@ public slots:
     QString tab();
 
     int currentItem();
-    bool selectItems(const QList<int> &items);
+    bool selectItems(const QVector<int> &rows);
 
-    QList<int> selectedItems();
+    QVector<int> selectedItems();
 
     int selectedItemsDataCount();
     QVariantMap selectedItemData(int selectedIndex);
     bool setSelectedItemData(int selectedIndex, const QVariantMap &data);
 
-    QList<QVariantMap> selectedItemsData();
-    void setSelectedItemsData(const QList<QVariantMap> &dataList);
+    QVector<QVariantMap> selectedItemsData();
+    void setSelectedItemsData(const QVector<QVariantMap> &dataList);
 
 #ifdef HAS_TESTS
     void sendKeys(const QString &keys, int delay);

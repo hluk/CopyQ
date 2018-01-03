@@ -118,28 +118,6 @@ QDataStream &operator>>(QDataStream &in, NotificationButton &button)
     return in;
 }
 
-QDataStream &operator<<(QDataStream &out, const QList<QVariantMap> &list)
-{
-    out << list.size();
-    for (const auto &item : list)
-        serializeData(&out, item);
-    Q_ASSERT(out.status() == QDataStream::Ok);
-    return out;
-}
-
-QDataStream &operator>>(QDataStream &in, QList<QVariantMap> &list)
-{
-    int size;
-    in >> size;
-    for (int i = 0; i < size; ++i) {
-        QVariantMap item;
-        deserializeData(&in, &item);
-        list.append(item);
-    }
-    Q_ASSERT(in.status() == QDataStream::Ok);
-    return in;
-}
-
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list)
 {
     out << list.size();
@@ -576,9 +554,9 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     qRegisterMetaTypeStreamOperators<Command>("Command");
     qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
     qRegisterMetaTypeStreamOperators<NotificationButtons>("NotificationButtons");
-    qRegisterMetaTypeStreamOperators<QList<int>>("QList<int>");
+    qRegisterMetaTypeStreamOperators<QVector<int>>("QVector<int>");
     qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
-    qRegisterMetaTypeStreamOperators<QList<QVariantMap>>("QList<QVariantMap>");
+    qRegisterMetaTypeStreamOperators<QVector<QVariantMap>>("QVector<QVariantMap>");
 }
 
 QByteArray ScriptableProxy::callFunction(const QByteArray &serializedFunctionCall)
@@ -853,7 +831,7 @@ void ScriptableProxy::browserSetCurrent(int arg1)
     BROWSER(setCurrent(arg1));
 }
 
-QString ScriptableProxy::browserRemoveRows(QList<int> rows)
+QString ScriptableProxy::browserRemoveRows(QVector<int> rows)
 {
     INVOKE(browserRemoveRows, (rows));
     ClipboardBrowser *c = fetchBrowser();
@@ -1022,38 +1000,21 @@ bool ScriptableProxy::browserOpenEditor(const QByteArray &arg1, bool changeClipb
     return c && c->openEditor(arg1, changeClipboard);
 }
 
-QString ScriptableProxy::browserAdd(const QStringList &texts)
+QString ScriptableProxy::browserInsert(int row, const QVector<QVariantMap> &items)
 {
-    INVOKE(browserAdd, (texts));
+    INVOKE(browserInsert, (row, items));
 
     ClipboardBrowser *c = fetchBrowser();
     if (!c)
         return "Invalid tab";
 
-    if ( !c->allocateSpaceForNewItems(texts.size()) )
+    if ( !c->allocateSpaceForNewItems(items.size()) )
         return "Tab is full (cannot remove any items)";
 
-    for (const auto &text : texts) {
-        if ( !c->add(text) )
+    for (const auto &item : items) {
+        if ( !c->add(item, row) )
             return "Failed to new add items";
     }
-
-    return QString();
-}
-
-QString ScriptableProxy::browserAdd(const QVariantMap &arg1, int arg2)
-{
-    INVOKE(browserAdd, (arg1, arg2));
-
-    ClipboardBrowser *c = fetchBrowser();
-    if (!c)
-        return "Invalid tab";
-
-    if ( !c->allocateSpaceForNewItems(1) )
-        return "Tab is full (cannot remove any items)";
-
-    if ( !c->add(arg1, arg2) )
-        return "Failed to new add item";
 
     return QString();
 }
@@ -1118,19 +1079,19 @@ int ScriptableProxy::currentItem()
     return current.isValid() ? current.row() : -1;
 }
 
-bool ScriptableProxy::selectItems(const QList<int> &items)
+bool ScriptableProxy::selectItems(const QVector<int> &rows)
 {
-    INVOKE(selectItems, (items));
+    INVOKE(selectItems, (rows));
     ClipboardBrowser *c = fetchBrowser();
     if (!c)
         return false;
 
     c->clearSelection();
 
-    if ( !items.isEmpty() ) {
-        c->setCurrent(items.last());
+    if ( !rows.isEmpty() ) {
+        c->setCurrent(rows.last());
 
-        for (int i : items) {
+        for (int i : rows) {
             const QModelIndex index = c->index(i);
             if ( index.isValid() && !c->isFiltered(i) )
                 c->selectionModel()->select(index, QItemSelectionModel::Select);
@@ -1140,12 +1101,13 @@ bool ScriptableProxy::selectItems(const QList<int> &items)
     return true;
 }
 
-QList<int> ScriptableProxy::selectedItems()
+QVector<int> ScriptableProxy::selectedItems()
 {
     INVOKE(selectedItems, ());
 
-    QList<int> selectedRows;
+    QVector<int> selectedRows;
     const QList<QPersistentModelIndex> selected = selectedIndexes();
+    selectedRows.reserve(selected.count());
     for (const auto &index : selected) {
         if (index.isValid())
             selectedRows.append(index.row());
@@ -1189,19 +1151,21 @@ bool ScriptableProxy::setSelectedItemData(int selectedIndex, const QVariantMap &
     return c->model()->setData(index, data, contentType::data);
 }
 
-QList<QVariantMap> ScriptableProxy::selectedItemsData()
+QVector<QVariantMap> ScriptableProxy::selectedItemsData()
 {
     INVOKE(selectedItemsData, ());
 
     auto c = currentBrowser();
     if (!c)
-        return QList<QVariantMap>();
+        return QVector<QVariantMap>();
 
     const auto model = c->model();
 
-    QList<QVariantMap> dataList;
+    QVector<QVariantMap> dataList;
+    const auto selected = selectedIndexes();
+    dataList.reserve(selected.size());
 
-    for ( const auto &index : selectedIndexes() ) {
+    for (const auto &index : selected) {
         if ( index.isValid() ) {
             Q_ASSERT( index.model() == model );
             dataList.append( c->copyIndex(index) );
@@ -1211,7 +1175,7 @@ QList<QVariantMap> ScriptableProxy::selectedItemsData()
     return dataList;
 }
 
-void ScriptableProxy::setSelectedItemsData(const QList<QVariantMap> &dataList)
+void ScriptableProxy::setSelectedItemsData(const QVector<QVariantMap> &dataList)
 {
     INVOKE2(setSelectedItemsData, (dataList));
 

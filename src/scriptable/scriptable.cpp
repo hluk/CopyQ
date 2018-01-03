@@ -1052,40 +1052,17 @@ void Scriptable::previous()
 
 void Scriptable::add()
 {
-    m_skipArguments = -1;
-
-    QStringList texts;
-    texts.reserve( argumentCount() );
-
-    for (int i = 0; i < argumentCount(); ++i)
-        texts.append( toString(argument(i), this) );
-
-    const auto error = m_proxy->browserAdd(texts);
-    if ( !error.isEmpty() )
-        throwError(error);
+    insert(0, 0, argumentCount());
 }
 
 void Scriptable::insert()
 {
-    m_skipArguments = 2;
-
-    int row;
-    if ( !toInt(argument(0), &row) ) {
-        throwError(argumentError());
-        return;
-    }
-
-    QScriptValue value = argument(1);
-    QVariantMap data;
-    setTextData( &data, toString(value, this) );
-    const auto error = m_proxy->browserAdd(data, row);
-    if ( !error.isEmpty() )
-        throwError(error);
+    insert(argumentCount());
 }
 
 void Scriptable::remove()
 {
-    QList<int> rows = getRows();
+    auto rows = getRows();
     m_skipArguments = rows.size();
 
     if ( rows.empty() )
@@ -1715,7 +1692,7 @@ void Scriptable::setCurrentTab()
 
 QScriptValue Scriptable::selectItems()
 {
-    QList<int> rows = getRows();
+    const auto rows = getRows();
     m_skipArguments = rows.size();
     return m_proxy->selectItems(rows);
 }
@@ -1769,7 +1746,7 @@ QScriptValue Scriptable::selectedItemsData()
 void Scriptable::setSelectedItemsData()
 {
     m_skipArguments = 1;
-    const auto dataList = fromScriptValue<QList<QVariantMap>>( argument(0), this );
+    const auto dataList = fromScriptValue<QVector<QVariantMap>>( argument(0), this );
     m_proxy->setSelectedItemsData(dataList);
 }
 
@@ -1815,18 +1792,7 @@ QScriptValue Scriptable::getItem()
 
 void Scriptable::setItem()
 {
-    m_skipArguments = 2;
-
-    int row;
-    if ( !toInt(argument(0), &row) ) {
-        throwError(argumentError());
-        return;
-    }
-
-    QVariantMap data = toDataMap( argument(1) );
-    const auto error = m_proxy->browserAdd(data, row);
-    if ( !error.isEmpty() )
-        throwError(error);
+    insert(2);
 }
 
 QScriptValue Scriptable::toBase64()
@@ -2500,9 +2466,9 @@ void Scriptable::showExceptionMessage(const QString &message)
     m_proxy->showMessage(title, message, QString(QChar(IconWarningSign)), 8000);
 }
 
-QList<int> Scriptable::getRows() const
+QVector<int> Scriptable::getRows() const
 {
-    QList<int> rows;
+    QVector<int> rows;
 
     for ( int i = 0; i < argumentCount(); ++i ) {
         int row;
@@ -2616,7 +2582,8 @@ void Scriptable::changeItem(bool create)
     }
 
     if (create) {
-        const auto error = m_proxy->browserAdd(data, row);
+        QVector<QVariantMap> items(1, data);
+        const auto error = m_proxy->browserInsert(row, items);
         if ( !error.isEmpty() )
             throwError(error);
     } else {
@@ -2842,6 +2809,37 @@ void Scriptable::provideClipboard(ClipboardMode mode)
     connect( this, SIGNAL(finished()), &loop, SLOT(quit()) );
     connect( clipboard.get(), SIGNAL(changed(ClipboardMode)), this, slot );
     loop.exec();
+}
+
+void Scriptable::insert(int argumentsEnd)
+{
+    int row;
+    if ( !toInt(argument(0), &row) ) {
+        throwError(argumentError());
+        return;
+    }
+
+    insert(row, 1, argumentsEnd);
+}
+
+void Scriptable::insert(int row, int argumentsBegin, int argumentsEnd)
+{
+    m_skipArguments = argumentsEnd;
+
+    QVector<QVariantMap> items;
+    items.reserve(argumentsEnd - argumentsBegin);
+
+    for (int i = argumentsBegin; i < argumentsEnd; ++i) {
+        const auto arg = argument(i);
+        if ( arg.isObject() && arg.scriptClass() != byteArrayClass() && !arg.isArray() )
+            items.append( fromScriptValue<QVariantMap>(arg, this) );
+        else
+            items.append( createDataMap(mimeText, toString(arg, this)) );
+    }
+
+    const auto error = m_proxy->browserInsert(row, items);
+    if ( !error.isEmpty() )
+        throwError(error);
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

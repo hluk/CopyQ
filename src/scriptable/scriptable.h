@@ -368,7 +368,7 @@ private:
     void callDisplayFunctions(QScriptValueList displayFunctions);
     QString processUncaughtException(const QString &cmd);
     void showExceptionMessage(const QString &message);
-    QList<int> getRows() const;
+    QVector<int> getRows() const;
     QScriptValue copy(ClipboardMode mode);
     bool setClipboard(QVariantMap *data, ClipboardMode mode);
     void changeItem(bool create);
@@ -383,6 +383,9 @@ private:
     bool canExecuteCommandFilter(const QString &matchCommand);
     bool verifyClipboardAccess();
     void provideClipboard(ClipboardMode mode);
+
+    void insert(int argumentsEnd);
+    void insert(int row, int argumentsBegin, int argumentsEnd);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;

@@ -282,15 +282,15 @@ omitted.
 
    Copies previous item from current tab to clipboard.
 
-.. js:function:: add(text, ...)
+.. js:function:: add(text|item...)
 
-   Adds new text items to current tab.
+   Same as ``insert(0, ...)``.
+
+.. js:function:: insert(row, text|item...)
+
+   Inserts new items to current tab.
 
    Throws an exception if space for the items cannot be allocated.
-
-.. js:function:: insert(row, text)
-
-   Inserts new text items to current tab.
 
 .. js:function:: remove(row, ...)
 
@@ -562,7 +562,7 @@ omitted.
 
    See `Selected Items`_.
 
-.. js:function:: bool setSelectedItemData(index, Item)
+.. js:function:: bool setSelectedItemData(index, item)
 
    Set data for given selected item.
 
@@ -580,7 +580,7 @@ omitted.
 
    See `Selected Items`_.
 
-.. js:function:: void setSelectedItemsData(Item[])
+.. js:function:: void setSelectedItemsData(item[])
 
    Set data to all selected items.
 
@@ -611,7 +611,7 @@ omitted.
 
    Returns an item in current tab.
 
-.. js:function:: setItem(row, item)
+.. js:function:: setItem(row, text|item)
 
    Inserts item to current tab.
 
