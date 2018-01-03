@@ -91,9 +91,6 @@ class ItemDelegate : public QItemDelegate
         /** Set maximum size for all items. */
         void setItemSizes(QSize size, int idealWidth);
 
-        /** Save edited item on return or ctrl+return. */
-        void setSaveOnEnterKey(bool enable) { m_saveOnReturnKey = enable; }
-
         /** Use next/previous item loader available for @a index. */
         bool otherItemLoader(const QModelIndex &index, bool next);
 
@@ -150,7 +147,6 @@ class ItemDelegate : public QItemDelegate
 
         ClipboardBrowser *m_view;
         ClipboardBrowserSharedPtr m_sharedData;
-        bool m_saveOnReturnKey;
         QRegExp m_re;
         QSize m_maxSize;
         int m_idealWidth;

@@ -44,7 +44,6 @@ ItemDelegate::ItemDelegate(ClipboardBrowser *view, const ClipboardBrowserSharedP
     : QItemDelegate(parent)
     , m_view(view)
     , m_sharedData(sharedData)
-    , m_saveOnReturnKey(true)
     , m_re()
     , m_maxSize(2048, 2048 * 8)
     , m_idealWidth(0)
@@ -211,7 +210,7 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
     auto editor = new ItemEditorWidget(w, index, editNotes, parent);
     editor->setEditorPalette( m_sharedData->theme.editorPalette() );
     editor->setEditorFont( m_sharedData->theme.editorFont() );
-    editor->setSaveOnReturnKey(m_saveOnReturnKey);
+    editor->setSaveOnReturnKey(m_sharedData->saveOnReturnKey);
     return editor;
 }
 

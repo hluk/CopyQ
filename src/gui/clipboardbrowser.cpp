@@ -289,8 +289,6 @@ ClipboardBrowser::ClipboardBrowser(
 
     m_sharedData->theme.decorateBrowser(this);
     updateItemMaximumSize();
-
-    d.setSaveOnEnterKey(m_sharedData->saveOnReturnKey);
 }
 
 ClipboardBrowser::~ClipboardBrowser()
