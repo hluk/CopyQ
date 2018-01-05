@@ -790,28 +790,49 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
     if (h == 0)
         return QPixmap();
 
-    const QRect rect(0, 0, qMin(maxWidth, viewport()->contentsRect().width()), qMin(maxHeight, h) );
+#if QT_VERSION >= 0x050000
+    const auto ratio = devicePixelRatio();
+#else
+    const auto ratio = 1;
+#endif
+    const auto frameLineWidth = 2 * ratio;
 
-    QPixmap pix( rect.size() );
-    pix.fill(Qt::transparent);
+    const auto height = qMin(maxHeight, h + s + 2 * frameLineWidth);
+    const auto width = qMin(maxWidth, viewport()->contentsRect().width() + 2 * frameLineWidth);
+    const QSize size(width, height);
+
+    QPixmap pix(size * ratio);
+#if QT_VERSION >= 0x050000
+    pix.setDevicePixelRatio(ratio);
+#endif
+
     QPainter p(&pix);
 
-    h = 0;
-    const QPoint pos = viewport()->pos() - QPoint(s / 2 + 1, s / 2 + 1);
+    h = frameLineWidth;
+    const QPoint pos = viewport()->pos();
     for (const auto &index : indexes) {
         if ( isIndexHidden(index) )
             continue;
-        render( &p, QPoint(0, h), visualRect(index).translated(pos).adjusted(0, 0, s, s) );
+        const QPoint position(frameLineWidth, h);
+        const auto rect = visualRect(index).translated(pos).adjusted(-s, -s, 2 * s, 2 * s);
+        render(&p, position, rect);
         h += visualRect(index).height() + s;
-        if ( h > rect.height() )
+        if ( h > height )
             break;
     }
 
-    p.setPen(Qt::black);
     p.setBrush(Qt::NoBrush);
-    p.drawRect( 0, 0, rect.width() - 1, rect.height() - 1 );
-    p.setPen(Qt::white);
-    p.drawRect( 1, 1, rect.width() - 3, rect.height() - 3 );
+
+    const auto x = frameLineWidth / 2;
+    const QRect rect(x / 2, x / 2, width - x, height - x);
+
+    QPen pen(Qt::black, x, Qt::SolidLine, Qt::SquareCap, Qt::MiterJoin);
+    p.setPen(pen);
+    p.drawRect(rect);
+
+    pen.setColor(Qt::white);
+    p.setPen(pen);
+    p.drawRect( rect.adjusted(x, x, -x, -x) );
 
     return pix;
 }
