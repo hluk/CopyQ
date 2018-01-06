@@ -139,29 +139,6 @@ void Theme::loadTheme(const QSettings &settings)
         if ( value.isValid() )
             m_theme[key].setValue(value);
     }
-
-    const auto margin = itemMargin();
-    m_margins = QSize(margin + 2, margin);
-
-    // search style
-    m_searchPalette.setColor(QPalette::Base, color("find_bg"));
-    m_searchPalette.setColor(QPalette::Text, color("find_fg"));
-    m_searchFont = font("find_font");
-
-    // editor style
-    m_editorPalette.setColor(QPalette::Base, color("edit_bg"));
-    m_editorPalette.setColor(QPalette::Text, color("edit_fg"));
-    m_editorFont = font("edit_font");
-
-    // number style
-    m_showRowNumber = value("show_number").toBool();
-    m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
-    m_rowNumberFont = font("num_font");
-    m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QString("0123") ).size()
-            + QSize(m_margins.width(), m_margins.height());
-
-    m_antialiasing = isAntialiasingEnabled();
-
 }
 
 void Theme::saveTheme(QSettings *settings) const
@@ -485,6 +462,31 @@ void Theme::resetTheme()
     m_theme["use_system_icons"] = Option(false, "checked", ui ? ui->checkBoxSystemIcons : nullptr);
     m_theme["font_antialiasing"] = Option(true, "checked", ui ? ui->checkBoxAntialias : nullptr);
     m_theme["style_main_window"] = Option(false, "checked", ui ? ui->checkBoxStyleMainWindow : nullptr);
+}
+
+void Theme::updateTheme()
+{
+    const auto margin = itemMargin();
+    m_margins = QSize(margin + 2, margin);
+
+    // search style
+    m_searchPalette.setColor(QPalette::Base, color("find_bg"));
+    m_searchPalette.setColor(QPalette::Text, color("find_fg"));
+    m_searchFont = font("find_font");
+
+    // editor style
+    m_editorPalette.setColor(QPalette::Base, color("edit_bg"));
+    m_editorPalette.setColor(QPalette::Text, color("edit_fg"));
+    m_editorFont = font("edit_font");
+
+    // number style
+    m_showRowNumber = value("show_number").toBool();
+    m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
+    m_rowNumberFont = font("num_font");
+    m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QString("0123") ).size()
+            + QSize(m_margins.width(), m_margins.height());
+
+    m_antialiasing = value("font_antialiasing").toBool();
 }
 
 void Theme::decorateBrowser(QAbstractScrollArea *c) const

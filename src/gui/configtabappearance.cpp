@@ -445,6 +445,8 @@ void ConfigTabAppearance::decoratePreview()
         m_preview = nullptr;
     }
 
+    m_theme.updateTheme();
+
     const auto sharedData = std::make_shared<ClipboardBrowserShared>();
     sharedData->itemFactory = m_itemFactory;
     sharedData->theme = m_theme;

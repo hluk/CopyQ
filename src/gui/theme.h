@@ -88,6 +88,8 @@ public:
 
     void resetTheme();
 
+    void updateTheme();
+
     bool showRowNumber() const { return m_showRowNumber; }
     const QFont &rowNumberFont() const { return m_rowNumberFont; }
     const QPalette &rowNumberPalette() const { return m_rowNumberPalette; }
