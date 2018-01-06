@@ -120,6 +120,9 @@ private slots:
 
     void onActionFinished(Action *)
     {
+        if ( m_output.isEmpty() )
+            return;
+
         ClipboardBrowser *c = m_tab.isEmpty() ? m_wnd->browser() : m_wnd->tab(m_tab);
         c->add( createDataMap(m_outputFormat, m_output) );
     }
