@@ -105,8 +105,12 @@ Server::Server(const QString &name, QObject *parent)
 {
     if ( m_systemMutex && !serverIsRunning(name) ) {
         QLocalServer::removeServer(name);
-        if ( !m_server->listen(name) )
-            log("Failed to create server: " + m_server->errorString(), LogError);
+        if ( !m_server->listen(name) ) {
+            log( QString("Failed to create server \"%1\": %2")
+                 .arg(m_server->fullServerName())
+                 .arg(m_server->errorString()),
+                 LogError);
+        }
     }
 
     connect( qApp, SIGNAL(aboutToQuit()), this, SLOT(close()) );
