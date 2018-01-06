@@ -174,7 +174,7 @@ void ItemDelegate::setItemSizes(QSize size, int idealWidth)
 {
     const auto margins = m_sharedData->theme.margins();
     const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-    const int margin = 2 * margins.width() + rowNumberSize.width();
+    const int margin = 2 * margins.width() + rowNumberSize.width() + m_view->spacing();
     m_maxSize.setWidth(size.width() - margin);
     m_idealWidth = idealWidth - margin;
 
@@ -392,7 +392,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         painter->save();
         painter->setFont( m_sharedData->theme.rowNumberFont() );
         const auto rowNumberPalette = m_sharedData->theme.rowNumberPalette();
-        style->drawItemText(painter, rect.translated(margins.width() / 2, margins.height()),
+        style->drawItemText(painter, rect.translated(margins.width(), margins.height()),
                             Qt::AlignTop | Qt::AlignLeft,
                             rowNumberPalette, true, num,
                             role);

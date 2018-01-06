@@ -141,7 +141,7 @@ void Theme::loadTheme(const QSettings &settings)
     }
 
     const auto margin = itemMargin();
-    m_margins = QSize(margin * 2 + 6, margin);
+    m_margins = QSize(margin + 2, margin);
 
     // search style
     m_searchPalette.setColor(QPalette::Base, color("find_bg"));
@@ -158,7 +158,7 @@ void Theme::loadTheme(const QSettings &settings)
     m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
     m_rowNumberFont = font("num_font");
     m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QString("0123") ).size()
-            + QSize(m_margins.width() / 2, 2 * m_margins.height());
+            + QSize(m_margins.width(), m_margins.height());
 
     m_antialiasing = isAntialiasingEnabled();
 
