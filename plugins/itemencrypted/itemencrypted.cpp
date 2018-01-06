@@ -479,6 +479,23 @@ void ItemEncryptedScriptable::copyEncryptedItems()
     call("copySelection", args);
 }
 
+void ItemEncryptedScriptable::pasteEncryptedItems()
+{
+    copyEncryptedItems();
+    const auto script =
+        R"(
+        if (focused()) {
+            hide();
+            sleep(100);
+        }
+        paste();
+        sleep(2000);
+        copy('');
+        copySelection('');
+        )";
+    call("eval", QVariantList() << script);
+}
+
 QString ItemEncryptedScriptable::generateTestKeys()
 {
     const KeyPairPaths keys;
@@ -772,6 +789,15 @@ QVector<Command> ItemEncryptedLoader::commands() const
     c.inMenu = true;
     c.cmd = "copyq: plugins.itemencrypted.copyEncryptedItems()";
     c.shortcuts.append( toPortableShortcutText(tr("Ctrl+Shift+L")) );
+    commands.append(c);
+
+    c = Command();
+    c.name = tr("Decrypt and Paste");
+    c.icon = QString(QChar(IconUnlockAlt));
+    c.input = mimeEncryptedData;
+    c.inMenu = true;
+    c.cmd = "copyq: plugins.itemencrypted.pasteEncryptedItems()";
+    c.shortcuts.append( toPortableShortcutText(tr("Enter")) );
     commands.append(c);
 
     return commands;

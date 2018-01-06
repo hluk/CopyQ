@@ -76,6 +76,7 @@ public slots:
     void decryptItems();
 
     void copyEncryptedItems();
+    void pasteEncryptedItems();
 
     QString generateTestKeys();
     bool isGpgInstalled();
