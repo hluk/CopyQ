@@ -139,6 +139,8 @@ void Theme::loadTheme(const QSettings &settings)
         if ( value.isValid() )
             m_theme[key].setValue(value);
     }
+
+    updateTheme();
 }
 
 void Theme::saveTheme(QSettings *settings) const
