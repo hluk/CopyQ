@@ -21,6 +21,7 @@
 #include "ui_itemorderlist.h"
 
 #include "gui/iconfactory.h"
+#include "gui/iconfont.h"
 #include "gui/icons.h"
 
 #include <QDragEnterEvent>
@@ -47,6 +48,10 @@ ItemOrderList::ItemOrderList(QWidget *parent)
     ui->pushButtonAdd->hide();
     setFocusProxy(ui->listWidgetItems);
     setCurrentItemWidget(nullptr);
+
+    // Make icon wider so icon tag can be bigger.
+    const auto size = iconFontSizePixels();
+    ui->listWidgetItems->setIconSize( QSize(size * 2, size) );
 }
 
 ItemOrderList::~ItemOrderList()

@@ -25,6 +25,9 @@
 #include <QFontMetrics>
 #include <QStyle>
 
+#include <algorithm>
+#include <vector>
+
 namespace {
 
 const int iconFontMaxHeight = 128;
@@ -50,12 +53,33 @@ const QString &iconFontFamily()
     return fontFamily;
 }
 
-int iconFontMaxWidth() {
+int iconFontMaxWidth()
+{
     QFont font = iconFont();
     font.setPixelSize(iconFontMaxHeight);
     const auto maxWidth = QFontMetrics(font).maxWidth();
     return maxWidth;
 }
+
+std::vector<int> smoothSizes()
+{
+    const auto smoothSizes = QFontDatabase().smoothSizes(iconFontFamily(), QString());
+    return std::vector<int>(std::begin(smoothSizes), std::end(smoothSizes));
+}
+
+int iconFontSmoothPixelSize(int pixelSize)
+{
+    static const auto smoothSizes = ::smoothSizes();
+
+    const auto it = std::upper_bound(
+        std::begin(smoothSizes), std::end(smoothSizes), pixelSize);
+
+    if ( it == std::begin(smoothSizes) )
+        return pixelSize;
+
+    return *(it - 1);
+}
+
 
 } // namespace
 
@@ -66,7 +90,7 @@ bool loadIconFont()
 
 QFont iconFont()
 {
-    QFont font(iconFontFamily());
+    static QFont font(iconFontFamily());
     font.setPixelSize( iconFontSizePixels() );
     return font;
 }
@@ -80,9 +104,10 @@ QFont iconFontFitSize(int w, int h)
 {
     static const auto iconFontMaxWidth = ::iconFontMaxWidth();
     QFont font = iconFont();
-    if (w < h)
-        font.setPixelSize(w * iconFontMaxWidth / iconFontMaxHeight);
-    else
-        font.setPixelSize(h * iconFontMaxHeight / iconFontMaxWidth);
+    const auto pixelSize = w < h
+        ? w * iconFontMaxWidth / iconFontMaxHeight
+        : h * iconFontMaxHeight / iconFontMaxWidth;
+    const auto smoothPixelSize =  iconFontSmoothPixelSize(pixelSize);
+    font.setPixelSize(smoothPixelSize);
     return font;
 }

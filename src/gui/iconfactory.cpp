@@ -298,11 +298,13 @@ public:
         const int strokeWidth = static_cast<int>(ratio + h / 16);
 
         QFont font;
-        if ( tag.size() == 1 )
-            font = iconFont();
-        const auto pixelSize = h * 2 / 5;
-        font.setPixelSize(pixelSize);
-        font.setBold(true);
+        const auto pixelSize = pix->width() / 2;
+        if ( tag.size() == 1 ) {
+            font = iconFontFitSize(pixelSize, pixelSize);
+        } else {
+            font.setPixelSize(pixelSize);
+            font.setBold(true);
+        }
         painter.setFont(font);
 
         const auto rect = painter.fontMetrics().tightBoundingRect(tag);
