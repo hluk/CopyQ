@@ -358,7 +358,7 @@ omitted.
    If button is clicked the notification is hidden and script is executed
    with the data passed as stdin.
 
-   The function returns immediatelly (doesn't wait on user input).
+   The function returns immediately (doesn't wait on user input).
 
    Special arguments:
 

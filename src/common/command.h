@@ -190,7 +190,7 @@ struct Command {
     /** Shortcut for menu item. */
     QStringList shortcuts;
 
-    /** Global/sytem shortcut. */
+    /** Global/system shortcut. */
     QStringList globalShortcuts;
 
     /** Copy item to other tab (automatically on new matched item). */

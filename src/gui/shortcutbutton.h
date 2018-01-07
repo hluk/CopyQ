@@ -65,9 +65,9 @@ public:
     int shortcutCount() const;
 
 signals:
-    /** Emited if new @a shortcut (with button) was added. */
+    /** Emitted if new @a shortcut (with button) was added. */
     void shortcutAdded(const QKeySequence &shortcut);
-    /** Emited if @a shortcut (with button) was removed. */
+    /** Emitted if @a shortcut (with button) was removed. */
     void shortcutRemoved(const QKeySequence &shortcut);
 
 protected:

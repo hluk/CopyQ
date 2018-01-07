@@ -318,7 +318,7 @@ QVariant serializableValue(const QSettings &settings, const QString &key)
 
 #ifdef HAS_TESTS
 /**
- * Read base64-encoded settings from "COPYQ_TEST_SETTINGS" enviroment variable if not empty.
+ * Read base64-encoded settings from "COPYQ_TEST_SETTINGS" environment variable if not empty.
  *
  * The settings are initially taken from "CopyQ_test_settings" property of test object returned by
  * ItemLoaderInterface::tests().

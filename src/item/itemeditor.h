@@ -48,7 +48,7 @@ class ItemEditor : public QObject
         /**
          * Execute editor process.
          * @retval true   Editor successfully opened.
-         * @retval false  An error occured (failed to create temporary file), editor was not opened.
+         * @retval false  An error occurred (failed to create temporary file), editor was not opened.
          */
         bool start();
 

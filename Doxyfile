@@ -831,7 +831,7 @@ HTML_FILE_EXTENSION    = .html
 # standard header. Note that when using a custom header you are responsible
 # for the proper inclusion of any scripts and style sheets that doxygen
 # needs, which is dependent on the configuration options used.
-# It is adviced to generate a default header using "doxygen -w html
+# It is advised to generate a default header using "doxygen -w html
 # header.html footer.html stylesheet.css YourConfigFile" and then modify
 # that header. Note that the header is subject to change so you typically
 # have to redo this when upgrading to a newer version of doxygen or when changing the value of configuration settings such as GENERATE_TREEVIEW!
