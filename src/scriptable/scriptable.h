@@ -94,7 +94,7 @@ public:
 
     /**
      * Set data for item converted from @a value.
-     * Return true if data was successfuly converted and set.
+     * Return true if data was successfully converted and set.
      *
      * If mime starts with "text/" or isn't byte array the value is re-encoded
      * from local encoding to UTF8.

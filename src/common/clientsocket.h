@@ -60,7 +60,7 @@ public:
     void waitForReadyRead();
 
 public slots:
-    /// Start emiting messageReceived().
+    /// Start emitting messageReceived().
     void start();
 
     /** Send message to client. */
