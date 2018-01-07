@@ -800,11 +800,8 @@ void MainWindow::setItemPreviewVisible(bool visible)
 
 void MainWindow::updateIconSnip()
 {
-    if ( !m_timerTrayIconSnip.isActive() ) {
-        m_iconSnip = !m_iconSnip;
-        m_timerTrayIconSnip.start(250);
-        updateIcon();
-    }
+    if ( !m_timerTrayIconSnip.isActive() )
+        updateIconSnipTimeout();
 }
 
 void MainWindow::onAboutToQuit()
