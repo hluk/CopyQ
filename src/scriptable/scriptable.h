@@ -307,6 +307,7 @@ public slots:
     QScriptValue setEnv();
 
     void sleep();
+    void afterMilliseconds();
 
     // Call scriptable method.
     QVariant call(const QString &method, const QVariantList &arguments);

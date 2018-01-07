@@ -801,6 +801,10 @@ omitted.
 
    Wait for given time in milliseconds.
 
+.. js:function:: afterMilliseconds(time, function)
+
+   Executes function after given time in milliseconds.
+
 .. js:function:: ByteArray screenshot(format='png', [screenName])
 
    Returns image data with screenshot.

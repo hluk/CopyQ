@@ -2041,6 +2041,58 @@ void Scriptable::sleep()
     }
 }
 
+void Scriptable::afterMilliseconds()
+{
+    m_skipArguments = 2;
+
+    if (argumentCount() < 2) {
+        throwError(argumentError());
+        return;
+    }
+
+    int msec;
+    if ( !toInt(argument(0), &msec) ) {
+        throwError(argumentError());
+        return;
+    }
+
+    const auto fn = argument(1);
+    if ( !fn.isFunction() ) {
+        throwError(argumentError());
+        return;
+    }
+
+    class TimedFunctionCall : public QObject {
+    public:
+        TimedFunctionCall(int msec, const QScriptValue &fn, QObject *parent)
+            : QObject(parent)
+#if QT_VERSION >= 0x050000
+            , m_timerId( startTimer(msec, Qt::PreciseTimer) )
+#else
+            , m_timerId( startTimer(msec) )
+#endif
+            , m_fn(fn)
+        {
+        }
+
+    protected:
+        void timerEvent(QTimerEvent *event) override
+        {
+            QObject::timerEvent(event);
+            if ( m_timerId == event->timerId() ) {
+                killTimer(m_timerId);
+                m_fn.call();
+            }
+        }
+
+    private:
+        int m_timerId;
+        QScriptValue m_fn;
+    };
+
+    new TimedFunctionCall(msec, fn, this);
+}
+
 QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
 {
     if ( m_engine->hasUncaughtException() )
