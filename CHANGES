@@ -3,19 +3,29 @@ v3.2.0
 - Add script command type for enhancing scripting API and CLI
 - Add display command type for overriding item display data
 - Add documentation for plugins scripting API
+- Add script function afterMilliseconds()
+- New icon appearance (Font Awesome 5)
+- Search in icon dialog (just start typing text)
 - Improve scripting API for plugins
 - Show command type with icon in command dialog
 - Allow to set tray and window icon tag
 - Allow to store MIME types with spaces
 - Allow to set negative offsets for notifications
 - Allow to override clipboard handling with script commands
+- Script functions add() and insert() can add multiple items
 - Hide vertical scroll bar in text items if not needed
+- Hide main tool bar when internal editor is visible
 - Run scripts safely in client process
+- Omit closing internal editor if item changes
 - Fix sleep() timing out before interval
 - Fix Dir().separator() return value type
 - Fix item rendering
 - Fix window title and tool tip for multi-line clipboard
 - Fix tool bar rendering while editing an item
+- Fix scaling pixel font sizes in HTML items
+- Fix rendering item number in top left corner
+- Fix rendering drag'n'drop preview on high-DPI screens
+- Fix disabling antialiasing
 - Linux: Fix merging X11 selection if the first item is pinned
 - Linux: Fix displaying tray menu on KDE/Plasma
 - Windows: Fix negative item size warnings
