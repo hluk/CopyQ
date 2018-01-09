@@ -39,7 +39,7 @@ namespace {
 
 const char globalShortcutsDisabled[] = "DISABLED";
 
-const QIcon iconClipboard() { return getIcon("", IconPaste); }
+const QIcon iconClipboard() { return getIcon("", IconClipboard); }
 const QIcon iconMenu() { return getIcon("", IconBars); }
 const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
 const QIcon iconScript() { return getIcon("", IconCog); }

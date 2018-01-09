@@ -81,8 +81,8 @@ private:
 QIcon getCommandIcon(const QString &iconString, int commandType)
 {
     const auto icon =
-            commandType & CommandType::Automatic ? IconFile
-          : commandType & CommandType::GlobalShortcut ? IconSquare
+            commandType & CommandType::Automatic ? IconClipboard
+          : commandType & CommandType::GlobalShortcut ? IconKeyboard
           : commandType & CommandType::Script ? IconCog
           : commandType & CommandType::Display ? IconEye
           : commandType & CommandType::Menu ? IconBars
