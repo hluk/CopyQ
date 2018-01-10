@@ -51,10 +51,9 @@ QVariant AppConfig::option(const QString &name) const
     return m_settings.value(name);
 }
 
-AppConfig::AppConfig(AppConfig::Category category)
+AppConfig::AppConfig()
 {
-    m_settings.beginGroup(
-                category == OptionsCategory ? "Options" : "Theme");
+    m_settings.beginGroup("Options");
 }
 
 void AppConfig::setOption(const QString &name, const QVariant &value)

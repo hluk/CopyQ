@@ -263,10 +263,7 @@ void Theme::decorateToolBar(QWidget *toolBar) const
 
 void Theme::decorateScrollArea(QAbstractScrollArea *scrollArea) const
 {
-    const Qt::ScrollBarPolicy scrollbarPolicy =
-            value("show_scrollbars").toBool()
-            ? Qt::ScrollBarAsNeeded
-            : Qt::ScrollBarAlwaysOff;
+    const auto scrollbarPolicy = this->scrollbarPolicy();
     scrollArea->setVerticalScrollBarPolicy(scrollbarPolicy);
     scrollArea->setHorizontalScrollBarPolicy(scrollbarPolicy);
 }
@@ -312,6 +309,18 @@ QString Theme::getNotificationStyleSheet() const
            "font-style: italic"
            "}"
             ;
+}
+
+Qt::ScrollBarPolicy Theme::scrollbarPolicy() const
+{
+    return value("show_scrollbars").toBool()
+            ? Qt::ScrollBarAsNeeded
+            : Qt::ScrollBarAlwaysOff;
+}
+
+bool Theme::useSystemIcons() const
+{
+    return value("use_system_icons").toBool();
 }
 
 QFont Theme::themeFontFromString(const QString &fontString) const

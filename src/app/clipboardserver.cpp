@@ -20,7 +20,6 @@
 #include "clipboardserver.h"
 
 #include "common/action.h"
-#include "common/appconfig.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
 #include "common/commandstatus.h"

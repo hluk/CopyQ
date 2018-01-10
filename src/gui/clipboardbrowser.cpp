@@ -19,7 +19,6 @@
 
 #include "clipboardbrowser.h"
 
-#include "common/appconfig.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/log.h"
@@ -469,11 +468,9 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
     setAcceptDrops(!active);
 
     // Hide scrollbars while editing.
-    Qt::ScrollBarPolicy scrollbarPolicy = Qt::ScrollBarAlwaysOff;
-    if (!active) {
-        scrollbarPolicy = AppConfig(AppConfig::ThemeCategory).isOptionOn("show_scrollbars", true)
-                ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff;
-    }
+    const auto scrollbarPolicy = active
+            ? Qt::ScrollBarAlwaysOff
+            : m_sharedData->theme.scrollbarPolicy();
     setVerticalScrollBarPolicy(scrollbarPolicy);
     setHorizontalScrollBarPolicy(scrollbarPolicy);
 }

@@ -67,4 +67,6 @@ QString sessionIconTag();
 
 QColor sessionIconTagColor();
 
+void setUseSystemIcons(bool useSystemIcons);
+
 #endif // ICONFACTORY_H

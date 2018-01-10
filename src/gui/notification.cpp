@@ -19,7 +19,6 @@
 
 #include "gui/notification.h"
 
-#include "common/appconfig.h"
 #include "common/common.h"
 #include "common/display.h"
 #include "common/textdata.h"

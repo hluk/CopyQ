@@ -2222,6 +2222,8 @@ void MainWindow::loadSettings()
     ui->scrollAreaItemPreview->setObjectName("ClipboardBrowser");
     theme().decorateItemPreview(ui->scrollAreaItemPreview);
 
+    setUseSystemIcons( theme().useSystemIcons() );
+
     AppConfig appConfig;
 
     m_options.confirmExit = appConfig.option<Config::confirm_exit>();

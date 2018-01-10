@@ -19,7 +19,6 @@
 
 #include "iconfactory.h"
 
-#include "common/appconfig.h"
 #include "gui/icons.h"
 #include "gui/iconfont.h"
 
@@ -189,15 +188,11 @@ QColor getDefaultIconColor(const QColor &color)
     return c;
 }
 
-bool useSystemIcons()
-{
-    return !loadIconFont()
-            || AppConfig(AppConfig::ThemeCategory).isOptionOn("use_system_icons");
-}
-
 class IconEngine : public QtIconEngine
 {
 public:
+    static bool useSystemIcons;
+
     void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) override
     {
         painter->drawPixmap( rect, createPixmap(rect.size(), mode, state, painter) );
@@ -215,7 +210,7 @@ public:
 
     QPixmap createPixmap(QSize size, QIcon::Mode mode, QIcon::State state, QPainter *painter = nullptr)
     {
-        if ( m_iconId == 0 || useSystemIcons()) {
+        if ( useSystemIcons || m_iconId == 0 || !loadIconFont() ) {
             // Tint tab icons.
             if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
                 QPixmap pixmap(m_iconName);
@@ -355,6 +350,8 @@ private:
     QString m_tag;
     QColor m_tagColor;
 };
+
+bool IconEngine::useSystemIcons = false;
 
 void updateIcon(QIcon *icon, const QPixmap &pix, int extent)
 {
@@ -513,4 +510,9 @@ QColor sessionIconTagColor()
 {
 
     return ::sessionIconTagColorVariable();
+}
+
+void setUseSystemIcons(bool useSystemIcons)
+{
+    IconEngine::useSystemIcons = useSystemIcons;
 }

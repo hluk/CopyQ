@@ -293,12 +293,7 @@ struct autocompletion : Config<bool> {
 class AppConfig
 {
 public:
-    enum Category {
-        OptionsCategory,
-        ThemeCategory
-    };
-
-    explicit AppConfig(Category category = OptionsCategory);
+    explicit AppConfig();
 
     QVariant option(const QString &name) const;
 

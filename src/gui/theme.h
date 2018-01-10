@@ -82,6 +82,10 @@ public:
     /** Return stylesheet for notifications. */
     QString getNotificationStyleSheet() const;
 
+    Qt::ScrollBarPolicy scrollbarPolicy() const;
+
+    bool useSystemIcons() const;
+
     QFont themeFontFromString(const QString &fontString) const;
 
     bool isAntialiasingEnabled() const;
