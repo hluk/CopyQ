@@ -279,13 +279,6 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     const bool isSelected = m_view->selectionModel()->isSelected(index);
     setWidgetSelected(ww, isSelected);
 
-    // Try to get proper size by showing item momentarily.
-    if (m_idealWidth > 0) {
-        ww->show();
-        w->updateSize(m_maxSize, m_idealWidth);
-        ww->hide();
-    }
-
     ww->installEventFilter(this);
 
     if ( oldSize != sizeHint(index) )
