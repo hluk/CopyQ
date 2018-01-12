@@ -93,8 +93,8 @@ Build with the following commands.
 ::
 
     /usr/local/opt/qt5/bin/qmake
-    make copyq.app
+    make CopyQ.app
 
-This will produce a self-contained application bundle ``copyq.app``
+This will produce a self-contained application bundle ``CopyQ.app``
 which can then be copied or moved into ``/Applications``.
 
