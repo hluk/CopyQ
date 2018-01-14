@@ -1331,6 +1331,9 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
     QObject::connect( &buttons, SIGNAL(rejected()), &dialog, SLOT(reject()) );
     layout.addWidget(&buttons);
 
+    installShortcutToCloseDialog(&dialog, &dialog, Qt::CTRL | Qt::Key_Enter);
+    installShortcutToCloseDialog(&dialog, &dialog, Qt::CTRL | Qt::Key_Return);
+
     if (icon.isNull())
         icon = appIcon();
     dialog.setWindowIcon(icon);
