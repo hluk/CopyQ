@@ -31,6 +31,7 @@
 namespace {
 
 const int iconFontMaxHeight = 128;
+const int iconFontMaxWidthDefault = 160;
 
 int solidIconFontId()
 {
@@ -58,7 +59,7 @@ int iconFontMaxWidth()
     QFont font = iconFont();
     font.setPixelSize(iconFontMaxHeight);
     const auto maxWidth = QFontMetrics(font).maxWidth();
-    return maxWidth;
+    return maxWidth > 0 ? maxWidth : iconFontMaxWidthDefault;
 }
 
 std::vector<int> smoothSizes()
