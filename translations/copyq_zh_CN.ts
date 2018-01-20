@@ -273,13 +273,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="131"/>
         <source>Error: %1</source>
-        <translation type="unfinished">错误: %1</translation>
+        <translation>错误：%1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="134"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">退出代码: %1
- {1?}</translation>
+        <translation>退出代码：%1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="149"/>
@@ -790,12 +789,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>脚本</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>显示</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="227"/>
@@ -1505,12 +1504,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="136"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>其他应用程序获得焦点时关闭主窗口</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="139"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>失去焦点时关闭</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="146"/>
@@ -1643,7 +1642,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="687"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>外部编辑器命令（%&amp;1 表示要编辑的文件）：</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="722"/>
@@ -1717,7 +1716,7 @@ Leave empty to disable automatic storing.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1269"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>水平偏移(&amp;Z)：</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1281"/>
