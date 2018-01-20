@@ -394,6 +394,7 @@ void installShortcutToCloseDialog(QWidget *dialog, QWidget *shortcutParent, int 
 {
     QShortcut *s = new QShortcut(QKeySequence(shortcut), shortcutParent);
     QObject::connect(s, SIGNAL(activated()), dialog, SLOT(accept()));
+    QObject::connect(s, SIGNAL(activatedAmbiguously()), dialog, SLOT(accept()));
 }
 
 QWidget *createListWidget(const QString &name, const QStringList &items, InputDialog *inputDialog)
