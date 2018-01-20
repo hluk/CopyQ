@@ -285,13 +285,12 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="131"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Erreur: %1</translation>
+        <translation>Erreur : %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="134"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">Quitter le code: %1
- {1?}</translation>
+        <translation>Quitter le code : %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="149"/>
@@ -304,7 +303,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation>CopyQ ajouter des commandes</translation>
+        <translation>CopyQ Ajouter des commandes</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="108"/>
@@ -320,82 +319,82 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="117"/>
         <source>Show the tray menu</source>
-        <translation>Afficher le menu de la barre d&apos;état</translation>
+        <translation>Afficher menu barre d&apos;état</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="119"/>
         <source>Show main window under mouse cursor</source>
-        <translation>Montrer la fenêtre principale sous le curseur</translation>
+        <translation>Montrer fenêtre principale sous curseur</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="121"/>
         <source>Edit clipboard</source>
-        <translation>Modifier le presse papier</translation>
+        <translation>Modifier presse papier</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="123"/>
         <source>Edit first item</source>
-        <translation>Modifier le premier élément</translation>
+        <translation>Modifier premier élément</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="125"/>
         <source>Copy second item</source>
-        <translation>Copier le second élément</translation>
+        <translation>Copier second élément</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="127"/>
         <source>Show action dialog</source>
-        <translation>Voir le gestionnaire d&apos;actions</translation>
+        <translation>Voir gestionnaire d&apos;actions</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="129"/>
         <source>Create new item</source>
-        <translation>Créer un nouvel élément</translation>
+        <translation>Créer nouvel élément</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="131"/>
         <source>Copy next item</source>
-        <translation>Copier l&apos;élément suivant</translation>
+        <translation>Copier élément suivant</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="133"/>
         <source>Copy previous item</source>
-        <translation>Copier l&apos;élément précédent</translation>
+        <translation>Copier élément précédent</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="135"/>
         <source>Paste clipboard as plain text</source>
-        <translation>Coller dans le presse papier en tant que texte</translation>
+        <translation>Coller dans presse papier en texte seul</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="137"/>
         <source>Disable clipboard storing</source>
-        <translation>Désactiver le stockage du presse papier</translation>
+        <translation>Désactiver stockage presse papier</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="139"/>
         <source>Enable clipboard storing</source>
-        <translation>Activer le stockage du presse papier</translation>
+        <translation>Activer stockage presse papier</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="141"/>
         <source>Paste and copy next</source>
-        <translation>Coller/copier suivant</translation>
+        <translation>Coller et copier suivant</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="143"/>
         <source>Paste and copy previous</source>
-        <translation>Coller/copier précédent</translation>
+        <translation>Coller et copier précédent</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Copie d&apos;Ecran</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller Date et Heure courants</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
@@ -405,27 +404,27 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="195"/>
         <source>Ignore items with no or single character</source>
-        <translation>Ignorer les éléments d&apos;un seul caractère ou moins</translation>
+        <translation>Ignorer les éléments inférieurs à 2 caractères</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="203"/>
         <source>Open in &amp;Browser</source>
-        <translation>Ouvrir dans le &amp;navigateur</translation>
+        <translation>Ouvrir dans le &amp;Navigateur</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="211"/>
         <source>Paste as Plain Text</source>
-        <translation>Coller en tant que texte brut</translation>
+        <translation>Coller en Texte Brut</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
         <source>Shift+Return</source>
-        <translation>Maj+Retour</translation>
+        <translation>Maj+Enter</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="220"/>
         <source>Autoplay videos</source>
-        <translation>Lire les vidéos automatiquement</translation>
+        <translation>Lecture automatique des vidéos</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="229"/>
@@ -1154,12 +1153,12 @@ Laissez vide pour le désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Programme</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Affichage</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="314"/>
@@ -2345,12 +2344,12 @@ Situé à -1 pour garder visible jusqu&apos;à ce que vous cliquiez dessus.</tra
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="136"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermez la fenêtre principale lorsqu&apos;une autre application est ciblée</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="139"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermer lorsque non ciblé</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="199"/>
@@ -2370,7 +2369,7 @@ Situé à -1 pour garder visible jusqu&apos;à ce que vous cliquiez dessus.</tra
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="687"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Commande de l&apos;éditeur externe (%&amp;1 est le fichier à éditer) :</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="712"/>
@@ -2398,7 +2397,7 @@ Aperçu de l’élément permet d’afficher des éléments entiers.</translatio
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="753"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished">Affiche&amp;r les éléments simples</translation>
+        <translation>&amp;Afficher les éléments simples</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="766"/>
@@ -2502,7 +2501,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1269"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Décalage Hori&amp;zontal :</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1281"/>
@@ -3600,7 +3599,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="361"/>
         <source>Font</source>
-        <translation type="unfinished">Police</translation>
+        <translation>Police de caractères</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="366"/>
@@ -3694,12 +3693,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="796"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Décrypter et coller</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="801"/>
         <source>Enter</source>
-        <translation type="unfinished">Entrer</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
@@ -3968,7 +3967,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../plugins/itempinned/itempinned.cpp" line="54"/>
         <source>Ctrl+Shift+P</source>
         <comment>Shortcut to pin and unpin items</comment>
-        <translation type="unfinished">Ctrl+Maj+N</translation>
+        <translation>Ctrl+Maj+P</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="233"/>
@@ -5282,7 +5281,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/item/itemfactory.cpp" line="390"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;onglet %1 est corrompu ou certains plugins CopyQ manquent !</translation>
     </message>
 </context>
 <context>
