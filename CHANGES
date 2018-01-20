@@ -17,6 +17,7 @@ v3.2.0
 - Hide main tool bar when internal editor is visible
 - Run scripts safely in client process
 - Omit closing internal editor if item changes
+- Fix accepting dialog() on Ctrl+Enter and Enter
 - Fix sleep() timing out before interval
 - Fix Dir().separator() return value type
 - Fix item rendering
@@ -25,6 +26,7 @@ v3.2.0
 - Fix scaling pixel font sizes in HTML items
 - Fix rendering item number in top left corner
 - Fix rendering drag'n'drop preview on high-DPI screens
+- Fix rendering notification icon on high-DPI screens
 - Fix disabling antialiasing
 - Linux: Fix merging X11 selection if the first item is pinned
 - Linux: Fix displaying tray menu on KDE/Plasma
