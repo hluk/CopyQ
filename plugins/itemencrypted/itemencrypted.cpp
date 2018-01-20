@@ -597,16 +597,17 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     } else {
         KeyPairPaths keys;
         ui->labelShareInfo->setTextFormat(Qt::RichText);
-        ui->labelShareInfo->setText( tr("To share encrypted items on other computer or"
-                                        " session, you'll need public and secret key files:"
-                                        "<ul>"
-                                        "<li>%1</li>"
-                                        "<li>%2<br />(Keep this secret key in a safe place.)</li>"
-                                        "</ul>"
-                                        )
-                                     .arg( quoteString(keys.pub),
-                                           quoteString(keys.sec) )
-                                     );
+        ui->labelShareInfo->setText( ItemEncryptedLoader::tr(
+                    "To share encrypted items on other computer or"
+                    " session, you'll need public and secret key files:"
+                    "<ul>"
+                    "<li>%1</li>"
+                    "<li>%2<br />(Keep this secret key in a safe place.)</li>"
+                    "</ul>"
+                    )
+                .arg( quoteString(keys.pub),
+                    quoteString(keys.sec) )
+                );
     }
 
     updateUi();
@@ -662,7 +663,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
         return nullptr;
 
     if (m_gpgProcessStatus == GpgNotInstalled) {
-        emit error( tr("GnuPG must be installed to view encrypted tabs.") );
+        emit error( ItemEncryptedLoader::tr("GnuPG must be installed to view encrypted tabs.") );
         return nullptr;
     }
 
@@ -763,41 +764,41 @@ QVector<Command> ItemEncryptedLoader::commands() const
     QVector<Command> commands;
 
     Command c;
-    c.name = tr("Encrypt (needs GnuPG)");
+    c.name = ItemEncryptedLoader::tr("Encrypt (needs GnuPG)");
     c.icon = QString(QChar(IconLock));
     c.input = "!OUTPUT";
     c.output = mimeEncryptedData;
     c.inMenu = true;
     c.cmd = "copyq: plugins.itemencrypted.encryptItems()";
-    c.shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
+    c.shortcuts.append( toPortableShortcutText(ItemEncryptedLoader::tr("Ctrl+L")) );
     commands.append(c);
 
     c = Command();
-    c.name = tr("Decrypt");
+    c.name = ItemEncryptedLoader::tr("Decrypt");
     c.icon = QString(QChar(IconUnlock));
     c.input = mimeEncryptedData;
     c.output = mimeItems;
     c.inMenu = true;
     c.cmd = "copyq: plugins.itemencrypted.decryptItems()";
-    c.shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
+    c.shortcuts.append( toPortableShortcutText(ItemEncryptedLoader::tr("Ctrl+L")) );
     commands.append(c);
 
     c = Command();
-    c.name = tr("Decrypt and Copy");
+    c.name = ItemEncryptedLoader::tr("Decrypt and Copy");
     c.icon = QString(QChar(IconUnlockAlt));
     c.input = mimeEncryptedData;
     c.inMenu = true;
     c.cmd = "copyq: plugins.itemencrypted.copyEncryptedItems()";
-    c.shortcuts.append( toPortableShortcutText(tr("Ctrl+Shift+L")) );
+    c.shortcuts.append( toPortableShortcutText(ItemEncryptedLoader::tr("Ctrl+Shift+L")) );
     commands.append(c);
 
     c = Command();
-    c.name = tr("Decrypt and Paste");
+    c.name = ItemEncryptedLoader::tr("Decrypt and Paste");
     c.icon = QString(QChar(IconUnlockAlt));
     c.input = mimeEncryptedData;
     c.inMenu = true;
     c.cmd = "copyq: plugins.itemencrypted.pasteEncryptedItems()";
-    c.shortcuts.append( toPortableShortcutText(tr("Enter")) );
+    c.shortcuts.append( toPortableShortcutText(ItemEncryptedLoader::tr("Enter")) );
     commands.append(c);
 
     return commands;
@@ -860,7 +861,7 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
             else if ( m_gpgProcess->error() != QProcess::UnknownError )
                 error = m_gpgProcess->errorString();
             else if ( !keysExist() )
-                error = tr("Failed to generate keys.");
+                error = ItemEncryptedLoader::tr("Failed to generate keys.");
         }
 
         m_gpgProcess->deleteLater();
@@ -872,12 +873,12 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
         error = exportImportGpgKeys();
 
     if (!error.isEmpty())
-        error = tr("Error: %1").arg(error);
+        error = ItemEncryptedLoader::tr("Error: %1").arg(error);
 
     m_gpgProcessStatus = GpgNotRunning;
 
     updateUi();
-    ui->labelInfo->setText( error.isEmpty() ? tr("Done") : error );
+    ui->labelInfo->setText( error.isEmpty() ? ItemEncryptedLoader::tr("Done") : error );
 }
 
 void ItemEncryptedLoader::addCommands()
@@ -899,23 +900,24 @@ void ItemEncryptedLoader::updateUi()
         ui->groupBoxEncryptTabs->hide();
         ui->groupBoxShareInfo->hide();
     } else if (m_gpgProcessStatus == GpgGeneratingKeys) {
-        ui->labelInfo->setText( tr("Creating new keys (this may take a few minutes)...") );
-        ui->pushButtonPassword->setText( tr("Cancel") );
+        ui->labelInfo->setText( ItemEncryptedLoader::tr("Creating new keys (this may take a few minutes)...") );
+        ui->pushButtonPassword->setText( ItemEncryptedLoader::tr("Cancel") );
     } else if (m_gpgProcessStatus == GpgChangingPassword) {
-        ui->labelInfo->setText( tr("Setting new password...") );
-        ui->pushButtonPassword->setText( tr("Cancel") );
+        ui->labelInfo->setText( ItemEncryptedLoader::tr("Setting new password...") );
+        ui->pushButtonPassword->setText( ItemEncryptedLoader::tr("Cancel") );
     } else if ( !keysExist() ) {
-        ui->labelInfo->setText( tr("Encryption keys <strong>must be generated</strong>"
-                                   " before item encryption can be used.") );
-        ui->pushButtonPassword->setText( tr("Generate New Keys...") );
+        ui->labelInfo->setText( ItemEncryptedLoader::tr(
+                    "Encryption keys <strong>must be generated</strong>"
+                    " before item encryption can be used.") );
+        ui->pushButtonPassword->setText( ItemEncryptedLoader::tr("Generate New Keys...") );
     } else {
-        ui->pushButtonPassword->setText( tr("Change Password...") );
+        ui->pushButtonPassword->setText( ItemEncryptedLoader::tr("Change Password...") );
     }
 }
 
 void ItemEncryptedLoader::emitDecryptFailed()
 {
-    emit error( tr("Decryption failed!") );
+    emit error( ItemEncryptedLoader::tr("Decryption failed!") );
 }
 
 ItemSaverPtr ItemEncryptedLoader::createSaver()
