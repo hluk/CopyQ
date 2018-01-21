@@ -46,6 +46,10 @@ using QtIconEngine = QIconEngineV2;
 using QtIconEngine = QIconEngine;
 #endif
 
+#ifndef COPYQ_ICON_NAME
+# define COPYQ_ICON_NAME "copyq"
+#endif
+
 namespace {
 
 const char imagesRecourcePath[] = ":/images/";
@@ -416,9 +420,9 @@ QIcon appIcon(AppIconType iconType)
     QIcon icon;
 
     if (sessionName.isEmpty())
-        icon = QIcon::fromTheme("copyq" + suffix);
+        icon = QIcon::fromTheme(COPYQ_ICON_NAME + suffix);
     else
-        icon = QIcon::fromTheme("copyq_" + sessionName + "-" + suffix);
+        icon = QIcon::fromTheme(COPYQ_ICON_NAME "_" + sessionName + "-" + suffix);
 
     QPixmap pix;
 

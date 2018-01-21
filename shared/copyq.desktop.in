@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=CopyQ
 Exec=copyq
-Icon=copyq
+Icon=${ICON_NAME}
 GenericName=Clipboard Manager
 # The rest is taken from Klipper application.
 Type=Application

@@ -63,7 +63,7 @@ int copyq_xio_errhandler(Display *display)
     exit(1);
 }
 
-#ifdef COPYQ_DESKTOP_PREFIX
+#ifdef COPYQ_DESKTOP_FILE
 QString getDesktopFilename()
 {
     const char *path = getenv("XDG_CONFIG_HOME");
@@ -104,7 +104,7 @@ PlatformWindowPtr X11Platform::getCurrentWindow()
 
 bool X11Platform::canAutostart()
 {
-#ifdef COPYQ_DESKTOP_PREFIX
+#ifdef COPYQ_DESKTOP_FILE
     return true;
 #else
     return false;
@@ -113,7 +113,7 @@ bool X11Platform::canAutostart()
 
 bool X11Platform::isAutostartEnabled()
 {
-#ifdef COPYQ_DESKTOP_PREFIX
+#ifdef COPYQ_DESKTOP_FILE
     const QString filename = getDesktopFilename();
 
     QFile desktopFile(filename);
@@ -142,7 +142,7 @@ bool X11Platform::isAutostartEnabled()
 
 void X11Platform::setAutostartEnabled(bool enable)
 {
-#ifdef COPYQ_DESKTOP_PREFIX
+#ifdef COPYQ_DESKTOP_FILE
     if ( isAutostartEnabled() == enable )
         return;
 
@@ -151,11 +151,8 @@ void X11Platform::setAutostartEnabled(bool enable)
     QFile desktopFile(filename);
 
     bool createUserDesktopFile = !desktopFile.exists();
-    if (createUserDesktopFile) {
-        const QString filename2 =
-                QString(COPYQ_DESKTOP_PREFIX) + QString("/copyq.desktop");
-        desktopFile.setFileName(filename2);
-    }
+    if (createUserDesktopFile)
+        desktopFile.setFileName(COPYQ_DESKTOP_FILE);
 
     if ( !desktopFile.open(QIODevice::ReadOnly | QIODevice::Text) )
         return;
