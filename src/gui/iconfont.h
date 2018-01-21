@@ -21,6 +21,9 @@
 #define ICONFONT_H
 
 class QFont;
+class QString;
+
+const QString &iconFontFamily();
 
 bool loadIconFont();
 

@@ -24,6 +24,7 @@
 #include "common/textdata.h"
 #include "common/version.h"
 #include "gui/icons.h"
+#include "gui/iconfont.h"
 
 namespace {
 
@@ -91,7 +92,7 @@ QString AboutDialog::aboutPage()
         "#subtitle{font-size:16pt;color:#888;white-space:pre;margin-bottom:0.2em}"
         "#version{font-size:12pt}"
         ".copyright{font-size:9pt;color:#666}"
-        ".icon{font-family:FontAwesome}"
+        ".icon{font-family:" + iconFontFamily() + "}"
         ".help-icon{color:#999;padding-left:1em;padding-right:1em}"
         ".library{font-size:12pt}"
         ".info{color:#666}"

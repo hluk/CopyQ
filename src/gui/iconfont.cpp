@@ -47,13 +47,6 @@ int brandsIconFontId()
     return fontId;
 }
 
-const QString &iconFontFamily()
-{
-    static const QString fontFamily =
-            QFontDatabase::applicationFontFamilies(solidIconFontId()).value(0);
-    return fontFamily;
-}
-
 int iconFontMaxWidth()
 {
     QFont font = iconFont();
@@ -81,8 +74,14 @@ int iconFontSmoothPixelSize(int pixelSize)
     return *(it - 1);
 }
 
-
 } // namespace
+
+const QString &iconFontFamily()
+{
+    static const QString fontFamily =
+            QFontDatabase::applicationFontFamilies(solidIconFontId()).value(0);
+    return fontFamily;
+}
 
 bool loadIconFont()
 {
