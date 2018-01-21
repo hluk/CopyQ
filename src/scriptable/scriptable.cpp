@@ -1399,8 +1399,8 @@ QScriptValue Scriptable::info()
                 );
 
     info.insert("desktop",
-#ifdef COPYQ_DESKTOP_PREFIX
-                COPYQ_DESKTOP_PREFIX
+#ifdef COPYQ_DESKTOP_FILE
+                COPYQ_DESKTOP_FILE
 #else
                 QString()
 #endif

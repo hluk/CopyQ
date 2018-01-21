@@ -1,0 +1,34 @@
+{
+    "app-id": "org.copyq.copyq",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.9",
+    "sdk": "org.kde.Sdk",
+    "command": "copyq",
+
+    "tags": ["nightly"],
+    "desktop-file-name-prefix": "(Nightly) ",
+
+    "finish-args": [
+        "--socket=x11",
+        "--socket=wayland",
+        "--env=XDG_CURRENT_DESKTOP=''"
+    ],
+
+    "modules": [
+        {
+            "name": "copyq",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/hluk/CopyQ.git"
+                }
+            ],
+            "config-opts": [
+                "-DDESKTOP_INSTALL_NAME=org.copyq.copyq.desktop",
+                "-DAPPDATA_INSTALL_NAME=org.copyq.copyq.appdata.xml",
+                "-DICON_NAME=org.copyq.copyq"
+            ]
+        }
+    ]
+}
