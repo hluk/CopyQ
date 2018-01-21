@@ -233,12 +233,12 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="131"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Erro: %1</translation>
+        <translation>Erro: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="134"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">Código de saída: %1
+        <translation>Código de saída: %1
  {1?}</translation>
     </message>
     <message>
@@ -868,12 +868,12 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Script</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Expositor</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="314"/>
@@ -1186,12 +1186,12 @@ CTRL e seta acima ou abaixo.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="136"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Fechar janela principal quando outra aplicação estiver focada</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="139"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Fechar Quando Não Estiver Focado</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="146"/>
@@ -1326,7 +1326,7 @@ CTRL e seta acima ou abaixo.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="687"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando de edito externo (%&amp;1 é o ficheiro para editar):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="894"/>
@@ -1697,7 +1697,7 @@ Defina como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1269"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Desvio hori&amp;zontal:</translation>
     </message>
     <message>
         <source>Ho&amp;rizontal offset:</source>
@@ -2264,12 +2264,12 @@ Defina como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="796"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Desencriptar e Colar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="801"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
@@ -3472,7 +3472,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="390"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>Separador %1 está corrompido ou alguns plugins do CopyQ estão em falta!</translation>
     </message>
 </context>
 <context>
@@ -3940,13 +3940,13 @@ Imprimir versão do programa e bibliotecas.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1581"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished">%1 - CopyQ</translation>
+        <translation>CopyQ - %1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1584"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished">%1 - %2 - CopyQ</translation>
+        <translation>CopyQ - %1 - %2</translation>
     </message>
 </context>
 <context>
