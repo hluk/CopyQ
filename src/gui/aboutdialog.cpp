@@ -148,12 +148,12 @@ QString AboutDialog::aboutPage()
             +
         "</p>"
 
-            + helpLib("Qt",
-                      "The Qt Toolkit is Copyright (C) 2016 The Qt Company Ltd. and other contributors.", "https://www.qt.io/")
+            + helpLib("Qt Toolkit",
+                      "Copyright (c) 2016 The Qt Company Ltd. and other contributors", "https://www.qt.io/")
             + helpLib("Weblate",
-                      "Copyright (c) 2012 - 2016 Michal &#268;iha&#345;", "https://weblate.org")
+                      "Copyright (c) 2012 - 2017 Michal &#268;iha&#345;", "https://weblate.org")
             + helpLib("Font Awesome",
-                      "Created & Maintained by Dave Gandy", "https://fortawesome.github.io/Font-Awesome/")
+                      "Copyright (c) 2017 Fonticons, Inc.", "https://fontawesome.com")
             + helpLib("LibQxt",
                       "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
             + helpLib("Solarized",
