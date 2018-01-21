@@ -158,7 +158,7 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
             geometry = w->saveGeometry();
 
-            GEOMETRY_LOG( w, QString("New geometry for \"%1\"").arg(optionName, tag) );
+            GEOMETRY_LOG( w, QString("New geometry for \"%1%2\"").arg(optionName, tag) );
         }
     }
 
