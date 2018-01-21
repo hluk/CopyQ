@@ -35,7 +35,7 @@ const char propertyGeometryLocked[] = "CopyQ_geometry_locked";
 
 bool openOnCurrentScreen()
 {
-    return AppConfig().isOptionOn("open_windows_on_current_screen");
+    return AppConfig().option<Config::open_windows_on_current_screen>();
 }
 
 } // namespace

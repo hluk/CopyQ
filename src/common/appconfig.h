@@ -311,12 +311,6 @@ public:
         return T::value(value);
     }
 
-    bool isOptionOn(const QString &name, bool defaultValue = false) const
-    {
-        const QVariant value = option(name);
-        return value.isValid() ? value.toBool() : defaultValue;
-    }
-
     void setOption(const QString &name, const QVariant &value);
 
     void removeOption(const QString &name);
