@@ -33,8 +33,8 @@ QPoint toScreen(QPoint pos, int w, int h)
 {
     const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
     return QPoint(
-                qMax(0, qMin(pos.x(), availableGeometry.right() - w)),
-                qMax(0, qMin(pos.y(), availableGeometry.bottom() - h))
+                qMax(availableGeometry.left(), qMin(pos.x(), availableGeometry.right() - w)),
+                qMax(availableGeometry.top(), qMin(pos.y(), availableGeometry.bottom() - h))
                 );
 }
 

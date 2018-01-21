@@ -857,8 +857,8 @@ void Scriptable::menu()
         if (argumentCount() >= 3) {
             const auto xValue = argument(2);
             const auto yValue = argument(3);
-            if ( !toInt(xValue, &x) || x < 0 || !toInt(yValue, &y) || y < 0 ) {
-                throwError("Coordinates must be positive numbers");
+            if ( !toInt(xValue, &x) || !toInt(yValue, &y) ) {
+                throwError("Coordinates must be numbers");
                 return;
             }
         }

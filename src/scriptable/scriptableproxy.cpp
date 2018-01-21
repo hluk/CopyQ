@@ -514,22 +514,16 @@ void setGeometryWithoutSave(QWidget *window, QRect geometry)
 {
     setGeometryGuardBlockedUntilHidden(window);
 
-    int x = pointsToPixels(geometry.x());
-    int y = pointsToPixels(geometry.y());
-    if (x < 0 || y < 0) {
-        const QPoint mousePos = QCursor::pos();
-        if (geometry.x() < 0)
-            x = mousePos.x();
-        if (geometry.y() < 0)
-            y = mousePos.y();
-    }
+    const auto pos = (geometry.x() == -1 && geometry.y() == -1)
+            ? QCursor::pos()
+            : geometry.topLeft();
 
     const int w = pointsToPixels(geometry.width());
     const int h = pointsToPixels(geometry.height());
     if (w > 0 && h > 0)
         window->resize(w, h);
 
-    moveWindowOnScreen(window, QPoint(x, y));
+    moveWindowOnScreen(window, pos);
 }
 
 QString tabNotFoundError()
