@@ -289,13 +289,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="131"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Fehler: %1</translation>
+        <translation>Fehler: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="134"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">Exitcode: %1
- {1?}</translation>
+        <translation>Exitcode: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="149"/>
@@ -1199,12 +1198,12 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Skript</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeige</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="314"/>
@@ -2391,12 +2390,12 @@ Auf -1 setzen um Benachrichtung, solange bis geklickt wird, sichtbar zu halten.<
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="136"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Hauptfenster schließen wenn eine andere Anwedung fokusiert wird</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="139"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließen bei Verlust des Fokus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="199"/>
@@ -2416,7 +2415,7 @@ Auf -1 setzen um Benachrichtung, solange bis geklickt wird, sichtbar zu halten.<
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="687"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommando für externen Editor (%&amp;1 entspricht der Datei zum Editieren):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="712"/>
@@ -2548,7 +2547,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1269"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hori&amp;zontaler Versatz:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1281"/>
@@ -3819,12 +3818,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="796"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschlüsseln und einfügen</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="801"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
@@ -5471,7 +5470,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="390"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Inhalt des Reiters %1 ist beschädigt oder benötigte CopyQ-Plugins sind nicht vorhanden!</translation>
     </message>
 </context>
 <context>
@@ -5994,13 +5993,13 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1581"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished">%1 - CopyQ</translation>
+        <translation>%1 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1584"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished">%1 - %2 - CopyQ</translation>
+        <translation>%1 - %2 - CopyQ</translation>
     </message>
 </context>
 <context>
