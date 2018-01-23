@@ -14,13 +14,6 @@
    <item>
     <widget class="ShortcutsWidget" name="shortcutsWidgetGeneral" native="true"/>
    </item>
-   <item>
-    <widget class="QPushButton" name="pushButtonOpenCommandDialog">
-     <property name="text">
-      <string>&amp;Custom Actions and Global Shortcuts...</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>

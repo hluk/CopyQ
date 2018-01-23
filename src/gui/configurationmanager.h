@@ -79,8 +79,6 @@ signals:
 
     void error(const QString &error);
 
-    void openCommandDialogRequest();
-
 private slots:
     void apply();
     void on_buttonBox_clicked(QAbstractButton* button);

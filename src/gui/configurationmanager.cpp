@@ -99,9 +99,6 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
 
     initOptions();
 
-    connect( ui->configTabShortcuts, SIGNAL(openCommandDialogRequest()),
-             this, SIGNAL(openCommandDialogRequest()));
-
     if (itemFactory)
         ui->configTabAppearance->createPreview(itemFactory);
 

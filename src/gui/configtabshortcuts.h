@@ -42,9 +42,6 @@ public:
     /** Save shortcuts to settings file. */
     void saveShortcuts(QSettings *settings) const;
 
-signals:
-    void openCommandDialogRequest();
-
 private:
     Ui::ConfigTabShortcuts *ui;
 };
