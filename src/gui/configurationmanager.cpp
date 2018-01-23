@@ -90,12 +90,17 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     ui->setupUi(this);
     setWindowIcon(appIcon());
 
+    connect( ui->configTabShortcuts, SIGNAL(commandsSaved()),
+             this, SIGNAL(commandsSaved()) );
+
     ui->spinBoxItems->setMaximum(Config::maxItems);
 
-    if ( itemFactory && itemFactory->hasLoaders() )
+    if ( itemFactory && itemFactory->hasLoaders() ) {
         initPluginWidgets(itemFactory);
-    else
+        ui->configTabShortcuts->addCommands( itemFactory->commands() );
+    } else {
         ui->tabItems->hide();
+    }
 
     initOptions();
 

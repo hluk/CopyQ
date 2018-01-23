@@ -27,10 +27,6 @@
 
 #include <memory>
 
-namespace Ui {
-class ItemPinnedSettings;
-}
-
 class ItemPinned : public QWidget, public ItemWidget
 {
     Q_OBJECT
@@ -146,15 +142,8 @@ public:
 
     QVector<Command> commands() const override;
 
-signals:
-    void addCommands(const QVector<Command> &commands);
-
-private slots:
-    void addCommands();
-
 private:
     QVariantMap m_settings;
-    std::unique_ptr<Ui::ItemPinnedSettings> ui;
     ItemLoaderPtr m_transformedLoader;
 };
 

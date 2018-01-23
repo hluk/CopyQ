@@ -565,6 +565,8 @@ private slots:
 
     void onActionDialogAccepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
 
+    void updateCommands();
+
 private:
     enum TabNameMatching {
         MatchExactTabName,
@@ -672,8 +674,6 @@ private:
     bool exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool importDataV3(QDataStream *in, ImportOptions options);
-
-    void updateCommands();
 
     const Theme &theme() const;
 

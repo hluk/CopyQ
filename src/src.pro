@@ -41,6 +41,7 @@ HEADERS += \
     common/contenttype.h \
     common/globalshortcutcommands.h \
     common/option.h \
+    common/predefinedcommands.h \
     common/server.h \
     gui/aboutdialog.h \
     gui/actiondialog.h \
@@ -143,6 +144,7 @@ SOURCES += \
     common/globalshortcutcommands.cpp \
     common/messagehandlerforqt.cpp \
     common/option.cpp \
+    common/predefinedcommands.cpp \
     common/server.cpp \
     common/shortcuts.cpp \
     common/textdata.cpp \

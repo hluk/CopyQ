@@ -30,6 +30,9 @@ ConfigTabShortcuts::ConfigTabShortcuts(QWidget *parent)
     , ui(new Ui::ConfigTabShortcuts)
 {
     ui->setupUi(this);
+
+    connect( ui->shortcutsWidgetGeneral, SIGNAL(commandsSaved()),
+             this, SIGNAL(commandsSaved()) );
 }
 
 ConfigTabShortcuts::~ConfigTabShortcuts()
@@ -45,4 +48,9 @@ void ConfigTabShortcuts::loadShortcuts(const QSettings &settings)
 void ConfigTabShortcuts::saveShortcuts(QSettings *settings) const
 {
     ui->shortcutsWidgetGeneral->saveShortcuts(settings);
+}
+
+void ConfigTabShortcuts::addCommands(const QVector<Command> &commands)
+{
+    ui->shortcutsWidgetGeneral->addCommands(commands);
 }

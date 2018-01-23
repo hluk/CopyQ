@@ -20,6 +20,8 @@
 #ifndef SHORTCUTSWIDGET_H
 #define SHORTCUTSWIDGET_H
 
+#include "common/command.h"
+
 #include <QIcon>
 #include <QTimer>
 #include <QVector>
@@ -37,7 +39,10 @@ struct MenuAction {
     QString iconName;
     ushort iconId{};
     QString text;
+
     QString settingsKey;
+    Command command;
+
     QTableWidgetItem *tableItem{};
     ShortcutButton *shortcutButton{};
 };
@@ -57,7 +62,12 @@ public:
     /** Load shortcuts from settings file. */
     void loadShortcuts(const QSettings &settings);
     /** Save shortcuts to settings file. */
-    void saveShortcuts(QSettings *settings) const;
+    void saveShortcuts(QSettings *settings);
+
+    void addCommands(const QVector<Command> &commands);
+
+signals:
+    void commandsSaved();
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -70,6 +80,8 @@ private slots:
     void on_lineEditFilter_textChanged(const QString &text);
 
 private:
+    void addShortcutRow(MenuAction &action);
+
     Ui::ShortcutsWidget *ui;
     QTimer m_timerCheckAmbiguous;
 

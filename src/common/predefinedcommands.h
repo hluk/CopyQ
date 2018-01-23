@@ -17,41 +17,13 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CONFIGTABSHORTCUTS_H
-#define CONFIGTABSHORTCUTS_H
+#ifndef PREDEFINEDCOMMANDS_H
+#define PREDEFINEDCOMMANDS_H
 
 #include <QVector>
-#include <QWidget>
-
-namespace Ui {
-class ConfigTabShortcuts;
-}
-
-class QSettings;
 
 struct Command;
 
-class ConfigTabShortcuts : public QWidget
-{
-    Q_OBJECT
+QVector<Command> predefinedCommands();
 
-public:
-    explicit ConfigTabShortcuts(QWidget *parent = nullptr);
-
-    ~ConfigTabShortcuts();
-
-    /** Load shortcuts from settings file. */
-    void loadShortcuts(const QSettings &settings);
-    /** Save shortcuts to settings file. */
-    void saveShortcuts(QSettings *settings) const;
-
-    void addCommands(const QVector<Command> &commands);
-
-signals:
-    void commandsSaved();
-
-private:
-    Ui::ConfigTabShortcuts *ui;
-};
-
-#endif // CONFIGTABSHORTCUTS_H
+#endif // PREDEFINEDCOMMANDS_H

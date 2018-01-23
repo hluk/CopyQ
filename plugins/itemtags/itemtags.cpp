@@ -674,9 +674,6 @@ QWidget *ItemTagsLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
-    connect( ui->pushButtonAddCommands, SIGNAL(clicked()),
-             this, SLOT(addCommands()) );
-
     // Init tag table.
     for (const auto &tag : m_tags)
         addTagToSettingsTable(tag);
@@ -784,11 +781,6 @@ QStringList ItemTagsLoader::userTags() const
         tags.append(tag.name);
 
     return tags;
-}
-
-void ItemTagsLoader::addCommands()
-{
-    emit addCommands(commands());
 }
 
 void ItemTagsLoader::onColorButtonClicked()

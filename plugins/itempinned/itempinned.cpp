@@ -18,7 +18,6 @@
 */
 
 #include "itempinned.h"
-#include "ui_itempinnedsettings.h"
 
 #include "common/command.h"
 #include "common/contenttype.h"
@@ -50,8 +49,6 @@ Command dummyPinCommand()
     Command c;
     c.icon = QString(QChar(IconThumbtack));
     c.inMenu = true;
-    c.shortcuts = QStringList()
-            << ItemPinnedLoader::tr("Ctrl+Shift+P", "Shortcut to pin and unpin items");
     return c;
 }
 
@@ -377,14 +374,7 @@ QVariantMap ItemPinnedLoader::applySettings()
 
 QWidget *ItemPinnedLoader::createSettingsWidget(QWidget *parent)
 {
-    ui.reset(new Ui::ItemPinnedSettings);
-    QWidget *w = new QWidget(parent);
-    ui->setupUi(w);
-
-    connect( ui->pushButtonAddCommands, SIGNAL(clicked()),
-             this, SLOT(addCommands()) );
-
-    return w;
+    return new QWidget(parent);
 }
 
 ItemWidget *ItemPinnedLoader::transform(ItemWidget *itemWidget, const QVariantMap &data)
@@ -433,11 +423,6 @@ QVector<Command> ItemPinnedLoader::commands() const
     commands.append(c);
 
     return commands;
-}
-
-void ItemPinnedLoader::addCommands()
-{
-    emit addCommands(commands());
 }
 
 Q_EXPORT_PLUGIN2(itempinned, ItemPinnedLoader)

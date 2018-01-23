@@ -428,8 +428,7 @@ public:
     /**
      * Return QObject instance with signals (by default null pointer).
      *
-     * Returned QObject can have signal error(QString) for signaling errors
-     * and addCommands(QVector<Command>) to open and add commands to Command dialog.
+     * Returned QObject can have signal error(QString) for signaling errors.
      */
     virtual const QObject *signaler() const;
 

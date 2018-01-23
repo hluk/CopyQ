@@ -152,12 +152,6 @@ public:
 
     QVector<Command> commands() const override;
 
-signals:
-    void addCommands(const QVector<Command> &commands);
-
-private slots:
-    void addCommands();
-
 private slots:
     void onColorButtonClicked();
     void onTableWidgetItemChanged(QTableWidgetItem *item);

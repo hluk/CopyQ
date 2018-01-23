@@ -66,11 +66,6 @@ Command createGlobalShortcut(const QString &name, const QString &script, IconId 
     c.name = name;
     c.cmd = "copyq: " + script;
     c.icon = QString(QChar(icon));
-
-    const auto shortcutNativeText =
-            AddCommandDialog::tr("Ctrl+Shift+1", "Global shortcut for some predefined commands");
-    c.globalShortcuts = QStringList(toPortableShortcutText(shortcutNativeText));
-
     return c;
 }
 
