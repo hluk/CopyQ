@@ -41,6 +41,7 @@ constexpr auto commandPasteDateTimeTemplate = R"(
 var format = '%1'
 var dateTime = dateString(format)
 copy(dateTime)
+copySelection(dateTime)
 paste()
 )";
 
