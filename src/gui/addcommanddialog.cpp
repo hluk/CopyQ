@@ -22,6 +22,7 @@
 
 #include "common/command.h"
 #include "common/mimetypes.h"
+#include "common/globalshortcutcommands.h"
 #include "common/shortcuts.h"
 #include "common/textdata.h"
 #include "item/itemfactory.h"
@@ -38,158 +39,27 @@ Q_DECLARE_METATYPE(Command)
 
 namespace {
 
-constexpr auto commandScreenshot = R"(
-var imageData = screenshotSelect()
-write('image/png', imageData)
-copy('image/png', imageData)
-)";
-
-constexpr auto commandPasteDateTimeTemplate = R"(
-// http://doc.qt.io/qt-5/qdatetime.html#toString
-var format = '%1'
-var dateTime = dateString(format)
-copy(dateTime)
-paste()
-)";
-
-QString commandPasteDateTime()
-{
-    const auto format = QLocale::system().dateTimeFormat(QLocale::LongFormat)
-            .replace("\\", "\\\\")
-            .replace("'", "\\'")
-            .replace("\n", "\\n");
-
-    return QString(commandPasteDateTimeTemplate).arg(format);
-}
-
 Command *newCommand(QVector<Command> *commands)
 {
     commands->append(Command());
     return &commands->last();
 }
 
-QString pasteAsPlainTextScript(const QString &what)
-{
-    return "\n"
-           "var text = " + what + "\n"
-           "copy(text)\n"
-           "copySelection(text)\n"
-           "paste()";
-}
-
-#ifndef NO_GLOBAL_SHORTCUTS
-enum GlobalAction {
-    GlobalActionToggleMainWindow,
-    GlobalActionShowTray,
-    GlobalActionShowMainWindowUnderMouseCursor,
-    GlobalActionEditClipboard,
-    GlobalActionEditFirstItem,
-    GlobalActionCopySecondItem,
-    GlobalActionShowActionDialog,
-    GlobalActionCreateItem,
-    GlobalActionCopyNextItem,
-    GlobalActionCopyPreviousItem,
-    GlobalActionPasteAsPlainText,
-    GlobalActionDisableClipboardStoring,
-    GlobalActionEnableClipboardStoring,
-    GlobalActionPasteAndCopyNext,
-    GlobalActionPasteAndCopyPrevious,
-    GlobalActionScreenshot,
-    GlobalActionPasteDateTime
-};
-
-void createGlobalShortcut(const QString &name, const QString &script, IconId icon,
-                          const QStringList &s, Command *c)
-{
-    c->name = name;
-    c->cmd = "copyq: " + script;
-    c->icon = QString(QChar(icon));
-    QString shortcutNativeText =
-            AddCommandDialog::tr("Ctrl+Shift+1", "Global shortcut for some predefined commands");
-    c->globalShortcuts = s.isEmpty() ? QStringList(toPortableShortcutText(shortcutNativeText)) : s;
-}
-
-void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QStringList())
-{
-    if (id == GlobalActionToggleMainWindow)
-        createGlobalShortcut( AddCommandDialog::tr("Show/hide main window"), "toggle()", IconListAlt, s, c );
-    else if (id == GlobalActionShowTray)
-        createGlobalShortcut( AddCommandDialog::tr("Show the tray menu"), "menu()", IconInbox, s, c );
-    else if (id == GlobalActionShowMainWindowUnderMouseCursor)
-        createGlobalShortcut( AddCommandDialog::tr("Show main window under mouse cursor"), "showAt()", IconListAlt, s, c );
-    else if (id == GlobalActionEditClipboard)
-        createGlobalShortcut( AddCommandDialog::tr("Edit clipboard"), "edit(-1)", IconEdit, s, c );
-    else if (id == GlobalActionEditFirstItem)
-        createGlobalShortcut( AddCommandDialog::tr("Edit first item"), "edit(0)", IconEdit, s, c );
-    else if (id == GlobalActionCopySecondItem)
-        createGlobalShortcut( AddCommandDialog::tr("Copy second item"), "select(1)", IconCopy, s, c );
-    else if (id == GlobalActionShowActionDialog)
-        createGlobalShortcut( AddCommandDialog::tr("Show action dialog"), "action()", IconCog, s, c );
-    else if (id == GlobalActionCreateItem)
-        createGlobalShortcut( AddCommandDialog::tr("Create new item"), "edit()", IconAsterisk, s, c );
-    else if (id == GlobalActionCopyNextItem)
-        createGlobalShortcut( AddCommandDialog::tr("Copy next item"), "next()", IconArrowDown, s, c );
-    else if (id == GlobalActionCopyPreviousItem)
-        createGlobalShortcut( AddCommandDialog::tr("Copy previous item"), "previous()", IconArrowUp, s, c );
-    else if (id == GlobalActionPasteAsPlainText)
-        createGlobalShortcut( AddCommandDialog::tr("Paste clipboard as plain text"), pasteAsPlainTextScript("clipboard()"), IconPaste, s, c );
-    else if (id == GlobalActionDisableClipboardStoring)
-        createGlobalShortcut( AddCommandDialog::tr("Disable clipboard storing"), "disable()", IconEyeSlash, s, c );
-    else if (id == GlobalActionEnableClipboardStoring)
-        createGlobalShortcut( AddCommandDialog::tr("Enable clipboard storing"), "enable()", IconEye, s, c );
-    else if (id == GlobalActionPasteAndCopyNext)
-        createGlobalShortcut( AddCommandDialog::tr("Paste and copy next"), "paste(); next()", IconArrowCircleDown, s, c );
-    else if (id == GlobalActionPasteAndCopyPrevious)
-        createGlobalShortcut( AddCommandDialog::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleUp, s, c );
-    else if (id == GlobalActionScreenshot)
-        createGlobalShortcut( AddCommandDialog::tr("Take screenshot"), commandScreenshot, IconCamera, s, c );
-    else if (id == GlobalActionPasteDateTime)
-        createGlobalShortcut( AddCommandDialog::tr("Paste current date and time"), commandPasteDateTime(), IconClock, s, c );
-    else
-        Q_ASSERT(false);
-}
-
-void createGlobalShortcut(GlobalAction id, QVector<Command> *commands)
-{
-    Command *c = newCommand(commands);
-    createGlobalShortcut(id, c);
-}
-#endif // !NO_GLOBAL_SHORTCUTS
-
 QVector<Command> defaultCommands()
 {
     const QRegExp reURL("^(https?|ftps?|file)://");
     const QRegExp reNotURL("^(?!(http|ftp)s?://)");
 
-    QVector<Command> commands;
+    QVector<Command> commands = globalShortcutCommands();
     Command *c;
 
-    c = newCommand(&commands);
+    commands.prepend(Command());
+    c = &commands.first();
     c->name = AddCommandDialog::tr("New command");
     c->icon = QString(QChar(IconFileAlt));
     c->input = c->output = "";
     c->wait = c->automatic = c->remove = false;
     c->sep = QString("\\n");
-
-#ifndef NO_GLOBAL_SHORTCUTS
-    createGlobalShortcut(GlobalActionToggleMainWindow, &commands);
-    createGlobalShortcut(GlobalActionShowTray, &commands);
-    createGlobalShortcut(GlobalActionShowMainWindowUnderMouseCursor, &commands);
-    createGlobalShortcut(GlobalActionEditClipboard, &commands);
-    createGlobalShortcut(GlobalActionEditFirstItem, &commands);
-    createGlobalShortcut(GlobalActionCopySecondItem, &commands);
-    createGlobalShortcut(GlobalActionShowActionDialog, &commands);
-    createGlobalShortcut(GlobalActionCreateItem, &commands);
-    createGlobalShortcut(GlobalActionCopyNextItem, &commands);
-    createGlobalShortcut(GlobalActionCopyPreviousItem, &commands);
-    createGlobalShortcut(GlobalActionPasteAsPlainText, &commands);
-    createGlobalShortcut(GlobalActionDisableClipboardStoring, &commands);
-    createGlobalShortcut(GlobalActionEnableClipboardStoring, &commands);
-    createGlobalShortcut(GlobalActionPasteAndCopyNext, &commands);
-    createGlobalShortcut(GlobalActionPasteAndCopyPrevious, &commands);
-    createGlobalShortcut(GlobalActionScreenshot, &commands);
-    createGlobalShortcut(GlobalActionPasteDateTime, &commands);
-#endif
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore items with no or single character");

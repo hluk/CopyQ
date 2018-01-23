@@ -39,6 +39,7 @@ HEADERS += \
     common/command.h \
     common/common.h \
     common/contenttype.h \
+    common/globalshortcutcommands.h \
     common/option.h \
     common/server.h \
     gui/aboutdialog.h \
@@ -139,6 +140,7 @@ SOURCES += \
     common/common.cpp \
     common/commandstore.cpp \
     common/display.cpp \
+    common/globalshortcutcommands.cpp \
     common/messagehandlerforqt.cpp \
     common/option.cpp \
     common/server.cpp \
