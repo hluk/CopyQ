@@ -40,7 +40,8 @@ ui_*
 **/qrc_*.cpp
 /.qmake.cache
 /copyq.app
-copyq.pro.user
+copyq.pro.user*
+CMakeLists.txt.user*
 .DS_Store
 .qmake.stash
 *.pyc
@@ -50,3 +51,10 @@ copyq.pro.user
 
 # Generated Sphinx files
 /docs/_build
+
+# Generated Flatpak files
+/shared/flatpak/.flatpak-builder
+/shared/flatpak/copyq
+
+# Visual Studio Code
+/.vscode
