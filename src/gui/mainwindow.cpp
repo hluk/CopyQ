@@ -94,8 +94,8 @@
 
 namespace {
 
-const int contextMenuUpdateInvervalMsec = 250;
-const int trayMenuUpdateInvervalMsec = 2000;
+const int contextMenuUpdateIntervalMsec = 250;
+const int trayMenuUpdateIntervalMsec = 2000;
 
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 const QIcon iconTabIcon() { return getIconFromResources("tab_icon"); }
@@ -455,7 +455,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     initSingleShotTimer( &m_timerUpdateFocusWindows, 50, this, SLOT(updateFocusWindows()) );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
-    initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateInvervalMsec, this, SLOT(updateTrayMenuTimeout()) );
+    initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, SLOT(updateTrayMenuTimeout()) );
     initSingleShotTimer( &m_timerShowWindow, 250 );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
     initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
@@ -988,7 +988,7 @@ void MainWindow::onSelectionChanged(const ClipboardBrowser *browser)
 void MainWindow::onItemsChanged(const ClipboardBrowser *browser)
 {
     if (browser == this->browser())
-        updateContextMenu(contextMenuUpdateInvervalMsec);
+        updateContextMenu(contextMenuUpdateIntervalMsec);
     if (browser == getTabForTrayMenu())
         updateTrayMenu();
 }
@@ -1089,7 +1089,7 @@ int MainWindow::findTabIndexExactMatch(const QString &name)
 void MainWindow::setClipboardData(const QVariantMap &data)
 {
     m_clipboardData = data;
-    updateContextMenu(contextMenuUpdateInvervalMsec);
+    updateContextMenu(contextMenuUpdateIntervalMsec);
     updateTrayMenu();
 }
 
@@ -1934,7 +1934,7 @@ void MainWindow::updateCommands()
         reloadBrowsers();
     }
 
-    updateContextMenu(contextMenuUpdateInvervalMsec);
+    updateContextMenu(contextMenuUpdateIntervalMsec);
     if (m_options.trayCommands)
         updateTrayMenu();
     emit commandsSaved();
@@ -2294,7 +2294,7 @@ void MainWindow::loadSettings()
 
     m_timerSaveTabPositions.stop();
 
-    updateContextMenu(contextMenuUpdateInvervalMsec);
+    updateContextMenu(contextMenuUpdateIntervalMsec);
 
     m_options.itemActivationCommands = ActivateNoCommand;
     if ( appConfig.option<Config::activate_closes>() )
