@@ -2305,9 +2305,40 @@ void Tests::shortcutCommandSetSelectedItemsData()
 
 void Tests::automaticCommandIgnore()
 {
-    RUN("setCommands([{automatic: true, cmd: 'copyq ignore; copyq add OK'}])", "");
-    TEST( m_test->setClipboard("SHOULD BE IGNORED") );
+    const auto script = R"(
+        setCommands([
+            { automatic: true, cmd: 'copyq ignore; copyq add OK' },
+            { automatic: true, cmd: 'copyq add "SHOULDN NOT BE EXECUTED"' }
+        ])
+        )";
+    RUN(script, "");
+
+    TEST( m_test->setClipboard("SHOULD BE IGNORED 1") );
     WAIT_ON_OUTPUT("read" << "0", "OK");
+
+    TEST( m_test->setClipboard("SHOULD BE IGNORED 2") );
+    WAIT_ON_OUTPUT("size", "2\n");
+
+    RUN("separator" << "," << "read" << "0" << "1" << "2", "OK,OK,");
+}
+
+void Tests::automaticCommandRemove()
+{
+    const auto script = R"(
+        setCommands([
+            { automatic: true, remove: true, cmd: 'copyq add OK' },
+            { automatic: true, cmd: 'copyq add "SHOULDN NOT BE EXECUTED"' }
+        ])
+        )";
+    RUN(script, "");
+
+    TEST( m_test->setClipboard("SHOULD BE IGNORED 1") );
+    WAIT_ON_OUTPUT("read" << "0", "OK");
+
+    TEST( m_test->setClipboard("SHOULD BE IGNORED 2") );
+    WAIT_ON_OUTPUT("size", "2\n");
+
+    RUN("separator" << "," << "read" << "0" << "1" << "2", "OK,OK,");
 }
 
 void Tests::automaticCommandInput()
