@@ -2393,6 +2393,18 @@ void Tests::automaticCommandChaining()
     WAIT_ON_OUTPUT("read" << "0", "123");
 }
 
+void Tests::automaticCommandCopyToTab()
+{
+    const auto tab1 = testTab(1);
+    const auto script = R"(
+        setCommands([{automatic: true, tab: ')" + tab1 + R"('}])
+        )";
+    RUN(script, "");
+    TEST( m_test->setClipboard("TEST") );
+    WAIT_ON_OUTPUT("tab" << QString(clipboardTabName) << "read" << "0", "TEST");
+    RUN("tab" << tab1 << "read" << "0", "TEST");
+}
+
 void Tests::scriptCommandLoaded()
 {
     const auto script = R"(
