@@ -2786,14 +2786,16 @@ bool Scriptable::runCommands(CommandType::CommandType type)
 
         m_data = m_proxy->getActionData(m_actionId);
 
-        if ( !command.tab.isEmpty() ) {
-            auto data = copyWithoutInternalData(m_data);
-            m_proxy->saveData(command.tab, data);
-        }
+        if ( type == CommandType::Automatic ) {
+            if ( !command.tab.isEmpty() ) {
+                auto data = copyWithoutInternalData(m_data);
+                m_proxy->saveData(command.tab, data);
+            }
 
-        if ( command.remove || command.transform || m_data.contains(mimeIgnore) ) {
-            COPYQ_LOG( QString(label).arg(command.name, "Ignoring data") );
-            return false;
+            if ( command.remove || command.transform || m_data.contains(mimeIgnore) ) {
+                COPYQ_LOG( QString(label).arg(command.name, "Ignoring data") );
+                return false;
+            }
         }
 
         COPYQ_LOG( QString(label).arg(command.name, "Finished") );
