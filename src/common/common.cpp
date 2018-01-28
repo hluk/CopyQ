@@ -383,7 +383,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
 
     if ( data.contains(mimeHidden) ) {
         label = QObject::tr("<HIDDEN>", "Label for hidden/secret clipboard content");
-    } else if ( formats.contains(mimeText) ) {
+    } else if ( formats.contains(mimeText) || formats.contains(mimeUriList) ) {
         const QString text = getTextData(data);
         const int n = text.count(QChar('\n')) + 1;
 
@@ -399,8 +399,6 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
         return elideText(textWithNotes, font, label, escapeAmpersands, maxWidthPixels, maxLines);
     } else if ( formats.indexOf(QRegExp("^image/.*")) != -1 ) {
         label = QObject::tr("<IMAGE>", "Label for image in clipboard");
-    } else if ( formats.indexOf(mimeUriList) != -1 ) {
-        label = QObject::tr("<FILES>", "Label for URLs/files in clipboard");
     } else if ( !hasNonInternalFormats(formats) ) {
         label = QObject::tr("<EMPTY>", "Label for empty clipboard");
     } else {
