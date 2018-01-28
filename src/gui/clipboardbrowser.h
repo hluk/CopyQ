@@ -332,6 +332,8 @@ class ClipboardBrowser : public QListView
         void mouseReleaseEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
 
+        void doItemsLayout() override;
+
     private slots:
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 

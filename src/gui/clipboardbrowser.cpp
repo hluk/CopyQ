@@ -1149,6 +1149,35 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         temporaryImage->drop();
 }
 
+void ClipboardBrowser::doItemsLayout()
+{
+    // Keep visible current item (or the first one visible)
+    // on the same position visually after relayout.
+
+    // FIXME: Virtual method QListView::doItemsLayout() is undocumented
+    //        so other way should be used instead.
+
+    const auto current = currentIndex();
+    const auto currentRect = visualRect(current);
+    const auto viewRect = viewport()->contentsRect();
+
+    const bool currentIsNotVisible =
+            viewRect.bottom() < currentRect.top()
+            || currentRect.bottom() < viewRect.top();
+    const auto index = currentIsNotVisible ? indexNear(0) : current;
+
+    const auto rectBefore = visualRect(index);
+
+    QListView::doItemsLayout();
+
+    const auto rectAfter = visualRect(index);
+    const auto offset = rectAfter.top() - rectBefore.top();
+    if (offset != 0) {
+        QScrollBar *v = verticalScrollBar();
+        v->setValue(v->value() + offset);
+    }
+}
+
 bool ClipboardBrowser::openEditor()
 {
     const QModelIndexList selected = selectionModel()->selectedRows();
