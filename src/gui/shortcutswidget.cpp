@@ -81,6 +81,21 @@ bool canAddCommandAction(const Command &command, const QVector<MenuAction> &acti
             && !hasShortcutCommand(command.name, actions);
 }
 
+const QStringList &shortcuts(const Command &command)
+{
+    return (command.type() & CommandType::GlobalShortcut)
+            ? command.globalShortcuts
+            : command.shortcuts;
+}
+
+void setShortcuts(Command *command, const QStringList &shortcutNames)
+{
+    if (command->type() & CommandType::GlobalShortcut)
+        command->globalShortcuts = shortcutNames;
+    else
+        command->shortcuts = shortcutNames;
+}
+
 } // namespace
 
 ShortcutsWidget::ShortcutsWidget(QWidget *parent)
@@ -132,7 +147,7 @@ void ShortcutsWidget::loadShortcuts(const QSettings &settings)
             action.shortcutButton->addShortcut(shortcut);
     }
 
-    addCommands( loadEnabledCommands() );
+    addCommands( loadAllCommands() );
     addCommands( predefinedCommands() );
 }
 
@@ -150,15 +165,15 @@ void ShortcutsWidget::saveShortcuts(QSettings *settings)
             auto savedCommand = findShortcutCommand(action.command.name, commands);
             const bool enable = !shortcutNames.isEmpty();
             if (savedCommand) {
-                if ( savedCommand->enable != enable || (enable && savedCommand->globalShortcuts != shortcutNames) ) {
+                if ( savedCommand->enable != enable || (enable && shortcuts(*savedCommand) != shortcutNames) ) {
                     needSaveCommands = true;
                     savedCommand->enable = enable;
-                    savedCommand->globalShortcuts = shortcutNames;
+                    setShortcuts(savedCommand, shortcutNames);
                 }
             } else if ( !shortcutNames.isEmpty() ) {
                 needSaveCommands = true;
                 auto command = action.command;
-                command.globalShortcuts = shortcutNames;
+                setShortcuts(&command, shortcutNames);
                 commands.append(command);
             }
         } else {
@@ -186,10 +201,10 @@ void ShortcutsWidget::addCommands(const QVector<Command> &commands)
             action.command = command;
             addShortcutRow(action);
 
-            for (const auto &shortcut : command.globalShortcuts)
-                action.shortcutButton->addShortcut(shortcut);
-            for (const auto &shortcut : command.shortcuts)
-                action.shortcutButton->addShortcut(shortcut);
+            if (command.enable) {
+                for (const auto &shortcut : shortcuts(command))
+                    action.shortcutButton->addShortcut(shortcut);
+            }
         }
     }
 }
