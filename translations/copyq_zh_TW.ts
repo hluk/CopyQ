@@ -125,7 +125,7 @@
     </message>
     <message>
         <source>Enter</source>
-        <translation type="vanished">Enter</translation>
+        <translation>輸入</translation>
     </message>
     <message>
         <source>Change item display format</source>
@@ -233,13 +233,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="131"/>
         <source>Error: %1</source>
-        <translation type="unfinished">錯誤：%1</translation>
+        <translation>錯誤：%1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="134"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">結束碼：%1
- {1?}</translation>
+        <translation>結束碼：%1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="149"/>
@@ -873,12 +872,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Script</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="314"/>
@@ -1409,12 +1408,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="136"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>當有其他應用程式具有焦點時，關閉主視窗</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="139"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>非焦點時關閉</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="146"/>
@@ -1592,7 +1591,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1269"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;Z)水平偏移 :</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="354"/>
@@ -1627,7 +1626,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="687"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>外部編輯器命令 (%&amp;1 是要編輯的檔案)：</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="894"/>
@@ -2567,12 +2566,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="796"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>解密並貼上</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="801"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>輸入</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
@@ -3829,7 +3828,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="390"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>分頁 %1 已損壞或某些 CopyQ 外掛遺失！</translation>
     </message>
 </context>
 <context>
@@ -4312,13 +4311,13 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1581"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished">%1 - CopyQ</translation>
+        <translation>%1 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1584"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished">%1 - %2 - CopyQ</translation>
+        <translation>%1 - %2 - CopyQ</translation>
     </message>
 </context>
 <context>
