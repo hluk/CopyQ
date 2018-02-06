@@ -567,6 +567,10 @@ private slots:
 
     void updateCommands();
 
+    void disableHideWindowOnUnfocus();
+    void enableHideWindowOnUnfocus();
+    void hideWindowIfNotActive();
+
 private:
     enum TabNameMatching {
         MatchExactTabName,
@@ -708,6 +712,7 @@ private:
     QTimer m_timerTrayAvailable;
     QTimer m_timerTrayIconSnip;
     QTimer m_timerSaveTabPositions;
+    QTimer m_timerHideWindowIfNotActive;
 
     NotificationDaemon *m_notifications;
 

@@ -460,6 +460,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
     initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, SLOT(doSaveTabPositions()) );
+    enableHideWindowOnUnfocus();
 
     m_trayMenu->setObjectName("TrayMenu");
     m_menu->setObjectName("Menu");
@@ -646,6 +647,11 @@ void MainWindow::createMenu()
     createAction( Actions::Help_Help, SLOT(openHelp()), menu );
     createAction( Actions::Help_ShowLog, SLOT(openLogDialog()), menu );
     createAction( Actions::Help_About, SLOT(openAboutDialog()), menu );
+
+    for (auto menu : menuBar()->findChildren<QMenu*>()) {
+        connect( menu, SIGNAL(aboutToShow()),
+                 this, SLOT(disableHideWindowOnUnfocus()) );
+    }
 }
 
 void MainWindow::popupTabBarMenu(QPoint pos, const QString &tab)
@@ -1940,6 +1946,22 @@ void MainWindow::updateCommands()
     emit commandsSaved();
 }
 
+void MainWindow::disableHideWindowOnUnfocus()
+{
+    m_timerHideWindowIfNotActive.disconnect();
+}
+
+void MainWindow::enableHideWindowOnUnfocus()
+{
+    initSingleShotTimer( &m_timerHideWindowIfNotActive, 250, this, SLOT(hideWindowIfNotActive()) );
+}
+
+void MainWindow::hideWindowIfNotActive()
+{
+    if ( qApp->activeWindow() == nullptr )
+        hideWindow();
+}
+
 const Theme &MainWindow::theme() const
 {
     return m_sharedData->theme;
@@ -2158,12 +2180,13 @@ bool MainWindow::event(QEvent *event)
         setHideTabs(m_options.hideTabs);
     } else if (type == QEvent::WindowActivate) {
         updateWindowTransparency();
+        enableHideWindowOnUnfocus();
     } else if (type == QEvent::WindowDeactivate) {
         m_timerShowWindow.start();
         updateWindowTransparency();
         setHideTabs(m_options.hideTabs);
-        if ( AppConfig().option<Config::close_on_unfocus>() && qApp->activeWindow() == nullptr )
-            hideWindow();
+        if ( AppConfig().option<Config::close_on_unfocus>() )
+            m_timerHideWindowIfNotActive.start();
     } else if (type == QEvent::Hide) {
         m_wasMaximized = isMaximized();
     }
