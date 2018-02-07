@@ -376,7 +376,7 @@ bool isAnyApplicationWindowActive()
     if ( currentWindowTitle.isEmpty() )
         return false;
 
-    for ( auto window : qApp->topLevelWindows() ) {
+    for ( auto window : qApp->topLevelWidgets() ) {
         const auto ownWindow = platform->getWindow( window->winId() );
         if ( ownWindow && currentWindowTitle == ownWindow->getTitle() )
             return true;
