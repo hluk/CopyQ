@@ -362,6 +362,29 @@ void resetTestsSettings()
 }
 #endif
 
+bool isAnyApplicationWindowActive()
+{
+    if ( qApp->activeWindow() )
+        return true;
+
+    const auto platform = createPlatformNativeInterface();
+    const auto currentWindow = platform->getCurrentWindow();
+    if (!currentWindow)
+        return false;
+
+    const auto currentWindowTitle = currentWindow->getTitle();
+    if ( currentWindowTitle.isEmpty() )
+        return false;
+
+    for ( auto window : qApp->topLevelWidgets() ) {
+        const auto ownWindow = platform->getWindow( window->winId() );
+        if ( ownWindow && currentWindowTitle == ownWindow->getTitle() )
+            return true;
+    }
+
+    return false;
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -1958,7 +1981,7 @@ void MainWindow::enableHideWindowOnUnfocus()
 
 void MainWindow::hideWindowIfNotActive()
 {
-    if ( qApp->activeWindow() == nullptr )
+    if ( !isAnyApplicationWindowActive() )
         hideWindow();
 }
 
