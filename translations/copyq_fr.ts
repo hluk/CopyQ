@@ -4063,7 +4063,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="553"/>
         <source>Remove Items?</source>
-        <translation type="unfinished">Supprimer les éléments ?</translation>
+        <translation>Supprimer les éléments ?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="554"/>
