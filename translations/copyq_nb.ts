@@ -874,7 +874,7 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vis</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="314"/>
@@ -1167,12 +1167,12 @@ CTRL og opp- eller ned-tasten.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="136"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Lukk hovedvindu når et annet program er i fokus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="139"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Lukk når ute av fokus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="146"/>
@@ -1409,12 +1409,12 @@ Sett til 0 for ikke å fjerne faner.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="687"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekstern tekstbehandlerkommando (%1&amp;1 er filen å redigere):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1269"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vann&amp;rett forskyvning:</translation>
     </message>
     <message>
         <source>External &amp;editor command (%1 is file to edit):</source>
@@ -2246,7 +2246,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="796"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Dekrypter og lim inn</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="801"/>
@@ -3502,7 +3502,7 @@ som kan bestå av bokstaver, tall, &apos;-&apos; eeler &apos;_&apos;!</translati
     <message>
         <location filename="../src/item/itemfactory.cpp" line="390"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fanen %1 er skadet, eller så mangler noen CopyQ-programtillegg!</translation>
     </message>
 </context>
 <context>
