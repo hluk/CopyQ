@@ -55,7 +55,7 @@ QVector<Command> predefinedCommands()
     commands.prepend(Command());
     c = &commands.first();
     c->name = AddCommandDialog::tr("New command");
-    c->icon = QString(QChar(IconFileAlt));
+    c->icon = QString(QChar(IconFile));
     c->input = c->output = "";
     c->wait = c->automatic = c->remove = false;
     c->sep = QString("\\n");

@@ -795,4 +795,22 @@ enum IconId {
     IconYoutube = 0xf167,
 };
 
+/// Backwards compatibility with old icon font.
+/// Returns icon ID in the new icon font for an ID from the old one.
+inline unsigned short fixIconId(unsigned short id)
+{
+    switch (id) {
+    case 0xf014: return IconTrash;
+    case 0xf016: return IconFile;
+    case 0xf01d: return IconPlayCircle;
+    case 0xf040: return IconPencilAlt;
+    case 0xf045: return IconExternalLinkAlt;
+    case 0xf08b: return IconSignOutAlt;
+    case 0xf090: return IconSignInAlt;
+    case 0xf112: return IconArrowUp;
+    default:
+        return id;
+    }
+}
+
 #endif // ICONS_H

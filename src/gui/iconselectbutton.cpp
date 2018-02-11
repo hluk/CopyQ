@@ -56,12 +56,10 @@ void IconSelectButton::setCurrentIcon(const QString &iconString)
 
     if ( iconString.size() == 1 ) {
         const QChar c = iconString[0];
-        if ( QFontMetrics(iconFont()).inFont(c) ) {
-            setFont(iconFont());
-            setText(iconString);
-        } else {
-            m_currentIcon = QString();
-        }
+        const ushort id = fixIconId( c.unicode() );
+        m_currentIcon = QString(QChar(id));
+        setFont(iconFont());
+        setText(m_currentIcon);
     } else if ( !iconString.isEmpty() ) {
         const QIcon icon(iconString);
         if ( icon.isNull() )

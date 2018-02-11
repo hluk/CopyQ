@@ -165,6 +165,8 @@ QPixmap imageFromPrefix(const QString &iconSuffix, const QString &resources)
 
 void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
 {
+    id = fixIconId(id);
+
     QPainter painter(pix);
     const QFont font = iconFontFitSize(w, h);
 
