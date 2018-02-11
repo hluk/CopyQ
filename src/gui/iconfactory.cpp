@@ -401,7 +401,7 @@ QIcon getIconFromResources(const QString &iconName)
 
 QIcon iconFromFile(const QString &fileName, const QString &tag, const QColor &color)
 {
-    if ( fileName.isEmpty() )
+    if ( fileName.isEmpty() && tag.isEmpty() )
         return QIcon();
 
     const auto unicode = toIconId(fileName);
