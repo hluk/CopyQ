@@ -214,6 +214,11 @@ public:
 
     QPixmap createPixmap(QSize size, QIcon::Mode mode, QIcon::State state, QPainter *painter = nullptr)
     {
+#if QT_VERSION >= 0x050000
+        if (painter)
+            size *= painter->paintEngine()->paintDevice()->devicePixelRatio();
+#endif
+
         if ( useSystemIcons || m_iconId == 0 || !loadIconFont() ) {
             // Tint tab icons.
             if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
@@ -228,14 +233,20 @@ public:
             QIcon icon = m_iconName.startsWith(':') ? QIcon(m_iconName) : QIcon::fromTheme(m_iconName);
             if ( !icon.isNull() ) {
                 auto pixmap = icon.pixmap(size, mode, state);
+                if (pixmap.size() != size) {
+                    pixmap = pixmap.scaled(size.width(), size.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                    QPixmap pixmap2(size);
+                    pixmap2.fill(Qt::transparent);
+                    QPainter painter2(&pixmap2);
+                    const int x = size.width() - pixmap.width();
+                    const QRect rect( QPoint(x, 0), pixmap.size() );
+                    painter2.drawPixmap(rect, pixmap);
+                    pixmap = pixmap2;
+                }
                 return taggedIcon(&pixmap);
             }
         }
 
-#if QT_VERSION >= 0x050000
-        if (painter)
-            size *= painter->paintEngine()->paintDevice()->devicePixelRatio();
-#endif
         QPixmap pixmap(size);
         pixmap.fill(Qt::transparent);
 
