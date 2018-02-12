@@ -1751,7 +1751,7 @@ Leave empty to disable automatic storing.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="199"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished"></translation>
+        <translation>自动显示弹出窗口以补全命令中的函数、类型和变量名</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="202"/>
@@ -2376,7 +2376,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="164"/>
         <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation type="unfinished">存储于剪贴板历史中的 MIME 类型 (给定的显示顺序)</translation>
+        <translation>将存储于剪贴板历史中的 MIME 类型 (以给定的显示顺序)</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="181"/>
@@ -2528,12 +2528,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="796"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>解密并粘贴</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="801"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>回车</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
@@ -2569,7 +2569,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="909"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation type="unfinished">加密秘钥必须在条目加密前&lt;strong&gt;生成&lt;/strong&gt;才可以使用。</translation>
+        <translation>加密密钥&lt;strong&gt;必须先被生成&lt;/strong&gt;才能用于条目加密。</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
@@ -2881,7 +2881,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="518"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="unfinished">在文件夹『%2』 中同步标签页『%1』失败！</translation>
+        <translation>在文件夹“%2”中同步标签页“%1”失败！</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="553"/>
@@ -2891,7 +2891,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="554"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished">您确定想&lt;strong&gt;移除&lt;/strong&gt;条目和其关联的文件？</translation>
+        <translation>您确定想&lt;strong&gt;移除条目和与其关联的文件&lt;/strong&gt;吗？</translation>
     </message>
 </context>
 <context>
@@ -4166,7 +4166,7 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="90"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation type="unfinished">  - 使用 &quot;--&quot; 参数读取所有跟随的参数，除了扩展的转移字符(例如: \n、\t 等等)。</translation>
+        <translation>  - 使用双引号参数（“--”）读取所有跟随的参数，同时不展开转义序列（例如 \n、\t 等等)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="92"/>
@@ -4261,13 +4261,13 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1581"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished">%1 - CopyQ</translation>
+        <translation>%1 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1584"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished">%1 - %2 - CopyQ</translation>
+        <translation>%1 - %2 - CopyQ</translation>
     </message>
 </context>
 <context>
