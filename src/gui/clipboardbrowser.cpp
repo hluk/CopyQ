@@ -1085,6 +1085,15 @@ void ClipboardBrowser::mouseReleaseEvent(QMouseEvent *event)
 void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 {
     if ( m_dragStartPosition.isNull() ) {
+        // WORKAROUND: After double-click, if window is hidden while mouse button is pressed,
+        //             release button event is received after window is show which can result
+        //             in items being selected.
+        if (m_ignoreMouseMoveWithButtonPressed) {
+            if ( QApplication::mouseButtons() & Qt::LeftButton )
+                return;
+            m_ignoreMouseMoveWithButtonPressed = false;
+        }
+
         QListView::mouseMoveEvent(event);
         return;
     }
@@ -1147,6 +1156,12 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
     if (temporaryImage)
         temporaryImage->drop();
+}
+
+void ClipboardBrowser::enterEvent(QEvent *event)
+{
+    m_ignoreMouseMoveWithButtonPressed = true;
+    QListView::enterEvent(event);
 }
 
 void ClipboardBrowser::doItemsLayout()

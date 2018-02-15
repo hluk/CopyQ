@@ -332,6 +332,8 @@ class ClipboardBrowser : public QListView
         void mouseReleaseEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
 
+        void enterEvent(QEvent *event) override;
+
         void doItemsLayout() override;
 
     private slots:
@@ -431,6 +433,7 @@ class ClipboardBrowser : public QListView
         QTimer m_timerUpdateSizes;
         QTimer m_timerUpdateItemWidgets;
         QTimer m_timerUpdateCurrent;
+        bool m_ignoreMouseMoveWithButtonPressed = false;
         bool m_resizing = false;
 
         QPointer<ItemEditorWidget> m_editor;
