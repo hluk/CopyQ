@@ -51,7 +51,7 @@ ItemOrderList::ItemOrderList(QWidget *parent)
 
     // Make icon wider so icon tag can be bigger.
     const auto size = iconFontSizePixels();
-    ui->listWidgetItems->setIconSize( QSize(size * 2, size) );
+    ui->listWidgetItems->setIconSize( QSize(size * 3/2, size) );
 }
 
 ItemOrderList::~ItemOrderList()
