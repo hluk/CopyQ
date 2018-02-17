@@ -60,6 +60,7 @@ struct Command {
         , automatic(false)
         , display(false)
         , inMenu(false)
+        , isGlobalShortcut(false)
         , isScript(false)
         , transform(false)
         , remove(false)
@@ -85,6 +86,7 @@ struct Command {
             && automatic == other.automatic
             && display == other.display
             && inMenu == other.inMenu
+            && isGlobalShortcut == other.isGlobalShortcut
             && isScript == other.isScript
             && transform == other.transform
             && remove == other.remove
@@ -106,7 +108,7 @@ struct Command {
         auto type =
                (automatic ? CommandType::Automatic : 0)
              | (display ? CommandType::Display : 0)
-             | (!globalShortcuts.isEmpty() && !globalShortcuts.contains("DISABLED") ? CommandType::GlobalShortcut : 0)
+             | (isGlobalShortcut ? CommandType::GlobalShortcut : 0)
              | (inMenu && !name.isEmpty() ? CommandType::Menu : 0);
 
         // Scripts cannot be used in other types of commands.
@@ -168,6 +170,9 @@ struct Command {
 
     /** If true show command in context menu on matching items. */
     bool inMenu;
+
+    /** If true command can be triggered by global shortcut. */
+    bool isGlobalShortcut;
 
     /** If true, overrides scripting functionality. */
     bool isScript;

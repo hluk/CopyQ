@@ -37,49 +37,33 @@
 
 namespace {
 
-const char globalShortcutsDisabled[] = "DISABLED";
-
 const QIcon iconClipboard() { return getIcon("", IconClipboard); }
 const QIcon iconMenu() { return getIcon("", IconBars); }
 const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
 const QIcon iconScript() { return getIcon("", IconCog); }
 const QIcon iconDisplay() { return getIcon("", IconEye); }
 
-QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enabled = true)
+QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts)
 {
     if ( shortcuts.isEmpty() )
         return QStringList();
 
     QStringList shortcutTexts;
-    shortcutTexts.reserve( shortcuts.size() + (enabled ? 1 : 0) );
+    shortcutTexts.reserve( shortcuts.size() );
 
     for (const auto &shortcut : shortcuts)
         shortcutTexts.append(portableShortcutText(shortcut));
-
-    if (!enabled)
-        shortcutTexts.append(globalShortcutsDisabled);
 
     return shortcutTexts;
 }
 
 void deserializeShortcuts(
-        const QStringList &serializedShortcuts, ShortcutButton *shortcutButton,
-        QCheckBox *checkBoxEnabled = nullptr
-        )
+        const QStringList &serializedShortcuts, ShortcutButton *shortcutButton)
 {
     shortcutButton->resetShortcuts();
 
-    bool enabled = !serializedShortcuts.isEmpty();
-
-    for (const auto &shortcutText : serializedShortcuts) {
-        if (shortcutText == globalShortcutsDisabled)
-            enabled = false;
-        else
-            shortcutButton->addShortcut(shortcutText);
-    }
-
-    if (checkBoxEnabled)
-        checkBoxEnabled->setChecked(enabled);
+    for (const auto &shortcutText : serializedShortcuts)
+        shortcutButton->addShortcut(shortcutText);
 }
 
 } // namespace
@@ -136,6 +120,7 @@ Command CommandWidget::command() const
     c.automatic = ui->checkBoxAutomatic->isChecked();
     c.display = ui->checkBoxDisplay->isChecked();
     c.inMenu  = ui->checkBoxInMenu->isChecked();
+    c.isGlobalShortcut  = ui->checkBoxGlobalShortcut->isChecked();
     c.isScript  = ui->checkBoxIsScript->isChecked();
     c.transform = ui->checkBoxTransform->isChecked();
     c.remove = ui->checkBoxIgnore->isChecked();
@@ -143,9 +128,7 @@ Command CommandWidget::command() const
     c.enable = true;
     c.icon   = ui->buttonIcon->currentIcon();
     c.shortcuts = serializeShortcuts( ui->shortcutButton->shortcuts() );
-    c.globalShortcuts = serializeShortcuts(
-                ui->shortcutButtonGlobalShortcut->shortcuts(),
-                ui->checkBoxGlobalShortcut->isChecked() );
+    c.globalShortcuts = serializeShortcuts( ui->shortcutButtonGlobalShortcut->shortcuts() );
     c.tab    = ui->comboBoxCopyToTab->currentText();
     c.outputTab = ui->comboBoxOutputTab->currentText();
 
@@ -166,6 +149,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->checkBoxAutomatic->setChecked(c.automatic);
     ui->checkBoxDisplay->setChecked(c.display);
     ui->checkBoxInMenu->setChecked(c.inMenu);
+    ui->checkBoxGlobalShortcut->setChecked(c.isGlobalShortcut);
     ui->checkBoxIsScript->setChecked(c.isScript);
     ui->checkBoxTransform->setChecked(c.transform);
     ui->checkBoxIgnore->setChecked(c.remove);
@@ -174,8 +158,7 @@ void CommandWidget::setCommand(const Command &c)
     deserializeShortcuts(c.shortcuts, ui->shortcutButton);
     deserializeShortcuts(
                 c.globalShortcuts,
-                ui->shortcutButtonGlobalShortcut,
-                ui->checkBoxGlobalShortcut);
+                ui->shortcutButtonGlobalShortcut);
     ui->comboBoxCopyToTab->setEditText(c.tab);
     ui->comboBoxOutputTab->setEditText(c.outputTab);
 }

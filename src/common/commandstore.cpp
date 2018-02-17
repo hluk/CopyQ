@@ -67,6 +67,16 @@ void loadCommand(const QSettings &settings, CommandFilter filter, Commands *comm
     c.inMenu = settings.value("InMenu").toBool();
     c.isScript = settings.value("IsScript").toBool();
 
+    const auto globalShortcutsOption = settings.value("IsGlobalShortcut");
+    if ( globalShortcutsOption.isValid() ) {
+        c.isGlobalShortcut = settings.value("IsGlobalShortcut").toBool();
+    } else {
+        // Backwards compatibility with v3.1.2 and below.
+        if ( c.globalShortcuts.contains("DISABLED") )
+            c.globalShortcuts.clear();
+        c.isGlobalShortcut = !c.globalShortcuts.isEmpty();
+    }
+
     if (settings.value("Ignore").toBool())
         c.remove = c.automatic = true;
     else
@@ -112,6 +122,7 @@ void saveCommand(const Command &c, QSettings *settings)
     saveNewValue("Automatic", c, &Command::automatic, settings);
     saveNewValue("Display", c, &Command::display, settings);
     saveNewValue("InMenu", c, &Command::inMenu, settings);
+    saveNewValue("IsGlobalShortcut", c, &Command::isGlobalShortcut, settings);
     saveNewValue("IsScript", c, &Command::isScript, settings);
     saveNewValue("Transform", c, &Command::transform, settings);
     saveNewValue("Remove", c, &Command::remove, settings);

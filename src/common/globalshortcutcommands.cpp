@@ -66,7 +66,7 @@ Command createGlobalShortcut(const QString &name, const QString &script, IconId 
     c.name = name;
     c.cmd = "copyq: " + script;
     c.icon = QString(QChar(icon));
-    c.globalShortcuts = QStringList(QString());
+    c.isGlobalShortcut = true;
     return c;
 }
 

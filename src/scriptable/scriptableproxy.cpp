@@ -154,6 +154,7 @@ QDataStream &operator<<(QDataStream &out, const Command &command)
         << command.automatic
         << command.display
         << command.inMenu
+        << command.isGlobalShortcut
         << command.isScript
         << command.transform
         << command.remove
@@ -182,6 +183,7 @@ QDataStream &operator>>(QDataStream &in, Command &command)
        >> command.automatic
        >> command.display
        >> command.inMenu
+       >> command.isGlobalShortcut
        >> command.isScript
        >> command.transform
        >> command.remove
