@@ -218,7 +218,8 @@ void FancyLineEdit::resizeEvent(QResizeEvent *)
 
 void FancyLineEdit::setButtonIcon(Side side, const QIcon &icon)
 {
-    d->m_iconbutton[side]->setIcon( icon.pixmap(16) );
+    const auto size = d->m_iconbutton[side]->iconSize();
+    d->m_iconbutton[side]->setIcon( icon.pixmap(size) );
     updateMargins();
     updateButtonPositions();
     update();
@@ -275,8 +276,8 @@ IconButton::IconButton(QWidget *parent)
 void IconButton::paintEvent(QPaintEvent *)
 {
     const qreal ratio = ::devicePixelRatio(*this);
-    const auto iconSize = static_cast<int>( qMin(width(), height()) - ratio * 8 );
-    const QPixmap pixmap = m_icon.pixmap(iconSize);
+    //const auto iconSize = static_cast<int>( qMin(width(), height()) - ratio * 8 );
+    const QPixmap pixmap = m_icon.pixmap(iconSize() / ratio);
 
     QRect pixmapRect = pixmap.rect();
     auto pixmapCenter = rect().center();
