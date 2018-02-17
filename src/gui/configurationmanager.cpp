@@ -95,12 +95,10 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
 
     ui->spinBoxItems->setMaximum(Config::maxItems);
 
-    if ( itemFactory && itemFactory->hasLoaders() ) {
+    if ( itemFactory && itemFactory->hasLoaders() )
         initPluginWidgets(itemFactory);
-        ui->configTabShortcuts->addCommands( itemFactory->commands() );
-    } else {
+    else
         ui->tabItems->hide();
-    }
 
     initOptions();
 
@@ -108,6 +106,9 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
         ui->configTabAppearance->createPreview(itemFactory);
 
     loadSettings();
+
+    if (itemFactory)
+        ui->configTabShortcuts->addCommands( itemFactory->commands() );
 }
 
 ConfigurationManager::ConfigurationManager()
