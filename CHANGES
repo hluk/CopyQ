@@ -4,6 +4,8 @@ v3.2.0
 - Add display command type for overriding item display data
 - Add documentation for plugins scripting API
 - Add script function afterMilliseconds()
+- Add isGlobalShortcut property to commands
+- Allow to set global and menu command shortcuts in preferences
 - New icon appearance (Font Awesome 5)
 - Search in icon dialog (just start typing text)
 - Improve scripting API for plugins
@@ -17,6 +19,7 @@ v3.2.0
 - Hide main tool bar when internal editor is visible
 - Run scripts safely in client process
 - Omit closing internal editor if item changes
+- Smoother scrolling and item browsing
 - Fix accepting dialog() on Ctrl+Enter and Enter
 - Fix sleep() timing out before interval
 - Fix Dir().separator() return value type
