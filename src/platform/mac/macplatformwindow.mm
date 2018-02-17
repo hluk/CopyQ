@@ -166,7 +166,7 @@ MacPlatformWindow::MacPlatformWindow(NSRunningApplication *runningApp):
         m_runningApplication = runningApp;
         [runningApp retain];
         m_windowNumber = getTopWindow(runningApp.processIdentifier);
-        COPYQ_LOG("Created platform window for non-copyq");
+        COPYQ_LOG_VERBOSE("Created platform window for non-copyq");
     } else {
         log("Failed to convert runningApplication to application", LogWarning);
     }
@@ -191,7 +191,7 @@ MacPlatformWindow::MacPlatformWindow(WId wid):
         [m_runningApplication retain];
         [m_window retain];
         m_windowNumber = [m_window windowNumber];
-        COPYQ_LOG("Created platform window for copyq");
+        COPYQ_LOG_VERBOSE("Created platform window for copyq");
     } else {
         log("Failed to convert WId to window", LogWarning);
     }
