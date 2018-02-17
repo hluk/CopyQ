@@ -67,9 +67,6 @@ void loadCommand(const QSettings &settings, CommandFilter filter, Commands *comm
     c.inMenu = settings.value("InMenu").toBool();
     c.isScript = settings.value("IsScript").toBool();
 
-    if (c.globalShortcuts.size() == 1 && c.globalShortcuts[0] == "DISABLED")
-        c.globalShortcuts = QStringList();
-
     if (settings.value("Ignore").toBool())
         c.remove = c.automatic = true;
     else
