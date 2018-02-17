@@ -90,10 +90,20 @@ public:
 protected:
     void keyPressEvent(QKeyEvent *event) override
     {
-        if (m_search && event->key() == Qt::Key_Escape) {
-            event->accept();
-            stopSearch();
-            return;
+        if (m_search) {
+            if ( event->key() == Qt::Key_Escape ) {
+                event->accept();
+                stopSearch();
+                return;
+            }
+
+            if ( event->key() == Qt::Key_Backspace ) {
+                event->accept();
+                auto text = m_search->text();
+                text.chop(1);
+                m_search->setText(text);
+                return;
+            }
         }
 
         QListView::keyPressEvent(event);
