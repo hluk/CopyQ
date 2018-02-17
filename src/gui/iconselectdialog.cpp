@@ -59,7 +59,7 @@ public:
         item->setSizeHint( gridSize() );
         item->setToolTip( searchTerms.join(", ") );
         if (isBrand)
-            item->setBackgroundColor( QColor(90,90,90,100) );
+            item->setBackgroundColor( QColor(90,90,90,50) );
         return icon;
     }
 
