@@ -74,8 +74,6 @@ int iconFontSmoothPixelSize(int pixelSize)
     return *(it - 1);
 }
 
-} // namespace
-
 QString createIconFontFamily()
 {
     const auto iconFontFamilies = QStringList()
@@ -85,6 +83,8 @@ QString createIconFontFamily()
     QFont::insertSubstitutions(iconFontFamily, iconFontFamilies);
     return iconFontFamily;
 }
+
+} // namespace
 
 const QString &iconFontFamily()
 {
