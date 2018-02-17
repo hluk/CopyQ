@@ -76,10 +76,19 @@ int iconFontSmoothPixelSize(int pixelSize)
 
 } // namespace
 
+QString createIconFontFamily()
+{
+    const auto iconFontFamilies = QStringList()
+            << QFontDatabase::applicationFontFamilies(solidIconFontId()).value(0)
+            << QFontDatabase::applicationFontFamilies(brandsIconFontId()).value(0);
+    const QString iconFontFamily = "CopyQ Icon Font";
+    QFont::insertSubstitutions(iconFontFamily, iconFontFamilies);
+    return iconFontFamily;
+}
+
 const QString &iconFontFamily()
 {
-    static const QString fontFamily =
-            QFontDatabase::applicationFontFamilies(solidIconFontId()).value(0);
+    static const QString fontFamily = createIconFontFamily();
     return fontFamily;
 }
 
