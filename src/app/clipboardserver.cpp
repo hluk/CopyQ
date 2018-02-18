@@ -87,9 +87,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         return;
     }
 
-#if QT_VERSION >= 0x050000
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-#endif
 
     QApplication::setQuitOnLastWindowClosed(false);
 

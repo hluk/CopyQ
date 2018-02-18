@@ -17,17 +17,10 @@ macro (copyq_add_plugin)
 
     include_directories(${CMAKE_CURRENT_BINARY_DIR} ../../src)
 
-    if (WITH_QT5)
-        include_directories(${Qt5Widgets_INCLUDES})
-        add_definitions(${Qt5Widgets_DEFINITIONS})
-        qt5_wrap_ui(copyq_plugin_FORMS_HEADERS ${copyq_plugin_FORMS})
-        qt5_add_resources(copyq_plugin_RCC ${copyq_plugin_${copyq_pkg}_RESOURCES})
-    else()
-        include_directories(${QT_INCLUDES})
-        add_definitions(${QT_DEFINITIONS})
-        qt4_wrap_ui(copyq_plugin_FORMS_HEADERS ${copyq_plugin_FORMS})
-        qt4_add_resources(copyq_plugin_RCC ${copyq_plugin_${copyq_pkg}_RESOURCES})
-    endif()
+    include_directories(${Qt5Widgets_INCLUDES})
+    add_definitions(${Qt5Widgets_DEFINITIONS})
+    qt5_wrap_ui(copyq_plugin_FORMS_HEADERS ${copyq_plugin_FORMS})
+    qt5_add_resources(copyq_plugin_RCC ${copyq_plugin_${copyq_pkg}_RESOURCES})
 
     add_library(${copyq_pkg} MODULE
         ${copyq_plugin_SOURCES}
@@ -38,11 +31,7 @@ macro (copyq_add_plugin)
     set_target_properties(${copyq_pkg} PROPERTIES
         COMPILE_DEFINITIONS "${copyq_plugin_${copyq_pkg}_DEFINITIONS}")
 
-    if (WITH_QT5)
-        qt5_use_modules(${copyq_pkg} Widgets ${copyq_Qt5_Modules} ${copyq_plugin_${copyq_pkg}_Qt5_Modules})
-    else()
-        include(${QT_USE_FILE})
-    endif()
+    qt5_use_modules(${copyq_pkg} Widgets ${copyq_Qt5_Modules} ${copyq_plugin_${copyq_pkg}_Qt5_Modules})
 
     target_link_libraries(${copyq_pkg} ${QT_LIBRARIES} ${copyq_plugin_${copyq_pkg}_LIBRARIES})
 

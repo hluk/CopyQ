@@ -67,28 +67,16 @@ void messageHandler(QtMsgType type, const QString &message)
     }
 }
 
-#if QT_VERSION < 0x050000
-void messageHandlerForQt4(QtMsgType type, const char *msg)
-{
-    const QString message = msg;
-    messageHandler(type, message);
-}
-#else
 void messageHandlerForQt5(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     const QString message = QString("%1 (%2:%3, %4)")
             .arg(msg, context.file, QString::number(context.line), context.function);
     messageHandler(type, message);
 }
-#endif
 
 } // namespace
 
 void installMessageHandlerForQt()
 {
-#if QT_VERSION < 0x050000
-    qInstallMsgHandler(messageHandlerForQt4);
-#else
     qInstallMessageHandler(messageHandlerForQt5);
-#endif
 }

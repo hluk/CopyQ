@@ -463,17 +463,7 @@ protected:
 
     bool focusNextPrevChild(bool next) override;
 
-#if QT_VERSION < 0x050000
-#   ifdef COPYQ_WS_X11
-    bool x11Event(XEvent *event) override;
-#   elif defined(Q_OS_WIN)
-    bool winEvent(MSG *message, long *result) override;
-#   elif defined(Q_OS_MAC)
-    bool macEvent(EventHandlerCallRef caller, EventRef event) override;
-#   endif
-#else
     bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
-#endif
 
 private slots:
     ClipboardBrowser *getTabForMenu();

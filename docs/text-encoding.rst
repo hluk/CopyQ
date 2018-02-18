@@ -21,6 +21,6 @@ The same goes for other way. CopyQ sends texts back to client or to a
 command in system encoding so it needs to convert these texts from
 UTF-8.
 
-As for the re-encoding part, Qt 5 does nice job transforming characters
+As for the re-encoding part, Qt does nice job transforming characters
 from UTF-8 but of course for lot of characters in UTF-8 there is no
 alternative in Latin1 and other encodings.

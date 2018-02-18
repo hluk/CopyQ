@@ -337,13 +337,9 @@ void ConfigTabAppearance::updateFontButtons()
     const int iconExtent = pointsToPixels(16);
     const QSize iconSize(iconExtent * 2, iconExtent);
 
-#if QT_VERSION < 0x050000
-    QPixmap pix(iconSize);
-#else
     const auto ratio = ui->scrollAreaTheme->devicePixelRatio();
     QPixmap pix(iconSize * ratio);
     pix.setDevicePixelRatio(ratio);
-#endif
 
     const QRect textRect( QPoint(0, 0), iconSize );
 

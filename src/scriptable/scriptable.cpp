@@ -2038,9 +2038,7 @@ void Scriptable::sleep()
         connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
 
         QTimer t;
-#if QT_VERSION >= 0x050000
         t.setTimerType(Qt::PreciseTimer);
-#endif
         t.setInterval(msec);
         connect(&t, SIGNAL(timeout()), &loop, SLOT(quit()));
         t.start();
@@ -2074,11 +2072,7 @@ void Scriptable::afterMilliseconds()
     public:
         TimedFunctionCall(int msec, const QScriptValue &fn, QObject *parent)
             : QObject(parent)
-#if QT_VERSION >= 0x050000
             , m_timerId( startTimer(msec, Qt::PreciseTimer) )
-#else
-            , m_timerId( startTimer(msec) )
-#endif
             , m_fn(fn)
         {
         }
@@ -2137,12 +2131,7 @@ QScriptValue Scriptable::screenshotSelect()
 
 QScriptValue Scriptable::screenNames()
 {
-#if QT_VERSION < 0x050000
-    throwError("Screen names are unsupported on version compiled with Qt 4");
-    return QScriptValue();
-#else
     return toScriptValue( m_proxy->screenNames(), this );
-#endif
 }
 
 QScriptValue Scriptable::queryKeyboardModifiers()
@@ -2694,13 +2683,6 @@ QScriptValue Scriptable::screenshot(bool select)
     const auto format = arg(0, "png");
     const auto screen = arg(1);
     const auto imageData = m_proxy->screenshot(format, screen, select);
-
-#if QT_VERSION < 0x050000
-    if ( !screen.isEmpty() ) {
-        throwError("Screen names are unsupported on version compiled with Qt 4");
-        return QScriptValue();
-    }
-#endif
 
     if ( imageData.isEmpty() ) {
         QString error = "Failed to grab screenshot";

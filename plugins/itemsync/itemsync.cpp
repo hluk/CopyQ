@@ -108,15 +108,6 @@ void writeConfiguration(QIODevice *file, const QStringList &savedFiles)
     stream << config;
 }
 
-void setHeaderSectionResizeMode(QHeaderView *header, int logicalIndex, QHeaderView::ResizeMode mode)
-{
-#if QT_VERSION < 0x050000
-    header->setResizeMode(logicalIndex, mode);
-#else
-    header->setSectionResizeMode(logicalIndex, mode);
-#endif
-}
-
 QString iconFromId(int id)
 {
     return id != -1 ? QString(QChar(id)) : QString();
@@ -338,8 +329,8 @@ void fixUserMimeType(QString *mimeType)
 void setNormalStretchFixedColumns(QTableWidget *table, int normalColumn, int stretchColumn, int fixedColumn)
 {
     QHeaderView *header = table->horizontalHeader();
-    setHeaderSectionResizeMode(header, stretchColumn, QHeaderView::Stretch);
-    setHeaderSectionResizeMode(header, fixedColumn, QHeaderView::Fixed);
+    header->setSectionResizeMode(stretchColumn, QHeaderView::Stretch);
+    header->setSectionResizeMode(fixedColumn, QHeaderView::Fixed);
     header->resizeSection(fixedColumn, table->rowHeight(0));
     table->resizeColumnToContents(normalColumn);
 }

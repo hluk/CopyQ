@@ -122,18 +122,9 @@ void setColorIcon(QPushButton *button, const QColor &color)
     button->setProperty(propertyColor, color);
 }
 
-void setHeaderSectionResizeMode(QTableWidget *table, int logicalIndex, QHeaderView::ResizeMode mode)
-{
-#if QT_VERSION < 0x050000
-    table->horizontalHeader()->setResizeMode(logicalIndex, mode);
-#else
-    table->horizontalHeader()->setSectionResizeMode(logicalIndex, mode);
-#endif
-}
-
 void setFixedColumnSize(QTableWidget *table, int logicalIndex)
 {
-    setHeaderSectionResizeMode(table, logicalIndex, QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(logicalIndex, QHeaderView::Fixed);
     table->horizontalHeader()->resizeSection(logicalIndex, table->rowHeight(0));
 }
 
@@ -320,13 +311,11 @@ private:
         if ( isTagValid(tag) ) {
             QWidget tagWidget;
             initTagWidget(&tagWidget, tag, smallerFont(QFont()));
-#if QT_VERSION < 0x050000
-            m_pixmap = QPixmap( tagWidget.sizeHint() );
-#else
+
             const auto ratio = tagWidget.devicePixelRatio();
             m_pixmap = QPixmap( tagWidget.sizeHint() * ratio );
             m_pixmap.setDevicePixelRatio(ratio);
-#endif
+
             m_pixmap.fill(Qt::transparent);
             QPainter painter(&m_pixmap);
             tagWidget.render(&painter);
@@ -680,12 +669,12 @@ QWidget *ItemTagsLoader::createSettingsWidget(QWidget *parent)
     for (int i = 0; i < 10; ++i)
         addTagToSettingsTable();
 
-    QTableWidget *t = ui->tableWidget;
-    setHeaderSectionResizeMode(t, tagsTableColumns::name, QHeaderView::Stretch);
-    setHeaderSectionResizeMode(t, tagsTableColumns::styleSheet, QHeaderView::Stretch);
-    setHeaderSectionResizeMode(t, tagsTableColumns::match, QHeaderView::Stretch);
-    setFixedColumnSize(t, tagsTableColumns::color);
-    setFixedColumnSize(t, tagsTableColumns::icon);
+    auto header = ui->tableWidget->horizontalHeader();
+    header->setSectionResizeMode(tagsTableColumns::name, QHeaderView::Stretch);
+    header->setSectionResizeMode(tagsTableColumns::styleSheet, QHeaderView::Stretch);
+    header->setSectionResizeMode(tagsTableColumns::match, QHeaderView::Stretch);
+    setFixedColumnSize(ui->tableWidget, tagsTableColumns::color);
+    setFixedColumnSize(ui->tableWidget, tagsTableColumns::icon);
 
     connect( ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)),
              this, SLOT(onTableWidgetItemChanged(QTableWidgetItem*)) );

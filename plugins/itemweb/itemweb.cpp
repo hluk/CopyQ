@@ -30,13 +30,8 @@
 #include <QPalette>
 #include <QtPlugin>
 #include <QtWebKit/QWebHistory>
-#if QT_VERSION < 0x050000
-#   include <QtWebKit/QWebFrame>
-#   include <QtWebKit/QWebPage>
-#else
-#   include <QtWebKitWidgets/QWebFrame>
-#   include <QtWebKitWidgets/QWebPage>
-#endif
+#include <QtWebKitWidgets/QWebFrame>
+#include <QtWebKitWidgets/QWebPage>
 #include <QVariant>
 
 namespace {
@@ -197,9 +192,7 @@ void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
 {
     if (m_copyOnMouseUp) {
         m_copyOnMouseUp = false;
-#if QT_VERSION >= 0x040800
         if ( hasSelection() )
-#endif
             triggerPageAction(QWebPage::Copy);
     } else {
         QWebView::mouseReleaseEvent(e);

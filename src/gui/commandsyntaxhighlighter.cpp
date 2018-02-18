@@ -37,13 +37,7 @@ namespace {
 
 QString methodName(const QMetaMethod &method)
 {
-    QString name =
-#if QT_VERSION < 0x050000
-            method.signature();
-#else
-            QString::fromLatin1(method.methodSignature());
-#endif
-
+    auto name = QString::fromLatin1(method.methodSignature());
     const int index = name.indexOf('(');
 
     if (index <= 0)

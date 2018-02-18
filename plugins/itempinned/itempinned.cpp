@@ -338,11 +338,7 @@ void ItemPinnedSaver::onDataChanged(const QModelIndex &topLeft, const QModelInde
 
 void ItemPinnedSaver::moveRow(int from, int to)
 {
-#if QT_VERSION < 0x050000
-    QMetaObject::invokeMethod(m_model, "moveRow", Q_ARG(int, from), Q_ARG(int, to));
-#else
     m_model->moveRow(QModelIndex(), from, QModelIndex(), to);
-#endif
 }
 
 void ItemPinnedSaver::updateLastPinned(int from, int to)

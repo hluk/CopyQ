@@ -632,13 +632,8 @@ void ClipboardBrowser::moveToTop(const QModelIndex &index)
         return;
 
     const auto data = index.data(contentType::data).toMap();
-    if ( m_itemSaver->canMoveItems(QList<QModelIndex>() << index) ) {
-#if QT_VERSION < 0x050000
-        m.moveRow(index.row(), 0);
-#else
+    if ( m_itemSaver->canMoveItems(QList<QModelIndex>() << index) )
         m.moveRow(QModelIndex(), index.row(), QModelIndex(), 0);
-#endif
-    }
 }
 
 void ClipboardBrowser::maybeEmitEditingFinished()
@@ -787,11 +782,7 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
     if (h == 0)
         return QPixmap();
 
-#if QT_VERSION >= 0x050000
     const auto ratio = devicePixelRatio();
-#else
-    const auto ratio = 1;
-#endif
     const auto frameLineWidth = 2 * ratio;
 
     const auto height = qMin(maxHeight, h + s + 2 * frameLineWidth);
@@ -799,9 +790,7 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
     const QSize size(width, height);
 
     QPixmap pix(size * ratio);
-#if QT_VERSION >= 0x050000
     pix.setDevicePixelRatio(ratio);
-#endif
 
     QPainter p(&pix);
 

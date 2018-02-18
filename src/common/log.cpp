@@ -29,11 +29,7 @@
 #include <QtGlobal>
 #include <QVariant>
 
-#if QT_VERSION < 0x050000
-#   include <QDesktopServices>
-#else
-#   include <QStandardPaths>
-#endif
+#include <QStandardPaths>
 
 #include <cstring>
 #include <cmath>
@@ -201,9 +197,7 @@ SystemMutexPtr getSessionMutex()
 
 QString getDefaultLogFilePath()
 {
-#if QT_VERSION < 0x050000
-    return QDesktopServices::storageLocation(QDesktopServices::DataLocation);
-#elif QT_VERSION < 0x050400
+#if QT_VERSION < 0x050400
     return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
 #else
     return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);

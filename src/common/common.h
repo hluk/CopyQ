@@ -40,14 +40,6 @@ class QTemporaryFile;
 class QTimer;
 class QWidget;
 
-#if QT_VERSION < 0x050000
-#   ifdef Q_WS_WIN
-#       define Q_OS_WIN
-#   elif defined Q_WS_MAC
-#       define Q_OS_MAC
-#   endif
-#endif
-
 #if !defined(COPYQ_WS_X11) && !defined(Q_OS_WIN) && !defined(Q_OS_MAC)
 #   define NO_GLOBAL_SHORTCUTS
 #endif

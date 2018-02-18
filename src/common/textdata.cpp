@@ -24,9 +24,6 @@
 #include <QLocale>
 #include <QString>
 #include <Qt>
-#if QT_VERSION < 0x050000
-#   include <QTextDocument> // Qt::escape()
-#endif
 
 namespace {
 
@@ -58,20 +55,12 @@ uint hash(const QVariantMap &data)
 
 QString quoteString(const QString &str)
 {
-#if QT_VERSION >= 0x040800
     return QLocale().quoteString(str);
-#else
-    return '"' + str + '"';
-#endif
 }
 
 QString escapeHtml(const QString &str)
 {
-#if QT_VERSION < 0x050000
-    return escapeHtmlSpaces(Qt::escape(str));
-#else
     return escapeHtmlSpaces(str.toHtmlEscaped());
-#endif
 }
 
 QString getTextData(const QByteArray &bytes)

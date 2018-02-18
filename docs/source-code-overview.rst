@@ -191,15 +191,15 @@ CI servers.
 
 -  `Travis CI <https://travis-ci.org/hluk/CopyQ>`__
     -  Builds packages for OS X.
-    -  Builds and runs tests for Linux binaries with Qt 4.
+    -  Builds and runs tests for Linux binaries.
 
 -  `GitLab CI <https://gitlab.com/CopyQ/CopyQ/builds>`__
-    -  Builds and runs tests for Ubuntu 16.04 binaries with Qt 5.
+    -  Builds and runs tests for Ubuntu 16.04 binaries.
     -  Screenshots are taken while GUI tests are running. These are
        available if a test fails.
 
 -  `AppVeyor <https://ci.appveyor.com/project/hluk/copyq>`__
-    -  Builds installers and portable packages for Windows with Qt 5.
+    -  Builds installers and portable packages for Windows.
     -  Provides downloads for recent commits.
     -  Release build are based on gcc-compiled binaries (Visual Studio
        builds are also available).

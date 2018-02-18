@@ -144,11 +144,7 @@ private:
 void setUpHeader(QHeaderView *header)
 {
     header->hide();
-#if QT_VERSION < 0x050000
-    header->setResizeMode(QHeaderView::ResizeToContents);
-#else
     header->setSectionResizeMode(QHeaderView::ResizeToContents);
-#endif
 }
 
 class CommandCompleterPopup : public QTableView {

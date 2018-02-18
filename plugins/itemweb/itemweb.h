@@ -25,11 +25,7 @@
 
 #include <QVariantMap>
 
-#if QT_VERSION < 0x050000
-#   include <QtWebKit/QWebView>
-#else
-#   include <QtWebKitWidgets/QWebView>
-#endif
+#include <QtWebKitWidgets/QWebView>
 
 #include <memory>
 

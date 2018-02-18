@@ -18,13 +18,8 @@ set(copyq_RESOURCES copyq.qrc)
 
 # Qt include paths and definitions
 include_directories(${CMAKE_CURRENT_BINARY_DIR} .)
-if (WITH_QT5)
-    include_directories(${Qt5Widgets_INCLUDES})
-    add_definitions(${Qt5Widgets_DEFINITIONS})
-else()
-    include_directories(${QT_INCLUDES})
-    add_definitions(${QT_DEFINITIONS})
-endif()
+include_directories(${Qt5Widgets_INCLUDES})
+add_definitions(${Qt5Widgets_DEFINITIONS})
 
 include(platform/platform.cmake)
 
@@ -35,6 +30,7 @@ if (USE_QXT)
         ../qxt/qxtglobalshortcut.cpp
         )
     add_definitions( -DQXT_STATIC )
+    include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 endif()
 
 # Compile with tests?
@@ -45,22 +41,13 @@ endif()
 # translations
 file(GLOB copyq_TRANSLATIONS ../translations/*.ts)
 
-if (WITH_QT5)
-    find_package(Qt5LinguistTools)
-    if (Qt5LinguistTools_FOUND)
-        qt5_add_translation(copyq_QM ${copyq_TRANSLATIONS})
-    endif()
-else()
-    qt4_add_translation(copyq_QM ${copyq_TRANSLATIONS})
+find_package(Qt5LinguistTools)
+if (Qt5LinguistTools_FOUND)
+    qt5_add_translation(copyq_QM ${copyq_TRANSLATIONS})
 endif()
 
-if (WITH_QT5)
-    qt5_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
-    qt5_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
-else()
-    qt4_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
-    qt4_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
-endif()
+qt5_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
+qt5_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
@@ -98,17 +85,9 @@ if (APPLE)
 endif()
 
 # Qt modules
-if (WITH_QT5)
-    list(APPEND copyq_Qt5_Modules Network Svg Xml Script)
-    find_package(Qt5 REQUIRED COMPONENTS ${copyq_Qt5_Modules})
-    qt5_use_modules(copyq ${copyq_Qt5_Modules})
-else()
-    set(QT_USE_QTNETWORK TRUE)
-    set(QT_USE_QTSVG TRUE)
-    set(QT_USE_QTXML TRUE)
-    set(QT_USE_QTSCRIPT TRUE)
-    include(${QT_USE_FILE})
-endif()
+list(APPEND copyq_Qt5_Modules Network Svg Xml Script)
+find_package(Qt5 REQUIRED COMPONENTS ${copyq_Qt5_Modules})
+qt5_use_modules(copyq ${copyq_Qt5_Modules})
 
 # macros definitions for preprocessor and moc
 set_target_properties(copyq PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")

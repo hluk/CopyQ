@@ -46,7 +46,7 @@
 #include <QWidget>
 
 // This is needed on X11 when retrieving lots of data from clipboard.
-#if QT_VERSION >= 0x050000 && defined(COPYQ_WS_X11)
+#ifdef COPYQ_WS_X11
 #   define PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
 #endif
 

@@ -120,12 +120,7 @@ public:
     bool removeRows(int position, int rows,
                     const QModelIndex &index = QModelIndex()) override;
     bool moveRows(const QModelIndex &sourceParent, int sourceRow, int rows,
-            const QModelIndex &destinationParent, int destinationRow)
-#if QT_VERSION < 0x050000
-        ;
-#else
-        override;
-#endif
+            const QModelIndex &destinationParent, int destinationRow) override;
 
     /** insert new item to model. */
     void insertItem(const QVariantMap &data, int row);
@@ -142,11 +137,6 @@ public:
      * @return Row number with found item or -1 if no item was found.
      */
     int findItem(uint itemHash) const;
-
-public slots:
-#if QT_VERSION < 0x050000
-    void moveRow(int from, int to) { moveRows(QModelIndex(), from, 1, QModelIndex(), to); }
-#endif
 
 private:
     ClipboardItemList m_clipboardList;

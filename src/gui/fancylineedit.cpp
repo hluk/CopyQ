@@ -50,19 +50,6 @@
     valid user input).
  */
 
-namespace {
-
-qreal devicePixelRatio(const QWidget &w)
-{
-#if QT_VERSION < 0x050000
-    return w.logicalDpiX() > 150 ? 2.0 : 1.0;
-#else
-    return w.devicePixelRatio();
-#endif
-}
-
-} // namespace
-
 namespace Utils {
 
 // --------- FancyLineEditPrivate
@@ -275,7 +262,7 @@ IconButton::IconButton(QWidget *parent)
 
 void IconButton::paintEvent(QPaintEvent *)
 {
-    const qreal ratio = ::devicePixelRatio(*this);
+    const qreal ratio = devicePixelRatio();
     //const auto iconSize = static_cast<int>( qMin(width(), height()) - ratio * 8 );
     const QPixmap pixmap = m_icon.pixmap(iconSize() / ratio);
 

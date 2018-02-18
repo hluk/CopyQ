@@ -55,12 +55,9 @@ QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
     if (!icon.isEmpty()) {
         QPixmap p;
         if (p.loadFromData(icon)) {
-#if QT_VERSION < 0x050000
-            const auto ratio = 1;
-#else
             const auto ratio = parent->devicePixelRatio();
             p.setDevicePixelRatio(ratio);
-#endif
+
             const int side = ratio * (iconFontSizePixels() + 2);
             p = p.scaled(side, side, Qt::KeepAspectRatio, Qt::SmoothTransformation);
             QLabel *label = new QLabel(parent);

@@ -2217,33 +2217,11 @@ bool MainWindow::event(QEvent *event)
     return QMainWindow::event(event);
 }
 
-#if QT_VERSION < 0x050000
-#   ifdef COPYQ_WS_X11
-bool MainWindow::x11Event(XEvent *event)
-{
-    delayedUpdateForeignFocusWindows();
-    return QMainWindow::x11Event(event);
-}
-#   elif defined(Q_OS_WIN)
-bool MainWindow::winEvent(MSG *message, long *result)
-{
-    delayedUpdateForeignFocusWindows();
-    return QMainWindow::winEvent(message, result);
-}
-#   elif defined(Q_OS_MAC)
-bool MainWindow::macEvent(EventHandlerCallRef caller, EventRef event)
-{
-    delayedUpdateForeignFocusWindows();
-    return QMainWindow::macEvent(caller, event);
-}
-#   endif
-#else
 bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
 {
     delayedUpdateForeignFocusWindows();
     return QMainWindow::nativeEvent(eventType, message, result);
 }
-#endif
 
 void MainWindow::resetStatus()
 {

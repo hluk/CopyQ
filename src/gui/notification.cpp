@@ -187,19 +187,13 @@ void Notification::updateIcon()
     const auto height = static_cast<int>( m_msgLabel->fontMetrics().lineSpacing() * 1.2 );
     const auto iconId = toIconId(m_icon);
 
-#if QT_VERSION >= 0x050000
     const auto ratio = devicePixelRatio();
-#else
-    const auto ratio = 1;
-#endif
 
     auto pixmap = iconId == 0
             ? QPixmap(m_icon)
             : createPixmap(iconId, color, height * ratio);
 
-#if QT_VERSION >= 0x050000
     pixmap.setDevicePixelRatio(ratio);
-#endif
 
     m_iconLabel->setPixmap(pixmap);
     m_iconLabel->resize(pixmap.size());

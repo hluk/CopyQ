@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.6)
+cmake_minimum_required(VERSION 2.8.8)
 project(copyq)
 
 # C++11
@@ -16,7 +16,6 @@ endif()
 OPTION(PEDANTIC "Enable all compiler warnings" OFF)
 
 # Options (cmake -LH)
-OPTION(WITH_QT5 "Use Qt 5 (disable to use Qt 4 instead)" ON)
 OPTION(WITH_TESTS "Run test cases from command line" ${COPYQ_DEBUG})
 OPTION(WITH_PLUGINS "Compile plugins" ON)
 # Unix-specific options
@@ -34,26 +33,8 @@ endif()
 
 set(CMAKE_AUTOMOC ON)
 
-if (WITH_QT5)
-    cmake_minimum_required(VERSION 2.8.8)
-    list(APPEND copyq_Qt5_Modules Widgets)
-    find_package(Qt5Widgets)
-    if (NOT Qt5Widgets_FOUND)
-        message(FATAL_ERROR "Qt 5 is unavailable. To compile with Qt 4 use -DWITH_QT5=OFF.")
-    endif()
-    message(STATUS "Building with Qt 5.")
-else()
-    find_package(Qt4)
-    if (NOT QT4_FOUND)
-        # Try different executable name.
-        set(QT_QMAKE_EXECUTABLE "qmake-qt4")
-        find_package(Qt4)
-        if (NOT QT4_FOUND)
-            message(FATAL_ERROR "Qt 4 is unavailable. To compile with Qt 5 use -DWITH_QT5=ON.")
-        endif()
-    endif()
-    message(STATUS "Building with Qt 4.")
-endif()
+list(APPEND copyq_Qt5_Modules Widgets)
+find_package(Qt5Widgets REQUIRED)
 
 set(copyq_ICON_PREFIX src/images/icon)
 set(copyq_ICON_NORMAL src/images/icon.svg)
@@ -137,11 +118,7 @@ if(WITH_TESTS)
 
     add_definitions( -DHAS_TESTS )
 
-    if (WITH_QT5)
-        list(APPEND copyq_Qt5_Modules Test)
-    else()
-        set(QT_USE_QTTEST TRUE)
-    endif()
+    list(APPEND copyq_Qt5_Modules Test)
 endif()
 
 # Get application version.

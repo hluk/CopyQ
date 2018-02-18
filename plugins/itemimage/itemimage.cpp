@@ -126,14 +126,10 @@ QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *pare
 void ItemImage::updateSize(QSize, int)
 {
     const auto m2 = 2 * margin();
-#if QT_VERSION < 0x050000
-    setFixedSize( m_pixmap.size() + QSize(m2, m2) );
-#else
     const int ratio = devicePixelRatio();
     const int w = (m_pixmap.width() + 1) / ratio + m2;
     const int h = (m_pixmap.height() + 1) / ratio + m2;
     setFixedSize( QSize(w, h) );
-#endif
 }
 
 void ItemImage::setCurrent(bool current)
@@ -172,9 +168,6 @@ void ItemImage::hideEvent(QHideEvent *event)
 
 void ItemImage::paintEvent(QPaintEvent *event)
 {
-#if QT_VERSION < 0x050000
-    QLabel::paintEvent(event);
-#else
     // WORKAROUND: Draw current animation frame with correct DPI.
     if (movie()) {
         QPainter painter(this);
@@ -185,7 +178,6 @@ void ItemImage::paintEvent(QPaintEvent *event)
     } else {
         QLabel::paintEvent(event);
     }
-#endif
 }
 
 void ItemImage::startAnimation()
@@ -216,9 +208,7 @@ ItemWidget *ItemImageLoader::create(const QVariantMap &data, QWidget *parent, bo
     if ( !getPixmapFromData(data, &pix) )
         return nullptr;
 
-#if QT_VERSION >= 0x050000
     pix.setDevicePixelRatio( parent->devicePixelRatio() );
-#endif
 
     // scale pixmap
     const int w = preview ? 0 : m_settings.value("max_image_width", 320).toInt();

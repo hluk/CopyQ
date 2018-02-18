@@ -109,12 +109,10 @@ QString restoreSessionName(const QString &sessionId)
 
 int startServer(int argc, char *argv[], QString sessionName)
 {
-#if QT_VERSION >= 0x050000
     // By default, enable automatic screen scaling in Qt for high-DPI displays
     // (this works better at least in Windows).
     if ( qgetenv("QT_AUTO_SCREEN_SCALE_FACTOR").isEmpty() )
         qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
-#endif
 
     auto qapp = createPlatformNativeInterface()->createServerApplication(argc, argv);
     if ( qapp->isSessionRestored() ) {

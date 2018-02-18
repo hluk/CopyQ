@@ -35,9 +35,6 @@
 
 #ifndef Q_OS_MAC
 int QxtGlobalShortcutPrivate::ref = 0;
-#   if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-QAbstractEventDispatcher::EventFilter QxtGlobalShortcutPrivate::prevEventFilter = 0;
-#   endif
 #endif // Q_OS_MAC
 QHash<QPair<quint32, quint32>, QxtGlobalShortcut*> QxtGlobalShortcutPrivate::shortcuts;
 
@@ -50,13 +47,8 @@ QxtGlobalShortcutPrivate::QxtGlobalShortcutPrivate()
     , registered(false)
 {
 #ifndef Q_OS_MAC
-    if (ref == 0) {
-#   if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-        prevEventFilter = QAbstractEventDispatcher::instance()->setEventFilter(eventFilter);
-#   else
+    if (ref == 0)
         QAbstractEventDispatcher::instance()->installNativeEventFilter(this);
-#endif
-    }
     ++ref;
 #endif // Q_OS_MAC
 }
@@ -69,13 +61,8 @@ QxtGlobalShortcutPrivate::~QxtGlobalShortcutPrivate()
     --ref;
     if (ref == 0) {
         QAbstractEventDispatcher *ed = QAbstractEventDispatcher::instance();
-        if (ed != nullptr) {
-#   if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-            ed->setEventFilter(prevEventFilter);
-#   else
+        if (ed != nullptr)
             ed->removeNativeEventFilter(this);
-#   endif
-        }
     }
 #endif // Q_OS_MAC
 }

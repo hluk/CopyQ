@@ -15,7 +15,6 @@ if [ "$CC" == "gcc" ]; then
         -DCMAKE_CXX_COMPILER=$COMPILER \
         -DCMAKE_CXX_FLAGS=--coverage \
         -DCMAKE_C_FLAGS=--coverage \
-        -DWITH_QT5=OFF \
         ..
 else
     qmake CONFIG+=debug QMAKE_CXX=$COMPILER QMAKE_CXXFLAGS="-std=c++11" ..

@@ -60,11 +60,6 @@ Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
 Q_DECLARE_METATYPE(Command)
 Q_DECLARE_METATYPE(ClipboardMode)
 
-#if QT_VERSION < 0x050000
-Q_DECLARE_METATYPE(QVector<int>)
-Q_DECLARE_METATYPE(QVector<Command>)
-#endif
-
 QDataStream &operator<<(QDataStream &out, const NotificationButton &button);
 QDataStream &operator>>(QDataStream &in, NotificationButton &button);
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list);

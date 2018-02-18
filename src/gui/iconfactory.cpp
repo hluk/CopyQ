@@ -29,6 +29,7 @@
 #include <QFontDatabase>
 #include <QFontMetrics>
 #include <QIcon>
+#include <QIconEngine>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPaintDevice>
@@ -37,14 +38,6 @@
 #include <QPointer>
 #include <QVariant>
 #include <QWidget>
-
-#if QT_VERSION < 0x050000
-# include <QIconEngineV2>
-using QtIconEngine = QIconEngineV2;
-#else
-# include <QIconEngine>
-using QtIconEngine = QIconEngine;
-#endif
 
 #ifndef COPYQ_ICON_NAME
 # define COPYQ_ICON_NAME "copyq"
@@ -197,7 +190,7 @@ QColor getDefaultIconColor(const QColor &color)
     return c;
 }
 
-class IconEngine : public QtIconEngine
+class IconEngine : public QIconEngine
 {
 public:
     static bool useSystemIcons;
@@ -212,17 +205,15 @@ public:
         return createPixmap(size, mode, state);
     }
 
-    QtIconEngine *clone() const override
+    QIconEngine *clone() const override
     {
         return new IconEngine(*this);
     }
 
     QPixmap createPixmap(QSize size, QIcon::Mode mode, QIcon::State state, QPainter *painter = nullptr)
     {
-#if QT_VERSION >= 0x050000
         if (painter)
             size *= painter->paintEngine()->paintDevice()->devicePixelRatio();
-#endif
 
         if ( useSystemIcons || m_iconId == 0 || !loadIconFont() ) {
             // Tint tab icons.
@@ -300,12 +291,9 @@ public:
         if ( tag.isEmpty() )
             return;
 
-#if QT_VERSION >= 0x050000
         const auto ratio = pix->devicePixelRatio();
         pix->setDevicePixelRatio(1);
-#else
-        const auto ratio = 1;
-#endif
+
         QPainter painter(pix);
         painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
@@ -447,9 +435,7 @@ QIcon appIcon(AppIconType iconType)
     else
         pix = icon.pixmap(128);
 
-#if QT_VERSION >= 0x050000
     pix.setDevicePixelRatio(1);
-#endif
 
     const auto sessionColor = sessionIconColor();
     const auto appColor = appIconColor();
