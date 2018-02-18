@@ -179,9 +179,9 @@ To build the application from source code, first install the required dependenci
 - Optionally on Linux/X11: development files and libraries for [Xtst](https://t2-project.org/packages/libxtst.html) and [Xfixes](https://www.x.org/archive/X11R7.5/doc/man/man3/Xfixes.3.html)
 - Optionally [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) (more advanced HTML rendering)
 
-### Ubuntu
+### Install Dependencies
 
-#### Install Dependencies
+#### Ubuntu
 
 ```bash
 sudo apt install \
@@ -195,8 +195,19 @@ sudo apt install \
   libxtst-dev \
   libqt5svg5
 ```
+#### RHEL / CentOS
 
-#### Build the App
+```bash
+sudo yum install \
+  gcc-c++ git cmake \
+  libXtst-devel libXfixes-devel \
+  qt5-qtbase-devel \
+  qt5-qtsvg-devel \
+  qt5-qttools-devel \
+  qt5-qtscript-devel
+```
+
+### Build the App
 
 Change install prefix if needed:
 
@@ -207,7 +218,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr/local .
 make
 ```
 
-#### Install the App
+### Install the App
 
 ```bash
 sudo make install
