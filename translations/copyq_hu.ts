@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>CopyQ About</source>
-        <translation>A CopyQ névjegye</translation>
+        <translation>CopyQ névjegy</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="106"/>
@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="113"/>
         <source>Author</source>
-        <translation>Szerző</translation>
+        <translation>Készítő</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
@@ -44,17 +44,17 @@
     <message>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation type="vanished">Az alkalmazásban használt függvénykönyvtár</translation>
+        <translation>Az alkalmazásban használt erőforrástár</translation>
     </message>
     <message>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation type="vanished">Az alkalmazásban használt függvénykönyvtár</translation>
+        <translation>Az alkalmazásban használt erőforrástár</translation>
     </message>
     <message>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation type="vanished">Az alkalmazásban használt ikon-betűtípus</translation>
+        <translation>Az alkalmazásban használt ikonikus betűtípus</translation>
     </message>
     <message>
         <source>Color palette used for themes</source>
@@ -64,7 +64,7 @@
     <message>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
-        <translation type="vanished">Ingyenes webalapú fordításmenedzsment rendszer</translation>
+        <translation>Ingyenes webalapú fordításkezelési rendszer</translation>
     </message>
     <message>
         <source>Keyboard</source>
@@ -72,15 +72,15 @@
     </message>
     <message>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation type="vanished">Az alkalmazás billentyűparancsai testreszabhatók a Beállítások párbeszédpanelen.</translation>
+        <translation>Az alkalmazás gyorsbillentyűi a Beállítások párbeszédablakban módosíthatók.</translation>
     </message>
     <message>
         <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">A globális (rendszerszintű) billentyűparancsok beállíthatók a Parancs párbeszédpanelen (alapértelmezett billentyűparancs az F6).</translation>
+        <translation>A globális (rendszerszintű) gyorsbillentyűk a Parancs párbeszédablakban állíthatók be (alapértelmezett gyorsbillentyű az F6).</translation>
     </message>
     <message>
         <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">Gépeljen be bármilyen szöveget a vágólap előzményekben való kereséshez.</translation>
+        <translation>Írjon be bármilyen szöveget a vágólap előzmények kereséséhez.</translation>
     </message>
     <message>
         <source>Item list navigation</source>
@@ -101,7 +101,7 @@
     </message>
     <message>
         <source>Move selected items</source>
-        <translation type="vanished">Kiválasztott elemek mozgatása</translation>
+        <translation>Kijelölt elemek áthelyezése</translation>
     </message>
     <message>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
@@ -121,7 +121,7 @@
     </message>
     <message>
         <source>Put selected items into clipboard</source>
-        <translation type="vanished">Kijelölt elemeket a vágólapra tesz</translation>
+        <translation>Kijelölt elemek vágólapra helyezése</translation>
     </message>
     <message>
         <source>Enter</source>
@@ -129,11 +129,11 @@
     </message>
     <message>
         <source>Change item display format</source>
-        <translation type="vanished">Elem megjelenítési formátum változtatása</translation>
+        <translation>Elem megjelenítési formátumának módosítása</translation>
     </message>
     <message>
         <source>Ctrl+Left/Right</source>
-        <translation type="vanished">Ctrl+Jobbra/balra</translation>
+        <translation>Ctrl+Balra/Jobbra</translation>
     </message>
     <message>
         <source>Edit Item</source>
@@ -149,12 +149,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation>CopyQ Művelet párbeszédpanel</translation>
+        <translation>CopyQ művelet párbeszédpanel</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>Parancs:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
