@@ -4,7 +4,6 @@ set -e
 distros=(
     trusty
     xenial
-    zesty
     artful
     bionic
 )
