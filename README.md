@@ -1,6 +1,6 @@
 # CopyQ
 
-[![Documentation Status](https://readthedocs.org/projects/copyq/badge/?version=latest)](http://copyq.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/copyq/badge/?version=latest)](https://copyq.readthedocs.io/en/latest/?badge=latest)
 [![Translation Status](https://hosted.weblate.org/widgets/copyq/-/svg-badge.svg)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
 [![Build Status](https://travis-ci.org/hluk/CopyQ.svg?branch=master)](https://travis-ci.org/hluk/CopyQ)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/hluk/copyq?branch=master&svg=true)](https://ci.appveyor.com/project/hluk/copyq)
@@ -44,7 +44,13 @@ For unlisted systems, please follow the instructions in
 
 ### Windows
 
-On Windows you can install [Chocolatey package](https://chocolatey.org/packages/copyq).
+On Windows you either use installer ([setup.exe](https://github.com/hluk/CopyQ/releases)),
+portable [zip](https://github.com/hluk/CopyQ/releases)
+or you can install the copyq [Chocolatey package](https://chocolatey.org/packages/copyq).
+
+```
+choco install copyq
+```
 
 ### OS X
 
@@ -54,7 +60,13 @@ On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 brew cask install copyq
 ```
 
-### Ubuntu
+### Debian 10+, Ubuntu 18.04+, and their derivatives
+
+Install `copyq` package.
+
+`copyq-plugins` is highly recommended. `copyq-doc` available.
+
+#### Ubuntu PPA
 
 Install and keep CopyQ always up to date by running the following three commands from the terminal:
 
@@ -97,7 +109,7 @@ Read more:
 - [Basic Usage](https://copyq.readthedocs.io/en/latest/basic-usage.html)
 - [Keyboard](https://copyq.readthedocs.io/en/latest/keyboard.html)
 
-### Adding Funcionality
+### Adding Functionality
 
 To create custom action that can be executed
 from menu, with shortcut or when clipboard changes:
@@ -167,9 +179,9 @@ To build the application from source code, first install the required dependenci
 - Optionally on Linux/X11: development files and libraries for [Xtst](https://t2-project.org/packages/libxtst.html) and [Xfixes](https://www.x.org/archive/X11R7.5/doc/man/man3/Xfixes.3.html)
 - Optionally [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) (more advanced HTML rendering)
 
-### Ubuntu
+### Install Dependencies
 
-#### Install Dependencies
+#### Ubuntu
 
 ```bash
 sudo apt install \
@@ -183,8 +195,19 @@ sudo apt install \
   libxtst-dev \
   libqt5svg5
 ```
+#### RHEL / CentOS
 
-#### Build the App
+```bash
+sudo yum install \
+  gcc-c++ git cmake \
+  libXtst-devel libXfixes-devel \
+  qt5-qtbase-devel \
+  qt5-qtsvg-devel \
+  qt5-qttools-devel \
+  qt5-qtscript-devel
+```
+
+### Build the App
 
 Change install prefix if needed:
 
@@ -195,7 +218,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr/local .
 make
 ```
 
-#### Install the App
+### Install the App
 
 ```bash
 sudo make install
