@@ -161,7 +161,7 @@ Load file content into clipboard:
     copyq copy text/html < index.html
     copyq copy image/jpeg - < image.jpg
 
-Create an image items:
+Create image items:
 
     copyq write image/gif - < image.gif
     copyq write image/svg - < image.svg
