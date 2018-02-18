@@ -26,6 +26,8 @@ The build requires:
 - `CMake <https://cmake.org/download/>`__
 - `Qt <https://download.qt.io/archive/qt/>`__
 
+Ubuntu
+^^^^^^
 On **Ubuntu** you can install all build dependencies with:
 
 ::
@@ -37,6 +39,25 @@ Following is optional but recommended:
 ::
 
     sudo apt install libxfixes-dev libxtst-dev
+
+Fedora / RHEL / Centos
+^^^^^^^^^^^^^^^^^^^^^^
+On **Fedora** and derivatives you can install all build dependencies with:
+
+::
+
+    sudo yum install \
+      gcc-c++ git cmake \
+      qt5-qtbase-devel \
+      qt5-qtsvg-devel \
+      qt5-qttools-devel \
+      qt5-qtscript-devel
+
+Following is optional but recommended:
+
+::
+
+    sudo yum install libxfixes-dev libxtst-dev
 
 Build and Install
 -----------------
@@ -97,4 +118,3 @@ Build with the following commands.
 
 This will produce a self-contained application bundle ``CopyQ.app``
 which can then be copied or moved into ``/Applications``.
-
