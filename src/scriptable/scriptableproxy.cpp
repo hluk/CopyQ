@@ -53,6 +53,7 @@
 #include <QComboBox>
 #include <QCursor>
 #include <QDateTimeEdit>
+#include <QDesktopServices>
 #include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QFile>
@@ -71,6 +72,7 @@
 #include <QShortcut>
 #include <QSpinBox>
 #include <QTextEdit>
+#include <QUrl>
 
 #include <type_traits>
 
@@ -1699,6 +1701,18 @@ QVector<Command> ScriptableProxy::scriptCommands()
 {
     INVOKE(scriptCommands, ());
     return m_wnd->scriptCommands();
+}
+
+bool ScriptableProxy::openUrls(const QStringList &urls)
+{
+    INVOKE(openUrls, (urls));
+
+    for (const auto &url : urls) {
+        if ( !QDesktopServices::openUrl(QUrl(url)) )
+            return false;
+    }
+
+    return true;
 }
 
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)

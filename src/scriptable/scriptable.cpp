@@ -1302,12 +1302,7 @@ QScriptValue Scriptable::config()
 {
     m_skipArguments = -1;
 
-    QStringList nameValueInput;
-    nameValueInput.reserve( argumentCount() );
-
-    for (int i = 0; i < argumentCount(); ++i)
-        nameValueInput.append( arg(i) );
-
+    const auto nameValueInput = arguments();
     const auto result = m_proxy->config(nameValueInput);
     if ( result.type() == QVariant::String )
         return result.toString();
@@ -1816,13 +1811,7 @@ QScriptValue Scriptable::fromBase64()
 QScriptValue Scriptable::open()
 {
     m_skipArguments = -1;
-
-    for ( int i = 0; i < argumentCount(); ++i ) {
-        if ( !QDesktopServices::openUrl(QUrl(toString(argument(i), this))) )
-            return false;
-    }
-
-    return true;
+    return m_proxy->openUrls( arguments() );
 }
 
 QScriptValue Scriptable::execute()
@@ -2905,6 +2894,17 @@ void Scriptable::insert(int row, int argumentsBegin, int argumentsEnd)
     const auto error = m_proxy->browserInsert(row, items);
     if ( !error.isEmpty() )
         throwError(error);
+}
+
+QStringList Scriptable::arguments()
+{
+    QStringList args;
+    args.reserve( argumentCount() );
+
+    for (int i = 0; i < argumentCount(); ++i)
+        args.append( arg(i) );
+
+    return args;
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

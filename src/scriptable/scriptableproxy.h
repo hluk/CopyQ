@@ -241,6 +241,8 @@ public slots:
     QVector<Command> displayCommands();
     QVector<Command> scriptCommands();
 
+    bool openUrls(const QStringList &urls);
+
 signals:
     void sendFunctionCall(const QByteArray &bytes);
 

@@ -388,6 +388,8 @@ private:
     void insert(int argumentsEnd);
     void insert(int row, int argumentsBegin, int argumentsEnd);
 
+    QStringList arguments();
+
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
