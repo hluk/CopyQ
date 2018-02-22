@@ -196,7 +196,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation>Guia Saída:</translation>
+        <translation>&amp;Guia de saída:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -233,8 +233,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="131"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Erro: 1%
- {1?}</translation>
+        <translation>Erro: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="134"/>
@@ -580,7 +579,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
         <source>&amp;Find:</source>
-        <translation>Procurar:</translation>
+        <translation>&amp;Localizar:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="62"/>
@@ -674,7 +673,7 @@ Você pode configurar o comando nas preferências.</translation>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation>clipboard</translation>
+        <translation>área de &amp;notificação</translation>
     </message>
 </context>
 <context>
@@ -682,7 +681,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation>Nome:</translation>
+        <translation>&amp;Nome:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
@@ -787,7 +786,7 @@ Deixe em branco para desabilitar esta.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Script</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
@@ -912,7 +911,7 @@ Nota: Se este é aplicado automaticamente, não há outros comandos automáticos
     <message>
         <location filename="../src/ui/commandwidget.ui" line="546"/>
         <source>Output &amp;tab:</source>
-        <translation>Guia Saída:</translation>
+        <translation>A&amp;ba de Saída:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="556"/>
@@ -2044,7 +2043,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="166"/>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation>Procurar...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="212"/>
@@ -2085,7 +2084,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="71"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Dados</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="73"/>
@@ -2113,7 +2112,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="70"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="74"/>
@@ -2138,7 +2137,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="108"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagens</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="112"/>
@@ -2200,12 +2199,12 @@ Defina em 0 para desativar.</translation>
         <location filename="../src/item/itemeditorwidget.cpp" line="329"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="333"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="335"/>
@@ -2216,12 +2215,12 @@ Defina em 0 para desativar.</translation>
         <location filename="../src/item/itemeditorwidget.cpp" line="336"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Sair</translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="361"/>
         <source>Font</source>
-        <translation type="unfinished">Fonte</translation>
+        <translation>Fonte</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="366"/>
@@ -2246,12 +2245,12 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="391"/>
         <source>Foreground</source>
-        <translation type="unfinished">Primeiro plano</translation>
+        <translation>Primeiro plano</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="396"/>
         <source>Background</source>
-        <translation type="unfinished">Fundo</translation>
+        <translation>Segundo plano</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="403"/>
@@ -2320,13 +2319,12 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="801"/>
         <source>Enter</source>
-        <translation type="unfinished">Entrar</translation>
+        <translation>Entrar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Erro: 1%
- {1?}</translation>
+        <translation>Erro: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="864"/>
@@ -2347,7 +2345,7 @@ Defina em 0 para desativar.</translation>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="906"/>
@@ -2400,7 +2398,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="72"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar Ações ao Menu e Barra de Ferramentas</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="94"/>
@@ -2456,7 +2454,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="88"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Imagens</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="90"/>
@@ -2512,7 +2510,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="92"/>
         <source>Notes</source>
-        <translation type="unfinished">Notas</translation>
+        <translation>Notas</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="94"/>
@@ -2563,7 +2561,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="66"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished">Remover</translation>
+        <translation>&amp;Remover</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
@@ -2620,7 +2618,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinnedsettings.ui" line="19"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar Ações ao Menu e Barra de Ferramentas</translation>
     </message>
 </context>
 <context>
@@ -2629,7 +2627,7 @@ Defina em 0 para desativar.</translation>
         <location filename="../plugins/itemsync/itemsync.cpp" line="130"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished"></translation>
+        <translation>Procurar...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="852"/>
@@ -2801,7 +2799,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="68"/>
         <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar Ações ao Menu e Barra de Ferramentas</translation>
     </message>
 </context>
 <context>
@@ -2809,7 +2807,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="77"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="79"/>
@@ -2868,7 +2866,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="592"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished">Editar</translation>
+        <translation>&amp;Editar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="616"/>
@@ -2883,7 +2881,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="645"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">Ajuda</translation>
+        <translation>A&amp;juda</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2978"/>
@@ -2893,7 +2891,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="660"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished">Nova Aba</translation>
+        <translation>&amp;Nova Aba</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="662"/>
@@ -2918,7 +2916,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="670"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished">Alterar ícone Aba</translation>
+        <translation>Alterar í&amp;cone da Aba</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1294"/>
@@ -3024,7 +3022,7 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="67"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="69"/>
@@ -3145,12 +3143,12 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished">clipboard</translation>
+        <translation>área de &amp;notificação</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished">Novo Item</translation>
+        <translation>&amp;Novo Item</translation>
     </message>
     <message>
         <source>&amp;Import Tab...</source>
@@ -3159,7 +3157,7 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <source>&amp;Export Tab...</source>
@@ -3178,117 +3176,117 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished">Preferências...</translation>
+        <translation>&amp;Preferências...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished">Ctrl+P</translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="unfinished">Comandos / Atalhos Globais...</translation>
+        <translation>C&amp;omandos/Atalhos Globais...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished">Comandos...</translation>
+        <translation>C&amp;omandos...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="unfinished">Mostrar área de transferência conteúdo</translation>
+        <translation>Mostrar &amp;conteúdo da área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="77"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished">Ctrl+Shift+C</translation>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="unfinished">Alternar Clipboard Armazenando</translation>
+        <translation>Al&amp;ternar Armazenamento da Área de Transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished">Ctrl+Shift+X</translation>
+        <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished">Gerenciar processo</translation>
+        <translation>Gerenciador de P&amp;rocessos</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished">Ctrl+Shift+Z</translation>
+        <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished">Saída</translation>
+        <translation>&amp;Sair</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished">Ctrl+Q</translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="85"/>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished">Itens de classificação selecionada</translation>
+        <translation>Cla&amp;ssificar itens selecionados</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished">Ctrl+Shift+S</translation>
+        <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="unfinished">Inverta itens selecionados</translation>
+        <translation>Inverte&amp;r itens selecionados</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="89"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished">Ctrl+Shift+R</translation>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished">Colar itens</translation>
+        <translation>&amp;Colar itens</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
         <source>&amp;Copy Selected Items</source>
-        <translation type="unfinished">Copie itens selecionados</translation>
+        <translation>&amp;Copiar itens selecionados</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="95"/>
         <source>&amp;Find</source>
-        <translation type="unfinished">Encontrar</translation>
+        <translation>&amp;Localizar</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
         <source>Move to &amp;Clipboard</source>
-        <translation type="unfinished">Mover-se para a área de transferência</translation>
+        <translation>Mo&amp;ver para a área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>&amp;Show Content...</source>
-        <translation type="unfinished">Mostrar Conteúdo...</translation>
+        <translation>Mo&amp;strar Conteúdo...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -3303,87 +3301,87 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished">Remover</translation>
+        <translation>&amp;Remover</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished">Editar</translation>
+        <translation>&amp;Editar</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished">Editar notas</translation>
+        <translation>Editar &amp;notas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>Shift+F2</source>
-        <translation type="unfinished">Shift+F2</translation>
+        <translation>Shift+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>E&amp;dit with editor</source>
-        <translation type="unfinished">Editar com o editor</translation>
+        <translation>E&amp;ditar com o editor</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished">Ctrl+E</translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>&amp;Action...</source>
-        <translation type="unfinished">Ação...</translation>
+        <translation>&amp;Ação...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>Next Format</source>
-        <translation type="unfinished">Próximo formato</translation>
+        <translation>Próximo formato</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>Ctrl+Right</source>
-        <translation type="unfinished">CTRL + seta à direita</translation>
+        <translation>Ctrl + seta à direita</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Previous Format</source>
-        <translation type="unfinished">Formato anterior</translation>
+        <translation>Formato anterior</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Ctrl+Left</source>
-        <translation type="unfinished">CTRL + seta à esquerda</translation>
+        <translation>Ctrl + seta à esquerda</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Up</source>
-        <translation type="unfinished">Mover para cima</translation>
+        <translation>Mover para cima</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Up</source>
-        <translation type="unfinished">CTRL + seta para cima</translation>
+        <translation>Ctrl + seta para cima</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move Down</source>
-        <translation type="unfinished">Mover para baixo</translation>
+        <translation>Mover para baixo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Ctrl+Down</source>
-        <translation type="unfinished">CTRL + seta para baixo</translation>
+        <translation>Ctrl + seta para baixo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
@@ -3408,42 +3406,42 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished">Nova Aba</translation>
+        <translation>&amp;Nova Aba</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished">Ctrl+T</translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>R&amp;ename Tab</source>
-        <translation type="unfinished">Renomear Aba</translation>
+        <translation>R&amp;enomear Aba</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+F2</source>
-        <translation type="unfinished">Ctrl+F2</translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>Re&amp;move Tab</source>
-        <translation type="unfinished">Remover Aba</translation>
+        <translation>Re&amp;mover Aba</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished">Ctrl+W</translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished">Alterar ícone Aba</translation>
+        <translation>Alterar í&amp;cone da aba</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Ctrl+Shift+T</source>
-        <translation type="unfinished">Ctrl+Shift+T</translation>
+        <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="136"/>
@@ -3483,7 +3481,7 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">Ajuda</translation>
+        <translation>A&amp;juda</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="390"/>
@@ -3556,7 +3554,7 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="105"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="109"/>
         <source>TEXT</source>
-        <translation type="unfinished"></translation>
+        <translation>TEXTO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
@@ -3571,7 +3569,7 @@ Definir conteúdo da área de trasnferência.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
         <source>DATA</source>
-        <translation type="unfinished"></translation>
+        <translation>DADOS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
@@ -3936,17 +3934,17 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="537"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished">Aba com o nome informado não existe!</translation>
+        <translation>A aba com o nome informado não existe!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="542"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished">O nome da aba não pode estar vazio!</translation>
+        <translation>O nome da aba não pode estar vazio!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="737"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished">Aba com esse nome já existe!</translation>
+        <translation>Uma aba com esse nome já existe!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1581"/>
@@ -3997,7 +3995,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished">Procurar:</translation>
+        <translation>&amp;Localizar:</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
@@ -4024,7 +4022,7 @@ Use &lt;b&gt;/&lt;/b&gt; como serapador de caminho na visualização em árvore 
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished">Nome:</translation>
+        <translation>&amp;Nome:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="35"/>
