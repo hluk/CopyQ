@@ -898,6 +898,19 @@ omitted.
    check box enabled, following automatic commands won't be executed and the
    function returns false. Otherwise true is returned.
 
+.. js:function:: clearClipboardData()
+
+   Clear clipboard visibility in GUI.
+
+   Default implementation is:
+
+   .. code-block:: js
+
+       if (isClipboard()) {
+           setTitle();
+           hideDataNotification();
+       }
+
 .. js:function:: updateTitle()
 
    Update main window title and tool tip from current data.
