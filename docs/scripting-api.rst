@@ -866,7 +866,9 @@ omitted.
 
    .. code-block:: js
 
-       if (runAutomaticCommands()) {
+       if (!hasData()) {
+           updateClipboardData();
+       } else if (runAutomaticCommands()) {
            synchronizeSelection();
            saveData();
            updateClipboardData();
@@ -956,6 +958,13 @@ omitted.
 .. js:function:: saveData()
 
    Save current data (depends on `mimeOutputTab`).
+
+.. js:function:: hasData()
+
+   Returns true only if some non-empty data can be returned by data().
+
+   Empty data is combination of whitespace and null characters or some internal
+   formats (`mimeWindowTitle`, `mimeClipboardMode` etc.)
 
 .. js:function:: showDataNotification()
 

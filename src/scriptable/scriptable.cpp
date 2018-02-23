@@ -479,23 +479,27 @@ bool matchData(const QRegExp &re, const QVariantMap &data, const QString &format
     return re.indexIn(text) != -1;
 }
 
+bool isInternalDataFormat(const QString &format)
+{
+    return format == mimeWindowTitle
+        || format == mimeItems
+        || format == mimeOwner
+        || format == mimeClipboardMode
+        || format == mimeCurrentTab
+        || format == mimeSelectedItems
+        || format == mimeCurrentItem
+        || format == mimeShortcut
+        || format == mimeOutputTab
+        || format == mimeSyncToClipboard
+        || format == mimeSyncToSelection;
+}
+
 QVariantMap copyWithoutInternalData(const QVariantMap &data) {
     QVariantMap newData;
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
-        if ( it.key() != mimeWindowTitle
-          && it.key() != mimeItems
-          && it.key() != mimeOwner
-          && it.key() != mimeClipboardMode
-          && it.key() != mimeCurrentTab
-          && it.key() != mimeSelectedItems
-          && it.key() != mimeCurrentItem
-          && it.key() != mimeShortcut
-          && it.key() != mimeOutputTab
-          && it.key() != mimeSyncToClipboard
-          && it.key() != mimeSyncToSelection)
-        {
-            newData.insert(it.key(), it.value());
-        }
+        const auto &format = it.key();
+        if ( !isInternalDataFormat(format) )
+            newData.insert(format, it.value());
     }
 
     return newData;
@@ -2187,7 +2191,9 @@ QScriptValue Scriptable::iconTagColor()
 void Scriptable::onClipboardChanged()
 {
     eval(R"(
-    if (runAutomaticCommands()) {
+    if (!hasData()) {
+        updateClipboardData();
+    } else if (runAutomaticCommands()) {
         synchronizeSelection();
         saveData();
         updateClipboardData();
@@ -2249,6 +2255,24 @@ void Scriptable::saveData()
         auto data = copyWithoutInternalData(m_data);
         m_proxy->saveData(outputTab, data);
     }
+}
+
+QScriptValue Scriptable::hasData()
+{
+    for (auto it = m_data.constBegin(); it != m_data.constEnd(); ++it) {
+        const auto &format = it.key();
+        if ( isInternalDataFormat(format) )
+            continue;
+
+        auto bytes = it.value().toByteArray();
+        for (const auto &byte : bytes) {
+            const QChar c(byte);
+            if ( !c.isSpace() && !c.isNull() )
+                return true;
+        }
+    }
+
+    return false;
 }
 
 void Scriptable::showDataNotification()

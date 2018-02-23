@@ -335,6 +335,7 @@ public slots:
     void setTitle();
     void synchronizeSelection();
     void saveData();
+    QScriptValue hasData();
     void showDataNotification();
     void hideDataNotification();
     void updateClipboardData();
