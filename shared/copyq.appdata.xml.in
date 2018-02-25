@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright 2018 Lukáš Holeček <hluk@email.cz> -->
 <component type="desktop">
-    <id>copyq.desktop</id>
+    <id>${DESKTOP_INSTALL_NAME}</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0+</project_license>
 
