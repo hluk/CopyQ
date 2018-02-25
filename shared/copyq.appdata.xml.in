@@ -25,6 +25,10 @@
     <url type="donation">https://www.bountysource.com/teams/copyq</url>
     <url type="translate">https://hosted.weblate.org/engage/copyq/</url>
 
+    <releases>
+        <release version="3.2.0" date="2018-02-18" />
+    </releases>
+
     <screenshots>
         <screenshot type="default">
             <image>https://hluk.github.io/CopyQ/images/application.png</image>
