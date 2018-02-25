@@ -1,5 +1,5 @@
 {
-    "app-id": "org.copyq.copyq",
+    "app-id": "com.github.hluk.copyq",
     "runtime": "org.kde.Platform",
     "runtime-version": "5.9",
     "sdk": "org.kde.Sdk",
@@ -11,7 +11,9 @@
     "finish-args": [
         "--socket=x11",
         "--socket=wayland",
-        "--env=XDG_CURRENT_DESKTOP=''"
+        "--talk-name=org.kde.StatusNotifierWatcher",
+        "--share=ipc",
+        "--device=dri"
     ],
 
     "modules": [
@@ -25,9 +27,10 @@
                 }
             ],
             "config-opts": [
-                "-DDESKTOP_INSTALL_NAME=org.copyq.copyq.desktop",
-                "-DAPPDATA_INSTALL_NAME=org.copyq.copyq.appdata.xml",
-                "-DICON_NAME=org.copyq.copyq"
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DDESKTOP_INSTALL_NAME=com.github.hluk.copyq.desktop",
+                "-DAPPDATA_INSTALL_NAME=com.github.hluk.copyq.appdata.xml",
+                "-DICON_NAME=com.github.hluk.copyq"
             ]
         }
     ]

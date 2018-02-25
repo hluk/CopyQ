@@ -17,18 +17,18 @@ Build the app.
 
 ```bash
 mkdir copyq repo
-flatpak-builder --ccache --force-clean --repo=repo --subject="Build of copyq" copyq org.copyq.copyq.json
+flatpak-builder --ccache --force-clean --repo=repo --subject="Build of copyq" copyq com.github.hluk.copyq.json
 ```
 
 Install the app.
 
 ```bash
 flatpak remote-add --user copyq repo --no-gpg-verify
-flatpak install --user --reinstall copyq org.copyq.copyq
-flatpak run org.copyq.copyq
+flatpak install --user --reinstall copyq com.github.hluk.copyq
+flatpak run com.github.hluk.copyq
 ```
 
 # Known Issues
 
 Tray icon requires `XDG_CURRENT_DESKTOP=''` or `XDG_CURRENT_DESKTOP=gnome`
-(defined in "org.copyq.copyq.json").
+(defined in "com.github.hluk.copyq.json").
