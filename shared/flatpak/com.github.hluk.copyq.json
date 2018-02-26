@@ -5,9 +5,6 @@
     "sdk": "org.kde.Sdk",
     "command": "copyq",
 
-    "tags": ["nightly"],
-    "desktop-file-name-prefix": "(Nightly) ",
-
     "finish-args": [
         "--socket=x11",
         "--socket=wayland",
@@ -23,13 +20,13 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/hluk/CopyQ.git"
+                    "url": "https://github.com/hluk/CopyQ.git",
+                    "tag": "v3.2.0",
+                    "commit": "ac9f67ee99caa072e85951ba9b6b6f89c1e0ee39"
                 }
             ],
             "config-opts": [
                 "-DCMAKE_BUILD_TYPE=Release",
-                "-DDESKTOP_INSTALL_NAME=com.github.hluk.copyq.desktop",
-                "-DAPPDATA_INSTALL_NAME=com.github.hluk.copyq.appdata.xml",
                 "-DICON_NAME=com.github.hluk.copyq"
             ]
         }
