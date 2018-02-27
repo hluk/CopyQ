@@ -368,11 +368,7 @@ FileWatcher::FileWatcher(
 
 #ifdef HAS_TESTS
     // Use smaller update interval for tests.
-#if QT_VERSION < 0x050100
-    if ( !qgetenv("COPYQ_TEST_ID").isEmpty() )
-#else
     if ( !qEnvironmentVariableIsEmpty("COPYQ_TEST_ID") )
-#endif
         m_updateTimer.setInterval(100);
 #endif
 

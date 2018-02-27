@@ -34,7 +34,7 @@ endif()
 set(CMAKE_AUTOMOC ON)
 
 list(APPEND copyq_Qt5_Modules Widgets)
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Widgets 5.1.0 REQUIRED)
 
 set(copyq_ICON_PREFIX src/images/icon)
 set(copyq_ICON_NORMAL src/images/icon.svg)

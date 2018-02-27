@@ -111,7 +111,7 @@ int startServer(int argc, char *argv[], QString sessionName)
 {
     // By default, enable automatic screen scaling in Qt for high-DPI displays
     // (this works better at least in Windows).
-    if ( qgetenv("QT_AUTO_SCREEN_SCALE_FACTOR").isEmpty() )
+    if ( qEnvironmentVariableIsEmpty("QT_AUTO_SCREEN_SCALE_FACTOR") )
         qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
 
     auto qapp = createPlatformNativeInterface()->createServerApplication(argc, argv);
