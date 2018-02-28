@@ -76,49 +76,30 @@ enum class ImportOptions {
 };
 
 struct MainWindowOptions {
-    MainWindowOptions()
-        : confirmExit(true)
-        , viMode(false)
-        , trayCommands(false)
-        , trayCurrentTab(false)
-        , trayTabName()
-        , trayItems(5)
-        , trayImages(true)
-        , trayMenuOpenOnLeftClick(false)
-        , transparency(0)
-        , transparencyFocused(0)
-        , hideTabs(false)
-        , hideMainWindow(false)
-        , itemActivationCommands(ActivateCloses)
-        , clearFirstTab(false)
-        , trayItemPaste(true)
-        , clipboardTab()
-    {}
-
     bool activateCloses() const { return itemActivationCommands & ActivateCloses; }
     bool activateFocuses() const { return itemActivationCommands & ActivateFocuses; }
     bool activatePastes() const { return itemActivationCommands & ActivatePastes; }
 
-    bool confirmExit;
-    bool viMode;
-    bool trayCommands;
-    bool trayCurrentTab;
+    bool confirmExit = true;
+    bool viMode = false;
+    bool trayCommands = false;
+    bool trayCurrentTab = false;
     QString trayTabName;
-    int trayItems;
-    bool trayImages;
-    bool trayMenuOpenOnLeftClick;
-    int transparency;
-    int transparencyFocused;
+    int trayItems = 5;
+    bool trayImages = true;
+    bool trayMenuOpenOnLeftClick = false;
+    int transparency = 0;
+    int transparencyFocused = 0;
 
-    bool hideTabs;
+    bool hideTabs = false;
 
-    bool hideMainWindow;
+    bool hideMainWindow = false;
 
-    int itemActivationCommands;
+    int itemActivationCommands = ActivateCloses;
 
-    bool clearFirstTab;
+    bool clearFirstTab = false;
 
-    bool trayItemPaste;
+    bool trayItemPaste = true;
 
     QString clipboardTab;
 };
