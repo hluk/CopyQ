@@ -35,6 +35,7 @@ struct ClipboardBrowserShared {
     bool saveOnReturnKey = false;
     bool moveItemOnReturnKey = false;
     bool showSimpleItems = false;
+    bool numberSearch = false;
     int minutesToExpire = 0;
     ItemFactory *itemFactory = nullptr;
     Theme theme;

@@ -50,6 +50,9 @@ public:
     /** Handle Vi shortcuts. */
     void setViModeEnabled(bool enabled);
 
+    /** Enable searching for numbers. */
+    void setNumberSearchEnabled(bool enabled);
+
     /** Filter clipboard items. */
     void search(const QString &text);
 
@@ -85,6 +88,7 @@ private:
 
     bool m_omitPaste;
     bool m_viMode;
+    bool m_numberSearch;
 
     QString m_searchText;
 

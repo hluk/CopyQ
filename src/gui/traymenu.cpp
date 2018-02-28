@@ -71,6 +71,7 @@ TrayMenu::TrayMenu(QWidget *parent)
     , m_clipboardItemActionCount(0)
     , m_omitPaste(false)
     , m_viMode(false)
+    , m_numberSearch(false)
 {
     initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, SLOT(updateActiveAction()) );
 }
@@ -168,6 +169,11 @@ void TrayMenu::setViModeEnabled(bool enabled)
     m_viMode = enabled;
 }
 
+void TrayMenu::setNumberSearchEnabled(bool enabled)
+{
+    m_numberSearch = enabled;
+}
+
 void TrayMenu::keyPressEvent(QKeyEvent *event)
 {
     const int key = event->key();
@@ -211,7 +217,7 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
                 const QString txt = event->text();
                 if ( !txt.isEmpty() && txt[0].isPrint() ) {
                     // Activate item at row when number is entered.
-                    if (m_searchText.isEmpty()) {
+                    if ( !m_numberSearch && m_searchText.isEmpty() ) {
                         bool ok;
                         const int row = txt.toInt(&ok);
                         if (ok && row < m_clipboardItemActionCount) {

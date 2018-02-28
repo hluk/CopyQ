@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>ConfigurationManager</class>
  <widget class="QDialog" name="ConfigurationManager">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>676</width>
+    <height>557</height>
+   </rect>
+  </property>
   <property name="minimumSize">
    <size>
     <width>320</width>
@@ -44,8 +52,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>537</width>
-            <height>444</height>
+            <width>644</width>
+            <height>470</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -313,8 +321,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>537</width>
-            <height>444</height>
+            <width>270</width>
+            <height>338</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_23">
@@ -564,8 +572,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>537</width>
-            <height>444</height>
+            <width>477</width>
+            <height>381</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -755,6 +763,16 @@ Use Item Preview to display whole items.</string>
               </widget>
              </item>
              <item>
+              <widget class="QCheckBox" name="checkBoxNumberSearch">
+               <property name="toolTip">
+                <string>Enable searching for numbers, otherwise pressing a digit key activates item on that position</string>
+               </property>
+               <property name="text">
+                <string>S&amp;earch for numbers</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QGroupBox" name="groupBox_3">
                <property name="title">
                 <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
@@ -855,8 +873,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>537</width>
-            <height>444</height>
+            <width>408</width>
+            <height>196</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1070,8 +1088,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>537</width>
-            <height>444</height>
+            <width>389</width>
+            <height>281</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1567,6 +1585,7 @@ Set to 0 to disable.</string>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
   <tabstop>checkBoxShowSimpleItems</tabstop>
+  <tabstop>checkBoxNumberSearch</tabstop>
   <tabstop>checkBoxMove</tabstop>
   <tabstop>checkBoxActivateCloses</tabstop>
   <tabstop>checkBoxActivateFocuses</tabstop>

@@ -114,6 +114,11 @@ struct show_simple_items : Config<bool> {
     static Value defaultValue() { return false; }
 };
 
+struct number_search : Config<bool> {
+    static QString name() { return "number_search"; }
+    static Value defaultValue() { return false; }
+};
+
 struct check_clipboard : Config<bool> {
     static QString name() { return "check_clipboard"; }
     static Value defaultValue() { return true; }

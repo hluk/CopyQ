@@ -1294,9 +1294,10 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
     d.setSearch(re);
 
     // If search string is a number, highlight item in that row.
-    bool ok;
-    m_filterRow = re.pattern().toInt(&ok);
-    if (!ok)
+    bool filterByRowNumber = !m_sharedData->numberSearch;
+    if (filterByRowNumber)
+        m_filterRow = re.pattern().toInt(&filterByRowNumber);
+    if (!filterByRowNumber)
         m_filterRow = -1;
 
     int row = 0;
@@ -1307,7 +1308,7 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
     for ( ; row < length(); ++row )
         hideFiltered(row);
 
-    if ( ok && m_filterRow >= 0 && m_filterRow < m.rowCount() )
+    if ( filterByRowNumber && m_filterRow >= 0 && m_filterRow < m.rowCount() )
         setCurrentIndex( index(m_filterRow) );
 }
 

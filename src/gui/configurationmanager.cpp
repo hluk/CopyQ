@@ -219,6 +219,7 @@ void ConfigurationManager::initOptions()
     bind<Config::notification_maximum_height>(ui->spinBoxNotificationMaximumHeight);
     bind<Config::edit_ctrl_return>(ui->checkBoxEditCtrlReturn);
     bind<Config::show_simple_items>(ui->checkBoxShowSimpleItems);
+    bind<Config::number_search>(ui->checkBoxNumberSearch);
     bind<Config::move>(ui->checkBoxMove);
     bind<Config::check_clipboard>(ui->checkBoxClip);
     bind<Config::confirm_exit>(ui->checkBoxConfirmExit);
