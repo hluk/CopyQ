@@ -213,7 +213,7 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Регулярное выражение для разрыва вывода на несколько элементов.&lt;\p&gt;↵
+        <translation>&lt;p&gt;Регулярное выражение для разрыва вывода на несколько элементов.&lt;\p&gt;↵
 &lt;p&gt;Используйте &lt;b&gt;\n&lt;/b&gt; для разделения строк на несколько элементов.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -281,14 +281,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="131"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Ошибка: %1↵
- {1?}</translation>
+        <translation>Ошибка: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="134"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">Код выхода: %1↵
- {1?}</translation>
+        <translation>Код выхода: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="149"/>
@@ -312,17 +310,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="115"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished">Показать/скрыть главное окно</translation>
+        <translation>Показать/скрыть главное окно</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="117"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished">Показать меню в трее</translation>
+        <translation>Показать меню в трее</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="119"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished">Показать главное окно под курсором мыши</translation>
+        <translation>Показать главное окно под курсором мыши</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="121"/>
@@ -387,12 +385,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Сделать скриншот</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить текущую дату и время</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
@@ -836,12 +834,12 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрипт</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Дисплей</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
@@ -1303,12 +1301,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="136"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть главное окно когда другие приложения активны</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="139"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть когда неактивно</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="146"/>
