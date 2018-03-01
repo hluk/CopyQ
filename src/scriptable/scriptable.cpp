@@ -2881,7 +2881,10 @@ void Scriptable::provideClipboard(ClipboardMode mode)
             ? SLOT(onProvidedClipboardChanged())
             : SLOT(onProvidedSelectionChanged());
 
-    QTimer::singleShot(1000, this, slot);
+    QTimer t;
+    t.setInterval(8000);
+    connect(&t, SIGNAL(timeout()), this, slot);
+    t.start();
 
     QEventLoop loop;
     connect( this, SIGNAL(finished()), &loop, SLOT(quit()) );
