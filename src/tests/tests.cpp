@@ -1176,14 +1176,14 @@ void Tests::commandsExportImport()
     tmp.close();
     const auto fileName = tmp.fileName();
 
-    RUN("exportData" << fileName, "true\n");
+    RUN("exportData" << fileName, "");
 
     RUN("config" << "maxitems" << "1", "1\n");
     RUN("config" << "editor" << "EDITOR2 %1", "EDITOR2 %1\n");
     RUN("removetab" << tab1, "");
     RUN("tab" << tab2 << "add" << "1", "");
 
-    RUN("importData" << fileName, "true\n");
+    RUN("importData" << fileName, "");
 
     RUN("config" << "maxitems", "3\n");
     RUN("config" << "editor", "EDITOR1 %1\n");
