@@ -385,9 +385,25 @@ omitted.
 
    Exports current tab into file.
 
+   Throws an exception if export fails.
+
 .. js:function:: importTab(fileName)
 
    Imports items from file to a new tab.
+
+   Throws an exception if import fails.
+
+.. js:function:: exportData(fileName)
+
+   Exports all tabs and configuration into file.
+
+   Throws an exception if export fails.
+
+.. js:function:: importData(fileName)
+
+   Imports all tabs and configuration from file.
+
+   Throws an exception if import fails.
 
 .. js:function:: String config()
 

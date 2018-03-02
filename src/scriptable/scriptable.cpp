@@ -682,7 +682,7 @@ void Scriptable::setCurrentPath(const QString &path)
         m_temporaryFileClass->setCurrentPath(path);
 }
 
-QString Scriptable::getFileName(const QString &fileName) const
+QString Scriptable::getAbsoluteFilePath(const QString &fileName) const
 {
     return QDir::isRelativePath(fileName) ? getCurrentPath() + '/' + fileName
                                           : fileName;
@@ -699,6 +699,16 @@ void Scriptable::throwError(const QString &errorMessage)
     if (!currentContext)
         currentContext = engine()->currentContext();
     currentContext->throwError( fromString(errorMessage + '\n') );
+}
+
+void Scriptable::throwSaveError(const QString &filePath)
+{
+    throwError( tr("Cannot save to file \"%1\"!").arg(filePath) );
+}
+
+void Scriptable::throwImportError(const QString &filePath)
+{
+    throwError( tr("Cannot import file \"%1\"!").arg(filePath) );
 }
 
 void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
@@ -1265,41 +1275,44 @@ void Scriptable::exportTab()
 {
     m_skipArguments = 1;
 
-    const QString &fileName = arg(0);
-    if ( fileName.isNull() ) {
+    const auto filePath = arg(0);
+    if ( filePath.isNull() )
         throwError(argumentError());
-    } else if ( !m_proxy->saveTab(getFileName(fileName)) ) {
-        throwError( tr("Cannot save to file \"%1\"!").arg(fileName) );
-    }
+    else if ( !m_proxy->saveTab(getAbsoluteFilePath(filePath)) )
+        throwSaveError(filePath);
 }
 
 void Scriptable::importTab()
 {
     m_skipArguments = 1;
 
-    const QString &fileName = arg(0);
-    if ( fileName.isNull() ) {
+    const auto filePath = arg(0);
+    if ( filePath.isNull() )
         throwError(argumentError());
-    } else if ( !m_proxy->loadTab(getFileName(fileName)) ) {
-        throwError(
-            tr("Cannot import file \"%1\"!").arg(fileName) );
-    }
+    else if ( !m_proxy->loadTab(getAbsoluteFilePath(filePath)) )
+        throwImportError(filePath);
 }
 
-QScriptValue Scriptable::importData()
+void Scriptable::importData()
 {
     m_skipArguments = 1;
 
-    const auto fileName = arg(0);
-    return m_proxy->importData(fileName);
+    const auto filePath = arg(0);
+    if ( filePath.isNull() )
+        throwError(argumentError());
+    else if ( !m_proxy->importData(getAbsoluteFilePath(filePath)) )
+        throwImportError(filePath);
 }
 
-QScriptValue Scriptable::exportData()
+void Scriptable::exportData()
 {
     m_skipArguments = 1;
 
-    const auto fileName = arg(0);
-    return m_proxy->exportData(fileName);
+    const auto filePath = arg(0);
+    if ( filePath.isNull() )
+        throwError(argumentError());
+    else if ( !m_proxy->exportData(getAbsoluteFilePath(filePath)) )
+        throwSaveError(filePath);
 }
 
 QScriptValue Scriptable::config()
@@ -1466,7 +1479,7 @@ QScriptValue Scriptable::source()
 
     QByteArray script;
     {
-        QFile scriptFile( getFileName(scriptFilePath) );
+        QFile scriptFile( getAbsoluteFilePath(scriptFilePath) );
         if ( !scriptFile.open(QIODevice::ReadOnly) ) {
             throwError( QString("Failed to open \"%1\": %2")
                         .arg(scriptFilePath,

@@ -107,11 +107,13 @@ public:
     QString getCurrentPath() const;
     void setCurrentPath(const QString &path);
 
-    QString getFileName(const QString &fileName) const;
+    QString getAbsoluteFilePath(const QString &fileName) const;
 
     QString arg(int i, const QString &defaultValue = QString());
 
     void throwError(const QString &errorMessage);
+    void throwSaveError(const QString &filePath);
+    void throwImportError(const QString &filePath);
 
     void sendMessageToClient(const QByteArray &message, int exitCode);
 
@@ -216,8 +218,8 @@ public slots:
     void importTab();
     void importtab() { importTab(); }
 
-    QScriptValue importData();
-    QScriptValue exportData();
+    void importData();
+    void exportData();
 
     QScriptValue config();
     bool toggleConfig();
