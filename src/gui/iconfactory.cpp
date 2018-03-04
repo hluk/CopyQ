@@ -36,6 +36,7 @@
 #include <QPaintEngine>
 #include <QPixmap>
 #include <QPointer>
+#include <QSvgRenderer>
 #include <QVariant>
 #include <QWidget>
 
@@ -144,16 +145,30 @@ QColor &sessionIconTagColorVariable()
     return color;
 }
 
-QPixmap imageFromPrefix(const QString &iconSuffix, const QString &resources)
+QPixmap pixmapFromFile(const QString &path, QSize size)
+{
+    QSvgRenderer renderer(path);
+    if ( !renderer.isValid() )
+        return QPixmap(path);
+
+    QPixmap pix(size);
+    pix.setDevicePixelRatio(1);
+    pix.fill(Qt::transparent);
+    QPainter painter(&pix);
+    renderer.render(&painter, pix.rect());
+    return pix;
+}
+
+QString imagePathFromPrefix(const QString &iconSuffix, const QString &resources)
 {
 #ifdef COPYQ_ICON_PREFIX
     const QString fileName(COPYQ_ICON_PREFIX + iconSuffix);
     if ( QFile::exists(fileName) )
-        return QPixmap(fileName);
+        return fileName;
 #else
     Q_UNUSED(iconSuffix)
 #endif
-    return QPixmap(imagesRecourcePath + resources);
+    return imagesRecourcePath + resources;
 }
 
 void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
@@ -190,11 +205,61 @@ QColor getDefaultIconColor(const QColor &color)
     return c;
 }
 
-class IconEngine : public QIconEngine
+void tagIcon(QPixmap *pix, const QString &tag, QColor color)
+{
+    if ( tag.isEmpty() )
+        return;
+
+    const auto ratio = pix->devicePixelRatio();
+    pix->setDevicePixelRatio(1);
+
+    QPainter painter(pix);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+
+    const int h = pix->height();
+    const int strokeWidth = static_cast<int>(ratio + h / 16);
+
+    QFont font;
+    const auto pixelSize = pix->width() / 2;
+    if ( tag.size() == 1 ) {
+        font = iconFontFitSize(pixelSize, pixelSize);
+    } else {
+        font.setPixelSize(pixelSize);
+        font.setBold(true);
+    }
+    painter.setFont(font);
+
+    const auto rect = painter.fontMetrics().tightBoundingRect(tag);
+    const auto baseLineY = rect.bottom();
+    const auto pos = QPoint(strokeWidth, h - strokeWidth - baseLineY);
+
+    QPainterPath path;
+    path.addText(pos, font, tag);
+    const auto strokeColor = color.lightness() < 100 ? Qt::white : Qt::black;
+    painter.strokePath(path, QPen(strokeColor, strokeWidth));
+
+    painter.setPen(color);
+    painter.drawText(pos, tag);
+}
+
+QColor colorForMode(QPainter *painter, QIcon::Mode mode)
+{
+    auto parent = painter
+            ? dynamic_cast<QWidget*>(painter->device())
+            : qobject_cast<QWidget*>(activePaintDevice.data());
+
+    const bool selected = (mode == QIcon::Active || mode == QIcon::Selected);
+    QColor color = parent ? getDefaultIconColor(*parent, selected) : Qt::darkGray;
+
+    if (mode == QIcon::Disabled)
+        color.setAlphaF(0.5);
+
+    return color;
+}
+
+class BaseIconEngine : public QIconEngine
 {
 public:
-    static bool useSystemIcons;
-
     void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) override
     {
         painter->drawPixmap( rect, createPixmap(rect.size(), mode, state, painter) );
@@ -205,147 +270,43 @@ public:
         return createPixmap(size, mode, state);
     }
 
-    QIconEngine *clone() const override
-    {
-        return new IconEngine(*this);
-    }
-
     QPixmap createPixmap(QSize size, QIcon::Mode mode, QIcon::State state, QPainter *painter = nullptr)
     {
         if (painter)
             size *= painter->paintEngine()->paintDevice()->devicePixelRatio();
 
-        if ( useSystemIcons || m_iconId == 0 || !loadIconFont() ) {
-            // Tint tab icons.
-            if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
-                QPixmap pixmap(m_iconName);
-                pixmap = pixmap.scaled(size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-                QPainter painter2(&pixmap);
-                painter2.setCompositionMode(QPainter::CompositionMode_SourceIn);
-                painter2.fillRect( pixmap.rect(), color(painter, mode) );
-                return taggedIcon(&pixmap);
-            }
+        auto pixmap = doCreatePixmap(size, mode, state, painter);
 
-            QIcon icon = m_iconName.startsWith(':') ? QIcon(m_iconName) : QIcon::fromTheme(m_iconName);
-            if ( !icon.isNull() ) {
-                auto pixmap = icon.pixmap(size, mode, state);
-                if (pixmap.size() != size) {
-                    pixmap = pixmap.scaled(size.width(), size.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-                    QPixmap pixmap2(size);
-                    pixmap2.fill(Qt::transparent);
-                    QPainter painter2(&pixmap2);
-                    const int x = size.width() - pixmap.width();
-                    const QRect rect( QPoint(x, 0), pixmap.size() );
-                    painter2.drawPixmap(rect, pixmap);
-                    pixmap = pixmap2;
-                }
-                return taggedIcon(&pixmap);
-            }
+        if ( pixmap.isNull() ) {
+            pixmap = QPixmap(size);
+            pixmap.fill(Qt::transparent);
         }
-
-        QPixmap pixmap(size);
-        pixmap.fill(Qt::transparent);
-
-        if (m_iconId == 0)
-            return taggedIcon(&pixmap);
-
-        drawFontIcon( &pixmap, m_iconId, size.width(), size.height(), color(painter, mode) );
 
         return taggedIcon(&pixmap);
     }
 
-    // QIconEngine doesn't seem to work in menus on OS X.
-#ifdef Q_OS_MAC
-    void updateIcon(QIcon *icon, const QSize &size, QIcon::Mode mode)
+    QList<QSize> availableSizes(QIcon::Mode, QIcon::State) const override
     {
-        icon->addPixmap( createPixmap(size, mode, QIcon::Off), mode, QIcon::Off );
+        static const auto sizes = QList<QSize>()
+                << QSize(16, 16)
+                << QSize(32, 32)
+                << QSize(48, 48)
+                << QSize(64, 64)
+                << QSize(96, 96)
+                << QSize(128, 128)
+                << QSize(256, 256);
+        return sizes;
     }
 
-    void updateIcon(QIcon *icon, int extent)
-    {
-        const QSize size(extent, extent);
-        updateIcon(icon, size, QIcon::Normal);
-        updateIcon(icon, size, QIcon::Disabled);
-        updateIcon(icon, size, QIcon::Active);
-    }
-
-    static QIcon createIcon(ushort iconId, const QString &iconName, const QString &tag = QString(), const QColor &tagColor = QColor())
-    {
-        IconEngine iconEngine(iconId, iconName, tag, tagColor);
-        QIcon icon;
-        iconEngine.updateIcon(&icon, 16);
-        iconEngine.updateIcon(&icon, 32);
-        iconEngine.updateIcon(&icon, 64);
-        iconEngine.updateIcon(&icon, 128);
-        return icon;
-    }
-#else
-    static QIcon createIcon(ushort iconId, const QString &iconName, const QString &tag = QString(), const QColor &tagColor = QColor())
-    {
-        return QIcon( new IconEngine(iconId, iconName, tag, tagColor) );
-    }
-#endif
-
-    static void tagIcon(QPixmap *pix, const QString &tag, QColor color)
-    {
-        if ( tag.isEmpty() )
-            return;
-
-        const auto ratio = pix->devicePixelRatio();
-        pix->setDevicePixelRatio(1);
-
-        QPainter painter(pix);
-        painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-
-        const int h = pix->height();
-        const int strokeWidth = static_cast<int>(ratio + h / 16);
-
-        QFont font;
-        const auto pixelSize = pix->width() / 2;
-        if ( tag.size() == 1 ) {
-            font = iconFontFitSize(pixelSize, pixelSize);
-        } else {
-            font.setPixelSize(pixelSize);
-            font.setBold(true);
-        }
-        painter.setFont(font);
-
-        const auto rect = painter.fontMetrics().tightBoundingRect(tag);
-        const auto baseLineY = rect.bottom();
-        const auto pos = QPoint(strokeWidth, h - strokeWidth - baseLineY);
-
-        QPainterPath path;
-        path.addText(pos, font, tag);
-        const auto strokeColor = color.lightness() < 100 ? Qt::white : Qt::black;
-        painter.strokePath(path, QPen(strokeColor, strokeWidth));
-
-        painter.setPen(color);
-        painter.drawText(pos, tag);
-    }
-
-private:
-    IconEngine(ushort iconId, const QString &iconName, const QString &tag, QColor tagColor)
-        : m_iconId(iconId)
-        , m_iconName(iconName)
-        , m_tag(tag)
+protected:
+    BaseIconEngine(const QString &tag, QColor tagColor)
+        : m_tag(tag)
         , m_tagColor(tagColor)
     {
     }
 
-    QColor color(QPainter *painter, QIcon::Mode mode)
-    {
-        auto parent = painter
-                ? dynamic_cast<QWidget*>(painter->device())
-                : qobject_cast<QWidget*>(activePaintDevice.data());
-
-        const bool selected = (mode == QIcon::Active || mode == QIcon::Selected);
-        QColor color = parent ? getDefaultIconColor(*parent, selected) : Qt::darkGray;
-
-        if (mode == QIcon::Disabled)
-            color.setAlphaF(0.5);
-
-        return color;
-    }
+private:
+    virtual QPixmap doCreatePixmap(QSize size, QIcon::Mode mode, QIcon::State state, QPainter *painter) = 0;
 
     QPixmap taggedIcon(QPixmap *pix)
     {
@@ -353,19 +314,184 @@ private:
         return *pix;
     }
 
-    ushort m_iconId;
-    QString m_iconName;
     QString m_tag;
     QColor m_tagColor;
 };
 
-bool IconEngine::useSystemIcons = false;
-
-void updateIcon(QIcon *icon, const QPixmap &pix, int extent)
+class ImageIconEngine : public BaseIconEngine
 {
-    if (pix.height() > extent)
-        icon->addPixmap( pix.scaledToHeight(extent, Qt::SmoothTransformation) );
-}
+public:
+    ImageIconEngine(const QString &iconName, const QString &tag, QColor tagColor)
+        : BaseIconEngine(tag, tagColor)
+        , m_iconName(iconName)
+    {
+    }
+
+    QIconEngine *clone() const override
+    {
+        return new ImageIconEngine(*this);
+    }
+
+    QPixmap doCreatePixmap(QSize size, QIcon::Mode mode, QIcon::State state, QPainter *painter) override
+    {
+        if ( m_iconName.isEmpty() )
+            return QPixmap();
+
+        // Tint tab icons.
+        if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
+            QPixmap pixmap = pixmapFromFile(m_iconName, size);
+            pixmap = pixmap.scaled(size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            QPainter painter2(&pixmap);
+            painter2.setCompositionMode(QPainter::CompositionMode_SourceIn);
+            painter2.fillRect( pixmap.rect(), colorForMode(painter, mode) );
+            return pixmap;
+        }
+
+        QIcon icon = pixmapFromFile(m_iconName, size);
+        if ( icon.isNull() )
+            icon = QIcon::fromTheme(m_iconName);
+        if ( !icon.isNull() ) {
+            auto pixmap = icon.pixmap(size, mode, state);
+            if (pixmap.size() != size) {
+                pixmap = pixmap.scaled(size.width(), size.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                QPixmap pixmap2(size);
+                pixmap2.fill(Qt::transparent);
+                QPainter painter2(&pixmap2);
+                const int x = size.width() - pixmap.width();
+                const QRect rect( QPoint(x, 0), pixmap.size() );
+                painter2.drawPixmap(rect, pixmap);
+                pixmap = pixmap2;
+            }
+            return pixmap;
+        }
+
+        return QPixmap();
+    }
+
+private:
+    QString m_iconName;
+};
+
+class FontIconEngine : public BaseIconEngine
+{
+public:
+    FontIconEngine(ushort iconId, const QString &tag, QColor tagColor)
+        : BaseIconEngine(tag, tagColor)
+        , m_iconId(iconId)
+    {
+    }
+
+    QIconEngine *clone() const override
+    {
+        return new FontIconEngine(*this);
+    }
+
+    QPixmap doCreatePixmap(QSize size, QIcon::Mode mode, QIcon::State, QPainter *painter) override
+    {
+        QPixmap pixmap(size);
+        pixmap.fill(Qt::transparent);
+
+        if (m_iconId == 0)
+            return pixmap;
+
+        drawFontIcon( &pixmap, m_iconId, size.width(), size.height(), colorForMode(painter, mode) );
+
+        return pixmap;
+    }
+
+private:
+    ushort m_iconId;
+};
+
+class AppIconEngine : public BaseIconEngine
+{
+public:
+    AppIconEngine(AppIconType iconType)
+        : BaseIconEngine(sessionIconTagVariable(), sessionIconTagColor())
+        , m_iconType(iconType)
+    {
+    }
+
+    QIconEngine *clone() const override
+    {
+        return new AppIconEngine(*this);
+    }
+
+    QPixmap doCreatePixmap(QSize size, QIcon::Mode, QIcon::State, QPainter *) override
+    {
+        const bool running = m_iconType == AppIconRunning;
+        const QString suffix = running ? "-busy" : "-normal";
+        const QString sessionName = ::sessionName();
+
+        QIcon icon;
+
+        if (sessionName.isEmpty())
+            icon = QIcon::fromTheme(COPYQ_ICON_NAME + suffix);
+        else
+            icon = QIcon::fromTheme(COPYQ_ICON_NAME "_" + sessionName + "-" + suffix);
+
+        QPixmap pix;
+
+        if ( icon.isNull() ) {
+            const auto path = imagePathFromPrefix(suffix + ".svg", running ? "icon-running" : "icon");
+            pix = pixmapFromFile(path, size);
+        } else {
+            pix = icon.pixmap(size);
+        }
+
+        pix.setDevicePixelRatio(1);
+
+        const auto sessionColor = sessionIconColor();
+        const auto appColor = appIconColor();
+
+        if (sessionColor != appColor)
+            replaceColor(&pix, appColor, sessionColor);
+
+        return pix;
+    }
+
+    // WORKAROUND: Fixes ugly icon in Latte-Dock.
+    QList<QSize> availableSizes(QIcon::Mode, QIcon::State) const override
+    {
+        static const auto sizes = QList<QSize>() << QSize(256, 256);
+        return sizes;
+    }
+
+private:
+    AppIconType m_iconType;
+};
+
+class IconEngine
+{
+public:
+    static bool useSystemIcons;
+
+    static QIcon createIcon(ushort iconId, const QString &iconName, const QString &tag = QString(), const QColor &tagColor = QColor())
+    {
+        if ( canUseFontIcon(iconId, iconName) )
+            return QIcon( new FontIconEngine(iconId, tag, tagColor) );
+        return QIcon( new ImageIconEngine(iconName, tag, tagColor) );
+    }
+
+    static QIcon createIcon(AppIconType iconType)
+    {
+        return QIcon( new AppIconEngine(iconType) );
+    }
+
+private:
+    static bool canUseFontIcon(ushort iconId, const QString &iconName)
+    {
+        if ( iconId == 0 || !loadIconFont() )
+            return false;
+
+        if ( useSystemIcons && !iconName.isEmpty() )
+            return false;
+
+        return true;
+    }
+};
+
+bool IconEngine::useSystemIcons = false;
 
 } // namespace
 
@@ -417,46 +543,7 @@ QPixmap createPixmap(unsigned short id, const QColor &color, int size)
 
 QIcon appIcon(AppIconType iconType)
 {
-    const bool running = iconType == AppIconRunning;
-    const QString suffix = running ? "-busy" : "-normal";
-    const QString sessionName = ::sessionName();
-
-    QIcon icon;
-
-    if (sessionName.isEmpty())
-        icon = QIcon::fromTheme(COPYQ_ICON_NAME + suffix);
-    else
-        icon = QIcon::fromTheme(COPYQ_ICON_NAME "_" + sessionName + "-" + suffix);
-
-    QPixmap pix;
-
-    if (icon.isNull())
-        pix = imageFromPrefix(suffix + ".svg", running ? "icon-running" : "icon");
-    else
-        pix = icon.pixmap(128);
-
-    pix.setDevicePixelRatio(1);
-
-    const auto sessionColor = sessionIconColor();
-    const auto appColor = appIconColor();
-
-    if (sessionColor != appColor)
-        replaceColor(&pix, appColor, sessionColor);
-
-    const auto &tag = sessionIconTagVariable();
-    if ( !tag.isEmpty() )
-        IconEngine::tagIcon(&pix, tag, sessionIconTagColorVariable());
-
-    QIcon icon2;
-    icon2.addPixmap(pix);
-
-    // This makes the icon smoother on some systems.
-    updateIcon(&icon2, pix, 48);
-    updateIcon(&icon2, pix, 32);
-    updateIcon(&icon2, pix, 24);
-    updateIcon(&icon2, pix, 16);
-
-    return icon2;
+    return IconEngine::createIcon(iconType);
 }
 
 void setActivePaintDevice(QObject *device)
@@ -508,13 +595,11 @@ QColor sessionIconColor()
 
 QString sessionIconTag()
 {
-
     return ::sessionIconTagVariable();
 }
 
 QColor sessionIconTagColor()
 {
-
     return ::sessionIconTagColorVariable();
 }
 
