@@ -752,7 +752,7 @@ void MainWindow::updateIconSnipTimeout()
     const bool shouldSnip = m_clipboardStoringDisabled || hasRunningAction();
     if (m_iconSnip != shouldSnip) {
         m_iconSnip = shouldSnip;
-        m_timerTrayIconSnip.start(250);
+        m_timerTrayIconSnip.start(500);
         updateIcon();
     }
 }
