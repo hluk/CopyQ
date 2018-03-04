@@ -1,11 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/icon.svg</file>
-        <file>images/icon-running.svg</file>
-        <file>images/tab_icon.svg</file>
-        <file>images/tab_new.svg</file>
-        <file>images/tab_rename.svg</file>
-        <file>images/tab_remove.svg</file>
+        <file alias="images/icon">images/icon.svg</file>
+        <file alias="images/icon-running">images/icon-running.svg</file>
+        <file alias="images/tab_icon">images/tab_icon.svg</file>
+        <file alias="images/tab_new">images/tab_new.svg</file>
+        <file alias="images/tab_rename">images/tab_rename.svg</file>
+        <file alias="images/tab_remove">images/tab_remove.svg</file>
         <file alias="images/logo.png">images/icon_512x512.png</file>
         <file>images/fontawesome-brands.ttf</file>
         <file>images/fontawesome-solid.ttf</file>
