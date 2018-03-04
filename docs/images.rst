@@ -10,7 +10,7 @@ Displaying images can be configured in "Items" configuration tab.
 
 On Windows, "Item Image" plugin needs to be installed.
 
-To disable storing and diplaying image, disable the Image plugin
+To disable storing and displaying image, disable the Image plugin
 (uncheck the checkbox next to "Image" in configuration).
 
 Editor

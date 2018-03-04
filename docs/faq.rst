@@ -74,8 +74,8 @@ choose what to import back.
 
    Importing tabs and commands won't override existing tabs but create new ones
 
-How to enable or disable displying notification when clipboard changes?
------------------------------------------------------------------------
+How to enable or disable displaying notification when clipboard changes?
+------------------------------------------------------------------------
 
 To enable displaying the notifications:
 

@@ -12,7 +12,7 @@ To enable this feature you need to have "Encryption" item plugin.
 .. image:: images/encryption-install.png
 
 The plugin configuration (under "Items" configuration tab in
-Configruation dialog) may prompt you to install
+Configuration dialog) may prompt you to install
 `GnuPG <http://www.gnupg.org/>`__:
 
 -  For Windows you can install
