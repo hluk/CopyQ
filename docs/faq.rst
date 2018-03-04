@@ -136,8 +136,8 @@ Add and modify automatic command to ignore text copied from the window:
     automatic commands are executed in order they appear in the list and we
     don't want to process sensitive data in any way.
 
-How to enable logging
----------------------
+How to enable logging?
+----------------------
 
 Set environment variable ``COPYQ_LOG_LEVEL`` to ``DEBUG`` for verbose logging
 and set ``COPYQ_LOG_FILE`` to a file path for the log.
@@ -173,8 +173,8 @@ How to open the menu or context menu with only the keyboard?
 Use ``Alt+I`` to open the item menu or use the ``Menu`` key on your keyboard
 to open the context menu for selected items.
 
-Is it possible to hide menu bar to have even cleaner main window?
------------------------------------------------------------------
+How to hide menu bar in main window?
+------------------------------------
 
 Menu bar can be hidden by modifying style sheet of current theme.
 
