@@ -225,3 +225,31 @@ Why are items and configuration not saved?
 ------------------------------------------
 
 Check access rights to configuration directory and files.
+
+Why global shortcuts don't work?
+--------------------------------
+
+Global/system shortcuts (or specific key combinations) don't work in some desktop environments (e.g. Wayland on Linux).
+
+As a workaround, you can try to assign the shortcuts in your system settings.
+
+To get the command to launch for a shortcut:
+
+1. open Command dialog (F6 from main window),
+2. in left panel, click on the command with the global shortcut,
+3. enable "Show Advanced" checkbox,
+4. copy the content of "Command" text field.
+
+.. note::
+
+   If the command looks like this:
+
+   ::
+
+      copyq: toggle()
+
+   the actual command to use is:
+
+   ::
+
+      copyq -e "toggle()"
