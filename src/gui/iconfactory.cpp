@@ -176,10 +176,11 @@ void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
     id = fixIconId(id);
 
     QPainter painter(pix);
+    painter.setRenderHint(QPainter::TextAntialiasing);
+    painter.setRenderHint(QPainter::Antialiasing);
     const QFont font = iconFontFitSize(w, h);
 
     painter.setFont(font);
-    painter.setPen(color);
 
     // Center the icon to whole pixels so it stays sharp.
     const auto flags = Qt::AlignTop | Qt::AlignLeft;
@@ -188,10 +189,17 @@ void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
     const auto x = w - boundingRect.width();
     const auto y = h - boundingRect.height();
     // If icon is wider, assume that a tag will be rendered and align image to the right.
-    const auto pos = (w > h) ? QPoint(x, y / 2) : QPoint(x, y) / 2;
-    boundingRect.moveTopLeft(pos);
+    const auto pos = boundingRect.bottomLeft()
+            + ((w > h) ? QPoint(x, y / 2) : QPoint(x, y) / 2);
 
-    painter.drawText(boundingRect, flags, iconText);
+    // Draw shadow.
+    painter.setPen(Qt::black);
+    painter.setOpacity(0.2);
+    painter.drawText(pos + QPoint(1, 1), iconText);
+    painter.setOpacity(1);
+
+    painter.setPen(color);
+    painter.drawText(pos, iconText);
 }
 
 QColor getDefaultIconColor(const QColor &color)
@@ -214,7 +222,8 @@ void tagIcon(QPixmap *pix, const QString &tag, QColor color)
     pix->setDevicePixelRatio(1);
 
     QPainter painter(pix);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
+    painter.setRenderHint(QPainter::TextAntialiasing);
+    painter.setRenderHint(QPainter::Antialiasing);
 
     const int h = pix->height();
     const int strokeWidth = static_cast<int>(ratio + h / 16);
@@ -339,12 +348,29 @@ public:
 
         // Tint tab icons.
         if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
-            QPixmap pixmap = pixmapFromFile(m_iconName, size);
-            pixmap = pixmap.scaled(size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-            QPainter painter2(&pixmap);
+            const QPixmap pixmap = pixmapFromFile(m_iconName, size);
+
+            QPixmap pixmap2(pixmap.size());
+            pixmap2.fill(Qt::transparent);
+            QPainter painter2(&pixmap2);
+            painter2.setRenderHint(QPainter::SmoothPixmapTransform);
+            painter2.setRenderHint(QPainter::TextAntialiasing);
+            painter2.setRenderHint(QPainter::Antialiasing);
+
+            // Draw shadow.
+            const auto rect = pixmap.rect();
+            painter2.setOpacity(0.2);
+            painter2.drawPixmap(rect.translated(1, 1), pixmap);
+            painter2.setOpacity(1);
             painter2.setCompositionMode(QPainter::CompositionMode_SourceIn);
-            painter2.fillRect( pixmap.rect(), colorForMode(painter, mode) );
-            return pixmap;
+            painter2.fillRect( pixmap2.rect(), Qt::black );
+            painter2.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+            painter2.drawPixmap(rect, pixmap);
+            painter2.setCompositionMode(QPainter::CompositionMode_SourceIn);
+            painter2.fillRect( pixmap2.rect(), colorForMode(painter, mode) );
+
+            return pixmap2;
         }
 
         QIcon icon = pixmapFromFile(m_iconName, size);
