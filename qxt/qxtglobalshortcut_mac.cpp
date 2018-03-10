@@ -33,6 +33,7 @@
 #include <QMap>
 #include <QHash>
 #include <QtDebug>
+#include <QtGlobal>
 #include <QApplication>
 
 using Identifier = QPair<uint, uint>;
@@ -353,7 +354,18 @@ bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativ
         EventTypeSpec t;
         t.eventClass = kEventClassKeyboard;
         t.eventKind = kEventHotKeyPressed;
-        InstallApplicationEventHandler(&qxt_mac_handle_hot_key, 1, &t, nullptr, nullptr);
+        const auto statusCode =
+                InstallApplicationEventHandler(&qxt_mac_handle_hot_key, 1, &t, nullptr, nullptr);
+        if (statusCode != 0) {
+            const auto error =
+                    QString("Failed to register shortcut event handler:"
+                            " InstallApplicationEventHandler returned non-zero status code %1")
+                    .arg(statusCode);
+            qCritical() << error;
+            return false;
+        }
+
+        qxt_mac_handler_installed = true;
     }
 
     EventHotKeyID keyID;
@@ -361,13 +373,21 @@ bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativ
     keyID.id = ++hotKeySerial;
 
     EventHotKeyRef ref = 0;
-    bool rv = !RegisterEventHotKey(nativeKey, nativeMods, keyID, GetApplicationEventTarget(), 0, &ref);
-    if (rv)
-    {
-        keyIDs.insert(Identifier(nativeMods, nativeKey), keyID.id);
-        keyRefs.insert(keyID.id, ref);
+    const auto statusCode = RegisterEventHotKey(nativeKey, nativeMods, keyID, GetApplicationEventTarget(), 0, &ref);
+    if (statusCode != 0) {
+        const auto error =
+                QString("Failed to register shortcut (key: %1, modifiers: %2):"
+                        " RegisterEventHotKey returned non-zero status code %3")
+                .arg(nativeKey)
+                .arg(nativeMods)
+                .arg(statusCode);
+        qCritical() << error;
+        return false;
     }
-    return rv;
+
+    keyIDs.insert(Identifier(nativeMods, nativeKey), keyID.id);
+    keyRefs.insert(keyID.id, ref);
+    return true;
 }
 
 bool QxtGlobalShortcutPrivate::unregisterShortcut(quint32 nativeKey, quint32 nativeMods)
