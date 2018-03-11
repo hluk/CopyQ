@@ -147,6 +147,9 @@ QColor &sessionIconTagColorVariable()
 
 QPixmap pixmapFromFile(const QString &path, QSize size)
 {
+    if ( !QFile::exists(path) )
+        return QPixmap();
+
     QSvgRenderer renderer(path);
     if ( !renderer.isValid() )
         return QPixmap(path);
