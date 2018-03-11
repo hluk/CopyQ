@@ -2399,12 +2399,12 @@ Aperçu de l’élément permet d’afficher des éléments entiers.</translatio
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer la recherche de chiffres, sinon appuyer sur une touche numérique active l&apos;élément sur cette position</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>R&amp;echerche de chiffres</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="784"/>
