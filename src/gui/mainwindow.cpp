@@ -2210,7 +2210,7 @@ bool MainWindow::event(QEvent *event)
         m_timerShowWindow.start();
         updateWindowTransparency();
         setHideTabs(m_options.hideTabs);
-        if ( AppConfig().option<Config::close_on_unfocus>() )
+        if (m_options.closeOnUnfocus)
             m_timerHideWindowIfNotActive.start();
     } else if (type == QEvent::Hide) {
         m_wasMaximized = isMaximized();
@@ -2299,6 +2299,7 @@ void MainWindow::loadSettings()
                                                       : Qt::ToolButtonTextUnderIcon);
 
     m_options.hideMainWindow = appConfig.option<Config::hide_main_window>();
+    m_options.closeOnUnfocus = appConfig.option<Config::close_on_unfocus>();
 
     // shared data for browsers
     m_sharedData->editor = appConfig.option<Config::editor>();

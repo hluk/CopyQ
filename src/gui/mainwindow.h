@@ -94,6 +94,7 @@ struct MainWindowOptions {
     bool hideTabs = false;
 
     bool hideMainWindow = false;
+    bool closeOnUnfocus = false;
 
     int itemActivationCommands = ActivateCloses;
 
