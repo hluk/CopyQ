@@ -9,22 +9,22 @@
         <translation>CopyQ について</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="106"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
         <translation>クリップボードマネージャー</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="113"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="114"/>
         <source>Author</source>
         <translation>作者</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="114"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>E-mail</source>
         <translation>E-mail</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="115"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
@@ -33,7 +33,7 @@
         <translation type="vanished">Wiki</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="116"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>寄付</translation>
     </message>
@@ -271,155 +271,153 @@ You can set up the command in preferences.</source>
         <translation>CopyQ コマンドを追加</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="108"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation>Ctrl+Shift+1</translation>
+        <translation type="vanished">Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="115"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Show/hide main window</source>
         <translation>メインウィンドウの表示切り替え</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="117"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Show the tray menu</source>
         <translation>トレイメニューを表示</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="119"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
         <source>Show main window under mouse cursor</source>
         <translation>マウスカーソルの下にメインウィンドウを表示</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="121"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
         <source>Edit clipboard</source>
         <translation>クリップボードを編集</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="123"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
         <source>Edit first item</source>
         <translation>最初のアイテムを編集</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="125"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="83"/>
         <source>Copy second item</source>
         <translation>2つ目のアイテムをコピー</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="127"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
         <source>Show action dialog</source>
         <translation>アクションダイアログを表示</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="129"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
         <source>Create new item</source>
         <translation>新しいアイテムを作成</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="131"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="86"/>
         <source>Copy next item</source>
         <translation>次のアイテムをコピー</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="133"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="87"/>
         <source>Copy previous item</source>
         <translation>前のアイテムをコピー</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="135"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
         <source>Paste clipboard as plain text</source>
         <translation>ブレーンテキストとしてクリップボードを貼り付け</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="137"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
         <source>Disable clipboard storing</source>
         <translation>クリップボードの記録を無効</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="139"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Enable clipboard storing</source>
         <translation>クリップボードの記録を有効</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="141"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
         <translation>貼り付けて次のアイテムをコピー</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="143"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
         <source>Paste and copy previous</source>
         <translation>貼り付けて前のアイテムをコピー</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="147"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="57"/>
         <source>New command</source>
         <translation>新しいコマンド</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="195"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="64"/>
         <source>Ignore items with no or single character</source>
         <translation>一文字以下のアイテムを無視</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="203"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
         <translation>ブラウザで開く(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="211"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
         <translation>プレーンテキストとして貼り付け</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
         <source>Shift+Return</source>
-        <translation>Shift+Return</translation>
+        <translation type="vanished">Shift+Return</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="220"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
         <translation>ビデオを自動再生</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="229"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="97"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>URL(Webアドレス)を別のタブにコピー</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="236"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="104"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>サムネイルを作成 (要ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="244"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="112"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation>URLからQRコードを作成 (要qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="252"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="120"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="255"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="123"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="263"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
         <translation type="unfinished"></translation>
@@ -433,29 +431,29 @@ You can set up the command in preferences.</source>
         <translation type="vanished">TODOタブに移動(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="272"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
         <translation>コピーしたファイルを無視</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="281"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation>タイトルに *&quot;Password&quot;* が含まれるウィンドウを無視</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="282"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="150"/>
         <source>Password</source>
         <translation>Password</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="290"/>
-        <location filename="../src/gui/addcommanddialog.cpp" line="298"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="158"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Move to Trash</source>
         <translation>ゴミ箱へ移動</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="293"/>
-        <location filename="../src/gui/addcommanddialog.cpp" line="301"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="161"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="168"/>
         <source>(trash)</source>
         <translation>(ゴミ箱)</translation>
     </message>
@@ -475,24 +473,24 @@ You can set up the command in preferences.</source>
         <translation type="vanished">「%p%」を検索中...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="763"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1529"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="758"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1563"/>
         <source>Cannot Add New Items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="764"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1530"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="759"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1564"/>
         <source>Tab is full. Failed to remove any items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1788"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1822"/>
         <source>Discard Changes?</source>
         <translation>変更を破棄しますか?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1789"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1823"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>本当に&lt;strong&gt;変更を破棄&lt;/strong&gt;しますか?</translation>
     </message>
@@ -552,22 +550,22 @@ You can set up the command in preferences.</source>
         <translation>CopyQ サーバーはすでに稼働中です。</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="305"/>
+        <location filename="../src/app/clipboardserver.cpp" line="303"/>
         <source>Cancel Active Commands</source>
         <translation>動作中のコマンドをキャンセル</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="306"/>
+        <location filename="../src/app/clipboardserver.cpp" line="304"/>
         <source>Cancel active commands and exit?</source>
         <translation>動作中のコマンドをキャンセルして終了しますか?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="309"/>
+        <location filename="../src/app/clipboardserver.cpp" line="307"/>
         <source>Cancel Exiting</source>
         <translation>終了をキャンセル</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="310"/>
+        <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Exit Anyway</source>
         <translation>終了を実行</translation>
     </message>
@@ -575,7 +573,7 @@ You can set up the command in preferences.</source>
 <context>
     <name>CommandCompleter</name>
     <message>
-        <location filename="../src/gui/commandcompleter.cpp" line="238"/>
+        <location filename="../src/gui/commandcompleter.cpp" line="234"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
         <translation type="unfinished"></translation>
@@ -1201,18 +1199,18 @@ Note: If this is applied automatically, no other automatic commands are executed
         <translation>プレビュー:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="460"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="456"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>アイテム</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="463"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="459"/>
         <source>Search string is %1.</source>
         <translation>検索文字列は %1 です。</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="464"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="460"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>アイテムを選択し、
@@ -1229,12 +1227,12 @@ CTRL and up or down key.</source>
         <translation type="vanished">Deleteキーでアイテムを削除できます。</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="467"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="463"/>
         <source>Example item %1</source>
         <translation>アイテム例 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="472"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="468"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>適当なノート (編集するにはShift+F2)</translation>
     </message>
@@ -1259,7 +1257,7 @@ CTRL and up or down key.</source>
         <translation>外部エディタコマンドを最初に設定してください!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="375"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="371"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Aa あ</translation>
@@ -1288,7 +1286,7 @@ CTRL and up or down key.</source>
         <translation type="vanished">設定(&amp;P)...</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="1970"/>
+        <location filename="../src/tests/tests.cpp" line="1965"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -1555,20 +1553,19 @@ CTRL and up or down key.</source>
 &lt;p&gt;システムでサポートされていれば、&lt;b&gt;グローバルショートカット&lt;/b&gt; (システムワイドショートカット) をコマンドダイアログ(メニューの&lt;b&gt;ファイル/コマンド...&lt;/b&gt;から開けます)で定義できます.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
         <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation>カスタムアクションとグローバルショートカット(&amp;C)...</translation>
+        <translation type="vanished">カスタムアクションとグローバルショートカット(&amp;C)...</translation>
     </message>
 </context>
 <context>
     <name>ConfigurationManager</name>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="12"/>
+        <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
         <translation>CopyQ の設定</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="31"/>
+        <location filename="../src/ui/configurationmanager.ui" line="39"/>
         <source>&amp;General</source>
         <translation>一般(&amp;G)</translation>
     </message>
@@ -1585,7 +1582,7 @@ CTRL and up or down key.</source>
         <translation type="vanished">長いテキストを折り返す(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="126"/>
+        <location filename="../src/ui/configurationmanager.ui" line="134"/>
         <source>Keep main window above other windows</source>
         <translation>メインウィンドウを他のウィンドウの前面に表示</translation>
     </message>
@@ -1599,52 +1596,52 @@ CTRL and up or down key.</source>
 無効にすると最後にウィンドウを閉じたスクリーンにウィンドウを開きます。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="149"/>
+        <location filename="../src/ui/configurationmanager.ui" line="157"/>
         <source>O&amp;pen windows on current screen</source>
         <translation>現在のスクリーンにウィンドウを開く(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="156"/>
+        <location filename="../src/ui/configurationmanager.ui" line="164"/>
         <source>Confirm application exit</source>
         <translation>アプリケーション終了時に確認</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="159"/>
+        <location filename="../src/ui/configurationmanager.ui" line="167"/>
         <source>Confirm application e&amp;xit</source>
         <translation>終了時に確認する(&amp;X)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="169"/>
+        <location filename="../src/ui/configurationmanager.ui" line="177"/>
         <source>Run the application on system startup</source>
         <translation>システムの起動時にアプリケーションを実行</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="172"/>
+        <location filename="../src/ui/configurationmanager.ui" line="180"/>
         <source>&amp;Autostart</source>
         <translation>自動起動(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="179"/>
+        <location filename="../src/ui/configurationmanager.ui" line="187"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
         <translation>vi のナビゲーションキー (H, J, K, L など) や、検索に使うスラッシュ (/) キーをサポート</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="182"/>
+        <location filename="../src/ui/configurationmanager.ui" line="190"/>
         <source>&amp;Vi style navigation</source>
         <translation>Vi スタイルナビゲーション(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="209"/>
+        <location filename="../src/ui/configurationmanager.ui" line="217"/>
         <source>Clipboard Manipulation</source>
         <translation>クリップボードの操作</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="221"/>
+        <location filename="../src/ui/configurationmanager.ui" line="229"/>
         <source>Save text selected with mouse (primary selection) in history</source>
         <translation>履歴にマウスで選択したテキスト(プライマリーセレクション)を保存</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="224"/>
+        <location filename="../src/ui/configurationmanager.ui" line="232"/>
         <source>(&amp;2) Store text selected using mouse</source>
         <translation>(&amp;2) マウスで選択したテキストを記録</translation>
     </message>
@@ -1653,17 +1650,17 @@ CTRL and up or down key.</source>
         <translation type="vanished">ショートカット(たいていはCtrl+VやShift+Insert)を使ってマウスで選択した部分に貼り付けます。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="234"/>
+        <location filename="../src/ui/configurationmanager.ui" line="242"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
         <translation>(&amp;4) マウスで選択したところにキーボードで貼り付け</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="241"/>
+        <location filename="../src/ui/configurationmanager.ui" line="249"/>
         <source>Save clipboard in history</source>
         <translation>履歴にクリップボードを保存</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="244"/>
+        <location filename="../src/ui/configurationmanager.ui" line="252"/>
         <source>(&amp;1) Store clipboard</source>
         <translation>(&amp;1) クリップボードを記録</translation>
     </message>
@@ -1676,78 +1673,78 @@ CTRL and up or down key.</source>
         <translation type="vanished">言語(&amp;G):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="88"/>
+        <location filename="../src/ui/configurationmanager.ui" line="96"/>
         <source>&amp;Language:</source>
         <translation>言語(&amp;L):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="116"/>
+        <location filename="../src/ui/configurationmanager.ui" line="124"/>
         <source>Break text if it&apos;s too long to fit on line</source>
         <translation>行に収まりきらない場合にテキストを折り返します</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="119"/>
+        <location filename="../src/ui/configurationmanager.ui" line="127"/>
         <source>Wrap l&amp;ong text</source>
         <translation>長いテキストを折り返す(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="129"/>
+        <location filename="../src/ui/configurationmanager.ui" line="137"/>
         <source>Alwa&amp;ys on Top</source>
         <translation>常に最前面表示(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="146"/>
+        <location filename="../src/ui/configurationmanager.ui" line="154"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
         <translation>有効にすると現在のスクリーンにウィンドウを開きます。
 無効にすると最後にウィンドウを閉じたスクリーンにウィンドウを開きます</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="189"/>
+        <location filename="../src/ui/configurationmanager.ui" line="197"/>
         <source>Save and restore history of item filters</source>
         <translation>アイテムフィルターの履歴を保存し復元します</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="192"/>
+        <location filename="../src/ui/configurationmanager.ui" line="200"/>
         <source>Save Filter History</source>
         <translation>フィルター履歴を保存</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="231"/>
+        <location filename="../src/ui/configurationmanager.ui" line="239"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
         <translation>ショートカット(たいていはCtrl+VやShift+Insert)を使ってマウスで選択した部分に貼り付けます</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="254"/>
+        <location filename="../src/ui/configurationmanager.ui" line="262"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
         <translation>マウスで選択するのと同様の方法でコピーした内容を貼り付けます(たいていはマウスの中ボタンをクリック)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="257"/>
+        <location filename="../src/ui/configurationmanager.ui" line="265"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
         <translation>(&amp;3) マウスを使ってクリップボードを貼り付け</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="400"/>
+        <location filename="../src/ui/configurationmanager.ui" line="408"/>
         <source>Layout and Transparency</source>
         <translation>レイアウトと透過</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="409"/>
+        <location filename="../src/ui/configurationmanager.ui" line="417"/>
         <source>Show tree with tabs instead of tab bar</source>
         <translation>タブバーの代わりにタブツリーを表示</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="412"/>
+        <location filename="../src/ui/configurationmanager.ui" line="420"/>
         <source>Tab T&amp;ree</source>
         <translation>タブツリー(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="419"/>
+        <location filename="../src/ui/configurationmanager.ui" line="427"/>
         <source>&amp;Focused transparency:</source>
         <translation>フォーカス時の透過度(&amp;F):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="431"/>
+        <location filename="../src/ui/configurationmanager.ui" line="439"/>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
@@ -1756,12 +1753,12 @@ Note: This is not be supported on all systems.</source>
 注意: すべてのシステムをサポートしていません。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="461"/>
+        <location filename="../src/ui/configurationmanager.ui" line="469"/>
         <source>&amp;Unfocused transparency:</source>
         <translation>非フォーカス時の透過度(&amp;U):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="473"/>
+        <location filename="../src/ui/configurationmanager.ui" line="481"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
@@ -1770,102 +1767,102 @@ Note: This is not be supported on all systems.</source>
 注意: すべてのシステムをサポートしていません。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="503"/>
+        <location filename="../src/ui/configurationmanager.ui" line="511"/>
         <source>Show number of items in tabs</source>
         <translation>タブのアイテム数を表示</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="506"/>
+        <location filename="../src/ui/configurationmanager.ui" line="514"/>
         <source>Sho&amp;w Item Count</source>
         <translation>アイテム数を表示(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="354"/>
+        <location filename="../src/ui/configurationmanager.ui" line="362"/>
         <source>Show/Hide</source>
         <translation>表示切り替え</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="300"/>
+        <location filename="../src/ui/configurationmanager.ui" line="308"/>
         <source>&amp;Layout</source>
         <translation>レイアウト(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="360"/>
+        <location filename="../src/ui/configurationmanager.ui" line="368"/>
         <source>Hide tabs (press Alt key to show)</source>
         <translation>タブを隠します。 (Altキーで表示)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="363"/>
+        <location filename="../src/ui/configurationmanager.ui" line="371"/>
         <source>Hi&amp;de tabs</source>
         <translation>タブを隠す(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="370"/>
+        <location filename="../src/ui/configurationmanager.ui" line="378"/>
         <source>Hide toolbar</source>
         <translation>ツールバーを隠す</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="373"/>
+        <location filename="../src/ui/configurationmanager.ui" line="381"/>
         <source>Hide too&amp;lbar</source>
         <translation>ツールバーを隠す(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="380"/>
+        <location filename="../src/ui/configurationmanager.ui" line="388"/>
         <source>Hide tool&amp;bar labels</source>
         <translation>ツールバーのラベルを隠す(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="894"/>
+        <location filename="../src/ui/configurationmanager.ui" line="912"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
         <translation>トレイアイコンを表示しません。閉じたウィンドウは最小化されます</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="897"/>
+        <location filename="../src/ui/configurationmanager.ui" line="915"/>
         <source>Disabl&amp;e tray</source>
         <translation>トレイを無効(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="387"/>
+        <location filename="../src/ui/configurationmanager.ui" line="395"/>
         <source>Hide main window when closed</source>
         <translation>閉じた場合メインウィンドウを隠す</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="136"/>
+        <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Close main window when other application has focus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="139"/>
+        <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>Close When Unfocused</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="199"/>
+        <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="202"/>
+        <location filename="../src/ui/configurationmanager.ui" line="210"/>
         <source>Auto-complete Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="390"/>
+        <location filename="../src/ui/configurationmanager.ui" line="398"/>
         <source>Hide &amp;main window</source>
         <translation>メインウィンドウを隠す(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="687"/>
+        <location filename="../src/ui/configurationmanager.ui" line="695"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="712"/>
+        <location filename="../src/ui/configurationmanager.ui" line="720"/>
         <source>Ta&amp;b for storing clipboard:</source>
         <translation>クリップボード記録用タブ(&amp;B):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="722"/>
+        <location filename="../src/ui/configurationmanager.ui" line="730"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
@@ -1874,99 +1871,109 @@ Leave empty to disable automatic storing.</source>
 自動記録を無効にする場合は空欄にしてください。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="748"/>
+        <location filename="../src/ui/configurationmanager.ui" line="756"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="753"/>
+        <location filename="../src/ui/configurationmanager.ui" line="761"/>
         <source>Sho&amp;w simple items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="766"/>
+        <location filename="../src/ui/configurationmanager.ui" line="768"/>
+        <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="771"/>
+        <source>S&amp;earch for numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="784"/>
         <source>Move item to the top of the list after it is activated</source>
         <translation>アイテムを使用後に履歴リストの最上位に移動します</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="769"/>
+        <location filename="../src/ui/configurationmanager.ui" line="787"/>
         <source>Move item to the t&amp;op</source>
         <translation>アイテムを最上位に移動(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="776"/>
+        <location filename="../src/ui/configurationmanager.ui" line="794"/>
         <source>Close main window after item is activated</source>
         <translation>アイテムを使用後にメインウィンドウを閉じます</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="786"/>
+        <location filename="../src/ui/configurationmanager.ui" line="804"/>
         <source>Focus last window after item is activated</source>
         <translation>アイテムを使用する際、直前に使用していたウィンドウにフォーカスを移動します</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="796"/>
+        <location filename="../src/ui/configurationmanager.ui" line="814"/>
         <source>Paste to current window after item is activated</source>
         <translation>アイテムを使用する際現在のウィンドウにアイテムを貼り付けます</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="904"/>
+        <location filename="../src/ui/configurationmanager.ui" line="922"/>
         <source>Show command for current clipboard content in tray menu</source>
         <translation>トレイメニューにクリップボードの内容を確認するコマンドを表示します</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="953"/>
+        <location filename="../src/ui/configurationmanager.ui" line="971"/>
         <source>Show items from current tab in tray menu</source>
         <translation>トレイメニューに現在のタブのアイテムを表示</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="956"/>
+        <location filename="../src/ui/configurationmanager.ui" line="974"/>
         <source>Show cu&amp;rrent tab in menu,</source>
         <translation>メニューに現在のタブを表示(&amp;R)、</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="963"/>
+        <location filename="../src/ui/configurationmanager.ui" line="981"/>
         <source>or &amp;choose other tab:</source>
         <translation>あるいは他のタブを選択(&amp;C):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1004"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1022"/>
         <source>Paste item to current window after selecting it in menu</source>
         <translation>メニューでアイテムを選択後、現在のウィンドウにアイテムを貼り付けます</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1017"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1035"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
         <translation>メニューのアイテムアイコンに画像プレビューを表示(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1178"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1196"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
         <translation>通知の表示時間(秒)(&amp;E):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1269"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1287"/>
         <source>Hori&amp;zontal offset:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1281"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1299"/>
         <source>Notification distance from left or right screen edge in screen points</source>
         <translation>スクリーン座標上でスクリーンの端から右あるいは左からの通知の距離を設定</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1321"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1339"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
         <translation>スクリーン座標上でスクリーンの端から上あるいは下からの通知の距離を設定</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1361"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1379"/>
         <source>Maximum width for notification in screen points</source>
         <translation>スクリーン座標上で通知の最大の幅を設定</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1398"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1416"/>
         <source>Maximum height for notification in screen points</source>
         <translation>スクリーン座標上で通知の最大の高さを設定</translation>
     </message>
@@ -1975,27 +1982,27 @@ Use Item Preview to display whole items.</source>
         <translation type="vanished">トレイを無効(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="551"/>
+        <location filename="../src/ui/configurationmanager.ui" line="559"/>
         <source>&amp;History</source>
         <translation>履歴(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="608"/>
+        <location filename="../src/ui/configurationmanager.ui" line="616"/>
         <source>Maximum &amp;number of items in history:</source>
         <translation>履歴内のアイテム最大数(&amp;N):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="620"/>
+        <location filename="../src/ui/configurationmanager.ui" line="628"/>
         <source>Maximum number of items in each tab</source>
         <translation>それぞれのタブのアイテム最大数を設定します</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="648"/>
+        <location filename="../src/ui/configurationmanager.ui" line="656"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
         <translation>タブをメモリから開放する間隔(分)(&amp;U):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="660"/>
+        <location filename="../src/ui/configurationmanager.ui" line="668"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
@@ -2008,7 +2015,7 @@ Set to 0 not to unload tabs.</source>
         <translation type="vanished">外部エディタコマンド(&amp;E) (%1 は編集ファイル):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="697"/>
+        <location filename="../src/ui/configurationmanager.ui" line="705"/>
         <source>External editor command (%1 is file to edit).
   Examples:
     gedit %1
@@ -2023,7 +2030,7 @@ Set to 0 not to unload tabs.</source>
     xterm -e vim %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="736"/>
+        <location filename="../src/ui/configurationmanager.ui" line="744"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
@@ -2032,12 +2039,12 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
 注意: このオプションに関係なく、編集したアイテムは F2 で保存できます。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="741"/>
+        <location filename="../src/ui/configurationmanager.ui" line="749"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
         <translation>Ctrl+Return でアイテムを保存し Return キーで改行する(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="760"/>
+        <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
         <translation>アイテム使用時(ダブルクリックかEnterキー)は、クリップボードにコピーした後に...</translation>
     </message>
@@ -2054,7 +2061,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="vanished">アイテムを使用後にメインウィンドウを閉じます。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="779"/>
+        <location filename="../src/ui/configurationmanager.ui" line="797"/>
         <source>&amp;Close main window</source>
         <translation>メインウィンドウを閉じる(&amp;C)</translation>
     </message>
@@ -2063,7 +2070,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="vanished">アイテムを使用する際、直前に使用していたウィンドウにフォーカスを移動します。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="789"/>
+        <location filename="../src/ui/configurationmanager.ui" line="807"/>
         <source>&amp;Focus last window</source>
         <translation>直前のウィンドウにフォーカス(&amp;F)</translation>
     </message>
@@ -2072,12 +2079,12 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="vanished">アイテムを使用する際現在のウィンドウにアイテムを貼り付けます。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="799"/>
+        <location filename="../src/ui/configurationmanager.ui" line="817"/>
         <source>&amp;Paste to current window</source>
         <translation>現在のウィンドウに貼り付け(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="842"/>
+        <location filename="../src/ui/configurationmanager.ui" line="860"/>
         <source>&amp;Tray</source>
         <translation>トレイ(&amp;T)</translation>
     </message>
@@ -2086,17 +2093,17 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="vanished">トレイメニューにクリップボードの内容を確認するコマンドを表示します。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="907"/>
+        <location filename="../src/ui/configurationmanager.ui" line="925"/>
         <source>Sho&amp;w commands for clipboard content</source>
         <translation>クリップボードの内容を確認するコマンドを表示(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="916"/>
+        <location filename="../src/ui/configurationmanager.ui" line="934"/>
         <source>N&amp;umber of items in tray menu:</source>
         <translation>トレイメニューのアイテム数(&amp;U):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="926"/>
+        <location filename="../src/ui/configurationmanager.ui" line="944"/>
         <source>Number of items in tray menu</source>
         <translation>トレイメニューに表示されるアイテムの個数を設定します</translation>
     </message>
@@ -2113,7 +2120,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="vanished">あるいは他のタブを選択(&amp;T):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="979"/>
+        <location filename="../src/ui/configurationmanager.ui" line="997"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
         <translation>トレイメニューに表示するタブの名前(最初のタブにしたいときは空欄に)</translation>
     </message>
@@ -2122,12 +2129,12 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="vanished">メニューでアイテムを選択後、現在のウィンドウにアイテムを貼り付けます。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1007"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1025"/>
         <source>&amp;Paste activated item to current window</source>
         <translation>アクティブ化したアイテムを現在のウィンドウに貼り付け(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1014"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1032"/>
         <source>Show image preview next to menu items</source>
         <translation>メニューのアイテムの隣に画像プレビューを表示</translation>
     </message>
@@ -2136,47 +2143,47 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="vanished">メニューのアイテムアイコンに画像プレビューを表示(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1057"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1075"/>
         <source>&amp;Notifications</source>
         <translation>通知(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1114"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1132"/>
         <source>&amp;Notification position:</source>
         <translation>通知の表示位置(&amp;N):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1126"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1144"/>
         <source>Position on screen for notifications</source>
         <translation>スクリーン上に通知を表示する位置を設定</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1130"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1148"/>
         <source>Top</source>
         <translation>上</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1135"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1153"/>
         <source>Bottom</source>
         <translation>下</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1140"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1158"/>
         <source>Top Right</source>
         <translation>右上</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1145"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1163"/>
         <source>Bottom Right</source>
         <translation>右下</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1150"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1168"/>
         <source>Bottom Left</source>
         <translation>左下</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1155"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1173"/>
         <source>Top Left</source>
         <translation>左上</translation>
     </message>
@@ -2185,7 +2192,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="vanished">通知の表示時間(秒):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1190"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1208"/>
         <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
@@ -2199,12 +2206,12 @@ Set to -1 to keep visible until clicked.</source>
 通知をクリックするまで表示したままにするときは -1 を設定。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1222"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1240"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
         <translation>クリップボード通知の行数(&amp;B):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1234"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1252"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
@@ -2213,7 +2220,7 @@ Set to 0 to disable.</source>
 無効にする場合は 0 を設定。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1263"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1281"/>
         <source>Notification Geometry (in screen points)</source>
         <translation>通知の配置(スクリーン座標上で)</translation>
     </message>
@@ -2226,7 +2233,7 @@ Set to 0 to disable.</source>
         <translation type="vanished">スクリーン座標上でスクリーンの端から右あるいは左からの通知の距離を設定。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1309"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1327"/>
         <source>&amp;Vertical offset:</source>
         <translation>垂直オフセット(&amp;V):</translation>
     </message>
@@ -2235,7 +2242,7 @@ Set to 0 to disable.</source>
         <translation type="vanished">スクリーン座標上でスクリーンの端から上あるいは下からの通知の距離を設定。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1349"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1367"/>
         <source>Maximum &amp;width:</source>
         <translation>最大の幅(&amp;W):</translation>
     </message>
@@ -2244,7 +2251,7 @@ Set to 0 to disable.</source>
         <translation type="vanished">スクリーン座標上で通知の最大の幅を設定。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1386"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1404"/>
         <source>Ma&amp;ximum height:</source>
         <translation>最大の高さ(&amp;X):</translation>
     </message>
@@ -2253,12 +2260,12 @@ Set to 0 to disable.</source>
         <translation type="vanished">スクリーン座標上で通知の最大の高さを設定。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1459"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1477"/>
         <source>&amp;Items</source>
         <translation>アイテム(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1471"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1489"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
         <translation>履歴で選択したアイテムの表示フォーマットは&lt;b&gt;Ctrl+Left&lt;/b&gt; か &lt;b&gt;Ctrl+Right&lt;/b&gt; を押すことで変更できます。下記の項目を並び替えることで表示されるフォーマットの優先度を変えることができます。</translation>
     </message>
@@ -2283,12 +2290,12 @@ Set to 0 to disable.</source>
         <translation type="vanished">選択したコマンドを保存(&amp;V)...</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1489"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1507"/>
         <source>&amp;Shortcuts</source>
         <translation>ショートカット(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1499"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1517"/>
         <source>&amp;Appearance</source>
         <translation>外観(&amp;A)</translation>
     </message>
@@ -2455,27 +2462,27 @@ Set to 0 to disable.</source>
         <translation type="vanished">設定用ディレクトリ %1 を作成できません!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="364"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="368"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>オプション &quot;%1&quot; の値が無効です</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="407"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="411"/>
         <source>Reset preferences?</source>
         <translation>設定をリセットしますか?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="408"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="412"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>この操作により全ての設定がデフォルト値にリセットされます。&lt;br /&gt;&lt;br /&gt;本当に&lt;strong&gt;全ての設定をリセット&lt;/strong&gt;しますか?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="500"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="504"/>
         <source>Restart Required</source>
         <translation>再起動が必要</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="501"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="505"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>言語設定はアプリケーションを再起動した後に変更されます。</translation>
     </message>
@@ -2662,7 +2669,7 @@ Set to 0 to disable.</source>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="571"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="567"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>同期用ディレクトリ &quot;%1&quot; の作成に失敗しました!</translation>
     </message>
@@ -2684,7 +2691,7 @@ Set to 0 to disable.</source>
         <translation>アイコンを選択...</translation>
     </message>
     <message>
-        <location filename="../src/gui/iconselectbutton.cpp" line="75"/>
+        <location filename="../src/gui/iconselectbutton.cpp" line="73"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
         <translation>...</translation>
@@ -2693,22 +2700,22 @@ Set to 0 to disable.</source>
 <context>
     <name>IconSelectDialog</name>
     <message>
-        <location filename="../src/gui/iconselectdialog.cpp" line="159"/>
+        <location filename="../src/gui/iconselectdialog.cpp" line="169"/>
         <source>CopyQ Select Icon</source>
         <translation>CopyQ アイコンを選択</translation>
     </message>
     <message>
-        <location filename="../src/gui/iconselectdialog.cpp" line="166"/>
+        <location filename="../src/gui/iconselectdialog.cpp" line="176"/>
         <source>Browse...</source>
         <translation>ファイル...</translation>
     </message>
     <message>
-        <location filename="../src/gui/iconselectdialog.cpp" line="212"/>
+        <location filename="../src/gui/iconselectdialog.cpp" line="222"/>
         <source>Open Icon file</source>
         <translation>アイコンファイルを開く</translation>
     </message>
     <message>
-        <location filename="../src/gui/iconselectdialog.cpp" line="213"/>
+        <location filename="../src/gui/iconselectdialog.cpp" line="223"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
         <translation>画像ファイル (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
@@ -2937,12 +2944,12 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="600"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="597"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>他のコンピューターやセッションと暗号化されたアイテムを共有するには、公開鍵と秘密鍵が必要です:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(この秘密鍵は安全な場所に保管してください。)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="666"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="663"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>暗号化されたタブを見るにはGnuPGのインストールが必要です。</translation>
     </message>
@@ -2998,33 +3005,33 @@ Set to 0 to disable.</source>
         <translation>完了</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="903"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="897"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>新しい鍵を作成中 (数分かかる場合があります)...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="898"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
         <source>Cancel</source>
         <translation>キャンセル</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="906"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="900"/>
         <source>Setting new password...</source>
         <translation>新しいパスワードを設定...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="909"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="903"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>アイテムの暗号化を行う前に暗号化の鍵の&lt;strong&gt;生成が必要です&lt;/strong&gt;。</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="906"/>
         <source>Generate New Keys...</source>
         <translation>新しい鍵を生成...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="914"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="908"/>
         <source>Change Password...</source>
         <translation>パスワードを変更...</translation>
     </message>
@@ -3034,7 +3041,7 @@ Set to 0 to disable.</source>
         <translation>暗号化に失敗しました!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="920"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="914"/>
         <source>Decryption failed!</source>
         <translation>復号化に失敗しました!</translation>
     </message>
@@ -3057,22 +3064,17 @@ Set to 0 to disable.</source>
         <translation>アイテムを暗号化・復号化するには設定のコマンドタブで適切なコマンドを追加してください。</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="72"/>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="94"/>
+        <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
         <translation>暗号化アイテムとタブの共有</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="116"/>
+        <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="92"/>
         <source>Encrypted Tabs</source>
         <translation>暗号化タブ</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="122"/>
+        <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
         <translation>&lt;p&gt;自動的に暗号化・復号化したいタブの名前を(1行につき1個ずつ)指定してください。&lt;/p&gt;
@@ -3238,54 +3240,45 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemPinnedLoader</name>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="54"/>
         <source>Ctrl+Shift+P</source>
         <comment>Shortcut to pin and unpin items</comment>
-        <translation type="unfinished">Ctrl+Shift+P</translation>
+        <translation type="obsolete">Ctrl+Shift+P</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="233"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="230"/>
         <source>Cannot Remove Pinned Items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="234"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="231"/>
         <source>Unpin items first to remove them.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="423"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="409"/>
         <source>Pin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="430"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="416"/>
         <source>Unpin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="122"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="118"/>
         <source>Pinned Items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="125"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="121"/>
         <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ItemPinnedSettings</name>
-    <message>
-        <location filename="../plugins/itempinned/itempinnedsettings.ui" line="19"/>
-        <source>Add Actions to Menu and Toolbar</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ItemSyncLoader</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="130"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="121"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
         <translation>ファイル...</translation>
@@ -3303,12 +3296,12 @@ Set to 0 to disable.</source>
         <translation type="vanished">本当に&lt;strong&gt;アイテムと関連付けたファイルを削除&lt;/strong&gt;しますか?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="852"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="843"/>
         <source>Open Directory for Synchronization</source>
         <translation>同期用のディレクトリを開く</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="866"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="857"/>
         <source>Failed to create synchronization directory</source>
         <translation>同期ディレクトリの作成に失敗しました</translation>
     </message>
@@ -3326,17 +3319,17 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="518"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="509"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation type="unfinished">タブ &quot;%1&quot; のディレクトリ &quot;%2&quot; への同期に失敗しました!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="553"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="544"/>
         <source>Remove Items?</source>
         <translation type="unfinished">アイテムを削除しますか?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="554"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="545"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation type="unfinished">本当に&lt;strong&gt;アイテムと関連付けたファイルを削除&lt;/strong&gt;しますか?</translation>
     </message>
@@ -3391,33 +3384,33 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemTagsLoader</name>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="163"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="154"/>
         <source>Add a Tag</source>
         <translation>タグを追加</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="168"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="159"/>
         <source>Remove a Tag</source>
         <translation>タグを削除</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="187"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="178"/>
         <source>Tag as %1</source>
         <translation>%1 としてタグ付け</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="193"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="184"/>
         <source>Remove tag %1</source>
         <translation>タグ %1 を削除</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="750"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="736"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>重要</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="771"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="757"/>
         <source>Clear all tags</source>
         <translation>すべてのタグをクリア</translation>
     </message>
@@ -3469,11 +3462,6 @@ Set to 0 to disable.</source>
         <source>Icon</source>
         <translation>アイコン</translation>
     </message>
-    <message>
-        <location filename="../plugins/itemtags/itemtagssettings.ui" line="68"/>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ItemTextLoader</name>
@@ -3522,42 +3510,42 @@ Set to 0 to disable.</source>
         <translation>CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="490"/>
+        <location filename="../src/gui/mainwindow.cpp" line="514"/>
         <source>Exit?</source>
         <translation>終了しますか?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="491"/>
+        <location filename="../src/gui/mainwindow.cpp" line="515"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>CopyQ を&lt;strong&gt;終了&lt;/strong&gt;しますか?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="549"/>
+        <location filename="../src/gui/mainwindow.cpp" line="573"/>
         <source>&amp;File</source>
         <translation>ファイル(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="592"/>
+        <location filename="../src/gui/mainwindow.cpp" line="616"/>
         <source>&amp;Edit</source>
         <translation>編集(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="616"/>
+        <location filename="../src/gui/mainwindow.cpp" line="640"/>
         <source>&amp;Item</source>
         <translation>アイテム(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="620"/>
+        <location filename="../src/gui/mainwindow.cpp" line="644"/>
         <source>&amp;Tabs</source>
         <translation>タブ(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="645"/>
+        <location filename="../src/gui/mainwindow.cpp" line="669"/>
         <source>&amp;Help</source>
         <translation>ヘルプ(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2978"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3011"/>
         <source>&amp;Show/Hide</source>
         <translation>表示切り替え(&amp;S)</translation>
     </message>
@@ -3566,78 +3554,78 @@ Set to 0 to disable.</source>
         <translation type="vanished">アクションダイアログを開く</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="660"/>
+        <location filename="../src/gui/mainwindow.cpp" line="691"/>
         <source>&amp;New Tab</source>
         <translation>新しいタブ(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="662"/>
+        <location filename="../src/gui/mainwindow.cpp" line="693"/>
         <source>Rename &amp;Group %1</source>
         <translation>グループ %1 をリネーム(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="664"/>
+        <location filename="../src/gui/mainwindow.cpp" line="695"/>
         <source>Re&amp;name Tab %1</source>
         <translation>タブ %1 をリネーム(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="666"/>
+        <location filename="../src/gui/mainwindow.cpp" line="697"/>
         <source>Re&amp;move Tab %1</source>
         <translation>タブ %1 を削除(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="668"/>
+        <location filename="../src/gui/mainwindow.cpp" line="699"/>
         <source>Remove Group %1</source>
         <translation>グループ %1 を削除</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="670"/>
+        <location filename="../src/gui/mainwindow.cpp" line="701"/>
         <source>&amp;Change Tab Icon</source>
         <translation>タブアイコンを変更(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1294"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1325"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>クリップボードの記録を有効化(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1295"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1326"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>クリップボードの記録を無効化(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1818"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1849"/>
         <source>CopyQ Options for Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1995"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2042"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ エラー</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3232"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3265"/>
         <source>CopyQ Options for Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3252"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3285"/>
         <source>CopyQ Export Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3253"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3286"/>
         <source>Failed to export file %1!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3339"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3372"/>
         <source>CopyQ Import Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3340"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3373"/>
         <source>Failed to import file %1!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3663,7 +3651,7 @@ Set to 0 to disable.</source>
         <translation type="vanished">%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2990"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3023"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>クリップボード(&amp;C): %1</translation>
@@ -3690,22 +3678,22 @@ Set to 0 to disable.</source>
         <translation type="vanished">ファイル %1 を開けません!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3487"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3520"/>
         <source>Remove All Tabs in Group?</source>
         <translation>グループのすべてのタブを削除しますか?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3488"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3521"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>グループ &lt;strong&gt;%1&lt;/strong&gt; の &lt;strong&gt;すべてのタブ&lt;/strong&gt; を削除しますか?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3535"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3568"/>
         <source>Remove Tab?</source>
         <translation>タブを削除しますか?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3536"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3569"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>タブ &lt;strong&gt;%1&lt;/strong&gt; を削除しますか?</translation>
     </message>
@@ -3811,19 +3799,18 @@ Set to 0 to disable.</source>
         <translation>&lt;IMAGE&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="403"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
-        <translation>&lt;FILES&gt;</translation>
+        <translation type="vanished">&lt;FILES&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="405"/>
+        <location filename="../src/common/common.cpp" line="403"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;EMPTY&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="407"/>
+        <location filename="../src/common/common.cpp" line="405"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
@@ -3849,7 +3836,7 @@ Set to 0 to disable.</source>
         <translation type="vanished">エラー: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1645"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1630"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -3857,7 +3844,7 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1648"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1633"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3880,7 +3867,7 @@ Set to 0 to disable.</source>
         <translation>データ復元に失敗: %1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="204"/>
+        <location filename="../src/main.cpp" line="202"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>セッション名は文字、数字、&apos;-&apos; 、 &apos;_&apos; を含む
@@ -4645,12 +4632,12 @@ Print version of program and libraries.</source>
         <translation>引数の個数が無効です!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2520"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2537"/>
         <source>Exception</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2561"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2578"/>
         <source>Failed to copy to clipboard!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4659,34 +4646,34 @@ Print version of program and libraries.</source>
         <translation type="vanished">名前 &quot;%1&quot; は関数ではありません。</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="743"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="759"/>
         <source>Built with: </source>
         <translation>使用ツール: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="773"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="789"/>
         <source>Command not found!</source>
         <translation>コマンドが見つかりません!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="873"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="889"/>
         <source>Terminating server.
 </source>
         <translation>サーバーを終了中。
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2521"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2538"/>
         <source>Exception in %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2605"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2622"/>
         <source>Failed to set clipboard!</source>
         <translation>クリップボードへの登録に失敗しました!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1266"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="706"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>ファイル &quot;%1&quot; を保存できません!</translation>
     </message>
@@ -4696,12 +4683,12 @@ Print version of program and libraries.</source>
         <translation>  - 標準入力からデータを読み込むには引数にダッシュ (-) を使用してください。</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1279"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="711"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>ファイル &quot;%1&quot; をインポートできません!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1319"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1333"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>&quot;%1&quot; は無効なオプションです!</translation>
     </message>
@@ -4709,28 +4696,28 @@ Print version of program and libraries.</source>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="537"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="535"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation type="unfinished">そういった名前のタブは存在しません!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="542"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="540"/>
         <source>Tab name cannot be empty!</source>
         <translation type="unfinished">名前のないタブは作れません!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="737"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="735"/>
         <source>Tab with given name already exists!</source>
         <translation type="unfinished">その名前のタブはすでに存在します!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1581"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1566"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation type="unfinished">%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1584"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1569"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation type="unfinished">%1 - %2 - CopyQ</translation>
@@ -4775,12 +4762,11 @@ Print version of program and libraries.</source>
         <translation>検索(&amp;F):</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="183"/>
         <source>There is command overriding this shortcut.</source>
-        <translation>このショートカットに重複するコマンドがあります。</translation>
+        <translation type="vanished">このショートカットに重複するコマンドがあります。</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="184"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="241"/>
         <source>Shortcut already exists!</source>
         <translation>ショートカットはすでに存在しています!</translation>
     </message>
@@ -4820,17 +4806,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="84"/>
+        <location filename="../src/gui/traymenu.cpp" line="85"/>
         <source>Press &apos;/&apos; to search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="84"/>
+        <location filename="../src/gui/traymenu.cpp" line="85"/>
         <source>Type to search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="97"/>
+        <location filename="../src/gui/traymenu.cpp" line="98"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
         <translation>&amp;%1. %2</translation>
