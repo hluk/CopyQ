@@ -1,3 +1,18 @@
+v3.3.0
+- Add option for searching numbers in item list and tray menu
+- Use exception instead of return code for exportData()/importData()
+- Draw icon shadow (for internal icon font)
+- Remove support for Qt 4, require Qt >= 5.1.0
+- Fix storing only non-empty clipboard items
+- Fix opening web browser from script with open()
+- Fix exiting clipboard provider process when not needed
+- Fix exportData()/importData() with relative file paths
+- Fix SVG app icon resolution in some panels
+- Fix closing window after a menu is closed and window is unfocused
+- Fix warnings when using system icons
+- Linux: Fixes for AppData, desktop and flatpak files
+- OSX: Log errors when global shortcut registration fails
+
 v3.2.0
 - Add option to close main window when unfocused
 - Add script command type for enhancing scripting API and CLI
