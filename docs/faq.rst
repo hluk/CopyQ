@@ -253,3 +253,28 @@ To get the command to launch for a shortcut:
    ::
 
       copyq -e "toggle()"
+
+How to fix "copyq: command not found" errors?
+---------------------------------------------
+
+If you're getting ``copyq: command not found`` or similar error, it means that
+``copyq`` executable cannot be found by the shell or a language interpreter.
+
+This usually happens if directory with the executable is not listed in ``PATH``
+environment variable.
+
+If this happens when running from withing command, e.g.
+
+.. code-block:: bash
+
+    bash:
+    text="SOME TEXT"
+    copyq copy "$text"
+
+you can **fix it by using** ``COPYQ`` environment variable instead.
+
+.. code-block:: bash
+
+    bash:
+    text="SOME TEXT"
+    "$COPYQ" copy "$text"
