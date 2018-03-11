@@ -674,6 +674,8 @@ void MainWindow::createMenu()
     for (auto menu : menuBar()->findChildren<QMenu*>()) {
         connect( menu, SIGNAL(aboutToShow()),
                  this, SLOT(disableHideWindowOnUnfocus()) );
+        connect( menu, SIGNAL(aboutToHide()),
+                 this, SLOT(enableHideWindowOnUnfocus()) );
     }
 }
 
