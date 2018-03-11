@@ -445,7 +445,7 @@ void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object,
     timer->setSingleShot(true);
     timer->setInterval(milliseconds);
     if (object && slot)
-        QObject::connect( timer, SIGNAL(timeout()), object, slot );
+        QObject::connect( timer, SIGNAL(timeout()), object, slot, Qt::UniqueConnection );
 }
 
 QString dataToText(const QByteArray &bytes, const QString &mime)
