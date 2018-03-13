@@ -2445,12 +2445,12 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation>Das Suchen nach Zahlen ermöglichen. Falls diese Option deaktiviert ist, dann wird durch die Eingabe einer Zahl das Element an dieser Position aktiviert</translation>
+        <translation>Ermöglicht das Suchen nach Zahlen. Falls diese Option deaktiviert ist, dann wird durch die Eingabe einer einzelnen Zahl das Element an dieser Position aktiviert</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>S&amp;earch for numbers</source>
-        <translation>Such&amp;en nach Zahlen</translation>
+        <translation>Auch nach Zahlen such&amp;en</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="784"/>
