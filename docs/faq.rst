@@ -260,10 +260,10 @@ How to fix "copyq: command not found" errors?
 If you're getting ``copyq: command not found`` or similar error, it means that
 ``copyq`` executable cannot be found by the shell or a language interpreter.
 
-This usually happens if directory with the executable is not listed in ``PATH``
-environment variable.
+This usually happens if the executable's directory is not in the ``PATH``
+environmental variable.
 
-If this happens when running from withing command, e.g.
+If this happens when running from within the command, e.g.
 
 .. code-block:: bash
 
