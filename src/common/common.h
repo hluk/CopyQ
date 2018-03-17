@@ -55,6 +55,8 @@ const QMimeData *clipboardData(ClipboardMode mode = ClipboardMode::Clipboard);
 
 bool ownsClipboardData(ClipboardMode mode = ClipboardMode::Clipboard);
 
+QByteArray clipboardOwnerData(ClipboardMode mode = ClipboardMode::Clipboard);
+
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */
 QVariantMap cloneData(const QMimeData &data, QStringList formats);
 

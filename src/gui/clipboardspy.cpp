@@ -19,6 +19,8 @@
 
 #include "clipboardspy.h"
 
+#include "common/common.h"
+
 #include <QApplication>
 #include <QClipboard>
 #include <QTimer>
@@ -37,27 +39,45 @@ void connectClipboardSignal(ClipboardMode mode, QObject *receiver, const char *s
 
 ClipboardSpy::ClipboardSpy(ClipboardMode mode)
     : m_mode(mode)
+    , m_oldOwnerData(clipboardOwnerData())
 {
     connectClipboardSignal(mode, this, SLOT(onChanged()));
 }
 
 void ClipboardSpy::wait(int ms)
 {
-    if (m_changed)
+    if (m_changed || check())
         return;
 
     QEventLoop loop;
     connectClipboardSignal(m_mode, &loop, SLOT(quit()));
 
-    QTimer t;
-    t.setInterval(ms);
-    connect( &t, SIGNAL(timeout()), &loop, SLOT(quit()) );
+    connect( this, SIGNAL(changed()), &loop, SLOT(quit()) );
 
-    t.start();
+    QTimer timerStop;
+    timerStop.setInterval(ms);
+    connect( &timerStop, SIGNAL(timeout()), &loop, SLOT(quit()) );
+    timerStop.start();
+
+    QTimer timerCheck;
+    timerCheck.setInterval(100);
+    connect( &timerCheck, SIGNAL(timeout()), this, SLOT(check()) );
+    timerCheck.start();
+
     loop.exec();
 }
 
 void ClipboardSpy::onChanged()
 {
     m_changed = true;
+    emit changed();
+}
+
+bool ClipboardSpy::check()
+{
+    if (m_oldOwnerData == clipboardOwnerData(m_mode))
+        return false;
+
+    onChanged();
+    return true;
 }

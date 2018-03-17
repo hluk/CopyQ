@@ -174,7 +174,7 @@ bool hasNonInternalFormats(const QStringList &formats) {
     return false;
 }
 
-QByteArray clipboardOwnerData()
+QByteArray thisClipboardOwnerData()
 {
     return qgetenv("COPYQ_SESSION_NAME")
             + " " + QByteArray::number(QCoreApplication::applicationPid());
@@ -298,7 +298,7 @@ QMimeData* createMimeData(const QVariantMap &data)
     // Don't set clipboard owner if monitor is only used to set clipboard for tests.
     if ( !qApp->property("CopyQ_testing").toBool() )
 #endif
-        newClipboardData->setData( mimeOwner, clipboardOwnerData() );
+        newClipboardData->setData( mimeOwner, thisClipboardOwnerData() );
 
     // Set image data.
     const QStringList formats =
@@ -573,6 +573,11 @@ void acceptDrag(QDropEvent *event)
 
 bool ownsClipboardData(ClipboardMode mode)
 {
-    const auto ownerData = clipboardData(mode)->data(mimeOwner);
-    return ownerData == clipboardOwnerData();
+    return clipboardOwnerData(mode) == thisClipboardOwnerData();
+}
+
+QByteArray clipboardOwnerData(ClipboardMode mode)
+{
+    const auto data = clipboardData(mode);
+    return data ? data->data(mimeOwner) : QByteArray();
 }

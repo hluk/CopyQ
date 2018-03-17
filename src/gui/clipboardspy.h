@@ -33,12 +33,17 @@ public:
     /// Actively wait for clipboard/selection to change.
     void wait(int ms = 2000);
 
+signals:
+    void changed();
+
 private slots:
     void onChanged();
+    bool check();
 
 private:
     ClipboardMode m_mode;
     bool m_changed = false;
+    QByteArray m_oldOwnerData;
 };
 
 #endif // CLIPBOARDSPY_H
