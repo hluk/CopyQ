@@ -144,6 +144,21 @@ namespace {
     {
         return QCoreApplication::applicationDirPath() + "/../Resources/" + path;
     }
+
+    template <typename QtApplication>
+    class Activity
+        : public MacActivity
+        , public ApplicationExceptionHandler<QtApplication>
+    {
+    public:
+        Activity(int &argc, char **argv, ActivityType type, const QString &reason)
+            : MacActivity(type, reason)
+            , ApplicationExceptionHandler<QtApplication>(argc, argv)
+        {
+            [NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
+        }
+    };
+
 } // namespace
 
 PlatformPtr createPlatformNativeInterface()
@@ -162,8 +177,7 @@ QCoreApplication *MacPlatform::createConsoleApplication(int &argc, char **argv)
 
 QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
 {
-    MacActivity activity(MacActivity::Background, "CopyQ Server");
-    QApplication *app = new ApplicationExceptionHandler<ClipboardApplication>(argc, argv);
+    QApplication *app = new Activity<QApplication>(argc, argv, MacActivity::Background, "CopyQ Server");
 
     // Switch the app to foreground when in foreground
     ForegroundBackgroundFilter::installFilter(app);
@@ -173,20 +187,17 @@ QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
 
 QApplication *MacPlatform::createMonitorApplication(int &argc, char **argv)
 {
-    MacActivity activity(MacActivity::Background, "CopyQ clipboard monitor");
-    return new ApplicationExceptionHandler<ClipboardApplication>(argc, argv);
+    return new Activity<QApplication>(argc, argv, MacActivity::Background, "CopyQ clipboard monitor");
 }
 
 QApplication *MacPlatform::createClipboardProviderApplication(int &argc, char **argv)
 {
-    MacActivity activity(MacActivity::Background, "CopyQ clipboard provider");
-    return new ApplicationExceptionHandler<ClipboardApplication>(argc, argv);
+    return new Activity<QApplication>(argc, argv, MacActivity::Background, "CopyQ clipboard provider");
 }
 
 QCoreApplication *MacPlatform::createClientApplication(int &argc, char **argv)
 {
-    MacActivity activity(MacActivity::User, "CopyQ Client");
-    return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);
+    return new Activity<QCoreApplication>(argc, argv, MacActivity::User, "CopyQ Client");
 }
 
 PlatformClipboardPtr MacPlatform::clipboard()
