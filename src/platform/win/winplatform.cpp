@@ -291,6 +291,11 @@ QApplication *WinPlatform::createMonitorApplication(int &argc, char **argv)
     return createGuiApplication(argc, argv);
 }
 
+QApplication *WinPlatform::createClipboardProviderApplication(int &argc, char **argv)
+{
+    return createGuiApplication(argc, argv);
+}
+
 QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
 {
     return createApplication<QCoreApplication>(argc, argv);

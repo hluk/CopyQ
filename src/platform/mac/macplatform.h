@@ -30,37 +30,39 @@ class MacPlatform : public PlatformNativeInterface
 public:
     MacPlatform();
 
-    PlatformWindowPtr getWindow(WId winId);
-    PlatformWindowPtr getCurrentWindow();
+    PlatformWindowPtr getWindow(WId winId) override;
+    PlatformWindowPtr getCurrentWindow() override;
 
-    bool canGetWindowTitle() { return true; }
-    bool canAutostart() { return true; }
-    bool isAutostartEnabled();
-    void setAutostartEnabled(bool);
+    bool canGetWindowTitle() override { return true; }
+    bool canAutostart() override { return true; }
+    bool isAutostartEnabled() override;
+    void setAutostartEnabled(bool) override;
 
-    QCoreApplication *createConsoleApplication(int &argc, char **argv);
+    QCoreApplication *createConsoleApplication(int &argc, char **argv) override;
 
-    QApplication *createServerApplication(int &argc, char **argv);
+    QApplication *createServerApplication(int &argc, char **argv) override;
 
-    QApplication *createMonitorApplication(int &argc, char **argv);
+    QApplication *createMonitorApplication(int &argc, char **argv) override;
 
-    QCoreApplication *createClientApplication(int &argc, char **argv);
+    QApplication *createClipboardProviderApplication(int &argc, char **argv) override;
 
-    void loadSettings() {}
+    QCoreApplication *createClientApplication(int &argc, char **argv) override;
 
-    PlatformClipboardPtr clipboard();
+    void loadSettings() override {}
 
-    int keyCode(const QKeyEvent &event) { return event.key(); }
+    PlatformClipboardPtr clipboard() override;
 
-    QStringList getCommandLineArguments(int argc, char **argv);
+    int keyCode(const QKeyEvent &event) override { return event.key(); }
 
-    bool findPluginDir(QDir *pluginsDir);
+    QStringList getCommandLineArguments(int argc, char **argv) override;
 
-    QString defaultEditorCommand();
+    bool findPluginDir(QDir *pluginsDir) override;
 
-    QString translationPrefix();
+    QString defaultEditorCommand() override;
 
-    QString themePrefix();
+    QString translationPrefix() override;
+
+    QString themePrefix() override;
 };
 
 #endif // MACPLATFORM_H

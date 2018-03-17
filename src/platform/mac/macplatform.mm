@@ -177,6 +177,12 @@ QApplication *MacPlatform::createMonitorApplication(int &argc, char **argv)
     return new ApplicationExceptionHandler<ClipboardApplication>(argc, argv);
 }
 
+QApplication *MacPlatform::createClipboardProviderApplication(int &argc, char **argv)
+{
+    MacActivity activity(MacActivity::Background, "CopyQ clipboard provider");
+    return new ApplicationExceptionHandler<ClipboardApplication>(argc, argv);
+}
+
 QCoreApplication *MacPlatform::createClientApplication(int &argc, char **argv)
 {
     MacActivity activity(MacActivity::User, "CopyQ Client");

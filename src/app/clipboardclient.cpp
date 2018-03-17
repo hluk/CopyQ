@@ -79,7 +79,8 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
              || arguments[0] == "provideClipboard"
              || arguments[0] == "provideSelection") )
     {
-        return createPlatformNativeInterface()->createMonitorApplication(argc, argv);
+        return createPlatformNativeInterface()
+                ->createClipboardProviderApplication(argc, argv);
     }
 
     return createPlatformNativeInterface()->createClientApplication(argc, argv);

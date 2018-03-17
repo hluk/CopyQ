@@ -28,41 +28,43 @@
 class DummyPlatform : public PlatformNativeInterface
 {
 public:
-    PlatformWindowPtr getWindow(WId) { return PlatformWindowPtr(); }
+    PlatformWindowPtr getWindow(WId) override { return PlatformWindowPtr(); }
 
-    PlatformWindowPtr getCurrentWindow() { return PlatformWindowPtr(); }
+    PlatformWindowPtr getCurrentWindow() override { return PlatformWindowPtr(); }
 
-    bool canGetWindowTitle() { return false; }
+    bool canGetWindowTitle() override { return false; }
 
-    bool canAutostart() { return false; }
+    bool canAutostart() override { return false; }
 
-    bool isAutostartEnabled() { return false; }
+    bool isAutostartEnabled() override { return false; }
 
-    void setAutostartEnabled(bool) {}
+    void setAutostartEnabled(bool) override {}
 
-    QCoreApplication *createConsoleApplication(int &argc, char **argv);
+    QCoreApplication *createConsoleApplication(int &argc, char **argv) override;
 
-    QApplication *createServerApplication(int &argc, char **argv);
+    QApplication *createServerApplication(int &argc, char **argv) override;
 
-    QApplication *createMonitorApplication(int &argc, char **argv);
+    QApplication *createMonitorApplication(int &argc, char **argv) override;
 
-    QCoreApplication *createClientApplication(int &argc, char **argv);
+    QApplication *createClipboardProviderApplication(int &argc, char **argv) override;
 
-    void loadSettings() {}
+    QCoreApplication *createClientApplication(int &argc, char **argv) override;
 
-    PlatformClipboardPtr clipboard();
+    void loadSettings() override {}
 
-    int keyCode(const QKeyEvent &event) { return event.key(); }
+    PlatformClipboardPtr clipboard() override;
 
-    QStringList getCommandLineArguments(int argc, char **argv);
+    int keyCode(const QKeyEvent &event) override { return event.key(); }
 
-    bool findPluginDir(QDir *pluginsDir);
+    QStringList getCommandLineArguments(int argc, char **argv) override;
 
-    QString defaultEditorCommand();
+    bool findPluginDir(QDir *pluginsDir) override;
 
-    QString translationPrefix();
+    QString defaultEditorCommand() override;
 
-    QString themePrefix() { return QString(); }
+    QString translationPrefix() override;
+
+    QString themePrefix() override { return QString(); }
 };
 
 #endif // DUMMYPLATFORM_H

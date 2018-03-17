@@ -48,6 +48,11 @@ QApplication *DummyPlatform::createMonitorApplication(int &argc, char **argv)
     return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
+QApplication *DummyPlatform::createClipboardProviderApplication(int &argc, char **argv)
+{
+    return new ApplicationExceptionHandler<QApplication>(argc, argv);
+}
+
 QCoreApplication *DummyPlatform::createClientApplication(int &argc, char **argv)
 {
     return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);

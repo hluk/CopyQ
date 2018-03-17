@@ -91,6 +91,11 @@ public:
     virtual QApplication *createMonitorApplication(int &argc, char **argv) = 0;
 
     /**
+     * Create QApplication object that provides clipboard.
+     */
+    virtual QApplication *createClipboardProviderApplication(int &argc, char **argv) = 0;
+
+    /**
      * Create QCoreApplication object for client.
      */
     virtual QCoreApplication *createClientApplication(int &argc, char **argv) = 0;

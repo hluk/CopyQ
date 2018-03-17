@@ -46,6 +46,8 @@ public:
 
     QApplication *createMonitorApplication(int &argc, char **argv) override;
 
+    QApplication *createClipboardProviderApplication(int &argc, char **argv) override;
+
     QCoreApplication *createClientApplication(int &argc, char **argv) override;
 
     void loadSettings() override;

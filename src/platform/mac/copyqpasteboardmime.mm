@@ -20,6 +20,7 @@
 #include "copyqpasteboardmime.h"
 
 #include "common/log.h"
+#include "common/mimetypes.h"
 
 #include <QClipboard>
 #include <QEvent>
@@ -27,8 +28,6 @@
 #import <CoreServices/CoreServices.h>
 
 namespace {
-    // MIME prefix used to convert OS X UTIs without associated mime types.
-    const QString COPYQ_MIME_PREFIX("application/x-copyq-uti-");
     // MIME prefix used by other Qt apps to handle unknown mime types
     const QString QT_UTI_PREFIX("com.trolltech.anymime.");
 
@@ -87,9 +86,12 @@ QString CopyQPasteboardMime::flavorFor(const QString &mime)
     QString uti = convertUtiOrMime(mime, mimeToUTI);
     if (!uti.isEmpty()) {
         return uti;
-    } else if (mime.startsWith(COPYQ_MIME_PREFIX)) {
-        return mime.mid(COPYQ_MIME_PREFIX.length());
     }
+
+    if (mime.startsWith(COPYQ_MIME_PREFIX)) {
+        return mime.mid(QLatin1String(COPYQ_MIME_PREFIX).size());
+    }
+
     return QString();
 }
 
