@@ -27,8 +27,3 @@ flatpak remote-add --user copyq repo --no-gpg-verify
 flatpak install --user --reinstall copyq com.github.hluk.copyq
 flatpak run com.github.hluk.copyq
 ```
-
-# Known Issues
-
-Tray icon requires `XDG_CURRENT_DESKTOP=''` or `XDG_CURRENT_DESKTOP=gnome`
-(defined in "com.github.hluk.copyq.json").
