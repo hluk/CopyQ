@@ -42,7 +42,6 @@
 #include "../qxt/qxtglobal.h"
 
 #include <QApplication>
-#include <QClipboard>
 #include <QDateTime>
 #include <QDir>
 #include <QDesktopServices>
@@ -2383,13 +2382,13 @@ void Scriptable::onMonitorRunScriptRequest(const QString &script, const QVariant
 
 void Scriptable::onProvidedClipboardChanged()
 {
-    if ( !qApp->clipboard()->ownsClipboard() )
+    if ( !ownsClipboardData(ClipboardMode::Clipboard) )
         emit finished();
 }
 
 void Scriptable::onProvidedSelectionChanged()
 {
-    if ( !qApp->clipboard()->ownsSelection() )
+    if ( !ownsClipboardData(ClipboardMode::Selection) )
         emit finished();
 }
 
