@@ -27,6 +27,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
+#include "gui/icons.h"
 #include "gui/notification.h"
 #include "gui/processmanagerdialog.h"
 #include "gui/clipboardbrowser.h"
@@ -123,45 +124,12 @@ void ActionHandler::closeAction(Action *action)
     m_actions.remove(action->id());
     m_internalActions.remove(action->id());
 
-    QString msg;
-
-    QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information;
-
     if ( action->actionFailed() ) {
-        msg = tr("Error: %1").arg(action->errorString());
-        icon = QSystemTrayIcon::Critical;
+        const auto msg = tr("Error: %1").arg(action->errorString());
+        showActionErrors(action, msg, IconExclamationCircle);
     } else if ( action->exitCode() != 0 ) {
-        msg = tr("Exit code: %1").arg(action->exitCode());
-        icon = QSystemTrayIcon::Warning;
-    }
-
-    if ( !msg.isEmpty() ) {
-        if ( !action->errorOutput().isEmpty() )
-            msg.append( "\n" + action->errorOutput() );
-
-        const int maxWidthPoints =
-                AppConfig().option<Config::notification_maximum_width>();
-        const QString command = action->command()
-                .replace("copyq eval --", "copyq:");
-        const QString name = action->name().isEmpty()
-                ? QString(command).replace('\n', " ")
-                : action->name();
-        const QString format = tr("Command %1").arg(quoteString("%1"));
-        const QString title = elideText(name, QFont(), format, pointsToPixels(maxWidthPoints));
-
-        // Print command with line numbers.
-        int lineNumber = 0;
-        const auto lines = command.split("\n");
-        const auto lineNumberWidth = static_cast<int>(std::log10(lines.size())) + 1;
-        for (const auto &line : lines)
-            msg.append(QString("\n%1. %2").arg(++lineNumber, lineNumberWidth).arg(line));
-
-        log(title + "\n" + msg);
-
-        auto notification = m_wnd->createNotification();
-        notification->setTitle(title);
-        notification->setMessage(msg);
-        notification->setIcon(icon);
+        const auto msg = tr("Exit code: %1").arg(action->exitCode());
+        showActionErrors(action, msg, IconTimesCircle);
     }
 
     m_activeActionDialog->actionFinished(action);
@@ -170,4 +138,36 @@ void ActionHandler::closeAction(Action *action)
     emit runningActionsCountChanged();
 
     action->deleteLater();
+}
+
+void ActionHandler::showActionErrors(Action *action, const QString &message, ushort icon)
+{
+    auto msg = message;
+
+    if ( !action->errorOutput().isEmpty() )
+        msg.append( "\n" + action->errorOutput() );
+
+    const int maxWidthPoints =
+            AppConfig().option<Config::notification_maximum_width>();
+    const QString command = action->command()
+            .replace("copyq eval --", "copyq:");
+    const QString name = action->name().isEmpty()
+            ? QString(command).replace('\n', " ")
+            : action->name();
+    const QString format = tr("Command %1").arg(quoteString("%1"));
+    const QString title = elideText(name, QFont(), format, pointsToPixels(maxWidthPoints));
+
+    // Print command with line numbers.
+    int lineNumber = 0;
+    const auto lines = command.split("\n");
+    const auto lineNumberWidth = static_cast<int>(std::log10(lines.size())) + 1;
+    for (const auto &line : lines)
+        msg.append(QString("\n%1. %2").arg(++lineNumber, lineNumberWidth).arg(line));
+
+    log(title + "\n" + msg);
+
+    auto notification = m_wnd->createNotification();
+    notification->setTitle(title);
+    notification->setMessage(msg);
+    notification->setIcon(icon);
 }

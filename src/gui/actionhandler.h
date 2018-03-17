@@ -74,6 +74,8 @@ private slots:
     void closeAction(Action *action);
 
 private:
+    void showActionErrors(Action *action, const QString &message, ushort icon);
+
     MainWindow *m_wnd;
     ProcessManagerDialog *m_activeActionDialog;
     QHash<int, Action*> m_actions;
