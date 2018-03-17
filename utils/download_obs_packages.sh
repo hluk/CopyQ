@@ -34,6 +34,7 @@ if [ -z "$version" ]; then
     die "First argument must be version package version!"
 fi
 
+fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pkg_rpm}"
 fetch_package "${pkg}_Fedora_25${xrpm}"           "$url/Fedora_25/${pkg_rpm}"
 fetch_package "${pkg}_Fedora_26${xrpm}"           "$url/Fedora_26/${pkg_rpm}"
 fetch_package "${pkg}_Fedora_27${xrpm}"           "$url/Fedora_27/${pkg_rpm}"
