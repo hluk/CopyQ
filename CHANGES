@@ -9,8 +9,10 @@ v3.3.0
 - Fix exportData()/importData() with relative file paths
 - Fix SVG app icon resolution in some panels
 - Fix closing window after a menu is closed and window is unfocused
+- Fix icons for command error notifications
 - Fix warnings when using system icons
 - Linux: Fixes for AppData, desktop and flatpak files
+- OSX: Fix pasting items
 - OSX: Log errors when global shortcut registration fails
 
 v3.2.0
