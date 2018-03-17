@@ -44,27 +44,6 @@ MacClipboard::MacClipboard():
     m_clipboardCheckTimer->start();
 }
 
-QVariantMap MacClipboard::data(ClipboardMode mode, const QStringList &formats) const {
-    Q_UNUSED(mode);
-
-    // On OS X, when you copy files in Finder, etc. you get:
-    // - The file name(s) (not paths) as plain text
-    // - The file URI(s)
-    // - The icon (not thumbnail) for the type of item you have in various image formants
-    // We really only want the URI list, so throw the rest away
-
-    QStringList macFormats = QStringList(formats); // Copy so we can modify
-    if (mode == ClipboardMode::Clipboard) {
-        const QMimeData *data = clipboardData(ClipboardMode::Clipboard);
-
-        if (data && data->formats().contains(mimeUriList) && macFormats.contains(mimeUriList)) {
-            macFormats = QStringList() << mimeUriList;
-        }
-    }
-
-    return DummyClipboard::data(mode, macFormats);
-}
-
 void MacClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
 {
     auto dataMapForMac = dataMap;
