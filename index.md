@@ -92,6 +92,21 @@ Install `copyq` package.
 
 Install [copyq](https://aur.archlinux.org/packages/copyq/)<sup>AUR</sup> package.
 
+### Other Linux Distributions
+
+Install [Flatpak](https://www.flatpak.org/) and `com.github.hluk.copyq` from
+[Flathub](https://flathub.org/).
+
+```bash
+flatpak install --user --from https://flathub.org/repo/appstream/com.github.hluk.copyq.flatpakref
+```
+
+Start the application from menu or with following command.
+
+```bash
+flatpak run com.github.hluk.copyq
+```
+
 ## Using the App
 
 To start the application double-click the program icon or run `copyq`.
