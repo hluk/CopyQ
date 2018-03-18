@@ -550,7 +550,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="307"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Скасувати вихід</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="308"/>
@@ -3631,7 +3631,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="789"/>
         <source>Command not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Команду не знайдено!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="889"/>
@@ -3672,12 +3672,12 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="711"/>
         <source>Cannot import file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдається імпортувати файл &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1333"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Неприпустимий параметр &quot;%1&quot;!</translation>
     </message>
 </context>
 <context>
