@@ -28,3 +28,20 @@ On **Ubuntu** set up the official PPA repository and install the app from termin
     sudo add-apt-repository ppa:hluk/copyq
     sudo apt update
     sudo apt install copyq
+
+On **Fedora**, install "copyq" package.
+
+.. code-block:: bash
+
+    sudo dnf install copyq
+
+On other Linux distributions, you can use `Flapak <https://www.flatpak.org/>`__
+to install the app.
+
+.. code-block:: bash
+
+    # Install from Flathub.
+    flatpak install --user --from https://flathub.org/repo/appstream/com.github.hluk.copyq.flatpakref
+
+    # Run the app.
+    flatpak run com.github.hluk.copyq
