@@ -39,7 +39,7 @@ void connectClipboardSignal(ClipboardMode mode, QObject *receiver, const char *s
 
 ClipboardSpy::ClipboardSpy(ClipboardMode mode)
     : m_mode(mode)
-    , m_oldOwnerData(clipboardOwnerData())
+    , m_oldOwnerData(clipboardOwnerData(mode))
 {
     connectClipboardSignal(mode, this, SLOT(onChanged()));
 }
