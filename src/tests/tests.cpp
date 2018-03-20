@@ -2488,6 +2488,12 @@ void Tests::displayCommand()
                 .toUtf8() );
 }
 
+void Tests::queryKeyboardModifiersCommand()
+{
+    RUN("queryKeyboardModifiers()", "");
+    // TODO: Is there a way to press modifiers?
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);

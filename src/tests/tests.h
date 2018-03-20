@@ -202,6 +202,8 @@ private slots:
     void scriptCommandOverrideFunction();
     void displayCommand();
 
+    void queryKeyboardModifiersCommand();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

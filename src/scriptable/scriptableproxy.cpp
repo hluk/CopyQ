@@ -568,6 +568,7 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     qRegisterMetaTypeStreamOperators<QVector<int>>("QVector<int>");
     qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
     qRegisterMetaTypeStreamOperators<QVector<QVariantMap>>("QVector<QVariantMap>");
+    qRegisterMetaTypeStreamOperators<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
 }
 
 QByteArray ScriptableProxy::callFunction(const QByteArray &serializedFunctionCall)
