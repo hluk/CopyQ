@@ -70,6 +70,8 @@ QDataStream &operator<<(QDataStream &out, ClipboardMode mode);
 QDataStream &operator>>(QDataStream &in, ClipboardMode &mode);
 QDataStream &operator<<(QDataStream &out, const ScriptablePath &path);
 QDataStream &operator>>(QDataStream &in, ScriptablePath &path);
+QDataStream &operator<<(QDataStream &out, Qt::KeyboardModifiers value);
+QDataStream &operator>>(QDataStream &in, Qt::KeyboardModifiers &value);
 
 class ScriptableProxy : public QObject
 {

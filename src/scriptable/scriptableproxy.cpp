@@ -227,6 +227,20 @@ QDataStream &operator>>(QDataStream &in, ScriptablePath &path)
     return in >> path.path;
 }
 
+QDataStream &operator<<(QDataStream &out, Qt::KeyboardModifiers value)
+{
+    return out << static_cast<int>(value);
+}
+
+QDataStream &operator>>(QDataStream &in, Qt::KeyboardModifiers &value)
+{
+    int valueInt;
+    in >> valueInt;
+    Q_ASSERT(in.status() == QDataStream::Ok);
+    value = static_cast<Qt::KeyboardModifiers>(valueInt);
+    return in;
+}
+
 namespace {
 
 const char propertyWidgetName[] = "CopyQ_widget_name";
