@@ -24,8 +24,6 @@
 #include "common/display.h"
 #include "gui/icons.h"
 #include "gui/iconfactory.h"
-#include "platform/platformnativeinterface.h"
-#include "platform/platformwindow.h"
 
 #include <QApplication>
 #include <QKeyEvent>
