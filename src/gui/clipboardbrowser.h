@@ -424,6 +424,8 @@ class ClipboardBrowser : public QListView
 
         QModelIndex firstUnpinnedIndex() const;
 
+        void dragDropScroll();
+
         ItemSaverPtr m_itemSaver;
         QString m_tabName;
         ClipboardModel m;
@@ -433,6 +435,7 @@ class ClipboardBrowser : public QListView
         QTimer m_timerUpdateSizes;
         QTimer m_timerUpdateItemWidgets;
         QTimer m_timerUpdateCurrent;
+        QTimer m_timerDragDropScroll;
         bool m_ignoreMouseMoveWithButtonPressed = false;
         bool m_resizing = false;
 

@@ -277,6 +277,10 @@ ClipboardBrowser::ClipboardBrowser(
     initSingleShotTimer( &m_timerUpdateItemWidgets, 0, this, SLOT(updateItemWidgets()) );
     initSingleShotTimer( &m_timerUpdateCurrent, 0, this, SLOT(updateCurrent()) );
 
+    m_timerDragDropScroll.setInterval(20);
+    connect( &m_timerDragDropScroll, &QTimer::timeout,
+             this, &ClipboardBrowser::dragDropScroll );
+
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
@@ -580,6 +584,7 @@ void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
 {
     acceptDrag(event);
     m_dragTargetRow = getDropRow(event->pos());
+    dragDropScroll();
 }
 
 int ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
@@ -655,6 +660,34 @@ QModelIndex ClipboardBrowser::firstUnpinnedIndex() const
     }
 
     return QModelIndex();
+}
+
+void ClipboardBrowser::dragDropScroll()
+{
+    if (m_dragTargetRow == -1) {
+        m_timerDragDropScroll.stop();
+        return;
+    }
+
+    if (!m_timerDragDropScroll.isActive()) {
+        m_timerDragDropScroll.start();
+        return;
+    }
+
+    const auto y = mapFromGlobal(QCursor::pos()).y();
+    const auto h = viewport()->contentsRect().height();
+    const auto d = h / 4;
+    const auto scrollAmount =
+            (h < y + d) ? (y + d - h) / 4
+          : (y < d) ? -(d - y) / 4
+          : 0;
+
+    if (scrollAmount != 0) {
+        QScrollBar *v = verticalScrollBar();
+        v->setValue(v->value() + scrollAmount);
+    } else {
+        m_timerDragDropScroll.stop();
+    }
 }
 
 QVariantMap ClipboardBrowser::copyIndex(const QModelIndex &index) const
