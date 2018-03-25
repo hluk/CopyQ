@@ -305,8 +305,7 @@ public:
                 << QSize(48, 48)
                 << QSize(64, 64)
                 << QSize(96, 96)
-                << QSize(128, 128)
-                << QSize(256, 256);
+                << QSize(128, 128);
         return sizes;
     }
 
@@ -465,7 +464,8 @@ public:
             const auto path = imagePathFromPrefix(suffix + ".svg", running ? "icon-running" : "icon");
             pix = pixmapFromFile(path, size);
         } else {
-            pix = icon.pixmap(size);
+            pix = icon.pixmap(size)
+                    .scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         }
 
         pix.setDevicePixelRatio(1);
@@ -482,7 +482,7 @@ public:
     // WORKAROUND: Fixes ugly icon in Latte-Dock.
     QList<QSize> availableSizes(QIcon::Mode, QIcon::State) const override
     {
-        static const auto sizes = QList<QSize>() << QSize(256, 256);
+        static const auto sizes = QList<QSize>() << QSize(128, 128);
         return sizes;
     }
 
