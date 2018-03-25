@@ -3448,7 +3448,7 @@ void MainWindow::newTab(const QString &name)
             tabPath.append('/');
     }
 
-    d->setTabName( tabPath.mid(0, tabPath.lastIndexOf('/') + 1) );
+    d->setTabName(tabPath);
 
     connect( d, SIGNAL(accepted(QString,int)),
              this, SLOT(addTab(QString)) );

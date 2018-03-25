@@ -70,6 +70,7 @@ void TabDialog::setTabs(const QStringList &tabs)
 void TabDialog::setTabName(const QString &tabName)
 {
     ui->lineEditTabName->setText(tabName);
+    ui->lineEditTabName->selectAll();
 }
 
 void TabDialog::setTabGroupName(const QString &tabGroupName)
