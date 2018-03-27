@@ -48,19 +48,8 @@ private slots:
     void onClipboardChanged();
     void onSelectionChanged();
 
-    void resetClipboard();
-    void resetSelection();
-
 private:
     bool waitIfSelectionIncomplete();
-
-    /**
-     * Remember last non-empty clipboard content and reset clipboard after interval if there is no owner.
-     *
-     * @return return true if clipboard/selection has no owner and will be reset
-     */
-    bool maybeResetClipboard();
-    bool maybeResetSelection();
 
     std::shared_ptr<X11DisplayGuard> d;
 
@@ -68,8 +57,6 @@ private:
 
     QTimer m_timerCheckClipboard;
     QTimer m_timerCheckSelection;
-    QTimer m_timerResetClipboard;
-    QTimer m_timerResetSelection;
 
     QVariantMap m_clipboardData;
     QVariantMap m_selectionData;
