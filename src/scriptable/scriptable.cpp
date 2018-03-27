@@ -515,6 +515,60 @@ QStringList monitorFormatsToSave()
     return factory.formatsToSave();
 }
 
+#ifdef HAS_MOUSE_SELECTIONS
+class SynchronizeSelectionTimer : public QObject
+{
+public:
+    static void create(ClipboardMode targetClipboardMode, const QVariantMap &data, Scriptable *scriptable)
+    {
+        auto timer = new SynchronizeSelectionTimer(targetClipboardMode, data, scriptable);
+        connect( scriptable, &Scriptable::stopSynchronizeSelectionTimer, timer, &SynchronizeSelectionTimer::stop );
+    }
+
+protected:
+    void timerEvent(QTimerEvent *event) override
+    {
+        if (event->timerId() == m_timerId) {
+            killTimer(m_timerId);
+            m_timerId = -1;
+            synchronize();
+        } else {
+            QObject::timerEvent(event);
+        }
+    }
+
+private:
+    SynchronizeSelectionTimer(ClipboardMode targetClipboardMode, const QVariantMap &data, Scriptable *scriptable)
+        : QObject(scriptable)
+        , m_scriptable(scriptable)
+        , m_targetClipboardMode(targetClipboardMode)
+        , m_data( copyWithoutInternalData(data) )
+        , m_timerId( startTimer(500) )
+    {
+    }
+
+    void stop()
+    {
+        if (m_timerId != -1) {
+            killTimer(m_timerId);
+            m_timerId = -1;
+            deleteLater();
+        }
+    }
+
+    void synchronize()
+    {
+        m_scriptable->setClipboard(&m_data, m_targetClipboardMode);
+        deleteLater();
+    }
+
+    Scriptable *m_scriptable;
+    ClipboardMode m_targetClipboardMode;
+    QVariantMap m_data;
+    int m_timerId = -1;
+};
+#endif // HAS_MOUSE_SELECTIONS
+
 } // namespace
 
 Scriptable::Scriptable(
@@ -2234,18 +2288,15 @@ void Scriptable::setTitle()
 
 void Scriptable::synchronizeSelection()
 {
+#ifdef HAS_MOUSE_SELECTIONS
     const bool syncToSelection = m_data.contains(mimeSyncToSelection);
     const bool syncToClipboard = m_data.contains(mimeSyncToClipboard);
     if (!syncToClipboard && !syncToSelection)
         return;
 
-    auto data = copyWithoutInternalData(m_data);
-
-    if (syncToSelection)
-        setClipboard(&data, ClipboardMode::Selection);
-
-    if (syncToClipboard)
-        setClipboard(&data, ClipboardMode::Clipboard);
+    const auto targetClipboardMode = syncToSelection ? ClipboardMode::Selection : ClipboardMode::Clipboard;
+    SynchronizeSelectionTimer::create(targetClipboardMode, m_data, this);
+#endif
 }
 
 void Scriptable::saveData()
@@ -2340,6 +2391,8 @@ void Scriptable::monitorClipboard()
     connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
     connect( &monitor, SIGNAL(runScriptRequest(QString,QVariantMap)),
              this, SLOT(onMonitorRunScriptRequest(QString,QVariantMap)) );
+    connect( &monitor, SIGNAL(clipboardOrSelectionChanged()),
+             this, SLOT(onClipboardOrSelectionChanged()) );
     loop.exec();
 }
 
@@ -2378,6 +2431,13 @@ void Scriptable::onMonitorRunScriptRequest(const QString &script, const QVariant
     m_data = data;
     m_proxy->setActionData(m_actionId, m_data);
     eval(script);
+}
+
+void Scriptable::onClipboardOrSelectionChanged()
+{
+    m_data.remove(mimeSyncToSelection);
+    m_data.remove(mimeSyncToClipboard);
+    emit stopSynchronizeSelectionTimer();
 }
 
 void Scriptable::onProvidedClipboardChanged()

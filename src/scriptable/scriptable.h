@@ -153,6 +153,8 @@ public:
 
     void executeArguments(const QStringList &args);
 
+    bool setClipboard(QVariantMap *data, ClipboardMode mode);
+
 public slots:
     void setInput(const QByteArray &input);
 
@@ -360,10 +362,12 @@ signals:
     void dataReceived();
     void finished();
     void readInput();
+    void stopSynchronizeSelectionTimer();
 
 private slots:
     void onExecuteOutput(const QByteArray &output);
     void onMonitorRunScriptRequest(const QString &script, const QVariantMap &data);
+    void onClipboardOrSelectionChanged();
     void onProvidedClipboardChanged();
     void onProvidedSelectionChanged();
 
@@ -374,7 +378,6 @@ private:
     void showExceptionMessage(const QString &message);
     QVector<int> getRows() const;
     QScriptValue copy(ClipboardMode mode);
-    bool setClipboard(QVariantMap *data, ClipboardMode mode);
     void changeItem(bool create);
     void nextToClipboard(int where);
     QScriptValue screenshot(bool select);
