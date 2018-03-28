@@ -324,7 +324,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="87"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>Копіювати попередній елемент</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
@@ -354,7 +354,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Зробити знімок екрану</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
@@ -409,7 +409,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Завдання</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
@@ -464,7 +464,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="758"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1563"/>
         <source>Cannot Add New Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдається додати нові елементи</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="759"/>
@@ -555,7 +555,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Exit Anyway</source>
-        <translation type="unfinished"></translation>
+        <translation>Вийти в будь-якому випадку</translation>
     </message>
 </context>
 <context>
@@ -572,7 +572,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ команди</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -602,12 +602,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
         <source>Paste Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставити команди</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="193"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Незбережені зміни</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="193"/>
@@ -627,7 +627,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="283"/>
         <source>Save Selected Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти вибрані команди</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="284"/>
@@ -3789,7 +3789,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="85"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Натисніть &apos;/&apos; для пошуку</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="85"/>
@@ -3800,7 +3800,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <location filename="../src/gui/traymenu.cpp" line="98"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;%1. %2</translation>
     </message>
 </context>
 <context>
