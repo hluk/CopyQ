@@ -70,6 +70,9 @@ public:
     /** Load settings from default file. */
     void loadSettings();
 
+    /** Enable/disable autostarting the application. */
+    void setAutostartEnable();
+
 public slots:
     void done(int result) override;
 
@@ -100,9 +103,6 @@ private:
 
     /** Update autostarting the application. */
     void updateAutostart();
-
-    /** Enable/disable autostarting the application. */
-    void setAutostartEnable();
 
     void initOptions();
 

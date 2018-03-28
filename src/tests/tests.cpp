@@ -30,6 +30,7 @@
 #include "item/itemwidget.h"
 #include "item/serialize.h"
 #include "gui/configtabshortcuts.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -2142,6 +2143,19 @@ void Tests::configTrayTabIsCurrent()
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
+}
+
+void Tests::configAutostart()
+{
+    if ( !createPlatformNativeInterface()->canAutostart() ) {
+        SKIP("Autostart is unsupported on this platform");
+        return;
+    }
+
+    RUN("config" << "autostart" << "true", "true\n");
+    RUN("config" << "autostart", "true\n");
+    RUN("config" << "autostart" << "false", "false\n");
+    RUN("config" << "autostart", "false\n");
 }
 
 void Tests::shortcutCommand()

@@ -20,6 +20,7 @@
 #include "x11platform.h"
 
 #include "app/applicationexceptionhandler.h"
+#include "common/log.h"
 #include "common/textdata.h"
 
 #include <QApplication>
@@ -41,6 +42,18 @@
 namespace {
 
 int (*old_xio_errhandler)(Display *) = nullptr;
+
+const char *defaultDesktopFileContent =
+R"([Desktop Entry]
+Name=CopyQ
+Icon=copyq
+GenericName=Clipboard Manager
+Type=Application
+Terminal=false
+X-KDE-autostart-after=panel
+X-KDE-StartupNotify=false
+X-KDE-UniqueApplet=true
+)";
 
 // Try to handle X11 fatal error gracefully.
 int copyq_xio_errhandler(Display *display)
@@ -72,6 +85,20 @@ QString getDesktopFilename()
     return filename;
 }
 #endif
+
+void printFileError(const QFile &file, const char *message, LogLevel logLevel = LogError)
+{
+    log( QString("%1 \"%2\": %3")
+         .arg(message)
+         .arg(file.fileName())
+         .arg(file.errorString()), logLevel );
+}
+
+void maybePrintFileError(const QFile &file, const char *message)
+{
+    if (file.error() != QFile::NoError)
+        printFileError(file, message);
+}
 
 } // namespace
 
@@ -148,38 +175,44 @@ void X11Platform::setAutostartEnabled(bool enable)
 
     const QString filename = getDesktopFilename();
 
-    QFile desktopFile(filename);
+    const auto autostartPath = QDir::cleanPath(filename + "/..");
+    QDir autostartDir(autostartPath);
+    if ( !autostartDir.mkpath(".") ) {
+        log( QString("Failed to create autostart path \"%1\"").arg(autostartPath) );
+        return;
+    }
 
+    QFile desktopFile2(filename + ".new");
+    if ( !desktopFile2.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text) ) {
+        printFileError(desktopFile2, "Failed to create new desktop file");
+        return;
+    }
+
+    QRegExp re("^(Hidden|X-GNOME-Autostart-enabled|Exec)\\s*=\\s*");
+
+    QFile desktopFile(filename);
     bool createUserDesktopFile = !desktopFile.exists();
     if (createUserDesktopFile)
         desktopFile.setFileName(COPYQ_DESKTOP_FILE);
 
-    if ( !desktopFile.open(QIODevice::ReadOnly | QIODevice::Text) )
-        return;
-
-    QFile desktopFile2(filename + ".new");
-    if ( !QDir(QDir::cleanPath(filename + "/..")).mkpath(".")
-         || !desktopFile2.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text) )
-    {
-        return;
-    }
-
-    QRegExp re("^(Hidden|X-GNOME-Autostart-enabled)\\s*=\\s*");
-
-    while ( !desktopFile.atEnd() ) {
-        QString line = getTextData(desktopFile.readLine());
-        QString cmd = "\"" + QApplication::applicationFilePath() + "\"";
-        if ( line.startsWith("Exec=") ) {
-            const QString sessionName = qApp->property("CopyQ_session_name").toString();
-            if ( !sessionName.isEmpty() )
-                cmd.append(" -s " + sessionName);
-            desktopFile2.write("Exec=" + cmd.toUtf8() + "\n");
-        } else if ( re.indexIn(line) == -1 ) {
-            desktopFile2.write(line.toUtf8());
+    if ( desktopFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+        while ( !desktopFile.atEnd() ) {
+            QString line = getTextData(desktopFile.readLine());
+            if ( re.indexIn(line) == -1 )
+                desktopFile2.write(line.toUtf8());
         }
+        desktopFile.close();
+    } else {
+        // Installed desktop file not found (can happen when running tests).
+        printFileError(desktopFile, "Failed to open desktop file", LogNote);
+        desktopFile2.write(defaultDesktopFileContent);
     }
 
-    desktopFile.close();
+    QString cmd = "\"" + QApplication::applicationFilePath() + "\"";
+    const QString sessionName = qApp->property("CopyQ_session_name").toString();
+    if ( !sessionName.isEmpty() )
+        cmd.append(" -s " + sessionName);
+    desktopFile2.write("Exec=" + cmd.toUtf8() + "\n");
 
     desktopFile2.write("Hidden=");
     desktopFile2.write(enable ? "False" : "True");
@@ -191,6 +224,9 @@ void X11Platform::setAutostartEnabled(bool enable)
 
     QFile::remove(filename);
     desktopFile2.rename(filename);
+
+    maybePrintFileError(desktopFile, "Failed to read desktop file");
+    maybePrintFileError(desktopFile2, "Failed to write desktop file");
 #else
     Q_UNUSED(enable);
 #endif

@@ -2653,8 +2653,10 @@ QVariant MainWindow::config(const QStringList &nameValue)
         result.insert( nameValue[i], configurationManager.optionValue(name) );
     }
 
-    if (emitConfigurationChanged)
+    if (emitConfigurationChanged) {
+        configurationManager.setAutostartEnable();
         emit configurationChanged();
+    }
 
     return result;
 }
