@@ -1411,12 +1411,12 @@ Sett til 0 for ikke å fjerne faner.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Skru på søk etter nummer, ellers vil det å trykke en tall-tast aktivere enheten på den posisjonen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>s&amp;øk etter nummer</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1287"/>
