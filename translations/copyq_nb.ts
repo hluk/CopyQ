@@ -1416,7 +1416,7 @@ Sett til 0 for ikke å fjerne faner.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>S&amp;earch for numbers</source>
-        <translation>s&amp;øk etter nummer</translation>
+        <translation>S&amp;øk etter nummer</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1287"/>
@@ -2184,12 +2184,12 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="391"/>
         <source>Foreground</source>
-        <translation type="unfinished">Forgrunn</translation>
+        <translation>Forgrunn</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="396"/>
         <source>Background</source>
-        <translation type="unfinished">Bakgrunn</translation>
+        <translation>Bakgrunn</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="403"/>
