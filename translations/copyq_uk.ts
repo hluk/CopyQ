@@ -329,7 +329,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Вставити буфер обміну як простий текст</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
@@ -344,7 +344,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставити і скопіювати наступний</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
