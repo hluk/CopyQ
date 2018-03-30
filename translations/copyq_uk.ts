@@ -344,7 +344,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
-        <translation>Вставити і скопіювати наступний</translation>
+        <translation type="unfinished">Вставити і скопіювати наступний</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
@@ -374,7 +374,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити в &amp;браузері</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
@@ -448,7 +448,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
         <location filename="../src/common/predefinedcommands.cpp" line="168"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(кошик)</translation>
     </message>
 </context>
 <context>
