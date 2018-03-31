@@ -1751,18 +1751,30 @@ bool MainWindow::exportDataV3(QDataStream *out, const QStringList &tabs, bool ex
         if (i == -1)
             continue;
 
-        auto c = browser(i);
-        if (!c)
+        auto placeholder = getPlaceholder(i);
+        const bool wasLoaded = placeholder->isDataLoaded();
+        auto c = placeholder->createBrowserAgain();
+        if (!c) {
+            log(QString("Failed to open tab \"%s\" for export").arg(tab), LogError);
             return false;
+        }
 
         const auto &tabName = c->tabName();
 
+        bool saved = false;
         QByteArray tabBytes;
         {
             QDataStream tabOut(&tabBytes, QIODevice::WriteOnly);
             tabOut.setVersion(QDataStream::Qt_4_7);
-            if ( !serializeData(*c->model(), &tabOut) )
-                return false;
+            saved = serializeData(*c->model(), &tabOut);
+        }
+
+        if (!wasLoaded)
+            placeholder->expire();
+
+        if (!saved) {
+            log(QString("Failed to export tab \"%s\"").arg(tab), LogError);
+            return false;
         }
 
         const auto iconName = getIconNameForTabName(tabName);

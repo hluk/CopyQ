@@ -54,22 +54,24 @@ public:
 
     void removeItems();
 
+    bool isDataLoaded() const;
+
 signals:
     void browserCreated(ClipboardBrowser *browser);
 
 public slots:
     /// Create browser if it doesn't exist and even if it previously failed.
-    void createBrowserAgain();
+    ClipboardBrowser *createBrowserAgain();
 
     /// Unload and reload (when needed) browser and settings.
     void reloadBrowser();
 
+    /// Unload browser and data.
+    void expire();
+
 protected:
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;
-
-private slots:
-    void expire();
 
 private:
     void setActiveWidget(QWidget *widget);

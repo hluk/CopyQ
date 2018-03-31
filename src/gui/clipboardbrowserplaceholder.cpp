@@ -99,11 +99,16 @@ void ClipboardBrowserPlaceholder::removeItems()
     ::removeItems(m_tabName);
 }
 
-void ClipboardBrowserPlaceholder::createBrowserAgain()
+bool ClipboardBrowserPlaceholder::isDataLoaded() const
+{
+    return m_browser != nullptr;
+}
+
+ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowserAgain()
 {
     delete m_loadButton;
     m_loadButton = nullptr;
-    createBrowser();
+    return createBrowser();
 }
 
 void ClipboardBrowserPlaceholder::reloadBrowser()

@@ -250,6 +250,8 @@ class ClipboardBrowser : public QListView
 
         QVariantMap itemData(const QModelIndex &index) const;
 
+        bool isLoaded() const;
+
     public slots:
         /**
          * Save items to configuration.
@@ -368,8 +370,6 @@ class ClipboardBrowser : public QListView
         void updateCurrent();
 
     private:
-        bool isLoaded() const;
-
         /**
          * Hide row if filtered out, otherwise show.
          * @return true only if hidden
