@@ -432,6 +432,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     // signals & slots
     connect( m_trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateFocusWindows()) );
+    connect( m_trayMenu, &QMenu::aboutToHide,
+             this, &MainWindow::raiseLastWindow );
     connect( m_trayMenu, SIGNAL(searchRequest(QString)),
              this, SLOT(addTrayMenuItems(QString)) );
     connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
@@ -439,6 +441,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     connect( m_menu, SIGNAL(aboutToShow()),
              this, SLOT(updateFocusWindows()) );
+    connect( m_menu, &QMenu::aboutToHide,
+             this, &MainWindow::raiseLastWindow );
     connect( m_menu, SIGNAL(searchRequest(QString)),
              this, SLOT(addMenuItems(QString)) );
     connect( m_menu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
@@ -2930,6 +2934,12 @@ void MainWindow::createTrayIfSupported()
     } else {
         m_timerTrayAvailable.start();
     }
+}
+
+void MainWindow::raiseLastWindow()
+{
+    if (m_lastWindow)
+        m_lastWindow->raise();
 }
 
 void MainWindow::updateFocusWindows()
