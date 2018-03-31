@@ -490,7 +490,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="167"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Kan ikke koble til server! Start CopyQ server først.</translation>
+        <translation>Kan ikke koble til tjener! Start CopyQ-tjener først.</translation>
     </message>
 </context>
 <context>
