@@ -485,6 +485,8 @@ private slots:
     void onFilterChanged(const QRegExp &re);
     void createTrayIfSupported();
 
+    void raiseLastWindow();
+
     /** Update WId for paste and last focused window if needed. */
     void updateFocusWindows();
 

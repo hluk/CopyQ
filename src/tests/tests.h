@@ -177,6 +177,8 @@ private slots:
     void configMove();
     void configTrayTabIsCurrent();
 
+    void configAutostart();
+
     void shortcutCommand();
     void shortcutCommandOverrideEnter();
     void shortcutCommandMatchInput();
