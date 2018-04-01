@@ -97,12 +97,6 @@ QString compressMime(const QString &mime)
     return "0" + mime;
 }
 
-bool shouldCompress(const QByteArray &bytes, const QString &mime)
-{
-    return bytes.size() > 256
-            && ( !mime.startsWith("image/") || mime.contains("bmp") || mime.contains("xml") || mime.contains("svg") );
-}
-
 bool deserializeDataV2(QDataStream *out, QVariantMap *data)
 {
     qint32 size;
@@ -140,8 +134,9 @@ void serializeData(QDataStream *stream, const QVariantMap &data)
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
         const auto &mime = it.key();
         bytes = data[mime].toByteArray();
-        bool compress = shouldCompress(bytes, mime);
-        *stream << compressMime(mime) << compress << ( compress ? qCompress(bytes) : bytes );
+        *stream << compressMime(mime)
+                << /* compressData = */ false
+                << bytes;
     }
 }
 
