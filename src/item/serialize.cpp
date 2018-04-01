@@ -32,67 +32,64 @@
 #include <QPair>
 #include <QStringList>
 
-#include <cstring>
+#include <unordered_map>
 
 namespace {
 
-template <typename Fn>
-bool mimeIdApply(Fn fn)
+const std::unordered_map<int, QString> &idToMime()
 {
-    return fn(1, mimeWindowTitle)
-        || fn(2, mimeItemNotes)
+    static const std::unordered_map<int, QString> map({
+        {1, QString(mimeWindowTitle)},
+        {2, QString(mimeItemNotes)},
 
-        || fn(3, COPYQ_MIME_PREFIX)
+        {3, QString(COPYQ_MIME_PREFIX)},
 
-        || fn(4, mimeText)
-        || fn(5, mimeHtml)
-        || fn(6, mimeUriList)
+        {4, QString(mimeText)},
+        {5, QString(mimeHtml)},
+        {6, QString(mimeUriList)},
 
-        || fn(7, "image/")
-        || fn(8, "text/")
-        || fn(9, "application/")
-        || fn(10, "audio/")
-        || fn(11, "video/");
+        {7, QString("image/")},
+        {8, QString("text/")},
+        {9, QString("application/")},
+        {10, QString("audio/")},
+        {11, QString("video/")}
+    });
+    return map;
 }
 
-QString decompressMime(const QString &mime)
+QString decompressMime(QDataStream *out)
 {
+    QString mime;
+    *out >> mime;
+    if ( out->status() != QDataStream::Ok )
+        return QString();
+
     bool ok;
     const int id = mime.mid(0, 1).toInt(&ok, 16);
-    Q_ASSERT(ok);
+    if (!ok) {
+        out->setStatus(QDataStream::ReadCorruptData);
+        return QString();
+    }
 
-    QString decompressedMimePrefix;
-    const bool found = mimeIdApply(
-        [id, &decompressedMimePrefix](int mimeId, const char *mimePrefix) {
-            if (id == mimeId) {
-                decompressedMimePrefix = mimePrefix;
-                return true;
-            }
-            return false;
-        });
+    if (id == 0)
+        return mime.mid(1);
 
-    if (found)
-        return decompressedMimePrefix + mime.mid(1);
+    const auto it = idToMime().find(id);
+    if ( it != std::end(idToMime()) )
+        return it->second + mime.mid(1);
 
-    Q_ASSERT( mime.startsWith("0") );
-    return mime.mid(1);
+    out->setStatus(QDataStream::ReadCorruptData);
+    return QString();
 }
 
 QString compressMime(const QString &mime)
 {
-    QString compressedMime;
-    const bool found = mimeIdApply(
-        [&mime, &compressedMime](int mimeId, const char *mimePrefix) {
-            if ( mime.startsWith(mimePrefix) ) {
-                const auto prefixSize = static_cast<int>( strlen(mimePrefix) );
-                compressedMime = QString::number(mimeId, 16) + mime.mid(prefixSize);
-                return true;
-            }
-            return false;
-        });
-
-    if (found)
-        return compressedMime;
+    for (const auto &idMime : idToMime()) {
+        if ( mime.startsWith(idMime.second) ) {
+            const auto prefixSize = idMime.second.size();
+            return QString::number(idMime.first, 16) + mime.mid(prefixSize);
+        }
+    }
 
     return "0" + mime;
 }
@@ -102,19 +99,24 @@ bool deserializeDataV2(QDataStream *out, QVariantMap *data)
     qint32 size;
     *out >> size;
 
-    QString mime;
     QByteArray tmpBytes;
     bool compress;
     for (qint32 i = 0; i < size && out->status() == QDataStream::Ok; ++i) {
-        *out >> mime >> compress >> tmpBytes;
-        if(compress) {
+        const QString mime = decompressMime(out);
+        if ( out->status() != QDataStream::Ok )
+            return false;
+
+        *out >> compress >> tmpBytes;
+        if ( out->status() != QDataStream::Ok )
+            return false;
+
+        if (compress) {
             tmpBytes = qUncompress(tmpBytes);
             if ( tmpBytes.isEmpty() ) {
                 out->setStatus(QDataStream::ReadCorruptData);
-                break;
+                return false;
             }
         }
-        mime = decompressMime(mime);
         data->insert(mime, tmpBytes);
     }
 
