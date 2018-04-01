@@ -1890,8 +1890,10 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
             setIconNameForTabName(tabName, iconName);
 
         auto c = createTab(tabName, MatchExactTabName)->createBrowser();
-        if (!c)
+        if (!c) {
+            log(QString("Failed to create tab \"%s\" for import").arg(tabName), LogError);
             return false;
+        }
 
         const auto tabBytes = tabMap.value("data").toByteArray();
         QDataStream tabIn(tabBytes);
@@ -1900,14 +1902,22 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         // Don't read items based on current value of "maxitems" option since
         // the option can be later also imported.
         const int maxItems = importConfiguration ? Config::maxItems : m_sharedData->maxItems;
-        if ( !deserializeData( c->model(), &tabIn, maxItems ) )
+        if ( !deserializeData( c->model(), &tabIn, maxItems ) ) {
+            log(QString("Failed to import tab \"%s\"").arg(tabName), LogError);
             return false;
+        }
+
+        const auto i = findTabIndex(tabName);
+        if (i != -1)
+            getPlaceholder(i)->expire();
     }
 
     if (importConfiguration) {
         // Configuration dialog shouldn't be open.
-        if (cm)
+        if (cm) {
+            log("Failed to import configuration while configuration dialog is open", LogError);
             return false;
+        }
 
         Settings settings;
 
@@ -1919,8 +1929,10 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
     if (importCommands) {
         // Close command dialog.
-        if ( !maybeCloseCommandDialog() )
+        if ( !maybeCloseCommandDialog() ) {
+            log("Failed to import command while command dialog is open", LogError);
             return false;
+        }
 
         // Re-create command dialog again later.
         if (m_commandDialog) {
