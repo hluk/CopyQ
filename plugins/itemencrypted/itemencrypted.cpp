@@ -921,5 +921,3 @@ ItemSaverPtr ItemEncryptedLoader::createSaver()
              this, SIGNAL(error(QString)) );
     return saver;
 }
-
-Q_EXPORT_PLUGIN2(itemencrypted, ItemEncryptedLoader)

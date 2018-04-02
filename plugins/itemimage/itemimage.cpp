@@ -257,5 +257,3 @@ QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)
     ui->lineEditSvgEditor->setText( m_settings.value("svg_editor", "").toString() );
     return w;
 }
-
-Q_EXPORT_PLUGIN2(itemimage, ItemImageLoader)

@@ -420,5 +420,3 @@ QVector<Command> ItemPinnedLoader::commands() const
 
     return commands;
 }
-
-Q_EXPORT_PLUGIN2(itempinned, ItemPinnedLoader)

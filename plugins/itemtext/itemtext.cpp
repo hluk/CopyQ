@@ -339,5 +339,3 @@ QWidget *ItemTextLoader::createSettingsWidget(QWidget *parent)
     ui->spinBoxMaxHeight->setValue( m_settings.value(optionMaximumHeight, 0).toInt() );
     return w;
 }
-
-Q_EXPORT_PLUGIN2(itemtext, ItemTextLoader)

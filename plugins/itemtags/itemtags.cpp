@@ -905,5 +905,3 @@ ItemTagsLoader::Tag ItemTagsLoader::tagFromTable(int row)
     tag.match = t->item(row, tagsTableColumns::match)->text();
     return tag;
 }
-
-Q_EXPORT_PLUGIN2(itemtags, ItemTagsLoader)

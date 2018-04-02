@@ -205,5 +205,3 @@ void ItemDataLoader::on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, i
     if ( !mime.isEmpty() )
         ui->plainTextEditFormats->appendPlainText(mime);
 }
-
-Q_EXPORT_PLUGIN2(itemdata, ItemDataLoader)

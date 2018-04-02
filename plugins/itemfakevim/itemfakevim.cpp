@@ -603,6 +603,4 @@ QObject *ItemFakeVimLoader::tests(const TestInterfacePtr &test) const
 #endif
 }
 
-Q_EXPORT_PLUGIN2(itemfakevim, ItemFakeVimLoader)
-
 #include "itemfakevim.moc"

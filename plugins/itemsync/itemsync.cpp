@@ -860,5 +860,3 @@ ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemMode
 
     return std::make_shared<ItemSyncSaver>(model, tabPath, dir.path(), files, maxItems, m_formatSettings);
 }
-
-Q_EXPORT_PLUGIN2(itemsync, ItemSyncLoader)

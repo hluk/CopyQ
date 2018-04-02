@@ -51,13 +51,6 @@ using ItemScriptableFactoryPtr = std::shared_ptr<ItemScriptableFactoryInterface>
 
 #define COPYQ_PLUGIN_ITEM_LOADER_ID "org.CopyQ.ItemPlugin.ItemLoader/1.0"
 
-#if defined(Q_EXPORT_PLUGIN)
-#    undef Q_EXPORT_PLUGIN
-#    undef Q_EXPORT_PLUGIN2
-#endif
-#define Q_EXPORT_PLUGIN(x)
-#define Q_EXPORT_PLUGIN2(x,y)
-
 /**
  * Handles item in list.
  */
