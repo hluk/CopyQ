@@ -136,6 +136,8 @@ Add and modify automatic command to ignore text copied from the window:
     automatic commands are executed in order they appear in the list and we
     don't want to process sensitive data in any way.
 
+.. _faq-logging:
+
 How to enable logging?
 ----------------------
 
@@ -278,3 +280,21 @@ you can **fix it by using** ``COPYQ`` environment variable instead.
     bash:
     text="SOME TEXT"
     "$COPYQ" copy "$text"
+
+What to do when application crashes or misbehaves?
+--------------------------------------------------
+
+When the application crashes or doesn't behave as expected, try to look up
+similar `issue <https://github.com/hluk/CopyQ/issues>`__ first and provide
+details in a comment.
+
+If you cannot find any such issue, `report a new bug
+<https://github.com/hluk/CopyQ/issues/new>`__.
+
+Try to provide following detail.
+
+1. Application version
+2. Operating System (desktop environment, window manager etc.)
+3. Steps to reproduce the issue.
+4. Application log (see :ref:`faq-share-commands`)
+5. Back trace if available (e.g. on Linux ``coredumpctl dump --reverse copyq``)
