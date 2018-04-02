@@ -35,6 +35,8 @@ class CommandDialog : public QDialog
 {
     Q_OBJECT
 
+    friend class CommandItem;
+
 public:
     CommandDialog(
             const Commands &pluginCommands, const QStringList &formats,
@@ -77,6 +79,8 @@ private slots:
     void onAddCommands(const QVector<Command> &commands);
 
     void onClipboardChanged();
+
+    void onCommandTextChanged(const QString &command);
 
 private:
     Command currentCommand(int row) const;

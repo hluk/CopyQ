@@ -100,6 +100,12 @@ void ItemOrderList::insertItem(const QString &label, bool checked, const QIcon &
         list->setCurrentRow(row);
 }
 
+void ItemOrderList::removeRow(int row)
+{
+    auto item = listItem(row);
+    removeItem(item);
+}
+
 QWidget *ItemOrderList::widget(int row) const
 {
     return m_items[listItem(row)].widget;
@@ -263,11 +269,8 @@ void ItemOrderList::on_pushButtonDown_clicked()
 
 void ItemOrderList::on_pushButtonRemove_clicked()
 {
-    for (auto item : ui->listWidgetItems->selectedItems()) {
-        ItemWidgetPair pair = m_items.take(item);
-        deleteWidget(pair.widget);
-        delete item;
-    }
+    for (auto item : ui->listWidgetItems->selectedItems())
+        removeItem(item);
 }
 
 void ItemOrderList::on_pushButtonAdd_clicked()
@@ -325,4 +328,11 @@ QWidget *ItemOrderList::createWidget(QListWidgetItem *item)
     if (!pair.widget)
         pair.widget = pair.item->createWidget(ui->scrollArea);
     return pair.widget;
+}
+
+void ItemOrderList::removeItem(QListWidgetItem *item)
+{
+    ItemWidgetPair pair = m_items.take(item);
+    deleteWidget(pair.widget);
+    delete item;
 }

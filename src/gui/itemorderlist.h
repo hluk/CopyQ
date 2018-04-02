@@ -65,6 +65,8 @@ public:
 
     void insertItem(const QString &label, bool checked, const QIcon &icon, const ItemPtr &item, int targetRow);
 
+    void removeRow(int row);
+
     /// Returns widget created by Item::createWidget() given @a row
     /// (could be nullptr is not yet created).
     QWidget *widget(int row) const;
@@ -134,6 +136,7 @@ private:
     QListWidgetItem *listItem(int row) const;
     void setCurrentItemWidget(QWidget *widget);
     QWidget *createWidget(QListWidgetItem *item);
+    void removeItem(QListWidgetItem *item);
 
     Ui::ItemOrderList *ui;
     QMap<QListWidgetItem*, ItemWidgetPair> m_items;

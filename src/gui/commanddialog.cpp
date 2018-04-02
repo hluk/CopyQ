@@ -47,37 +47,6 @@ const QIcon iconSaveCommands() { return getIcon("document-save", IconSave); }
 const QIcon iconCopyCommands() { return getIcon("edit-copy", IconCopy); }
 const QIcon iconPasteCommands() { return getIcon("edit-paste", IconPaste); }
 
-class CommandItem : public ItemOrderList::Item {
-public:
-    CommandItem(const Command &command, const QStringList &formats, CommandDialog *cmdDialog)
-        : m_command(command)
-        , m_cmdDialog(cmdDialog)
-        , m_formats(formats)
-    {
-    }
-
-    QVariant data() const override { return QVariant::fromValue(m_command); }
-
-private:
-    QWidget *createWidget(QWidget *parent) const override
-    {
-        auto cmdWidget = new CommandWidget(parent);
-        cmdWidget->setFormats(m_formats);
-        cmdWidget->setCommand(m_command);
-
-        QObject::connect( cmdWidget, SIGNAL(iconChanged()),
-                          m_cmdDialog, SLOT(onCurrentCommandWidgetIconChanged()) );
-        QObject::connect( cmdWidget, SIGNAL(nameChanged(QString)),
-                          m_cmdDialog, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
-
-        return cmdWidget;
-    }
-
-    Command m_command;
-    CommandDialog *m_cmdDialog;
-    QStringList m_formats;
-};
-
 QIcon getCommandIcon(const QString &iconString, int commandType)
 {
     const auto icon =
@@ -119,6 +88,39 @@ QString commandsToPaste()
 } // namespace
 
 Q_DECLARE_METATYPE(Command)
+
+class CommandItem : public ItemOrderList::Item {
+public:
+    CommandItem(const Command &command, const QStringList &formats, CommandDialog *cmdDialog)
+        : m_command(command)
+        , m_cmdDialog(cmdDialog)
+        , m_formats(formats)
+    {
+    }
+
+    QVariant data() const override { return QVariant::fromValue(m_command); }
+
+private:
+    QWidget *createWidget(QWidget *parent) const override
+    {
+        auto cmdWidget = new CommandWidget(parent);
+        cmdWidget->setFormats(m_formats);
+        cmdWidget->setCommand(m_command);
+
+        QObject::connect( cmdWidget, SIGNAL(iconChanged()),
+                          m_cmdDialog, SLOT(onCurrentCommandWidgetIconChanged()) );
+        QObject::connect( cmdWidget, SIGNAL(nameChanged(QString)),
+                          m_cmdDialog, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
+        QObject::connect( cmdWidget, &CommandWidget::commandTextChanged,
+                          m_cmdDialog, &CommandDialog::onCommandTextChanged );
+
+        return cmdWidget;
+    }
+
+    Command m_command;
+    CommandDialog *m_cmdDialog;
+    QStringList m_formats;
+};
 
 CommandDialog::CommandDialog(
         const Commands &pluginCommands, const QStringList &formats, QWidget *parent)
@@ -344,6 +346,17 @@ void CommandDialog::onAddCommands(const QVector<Command> &commands)
 void CommandDialog::onClipboardChanged()
 {
     ui->pushButtonPasteCommands->setEnabled(!commandsToPaste().isEmpty());
+}
+
+void CommandDialog::onCommandTextChanged(const QString &command)
+{
+    // Paste commands (starting with [Command] or [Commands]) correctly
+    // even if mistakingly pasted into text edit widget.
+    if ( hasCommandsToPaste(command) ) {
+        const int row = ui->itemOrderListCommands->currentRow();
+        ui->itemOrderListCommands->removeRow(row);
+        onCommandDropped(command, row);
+    }
 }
 
 Command CommandDialog::currentCommand(int row) const

@@ -52,6 +52,8 @@ signals:
 
     void nameChanged(const QString &name);
 
+    void commandTextChanged(const QString &command);
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void showEvent(QShowEvent *event) override;
@@ -78,6 +80,8 @@ private slots:
     void on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySequence &shortcut);
 
     void on_commandEdit_changed();
+
+    void on_commandEdit_commandTextChanged(const QString &command);
 
 private:
     void init();

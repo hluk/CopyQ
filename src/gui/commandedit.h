@@ -45,6 +45,7 @@ public:
 
 signals:
     void changed();
+    void commandTextChanged(const QString &command);
 
 private slots:
     void on_plainTextEditCommand_textChanged();

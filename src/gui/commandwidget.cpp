@@ -243,6 +243,11 @@ void CommandWidget::on_commandEdit_changed()
     updateWidgets();
 }
 
+void CommandWidget::on_commandEdit_commandTextChanged(const QString &command)
+{
+    emit commandTextChanged(command);
+}
+
 void CommandWidget::updateWidgets()
 {
     const bool isScript = ui->checkBoxIsScript->isChecked();

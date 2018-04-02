@@ -84,20 +84,17 @@ void CommandEdit::resizeToContent()
 
 void CommandEdit::on_plainTextEditCommand_textChanged()
 {
-    emit changed();
-
     QString errors;
     QList<QTextEdit::ExtraSelection> selections;
 
-    QString command = ui->plainTextEditCommand->toPlainText();
+    const QString command = ui->plainTextEditCommand->toPlainText();
     QRegExp scriptPrefix("(^|\\b)copyq:");
     const int pos = command.indexOf(scriptPrefix);
 
     if (pos != -1) {
         const int scriptStartPos = pos + scriptPrefix.matchedLength();
-        command.remove(0, scriptStartPos);
 
-        const QScriptSyntaxCheckResult result = QScriptEngine::checkSyntax(command);
+        const QScriptSyntaxCheckResult result = QScriptEngine::checkSyntax(command.mid(scriptStartPos));
 
         if (result.state() == QScriptSyntaxCheckResult::Error) {
             errors = result.errorMessage();
@@ -128,4 +125,7 @@ void CommandEdit::on_plainTextEditCommand_textChanged()
     ui->plainTextEditCommand->setExtraSelections(selections);
     ui->labelErrors->setVisible(!errors.isEmpty());
     ui->labelErrors->setText(errors);
+
+    emit changed();
+    emit commandTextChanged(command);
 }
