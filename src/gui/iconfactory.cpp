@@ -150,6 +150,9 @@ QPixmap pixmapFromFile(const QString &path, QSize size)
     if ( !QFile::exists(path) )
         return QPixmap();
 
+    if ( !path.endsWith(".svg", Qt::CaseInsensitive) )
+        return QPixmap(path);
+
     QSvgRenderer renderer(path);
     if ( !renderer.isValid() )
         return QPixmap(path);
