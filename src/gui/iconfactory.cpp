@@ -467,10 +467,10 @@ public:
             const auto path = imagePathFromPrefix(suffix + ".svg", running ? "icon-running" : "icon");
             pix = pixmapFromFile(path, size);
         } else {
-            pix = icon.pixmap(size)
-                    .scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            pix = icon.pixmap(size);
         }
 
+        pix = pix.scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         pix.setDevicePixelRatio(1);
 
         const auto sessionColor = sessionIconColor();
