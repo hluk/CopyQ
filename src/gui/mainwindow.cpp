@@ -743,6 +743,18 @@ void MainWindow::updateTrayMenu()
 {
     if ( !m_timerUpdateTrayMenu.isActive() )
         m_timerUpdateTrayMenu.start();
+    updateTrayMenuClipboardAction();
+}
+
+void MainWindow::updateTrayMenuClipboardAction()
+{
+    if (!m_trayMenuClipboardAction)
+        return;
+
+    const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
+    const auto font = m_trayMenuClipboardAction->font();
+    const auto clipboardLabel = textLabelForData(m_clipboardData, font, format, true);
+    m_trayMenuClipboardAction->setText(clipboardLabel);
 }
 
 void MainWindow::updateIcon()
@@ -3056,11 +3068,10 @@ void MainWindow::updateTrayMenuTimeout()
     // Add commands.
     if (m_options.trayCommands) {
         // Show clipboard content as disabled item.
-        const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
-        act = m_trayMenu->addAction( iconClipboard(),
-                                            QString(), this, SLOT(showClipboardContent()) );
-        act->setText( textLabelForData(m_clipboardData, act->font(), format, true) );
-        m_trayMenu->addCustomAction(act);
+        m_trayMenuClipboardAction = m_trayMenu->addAction(
+                    iconClipboard(), QString(), this, SLOT(showClipboardContent()) );
+        updateTrayMenuClipboardAction();
+        m_trayMenu->addCustomAction(m_trayMenuClipboardAction);
 
         int i = m_trayMenu->actions().size();
         addCommandsToTrayMenu(m_clipboardData);

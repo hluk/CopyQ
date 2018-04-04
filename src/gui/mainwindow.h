@@ -578,6 +578,8 @@ private:
 
     void updateTrayMenu();
 
+    void updateTrayMenuClipboardAction();
+
     void updateNotifications();
 
     void updateWindowTransparency(bool mouseOver = false);
@@ -662,6 +664,7 @@ private:
 
     QMenu *m_menuItem;
     TrayMenu *m_trayMenu;
+    QPointer<QAction> m_trayMenuClipboardAction;
 
     QSystemTrayIcon *m_tray;
 
