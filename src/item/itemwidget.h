@@ -22,8 +22,6 @@
 
 #include "tests/testinterface.h"
 
-#include "common/version.h"
-
 #include <QRegExp>
 #include <QStringList>
 #include <QtPlugin>
@@ -51,7 +49,7 @@ using ItemSaverPtr = std::shared_ptr<ItemSaverInterface>;
 class ItemScriptableFactoryInterface;
 using ItemScriptableFactoryPtr = std::shared_ptr<ItemScriptableFactoryInterface>;
 
-#define COPYQ_PLUGIN_ITEM_LOADER_ID "org.CopyQ.ItemPlugin.ItemLoader/" COPYQ_BASE_VERSION
+#define COPYQ_PLUGIN_ITEM_LOADER_ID "org.CopyQ.ItemPlugin.ItemLoader/1.0"
 
 /**
  * Handles item in list.
