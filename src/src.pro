@@ -255,9 +255,6 @@ include(platform/platform.pri)
 equals(USE_QXT,1) {
     DEFINES += BUILD_QXT_GUI
 
-    HEADERS += ../qxt/qxtglobal.h
-    SOURCES += ../qxt/qxtglobal.cpp
-
     HEADERS += ../qxt/qxtglobalshortcut.h
     HEADERS += ../qxt/qxtglobalshortcut_p.h
     SOURCES += ../qxt/qxtglobalshortcut.cpp

@@ -33,7 +33,6 @@
 #include <QMap>
 #include <QHash>
 #include <QtDebug>
-#include <QtGlobal>
 #include <QApplication>
 
 using Identifier = QPair<uint, uint>;
@@ -72,6 +71,7 @@ quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifier
     return native;
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 // This is only here to get it to compile on OSX
 bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
     void * message, long * result)
@@ -82,6 +82,7 @@ bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
 
     return false;
 }
+#endif
 
 
 quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
@@ -192,8 +193,12 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
 
     currentLayoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
     CFRelease(currentKeyboard);
-    if (currentLayoutData == nullptr)
-        return 0;
+    if (currentLayoutData == nullptr){//Japanese or Chinese always return null
+        currentKeyboard = TISCopyCurrentKeyboardLayoutInputSource();
+        currentLayoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+        if(!currentLayoutData)
+            return 0;
+    }
 
     UCKeyboardLayout* header = (UCKeyboardLayout*)CFDataGetBytePtr(currentLayoutData);
     UCKeyboardTypeHeader* table = header->keyboardTypeList;
@@ -354,18 +359,7 @@ bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativ
         EventTypeSpec t;
         t.eventClass = kEventClassKeyboard;
         t.eventKind = kEventHotKeyPressed;
-        const auto statusCode =
-                InstallApplicationEventHandler(&qxt_mac_handle_hot_key, 1, &t, nullptr, nullptr);
-        if (statusCode != 0) {
-            const auto error =
-                    QString("Failed to register shortcut event handler:"
-                            " InstallApplicationEventHandler returned non-zero status code %1")
-                    .arg(statusCode);
-            qCritical() << error;
-            return false;
-        }
-
-        qxt_mac_handler_installed = true;
+        InstallApplicationEventHandler(&qxt_mac_handle_hot_key, 1, &t, nullptr, nullptr);
     }
 
     EventHotKeyID keyID;
@@ -373,21 +367,13 @@ bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativ
     keyID.id = ++hotKeySerial;
 
     EventHotKeyRef ref = 0;
-    const auto statusCode = RegisterEventHotKey(nativeKey, nativeMods, keyID, GetApplicationEventTarget(), 0, &ref);
-    if (statusCode != 0) {
-        const auto error =
-                QString("Failed to register shortcut (key: %1, modifiers: %2):"
-                        " RegisterEventHotKey returned non-zero status code %3")
-                .arg(nativeKey)
-                .arg(nativeMods)
-                .arg(statusCode);
-        qCritical() << error;
-        return false;
+    bool rv = !RegisterEventHotKey(nativeKey, nativeMods, keyID, GetApplicationEventTarget(), 0, &ref);
+    if (rv)
+    {
+        keyIDs.insert(Identifier(nativeMods, nativeKey), keyID.id);
+        keyRefs.insert(keyID.id, ref);
     }
-
-    keyIDs.insert(Identifier(nativeMods, nativeKey), keyID.id);
-    keyRefs.insert(keyID.id, ref);
-    return true;
+    return rv;
 }
 
 bool QxtGlobalShortcutPrivate::unregisterShortcut(quint32 nativeKey, quint32 nativeMods)

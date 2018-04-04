@@ -39,7 +39,6 @@
 #include "scriptable/scriptableproxy.h"
 #include "scriptable/temporaryfileclass.h"
 #include "../qt/bytearrayclass.h"
-#include "../qxt/qxtglobal.h"
 
 #include <QApplication>
 #include <QDateTime>
@@ -811,7 +810,6 @@ QScriptValue Scriptable::version()
     return tr(programName) + " " COPYQ_VERSION " (hluk@email.cz)\n"
             + tr("Built with: ")
             + "Qt " + QT_VERSION_STR +
-            + ", LibQxt " + QXT_VERSION_STR
             + '\n';
 }
 

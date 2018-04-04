@@ -26,7 +26,6 @@ include(platform/platform.cmake)
 # Qxt - global shortcuts
 if (USE_QXT)
     set(copyq_SOURCES ${copyq_SOURCES}
-        ../qxt/qxtglobal.cpp
         ../qxt/qxtglobalshortcut.cpp
         )
     add_definitions( -DQXT_STATIC )

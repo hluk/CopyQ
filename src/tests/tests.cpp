@@ -602,8 +602,6 @@ void Tests::commandVersion()
     QVERIFY( version.contains(QRegExp("\\bCopyQ\\b.*" + QRegExp::escape(COPYQ_VERSION))) );
     // Version contains Qt version.
     QVERIFY( version.contains(QRegExp("\\bQt\\s+\\d")) );
-    // Version contains Qxt version.
-    QVERIFY( version.contains(QRegExp("\\bLibQxt\\s+\\d")) );
 }
 
 void Tests::badCommand()
