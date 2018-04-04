@@ -56,9 +56,11 @@ public:
     /** Filter clipboard items. */
     void search(const QString &text);
 
+    void markItemInClipboard(const QVariantMap &clipboardData);
+
 signals:
     /** Emitted if numbered action triggered. */
-    void clipboardItemActionTriggered(uint clipboardItemHash, bool omitPaste);
+    void clipboardItemActionTriggered(const QVariantMap &itemData, bool omitPaste);
 
     void searchRequest(const QString &text);
 

@@ -436,8 +436,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, &MainWindow::raiseLastWindow );
     connect( m_trayMenu, SIGNAL(searchRequest(QString)),
              this, SLOT(addTrayMenuItems(QString)) );
-    connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
-             this, SLOT(onTrayActionTriggered(uint,bool)) );
+    connect( m_trayMenu, &TrayMenu::clipboardItemActionTriggered,
+             this, &MainWindow::onTrayActionTriggered );
 
     connect( m_menu, SIGNAL(aboutToShow()),
              this, SLOT(updateFocusWindows()) );
@@ -445,8 +445,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, &MainWindow::raiseLastWindow );
     connect( m_menu, SIGNAL(searchRequest(QString)),
              this, SLOT(addMenuItems(QString)) );
-    connect( m_menu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
-             this, SLOT(onMenuActionTriggered(uint,bool)) );
+    connect( m_menu, &TrayMenu::clipboardItemActionTriggered,
+             this, &MainWindow::onMenuActionTriggered );
 
     connect( ui->tabWidget, SIGNAL(currentChanged(int,int)),
              this, SLOT(tabChanged(int,int)) );
@@ -743,18 +743,19 @@ void MainWindow::updateTrayMenu()
 {
     if ( !m_timerUpdateTrayMenu.isActive() )
         m_timerUpdateTrayMenu.start();
-    updateTrayMenuClipboardAction();
+    updateTrayMenuClipboard();
 }
 
-void MainWindow::updateTrayMenuClipboardAction()
+void MainWindow::updateTrayMenuClipboard()
 {
-    if (!m_trayMenuClipboardAction)
-        return;
+    if (m_trayMenuClipboardAction) {
+        const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
+        const auto font = m_trayMenuClipboardAction->font();
+        const auto clipboardLabel = textLabelForData(m_clipboardData, font, format, true);
+        m_trayMenuClipboardAction->setText(clipboardLabel);
+    }
 
-    const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
-    const auto font = m_trayMenuClipboardAction->font();
-    const auto clipboardLabel = textLabelForData(m_clipboardData, font, format, true);
-    m_trayMenuClipboardAction->setText(clipboardLabel);
+    m_trayMenu->markItemInClipboard(m_clipboardData);
 }
 
 void MainWindow::updateIcon()
@@ -1711,10 +1712,11 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCo
     }
 }
 
-void MainWindow::onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool omitPaste)
+void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, bool omitPaste)
 {
+    const auto itemHash = ::hash(data);
     if ( !c || !c->moveToClipboard(itemHash) )
-        return;
+        setClipboard(data);
 
     PlatformWindowPtr lastWindow = m_lastWindow;
 
@@ -2500,14 +2502,14 @@ void MainWindow::showBrowser(int index)
         showWindow();
 }
 
-void MainWindow::onMenuActionTriggered(uint itemHash, bool omitPaste)
+void MainWindow::onMenuActionTriggered(const QVariantMap &data, bool omitPaste)
 {
-    onMenuActionTriggered( getTabForMenu(), itemHash, omitPaste );
+    activateMenuItem( getTabForMenu(), data, omitPaste );
 }
 
-void MainWindow::onTrayActionTriggered(uint itemHash, bool omitPaste)
+void MainWindow::onTrayActionTriggered(const QVariantMap &data, bool omitPaste)
 {
-    onMenuActionTriggered( getTabForTrayMenu(), itemHash, omitPaste );
+    activateMenuItem( getTabForTrayMenu(), data, omitPaste );
 }
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
@@ -3070,7 +3072,6 @@ void MainWindow::updateTrayMenuTimeout()
         // Show clipboard content as disabled item.
         m_trayMenuClipboardAction = m_trayMenu->addAction(
                     iconClipboard(), QString(), this, SLOT(showClipboardContent()) );
-        updateTrayMenuClipboardAction();
         m_trayMenu->addCustomAction(m_trayMenuClipboardAction);
 
         int i = m_trayMenu->actions().size();
@@ -3079,6 +3080,8 @@ void MainWindow::updateTrayMenuTimeout()
         for ( ; i < actions.size(); ++i )
             m_trayMenu->addCustomAction(actions[i]);
     }
+
+    updateTrayMenuClipboard();
 }
 
 void MainWindow::addMenuItems(const QString &searchText)
@@ -3089,6 +3092,7 @@ void MainWindow::addMenuItems(const QString &searchText)
 void MainWindow::addTrayMenuItems(const QString &searchText)
 {
     addMenuItems(m_trayMenu, getTabForTrayMenu(), m_options.trayItems, searchText);
+    m_trayMenu->markItemInClipboard(m_clipboardData);
 }
 
 void MainWindow::openLogDialog()

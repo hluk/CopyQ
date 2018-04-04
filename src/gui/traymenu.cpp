@@ -22,6 +22,7 @@
 #include "common/contenttype.h"
 #include "common/common.h"
 #include "common/display.h"
+#include "common/textdata.h"
 #include "gui/icons.h"
 #include "gui/iconfactory.h"
 
@@ -31,6 +32,8 @@
 #include <QPixmap>
 
 namespace {
+
+const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 
 bool canActivate(const QAction &action)
 {
@@ -85,7 +88,7 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
     const QVariantMap data = index.data(contentType::data).toMap();
     QAction *act = addAction(QString());
 
-    act->setData(index.data(contentType::hash));
+    act->setData(index.data(contentType::data));
 
     insertAction(m_clipboardItemActionsSeparator, act);
 
@@ -296,6 +299,22 @@ void TrayMenu::search(const QString &text)
     emit searchRequest(m_viMode ? m_searchText.mid(1) : m_searchText);
 }
 
+void TrayMenu::markItemInClipboard(const QVariantMap &clipboardData)
+{
+    const auto text = getTextData(clipboardData);
+
+    for ( auto action : actions() ) {
+        const auto actionData = action->data().toMap();
+        const auto itemText = getTextData(actionData);
+        if ( !itemText.isEmpty() ) {
+            const auto hideIcon = itemText != text;
+            const auto isIconHidden = action->icon().isNull();
+            if ( isIconHidden != hideIcon )
+                action->setIcon(hideIcon ? QIcon() : iconClipboard());
+        }
+    }
+}
+
 void TrayMenu::setSearchMenuItem(const QString &text)
 {
     if ( m_searchAction.isNull() ) {
@@ -315,16 +334,16 @@ void TrayMenu::onClipboardItemActionTriggered()
     QAction *act = qobject_cast<QAction *>(sender());
     Q_ASSERT(act != nullptr);
 
-    QVariant actionData = act->data();
-    Q_ASSERT( actionData.isValid() );
-
-    uint hash = actionData.toUInt();
-    emit clipboardItemActionTriggered(hash, m_omitPaste);
+    const auto actionData = act->data().toMap();
+    emit clipboardItemActionTriggered(actionData, m_omitPaste);
     close();
 }
 
 void TrayMenu::updateActiveAction()
 {
+    if ( isVisible() && activeAction() != nullptr )
+        return;
+
     const auto action = firstEnabledAction(this);
     if (action != nullptr)
         setActiveAction(action);

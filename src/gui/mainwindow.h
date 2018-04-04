@@ -472,8 +472,8 @@ private slots:
     void addMenuItems(const QString &searchText);
     void addTrayMenuItems(const QString &searchText);
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
-    void onMenuActionTriggered(uint itemHash, bool omitPaste);
-    void onTrayActionTriggered(uint itemHash, bool omitPaste);
+    void onMenuActionTriggered(const QVariantMap &data, bool omitPaste);
+    void onTrayActionTriggered(const QVariantMap &data, bool omitPaste);
     void findNextOrPrevious();
     void tabChanged(int current, int previous);
     void saveTabPositions();
@@ -578,7 +578,7 @@ private:
 
     void updateTrayMenu();
 
-    void updateTrayMenuClipboardAction();
+    void updateTrayMenuClipboard();
 
     void updateNotifications();
 
@@ -647,7 +647,7 @@ private:
     QAction *actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context);
 
     void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
-    void onMenuActionTriggered(ClipboardBrowser *c, uint itemHash, bool omitPaste);
+    void activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, bool omitPaste);
     QWidget *toggleMenu(TrayMenu *menu, QPoint pos);
     QWidget *toggleMenu(TrayMenu *menu);
 
