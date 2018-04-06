@@ -1,3 +1,22 @@
+v3.3.1
+- Mark tray menu item in clipboard
+- Scroll view when dragging items to top or bottom
+- Always use current tab name in new tab dialog
+- Update clipboard label in tray menu immediately
+- Raise last window after menu is closed
+- Paste commands correctly even if pasted into text edit widget
+- Unload unneeded tabs after exported/imported
+- Omit slow data compression on export
+- Fix queryKeyboardModifiers() script function
+- Fix settings autostart option from script
+- Fix warnings when trying to load bitmap icons as SVG
+- OSX: Fix settings global shortcuts with some keyboard layouts
+- OSX: Fix tray menu icon size
+- X11: Fix Autostart option
+- X11: Fix crash when icon is too big
+- X11: Omit resetting empty clipboard and selection
+- X11: Omit overriding new clipboard with older selection content
+
 v3.3.0
 - Add option for searching numbers in item list and tray menu
 - Use exception instead of return code for exportData()/importData()
