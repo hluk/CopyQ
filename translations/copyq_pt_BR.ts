@@ -4074,7 +4074,7 @@ Use &lt;b&gt;/&lt;/b&gt; como serapador de caminho na visualização em árvore 
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="119"/>
         <source>Case Insensitive</source>
-        <translation>Case Insensitive</translation>
+        <translation>Não diferenciar maiúsculas de minúsculas</translation>
     </message>
 </context>
 <context>
