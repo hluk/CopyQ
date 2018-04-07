@@ -35,7 +35,6 @@ public:
 
 signals:
     void runScriptRequest(const QString &script, const QVariantMap &data);
-    void clipboardOrSelectionChanged();
 
 private slots:
     void onClipboardChanged(ClipboardMode mode);

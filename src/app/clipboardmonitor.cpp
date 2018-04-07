@@ -126,7 +126,6 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
 
     COPYQ_LOG( QString("%1 changed")
                .arg(mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection") );
-    emit clipboardOrSelectionChanged();
 
     if (mode != ClipboardMode::Clipboard) {
         const QString modeName = mode == ClipboardMode::Selection

@@ -41,6 +41,7 @@
 #include "../qt/bytearrayclass.h"
 
 #include <QApplication>
+#include <QClipboard>
 #include <QDateTime>
 #include <QDir>
 #include <QDesktopServices>
@@ -518,55 +519,54 @@ QStringList monitorFormatsToSave()
 class SynchronizeSelectionTimer : public QObject
 {
 public:
-    static void create(ClipboardMode targetClipboardMode, const QVariantMap &data, Scriptable *scriptable)
+    explicit SynchronizeSelectionTimer(ScriptableProxy *scriptableProxy)
+        : QObject()
+        , m_scriptableProxy(scriptableProxy)
     {
-        auto timer = new SynchronizeSelectionTimer(targetClipboardMode, data, scriptable);
-        connect( scriptable, &Scriptable::stopSynchronizeSelectionTimer, timer, &SynchronizeSelectionTimer::stop );
+        m_timer.setSingleShot(true);
+        QObject::connect(
+            &m_timer, &QTimer::timeout,
+            this, &SynchronizeSelectionTimer::synchronize);
     }
 
-protected:
-    void timerEvent(QTimerEvent *event) override
+    void start(ClipboardMode targetClipboardMode, const QVariantMap &data)
     {
-        if (event->timerId() == m_timerId) {
-            killTimer(m_timerId);
-            m_timerId = -1;
-            synchronize();
-        } else {
-            QObject::timerEvent(event);
-        }
+        m_targetClipboardMode = targetClipboardMode;
+        m_data = data;
+        if ( !m_timer.isActive() )
+            m_timer.start(0);
+        syncLog("Started");
+    }
+
+    void reset()
+    {
+        m_data.clear();
+        m_timer.start(500);
+        syncLog("Reset");
     }
 
 private:
-    SynchronizeSelectionTimer(ClipboardMode targetClipboardMode, const QVariantMap &data, Scriptable *scriptable)
-        : QObject(scriptable)
-        , m_scriptable(scriptable)
-        , m_targetClipboardMode(targetClipboardMode)
-        , m_data( copyWithoutInternalData(data) )
-        , m_timerId( startTimer(500) )
-    {
-    }
-
-    void stop()
-    {
-        if (m_timerId != -1) {
-            COPYQ_LOG( QString("Aborting synchronization to %1")
-                       .arg(m_targetClipboardMode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
-            killTimer(m_timerId);
-            m_timerId = -1;
-            deleteLater();
-        }
-    }
-
     void synchronize()
     {
-        m_scriptable->setClipboard(&m_data, m_targetClipboardMode);
-        deleteLater();
+        if ( m_data.isEmpty() )
+            return;
+
+        syncLog("Synchronizing");
+        m_scriptableProxy->setClipboard(m_data, m_targetClipboardMode);
+        syncLog("Synchronized");
     }
 
-    Scriptable *m_scriptable;
-    ClipboardMode m_targetClipboardMode;
+    void syncLog(const char *message) const
+    {
+        COPYQ_LOG( QString("Sync to %1: %2")
+                   .arg(m_targetClipboardMode == ClipboardMode::Clipboard ? "clipboard" : "selection")
+                   .arg(message) );
+    }
+
+    ScriptableProxy *m_scriptableProxy;
+    ClipboardMode m_targetClipboardMode = ClipboardMode::Clipboard;
     QVariantMap m_data;
-    int m_timerId = -1;
+    QTimer m_timer;
 };
 #endif // HAS_MOUSE_SELECTIONS
 
@@ -2295,7 +2295,7 @@ void Scriptable::synchronizeSelection()
         return;
 
     const auto targetClipboardMode = syncToSelection ? ClipboardMode::Selection : ClipboardMode::Clipboard;
-    SynchronizeSelectionTimer::create(targetClipboardMode, m_data, this);
+    emit startSynchronizeSelectionTimer(targetClipboardMode, m_data);
 #endif
 }
 
@@ -2387,12 +2387,22 @@ void Scriptable::monitorClipboard()
 
     ClipboardMonitor monitor( monitorFormatsToSave() );
 
+#ifdef HAS_MOUSE_SELECTIONS
+    connect( QApplication::clipboard(), &QClipboard::changed,
+             this, [this]() {
+                m_data.remove(mimeSyncToSelection);
+                m_data.remove(mimeSyncToClipboard);
+                emit resetSynchronizeSelectionTimer();
+            });
+    SynchronizeSelectionTimer timer(m_proxy);
+    connect( this, &Scriptable::resetSynchronizeSelectionTimer, &timer, &SynchronizeSelectionTimer::reset );
+    connect( this, &Scriptable::startSynchronizeSelectionTimer, &timer, &SynchronizeSelectionTimer::start );
+#endif
+
     QEventLoop loop;
     connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
     connect( &monitor, SIGNAL(runScriptRequest(QString,QVariantMap)),
              this, SLOT(onMonitorRunScriptRequest(QString,QVariantMap)) );
-    connect( &monitor, SIGNAL(clipboardOrSelectionChanged()),
-             this, SLOT(onClipboardOrSelectionChanged()) );
     loop.exec();
 }
 
@@ -2428,16 +2438,10 @@ void Scriptable::onExecuteOutput(const QByteArray &output)
 
 void Scriptable::onMonitorRunScriptRequest(const QString &script, const QVariantMap &data)
 {
+    COPYQ_LOG("Monitor eval: " + script);
     m_data = data;
     m_proxy->setActionData(m_actionId, m_data);
     eval(script);
-}
-
-void Scriptable::onClipboardOrSelectionChanged()
-{
-    m_data.remove(mimeSyncToSelection);
-    m_data.remove(mimeSyncToClipboard);
-    emit stopSynchronizeSelectionTimer();
 }
 
 void Scriptable::onProvidedClipboardChanged()
