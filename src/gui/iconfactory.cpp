@@ -145,17 +145,23 @@ QColor &sessionIconTagColorVariable()
     return color;
 }
 
+QPixmap pixmapFromBitmapFile(const QString &path, QSize size)
+{
+    return QPixmap(path)
+            .scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+}
+
 QPixmap pixmapFromFile(const QString &path, QSize size)
 {
     if ( !QFile::exists(path) )
         return QPixmap();
 
     if ( !path.endsWith(".svg", Qt::CaseInsensitive) )
-        return QPixmap(path);
+        return pixmapFromBitmapFile(path, size);
 
     QSvgRenderer renderer(path);
     if ( !renderer.isValid() )
-        return QPixmap(path);
+        return pixmapFromBitmapFile(path, size);
 
     QPixmap pix(size);
     pix.setDevicePixelRatio(1);
@@ -467,10 +473,10 @@ public:
             const auto path = imagePathFromPrefix(suffix + ".svg", running ? "icon-running" : "icon");
             pix = pixmapFromFile(path, size);
         } else {
-            pix = icon.pixmap(size);
+            pix = icon.pixmap(size)
+                    .scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         }
 
-        pix = pix.scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         pix.setDevicePixelRatio(1);
 
         const auto sessionColor = sessionIconColor();
