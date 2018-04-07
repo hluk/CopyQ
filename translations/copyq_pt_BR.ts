@@ -1782,12 +1782,12 @@ Use Prévia do Item para mostrar os itens completos.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitar pesquisa de números, caso contrário, pressionar uma tecla numérica ativa o item nessa posição</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>P&amp;esquisar por números</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
