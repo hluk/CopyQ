@@ -549,6 +549,8 @@ private:
     void stop()
     {
         if (m_timerId != -1) {
+            COPYQ_LOG( QString("Aborting synchronization to %1")
+                       .arg(m_targetClipboardMode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
             killTimer(m_timerId);
             m_timerId = -1;
             deleteLater();
