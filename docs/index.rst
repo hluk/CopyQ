@@ -33,6 +33,8 @@ advanced topics like scripting and application development process.
     writing-commands-and-adding-functionality
     scripting
     command-examples
+    commands-script
+    commands-display
     backup
     writing-raw-data
     scripting-api

@@ -84,8 +84,8 @@ Group: Type of Action
 This group sets the main type of the command. Usually only one
 sub-option is set.
 
-a. Automatic
-""""""""""""
+Automatic
+"""""""""
 
 If enabled, the command is triggered whenever clipboard changes.
 
@@ -96,8 +96,8 @@ has "Remove Item" option set or calls ``copyq ignore``.
 The command is **applied on current clipboard data** - i.e. options
 below access text or other data in clipboard.
 
-b. In Menu
-""""""""""
+In Menu
+"""""""
 
 If enabled, the command can be run from main window either with
 application shortcut, from context menu or "Item" menu. The command can
@@ -109,8 +109,8 @@ These **application shortcuts work only while CopyQ window has focus**.
 If the command is run from **tray menu**, it is **applied on clipboard
 data**, otherwise it's **applied on data in selected items**.
 
-c. Global Shortcut
-""""""""""""""""""
+Global Shortcut
+"""""""""""""""
 
 Global or system shortcut is a keyboard shortcut that **works even if the main
 application window is not focused**.
@@ -118,6 +118,28 @@ application window is not focused**.
 If enabled, the command is triggered whenever assigned shortcut is pressed.
 
 This command is **not applied on data** in clipboard nor selected items.
+
+.. _command-dialog-script:
+
+Script
+""""""
+
+If enabled, the command is script which is loaded before any other script is
+started. This allows overriding existing functions and creating new ones
+(allowing new command line arguments to be used).
+
+See :ref:`commands-script`.
+
+.. _command-dialog-display:
+
+Display
+"""""""
+
+If enabled, the command is used to modify item data before displaying. Use
+``data()`` to retrieve current item data and ``setData()`` to modify the data
+to display (these are not stored permanently).
+
+See :ref:`commands-display`.
 
 Group: Match Items
 ''''''''''''''''''
