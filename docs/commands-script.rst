@@ -3,12 +3,14 @@
 Script Commands
 ===============
 
+Script command is type of command which allows overriding existing functions
+and creating new ones (allowing new command line arguments to be used).
+
+The command is executed before any script and all defined variables and
+functions are available to the scripts.
+
 Script commands can be created in Command dialog by setting Type of Action to
 :ref:`command-dialog-script`.
-
-The command is script which is loaded before any other script is started.
-This allows overriding existing functions and creating new ones (allowing new
-command line arguments to be used).
 
 Extending Command Line Interface
 --------------------------------
@@ -65,4 +67,40 @@ pasting clipboard.
             throw 'Failed to run xdotool'
         if (x.stderr)
             throw 'Failed to run xdotool: ' + str(x.stderr)
+    }
+
+E.g. show custom notifications for clipboard and X11 selection changes.
+
+.. code-block:: js
+
+    function clipboardNotification(owns, hidden) {
+        var id = isClipboard() ? 'clipboard' : 'selection'
+        var icon = isClipboard() ? '\uf0ea' : '\uf246'
+        var owner = owns ? 'CopyQ' : str(data(mimeWindowTitle))
+        var title = id + ' - ' + owner
+        var message = hidden ? '<HIDDEN>' : data(mimeText).left(100)
+        notification(
+        '.id', id,
+        '.title', title,
+        '.message', message,
+        '.icon', icon
+        )
+    }
+
+    onClipboardChanged_ = onClipboardChanged
+    onClipboardChanged = function() {
+        clipboardNotification(false, false)
+        onClipboardChanged_()
+    }
+
+    onOwnClipboardChanged_ = onOwnClipboardChanged
+    onOwnClipboardChanged = function() {
+        clipboardNotification(true, false)
+        onOwnClipboardChanged_()
+    }
+
+    onHiddenClipboardChanged_ = onHiddenClipboardChanged
+    onHiddenClipboardChanged = function() {
+        clipboardNotification(true, true)
+        onHiddenClipboardChanged_()
     }

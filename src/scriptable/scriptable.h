@@ -362,12 +362,12 @@ signals:
     void dataReceived();
     void finished();
     void readInput();
-    void stopSynchronizeSelectionTimer();
+    void resetSynchronizeSelectionTimer();
+    void startSynchronizeSelectionTimer(ClipboardMode targetMode, const QVariantMap &data);
 
 private slots:
     void onExecuteOutput(const QByteArray &output);
     void onMonitorRunScriptRequest(const QString &script, const QVariantMap &data);
-    void onClipboardOrSelectionChanged();
     void onProvidedClipboardChanged();
     void onProvidedSelectionChanged();
 

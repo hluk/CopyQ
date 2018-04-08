@@ -23,7 +23,6 @@
 
 #include "common/common.h"
 #include "common/mimetypes.h"
-#include "common/log.h"
 
 #include "x11displayguard.h"
 
@@ -90,8 +89,7 @@ void X11PlatformClipboard::onClipboardChanged()
     m_clipboardData = data;
     emit changed(ClipboardMode::Clipboard);
 
-    // Check selection too if some signals where not delivered.
-    m_timerCheckSelection.start();
+    checkAgain();
 }
 
 void X11PlatformClipboard::onSelectionChanged()
@@ -109,8 +107,7 @@ void X11PlatformClipboard::onSelectionChanged()
     m_selectionData = data;
     emit changed(ClipboardMode::Selection);
 
-    // Check clipboard too if some signals where not delivered.
-    m_timerCheckClipboard.start();
+    checkAgain();
 }
 
 bool X11PlatformClipboard::waitIfSelectionIncomplete()
@@ -124,4 +121,12 @@ bool X11PlatformClipboard::waitIfSelectionIncomplete()
     }
 
     return false;
+}
+
+void X11PlatformClipboard::checkAgain()
+{
+    // Check clipboard and selection again if some signals where
+    // not delivered or older data was received after new one.
+    m_timerCheckClipboard.start();
+    m_timerCheckSelection.start();
 }
