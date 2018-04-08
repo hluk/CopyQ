@@ -50,6 +50,7 @@ private slots:
 
 private:
     bool waitIfSelectionIncomplete();
+    void checkAgain();
 
     std::shared_ptr<X11DisplayGuard> d;
 
