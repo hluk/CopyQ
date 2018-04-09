@@ -251,6 +251,11 @@ const int noReturnType = -1;
 struct InputDialog {
     QDialog dialog;
     QString defaultChoice; /// Default text for list widgets.
+
+    explicit InputDialog(QWidget *parentWindow)
+        : dialog(parentWindow)
+    {
+    }
 };
 
 class FunctionCallSerializer {
@@ -1291,7 +1296,7 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
 {
     INVOKE(inputDialog, (values));
 
-    InputDialog inputDialog;
+    InputDialog inputDialog(m_wnd);
     QDialog &dialog = inputDialog.dialog;
 
     QIcon icon;
