@@ -2091,6 +2091,8 @@ void Tests::configMove()
 {
     RUN("add" << "B" << "A", "");
 
+    RUN("config" << "tray_item_paste" << "false", "false\n");
+
     RUN("config" << "move" << "true", "true\n");
 
     waitFor(waitTrayUpdate);
