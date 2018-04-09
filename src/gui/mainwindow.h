@@ -485,7 +485,7 @@ private slots:
     void onFilterChanged(const QRegExp &re);
     void createTrayIfSupported();
 
-    void raiseLastWindow();
+    void raiseLastWindowAfterMenuClosed();
 
     /** Update WId for paste and last focused window if needed. */
     void updateFocusWindows();
@@ -690,6 +690,7 @@ private:
     QTimer m_timerTrayIconSnip;
     QTimer m_timerSaveTabPositions;
     QTimer m_timerHideWindowIfNotActive;
+    QTimer m_timerRaiseLastWindowAfterMenuClosed;
 
     NotificationDaemon *m_notifications;
 

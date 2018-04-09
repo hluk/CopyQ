@@ -433,7 +433,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     connect( m_trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateFocusWindows()) );
     connect( m_trayMenu, &QMenu::aboutToHide,
-             this, &MainWindow::raiseLastWindow );
+             this, [this](){ m_timerRaiseLastWindowAfterMenuClosed.start(); } );
     connect( m_trayMenu, SIGNAL(searchRequest(QString)),
              this, SLOT(addTrayMenuItems(QString)) );
     connect( m_trayMenu, &TrayMenu::clipboardItemActionTriggered,
@@ -442,7 +442,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     connect( m_menu, SIGNAL(aboutToShow()),
              this, SLOT(updateFocusWindows()) );
     connect( m_menu, &QMenu::aboutToHide,
-             this, &MainWindow::raiseLastWindow );
+             this, [this](){ m_timerRaiseLastWindowAfterMenuClosed.start(); } );
     connect( m_menu, SIGNAL(searchRequest(QString)),
              this, SLOT(addMenuItems(QString)) );
     connect( m_menu, &TrayMenu::clipboardItemActionTriggered,
@@ -487,6 +487,9 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
     initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, SLOT(doSaveTabPositions()) );
+    initSingleShotTimer(&m_timerRaiseLastWindowAfterMenuClosed, 50);
+    connect(&m_timerRaiseLastWindowAfterMenuClosed, &QTimer::timeout,
+            this, &MainWindow::raiseLastWindowAfterMenuClosed);
     enableHideWindowOnUnfocus();
 
     m_trayMenu->setObjectName("TrayMenu");
@@ -2974,9 +2977,9 @@ void MainWindow::createTrayIfSupported()
     }
 }
 
-void MainWindow::raiseLastWindow()
+void MainWindow::raiseLastWindowAfterMenuClosed()
 {
-    if (m_lastWindow)
+    if ( m_lastWindow && !isAnyApplicationWindowActive() )
         m_lastWindow->raise();
 }
 
