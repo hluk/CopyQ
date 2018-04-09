@@ -1102,6 +1102,8 @@ void Tests::commandHasClipboardFormat()
 
 void Tests::commandEdit()
 {
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_COMMAND_EDIT");
+
     RUN("config" << "editor" << "", "\n");
 
     // Edit new item.

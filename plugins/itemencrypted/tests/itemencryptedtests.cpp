@@ -29,8 +29,7 @@ ItemEncryptedTests::ItemEncryptedTests(const TestInterfacePtr &test, QObject *pa
 
 void ItemEncryptedTests::initTestCase()
 {
-    if ( qgetenv("COPYQ_TESTS_SKIP_ITEMENCRYPT") == "1" )
-        SKIP("Unset COPYQ_TESTS_SKIP_ITEMENCRYPT to run the tests");
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_ITEMENCRYPT");
 
     TEST(m_test->initTestCase());
 }

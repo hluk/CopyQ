@@ -37,6 +37,7 @@ python macdeployqtfix/macdeployqtfix.py "$executable" /usr/local/Cellar/qt5
 "$executable" --info
 
 # Run tests.
+export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
 "$executable" tests
 
 # Create "CopyQ.dmg".

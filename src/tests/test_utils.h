@@ -88,6 +88,10 @@ do { \
     QCOMPARE(QString(out_), QString(expected_)); \
 } while(false)
 
+#define SKIP_ON_ENV(ENV) \
+    if ( qgetenv(ENV) == "1" ) \
+        SKIP("Unset " ENV " to run the tests")
+
 /// Interval to wait (in ms) until window is shown and focused.
 const int waitMsShow = 1000;
 
