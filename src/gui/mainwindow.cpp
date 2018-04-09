@@ -1167,8 +1167,12 @@ void MainWindow::keyClicks(const QString &keys, int delay)
 
         widget = QApplication::focusWidget();
         if (!widget) {
-            COPYQ_LOG("No focused widget -> using main window");
-            widget = this;
+            COPYQ_LOG("No focused widget -> using active window");
+            widget = QApplication::activeWindow();
+            if (!widget) {
+                COPYQ_LOG("No focused widget nor active window -> using main window");
+                widget = this;
+            }
         }
     }
 
