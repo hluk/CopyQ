@@ -308,6 +308,7 @@ bool ItemEncryptedSaver::saveItems(const QString &, const QAbstractItemModel &mo
     }
 
     QDataStream stream(file);
+    stream.setVersion(QDataStream::Qt_4_7);
     stream << QString(dataFileHeaderV2);
     stream.writeRawData( bytes.data(), bytes.size() );
 
@@ -618,6 +619,7 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
 bool ItemEncryptedLoader::canLoadItems(QIODevice *file) const
 {
     QDataStream stream(file);
+    stream.setVersion(QDataStream::Qt_4_7);
 
     QString header;
     stream >> header;

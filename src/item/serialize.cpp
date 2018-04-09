@@ -246,5 +246,6 @@ bool serializeData(const QAbstractItemModel &model, QIODevice *file)
 bool deserializeData(QAbstractItemModel *model, QIODevice *file, int maxItems)
 {
     QDataStream stream(file);
+    stream.setVersion(QDataStream::Qt_4_7);
     return deserializeData(model, &stream, maxItems);
 }

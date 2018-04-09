@@ -87,6 +87,8 @@ bool readConfigHeader(QDataStream *stream)
 bool readConfig(QIODevice *file, QVariantMap *config)
 {
     QDataStream stream(file);
+    stream.setVersion(QDataStream::Qt_4_7);
+
     if ( !readConfigHeader(&stream) )
         return false;
 
@@ -743,6 +745,7 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
 bool ItemSyncLoader::canLoadItems(QIODevice *file) const
 {
     QDataStream stream(file);
+    stream.setVersion(QDataStream::Qt_4_7);
     return readConfigHeader(&stream);
 }
 

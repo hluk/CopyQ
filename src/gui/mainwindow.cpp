@@ -3362,6 +3362,7 @@ bool MainWindow::loadTab(const QString &fileName)
         return false;
 
     QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_4_7);
 
     QByteArray header;
     QString tabName;
@@ -3401,6 +3402,7 @@ bool MainWindow::importData(const QString &fileName, ImportOptions options)
         return false;
 
     QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_4_7);
 
     return importDataV3(&in, options);
 }
