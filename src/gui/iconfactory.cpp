@@ -469,6 +469,17 @@ public:
 
         QPixmap pix;
 
+        const auto sessionColor = sessionIconColor();
+        const auto appColor = appIconColor();
+        const bool colorize = (sessionColor != appColor);
+
+        // Colorize icon in higher resolution.
+        const auto colorizeSize = 256;
+        const auto sizeFactor = (colorize && size.height() < colorizeSize)
+                ? (colorizeSize / size.height())
+                : 1;
+        size *= sizeFactor;
+
         if ( icon.isNull() ) {
             const auto path = imagePathFromPrefix(suffix + ".svg", running ? "icon-running" : "icon");
             pix = pixmapFromFile(path, size);
@@ -479,11 +490,13 @@ public:
 
         pix.setDevicePixelRatio(1);
 
-        const auto sessionColor = sessionIconColor();
-        const auto appColor = appIconColor();
-
-        if (sessionColor != appColor)
+        if (colorize)
             replaceColor(&pix, appColor, sessionColor);
+
+        if (sizeFactor != 1) {
+            size /= sizeFactor;
+            pix = pix.scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        }
 
         return pix;
     }
