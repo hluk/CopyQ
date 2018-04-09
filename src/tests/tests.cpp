@@ -44,7 +44,7 @@
 #include <QRegExp>
 #include <QTemporaryFile>
 #include <QTest>
-#include <QTimerEvent>
+#include <QTimer>
 
 #include <memory>
 
@@ -54,32 +54,16 @@ const auto clipboardTabName = "CLIPBOARD";
 const auto defaultSessionColor = "#ff8800";
 const auto defaultTagColor = "#000000";
 
-/**
- * Run a process after a delay.
- *
- * This relies on other occational call to QCoreApplication::processEvents()
- * so the process can be started and others can run simultaneously.
- */
-class PostponedProcess : public QObject {
-public:
-    PostponedProcess(const TestInterfacePtr &test, const QStringList &args)
-        : m_test(test)
-        , m_args(args)
-    {
-        startTimer(2000);
-    }
-
-protected:
-    void timerEvent(QTimerEvent *event) override
-    {
-        killTimer( event->timerId() );
-        RUN(m_args, "");
-    }
-
-private:
-    TestInterfacePtr m_test;
-    QStringList m_args;
-};
+template <typename Fn1, typename Fn2>
+void runMultiple(Fn1 f1, int intervalMs, Fn2 f2)
+{
+    QTimer timer;
+    timer.setSingleShot(true);
+    timer.setInterval(intervalMs);
+    QObject::connect(&timer, &QTimer::timeout, f2);
+    timer.start();
+    f1();
+}
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
@@ -863,35 +847,41 @@ void Tests::commandToggleConfig()
 
 void Tests::commandDialog()
 {
-    {
-        PostponedProcess dialogThread(m_test, Args() << "keys" << ":TEST" << "ENTER");
-        RUN("dialog" << "text", "TEST\n");
-    }
+    runMultiple(
+        [&]() { RUN("dialog" << "text", "TEST\n"); },
+        waitMsShow,
+        [&]() { RUN(Args() << "keys" << ":TEST" << "ENTER", ""); }
+    );
 
-    {
-        PostponedProcess dialogThread(m_test, Args() << "keys" << "ESCAPE");
-        RUN("eval" << "dialog('text') === undefined", "true\n");
-    }
+    runMultiple(
+        [&]() { RUN("eval" << "dialog('text') === undefined", "true\n"); },
+        waitMsShow,
+        [&]() { RUN(Args() << "keys" << "ESCAPE", ""); }
+    );
 
-    {
-        PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
-        RUN("eval" << "dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n");
-    }
+    runMultiple(
+        [&]() { RUN("eval" << "dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n"); },
+        waitMsShow,
+        [&]() { RUN(Args() << "keys" << "ENTER", ""); }
+    );
 
-    {
-        PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
-        RUN("eval" << "dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n");
-    }
+    runMultiple(
+        [&]() { RUN("eval" << "dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n"); },
+        waitMsShow,
+        [&]() { RUN(Args() << "keys" << "ENTER", ""); }
+    );
 
-    {
-        PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
-        RUN("eval" << "dialog('list', [0, 1, 2])", "0\n");
-    }
+    runMultiple(
+        [&]() { RUN("eval" << "dialog('list', [0, 1, 2])", "0\n"); },
+        waitMsShow,
+        [&]() { RUN(Args() << "keys" << "ENTER", ""); }
+    );
 
-    {
-        PostponedProcess dialogThread(m_test, Args() << "keys" << "ENTER");
-        RUN("eval" << "dialog('boolean', true) === true", "true\n");
-    }
+    runMultiple(
+        [&]() { RUN("eval" << "dialog('boolean', true) === true", "true\n"); },
+        waitMsShow,
+        [&]() { RUN(Args() << "keys" << "ENTER", ""); }
+    );
 }
 
 void Tests::commandsPackUnpack()
@@ -1984,17 +1974,17 @@ void Tests::pasteFromMainWindow()
 
     RUN("add" << "TEST", "");
     RUN("hide", "");
-    const auto pasteFromMainWindowScript = QString(
-                R"(
-                show()
-                sleep(%1)
-                keys('ENTER')
-                sleep(%1)
-                keys('ENTER')
-                )"
-                ).arg(waitMsShow);
-    PostponedProcess dialogThread(m_test, Args("eval") << pasteFromMainWindowScript);
-    RUN("dialog" << "text", "TEST\n");
+    runMultiple(
+        [&]() { RUN("dialog" << "text", "TEST\n"); },
+        waitMsShow,
+        [&]() {
+            RUN("show", "");
+            waitFor(waitMsShow);
+            RUN("keys" << "ENTER", "");
+            waitFor(waitMsShow);
+            RUN("keys" << "ENTER", "");
+        }
+    );
 }
 
 void Tests::tray()
