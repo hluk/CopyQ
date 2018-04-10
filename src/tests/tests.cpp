@@ -2091,6 +2091,8 @@ void Tests::configTrayTab()
 
 void Tests::configMove()
 {
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_CONFIG_MOVE");
+
     RUN("add" << "B" << "A", "");
 
     RUN("config" << "tray_item_paste" << "false", "false\n");

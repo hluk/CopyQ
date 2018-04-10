@@ -44,6 +44,7 @@ test "$("$executable" info has-global-shortcuts)" -eq "1"
 
 # Run tests (retry once on error).
 export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
+export COPYQ_TESTS_SKIP_CONFIG_MOVE=1
 "$executable" tests ||
     "$executable" tests
 
