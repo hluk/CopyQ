@@ -42,9 +42,10 @@ ls "$("$executable" info themes)/"
 ls "$("$executable" info translations)/"
 test "$("$executable" info has-global-shortcuts)" -eq "1"
 
-# Run tests.
+# Run tests (retry once on error).
 export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
-"$executable" tests
+"$executable" tests ||
+    "$executable" tests
 
 # Create "CopyQ.dmg".
 "$qt_bin/macdeployqt" CopyQ.app -verbose=2 -dmg -no-plugins
