@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build with Travis CI.
 
-set -e -x
+set -exuo pipefail
 
 version=$(git describe --match='v*')
 
@@ -35,6 +35,12 @@ python macdeployqtfix/macdeployqtfix.py "$executable" /usr/local/Cellar/qt5
 "$executable" --help
 "$executable" --version
 "$executable" --info
+
+# Test paths and features.
+ls "$("$executable" info plugins)/"
+ls "$("$executable" info themes)/"
+ls "$("$executable" info translations)/"
+test "$("$executable" info has-global-shortcuts)" -eq "1"
 
 # Run tests.
 export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
