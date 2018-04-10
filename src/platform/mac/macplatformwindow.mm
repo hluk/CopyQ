@@ -253,6 +253,10 @@ void MacPlatformWindow::raise()
 
         COPYQ_LOG(QString("Raise running app."));
         [m_runningApplication activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+        if (m_windowNumber != -1) {
+            auto window = [NSApp windowWithWindowNumber: m_windowNumber];
+            [window makeKeyAndOrderFront:nil];
+        }
     } else {
         ::log(QString("Tried to raise unknown window."), LogWarning);
     }

@@ -2261,6 +2261,7 @@ bool MainWindow::event(QEvent *event)
         setHideTabs(m_options.hideTabs);
         if (m_options.closeOnUnfocus)
             m_timerHideWindowIfNotActive.start();
+        m_timerUpdateFocusWindows.start();
     } else if (type == QEvent::Hide) {
         m_wasMaximized = isMaximized();
     }
@@ -2989,6 +2990,9 @@ void MainWindow::raiseLastWindowAfterMenuClosed()
 
 void MainWindow::updateFocusWindows()
 {
+    if ( m_trayMenu->isActiveWindow() || m_menu->isActiveWindow() )
+        return;
+
     PlatformPtr platform = createPlatformNativeInterface();
     PlatformWindowPtr lastWindow = platform->getCurrentWindow();
     if (lastWindow)
