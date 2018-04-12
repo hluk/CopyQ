@@ -22,24 +22,62 @@
 #include "common/log.h"
 
 #include <QCoreApplication>
+#include <QSocketNotifier>
 
 #include <csignal>
 #include <sys/socket.h>
 #include <unistd.h>
 
-int UnixSignalHandler::signalFd[UnixSignalHandler::Count];
+namespace {
 
-bool UnixSignalHandler::create(QObject *parent)
+namespace SignalAction {
+enum SignalAction { Write, Read, Count };
+}
+
+int signalFd[SignalAction::Count];
+QSocketNotifier *signalFdNotifier = nullptr;
+
+/**
+ * Catch Unix signal.
+ *
+ * Since this can be called at any time, Qt code cannot be handled here. For example,
+ * this can be called from QString constructor which can easily deadlock the application on
+ * a mutex when trying to create new QString from this handler. Also note that creating
+ * QSettings recursively can result in resetting application settings.
+ */
+void exitSignalHandler(int)
 {
-    static UnixSignalHandler *handler = nullptr;
+    const qint64 pid = QCoreApplication::applicationPid();
+    const auto written = ::write(signalFd[SignalAction::Write], &pid, sizeof(pid));
+    if (written == -1)
+        log("Failed to handle signal!", LogError);
+}
 
-    if (handler)
-        return true;
+void handleSignal()
+{
+    signalFdNotifier->setEnabled(false);
 
+    qint64 pid;
+    if ( ::read(signalFd[SignalAction::Read], &pid, sizeof(pid)) != sizeof(pid) ) {
+        COPYQ_LOG("Incorrect number of bytes read from Unix signal socket!");
+        signalFdNotifier->setEnabled(true);
+    } else if (pid != QCoreApplication::applicationPid()) {
+        COPYQ_LOG("Wrong PID written to Unix signal socket!");
+        signalFdNotifier->setEnabled(true);
+    } else {
+        COPYQ_LOG("Terminating application on signal.");
+        QCoreApplication::exit();
+    }
+}
+
+} // namespace
+
+bool initUnixSignalHandler()
+{
     // Safely quit application on TERM and HUP signals.
     struct sigaction sigact{};
 
-    sigact.sa_handler = UnixSignalHandler::exitSignalHandler;
+    sigact.sa_handler = exitSignalHandler;
     sigemptyset(&sigact.sa_mask);
     sigact.sa_flags = 0;
     sigact.sa_flags |= SA_RESTART;
@@ -57,38 +95,11 @@ bool UnixSignalHandler::create(QObject *parent)
         return false;
     }
 
-    new UnixSignalHandler(parent);
     return true;
 }
 
-void UnixSignalHandler::exitSignalHandler(int)
+void startUnixSignalHandler()
 {
-    const qint64 pid = QCoreApplication::applicationPid();
-    const auto written = ::write(signalFd[Write], &pid, sizeof(pid));
-    if (written == -1)
-        log("Failed to handle signal!", LogError);
-}
-
-void UnixSignalHandler::handleSignal()
-{
-    m_signalFdNotifier.setEnabled(false);
-
-    qint64 pid;
-    if ( ::read(signalFd[Read], &pid, sizeof(pid)) != sizeof(pid) ) {
-        COPYQ_LOG("Incorrect number of bytes read from Unix signal socket!");
-        m_signalFdNotifier.setEnabled(true);
-    } else if (pid != QCoreApplication::applicationPid()) {
-        COPYQ_LOG("Wrong PID written to Unix signal socket!");
-        m_signalFdNotifier.setEnabled(true);
-    } else {
-        COPYQ_LOG("Terminating application on signal.");
-        QCoreApplication::exit();
-    }
-}
-
-UnixSignalHandler::UnixSignalHandler(QObject *parent)
-    : QObject(parent)
-    , m_signalFdNotifier(signalFd[Read], QSocketNotifier::Read, this)
-{
-    connect(&m_signalFdNotifier, SIGNAL(activated(int)), this, SLOT(handleSignal()));
+    signalFdNotifier = new QSocketNotifier(signalFd[SignalAction::Read], QSocketNotifier::Read);
+    QObject::connect(signalFdNotifier, &QSocketNotifier::activated, handleSignal);
 }

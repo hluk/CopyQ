@@ -133,6 +133,10 @@ App::App(
     , m_started(false)
     , m_closed(false)
 {
+#ifdef Q_OS_UNIX
+    startUnixSignalHandler();
+#endif
+
     QString session("copyq");
     if ( !sessionName.isEmpty() ) {
         session += "-" + sessionName;
@@ -150,11 +154,6 @@ App::App(
 
 #ifdef HAS_TESTS
     initTests();
-#endif
-
-#ifdef Q_OS_UNIX
-    if ( !UnixSignalHandler::create(m_app) )
-        log( QString("Failed to create handler for Unix signals!"), LogError );
 #endif
 }
 

@@ -26,6 +26,9 @@
 #include "common/messagehandlerforqt.h"
 #include "common/textdata.h"
 #include "platform/platformnativeinterface.h"
+#ifdef Q_OS_UNIX
+#   include "platform/unix/unixsignalhandler.h"
+#endif
 #include "scriptable/scriptable.h"
 
 #include <QApplication>
@@ -190,6 +193,11 @@ QString getSessionName(const QStringList &arguments, int *skipArguments)
 int startApplication(int argc, char **argv)
 {
     installMessageHandlerForQt();
+
+#ifdef Q_OS_UNIX
+    if ( !initUnixSignalHandler() )
+        log( QString("Failed to create handler for Unix signals!"), LogError );
+#endif
 
     const QStringList arguments =
             createPlatformNativeInterface()->getCommandLineArguments(argc, argv);
