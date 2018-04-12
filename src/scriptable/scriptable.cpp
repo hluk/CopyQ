@@ -2550,8 +2550,6 @@ void Scriptable::executeArguments(const QStringList &args)
     m_engine->collectGarbage();
 
     sendMessageToClient(response, exitCode);
-
-    COPYQ_LOG("DONE");
 }
 
 void Scriptable::setInput(const QByteArray &input)
