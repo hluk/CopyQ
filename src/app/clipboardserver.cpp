@@ -166,6 +166,7 @@ void ClipboardServer::stopMonitoring()
         }
     }
 
+    m_monitor->waitForFinished(1000);
     m_monitor->terminate();
     m_monitor = nullptr;
 
