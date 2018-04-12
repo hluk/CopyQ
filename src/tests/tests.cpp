@@ -67,7 +67,7 @@ void runMultiple(Fn1 f1, int intervalMs, Fn2 f2)
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
-    const QRegExp re("^Warning:|^ERROR:|ASSERT", Qt::CaseInsensitive);
+    const QRegExp re("Warning:|ERROR:|ASSERT", Qt::CaseInsensitive);
 
     const QString output = QString::fromUtf8(stderrData);
     if ( output.indexOf(re) != -1 )
