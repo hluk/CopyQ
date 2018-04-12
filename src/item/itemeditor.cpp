@@ -21,6 +21,7 @@
 
 #include "common/mimetypes.h"
 #include "common/log.h"
+#include "common/temporaryfile.h"
 
 #include <QDir>
 #include <QFile>
@@ -96,16 +97,10 @@ void ItemEditor::setIndex(const QModelIndex &index)
 bool ItemEditor::start()
 {
     // create temp file
-    const QString tmpFileName = QString("CopyQ.XXXXXX") + getFileSuffixFromMime(m_mime);
-    QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
-
     QTemporaryFile tmpfile;
-    tmpfile.setFileTemplate(tmpPath);
-    tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
-
-    if ( !tmpfile.open() ) {
-        log( QString("Failed to open temporary file (%1) for editing item in external editor!")
-             .arg(tmpfile.fileName()), LogError );
+    const auto suffix = getFileSuffixFromMime(m_mime);
+    if ( !openTemporaryFile(&tmpfile, suffix) ) {
+        log("Failed to create temporary file for external editor", LogError);
         return false;
     }
 

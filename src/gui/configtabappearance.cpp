@@ -20,12 +20,12 @@
 #include "gui/configtabappearance.h"
 #include "ui_configtabappearance.h"
 
-#include "common/common.h"
 #include "common/contenttype.h"
 #include "common/display.h"
 #include "common/mimetypes.h"
 #include "common/option.h"
 #include "common/temporarysettings.h"
+#include "common/temporaryfile.h"
 #include "common/textdata.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/clipboardbrowsershared.h"

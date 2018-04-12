@@ -43,6 +43,7 @@ HEADERS += \
     common/option.h \
     common/predefinedcommands.h \
     common/server.h \
+    common/temporaryfile.h \
     gui/aboutdialog.h \
     gui/actiondialog.h \
     gui/actionhandler.h \
@@ -147,6 +148,7 @@ SOURCES += \
     common/predefinedcommands.cpp \
     common/server.cpp \
     common/shortcuts.cpp \
+    common/temporaryfile.cpp \
     common/textdata.cpp \
     gui/aboutdialog.cpp \
     gui/actiondialog.cpp \

@@ -36,7 +36,6 @@ class QPoint;
 class QProcess;
 class QString;
 class QStringList;
-class QTemporaryFile;
 class QTimer;
 class QWidget;
 
@@ -104,8 +103,6 @@ QString textLabelForData(const QVariantMap &data, const QFont &font,
 QString textLabelForData(const QVariantMap &data);
 
 void renameToUnique(QString *name, const QStringList &names);
-
-bool openTemporaryFile(QTemporaryFile *file, const QString &suffix);
 
 void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object = nullptr, const char *slot = nullptr);
 

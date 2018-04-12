@@ -29,7 +29,6 @@
 #include <QBuffer>
 #include <QClipboard>
 #include <QDropEvent>
-#include <QDir>
 #include <QImage>
 #include <QImageWriter>
 #include <QKeyEvent>
@@ -38,7 +37,6 @@
 #include <QObject>
 #include <QPoint>
 #include <QProcess>
-#include <QTemporaryFile>
 #include <QTextCodec>
 #include <QThread>
 #include <QTimer>
@@ -433,17 +431,6 @@ void renameToUnique(QString *name, const QStringList &names)
     int i = 0;
     while ( names.contains(*name) )
         *name = baseName + " (" + QString::number(++i) + ')';
-}
-
-bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
-{
-    const QString tmpFileName = "CopyQ.XXXXXX" + suffix;
-    const QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
-
-    file->setFileTemplate(tmpPath);
-    file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
-
-    return file->open();
 }
 
 void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object, const char *slot)
