@@ -174,7 +174,7 @@ void ClipboardServer::stopMonitoring()
 
 void ClipboardServer::startMonitoring()
 {
-    if (m_monitor || !m_wnd->isMonitoringEnabled())
+    if (m_monitor || !m_enableMonitor || !m_wnd->isMonitoringEnabled())
         return;
 
     COPYQ_LOG("Starting monitor");
@@ -280,6 +280,7 @@ void ClipboardServer::onDisableClipboardStoringRequest(bool disabled)
 
 void ClipboardServer::maybeQuit()
 {
+    m_enableMonitor = false;
     stopMonitoring();
 
     // Wait a moment for commands to finish.
@@ -290,6 +291,7 @@ void ClipboardServer::maybeQuit()
         emit terminateClients();
         QCoreApplication::exit();
     } else {
+        m_enableMonitor = true;
         startMonitoring();
     }
 }

@@ -119,6 +119,7 @@ private:
 
     MainWindow* m_wnd;
     QPointer<Action> m_monitor;
+    bool m_enableMonitor = true;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;
