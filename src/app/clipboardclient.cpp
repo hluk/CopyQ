@@ -32,6 +32,7 @@
 #include <QScriptEngine>
 #include <QSettings>
 #include <QThread>
+#include <QTimer>
 
 namespace {
 
@@ -114,7 +115,12 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &argu
         out << id;
     }
 
-    start(arguments);
+    // Start script after QCoreApplication::exec().
+    auto timer = new QTimer(this);
+    timer->setSingleShot(true);
+    connect(timer, &QTimer::timeout, this, [&]() { start(arguments); });
+    connect(timer, &QTimer::timeout, timer, &QObject::deleteLater);
+    timer->start(0);
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
