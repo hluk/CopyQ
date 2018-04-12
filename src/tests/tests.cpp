@@ -1632,7 +1632,7 @@ void Tests::tabRemove()
 void Tests::tabIcon()
 {
     const QString tab = testTab(1);
-    const QString icon = ":/images/icon.svg";
+    const QString icon = ":/images/icon";
 
     RUN("tab" << tab << "add" << "", "");
     RUN("tabIcon" << tab, "\n");
