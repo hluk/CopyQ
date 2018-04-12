@@ -202,6 +202,7 @@ void X11Platform::setAutostartEnabled(bool enable)
                 desktopFile2.write(line.toUtf8());
         }
         desktopFile.close();
+        maybePrintFileError(desktopFile, "Failed to read desktop file");
     } else {
         // Installed desktop file not found (can happen when running tests).
         printFileError(desktopFile, "Failed to open desktop file", LogNote);
@@ -225,7 +226,6 @@ void X11Platform::setAutostartEnabled(bool enable)
     QFile::remove(filename);
     desktopFile2.rename(filename);
 
-    maybePrintFileError(desktopFile, "Failed to read desktop file");
     maybePrintFileError(desktopFile2, "Failed to write desktop file");
 #else
     Q_UNUSED(enable);
