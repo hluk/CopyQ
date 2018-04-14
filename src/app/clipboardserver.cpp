@@ -334,14 +334,14 @@ void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 {
     auto proxy = new ScriptableProxy(m_wnd, client.get());
     m_clients.insert( client.get(), ClientData(client, proxy) );
-    connect( this, SIGNAL(terminateClients()),
-             client.get(), SLOT(close()) );
-    connect( client.get(), SIGNAL(messageReceived(QByteArray,int,ClientSocket*)),
-             this, SLOT(onClientMessageReceived(QByteArray,int,ClientSocket*)) );
-    connect( client.get(), SIGNAL(disconnected(ClientSocket*)),
-             this, SLOT(onClientDisconnected(ClientSocket*)) );
-    connect( client.get(), SIGNAL(connectionFailed(ClientSocket*)),
-             this, SLOT(onClientConnectionFailed(ClientSocket*)) );
+    connect( this, &ClipboardServer::terminateClients,
+             client.get(), &ClientSocket::close );
+    connect( client.get(), &ClientSocket::messageReceived,
+             this, &ClipboardServer::onClientMessageReceived );
+    connect( client.get(), &ClientSocket::disconnected,
+             this, &ClipboardServer::onClientDisconnected );
+    connect( client.get(), &ClientSocket::connectionFailed,
+             this, &ClipboardServer::onClientConnectionFailed );
     client->start();
 }
 

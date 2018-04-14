@@ -59,7 +59,6 @@ public:
 
     void waitForReadyRead();
 
-public slots:
     /// Start emitting messageReceived().
     void start();
 
@@ -78,12 +77,11 @@ signals:
     void disconnected(ClientSocket *client);
     void connectionFailed(ClientSocket *client);
 
-private slots:
+private:
     void onReadyRead();
     void onError(QLocalSocket::LocalSocketError error);
     void onStateChanged(QLocalSocket::LocalSocketState state);
 
-private:
     void error(const QString &errorMessage);
 
     LocalSocketGuard m_socket;

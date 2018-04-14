@@ -154,12 +154,12 @@ void ClientSocket::start()
 
     SOCKET_LOG("Creating socket.");
 
-    connect( m_socket, SIGNAL(stateChanged(QLocalSocket::LocalSocketState)),
-             this, SLOT(onStateChanged(QLocalSocket::LocalSocketState)), Qt::UniqueConnection );
-    connect( m_socket, SIGNAL(error(QLocalSocket::LocalSocketError)),
-             this, SLOT(onError(QLocalSocket::LocalSocketError)), Qt::UniqueConnection );
-    connect( m_socket, SIGNAL(readyRead()),
-             this, SLOT(onReadyRead()), Qt::UniqueConnection );
+    connect( m_socket.get(), &QLocalSocket::stateChanged,
+             this, &ClientSocket::onStateChanged );
+    connect( m_socket.get(), static_cast<void (QLocalSocket::*)(QLocalSocket::LocalSocketError)>(&QLocalSocket::error),
+             this, &ClientSocket::onError );
+    connect( m_socket.get(), &QLocalSocket::readyRead,
+             this, &ClientSocket::onReadyRead );
 
     onStateChanged(m_socket->state());
 
