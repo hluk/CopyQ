@@ -109,7 +109,7 @@ void migrateConfigToAppDir()
         QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, dir.absolutePath());
         Settings newSettings;
 
-        if ( Settings::canModifySettings() && newSettings.isEmpty() ) {
+        if ( Settings::canModifySettings && newSettings.isEmpty() ) {
             COPYQ_LOG("Migrating configuration to application directory.");
             const QString newConfigPath = QDir::cleanPath(newSettings.fileName() + "/..");
 

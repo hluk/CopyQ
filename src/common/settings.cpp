@@ -78,15 +78,11 @@ void endSave()
 
 } // namespace
 
+bool Settings::canModifySettings = false;
+
 bool Settings::isEmpty(const QSettings &settings)
 {
     return settings.childGroups().isEmpty();
-}
-
-bool Settings::canModifySettings()
-{
-    Q_ASSERT(qApp);
-    return qApp->property("CopyQ_server").toBool();
 }
 
 Settings::Settings()
@@ -103,7 +99,7 @@ Settings::Settings()
 Settings::~Settings()
 {
     // Only main application is allowed to change settings.
-    if (canModifySettings() && m_changed) {
+    if (canModifySettings && m_changed) {
         m_settings.sync();
 
         beginSave();

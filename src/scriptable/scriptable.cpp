@@ -1724,12 +1724,6 @@ QScriptValue Scriptable::testSelected()
     m_skipArguments = 0;
     return m_proxy->testSelected();
 }
-
-void Scriptable::resetTestSession()
-{
-    m_skipArguments = 1;
-    m_proxy->resetTestSession( arg(0) );
-}
 #else // HAS_TESTS
 void Scriptable::keys()
 {
@@ -1740,11 +1734,6 @@ QScriptValue Scriptable::testSelected()
 {
     m_skipArguments = 0;
     return QScriptValue();
-}
-
-void Scriptable::resetTestSession()
-{
-    m_skipArguments = 1;
 }
 #endif // HAS_TESTS
 

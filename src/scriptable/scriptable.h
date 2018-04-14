@@ -250,7 +250,6 @@ public slots:
 
     void keys();
     QScriptValue testSelected();
-    void resetTestSession();
     void serverLog();
 
     void setCurrentTab();

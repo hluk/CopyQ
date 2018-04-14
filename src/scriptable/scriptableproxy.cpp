@@ -1271,12 +1271,6 @@ QString ScriptableProxy::testSelected()
 
     return browser->tabName() + " " + result.join(" ");
 }
-
-void ScriptableProxy::resetTestSession(const QString &clipboardTabName)
-{
-    INVOKE2(resetTestSession, (clipboardTabName));
-    m_wnd->resetTestSession(clipboardTabName);
-}
 #endif // HAS_TESTS
 
 void ScriptableProxy::serverLog(const QString &text)

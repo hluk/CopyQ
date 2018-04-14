@@ -20,9 +20,12 @@
 #include "tests.h"
 #include "test_utils.h"
 
+#include "common/appconfig.h"
 #include "common/client_server.h"
 #include "common/common.h"
+#include "common/config.h"
 #include "common/mimetypes.h"
+#include "common/settings.h"
 #include "common/shortcuts.h"
 #include "common/textdata.h"
 #include "common/version.h"
@@ -30,6 +33,7 @@
 #include "item/itemwidget.h"
 #include "item/serialize.h"
 #include "gui/configtabshortcuts.h"
+#include "gui/tabicons.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QApplication>
@@ -37,6 +41,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
+#include <QFile>
 #include <QFileInfo>
 #include <QMap>
 #include <QMimeData>
@@ -194,29 +199,32 @@ public:
                 .toUtf8();
         }
 
-        // Wait for client/server communication is established.
-        SleepTimer t(15000);
-        while( !isServerRunning() && t.sleep() ) {}
-
-        if ( !isServerRunning() )
-            return "Unable to start server!" + readServerErrors(ReadAllStderr);
-
-        QByteArray errors = readServerErrors();
-        if (!errors.isEmpty())
-            return errors;
+        RETURN_ON_ERROR( waitForServerToStart(), "Failed to start server" );
+        RETURN_ON_ERROR( readServerErrors(), "Failed to read server errors" );
 
         return QByteArray();
+    }
+
+    QByteArray waitForServerToStart()
+    {
+        SleepTimer t(15000);
+        do {
+            if ( isServerRunning() )
+                return QByteArray();
+        } while ( t.sleep() );
+
+        return "Unable to start server!" + readServerErrors(ReadAllStderr);
     }
 
     QByteArray waitForAnyServerToQuit()
     {
         SleepTimer t(8000);
-        while ( isAnyServerRunning() && t.sleep() ) {}
+        do {
+            if ( !isAnyServerRunning() )
+                return QByteArray();
+        } while ( t.sleep() );
 
-        if ( isAnyServerRunning() )
-            return "Unable to stop server!" + readServerErrors(ReadAllStderr);
-
-        return QByteArray();
+        return "Unable to stop server!" + readServerErrors(ReadAllStderr);
     }
 
     QByteArray stopServer() override
@@ -251,21 +259,27 @@ public:
 
         p.closeWriteChannel();
 
-        if (stdoutData != nullptr)
+        if (stdoutData == nullptr)
+            p.closeReadChannel(QProcess::StandardOutput);
+        else
             stdoutData->clear();
 
-        if (stderrData != nullptr)
+        if (stderrData == nullptr)
+            p.closeReadChannel(QProcess::StandardError);
+        else
             stderrData->clear();
 
         SleepTimer t(waitClientRun);
         while ( p.state() == QProcess::Running ) {
-            const auto out = p.readAllStandardOutput();
-            const auto err = p.readAllStandardError();
-
-            if (stdoutData != nullptr)
+            if ( stdoutData != nullptr ) {
+                const auto out = p.readAllStandardOutput();
                 stdoutData->append(out);
-            if (stderrData != nullptr)
+            }
+
+            if (stderrData != nullptr) {
+                const auto err = p.readAllStandardError();
                 stderrData->append(err);
+            }
 
             if ( !t.sleep() ) {
                 qWarning() << "client process timed out";
@@ -365,13 +379,7 @@ public:
         QApplication::clipboard()->setMimeData(mimeData);
 
         waitUntilClipboardSet(bytes, mime);
-        QByteArray error = testClipboard(bytes, mime);
-        if ( !error.isEmpty() )
-            return "Failed to set clipboard! " + error;
-
-        error = testClipboard(bytes, mime);
-        if ( !error.isEmpty() )
-            return "Clipboard was unexpectedly changed! " + error;
+        RETURN_ON_ERROR( testClipboard(bytes, mime), "Failed to set clipboard" );
 
         return "";
     }
@@ -415,9 +423,7 @@ public:
         if ( !testStderr(stderrActual) || exitCode != 0 )
             return printClienAndServerStderr(stderrActual, exitCode);
 
-        const QByteArray errors = readServerErrors();
-        if ( !errors.isEmpty() )
-            return errors;
+        RETURN_ON_ERROR( readServerErrors(), "Failed to read server errors" );
 
         return "";
     }
@@ -441,23 +447,51 @@ public:
 
     QByteArray init() override
     {
-        auto errors = cleanup();
-        if ( !errors.isEmpty() )
-            return errors;
+        RETURN_ON_ERROR( cleanup(), "Failed to cleanup" );
 
-        if ( !isServerRunning() ) {
-            errors = startServer();
-            if ( !errors.isEmpty() )
-                return "Failed to start server:\n" + errors;
+        if ( isServerRunning() )
+            RETURN_ON_ERROR( stopServer(), "Failed to stop server" );
+
+        // Remove all configuration.
+        const auto settingsPath = settingsDirectoryPath();
+        QDir settingsDir(settingsPath);
+        if ( settingsDir.exists() && !settingsDir.removeRecursively() )
+            return "Failed to remove settings directory " + settingsPath.toUtf8();
+
+        // Update settings for tests.
+        {
+            Settings settings;
+            settings.clear();
+
+            settings.beginGroup("Options");
+            settings.setValue( Config::clipboard_tab::name(), clipboardTabName );
+            settings.setValue( Config::close_on_unfocus::name(), false );
+            settings.endGroup();
+
+            if ( !m_settings.isEmpty() ) {
+                const bool pluginsTest = m_testId != "CORE";
+
+                if (pluginsTest) {
+                    settings.beginGroup("Plugins");
+                    settings.beginGroup(m_testId);
+                }
+
+                for (auto it = m_settings.constBegin(); it != m_settings.constEnd(); ++it)
+                    settings.setValue( it.key(), it.value() );
+
+                if (pluginsTest) {
+                    settings.endGroup();
+                    settings.endGroup();
+                }
+            }
         }
 
-        errors = setClipboard(QByteArray(), mimeText);
-        if ( !errors.isEmpty() )
-            return "Failed to reset clipboard:\n" + errors;
+        verifyConfiguration();
 
-        errors = runClient(Args("resetTestSession") << clipboardTabName, "");
-        if ( !errors.isEmpty() )
-            return errors;
+        // Clear clipboard.
+        RETURN_ON_ERROR( setClipboard(QByteArray(), mimeText), "Failed to reset clipboard" );
+
+        RETURN_ON_ERROR( startServer(), "Failed to start server" );
 
         // Always show main window first so that the results are consistent with desktop environments
         // where user cannot hide main window (tiling window managers without tray).
@@ -476,14 +510,22 @@ public:
 
     void setupTest(const QString &id, const QVariant &settings)
     {
+        m_testId = id;
+        m_settings = settings.toMap();
         m_env.insert("COPYQ_TEST_ID", id);
-        QByteArray data;
-        QDataStream out(&data, QIODevice::WriteOnly);
-        out << settings;
-        m_env.insert("COPYQ_TEST_SETTINGS", data.toBase64());
     }
 
 private:
+    void verifyConfiguration()
+    {
+        AppConfig appConfig;
+        QCOMPARE( appConfig.option<Config::close_on_unfocus>(), false );
+        QCOMPARE( appConfig.option<Config::clipboard_tab>(), QString(clipboardTabName) );
+        QCOMPARE( appConfig.option<Config::maxitems>(), Config::maxitems::defaultValue() );
+        QCOMPARE( savedTabs(), QStringList(clipboardTabName) );
+        QCOMPARE( tabs(), QStringList() );
+    }
+
     bool isAnyServerRunning()
     {
         return run(Args("eval")) == 0;
@@ -512,6 +554,7 @@ private:
 
     std::unique_ptr<QProcess> m_server;
     QProcessEnvironment m_env;
+    QString m_testId;
     QVariantMap m_settings;
 };
 
@@ -2545,6 +2588,13 @@ int runTests(int argc, char *argv[])
     }
 
     QApplication app(argc, argv);
+
+    const QString session = "copyq.test";
+    QCoreApplication::setOrganizationName(session);
+    QCoreApplication::setApplicationName(session);
+    Settings::canModifySettings = true;
+    createPlatformNativeInterface()->loadSettings();
+
     int exitCode = 0;
     std::shared_ptr<TestInterfaceImpl> test(new TestInterfaceImpl);
     Tests tc(test);

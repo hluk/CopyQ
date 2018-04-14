@@ -316,52 +316,6 @@ QVariant serializableValue(const QSettings &settings, const QString &key)
     return QString();
 }
 
-#ifdef HAS_TESTS
-/**
- * Read base64-encoded settings from "COPYQ_TEST_SETTINGS" environment variable if not empty.
- *
- * The settings are initially taken from "CopyQ_test_settings" property of test object returned by
- * ItemLoaderInterface::tests().
- */
-void resetTestsSettings()
-{
-    // Reset settings on first run of each test case.
-    Settings settings;
-    settings.clear();
-
-    // Workaround for some test environments.
-    AppConfig().setOption( Config::close_on_unfocus::name(), false );
-
-    const auto settingsData = qgetenv("COPYQ_TEST_SETTINGS");
-    if ( settingsData.isEmpty() )
-        return;
-
-    QVariant testSettings;
-    const auto data = QByteArray::fromBase64(settingsData);
-    QDataStream input(data);
-    input >> testSettings;
-    const auto testSettingsMap = testSettings.toMap();
-
-    const auto testId = qApp->property("CopyQ_test_id").toString();
-    const bool pluginsTest = testId != "CORE";
-
-    if (pluginsTest) {
-        settings.beginGroup("Plugins");
-        settings.beginGroup(testId);
-    }
-
-    for (auto it = testSettingsMap.constBegin(); it != testSettingsMap.constEnd(); ++it)
-        settings.setValue( it.key(), it.value() );
-
-    if (pluginsTest) {
-        settings.endGroup();
-        settings.endGroup();
-    }
-
-    settings.setValue("CopyQ_test_id", testId);
-}
-#endif
-
 bool isAnyApplicationWindowActive()
 {
     if ( qApp->activeWindow() )
@@ -1257,45 +1211,6 @@ uint MainWindow::sendKeyClicks(const QString &keys, int delay)
 uint MainWindow::lastReceivedKeyClicks()
 {
     return m_receivedKeyClicks;
-}
-
-void MainWindow::resetTestSession(const QString &clipboardTabName)
-{
-    if ( qApp->property("CopyQ_test_id").toString().isEmpty() )
-        return;
-
-    // Remove all tabs except the clipboard tab for tests.
-    while ( ui->tabWidget->count() != 1 )
-        removeTab(false, 0);
-
-    const auto placeholder = createTab(clipboardTabName, MatchExactTabName);
-    if ( placeholder != getPlaceholder(0) )
-        removeTab(false, 0);
-
-    {
-        const auto c = placeholder->createBrowser();
-        Q_ASSERT(c);
-
-        // Remove all items from the clipboard tab.
-        const auto model = c->model();
-        model->removeRows( 0, model->rowCount() );
-        c->saveItems();
-    }
-
-    setCommands(QVector<Command>());
-
-    resetTestsSettings();
-
-    // Set clipboard tab.
-    AppConfig().setOption( Config::clipboard_tab::name(), clipboardTabName );
-
-    emit configurationChanged();
-
-    // Assert everything after configuration is loaded.
-    Q_ASSERT( ui->tabWidget->count() == 1 );
-    Q_ASSERT( placeholder == getPlaceholder(0) );
-    Q_ASSERT( placeholder->createBrowser() != nullptr );
-    Q_ASSERT( placeholder->createBrowser()->length() == 0 );
 }
 #endif
 
@@ -2368,10 +2283,8 @@ void MainWindow::loadSettings()
     for (const auto &name : tabs)
         createTab(name, MatchExactTabName);
 
-    if ( ui->tabWidget->count() == 0 )
-        createTab( defaultTabName(), MatchExactTabName );
-    else
-        setTabs(tabs); // Save any tabs loaded from new tab files.
+    Q_ASSERT( ui->tabWidget->count() > 0 );
+    setTabs(tabs); // Save any tabs loaded from new tab files.
 
     ui->tabWidget->updateTabs();
 

@@ -81,6 +81,9 @@ QStringList savedTabs()
         }
     }
 
+    if ( tabs.isEmpty() )
+        tabs.append( AppConfig().option<Config::clipboard_tab>() );
+
     return tabs;
 }
 

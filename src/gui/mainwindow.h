@@ -431,11 +431,6 @@ public slots:
      * @return Last key clicks sequence number received by widgets.
      */
     uint lastReceivedKeyClicks();
-
-    /**
-     * Remove all tab and reset configuration (work only in test session).
-     */
-    void resetTestSession(const QString &clipboardTabName);
 #endif
 
 signals:

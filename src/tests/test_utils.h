@@ -63,6 +63,13 @@ do { \
 #define WAIT_FOR_CLIPBOARD2(DATA, MIME) \
     QCOMPARE( waitUntilClipboardSet(DATA, MIME), QByteArray(DATA) )
 
+#define RETURN_ON_ERROR(CALLBACK, ERROR) \
+    do { \
+        const auto errors = (CALLBACK); \
+        if ( !errors.isEmpty() ) \
+            return QByteArray(ERROR) + ":\n" + QByteArray(errors); \
+    } while(false)
+
 /// Skip rest of the tests
 #define SKIP(MESSAGE) QSKIP(MESSAGE, SkipAll)
 
