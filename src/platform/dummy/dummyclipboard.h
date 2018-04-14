@@ -40,9 +40,6 @@ public:
 protected:
     virtual void onChanged(int mode);
 
-signals:
-    void changed(ClipboardMode mode);
-
 private slots:
     void onChanged(QClipboard::Mode mode);
 };

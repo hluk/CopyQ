@@ -108,8 +108,8 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     , m_formats(formats)
 {
     m_clipboard->setFormats(formats);
-    connect( m_clipboard.get(), SIGNAL(changed(ClipboardMode)),
-             this, SLOT(onClipboardChanged(ClipboardMode)) );
+    connect( m_clipboard.get(), &PlatformClipboard::changed,
+             this, &ClipboardMonitor::onClipboardChanged );
 }
 
 void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)

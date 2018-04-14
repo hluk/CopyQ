@@ -1,3 +1,6 @@
+HEADERS += \
+    $$PWD/platformclipboard.h
+
 unix:!macx:!android {
     include(x11/x11platform.pri)
 }

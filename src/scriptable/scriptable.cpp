@@ -1572,8 +1572,8 @@ QScriptValue Scriptable::input()
         emit readInput();
         if (m_connected) {
             QEventLoop loop;
-            connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
-            connect(this, SIGNAL(dataReceived()), &loop, SLOT(quit()));
+            connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
+            connect(this, &Scriptable::dataReceived, &loop, &QEventLoop::quit);
             loop.exec(QEventLoop::ExcludeUserInputEvents);
         }
     }
@@ -1918,8 +1918,8 @@ QScriptValue Scriptable::execute()
     action.setCommand(args);
     action.setReadOutput(true);
 
-    connect( &action, SIGNAL(actionOutput(QByteArray)),
-             this, SLOT(onExecuteOutput(QByteArray)) );
+    connect( &action, &Action::actionOutput,
+             this, &Scriptable::onExecuteOutput );
 
     if ( !runAction(&action) || action.actionFailed() )
         return QScriptValue();
@@ -2088,12 +2088,12 @@ void Scriptable::sleep()
 
     if (m_connected) {
         QEventLoop loop;
-        connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
+        connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
 
         QTimer t;
         t.setTimerType(Qt::PreciseTimer);
         t.setInterval(msec);
-        connect(&t, SIGNAL(timeout()), &loop, SLOT(quit()));
+        connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
         t.start();
 
         loop.exec();
@@ -2400,9 +2400,9 @@ void Scriptable::monitorClipboard()
 #endif
 
     QEventLoop loop;
-    connect(this, SIGNAL(finished()), &loop, SLOT(quit()));
-    connect( &monitor, SIGNAL(runScriptRequest(QString,QVariantMap)),
-             this, SLOT(onMonitorRunScriptRequest(QString,QVariantMap)) );
+    connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
+    connect( &monitor, &ClipboardMonitor::runScriptRequest,
+             this, &Scriptable::onMonitorRunScriptRequest );
     loop.exec();
 }
 
@@ -2934,17 +2934,17 @@ void Scriptable::provideClipboard(ClipboardMode mode)
     clipboard->setData(mode, m_data);
 
     const auto slot = mode == ClipboardMode::Clipboard
-            ? SLOT(onProvidedClipboardChanged())
-            : SLOT(onProvidedSelectionChanged());
+            ? &Scriptable::onProvidedClipboardChanged
+            : &Scriptable::onProvidedSelectionChanged;
 
     QTimer t;
     t.setInterval(8000);
-    connect(&t, SIGNAL(timeout()), this, slot);
+    connect(&t, &QTimer::timeout, this, slot);
     t.start();
 
     QEventLoop loop;
-    connect( this, SIGNAL(finished()), &loop, SLOT(quit()) );
-    connect( clipboard.get(), SIGNAL(changed(ClipboardMode)), this, slot );
+    connect( this, &Scriptable::finished, &loop, &QEventLoop::quit );
+    connect( clipboard.get(), &PlatformClipboard::changed, this, slot );
     loop.exec();
 }
 

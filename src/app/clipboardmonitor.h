@@ -36,10 +36,9 @@ public:
 signals:
     void runScriptRequest(const QString &script, const QVariantMap &data);
 
-private slots:
+private:
     void onClipboardChanged(ClipboardMode mode);
 
-private:
     struct ClipboardData {
         QVariantMap lastData;
         bool runAutomaticCommands = false;

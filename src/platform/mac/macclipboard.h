@@ -31,9 +31,6 @@ public:
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
 
-signals:
-    void changed(ClipboardMode mode);
-
 private:
     long int m_prevChangeCount;
     MacTimer *m_clipboardCheckTimer;

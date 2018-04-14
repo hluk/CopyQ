@@ -354,9 +354,6 @@ public slots:
     void provideClipboard();
     void provideSelection();
 
-public slots:
-    void onDisconnected();
-
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
     void dataReceived();
@@ -365,13 +362,13 @@ signals:
     void resetSynchronizeSelectionTimer();
     void startSynchronizeSelectionTimer(ClipboardMode targetMode, const QVariantMap &data);
 
-private slots:
+private:
+    void onDisconnected();
     void onExecuteOutput(const QByteArray &output);
     void onMonitorRunScriptRequest(const QString &script, const QVariantMap &data);
     void onProvidedClipboardChanged();
     void onProvidedSelectionChanged();
 
-private:
     bool sourceScriptCommands();
     void callDisplayFunctions(QScriptValueList displayFunctions);
     QString processUncaughtException(const QString &cmd);

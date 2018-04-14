@@ -1,6 +1,10 @@
 # If window system is X11 then set X11_FOUND to TRUE.
 find_package(X11)
 
+file(GLOB copyq_SOURCES ${copyq_SOURCES}
+    platform/platformclipboard.h
+    )
+
 if (UNIX)
     file(GLOB copyq_SOURCES ${copyq_SOURCES} platform/unix/*.cpp)
 endif()

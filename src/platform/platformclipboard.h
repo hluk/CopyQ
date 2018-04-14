@@ -27,12 +27,10 @@
 
 /**
  * Interface for clipboard.
- *
- * Define signal changed(ClipboardMode) in derived class.
- * This signal notifies about clipboard changes.
  */
 class PlatformClipboard : public QObject
 {
+    Q_OBJECT
 public:
     /**
      * Set MIME types to monitor.
@@ -48,6 +46,10 @@ public:
      * Set data to clipboard.
      */
     virtual void setData(ClipboardMode mode, const QVariantMap &dataMap) = 0;
+
+signals:
+    /// Notifies about clipboard changes.
+    void changed(ClipboardMode mode);
 };
 
 #endif // PLATFORMCLIPBOARD_H
