@@ -32,6 +32,7 @@ class Action;
 class ItemFactory;
 class MainWindow;
 class ScriptableProxy;
+class Server;
 class QxtGlobalShortcut;
 class QApplication;
 class QSessionManager;
@@ -117,9 +118,9 @@ private:
 
     bool hasRunningCommands() const;
 
-    MainWindow* m_wnd;
+    Server *m_server = nullptr;
+    MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;
-    bool m_enableMonitor = true;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;

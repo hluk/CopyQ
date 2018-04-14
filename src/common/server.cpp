@@ -24,8 +24,6 @@
 #include "common/client_server.h"
 #include "common/log.h"
 
-#include <QCoreApplication>
-#include <QDataStream>
 #include <QEventLoop>
 #include <QLocalServer>
 #include <QLocalSocket>
@@ -112,8 +110,6 @@ Server::Server(const QString &name, QObject *parent)
                  LogError);
         }
     }
-
-    connect( qApp, SIGNAL(aboutToQuit()), this, SLOT(close()) );
 }
 
 Server::~Server()

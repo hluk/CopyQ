@@ -422,8 +422,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, SLOT(findNextOrPrevious()) );
     connect( m_actionHandler, SIGNAL(runningActionsCountChanged()),
              this, SLOT(updateIconSnip()) );
-    connect( qApp, SIGNAL(aboutToQuit()),
-             this, SLOT(onAboutToQuit()) );
+    connect( qApp, &QCoreApplication::aboutToQuit,
+             this, &MainWindow::onAboutToQuit );
     connect( this, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 

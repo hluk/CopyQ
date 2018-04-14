@@ -210,8 +210,8 @@ void ClipboardClient::sendFunctionCall(const QByteArray &bytes)
     m_socket->sendMessage(bytes, CommandFunctionCall);
 
     QEventLoop loop;
-    connect(this, SIGNAL(functionCallResultReceived(QByteArray)), &loop, SLOT(quit()));
-    connect(qApp, SIGNAL(aboutToQuit()), &loop, SLOT(quit()));
+    connect(this, &ClipboardClient::functionCallResultReceived, &loop, &QEventLoop::quit);
+    connect(qApp, &QCoreApplication::aboutToQuit, &loop, &QEventLoop::quit);
     loop.exec();
 }
 
@@ -267,6 +267,9 @@ void ClipboardClient::start(const QStringList &arguments)
              &scriptable, &Scriptable::setInput );
     connect( this, &ClipboardClient::functionCallResultReceived,
              &scriptableProxy, &ScriptableProxy::setReturnValue );
+
+    connect( m_socket, &ClientSocket::disconnected,
+             &scriptable, &Scriptable::abort );
 
     scriptable.executeArguments(arguments);
 }

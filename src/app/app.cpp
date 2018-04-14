@@ -133,6 +133,8 @@ App::App(
     , m_started(false)
     , m_closed(false)
 {
+    QObject::connect(m_app, &QCoreApplication::aboutToQuit, [this]() { exit(); });
+
 #ifdef Q_OS_UNIX
     startUnixSignalHandler();
 #endif
@@ -196,9 +198,9 @@ void App::exit(int exitCode)
     if (!m_started)
         ::exit(exitCode);
 
-    QCoreApplication::exit(exitCode);
     m_exitCode = exitCode;
     m_closed = true;
+    QCoreApplication::exit(exitCode);
 }
 
 bool App::wasClosed() const

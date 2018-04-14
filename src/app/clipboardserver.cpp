@@ -73,9 +73,9 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     , m_ignoreKeysTimer()
 {
     const QString serverName = clipboardServerName();
-    auto server = new Server(serverName, this);
+    m_server = new Server(serverName, this);
 
-    if ( server->isListening() ) {
+    if ( m_server->isListening() ) {
         ::createSessionMutex();
         restoreSettings(true);
         COPYQ_LOG("Server \"" + serverName + "\" started.");
@@ -102,11 +102,11 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     m_wnd->setCurrentTab(0);
     m_wnd->enterBrowseMode();
 
-    connect( server, SIGNAL(newConnection(ClientSocketPtr)),
-             this, SLOT(onClientNewConnection(ClientSocketPtr)) );
+    connect( m_server, &Server::newConnection,
+             this, &ClipboardServer::onClientNewConnection );
 
-    connect( qApp, SIGNAL(aboutToQuit()),
-             this, SLOT(onAboutToQuit()));
+    connect( qApp, &QCoreApplication::aboutToQuit,
+             this, &ClipboardServer::onAboutToQuit );
 
     connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
              this, SLOT(onCommitData(QSessionManager&)) );
@@ -134,7 +134,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     qApp->installEventFilter(this);
 
-    server->start();
+    m_server->start();
 
     // Ignore global shortcut key presses in any widget.
     m_ignoreKeysTimer.setInterval(100);
@@ -175,7 +175,7 @@ void ClipboardServer::stopMonitoring()
 
 void ClipboardServer::startMonitoring()
 {
-    if (m_monitor || !m_enableMonitor || !m_wnd->isMonitoringEnabled())
+    if (m_monitor || wasClosed() || !m_wnd->isMonitoringEnabled())
         return;
 
     COPYQ_LOG("Starting monitor");
@@ -226,11 +226,20 @@ void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
 
-    m_wnd->saveTabs();
+    emit terminateClients();
 
+    // wasClosed() is true after App::exit() is called and
+    // it prevents monitor process restarting.
+    Q_ASSERT(wasClosed());
     stopMonitoring();
 
-    emit terminateClients();
+    // Wait a moment for commands to finish.
+    SleepTimer t(10000);
+    while ( !m_clients.isEmpty() && t.sleep() ) {}
+
+    m_server->close();
+
+    m_wnd->saveTabs();
 }
 
 void ClipboardServer::onCommitData(QSessionManager &sessionManager)
@@ -281,20 +290,8 @@ void ClipboardServer::onDisableClipboardStoringRequest(bool disabled)
 
 void ClipboardServer::maybeQuit()
 {
-    m_enableMonitor = false;
-    stopMonitoring();
-
-    // Wait a moment for commands to finish.
-    for ( int i = 0; i < 50 && hasRunningCommands(); ++i )
-        waitFor(50);
-
-    if (askToQuit()) {
-        emit terminateClients();
-        QCoreApplication::exit();
-    } else {
-        m_enableMonitor = true;
-        startMonitoring();
-    }
+    if ( askToQuit() )
+        exit();
 }
 
 bool ClipboardServer::askToQuit()

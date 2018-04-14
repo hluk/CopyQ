@@ -362,7 +362,6 @@ signals:
     void startSynchronizeSelectionTimer(ClipboardMode targetMode, const QVariantMap &data);
 
 private:
-    void onDisconnected();
     void onExecuteOutput(const QByteArray &output);
     void onMonitorRunScriptRequest(const QString &script, const QVariantMap &data);
     void onProvidedClipboardChanged();
