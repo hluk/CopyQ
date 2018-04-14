@@ -20,6 +20,7 @@
 #include "clipboardclient.h"
 
 #include "common/client_server.h"
+#include "common/clientsocket.h"
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
 #include "common/log.h"
@@ -99,13 +100,22 @@ void InputReader::readInput()
 }
 
 ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &arguments, const QString &sessionName)
-    : Client()
-    , App("Client", createClientApplication(argc, argv, arguments), sessionName)
+    : App("Client", createClientApplication(argc, argv, arguments), sessionName)
     , m_inputReaderThread(nullptr)
 {
     restoreSettings();
 
-    startClientSocket(clipboardServerName());
+    const auto serverName = clipboardServerName();
+    m_socket = new ClientSocket(serverName, this);
+
+    connect( m_socket, &ClientSocket::messageReceived,
+             this, &ClipboardClient::onMessageReceived );
+    connect( m_socket, &ClientSocket::disconnected,
+             this, &ClipboardClient::onDisconnected );
+    connect( m_socket, &ClientSocket::connectionFailed,
+             this, &ClipboardClient::onConnectionFailed );
+
+    m_socket->start();
 
     bool hasActionData;
     const int id = qgetenv("COPYQ_ACTION_ID").toInt(&hasActionData);
@@ -197,7 +207,7 @@ void ClipboardClient::exit(int exitCode)
 
 void ClipboardClient::sendFunctionCall(const QByteArray &bytes)
 {
-    sendMessage(bytes, CommandFunctionCall);
+    m_socket->sendMessage(bytes, CommandFunctionCall);
 
     QEventLoop loop;
     connect(this, SIGNAL(functionCallResultReceived(QByteArray)), &loop, SLOT(quit()));
@@ -218,9 +228,9 @@ void ClipboardClient::startInputReader()
     auto reader = new InputReader;
     m_inputReaderThread = new QThread(this);
     reader->moveToThread(m_inputReaderThread);
-    connect( m_inputReaderThread, SIGNAL(started()), reader, SLOT(readInput()) );
-    connect( m_inputReaderThread, SIGNAL(finished()), reader, SLOT(deleteLater()) );
-    connect( reader, SIGNAL(inputRead(QByteArray)), this, SLOT(setInput(QByteArray)) );
+    connect( m_inputReaderThread, &QThread::started, reader, &InputReader::readInput );
+    connect( m_inputReaderThread, &QThread::finished, reader, &InputReader::deleteLater );
+    connect( reader, &InputReader::inputRead, this, &ClipboardClient::setInput );
     m_inputReaderThread->start();
 }
 
@@ -246,17 +256,17 @@ void ClipboardClient::start(const QStringList &arguments)
     ScriptableProxy scriptableProxy(nullptr, nullptr);
     Scriptable scriptable(&engine, &scriptableProxy);
 
-    connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
-             this, SLOT(onMessageReceived(QByteArray,int)) );
-    connect( &scriptable, SIGNAL(readInput()),
-             this, SLOT(startInputReader()) );
-    connect( &scriptableProxy, SIGNAL(sendFunctionCall(QByteArray)),
-             this, SLOT(sendFunctionCall(QByteArray)) );
+    connect( &scriptable, &Scriptable::sendMessage,
+             this, &ClipboardClient::onMessageReceived );
+    connect( &scriptable, &Scriptable::readInput,
+             this, &ClipboardClient::startInputReader );
+    connect( &scriptableProxy, &ScriptableProxy::sendFunctionCall,
+             this, &ClipboardClient::sendFunctionCall );
 
-    connect( this, SIGNAL(inputReceived(QByteArray)),
-             &scriptable, SLOT(setInput(QByteArray)) );
-    connect( this, SIGNAL(functionCallResultReceived(QByteArray)),
-             &scriptableProxy, SLOT(setReturnValue(QByteArray)) );
+    connect( this, &ClipboardClient::inputReceived,
+             &scriptable, &Scriptable::setInput );
+    connect( this, &ClipboardClient::functionCallResultReceived,
+             &scriptableProxy, &ScriptableProxy::setReturnValue );
 
     scriptable.executeArguments(arguments);
 }

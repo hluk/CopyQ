@@ -99,7 +99,6 @@ HEADERS += \
     scriptable/temporaryfileclass.h \
     scriptable/temporaryfileprototype.h \
     tests/testinterface.h \
-    app/client.h \
     common/mimetypes.h \
     common/log.h \
     common/commandstatus.h \
@@ -202,7 +201,6 @@ SOURCES += \
     scriptable/scriptableproxy.cpp \
     scriptable/temporaryfileclass.cpp \
     scriptable/temporaryfileprototype.cpp \
-    app/client.cpp \
     common/mimetypes.cpp \
     common/log.cpp \
     common/settings.cpp \

@@ -21,15 +21,17 @@
 #define CLIPBOARDCLIENT_H
 
 #include "app.h"
-#include "client.h"
 
+#include <QObject>
 #include <QStringList>
+
+class ClientSocket;
 
 class InputReader : public QObject
 {
     Q_OBJECT
 
-public slots:
+public:
     void readInput();
 
 signals:
@@ -44,20 +46,13 @@ signals:
  * Also the received message is printed on standard output (if exit code is
  * zero) or standard error output.
  */
-class ClipboardClient : public Client, public App
+class ClipboardClient : public QObject, public App
 {
     Q_OBJECT
 
 public:
     ClipboardClient(
             int &argc, char **argv, const QStringList &arguments, const QString &sessionName);
-
-private slots:
-    void onMessageReceived(const QByteArray &data, int messageCode) override;
-
-    void onDisconnected() override;
-
-    void onConnectionFailed() override;
 
     void setInput(const QByteArray &input);
 
@@ -74,10 +69,15 @@ signals:
     void inputReceived(const QByteArray &input);
 
 private:
+    void onMessageReceived(const QByteArray &data, int messageCode);
+    void onDisconnected();
+    void onConnectionFailed();
+
     void abortInputReader();
     bool isInputReaderFinished() const;
     void start(const QStringList &arguments);
 
+    ClientSocket *m_socket = nullptr;
     QThread *m_inputReaderThread;
     QByteArray m_input;
 };
