@@ -1,13 +1,12 @@
 #!/bin/bash
 # Build and run tests with Travis CI.
 
-set -e -x
+set -xeuo pipefail
 
 root=$PWD
 mkdir build
 cd build
 
-# Configure.
 if [ "$CC" == "gcc" ]; then
     # GCC build generates coverage.
     cmake \
@@ -17,11 +16,18 @@ if [ "$CC" == "gcc" ]; then
         -DCMAKE_C_FLAGS=--coverage \
         ..
 else
-    qmake CONFIG+=debug QMAKE_CXX=$COMPILER QMAKE_CXXFLAGS="-std=c++11" ..
+    cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_CXX_COMPILER=$COMPILER \
+        -DWITH_TESTS=ON \
+        ..
 fi
 
 # Build.
 make
+
+# Enable verbose logging.
+export COPYQ_LOG_LEVEL=DEBUG
 
 # Test command line arguments that don't need GUI.
 DISPLAY="" ./copyq --help
