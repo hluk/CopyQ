@@ -737,7 +737,7 @@ void ScriptableProxy::disableMonitoring(bool arg1)
 void ScriptableProxy::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
     INVOKE2(setClipboard, (data, mode));
-    m_wnd->setClipboard(data, mode);
+    m_wnd->setClipboardAndWait(data, mode);
 }
 
 QString ScriptableProxy::renameTab(const QString &arg1, const QString &arg2)

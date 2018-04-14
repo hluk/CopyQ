@@ -111,6 +111,9 @@ const int waitMsSetClipboard = 1000;
 /// Interval to wait (in ms) before getting clipboard.
 const int waitMsGetClipboard = 100;
 
+/// Interval to wait (in ms) for pasting clipboard.
+const int waitMsPasteClipboard = 1000;
+
 /// Interval to wait (in ms) for client process.
 const int waitClientRun = 30000;
 

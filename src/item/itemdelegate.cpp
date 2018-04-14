@@ -335,7 +335,9 @@ bool ItemDelegate::invalidateHidden(QWidget *widget)
         return false;
 
     const auto row = findWidgetRow(widget);
-    Q_ASSERT(row != -1);
+    if (row == -1)
+        return false;
+
     const auto index = m_view->index(row);
     setIndexWidget(index, nullptr);
     return true;

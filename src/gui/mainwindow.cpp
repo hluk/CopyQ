@@ -339,6 +339,36 @@ bool isAnyApplicationWindowActive()
     return false;
 }
 
+template <typename Fn>
+void waitForSelection(Fn setSelection)
+{
+#ifdef HAS_MOUSE_SELECTIONS
+    ClipboardSpy spy(ClipboardMode::Selection);
+    setSelection();
+    spy.wait();
+#else
+    setSelection();
+#endif
+}
+
+template <typename Fn>
+void waitForClipboard(Fn setClipboard)
+{
+    ClipboardSpy spy(ClipboardMode::Clipboard);
+    setClipboard();
+    spy.wait();
+}
+
+template <typename Fn>
+void waitForClipboardAndSelection(Fn setClipboardAndSelection)
+{
+    waitForClipboard([&]() {
+        waitForSelection([&]() {
+            setClipboardAndSelection();
+        });
+    });
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -1637,8 +1667,10 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCo
 void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, bool omitPaste)
 {
     const auto itemHash = ::hash(data);
-    if ( !c || !c->moveToClipboard(itemHash) )
-        setClipboard(data);
+    waitForClipboardAndSelection([&]() {
+        if ( !c || !c->moveToClipboard(itemHash) )
+            setClipboard(data);
+    });
 
     PlatformWindowPtr lastWindow = m_lastWindow;
 
@@ -2766,11 +2798,7 @@ void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
     auto act = new Action();
     act->setCommand(QStringList() << "copyq" << argument);
     act->setData(data);
-
-    // Wait for clipboard/selection change.
-    ClipboardSpy spy(mode);
     runInternalAction(act);
-    spy.wait();
 }
 
 void MainWindow::setClipboard(const QVariantMap &data)
@@ -2779,6 +2807,13 @@ void MainWindow::setClipboard(const QVariantMap &data)
 #ifdef HAS_MOUSE_SELECTIONS
     setClipboard(data, ClipboardMode::Selection);
 #endif
+}
+
+void MainWindow::setClipboardAndWait(const QVariantMap &data, ClipboardMode mode)
+{
+    ClipboardSpy spy(mode);
+    setClipboard(data, mode);
+    spy.wait();
 }
 
 void MainWindow::activateCurrentItem()
@@ -2795,7 +2830,9 @@ void MainWindow::activateCurrentItem()
         return;
 
     // Copy current item or selection to clipboard.
-    c->moveToClipboard();
+    waitForClipboardAndSelection([&]() {
+        c->moveToClipboard();
+    });
 
     resetStatus();
 

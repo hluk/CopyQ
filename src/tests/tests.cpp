@@ -1913,7 +1913,7 @@ void Tests::externalEditor()
 
     // Check if clipboard changed.
     WAIT_ON_OUTPUT("read" << "0", data1 + data2);
-    RUN("clipboard", data1 + data2);
+    WAIT_FOR_CLIPBOARD(data1 + data2);
 
     // Edit existing item.
     const QString text =
@@ -2037,6 +2037,10 @@ void Tests::pasteFromMainWindow()
             waitFor(waitMsShow);
             RUN("keys" << "ENTER", "");
             waitFor(waitMsShow);
+
+            WAIT_FOR_CLIPBOARD("TEST");
+            waitFor(waitMsPasteClipboard);
+
             RUN("keys" << "ENTER", "");
         }
     );
@@ -2097,6 +2101,7 @@ void Tests::trayPaste()
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("TEST");
+    waitFor(waitMsPasteClipboard);
 
     RUN("keys" << "F2", "");
     RUN("tab" << tab1 << "read" << "0", "NEW TEST");

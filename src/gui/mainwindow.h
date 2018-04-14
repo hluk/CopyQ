@@ -357,11 +357,9 @@ public slots:
     void runInternalAction(Action *action);
     bool isInternalActionId(int id) const;
 
-    /** Set clipboard. */
     void setClipboard(const QVariantMap &data, ClipboardMode mode);
-
-    /** Set clipboard and synchronize selection if needed. */
     void setClipboard(const QVariantMap &data);
+    void setClipboardAndWait(const QVariantMap &data, ClipboardMode mode);
 
     /** Show/hide main window. Return true only if window is shown. */
     bool toggleVisible();
