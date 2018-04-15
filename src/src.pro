@@ -102,7 +102,6 @@ HEADERS += \
     common/mimetypes.h \
     common/log.h \
     common/commandstatus.h \
-    common/monitormessagecode.h \
     common/settings.h \
     common/temporarysettings.h \
     common/config.h \
