@@ -226,6 +226,12 @@ void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
 
+    // Wait a moment for user commands to finish (especially "exit" command).
+    {
+        SleepTimer t(2000);
+        while ( hasRunningCommands() && t.sleep() ) {}
+    }
+
     emit terminateClients();
 
     // wasClosed() is true after App::exit() is called and
@@ -233,9 +239,11 @@ void ClipboardServer::onAboutToQuit()
     Q_ASSERT(wasClosed());
     stopMonitoring();
 
-    // Wait a moment for commands to finish.
-    SleepTimer t(10000);
-    while ( !m_clients.isEmpty() && t.sleep() ) {}
+    // Wait a moment for all commands to finish.
+    {
+        SleepTimer t(10000);
+        while ( !m_clients.isEmpty() && t.sleep() ) {}
+    }
 
     m_server->close();
 
