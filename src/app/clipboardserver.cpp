@@ -154,23 +154,14 @@ void ClipboardServer::stopMonitoring()
 
     COPYQ_LOG("Terminating monitor");
 
-    disconnect( m_monitor, SIGNAL(destroyed()),
-                this, SLOT(onMonitorFinished()) );
-
     for (auto it = m_clients.constBegin(); it != m_clients.constEnd(); ++it) {
         const auto actionId = it.value().proxy->actionId();
         if ( actionId == m_monitor->id() ) {
             const auto client = it.key();
-            client->sendMessage(QByteArray(), CommandFinished);
+            client->sendMessage(QByteArray(), CommandStopMonitor);
             break;
         }
     }
-
-    m_monitor->waitForFinished(1000);
-    m_monitor->terminate();
-    m_monitor = nullptr;
-
-    COPYQ_LOG("Monitor terminated");
 }
 
 void ClipboardServer::startMonitoring()

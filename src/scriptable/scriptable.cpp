@@ -2390,6 +2390,7 @@ void Scriptable::monitorClipboard()
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
+    connect(this, &Scriptable::stopMonitorClipboardLoop, &loop, &QEventLoop::quit);
     connect( &monitor, &ClipboardMonitor::runScriptRequest,
              this, &Scriptable::onMonitorRunScriptRequest );
     loop.exec();
@@ -2666,6 +2667,11 @@ bool Scriptable::setClipboard(QVariantMap *data, ClipboardMode mode)
 
     throwError( tr("Failed to set clipboard!") );
     return false;
+}
+
+void Scriptable::stopMonitorClipboard()
+{
+    emit stopMonitorClipboardLoop();
 }
 
 void Scriptable::changeItem(bool create)

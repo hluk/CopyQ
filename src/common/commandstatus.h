@@ -36,6 +36,8 @@ enum CommandStatus {
 
     CommandFunctionCall = 8,
     CommandFunctionCallReturnValue = 9,
+
+    CommandStopMonitor = 10,
 };
 
 #endif // COMMANDSTATUS_H
