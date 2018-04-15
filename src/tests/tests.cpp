@@ -2535,21 +2535,31 @@ void Tests::scriptCommandOverrideFunction()
 
 void Tests::displayCommand()
 {
+    const auto testMime = COPYQ_MIME_PREFIX "test";
     const auto script = QString(R"(
         setCommands([{
             display: true,
             input: '%1',
             cmd: 'copyq:'
-               + 'var data = unpack(input());'
-               + 'text = str(data[mimeText]);'
-               + 'if (text !== "a" && text != "b") abort();'
-               + 'add("CALLED in " + str(data[mimeCurrentTab]));'
+               + 'text = str(data(mimeText));'
+               + 'currentTab = str(data(mimeCurrentTab));'
+               + 'add(currentTab + "/" + text);'
         }])
-        )").arg(mimeItems);
-    RUN("add('b', 'a'); " + QString(script), "");
+        )").arg(testMime);
+
+    RUN(script, "");
+
+    RUN("write" << "0" << testMime << "" << mimeText << "a", "");
+    WAIT_ON_OUTPUT(
+                "read(0,1,2)",
+                QString("%1/a\na\n")
+                .arg(clipboardTabName)
+                .toUtf8() );
+
+    RUN("write" << "0" << testMime << "" << mimeText << "b", "");
     WAIT_ON_OUTPUT(
                 "read(0,1,2,3,4)",
-                QString("CALLED in %1\nCALLED in %1\na\nb\n")
+                QString("%1/b\nb\n%1/a\na\n")
                 .arg(clipboardTabName)
                 .toUtf8() );
 }
