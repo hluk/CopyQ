@@ -161,13 +161,6 @@ QVector<Command> predefinedCommands()
     c->tab  = AddCommandDialog::tr("(trash)");
     c->remove = true;
 
-    c = newCommand(&commands);
-    c->name = AddCommandDialog::tr("Move to Trash");
-    c->icon = QString(QChar(IconTrash));
-    c->inMenu = true;
-    c->tab  = AddCommandDialog::tr("(trash)");
-    c->remove = true;
-
     return commands;
 }
 
