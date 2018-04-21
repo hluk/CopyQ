@@ -68,6 +68,7 @@ class Scriptable : public QObject, protected QScriptable
     Q_PROPERTY(QScriptValue mimeSyncToClipboard READ getMimeSyncToClipboard)
     Q_PROPERTY(QScriptValue mimeSyncToSelection READ getMimeSyncToSelection)
 
+    Q_PROPERTY(QScriptValue global READ getGlobal)
     Q_PROPERTY(QScriptValue plugins READ getPlugins)
 
 public:
@@ -141,6 +142,7 @@ public:
     QScriptValue getMimeSyncToClipboard() const { return mimeSyncToClipboard; }
     QScriptValue getMimeSyncToSelection() const { return mimeSyncToSelection; }
 
+    QScriptValue getGlobal();
     QScriptValue getPlugins();
 
     ByteArrayClass *byteArrayClass() const { return m_baClass; }

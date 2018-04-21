@@ -770,6 +770,11 @@ void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
     emit sendMessage(message, exitCode);
 }
 
+QScriptValue Scriptable::getGlobal()
+{
+    return m_engine->globalObject();
+}
+
 QScriptValue Scriptable::getPlugins()
 {
     // Load plugins on demand.
@@ -2445,7 +2450,9 @@ bool Scriptable::sourceScriptCommands()
 {
     const auto commands = m_proxy->scriptCommands();
     for (const auto &command : commands) {
+        engine()->pushContext();
         eval(command.cmd, command.name);
+        engine()->popContext();
         if ( engine()->hasUncaughtException() ) {
             const auto exceptionText = processUncaughtException(command.cmd);
             const auto response = createScriptErrorMessage(exceptionText).toUtf8();

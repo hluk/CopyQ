@@ -1125,6 +1125,11 @@ Objects
    Array for accessing arguments passed to current function or the script
    (``arguments[0]`` is the script itself).
 
+.. js:data:: global (Object)
+
+    Object allowing to modify global scope which contains all functions like
+    ``copy()`` or ``add()``. This is useful for :ref:`commands-script`.
+
 MIME Types
 ----------
 

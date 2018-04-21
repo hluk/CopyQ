@@ -20,9 +20,13 @@ or on command line (``copyq hello``).
 
 .. code-block:: js
 
-    function hello() {
+    global.hello = function() {
         print('Hello, World!\n')
     }
+
+Script commands are executed in own scope so as to avoid adding temporary
+variables in the global scope which contains all functions like ``copy()`` or
+``add()``. Using ``global`` object allows to modify the global scope.
 
 It's useful to move code used by multiple commands to a new script command.
 
@@ -41,7 +45,7 @@ formatted text.
 
 .. code-block:: js
 
-    saveData_ = saveData
+    var saveData_ = saveData
 
     saveData = function() {
         if ( str(data(mimeText)) != "" ) {
@@ -87,19 +91,19 @@ E.g. show custom notifications for clipboard and X11 selection changes.
         )
     }
 
-    onClipboardChanged_ = onClipboardChanged
+    var onClipboardChanged_ = onClipboardChanged
     onClipboardChanged = function() {
         clipboardNotification(false, false)
         onClipboardChanged_()
     }
 
-    onOwnClipboardChanged_ = onOwnClipboardChanged
+    var onOwnClipboardChanged_ = onOwnClipboardChanged
     onOwnClipboardChanged = function() {
         clipboardNotification(true, false)
         onOwnClipboardChanged_()
     }
 
-    onHiddenClipboardChanged_ = onHiddenClipboardChanged
+    var onHiddenClipboardChanged_ = onHiddenClipboardChanged
     onHiddenClipboardChanged = function() {
         clipboardNotification(true, true)
         onHiddenClipboardChanged_()

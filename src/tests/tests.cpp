@@ -2514,7 +2514,7 @@ void Tests::scriptCommandAddFunction()
     const auto script = R"(
         setCommands([{
             isScript: true,
-            cmd: 'test = function() { return "TEST"; }'
+            cmd: 'global.test = function() { return "TEST"; }'
         }])
         )";
     RUN(script, "");
