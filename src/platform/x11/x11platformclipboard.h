@@ -27,13 +27,11 @@
 
 #include <memory>
 
-class X11DisplayGuard;
-
 class X11PlatformClipboard : public DummyClipboard
 {
     Q_OBJECT
 public:
-    explicit X11PlatformClipboard(const std::shared_ptr<X11DisplayGuard> &d);
+    X11PlatformClipboard();
 
     void setFormats(const QStringList &formats) override;
 
@@ -51,8 +49,6 @@ private slots:
 private:
     bool waitIfSelectionIncomplete();
     void checkAgain();
-
-    std::shared_ptr<X11DisplayGuard> d;
 
     QStringList m_formats;
 

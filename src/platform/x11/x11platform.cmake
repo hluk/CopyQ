@@ -31,3 +31,5 @@ set(USE_QXT TRUE)
 
 set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
 
+list(APPEND copyq_Qt5_Modules X11Extras)
+
