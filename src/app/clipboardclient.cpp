@@ -52,8 +52,8 @@ QString messageCodeToString(int code)
         return "CommandPrint";
     case CommandFunctionCallReturnValue:
         return "CommandFunctionCallReturnValue";
-    case CommandStopMonitor:
-        return "CommandStopMonitor";
+    case CommandStop:
+        return "CommandStop";
     default:
         return QString("Unknown(%1)").arg(code);
     }
@@ -163,8 +163,8 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         emit functionCallResultReceived(data);
         break;
 
-    case CommandStopMonitor:
-        emit stopMonitorClipboard();
+    case CommandStop:
+        emit stopEventLoops();
         break;
 
     default:
@@ -277,8 +277,8 @@ void ClipboardClient::start(const QStringList &arguments)
     connect( m_socket, &ClientSocket::disconnected,
              &scriptable, &Scriptable::abort );
 
-    connect( this, &ClipboardClient::stopMonitorClipboard,
-             &scriptable, &Scriptable::stopMonitorClipboard );
+    connect( this, &ClipboardClient::stopEventLoops,
+             &scriptable, &Scriptable::stopEventLoops );
 
     scriptable.executeArguments(arguments);
 }

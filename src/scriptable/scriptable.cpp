@@ -2395,7 +2395,7 @@ void Scriptable::monitorClipboard()
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
-    connect(this, &Scriptable::stopMonitorClipboardLoop, &loop, &QEventLoop::quit);
+    connect(this, &Scriptable::stop, &loop, &QEventLoop::quit);
     connect( &monitor, &ClipboardMonitor::runScriptRequest,
              this, &Scriptable::onMonitorRunScriptRequest );
     loop.exec();
@@ -2684,9 +2684,9 @@ bool Scriptable::setClipboard(QVariantMap *data, ClipboardMode mode)
     return false;
 }
 
-void Scriptable::stopMonitorClipboard()
+void Scriptable::stopEventLoops()
 {
-    emit stopMonitorClipboardLoop();
+    emit stop();
 }
 
 void Scriptable::changeItem(bool create)
@@ -2949,6 +2949,7 @@ void Scriptable::provideClipboard(ClipboardMode mode)
 
     QEventLoop loop;
     connect( this, &Scriptable::finished, &loop, &QEventLoop::quit );
+    connect( this, &Scriptable::stop, &loop, &QEventLoop::quit );
     connect( clipboard.get(), &PlatformClipboard::changed, this, slot );
     loop.exec();
 }

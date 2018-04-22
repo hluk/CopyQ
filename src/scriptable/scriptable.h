@@ -157,7 +157,7 @@ public:
 
     bool setClipboard(QVariantMap *data, ClipboardMode mode);
 
-    void stopMonitorClipboard();
+    void stopEventLoops();
 
 public slots:
     void setInput(const QByteArray &input);
@@ -364,7 +364,7 @@ signals:
     void readInput();
     void resetSynchronizeSelectionTimer();
     void startSynchronizeSelectionTimer(ClipboardMode targetMode, const QVariantMap &data);
-    void stopMonitorClipboardLoop();
+    void stop();
 
 private:
     void onExecuteOutput(const QByteArray &output);
