@@ -2432,6 +2432,11 @@ void Scriptable::onMonitorRunScriptRequest(const QString &script, const QVariant
     m_data = data;
     m_proxy->setActionData(m_actionId, m_data);
     eval(script);
+    if ( engine()->hasUncaughtException() ) {
+        const auto exceptionText = processUncaughtException("ClipboardMonitor::" + script);
+        const auto response = createScriptErrorMessage(exceptionText).toUtf8();
+        sendMessageToClient(response, CommandException);
+    }
 }
 
 void Scriptable::onProvidedClipboardChanged()
@@ -2454,7 +2459,7 @@ bool Scriptable::sourceScriptCommands()
         eval(command.cmd, command.name);
         engine()->popContext();
         if ( engine()->hasUncaughtException() ) {
-            const auto exceptionText = processUncaughtException(command.cmd);
+            const auto exceptionText = processUncaughtException("ScriptCommand::" + command.cmd);
             const auto response = createScriptErrorMessage(exceptionText).toUtf8();
             sendMessageToClient(response, CommandException);
             return false;
