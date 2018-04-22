@@ -62,9 +62,6 @@ class ItemDelegate : public QItemDelegate
 
         bool eventFilter(QObject *obj, QEvent *event) override;
 
-        /** Remove all cached items. */
-        void invalidateCache();
-
         /** Remove item widget if not currently visible and return true if removed. */
         bool invalidateHidden(QWidget *widget);
 
