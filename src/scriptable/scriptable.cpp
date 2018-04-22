@@ -2594,7 +2594,10 @@ void Scriptable::showExceptionMessage(const QString &message)
     const auto title = actionName.isEmpty()
         ? tr("Exception")
         : tr("Exception in %1").arg( quoteString(actionName) );
-    m_proxy->showMessage(title, message, QString(QChar(IconExclamationCircle)), 8000);
+
+    const auto id = qHash(title) ^ qHash(message);
+    const auto notificationId = QString::number(id);
+    m_proxy->showMessage(title, message, QString(QChar(IconExclamationCircle)), 8000, notificationId);
 }
 
 QVector<int> Scriptable::getRows() const
