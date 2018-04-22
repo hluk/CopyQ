@@ -33,12 +33,16 @@ namespace {
 const int bigMessageThreshold = 5 * 1024 * 1024;
 int lastSocketId = 0;
 
+const quint32 protocolMagicNumber = 0x0C090701;
+const quint32 protocolVersion = 1;
+
 template <typename T>
 int doStreamDataSize(T value)
 {
     QByteArray bytes;
     {
         QDataStream dataStream(&bytes, QIODevice::WriteOnly);
+        dataStream.setVersion(QDataStream::Qt_5_0);
         dataStream << value;
     }
     return bytes.length();
@@ -47,14 +51,26 @@ int doStreamDataSize(T value)
 template <typename T>
 int streamDataSize(T value)
 {
-    static int size = doStreamDataSize(value);
+    static int size = doStreamDataSize<T>(value);
     return size;
+}
+
+int headerDataSize()
+{
+    QByteArray bytes;
+    {
+        QDataStream dataStream(&bytes, QIODevice::WriteOnly);
+        dataStream.setVersion(QDataStream::Qt_5_0);
+        dataStream << protocolMagicNumber << protocolVersion;
+    }
+    return bytes.length();
 }
 
 template <typename T>
 bool readValue(T *value, QByteArray *message)
 {
     QDataStream stream(*message);
+    stream.setVersion(QDataStream::Qt_5_0);
     stream >> *value;
     message->remove(0, streamDataSize(*value));
     return stream.status() == QDataStream::Ok;
@@ -68,8 +84,10 @@ bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
         COPYQ_LOG( QString("Sending big message: %1 MiB").arg(msg.size() / 1024 / 1024) );
 
     QDataStream out(socket);
+    out.setVersion(QDataStream::Qt_5_0);
     // length is serialized as a quint32, followed by msg
     const auto length = static_cast<quint32>(msg.length());
+    out << protocolMagicNumber << protocolVersion;
     out.writeBytes( msg.constData(), length );
 
     if (out.status() != QDataStream::Ok) {
@@ -177,6 +195,7 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
     } else {
         QByteArray msg;
         QDataStream out(&msg, QIODevice::WriteOnly);
+        out.setVersion(QDataStream::Qt_5_0);
         out << static_cast<qint32>(messageCode);
         out.writeRawData( message.constData(), message.length() );
         if ( writeMessage(m_socket, msg) )
@@ -211,13 +230,33 @@ void ClientSocket::onReadyRead()
 
     while ( !m_message.isEmpty() ) {
         if (!m_hasMessageLength) {
-            if ( m_message.length() < streamDataSize(m_messageLength) )
+            const int preambleSize = headerDataSize() + streamDataSize(m_messageLength);
+            if ( m_message.length() < preambleSize )
                 break;
 
-            if ( !readValue(&m_messageLength, &m_message) ) {
-                error("Failed to read message length from client!");
-                return;
+            {
+                QDataStream stream(m_message);
+                stream.setVersion(QDataStream::Qt_5_0);
+                quint32 magicNumber;
+                quint32 version;
+                stream >> magicNumber >> version >> m_messageLength;
+                if ( stream.status() != QDataStream::Ok ) {
+                    error("Failed to read message length from client!");
+                    return;
+                }
+
+                if (magicNumber != protocolMagicNumber) {
+                    error("Unexpected message magic number from client!");
+                    return;
+                }
+
+                if (version != protocolVersion) {
+                    error("Unexpected message version from client!");
+                    return;
+                }
             }
+
+            m_message.remove(0, preambleSize);
             m_hasMessageLength = true;
 
             if (m_messageLength > bigMessageThreshold)
@@ -230,6 +269,7 @@ void ClientSocket::onReadyRead()
 
         QByteArray msg = m_message.mid(0, length);
         qint32 messageCode;
+
         if ( !readValue(&messageCode, &msg) ) {
             error("Failed to read message code from client!");
             return;

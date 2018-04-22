@@ -78,7 +78,8 @@
 
 #include <type_traits>
 
-#define COPYQ_SERIALIZED_FUNCTION_CALL_ID "copyq/3.4.0"
+const quint32 serializedFunctionCallMagicNumber = 0x58746908;
+const quint32 serializedFunctionCallVersion = 1;
 
 #define BROWSER(call) \
     ClipboardBrowser *c = fetchBrowser(); \
@@ -304,7 +305,7 @@ public:
         QByteArray bytes;
         QDataStream stream(&bytes, QIODevice::WriteOnly);
         stream.setVersion(QDataStream::Qt_5_0);
-        stream << QByteArray(COPYQ_SERIALIZED_FUNCTION_CALL_ID) << m_args;
+        stream << serializedFunctionCallMagicNumber << serializedFunctionCallVersion << m_args;
         m_args.resize(2);
         return bytes;
     }
@@ -324,7 +325,7 @@ private:
         const auto slotName = m_args[1].toByteArray() + "(" + args + ")";
         const int slotIndex = ScriptableProxy::staticMetaObject.indexOfSlot(slotName);
         if (slotIndex == -1) {
-            log( "Failed to find scriptable proxy slot: " + slotName, LogError );
+            log("Failed to find scriptable proxy slot: " + slotName, LogError);
             Q_ASSERT(false);
         }
         m_args[1] = slotName;
@@ -643,12 +644,23 @@ QByteArray ScriptableProxy::callFunction(const QByteArray &serializedFunctionCal
         QDataStream stream(serializedFunctionCall);
         stream.setVersion(QDataStream::Qt_5_0);
 
-        QByteArray id;
-        stream >> id;
-        if (stream.status() != QDataStream::Ok || id != COPYQ_SERIALIZED_FUNCTION_CALL_ID) {
-            log( QString("Incorrect scriptable client version, expected is \"%1\" but got \"%2\"")
-                 .arg(COPYQ_SERIALIZED_FUNCTION_CALL_ID)
-                 .arg(QString::fromUtf8(id)), LogError);
+        quint32 magicNumber;
+        quint32 version;
+        stream >> magicNumber >> version;
+        if (stream.status() != QDataStream::Ok) {
+            log("Failed to read scriptable proxy slot call preamble", LogError);
+            Q_ASSERT(false);
+            return QByteArray();
+        }
+
+        if (magicNumber != serializedFunctionCallMagicNumber) {
+            log("Unexpected scriptable proxy slot call preamble magic number", LogError);
+            Q_ASSERT(false);
+            return QByteArray();
+        }
+
+        if (version != serializedFunctionCallVersion) {
+            log("Unexpected scriptable proxy slot call preamble version", LogError);
             Q_ASSERT(false);
             return QByteArray();
         }
@@ -665,8 +677,7 @@ QByteArray ScriptableProxy::callFunction(const QByteArray &serializedFunctionCal
     const auto slotName = functionCall.value(1).toByteArray();
     const auto slotIndex = metaObject()->indexOfSlot(slotName);
     if (slotIndex == -1) {
-        log( QString("Cannot find scriptable proxy slot: %1")
-             .arg(slotName.constData()), LogError);
+        log("Failed to find scriptable proxy slot: " + slotName, LogError);
         Q_ASSERT(false);
         return QByteArray();
     }
