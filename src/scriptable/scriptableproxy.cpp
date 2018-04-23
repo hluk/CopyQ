@@ -62,6 +62,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QMetaMethod>
+#include <QMetaType>
 #include <QMimeData>
 #include <QPainter>
 #include <QPaintEvent>
@@ -76,6 +78,9 @@
 
 #include <type_traits>
 
+const quint32 serializedFunctionCallMagicNumber = 0x58746908;
+const quint32 serializedFunctionCallVersion = 1;
+
 #define BROWSER(call) \
     ClipboardBrowser *c = fetchBrowser(); \
     if (c) \
@@ -83,20 +88,21 @@
 
 #define STR(str) str
 
+#define INVOKE_(function, arguments) \
+    static auto f = FunctionCallSerializer(m_tabName, STR(#function)).withSlotArguments arguments; \
+    f.setArguments arguments; \
+    emit sendFunctionCall(f.serializeAndClear()) \
+
 #define INVOKE(function, arguments) \
     if (!m_wnd) { \
         using Result = decltype(function arguments); \
-        FunctionCallSerializer f(m_tabName, STR(#function), QVariant::fromValue(Result())); \
-        f.setArguments arguments; \
-        emit sendFunctionCall(f.serialize()); \
+        INVOKE_(function, arguments); \
         return m_returnValue.value<Result>(); \
     }
 
 #define INVOKE2(function, arguments) \
     if (!m_wnd) { \
-        FunctionCallSerializer f(m_tabName, STR(#function)); \
-        f.setArguments arguments; \
-        emit sendFunctionCall(f.serialize()); \
+        INVOKE_(function, arguments); \
         return; \
     }
 
@@ -246,8 +252,6 @@ namespace {
 const char propertyWidgetName[] = "CopyQ_widget_name";
 const char propertyWidgetProperty[] = "CopyQ_widget_property";
 
-const int noReturnType = -1;
-
 struct InputDialog {
     QDialog dialog;
     QString defaultChoice; /// Default text for list widgets.
@@ -258,18 +262,51 @@ struct InputDialog {
     }
 };
 
+template<typename ...Ts>
+class SlotArguments;
+
+template<typename T, typename ...Ts>
+class SlotArguments<T, Ts...> {
+public:
+    static QByteArray arguments()
+    {
+        if ( std::is_same<QVariant, T>::value )
+            return "QVariant," + SlotArguments<Ts...>::arguments();
+
+        return QByteArray(QMetaType::typeName(qMetaTypeId<T>()))
+                + "," + SlotArguments<Ts...>::arguments();
+    }
+};
+
+template<>
+class SlotArguments<> {
+public:
+    static QByteArray arguments() { return QByteArray(); }
+};
+
 class FunctionCallSerializer {
 public:
-    explicit FunctionCallSerializer(const QString &tabName, const char *functionName, const QVariant &returnValue = noReturnType)
+    explicit FunctionCallSerializer(const QString &tabName, const char *functionName)
     {
-        m_args << tabName << QByteArray(functionName) << returnValue;
+        m_args << tabName << QByteArray(functionName);
     }
 
-    QByteArray serialize() const
+    template<typename ...Ts>
+    FunctionCallSerializer &withSlotArguments(Ts...)
+    {
+        QByteArray args = SlotArguments<Ts...>::arguments();
+        args.chop(1);
+        setSlotArgumentTypes(args);
+        return *this;
+    }
+
+    QByteArray serializeAndClear()
     {
         QByteArray bytes;
         QDataStream stream(&bytes, QIODevice::WriteOnly);
-        stream << m_args;
+        stream.setVersion(QDataStream::Qt_5_0);
+        stream << serializedFunctionCallMagicNumber << serializedFunctionCallVersion << m_args;
+        m_args.resize(2);
         return bytes;
     }
 
@@ -278,12 +315,22 @@ public:
     template<typename T, typename ...Ts>
     void setArguments(const T &head, Ts... args)
     {
-        m_args << std::is_same<QVariant, T>::value
-               << QVariant::fromValue(head);
+        m_args << QVariant::fromValue(head);
         setArguments(args...);
     }
 
 private:
+    void setSlotArgumentTypes(const QByteArray &args)
+    {
+        const auto slotName = m_args[1].toByteArray() + "(" + args + ")";
+        const int slotIndex = ScriptableProxy::staticMetaObject.indexOfSlot(slotName);
+        if (slotIndex == -1) {
+            log("Failed to find scriptable proxy slot: " + slotName, LogError);
+            Q_ASSERT(false);
+        }
+        m_args[1] = slotName;
+    }
+
     QVector<QVariant> m_args;
 };
 
@@ -595,38 +642,95 @@ QByteArray ScriptableProxy::callFunction(const QByteArray &serializedFunctionCal
     QVector<QVariant> functionCall;
     {
         QDataStream stream(serializedFunctionCall);
+        stream.setVersion(QDataStream::Qt_5_0);
+
+        quint32 magicNumber;
+        quint32 version;
+        stream >> magicNumber >> version;
+        if (stream.status() != QDataStream::Ok) {
+            log("Failed to read scriptable proxy slot call preamble", LogError);
+            Q_ASSERT(false);
+            return QByteArray();
+        }
+
+        if (magicNumber != serializedFunctionCallMagicNumber) {
+            log("Unexpected scriptable proxy slot call preamble magic number", LogError);
+            Q_ASSERT(false);
+            return QByteArray();
+        }
+
+        if (version != serializedFunctionCallVersion) {
+            log("Unexpected scriptable proxy slot call preamble version", LogError);
+            Q_ASSERT(false);
+            return QByteArray();
+        }
+
         stream >> functionCall;
+        if (stream.status() != QDataStream::Ok) {
+            log("Failed to read scriptable proxy slot call", LogError);
+            Q_ASSERT(false);
+            return QByteArray();
+        }
     }
 
     m_tabName = functionCall.value(0).toString();
-    const auto functionName = functionCall.value(1).toByteArray();
-    QVariant returnValue = functionCall.value(2);
-    const int argumentsStartIndex = 3;
-
-    QGenericArgument args[9];
-    for (int i = argumentsStartIndex, j = 0; i < functionCall.size(); i += 2, ++j) {
-        const auto isVariant = functionCall[i].toBool();
-        auto &value = functionCall[i + 1];
-        args[j] = isVariant
-                ? Q_ARG(QVariant, value)
-                : QGenericArgument( value.typeName(), static_cast<void*>(value.data()) );
-
+    const auto slotName = functionCall.value(1).toByteArray();
+    const auto slotIndex = metaObject()->indexOfSlot(slotName);
+    if (slotIndex == -1) {
+        log("Failed to find scriptable proxy slot: " + slotName, LogError);
+        Q_ASSERT(false);
+        return QByteArray();
     }
 
-    if (returnValue == noReturnType) {
-        const bool ok = QMetaObject::invokeMethod(
-                    this, functionName.constData(),
-                    args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
-        Q_ASSERT(ok);
-    } else {
-        const auto genericReturnValue = returnValue.isValid()
-                ? QGenericReturnArgument(returnValue.typeName(), static_cast<void*>(returnValue.data()) )
-                : Q_RETURN_ARG(QVariant, returnValue);
+    const int argumentsStartIndex = 2;
 
-        const bool ok = QMetaObject::invokeMethod(
-                    this, functionName.constData(), genericReturnValue,
-                    args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
-        Q_ASSERT(ok);
+    const auto metaMethod = metaObject()->method(slotIndex);
+    const auto typeId = metaMethod.returnType();
+
+    QGenericArgument args[9];
+    for (int i = argumentsStartIndex; i < functionCall.size(); ++i) {
+        auto &value = functionCall[i];
+        const int j = i - argumentsStartIndex;
+        const int argumentTypeId = metaMethod.parameterType(j);
+        if (argumentTypeId == QMetaType::QVariant) {
+            args[j] = Q_ARG(QVariant, value);
+        } else if ( value.userType() == argumentTypeId ) {
+            args[j] = QGenericArgument( value.typeName(), static_cast<void*>(value.data()) );
+        } else {
+            log( QString("Bad argument type (at index %1) for scriptable proxy slot: %2")
+                 .arg(j)
+                 .arg(metaMethod.methodSignature().constData()), LogError);
+            Q_ASSERT(false);
+            return QByteArray();
+        }
+    }
+
+    if (typeId == QMetaType::Void) {
+        const bool called = metaMethod.invoke(
+                this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
+
+        if (!called) {
+            log( QString("Bad scriptable proxy slot call: %1")
+                 .arg(metaMethod.methodSignature().constData()), LogError);
+            Q_ASSERT(false);
+        }
+
+        return QByteArray();
+    }
+
+    QVariant returnValue(typeId, nullptr);
+    const auto genericReturnValue = returnValue.isValid()
+            ? QGenericReturnArgument(returnValue.typeName(), static_cast<void*>(returnValue.data()) )
+            : Q_RETURN_ARG(QVariant, returnValue);
+
+    const bool called = metaMethod.invoke(
+                this, genericReturnValue,
+                args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
+
+    if (!called) {
+        log("Bad scriptable proxy slot call (with return value)", LogError);
+        Q_ASSERT(false);
+        return QByteArray();
     }
 
     QByteArray bytes;

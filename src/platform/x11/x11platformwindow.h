@@ -27,14 +27,13 @@
 #include <memory>
 
 class QWidget;
-class X11DisplayGuard;
 
 class X11PlatformWindow : public PlatformWindow
 {
 public:
-    explicit X11PlatformWindow(const std::shared_ptr<X11DisplayGuard> &d);
+    explicit X11PlatformWindow();
 
-    X11PlatformWindow(const std::shared_ptr<X11DisplayGuard> &d, Window winId);
+    explicit X11PlatformWindow(Window winId);
 
     QString getTitle() override;
 
@@ -52,7 +51,6 @@ private:
     void sendKeyPress(int modifier, int key);
 
     Window m_window;
-    std::shared_ptr<X11DisplayGuard> d;
 };
 
 #endif // X11PLATFORMWINDOW_H

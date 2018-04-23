@@ -30,10 +30,10 @@
 #include <QStringList>
 #include <QVariant>
 #include <QWidget>
+#include <QX11Info>
 
 #include "x11platformwindow.h"
 #include "x11platformclipboard.h"
-#include "x11displayguard.h"
 
 #include <X11/Xatom.h>
 
@@ -111,21 +111,19 @@ X11Platform::~X11Platform() = default;
 
 PlatformWindowPtr X11Platform::getWindow(WId winId)
 {
-    auto d = std::make_shared<X11DisplayGuard>();
-    if (!d->display())
+    if (!QX11Info::isPlatformX11())
         return PlatformWindowPtr();
 
-    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(d, winId));
+    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(winId));
     return PlatformWindowPtr(window->isValid() ? window.release() : nullptr);
 }
 
 PlatformWindowPtr X11Platform::getCurrentWindow()
 {
-    auto d = std::make_shared<X11DisplayGuard>();
-    if (!d->display())
+    if (!QX11Info::isPlatformX11())
         return PlatformWindowPtr();
 
-    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(d));
+    std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow());
     return PlatformWindowPtr(window->isValid() ? window.release() : nullptr);
 }
 
@@ -239,7 +237,8 @@ QCoreApplication *X11Platform::createConsoleApplication(int &argc, char **argv)
 
 QApplication *X11Platform::createServerApplication(int &argc, char **argv)
 {
-    old_xio_errhandler = XSetIOErrorHandler(copyq_xio_errhandler);
+    if (QX11Info::isPlatformX11())
+        old_xio_errhandler = XSetIOErrorHandler(copyq_xio_errhandler);
     return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
@@ -260,8 +259,7 @@ QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)
 
 PlatformClipboardPtr X11Platform::clipboard()
 {
-    auto d = std::make_shared<X11DisplayGuard>();
-    return PlatformClipboardPtr(new X11PlatformClipboard(d));
+    return PlatformClipboardPtr(new X11PlatformClipboard());
 }
 
 QStringList X11Platform::getCommandLineArguments(int argc, char **argv)

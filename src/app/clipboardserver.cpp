@@ -158,7 +158,7 @@ void ClipboardServer::stopMonitoring()
         const auto actionId = it.value().proxy->actionId();
         if ( actionId == m_monitor->id() ) {
             const auto client = it.key();
-            client->sendMessage(QByteArray(), CommandStopMonitor);
+            client->sendMessage(QByteArray(), CommandStop);
             break;
         }
     }
@@ -217,26 +217,13 @@ void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
 
-    // Wait a moment for user commands to finish (especially "exit" command).
-    {
-        SleepTimer t(2000);
-        while ( hasRunningCommands() && t.sleep() ) {}
-    }
-
-    emit terminateClients();
-
     // wasClosed() is true after App::exit() is called and
     // it prevents monitor process restarting.
     Q_ASSERT(wasClosed());
-    stopMonitoring();
 
-    // Wait a moment for all commands to finish.
-    {
-        SleepTimer t(10000);
-        while ( !m_clients.isEmpty() && t.sleep() ) {}
-    }
-
-    m_server->close();
+    terminateClients(10000);
+    m_server->close(); // No new connections can be open.
+    terminateClients(5000);
 
     m_wnd->saveTabs();
 }
@@ -326,11 +313,29 @@ bool ClipboardServer::hasRunningCommands() const
     return false;
 }
 
+void ClipboardServer::terminateClients(int waitMs)
+{
+    for (auto it = m_clients.constBegin(); it != m_clients.constEnd(); ++it) {
+        const auto client = it.key();
+        client->sendMessage(QByteArray(), CommandStop);
+    }
+
+    waitForClientsToFinish(waitMs);
+    emit closeClients();
+    waitForClientsToFinish(waitMs / 2);
+}
+
+void ClipboardServer::waitForClientsToFinish(int waitMs)
+{
+    SleepTimer t(waitMs);
+    while ( !m_clients.isEmpty() && t.sleep() ) {}
+}
+
 void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 {
     auto proxy = new ScriptableProxy(m_wnd, client.get());
     m_clients.insert( client.get(), ClientData(client, proxy) );
-    connect( this, &ClipboardServer::terminateClients,
+    connect( this, &ClipboardServer::closeClients,
              client.get(), &ClientSocket::close );
     connect( client.get(), &ClientSocket::messageReceived,
              this, &ClipboardServer::onClientMessageReceived );

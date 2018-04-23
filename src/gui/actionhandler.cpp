@@ -142,6 +142,11 @@ void ActionHandler::closeAction(Action *action)
 
 void ActionHandler::showActionErrors(Action *action, const QString &message, ushort icon)
 {
+    const auto notificationId = qHash(action->command()) ^ qHash(message);
+    auto notification = m_wnd->createNotification( QString::number(notificationId) );
+    if ( notification->isVisible() )
+        return;
+
     auto msg = message;
 
     if ( !action->errorOutput().isEmpty() )
@@ -166,7 +171,6 @@ void ActionHandler::showActionErrors(Action *action, const QString &message, ush
 
     log(title + "\n" + msg);
 
-    auto notification = m_wnd->createNotification();
     notification->setTitle(title);
     notification->setMessage(msg);
     notification->setIcon(icon);

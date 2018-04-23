@@ -67,7 +67,7 @@ public:
 signals:
     void functionCallResultReceived(const QByteArray &returnValue);
     void inputReceived(const QByteArray &input);
-    void stopMonitorClipboard();
+    void stopEventLoops();
 
 private:
     void onMessageReceived(const QByteArray &data, int messageCode);

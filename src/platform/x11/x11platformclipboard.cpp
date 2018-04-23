@@ -24,12 +24,11 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 
-#include "x11displayguard.h"
-
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
 #include <QClipboard>
+#include <QX11Info>
 
 namespace {
 
@@ -49,8 +48,7 @@ bool isSelectionIncomplete(Display *display)
 
 } // namespace
 
-X11PlatformClipboard::X11PlatformClipboard(const std::shared_ptr<X11DisplayGuard> &d)
-    : d(d)
+X11PlatformClipboard::X11PlatformClipboard()
 {
     initSingleShotTimer( &m_timerCheckClipboard, 50, this, SLOT(onClipboardChanged()) );
     initSingleShotTimer( &m_timerCheckSelection, 100, this, SLOT(onSelectionChanged()) );
@@ -112,10 +110,12 @@ void X11PlatformClipboard::onSelectionChanged()
 
 bool X11PlatformClipboard::waitIfSelectionIncomplete()
 {
-    if (!d->display())
+    if (!QX11Info::isPlatformX11())
         return true;
 
-    if ( isSelectionIncomplete(d->display()) ) {
+    auto display = QX11Info::display();
+
+    if ( isSelectionIncomplete(display) ) {
         m_timerCheckSelection.start();
         return true;
     }

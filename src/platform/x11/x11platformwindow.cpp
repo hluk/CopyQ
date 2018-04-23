@@ -21,7 +21,8 @@
 #include "gui/clipboardspy.h"
 #include "platform/platformcommon.h"
 #include "x11platformwindow.h"
-#include "x11displayguard.h"
+
+#include <QX11Info>
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -178,10 +179,12 @@ public:
     unsigned char *data;
 };
 
-Window getCurrentWindow(Display *display)
+Window getCurrentWindow()
 {
-    Q_ASSERT(display);
+    if (!QX11Info::isPlatformX11())
+        return 0L;
 
+    auto display = QX11Info::display();
     XSync(display, False);
 
     static Atom atomWindow = XInternAtom(display, "_NET_ACTIVE_WINDOW", true);
@@ -197,28 +200,28 @@ Window getCurrentWindow(Display *display)
 } // namespace
 
 
-X11PlatformWindow::X11PlatformWindow(const std::shared_ptr<X11DisplayGuard> &d)
-    : m_window(getCurrentWindow(d->display()))
-    , d(d)
+X11PlatformWindow::X11PlatformWindow()
+    : m_window(getCurrentWindow())
 {
-    Q_ASSERT(d->display());
 }
 
-X11PlatformWindow::X11PlatformWindow(const std::shared_ptr<X11DisplayGuard> &d, Window winId)
+X11PlatformWindow::X11PlatformWindow(Window winId)
     : m_window(winId)
-    , d(d)
 {
-    Q_ASSERT(d->display());
 }
 
 QString X11PlatformWindow::getTitle()
 {
     Q_ASSERT( isValid() );
 
-    static Atom atomName = XInternAtom(d->display(), "_NET_WM_NAME", false);
-    static Atom atomUTF8 = XInternAtom(d->display(), "UTF8_STRING", false);
+    if (!QX11Info::isPlatformX11())
+        return QString();
 
-    X11WindowProperty property(d->display(), m_window, atomName, 0, (~0L), atomUTF8);
+    auto display = QX11Info::display();
+    static Atom atomName = XInternAtom(display, "_NET_WM_NAME", false);
+    static Atom atomUTF8 = XInternAtom(display, "UTF8_STRING", false);
+
+    X11WindowProperty property(display, m_window, atomName, 0, (~0L), atomUTF8);
     if ( property.isValid() ) {
         const auto len = static_cast<int>(property.len);
         QByteArray result(reinterpret_cast<const char *>(property.data), len);
@@ -232,12 +235,17 @@ void X11PlatformWindow::raise()
 {
     Q_ASSERT( isValid() );
 
+    if (!QX11Info::isPlatformX11())
+        return;
+
+    auto display = QX11Info::display();
+
     XEvent e{};
     memset(&e, 0, sizeof(e));
     e.type = ClientMessage;
-    e.xclient.display = d->display();
+    e.xclient.display = display;
     e.xclient.window = m_window;
-    e.xclient.message_type = XInternAtom(d->display(), "_NET_ACTIVE_WINDOW", False);
+    e.xclient.message_type = XInternAtom(display, "_NET_ACTIVE_WINDOW", False);
     e.xclient.format = 32;
     e.xclient.data.l[0] = 2;
     e.xclient.data.l[1] = CurrentTime;
@@ -246,16 +254,16 @@ void X11PlatformWindow::raise()
     e.xclient.data.l[4] = 0;
 
     XWindowAttributes wattr{};
-    XGetWindowAttributes(d->display(), m_window, &wattr);
+    XGetWindowAttributes(display, m_window, &wattr);
 
     if (wattr.map_state == IsViewable) {
-        XSendEvent(d->display(), wattr.screen->root, False,
+        XSendEvent(display, wattr.screen->root, False,
                    SubstructureNotifyMask | SubstructureRedirectMask,
                    &e);
-        XSync(d->display(), False);
-        XRaiseWindow(d->display(), m_window);
-        XSetInputFocus(d->display(), m_window, RevertToPointerRoot, CurrentTime);
-        XSync(d->display(), False);
+        XSync(display, False);
+        XRaiseWindow(display, m_window);
+        XSetInputFocus(display, m_window, RevertToPointerRoot, CurrentTime);
+        XSync(display, False);
     }
 }
 
@@ -288,7 +296,7 @@ bool X11PlatformWindow::waitForFocus(int ms)
 
     SleepTimer t(ms);
     do {
-        const auto currentWindow = getCurrentWindow(d->display());
+        const auto currentWindow = getCurrentWindow();
         if (currentWindow == m_window)
             return true;
     } while (t.sleep());
@@ -306,10 +314,15 @@ void X11PlatformWindow::sendKeyPress(int modifier, int key)
             return;
     }
 
+    if (!QX11Info::isPlatformX11())
+        return;
+
+    auto display = QX11Info::display();
+
 #ifdef HAS_X11TEST
-    simulateKeyPress(d->display(), QList<int>() << modifier, static_cast<uint>(key));
+    simulateKeyPress(display, QList<int>() << modifier, static_cast<uint>(key));
 #else
     const int modifierMask = (modifier == XK_Control_L) ? ControlMask : ShiftMask;
-    simulateKeyPress(d->display(), m_window, modifierMask, key);
+    simulateKeyPress(display, m_window, modifierMask, key);
 #endif
 }

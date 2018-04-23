@@ -323,12 +323,6 @@ ItemWidget *ItemDelegate::updateCache(const QModelIndex &index, const QVariantMa
     return w;
 }
 
-void ItemDelegate::invalidateCache()
-{
-    for(auto &w : m_cache)
-        w.reset();
-}
-
 bool ItemDelegate::invalidateHidden(QWidget *widget)
 {
     if ( widget->isVisible() && m_view->isVisible() )

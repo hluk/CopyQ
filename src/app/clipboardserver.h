@@ -71,7 +71,7 @@ public slots:
     void loadSettings();
 
 signals:
-    void terminateClients();
+    void closeClients();
 
 protected:
     bool eventFilter(QObject *object, QEvent *ev) override;
@@ -117,6 +117,10 @@ private:
     bool askToQuit();
 
     bool hasRunningCommands() const;
+
+    void terminateClients(int waitMs);
+
+    void waitForClientsToFinish(int waitMs);
 
     Server *m_server = nullptr;
     MainWindow* m_wnd = nullptr;

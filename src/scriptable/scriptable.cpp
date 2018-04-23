@@ -2395,7 +2395,7 @@ void Scriptable::monitorClipboard()
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
-    connect(this, &Scriptable::stopMonitorClipboardLoop, &loop, &QEventLoop::quit);
+    connect(this, &Scriptable::stop, &loop, &QEventLoop::quit);
     connect( &monitor, &ClipboardMonitor::runScriptRequest,
              this, &Scriptable::onMonitorRunScriptRequest );
     loop.exec();
@@ -2432,6 +2432,11 @@ void Scriptable::onMonitorRunScriptRequest(const QString &script, const QVariant
     m_data = data;
     m_proxy->setActionData(m_actionId, m_data);
     eval(script);
+    if ( engine()->hasUncaughtException() ) {
+        const auto exceptionText = processUncaughtException("ClipboardMonitor::" + script);
+        const auto response = createScriptErrorMessage(exceptionText).toUtf8();
+        sendMessageToClient(response, CommandException);
+    }
 }
 
 void Scriptable::onProvidedClipboardChanged()
@@ -2454,7 +2459,7 @@ bool Scriptable::sourceScriptCommands()
         eval(command.cmd, command.name);
         engine()->popContext();
         if ( engine()->hasUncaughtException() ) {
-            const auto exceptionText = processUncaughtException(command.cmd);
+            const auto exceptionText = processUncaughtException("ScriptCommand::" + command.cmd);
             const auto response = createScriptErrorMessage(exceptionText).toUtf8();
             sendMessageToClient(response, CommandException);
             return false;
@@ -2589,7 +2594,10 @@ void Scriptable::showExceptionMessage(const QString &message)
     const auto title = actionName.isEmpty()
         ? tr("Exception")
         : tr("Exception in %1").arg( quoteString(actionName) );
-    m_proxy->showMessage(title, message, QString(QChar(IconExclamationCircle)), 8000);
+
+    const auto id = qHash(title) ^ qHash(message);
+    const auto notificationId = QString::number(id);
+    m_proxy->showMessage(title, message, QString(QChar(IconExclamationCircle)), 8000, notificationId);
 }
 
 QVector<int> Scriptable::getRows() const
@@ -2676,9 +2684,9 @@ bool Scriptable::setClipboard(QVariantMap *data, ClipboardMode mode)
     return false;
 }
 
-void Scriptable::stopMonitorClipboard()
+void Scriptable::stopEventLoops()
 {
-    emit stopMonitorClipboardLoop();
+    emit stop();
 }
 
 void Scriptable::changeItem(bool create)
@@ -2941,6 +2949,7 @@ void Scriptable::provideClipboard(ClipboardMode mode)
 
     QEventLoop loop;
     connect( this, &Scriptable::finished, &loop, &QEventLoop::quit );
+    connect( this, &Scriptable::stop, &loop, &QEventLoop::quit );
     connect( clipboard.get(), &PlatformClipboard::changed, this, slot );
     loop.exec();
 }
