@@ -8,6 +8,7 @@ Build-Depends:
  libqt5svg5-dev,
  libxfixes-dev,
  libxtst-dev,
+ libqt5x11extras5-dev,
  qtbase5-private-dev,
  qtscript5-dev,
  qttools5-dev,

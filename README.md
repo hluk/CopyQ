@@ -206,6 +206,7 @@ sudo apt install \
   qttools5-dev \
   qttools5-dev-tools \
   libqt5svg5-dev \
+  libqt5x11extras5-dev \
   libxfixes-dev \
   libxtst-dev \
   libqt5svg5
@@ -219,7 +220,8 @@ sudo yum install \
   qt5-qtbase-devel \
   qt5-qtsvg-devel \
   qt5-qttools-devel \
-  qt5-qtscript-devel
+  qt5-qtscript-devel \
+  qt5-qtx11extras-devel
 ```
 
 ### Build the App

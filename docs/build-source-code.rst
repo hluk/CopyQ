@@ -32,13 +32,17 @@ On **Ubuntu** you can install all build dependencies with:
 
 ::
 
-    sudo apt install cmake qtbase5-private-dev qtscript5-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev
-
-Following is optional but recommended:
-
-::
-
-    sudo apt install libxfixes-dev libxtst-dev
+    sudo apt install \
+      git cmake \
+      qtbase5-private-dev \
+      qtscript5-dev \
+      qttools5-dev \
+      qttools5-dev-tools \
+      libqt5svg5-dev \
+      libqt5x11extras5-dev \
+      libxfixes-dev \
+      libxtst-dev \
+      libqt5svg5
 
 Fedora / RHEL / Centos
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -48,16 +52,12 @@ On **Fedora** and derivatives you can install all build dependencies with:
 
     sudo yum install \
       gcc-c++ git cmake \
+      libXtst-devel libXfixes-devel \
       qt5-qtbase-devel \
       qt5-qtsvg-devel \
       qt5-qttools-devel \
-      qt5-qtscript-devel
-
-Following is optional but recommended:
-
-::
-
-    sudo yum install libxfixes-dev libxtst-dev
+      qt5-qtscript-devel \
+      qt5-qtx11extras-devel
 
 Build and Install
 -----------------
@@ -66,7 +66,7 @@ Build the source code with CMake and make or using an IDE of your choice (see ne
 
 ::
 
-    cd CopyQ    # set root source code directory as current
+    cd CopyQ
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .
     make
     make install
