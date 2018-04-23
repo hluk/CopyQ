@@ -2829,25 +2829,28 @@ void MainWindow::activateCurrentItem()
     if (!c)
         return;
 
-    // Copy current item or selection to clipboard.
-    waitForClipboardAndSelection([&]() {
-        c->moveToClipboard();
-    });
-
-    resetStatus();
-
     // Perform custom actions on item activation.
     PlatformWindowPtr lastWindow = m_lastWindow;
+    const bool paste = lastWindow && m_options.activatePastes() && canPaste();
+    const bool activateWindow = paste || (lastWindow && m_options.activateFocuses());
 
-    if ( m_options.activateCloses() )
-        hideWindow();
+    // Copy current item or selection to clipboard.
+    // While clipboard is being set (in separate process)
+    // activate target window for pasting.
+    waitForClipboardAndSelection([&]() {
+        c->moveToClipboard();
 
-    if (lastWindow) {
-        if (m_options.activatePastes() && canPaste())
-            pasteClipboard(lastWindow);
-        else if (m_options.activateFocuses())
+        if ( m_options.activateCloses() )
+            hideWindow();
+
+        if (activateWindow)
             lastWindow->raise();
-    }
+
+        resetStatus();
+    });
+
+    if (paste)
+        pasteClipboard(lastWindow);
 }
 
 void MainWindow::disableClipboardStoring(bool disable)
