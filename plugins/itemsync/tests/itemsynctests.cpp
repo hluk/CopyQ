@@ -197,6 +197,8 @@ void ItemSyncTests::itemsToFiles()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
     const Args args = Args() << "tab" << tab1;
 
     RUN(args << "add" << "A" << "B" << "C", "");
@@ -211,6 +213,8 @@ void ItemSyncTests::filesToItems()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
     const Args args = Args() << "tab" << tab1;
 
     RUN(args << "size", "0\n");
@@ -233,6 +237,8 @@ void ItemSyncTests::removeOwnItems()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
@@ -272,6 +278,8 @@ void ItemSyncTests::removeNotOwnedItems()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     const QString fileA = "test1.txt";
@@ -333,6 +341,8 @@ void ItemSyncTests::removeFiles()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
@@ -368,6 +378,8 @@ void ItemSyncTests::modifyItems()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
@@ -378,7 +390,7 @@ void ItemSyncTests::modifyItems()
     QCOMPARE(file->readAll().data(), QByteArray("C").data());
     file->close();
 
-    RUN(args << "keys" << "RIGHT" << "HOME" << "DOWN" << "F2" << ":XXX" << "F2", "");
+    RUN(args << "keys" << "HOME" << "DOWN" << "F2" << ":XXX" << "F2", "");
     RUN(args << "size", "4\n");
     RUN(args << "read" << "0" << "1" << "2" << "3", "D,XXX,B,A");
 
@@ -392,6 +404,8 @@ void ItemSyncTests::modifyFiles()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
@@ -422,12 +436,13 @@ void ItemSyncTests::notes()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
 
     const Args args = Args() << "separator" << ";" << "tab" << tab1;
 
     RUN(args << "add" << "TEST1", "");
 
-    RUN(args << "keys" << "LEFT"
+    RUN(args << "keys"
         << "CTRL+N" << ":TEST2" << "F2"
         << "CTRL+N" << ":TEST3" << "F2", "");
     RUN(args << "size", "3\n");
@@ -473,75 +488,91 @@ void ItemSyncTests::customFormats()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
     const Args args = Args() << "separator" << ";" << "tab" << tab1;
 
-    const QByteArray data1 = "Custom format content";
-    createFile(dir1, "test1.xxx", data1);
+    createFile(dir1, "test1.xxx", "TEST1");
+
+    const auto mime1 = COPYQ_MIME_PREFIX "test-xxx";
+    const auto mime2 = COPYQ_MIME_PREFIX "test-zzz";
 
     WAIT_ON_OUTPUT(args << "size", "1\n");
-    RUN(args << "keys" << "LEFT", "");
-    RUN(args << "read" << COPYQ_MIME_PREFIX "test-xxx" << "0", data1);
+    RUN(args << "read" << mime1 << "0", "TEST1");
 
-    const QByteArray data2 = "Other custom format content";
-    createFile(dir1, "test2.yyy", data2);
+    createFile(dir1, "test2.yyy", "TEST2");
 
     WAIT_ON_OUTPUT(args << "size", "2\n");
-    RUN(args << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0", data2);
+    RUN(args << "read" << mime2 << "0", "TEST2");
 
-    const QByteArray data3 = "Last custom format content";
-    createFile(dir1, "test3.zzz", data3);
+    createFile(dir1, "test3.zzz", "TEST3");
 
-    WAIT_ON_OUTPUT(args << "size", "3\n");
-    RUN(args << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0", data3);
+    const auto script = QString(R"_(
+        print('  size: ')
+        print(size())
+        print('  basename: ')
+        print(read(plugins.itemsync.mimeBaseName, 0, 1, 2))
+        print('  mime1: ')
+        print(read('%1', 0, 1, 2))
+        print('  mime2: ')
+        print(read('%2', 0, 1, 2))
+        )_")
+        .arg(mime1)
+        .arg(mime2);
 
-    RUN(args << "read" << COPYQ_MIME_PREFIX "test-xxx" << "0" << "1" << "2",
-        ";;" + data1);
-    RUN(args << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << "1" << "2",
-        data3 + ";" + data2 + ";");
-    RUN(args << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << "1" << COPYQ_MIME_PREFIX "test-xxx" << "2",
-        data3 + ";" + data2 + ";" + data1);
+    WAIT_ON_OUTPUT(
+        args << script,
+        "  size: 3"
+        "  basename: test3;test2;test1"
+        "  mime1: ;;TEST1"
+        "  mime2: TEST3;TEST2;"
+        );
 
     // Remove
     dir1.remove("test2.yyy");
 
-    WAIT_ON_OUTPUT(args << "size", "2\n");
-    RUN(args << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << COPYQ_MIME_PREFIX "test-xxx" << "1",
-        data3 + ";" + data1);
+    WAIT_ON_OUTPUT(
+        args << script,
+        "  size: 2"
+        "  basename: test3;test1;"
+        "  mime1: ;TEST1;"
+        "  mime2: TEST3;;"
+        );
 
     // Modify file
-    const QByteArray data4 = " with update!";
     FilePtr file = dir1.file("test1.xxx");
     QVERIFY(file->open(QIODevice::Append));
-    file->write(data4);
+    file->write("UPDATE");
     file->close();
 
     WAIT_ON_OUTPUT(
-        Args(args) << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << COPYQ_MIME_PREFIX "test-xxx" << "1",
-        data3 + ";" + data1 + data4);
-    RUN(args << "size", "2\n");
+        args << script,
+        "  size: 2"
+        "  basename: test3;test1;"
+        "  mime1: ;TEST1UPDATE;"
+        "  mime2: TEST3;;"
+        );
 
     // Create item with custom data
-    const QByteArray data5 = "New item data!";
-    RUN(args << "write" << COPYQ_MIME_PREFIX "test-zzz" << data5, "");
+    RUN(args << "write" << mime2 << "NEW_ITEM", "");
 
     RUN(args << "size", "3\n");
 
     const QString fileData = QString(fileNameForId(0)).replace("txt", "zzz");
 
     // Check data
-    const QByteArray data6 = " And another data!";
     file = dir1.file(fileData);
     QVERIFY(file->exists());
     QVERIFY(file->open(QIODevice::ReadWrite));
-    QCOMPARE(file->readAll().data(), data5.data());
+    QCOMPARE(file->readAll().data(), "NEW_ITEM");
 
     // Modify data
-    file->write(data6);
+    file->write("+UPDATE");
     file->close();
 
     WAIT_ON_OUTPUT(
-        Args(args) << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << "1" << COPYQ_MIME_PREFIX "test-xxx" << "2",
-        data5 + data6 + ";" + data3 + ";" + data1 + data4);
+        Args(args) << "read" << mime2 << "0" << "1" << mime1 << "2",
+        "NEW_ITEM+UPDATE;TEST3;TEST1UPDATE");
     RUN(args << "size", "3\n");
 }
 
@@ -549,6 +580,8 @@ void ItemSyncTests::getAbsoluteFilePath()
 {
     TestDir dir1(1);
     const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
     const Args args = Args() << "separator" << ";" << "tab" << tab1;
 
     const auto code = QString(
