@@ -531,27 +531,27 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="85"/>
         <source>CopyQ server is already running.</source>
-        <translation>CopyQ serveren kjører allerede.</translation>
+        <translation>CopyQ-tjeneren kjører allerede.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="303"/>
         <source>Cancel Active Commands</source>
-        <translation>Avbryt Aktive Kommandoer</translation>
+        <translation>Avbryt aktive kommandoer</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="304"/>
         <source>Cancel active commands and exit?</source>
-        <translation>Avbryt aktive kommandoer og avslutte?</translation>
+        <translation>Avbryt aktive kommandoer og avslutt?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="307"/>
         <source>Cancel Exiting</source>
-        <translation>Avbryt Avslutting</translation>
+        <translation>Avbryt avslutting</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Exit Anyway</source>
-        <translation>Avslutt Alikevel</translation>
+        <translation>Avslutt likevel</translation>
     </message>
 </context>
 <context>
@@ -568,7 +568,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation>CopyQ Kommandoer</translation>
+        <translation>CopyQ-kommandoer</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -583,17 +583,17 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="62"/>
         <source>&amp;Load Commands...</source>
-        <translation>&amp;Last Kommandoer...</translation>
+        <translation>&amp;Last Kommandoer…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="72"/>
         <source>Sa&amp;ve Selected Commands...</source>
-        <translation>Lagre Valgte Kommandoer...</translation>
+        <translation>Lagre valgte kommandoer…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
         <source>Copy Selected</source>
-        <translation>Kopier Valgte</translation>
+        <translation>Kopier valgte</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
@@ -3539,7 +3539,7 @@ som kan bestå av bokstaver, tall, &apos;-&apos; eeler &apos;_&apos;!</translati
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
         <source>Exit server.</source>
-        <translation>Avslutt server.</translation>
+        <translation>Avslutt tjener.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
@@ -3859,7 +3859,7 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="82"/>
         <source>Starts server if no command is specified.</source>
-        <translation>Start server hvis ingen kommando er spesifisert.</translation>
+        <translation>Start tjener hvis ingen kommando er spesifisert.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="83"/>
@@ -3925,7 +3925,7 @@ Skriv ut programversjon og biblioteker.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="889"/>
         <source>Terminating server.
 </source>
-        <translation>Avslutter serveren.
+        <translation>Avslutter tjeneren.
 </translation>
     </message>
     <message>
