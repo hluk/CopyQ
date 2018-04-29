@@ -47,6 +47,8 @@ Upload packages and binaries to:
 
 Update Homebrew package for OS X.
 
+    brew install vitorgalvao/tiny-scripts/cask-repair
+    cask upgrade cask-repair
     cask-repair copyq
 
 Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
