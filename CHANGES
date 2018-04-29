@@ -1,3 +1,19 @@
+v3.4.0
+- Fix icon sizes in menu
+- Fix showing dialog() above main window
+- Fix closing clipboard monitor and provider on exit
+- Safer data serialization and communication protocol
+- Smoother colorized application icon
+- Faster pasting to target window
+- Run script commands in own context
+- Omit showing same notification multiple times
+- Omit handling text/uri-list by default
+- OSX: Fix opening main window from tray menu
+- OSX: Fix exporting configuration
+- OSX: Fix focusing own windows for pasting
+- Linux: Fix crashing on Wayland
+- X11: Fix showing incorrect clipboard content
+
 v3.3.1
 - Mark tray menu item in clipboard
 - Scroll view when dragging items to top or bottom
