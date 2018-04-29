@@ -112,12 +112,13 @@ Selected items can be:
 * edited (`F2`),
 * removed (`Delete`),
 * sorted (`Ctrl+Shift+S`, `Ctrl+Shift+R`),
-* moved around (with mouse or `Ctrl+Up/Down`) or
-* copied back to clipboard (`Enter`, `Ctrl+V`).
+* moved around (with mouse or `Ctrl+Up/Down`),
+* copied back to clipboard (`Ctrl+C`) or
+* pasted to previously active window (`Enter`).
 
 All items will be restored when application is started next time.
 
-To exit the application select Exit from tray menu or press Ctrl-Q keys in the
+To exit the application select Exit from tray menu or press `Ctrl-Q` keys in the
 application window.
 
 Read more:
@@ -206,6 +207,7 @@ sudo apt install \
   qttools5-dev \
   qttools5-dev-tools \
   libqt5svg5-dev \
+  libqt5x11extras5-dev \
   libxfixes-dev \
   libxtst-dev \
   libqt5svg5
@@ -219,7 +221,8 @@ sudo yum install \
   qt5-qtbase-devel \
   qt5-qtsvg-devel \
   qt5-qttools-devel \
-  qt5-qtscript-devel
+  qt5-qtscript-devel \
+  qt5-qtx11extras-devel
 ```
 
 ### Build the App
