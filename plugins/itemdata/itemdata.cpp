@@ -172,7 +172,7 @@ QStringList ItemDataLoader::formatsToSave() const
 {
     return m_settings.contains("formats")
             ? m_settings["formats"].toStringList()
-            : QStringList() << mimeUriList << QString("text/xml");
+            : QStringList("text/xml");
 }
 
 QVariantMap ItemDataLoader::applySettings()
