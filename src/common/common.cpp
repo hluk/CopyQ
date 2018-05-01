@@ -214,13 +214,23 @@ QVariantMap cloneData(const QMimeData &data, QStringList formats)
     QImage image;
     bool imageLoaded = false;
 
-    // Ignore image data if text is available.
+    /*
+     Some apps provide images even when copying huge spreadsheet, this can
+     block those apps while generating and providing the data.
+
+     This code removes ignores any image data if text is available.
+
+     Images in SVG and other XML formats are expected to be relatively small
+     so these doesn't have to be ignored.
+     */
     if ( formats.contains(mimeText) && data.hasFormat(mimeText) ) {
         const QString mimeImagePrefix = "image/";
         const auto first = std::remove_if(
                     std::begin(formats), std::end(formats),
                     [&mimeImagePrefix](const QString &format) {
-                        return format.startsWith(mimeImagePrefix);
+                        return format.startsWith(mimeImagePrefix)
+                            && !format.contains("xml")
+                            && !format.contains("svg");
                     });
         formats.erase(first, std::end(formats));
     }
