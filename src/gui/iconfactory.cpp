@@ -338,11 +338,42 @@ private:
     QColor m_tagColor;
 };
 
-class ImageIconEngine : public BaseIconEngine
+class FontIconEngine : public BaseIconEngine
 {
 public:
-    ImageIconEngine(const QString &iconName, const QString &tag, QColor tagColor)
+    FontIconEngine(ushort iconId, const QString &tag, QColor tagColor)
         : BaseIconEngine(tag, tagColor)
+        , m_iconId(iconId)
+    {
+    }
+
+    QIconEngine *clone() const override
+    {
+        return new FontIconEngine(*this);
+    }
+
+    QPixmap doCreatePixmap(QSize size, QIcon::Mode mode, QIcon::State, QPainter *painter) override
+    {
+        QPixmap pixmap(size);
+        pixmap.fill(Qt::transparent);
+
+        if (m_iconId == 0)
+            return pixmap;
+
+        drawFontIcon( &pixmap, m_iconId, size.width(), size.height(), colorForMode(painter, mode) );
+
+        return pixmap;
+    }
+
+private:
+    ushort m_iconId;
+};
+
+class ImageIconEngine : public FontIconEngine
+{
+public:
+    ImageIconEngine(const QString &iconName, ushort fallbackIconId, const QString &tag, QColor tagColor)
+        : FontIconEngine(fallbackIconId, tag, tagColor)
         , m_iconName(iconName)
     {
     }
@@ -355,7 +386,7 @@ public:
     QPixmap doCreatePixmap(QSize size, QIcon::Mode mode, QIcon::State state, QPainter *painter) override
     {
         if ( m_iconName.isEmpty() )
-            return QPixmap();
+            return FontIconEngine::doCreatePixmap(size, mode, state, painter);
 
         // Tint tab icons.
         if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
@@ -402,42 +433,11 @@ public:
             return pixmap;
         }
 
-        return QPixmap();
+        return FontIconEngine::doCreatePixmap(size, mode, state, painter);
     }
 
 private:
     QString m_iconName;
-};
-
-class FontIconEngine : public BaseIconEngine
-{
-public:
-    FontIconEngine(ushort iconId, const QString &tag, QColor tagColor)
-        : BaseIconEngine(tag, tagColor)
-        , m_iconId(iconId)
-    {
-    }
-
-    QIconEngine *clone() const override
-    {
-        return new FontIconEngine(*this);
-    }
-
-    QPixmap doCreatePixmap(QSize size, QIcon::Mode mode, QIcon::State, QPainter *painter) override
-    {
-        QPixmap pixmap(size);
-        pixmap.fill(Qt::transparent);
-
-        if (m_iconId == 0)
-            return pixmap;
-
-        drawFontIcon( &pixmap, m_iconId, size.width(), size.height(), colorForMode(painter, mode) );
-
-        return pixmap;
-    }
-
-private:
-    ushort m_iconId;
 };
 
 class AppIconEngine : public BaseIconEngine
@@ -521,7 +521,7 @@ public:
     {
         if ( canUseFontIcon(iconId, iconName) )
             return QIcon( new FontIconEngine(iconId, tag, tagColor) );
-        return QIcon( new ImageIconEngine(iconName, tag, tagColor) );
+        return QIcon( new ImageIconEngine(iconName, iconId, tag, tagColor) );
     }
 
     static QIcon createIcon(AppIconType iconType)
