@@ -72,7 +72,7 @@ choose what to import back.
 
 .. note::
 
-   Importing tabs and commands won't override existing tabs but create new ones
+   Importing tabs and commands won't override existing tabs but create new ones.
 
 How to enable or disable displaying notification when clipboard changes?
 ------------------------------------------------------------------------
@@ -206,6 +206,15 @@ managers is ``text/uri-list``. Other special formats include
 ``x-special/gnome-copied-files`` for Nautilus,
 ``application/x-kde-cutselection`` for Dolphin. These formats are used
 to specify type of action (copy or cut).
+
+Why pasting URL or file items doesn't work in some applications?
+----------------------------------------------------------------
+
+Some application can handle ``text/uri-list`` formats copied from web browsers
+or file managers in unexpected ways.
+
+To fix this and always save URLs as plain text, remove ``text/uri-list`` from
+format list from configuration ("Data" item under "Item" configuration tab).
 
 Where to find saved items and configuration?
 --------------------------------------------
