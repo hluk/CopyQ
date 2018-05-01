@@ -526,6 +526,11 @@ QString ItemEncryptedScriptable::generateTestKeys()
     return QString();
 }
 
+bool ItemEncryptedScriptable::isGpgInstalled()
+{
+    return ::isGpgInstalled();
+}
+
 QByteArray ItemEncryptedScriptable::encrypt(const QByteArray &bytes)
 {
     const auto encryptedBytes = readGpgOutput(QStringList("--encrypt"), bytes);

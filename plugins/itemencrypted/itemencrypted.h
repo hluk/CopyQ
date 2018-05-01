@@ -79,6 +79,7 @@ public slots:
     void pasteEncryptedItems();
 
     QString generateTestKeys();
+    bool isGpgInstalled();
 
 private:
     QByteArray encrypt(const QByteArray &bytes);
