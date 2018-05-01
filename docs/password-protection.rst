@@ -15,8 +15,10 @@ The plugin configuration (under "Items" configuration tab in
 Configuration dialog) may prompt you to install
 `GnuPG <http://www.gnupg.org/>`__:
 
--  For Windows you can install
-   `Gpg4win <http://gpg4win.org/download.html>`__.
+-  For Windows you can use `Chocolatey <https://chocolatey.org/install>`__ to
+   install `Gpg4win Vanilla <https://chocolatey.org/packages/gpg4win-vanilla>`__::
+
+       choco install gpg4win-vanilla
 
 -  For Linux install ``gpg`` command line utility. It's usually provided
    by ``gnupg`` package but the package name may differ on some
