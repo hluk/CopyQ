@@ -41,9 +41,9 @@ namespace {
 
 namespace Columns {
 enum Columns {
-    Empty, // First column is disabled so the widgets are focused instead of table on Tab key.
     Icon,
     Text,
+    Type,
     Shortcut,
 
     Count
@@ -107,7 +107,6 @@ ShortcutsWidget::ShortcutsWidget(QWidget *parent)
     ui->tableWidget->setColumnCount(Columns::Count);
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->horizontalHeader()->hide();
-    ui->tableWidget->horizontalHeader()->resizeSection(Columns::Empty, 0);
     ui->tableWidget->verticalHeader()->hide();
 
     const int iconSize = iconFontSizePixels();
@@ -218,8 +217,9 @@ void ShortcutsWidget::showEvent(QShowEvent *event)
     }
 
     QWidget::showEvent(event);
-    ui->tableWidget->resizeColumnToContents(Columns::Text);
     ui->tableWidget->resizeColumnToContents(Columns::Icon);
+    ui->tableWidget->resizeColumnToContents(Columns::Text);
+    ui->tableWidget->resizeColumnToContents(Columns::Type);
     m_timerCheckAmbiguous.start(); // Update because shortcuts for commands may have changed.
 }
 
@@ -282,10 +282,6 @@ void ShortcutsWidget::addShortcutRow(MenuAction &action)
     table->insertRow(row);
 
     auto tableItem = new QTableWidgetItem();
-    table->setItem(row, Columns::Empty, tableItem);
-    tableItem->setFlags(Qt::NoItemFlags);
-
-    tableItem = new QTableWidgetItem();
     action.tableItem = tableItem;
     table->setItem(row, Columns::Icon, tableItem);
     tableItem->setFlags(Qt::ItemIsEnabled);
@@ -293,6 +289,14 @@ void ShortcutsWidget::addShortcutRow(MenuAction &action)
     tableItem = new QTableWidgetItem(uiText(action.text));
     table->setItem(row, Columns::Text, tableItem);
     tableItem->setFlags(Qt::ItemIsEnabled);
+
+    tableItem = new QTableWidgetItem();
+    table->setItem(row, Columns::Type, tableItem);
+    tableItem->setFlags(Qt::ItemIsEnabled);
+    if (action.command.type() & CommandType::GlobalShortcut) {
+        tableItem->setIcon( getIcon("", IconExternalLinkSquareAlt) );
+        tableItem->setToolTip( tr("Shortcut can be triggered from any application") );
+    }
 
     action.shortcutButton = new ShortcutButton(table);
     table->setCellWidget(row, Columns::Shortcut, action.shortcutButton);
