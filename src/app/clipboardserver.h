@@ -125,6 +125,7 @@ private:
     Server *m_server = nullptr;
     MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;
+    bool m_preventMonitorStart = false;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;

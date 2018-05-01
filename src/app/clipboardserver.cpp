@@ -108,11 +108,11 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( qApp, &QCoreApplication::aboutToQuit,
              this, &ClipboardServer::onAboutToQuit );
 
-    connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
-             this, SLOT(onCommitData(QSessionManager&)) );
-
-    connect( qApp, SIGNAL(saveStateRequest(QSessionManager&)),
-             this, SLOT(onSaveState(QSessionManager&)) );
+    connect( qApp, &QGuiApplication::commitDataRequest, this, &ClipboardServer::onCommitData );
+    connect( qApp, &QGuiApplication::saveStateRequest, this, &ClipboardServer::onSaveState );
+#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
+    qApp->setFallbackSessionManagementEnabled(false);
+#endif
 
     connect( m_wnd, SIGNAL(requestExit()),
              this, SLOT(maybeQuit()) );
@@ -166,7 +166,7 @@ void ClipboardServer::stopMonitoring()
 
 void ClipboardServer::startMonitoring()
 {
-    if (m_monitor || wasClosed() || !m_wnd->isMonitoringEnabled())
+    if (m_monitor || m_preventMonitorStart || !m_wnd->isMonitoringEnabled())
         return;
 
     COPYQ_LOG("Starting monitor");
@@ -217,9 +217,7 @@ void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
 
-    // wasClosed() is true after App::exit() is called and
-    // it prevents monitor process restarting.
-    Q_ASSERT(wasClosed());
+    m_preventMonitorStart = true;
 
     terminateClients(10000);
     m_server->close(); // No new connections can be open.
@@ -232,11 +230,14 @@ void ClipboardServer::onCommitData(QSessionManager &sessionManager)
 {
     COPYQ_LOG("Got commit data request from session manager.");
 
+    m_preventMonitorStart = true;
     const bool cancel = sessionManager.allowsInteraction() && !askToQuit();
     sessionManager.release();
 
     if (cancel) {
         sessionManager.cancel();
+        m_preventMonitorStart = false;
+        startMonitoring();
     } else {
         m_wnd->saveTabs();
 

@@ -279,6 +279,8 @@ void ClipboardClient::start(const QStringList &arguments)
 
     connect( this, &ClipboardClient::stopEventLoops,
              &scriptable, &Scriptable::stopEventLoops );
+    connect( qApp, &QCoreApplication::aboutToQuit,
+             &scriptable, &Scriptable::stopEventLoops );
 
     scriptable.executeArguments(arguments);
 }
