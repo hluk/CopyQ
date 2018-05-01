@@ -79,7 +79,6 @@ public slots:
     void pasteEncryptedItems();
 
     QString generateTestKeys();
-    bool isGpgInstalled();
 
 private:
     QByteArray encrypt(const QByteArray &bytes);
@@ -139,6 +138,7 @@ private slots:
 
 private:
     enum GpgProcessStatus {
+        GpgCheckIfInstalled,
         GpgNotInstalled,
         GpgNotRunning,
         GpgGeneratingKeys,
@@ -151,10 +151,12 @@ private:
 
     ItemSaverPtr createSaver();
 
+    GpgProcessStatus status() const;
+
     std::unique_ptr<Ui::ItemEncryptedSettings> ui;
     QVariantMap m_settings;
 
-    GpgProcessStatus m_gpgProcessStatus;
+    mutable GpgProcessStatus m_gpgProcessStatus;
     QProcess *m_gpgProcess;
 };
 

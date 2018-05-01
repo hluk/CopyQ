@@ -75,10 +75,10 @@ QStringList getDefaultEncryptCommandArguments(const QString &publicKeyPath)
                          << "--no-default-keyring" << "--keyring" << publicKeyPath;
 }
 
-void startGpgProcess(QProcess *p, const QStringList &args)
+void startGpgProcess(QProcess *p, const QStringList &args, QIODevice::OpenModeFlag mode)
 {
     KeyPairPaths keys;
-    p->start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) + args);
+    p->start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) + args, mode);
 }
 
 bool verifyProcess(QProcess *p)
@@ -159,7 +159,7 @@ QString exportGpgKey()
 QByteArray readGpgOutput(const QStringList &args, const QByteArray &input = QByteArray())
 {
     QProcess p;
-    startGpgProcess( &p, args );
+    startGpgProcess(&p, args, QIODevice::ReadWrite);
     p.write(input);
     p.closeWriteChannel();
     p.waitForFinished();
@@ -207,7 +207,7 @@ void startGenerateKeysProcess(QProcess *process, bool useTransientPasswordlessKe
                 "\n%transient-key";
     }
 
-    startGpgProcess(process, args);
+    startGpgProcess(process, args, QIODevice::ReadWrite);
     process->write( "\nKey-Type: RSA"
              "\nKey-Usage: encrypt"
              "\nKey-Length: 2048"
@@ -232,8 +232,8 @@ QString exportImportGpgKeys()
 bool isGpgInstalled()
 {
     QProcess p;
-    startGpgProcess(&p, QStringList("--version"));
-    p.closeWriteChannel();
+    startGpgProcess(&p, QStringList("--version"), QIODevice::ReadOnly);
+    p.closeReadChannel(QProcess::StandardError);
     p.waitForFinished();
 
     if (p.exitStatus() != QProcess::NormalExit || p.exitCode() != 0)
@@ -526,11 +526,6 @@ QString ItemEncryptedScriptable::generateTestKeys()
     return QString();
 }
 
-bool ItemEncryptedScriptable::isGpgInstalled()
-{
-    return ::isGpgInstalled();
-}
-
 QByteArray ItemEncryptedScriptable::encrypt(const QByteArray &bytes)
 {
     const auto encryptedBytes = readGpgOutput(QStringList("--encrypt"), bytes);
@@ -550,7 +545,7 @@ QByteArray ItemEncryptedScriptable::decrypt(const QByteArray &bytes)
 ItemEncryptedLoader::ItemEncryptedLoader()
     : ui()
     , m_settings()
-    , m_gpgProcessStatus(GpgNotRunning)
+    , m_gpgProcessStatus(GpgCheckIfInstalled)
     , m_gpgProcess(nullptr)
 {
 }
@@ -589,10 +584,7 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     ui->plainTextEditEncryptTabs->setPlainText(
                 m_settings.value("encrypt_tabs").toStringList().join("\n") );
 
-    // Check if gpg application is available.
-    if ( !isGpgInstalled() ) {
-        m_gpgProcessStatus = GpgNotInstalled;
-    } else {
+    if (status() != GpgNotInstalled) {
         KeyPairPaths keys;
         ui->labelShareInfo->setTextFormat(Qt::RichText);
         ui->labelShareInfo->setText( ItemEncryptedLoader::tr(
@@ -661,7 +653,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
     if ( !canLoadItems(file) )
         return nullptr;
 
-    if (m_gpgProcessStatus == GpgNotInstalled) {
+    if (status() == GpgNotInstalled) {
         emit error( ItemEncryptedLoader::tr("GnuPG must be installed to view encrypted tabs.") );
         return nullptr;
     }
@@ -669,7 +661,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
     importGpgKey();
 
     QProcess p;
-    startGpgProcess( &p, QStringList("--decrypt") );
+    startGpgProcess( &p, QStringList("--decrypt"), QIODevice::ReadWrite );
 
     char encryptedBytes[4096];
 
@@ -736,7 +728,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
 
 ItemSaverPtr ItemEncryptedLoader::initializeTab(const QString &, QAbstractItemModel *, int)
 {
-    if (m_gpgProcessStatus == GpgNotInstalled)
+    if (status() == GpgNotInstalled)
         return nullptr;
 
     return createSaver();
@@ -760,7 +752,7 @@ ItemScriptable *ItemEncryptedLoader::scriptableObject()
 
 QVector<Command> ItemEncryptedLoader::commands() const
 {
-    if (m_gpgProcessStatus == GpgNotRunning)
+    if (status() == GpgNotInstalled)
         return QVector<Command>();
 
     QVector<Command> commands;
@@ -808,13 +800,8 @@ QVector<Command> ItemEncryptedLoader::commands() const
 
 void ItemEncryptedLoader::setPassword()
 {
-    if (m_gpgProcessStatus == GpgGeneratingKeys)
+    if (status() != GpgNotRunning)
         return;
-
-    if (m_gpgProcess != nullptr) {
-        terminateGpgProcess();
-        return;
-    }
 
     if ( !keysExist() ) {
         m_gpgProcessStatus = GpgGeneratingKeys;
@@ -824,7 +811,7 @@ void ItemEncryptedLoader::setPassword()
         // Change password.
         m_gpgProcessStatus = GpgChangingPassword;
         m_gpgProcess = new QProcess(this);
-        startGpgProcess( m_gpgProcess, QStringList() << "--edit-key" << "copyq" << "passwd" << "save");
+        startGpgProcess( m_gpgProcess, QStringList() << "--edit-key" << "copyq" << "passwd" << "save", QIODevice::ReadOnly );
     }
 
     m_gpgProcess->waitForStarted();
@@ -871,7 +858,7 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
     }
 
     // Export and import private key to a file in configuration.
-    if ( m_gpgProcessStatus == GpgGeneratingKeys && error.isEmpty() )
+    if ( status() == GpgGeneratingKeys && error.isEmpty() )
         error = exportImportGpgKeys();
 
     if (!error.isEmpty())
@@ -888,17 +875,17 @@ void ItemEncryptedLoader::updateUi()
     if (ui == nullptr)
         return;
 
-    if (m_gpgProcessStatus == GpgNotInstalled) {
+    if (status() == GpgNotInstalled) {
         ui->labelInfo->setText("To use item encryption, install"
                                " <a href=\"http://www.gnupg.org/\">GnuPG</a>"
                                " application and restart CopyQ.");
         ui->pushButtonPassword->hide();
         ui->groupBoxEncryptTabs->hide();
         ui->groupBoxShareInfo->hide();
-    } else if (m_gpgProcessStatus == GpgGeneratingKeys) {
+    } else if (status() == GpgGeneratingKeys) {
         ui->labelInfo->setText( ItemEncryptedLoader::tr("Creating new keys (this may take a few minutes)...") );
         ui->pushButtonPassword->setText( ItemEncryptedLoader::tr("Cancel") );
-    } else if (m_gpgProcessStatus == GpgChangingPassword) {
+    } else if (status() == GpgChangingPassword) {
         ui->labelInfo->setText( ItemEncryptedLoader::tr("Setting new password...") );
         ui->pushButtonPassword->setText( ItemEncryptedLoader::tr("Cancel") );
     } else if ( !keysExist() ) {
@@ -922,4 +909,16 @@ ItemSaverPtr ItemEncryptedLoader::createSaver()
     connect( saver.get(), SIGNAL(error(QString)),
              this, SIGNAL(error(QString)) );
     return saver;
+}
+
+ItemEncryptedLoader::GpgProcessStatus ItemEncryptedLoader::status() const
+{
+    if (m_gpgProcessStatus == GpgCheckIfInstalled) {
+        if (isGpgInstalled())
+            m_gpgProcessStatus = GpgNotRunning;
+        else
+            m_gpgProcessStatus = GpgNotInstalled;
+    }
+
+    return m_gpgProcessStatus;
 }
