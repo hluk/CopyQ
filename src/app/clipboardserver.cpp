@@ -53,14 +53,16 @@ class QxtGlobalShortcut {};
 
 namespace {
 
-bool hasScriptCommand(const QVector<Command> &commands)
+uint scriptCommandsHash(const QVector<Command> &commands)
 {
+    uint hash = 0;
+
     for (const auto &command : commands) {
-        if (command.type() == CommandType::Script)
-            return true;
+        if (command.type() == CommandType::Script && command.enable)
+            hash ^= qHash(command.cmd);
     }
 
-    return false;
+    return hash;
 }
 
 } // namespace
@@ -207,7 +209,9 @@ void ClipboardServer::onCommandsSaved()
     }
 #endif
 
-    if ( m_monitor && hasScriptCommand(commands) ) {
+    const auto scriptCommandsHash_ = scriptCommandsHash(commands);
+    if ( m_monitor && scriptCommandsHash_ != m_scriptCommandsHash ) {
+        m_scriptCommandsHash = scriptCommandsHash_;
         stopMonitoring();
         startMonitoring();
     }
