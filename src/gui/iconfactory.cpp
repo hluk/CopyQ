@@ -457,7 +457,7 @@ public:
     QPixmap doCreatePixmap(QSize size, QIcon::Mode, QIcon::State, QPainter *) override
     {
         const bool running = m_iconType == AppIconRunning;
-        const QString suffix = running ? "-busy" : "-normal";
+        const auto suffix = running ? QLatin1String("-busy") : QLatin1String("");
         const QString sessionName = ::sessionName();
 
         QIcon icon;
