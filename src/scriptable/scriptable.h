@@ -77,6 +77,12 @@ public:
             ScriptableProxy *proxy,
             QObject *parent = nullptr);
 
+    enum class Abort {
+        None,
+        CurrentEvaluation,
+        AllEvaluations,
+    };
+
     // WORKAROUND: These methods override the one in QScriptable,
     //             which doesn't work well in some cases.
     QScriptContext *context() const;
@@ -116,13 +122,9 @@ public:
     void throwSaveError(const QString &filePath);
     void throwImportError(const QString &filePath);
 
-    void sendMessageToClient(const QByteArray &message, int exitCode);
-
     QScriptEngine *engine() const { return m_engine; }
 
-    bool isConnected() const { return m_connected; }
-
-    const QVariantMap &data() const { return m_data; }
+    bool canContinue() const { return m_abort == Abort::None && !m_failed; }
 
     QScriptValue getMimeText() const { return mimeText; }
     QScriptValue getMimeHtml() const { return mimeHtml; }
@@ -153,11 +155,15 @@ public:
 
     QScriptValue eval(const QString &script, const QString &fileName);
 
-    void executeArguments(const QStringList &args);
+    void setActionId(int actionId);
+    void setActionName(const QString &actionName);
+    int executeArguments(const QStringList &args);
 
     bool setClipboard(QVariantMap *data, ClipboardMode mode);
 
     void stopEventLoops();
+
+    void abortEvaluation(Abort abort = Abort::AllEvaluations);
 
 public slots:
     void setInput(const QByteArray &input);
@@ -358,7 +364,6 @@ public slots:
     void provideSelection();
 
 signals:
-    void sendMessage(const QByteArray &message, int messageCode);
     void dataReceived();
     void finished();
     void readInput();
@@ -396,6 +401,12 @@ private:
 
     QStringList arguments();
 
+    void print(const QByteArray &message);
+    void printError(const QByteArray &message);
+
+    void getActionData();
+    void setActionData();
+
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
@@ -405,8 +416,10 @@ private:
     QString m_inputSeparator;
     QScriptValue m_input;
     QVariantMap m_data;
+    QVariantMap m_oldData;
     int m_actionId = -1;
-    bool m_connected;
+    QString m_actionName;
+    Abort m_abort = Abort::None;
     int m_skipArguments = 0;
 
     // FIXME: Parameters for execute() shouldn't be global.
@@ -417,6 +430,9 @@ private:
     bool m_displayFunctionsLock = false;
 
     QScriptValue m_plugins;
+
+    Action *m_action = nullptr;
+    bool m_failed = false;
 };
 
 class NetworkReply : public QObject {

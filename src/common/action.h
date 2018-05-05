@@ -45,16 +45,19 @@ public:
     bool actionFailed() const { return m_failed; }
 
     /** Return standard error output string. */
-    const QString &errorOutput() const { return m_errorOutput; }
+    const QByteArray &errorOutput() const { return m_errorOutput; }
 
     /** Return command line. */
-    QString command() const;
+    QString commandLine() const;
 
     /// Set command and texts to be placed as %2..%9 in command.
-    void setCommand(const QString &command, const QStringList &arguments = QStringList());
+    void setCommand(const QString &commandLine, const QStringList &arguments = QStringList());
 
     /// Set command with arguments.
     void setCommand(const QStringList &arguments);
+
+    /// Return programs and arguments.
+    const QList<QList<QStringList>> &command() const { return m_cmds; }
 
     /** Return input. */
     const QByteArray &input() const { return m_input; }
@@ -84,6 +87,7 @@ public:
     /** Return human-readable name for action. */
     QString name() const { return m_name; }
 
+    void setExitCode(int exitCode) { m_exitCode = exitCode; }
     int exitCode() const { return m_exitCode; }
     QString errorString() const { return m_errorString; }
 
@@ -94,6 +98,9 @@ public:
     int id() const { return m_id; }
 
     void setReadOutput(bool read) { m_readOutput = read; }
+
+    void appendOutput(const QByteArray &output);
+    void appendErrorOutput(const QByteArray &errorOutput);
 
 public slots:
     /** Terminate (kill) process. */
@@ -126,7 +133,7 @@ private:
     QList< QList<QStringList> > m_cmds;
     QStringList m_inputFormats;
     QString m_workingDirectoryPath;
-    QString m_errorOutput;
+    QByteArray m_errorOutput;
     bool m_failed;
     bool m_readOutput = false;
     int m_currentLine;

@@ -22,7 +22,6 @@
 #include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
-#include "common/textdata.h"
 #include "item/serialize.h"
 
 #include <QCoreApplication>
@@ -181,7 +180,7 @@ Action::~Action()
     closeSubCommands();
 }
 
-QString Action::command() const
+QString Action::commandLine() const
 {
     QString text;
     for ( const auto &line : m_cmds ) {
@@ -327,6 +326,17 @@ const QVariantMap &Action::data() const
     return m_data;
 }
 
+void Action::appendOutput(const QByteArray &output)
+{
+    if ( !output.isEmpty() )
+        emit actionOutput(output);
+}
+
+void Action::appendErrorOutput(const QByteArray &errorOutput)
+{
+    m_errorOutput.append(errorOutput);
+}
+
 void Action::onSubProcessError(QProcess::ProcessError error)
 {
     QProcess *p = qobject_cast<QProcess*>(sender());
@@ -362,14 +372,8 @@ void Action::onSubProcessOutput()
         return;
 
     auto p = m_processes.last();
-    if ( !p->isReadable() )
-        return;
-
-    const auto output = p->readAll();
-    if ( output.isEmpty() )
-        return;
-
-    emit actionOutput(output);
+    if ( p->isReadable() )
+        appendOutput( p->readAll() );
 }
 
 void Action::onSubProcessErrorOutput()
@@ -378,7 +382,7 @@ void Action::onSubProcessErrorOutput()
     Q_ASSERT(p);
 
     if ( p->isReadable() )
-        m_errorOutput.append( getTextData(p->readAllStandardError()) );
+        appendErrorOutput( p->readAllStandardError() );
 }
 
 void Action::writeInput()

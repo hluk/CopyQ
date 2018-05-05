@@ -24,6 +24,7 @@
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
 #include "common/log.h"
+#include "common/textdata.h"
 #include "platform/platformnativeinterface.h"
 #include "scriptable/scriptable.h"
 #include "scriptable/scriptableproxy.h"
@@ -40,16 +41,6 @@ namespace {
 QString messageCodeToString(int code)
 {
     switch (code) {
-    case CommandFinished:
-        return "CommandFinished";
-    case CommandError:
-        return "CommandError";
-    case CommandBadSyntax:
-        return "CommandBadSyntax";
-    case CommandException:
-        return "CommandException";
-    case CommandPrint:
-        return "CommandPrint";
     case CommandFunctionCallReturnValue:
         return "CommandFunctionCallReturnValue";
     case CommandStop:
@@ -57,22 +48,6 @@ QString messageCodeToString(int code)
     default:
         return QString("Unknown(%1)").arg(code);
     }
-}
-
-void printClientStdout(const QByteArray &output)
-{
-    QFile f;
-    f.open(stdout, QIODevice::WriteOnly);
-    f.write(output);
-}
-
-void printClientStderr(const QByteArray &output)
-{
-    QFile f;
-    f.open(stderr, QIODevice::WriteOnly);
-    f.write(output);
-    if ( !output.endsWith('\n') )
-        f.write("\n");
 }
 
 QCoreApplication *createClientApplication(int &argc, char **argv, const QStringList &arguments)
@@ -119,14 +94,6 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &argu
 
     m_socket->start();
 
-    bool hasActionData;
-    const int id = qgetenv("COPYQ_ACTION_ID").toInt(&hasActionData);
-    QByteArray message;
-    if (hasActionData) {
-        QDataStream out(&message, QIODevice::WriteOnly);
-        out << id;
-    }
-
     // Start script after QCoreApplication::exec().
     auto timer = new QTimer(this);
     timer->setSingleShot(true);
@@ -140,25 +107,6 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
     COPYQ_LOG_VERBOSE( "Message received: " + messageCodeToString(messageCode) );
 
     switch (messageCode) {
-    case CommandFinished:
-        printClientStdout(data);
-        exit(0);
-        break;
-
-    case CommandError:
-        exit(1);
-        break;
-
-    case CommandBadSyntax:
-    case CommandException:
-        printClientStderr(data);
-        exit(messageCode);
-        break;
-
-    case CommandPrint:
-        printClientStdout(data);
-        break;
-
     case CommandFunctionCallReturnValue:
         emit functionCallResultReceived(data);
         break;
@@ -262,8 +210,6 @@ void ClipboardClient::start(const QStringList &arguments)
     ScriptableProxy scriptableProxy(nullptr, nullptr);
     Scriptable scriptable(&engine, &scriptableProxy);
 
-    connect( &scriptable, &Scriptable::sendMessage,
-             this, &ClipboardClient::onMessageReceived );
     connect( &scriptable, &Scriptable::readInput,
              this, &ClipboardClient::startInputReader );
     connect( &scriptableProxy, &ScriptableProxy::sendFunctionCall,
@@ -282,5 +228,15 @@ void ClipboardClient::start(const QStringList &arguments)
     connect( qApp, &QCoreApplication::aboutToQuit,
              &scriptable, &Scriptable::stopEventLoops );
 
-    scriptable.executeArguments(arguments);
+    bool hasData;
+    auto actionId = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);
+    if (!hasData)
+        actionId = -1;
+    scriptable.setActionId(actionId);
+
+    const auto actionName = getTextData( qgetenv("COPYQ_ACTION_NAME") );
+    scriptable.setActionName(actionName);
+
+    const int exitCode = scriptable.executeArguments(arguments);
+    exit(exitCode);
 }

@@ -699,6 +699,8 @@ void Tests::commandPrint()
 void Tests::commandAbort()
 {
     RUN("eval" << "abort(); 1", "");
+    RUN("eval" << "eval('abort(); print(1)'); 2", "");
+    RUN("eval" << "execute('copyq', 'eval', '--', 'abort(); print(1)'); 2", "2\n");
 }
 
 void Tests::commandFail()

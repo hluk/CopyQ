@@ -402,7 +402,7 @@ QByteArray readReply(QNetworkReply *reply, const Scriptable &scriptable)
 {
     QByteArray data;
     while ( !reply->isFinished() ) {
-        if ( !scriptable.isConnected() )
+        if ( !scriptable.canContinue() )
             return QByteArray();
         waitFor(100);
         if ( reply->waitForReadyRead(100) )
@@ -586,7 +586,6 @@ Scriptable::Scriptable(
     , m_temporaryFileClass(nullptr)
     , m_inputSeparator("\n")
     , m_input()
-    , m_connected(true)
 {
     const QScriptEngine::QObjectWrapOptions opts =
               QScriptEngine::ExcludeChildObjects
@@ -765,11 +764,6 @@ void Scriptable::throwImportError(const QString &filePath)
     throwError( tr("Cannot import file \"%1\"!").arg(filePath) );
 }
 
-void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
-{
-    emit sendMessage(message, exitCode);
-}
-
 QScriptValue Scriptable::getGlobal()
 {
     return m_engine->globalObject();
@@ -945,7 +939,7 @@ void Scriptable::exit()
 {
     m_skipArguments = 0;
     QByteArray message = fromString( tr("Terminating server.\n") );
-    sendMessageToClient(message, CommandPrint);
+    print(message);
     m_proxy->exit();
 }
 
@@ -1575,7 +1569,7 @@ QScriptValue Scriptable::input()
 
     if ( !getByteArray(m_input, this) ) {
         emit readInput();
-        if (m_connected) {
+        if (canContinue()) {
             QEventLoop loop;
             connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
             connect(this, &Scriptable::dataReceived, &loop, &QEventLoop::quit);
@@ -1667,25 +1661,20 @@ QScriptValue Scriptable::removeData()
 void Scriptable::print(const QScriptValue &value)
 {
     m_skipArguments = 1;
-    sendMessageToClient(makeByteArray(value), CommandPrint);
+    print(makeByteArray(value));
 }
 
 void Scriptable::abort()
 {
     m_skipArguments = 0;
-    m_connected = false;
-
-    QScriptEngine *eng = engine() ? engine() : m_engine;
-    if (eng)
-        eng->abortEvaluation();
-
-    emit finished();
+    abortEvaluation(m_action ? Abort::CurrentEvaluation : Abort::AllEvaluations);
 }
 
 void Scriptable::fail()
 {
     m_skipArguments = 0;
-    sendMessageToClient("", CommandError);
+    m_failed = true;
+    abortEvaluation(Abort::CurrentEvaluation);
 }
 
 #ifdef HAS_TESTS
@@ -1716,7 +1705,7 @@ void Scriptable::keys()
         // Make sure all keys are send (shortcuts are postponed because they can be blocked by modal windows).
         while ( !m_proxy->keysSent() ) {
             QCoreApplication::processEvents();
-            if (!m_connected) {
+            if (!canContinue()) {
                 throwError("Disconnected");
                 return;
             }
@@ -1925,7 +1914,7 @@ QScriptValue Scriptable::execute()
 
     QScriptValue actionResult = m_engine->newObject();
     actionResult.setProperty( "stdout", newByteArray(m_executeStdoutData) );
-    actionResult.setProperty( "stderr", action.errorOutput() );
+    actionResult.setProperty( "stderr", getTextData(action.errorOutput()) );
     actionResult.setProperty( "exit_code", action.exitCode() );
 
     m_executeStdoutData.clear();
@@ -2080,7 +2069,7 @@ void Scriptable::sleep()
         return;
     }
 
-    if (m_connected) {
+    if (canContinue()) {
         QEventLoop loop;
         connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
 
@@ -2430,12 +2419,11 @@ void Scriptable::onMonitorRunScriptRequest(const QString &script, const QVariant
 {
     COPYQ_LOG("Monitor eval: " + script);
     m_data = data;
-    m_proxy->setActionData(m_actionId, m_data);
+    setActionData();
     eval(script);
     if ( engine()->hasUncaughtException() ) {
-        const auto exceptionText = processUncaughtException("ClipboardMonitor::" + script);
-        const auto response = createScriptErrorMessage(exceptionText).toUtf8();
-        sendMessageToClient(response, CommandException);
+        processUncaughtException("ClipboardMonitor::" + script);
+        engine()->clearExceptions();
     }
 }
 
@@ -2460,8 +2448,8 @@ bool Scriptable::sourceScriptCommands()
         engine()->popContext();
         if ( engine()->hasUncaughtException() ) {
             const auto exceptionText = processUncaughtException("ScriptCommand::" + command.cmd);
-            const auto response = createScriptErrorMessage(exceptionText).toUtf8();
-            sendMessageToClient(response, CommandException);
+            const auto message = createScriptErrorMessage(exceptionText).toUtf8();
+            printError(message);
             return false;
         }
     }
@@ -2469,84 +2457,84 @@ bool Scriptable::sourceScriptCommands()
     return true;
 }
 
-void Scriptable::executeArguments(const QStringList &args)
+int Scriptable::executeArguments(const QStringList &args)
 {
-    bool hasData;
-    m_actionId = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);
-    const auto actionData = hasData ? m_proxy->getActionData(m_actionId) : QVariantMap();
-    m_data = actionData;
-
-    QByteArray response;
-    int exitCode;
-
     if ( args.isEmpty() ) {
         logScriptError("Bad command syntax");
-        exitCode = CommandBadSyntax;
-    } else {
-        /* Special arguments:
-             * "-"  read this argument from stdin
-             * "--" read all following arguments without control sequences
-             */
-        QScriptValueList fnArgs;
-        bool readRaw = false;
-        for (const auto &arg : args) {
-            if (readRaw) {
-                fnArgs.append( newByteArray(arg.toUtf8()) );
-            } else if (arg == "--") {
-                readRaw = true;
-            } else if (arg == "-") {
-                fnArgs.append( input() );
-            } else if (arg == "-e") {
-                fnArgs.append("eval");
-            } else {
-                const auto unescapedArg = parseCommandLineArgument(arg);
-                const auto value = newByteArray( unescapedArg.toUtf8() );
-                fnArgs.append(value);
-            }
-        }
+        return CommandBadSyntax;
+    }
 
-        if ( !sourceScriptCommands() )
-            return;
+    if ( !sourceScriptCommands() )
+        return CommandError;
 
-        QString cmd;
-        QScriptValue result;
-
-        int skipArguments = 0;
-        while ( skipArguments < fnArgs.size() && !m_engine->hasUncaughtException() ) {
-            if ( result.isFunction() ) {
-                m_skipArguments = -1;
-                result = result.call( QScriptValue(), fnArgs.mid(skipArguments) );
-                if (m_skipArguments == -1)
-                    break;
-                skipArguments += m_skipArguments;
-            } else {
-                cmd = toString(fnArgs[skipArguments], this);
-                result = eval(cmd);
-                ++skipArguments;
-            }
-        }
-
-        if ( result.isFunction() && !m_engine->hasUncaughtException() )
-            result = result.call( QScriptValue(), fnArgs.mid(skipArguments) );
-
-        if ( m_engine->hasUncaughtException() ) {
-            const auto exceptionText = processUncaughtException(cmd);
-            response = createScriptErrorMessage(exceptionText).toUtf8();
-            exitCode = CommandException;
+    /* Special arguments:
+     * "-"  read this argument from stdin
+     * "--" read all following arguments without control sequences
+     */
+    QScriptValueList fnArgs;
+    bool readRaw = false;
+    for (const auto &arg : args) {
+        if (readRaw) {
+            fnArgs.append( newByteArray(arg.toUtf8()) );
+        } else if (arg == "--") {
+            readRaw = true;
+        } else if (arg == "-") {
+            fnArgs.append( input() );
+        } else if (arg == "-e") {
+            fnArgs.append("eval");
         } else {
-            response = serializeScriptValue(result);
-            exitCode = CommandFinished;
+            const auto unescapedArg = parseCommandLineArgument(arg);
+            const auto value = newByteArray( unescapedArg.toUtf8() );
+            fnArgs.append(value);
         }
     }
 
-    if (exitCode == CommandFinished && hasData && actionData != m_data)
-        m_proxy->setActionData(m_actionId, data());
+    QString cmd;
+    QScriptValue result;
+
+    int skipArguments = 0;
+    while ( skipArguments < fnArgs.size() && canContinue() && !m_engine->hasUncaughtException() ) {
+        if ( result.isFunction() ) {
+            m_skipArguments = -1;
+            result = result.call( QScriptValue(), fnArgs.mid(skipArguments) );
+            if (m_skipArguments == -1)
+                break;
+            skipArguments += m_skipArguments;
+        } else {
+            cmd = toString(fnArgs[skipArguments], this);
+            result = eval(cmd);
+            ++skipArguments;
+        }
+    }
+
+    if ( result.isFunction() && canContinue() && !m_engine->hasUncaughtException() )
+        result = result.call( QScriptValue(), fnArgs.mid(skipArguments) );
+
+    int exitCode;
+
+    if (m_failed) {
+        exitCode = CommandError;
+    } else if (m_abort != Abort::None) {
+        exitCode = CommandFinished;
+    } else if ( m_engine->hasUncaughtException() ) {
+        const auto exceptionText = processUncaughtException(cmd);
+        const auto message = createScriptErrorMessage(exceptionText).toUtf8();
+        printError(message);
+        exitCode = CommandException;
+    } else {
+        const auto message = serializeScriptValue(result);
+        print(message);
+        exitCode = CommandFinished;
+    }
+
+    if (exitCode == CommandFinished)
+        setActionData();
 
     // Destroy objects so destructors are run before script finishes
     // (e.g. file writes are flushed or temporary files are automatically removed).
     m_engine->collectGarbage();
 
-    sendMessageToClient(response, exitCode);
+    return exitCode;
 }
 
 void Scriptable::setInput(const QByteArray &input)
@@ -2590,10 +2578,9 @@ void Scriptable::showExceptionMessage(const QString &message)
     if (!m_proxy)
         return;
 
-    const auto actionName = getTextData( qgetenv("COPYQ_ACTION_NAME") );
-    const auto title = actionName.isEmpty()
+    const auto title = m_actionName.isEmpty()
         ? tr("Exception")
-        : tr("Exception in %1").arg( quoteString(actionName) );
+        : tr("Exception in %1").arg( quoteString(m_actionName) );
 
     const auto id = qHash(title) ^ qHash(message);
     const auto notificationId = QString::number(id);
@@ -2689,6 +2676,13 @@ void Scriptable::stopEventLoops()
     emit stop();
 }
 
+void Scriptable::abortEvaluation(Abort abort)
+{
+    m_abort = abort;
+    throwError("Evaluation aborted");
+    emit finished();
+}
+
 void Scriptable::changeItem(bool create)
 {
     int row;
@@ -2775,7 +2769,30 @@ QScriptValue Scriptable::eval(const QString &script, const QString &fileName)
         return QScriptValue();
     }
 
-    return engine()->evaluate(script, fileName);
+    const auto result = engine()->evaluate(script, fileName);
+
+    if (m_abort != Abort::None) {
+        engine()->clearExceptions();
+        if (m_abort == Abort::AllEvaluations)
+            abortEvaluation(Abort::AllEvaluations);
+        else
+            m_abort = Abort::None;
+
+        return QScriptValue();
+    }
+
+    return result;
+}
+
+void Scriptable::setActionId(int actionId)
+{
+    m_actionId = actionId;
+    getActionData();
+}
+
+void Scriptable::setActionName(const QString &actionName)
+{
+    m_actionName = actionName;
 }
 
 QScriptValue Scriptable::eval(const QString &script)
@@ -2799,6 +2816,40 @@ QTextCodec *Scriptable::codecFromNameOrThrow(const QScriptValue &codecName)
 
 bool Scriptable::runAction(Action *action)
 {
+    if (!canContinue())
+        return false;
+
+    // Shortcut to run script in current Scriptable
+    // instead of spawning new process.
+    const auto &cmd = action->command();
+    const auto cmd1 = cmd.value(0).value(0);
+    if ( cmd.size() == 1 && cmd[0].size() == 1
+         && cmd1.size() >= 2
+         && cmd1[0] == "copyq"
+         && (!cmd1[1].startsWith("-") || cmd1[1] == "-e") )
+    {
+        const auto oldInput = m_input;
+        m_input = newByteArray(action->input());
+
+        const auto oldAction = m_action;
+        m_action = action;
+        engine()->pushContext();
+
+        const auto exitCode = executeArguments(cmd1.mid(1));
+        action->setExitCode(exitCode);
+        m_failed = false;
+        m_engine->clearExceptions();
+
+        engine()->popContext();
+        m_action = oldAction;
+        m_input = oldInput;
+
+        return true;
+    }
+
+    // Update data for the new action.
+    setActionData();
+
     action->setWorkingDirectory( m_dirClass->getCurrentPath() );
     action->start();
 
@@ -2807,12 +2858,15 @@ bool Scriptable::runAction(Action *action)
         return false;
     }
 
-    while ( !action->waitForFinished(5000) && m_connected ) {}
+    while ( !action->waitForFinished(5000) && canContinue() ) {}
 
     if ( action->isRunning() && !action->waitForFinished(5000) ) {
         action->terminate();
         return false;
     }
+
+    // Data could have changed so refetch them.
+    getActionData();
 
     return true;
 }
@@ -2837,7 +2891,7 @@ bool Scriptable::runCommands(CommandType::CommandType type)
         if ( !canExecuteCommand(command) )
             continue;
 
-        if ( m_connected && !command.cmd.isEmpty() ) {
+        if ( canContinue() && !command.cmd.isEmpty() ) {
             Action action;
             action.setCommand( command.cmd, QStringList(getTextData(m_data)) );
             action.setInput(m_data, command.input);
@@ -2849,18 +2903,16 @@ bool Scriptable::runCommands(CommandType::CommandType type)
             //action.setItemSeparator(QRegExp(command.sep));
             //action.setOutputTab(command.outputTab);
 
-            if ( !runAction(&action) && m_connected ) {
+            if ( !runAction(&action) && canContinue() ) {
                 throwError( QString(label).arg(command.name, "Failed to start") );
                 return false;
             }
         }
 
-        if (!m_connected) {
+        if (!canContinue()) {
             COPYQ_LOG( QString(label).arg(command.name, "Interrupted") );
             return false;
         }
-
-        m_data = m_proxy->getActionData(m_actionId);
 
         if ( type == CommandType::Automatic ) {
             if ( !command.tab.isEmpty() ) {
@@ -2874,7 +2926,7 @@ bool Scriptable::runCommands(CommandType::CommandType type)
             }
         }
 
-        COPYQ_LOG( QString(label).arg(command.name, "Finished") );
+        COPYQ_LOG_VERBOSE( QString(label).arg(command.name, "Finished") );
     }
 
     return true;
@@ -2994,6 +3046,44 @@ QStringList Scriptable::arguments()
         args.append( arg(i) );
 
     return args;
+}
+
+void Scriptable::print(const QByteArray &message)
+{
+    if (m_action) {
+        m_action->appendOutput(message);
+    } else {
+        QFile f;
+        f.open(stdout, QIODevice::WriteOnly);
+        f.write(message);
+    }
+}
+
+void Scriptable::printError(const QByteArray &message)
+{
+    if (m_action) {
+        m_action->appendErrorOutput(message);
+    } else {
+        QFile f;
+        f.open(stderr, QIODevice::WriteOnly);
+        f.write(message);
+        if ( !message.endsWith('\n') )
+            f.write("\n");
+    }
+}
+
+void Scriptable::getActionData()
+{
+    if (m_actionId != -1)
+        m_data = m_oldData = m_proxy->getActionData(m_actionId);
+}
+
+void Scriptable::setActionData()
+{
+    if (m_actionId != -1 && m_oldData != m_data) {
+        m_proxy->setActionData(m_actionId, m_data);
+        m_oldData = m_data;
+    }
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

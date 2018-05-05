@@ -126,7 +126,7 @@ void ProcessManagerDialog::actionAboutToStart(Action *action)
     Q_ASSERT(getRowForAction(action) == -1);
 
     const QString name = action->name();
-    const QString command = action->command();
+    const QString command = action->commandLine();
 
     createTableRow( name.isEmpty() ? command : name, action );
 

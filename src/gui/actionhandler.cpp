@@ -47,7 +47,7 @@ QString actionDescription(const Action &action)
     if ( !name.isEmpty() )
         return QString("Command \"%1\"").arg(name);
 
-    return action.command();
+    return action.commandLine();
 }
 
 } // namespace
@@ -132,7 +132,7 @@ void ActionHandler::closeAction(Action *action)
     } else if ( action->exitCode() == 1073807364 ) {
         COPYQ_LOG( QString("Exit code %1 (on logout?) with command: %2")
                    .arg(action->exitCode())
-                   .arg(action->command()) );
+                   .arg(action->commandLine()) );
 #endif
     } else if ( action->exitCode() != 0 ) {
         const auto msg = tr("Exit code: %1").arg(action->exitCode());
@@ -149,7 +149,7 @@ void ActionHandler::closeAction(Action *action)
 
 void ActionHandler::showActionErrors(Action *action, const QString &message, ushort icon)
 {
-    const auto notificationId = qHash(action->command()) ^ qHash(message);
+    const auto notificationId = qHash(action->commandLine()) ^ qHash(message);
     auto notification = m_wnd->createNotification( QString::number(notificationId) );
     if ( notification->isVisible() )
         return;
@@ -161,7 +161,7 @@ void ActionHandler::showActionErrors(Action *action, const QString &message, ush
 
     const int maxWidthPoints =
             AppConfig().option<Config::notification_maximum_width>();
-    const QString command = action->command()
+    const QString command = action->commandLine()
             .replace("copyq eval --", "copyq:");
     const QString name = action->name().isEmpty()
             ? QString(command).replace('\n', " ")
