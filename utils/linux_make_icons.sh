@@ -17,4 +17,4 @@ make_icons()
 
 cd src/images
 make_icons icon.svg icon
-make_icons icon-running.svg icon-busy
+make_icons icon-busy.svg icon-busy

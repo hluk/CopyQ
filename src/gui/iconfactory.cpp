@@ -53,19 +53,6 @@ const int lightThreshold = 100;
 
 QPointer<QObject> activePaintDevice;
 
-void replaceColor(QPixmap *pix, const QColor &from, const QColor &to)
-{
-    if (from == to)
-        return;
-
-    QPixmap pix2( pix->size() );
-    pix2.fill(to);
-    pix2.setMask( pix->createMaskFromColor(from, Qt::MaskOutColor) );
-
-    QPainter p(pix);
-    p.drawPixmap(0, 0, pix2);
-}
-
 QString sessionName()
 {
     return qApp->property("CopyQ_session_name").toString();
@@ -171,16 +158,50 @@ QPixmap pixmapFromFile(const QString &path, QSize size)
     return pix;
 }
 
-QString imagePathFromPrefix(const QString &iconSuffix, const QString &resources)
+QString iconPath(const QString &iconSuffix)
 {
 #ifdef COPYQ_ICON_PREFIX
-    const QString fileName(COPYQ_ICON_PREFIX + iconSuffix);
+    const QString fileName(COPYQ_ICON_PREFIX + iconSuffix + ".svg");
     if ( QFile::exists(fileName) )
         return fileName;
 #else
     Q_UNUSED(iconSuffix)
 #endif
-    return imagesRecourcePath + resources;
+    return imagesRecourcePath + QLatin1String("icon") + iconSuffix;
+}
+
+QPixmap appPixmap(const QString &iconSuffix, QSize size)
+{
+    const auto icon = QIcon::fromTheme(COPYQ_ICON_NAME + iconSuffix);
+
+    QPixmap pix;
+
+    if ( icon.isNull() ) {
+        const auto path = iconPath(iconSuffix);
+        pix = pixmapFromFile(path, size);
+    } else {
+        pix = icon.pixmap(size)
+                .scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }
+
+    pix.setDevicePixelRatio(1);
+
+    return pix;
+}
+
+void replaceColor(QPixmap *pix, const QString &iconSuffix, const QColor &targetColor)
+{
+    auto pix2 = appPixmap(iconSuffix + "-mask", pix->size());
+
+    {
+        QPainter p1(&pix2);
+        p1.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+        p1.fillRect(pix->rect(), targetColor);
+    }
+
+    QPainter p(pix);
+    p.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+    p.drawPixmap(0, 0, pix2);
 }
 
 void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
@@ -458,45 +479,13 @@ public:
     {
         const bool running = m_iconType == AppIconRunning;
         const auto suffix = running ? QLatin1String("-busy") : QLatin1String("");
-        const QString sessionName = ::sessionName();
 
-        QIcon icon;
-
-        if (sessionName.isEmpty())
-            icon = QIcon::fromTheme(COPYQ_ICON_NAME + suffix);
-        else
-            icon = QIcon::fromTheme(COPYQ_ICON_NAME "_" + sessionName + "-" + suffix);
-
-        QPixmap pix;
-
+        auto pix = appPixmap(suffix, size);
         const auto sessionColor = sessionIconColor();
         const auto appColor = appIconColor();
-        const bool colorize = (sessionColor != appColor);
 
-        // Colorize icon in higher resolution.
-        const auto colorizeSize = 256;
-        const auto sizeFactor = (colorize && size.height() < colorizeSize)
-                ? (colorizeSize / size.height())
-                : 1;
-        size *= sizeFactor;
-
-        if ( icon.isNull() ) {
-            const auto path = imagePathFromPrefix(suffix + ".svg", running ? "icon-running" : "icon");
-            pix = pixmapFromFile(path, size);
-        } else {
-            pix = icon.pixmap(size)
-                    .scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        }
-
-        pix.setDevicePixelRatio(1);
-
-        if (colorize)
-            replaceColor(&pix, appColor, sessionColor);
-
-        if (sizeFactor != 1) {
-            size /= sizeFactor;
-            pix = pix.scaled(size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        }
+        if (sessionColor != appColor)
+            replaceColor(&pix, suffix, sessionColor);
 
         return pix;
     }
