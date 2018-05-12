@@ -2260,7 +2260,6 @@ void MainWindow::loadSettings()
     m_options.viMode = appConfig.option<Config::vi>();
     m_trayMenu->setViModeEnabled(m_options.viMode);
     m_menu->setViModeEnabled(m_options.viMode);
-    m_menu->setViModeEnabled(m_options.viMode);
 
     // Number search
     m_sharedData->numberSearch = appConfig.option<Config::number_search>();
