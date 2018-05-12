@@ -2816,6 +2816,21 @@ void MainWindow::setClipboardAndWait(const QVariantMap &data, ClipboardMode mode
     spy.wait();
 }
 
+void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
+{
+    waitForClipboardAndSelection([&]() {
+        if (c) {
+            const auto index = c->index(row);
+            if ( index.isValid() ) {
+                c->moveToClipboard(index);
+                return;
+            }
+        }
+
+        setClipboard(QVariantMap());
+    });
+}
+
 void MainWindow::activateCurrentItem()
 {
     if ( QApplication::queryKeyboardModifiers() == Qt::NoModifier

@@ -127,7 +127,7 @@ public slots:
             const NotificationButtons &buttons = NotificationButtons());
 
     QVariantMap nextItem(int where);
-    void browserMoveToClipboard(int arg1);
+    void browserMoveToClipboard(int row);
     void browserSetCurrent(int arg1);
     QString browserRemoveRows(QVector<int> rows);
 

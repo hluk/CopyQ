@@ -952,12 +952,11 @@ QVariantMap ScriptableProxy::nextItem(int where)
     return c->copyIndex(index);
 }
 
-void ScriptableProxy::browserMoveToClipboard(int arg1)
+void ScriptableProxy::browserMoveToClipboard(int row)
 {
-    INVOKE2(browserMoveToClipboard, (arg1));
+    INVOKE2(browserMoveToClipboard, (row));
     ClipboardBrowser *c = fetchBrowser();
-    if (c)
-        c->moveToClipboard(c->index(arg1));
+    m_wnd->moveToClipboard(c, row);
 }
 
 void ScriptableProxy::browserSetCurrent(int arg1)
