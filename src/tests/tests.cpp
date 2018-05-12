@@ -1295,6 +1295,9 @@ void Tests::commandIcon()
     RUN_EXPECT_ERROR("iconColor" << "BAD_COLOR_NAME", CommandException);
     RUN("iconColor", "#ff0000\n");
 
+    RUN("iconColor" << "", "");
+    RUN("iconColor", QByteArray(defaultSessionColor) + "\n");
+
     RUN("iconColor" << defaultSessionColor, "");
     RUN("iconColor", QByteArray(defaultSessionColor) + "\n");
 }

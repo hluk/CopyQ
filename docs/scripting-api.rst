@@ -851,7 +851,9 @@ omitted.
 
    Get or set current tray and window icon color name.
 
-   Throws exception is the color name is invalid.
+   Resets color if color name is empty string.
+
+   Throws exception is the color name is not empty and invalid.
 
    .. code-block:: js
 

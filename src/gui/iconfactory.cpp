@@ -53,6 +53,11 @@ const int lightThreshold = 100;
 
 QPointer<QObject> activePaintDevice;
 
+bool hasNormalIcon()
+{
+    return QIcon::hasThemeIcon(COPYQ_ICON_NAME "-normal");
+}
+
 QString sessionName()
 {
     return qApp->property("CopyQ_session_name").toString();
@@ -69,22 +74,10 @@ QColor colorFromEnv(const char *envVaribleName)
     return QColor( textFromEnv(envVaribleName) );
 }
 
-QColor appIconColorHelper()
-{
-    const auto color = colorFromEnv("COPYQ_APP_COLOR");
-    return color.isValid() ? QColor(color) : QColor(0x7f, 0xca, 0x9b);
-}
-
-QColor appIconColor()
-{
-    static const QColor color = appIconColorHelper();
-    return color;
-}
-
 QColor sessionNameToColor(const QString &name)
 {
     if (name.isEmpty())
-        return appIconColor();
+        return QColor();
 
     int r = 0;
     int g = 0;
@@ -111,7 +104,7 @@ QColor sessionNameToColor(const QString &name)
 QColor sessionIconColorHelper()
 {
     const auto color = colorFromEnv("COPYQ_SESSION_COLOR");
-    return color.isValid() ? QColor(color) : sessionNameToColor( sessionName() );
+    return color.isValid() ? color : sessionNameToColor( sessionName() );
 }
 
 QColor &sessionIconColorVariable()
@@ -172,6 +165,9 @@ QString iconPath(const QString &iconSuffix)
 
 QPixmap appPixmap(const QString &iconSuffix, QSize size)
 {
+    if ( iconSuffix.isEmpty() && hasNormalIcon() )
+        return appPixmap("-normal", size);
+
     const auto icon = QIcon::fromTheme(COPYQ_ICON_NAME + iconSuffix);
 
     QPixmap pix;
@@ -481,11 +477,13 @@ public:
         const auto suffix = running ? QLatin1String("-busy") : QLatin1String("");
 
         auto pix = appPixmap(suffix, size);
-        const auto sessionColor = sessionIconColor();
-        const auto appColor = appIconColor();
 
-        if (sessionColor != appColor)
-            replaceColor(&pix, suffix, sessionColor);
+        // If copyq-normal icon exist in theme, omit changing color.
+        if ( !hasNormalIcon() ) {
+            const auto sessionColor = sessionIconColor();
+            if ( sessionColor.isValid() )
+                replaceColor(&pix, suffix, sessionColor);
+        }
 
         return pix;
     }
@@ -615,7 +613,7 @@ unsigned short toIconId(const QString &fileNameOrId)
 
 void setSessionIconColor(QColor color)
 {
-    sessionIconColorVariable() = color;
+    sessionIconColorVariable() = color.isValid() ? color : sessionIconColorHelper();
 }
 
 void setSessionIconTag(const QString &tag)

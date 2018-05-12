@@ -1621,14 +1621,16 @@ QString ScriptableProxy::translationsPath()
 QString ScriptableProxy::iconColor()
 {
     INVOKE(iconColor, ());
-    return m_wnd->sessionIconColor().name();
+    const auto color = m_wnd->sessionIconColor();
+    return color.isValid() ? color.name() : QString();
 }
 
 bool ScriptableProxy::setIconColor(const QString &colorName)
 {
     INVOKE(setIconColor, (colorName));
+
     QColor color(colorName);
-    if ( !color.isValid() )
+    if ( !colorName.isEmpty() && !color.isValid() )
         return false;
 
     m_wnd->setSessionIconColor(color);
