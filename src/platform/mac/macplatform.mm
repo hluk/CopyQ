@@ -21,9 +21,11 @@
 
 #include "app/applicationexceptionhandler.h"
 #include "common/log.h"
+#include "copyqpasteboardmime.h"
 #include "foregroundbackgroundfilter.h"
 #include "macplatformwindow.h"
 #include "platform/mac/macactivity.h"
+#include "urlpasteboardmime.h"
 #include "macclipboard.h"
 
 #include <QApplication>
@@ -37,6 +39,23 @@
 #include <Carbon/Carbon.h>
 
 namespace {
+    class ClipboardApplication : public QApplication
+    {
+    public:
+        ClipboardApplication(int &argc, char **argv)
+            : QApplication(argc, argv)
+            , m_pasteboardMime()
+            , m_pasteboardMimeUrl(QLatin1String("public.url"))
+            , m_pasteboardMimeFileUrl(QLatin1String("public.file-url"))
+        {
+        }
+
+    private:
+        CopyQPasteboardMime m_pasteboardMime;
+        UrlPasteboardMime m_pasteboardMimeUrl;
+        UrlPasteboardMime m_pasteboardMimeFileUrl;
+    };
+
     template<typename T> inline T* objc_cast(id from)
     {
         if ([from isKindOfClass:[T class]]) {

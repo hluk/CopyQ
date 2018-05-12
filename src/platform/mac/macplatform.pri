@@ -17,6 +17,8 @@ OBJECTIVE_SOURCES += \
     $$PWD/macplatformwindow.mm \
     $$PWD/macactivity.mm \
     $$PWD/macclipboard.mm \
+    $$PWD/copyqpasteboardmime.mm \
+    $$PWD/urlpasteboardmime.mm \
     $$PWD/foregroundbackgroundfilter.mm \
     $$PWD/mactimer.mm
 
