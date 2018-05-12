@@ -2833,6 +2833,17 @@ void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
 
 void MainWindow::activateCurrentItem()
 {
+    // Omit activating item multiple times in quick succession.
+    if (m_activatingItem)
+        return;
+
+    m_activatingItem = true;
+    activateCurrentItemHelper();
+    m_activatingItem = false;
+}
+
+void MainWindow::activateCurrentItemHelper()
+{
     if ( QApplication::queryKeyboardModifiers() == Qt::NoModifier
          && isItemMenuDefaultActionValid() )
     {

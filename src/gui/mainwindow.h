@@ -653,6 +653,8 @@ private:
 
     Action *runScript(const QString &script, const QVariantMap &data = QVariantMap());
 
+    void activateCurrentItemHelper();
+
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 
@@ -703,6 +705,8 @@ private:
     bool m_wasMaximized;
 
     bool m_showItemPreview;
+
+    bool m_activatingItem = false;
 
     QList<QKeySequence> m_disabledShortcuts;
 
