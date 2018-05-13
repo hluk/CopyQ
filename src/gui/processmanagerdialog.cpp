@@ -82,8 +82,20 @@ QString currentTime()
 
 class SortingGuard {
 public:
-    explicit SortingGuard(QTableWidget *table) : m_table(table) { m_table->setSortingEnabled(false); }
-    ~SortingGuard() { m_table->setSortingEnabled(true); }
+    explicit SortingGuard(QTableWidget *table)
+        : m_table(table)
+    {
+        if ( m_table->isSortingEnabled() )
+            m_table->setSortingEnabled(false);
+        else
+            m_table = nullptr;
+    }
+
+    ~SortingGuard()
+    {
+        if (m_table)
+            m_table->setSortingEnabled(true);
+    }
 private:
     Q_DISABLE_COPY(SortingGuard)
 
@@ -96,6 +108,39 @@ quintptr actionId(const Action *act)
 }
 
 } // namespace
+
+class ProcessManagerDialog::TableRow {
+public:
+    TableRow(int row, QTableWidget *table)
+        : m_table(table)
+        , m_item( m_table->item(row, tableCommandsColumns::status) )
+    {
+    }
+
+    QTableWidgetItem *item(int column)
+    {
+        return m_table->item(row(), column);
+    }
+
+    QWidget *widget(int column)
+    {
+        return m_table->cellWidget(row(), column);
+    }
+
+    void remove()
+    {
+        m_table->removeRow( row() );
+    }
+
+private:
+    int row() const {
+        Q_ASSERT(m_item);
+        return m_item->row();
+    }
+
+    QTableWidget *m_table = nullptr;
+    QTableWidgetItem *m_item = nullptr;
+};
 
 ProcessManagerDialog::ProcessManagerDialog(QWidget *parent)
     : QDialog(parent)
@@ -124,23 +169,20 @@ ProcessManagerDialog::~ProcessManagerDialog()
 
 void ProcessManagerDialog::actionAboutToStart(Action *action)
 {
-    Q_ASSERT(getRowForAction(action) == -1);
-
     const QString name = action->name();
     const QString command = action->commandLine();
 
-    createTableRow( name.isEmpty() ? command : name, action );
+    auto tableRow = createTableRow( name.isEmpty() ? command : name, action );
 
-    QTableWidget *t = ui->tableWidgetCommands;
-
-    t->item(0, tableCommandsColumns::name)->setToolTip(command);
+    tableRow.item(tableCommandsColumns::name)->setToolTip(command);
 
     const auto id = actionId(action);
-    QTableWidgetItem *statusItem = t->item(0, tableCommandsColumns::status);
+    QTableWidgetItem *statusItem = tableRow.item(tableCommandsColumns::status);
     statusItem->setData(statusItemData::actionId, id);
     statusItem->setData(statusItemData::status, QProcess::Starting);
 
     // Limit rows in table.
+    QTableWidget *t = ui->tableWidgetCommands;
     if (t->rowCount() > maxNumberOfProcesses) {
         for ( int row = t->rowCount() - 1;
               row >= 0 && (!removeIfNotRunning(row) || t->rowCount() > maxNumberOfProcesses);
@@ -152,13 +194,8 @@ void ProcessManagerDialog::actionAboutToStart(Action *action)
 
 void ProcessManagerDialog::actionStarted(Action *action)
 {
-    const int row = getRowForAction(action);
-    Q_ASSERT(row != -1);
-
-    QTableWidget *t = ui->tableWidgetCommands;
-    SortingGuard sortGuard(t);
-
-    QTableWidgetItem *statusItem = t->item(row, tableCommandsColumns::status);
+    auto tableRow = tableRowForAction(action);
+    QTableWidgetItem *statusItem = tableRow.item(tableCommandsColumns::status);
     statusItem->setText(tr("Running"));
     statusItem->setData(statusItemData::status, QProcess::Running);
     updateTable();
@@ -168,16 +205,15 @@ void ProcessManagerDialog::actionFinished(Action *action)
 {
     const auto endTime = QDateTime::currentDateTime();
 
-    const int row = getRowForAction(action);
-    Q_ASSERT(row != -1);
+    auto tableRow = tableRowForAction(action);
 
     const QString status = action->actionFailed() ? tr("Failed") : tr("Finished");
 
     QTableWidget *t = ui->tableWidgetCommands;
     SortingGuard sortGuard(t);
 
-    QWidget *button = t->cellWidget(row, tableCommandsColumns::action);
-    QTableWidgetItem *statusItem = t->item(row, tableCommandsColumns::status);
+    QWidget *button = tableRow.widget(tableCommandsColumns::action);
+    QTableWidgetItem *statusItem = tableRow.item(tableCommandsColumns::status);
     statusItem->setText(status);
     statusItem->setData(statusItemData::status, QProcess::NotRunning);
 
@@ -194,7 +230,7 @@ void ProcessManagerDialog::actionFinished(Action *action)
             .arg(msecs % 1000, 3, 10, QLatin1Char('0'));
     if (days)
         endTimeText.prepend( QString("%1d ").arg(days) );
-    t->item(row, tableCommandsColumns::endTime)->setText(endTimeText);
+    tableRow.item(tableCommandsColumns::endTime)->setText(endTimeText);
 
     button->setToolTip( tr("Remove") );
     button->setProperty( "text", QString(IconTrash) );
@@ -205,8 +241,7 @@ void ProcessManagerDialog::actionFinished(Action *action)
              this, SLOT(onRemoveActionButtonClicked()) );
 
     // Reset action ID so it can be used again.
-    t->item(row, tableCommandsColumns::status)->setData(statusItemData::actionId, 0);
-    Q_ASSERT(getRowForAction(action) == -1);
+    tableRow.item(tableCommandsColumns::status)->setData(statusItemData::actionId, 0);
 }
 
 void ProcessManagerDialog::actionFinished(const QString &name)
@@ -223,9 +258,8 @@ void ProcessManagerDialog::showEvent(QShowEvent *event)
 void ProcessManagerDialog::onRemoveActionButtonClicked()
 {
     Q_ASSERT(sender());
-    const int row = getRowForActionButton(sender());
-    Q_ASSERT(row != -1);
-    ui->tableWidgetCommands->removeRow(row);
+    auto tableRow = tableRowForActionButton(sender());
+    tableRow.remove();
 }
 
 void ProcessManagerDialog::onDeleteShortcut()
@@ -249,27 +283,30 @@ void ProcessManagerDialog::onDeleteShortcut()
     }
 }
 
-int ProcessManagerDialog::getRowForAction(Action *action) const
+ProcessManagerDialog::TableRow ProcessManagerDialog::tableRowForAction(Action *action) const
 {
     QTableWidget *t = ui->tableWidgetCommands;
     const auto id = actionId(action);
     for (int row = 0; row < t->rowCount(); ++row) {
-        if ( t->item(row, tableCommandsColumns::status)->data(statusItemData::actionId) == id )
-            return row;
+        const auto item = t->item(row, tableCommandsColumns::status);
+        if ( item->data(statusItemData::actionId) == id )
+            return TableRow(row, t);
     }
 
-    return -1;
+    Q_ASSERT(false);
+    return TableRow(0, t);
 }
 
-int ProcessManagerDialog::getRowForActionButton(QObject *button) const
+ProcessManagerDialog::TableRow ProcessManagerDialog::tableRowForActionButton(QObject *button) const
 {
     QTableWidget *t = ui->tableWidgetCommands;
     for (int row = 0; row < t->rowCount(); ++row) {
         if ( t->cellWidget(row, tableCommandsColumns::action) == button )
-            return row;
+            return TableRow(row, t);
     }
 
-    return -1;
+    Q_ASSERT(false);
+    return TableRow(0, t);
 }
 
 bool ProcessManagerDialog::removeIfNotRunning(int row)
@@ -288,7 +325,7 @@ void ProcessManagerDialog::updateTable()
         ui->tableWidgetCommands->resizeColumnsToContents();
 }
 
-void ProcessManagerDialog::createTableRow(const QString &name, Action *action)
+ProcessManagerDialog::TableRow ProcessManagerDialog::createTableRow(const QString &name, Action *action)
 {
     QTableWidget *t = ui->tableWidgetCommands;
     SortingGuard sortGuard(t);
@@ -299,10 +336,11 @@ void ProcessManagerDialog::createTableRow(const QString &name, Action *action)
     t->setItem( 0, tableCommandsColumns::name, new QTableWidgetItem(name) );
     t->setItem( 0, tableCommandsColumns::status, new QTableWidgetItem(status) );
     t->setItem( 0, tableCommandsColumns::beginTime, new QTableWidgetItem(currentTime()) );
-    t->setItem( 0, tableCommandsColumns::endTime, new QTableWidgetItem(
-                    action ? "00:00:00.000" : "-") );
+    t->setItem( 0, tableCommandsColumns::endTime, new QTableWidgetItem(action ? "-" : "00:00:00.000") );
     t->setCellWidget( 0, tableCommandsColumns::action, createRemoveButton(action) );
     updateTable();
+
+    return TableRow(0, t);
 }
 
 QWidget *ProcessManagerDialog::createRemoveButton(Action *action)

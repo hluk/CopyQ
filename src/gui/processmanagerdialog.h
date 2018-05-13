@@ -50,11 +50,12 @@ private slots:
     void onDeleteShortcut();
 
 private:
-    int getRowForAction(Action *action) const;
-    int getRowForActionButton(QObject *button) const;
+    class TableRow;
+    TableRow tableRowForAction(Action *action) const;
+    TableRow tableRowForActionButton(QObject *button) const;
     bool removeIfNotRunning(int row);
     void updateTable();
-    void createTableRow(const QString &name, Action *action = nullptr);
+    TableRow createTableRow(const QString &name, Action *action = nullptr);
     QWidget *createRemoveButton(Action *action = nullptr);
 
     Ui::ProcessManagerDialog *ui;
