@@ -27,7 +27,7 @@
 #include "gui/windowgeometryguard.h"
 
 #include <QDateTime>
-#include <QPushButton>
+#include <QToolButton>
 
 #include <algorithm>
 #include <functional>
@@ -35,6 +35,7 @@
 namespace {
 
 const int maxNumberOfProcesses = 100;
+const auto dateTimeFormat = "yyyy-MM-dd HH:mm:ss.zzz";
 
 namespace statusItemData {
 enum {
@@ -76,7 +77,7 @@ QString columnText(int column)
 
 QString currentTime()
 {
-    return QDateTime::currentDateTime().toString(Qt::SystemLocaleLongDate);
+    return QDateTime::currentDateTime().toString(dateTimeFormat);
 }
 
 class SortingGuard {
@@ -165,6 +166,8 @@ void ProcessManagerDialog::actionStarted(Action *action)
 
 void ProcessManagerDialog::actionFinished(Action *action)
 {
+    const auto endTime = QDateTime::currentDateTime();
+
     const int row = getRowForAction(action);
     Q_ASSERT(row != -1);
 
@@ -177,7 +180,22 @@ void ProcessManagerDialog::actionFinished(Action *action)
     QTableWidgetItem *statusItem = t->item(row, tableCommandsColumns::status);
     statusItem->setText(status);
     statusItem->setData(statusItemData::status, QProcess::NotRunning);
-    t->item(row, tableCommandsColumns::endTime)->setText(currentTime());
+
+    const auto startTime = QDateTime::fromString( tableRow.item(tableCommandsColumns::beginTime)->text(), dateTimeFormat );
+    const auto msecs = startTime.msecsTo(endTime);
+    const auto seconds = msecs / 1000;
+    const auto minutes = seconds / 60;
+    const auto hours = minutes / 60;
+    const auto days = hours / 24;
+    auto endTimeText = QString("%1:%2:%3.%4")
+            .arg(hours % 24, 2, 10, QLatin1Char('0'))
+            .arg(minutes % 60, 2, 10, QLatin1Char('0'))
+            .arg(seconds % 60, 2, 10, QLatin1Char('0'))
+            .arg(msecs % 1000, 3, 10, QLatin1Char('0'));
+    if (days)
+        endTimeText.prepend( QString("%1d ").arg(days) );
+    t->item(row, tableCommandsColumns::endTime)->setText(endTimeText);
+
     button->setToolTip( tr("Remove") );
     button->setProperty( "text", QString(IconTrash) );
     updateTable();
@@ -282,20 +300,19 @@ void ProcessManagerDialog::createTableRow(const QString &name, Action *action)
     t->setItem( 0, tableCommandsColumns::status, new QTableWidgetItem(status) );
     t->setItem( 0, tableCommandsColumns::beginTime, new QTableWidgetItem(currentTime()) );
     t->setItem( 0, tableCommandsColumns::endTime, new QTableWidgetItem(
-                    action ? QString() : currentTime()) );
+                    action ? "00:00:00.000" : "-") );
     t->setCellWidget( 0, tableCommandsColumns::action, createRemoveButton(action) );
     updateTable();
 }
 
 QWidget *ProcessManagerDialog::createRemoveButton(Action *action)
 {
-    QPushButton *button = new QPushButton(
-                action ? QString(IconBan) : QString(IconTrash));
+    QToolButton *button = new QToolButton(ui->tableWidgetCommands);
 
-    button->setFlat(true);
+    button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    button->setText( action ? QString(IconBan) : QString(IconTrash) );
     button->setFont(iconFont());
     button->setToolTip(tr("Terminate"));
-    button->setFocusPolicy(Qt::NoFocus);
 
     if (action) {
         connect( button, SIGNAL(clicked()),
