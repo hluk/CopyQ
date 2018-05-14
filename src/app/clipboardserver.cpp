@@ -157,10 +157,13 @@ void ClipboardServer::stopMonitoring()
     COPYQ_LOG("Terminating monitor");
 
     for (auto it = m_clients.constBegin(); it != m_clients.constEnd(); ++it) {
-        const auto actionId = it.value().proxy->actionId();
+        const auto &clientData = it.value();
+        if (!clientData.isValid())
+            continue;
+
+        const auto actionId = clientData.proxy->actionId();
         if ( actionId == m_monitor->id() ) {
-            const auto client = it.key();
-            client->sendMessage(QByteArray(), CommandStop);
+            clientData.client->sendMessage(QByteArray(), CommandStop);
             break;
         }
     }
@@ -321,8 +324,9 @@ bool ClipboardServer::hasRunningCommands() const
 void ClipboardServer::terminateClients(int waitMs)
 {
     for (auto it = m_clients.constBegin(); it != m_clients.constEnd(); ++it) {
-        const auto client = it.key();
-        client->sendMessage(QByteArray(), CommandStop);
+        const auto &clientData = it.value();
+        if (clientData.isValid())
+            clientData.client->sendMessage(QByteArray(), CommandStop);
     }
 
     waitForClientsToFinish(waitMs);
@@ -339,7 +343,7 @@ void ClipboardServer::waitForClientsToFinish(int waitMs)
 void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 {
     auto proxy = new ScriptableProxy(m_wnd, client.get());
-    m_clients.insert( client.get(), ClientData(client, proxy) );
+    m_clients.insert( client->id(), ClientData(client, proxy) );
     connect( this, &ClipboardServer::closeClients,
              client.get(), &ClientSocket::close );
     connect( client.get(), &ClientSocket::messageReceived,
@@ -352,16 +356,16 @@ void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 }
 
 void ClipboardServer::onClientMessageReceived(
-        const QByteArray &message, int messageCode, ClientSocket *client)
+        const QByteArray &message, int messageCode, ClientSocketId clientId)
 {
-    Q_UNUSED(client);
     switch (messageCode) {
     case CommandFunctionCall: {
-        auto proxy = m_clients.value(client).proxy;
-        if (!proxy)
+        const auto &clientData = m_clients.value(clientId);
+        if (!clientData.isValid())
             return;
-        const auto result = proxy->callFunction(message);
-        client->sendMessage(result, CommandFunctionCallReturnValue);
+
+        const auto result = clientData.proxy->callFunction(message);
+        clientData.client->sendMessage(result, CommandFunctionCallReturnValue);
         break;
     }
     default:
@@ -370,15 +374,15 @@ void ClipboardServer::onClientMessageReceived(
     }
 }
 
-void ClipboardServer::onClientDisconnected(ClientSocket *client)
+void ClipboardServer::onClientDisconnected(ClientSocketId clientId)
 {
-    m_clients.remove(client);
+    m_clients.remove(clientId);
 }
 
-void ClipboardServer::onClientConnectionFailed(ClientSocket *client)
+void ClipboardServer::onClientConnectionFailed(ClientSocketId clientId)
 {
     log("Client connection failed", LogWarning);
-    m_clients.remove(client);
+    m_clients.remove(clientId);
 }
 
 void ClipboardServer::onMonitorFinished()

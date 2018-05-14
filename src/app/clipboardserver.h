@@ -23,6 +23,7 @@
 #include "app.h"
 #include "common/clipboardmode.h"
 #include "common/server.h"
+#include "common/clientsocket.h"
 
 #include <QMap>
 #include <QPointer>
@@ -78,9 +79,9 @@ protected:
 
 private slots:
     void onClientNewConnection(const ClientSocketPtr &client);
-    void onClientMessageReceived(const QByteArray &message, int messageCode, ClientSocket *client);
-    void onClientDisconnected(ClientSocket *client);
-    void onClientConnectionFailed(ClientSocket *client);
+    void onClientMessageReceived(const QByteArray &message, int messageCode, ClientSocketId clientId);
+    void onClientDisconnected(ClientSocketId clientId);
+    void onClientConnectionFailed(ClientSocketId clientId);
 
     /** An error occurred on monitor connection. */
     void onMonitorFinished();
@@ -138,10 +139,16 @@ private:
             , proxy(proxy)
         {
         }
+
+        bool isValid() const
+        {
+            return client && proxy;
+        }
+
         ClientSocketPtr client;
         ScriptableProxy *proxy = nullptr;
     };
-    QMap<ClientSocket*, ClientData> m_clients;
+    QMap<ClientSocketId, ClientData> m_clients;
 };
 
 #endif // CLIPBOARDSERVER_H

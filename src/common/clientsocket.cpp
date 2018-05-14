@@ -31,7 +31,7 @@
 namespace {
 
 const int bigMessageThreshold = 5 * 1024 * 1024;
-int lastSocketId = 0;
+ClientSocketId lastSocketId = 0;
 
 const quint32 protocolMagicNumber = 0x0C090701;
 const quint32 protocolVersion = 1;
@@ -166,7 +166,7 @@ void ClientSocket::start()
 {
     if ( !m_socket || !m_socket->waitForConnected(4000) )
     {
-        emit connectionFailed(this);
+        emit connectionFailed(id());
         return;
     }
 
@@ -278,7 +278,7 @@ void ClientSocket::onReadyRead()
         m_hasMessageLength = false;
         m_message = m_message.mid(length);
 
-        emit messageReceived(msg, messageCode, this);
+        emit messageReceived(msg, messageCode, id());
     }
 }
 
@@ -307,7 +307,7 @@ void ClientSocket::onStateChanged(QLocalSocket::LocalSocketState state)
             if (m_hasMessageLength)
                 log("ERROR: Socket disconnected before receiving message", LogError);
 
-            emit disconnected(this);
+            emit disconnected(id());
         }
     }
 }

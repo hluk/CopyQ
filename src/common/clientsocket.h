@@ -24,6 +24,8 @@
 #include <QObject>
 #include <QPointer>
 
+using ClientSocketId = qulonglong;
+
 class LocalSocketGuard
 {
 public:
@@ -55,7 +57,7 @@ public:
     ~ClientSocket();
 
     /// Return socket ID unique in process (thread-safe).
-    int id() const { return m_socketId; }
+    ClientSocketId id() const { return m_socketId; }
 
     void waitForReadyRead();
 
@@ -73,9 +75,9 @@ public:
     bool isClosed() const;
 
 signals:
-    void messageReceived(const QByteArray &message, int messageCode, ClientSocket *client);
-    void disconnected(ClientSocket *client);
-    void connectionFailed(ClientSocket *client);
+    void messageReceived(const QByteArray &message, int messageCode, ClientSocketId clientId);
+    void disconnected(ClientSocketId clientId);
+    void connectionFailed(ClientSocketId clientId);
 
 private:
     void onReadyRead();
@@ -85,7 +87,7 @@ private:
     void error(const QString &errorMessage);
 
     LocalSocketGuard m_socket;
-    int m_socketId;
+    ClientSocketId m_socketId;
     bool m_closed;
 
     bool m_hasMessageLength = false;
