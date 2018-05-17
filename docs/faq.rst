@@ -207,6 +207,31 @@ managers is ``text/uri-list``. Other special formats include
 ``application/x-kde-cutselection`` for Dolphin. These formats are used
 to specify type of action (copy or cut).
 
+Why does my external editor fail to edit items?
+-----------------------------------------------
+
+CopyQ creates a temporary file with content of the edited item and passes it as
+argument to custom editor command. If the file changes, the item is also
+modified.
+
+Usual issues are:
+
+- external editor opens an empty file,
+- external editor warns that the file is missing or
+- saving the file doesn't have any effect on the origin item.
+
+This happens if **the command to launch editor exits but the editor
+application itself is still running**. Since the command exited, CopyQ assumes
+that the editor itself is no longer running and stops monitoring the changes in
+temporary file (and removes the file).
+
+Here is the correct command to use for some editors::
+
+    gvim --nofork %1
+    sublime_text --wait %1
+    code --wait %1
+    open -t -W -n %1
+
 Why pasting URL or file items doesn't work in some applications?
 ----------------------------------------------------------------
 
