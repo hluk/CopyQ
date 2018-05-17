@@ -265,6 +265,17 @@ To get the command to launch for a shortcut:
 
       copyq -e "toggle()"
 
+Why does encryption ask for password so often?
+----------------------------------------------
+
+Encryption plugin uses ``gpg2`` to decrypt tabs and items. The password usually
+needs to be entered only once every few minutes.
+
+If the password prompt is showing up too often, either increase tab unloading
+interval ("Unload tab after an interval" option in "History" tab in
+Preferences), or change ``gpg`` configuration (see `#946
+<https://github.com/hluk/CopyQ/issues/946#issuecomment-389538964>`__).
+
 How to fix "copyq: command not found" errors?
 ---------------------------------------------
 
