@@ -37,12 +37,18 @@ Saved clipboard can be later copied and pasted directly into any application.
 
 ## Install
 
+<a href="https://repology.org/metapackage/copyq">
+    <img src="https://repology.org/badge/vertical-allrepos/copyq.svg" alt="Packaging status" align="right">
+</a>
+
 To install CopyQ, use the binary package or installer provided for your system.
 
 For unlisted systems, please follow the instructions in
 [Build from Source Code](https://copyq.readthedocs.io/en/latest/build-source-code.html).
 
 ### Windows
+
+[![Chocolatey package](https://repology.org/badge/version-for-repo/chocolatey/copyq.svg)](https://repology.org/metapackage/copyq)
 
 On Windows you either use installer ([setup.exe](https://github.com/hluk/CopyQ/releases)),
 portable [zip](https://github.com/hluk/CopyQ/releases)
@@ -53,6 +59,8 @@ choco install copyq
 ```
 
 ### OS X
+
+[![Homebrew package](https://repology.org/badge/version-for-repo/homebrew/copyq.svg)](https://repology.org/metapackage/copyq)
 
 On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 
@@ -81,6 +89,8 @@ sudo apt install copyq
 Install `copyq` package.
 
 ### Arch Linux
+
+[![AUR package](https://repology.org/badge/version-for-repo/aur/copyq.svg)](https://repology.org/metapackage/copyq)
 
 Install [copyq](https://aur.archlinux.org/packages/copyq/)<sup>AUR</sup> package.
 
