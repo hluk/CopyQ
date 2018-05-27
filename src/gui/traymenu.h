@@ -24,6 +24,7 @@
 #include <QPointer>
 #include <QTimer>
 
+class QAction;
 class QModelIndex;
 
 class TrayMenu : public QMenu

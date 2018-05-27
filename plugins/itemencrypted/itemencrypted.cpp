@@ -35,9 +35,11 @@
 #   include "tests/itemencryptedtests.h"
 #endif
 
+#include <QAbstractItemModel>
 #include <QDir>
 #include <QIODevice>
 #include <QLabel>
+#include <QModelIndex>
 #include <QTextEdit>
 #include <QtPlugin>
 #include <QVBoxLayout>

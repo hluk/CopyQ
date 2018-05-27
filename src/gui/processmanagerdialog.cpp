@@ -26,6 +26,7 @@
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"
 
+#include <QAction>
 #include <QDateTime>
 #include <QToolButton>
 

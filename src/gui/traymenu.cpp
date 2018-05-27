@@ -26,6 +26,7 @@
 #include "gui/icons.h"
 #include "gui/iconfactory.h"
 
+#include <QAction>
 #include <QApplication>
 #include <QKeyEvent>
 #include <QModelIndex>

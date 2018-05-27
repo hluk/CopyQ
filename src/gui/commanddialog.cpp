@@ -33,6 +33,7 @@
 #include "gui/icons.h"
 #include "platform/platformnativeinterface.h"
 
+#include <QAction>
 #include <QClipboard>
 #include <QFileDialog>
 #include <QMenu>
