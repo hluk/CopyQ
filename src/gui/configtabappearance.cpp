@@ -36,6 +36,7 @@
 #include "platform/platformnativeinterface.h"
 
 #include <QAbstractScrollArea>
+#include <QAction>
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QFontDialog>
@@ -475,11 +476,11 @@ void ConfigTabAppearance::decoratePreview()
 
     act = new QAction(c);
     act->setShortcut( QString("Shift+F2") );
-    connect(act, SIGNAL(triggered()), c, SLOT(editNotes()));
+    connect(act, &QAction::triggered, c, &ClipboardBrowser::editNotes);
     c->addAction(act);
 
     act = new QAction(c);
     act->setShortcut( QString("F2") );
-    connect(act, SIGNAL(triggered()), c, SLOT(editSelected()));
+    connect(act, &QAction::triggered, c, &ClipboardBrowser::editSelected);
     c->addAction(act);
 }
