@@ -467,8 +467,10 @@ void ItemEncryptedScriptable::copyEncryptedItems()
             const auto encryptedBytes = data.value(mimeEncryptedData).toByteArray();
             if ( !encryptedBytes.isEmpty() ) {
                 const auto itemData = decrypt(encryptedBytes);
-                if (itemData.isEmpty())
-                    return;
+                if (itemData.isEmpty()) {
+                    text.clear();
+                    break;
+                }
                 const auto dataMap = call("unpack", QVariantList() << itemData).toMap();
                 text.append( getTextData(dataMap) );
             }
@@ -533,6 +535,16 @@ bool ItemEncryptedScriptable::isGpgInstalled()
     return ::isGpgInstalled();
 }
 
+bool ItemEncryptedScriptable::importGpgKeyOrThrow()
+{
+    const auto error = importGpgKey();
+    if ( error.isEmpty() )
+        return true;
+
+    eval("throw 'Failed to import private GPG key!'");
+    return false;
+}
+
 QByteArray ItemEncryptedScriptable::encrypt(const QByteArray &bytes)
 {
     const auto encryptedBytes = readGpgOutput(QStringList("--encrypt"), bytes);
@@ -543,6 +555,9 @@ QByteArray ItemEncryptedScriptable::encrypt(const QByteArray &bytes)
 
 QByteArray ItemEncryptedScriptable::decrypt(const QByteArray &bytes)
 {
+    if ( !importGpgKeyOrThrow() )
+        return QByteArray();
+
     const auto decryptedBytes = readGpgOutput(QStringList("--decrypt"), bytes);
     if ( decryptedBytes.isEmpty() )
         eval("throw 'Failed to execute GPG!'");

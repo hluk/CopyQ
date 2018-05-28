@@ -82,6 +82,7 @@ public slots:
     bool isGpgInstalled();
 
 private:
+    bool importGpgKeyOrThrow();
     QByteArray encrypt(const QByteArray &bytes);
     QByteArray decrypt(const QByteArray &bytes);
 };
