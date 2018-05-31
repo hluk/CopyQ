@@ -1,7 +1,7 @@
 # Generated CMake files
 CMakeFiles/
 CMakeCache.txt
-*.cmake
+cmake_install.cmake
 
 # Generated Visual Studio files
 /plugins/Debug/
