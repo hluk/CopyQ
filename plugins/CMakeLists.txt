@@ -31,9 +31,7 @@ macro (copyq_add_plugin)
     set_target_properties(${copyq_pkg} PROPERTIES
         COMPILE_DEFINITIONS "${copyq_plugin_${copyq_pkg}_DEFINITIONS}")
 
-    qt5_use_modules(${copyq_pkg} Widgets ${copyq_Qt5_Modules} ${copyq_plugin_${copyq_pkg}_Qt5_Modules})
-
-    target_link_libraries(${copyq_pkg} ${QT_LIBRARIES} ${copyq_plugin_${copyq_pkg}_LIBRARIES})
+    target_link_libraries(${copyq_pkg} ${copyq_LIBRARIES} ${copyq_plugin_${copyq_pkg}_LIBRARIES})
 
     if (UNIX AND NOT APPLE)
         install(TARGETS ${copyq_pkg} DESTINATION ${PLUGIN_INSTALL_PREFIX})

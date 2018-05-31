@@ -33,8 +33,8 @@ endif()
 
 set(CMAKE_AUTOMOC ON)
 
-list(APPEND copyq_Qt5_Modules Widgets)
 find_package(Qt5Widgets 5.1.0 REQUIRED)
+list(APPEND copyq_LIBRARIES Qt5::Widgets)
 
 set(copyq_APP_ID      com.github.hluk.copyq)
 set(copyq_ICON_PREFIX src/images/icon)
@@ -121,7 +121,8 @@ if(WITH_TESTS)
 
     add_definitions( -DHAS_TESTS )
 
-    list(APPEND copyq_Qt5_Modules Test)
+    find_package(Qt5Test REQUIRED)
+    list(APPEND copyq_LIBRARIES Qt5::Test)
 endif()
 
 # Get application version.

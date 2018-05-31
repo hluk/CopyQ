@@ -84,16 +84,18 @@ if (APPLE)
 endif()
 
 # Qt modules
-list(APPEND copyq_Qt5_Modules Network Svg Xml Script)
-find_package(Qt5 REQUIRED COMPONENTS ${copyq_Qt5_Modules})
-qt5_use_modules(copyq ${copyq_Qt5_Modules})
+list(APPEND copyq_qt_modules Network Svg Xml Script)
+foreach (copyq_qt_module ${copyq_qt_modules})
+    find_package(Qt5${copyq_qt_module} REQUIRED)
+    list(APPEND copyq_LIBRARIES Qt5::${copyq_qt_module})
+endforeach()
 
 # macros definitions for preprocessor and moc
 set_target_properties(copyq PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
 
 # link
 set_target_properties(copyq PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS}")
-target_link_libraries(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
+target_link_libraries(copyq ${copyq_LIBRARIES})
 
 # install
 install(TARGETS copyq DESTINATION bin)

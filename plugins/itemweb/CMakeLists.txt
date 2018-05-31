@@ -10,7 +10,7 @@ endif(WITH_WEBKIT)
 if (HAS_WEBKIT)
     message(STATUS "Building with ItemWeb plugin.")
 
-    set(copyq_plugin_itemweb_Qt5_Modules WebKitWidgets)
+    set(copyq_plugin_itemweb_LIBRARIES Qt5::WebKitWidgets)
 
     set(copyq_plugin_itemweb_SOURCES
         ../../src/common/mimetypes.cpp
