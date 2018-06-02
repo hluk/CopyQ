@@ -89,7 +89,8 @@ const quint32 serializedFunctionCallVersion = 1;
 #define STR(str) str
 
 #define INVOKE_(function, arguments) \
-    static auto f = FunctionCallSerializer(m_tabName, STR(#function)).withSlotArguments arguments; \
+    static auto f = FunctionCallSerializer(STR(#function)).withSlotArguments arguments; \
+    f.setTabName(m_tabName); \
     f.setArguments arguments; \
     emit sendFunctionCall(f.serializeAndClear()) \
 
@@ -286,9 +287,9 @@ public:
 
 class FunctionCallSerializer {
 public:
-    explicit FunctionCallSerializer(const QString &tabName, const char *functionName)
+    explicit FunctionCallSerializer(const char *functionName)
     {
-        m_args << tabName << QByteArray(functionName);
+        m_args << QVariant() << QByteArray(functionName);
     }
 
     template<typename ...Ts>
@@ -317,6 +318,11 @@ public:
     {
         m_args << QVariant::fromValue(head);
         setArguments(args...);
+    }
+
+    void setTabName(const QString &tabName)
+    {
+        m_args[0] = tabName;
     }
 
 private:

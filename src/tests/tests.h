@@ -206,6 +206,8 @@ private slots:
 
     void queryKeyboardModifiersCommand();
 
+    void setTabName();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

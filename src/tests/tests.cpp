@@ -2575,6 +2575,21 @@ void Tests::queryKeyboardModifiersCommand()
     // TODO: Is there a way to press modifiers?
 }
 
+void Tests::setTabName()
+{
+    const auto script = R"(
+        tab('1')
+        add(1)
+        tab1Size = size()
+
+        tab('2')
+        tab2Size = size()
+
+        print(tab1Size + ',' + tab2Size)
+        )";
+    RUN(script, "1,0");
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);
