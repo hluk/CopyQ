@@ -40,7 +40,6 @@
 #include "gui/clipboardbrowserplaceholder.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/clipboarddialog.h"
-#include "gui/clipboardspy.h"
 #include "gui/commandaction.h"
 #include "gui/commanddialog.h"
 #include "gui/configurationmanager.h"
@@ -339,36 +338,6 @@ bool isAnyApplicationWindowActive()
     return false;
 }
 
-template <typename Fn>
-void waitForSelection(Fn setSelection)
-{
-#ifdef HAS_MOUSE_SELECTIONS
-    ClipboardSpy spy(ClipboardMode::Selection);
-    setSelection();
-    spy.wait();
-#else
-    setSelection();
-#endif
-}
-
-template <typename Fn>
-void waitForClipboard(Fn setClipboard)
-{
-    ClipboardSpy spy(ClipboardMode::Clipboard);
-    setClipboard();
-    spy.wait();
-}
-
-template <typename Fn>
-void waitForClipboardAndSelection(Fn setClipboardAndSelection)
-{
-    waitForClipboard([&]() {
-        waitForSelection([&]() {
-            setClipboardAndSelection();
-        });
-    });
-}
-
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -391,6 +360,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_wasMaximized(false)
     , m_showItemPreview(false)
     , m_menuItems(menuItems())
+    , m_clipboardManager(m_actionHandler)
 {
     ui->setupUi(this);
 
@@ -988,8 +958,8 @@ void MainWindow::moveToBottom()
 
 void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
 {
-    connect( browser, SIGNAL(changeClipboard(QVariantMap)),
-             this, SLOT(setClipboard(QVariantMap)) );
+    connect( browser, &ClipboardBrowser::changeClipboard,
+             this, &MainWindow::setClipboardAndSelection );
     connect( browser, SIGNAL(requestShow(const ClipboardBrowser*)),
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( browser, SIGNAL(error(QString)),
@@ -1613,14 +1583,6 @@ void MainWindow::updateActionShortcuts()
         updateActionShortcuts(id);
 }
 
-void MainWindow::pasteClipboard(const PlatformWindowPtr &window)
-{
-    // Wait for clipboard to be set (and message sent to clipboard monitor process).
-    QApplication::processEvents(QEventLoop::WaitForMoreEvents, 50);
-
-    window->pasteClipboard();
-}
-
 QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context)
 {
     Q_ASSERT(id < m_menuItems.size());
@@ -1667,15 +1629,14 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCo
 void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, bool omitPaste)
 {
     const auto itemHash = ::hash(data);
-    waitForClipboardAndSelection([&]() {
-        if ( !c || !c->moveToClipboard(itemHash) )
-            setClipboard(data);
-    });
+    if ( !c || !c->moveToClipboard(itemHash) )
+        m_clipboardManager.setClipboard(data);
+    m_clipboardManager.waitForClipboardSet();
 
     PlatformWindowPtr lastWindow = m_lastWindow;
 
     if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() )
-        pasteClipboard(lastWindow);
+        lastWindow->pasteClipboard();
 }
 
 QWidget *MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
@@ -2792,42 +2753,33 @@ void MainWindow::previousTab()
 
 void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
-    const auto argument = mode == ClipboardMode::Clipboard
-            ? "provideClipboard" : "provideSelection";
-    auto act = new Action();
-    act->setCommand(QStringList() << "copyq" << argument);
-    act->setData(data);
-    runInternalAction(act);
+    m_clipboardManager.setClipboard(data, mode);
 }
 
-void MainWindow::setClipboard(const QVariantMap &data)
+void MainWindow::setClipboardAndSelection(const QVariantMap &data)
 {
-    setClipboard(data, ClipboardMode::Clipboard);
-#ifdef HAS_MOUSE_SELECTIONS
-    setClipboard(data, ClipboardMode::Selection);
-#endif
+    m_clipboardManager.setClipboard(data);
 }
 
 void MainWindow::setClipboardAndWait(const QVariantMap &data, ClipboardMode mode)
 {
-    ClipboardSpy spy(mode);
-    setClipboard(data, mode);
-    spy.wait();
+    m_clipboardManager.setClipboard(data, mode);
+    m_clipboardManager.waitForClipboardSet(mode);
 }
 
 void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
 {
-    waitForClipboardAndSelection([&]() {
-        if (c) {
-            const auto index = c->index(row);
-            if ( index.isValid() ) {
-                c->moveToClipboard(index);
-                return;
-            }
-        }
+    if (c) {
+        const auto index = c->index(row);
+        if ( index.isValid() )
+            c->moveToClipboard(index);
+        else
+            m_clipboardManager.setClipboard(QVariantMap());
+    } else {
+        m_clipboardManager.setClipboard(QVariantMap());
+    }
 
-        setClipboard(QVariantMap());
-    });
+    m_clipboardManager.waitForClipboardSet();
 }
 
 void MainWindow::activateCurrentItem()
@@ -2862,20 +2814,20 @@ void MainWindow::activateCurrentItemHelper()
     // Copy current item or selection to clipboard.
     // While clipboard is being set (in separate process)
     // activate target window for pasting.
-    waitForClipboardAndSelection([&]() {
-        c->moveToClipboard();
+    c->moveToClipboard();
 
-        if ( m_options.activateCloses() )
-            hideWindow();
+    if ( m_options.activateCloses() )
+        hideWindow();
 
-        if (activateWindow)
-            lastWindow->raise();
+    if (activateWindow)
+        lastWindow->raise();
 
-        resetStatus();
-    });
+    resetStatus();
+
+    m_clipboardManager.waitForClipboardSet();
 
     if (paste)
-        pasteClipboard(lastWindow);
+        lastWindow->pasteClipboard();
 }
 
 void MainWindow::disableClipboardStoring(bool disable)
@@ -3097,8 +3049,8 @@ void MainWindow::openAboutDialog()
 void MainWindow::showClipboardContent()
 {
     ClipboardDialog *clipboardDialog = openDialog<ClipboardDialog>(this);
-    connect( clipboardDialog, SIGNAL(changeClipboard(QVariantMap)),
-             this, SLOT(setClipboard(QVariantMap)) );
+    connect( clipboardDialog, &ClipboardDialog::changeClipboard,
+             this, &MainWindow::setClipboardAndSelection );
 }
 
 void MainWindow::showProcessManagerDialog()
@@ -3270,7 +3222,7 @@ void MainWindow::copyItems()
         return;
 
     const auto data = c->copyIndexes(indexes);
-    setClipboard(data);
+    m_clipboardManager.setClipboard(data);
 }
 
 bool MainWindow::saveTab(const QString &fileName, int tabIndex)

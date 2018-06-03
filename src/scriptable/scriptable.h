@@ -374,8 +374,6 @@ signals:
 private:
     void onExecuteOutput(const QByteArray &output);
     void onMonitorRunScriptRequest(const QString &script, const QVariantMap &data);
-    void onProvidedClipboardChanged();
-    void onProvidedSelectionChanged();
 
     bool sourceScriptCommands();
     void callDisplayFunctions(QScriptValueList displayFunctions);

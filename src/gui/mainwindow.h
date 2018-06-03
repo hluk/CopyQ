@@ -20,6 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "app/clipboardmanager.h"
 #include "common/clipboardmode.h"
 #include "common/command.h"
 #include "gui/clipboardbrowsershared.h"
@@ -358,7 +359,7 @@ public slots:
     bool isInternalActionId(int id) const;
 
     void setClipboard(const QVariantMap &data, ClipboardMode mode);
-    void setClipboard(const QVariantMap &data);
+    void setClipboardAndSelection(const QVariantMap &data);
     void setClipboardAndWait(const QVariantMap &data, ClipboardMode mode);
     void moveToClipboard(ClipboardBrowser *c, int row);
 
@@ -636,8 +637,6 @@ private:
     void updateActionShortcuts(int id);
     void updateActionShortcuts();
 
-    void pasteClipboard(const PlatformWindowPtr &window);
-
     QAction *actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context);
 
     void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
@@ -719,6 +718,8 @@ private:
 
     MenuMatchCommands m_trayMenuMatchCommands;
     MenuMatchCommands m_itemMenuMatchCommands;
+
+    ClipboardManager m_clipboardManager;
 
 #ifdef HAS_TESTS
     /// Key clicks sequence number last returned by sendKeyClicks().

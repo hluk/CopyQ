@@ -2427,18 +2427,6 @@ void Scriptable::onMonitorRunScriptRequest(const QString &script, const QVariant
     }
 }
 
-void Scriptable::onProvidedClipboardChanged()
-{
-    if ( !ownsClipboardData(ClipboardMode::Clipboard) )
-        emit finished();
-}
-
-void Scriptable::onProvidedSelectionChanged()
-{
-    if ( !ownsClipboardData(ClipboardMode::Selection) )
-        emit finished();
-}
-
 bool Scriptable::sourceScriptCommands()
 {
     const auto commands = m_proxy->scriptCommands();
@@ -2990,19 +2978,23 @@ void Scriptable::provideClipboard(ClipboardMode mode)
     auto clipboard = createPlatformNativeInterface()->clipboard();
     clipboard->setData(mode, m_data);
 
-    const auto slot = mode == ClipboardMode::Clipboard
-            ? &Scriptable::onProvidedClipboardChanged
-            : &Scriptable::onProvidedSelectionChanged;
+    const auto owner = m_data.value(mimeOwner).toByteArray();
+
+    QEventLoop loop;
+
+    const auto checkClipboardOwnership = [&]() {
+        if ( clipboardOwnerData(mode) != owner )
+            loop.quit();
+    };
 
     QTimer t;
     t.setInterval(8000);
-    connect(&t, &QTimer::timeout, this, slot);
+    connect(&t, &QTimer::timeout, this, checkClipboardOwnership);
     t.start();
 
-    QEventLoop loop;
     connect( this, &Scriptable::finished, &loop, &QEventLoop::quit );
     connect( this, &Scriptable::stop, &loop, &QEventLoop::quit );
-    connect( clipboard.get(), &PlatformClipboard::changed, this, slot );
+    connect( clipboard.get(), &PlatformClipboard::changed, this, checkClipboardOwnership );
     loop.exec();
 }
 

@@ -168,7 +168,7 @@ void ClipboardMonitor::runAutomaticCommands()
         clipboardData->runAutomaticCommands = false;
         auto &data = clipboardData->lastData;
 
-        if ( ownsClipboardData(data) ) {
+        if ( anySessionOwnsClipboardData(data) ) {
             emit runScriptRequest("onOwnClipboardChanged()", data);
         } else if ( isClipboardDataHidden(data) ) {
             emit runScriptRequest("onHiddenClipboardChanged()", data);

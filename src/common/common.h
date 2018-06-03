@@ -52,7 +52,7 @@ bool isMainThread();
 
 const QMimeData *clipboardData(ClipboardMode mode = ClipboardMode::Clipboard);
 
-bool ownsClipboardData(ClipboardMode mode);
+QByteArray makeClipboardOwnerData();
 
 QByteArray clipboardOwnerData(ClipboardMode mode);
 
@@ -65,7 +65,9 @@ QVariantMap cloneData(const QMimeData &data);
 QMimeData* createMimeData(const QVariantMap &data);
 
 /** Return true if clipboard content was created by any session of this application. */
-bool ownsClipboardData(const QVariantMap &data);
+bool anySessionOwnsClipboardData(const QVariantMap &data);
+
+bool thisSessionOwnsClipboardData(const QVariantMap &data);
 
 /**
  * Elide text with given font or to maximum length

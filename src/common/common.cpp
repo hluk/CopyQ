@@ -172,10 +172,11 @@ bool hasNonInternalFormats(const QStringList &formats) {
     return false;
 }
 
-QByteArray thisClipboardOwnerData()
+QByteArray thisSessionClipboardOwnerDataPrefix()
 {
-    return qgetenv("COPYQ_SESSION_NAME")
-            + " " + QByteArray::number(QCoreApplication::applicationPid());
+    static QByteArray prefix = qgetenv("COPYQ_SESSION_NAME")
+            + " " + QByteArray::number(QCoreApplication::applicationPid()) + "/";
+    return prefix;
 }
 
 } // namespace
@@ -302,11 +303,8 @@ QMimeData* createMimeData(const QVariantMap &data)
     for ( const auto &format : copyFormats )
         newClipboardData->setData( format, data[format].toByteArray() );
 
-#ifdef HAS_TESTS
-    // Don't set clipboard owner if monitor is only used to set clipboard for tests.
-    if ( !qApp->property("CopyQ_testing").toBool() )
-#endif
-        newClipboardData->setData( mimeOwner, thisClipboardOwnerData() );
+    if ( !copyFormats.contains(mimeOwner) )
+        newClipboardData->setData( mimeOwner, makeClipboardOwnerData() );
 
     // Set image data.
     const QStringList formats =
@@ -319,7 +317,7 @@ QMimeData* createMimeData(const QVariantMap &data)
     return newClipboardData.release();
 }
 
-bool ownsClipboardData(const QVariantMap &data)
+bool anySessionOwnsClipboardData(const QVariantMap &data)
 {
     return data.contains(mimeOwner);
 }
@@ -568,13 +566,20 @@ void acceptDrag(QDropEvent *event)
     }
 }
 
-bool ownsClipboardData(ClipboardMode mode)
+QByteArray makeClipboardOwnerData()
 {
-    return clipboardOwnerData(mode) == thisClipboardOwnerData();
+    static int id = 0;
+    return thisSessionClipboardOwnerDataPrefix() + QByteArray::number(++id);
 }
 
 QByteArray clipboardOwnerData(ClipboardMode mode)
 {
     const auto data = clipboardData(mode);
     return data ? data->data(mimeOwner) : QByteArray();
+}
+
+bool thisSessionOwnsClipboardData(const QVariantMap &data)
+{
+    const auto owner = data.value(mimeOwner).toByteArray();
+    return owner.startsWith(thisSessionClipboardOwnerDataPrefix());
 }

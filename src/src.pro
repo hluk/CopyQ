@@ -131,6 +131,7 @@ SOURCES += \
     app/app.cpp \
     app/applicationexceptionhandler.cpp \
     app/clipboardclient.cpp \
+    app/clipboardmanager.cpp \
     app/clipboardmonitor.cpp \
     app/clipboardserver.cpp \
     common/action.cpp \
