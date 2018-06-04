@@ -1,3 +1,4 @@
+QT += x11extras
 DEFINES += COPYQ_WS_X11 HAS_X11TEST
 LIBS    += -lX11 -lXfixes -lXtst
 SOURCES += \
