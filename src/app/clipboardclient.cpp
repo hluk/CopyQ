@@ -58,6 +58,7 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
              || arguments[0] == "provideClipboard"
              || arguments[0] == "provideSelection") )
     {
+        QGuiApplication::setDesktopSettingsAware(false);
         return createPlatformNativeInterface()
                 ->createClipboardProviderApplication(argc, argv);
     }
