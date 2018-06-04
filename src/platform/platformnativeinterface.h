@@ -27,6 +27,7 @@
 class QApplication;
 class QCoreApplication;
 class QDir;
+class QGuiApplication;
 class QKeyEvent;
 
 class PlatformWindow;
@@ -86,14 +87,14 @@ public:
     virtual QApplication *createServerApplication(int &argc, char **argv) = 0;
 
     /**
-     * Create QApplication object for clipboard monitor.
+     * Create QGuiApplication object for clipboard monitor.
      */
-    virtual QApplication *createMonitorApplication(int &argc, char **argv) = 0;
+    virtual QGuiApplication *createMonitorApplication(int &argc, char **argv) = 0;
 
     /**
-     * Create QApplication object that provides clipboard.
+     * Create QGuiApplication object that provides clipboard.
      */
-    virtual QApplication *createClipboardProviderApplication(int &argc, char **argv) = 0;
+    virtual QGuiApplication *createClipboardProviderApplication(int &argc, char **argv) = 0;
 
     /**
      * Create QCoreApplication object for client.

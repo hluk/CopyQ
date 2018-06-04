@@ -185,12 +185,12 @@ QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
     return app;
 }
 
-QApplication *MacPlatform::createMonitorApplication(int &argc, char **argv)
+QGuiApplication *MacPlatform::createMonitorApplication(int &argc, char **argv)
 {
     return new Activity<ClipboardApplication>(argc, argv, MacActivity::Background, "CopyQ clipboard monitor");
 }
 
-QApplication *MacPlatform::createClipboardProviderApplication(int &argc, char **argv)
+QGuiApplication *MacPlatform::createClipboardProviderApplication(int &argc, char **argv)
 {
     return new Activity<ClipboardApplication>(argc, argv, MacActivity::Background, "CopyQ clipboard provider");
 }

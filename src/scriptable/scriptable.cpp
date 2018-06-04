@@ -2963,7 +2963,7 @@ bool Scriptable::canExecuteCommandFilter(const QString &matchCommand)
 
 bool Scriptable::verifyClipboardAccess()
 {
-    if ( qobject_cast<QApplication*>(qApp) != nullptr )
+    if ( qobject_cast<QGuiApplication*>(qApp) != nullptr )
         return true;
 
     throwError("Cannot access system clipboard with QCoreApplication");

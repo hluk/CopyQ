@@ -242,14 +242,14 @@ QApplication *X11Platform::createServerApplication(int &argc, char **argv)
     return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
-QApplication *X11Platform::createMonitorApplication(int &argc, char **argv)
+QGuiApplication *X11Platform::createMonitorApplication(int &argc, char **argv)
 {
-    return new ApplicationExceptionHandler<QApplication>(argc, argv);
+    return new ApplicationExceptionHandler<QGuiApplication>(argc, argv);
 }
 
-QApplication *X11Platform::createClipboardProviderApplication(int &argc, char **argv)
+QGuiApplication *X11Platform::createClipboardProviderApplication(int &argc, char **argv)
 {
-    return new ApplicationExceptionHandler<QApplication>(argc, argv);
+    return new ApplicationExceptionHandler<QGuiApplication>(argc, argv);
 }
 
 QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)

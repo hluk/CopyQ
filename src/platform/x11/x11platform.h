@@ -58,9 +58,9 @@ public:
 
     QApplication *createServerApplication(int &argc, char **argv) override;
 
-    QApplication *createMonitorApplication(int &argc, char **argv) override;
+    QGuiApplication *createMonitorApplication(int &argc, char **argv) override;
 
-    QApplication *createClipboardProviderApplication(int &argc, char **argv) override;
+    QGuiApplication *createClipboardProviderApplication(int &argc, char **argv) override;
 
     QCoreApplication *createClientApplication(int &argc, char **argv) override;
 
