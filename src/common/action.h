@@ -114,8 +114,6 @@ signals:
 
     void actionOutput(const QByteArray &output);
 
-    void dataChanged(const QVariantMap &data);
-
 private slots:
     void onSubProcessError(QProcess::ProcessError error);
     void onSubProcessStarted();
