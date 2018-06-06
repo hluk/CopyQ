@@ -2975,10 +2975,13 @@ void Scriptable::provideClipboard(ClipboardMode mode)
     if (!verifyClipboardAccess())
         return;
 
+    const auto owner = makeClipboardOwnerData();
+    m_data.insert(mimeOwner, owner);
+
     auto clipboard = createPlatformNativeInterface()->clipboard();
     clipboard->setData(mode, m_data);
 
-    const auto owner = m_data.value(mimeOwner).toByteArray();
+    m_proxy->setActionData(m_actionId, QVariantMap());
 
     QEventLoop loop;
 

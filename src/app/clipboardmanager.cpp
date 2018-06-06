@@ -36,25 +36,22 @@ public:
     {
     }
 
-    void provideClipboard(QVariantMap data, ActionHandler *actionHandler)
+    void provideClipboard(const QVariantMap &data, ActionHandler *actionHandler)
     {
-        m_lastOwnerData = makeClipboardOwnerData();
-        data.insert(mimeOwner, m_lastOwnerData);
-
-        auto act = new Action();
-        act->setCommand(QStringList() << "copyq" << m_scriptFunctionName);
-        act->setData(data);
-        actionHandler->internalAction(act);
+        m_act = new Action();
+        m_act->setCommand(QStringList() << "copyq" << m_scriptFunctionName);
+        m_act->setData(data);
+        actionHandler->internalAction(m_act.data());
     }
 
-    const QByteArray &lastClipboardOwnerData() const
+    bool wasClipboardSet() const
     {
-        return m_lastOwnerData;
+        return m_act == nullptr || m_act->data().isEmpty();
     }
 
 private:
     QString m_scriptFunctionName;
-    QByteArray m_lastOwnerData;
+    QPointer<Action> m_act;
 };
 
 } // namespace
@@ -76,11 +73,11 @@ public:
             m_selectionAction.provideClipboard(data, m_actionHandler);
     }
 
-    bool ownsClipboard(ClipboardMode mode) const
+    bool wasClipboardSet(ClipboardMode mode) const
     {
-        const auto &act = (mode == ClipboardMode::Clipboard)
-            ? m_clipboardAction : m_selectionAction;
-        return clipboardOwnerData(mode) == act.lastClipboardOwnerData();
+        if (mode == ClipboardMode::Clipboard)
+            return m_clipboardAction.wasClipboardSet();
+        return m_selectionAction.wasClipboardSet();
     }
 
 private:
@@ -125,7 +122,7 @@ void ClipboardManager::waitForClipboardSet(ClipboardMode mode)
         return;
 #endif
 
-    if ( d->ownsClipboard(mode) )
+    if ( d->wasClipboardSet(mode) )
         return;
 
     QEventLoop loop;
@@ -136,9 +133,9 @@ void ClipboardManager::waitForClipboardSet(ClipboardMode mode)
     timerStop.start();
 
     QTimer timerCheck;
-    timerCheck.setInterval(50);
+    timerCheck.setInterval(0);
     QObject::connect( &timerCheck, &QTimer::timeout, [&]() {
-        if ( d->ownsClipboard(mode) )
+        if ( d->wasClipboardSet(mode) )
             loop.quit();
     });
     timerCheck.start();
