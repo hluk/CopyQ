@@ -44,9 +44,9 @@ public:
         actionHandler->internalAction(m_act.data());
     }
 
-    bool wasClipboardSet() const
+    QPointer<Action> action() const
     {
-        return m_act == nullptr || m_act->data().isEmpty();
+        return m_act;
     }
 
 private:
@@ -73,11 +73,11 @@ public:
             m_selectionAction.provideClipboard(data, m_actionHandler);
     }
 
-    bool wasClipboardSet(ClipboardMode mode) const
+    QPointer<Action> action(ClipboardMode mode) const
     {
-        if (mode == ClipboardMode::Clipboard)
-            return m_clipboardAction.wasClipboardSet();
-        return m_selectionAction.wasClipboardSet();
+        return mode == ClipboardMode::Clipboard
+            ? m_clipboardAction.action()
+            : m_selectionAction.action();
     }
 
 private:
@@ -109,21 +109,25 @@ void ClipboardManager::setClipboard(const QVariantMap &data, ClipboardMode mode)
     d->setClipboard(data, mode);
 }
 
-void ClipboardManager::waitForClipboardSet()
+bool ClipboardManager::waitForClipboardSet()
 {
-    waitForClipboardSet(ClipboardMode::Clipboard);
-    waitForClipboardSet(ClipboardMode::Selection);
+    return waitForClipboardSet(ClipboardMode::Clipboard)
+        && waitForClipboardSet(ClipboardMode::Selection);
 }
 
-void ClipboardManager::waitForClipboardSet(ClipboardMode mode)
+bool ClipboardManager::waitForClipboardSet(ClipboardMode mode)
 {
 #ifndef HAS_MOUSE_SELECTIONS
     if (mode == ClipboardMode::Selection)
-        return;
+        return true;
 #endif
 
-    if ( d->wasClipboardSet(mode) )
-        return;
+    const auto act = d->action(mode);
+    const auto completed = [&act] { return act == nullptr || act->data().isEmpty(); };
+    const auto success = [&act] { return act != nullptr && act->data().isEmpty(); };
+
+    if ( completed() )
+        return success();
 
     QEventLoop loop;
 
@@ -135,10 +139,12 @@ void ClipboardManager::waitForClipboardSet(ClipboardMode mode)
     QTimer timerCheck;
     timerCheck.setInterval(0);
     QObject::connect( &timerCheck, &QTimer::timeout, [&]() {
-        if ( d->wasClipboardSet(mode) )
+        if ( completed() )
             loop.quit();
     });
     timerCheck.start();
 
     loop.exec();
+
+    return success();
 }

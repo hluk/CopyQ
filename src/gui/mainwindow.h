@@ -360,8 +360,8 @@ public slots:
 
     void setClipboard(const QVariantMap &data, ClipboardMode mode);
     void setClipboardAndSelection(const QVariantMap &data);
-    void setClipboardAndWait(const QVariantMap &data, ClipboardMode mode);
-    void moveToClipboard(ClipboardBrowser *c, int row);
+    bool setClipboardAndWait(const QVariantMap &data, ClipboardMode mode);
+    bool moveToClipboard(ClipboardBrowser *c, int row);
 
     /** Show/hide main window. Return true only if window is shown. */
     bool toggleVisible();

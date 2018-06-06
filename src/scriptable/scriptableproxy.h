@@ -103,7 +103,7 @@ public slots:
     bool isMainWindowVisible();
     bool isMainWindowFocused();
     void disableMonitoring(bool arg1);
-    void setClipboard(const QVariantMap &data, ClipboardMode mode);
+    bool setClipboard(const QVariantMap &data, ClipboardMode mode);
 
     QString renameTab(const QString &arg1, const QString &arg2);
 
@@ -127,7 +127,7 @@ public slots:
             const NotificationButtons &buttons = NotificationButtons());
 
     QVariantMap nextItem(int where);
-    void browserMoveToClipboard(int row);
+    bool browserMoveToClipboard(int row);
     void browserSetCurrent(int arg1);
     QString browserRemoveRows(QVector<int> rows);
 

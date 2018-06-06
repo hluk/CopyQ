@@ -1631,12 +1631,13 @@ void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, 
     const auto itemHash = ::hash(data);
     if ( !c || !c->moveToClipboard(itemHash) )
         m_clipboardManager.setClipboard(data);
-    m_clipboardManager.waitForClipboardSet();
 
-    PlatformWindowPtr lastWindow = m_lastWindow;
+    if ( m_clipboardManager.waitForClipboardSet() ) {
+        PlatformWindowPtr lastWindow = m_lastWindow;
 
-    if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() )
-        lastWindow->pasteClipboard();
+        if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() )
+            lastWindow->pasteClipboard();
+    }
 }
 
 QWidget *MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
@@ -2761,13 +2762,13 @@ void MainWindow::setClipboardAndSelection(const QVariantMap &data)
     m_clipboardManager.setClipboard(data);
 }
 
-void MainWindow::setClipboardAndWait(const QVariantMap &data, ClipboardMode mode)
+bool MainWindow::setClipboardAndWait(const QVariantMap &data, ClipboardMode mode)
 {
     m_clipboardManager.setClipboard(data, mode);
-    m_clipboardManager.waitForClipboardSet(mode);
+    return m_clipboardManager.waitForClipboardSet(mode);
 }
 
-void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
+bool MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
 {
     if (c) {
         const auto index = c->index(row);
@@ -2779,7 +2780,7 @@ void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
         m_clipboardManager.setClipboard(QVariantMap());
     }
 
-    m_clipboardManager.waitForClipboardSet();
+    return m_clipboardManager.waitForClipboardSet();
 }
 
 void MainWindow::activateCurrentItem()
@@ -2824,9 +2825,7 @@ void MainWindow::activateCurrentItemHelper()
 
     resetStatus();
 
-    m_clipboardManager.waitForClipboardSet();
-
-    if (paste)
+    if ( m_clipboardManager.waitForClipboardSet() && paste)
         lastWindow->pasteClipboard();
 }
 

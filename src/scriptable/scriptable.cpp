@@ -96,11 +96,9 @@ QString argumentError()
     return Scriptable::tr("Invalid number of arguments!");
 }
 
-bool clipboardContains(
-        ClipboardMode mode, ScriptableProxy *proxy,
-        const QString &format, const QByteArray &content)
+QString clipboardError()
 {
-    return content == proxy->getClipboardData(format, mode);
+    return Scriptable::tr("Failed to set clipboard!");
 }
 
 QByteArray *getByteArray(const QScriptValue &value, const Scriptable *scriptable)
@@ -552,8 +550,10 @@ private:
             return;
 
         syncLog("Synchronizing");
-        m_scriptableProxy->setClipboard(m_data, m_targetClipboardMode);
-        syncLog("Synchronized");
+        if ( !m_scriptableProxy->setClipboard(m_data, m_targetClipboardMode) )
+            syncLog("Synchronized");
+        else
+            syncLog("Failed to synchronize");
     }
 
     void syncLog(const char *message) const
@@ -1106,8 +1106,10 @@ void Scriptable::select()
     m_skipArguments = 1;
     QScriptValue value = argument(0);
     int row;
-    if ( toInt(value, &row) )
-        m_proxy->browserMoveToClipboard(row);
+    if ( !toInt(value, &row) )
+        throwError(argumentError());
+    else if ( !m_proxy->browserMoveToClipboard(row) )
+        throwError(clipboardError());
 }
 
 void Scriptable::next()
@@ -2645,17 +2647,11 @@ bool Scriptable::setClipboard(QVariantMap *data, ClipboardMode mode)
     data->insert(mime, id);
 
     for (int i = 0; i < setClipboardMaxRetries; ++i) {
-        m_proxy->setClipboard(*data, mode);
-
-        // Wait for clipboard to be set.
-        for (int j = 0; j < 10; ++j) {
-            if ( clipboardContains(mode, m_proxy, mime, id) )
-                return true;
-            waitFor(5 + i * 20 + j * 10);
-        }
+        if ( m_proxy->setClipboard(*data, mode) )
+            return true;
     }
 
-    throwError( tr("Failed to set clipboard!") );
+    throwError(clipboardError());
     return false;
 }
 

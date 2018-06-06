@@ -37,8 +37,8 @@ public:
 
     void setClipboard(const QVariantMap &data);
     void setClipboard(const QVariantMap &data, ClipboardMode mode);
-    void waitForClipboardSet();
-    void waitForClipboardSet(ClipboardMode mode);
+    bool waitForClipboardSet();
+    bool waitForClipboardSet(ClipboardMode mode);
 
 private:
     std::unique_ptr<ClipboardManagerPrivate> d;
