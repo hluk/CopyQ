@@ -14,5 +14,5 @@ rm -f debian/watch
 
 for distro in "${distros[@]}"; do
     ./utils/debian/update_changelog.sh "$distro"
-    debuild -S
+    debuild -S -d
 done
