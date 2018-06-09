@@ -1,3 +1,22 @@
+v3.5.0
+- Icon for global shortcuts in Shortcut configuration tab
+- Simpler icons (smaller installation footprint)
+- Faster clipboard modifications
+- Faster and simpler invocation for commands run automatically
+- More compact Process Manager dialog
+- Scriptable function select() waits for clipboard to be set
+- Image masks for colorizing icons ("icon-mask" and "icon-busy-mask")
+- Fix showing icons when "System icons" is enabled (Windows and OS X)
+- Fix initial setup for encryption
+- Fix storing SVG images and other XML formats with text
+- Fix stopping clipboard monitor and other processes at exit
+- Fix restarting monitor whenever script commands change
+- Fix updating status in Process Manager
+- Fix using tab() multiple times from script
+- Fix building for Qt 5.11
+- Windows: Use Qt 5.6 LTS version for released binaries
+- OSX: Fix URI list and UTF-16 text clipboard formats
+
 v3.4.0
 - Fix icon sizes in menu
 - Fix showing dialog() above main window
