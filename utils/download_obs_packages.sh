@@ -35,9 +35,9 @@ if [ -z "$version" ]; then
 fi
 
 fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pkg_rpm}"
-fetch_package "${pkg}_Fedora_25${xrpm}"           "$url/Fedora_25/${pkg_rpm}"
 fetch_package "${pkg}_Fedora_26${xrpm}"           "$url/Fedora_26/${pkg_rpm}"
 fetch_package "${pkg}_Fedora_27${xrpm}"           "$url/Fedora_27/${pkg_rpm}"
+fetch_package "${pkg}_Fedora_28${xrpm}"           "$url/Fedora_28/${pkg_rpm}"
 fetch_package "${pkg}_Debian_8.0${xdeb_i386}"     "$url/Debian_8.0/${pkg_deb_i386}"
 fetch_package "${pkg}_Debian_8.0${xdeb}"          "$url/Debian_8.0/${pkg_deb}"
 fetch_package "${pkg}_Debian_9.0${xdeb_i386}"     "$url/Debian_9.0/${pkg_deb_i386}"
