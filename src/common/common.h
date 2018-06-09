@@ -110,8 +110,6 @@ void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object 
 
 QString dataToText(const QByteArray &bytes, const QString &mime);
 
-bool clipboardContains(ClipboardMode mode, const QVariantMap &data);
-
 bool isClipboardData(const QVariantMap &data);
 
 /**

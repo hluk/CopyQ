@@ -23,8 +23,13 @@
 #include "platform/platformnativeinterface.h"
 #include "platform/platformclipboard.h"
 
-#include <QTimer>
 #include <QVariantMap>
+
+enum class ClipboardOwnership {
+    Foreign,
+    Own,
+    Hidden,
+};
 
 class ClipboardMonitor : public QObject
 {
@@ -34,15 +39,16 @@ public:
     explicit ClipboardMonitor(const QStringList &formats);
 
 signals:
-    void runScriptRequest(const QString &script, const QVariantMap &data);
+    void clipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
+    void synchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash);
 
 private:
-    void onClipboardChanged(ClipboardMode mode);
-
     struct ClipboardData {
         QVariantMap lastData;
         bool runAutomaticCommands = false;
     };
+
+    void onClipboardChanged(ClipboardMode mode);
 
     bool m_executingAutomaticCommands = false;
     ClipboardData m_clipboardData;

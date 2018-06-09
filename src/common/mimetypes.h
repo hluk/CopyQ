@@ -36,7 +36,5 @@ extern const char mimeHidden[];
 extern const char mimeShortcut[];
 extern const char mimeColor[];
 extern const char mimeOutputTab[];
-extern const char mimeSyncToClipboard[];
-extern const char mimeSyncToSelection[];
 
 #endif // MIMETYPES_H

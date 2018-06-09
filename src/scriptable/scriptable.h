@@ -46,6 +46,8 @@ class QNetworkAccessManager;
 class QScriptEngine;
 class QTextCodec;
 
+enum class ClipboardOwnership;
+
 class Scriptable : public QObject, protected QScriptable
 {
     Q_OBJECT
@@ -65,8 +67,6 @@ class Scriptable : public QObject, protected QScriptable
     Q_PROPERTY(QScriptValue mimeShortcut READ getMimeShortcut)
     Q_PROPERTY(QScriptValue mimeColor READ getMimeColor)
     Q_PROPERTY(QScriptValue mimeOutputTab READ getMimeOutputTab)
-    Q_PROPERTY(QScriptValue mimeSyncToClipboard READ getMimeSyncToClipboard)
-    Q_PROPERTY(QScriptValue mimeSyncToSelection READ getMimeSyncToSelection)
 
     Q_PROPERTY(QScriptValue global READ getGlobal)
     Q_PROPERTY(QScriptValue plugins READ getPlugins)
@@ -141,8 +141,6 @@ public:
     QScriptValue getMimeShortcut() const { return mimeShortcut; }
     QScriptValue getMimeColor() const { return mimeColor; }
     QScriptValue getMimeOutputTab() const { return mimeOutputTab; }
-    QScriptValue getMimeSyncToClipboard() const { return mimeSyncToClipboard; }
-    QScriptValue getMimeSyncToSelection() const { return mimeSyncToSelection; }
 
     QScriptValue getGlobal();
     QScriptValue getPlugins();
@@ -343,10 +341,12 @@ public slots:
     void onOwnClipboardChanged();
     void onHiddenClipboardChanged();
 
+    void synchronizeToSelection();
+    void synchronizeFromSelection();
+
     void setClipboardData();
     void updateTitle();
     void setTitle();
-    void synchronizeSelection();
     void saveData();
     QScriptValue hasData();
     void showDataNotification();
@@ -367,17 +367,17 @@ signals:
     void dataReceived();
     void finished();
     void readInput();
-    void resetSynchronizeSelectionTimer();
-    void startSynchronizeSelectionTimer(ClipboardMode targetMode, const QVariantMap &data);
     void stop();
 
 private:
     void onExecuteOutput(const QByteArray &output);
-    void onMonitorRunScriptRequest(const QString &script, const QVariantMap &data);
+    void onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
+    void onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash);
 
     bool sourceScriptCommands();
     void callDisplayFunctions(QScriptValueList displayFunctions);
     QString processUncaughtException(const QString &cmd);
+    void processUncaughtMonitorException(const char *label);
     void showExceptionMessage(const QString &message);
     QVector<int> getRows() const;
     QScriptValue copy(ClipboardMode mode);
@@ -404,6 +404,8 @@ private:
 
     void getActionData();
     void setActionData();
+
+    void synchronizeSelection(ClipboardMode targetMode);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;

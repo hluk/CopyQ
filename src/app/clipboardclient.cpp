@@ -23,6 +23,7 @@
 #include "common/clientsocket.h"
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
+#include "common/common.h"
 #include "common/log.h"
 #include "common/textdata.h"
 #include "platform/platformnativeinterface.h"
@@ -56,7 +57,12 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
     if ( !arguments.isEmpty() && (
              arguments[0] == "monitorClipboard"
              || arguments[0] == "provideClipboard"
-             || arguments[0] == "provideSelection") )
+             || arguments[0] == "provideSelection"
+#ifdef HAS_MOUSE_SELECTIONS
+             || arguments[0] == "synchronizeToSelection"
+             || arguments[0] == "synchronizeFromSelection"
+#endif
+             ) )
     {
         QGuiApplication::setDesktopSettingsAware(false);
         return createPlatformNativeInterface()

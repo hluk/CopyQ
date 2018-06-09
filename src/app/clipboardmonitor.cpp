@@ -57,44 +57,16 @@ bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
     return true;
 }
 
-#ifdef HAS_MOUSE_SELECTIONS
-bool needSyncClipboardToSelection(const QVariantMap &data)
-{
-    return isClipboardData(data)
-            && AppConfig().option<Config::copy_clipboard>()
-            && !clipboardContains(ClipboardMode::Selection, data);
-}
-
-bool needSyncSelectionToClipboard(const QVariantMap &data)
-{
-    return !isClipboardData(data)
-            && AppConfig().option<Config::copy_selection>()
-            && !clipboardContains(ClipboardMode::Clipboard, data);
-}
-
 bool needStore(const QVariantMap &data)
 {
     return isClipboardData(data)
             ? AppConfig().option<Config::check_clipboard>()
+#ifdef HAS_MOUSE_SELECTIONS
             : AppConfig().option<Config::check_selection>();
-}
 #else
-bool needSyncClipboardToSelection(const QVariantMap &)
-{
-    return false;
-}
-
-bool needSyncSelectionToClipboard(const QVariantMap &)
-{
-    return false;
-}
-
-bool needStore(const QVariantMap &data)
-{
-    return isClipboardData(data)
-            && AppConfig().option<Config::check_clipboard>();
-}
+            : false;
 #endif
+}
 
 bool isClipboardDataHidden(const QVariantMap &data)
 {
@@ -124,8 +96,9 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
         return;
     }
 
-    COPYQ_LOG( QString("%1 changed")
-               .arg(mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection") );
+    COPYQ_LOG( QString("%1 changed, owner is \"%2\"")
+               .arg(mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection")
+               .arg(getTextData(data, mimeOwner)) );
 
     if (mode != ClipboardMode::Clipboard) {
         const QString modeName = mode == ClipboardMode::Selection
@@ -141,6 +114,22 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
         if (currentWindow)
             data.insert( mimeWindowTitle, currentWindow->getTitle().toUtf8() );
     }
+
+#ifdef HAS_MOUSE_SELECTIONS
+    if ( !data.contains(mimeOwner)
+         && (mode == ClipboardMode::Clipboard
+             ? AppConfig().option<Config::copy_clipboard>()
+             : AppConfig().option<Config::copy_selection>()) )
+    {
+        const auto text = getTextData(data);
+        if ( !text.isEmpty() ) {
+            const auto targetData = mode == ClipboardMode::Clipboard
+                    ? &m_selectionData : &m_clipboardData;
+            const auto targetText = getTextData(targetData->lastData);
+            emit synchronizeSelection(mode, text, qHash(targetText));
+        }
+    }
+#endif
 
     clipboardData->lastData = data;
     clipboardData->runAutomaticCommands = true;
@@ -169,9 +158,9 @@ void ClipboardMonitor::runAutomaticCommands()
         auto &data = clipboardData->lastData;
 
         if ( anySessionOwnsClipboardData(data) ) {
-            emit runScriptRequest("onOwnClipboardChanged()", data);
+            emit clipboardChanged(data, ClipboardOwnership::Own);
         } else if ( isClipboardDataHidden(data) ) {
-            emit runScriptRequest("onHiddenClipboardChanged()", data);
+            emit clipboardChanged(data, ClipboardOwnership::Hidden);
         } else {
             setTextData(&data, defaultTabName(), mimeCurrentTab);
 
@@ -180,13 +169,7 @@ void ClipboardMonitor::runAutomaticCommands()
                 setTextData(&data, clipboardTab, mimeOutputTab);
             }
 
-            if ( needSyncClipboardToSelection(data) )
-                data.insert(mimeSyncToSelection, QByteArray());
-
-            if ( needSyncSelectionToClipboard(data) )
-                data.insert(mimeSyncToClipboard, QByteArray());
-
-            emit runScriptRequest("onClipboardChanged()", data);
+            emit clipboardChanged(data, ClipboardOwnership::Foreign);
         }
 
         m_executingAutomaticCommands = false;

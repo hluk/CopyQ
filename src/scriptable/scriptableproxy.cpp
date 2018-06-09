@@ -19,6 +19,7 @@
 
 #include "scriptableproxy.h"
 
+#include "common/action.h"
 #include "common/appconfig.h"
 #include "common/command.h"
 #include "common/commandstore.h"
@@ -922,6 +923,15 @@ void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
 {
     INVOKE2(action, (arg1, arg2));
     m_wnd->action(arg1, arg2, QModelIndex());
+}
+
+void ScriptableProxy::runInternalAction(const QVariantMap &data, const QString &command)
+{
+    INVOKE2(runInternalAction, (data, command));
+    auto action = new Action();
+    action->setCommand(command);
+    action->setData(data);
+    m_wnd->runInternalAction(action);
 }
 
 void ScriptableProxy::showMessage(const QString &title,

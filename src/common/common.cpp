@@ -461,24 +461,6 @@ QString dataToText(const QByteArray &bytes, const QString &mime)
     return codec->toUnicode(bytes);
 }
 
-bool clipboardContains(ClipboardMode mode, const QVariantMap &data)
-{
-    const QMimeData *clipboardData = ::clipboardData(mode);
-    if (!clipboardData)
-        return false;
-
-    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
-        const auto &format = it.key();
-        if ( !format.startsWith(COPYQ_MIME_PREFIX)
-             && it.value().toByteArray() != getUtf8Data(*clipboardData, format) )
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 bool isClipboardData(const QVariantMap &data)
 {
     return data.value(mimeClipboardMode).toByteArray().isEmpty();

@@ -119,6 +119,8 @@ public slots:
 
     void action(const QVariantMap &arg1, const Command &arg2);
 
+    void runInternalAction(const QVariantMap &data, const QString &command);
+
     void showMessage(const QString &title,
             const QString &msg,
             const QString &icon,

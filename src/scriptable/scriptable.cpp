@@ -486,9 +486,7 @@ bool isInternalDataFormat(const QString &format)
         || format == mimeSelectedItems
         || format == mimeCurrentItem
         || format == mimeShortcut
-        || format == mimeOutputTab
-        || format == mimeSyncToClipboard
-        || format == mimeSyncToSelection;
+        || format == mimeOutputTab;
 }
 
 QVariantMap copyWithoutInternalData(const QVariantMap &data) {
@@ -512,63 +510,6 @@ QStringList monitorFormatsToSave()
 
     return factory.formatsToSave();
 }
-
-#ifdef HAS_MOUSE_SELECTIONS
-class SynchronizeSelectionTimer : public QObject
-{
-public:
-    explicit SynchronizeSelectionTimer(ScriptableProxy *scriptableProxy)
-        : QObject()
-        , m_scriptableProxy(scriptableProxy)
-    {
-        m_timer.setSingleShot(true);
-        QObject::connect(
-            &m_timer, &QTimer::timeout,
-            this, &SynchronizeSelectionTimer::synchronize);
-    }
-
-    void start(ClipboardMode targetClipboardMode, const QVariantMap &data)
-    {
-        m_targetClipboardMode = targetClipboardMode;
-        m_data = data;
-        if ( !m_timer.isActive() )
-            m_timer.start(0);
-        syncLog("Started");
-    }
-
-    void reset()
-    {
-        m_data.clear();
-        m_timer.start(500);
-        syncLog("Reset");
-    }
-
-private:
-    void synchronize()
-    {
-        if ( m_data.isEmpty() )
-            return;
-
-        syncLog("Synchronizing");
-        if ( !m_scriptableProxy->setClipboard(m_data, m_targetClipboardMode) )
-            syncLog("Synchronized");
-        else
-            syncLog("Failed to synchronize");
-    }
-
-    void syncLog(const char *message) const
-    {
-        COPYQ_LOG( QString("Sync to %1: %2")
-                   .arg(m_targetClipboardMode == ClipboardMode::Clipboard ? "clipboard" : "selection")
-                   .arg(message) );
-    }
-
-    ScriptableProxy *m_scriptableProxy;
-    ClipboardMode m_targetClipboardMode = ClipboardMode::Clipboard;
-    QVariantMap m_data;
-    QTimer m_timer;
-};
-#endif // HAS_MOUSE_SELECTIONS
 
 } // namespace
 
@@ -2234,7 +2175,6 @@ void Scriptable::onClipboardChanged()
     if (!hasData()) {
         updateClipboardData();
     } else if (runAutomaticCommands()) {
-        synchronizeSelection();
         saveData();
         updateClipboardData();
     } else {
@@ -2253,6 +2193,16 @@ void Scriptable::onHiddenClipboardChanged()
     eval("updateClipboardData()");
 }
 
+void Scriptable::synchronizeToSelection()
+{
+    synchronizeSelection(ClipboardMode::Selection);
+}
+
+void Scriptable::synchronizeFromSelection()
+{
+    synchronizeSelection(ClipboardMode::Clipboard);
+}
+
 void Scriptable::setClipboardData()
 {
     auto data = copyWithoutInternalData(m_data);
@@ -2269,19 +2219,6 @@ void Scriptable::setTitle()
     m_skipArguments = 1;
     const auto title = arg(0);
     m_proxy->setTitle(title);
-}
-
-void Scriptable::synchronizeSelection()
-{
-#ifdef HAS_MOUSE_SELECTIONS
-    const bool syncToSelection = m_data.contains(mimeSyncToSelection);
-    const bool syncToClipboard = m_data.contains(mimeSyncToClipboard);
-    if (!syncToClipboard && !syncToSelection)
-        return;
-
-    const auto targetClipboardMode = syncToSelection ? ClipboardMode::Selection : ClipboardMode::Clipboard;
-    emit startSynchronizeSelectionTimer(targetClipboardMode, m_data);
-#endif
 }
 
 void Scriptable::saveData()
@@ -2372,23 +2309,13 @@ void Scriptable::monitorClipboard()
 
     ClipboardMonitor monitor( monitorFormatsToSave() );
 
-#ifdef HAS_MOUSE_SELECTIONS
-    connect( QApplication::clipboard(), &QClipboard::changed,
-             this, [this]() {
-                m_data.remove(mimeSyncToSelection);
-                m_data.remove(mimeSyncToClipboard);
-                emit resetSynchronizeSelectionTimer();
-            });
-    SynchronizeSelectionTimer timer(m_proxy);
-    connect( this, &Scriptable::resetSynchronizeSelectionTimer, &timer, &SynchronizeSelectionTimer::reset );
-    connect( this, &Scriptable::startSynchronizeSelectionTimer, &timer, &SynchronizeSelectionTimer::start );
-#endif
-
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
     connect(this, &Scriptable::stop, &loop, &QEventLoop::quit);
-    connect( &monitor, &ClipboardMonitor::runScriptRequest,
-             this, &Scriptable::onMonitorRunScriptRequest );
+    connect( &monitor, &ClipboardMonitor::clipboardChanged,
+             this, &Scriptable::onMonitorClipboardChanged );
+    connect( &monitor, &ClipboardMonitor::synchronizeSelection,
+             this, &Scriptable::onSynchronizeSelection );
     loop.exec();
 }
 
@@ -2417,16 +2344,42 @@ void Scriptable::onExecuteOutput(const QByteArray &output)
     }
 }
 
-void Scriptable::onMonitorRunScriptRequest(const QString &script, const QVariantMap &data)
+void Scriptable::onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership)
 {
-    COPYQ_LOG("Monitor eval: " + script);
+    COPYQ_LOG( QString("onMonitorClipboardChanged: %1 %2, owner is \"%3\"")
+               .arg(ownership == ClipboardOwnership::Own ? "own"
+                  : ownership == ClipboardOwnership::Foreign ? "foreign"
+                  : "hidden")
+               .arg(isClipboardData(data) ? "clipboard" : "selection")
+               .arg(getTextData(data, mimeOwner)) );
+
     m_data = data;
     setActionData();
-    eval(script);
-    if ( engine()->hasUncaughtException() ) {
-        processUncaughtException("ClipboardMonitor::" + script);
-        engine()->clearExceptions();
-    }
+
+    if (ownership == ClipboardOwnership::Own)
+        onOwnClipboardChanged();
+    else if (ownership == ClipboardOwnership::Hidden)
+        onHiddenClipboardChanged();
+    else
+        onClipboardChanged();
+
+    processUncaughtMonitorException("ClipboardMonitor::onMonitorClipboardChanged");
+}
+
+void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash)
+{
+#ifdef HAS_MOUSE_SELECTIONS
+    auto data = createDataMap(mimeText, text);
+    data[COPYQ_MIME_PREFIX "target-text-hash"] = QByteArray::number(targetTextHash);
+    const auto command = sourceMode == ClipboardMode::Clipboard
+        ? "copyq synchronizeToSelection"
+        : "copyq synchronizeFromSelection";
+    m_proxy->runInternalAction(data, command);
+#else
+    Q_UNUSED(text);
+    Q_UNUSED(sourceMode);
+    Q_UNUSED(targetTextHash);
+#endif
 }
 
 bool Scriptable::sourceScriptCommands()
@@ -2561,6 +2514,14 @@ QString Scriptable::processUncaughtException(const QString &cmd)
     showExceptionMessage(exceptionName);
 
     return exceptionText;
+}
+
+void Scriptable::processUncaughtMonitorException(const char *label)
+{
+    if ( !engine()->hasUncaughtException() ) {
+        processUncaughtException(label);
+        engine()->clearExceptions();
+    }
 }
 
 void Scriptable::showExceptionMessage(const QString &message)
@@ -3075,6 +3036,63 @@ void Scriptable::setActionData()
         m_proxy->setActionData(m_actionId, m_data);
         m_oldData = m_data;
     }
+}
+
+void Scriptable::synchronizeSelection(ClipboardMode targetMode)
+{
+#ifdef HAS_MOUSE_SELECTIONS
+#   define COPYQ_SYNC_LOG(MESSAGE) \
+        COPYQ_LOG( QString("Synchronizing to %1: " MESSAGE) \
+                   .arg(targetMode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
+
+    if (!verifyClipboardAccess())
+        return;
+
+    {
+        // Avoid changing clipboard after a text is selected just before it's copied
+        // with a keyboard shortcut.
+        SleepTimer t(5000);
+        while ( QGuiApplication::queryKeyboardModifiers() != Qt::NoModifier ) {
+            if ( !t.sleep() && !canContinue() )
+                return;
+        }
+
+        const auto target = targetMode == ClipboardMode::Clipboard ? QClipboard::Clipboard : QClipboard::Selection;
+        const auto source = targetMode == ClipboardMode::Selection ? QClipboard::Clipboard : QClipboard::Selection;
+
+        // Stop if the clipboard/selection text already changed again.
+        auto clipboard = QGuiApplication::clipboard();
+        const auto sourceText = clipboard->text(source);
+        if (sourceText != getTextData(m_data)) {
+            COPYQ_SYNC_LOG("Cancelled (source text changed)");
+            return;
+        }
+
+        const auto targetText = clipboard->text(target);
+        const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
+        if (targetTextHash != qHash(targetText)) {
+            COPYQ_SYNC_LOG("Cancelled (target text changed)");
+            return;
+        }
+
+        // Stop if the clipboard and selection text is already synchronized
+        // or user selected text and copied it to clipboard.
+        if (sourceText == targetText) {
+            COPYQ_SYNC_LOG("Cancelled (target is same as source)");
+            return;
+        }
+    }
+
+    COPYQ_SYNC_LOG("Calling provideClipboard()/provideSelection()");
+
+    if (targetMode == ClipboardMode::Clipboard)
+        provideClipboard();
+    else
+        provideSelection();
+#   undef COPYQ_SYNC_LOG
+#else
+    Q_UNUSED(targetMode);
+#endif
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

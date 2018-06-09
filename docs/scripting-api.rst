@@ -887,7 +887,6 @@ omitted.
        if (!hasData()) {
            updateClipboardData();
        } else if (runAutomaticCommands()) {
-           synchronizeSelection();
            saveData();
            updateClipboardData();
        } else {
@@ -968,10 +967,23 @@ omitted.
 
    Set main window title and tool tip.
 
-.. js:function:: synchronizeSelection()
+.. js:function:: synchronizeToSelection(text)
 
-   Synchronize current data with clipboard and X11 selection
-   (depends on `mimeSyncToSelection` and `mimeSyncToClipboard`).
+   Synchronize current data from clipboard to X11 selection.
+
+   Called automatically from clipboard monitor process if option
+   ``copy_clipboard`` is enabled.
+
+   Default implementation calls ``provideSelection()``.
+
+.. js:function:: synchronizeFromSelection(text)
+
+   Synchronize current data from X11 selection to clipboard.
+
+   Called automatically from clipboard monitor process if option
+   ``copy_selection`` is enabled.
+
+   Default implementation calls ``provideClipboard()``.
 
 .. js:function:: saveData()
 
@@ -1247,30 +1259,6 @@ These MIME types values are assigned to global variables prefixed with
        removeData(mimeOutputTab)
 
    Valid only in automatic commands.
-
-.. js:data:: mimeSyncToClipboard (application/x-copyq-sync-to-selection)
-
-   If exists the X11 selection data will be copied to clipboard.
-
-   The synchronization will happened after all automatic commands are run.
-
-   .. code-block:: js
-
-       removeData(mimeSyncToClipboard)
-
-   Valid only in Linux/X11 in automatic commands.
-
-.. js:data:: mimeSyncToSelection (application/x-copyq-sync-to-clipboard)
-
-   If exists the clipboard data will be copied to X11 selection.
-
-   The synchronization will happened after all automatic commands are run.
-
-   .. code-block:: js
-
-       removeData(mimeSyncToSelection)
-
-   Valid only in Linux/X11 in automatic commands.
 
 Selected Items
 --------------
