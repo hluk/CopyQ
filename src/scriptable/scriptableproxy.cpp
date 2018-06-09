@@ -845,10 +845,10 @@ void ScriptableProxy::disableMonitoring(bool arg1)
     m_wnd->disableClipboardStoring(arg1);
 }
 
-bool ScriptableProxy::setClipboard(const QVariantMap &data, ClipboardMode mode)
+void ScriptableProxy::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
-    INVOKE(setClipboard, (data, mode));
-    return m_wnd->setClipboardAndWait(data, mode);
+    INVOKE2(setClipboard, (data, mode));
+    m_wnd->setClipboard(data, mode);
 }
 
 QString ScriptableProxy::renameTab(const QString &arg1, const QString &arg2)
@@ -968,11 +968,11 @@ QVariantMap ScriptableProxy::nextItem(int where)
     return c->copyIndex(index);
 }
 
-bool ScriptableProxy::browserMoveToClipboard(int row)
+void ScriptableProxy::browserMoveToClipboard(int row)
 {
-    INVOKE(browserMoveToClipboard, (row));
+    INVOKE2(browserMoveToClipboard, (row));
     ClipboardBrowser *c = fetchBrowser();
-    return m_wnd->moveToClipboard(c, row);
+    m_wnd->moveToClipboard(c, row);
 }
 
 void ScriptableProxy::browserSetCurrent(int arg1)

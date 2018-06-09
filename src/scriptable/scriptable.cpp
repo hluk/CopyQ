@@ -73,8 +73,6 @@ namespace {
 const char *const programName = "CopyQ Clipboard Manager";
 const char *const mimeIgnore = COPYQ_MIME_PREFIX "ignore";
 
-const int setClipboardMaxRetries = 3;
-
 QString helpHead()
 {
     return Scriptable::tr("Usage: copyq [%1]").arg(Scriptable::tr("COMMAND")) + "\n\n"
@@ -94,11 +92,6 @@ QString helpTail()
 QString argumentError()
 {
     return Scriptable::tr("Invalid number of arguments!");
-}
-
-QString clipboardError()
-{
-    return Scriptable::tr("Failed to set clipboard!");
 }
 
 QByteArray *getByteArray(const QScriptValue &value, const Scriptable *scriptable)
@@ -1049,8 +1042,8 @@ void Scriptable::select()
     int row;
     if ( !toInt(value, &row) )
         throwError(argumentError());
-    else if ( !m_proxy->browserMoveToClipboard(row) )
-        throwError(clipboardError());
+
+    m_proxy->browserMoveToClipboard(row);
 }
 
 void Scriptable::next()
@@ -2562,8 +2555,7 @@ QScriptValue Scriptable::copy(ClipboardMode mode)
         const QString mime = COPYQ_MIME_PREFIX "invalid";
         const QByteArray value = "invalid";
         data.insert(mime, value);
-        if ( !setClipboard(&data, mode) )
-            return false;
+        m_proxy->setClipboard(data, mode);
 
         m_proxy->copyFromCurrentWindow();
 
@@ -2581,7 +2573,8 @@ QScriptValue Scriptable::copy(ClipboardMode mode)
     if (args == 1) {
         QScriptValue value = argument(0);
         setTextData( &data, toString(value, this) );
-        return setClipboard(&data, mode);
+        m_proxy->setClipboard(data, mode);
+        return true;
     }
 
     if (args % 2 == 0) {
@@ -2593,26 +2586,11 @@ QScriptValue Scriptable::copy(ClipboardMode mode)
             toItemData(argument(++i), mime, &data);
         }
 
-        return setClipboard(&data, mode);
+        m_proxy->setClipboard(data, mode);
+        return true;
     }
 
     throwError(argumentError());
-    return false;
-}
-
-bool Scriptable::setClipboard(QVariantMap *data, ClipboardMode mode)
-{
-    const QString mime = COPYQ_MIME_PREFIX "hash";
-    data->remove(mime);
-    const QByteArray id = QByteArray::number(hash(*data));
-    data->insert(mime, id);
-
-    for (int i = 0; i < setClipboardMaxRetries; ++i) {
-        if ( m_proxy->setClipboard(*data, mode) )
-            return true;
-    }
-
-    throwError(clipboardError());
     return false;
 }
 
@@ -2675,9 +2653,9 @@ void Scriptable::nextToClipboard(int where)
     if (data.isEmpty())
         return;
 
-    setClipboard(&data, ClipboardMode::Clipboard);
+    m_proxy->setClipboard(data, ClipboardMode::Clipboard);
 #ifdef HAS_MOUSE_SELECTIONS
-    setClipboard(&data, ClipboardMode::Selection);
+    m_proxy->setClipboard(data, ClipboardMode::Selection);
 #endif
 }
 
@@ -2839,7 +2817,7 @@ bool Scriptable::runCommands(CommandType::CommandType type)
         if ( canContinue() && !command.cmd.isEmpty() ) {
             Action action;
             action.setCommand( command.cmd, QStringList(getTextData(m_data)) );
-            action.setInput(m_data, command.input);
+            action.setInputWithFormat(m_data, command.input);
             action.setName(command.name);
             action.setData(m_data);
 
@@ -2935,10 +2913,7 @@ void Scriptable::provideClipboard(ClipboardMode mode)
     const auto owner = makeClipboardOwnerData();
     m_data.insert(mimeOwner, owner);
 
-    auto clipboard = createPlatformNativeInterface()->clipboard();
-    clipboard->setData(mode, m_data);
-
-    m_proxy->setActionData(m_actionId, QVariantMap());
+    createPlatformNativeInterface()->clipboard()->setData(mode, m_data);
 
     QEventLoop loop;
 
@@ -2954,7 +2929,8 @@ void Scriptable::provideClipboard(ClipboardMode mode)
 
     connect( this, &Scriptable::finished, &loop, &QEventLoop::quit );
     connect( this, &Scriptable::stop, &loop, &QEventLoop::quit );
-    connect( clipboard.get(), &PlatformClipboard::changed, this, checkClipboardOwnership );
+    connect( QGuiApplication::clipboard(), &QClipboard::changed,
+             &t, checkClipboardOwnership );
     loop.exec();
 }
 

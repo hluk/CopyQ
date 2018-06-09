@@ -205,7 +205,7 @@ void Action::setCommand(const QStringList &arguments)
     m_cmds.append(QList<QStringList>() << arguments);
 }
 
-void Action::setInput(const QVariantMap &data, const QString &inputFormat)
+void Action::setInputWithFormat(const QVariantMap &data, const QString &inputFormat)
 {
     if (inputFormat == mimeItems) {
         m_input = serializeData(data);

@@ -64,7 +64,7 @@ public:
     void setInput(const QByteArray &input) { m_input = input; }
 
     /** Set data for input and input format. */
-    void setInput(const QVariantMap &data, const QString &inputFormat);
+    void setInputWithFormat(const QVariantMap &data, const QString &inputFormat);
 
     /** Return input formats. */
     const QStringList &inputFormats() const { return m_inputFormats; }

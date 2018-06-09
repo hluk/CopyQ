@@ -157,8 +157,6 @@ public:
     void setActionName(const QString &actionName);
     int executeArguments(const QStringList &args);
 
-    bool setClipboard(QVariantMap *data, ClipboardMode mode);
-
     void stopEventLoops();
 
     void abortEvaluation(Abort abort = Abort::AllEvaluations);

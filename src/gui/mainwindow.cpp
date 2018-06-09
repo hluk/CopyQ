@@ -1038,7 +1038,7 @@ void MainWindow::onActionDialogAccepted(const Command &command, const QStringLis
 {
     auto act = new Action();
     act->setCommand(command.cmd, arguments);
-    act->setInput(data, command.input);
+    act->setInputWithFormat(data, command.input);
     act->setName(command.name);
     act->setData(data);
 
@@ -1632,12 +1632,10 @@ void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, 
     if ( !c || !c->moveToClipboard(itemHash) )
         m_clipboardManager.setClipboard(data);
 
-    if ( m_clipboardManager.waitForClipboardSet() ) {
-        PlatformWindowPtr lastWindow = m_lastWindow;
+    PlatformWindowPtr lastWindow = m_lastWindow;
 
-        if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() )
-            lastWindow->pasteClipboard();
-    }
+    if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() )
+        lastWindow->pasteClipboard();
 }
 
 QWidget *MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
@@ -2762,13 +2760,7 @@ void MainWindow::setClipboardAndSelection(const QVariantMap &data)
     m_clipboardManager.setClipboard(data);
 }
 
-bool MainWindow::setClipboardAndWait(const QVariantMap &data, ClipboardMode mode)
-{
-    m_clipboardManager.setClipboard(data, mode);
-    return m_clipboardManager.waitForClipboardSet(mode);
-}
-
-bool MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
+void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
 {
     if (c) {
         const auto index = c->index(row);
@@ -2779,8 +2771,6 @@ bool MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
     } else {
         m_clipboardManager.setClipboard(QVariantMap());
     }
-
-    return m_clipboardManager.waitForClipboardSet();
 }
 
 void MainWindow::activateCurrentItem()
@@ -2825,7 +2815,7 @@ void MainWindow::activateCurrentItemHelper()
 
     resetStatus();
 
-    if ( m_clipboardManager.waitForClipboardSet() && paste)
+    if (paste)
         lastWindow->pasteClipboard();
 }
 
@@ -3397,7 +3387,7 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
     } else {
         auto act = new Action();
         act->setCommand( cmd.cmd, QStringList(getTextData(data)) );
-        act->setInput(data, cmd.input);
+        act->setInputWithFormat(data, cmd.input);
         act->setName(cmd.name);
         act->setData(data);
 

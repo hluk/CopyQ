@@ -21,69 +21,69 @@
 
 #include "common/action.h"
 #include "common/common.h"
+#include "common/log.h"
 #include "common/mimetypes.h"
 #include "gui/actionhandler.h"
+#include "platform/platformclipboard.h"
+#include "platform/platformnativeinterface.h"
 
-#include <QEventLoop>
 #include <QTimer>
-
-namespace {
-
-class ClipboardAction {
-public:
-    explicit ClipboardAction(const QString &scriptFunctionName)
-        : m_scriptFunctionName(scriptFunctionName)
-    {
-    }
-
-    void provideClipboard(const QVariantMap &data, ActionHandler *actionHandler)
-    {
-        m_act = new Action();
-        m_act->setCommand(QStringList() << "copyq" << m_scriptFunctionName);
-        m_act->setData(data);
-        actionHandler->internalAction(m_act.data());
-    }
-
-    QPointer<Action> action() const
-    {
-        return m_act;
-    }
-
-private:
-    QString m_scriptFunctionName;
-    QPointer<Action> m_act;
-};
-
-} // namespace
 
 class ClipboardManagerPrivate {
 public:
     explicit ClipboardManagerPrivate(ActionHandler *actionHandler)
         : m_actionHandler(actionHandler)
-        , m_clipboardAction("provideClipboard")
-        , m_selectionAction("provideSelection")
     {
+        m_timerProvideClipboard.setInterval(4000);
+        m_timerProvideClipboard.setSingleShot(true);
+        QObject::connect(
+                    &m_timerProvideClipboard, &QTimer::timeout,
+                    [this] { provideClipboard(ClipboardMode::Clipboard, "provideClipboard", &m_clipboardData); });
+
+        m_timerProvideSelection.setInterval(4000);
+        m_timerProvideSelection.setSingleShot(true);
+        QObject::connect(
+                    &m_timerProvideSelection, &QTimer::timeout,
+                    [this] { provideClipboard(ClipboardMode::Selection, "provideSelection", &m_selectionData); });
     }
 
-    void setClipboard(const QVariantMap &data, ClipboardMode mode)
+    void setClipboard(QVariantMap data, ClipboardMode mode)
     {
-        if (mode == ClipboardMode::Clipboard)
-            m_clipboardAction.provideClipboard(data, m_actionHandler);
-        else
-            m_selectionAction.provideClipboard(data, m_actionHandler);
-    }
+        const auto owner = makeClipboardOwnerData();
+        data.insert(mimeOwner, owner);
 
-    QPointer<Action> action(ClipboardMode mode) const
-    {
-        return mode == ClipboardMode::Clipboard
-            ? m_clipboardAction.action()
-            : m_selectionAction.action();
+        // Provide clipboard here first to be able to paste quickly.
+        createPlatformNativeInterface()->clipboard()->setData(mode, data);
+
+        // Start separate process later to take over clipboard ownership.
+        if (mode == ClipboardMode::Clipboard) {
+            m_clipboardData = data;
+            m_timerProvideClipboard.start();
+        } else {
+            m_selectionData = data;
+            m_timerProvideSelection.start();
+        }
     }
 
 private:
+    void provideClipboard(ClipboardMode mode, const QString &scriptFunctionName, QVariantMap *data)
+    {
+        const auto owner = clipboardOwnerData(mode);
+        if ( owner != data->value(mimeOwner).toByteArray() )
+            return;
+
+        auto action = new Action();
+        action->setCommand(QStringList() << "copyq" << scriptFunctionName);
+        action->setData(*data);
+        data->clear();
+        m_actionHandler->internalAction(action);
+    }
+
     ActionHandler *m_actionHandler;
-    ClipboardAction m_clipboardAction;
-    ClipboardAction m_selectionAction;
+    QTimer m_timerProvideClipboard;
+    QTimer m_timerProvideSelection;
+    QVariantMap m_clipboardData;
+    QVariantMap m_selectionData;
 };
 
 ClipboardManager::ClipboardManager(ActionHandler *actionHandler)
@@ -107,44 +107,4 @@ void ClipboardManager::setClipboard(const QVariantMap &data, ClipboardMode mode)
 #endif
 
     d->setClipboard(data, mode);
-}
-
-bool ClipboardManager::waitForClipboardSet()
-{
-    return waitForClipboardSet(ClipboardMode::Clipboard)
-        && waitForClipboardSet(ClipboardMode::Selection);
-}
-
-bool ClipboardManager::waitForClipboardSet(ClipboardMode mode)
-{
-#ifndef HAS_MOUSE_SELECTIONS
-    if (mode == ClipboardMode::Selection)
-        return true;
-#endif
-
-    const auto act = d->action(mode);
-    const auto completed = [&act] { return act == nullptr || act->data().isEmpty(); };
-    const auto success = [&act] { return act != nullptr && act->data().isEmpty(); };
-
-    if ( completed() )
-        return success();
-
-    QEventLoop loop;
-
-    QTimer timerStop;
-    timerStop.setInterval(5000);
-    QObject::connect( &timerStop, &QTimer::timeout, &loop, &QEventLoop::quit );
-    timerStop.start();
-
-    QTimer timerCheck;
-    timerCheck.setInterval(0);
-    QObject::connect( &timerCheck, &QTimer::timeout, [&]() {
-        if ( completed() )
-            loop.quit();
-    });
-    timerCheck.start();
-
-    loop.exec();
-
-    return success();
 }
