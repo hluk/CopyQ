@@ -1609,9 +1609,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
 
 void ClipboardBrowser::addUnique(const QVariantMap &data)
 {
-    auto newData = data;
-
-    if ( moveToTop(hash(newData)) ) {
+    if ( moveToTop(hash(data)) ) {
         COPYQ_LOG("New item: Moving existing to top");
         return;
     }
@@ -1620,7 +1618,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
     // When selecting text under X11, clipboard data may change whenever selection changes.
     // Instead of adding item for each selection change, this updates previously added item.
     // Also update previous item if the same selected text is copied to clipboard afterwards.
-    if ( newData.contains(mimeText) ) {
+    if ( data.contains(mimeText) ) {
         const auto firstIndex = firstUnpinnedIndex();
         const QVariantMap previousData = copyIndex(firstIndex);
 
@@ -1629,17 +1627,18 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
              // Don't update edited item.
              && (!isInternalEditorOpen() || currentIndex() != firstIndex) )
         {
-            const auto newText = getTextData(newData);
+            const auto newText = getTextData(data);
             const auto oldText = getTextData(previousData);
             const auto isClipboard = isClipboardData(data);
             if ( isClipboard
                  ? (newText == oldText)
-                 : getTextData(newData).contains(getTextData(previousData)) )
+                 : getTextData(data).contains(getTextData(previousData)) )
             {
                 COPYQ_LOG("New item: Merging with top item");
 
-                const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
+                const QSet<QString> formatsToAdd = previousData.keys().toSet() - data.keys().toSet();
 
+                auto newData = data;
                 for (const auto &format : formatsToAdd)
                     newData.insert(format, previousData[format]);
 
@@ -1653,7 +1652,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
 
     COPYQ_LOG("New item: Adding");
 
-    add(newData);
+    add(data);
 }
 
 bool ClipboardBrowser::loadItems()
