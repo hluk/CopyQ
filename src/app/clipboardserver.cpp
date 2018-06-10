@@ -419,28 +419,22 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 {
     const QEvent::Type type = ev->type();
 
-    if ( m_ignoreKeysTimer.isActive()
-         && (type == QEvent::KeyPress
-             || type == QEvent::Shortcut
-             || type == QEvent::ShortcutOverride) )
-    {
-        ev->accept();
-        return true;
-    }
-
     if ( type == QEvent::KeyPress
          || type == QEvent::Shortcut
          || type == QEvent::ShortcutOverride )
     {
-        m_wnd->updateShortcuts();
-    }
+        if ( m_ignoreKeysTimer.isActive() ) {
+            ev->accept();
+            return true;
+        }
 
-    // Close menu on Escape key and give focus back to search edit or browser.
-    if (type == QEvent::KeyPress) {
-        QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
-        if (keyevent->key() == Qt::Key_Escape) {
+        m_wnd->updateShortcuts();
+
+        // Close menu on Escape key and give focus back to search edit or browser.
+        if (type == QEvent::KeyPress) {
+            QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
             QMenu *menu = qobject_cast<QMenu*>(object);
-            if (menu != nullptr) {
+            if (menu && keyevent->key() == Qt::Key_Escape) {
                 menu->close();
                 if (m_wnd->browseMode())
                     m_wnd->enterBrowseMode();

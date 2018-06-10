@@ -71,12 +71,22 @@ QString getTextData(const QByteArray &bytes)
 
 QString getTextData(const QVariantMap &data, const QString &mime)
 {
-    return getTextData( data.value(mime).toByteArray() );
+    const auto it = data.find(mime);
+    if ( it != data.constEnd() )
+        return getTextData( it->toByteArray() );
+
+    return QString();
 }
 
 QString getTextData(const QVariantMap &data)
 {
-    return getTextData(data, data.contains(mimeText) ? mimeText : mimeUriList);
+    for (const auto &mime : {mimeText, mimeUriList}) {
+        const auto it = data.find(mime);
+        if ( it != data.constEnd() )
+            return getTextData( it->toByteArray() );
+    }
+
+    return QString();
 }
 
 void setTextData(QVariantMap *data, const QString &text, const QString &mime)

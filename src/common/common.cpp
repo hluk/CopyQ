@@ -162,11 +162,11 @@ QByteArray getUtf8Data(const QMimeData &data, const QString &format)
     return data.data(format);
 }
 
-bool hasNonInternalFormats(const QStringList &formats) {
-    for (auto it = formats.constBegin(); it != formats.constEnd(); ++it) {
-        if ( !it->startsWith(COPYQ_MIME_PREFIX) ) {
+bool findFormatsWithPrefix(bool hasPrefix, const QString &prefix, const QVariantMap &data)
+{
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        if ( it.key().startsWith(prefix) == hasPrefix )
             return true;
-        }
     }
 
     return false;
@@ -331,7 +331,7 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     QStringList lines = text.split('\n');
 
     // Ignore empty lines at beginning.
-    const QRegExp reNonEmpty(".*\\S.*");
+    static const QRegExp reNonEmpty(".*\\S.*");
     const int firstLine = qMax(0, lines.indexOf(reNonEmpty));
     const int lastLine = qMax(0, lines.lastIndexOf(reNonEmpty, firstLine + maxLines - 1));
 
@@ -354,7 +354,7 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
 
     // Find common indentation.
     int commonIndent = lines.value(0).size();
-    const QRegExp reNonSpace("\\S");
+    static const QRegExp reNonSpace("\\S");
     for (const auto &line : lines) {
         const int lineIndent = line.indexOf(reNonSpace);
         if (lineIndent != -1 && lineIndent < commonIndent) {
@@ -389,13 +389,11 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
 {
     QString label;
 
-    const QStringList formats = data.keys();
-
     const QString notes = data.value(mimeItemNotes).toString();
 
     if ( data.contains(mimeHidden) ) {
         label = QObject::tr("<HIDDEN>", "Label for hidden/secret clipboard content");
-    } else if ( formats.contains(mimeText) || formats.contains(mimeUriList) ) {
+    } else if ( data.contains(mimeText) || data.contains(mimeUriList) ) {
         const QString text = getTextData(data);
         const int n = text.count(QChar('\n')) + 1;
 
@@ -409,9 +407,9 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
 
         const QString textWithNotes = notes.isEmpty() ? text : notes + ": " + text;
         return elideText(textWithNotes, font, label, escapeAmpersands, maxWidthPixels, maxLines);
-    } else if ( formats.indexOf(QRegExp("^image/.*")) != -1 ) {
+    } else if ( findFormatsWithPrefix(true, "image/", data) ) {
         label = QObject::tr("<IMAGE>", "Label for image in clipboard");
-    } else if ( !hasNonInternalFormats(formats) ) {
+    } else if ( findFormatsWithPrefix(false, COPYQ_MIME_PREFIX, data) ) {
         label = QObject::tr("<EMPTY>", "Label for empty clipboard");
     } else {
         label = QObject::tr("<DATA>", "Label for data in clipboard");
