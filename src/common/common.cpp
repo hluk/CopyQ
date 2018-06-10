@@ -66,9 +66,9 @@ QImage getImageData(const QMimeData &data)
 {
     // NOTE: Application hangs if using mulitple sessions and
     //       calling QMimeData::hasImage() on X11 clipboard.
-    COPYQ_LOG("Fetching image data from clipboard");
+    COPYQ_LOG_VERBOSE("Fetching image data from clipboard");
     const QImage image = data.imageData().value<QImage>();
-    COPYQ_LOG( QString("Image is %1").arg(image.isNull() ? "invalid" : "valid") );
+    COPYQ_LOG_VERBOSE( QString("Image is %1").arg(image.isNull() ? "invalid" : "valid") );
     return image;
 }
 
