@@ -17,6 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "common/log.h"
 #include "common/sleeptimer.h"
 #include "gui/clipboardspy.h"
 #include "platform/platformcommon.h"
@@ -310,8 +311,10 @@ void X11PlatformWindow::sendKeyPress(int modifier, int key)
 
     if ( !waitForFocus(20) ) {
         raise();
-        if ( !waitForFocus(150) )
+        if ( !waitForFocus(150) ) {
+            COPYQ_LOG( QString("Failed to focus window \"%1\"").arg(getTitle()) );
             return;
+        }
     }
 
     if (!QX11Info::isPlatformX11())
