@@ -44,8 +44,6 @@
 #include <QClipboard>
 #include <QDateTime>
 #include <QDir>
-#include <QDesktopServices>
-#include <QElapsedTimer>
 #include <QFile>
 #include <QFileInfo>
 #include <QMap>
@@ -62,8 +60,6 @@
 #include <QVector>
 #include <QTextCodec>
 #include <QTimer>
-
-#include <cmath>
 
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(QFile*)
