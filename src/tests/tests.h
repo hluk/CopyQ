@@ -114,9 +114,15 @@ private slots:
 
     void commandScreenshot();
 
+    void commandNotification();
+
     void commandIcon();
     void commandIconTag();
     void commandIconTagColor();
+
+    void commandDateString();
+
+    void commandAfterMilliseconds();
 
     void classFile();
     void classDir();
@@ -188,6 +194,7 @@ private slots:
     void shortcutCommandSetSelectedItemData();
     void shortcutCommandSelectedItemsData();
     void shortcutCommandSetSelectedItemsData();
+    void shortcutCommandSelectedAndCurrent();
 
     void automaticCommandIgnore();
     void automaticCommandRemove();

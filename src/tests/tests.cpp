@@ -1285,6 +1285,25 @@ void Tests::commandScreenshot()
     RUN("screenshot().size() > 0", "true\n")
 }
 
+void Tests::commandNotification()
+{
+    const auto script = R"(
+        notification(
+            '.title', 'title',
+            '.message', 'message',
+            '.time', 1000,
+            '.id', 'test',
+            '.icon', 'copyq',
+            '.button', 'OK', '', '',
+            '.button', 'CANCEL', '', ''
+        )
+        )";
+    RUN(script, "");
+
+    RUN_EXPECT_ERROR_WITH_STDERR(
+                "notification('.message', 'message', 'BAD')", CommandException, "Unknown argument: BAD");
+}
+
 void Tests::commandIcon()
 {
     RUN("iconColor", QByteArray(defaultSessionColor) + "\n");
@@ -1325,6 +1344,22 @@ void Tests::commandIconTagColor()
 
     RUN("iconTagColor" << defaultTagColor, "");
     RUN("iconTagColor", QByteArray(defaultTagColor) + "\n");
+}
+
+void Tests::commandDateString()
+{
+    const auto dateFormat = "TEST:yyyy-MM-dd";
+    const auto dateTime = QDateTime::currentDateTime();
+    const auto today = dateTime.toString(dateFormat);
+    RUN("dateString" << dateFormat, today + "\n");
+}
+
+void Tests::commandAfterMilliseconds()
+{
+    const QString script = "afterMilliseconds(100, function(){ print('TEST'); abort(); });";
+    RUN(script, "");
+    RUN(script + "sleep(1)", "");
+    RUN(script + "sleep(200)", "TEST");
 }
 
 void Tests::classFile()
@@ -2367,6 +2402,27 @@ void Tests::shortcutCommandSetSelectedItemsData()
     RUN("read" << "0", "A");
     RUN("read" << "1", "X");
     RUN("read" << "2", "Y");
+}
+
+void Tests::shortcutCommandSelectedAndCurrent()
+{
+    const auto script = R"(
+        setCommands([{
+            name: 'Set Data for Second Selected Item',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            output: 'text/plain',
+            cmd: 'copyq: print(selectedItems() + "|" + currentItem() + "|" + selectedTab())'
+        }])
+        )";
+    RUN(script, "");
+
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "add" << "C" << "B" << "A", "");
+
+    RUN("tab" << tab1 << "setCurrentTab" << tab1 << "selectItems" << "1" << "2", "true\n");
+    RUN("keys" << "CTRL+F1", "");
+    RUN("tab" << tab1 << "read(0)", "1,2|2|" + tab1);
 }
 
 void Tests::automaticCommandIgnore()
