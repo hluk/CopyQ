@@ -2500,7 +2500,10 @@ QString Scriptable::processUncaughtException(const QString &cmd)
                 QString("Exception in command \"%1\": %2")
                 .arg(cmd, exceptionText) );
 
-    showExceptionMessage(exceptionName);
+    // Show exception popups only if the script was launched from application.
+    // (avoid it if launched from command line).
+    if (m_actionId != -1)
+        showExceptionMessage(exceptionName);
 
     return exceptionText;
 }
