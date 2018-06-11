@@ -250,6 +250,12 @@ public:
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
             QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray()) override
     {
+        if (stdoutData != nullptr)
+            stdoutData->clear();
+
+        if (stderrData != nullptr)
+            stderrData->clear();
+
         QProcess p;
         if (!startTestProcess(&p, arguments))
             return -1;
@@ -261,13 +267,9 @@ public:
 
         if (stdoutData == nullptr)
             p.closeReadChannel(QProcess::StandardOutput);
-        else
-            stdoutData->clear();
 
         if (stderrData == nullptr)
             p.closeReadChannel(QProcess::StandardError);
-        else
-            stderrData->clear();
 
         SleepTimer t(waitClientRun);
         while ( p.state() == QProcess::Running ) {
@@ -1364,11 +1366,7 @@ void Tests::commandAfterMilliseconds()
 
 void Tests::classFile()
 {
-    RUN("eval" <<
-        "; var f = new File('/missing.file')"
-        "; f.exists()"
-        , "false\n"
-        );
+    RUN("var f = new File('/copyq_missing_file'); f.exists()", "false\n");
 }
 
 void Tests::classDir()
@@ -1384,26 +1382,94 @@ void Tests::classDir()
 
 void Tests::classTemporaryFile()
 {
-    RUN("eval" << "var f = new TemporaryFile(); f.open()", "true\n");
+    RUN("var f = new TemporaryFile(); f.open()", "true\n");
+
+    QByteArray err;
 
     for ( const auto autoRemove : {true, false} ) {
-        QByteArray out;
-        const auto cmd =
+        QByteArray fileName;
+        const auto script =
                 QString(R"(
                         var f = new TemporaryFile()
                         if (!f.open())
                             throw 'Failed to open temporary file'
+
                         f.setAutoRemove(%1)
                         print(f.fileName())
                         )").arg(autoRemove);
-        run( Args("eval") << cmd, &out );
+        run(Args() << script, &fileName, &err);
+        QVERIFY2( testStderr(err), err );
 
-        QFile f( QString::fromUtf8(out) );
+        QFile f( QString::fromUtf8(fileName) );
         QVERIFY( f.exists() != autoRemove );
 
         if (!autoRemove)
             f.remove();
     }
+
+    QByteArray fileName;
+    const auto scriptWrite = R"(
+        var f = new TemporaryFile()
+        if (!f.open())
+            throw 'Failed to open temporary file'
+
+        if (!f.write('LINE'))
+            throw 'Failed to write to temporary file'
+
+        f.setAutoRemove(false)
+        print(f.fileName())
+        )";
+    run(Args() << scriptWrite, &fileName);
+    QVERIFY2( testStderr(err), err );
+    QVERIFY( QFile::exists(QString::fromUtf8(fileName)) );
+
+    QByteArray out;
+    const auto scriptRead = R"(
+        var f = new File(str(input()))
+        if (!f.openReadOnly())
+            throw 'Failed to open file'
+
+        print(''
+            + ' exists()=' + str(f.exists())
+            + ' isOpen()=' + str(f.isOpen())
+            + ' isReadable()=' + str(f.isReadable())
+            + ' isWritable()=' + str(f.isWritable())
+            + ' size()=' + str(f.size())
+            + ' readAll()=' + str(f.readAll())
+            + ' atEnd()=' + str(f.atEnd())
+            + ' seek(0)=' + str(f.seek(0))
+            + ' read(1)=' + str(f.read(1))
+            + ' pos()=' + str(f.pos())
+            + ' peek(1)=' + str(f.peek(1))
+            + ' readLine()=' + str(f.readLine())
+        )
+        )";
+    const QByteArray expectedOut =
+        " exists()=true"
+        " isOpen()=true"
+        " isReadable()=true"
+        " isWritable()=false"
+        " size()=4"
+        " readAll()=LINE"
+        " atEnd()=true"
+        " seek(0)=true"
+        " read(1)=L"
+        " pos()=1"
+        " peek(1)=I"
+        " readLine()=INE";
+    run(Args() << scriptRead, &out, &err, fileName);
+    QVERIFY2( testStderr(err), err );
+    QCOMPARE(out, expectedOut);
+
+    const auto scriptRemove = R"(
+        var f = new File(str(input()))
+        if (!f.remove())
+            throw 'Failed to remove file'
+        )";
+    run(Args() << scriptRemove, &out, &err, fileName);
+    QVERIFY2( testStderr(err), err );
+    QCOMPARE(QByteArray(), out);
+    QVERIFY( !QFile::exists(QString::fromUtf8(fileName)) );
 }
 
 void Tests::chainingCommands()
