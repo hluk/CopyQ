@@ -2379,7 +2379,7 @@ bool Scriptable::sourceScriptCommands()
         eval(command.cmd, command.name);
         engine()->popContext();
         if ( engine()->hasUncaughtException() ) {
-            const auto exceptionText = processUncaughtException("ScriptCommand::" + command.cmd);
+            const auto exceptionText = processUncaughtException("ScriptCommand::" + command.name);
             const auto message = createScriptErrorMessage(exceptionText).toUtf8();
             printError(message);
             return false;
@@ -2449,7 +2449,7 @@ int Scriptable::executeArguments(const QStringList &args)
     } else if (m_abort != Abort::None) {
         exitCode = CommandFinished;
     } else if ( m_engine->hasUncaughtException() ) {
-        const auto exceptionText = processUncaughtException(cmd);
+        const auto exceptionText = processUncaughtException(QString());
         const auto message = createScriptErrorMessage(exceptionText).toUtf8();
         printError(message);
         exitCode = CommandException;
@@ -2496,9 +2496,19 @@ QString Scriptable::processUncaughtException(const QString &cmd)
 
     const auto exceptionText = exceptionName + backtraceText;
 
-    logScriptError(
-                QString("Exception in command \"%1\": %2")
-                .arg(cmd, exceptionText) );
+    auto label = m_actionName;
+    if ( !cmd.isEmpty() )
+        label.append("::" + cmd);
+
+    if (label.isEmpty()) {
+        logScriptError(
+            QString("Exception in command: %2")
+            .arg(exceptionText) );
+    } else {
+        logScriptError(
+            QString("Exception in command \"%1\": %2")
+            .arg(label, exceptionText) );
+    }
 
     // Show exception popups only if the script was launched from application.
     // (avoid it if launched from command line).
