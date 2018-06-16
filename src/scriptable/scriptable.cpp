@@ -2940,7 +2940,14 @@ void Scriptable::provideClipboard(ClipboardMode mode)
     connect( this, &Scriptable::stop, &loop, &QEventLoop::quit );
     connect( QGuiApplication::clipboard(), &QClipboard::changed,
              &t, checkClipboardOwnership );
+
+    COPYQ_LOG( QString("Started providing %1")
+               .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
+
     loop.exec();
+
+    COPYQ_LOG( QString("Finished providing %1")
+               .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
 }
 
 void Scriptable::insert(int argumentsEnd)

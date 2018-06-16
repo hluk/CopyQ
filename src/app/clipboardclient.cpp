@@ -65,11 +65,15 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
              ) )
     {
         QGuiApplication::setDesktopSettingsAware(false);
-        return createPlatformNativeInterface()
+        const auto app = createPlatformNativeInterface()
                 ->createClipboardProviderApplication(argc, argv);
+        setCurrentThreadName(arguments[0]);
+        return app;
     }
 
-    return createPlatformNativeInterface()->createClientApplication(argc, argv);
+    const auto app = createPlatformNativeInterface()->createClientApplication(argc, argv);
+    setCurrentThreadName("Client");
+    return app;
 }
 
 } // namespace
@@ -84,7 +88,7 @@ void InputReader::readInput()
 }
 
 ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &arguments, const QString &sessionName)
-    : App("Client", createClientApplication(argc, argv, arguments), sessionName)
+    : App(createClientApplication(argc, argv, arguments), sessionName)
     , m_inputReaderThread(nullptr)
 {
     restoreSettings();

@@ -83,8 +83,8 @@ Q_DECLARE_METATYPE(SystemMutexPtr)
 namespace {
 
 // Avoid heap allocation for thread local variable.
-constexpr int maxThreadLabelSize = 15;
-THREAD_LOCAL char currentThreadLabel[maxThreadLabelSize + 1] = "";
+constexpr int maxThreadLabelSize = 32;
+THREAD_LOCAL char currentThreadLabel_[maxThreadLabelSize + 1] = "";
 
 
 const int logFileSize = 512 * 1024;
@@ -250,7 +250,7 @@ QByteArray createLogMessage(const QByteArray &text, const LogLevel level)
 {
     const auto timeStamp =
             QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz] ").toUtf8();
-    const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + QByteArray(currentThreadLabel) + ": ";
+    const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + currentThreadLabel() + ": ";
     return createLogMessage(label, text);
 }
 
@@ -347,7 +347,12 @@ void setCurrentThreadName(const QString &name)
     Q_ASSERT(qApp != nullptr);
 
     const auto id = QCoreApplication::applicationPid();
-    const auto threadLabel = name.toUtf8() + "-" + QByteArray::number(id);
+    const auto threadLabel = "<" + name.toUtf8() + "-" + QByteArray::number(id) + ">";
     const auto size = std::min( maxThreadLabelSize, threadLabel.size() );
-    std::memcpy( currentThreadLabel, threadLabel.constData(), static_cast<size_t>(size) );
+    std::memcpy( currentThreadLabel_, threadLabel.constData(), static_cast<size_t>(size) );
+}
+
+QByteArray currentThreadLabel()
+{
+    return QByteArray(currentThreadLabel_);
 }

@@ -69,11 +69,13 @@ uint scriptCommandsHash(const QVector<Command> &commands)
 
 ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     : QObject()
-    , App("Server", app, sessionName)
+    , App(app, sessionName)
     , m_wnd(nullptr)
     , m_shortcutActions()
     , m_ignoreKeysTimer()
 {
+    setCurrentThreadName("Server");
+
     const QString serverName = clipboardServerName();
     m_server = new Server(serverName, this);
 

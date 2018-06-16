@@ -51,7 +51,8 @@ int evaluate(
         const QStringList &arguments, int argc, char **argv,
         const QString &sessionName)
 {
-    App app( "Prompt", createPlatformNativeInterface()->createConsoleApplication(argc, argv), sessionName );
+    App app( createPlatformNativeInterface()->createConsoleApplication(argc, argv), sessionName );
+    setCurrentThreadName("Prompt");
 
     QScriptEngine engine;
     Scriptable scriptable(&engine, nullptr);

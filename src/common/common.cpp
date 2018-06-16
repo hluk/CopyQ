@@ -172,13 +172,6 @@ bool findFormatsWithPrefix(bool hasPrefix, const QString &prefix, const QVariant
     return false;
 }
 
-QByteArray thisSessionClipboardOwnerDataPrefix()
-{
-    static QByteArray prefix = qgetenv("COPYQ_SESSION_NAME")
-            + " " + QByteArray::number(QCoreApplication::applicationPid()) + "/";
-    return prefix;
-}
-
 } // namespace
 
 bool isMainThread()
@@ -549,17 +542,13 @@ void acceptDrag(QDropEvent *event)
 QByteArray makeClipboardOwnerData()
 {
     static int id = 0;
-    return thisSessionClipboardOwnerDataPrefix() + QByteArray::number(++id);
+    return qgetenv("COPYQ_SESSION_NAME")
+           + " " + currentThreadLabel()
+           + "/" + QByteArray::number(++id);
 }
 
 QByteArray clipboardOwnerData(ClipboardMode mode)
 {
     const auto data = clipboardData(mode);
     return data ? data->data(mimeOwner) : QByteArray();
-}
-
-bool thisSessionOwnsClipboardData(const QVariantMap &data)
-{
-    const auto owner = data.value(mimeOwner).toByteArray();
-    return owner.startsWith(thisSessionClipboardOwnerDataPrefix());
 }

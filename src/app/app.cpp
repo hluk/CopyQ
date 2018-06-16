@@ -124,9 +124,7 @@ void installTranslator()
 
 } // namespace
 
-App::App(
-        const QString &threadName,
-        QCoreApplication *application,
+App::App(QCoreApplication *application,
         const QString &sessionName)
     : m_app(application)
     , m_exitCode(0)
@@ -150,9 +148,6 @@ App::App(
 
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
-
-    if ( !threadName.isEmpty() )
-        setCurrentThreadName(threadName);
 
 #ifdef HAS_TESTS
     initTests();

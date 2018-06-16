@@ -67,8 +67,6 @@ QMimeData* createMimeData(const QVariantMap &data);
 /** Return true if clipboard content was created by any session of this application. */
 bool anySessionOwnsClipboardData(const QVariantMap &data);
 
-bool thisSessionOwnsClipboardData(const QVariantMap &data);
-
 /**
  * Elide text with given font or to maximum length
  *
