@@ -232,17 +232,17 @@ Du kan sette opp kommandoen i innstillinger.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="131"/>
+        <location filename="../src/gui/actionhandler.cpp" line="128"/>
         <source>Error: %1</source>
         <translation type="unfinished">Feil: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="134"/>
+        <location filename="../src/gui/actionhandler.cpp" line="138"/>
         <source>Exit code: %1</source>
         <translation>Avsluttningskode: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="149"/>
+        <location filename="../src/gui/actionhandler.cpp" line="169"/>
         <source>Command %1</source>
         <translation>Kommando %1</translation>
     </message>
@@ -431,13 +431,11 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="158"/>
-        <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Move to Trash</source>
         <translation>Flytt til papirkurven</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
-        <location filename="../src/common/predefinedcommands.cpp" line="168"/>
         <source>(trash)</source>
         <translation>(papirkurv)</translation>
     </message>
@@ -457,24 +455,24 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation type="vanished">Søker %p%...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="758"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1563"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="791"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1596"/>
         <source>Cannot Add New Items</source>
         <translation>Kan ikke legge til nye elementer</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="759"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1564"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="792"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1597"/>
         <source>Tab is full. Failed to remove any items.</source>
         <translation>Fanen er full. Kan ikke fjerne noen elementer.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1822"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1854"/>
         <source>Discard Changes?</source>
         <translation>Forkaste Endringer?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1823"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1855"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Ønsker du virkelig å &lt;strong&gt;forkaste endringer&lt;/strong&gt;?</translation>
     </message>
@@ -482,12 +480,12 @@ Du kan sette opp kommandoen i innstillinger.</translation>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="158"/>
+        <location filename="../src/app/clipboardclient.cpp" line="140"/>
         <source>Connection lost!</source>
         <translation>Mistet forbindelsen!</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="167"/>
+        <location filename="../src/app/clipboardclient.cpp" line="149"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>Kan ikke koble til tjener! Start CopyQ-tjener først.</translation>
     </message>
@@ -529,27 +527,27 @@ Du kan sette opp kommandoen i innstillinger.</translation>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="85"/>
+        <location filename="../src/app/clipboardserver.cpp" line="89"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ-tjeneren kjører allerede.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="303"/>
+        <location filename="../src/app/clipboardserver.cpp" line="299"/>
         <source>Cancel Active Commands</source>
         <translation>Avbryt aktive kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="304"/>
+        <location filename="../src/app/clipboardserver.cpp" line="300"/>
         <source>Cancel active commands and exit?</source>
         <translation>Avbryt aktive kommandoer og avslutt?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="307"/>
+        <location filename="../src/app/clipboardserver.cpp" line="303"/>
         <source>Cancel Exiting</source>
         <translation>Avbryt avslutting</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="308"/>
+        <location filename="../src/app/clipboardserver.cpp" line="304"/>
         <source>Exit Anyway</source>
         <translation>Avslutt likevel</translation>
     </message>
@@ -601,32 +599,32 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation>Lim inn Kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="193"/>
+        <location filename="../src/gui/commanddialog.cpp" line="196"/>
         <source>Unsaved Changes</source>
         <translation>Ulagrede Endringer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="193"/>
+        <location filename="../src/gui/commanddialog.cpp" line="196"/>
         <source>Command dialog has unsaved changes.</source>
         <translation>Kommandodialogen har ulagrede endringer.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="271"/>
+        <location filename="../src/gui/commanddialog.cpp" line="274"/>
         <source>Open Files with Commands</source>
         <translation>Åpne Filer med Kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="272"/>
+        <location filename="../src/gui/commanddialog.cpp" line="275"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>Kommandoer (*.ini);; CopyQ Konfigurasjon (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="283"/>
+        <location filename="../src/gui/commanddialog.cpp" line="286"/>
         <source>Save Selected Commands</source>
         <translation>Lagre Valgte Kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="284"/>
+        <location filename="../src/gui/commanddialog.cpp" line="287"/>
         <source>Commands (*.ini)</source>
         <translation>Kommandoer (*.ini)</translation>
     </message>
@@ -1047,18 +1045,18 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
         <translation>Forhåndsvisning:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="456"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="457"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>element</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="459"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="460"/>
         <source>Search string is %1.</source>
         <translation>Søkestrengen er %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="460"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="461"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Velg et element og
@@ -1075,37 +1073,37 @@ CTRL og opp- eller ned-tasten.</translation>
         <translation type="vanished">Fjern elementer med slettetasten.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="463"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="464"/>
         <source>Example item %1</source>
         <translation>Eksempel-element %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="468"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="469"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>Noen tilfeldige notater (Shift+F2 for å redigere)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="127"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="128"/>
         <source>Open Theme File</source>
         <translation>Åpne Tema-fil</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="137"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="138"/>
         <source>Save Theme File As</source>
         <translation>Lagre Tema-fil Som</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="156"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="157"/>
         <source>No External Editor</source>
         <translation>Inget Eksternt Redigeringsprogram</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="157"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="158"/>
         <source>Set external editor command first!</source>
         <translation>Oppgi eksternt redigeringsprogram først!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="371"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="372"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Abc</translation>
@@ -1118,7 +1116,7 @@ CTRL og opp- eller ned-tasten.</translation>
         <translation type="vanished">Brukertilpassede Handlinger og Globale Snarveier...</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="1965"/>
+        <location filename="../src/tests/tests.cpp" line="2115"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -2111,12 +2109,12 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>ItemEditor</name>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="155"/>
+        <location filename="../src/item/itemeditor.cpp" line="150"/>
         <source>editor exit code is %1</source>
         <translation>Redigeringsprogrammets avslutningskode er %1</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="198"/>
+        <location filename="../src/item/itemeditor.cpp" line="193"/>
         <source>Editor command: %1</source>
         <translation>Redigeringskommando: %1</translation>
     </message>
@@ -2214,104 +2212,104 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="597"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="599"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>For å dele krypterte elementer til andre datamaskiner eller sesjoner trenger du offentlige og private nøkkelfiler:&lt;ul&gt;&lt;li&gt; %1&lt;/li&gt;&lt;li&gt; %2&lt;br /&gt; (Ta vare på den hemmelige nøkkelen på et trygt sted.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="663"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="666"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>GnuPG må være installert for å se krypterte faner.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="767"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="770"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Krypter (krever GnuPG)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="773"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="783"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="776"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="786"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="777"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="780"/>
         <source>Decrypt</source>
         <translation>Dekrypter</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="787"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="790"/>
         <source>Decrypt and Copy</source>
         <translation>Dekrypter og Kopier</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="792"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="795"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="796"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="799"/>
         <source>Decrypt and Paste</source>
         <translation>Dekrypter og lim inn</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="801"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="804"/>
         <source>Enter</source>
         <translation type="unfinished">Enter</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="876"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="874"/>
         <source>Error: %1</source>
         <translation>Feil: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="864"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="862"/>
         <source>Failed to generate keys.</source>
         <translation>Kunne ikke generere nøkler.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="881"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="879"/>
         <source>Done</source>
         <translation>Ferdig</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="897"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="895"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Opretter nye nøkler (kan ta et par minutter)…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="898"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="896"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="899"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="900"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="898"/>
         <source>Setting new password...</source>
         <translation>Oppretter nytt passord...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="903"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Krypteringsnøkler &lt;strong&gt;må genereres&lt;/strong&gt; før elementkryptering kan brukes.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="906"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
         <source>Generate New Keys...</source>
         <translation>Opprett nye nøkler...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="908"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="906"/>
         <source>Change Password...</source>
         <translation>Endre Passord...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="325"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="328"/>
         <source>Encryption failed!</source>
         <translation>Kryptering mislyktes!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="914"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
         <source>Decryption failed!</source>
         <translation>Dekryptering mislyktes!</translation>
     </message>
@@ -2559,7 +2557,7 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>ItemSyncLoader</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="121"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="123"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
         <translation>Bla Gjennom...</translation>
@@ -2577,12 +2575,12 @@ Settes til 0 for å deaktivere.</translation>
         <translation type="vanished">Ønsker du virkelig å &lt;strong&gt;fjerne elementer og tilhørende filer&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="843"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="846"/>
         <source>Open Directory for Synchronization</source>
         <translation>Åpne mappe for synkronisering</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="857"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="860"/>
         <source>Failed to create synchronization directory</source>
         <translation>Kunne ikke opprette synkroniseringskatalog</translation>
     </message>
@@ -2600,17 +2598,17 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="509"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="511"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation type="unfinished">Kunne ikke synkronisere fanen &quot;%1&quot; med katalogen &quot;%2&quot;!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="544"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="546"/>
         <source>Remove Items?</source>
         <translation>Fjern elementer?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="545"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="547"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Ønsker du virkelig å &lt;strong&gt;fjerne elementer og tilhørende filer&lt;/strong&gt;?</translation>
     </message>
@@ -2795,77 +2793,77 @@ Settes til 0 for å deaktivere.</translation>
         <translation>CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="514"/>
+        <location filename="../src/gui/mainwindow.cpp" line="475"/>
         <source>Exit?</source>
         <translation>Avslutte?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="515"/>
+        <location filename="../src/gui/mainwindow.cpp" line="476"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>Vil du &lt;strong&gt;avslutte&lt;/strong&gt; CopyQ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="573"/>
+        <location filename="../src/gui/mainwindow.cpp" line="534"/>
         <source>&amp;File</source>
         <translation>&amp;Fil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="616"/>
+        <location filename="../src/gui/mainwindow.cpp" line="577"/>
         <source>&amp;Edit</source>
         <translation>R&amp;ediger</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="640"/>
+        <location filename="../src/gui/mainwindow.cpp" line="601"/>
         <source>&amp;Item</source>
         <translation>Element</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="644"/>
+        <location filename="../src/gui/mainwindow.cpp" line="605"/>
         <source>&amp;Tabs</source>
         <translation>Faner</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="669"/>
+        <location filename="../src/gui/mainwindow.cpp" line="630"/>
         <source>&amp;Help</source>
         <translation>&amp;Hjelp</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="691"/>
+        <location filename="../src/gui/mainwindow.cpp" line="652"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Ny Fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="693"/>
+        <location filename="../src/gui/mainwindow.cpp" line="654"/>
         <source>Rename &amp;Group %1</source>
         <translation>Gi Nytt navn til &amp;Gruppe %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="695"/>
+        <location filename="../src/gui/mainwindow.cpp" line="656"/>
         <source>Re&amp;name Tab %1</source>
         <translation>Gi Nytt Navn til Fane %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="697"/>
+        <location filename="../src/gui/mainwindow.cpp" line="658"/>
         <source>Re&amp;move Tab %1</source>
         <translation>Fjern Fane %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="699"/>
+        <location filename="../src/gui/mainwindow.cpp" line="660"/>
         <source>Remove Group %1</source>
         <translation>Fjern Gruppe %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="701"/>
+        <location filename="../src/gui/mainwindow.cpp" line="662"/>
         <source>&amp;Change Tab Icon</source>
         <translation>Endre Faneikon</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1325"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1264"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>Aktiv&amp;er Lagring av Utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1326"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1265"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>Deaktiv&amp;er Lagring av Utklippstavle</translation>
     </message>
@@ -2887,43 +2885,43 @@ Settes til 0 for å deaktivere.</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1849"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1793"/>
         <source>CopyQ Options for Import</source>
         <translation>CopyQ-innstillinger for import</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2042"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1998"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Feil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3011"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2991"/>
         <source>&amp;Show/Hide</source>
         <translation>Vi&amp;s/Skjul</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3265"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3246"/>
         <source>CopyQ Options for Export</source>
         <translation>CopyQ-alternativ for eksport</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3285"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3266"/>
         <source>CopyQ Export Error</source>
         <translation>CopyQ-eksportfeil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3286"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3267"/>
         <source>Failed to export file %1!</source>
         <translation>Klarte ikke å eksportere fila %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3372"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3355"/>
         <source>CopyQ Import Error</source>
         <translation>CopyQ-importfeil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3373"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3356"/>
         <source>Failed to import file %1!</source>
         <translation>Klarte ikke å importere fila %1.</translation>
     </message>
@@ -2932,13 +2930,13 @@ Settes til 0 for å deaktivere.</translation>
         <translation type="vanished">Åpne handlingsdialog</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3023"/>
+        <location filename="../src/gui/mainwindow.cpp" line="709"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>Utklippstavle: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="302"/>
+        <location filename="../src/gui/mainwindow.cpp" line="301"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ Elementer (*.cpq)</translation>
     </message>
@@ -2959,22 +2957,22 @@ Settes til 0 for å deaktivere.</translation>
         <translation type="vanished">Kan ikke åpne filen %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3520"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3503"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Fjerne alle faner i gruppen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3521"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3504"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vil du fjerne &lt;strong&gt;alle faner&lt;/strong&gt; i gruppen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3568"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3551"/>
         <source>Remove Tab?</source>
         <translation>Fjern Fane?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3569"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3552"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vil du fjerne fanen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -3002,49 +3000,49 @@ Settes til 0 for å deaktivere.</translation>
         <translation>CopyQ Prosessmanager</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="63"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="65"/>
         <source>Started</source>
         <translation>Startet</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="65"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="171"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="278"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="67"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="211"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="334"/>
         <source>Finished</source>
         <translation>Avsluttet</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="67"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="69"/>
         <source>Name</source>
         <translation>Navn</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="69"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="71"/>
         <source>Status</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="161"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="200"/>
         <source>Running</source>
         <translation>Kjører</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="171"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="211"/>
         <source>Failed</source>
         <translation>Mislykkes</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="181"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="236"/>
         <source>Remove</source>
         <translation>Fjern</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="278"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="334"/>
         <source>Starting</source>
         <translation>Starter</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="297"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="354"/>
         <source>Terminate</source>
         <translation>Avslutt</translation>
     </message>
@@ -3066,13 +3064,13 @@ Settes til 0 for å deaktivere.</translation>
         <translation>&amp;utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="385"/>
+        <location filename="../src/common/common.cpp" line="388"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;SKJULT&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="391"/>
+        <location filename="../src/common/common.cpp" line="394"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -3081,7 +3079,7 @@ Settes til 0 for å deaktivere.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="401"/>
+        <location filename="../src/common/common.cpp" line="404"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;BILDE&gt;</translation>
@@ -3092,13 +3090,13 @@ Settes til 0 for å deaktivere.</translation>
         <translation type="vanished">&lt;FILER&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="403"/>
+        <location filename="../src/common/common.cpp" line="406"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;TOM&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="405"/>
+        <location filename="../src/common/common.cpp" line="408"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
@@ -3454,7 +3452,7 @@ Settes til 0 for å deaktivere.</translation>
         <translation>&amp;Hjelp</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1630"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1765"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -3463,7 +3461,7 @@ Settes til 0 for å deaktivere.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1633"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1768"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3489,12 +3487,12 @@ Settes til 0 for å deaktivere.</translation>
         <translation type="vanished">Kan ikke lagre fane %1 til %2 (%3)!</translation>
     </message>
     <message>
-        <location filename="../src/item/serialize.cpp" line="183"/>
+        <location filename="../src/item/serialize.cpp" line="180"/>
         <source>Data deserialization failed: %1</source>
         <translation>Deserialisering av data mislyktes: %1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="202"/>
+        <location filename="../src/main.cpp" line="211"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Sesjonsnavnet må inneholde høyst 16 tegn
@@ -3740,7 +3738,7 @@ Standard er første fane.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="81"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="74"/>
         <source>COMMAND</source>
         <translation>KOMMANDO</translation>
     </message>
@@ -3852,22 +3850,22 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation>Kjør programtest (tilføy --hjelp argumentet for mere info).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="81"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="74"/>
         <source>Usage: copyq [%1]</source>
         <translation>Bruk: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="82"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="75"/>
         <source>Starts server if no command is specified.</source>
         <translation>Start tjener hvis ingen kommando er spesifisert.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="83"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="76"/>
         <source>  COMMANDs:</source>
         <translation>  KOMMANDOer:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="88"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="81"/>
         <source>NOTES:</source>
         <translation>NOTATER:</translation>
     </message>
@@ -3876,24 +3874,24 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation type="vanished">  - Bruk bindestrek-argument (-) for å lese data fra standard inndata.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="90"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Bruk dobbelt bindestrek-argument (--) for å lese alle etterfølgende argumenter uten
      ekspanderende escape-sekvenser (som \n, \t og andre).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="92"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="85"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Bruk ? for MIME til å skrive ut tilgjengelige MIME-typer (standard er &quot;text\plain&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="97"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="90"/>
         <source>Invalid number of arguments!</source>
         <translation>Ugyldig antall argumenter!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2537"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2535"/>
         <source>Exception</source>
         <translation>Unntak</translation>
     </message>
@@ -3907,78 +3905,77 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation type="vanished">Navnet &quot;%1&quot; refererer ikke til en funksjon.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="89"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="82"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Bruk bindestrek-argument (-) for å lese data fra standard inndata.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="759"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="742"/>
         <source>Built with: </source>
         <translation>Bygget med: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="789"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="771"/>
         <source>Command not found!</source>
         <translation>Kommandoen ble ikke funnet!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="889"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="871"/>
         <source>Terminating server.
 </source>
         <translation>Avslutter tjeneren.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="706"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="689"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Kan ikke lagre til filen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="711"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="694"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Kan ikke importere filen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1333"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1317"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Ugyldig parameter &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2538"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2536"/>
         <source>Exception in %1</source>
         <translation>Unntak i %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2622"/>
         <source>Failed to set clipboard!</source>
-        <translation>Angi utklippstavle feilet!</translation>
+        <translation type="vanished">Angi utklippstavle feilet!</translation>
     </message>
 </context>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="535"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="608"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation type="unfinished">Fanen med oppgitt navn eksisterer ikke!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="540"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="613"/>
         <source>Tab name cannot be empty!</source>
         <translation type="unfinished">Fanenavnet kan ikke være tomt!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="735"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="866"/>
         <source>Tab with given name already exists!</source>
         <translation type="unfinished">Fanen med angitt navn eksisterer allerede!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1566"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1701"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1569"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1704"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
@@ -4031,6 +4028,11 @@ Skriv ut programversjon og biblioteker.</translation>
         <source>Shortcut already exists!</source>
         <translation>Snarveien finnes allerede!</translation>
     </message>
+    <message>
+        <location filename="../src/gui/shortcutswidget.cpp" line="298"/>
+        <source>Shortcut can be triggered from any application</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TabDialog</name>
@@ -4067,17 +4069,17 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="85"/>
+        <location filename="../src/gui/traymenu.cpp" line="87"/>
         <source>Press &apos;/&apos; to search</source>
         <translation>Trykk &quot;/&quot; for å søke</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="85"/>
+        <location filename="../src/gui/traymenu.cpp" line="87"/>
         <source>Type to search</source>
         <translation>Skriv for å søke</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="98"/>
+        <location filename="../src/gui/traymenu.cpp" line="100"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
         <translation>&amp;%1. %2</translation>
