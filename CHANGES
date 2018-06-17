@@ -1,11 +1,13 @@
 v3.5.0
 - Icon for global shortcuts in Shortcut configuration tab
 - Simpler icons (smaller installation footprint)
-- Faster clipboard modifications
+- Faster copying and pasting from the application
 - Faster and simpler invocation for commands run automatically
 - More compact Process Manager dialog
 - Scriptable function select() waits for clipboard to be set
 - Image masks for colorizing icons ("icon-mask" and "icon-busy-mask")
+- Improved logging
+- Updated icons (Font Awesome 5.0.13)
 - Fix showing icons when "System icons" is enabled (Windows and OS X)
 - Fix initial setup for encryption
 - Fix storing SVG images and other XML formats with text
@@ -16,6 +18,7 @@ v3.5.0
 - Fix building for Qt 5.11
 - Windows: Use Qt 5.6 LTS version for released binaries
 - OSX: Fix URI list and UTF-16 text clipboard formats
+- X11: Faster clipboard/selection synchronization
 
 v3.4.0
 - Fix icon sizes in menu
