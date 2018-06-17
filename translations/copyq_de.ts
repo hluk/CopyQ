@@ -6079,7 +6079,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="298"/>
         <source>Shortcut can be triggered from any application</source>
-        <translation type="unfinished"></translation>
+        <translation>Verknüpfung kann aus jeder beliebigen Anwendung ausgelöst werden</translation>
     </message>
 </context>
 <context>
