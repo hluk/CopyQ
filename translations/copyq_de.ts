@@ -84,7 +84,7 @@
     </message>
     <message>
         <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">Globale Tastenkombinationen (systemweite Shortcuts) können im Dialog &quot;Befehl&quot; eingestellt werden (Standard-Tastenkombination ist F6).</translation>
+        <translation>Globale Tastenkombinationen (systemweite Tastenkombination) können im Dialog &quot;Befehl&quot; eingestellt werden (Standard-Tastenkombination ist F6).</translation>
     </message>
     <message>
         <source>Type any text to search the clipboard history.</source>
@@ -966,7 +966,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="197"/>
         <source>Global Shortcut</source>
-        <translation>Globales Tastenkürzel</translation>
+        <translation>Globale Tastenkombination</translation>
     </message>
     <message>
         <source>F&amp;ormat:</source>
@@ -1141,7 +1141,7 @@ Zum Deaktivieren frei lassen.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="100"/>
         <source>&amp;Global Shortcut:</source>
-        <translation>&amp;Globaler Tastenkürzel:</translation>
+        <translation>&amp;Globale Tastenkombination:</translation>
     </message>
     <message>
         <source>Comma&amp;nd</source>
@@ -1243,7 +1243,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/commandwidget.ui" line="62"/>
         <source>&amp;Shortcut:</source>
-        <translation>Tastenkürzel:</translation>
+        <translation>Tastenkombination:</translation>
     </message>
     <message>
         <source>Open Icon file</source>
@@ -2139,7 +2139,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="vanished">Definiere neue Befehle die entweder bei neuem Inhalt in der Zwischenablage automatisch, vom Benutzer per Menü oder per Tastenkürzel ausgeführt werden.</translation>
+        <translation>Definiere neue Befehle die entweder bei neuem Inhalt in der Zwischenablage automatisch, vom Benutzer per Menü oder per Tastenkombination ausgeführt werden.</translation>
     </message>
     <message>
         <source>&amp;Find:</source>
@@ -2216,7 +2216,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <source>Shortcut to show tray menu</source>
-        <translation type="vanished">Tastenkombination um Tray-menü zu zeigen</translation>
+        <translation>Tastenkombination um Tray-Menü zu zeigen</translation>
     </message>
     <message>
         <source>Edit &amp;first item</source>
@@ -2245,11 +2245,11 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <source>Shortcut to edit clipboard content</source>
-        <translation type="vanished">Tastenkombination zum bearbeiten des Inhalt der Zwischenablage</translation>
+        <translation>Tastenkombination zum Bearbeiten des Inhalts der Zwischenablage</translation>
     </message>
     <message>
         <source>Shortcut to edit first item</source>
-        <translation type="vanished">Tastenkombination zum bearbeiten des ersten Elements</translation>
+        <translation>Tastenkombination zum Bearbeiten des ersten Elements</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="187"/>
@@ -2798,19 +2798,19 @@ Hinweis: Bearbeitete Elemente können, trotz dieser Option, mit F2 gespeichert w
     </message>
     <message>
         <source>Shortcut to show or hide main window</source>
-        <translation type="vanished">Tastenkombination um Hauptfenster anzuzeigen oder zu verstekcen</translation>
+        <translation>Tastenkombination um Hauptfenster anzuzeigen oder zu verstecken</translation>
     </message>
     <message>
         <source>Shortcut to put the second item to clipboard</source>
-        <translation type="vanished">Tastenkombination um das zweite Elemen in die Zwischenablage zu tun</translation>
+        <translation>Tastenkombination um das zweite Element in die Zwischenablage zu kopieren</translation>
     </message>
     <message>
         <source>Shortcut to show action dialog</source>
-        <translation type="vanished">Tastenkombination um Ausführungsdialog zu zeigen</translation>
+        <translation>Tastenkombination um den Ausführungsdialog anzuzeigen</translation>
     </message>
     <message>
         <source>Shortcut to create new item</source>
-        <translation type="vanished">Tastenkombination zum erstellen eines neuen Elements</translation>
+        <translation>Tastenkombination zum Erstellen eines neuen Elements</translation>
     </message>
     <message>
         <source>Copy n&amp;ext item</source>
@@ -6026,7 +6026,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="47"/>
         <source>Add shortcut</source>
-        <translation>Tastenkürzel hinzufügen</translation>
+        <translation>Tastenkombination hinzufügen</translation>
     </message>
 </context>
 <context>
@@ -6053,7 +6053,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation>Kurztaste entfernen</translation>
+        <translation>Tastenkombination entfernen</translation>
     </message>
 </context>
 <context>
@@ -6069,17 +6069,17 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     </message>
     <message>
         <source>There is command overriding this shortcut.</source>
-        <translation type="vanished">Es gibt einen Befehl, der diese Kurztaste überschreibt.</translation>
+        <translation>Es gibt einen Befehl, der diese Tastenkombination überschreibt.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="241"/>
         <source>Shortcut already exists!</source>
-        <translation>Die Kurztaste existiert bereits!</translation>
+        <translation>Die Tastenkombination existiert bereits!</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="298"/>
         <source>Shortcut can be triggered from any application</source>
-        <translation>Verknüpfung kann aus jeder beliebigen Anwendung ausgelöst werden</translation>
+        <translation>Die Tastenkombination kann aus jeder beliebigen Anwendung ausgelöst werden</translation>
     </message>
 </context>
 <context>

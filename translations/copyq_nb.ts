@@ -4031,7 +4031,7 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="298"/>
         <source>Shortcut can be triggered from any application</source>
-        <translation type="unfinished"></translation>
+        <translation>Snarvei kan utløses fra ethvert program</translation>
     </message>
 </context>
 <context>
