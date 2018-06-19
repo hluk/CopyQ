@@ -4369,7 +4369,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="298"/>
         <source>Shortcut can be triggered from any application</source>
-        <translation type="unfinished"></translation>
+        <translation>快捷鍵可以從任何應用程式去觸發</translation>
     </message>
 </context>
 <context>
