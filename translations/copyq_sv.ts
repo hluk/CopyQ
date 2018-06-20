@@ -64,7 +64,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>Skapa objekt från programmets standard ut (lämna tom för att inaktivera)</translation>
+        <translation>Skapa objekt från programmets standard ut (lämna tomt för att inaktivera)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -96,13 +96,13 @@
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="202"/>
         <source>Command saved</source>
-        <translation>Kommando sparat</translation>
+        <translation>Kommandot sparat</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="203"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>Kommando sparades och kan kommas åt från objektmenyn.
+        <translation>Kommandot sparades och kan kommas åt från objektmenyn.
 Du kan konfigurera kommandot i inställningar.</translation>
     </message>
 </context>
@@ -352,7 +352,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="149"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Det går inte att ansluta till server! Starta CopyQ-server först.</translation>
+        <translation>Det går inte att ansluta till servern! Starta CopyQ-servern först.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="140"/>
@@ -399,7 +399,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="89"/>
         <source>CopyQ server is already running.</source>
-        <translation>CopyQ-server körs redan.</translation>
+        <translation>CopyQ-servern körs redan.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="299"/>
@@ -672,7 +672,7 @@ Lämna tomt för att inaktivera detta.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation>Namn på flik att kopiera in nya objekt i (lämna tomt för att inte kopiera)</translation>
+        <translation>Namn på flik att kopiera nya objekt till (lämna tomt för att inte kopiera)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="428"/>
@@ -1992,7 +1992,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="895"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation>Skapa nya nycklar (detta kan ta några minuter)…</translation>
+        <translation>Skapar nya nycklar (detta kan ta några minuter)…</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="896"/>
@@ -2119,7 +2119,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation>Ma&amp;ximal bildbredd:</translation>
+        <translation>Maximal bild&amp;bredd:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
@@ -2575,12 +2575,12 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="vanished">%1 - CopyQ</translation>
+        <translation>%1 — CopyQ</translation>
     </message>
     <message>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="vanished">%1 - %2 - CopyQ</translation>
+        <translation>%1 — %2 — CopyQ</translation>
     </message>
     <message>
         <source>Clipboard:
@@ -3618,13 +3618,13 @@ Skriv ut version på program och bibliotek.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1701"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished">%1 - CopyQ</translation>
+        <translation>%1 — CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1704"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished">%1 - %2 - CopyQ</translation>
+        <translation>%1 — %2 — CopyQ</translation>
     </message>
 </context>
 <context>
