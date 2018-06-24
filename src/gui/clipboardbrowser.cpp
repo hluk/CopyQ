@@ -1323,15 +1323,23 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
         m_filterRow = -1;
 
     int row = 0;
-    for ( ; row < length() && hideFiltered(row); ++row ) {}
 
-    setCurrentIndex(index(row));
+    if ( re.isEmpty() ) {
+        for ( ; row < length(); ++row )
+            hideFiltered(row);
 
-    for ( ; row < length(); ++row )
-        hideFiltered(row);
+        scrollTo(currentIndex(), PositionAtCenter);
+    } else {
+        for ( ; row < length() && hideFiltered(row); ++row ) {}
 
-    if ( filterByRowNumber && m_filterRow >= 0 && m_filterRow < m.rowCount() )
-        setCurrentIndex( index(m_filterRow) );
+        setCurrentIndex(index(row));
+
+        for ( ; row < length(); ++row )
+            hideFiltered(row);
+
+        if ( filterByRowNumber && m_filterRow >= 0 && m_filterRow < m.rowCount() )
+            setCurrentIndex( index(m_filterRow) );
+    }
 }
 
 void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
