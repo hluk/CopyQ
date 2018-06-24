@@ -418,8 +418,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, SLOT(tabCloseRequested(int)) );
     connect( ui->searchBar, SIGNAL(filterChanged(QRegExp)),
              this, SLOT(onFilterChanged(QRegExp)) );
-    connect( ui->searchBar, SIGNAL(returnPressed()),
-             this, SLOT(findNextOrPrevious()) );
     connect( m_actionHandler, SIGNAL(runningActionsCountChanged()),
              this, SLOT(updateIconSnip()) );
     connect( qApp, &QCoreApplication::aboutToQuit,
@@ -978,8 +976,8 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              this, SLOT(onInternalEditorStateChanged(const ClipboardBrowser*)) );
     connect( browser, SIGNAL(searchRequest()),
              this, SLOT(findNextOrPrevious()) );
-    connect( browser, SIGNAL(searchHideRequest()),
-             this, SLOT(hideSearchBar()) );
+    connect( browser, &ClipboardBrowser::searchHideRequest,
+             ui->searchBar, &Utils::FilterLineEdit::hide );
     connect( browser, SIGNAL(itemWidgetCreated(PersistentDisplayItem)),
              this, SLOT(onItemWidgetCreated(PersistentDisplayItem)) );
 }
@@ -1101,7 +1099,7 @@ void MainWindow::setClipboardData(const QVariantMap &data)
 void MainWindow::setFilter(const QString &text)
 {
     ui->searchBar->setText(text);
-    enterBrowseMode();
+    getPlaceholder()->setFocus();
 }
 
 #ifdef HAS_TESTS
@@ -1551,7 +1549,7 @@ void MainWindow::onEscape()
         if (c)
             c->setCurrent(0);
     } else {
-        resetStatus();
+        enterBrowseMode();
     }
 }
 
@@ -2119,12 +2117,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 #ifndef Q_OS_MAC
         case Qt::Key_Backspace:
-            resetStatus();
-            if (c)
-                c->setCurrent(0);
-            break;
+            // fallthrough
 #endif // Q_OS_MAC
-
         case Qt::Key_Escape:
             onEscape();
             break;
@@ -2180,13 +2174,6 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *r
 {
     delayedUpdateForeignFocusWindows();
     return QMainWindow::nativeEvent(eventType, message, result);
-}
-
-void MainWindow::resetStatus()
-{
-    if ( !ui->searchBar->text().isEmpty() )
-        ui->searchBar->clear();
-    enterBrowseMode();
 }
 
 void MainWindow::loadSettings()
@@ -2317,7 +2304,7 @@ void MainWindow::loadSettings()
     loadShortcuts(&m_menuItems, settings);
     settings.endGroup();
 
-    resetStatus();
+    enterBrowseMode();
 
     COPYQ_LOG("Configuration loaded");
 }
@@ -2494,7 +2481,7 @@ void MainWindow::tabChanged(int current, int)
         // update item menu (necessary for keyboard shortcuts to work)
         auto c = browser();
         if (c) {
-            c->filterItems( ui->searchBar->filter() );
+            c->filterItems( browseMode() ? QRegExp() : ui->searchBar->filter() );
 
             if ( current >= 0 ) {
                 if( !c->currentIndex().isValid() && isVisible() ) {
@@ -2813,7 +2800,7 @@ void MainWindow::activateCurrentItemHelper()
     if (activateWindow)
         lastWindow->raise();
 
-    resetStatus();
+    enterBrowseMode();
 
     if (paste)
         lastWindow->pasteClipboard();
@@ -2918,12 +2905,6 @@ void MainWindow::updateFocusWindows()
         m_lastWindow = lastWindow;
 }
 
-void MainWindow::hideSearchBar()
-{
-    ui->searchBar->hide();
-    ui->searchBar->clear();
-}
-
 void MainWindow::updateShortcuts()
 {
     if ( m_timerUpdateContextMenu.isActive() ) {
@@ -2948,10 +2929,9 @@ void MainWindow::findNextOrPrevious()
                 c->findNext();
             else
                 c->findPrevious();
-        } else if ( c->hasFocus() ) {
-            c->setCurrent( c->currentIndex().row() + (next ? 1 : -1) );
         } else {
             c->setFocus();
+            c->setCurrent( c->currentIndex().row() + (next ? 1 : -1) );
         }
     }
 }
@@ -2959,19 +2939,43 @@ void MainWindow::findNextOrPrevious()
 void MainWindow::enterBrowseMode()
 {
     getPlaceholder()->setFocus();
-    if ( ui->searchBar->text().isEmpty() )
-        ui->searchBar->hide();
+    ui->searchBar->hide();
+
+    auto c = browser();
+    if (c)
+        c->filterItems(QRegExp());
 }
 
 void MainWindow::enterSearchMode()
 {
     ui->searchBar->show();
     ui->searchBar->setFocus(Qt::ShortcutFocusReason);
+
+    if ( !ui->searchBar->text().isEmpty() ) {
+        auto c = browser();
+        if (c) {
+            const int currentRow = c->currentIndex().row();
+            c->filterItems( ui->searchBar->filter() );
+            c->setCurrent(currentRow);
+        }
+    }
 }
+
 void MainWindow::enterSearchMode(const QString &txt)
 {
-    enterSearchMode();
-    ui->searchBar->setText( ui->searchBar->text() + txt );
+    const bool searchModeActivated = !ui->searchBar->isVisible();
+
+    ui->searchBar->show();
+    ui->searchBar->setFocus(Qt::ShortcutFocusReason);
+
+    if (searchModeActivated)
+        ui->searchBar->setText(txt);
+    else
+        ui->searchBar->setText( ui->searchBar->text() + txt );
+
+    auto c = browser();
+    if (c)
+        c->filterItems( ui->searchBar->filter() );
 }
 
 void MainWindow::updateTrayMenuTimeout()

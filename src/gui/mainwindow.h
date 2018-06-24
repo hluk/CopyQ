@@ -194,8 +194,6 @@ public:
     bool setCurrentTab(int index);
     /** Show window and given tab and give focus to the tab. */
     void showBrowser(int index);
-    /** Enter browse mode and reset search. */
-    void resetStatus();
 
     /** Open tab group renaming dialog. */
     void renameTabGroup(const QString &name);
@@ -404,8 +402,6 @@ public slots:
 
     /** Set text for filtering items. */
     void setFilter(const QString &text);
-
-    void hideSearchBar();
 
     void updateShortcuts();
 
