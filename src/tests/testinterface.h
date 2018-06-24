@@ -22,9 +22,9 @@
 
 #include "common/sleeptimer.h"
 
-#include <memory>
+#include <QStringList>
 
-class QStringList;
+#include <memory>
 
 /**
  * Interface for tests.
@@ -55,7 +55,8 @@ public:
 
     /// Run client with given @a arguments and input and read outputs and return exit code.
     virtual int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
-                    QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray()) = 0;
+                    QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray(),
+                    const QStringList &environment = QStringList()) = 0;
 
     /// Run client with given @a arguments and read all errors/warnings.
     virtual QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected,

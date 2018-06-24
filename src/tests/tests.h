@@ -185,6 +185,8 @@ private slots:
 
     void configAutostart();
 
+    void configPathEnvVariable();
+
     void shortcutCommand();
     void shortcutCommandOverrideEnter();
     void shortcutCommandMatchInput();
@@ -218,7 +220,8 @@ private slots:
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
-            QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray());
+            QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray(),
+            const QStringList &environment = QStringList());
     bool hasTab(const QString &tabName);
 
     TestInterfacePtr m_test;

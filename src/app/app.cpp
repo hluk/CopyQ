@@ -146,6 +146,15 @@ App::App(QCoreApplication *application,
     qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
     qputenv("COPYQ", QCoreApplication::applicationFilePath().toUtf8());
 
+    const auto settingsPath = qgetenv("COPYQ_SETTINGS_PATH");
+    if ( !settingsPath.isEmpty() ) {
+        const auto path = QString::fromUtf8(settingsPath);
+        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, path);
+
+        // Setting the NativeFormat paths on Windows, macOS, and iOS has no effect.
+        QSettings::setDefaultFormat(QSettings::IniFormat);
+    }
+
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
 

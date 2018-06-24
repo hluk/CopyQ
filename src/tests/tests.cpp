@@ -248,7 +248,8 @@ public:
     }
 
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
-            QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray()) override
+            QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray(),
+            const QStringList &environment = QStringList()) override
     {
         if (stdoutData != nullptr)
             stdoutData->clear();
@@ -257,7 +258,7 @@ public:
             stderrData->clear();
 
         QProcess p;
-        if (!startTestProcess(&p, arguments))
+        if (!startTestProcess(&p, arguments, QIODevice::ReadWrite, environment))
             return -1;
 
         if ( p.write(in) != in.size() )
@@ -534,9 +535,23 @@ private:
     }
 
     bool startTestProcess(QProcess *p, const QStringList &arguments,
-                          QIODevice::OpenMode mode = QIODevice::ReadWrite)
+                          QIODevice::OpenMode mode = QIODevice::ReadWrite,
+                          const QStringList &environment = QStringList())
     {
-        p->setProcessEnvironment(m_env);
+        if ( environment.isEmpty() ) {
+            p->setProcessEnvironment(m_env);
+        } else {
+            auto env = m_env;
+            for (const QString &nameValue : environment) {
+                const auto i = nameValue.indexOf(QLatin1Char('='));
+                Q_ASSERT(i != -1);
+                const auto name = nameValue.left(i);
+                const auto value = nameValue.mid(i+1);
+                env.insert(name, value);
+            }
+            p->setProcessEnvironment(env);
+        }
+
         p->start( QApplication::applicationFilePath(), arguments, mode );
         return p->waitForStarted(10000);
     }
@@ -2316,6 +2331,20 @@ void Tests::configAutostart()
     RUN("config" << "autostart", "false\n");
 }
 
+void Tests::configPathEnvVariable()
+{
+    const auto path = QDir::home().absoluteFilePath("copyq-settings");
+    const auto environment = QStringList("COPYQ_SETTINGS_PATH=" + path);
+
+    QByteArray out;
+    QByteArray err;
+    run(Args() << "info" << "config", &out, &err, QByteArray(), environment);
+    QVERIFY2( testStderr(err), err );
+
+    const auto expectedOut = path.toUtf8();
+    QCOMPARE( out.left(expectedOut.size()), expectedOut );
+}
+
 void Tests::shortcutCommand()
 {
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Ctrl+F1'], cmd: 'copyq add OK'}])", "");
@@ -2712,9 +2741,11 @@ void Tests::setTabName()
     RUN(script, "1,0");
 }
 
-int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
+int Tests::run(
+        const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in,
+        const QStringList &environment)
 {
-    return m_test->run(arguments, stdoutData, stderrData, in);
+    return m_test->run(arguments, stdoutData, stderrData, in, environment);
 }
 
 bool Tests::hasTab(const QString &tabName)
