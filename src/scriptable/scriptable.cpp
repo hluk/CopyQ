@@ -2345,12 +2345,13 @@ void Scriptable::onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwn
     m_data = data;
     setActionData();
 
-    if (ownership == ClipboardOwnership::Own)
-        onOwnClipboardChanged();
-    else if (ownership == ClipboardOwnership::Hidden)
-        onHiddenClipboardChanged();
-    else
-        onClipboardChanged();
+    const auto functionName =
+        ownership == ClipboardOwnership::Own ? "onOwnClipboardChanged"
+      : ownership == ClipboardOwnership::Hidden ? "onHiddenClipboardChanged"
+      : "onClipboardChanged";
+
+    auto function = m_engine->globalObject().property(functionName);
+    function.call();
 
     processUncaughtMonitorException("ClipboardMonitor::onMonitorClipboardChanged");
 }
