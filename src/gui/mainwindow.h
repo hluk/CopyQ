@@ -450,8 +450,6 @@ protected:
     /** Hide (minimize to tray) window on close. */
     void closeEvent(QCloseEvent *event) override;
 
-    void showEvent(QShowEvent *event) override;
-
     bool focusNextPrevChild(bool next) override;
 
     bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
@@ -675,7 +673,6 @@ private:
     QTimer m_timerUpdateFocusWindows;
     QTimer m_timerUpdateContextMenu;
     QTimer m_timerUpdateTrayMenu;
-    QTimer m_timerShowWindow;
     QTimer m_timerTrayAvailable;
     QTimer m_timerTrayIconSnip;
     QTimer m_timerSaveTabPositions;

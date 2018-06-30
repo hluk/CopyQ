@@ -435,7 +435,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerUpdateFocusWindows, 50, this, SLOT(updateFocusWindows()) );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
     initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, SLOT(updateTrayMenuTimeout()) );
-    initSingleShotTimer( &m_timerShowWindow, 250 );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
     initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, SLOT(doSaveTabPositions()) );
@@ -490,12 +489,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     } else {
         QMainWindow::closeEvent(event);
     }
-}
-
-void MainWindow::showEvent(QShowEvent *event)
-{
-    m_timerShowWindow.start();
-    QMainWindow::showEvent(event);
 }
 
 bool MainWindow::focusNextPrevChild(bool next)
@@ -2157,7 +2150,6 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency();
         enableHideWindowOnUnfocus();
     } else if (type == QEvent::WindowDeactivate) {
-        m_timerShowWindow.start();
         updateWindowTransparency();
         setHideTabs(m_options.hideTabs);
         if (m_options.closeOnUnfocus)
@@ -2363,8 +2355,7 @@ void MainWindow::minimizeWindow()
 
 bool MainWindow::toggleVisible()
 {
-    // Showing/hiding window in quick succession doesn't work well on X11.
-    if ( m_timerShowWindow.isActive() || isWindowVisible() ) {
+    if ( isWindowVisible() ) {
         hideWindow();
         return false;
     }
