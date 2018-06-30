@@ -36,13 +36,13 @@
 #include "gui/tabicons.h"
 #include "platform/platformnativeinterface.h"
 
-#include <QApplication>
 #include <QClipboard>
 #include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QFile>
 #include <QFileInfo>
+#include <QGuiApplication>
 #include <QMap>
 #include <QMimeData>
 #include <QProcess>
@@ -98,7 +98,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 QByteArray getClipboard(const QString &mime = QString("text/plain"))
 {
     waitFor(waitMsGetClipboard);
-    const QMimeData *data = QApplication::clipboard()->mimeData();
+    const QMimeData *data = QGuiApplication::clipboard()->mimeData();
     return (data != nullptr) ? data->data(mime) : QByteArray();
 }
 
@@ -194,7 +194,7 @@ public:
 
         if ( !startTestProcess(m_server.get(), QStringList(), QIODevice::ReadOnly) ) {
             return QString("Failed to launch \"%1\": %2")
-                .arg(QApplication::applicationFilePath())
+                .arg(QCoreApplication::applicationFilePath())
                 .arg(m_server->errorString())
                 .toUtf8();
         }
@@ -379,7 +379,7 @@ public:
 
         auto mimeData = new QMimeData();
         mimeData->setData(mime, bytes);
-        QApplication::clipboard()->setMimeData(mimeData);
+        QGuiApplication::clipboard()->setMimeData(mimeData);
 
         waitUntilClipboardSet(bytes, mime);
         RETURN_ON_ERROR( testClipboard(bytes, mime), "Failed to set clipboard" );
@@ -552,7 +552,7 @@ private:
             p->setProcessEnvironment(env);
         }
 
-        p->start( QApplication::applicationFilePath(), arguments, mode );
+        p->start( QCoreApplication::applicationFilePath(), arguments, mode );
         return p->waitForStarted(10000);
     }
 
@@ -2001,7 +2001,7 @@ void Tests::externalEditor()
                     "add(arguments[1]); while(length()) sleep(100);"
                 )"
                 "--")
-            .arg(QApplication::applicationFilePath())
+            .arg(QCoreApplication::applicationFilePath())
             .arg(editorTab)
             + " %1";
     RUN("config" << "editor" << cmd, cmd + "\n");
@@ -2775,7 +2775,9 @@ int runTests(int argc, char *argv[])
         }
     }
 
-    QApplication app(argc, argv);
+    QGuiApplication::setDesktopSettingsAware(false);
+    QGuiApplication app(argc, argv);
+    Q_UNUSED(app);
 
     const QString session = "copyq.test";
     QCoreApplication::setOrganizationName(session);
