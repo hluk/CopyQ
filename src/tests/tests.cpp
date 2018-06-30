@@ -434,8 +434,24 @@ public:
     QByteArray show() override
     {
         const QByteArray out = runClient(Args("show"), "");
-        waitFor(waitMsShow);
-        return out;
+        if ( !out.isEmpty() )
+            return out;
+
+        return waitForFocus();
+    }
+
+    QByteArray waitForFocus() override
+    {
+        SleepTimer t(8000);
+        for (;;) {
+            const int exitCode = run(Args() << "focused() || fail()");
+            if (exitCode == 0)
+                break;
+            if ( !t.sleep() )
+                return "Failed to focus main window";
+        }
+
+        return QByteArray();
     }
 
     QByteArray cleanupTestCase() override
@@ -756,11 +772,9 @@ void Tests::commandToggle()
 {
     RUN("visible", "true\n");
     RUN("toggle", "false\n");
-    waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "false\n");
 
     RUN("toggle", "true\n");
-    waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "true\n");
 }
 
@@ -768,7 +782,6 @@ void Tests::commandHide()
 {
     RUN("visible", "true\n");
     RUN("hide", "");
-    waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "false\n");
 }
 
@@ -776,11 +789,9 @@ void Tests::commandShow()
 {
     RUN("visible", "true\n");
     RUN("hide", "");
-    waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "false\n");
 
     RUN("show", "");
-    waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "true\n");
 }
 
@@ -788,11 +799,9 @@ void Tests::commandShowAt()
 {
     RUN("visible", "true\n");
     RUN("hide", "");
-    waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "false\n");
 
     RUN("showAt", "");
-    waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "true\n");
 }
 
@@ -2155,7 +2164,7 @@ void Tests::pasteFromMainWindow()
         waitMsShow,
         [&]() {
             RUN("show", "");
-            waitFor(waitMsShow);
+            WAIT_FOR_FOCUS();
             RUN("keys" << "ENTER", "");
             waitFor(waitMsShow);
 

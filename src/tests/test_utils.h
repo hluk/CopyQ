@@ -63,6 +63,13 @@ do { \
 #define WAIT_FOR_CLIPBOARD2(DATA, MIME) \
     QCOMPARE( waitUntilClipboardSet(DATA, MIME), QByteArray(DATA) )
 
+#define WAIT_FOR_FOCUS() \
+    do { \
+        const auto errors = m_test->waitForFocus(); \
+        if ( !errors.isEmpty() ) \
+            QFAIL(errors); \
+    } while (false)
+
 #define RETURN_ON_ERROR(CALLBACK, ERROR) \
     do { \
         const auto errors = (CALLBACK); \

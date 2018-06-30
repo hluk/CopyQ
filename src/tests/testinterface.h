@@ -93,6 +93,9 @@ public:
     /// Show and focus main window (GUI server must be running).
     virtual QByteArray show() = 0;
 
+    /// Wait for mainw window focus.
+    virtual QByteArray waitForFocus() = 0;
+
     /// Platform specific key to remove (usually Delete, Backspace on OS X).
     virtual QString shortcutToRemove() = 0;
 
