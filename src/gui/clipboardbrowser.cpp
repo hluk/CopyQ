@@ -690,6 +690,13 @@ void ClipboardBrowser::dragDropScroll()
     }
 }
 
+void ClipboardBrowser::setCurrentIndex(const QModelIndex &index)
+{
+    // WORKAROUND: QAbstractItemView::setCurrentIndex() seems to depend on
+    //             currently pressed keyboard modifiers, which is unexpected.
+    selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
+}
+
 QVariantMap ClipboardBrowser::copyIndex(const QModelIndex &index) const
 {
     auto data = index.data(contentType::data).toMap();
@@ -1323,15 +1330,23 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
         m_filterRow = -1;
 
     int row = 0;
-    for ( ; row < length() && hideFiltered(row); ++row ) {}
 
-    setCurrentIndex(index(row));
+    if ( re.isEmpty() ) {
+        for ( ; row < length(); ++row )
+            hideFiltered(row);
 
-    for ( ; row < length(); ++row )
-        hideFiltered(row);
+        scrollTo(currentIndex(), PositionAtCenter);
+    } else {
+        for ( ; row < length() && hideFiltered(row); ++row ) {}
 
-    if ( filterByRowNumber && m_filterRow >= 0 && m_filterRow < m.rowCount() )
-        setCurrentIndex( index(m_filterRow) );
+        setCurrent(row);
+
+        for ( ; row < length(); ++row )
+            hideFiltered(row);
+
+        if ( filterByRowNumber && m_filterRow >= 0 && m_filterRow < m.rowCount() )
+            setCurrent(m_filterRow);
+    }
 }
 
 void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
@@ -1519,8 +1534,7 @@ void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOn
         else if (!currentSelected)
             sel->setCurrentIndex(prev, QItemSelectionModel::Deselect);
     } else {
-        const auto ind = index(i);
-        selectionModel()->setCurrentIndex(ind, QItemSelectionModel::ClearAndSelect);
+        setCurrentIndex( index(i) );
     }
 }
 

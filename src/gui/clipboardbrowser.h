@@ -369,6 +369,7 @@ class ClipboardBrowser : public QListView
 
         void updateCurrent();
 
+
     private:
         /**
          * Hide row if filtered out, otherwise show.
@@ -425,6 +426,8 @@ class ClipboardBrowser : public QListView
         QModelIndex firstUnpinnedIndex() const;
 
         void dragDropScroll();
+
+        void setCurrentIndex(const QModelIndex &index);
 
         ItemSaverPtr m_itemSaver;
         QString m_tabName;
