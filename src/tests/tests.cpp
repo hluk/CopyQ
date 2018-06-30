@@ -396,6 +396,9 @@ public:
 
     QByteArray setClipboard(const QByteArray &bytes, const QString &mime) override
     {
+        if ( getClipboard(mime) == bytes )
+            return QByteArray();
+
         waitFor(waitMsSetClipboard);
 
         auto mimeData = new QMimeData();
@@ -405,7 +408,7 @@ public:
         waitUntilClipboardSet(bytes, mime);
         RETURN_ON_ERROR( testClipboard(bytes, mime), "Failed to set clipboard" );
 
-        return "";
+        return QByteArray();
     }
 
     QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors) override
