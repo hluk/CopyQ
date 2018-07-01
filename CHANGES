@@ -1,3 +1,11 @@
+v3.5.1
+- Invoking search with a shortcut reuses last search expression
+- Exiting from search (ESC) doesn't unselect found item
+- `COPYQ_SETTINGS_PATH` environment variable overrides default config path
+- Fix overriding `onClipboardChanged()` and similar script functions
+- Tests are about 2x faster
+- Windows: Fix removing old DLLs with installer
+
 v3.5.0
 - Icon for global shortcuts in Shortcut configuration tab
 - Simpler icons (smaller installation footprint)
