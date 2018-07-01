@@ -738,7 +738,7 @@ QScriptValue Scriptable::call(QScriptValue *fn, const QScriptValue &object, cons
 QScriptValue Scriptable::version()
 {
     m_skipArguments = 0;
-    return tr(programName) + " " COPYQ_VERSION " (hluk@email.cz)\n"
+    return tr(programName) + " " COPYQ_VERSION "\n"
             + tr("Built with: ")
             + "Qt " + QT_VERSION_STR +
             + '\n';
@@ -757,7 +757,7 @@ QScriptValue Scriptable::help()
             helpString.append(hlp.toString());
 
         helpString.append("\n" + helpTail() + "\n\n" + tr(programName)
-            + " " + COPYQ_VERSION + " (hluk@email.cz)\n");
+            + " " + COPYQ_VERSION + "\n");
     } else {
         for (int i = 0; i < argumentCount(); ++i) {
             const QString &cmd = toString(argument(i), this);
