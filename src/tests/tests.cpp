@@ -114,8 +114,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
 QByteArray getClipboard(const QString &mime = QString("text/plain"))
 {
-    waitFor(waitMsGetClipboard);
-    const QMimeData *data = QGuiApplication::clipboard()->mimeData();
+    const QMimeData *data = clipboardData();
     return (data != nullptr) ? data->data(mime) : QByteArray();
 }
 

@@ -108,9 +108,6 @@ const int waitTrayUpdate = 3000;
 /// Interval to wait (in ms) before and after setting clipboard.
 const int waitMsSetClipboard = 1000;
 
-/// Interval to wait (in ms) before getting clipboard.
-const int waitMsGetClipboard = 100;
-
 /// Interval to wait (in ms) for pasting clipboard.
 const int waitMsPasteClipboard = 1000;
 
