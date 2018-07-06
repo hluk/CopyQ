@@ -122,9 +122,16 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         emit functionCallResultReceived(data);
         break;
 
-    case CommandStop:
+    case CommandStop: {
         emit stopEventLoops();
+
+        // Stop any event loops started later.
+        auto timer = new QTimer(this);
+        timer->setInterval(250);
+        connect(timer, &QTimer::timeout, this, &ClipboardClient::stopEventLoops);
+        timer->start();
         break;
+    }
 
     default:
         log( "Unhandled message: " + messageCodeToString(messageCode), LogError );
