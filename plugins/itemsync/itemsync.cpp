@@ -352,7 +352,8 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     layout->setSizeConstraint(QLayout::SetMinimumSize);
 
     auto labelLayout = new QHBoxLayout;
-    connect(layout, SIGNAL(destroyed()), labelLayout, SLOT(deleteLater()));
+    connect( layout, &QVBoxLayout::destroyed,
+             labelLayout, &QHBoxLayout::deleteLater );
     labelLayout->setContentsMargins(0, 0, 0, 0);
     labelLayout->setSpacing(0);
 
@@ -716,7 +717,8 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
 
         QPushButton *button = createBrowseButton();
         t->setCellWidget(row, syncTabsTableColumns::browse, button);
-        connect( button, SIGNAL(clicked()), SLOT(onBrowseButtonClicked()) );
+        connect( button, &QAbstractButton::clicked,
+                 this, &ItemSyncLoader::onBrowseButtonClicked );
     }
     setNormalStretchFixedColumns(t, syncTabsTableColumns::tabName, syncTabsTableColumns::path,
                                  syncTabsTableColumns::browse);

@@ -372,15 +372,15 @@ FileWatcher::FileWatcher(
         m_updateTimer.setInterval(100);
 #endif
 
-    connect( &m_updateTimer, SIGNAL(timeout()),
-             SLOT(updateItems()) );
+    connect( &m_updateTimer, &QTimer::timeout,
+             this, &FileWatcher::updateItems );
 
-    connect( m_model.data(), SIGNAL(rowsInserted(QModelIndex,int,int)),
-             this, SLOT(onRowsInserted(QModelIndex,int,int)), Qt::UniqueConnection );
-    connect( m_model.data(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
-             this, SLOT(onRowsRemoved(QModelIndex,int,int)), Qt::UniqueConnection );
-    connect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             SLOT(onDataChanged(QModelIndex,QModelIndex)), Qt::UniqueConnection );
+    connect( m_model.data(), &QAbstractItemModel::rowsInserted,
+             this, &FileWatcher::onRowsInserted );
+    connect( m_model.data(), &QAbstractItemModel::rowsAboutToBeRemoved,
+             this, &FileWatcher::onRowsRemoved );
+    connect( m_model.data(), &QAbstractItemModel::dataChanged,
+             this, &FileWatcher::onDataChanged );
 
     if (model->rowCount() > 0)
         saveItems(0, model->rowCount() - 1);
