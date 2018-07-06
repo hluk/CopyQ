@@ -80,6 +80,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     // Ignore known warnings.
     output.remove("QtWarning: QXcbXSettings::QXcbXSettings(QXcbScreen*) Failed to get selection owner for XSETTINGS_S atom");
     output.remove("QtWarning: QXcbConnection: XCB error:");
+    output.remove("QtWarning: QXcbClipboard: SelectionRequest too old");
     output.remove("QtWarning: libpng warning: iCCP: known incorrect sRGB profile");
     output.remove("QtWarning: QMime::convertToMime: unhandled mimetype: text/plain");
     output.remove("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)");
