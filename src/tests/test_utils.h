@@ -23,11 +23,29 @@
 #include "common/commandstatus.h"
 
 #include <QByteArray>
+#include <QElapsedTimer>
 #include <QFile>
 #include <QString>
 #include <QStringList>
 #include <QTest>
 #include <QVariantMap>
+
+class PerformanceTimer {
+public:
+    PerformanceTimer() {
+        m_timer.start();
+    }
+
+    void printPerformance(const char *label, const QStringList &arguments = QStringList()) {
+        const auto elapsedMs = m_timer.elapsed();
+        if (elapsedMs > 500)
+            qWarning() << "--- PERFORMANCE ---" << elapsedMs << "ms:" << label << arguments;
+        m_timer.start();
+    }
+
+private:
+    QElapsedTimer m_timer;
+};
 
 /**
  * Verify that method call (TestInterface::startServer(), TestInterface::runClient() etc.)
@@ -86,12 +104,14 @@ do { \
 
 #define WAIT_ON_OUTPUT(ARGUMENTS, OUTPUT) \
 do { \
+    PerformanceTimer perf; \
     QByteArray out_; \
     const QByteArray expected_(OUTPUT); \
     SleepTimer t_(8000); \
     do { \
         TEST( m_test->getClientOutput((Args() << ARGUMENTS), &out_) ); \
     } while (out_ != expected_ && t_.sleep()); \
+    perf.printPerformance("WAIT_ON_OUTPUT", (Args() << ARGUMENTS)); \
     QCOMPARE(QString(out_), QString(expected_)); \
 } while(false)
 
