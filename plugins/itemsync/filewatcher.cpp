@@ -395,6 +395,7 @@ bool FileWatcher::lock()
     if ( !m_valid )
         return false;
 
+    m_updateTimer.stop();
     m_valid = false;
     return true;
 }
@@ -402,6 +403,7 @@ bool FileWatcher::lock()
 void FileWatcher::unlock()
 {
     m_valid = true;
+    m_updateTimer.start();
 }
 
 bool FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow)
@@ -435,8 +437,6 @@ void FileWatcher::createItemsFromFiles(const QDir &dir, const BaseNameExtensions
 
 void FileWatcher::updateItems()
 {
-    m_updateTimer.stop();
-
     if ( !lock() )
         return;
 
@@ -471,8 +471,6 @@ void FileWatcher::updateItems()
     createItemsFromFiles(dir, fileList);
 
     unlock();
-
-    m_updateTimer.start();
 }
 
 void FileWatcher::onRowsInserted(const QModelIndex &, int first, int last)
