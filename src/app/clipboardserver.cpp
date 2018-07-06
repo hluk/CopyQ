@@ -173,7 +173,7 @@ void ClipboardServer::stopMonitoring()
 
 void ClipboardServer::startMonitoring()
 {
-    if (m_monitor || m_preventMonitorStart || !m_wnd->isMonitoringEnabled())
+    if (m_monitor || m_ignoreNewConnections || !m_wnd->isMonitoringEnabled())
         return;
 
     COPYQ_LOG("Starting monitor");
@@ -226,7 +226,7 @@ void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
 
-    m_preventMonitorStart = true;
+    m_ignoreNewConnections = true;
 
     terminateClients(10000);
     m_server->close(); // No new connections can be open.
@@ -239,13 +239,13 @@ void ClipboardServer::onCommitData(QSessionManager &sessionManager)
 {
     COPYQ_LOG("Got commit data request from session manager.");
 
-    m_preventMonitorStart = true;
+    m_ignoreNewConnections = true;
     const bool cancel = sessionManager.allowsInteraction() && !askToQuit();
     sessionManager.release();
 
     if (cancel) {
         sessionManager.cancel();
-        m_preventMonitorStart = false;
+        m_ignoreNewConnections = false;
         startMonitoring();
     } else {
         m_wnd->saveTabs();
@@ -344,6 +344,12 @@ void ClipboardServer::waitForClientsToFinish(int waitMs)
 
 void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 {
+    if (m_ignoreNewConnections) {
+        COPYQ_LOG("Ignoring new client while exiting");
+        client->close();
+        return;
+    }
+
     auto proxy = new ScriptableProxy(m_wnd, client.get());
     m_clients.insert( client->id(), ClientData(client, proxy) );
     connect( this, &ClipboardServer::closeClients,
