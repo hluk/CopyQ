@@ -2400,7 +2400,7 @@ void Tests::shortcutCommandSelectedItemData()
     RUN("add" << "C" << "B" << "A", "");
     RUN("selectItems" << "1" << "2", "true\n");
     RUN("keys" << "CTRL+F1", "");
-    RUN("tab" << tab1 << "read" << "0", "C");
+    WAIT_ON_OUTPUT("tab" << tab1 << "read" << "0", "C");
 }
 
 void Tests::shortcutCommandSetSelectedItemData()
@@ -2418,7 +2418,7 @@ void Tests::shortcutCommandSetSelectedItemData()
     RUN("add" << "C" << "B" << "A", "");
     RUN("selectItems" << "1" << "2", "true\n");
     RUN("keys" << "CTRL+F1", "");
-    RUN("read" << "2", "X");
+    WAIT_ON_OUTPUT("read" << "2", "X");
     RUN("read" << "DATA" << "2", "TEST");
 }
 
@@ -2441,7 +2441,7 @@ void Tests::shortcutCommandSelectedItemsData()
     RUN("add" << "C" << "B" << "A", "");
     RUN("selectItems" << "1" << "2", "true\n");
     RUN("keys" << "CTRL+F1", "");
-    RUN("tab" << tab1 << "read" << "0", "B,C,");
+    WAIT_ON_OUTPUT("tab" << tab1 << "read" << "0", "B,C,");
 }
 
 void Tests::shortcutCommandSetSelectedItemsData()
@@ -2459,9 +2459,7 @@ void Tests::shortcutCommandSetSelectedItemsData()
     RUN("add" << "C" << "B" << "A", "");
     RUN("selectItems" << "1" << "2", "true\n");
     RUN("keys" << "CTRL+F1", "");
-    RUN("read" << "0", "A");
-    RUN("read" << "1", "X");
-    RUN("read" << "2", "Y");
+    WAIT_ON_OUTPUT("read" << "0" << "1" << "2", "A\nX\nY");
 }
 
 void Tests::shortcutCommandSelectedAndCurrent()
@@ -2482,7 +2480,7 @@ void Tests::shortcutCommandSelectedAndCurrent()
 
     RUN("tab" << tab1 << "setCurrentTab" << tab1 << "selectItems" << "1" << "2", "true\n");
     RUN("keys" << "CTRL+F1", "");
-    RUN("tab" << tab1 << "read(0)", "1,2|2|" + tab1);
+    WAIT_ON_OUTPUT("tab" << tab1 << "read(0)", "1,2|2|" + tab1.toUtf8());
 }
 
 void Tests::automaticCommandIgnore()
