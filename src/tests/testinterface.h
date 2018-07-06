@@ -90,12 +90,6 @@ public:
     /// Clean up tabs and items. Return error string on error.
     virtual QByteArray cleanup() = 0;
 
-    /// Show and focus main window (GUI server must be running).
-    virtual QByteArray show() = 0;
-
-    /// Wait for mainw window focus.
-    virtual QByteArray waitForFocus() = 0;
-
     /// Platform specific key to remove (usually Delete, Backspace on OS X).
     virtual QString shortcutToRemove() = 0;
 

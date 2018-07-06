@@ -459,29 +459,6 @@ public:
         return "";
     }
 
-    QByteArray show() override
-    {
-        const QByteArray out = runClient(Args("show"), "");
-        if ( !out.isEmpty() )
-            return out;
-
-        return waitForFocus();
-    }
-
-    QByteArray waitForFocus() override
-    {
-        SleepTimer t(8000);
-        for (;;) {
-            const int exitCode = run(Args() << "focused() || fail()");
-            if (exitCode == 0)
-                break;
-            if ( !t.sleep() )
-                return "Failed to focus main window";
-        }
-
-        return QByteArray();
-    }
-
     QByteArray cleanupTestCase() override
     {
         return cleanup();
@@ -542,7 +519,9 @@ public:
 
         // Always show main window first so that the results are consistent with desktop environments
         // where user cannot hide main window (tiling window managers without tray).
-        return show();
+        RETURN_ON_ERROR( runClient(Args("show"), ""), "Failed to show main window" );
+
+        return QByteArray();
     }
 
     QByteArray cleanup() override
@@ -2192,7 +2171,6 @@ void Tests::pasteFromMainWindow()
         waitMsShow,
         [&]() {
             RUN("show", "");
-            WAIT_FOR_FOCUS();
             RUN("keys" << "ENTER", "");
             waitFor(waitMsShow);
 
