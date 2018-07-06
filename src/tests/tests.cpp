@@ -414,30 +414,8 @@ public:
     QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors) override
     {
         if (m_server) {
-            PerformanceTimer perf;
-
-            QByteArray output = m_server->readAllStandardError();
-
-            // Flush server output.
-            if (m_server->state() != QProcess::NotRunning) {
-                const QByteArray data = "flush ID: " + generateData();
-                if ( run(Args("serverLog") << data) == 0 ) {
-                    SleepTimer t(5000);
-                    bool isFlushed = false;
-                    do {
-                        output.append(m_server->readAllStandardError());
-                        isFlushed = output.contains(data);
-                    } while (!isFlushed && t.sleep());
-
-                    if (!isFlushed)
-                        qWarning() << "failed to flush server output";
-                }
-            }
-
-            output.replace('\r', "");
-
-            perf.printPerformance("readServerErrors");
-
+            QCoreApplication::processEvents();
+            const auto output = m_server->readAllStandardError().replace('\r', "");
             if ( flag == ReadAllStderr || !testStderr(output, flag) )
               return decorateOutput("Server STDERR", output);
         }
