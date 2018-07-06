@@ -2427,6 +2427,12 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 bool MainWindow::toggleMenu()
 {
     m_trayMenu->search(QString());
+
+    if ( !m_trayMenu->isVisible() && m_timerUpdateTrayMenu.isActive() ) {
+        m_timerUpdateTrayMenu.stop();
+        updateTrayMenuTimeout();
+    }
+
     return toggleMenu(m_trayMenu);
 }
 

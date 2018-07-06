@@ -2118,7 +2118,6 @@ void Tests::pasteFromMainWindow()
 void Tests::tray()
 {
     RUN("add" << "A", "");
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
@@ -2131,14 +2130,12 @@ void Tests::menu()
 
     RUN("tab" << tab << "add" << "D" << "C" << "B" << "A", "");
 
-    waitFor(waitTrayUpdate);
     RUN("menu" << tab, "");
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("A");
 
     // Show menu with 2 items from the tab and select last one.
-    waitFor(waitTrayUpdate);
     RUN("menu" << tab << "2", "");
     waitFor(waitMsShow);
     RUN("keys" << "END" << "ENTER", "");
@@ -2149,7 +2146,6 @@ void Tests::traySearch()
 {
     RUN("add" << "C" << "B" << "A", "");
 
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "B" << "ENTER", "");
@@ -2165,7 +2161,6 @@ void Tests::trayPaste()
     RUN("keys" << "CTRL+N" << ":NEW ", "");
 
     RUN("add" << "TEST", "");
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
@@ -2179,7 +2174,6 @@ void Tests::trayPaste()
 
     RUN("config" << "tray_item_paste" << "false", "false\n");
     RUN("add" << "TEST2", "");
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
@@ -2201,7 +2195,6 @@ void Tests::configTrayTab()
 
     RUN("config" << "tray_tab" << tab1, tab1 + "\n");
 
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
@@ -2209,7 +2202,6 @@ void Tests::configTrayTab()
 
     RUN("config" << "tray_tab" << tab2, tab2 + "\n");
 
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
@@ -2226,7 +2218,6 @@ void Tests::configMove()
 
     RUN("config" << "move" << "true", "true\n");
 
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "DOWN" << "ENTER", "");
@@ -2234,7 +2225,6 @@ void Tests::configMove()
 
     RUN("config" << "move" << "false", "false\n");
 
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "DOWN" << "ENTER", "");
@@ -2252,14 +2242,12 @@ void Tests::configTrayTabIsCurrent()
     RUN("config" << "tray_tab_is_current" << "true", "true\n");
 
     RUN("setCurrentTab" << tab1, "");
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("A");
 
     RUN("setCurrentTab" << tab2, "");
-    waitFor(waitTrayUpdate);
     RUN("menu", "");
     waitFor(waitMsShow);
     RUN("keys" << "ENTER", "");
