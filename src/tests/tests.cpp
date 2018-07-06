@@ -2338,7 +2338,10 @@ void Tests::shortcutCommandMatchInput()
 
 void Tests::shortcutCommandMatchCmd()
 {
-    // Activate only one of the two actions depending on exit code of command which matches input MIME format.
+    const auto tab = testTab(1);
+    const Args args = Args("tab") << tab;
+
+    // Activate only one of the three actions depending on exit code of command which matches input MIME format.
     const auto script = R"(
         function cmd(name) {
           var format = 'application/x-copyq-' + name
@@ -2347,7 +2350,7 @@ void Tests::shortcutCommandMatchCmd()
             inMenu: true,
             shortcuts: ['Ctrl+F1'],
             matchCmd: 'copyq: str(data("' + format + '")) || fail()',
-            cmd: 'copyq add ' + name
+            cmd: 'copyq tab )" + tab + R"( add ' + name
           }
         }
         setCommands([ cmd('test1'), cmd('test2') ])
@@ -2355,14 +2358,10 @@ void Tests::shortcutCommandMatchCmd()
     RUN(script, "");
 
     RUN("write" << "application/x-copyq-test1" << "1", "");
-    waitFor(500);
-    WAIT_ON_OUTPUT("keys('Ctrl+F1'); read(0)", "test1");
-    RUN("tab" << QString(clipboardTabName) << "size", "2\n");
+    WAIT_ON_OUTPUT(args << "keys('Ctrl+F1'); read(0)", "test1");
 
-    RUN("write" << "application/x-copyq-test2" << "1", "");
-    waitFor(500);
-    WAIT_ON_OUTPUT("keys('Ctrl+F1'); read(0)", "test2");
-    RUN("tab" << QString(clipboardTabName) << "size", "4\n");
+    RUN("write" << "application/x-copyq-test2" << "2", "");
+    WAIT_ON_OUTPUT(args << "keys('Ctrl+F1'); read(0)", "test2");
 }
 
 void Tests::shortcutCommandSelectedItemData()
