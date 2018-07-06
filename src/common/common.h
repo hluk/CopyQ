@@ -27,6 +27,7 @@
 
 class QAction;
 class QByteArray;
+class QClipboard;
 class QDropEvent;
 class QFont;
 class QIODevice;
@@ -50,6 +51,7 @@ class QWidget;
 
 bool isMainThread();
 
+QClipboard *systemClipboard();
 const QMimeData *clipboardData(ClipboardMode mode = ClipboardMode::Clipboard);
 
 QByteArray makeClipboardOwnerData();

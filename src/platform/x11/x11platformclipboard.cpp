@@ -66,6 +66,8 @@ QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) 
 
 void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
 {
+    // WORKAROUND: Avoid getting X11 warning "QXcbClipboard: SelectionRequest too old".
+    QCoreApplication::processEvents();
     DummyClipboard::setData(mode, dataMap);
 }
 
