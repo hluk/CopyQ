@@ -544,7 +544,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="89"/>
         <source>CopyQ server is already running.</source>
-        <translation>CopyQ サーバーはすでに稼働中です。</translation>
+        <translation>CopyQ サーバーは既に稼働中です。</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="299"/>
@@ -2705,7 +2705,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="176"/>
         <source>Browse...</source>
-        <translation>ファイル...</translation>
+        <translation>参照...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="222"/>
@@ -3075,7 +3075,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;自動的に暗号化・復号化したいタブの名前を(1行につき1個ずつ)指定してください。&lt;/p&gt;
+        <translation>&lt;p&gt;自動的に暗号化・復号化したいタブの名前を (1行につき1個ずつ) 指定してください。&lt;/p&gt;
 &lt;p&gt;復号化したアイテムをメモリから安全に解放するため、それらのタブは履歴タブからメモリー開放用タブへと切り分けられます。&lt;/p&gt;</translation>
     </message>
 </context>
@@ -3094,7 +3094,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="79"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation>Vimエディタをエミュレートしてアイテムを編集します。</translation>
+        <translation>Vim エディタをエミュレートしてアイテムを編集します。</translation>
     </message>
 </context>
 <context>
@@ -3153,17 +3153,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation>SVG以外の画像フォーマットをサポートするエディタコマンドを入力。</translation>
+        <translation>SVG 以外の画像フォーマットをサポートするエディタコマンドを入力してください。</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation>SVGエディタコマンド(&amp;S):</translation>
+        <translation>SVG エディタコマンド(&amp;S):</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation>SVG画像フォーマット用のエディタコマンドを入力。</translation>
+        <translation>SVG 画像フォーマット用のエディタコマンドを入力してください。</translation>
     </message>
 </context>
 <context>
@@ -3176,7 +3176,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="94"/>
         <source>Display notes for items.</source>
-        <translation>項目のノートを表示を設定します。</translation>
+        <translation>アイテムのノートを表示します。</translation>
     </message>
 </context>
 <context>
@@ -3279,7 +3279,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsync.cpp" line="123"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation>ファイル...</translation>
+        <translation>参照...</translation>
     </message>
     <message>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
@@ -3366,7 +3366,7 @@ Set to 0 to disable.</source>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
         <translation>&lt;p&gt;ファイルを無視する場合は MIME タイプに &lt;strong&gt;-&lt;/strong&gt; (ダッシュ) を設定してください。 隠しファイル、その他不明なファイルは無視されます。&lt;/p&gt;
-&lt;p&gt;例: 拡張子が &lt;strong&gt;txt&lt;/strong&gt; のファイルを &lt;strong&gt;text/plain&lt;/strong&gt; MIME タイプとしてロード。&lt;/p&gt;</translation>
+&lt;p&gt;例: 拡張子が &lt;strong&gt;txt&lt;/strong&gt; のファイルを &lt;strong&gt;text/plain&lt;/strong&gt; MIME タイプとして読み込みます。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
@@ -3433,7 +3433,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation>詳細情報は&lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wikiページ&lt;/a&gt;で利用できます。</translation>
+        <translation>より詳しい情報は &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;Wiki ページ&lt;/a&gt;をご覧ください。</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
@@ -3479,12 +3479,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation>HTMLとリッチテキストを保存、表示する</translation>
+        <translation>HTML とリッチテキストを保存、表示する</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation>表示する最大行数 (0ですべて表示):</translation>
+        <translation>表示する最大行数 (0で全て表示):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
@@ -3678,12 +3678,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3503"/>
         <source>Remove All Tabs in Group?</source>
-        <translation>グループのすべてのタブを削除しますか?</translation>
+        <translation>グループの全てのタブを削除しますか?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3504"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>グループ &lt;strong&gt;%1&lt;/strong&gt; の &lt;strong&gt;すべてのタブ&lt;/strong&gt; を削除しますか?</translation>
+        <translation>グループ &lt;strong&gt;%1&lt;/strong&gt; の &lt;strong&gt;全てのタブ&lt;/strong&gt; を削除しますか?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3551"/>
@@ -3708,7 +3708,7 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <source>Right click to show</source>
-        <translation type="vanished">表示するには右クリック</translation>
+        <translation>右クリックで表示</translation>
     </message>
 </context>
 <context>
@@ -4198,7 +4198,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
-        <translation>ログの表示(&amp;S)</translation>
+        <translation>ログを表示(&amp;S)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
@@ -4233,27 +4233,27 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <name>Scriptable</name>
     <message>
         <source>Show main window.</source>
-        <translation type="vanished">メインウィンドウを表示。</translation>
+        <translation>メインウィンドウを表示します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="66"/>
         <source>Hide main window.</source>
-        <translation>メインウィンドウを隠す。</translation>
+        <translation>メインウィンドウを隠します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
         <source>Show or hide main window.</source>
-        <translation>メインウィンドウの表示を切り替え。</translation>
+        <translation>メインウィンドウの表示を切り替えます。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="70"/>
         <source>Open context menu.</source>
-        <translation>コンテキストメニューを開く。</translation>
+        <translation>コンテキストメニューを開きます。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
         <source>Exit server.</source>
-        <translation>サーバーを終了する。</translation>
+        <translation>サーバーを終了します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
@@ -4263,7 +4263,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="77"/>
         <source>Print clipboard content.</source>
-        <translation>クリップボードの内容を出力。</translation>
+        <translation>クリップボードの内容を出力します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="78"/>
@@ -4279,19 +4279,19 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
         <source>Print X11 selection content.</source>
-        <translation>X11セレクションの内容を出力。</translation>
+        <translation>X11セレクションの内容を出力します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
-        <translation>現在のウィンドウにクリップボードをペースト
-(アプリケーションによっては機能しないことがあります)。</translation>
+        <translation>現在のウィンドウにクリップボードを貼り付けます
+(アプリケーションによっては動作しない場合があります)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="87"/>
         <source>Set clipboard text.</source>
-        <translation>クリップボードにテキストを登録。</translation>
+        <translation>クリップボードにテキストを登録します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="88"/>
@@ -4305,7 +4305,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <source>
 Set clipboard content.</source>
         <translation>
-内容をクリップボードに登録。</translation>
+内容をクリップボードに登録します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
@@ -4317,12 +4317,12 @@ Set clipboard content.</source>
     </message>
     <message>
         <source>Print number of items in history.</source>
-        <translation type="vanished">履歴のアイテム数を出力。</translation>
+        <translation>履歴のアイテム数を出力します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation>指定した履歴番号のアイテムをクリップボードにコピー。</translation>
+        <translation>指定した履歴番号のアイテムをクリップボードにコピーします。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
@@ -4336,27 +4336,27 @@ Set clipboard content.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation>現在のタブの次のアイテムをクリップボードにコピー。</translation>
+        <translation>現在のタブの次のアイテムをクリップボードにコピーします。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="102"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation>現在のタブの前のアイテムをクリップボードにコピー。</translation>
+        <translation>現在のタブの前のアイテムをクリップボードにコピーします。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="104"/>
         <source>Add text into clipboard.</source>
-        <translation>テキストをクリップボードに追加。</translation>
+        <translation>テキストをクリップボードに追加します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="107"/>
         <source>Insert text into given row.</source>
-        <translation>指定された履歴番号にテキストを挿入。</translation>
+        <translation>指定された履歴番号にテキストを挿入します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
         <source>Remove items in given rows.</source>
-        <translation>指定された履歴番号のアイテムを削除。</translation>
+        <translation>指定された履歴番号のアイテムを削除します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="112"/>
@@ -4369,8 +4369,8 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation>アイテムを編集、あるいはアイテムを新しく作成します。
--1 を指定すると現在クリップボード内にあるテキストを編集。</translation>
+        <translation>アイテムを編集、またはアイテムを新しく作成します。
+-1 を指定すると現在クリップボード内にあるテキストを編集します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="119"/>
@@ -4439,16 +4439,16 @@ TIME で指定したミリ秒間トレイポップアップメッセージを表
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>List available tab names.</source>
-        <translation>利用可能なタブ名のリストを表示。</translation>
+        <translation>利用可能なタブ名のリストを表示します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
-        <translation>指定した名前のタブでコマンドを実行。
-タブが存在しない時は新規作成されます。
-デフォルトは最初のタブ。</translation>
+        <translation>指定した名前のタブでコマンドを実行します。
+タブが存在しない時は新規作成します。
+デフォルトは最初のタブです。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
@@ -4462,7 +4462,7 @@ ECMAScript プログラムを診断します。
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation>アプリケーションのテストを実行します(詳細を知りたい場合はコマンド引数に --help を追加して下さい)。</translation>
+        <translation>アプリケーションのテストを実行します (詳細を知りたい場合はコマンド引数に --help を追加してください)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="64"/>
@@ -4480,7 +4480,7 @@ ECMAScript プログラムを診断します。
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="95"/>
         <source>Print amount of items in current tab.</source>
-        <translation>現在のタブのアイテム数を出力。</translation>
+        <translation>現在のタブのアイテム数を出力します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
@@ -4492,12 +4492,12 @@ ECMAScript プログラムを診断します。
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
         <source>Remove tab.</source>
-        <translation>タブを削除。</translation>
+        <translation>タブを削除します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>Rename tab.</source>
-        <translation>タブをリネーム。</translation>
+        <translation>タブをリネームします。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
@@ -4550,9 +4550,9 @@ ECMAScript プログラムを診断します。
         <source>
 Evaluate ECMAScript program.
 Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
-        <translation type="vanished">
-ECMAScriptで書かれたプログラムを評価します。
-引数は &quot;arguments(0..N)&quot; を使用してアクセスできます。</translation>
+        <translation>
+ECMAScript プログラムを診断します。
+引数には &quot;arguments(0..N)&quot; を使用してアクセスします。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
@@ -4697,17 +4697,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="608"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation>そういった名前のタブは存在しません!</translation>
+        <translation>そのような名前のタブは存在しません!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="613"/>
         <source>Tab name cannot be empty!</source>
-        <translation>名前のないタブは作れません!</translation>
+        <translation>名前のないタブは作成できません!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="866"/>
         <source>Tab with given name already exists!</source>
-        <translation>その名前のタブはすでに存在します!</translation>
+        <translation>その名前のタブは既に存在します!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1701"/>
@@ -4727,7 +4727,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="47"/>
         <source>Add shortcut</source>
-        <translation>ショートカットを追加・編集</translation>
+        <translation>ショートカットを追加</translation>
     </message>
 </context>
 <context>
@@ -4740,7 +4740,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;キーを入力してください。 &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; でキャンセル。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;キーを入力してください。&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; でキャンセルできます。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
@@ -4767,7 +4767,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="241"/>
         <source>Shortcut already exists!</source>
-        <translation>ショートカットはすでに存在しています!</translation>
+        <translation>ショートカットは既に存在しています!</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="298"/>
@@ -4782,9 +4782,8 @@ Print version of program and libraries.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>タブ名は1字以上で重複しないよう付けてください。&lt;br /&gt;
-タブ &lt;b&gt;ノート(&amp;amp;T)&lt;/b&gt; は&lt;b&gt;Alt+t&lt;/b&gt;.を使って開けます。&lt;br /&gt;
-タブツリー表示にてパスセパレータに &lt;b&gt;/&lt;/b&gt; を使えます。</translation>
+        <translation>タブ名は1字以上の重複しない名前にしてください。&lt;br /&gt;
+レイアウトをタブツリーにしている場合は、&lt;b&gt;/&lt;/b&gt; をパス区切り文字としてタブ名に含めることができます。</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -4843,15 +4842,15 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <name>detail::ScriptableProxyHelper</name>
     <message>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="vanished">そういった名前のタブは存在しません!</translation>
+        <translation>そのような名前のタブは存在しません!</translation>
     </message>
     <message>
         <source>Tab name cannot be empty!</source>
-        <translation type="vanished">名前のないタブは作れません!</translation>
+        <translation>名前のないタブは作成できません!</translation>
     </message>
     <message>
         <source>Tab with given name already exists!</source>
-        <translation type="vanished">その名前のタブはすでに存在します!</translation>
+        <translation>その名前のタブは既に存在します!</translation>
     </message>
 </context>
 </TS>
