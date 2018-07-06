@@ -2740,7 +2740,6 @@ int runTests(int argc, char *argv[])
         }
     }
 
-    QGuiApplication::setDesktopSettingsAware(false);
     QGuiApplication app(argc, argv);
     Q_UNUSED(app);
 
