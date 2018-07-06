@@ -295,6 +295,52 @@ void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
         QFile::remove(path + extValue.toString());
 }
 
+bool renameToUnique(
+        const QDir &dir, const QStringList &baseNames, QString *name,
+        const QList<FileFormat> &formatSettings)
+{
+    if ( name->isEmpty() ) {
+        *name = "copyq_0000";
+    } else {
+        // Replace/remove unsafe characters.
+        name->replace( QRegExp("/|\\\\|^\\."), QString("_") );
+        name->remove( QRegExp("\\n|\\r") );
+    }
+
+    const QStringList fileNames = dir.entryList();
+
+    if ( isUniqueBaseName(*name, fileNames, baseNames) )
+        return true;
+
+    QString ext;
+    QString baseName;
+    getBaseNameAndExtension(*name, &baseName, &ext, formatSettings);
+
+    int i = 0;
+    int fieldWidth = 0;
+
+    QRegExp re("\\d+$");
+    if ( baseName.indexOf(re) != -1 ) {
+        const QString num = re.cap(0);
+        i = num.toInt();
+        fieldWidth = num.size();
+        baseName = baseName.mid( 0, baseName.size() - fieldWidth );
+    } else {
+        baseName.append('-');
+    }
+
+    QString newName;
+    do {
+        if (i >= 99999)
+            return false;
+        newName = baseName + QString("%1").arg(++i, fieldWidth, 10, QChar('0')) + ext;
+    } while ( !isUniqueBaseName(newName, fileNames, baseNames) );
+
+    *name = newName;
+
+    return true;
+}
+
 } // namespace
 
 QString FileWatcher::getBaseName(const QModelIndex &index)
@@ -440,7 +486,7 @@ void FileWatcher::updateItems()
     if ( !lock() )
         return;
 
-    QDir dir(m_path);
+    const QDir dir(m_path);
     const QStringList files = listFiles(dir, QDir::Time | QDir::Reversed);
     BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
 
@@ -641,50 +687,6 @@ void FileWatcher::saveItems(int first, int last)
     unlock();
 }
 
-bool FileWatcher::renameToUnique(const QDir &dir, const QStringList &baseNames, QString *name)
-{
-    if ( name->isEmpty() ) {
-        *name = "copyq_0000";
-    } else {
-        // Replace/remove unsafe characters.
-        name->replace( QRegExp("/|\\\\|^\\."), QString("_") );
-        name->remove( QRegExp("\\n|\\r") );
-    }
-
-    const QStringList fileNames = dir.entryList();
-
-    if ( isUniqueBaseName(*name, fileNames, baseNames) )
-        return true;
-
-    QString ext;
-    QString baseName;
-    getBaseNameAndExtension(*name, &baseName, &ext, m_formatSettings);
-
-    int i = 0;
-    int fieldWidth = 0;
-
-    QRegExp re("\\d+$");
-    if ( baseName.indexOf(re) != -1 ) {
-        const QString num = re.cap(0);
-        i = num.toInt();
-        fieldWidth = num.size();
-        baseName = baseName.mid( 0, baseName.size() - fieldWidth );
-    } else {
-        baseName.append('-');
-    }
-
-    QString newName;
-    do {
-        if (i >= 99999)
-            return false;
-        newName = baseName + QString("%1").arg(++i, fieldWidth, 10, QChar('0')) + ext;
-    } while ( !isUniqueBaseName(newName, fileNames, baseNames) );
-
-    *name = newName;
-
-    return true;
-}
-
 bool FileWatcher::renameMoveCopy(const QDir &dir, const QList<QPersistentModelIndex> &indexList)
 {
     QStringList baseNames;
@@ -701,7 +703,7 @@ bool FileWatcher::renameMoveCopy(const QDir &dir, const QList<QPersistentModelIn
         bool newItem = olderBaseName.isEmpty();
         bool itemRenamed = olderBaseName != baseName;
         if ( newItem || itemRenamed ) {
-            if ( !renameToUnique(dir, baseNames, &baseName) )
+            if ( !renameToUnique(dir, baseNames, &baseName, m_formatSettings) )
                 return false;
             itemRenamed = olderBaseName != baseName;
             baseNames.append(baseName);
@@ -783,7 +785,7 @@ bool FileWatcher::copyFilesFromUriList(const QByteArray &uriData, int targetRow,
                 getBaseNameAndExtension( QFileInfo(f).fileName(), &baseName, &extName,
                                          m_formatSettings );
 
-                if ( renameToUnique(dir, baseNames, &baseName) ) {
+                if ( renameToUnique(dir, baseNames, &baseName, m_formatSettings) ) {
                     const QString targetFilePath = dir.absoluteFilePath(baseName + extName);
                     f.copy(targetFilePath);
                     Ext ext;

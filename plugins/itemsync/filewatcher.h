@@ -126,8 +126,6 @@ private:
 
     void saveItems(int first, int last);
 
-    bool renameToUnique(const QDir &dir, const QStringList &baseNames, QString *name);
-
     bool renameMoveCopy(const QDir &dir, const QList<QPersistentModelIndex> &indexList);
 
     void updateDataAndWatchFile(
