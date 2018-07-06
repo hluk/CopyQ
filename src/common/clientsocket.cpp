@@ -133,11 +133,6 @@ ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
     m_socket->connectToServer(serverName);
 
     // Try to connect again in case the server just started.
-#ifdef HAS_TESTS
-    // No need to wait for connection when tests are running.
-    if ( qApp->property("CopyQ_test_id").isValid() )
-        return;
-#endif
     if ( m_socket->state() == QLocalSocket::UnconnectedState ) {
         COPYQ_LOG("Waiting for server to start");
         SleepTimer t(1000);

@@ -140,30 +140,6 @@ bool waitWhileFileExists(const QFile &file)
     return !file.exists();
 }
 
-bool waitForProcessFinished(QProcess *p)
-{
-    // Process events in case we own clipboard and the new process requests the contents.
-    SleepTimer t(30000);
-    while ( p->state() != QProcess::NotRunning && !p->waitForFinished(50) && t.sleep() ) {}
-    return p->state() == QProcess::NotRunning;
-}
-
-bool closeProcess(QProcess *p)
-{
-    if ( waitForProcessFinished(p) )
-        return true;
-
-    qWarning() << "terminating process";
-    p->terminate();
-
-    if ( !waitForProcessFinished(p) ) {
-        qWarning() << "killing process";
-        terminateProcess(p);
-    }
-
-    return false;
-}
-
 /// Generate unique data.
 QByteArray generateData()
 {
@@ -201,13 +177,14 @@ public:
         if ( isServerRunning() )
             return "Server is already running.";
 
-        if ( isAnyServerRunning() ) {
-            qWarning() << "closing existing test session";
-            run(Args("exit"));
-            waitForAnyServerToQuit();
-        }
-
         m_server.reset(new QProcess);
+        m_serverErrorOutput.clear();
+        QObject::connect(
+            m_server.get(), &QProcess::readyReadStandardError,
+            [this]() {
+                const auto errorOutput = m_server->readAllStandardError().replace('\r', "");
+                m_serverErrorOutput.append(errorOutput);
+            });
 
         if ( !startTestProcess(m_server.get(), QStringList(), QIODevice::ReadOnly) ) {
             return QString("Failed to launch \"%1\": %2")
@@ -216,36 +193,18 @@ public:
                 .toUtf8();
         }
 
-        RETURN_ON_ERROR( waitForServerToStart(), "Failed to start server" );
+        m_server->closeReadChannel(QProcess::StandardOutput);
+
         RETURN_ON_ERROR( readServerErrors(), "Failed to read server errors" );
 
         return QByteArray();
     }
 
-    QByteArray waitForServerToStart()
-    {
-        SleepTimer t(15000);
-        do {
-            if ( isServerRunning() )
-                return QByteArray();
-        } while ( t.sleep() );
-
-        return "Unable to start server!" + readServerErrors(ReadAllStderr);
-    }
-
-    QByteArray waitForAnyServerToQuit()
-    {
-        SleepTimer t(8000);
-        do {
-            if ( !isAnyServerRunning() )
-                return QByteArray();
-        } while ( t.sleep() );
-
-        return "Unable to stop server!" + readServerErrors(ReadAllStderr);
-    }
-
     QByteArray stopServer() override
     {
+        if ( !isServerRunning() )
+            return "Server is not running";
+
         QByteArray errors;
         const int exitCode = run(Args("exit"), nullptr, &errors);
         if ( !testStderr(errors) || exitCode != 0 ) {
@@ -253,15 +212,32 @@ public:
                     + printClienAndServerStderr(errors, exitCode);
         }
 
-        if ( m_server != nullptr && !closeProcess(m_server.get()) )
-            return "Failed to close server properly!" + readServerErrors(ReadAllStderr);
+        PerformanceTimer perf;
 
-        return waitForAnyServerToQuit();
+        // Process events in case we own clipboard and the new process requests the contents.
+        SleepTimer t(30000);
+        while ( m_server->state() != QProcess::NotRunning && !m_server->waitForFinished(50) && t.sleep() ) {}
+
+        perf.printPerformance("stopServer");
+
+        if ( m_server->state() != QProcess::NotRunning ) {
+            qWarning() << "terminating server process";
+            m_server->terminate();
+
+            if ( !m_server->waitForFinished() ) {
+                qWarning() << "killing server process";
+                terminateProcess(m_server.get());
+            }
+
+            return "Failed to close server properly!" + readServerErrors(ReadAllStderr);
+        }
+
+        return readServerErrors();
     }
 
     bool isServerRunning() override
     {
-        return m_server != nullptr && m_server->state() == QProcess::Running && isAnyServerRunning();
+        return m_server != nullptr && m_server->state() == QProcess::Running;
     }
 
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
@@ -415,7 +391,8 @@ public:
     {
         if (m_server) {
             QCoreApplication::processEvents();
-            const auto output = m_server->readAllStandardError().replace('\r', "");
+            const auto output = m_serverErrorOutput;
+            m_serverErrorOutput.clear();
             if ( flag == ReadAllStderr || !testStderr(output, flag) )
               return decorateOutput("Server STDERR", output);
         }
@@ -530,11 +507,6 @@ private:
         QCOMPARE( tabs(), QStringList() );
     }
 
-    bool isAnyServerRunning()
-    {
-        return run(Args("eval")) == 0;
-    }
-
     bool startTestProcess(QProcess *p, const QStringList &arguments,
                           QIODevice::OpenMode mode = QIODevice::ReadWrite,
                           const QStringList &environment = QStringList())
@@ -571,6 +543,7 @@ private:
     }
 
     std::unique_ptr<QProcess> m_server;
+    QByteArray m_serverErrorOutput;
     QProcessEnvironment m_env;
     QString m_testId;
     QVariantMap m_settings;
