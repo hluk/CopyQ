@@ -239,6 +239,8 @@ void X11PlatformWindow::raise()
     if (!QX11Info::isPlatformX11())
         return;
 
+    COPYQ_LOG( QString("Raising window \"%1\"").arg(getTitle()) );
+
     auto display = QX11Info::display();
 
     XEvent e{};

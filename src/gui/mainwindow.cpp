@@ -84,10 +84,6 @@
 #include <QToolBar>
 #include <QUrl>
 
-#ifdef HAS_TESTS
-#   include <QTest>
-#endif
-
 #include <algorithm>
 #include <memory>
 
@@ -1095,116 +1091,6 @@ void MainWindow::setFilter(const QString &text)
     getPlaceholder()->setFocus();
 }
 
-#ifdef HAS_TESTS
-void MainWindow::keyClicks(const QString &keys, int delay)
-{
-    QWidget *widget;
-
-    if ( m_trayMenu->isVisible() ) {
-        widget = m_trayMenu;
-    } else if ( m_menu->isVisible() ) {
-        widget = m_menu;
-    } else {
-        // This is needed to properly focus just opened dialogs.
-        auto modalWidget = QApplication::activeModalWidget();
-        if (modalWidget)
-            QApplication::setActiveWindow(modalWidget);
-
-        widget = QApplication::focusWidget();
-        if (!widget) {
-            COPYQ_LOG("No focused widget -> using active window");
-            widget = QApplication::activeWindow();
-            if (!widget) {
-                COPYQ_LOG("No focused widget nor active window -> using main window");
-                widget = this;
-            }
-        }
-    }
-
-    const auto className = widget->metaObject()->className();
-
-    auto widgetName = QString("%1:%2")
-            .arg(widget->objectName(), className);
-
-    if (widget != widget->window()) {
-        widgetName.append(
-                    QString(" in %1:%2")
-                    .arg(widget->window()->objectName(),
-                         widget->window()->metaObject()->className()) );
-    }
-
-    // There could be some animation/transition effect on check boxes
-    // so wait for checkbox to be set.
-    if ( className == QString("QCheckBox") )
-        waitFor(100);
-
-    COPYQ_LOG( QString("Sending keys \"%1\" to %2.")
-               .arg(keys, widgetName) );
-
-    if ( keys.startsWith(":") ) {
-        const auto text = keys.mid(1);
-
-        const auto popupMessage = QString("%1 (%2)")
-                .arg( quoteString(text), widgetName );
-        const int msec = std::max( 1500, delay * text.size() );
-
-        auto notification = createNotification();
-        notification->setMessage(popupMessage);
-        notification->setIcon(IconKeyboard);
-        notification->setInterval(msec);
-
-        QTest::keyClicks(widget, text, Qt::NoModifier, delay);
-
-        // Increment key clicks sequence number after typing all the text.
-        ++m_receivedKeyClicks;
-    } else {
-        // Increment key clicks sequence number before opening any modal dialogs.
-        ++m_receivedKeyClicks;
-
-        const QKeySequence shortcut(keys, QKeySequence::PortableText);
-
-        if ( shortcut.isEmpty() ) {
-            COPYQ_LOG( QString("Cannot parse shortcut \"%1\"!").arg(keys) );
-            return;
-        }
-
-        const auto popupMessage = QString("%1 (%2)")
-                .arg( shortcut.toString(), widgetName );
-        const int msec = std::min( 8000, std::max( 1500, delay * 40 ) );
-
-        auto notification = createNotification();
-        notification->setMessage(popupMessage);
-        notification->setIcon(IconKeyboard);
-        notification->setInterval(msec);
-
-        const auto key = static_cast<uint>(shortcut[0]);
-        QTest::keyClick( widget,
-                         Qt::Key(key & ~Qt::KeyboardModifierMask),
-                         Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
-                         0 );
-    }
-
-    COPYQ_LOG( QString("Key \"%1\" sent to %2.")
-               .arg(keys, widgetName) );
-}
-
-uint MainWindow::sendKeyClicks(const QString &keys, int delay)
-{
-    // Don't stop when modal window is open.
-    QMetaObject::invokeMethod( this, "keyClicks", Qt::QueuedConnection,
-                               Q_ARG(QString, keys),
-                               Q_ARG(int, delay)
-                               );
-
-    return ++m_sentKeyClicks;
-}
-
-uint MainWindow::lastReceivedKeyClicks()
-{
-    return m_receivedKeyClicks;
-}
-#endif
-
 void MainWindow::updateNotifications()
 {
     if (m_notifications == nullptr) {
@@ -1623,10 +1509,16 @@ void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, 
     if ( !c || !c->moveToClipboard(itemHash) )
         m_clipboardManager.setClipboard(data);
 
+    if (!m_lastWindow)
+        updateFocusWindows();
+
     PlatformWindowPtr lastWindow = m_lastWindow;
 
-    if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() )
+    if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() ) {
+        COPYQ_LOG( QString("Pasting item from tray menu to \"%1\".")
+                   .arg(lastWindow->getTitle()) );
         lastWindow->pasteClipboard();
+    }
 }
 
 QWidget *MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
@@ -2147,6 +2039,8 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency(false);
         setHideTabs(m_options.hideTabs);
     } else if (type == QEvent::WindowActivate) {
+        if ( !isActiveWindow() )
+            updateFocusWindows();
         updateWindowTransparency();
         enableHideWindowOnUnfocus();
     } else if (type == QEvent::WindowDeactivate) {
@@ -2799,8 +2693,11 @@ void MainWindow::activateCurrentItemHelper()
 
     enterBrowseMode();
 
-    if (paste)
+    if (paste) {
+        COPYQ_LOG( QString("Pasting item from main window to \"%1\".")
+                   .arg(lastWindow->getTitle()) );
         lastWindow->pasteClipboard();
+    }
 }
 
 void MainWindow::disableClipboardStoring(bool disable)
@@ -2893,13 +2790,15 @@ void MainWindow::raiseLastWindowAfterMenuClosed()
 
 void MainWindow::updateFocusWindows()
 {
-    if ( m_trayMenu->isActiveWindow() || m_menu->isActiveWindow() )
+    if ( QApplication::activePopupWidget() )
         return;
 
     PlatformPtr platform = createPlatformNativeInterface();
     PlatformWindowPtr lastWindow = platform->getCurrentWindow();
-    if (lastWindow)
+    if (lastWindow) {
+        COPYQ_LOG( QString("Focus window is \"%1\"").arg(lastWindow->getTitle()) );
         m_lastWindow = lastWindow;
+    }
 }
 
 void MainWindow::updateShortcuts()

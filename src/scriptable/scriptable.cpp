@@ -1628,14 +1628,30 @@ void Scriptable::keys()
     if (!ok)
         delay = 0;
 
+    QString expectedWidgetName;
+
+    const auto focusPrefix = QLatin1String("focus:");
     for (int i = 0; i < argumentCount(); ++i) {
         const QString keys = toString(argument(i), this);
 
-        waitFor(wait);
-        m_proxy->sendKeys(keys, delay);
+        if (keys.startsWith(focusPrefix)) {
+            expectedWidgetName = keys.mid(focusPrefix.size());
+            m_proxy->sendKeys(expectedWidgetName, QString(), 0);
+        } else {
+            waitFor(wait);
+            m_proxy->sendKeys(expectedWidgetName, keys, delay);
+        }
 
         // Make sure all keys are send (shortcuts are postponed because they can be blocked by modal windows).
-        while ( !m_proxy->keysSent() ) {
+        for (;;) {
+            if ( m_proxy->sendKeysSucceeded() )
+                break;
+
+            if ( m_proxy->sendKeysFailed() ) {
+                throwError("Failed to send key presses");
+                return;
+            }
+
             QCoreApplication::processEvents();
             if (!canContinue()) {
                 throwError("Disconnected");

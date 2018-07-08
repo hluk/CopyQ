@@ -77,6 +77,10 @@
 #include <QTextEdit>
 #include <QUrl>
 
+#ifdef HAS_TESTS
+#   include <QTest>
+#endif
+
 #include <type_traits>
 
 const quint32 serializedFunctionCallMagicNumber = 0x58746908;
@@ -613,7 +617,7 @@ QString tabNameEmptyError()
     return ScriptableProxy::tr("Tab name cannot be empty!");
 }
 
-void raiseWindow(QWidget *window)
+void raiseWindow(QPointer<QWidget> window)
 {
     window->raise();
     window->activateWindow();
@@ -626,6 +630,180 @@ void raiseWindow(QWidget *window)
 }
 
 } // namespace
+
+#ifdef HAS_TESTS
+QString currentWindowTitle()
+{
+    const auto window = createPlatformNativeInterface()->getCurrentWindow();
+    return window ? window->getTitle() : QString();
+}
+
+class KeyClicker : public QObject {
+public:
+    KeyClicker(MainWindow *wnd, QObject *parent)
+        : QObject(parent)
+        , m_wnd(wnd)
+    {
+    }
+
+    void keyClicksRetry(const QString &expectedWidgetName, const QString &keys, int delay, int retry)
+    {
+        if (retry > 0)
+            sendKeyClicks(expectedWidgetName, keys, delay + 100, retry - 1);
+        else
+            keyClicksFailed(expectedWidgetName);
+    }
+
+    void keyClicksFailed(const QString &expectedWidgetName)
+    {
+        auto actual = keyClicksTarget();
+        auto popup = QApplication::activePopupWidget();
+        auto widget = QApplication::focusWidget();
+        auto window = QApplication::activeWindow();
+        auto modal = QApplication::activeModalWidget();
+        log( QString("Failed to send key press to target widget")
+            + "\nExpected: " + (expectedWidgetName.isEmpty() ? "Any" : expectedWidgetName)
+            + "\nActual:   " + keyClicksTargetDescription(actual)
+            + "\nPopup:    " + keyClicksTargetDescription(popup)
+            + "\nWidget:   " + keyClicksTargetDescription(widget)
+            + "\nWindow:   " + keyClicksTargetDescription(window)
+            + "\nModal:    " + keyClicksTargetDescription(modal)
+            + "\nTitle:    " + currentWindowTitle()
+            , LogError );
+
+        m_failed = true;
+    }
+
+    void keyClicks(const QString &expectedWidgetName, const QString &keys, int delay, int retry)
+    {
+        auto widget = keyClicksTarget();
+        if (!widget) {
+            keyClicksRetry(expectedWidgetName, keys, delay, retry);
+            return;
+        }
+
+        auto widgetName = keyClicksTargetDescription(widget);
+        if ( !expectedWidgetName.isEmpty() && !widgetName.contains(expectedWidgetName) ) {
+            keyClicksRetry(expectedWidgetName, keys, delay, retry);
+            return;
+        }
+
+        // Only verified focused widget.
+        if ( keys.isEmpty() ) {
+            m_succeeded = true;
+            return;
+        }
+
+        // There could be some animation/transition effect on check boxes
+        // so wait for checkbox to be set.
+        if ( qobject_cast<QCheckBox*>(widget) )
+            waitFor(100);
+
+        COPYQ_LOG( QString("Sending keys \"%1\" to %2.")
+                   .arg(keys, widgetName) );
+
+        const auto popupMessage = QString("%1 (%2)")
+                .arg( quoteString(keys), widgetName );
+        auto notification = m_wnd->createNotification();
+        notification->setMessage(popupMessage);
+        notification->setIcon(IconKeyboard);
+        notification->setInterval(2000);
+
+        if ( keys.startsWith(":") ) {
+            const auto text = keys.mid(1);
+
+            QTest::keyClicks(widget, text, Qt::NoModifier, 0);
+
+            // Increment key clicks sequence number after typing all the text.
+            m_succeeded = true;
+        } else {
+            const QKeySequence shortcut(keys, QKeySequence::PortableText);
+
+            if ( shortcut.isEmpty() ) {
+                log( QString("Cannot parse shortcut \"%1\"!").arg(keys), LogError );
+                m_failed = true;
+                return;
+            }
+
+            // Increment key clicks sequence number before opening any modal dialogs.
+            m_succeeded = true;
+
+            const auto key = static_cast<uint>(shortcut[0]);
+            QTest::keyClick( widget,
+                             Qt::Key(key & ~Qt::KeyboardModifierMask),
+                             Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
+                             0 );
+        }
+
+        COPYQ_LOG( QString("Key \"%1\" sent to %2.")
+                   .arg(keys, widgetName) );
+    }
+
+    void sendKeyClicks(const QString &expectedWidgetName, const QString &keys, int delay, int retry)
+    {
+        m_succeeded = false;
+        m_failed = false;
+
+        // Don't stop when modal window is open.
+        auto t = new QTimer(m_wnd);
+        t->setSingleShot(true);
+        QObject::connect( t, &QTimer::timeout, this, [=]() {
+            keyClicks(expectedWidgetName, keys, delay, retry);
+            t->deleteLater();
+        });
+        t->start(delay);
+    }
+
+    bool succeeded() const { return m_succeeded; }
+    bool failed() const { return m_failed; }
+
+private:
+    static QWidget *keyClicksTarget()
+    {
+        auto popup = QApplication::activePopupWidget();
+        if (popup)
+            return popup;
+
+        auto widget = QApplication::focusWidget();
+        if (widget)
+            return widget;
+
+        auto window = QApplication::activeWindow();
+        if (window)
+            return window->focusWidget();
+
+        auto modal = QApplication::activeModalWidget();
+        if (modal)
+            return modal->focusWidget();
+
+        return nullptr;
+    }
+
+    static QString keyClicksTargetDescription(QWidget *widget)
+    {
+        if (widget == nullptr)
+            return "None";
+
+        const auto className = widget->metaObject()->className();
+
+        const auto widgetName = QString("%1:%2")
+                .arg(widget->objectName(), className);
+
+        const auto window = widget->window();
+        if (window && widget != window) {
+            return widgetName
+                + QString(" in %1:%2")
+                    .arg(window->objectName(), window->metaObject()->className());
+        }
+
+        return widgetName;
+    }
+
+    MainWindow *m_wnd = nullptr;
+    bool m_succeeded = true;
+    bool m_failed = false;
+};
+#endif // HAS_TESTS
 
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     : QObject(parent)
@@ -1347,17 +1525,23 @@ void ScriptableProxy::setSelectedItemsData(const QVector<QVariantMap> &dataList)
 }
 
 #ifdef HAS_TESTS
-void ScriptableProxy::sendKeys(const QString &keys, int delay)
+void ScriptableProxy::sendKeys(const QString &expectedWidgetName, const QString &keys, int delay)
 {
-    INVOKE2(sendKeys, (keys, delay));
-    m_sentKeyClicks = m_wnd->sendKeyClicks(keys, delay);
+    INVOKE2(sendKeys, (expectedWidgetName, keys, delay));
+    Q_ASSERT( keyClicker()->succeeded() || keyClicker()->failed() );
+    keyClicker()->sendKeyClicks(expectedWidgetName, keys, delay, 10);
 }
 
-bool ScriptableProxy::keysSent()
+bool ScriptableProxy::sendKeysSucceeded()
 {
-    INVOKE(keysSent, ());
-    QCoreApplication::processEvents();
-    return m_wnd->lastReceivedKeyClicks() >= m_sentKeyClicks;
+    INVOKE(sendKeysSucceeded, ());
+    return keyClicker()->succeeded();
+}
+
+bool ScriptableProxy::sendKeysFailed()
+{
+    INVOKE(sendKeysFailed, ());
+    return keyClicker()->failed();
 }
 
 QString ScriptableProxy::testSelected()
@@ -1470,10 +1654,20 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
         icon = appIcon();
     dialog.setWindowIcon(icon);
 
-    dialog.show();
-    raiseWindow(&dialog);
+    // Rather then using QDialog::exec() to show modal dialog and block main window,
+    // create event loop and wait for dialog to close.
+    QEventLoop loop;
+    connect(&dialog, &QDialog::finished, &loop, &QEventLoop::quit);
 
-    if ( !dialog.exec() )
+    dialog.show();
+
+    // Skip raising dialog in tests.
+    if ( !qApp->property("CopyQ_test_id").isValid() )
+        raiseWindow(&dialog);
+
+    loop.exec();
+
+    if ( !dialog.result() )
         return NamedValueList();
 
     NamedValueList result;
@@ -1891,6 +2085,15 @@ QList<QPersistentModelIndex> ScriptableProxy::selectedIndexes() const
     return m_actionData.value(mimeSelectedItems)
             .value< QList<QPersistentModelIndex> >();
 }
+
+#ifdef HAS_TESTS
+KeyClicker *ScriptableProxy::keyClicker()
+{
+    if (!m_keyClicker)
+        m_keyClicker = new KeyClicker(m_wnd, this);
+    return m_keyClicker;
+}
+#endif // HAS_TESTS
 
 QString pluginsPath()
 {

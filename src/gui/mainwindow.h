@@ -405,29 +405,6 @@ public slots:
 
     void updateShortcuts();
 
-#ifdef HAS_TESTS
-    /**
-     * Send key clicks to currently focused widget.
-     *
-     * This function will block if it opens a modal dialog.
-     * So use sendKeyClicks() instead.
-     *
-     * Increments key clicks sequence number returned by lastReceivedKeyClicks().
-     */
-    void keyClicks(const QString &keys, int delay);
-
-    /**
-     * Send key clicks to focused widget.
-     * @return Key clicks sequence number.
-     */
-    uint sendKeyClicks(const QString &keys, int delay);
-
-    /**
-     * @return Last key clicks sequence number received by widgets.
-     */
-    uint lastReceivedKeyClicks();
-#endif
-
 signals:
     /** Request clipboard change. */
     void changeClipboard(const QVariantMap &data, ClipboardMode mode);
@@ -712,13 +689,6 @@ private:
     MenuMatchCommands m_itemMenuMatchCommands;
 
     ClipboardManager m_clipboardManager;
-
-#ifdef HAS_TESTS
-    /// Key clicks sequence number last returned by sendKeyClicks().
-    uint m_sentKeyClicks = 0;
-    /// Key clicks sequence number received by widgets.
-    uint m_receivedKeyClicks = 0;
-#endif
 };
 
 #endif // MAINWINDOW_H

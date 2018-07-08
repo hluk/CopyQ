@@ -59,12 +59,18 @@ const auto clipboardTabName = "CLIPBOARD";
 const auto defaultSessionColor = "#ff8800";
 const auto defaultTagColor = "#000000";
 
+const auto clipboardBrowserId = "focus:ClipboardBrowser";
+const auto trayMenuId = "focus:TrayMenu";
+const auto menuId = "focus:Menu";
+const auto editorId = "focus::QTextEdit";
+const auto tabDialogLineEditId = "focus:lineEditTabName";
+
 template <typename Fn1, typename Fn2>
-void runMultiple(Fn1 f1, int intervalMs, Fn2 f2)
+void runMultiple(Fn1 f1, Fn2 f2)
 {
     QTimer timer;
     timer.setSingleShot(true);
-    timer.setInterval(intervalMs);
+    timer.setInterval(0);
     QObject::connect(&timer, &QTimer::timeout, f2);
     timer.start();
     f1();
@@ -104,9 +110,12 @@ QByteArray getClipboard(const QString &mime = QString("text/plain"))
 
 QByteArray waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString("text/plain"))
 {
+    PerformanceTimer perf;
+
     SleepTimer t(waitMsSetClipboard * 5);
     do {
         if (getClipboard(mime) == data) {
+            perf.printPerformance("waitUntilClipboardSet", QStringList() << QString::fromUtf8(data) << mime);
             waitFor(waitMsSetClipboard);
             return data;
         }
@@ -263,7 +272,7 @@ public:
             }
 
             if ( !t.sleep() ) {
-                qWarning() << "client process timed out";
+                qWarning() << "Client process timed out" << arguments;
                 return -1;
             }
         }
@@ -364,6 +373,8 @@ public:
         mimeData->setData(mime, bytes);
         QGuiApplication::clipboard()->setMimeData(mimeData);
 
+        waitFor(waitMsSetClipboard);
+
         waitUntilClipboardSet(bytes, mime);
         RETURN_ON_ERROR( testClipboard(bytes, mime), "Failed to set clipboard" );
 
@@ -374,10 +385,8 @@ public:
     {
         if (m_server) {
             QCoreApplication::processEvents();
-            const auto output = m_serverErrorOutput;
-            m_serverErrorOutput.clear();
-            if ( flag == ReadAllStderr || !testStderr(output, flag) )
-              return decorateOutput("Server STDERR", output);
+            if ( flag == ReadAllStderr || !testStderr(m_serverErrorOutput, flag) )
+              return decorateOutput("Server STDERR", m_serverErrorOutput);
         }
 
         return QByteArray();
@@ -869,41 +878,44 @@ void Tests::commandToggleConfig()
 
 void Tests::commandDialog()
 {
+    RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
         [&]() { RUN("dialog" << "text", "TEST\n"); },
-        waitMsShow,
-        [&]() { RUN(Args() << "keys" << ":TEST" << "ENTER", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << ":TEST" << "ENTER", ""); }
     );
 
+    RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("eval" << "dialog('text') === undefined", "true\n"); },
-        waitMsShow,
-        [&]() { RUN(Args() << "keys" << "ESCAPE", ""); }
+        [&]() { RUN("dialog('text') === undefined", "true\n"); },
+        [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << "ESCAPE", ""); }
     );
 
+    RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("eval" << "dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n"); },
-        waitMsShow,
-        [&]() { RUN(Args() << "keys" << "ENTER", ""); }
+        [&]() { RUN("dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n"); },
+        [&]() { RUN(Args() << "keys" << "focus::QComboBox in :QDialog" << "ENTER", ""); }
     );
 
+    RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("eval" << "dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n"); },
-        waitMsShow,
-        [&]() { RUN(Args() << "keys" << "ENTER", ""); }
+        [&]() { RUN("dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n"); },
+        [&]() { RUN(Args() << "keys" << "focus::QComboBox in :QDialog" << "ENTER", ""); }
     );
 
+    RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("eval" << "dialog('list', [0, 1, 2])", "0\n"); },
-        waitMsShow,
-        [&]() { RUN(Args() << "keys" << "ENTER", ""); }
+        [&]() { RUN("dialog('list', [0, 1, 2])", "0\n"); },
+        [&]() { RUN(Args() << "keys" << "focus::QComboBox in :QDialog" << "ENTER", ""); }
     );
 
+    // Can't focus configuration checkboxes on OS X
+#ifndef Q_OS_MAC
+    RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("eval" << "dialog('boolean', true) === true", "true\n"); },
-        waitMsShow,
-        [&]() { RUN(Args() << "keys" << "ENTER", ""); }
+        [&]() { RUN("dialog('boolean', true) === true", "true\n"); },
+        [&]() { RUN(Args() << "keys" << "focus::QCheckBox in :QDialog" << "ENTER", ""); }
     );
+#endif
 }
 
 void Tests::commandsPackUnpack()
@@ -1507,11 +1519,11 @@ void Tests::keysAndFocusing()
 #endif
 
     RUN("disable", "");
-    RUN("keys" << "CTRL+T", "");
+    RUN("keys" << clipboardBrowserId << "CTRL+T", "");
 
     WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ New Tab\n");
 
-    RUN("keys" << "ESC", "");
+    RUN("keys" << tabDialogLineEditId << "ESC", "");
     WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
     RUN("enable", "");
 }
@@ -1606,7 +1618,9 @@ void Tests::copyItems()
 void Tests::createTabDialog()
 {
     const auto tab1 = testTab(1);
-    RUN("keys" << "CTRL+T" << ":" + tab1 << "ENTER", "");
+    RUN("keys"
+        << clipboardBrowserId << "CTRL+T"
+        << tabDialogLineEditId << ":" + tab1 << "ENTER", "");
     RUN("testSelected", tab1 + "\n");
 }
 
@@ -1616,11 +1630,14 @@ void Tests::editItems()
 
     RUN("add" << "Line 4" << "Line 1", "");
 
-    RUN("keys" << "F2" << "END" << "ENTER" << ":Line 2" << "F2", "");
+    RUN("keys"
+        << clipboardBrowserId << "F2"
+        << editorId << "END" << "ENTER" << ":Line 2" << "F2", "");
     RUN("read" << "0", "Line 1\nLine 2");
 
-    RUN("keys" << "DOWN", "");
-    RUN("keys" << "F2" << "HOME" << ":Line 3" << "ENTER" << "F2", "");
+    RUN("keys"
+        << clipboardBrowserId << "DOWN" << "F2"
+        << editorId << "HOME" << ":Line 3" << "ENTER" << "F2", "");
     RUN("read" << "1", "Line 3\nLine 4");
     RUN("read" << "0", "Line 1\nLine 2");
 }
@@ -2102,16 +2119,15 @@ void Tests::pasteFromMainWindow()
     RUN("hide", "");
     runMultiple(
         [&]() { RUN("dialog" << "text", "TEST\n"); },
-        waitMsShow,
         [&]() {
+            RUN("keys" << "focus::QLineEdit in :QDialog", "");
             RUN("show", "");
-            RUN("keys" << "ENTER", "");
-            waitFor(waitMsShow);
+            RUN("keys" << clipboardBrowserId << "ENTER", "");
 
             WAIT_FOR_CLIPBOARD("TEST");
             waitFor(waitMsPasteClipboard);
 
-            RUN("keys" << "ENTER", "");
+            RUN("keys" << "focus::QLineEdit in :QDialog" << "ENTER", "");
         }
     );
 }
@@ -2119,8 +2135,10 @@ void Tests::pasteFromMainWindow()
 void Tests::tray()
 {
     RUN("add" << "A", "");
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu", "");
-    RUN("keys" << "ENTER", "");
+    RUN("keys" << trayMenuId << "ENTER", "");
+    RUN("keys" << clipboardBrowserId, "");
     WAIT_FOR_CLIPBOARD("A");
 }
 
@@ -2131,12 +2149,12 @@ void Tests::menu()
     RUN("tab" << tab << "add" << "D" << "C" << "B" << "A", "");
 
     RUN("menu" << tab, "");
-    RUN("keys" << "ENTER", "");
+    RUN("keys" << menuId << "ENTER" << clipboardBrowserId, "");
     WAIT_FOR_CLIPBOARD("A");
 
     // Show menu with 2 items from the tab and select last one.
     RUN("menu" << tab << "2", "");
-    RUN("keys" << "END" << "ENTER", "");
+    RUN("keys" << menuId << "END" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
 }
 
@@ -2145,7 +2163,7 @@ void Tests::traySearch()
     RUN("add" << "C" << "B" << "A", "");
 
     RUN("menu", "");
-    RUN("keys" << "B" << "ENTER", "");
+    RUN("keys" << trayMenuId << "B" << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
 }
 
@@ -2155,26 +2173,30 @@ void Tests::trayPaste()
 
     const auto tab1 = testTab(1);
     RUN("setCurrentTab" << tab1, "");
-    RUN("keys" << "CTRL+N" << ":NEW ", "");
+    RUN("keys"
+        << clipboardBrowserId << "CTRL+N"
+        << editorId << ":NEW ", "");
 
     RUN("add" << "TEST", "");
     RUN("menu", "");
-    RUN("keys" << "ENTER", "");
+    RUN("keys" << trayMenuId << "ENTER" << editorId, "");
     WAIT_FOR_CLIPBOARD("TEST");
     waitFor(waitMsPasteClipboard);
 
-    RUN("keys" << "F2", "");
+    RUN("keys" << editorId << "F2", "");
     RUN("tab" << tab1 << "read" << "0", "NEW TEST");
 
-    RUN("keys" << "CTRL+N" << ":NEW ", "");
+    RUN("keys"
+        << clipboardBrowserId << "CTRL+N"
+        << editorId << ":NEW ", "");
 
     RUN("config" << "tray_item_paste" << "false", "false\n");
     RUN("add" << "TEST2", "");
     RUN("menu", "");
-    RUN("keys" << "ENTER", "");
+    RUN("keys" << trayMenuId << "ENTER", "");
     WAIT_FOR_CLIPBOARD("TEST2");
 
-    RUN("keys" << "F2", "");
+    RUN("keys" << editorId << "F2", "");
     RUN("tab" << tab1 << "read" << "0", "NEW ");
 }
 
@@ -2191,13 +2213,13 @@ void Tests::configTrayTab()
     RUN("config" << "tray_tab" << tab1, tab1 + "\n");
 
     RUN("menu", "");
-    RUN("keys" << "ENTER", "");
+    RUN("keys" << trayMenuId << "ENTER", "");
     WAIT_FOR_CLIPBOARD("A");
 
     RUN("config" << "tray_tab" << tab2, tab2 + "\n");
 
     RUN("menu", "");
-    RUN("keys" << "ENTER", "");
+    RUN("keys" << trayMenuId << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
 }
 
@@ -2212,13 +2234,13 @@ void Tests::configMove()
     RUN("config" << "move" << "true", "true\n");
 
     RUN("menu", "");
-    RUN("keys" << "DOWN" << "ENTER", "");
+    RUN("keys" << trayMenuId << "DOWN" << "ENTER", "");
     RUN("read" << "0" << "1", "B\nA");
 
     RUN("config" << "move" << "false", "false\n");
 
     RUN("menu", "");
-    RUN("keys" << "DOWN" << "ENTER", "");
+    RUN("keys" << trayMenuId << "DOWN" << "ENTER", "");
     RUN("read" << "0" << "1", "B\nA");
 }
 
@@ -2234,12 +2256,12 @@ void Tests::configTrayTabIsCurrent()
 
     RUN("setCurrentTab" << tab1, "");
     RUN("menu", "");
-    RUN("keys" << "ENTER", "");
+    RUN("keys" << trayMenuId << "ENTER", "");
     WAIT_FOR_CLIPBOARD("A");
 
     RUN("setCurrentTab" << tab2, "");
     RUN("menu", "");
-    RUN("keys" << "ENTER", "");
+    RUN("keys" << trayMenuId << "ENTER", "");
     WAIT_FOR_CLIPBOARD("B");
 }
 

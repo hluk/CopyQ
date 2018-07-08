@@ -32,9 +32,8 @@
 #include <QVariant>
 #include <QVector>
 
-#include <memory>
-
 class ClipboardBrowser;
+class KeyClicker;
 class MainWindow;
 class QPersistentModelIndex;
 class QPixmap;
@@ -184,8 +183,9 @@ public slots:
     void setSelectedItemsData(const QVector<QVariantMap> &dataList);
 
 #ifdef HAS_TESTS
-    void sendKeys(const QString &keys, int delay);
-    bool keysSent();
+    void sendKeys(const QString &expectedWidgetName, const QString &keys, int delay);
+    bool sendKeysSucceeded();
+    bool sendKeysFailed();
     QString testSelected();
 #endif // HAS_TESTS
 
@@ -254,12 +254,15 @@ private:
     ClipboardBrowser *currentBrowser() const;
     QList<QPersistentModelIndex> selectedIndexes() const;
 
+#ifdef HAS_TESTS
+    KeyClicker *keyClicker();
+    KeyClicker *m_keyClicker = nullptr;
+#endif // HAS_TESTS
+
     MainWindow* m_wnd;
     QString m_tabName;
     QVariantMap m_actionData;
     int m_actionId = -1;
-
-    uint m_sentKeyClicks = 0;
 
     QVariant m_returnValue;
 };

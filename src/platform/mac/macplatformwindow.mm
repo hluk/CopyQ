@@ -243,7 +243,7 @@ void MacPlatformWindow::raise()
 {
     if (m_window && m_runningApplication &&
             [m_runningApplication isEqual:[NSRunningApplication currentApplication]]) {
-        COPYQ_LOG(QString("Raise CopyQ"));
+        COPYQ_LOG( QString("Raise own window \"%1\"").arg(getTitle()) );
         [NSApp activateIgnoringOtherApps:YES];
         [m_window makeKeyAndOrderFront:nil];
     } else if (m_runningApplication) {
@@ -251,14 +251,14 @@ void MacPlatformWindow::raise()
         // application..
         //[m_runningApplication unhide];
 
-        COPYQ_LOG(QString("Raise running app."));
+        COPYQ_LOG( QString("Raise a window \"%1\"").arg(getTitle()) );
         [m_runningApplication activateWithOptions:NSApplicationActivateIgnoringOtherApps];
         if (m_windowNumber != -1) {
             auto window = [NSApp windowWithWindowNumber: m_windowNumber];
             [window makeKeyAndOrderFront:nil];
         }
     } else {
-        ::log(QString("Tried to raise unknown window."), LogWarning);
+        ::log(QString("Tried to raise unknown window"), LogWarning);
     }
 }
 

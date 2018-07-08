@@ -119,9 +119,6 @@ do { \
     if ( qgetenv(ENV) == "1" ) \
         SKIP("Unset " ENV " to run the tests")
 
-/// Interval to wait (in ms) until window is shown and focused.
-const int waitMsShow = 1000;
-
 /// Interval to wait (in ms) before and after setting clipboard.
 const int waitMsSetClipboard = 1000;
 
