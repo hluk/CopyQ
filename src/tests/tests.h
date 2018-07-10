@@ -77,6 +77,7 @@ private slots:
     void commandToggleConfig();
 
     void commandDialog();
+    void commandDialogCloseOnDisconnect();
 
     void commandsPackUnpack();
     void commandsBase64();

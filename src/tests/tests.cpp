@@ -53,6 +53,8 @@
 
 #include <memory>
 
+#define WITH_TIMEOUT "afterMilliseconds(10000, fail); "
+
 namespace {
 
 const auto clipboardTabName = "CLIPBOARD";
@@ -880,31 +882,31 @@ void Tests::commandDialog()
 {
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("dialog" << "text", "TEST\n"); },
+        [&]() { RUN(WITH_TIMEOUT "dialog('text')", "TEST\n"); },
         [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << ":TEST" << "ENTER", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("dialog('text') === undefined", "true\n"); },
+        [&]() { RUN(WITH_TIMEOUT "dialog('text') === undefined", "true\n"); },
         [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << "ESCAPE", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n"); },
+        [&]() { RUN(WITH_TIMEOUT "dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n"); },
         [&]() { RUN(Args() << "keys" << "focus::QComboBox in :QDialog" << "ENTER", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n"); },
+        [&]() { RUN(WITH_TIMEOUT "dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n"); },
         [&]() { RUN(Args() << "keys" << "focus::QComboBox in :QDialog" << "ENTER", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("dialog('list', [0, 1, 2])", "0\n"); },
+        [&]() { RUN(WITH_TIMEOUT "dialog('list', [0, 1, 2])", "0\n"); },
         [&]() { RUN(Args() << "keys" << "focus::QComboBox in :QDialog" << "ENTER", ""); }
     );
 
@@ -912,10 +914,15 @@ void Tests::commandDialog()
 #ifndef Q_OS_MAC
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
-        [&]() { RUN("dialog('boolean', true) === true", "true\n"); },
+        [&]() { RUN(WITH_TIMEOUT "dialog('boolean', true) === true", "true\n"); },
         [&]() { RUN(Args() << "keys" << "focus::QCheckBox in :QDialog" << "ENTER", ""); }
     );
 #endif
+}
+
+void Tests::commandDialogCloseOnDisconnect()
+{
+    RUN("afterMilliseconds(0, abort); dialog()", "");
 }
 
 void Tests::commandsPackUnpack()
@@ -2118,7 +2125,7 @@ void Tests::pasteFromMainWindow()
     RUN("add" << "TEST", "");
     RUN("hide", "");
     runMultiple(
-        [&]() { RUN("dialog" << "text", "TEST\n"); },
+        [&]() { RUN(WITH_TIMEOUT "dialog('text')", "TEST\n"); },
         [&]() {
             RUN("keys" << "focus::QLineEdit in :QDialog", "");
             RUN("show", "");

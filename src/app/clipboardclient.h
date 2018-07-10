@@ -68,6 +68,7 @@ signals:
     void functionCallResultReceived(const QByteArray &returnValue);
     void inputReceived(const QByteArray &input);
     void stopEventLoops();
+    void scriptableFinished();
 
 private:
     void onMessageReceived(const QByteArray &data, int messageCode);

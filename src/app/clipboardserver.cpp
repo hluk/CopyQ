@@ -350,7 +350,10 @@ void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
         return;
     }
 
-    auto proxy = new ScriptableProxy(m_wnd, client.get());
+    auto proxy = new ScriptableProxy(m_wnd);
+    connect( client.get(), &ClientSocket::destroyed,
+             proxy, &ScriptableProxy::deleteLater );
+
     m_clients.insert( client->id(), ClientData(client, proxy) );
     connect( this, &ClipboardServer::closeClients,
              client.get(), &ClientSocket::close );
@@ -358,6 +361,8 @@ void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
              this, &ClipboardServer::onClientMessageReceived );
     connect( client.get(), &ClientSocket::disconnected,
              this, &ClipboardServer::onClientDisconnected );
+    connect( client.get(), &ClientSocket::disconnected,
+             proxy, &ScriptableProxy::clientDisconnected );
     connect( client.get(), &ClientSocket::connectionFailed,
              this, &ClipboardServer::onClientConnectionFailed );
     client->start();

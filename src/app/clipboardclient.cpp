@@ -183,6 +183,7 @@ void ClipboardClient::sendFunctionCall(const QByteArray &bytes)
 
     QEventLoop loop;
     connect(this, &ClipboardClient::functionCallResultReceived, &loop, &QEventLoop::quit);
+    connect(this, &ClipboardClient::scriptableFinished, &loop, &QEventLoop::quit);
     connect(qApp, &QCoreApplication::aboutToQuit, &loop, &QEventLoop::quit);
     loop.exec();
 }
@@ -245,6 +246,9 @@ void ClipboardClient::start(const QStringList &arguments)
              &scriptable, &Scriptable::stopEventLoops );
     connect( qApp, &QCoreApplication::aboutToQuit,
              &scriptable, &Scriptable::stopEventLoops );
+
+    connect( &scriptable, &Scriptable::finished,
+             this, &ClipboardClient::scriptableFinished );
 
     bool hasData;
     auto actionId = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);

@@ -1658,6 +1658,8 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
     // create event loop and wait for dialog to close.
     QEventLoop loop;
     connect(&dialog, &QDialog::finished, &loop, &QEventLoop::quit);
+    // Connecting this directly to QEventLoop::quit() doesn't seem to work always.
+    connect(this, &ScriptableProxy::clientDisconnected, &dialog, &QDialog::reject);
 
     dialog.show();
 

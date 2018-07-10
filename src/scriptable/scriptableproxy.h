@@ -77,8 +77,7 @@ class ScriptableProxy : public QObject
     Q_OBJECT
 
 public:
-    /** Create proxy object and move it to same thread as @a mainWindow. */
-    ScriptableProxy(MainWindow* mainWindow, QObject *parent);
+    explicit ScriptableProxy(MainWindow* mainWindow, QObject *parent = nullptr);
 
     QByteArray callFunction(const QByteArray &serializedFunctionCall);
 
@@ -243,6 +242,7 @@ public slots:
 
 signals:
     void sendFunctionCall(const QByteArray &bytes);
+    void clientDisconnected();
 
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
