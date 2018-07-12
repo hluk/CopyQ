@@ -758,27 +758,6 @@ public:
     bool failed() const { return m_failed; }
 
 private:
-    static QWidget *keyClicksTarget()
-    {
-        auto popup = QApplication::activePopupWidget();
-        if (popup)
-            return popup;
-
-        auto widget = QApplication::focusWidget();
-        if (widget)
-            return widget;
-
-        auto window = QApplication::activeWindow();
-        if (window)
-            return window->focusWidget();
-
-        auto modal = QApplication::activeModalWidget();
-        if (modal)
-            return modal->focusWidget();
-
-        return nullptr;
-    }
-
     static QString keyClicksTargetDescription(QWidget *widget)
     {
         if (widget == nullptr)
@@ -798,6 +777,32 @@ private:
 
         return widgetName;
     }
+
+    QWidget *keyClicksTarget()
+    {
+        auto popup = QApplication::activePopupWidget();
+        if (popup)
+            return popup;
+
+        auto widget = QApplication::focusWidget();
+        if (widget)
+            return widget;
+
+        auto window = QApplication::activeWindow();
+        if (window)
+            return window->focusWidget();
+
+        auto modal = QApplication::activeModalWidget();
+        if (modal)
+            return modal->focusWidget();
+
+#ifdef Q_OS_MAC
+        return m_wnd->focusWidget();
+#else
+        return nullptr;
+#endif
+    }
+
 
     MainWindow *m_wnd = nullptr;
     bool m_succeeded = true;

@@ -265,6 +265,13 @@ QString MacPlatform::themePrefix()
 
 PlatformWindowPtr MacPlatform::getCurrentWindow()
 {
+    // FIXME: frontmostApplication doesn't seem to work well for own windows (at least in tests).
+    auto window = QApplication::activeWindow();
+    if (window == nullptr)
+        window = QApplication::activeModalWidget();
+    if (window != nullptr)
+        return PlatformWindowPtr(new MacPlatformWindow(window->winId()));
+
     NSRunningApplication *runningApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
     return PlatformWindowPtr(new MacPlatformWindow(runningApp));
 }
