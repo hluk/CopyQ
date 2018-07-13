@@ -196,7 +196,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>المخرج &amp;tab:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -233,14 +233,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="128"/>
         <source>Error: %1</source>
-        <translation type="unfinished">خطأ: %1
- {1?}</translation>
+        <translation>خطأ: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="138"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">رمز الخروج: %1
- {1?}</translation>
+        <translation>رمز الخروج: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="169"/>
