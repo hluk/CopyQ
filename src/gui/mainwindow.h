@@ -611,8 +611,8 @@ private:
 
     void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
     void activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, bool omitPaste);
-    QWidget *toggleMenu(TrayMenu *menu, QPoint pos);
-    QWidget *toggleMenu(TrayMenu *menu);
+    bool toggleMenu(TrayMenu *menu, QPoint pos);
+    bool toggleMenu(TrayMenu *menu);
 
     bool exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);

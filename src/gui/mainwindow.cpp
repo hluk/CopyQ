@@ -1521,11 +1521,11 @@ void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, 
     }
 }
 
-QWidget *MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
+bool MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
 {
     if ( menu->isVisible() ) {
         menu->close();
-        return menu;
+        return false;
     }
 
     menu->popup( toScreen(pos, menu->width(), menu->height()) );
@@ -1536,10 +1536,10 @@ QWidget *MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
     QApplication::processEvents();
     stealFocus(*menu);
 
-    return menu;
+    return true;
 }
 
-QWidget *MainWindow::toggleMenu(TrayMenu *menu)
+bool MainWindow::toggleMenu(TrayMenu *menu)
 {
     return toggleMenu(menu, QCursor::pos());
 }
@@ -2337,7 +2337,7 @@ bool MainWindow::toggleMenu(const QString &tabName, int itemCount, QPoint positi
          && (m_menuTabName == tabName && m_menuMaxItemCount == itemCount) )
     {
         m_menu->close();
-        return m_menu;
+        return false;
     }
 
     WidgetSizeGuard sizeGuard(m_menu);
@@ -2354,7 +2354,7 @@ bool MainWindow::toggleMenu(const QString &tabName, int itemCount, QPoint positi
         m_menu->close();
 
     if ( m_menu->isEmpty() )
-        return m_menu;
+        return false;
 
     if (position.x() >= 0 && position.y() >= 0)
         return toggleMenu(m_menu, position);
