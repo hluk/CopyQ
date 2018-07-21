@@ -194,7 +194,7 @@ public:
 
         RETURN_ON_ERROR( readServerErrors(), "Failed to read server errors" );
 
-        return QByteArray();
+        return waitForServerToStart();
     }
 
     QByteArray stopServer() override
@@ -537,6 +537,17 @@ private:
         }
 
         return "";
+    }
+
+    QByteArray waitForServerToStart()
+    {
+        SleepTimer t(15000);
+        do {
+            if ( run(Args() << "") == 0 )
+                return QByteArray();
+        } while ( t.sleep() );
+
+        return "Unable to start server!" + readServerErrors(ReadAllStderr);
     }
 
     std::unique_ptr<QProcess> m_server;
