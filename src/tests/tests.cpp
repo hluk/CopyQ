@@ -1370,7 +1370,7 @@ void Tests::commandAfterMilliseconds()
 
 void Tests::commandAsync()
 {
-    RUN("afterMilliseconds(0, function() { print(currentItem()); abort(); }); dialog()", "-1\n");
+    RUN("afterMilliseconds(0, function() { print(currentItem()); abort(); }); dialog()", "-1");
 }
 
 void Tests::classFile()

@@ -1891,7 +1891,21 @@ QScriptValue Scriptable::dialog()
         values.append( NamedValue(key, toVariant(value)) );
     }
 
-    values = m_proxy->inputDialog(values);
+    const auto dialogId = m_proxy->inputDialog(values);
+    if ( !canContinue() )
+        return QScriptValue();
+
+    QEventLoop loop;
+    connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
+    connect(this, &Scriptable::stop, &loop, &QEventLoop::quit);
+    connect( m_proxy, &ScriptableProxy::inputDialogFinished,
+             &loop, [&](int finishedDialogId, const NamedValueList &result) {
+                 if (finishedDialogId != dialogId)
+                     return;
+                 values = result;
+                 loop.quit();
+             });
+    loop.exec();
 
     if (values.isEmpty())
         return QScriptValue();

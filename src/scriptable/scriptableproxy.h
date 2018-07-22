@@ -86,9 +86,10 @@ public:
 
     int actionId() const { return m_actionId; }
 
-public slots:
     void setFunctionCallReturnValue(const QByteArray &bytes);
+    void setInputDialogResult(const QByteArray &bytes);
 
+public slots:
     QVariantMap getActionData(int id);
     void setActionData(int id, const QVariantMap &data);
 
@@ -195,7 +196,7 @@ public slots:
 
     QString currentWindowTitle();
 
-    NamedValueList inputDialog(const NamedValueList &values);
+    int inputDialog(const NamedValueList &values);
 
     void setUserValue(const QString &key, const QVariant &value);
 
@@ -245,6 +246,7 @@ public slots:
 
 signals:
     void functionCallFinished(int functionCallId, const QVariant &returnValue);
+    void inputDialogFinished(int dialogId, const NamedValueList &result);
     void sendMessage(const QByteArray &message, int messageCode);
     void clientDisconnected();
 
@@ -273,6 +275,7 @@ private:
     int m_actionId = -1;
 
     int m_lastFunctionCallId = -1;
+    int m_lastInputDialogId = -1;
 };
 
 QString pluginsPath();

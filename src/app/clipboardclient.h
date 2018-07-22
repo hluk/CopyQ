@@ -65,6 +65,7 @@ public:
 signals:
     void functionCallResultReceived(const QByteArray &returnValue);
     void inputReceived(const QByteArray &input);
+    void inputDialogFinished(const QByteArray &data);
     void stopEventLoops();
     void scriptableFinished();
 

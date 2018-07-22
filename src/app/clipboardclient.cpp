@@ -44,6 +44,8 @@ QString messageCodeToString(int code)
     switch (code) {
     case CommandFunctionCallReturnValue:
         return "CommandFunctionCallReturnValue";
+    case CommandInputDialogFinished:
+        return "CommandInputDialogFinished";
     case CommandStop:
         return "CommandStop";
     default:
@@ -121,6 +123,11 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
     case CommandFunctionCallReturnValue:
         emit functionCallResultReceived(data);
         break;
+
+    case CommandInputDialogFinished: {
+        emit inputDialogFinished(data);
+        break;
+    }
 
     case CommandStop: {
         emit stopEventLoops();
@@ -227,6 +234,8 @@ void ClipboardClient::start(const QStringList &arguments)
              &scriptable, &Scriptable::setInput );
     connect( this, &ClipboardClient::functionCallResultReceived,
              &scriptableProxy, &ScriptableProxy::setFunctionCallReturnValue );
+    connect( this, &ClipboardClient::inputDialogFinished,
+             &scriptableProxy, &ScriptableProxy::setInputDialogResult );
 
     connect( m_socket, &ClientSocket::disconnected,
              &scriptable, &Scriptable::abort );

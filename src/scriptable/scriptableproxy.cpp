@@ -263,13 +263,8 @@ const char propertyWidgetName[] = "CopyQ_widget_name";
 const char propertyWidgetProperty[] = "CopyQ_widget_property";
 
 struct InputDialog {
-    QDialog dialog;
+    QDialog *dialog = nullptr;
     QString defaultChoice; /// Default text for list widgets.
-
-    explicit InputDialog(QWidget *parentWindow)
-        : dialog(parentWindow)
-    {
-    }
 };
 
 template<typename ...Ts>
@@ -481,7 +476,7 @@ void installShortcutToCloseDialog(QWidget *dialog, QWidget *shortcutParent, int 
 
 QWidget *createListWidget(const QString &name, const QStringList &items, InputDialog *inputDialog)
 {
-    QDialog *parent = &inputDialog->dialog;
+    QDialog *parent = inputDialog->dialog;
 
     const QString currentText = inputDialog->defaultChoice.isNull()
             ? items.value(0)
@@ -562,7 +557,7 @@ QWidget *createTextEdit(const QString &name, const QVariant &value, QWidget *par
 
 QWidget *createWidget(const QString &name, const QVariant &value, InputDialog *inputDialog)
 {
-    QDialog *parent = &inputDialog->dialog;
+    QDialog *parent = inputDialog->dialog;
 
     switch ( value.type() ) {
     case QVariant::Bool:
@@ -970,6 +965,20 @@ void ScriptableProxy::setFunctionCallReturnValue(const QByteArray &bytes)
         return;
     }
     emit functionCallFinished(functionCallId, returnValue);
+}
+
+void ScriptableProxy::setInputDialogResult(const QByteArray &bytes)
+{
+    QDataStream stream(bytes);
+    int dialogId;
+    NamedValueList result;
+    stream >> dialogId >> result;
+    if (stream.status() != QDataStream::Ok) {
+        log("Failed to read input dialog result", LogError);
+        Q_ASSERT(false);
+        return;
+    }
+    emit inputDialogFinished(dialogId, result);
 }
 
 QVariantMap ScriptableProxy::getActionData(int id)
@@ -1628,12 +1637,14 @@ QString ScriptableProxy::currentWindowTitle()
     return window ? window->getTitle() : QString();
 }
 
-NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
+int ScriptableProxy::inputDialog(const NamedValueList &values)
 {
     INVOKE(inputDialog, (values));
 
-    InputDialog inputDialog(m_wnd);
-    QDialog &dialog = inputDialog.dialog;
+    InputDialog inputDialog;
+    const auto dialogPtr = std::make_shared<QDialog>(m_wnd);
+    inputDialog.dialog = dialogPtr.get();
+    QDialog &dialog = *dialogPtr;
 
     QIcon icon;
     QVBoxLayout layout(&dialog);
@@ -1680,11 +1691,11 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
     if ( !styleSheet.isEmpty() )
         dialog.setStyleSheet(styleSheet);
 
-    QDialogButtonBox buttons(
+    auto buttons = new QDialogButtonBox(
                 QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
-    QObject::connect( &buttons, SIGNAL(accepted()), &dialog, SLOT(accept()) );
-    QObject::connect( &buttons, SIGNAL(rejected()), &dialog, SLOT(reject()) );
-    layout.addWidget(&buttons);
+    QObject::connect( buttons, SIGNAL(accepted()), &dialog, SLOT(accept()) );
+    QObject::connect( buttons, SIGNAL(rejected()), &dialog, SLOT(reject()) );
+    layout.addWidget(buttons);
 
     installShortcutToCloseDialog(&dialog, &dialog, Qt::CTRL | Qt::Key_Enter);
     installShortcutToCloseDialog(&dialog, &dialog, Qt::CTRL | Qt::Key_Return);
@@ -1693,10 +1704,29 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
         icon = appIcon();
     dialog.setWindowIcon(icon);
 
-    // Rather then using QDialog::exec() to show modal dialog and block main window,
-    // create event loop and wait for dialog to close.
-    QEventLoop loop;
-    connect(&dialog, &QDialog::finished, &loop, &QEventLoop::quit);
+    int dialogId = ++m_lastInputDialogId;
+    connect(&dialog, &QDialog::finished, this, [=]() {
+        NamedValueList result;
+        result.reserve( widgets.size() );
+
+        if ( dialogPtr->result() ) {
+            for ( auto w : widgets ) {
+                const QString propertyName = w->property(propertyWidgetProperty).toString();
+                const QString name = w->property(propertyWidgetName).toString();
+                const QVariant value = w->property(propertyName.toUtf8().constData());
+                result.append( NamedValue(name, value) );
+            }
+        }
+
+        QByteArray bytes;
+        {
+            QDataStream stream(&bytes, QIODevice::WriteOnly);
+            stream << dialogId << result;
+        }
+
+        emit sendMessage(bytes, CommandInputDialogFinished);
+    });
+
     // Connecting this directly to QEventLoop::quit() doesn't seem to work always.
     connect(this, &ScriptableProxy::clientDisconnected, &dialog, &QDialog::reject);
 
@@ -1706,22 +1736,7 @@ NamedValueList ScriptableProxy::inputDialog(const NamedValueList &values)
     if ( !qApp->property("CopyQ_test_id").isValid() )
         raiseWindow(&dialog);
 
-    loop.exec();
-
-    if ( !dialog.result() )
-        return NamedValueList();
-
-    NamedValueList result;
-    result.reserve( widgets.size() );
-
-    for ( auto w : widgets ) {
-        const QString propertyName = w->property(propertyWidgetProperty).toString();
-        const QString name = w->property(propertyWidgetName).toString();
-        const QVariant value = w->property(propertyName.toUtf8().constData());
-        result.append( NamedValue(name, value) );
-    }
-
-    return result;
+    return dialogId;
 }
 
 void ScriptableProxy::setUserValue(const QString &key, const QVariant &value)
