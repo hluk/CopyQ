@@ -125,6 +125,8 @@ private slots:
 
     void commandAfterMilliseconds();
 
+    void commandAsync();
+
     void classFile();
     void classDir();
     void classTemporaryFile();

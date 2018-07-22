@@ -1368,6 +1368,11 @@ void Tests::commandAfterMilliseconds()
     RUN(script + "sleep(200)", "TEST");
 }
 
+void Tests::commandAsync()
+{
+    RUN("afterMilliseconds(0, function() { print(currentItem()); abort(); }); dialog()", "-1\n");
+}
+
 void Tests::classFile()
 {
     RUN("var f = new File('/copyq_missing_file'); f.exists()", "false\n");

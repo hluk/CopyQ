@@ -173,20 +173,8 @@ void ClipboardClient::sendInput()
 
 void ClipboardClient::exit(int exitCode)
 {
-    emit functionCallResultReceived(QByteArray());
     abortInputReader();
     App::exit(exitCode);
-}
-
-void ClipboardClient::sendFunctionCall(const QByteArray &bytes)
-{
-    m_socket->sendMessage(bytes, CommandFunctionCall);
-
-    QEventLoop loop;
-    connect(this, &ClipboardClient::functionCallResultReceived, &loop, &QEventLoop::quit);
-    connect(this, &ClipboardClient::scriptableFinished, &loop, &QEventLoop::quit);
-    connect(qApp, &QCoreApplication::aboutToQuit, &loop, &QEventLoop::quit);
-    loop.exec();
 }
 
 void ClipboardClient::startInputReader()
@@ -232,16 +220,18 @@ void ClipboardClient::start(const QStringList &arguments)
 
     connect( &scriptable, &Scriptable::readInput,
              this, &ClipboardClient::startInputReader );
-    connect( &scriptableProxy, &ScriptableProxy::sendFunctionCall,
-             this, &ClipboardClient::sendFunctionCall );
+    connect( &scriptableProxy, &ScriptableProxy::sendMessage,
+             m_socket, &ClientSocket::sendMessage );
 
     connect( this, &ClipboardClient::inputReceived,
              &scriptable, &Scriptable::setInput );
     connect( this, &ClipboardClient::functionCallResultReceived,
-             &scriptableProxy, &ScriptableProxy::setReturnValue );
+             &scriptableProxy, &ScriptableProxy::setFunctionCallReturnValue );
 
     connect( m_socket, &ClientSocket::disconnected,
              &scriptable, &Scriptable::abort );
+    connect( m_socket, &ClientSocket::disconnected,
+             &scriptableProxy, &ScriptableProxy::clientDisconnected );
 
     connect( this, &ClipboardClient::stopEventLoops,
              &scriptable, &Scriptable::stopEventLoops );
@@ -250,6 +240,8 @@ void ClipboardClient::start(const QStringList &arguments)
 
     connect( &scriptable, &Scriptable::finished,
              this, &ClipboardClient::scriptableFinished );
+    connect( &scriptable, &Scriptable::finished,
+             &scriptableProxy, &ScriptableProxy::clientDisconnected );
 
     bool hasData;
     auto actionId = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);

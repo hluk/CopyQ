@@ -60,8 +60,6 @@ public:
 
     void exit(int exitCode) override;
 
-    void sendFunctionCall(const QByteArray &bytes);
-
     void startInputReader();
 
 signals:

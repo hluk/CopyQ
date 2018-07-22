@@ -353,6 +353,8 @@ void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
     auto proxy = new ScriptableProxy(m_wnd);
     connect( client.get(), &ClientSocket::destroyed,
              proxy, &ScriptableProxy::deleteLater );
+    connect( proxy, &ScriptableProxy::sendMessage,
+             client.get(), &ClientSocket::sendMessage );
 
     m_clients.insert( client->id(), ClientData(client, proxy) );
     connect( this, &ClipboardServer::closeClients,
@@ -377,8 +379,7 @@ void ClipboardServer::onClientMessageReceived(
         if (!clientData.isValid())
             return;
 
-        const auto result = clientData.proxy->callFunction(message);
-        clientData.client->sendMessage(result, CommandFunctionCallReturnValue);
+        clientData.proxy->callFunction(message);
         break;
     }
     default:

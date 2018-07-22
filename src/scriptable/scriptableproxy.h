@@ -32,9 +32,12 @@
 #include <QVariant>
 #include <QVector>
 
+#include <unordered_map>
+
 class ClipboardBrowser;
 class KeyClicker;
 class MainWindow;
+class QEventLoop;
 class QPersistentModelIndex;
 class QPixmap;
 
@@ -79,12 +82,12 @@ class ScriptableProxy : public QObject
 public:
     explicit ScriptableProxy(MainWindow* mainWindow, QObject *parent = nullptr);
 
-    QByteArray callFunction(const QByteArray &serializedFunctionCall);
+    void callFunction(const QByteArray &serializedFunctionCall);
 
     int actionId() const { return m_actionId; }
 
 public slots:
-    void setReturnValue(const QByteArray &returnValue);
+    void setFunctionCallReturnValue(const QByteArray &bytes);
 
     QVariantMap getActionData(int id);
     void setActionData(int id, const QVariantMap &data);
@@ -241,7 +244,8 @@ public slots:
     bool openUrls(const QStringList &urls);
 
 signals:
-    void sendFunctionCall(const QByteArray &bytes);
+    void functionCallFinished(int functionCallId, const QVariant &returnValue);
+    void sendMessage(const QByteArray &message, int messageCode);
     void clientDisconnected();
 
 private:
@@ -254,6 +258,10 @@ private:
     ClipboardBrowser *currentBrowser() const;
     QList<QPersistentModelIndex> selectedIndexes() const;
 
+    QVariant waitForFunctionCallFinished(int functionId);
+
+    QByteArray callFunctionHelper(const QByteArray &serializedFunctionCall);
+
 #ifdef HAS_TESTS
     KeyClicker *keyClicker();
     KeyClicker *m_keyClicker = nullptr;
@@ -264,7 +272,7 @@ private:
     QVariantMap m_actionData;
     int m_actionId = -1;
 
-    QVariant m_returnValue;
+    int m_lastFunctionCallId = -1;
 };
 
 QString pluginsPath();
