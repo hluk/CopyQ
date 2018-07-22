@@ -87,8 +87,8 @@
 const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
 
-#define BROWSER(call) \
-    ClipboardBrowser *c = fetchBrowser(); \
+#define BROWSER(tabName, call) \
+    ClipboardBrowser *c = fetchBrowser(tabName); \
     if (c) \
         (c->call)
 
@@ -97,7 +97,7 @@ const quint32 serializedFunctionCallVersion = 2;
 #define INVOKE_(function, arguments, functionCallId) \
     static auto f = FunctionCallSerializer(STR(#function)).withSlotArguments arguments; \
     f.setArguments arguments; \
-    emit sendMessage(f.serializeAndClear(functionCallId, m_tabName), CommandFunctionCall)
+    emit sendMessage(f.serializeAndClear(functionCallId), CommandFunctionCall)
 
 #define INVOKE(function, arguments) \
     if (!m_wnd) { \
@@ -305,13 +305,13 @@ public:
         return *this;
     }
 
-    QByteArray serializeAndClear(int functionCallId, const QString &tabName)
+    QByteArray serializeAndClear(int functionCallId)
     {
         QByteArray bytes;
         QDataStream stream(&bytes, QIODevice::WriteOnly);
         stream.setVersion(QDataStream::Qt_5_0);
         stream << serializedFunctionCallMagicNumber << serializedFunctionCallVersion
-               << functionCallId << tabName << m_slotName << m_args;
+               << functionCallId << m_slotName << m_args;
         m_args.clear();
         return bytes;
     }
@@ -338,7 +338,6 @@ private:
 
     QVector<QVariant> m_args;
     QByteArray m_slotName;
-    QByteArray m_tabName;
 };
 
 class ScreenshotRectWidget : public QLabel {
@@ -809,7 +808,6 @@ private:
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     : QObject(parent)
     , m_wnd(mainWindow)
-    , m_tabName()
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
     qRegisterMetaTypeStreamOperators<ClipboardMode>("ClipboardMode");
@@ -868,13 +866,6 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         stream >> functionCallId;
         if (stream.status() != QDataStream::Ok) {
             log("Failed to read scriptable proxy slot call ID", LogError);
-            Q_ASSERT(false);
-            return QByteArray();
-        }
-
-        stream >> m_tabName;
-        if (stream.status() != QDataStream::Ok) {
-            log("Failed to read scriptable proxy slot tab name", LogError);
             Q_ASSERT(false);
             return QByteArray();
         }
@@ -1139,12 +1130,6 @@ bool ScriptableProxy::showBrowserAt(const QString &tabName, QRect rect)
     return showBrowser(tabName);
 }
 
-bool ScriptableProxy::showCurrentBrowser()
-{
-    INVOKE(showCurrentBrowser, ());
-    return showBrowser(m_tabName);
-}
-
 void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
 {
     INVOKE2(action, (arg1, arg2));
@@ -1177,10 +1162,10 @@ void ScriptableProxy::showMessage(const QString &title,
     notification->setButtons(buttons);
 }
 
-QVariantMap ScriptableProxy::nextItem(int where)
+QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
 {
-    INVOKE(nextItem, (where));
-    ClipboardBrowser *c = fetchBrowser();
+    INVOKE(nextItem, (tabName, where));
+    ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return QVariantMap();
 
@@ -1194,23 +1179,23 @@ QVariantMap ScriptableProxy::nextItem(int where)
     return c->copyIndex(index);
 }
 
-void ScriptableProxy::browserMoveToClipboard(int row)
+void ScriptableProxy::browserMoveToClipboard(const QString &tabName, int row)
 {
-    INVOKE2(browserMoveToClipboard, (row));
-    ClipboardBrowser *c = fetchBrowser();
+    INVOKE2(browserMoveToClipboard, (tabName, row));
+    ClipboardBrowser *c = fetchBrowser(tabName);
     m_wnd->moveToClipboard(c, row);
 }
 
-void ScriptableProxy::browserSetCurrent(int arg1)
+void ScriptableProxy::browserSetCurrent(const QString &tabName, int arg1)
 {
-    INVOKE2(browserSetCurrent, (arg1));
-    BROWSER(setCurrent(arg1));
+    INVOKE2(browserSetCurrent, (tabName, arg1));
+    BROWSER(tabName, setCurrent(arg1));
 }
 
-QString ScriptableProxy::browserRemoveRows(QVector<int> rows)
+QString ScriptableProxy::browserRemoveRows(const QString &tabName, QVector<int> rows)
 {
-    INVOKE(browserRemoveRows, (rows));
-    ClipboardBrowser *c = fetchBrowser();
+    INVOKE(browserRemoveRows, (tabName, rows));
+    ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return QString("Invalid tab");
 
@@ -1241,16 +1226,16 @@ QString ScriptableProxy::browserRemoveRows(QVector<int> rows)
     return QString();
 }
 
-void ScriptableProxy::browserEditRow(int arg1)
+void ScriptableProxy::browserEditRow(const QString &tabName, int arg1)
 {
-    INVOKE2(browserEditRow, (arg1));
-    BROWSER(editRow(arg1));
+    INVOKE2(browserEditRow, (tabName, arg1));
+    BROWSER(tabName, editRow(arg1));
 }
 
-void ScriptableProxy::browserEditNew(const QString &arg1, bool changeClipboard)
+void ScriptableProxy::browserEditNew(const QString &tabName, const QString &arg1, bool changeClipboard)
 {
-    INVOKE2(browserEditNew, (arg1, changeClipboard));
-    BROWSER(editNew(arg1, changeClipboard));
+    INVOKE2(browserEditNew, (tabName, arg1, changeClipboard));
+    BROWSER(tabName, editNew(arg1, changeClipboard));
 }
 
 QStringList ScriptableProxy::tabs()
@@ -1295,10 +1280,10 @@ bool ScriptableProxy::loadTab(const QString &arg1)
     return m_wnd->loadTab(arg1);
 }
 
-bool ScriptableProxy::saveTab(const QString &arg1)
+bool ScriptableProxy::saveTab(const QString &tabName, const QString &arg1)
 {
-    INVOKE(saveTab, (arg1));
-    ClipboardBrowser *c = fetchBrowser();
+    INVOKE(saveTab, (tabName, arg1));
+    ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return false;
 
@@ -1362,25 +1347,25 @@ bool ScriptableProxy::hasClipboardFormat(const QString &mime, ClipboardMode mode
     return data && data->hasFormat(mime);
 }
 
-int ScriptableProxy::browserLength()
+int ScriptableProxy::browserLength(const QString &tabName)
 {
-    INVOKE(browserLength, ());
-    ClipboardBrowser *c = fetchBrowser();
+    INVOKE(browserLength, (tabName));
+    ClipboardBrowser *c = fetchBrowser(tabName);
     return c ? c->length() : 0;
 }
 
-bool ScriptableProxy::browserOpenEditor(const QByteArray &arg1, bool changeClipboard)
+bool ScriptableProxy::browserOpenEditor(const QString &tabName, const QByteArray &arg1, bool changeClipboard)
 {
-    INVOKE(browserOpenEditor, (arg1, changeClipboard));
-    ClipboardBrowser *c = fetchBrowser();
+    INVOKE(browserOpenEditor, (tabName, arg1, changeClipboard));
+    ClipboardBrowser *c = fetchBrowser(tabName);
     return c && c->openEditor(arg1, changeClipboard);
 }
 
-QString ScriptableProxy::browserInsert(int row, const QVector<QVariantMap> &items)
+QString ScriptableProxy::browserInsert(const QString &tabName, int row, const QVector<QVariantMap> &items)
 {
-    INVOKE(browserInsert, (row, items));
+    INVOKE(browserInsert, (tabName, row, items));
 
-    ClipboardBrowser *c = fetchBrowser();
+    ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return "Invalid tab";
 
@@ -1395,10 +1380,10 @@ QString ScriptableProxy::browserInsert(int row, const QVector<QVariantMap> &item
     return QString();
 }
 
-bool ScriptableProxy::browserChange(const QVariantMap &data, int row)
+bool ScriptableProxy::browserChange(const QString &tabName, const QVariantMap &data, int row)
 {
-    INVOKE(browserChange, (data, row));
-    ClipboardBrowser *c = fetchBrowser();
+    INVOKE(browserChange, (tabName, data, row));
+    ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return false;
 
@@ -1414,16 +1399,16 @@ bool ScriptableProxy::browserChange(const QVariantMap &data, int row)
     return c->model()->setData(index, itemData, contentType::data);
 }
 
-QByteArray ScriptableProxy::browserItemData(int arg1, const QString &arg2)
+QByteArray ScriptableProxy::browserItemData(const QString &tabName, int arg1, const QString &arg2)
 {
-    INVOKE(browserItemData, (arg1, arg2));
-    return itemData(arg1, arg2);
+    INVOKE(browserItemData, (tabName, arg1, arg2));
+    return itemData(tabName, arg1, arg2);
 }
 
-QVariantMap ScriptableProxy::browserItemData(int arg1)
+QVariantMap ScriptableProxy::browserItemData(const QString &tabName, int arg1)
 {
-    INVOKE(browserItemData, (arg1));
-    return itemData(arg1);
+    INVOKE(browserItemData, (tabName, arg1));
+    return itemData(tabName, arg1);
 }
 
 void ScriptableProxy::setCurrentTab(const QString &tabName)
@@ -1434,15 +1419,10 @@ void ScriptableProxy::setCurrentTab(const QString &tabName)
         m_wnd->setCurrentTab(c);
 }
 
-void ScriptableProxy::setTab(const QString &tabName)
+QString ScriptableProxy::tab(const QString &tabName)
 {
-    m_tabName = tabName;
-}
-
-QString ScriptableProxy::tab()
-{
-    INVOKE(tab, ());
-    ClipboardBrowser *c = fetchBrowser();
+    INVOKE(tab, (tabName));
+    ClipboardBrowser *c = fetchBrowser(tabName);
     return c ? c->tabName() : QString();
 }
 
@@ -1455,10 +1435,10 @@ int ScriptableProxy::currentItem()
     return current.isValid() ? current.row() : -1;
 }
 
-bool ScriptableProxy::selectItems(const QVector<int> &rows)
+bool ScriptableProxy::selectItems(const QString &tabName, const QVector<int> &rows)
 {
-    INVOKE(selectItems, (rows));
-    ClipboardBrowser *c = fetchBrowser();
+    INVOKE(selectItems, (tabName, rows));
+    ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return false;
 
@@ -2098,17 +2078,15 @@ ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
     return tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->tab(tabName);
 }
 
-ClipboardBrowser *ScriptableProxy::fetchBrowser() { return fetchBrowser(m_tabName); }
-
-QVariantMap ScriptableProxy::itemData(int i)
+QVariantMap ScriptableProxy::itemData(const QString &tabName, int i)
 {
-    auto c = fetchBrowser();
+    auto c = fetchBrowser(tabName);
     return c ? c->copyIndex( c->index(i) ) : QVariantMap();
 }
 
-QByteArray ScriptableProxy::itemData(int i, const QString &mime)
+QByteArray ScriptableProxy::itemData(const QString &tabName, int i, const QString &mime)
 {
-    const QVariantMap data = itemData(i);
+    const QVariantMap data = itemData(tabName, i);
     if ( data.isEmpty() )
         return QByteArray();
 

@@ -117,8 +117,6 @@ public slots:
     bool showBrowser(const QString &tabName);
     bool showBrowserAt(const QString &tabName, QRect rect);
 
-    bool showCurrentBrowser();
-
     void action(const QVariantMap &arg1, const Command &arg2);
 
     void runInternalAction(const QVariantMap &data, const QString &command);
@@ -130,13 +128,13 @@ public slots:
             const QString &notificationId = QString(),
             const NotificationButtons &buttons = NotificationButtons());
 
-    QVariantMap nextItem(int where);
-    void browserMoveToClipboard(int row);
-    void browserSetCurrent(int arg1);
-    QString browserRemoveRows(QVector<int> rows);
+    QVariantMap nextItem(const QString &tabName, int where);
+    void browserMoveToClipboard(const QString &tabName, int row);
+    void browserSetCurrent(const QString &tabName, int arg1);
+    QString browserRemoveRows(const QString &tabName, QVector<int> rows);
 
-    void browserEditRow(int arg1);
-    void browserEditNew(const QString &arg1, bool changeClipboard);
+    void browserEditRow(const QString &tabName, int arg1);
+    void browserEditNew(const QString &tabName, const QString &arg1, bool changeClipboard);
 
     QStringList tabs();
     bool toggleVisible();
@@ -147,7 +145,7 @@ public slots:
     void openActionDialog(const QVariantMap &arg1);
 
     bool loadTab(const QString &arg1);
-    bool saveTab(const QString &arg1);
+    bool saveTab(const QString &tabName, const QString &arg1);
 
     bool importData(const QString &fileName);
     bool exportData(const QString &fileName);
@@ -158,23 +156,21 @@ public slots:
     QByteArray getClipboardData(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
     bool hasClipboardFormat(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
 
-    int browserLength();
-    bool browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
+    int browserLength(const QString &tabName);
+    bool browserOpenEditor(const QString &tabName, const QByteArray &arg1, bool changeClipboard);
 
-    QString browserInsert(int row, const QVector<QVariantMap> &items);
-    bool browserChange(const QVariantMap &data, int row);
+    QString browserInsert(const QString &tabName, int row, const QVector<QVariantMap> &items);
+    bool browserChange(const QString &tabName, const QVariantMap &data, int row);
 
-    QByteArray browserItemData(int arg1, const QString &arg2);
-    QVariantMap browserItemData(int arg1);
+    QByteArray browserItemData(const QString &tabName, int arg1, const QString &arg2);
+    QVariantMap browserItemData(const QString &tabName, int arg1);
 
     void setCurrentTab(const QString &tabName);
 
-    void setTab(const QString &tabName);
-
-    QString tab();
+    QString tab(const QString &tabName);
 
     int currentItem();
-    bool selectItems(const QVector<int> &rows);
+    bool selectItems(const QString &tabName, const QVector<int> &rows);
 
     QVector<int> selectedItems();
 
@@ -252,10 +248,9 @@ signals:
 
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
-    ClipboardBrowser *fetchBrowser();
 
-    QVariantMap itemData(int i);
-    QByteArray itemData(int i, const QString &mime);
+    QVariantMap itemData(const QString &tabName, int i);
+    QByteArray itemData(const QString &tabName, int i, const QString &mime);
 
     ClipboardBrowser *currentBrowser() const;
     QList<QPersistentModelIndex> selectedIndexes() const;
@@ -270,7 +265,6 @@ private:
 #endif // HAS_TESTS
 
     MainWindow* m_wnd;
-    QString m_tabName;
     QVariantMap m_actionData;
     int m_actionId = -1;
 

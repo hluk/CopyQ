@@ -431,6 +431,8 @@ private:
 
     Action *m_action = nullptr;
     bool m_failed = false;
+
+    QString m_tabName;
 };
 
 class NetworkReply : public QObject {
