@@ -55,6 +55,12 @@
 
 #define WITH_TIMEOUT "afterMilliseconds(10000, fail); "
 
+// WORKAROUND: Checking clipboard right after closing menu gets stuck on OS X.
+#define ACTIVATE_MENU_ITEM(MENU_ID, WIDGET_ID, CONTENT) \
+    RUN("keys" << MENU_ID << "ENTER", ""); \
+    RUN("keys" << WIDGET_ID, ""); \
+    WAIT_FOR_CLIPBOARD(CONTENT)
+
 namespace {
 
 const auto clipboardTabName = "CLIPBOARD";
@@ -2158,9 +2164,7 @@ void Tests::tray()
     RUN("add" << "A", "");
     RUN("keys" << clipboardBrowserId, "");
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "ENTER", "");
-    RUN("keys" << clipboardBrowserId, "");
-    WAIT_FOR_CLIPBOARD("A");
+    ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "A");
 }
 
 void Tests::menu()
@@ -2170,13 +2174,12 @@ void Tests::menu()
     RUN("tab" << tab << "add" << "D" << "C" << "B" << "A", "");
 
     RUN("menu" << tab, "");
-    RUN("keys" << menuId << "ENTER" << clipboardBrowserId, "");
-    WAIT_FOR_CLIPBOARD("A");
+    ACTIVATE_MENU_ITEM(menuId, clipboardBrowserId, "A");
 
     // Show menu with 2 items from the tab and select last one.
     RUN("menu" << tab << "2", "");
-    RUN("keys" << menuId << "END" << "ENTER", "");
-    WAIT_FOR_CLIPBOARD("B");
+    RUN("keys" << menuId << "END", "");
+    ACTIVATE_MENU_ITEM(menuId, clipboardBrowserId, "B");
 }
 
 void Tests::traySearch()
@@ -2184,8 +2187,8 @@ void Tests::traySearch()
     RUN("add" << "C" << "B" << "A", "");
 
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "B" << "ENTER", "");
-    WAIT_FOR_CLIPBOARD("B");
+    RUN("keys" << trayMenuId << "B", "");
+    ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
 }
 
 void Tests::trayPaste()
@@ -2200,8 +2203,7 @@ void Tests::trayPaste()
 
     RUN("add" << "TEST", "");
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "ENTER" << editorId, "");
-    WAIT_FOR_CLIPBOARD("TEST");
+    ACTIVATE_MENU_ITEM(trayMenuId, editorId, "TEST");
     waitFor(waitMsPasteClipboard);
 
     RUN("keys" << editorId << "F2", "");
@@ -2214,8 +2216,7 @@ void Tests::trayPaste()
     RUN("config" << "tray_item_paste" << "false", "false\n");
     RUN("add" << "TEST2", "");
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "ENTER", "");
-    WAIT_FOR_CLIPBOARD("TEST2");
+    ACTIVATE_MENU_ITEM(trayMenuId, editorId, "TEST2");
 
     RUN("keys" << editorId << "F2", "");
     RUN("tab" << tab1 << "read" << "0", "NEW ");
@@ -2234,14 +2235,12 @@ void Tests::configTrayTab()
     RUN("config" << "tray_tab" << tab1, tab1 + "\n");
 
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "ENTER", "");
-    WAIT_FOR_CLIPBOARD("A");
+    ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "A");
 
     RUN("config" << "tray_tab" << tab2, tab2 + "\n");
 
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "ENTER", "");
-    WAIT_FOR_CLIPBOARD("B");
+    ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
 }
 
 void Tests::configMove()
@@ -2255,13 +2254,15 @@ void Tests::configMove()
     RUN("config" << "move" << "true", "true\n");
 
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "DOWN" << "ENTER", "");
+    RUN("keys" << trayMenuId << "DOWN", "");
+    ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
     RUN("read" << "0" << "1", "B\nA");
 
     RUN("config" << "move" << "false", "false\n");
 
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "DOWN" << "ENTER", "");
+    RUN("keys" << trayMenuId << "DOWN", "");
+    ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "A");
     RUN("read" << "0" << "1", "B\nA");
 }
 
@@ -2277,13 +2278,11 @@ void Tests::configTrayTabIsCurrent()
 
     RUN("setCurrentTab" << tab1, "");
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "ENTER", "");
-    WAIT_FOR_CLIPBOARD("A");
+    ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "A");
 
     RUN("setCurrentTab" << tab2, "");
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "ENTER", "");
-    WAIT_FOR_CLIPBOARD("B");
+    ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
 }
 
 void Tests::configAutostart()
