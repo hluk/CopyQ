@@ -82,6 +82,10 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     m_clipboard->setFormats(formats);
     connect( m_clipboard.get(), &PlatformClipboard::changed,
              this, &ClipboardMonitor::onClipboardChanged );
+#ifdef HAS_MOUSE_SELECTIONS
+    onClipboardChanged(ClipboardMode::Selection);
+#endif
+    onClipboardChanged(ClipboardMode::Clipboard);
 }
 
 void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
