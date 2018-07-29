@@ -434,11 +434,21 @@ public:
         if ( isServerRunning() )
             RETURN_ON_ERROR( stopServer(), "Failed to stop server" );
 
-        // Remove all configuration.
+        // Remove all configuration files and tab data.
         const auto settingsPath = settingsDirectoryPath();
+        Q_ASSERT( !settingsPath.isEmpty() );
         QDir settingsDir(settingsPath);
-        if ( settingsDir.exists() && !settingsDir.removeRecursively() )
-            return "Failed to remove settings directory " + settingsPath.toUtf8();
+        const QStringList settingsFileFilters("copyq.test*");
+        // Omit using dangerous QDir::removeRecursively().
+        for ( const auto &fileName : settingsDir.entryList(settingsFileFilters) ) {
+            const auto path = settingsDir.absoluteFilePath(fileName);
+            QFile settingsFile(path);
+            if ( !settingsFile.remove() ) {
+                return QString("Failed to remove settings file \"%1\": %2")
+                    .arg(settingsPath, settingsFile.errorString())
+                    .toUtf8();
+            }
+        }
 
         // Update settings for tests.
         {
