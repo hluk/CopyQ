@@ -261,13 +261,12 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="128"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Errore: %1</translation>
+        <translation>Errore: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="138"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">Codice uscita: %1
- {1?}</translation>
+        <translation>Codice uscita: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="169"/>
@@ -835,12 +834,12 @@ Lascialo vuoto per disabilitarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Script</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Display</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="291"/>
@@ -1292,12 +1291,12 @@ CTRL e tasto su o giù.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi finestra principale quando altre applicazioni hanno il focus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi quando non è in focus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="154"/>
@@ -1430,7 +1429,7 @@ Nota: non è supportata da tutti i sistemi.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando editor esterno (%&amp;1 è il file da editare):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="730"/>
@@ -1504,7 +1503,7 @@ Lascia vuoto per disabilitare il salvataggio automatico.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1287"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Offset ori&amp;zzontale:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1299"/>
@@ -1635,12 +1634,12 @@ Usa &apos;Anteprime elemento&apos; per visualizzare l&apos;intero elemento.</tra
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilita ricerca numeri. Altrimenti premendo un tasto nuemrico attiva l&apos;elemento alla posizione relativa</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Ric&amp;erca numeri</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
@@ -1810,7 +1809,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1507"/>
         <source>&amp;Shortcuts</source>
-        <translation>&amp;Collegamento</translation>
+        <translation>&amp;Tasti rapidi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1517"/>
@@ -2329,12 +2328,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="799"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Decripta e incolla</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="804"/>
         <source>Enter</source>
-        <translation type="unfinished">Invio</translation>
+        <translation>Invio</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="874"/>
@@ -2501,7 +2500,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation>Comando editor immagine:</translation>
+        <translation>Comando ed&amp;itor immagine:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
@@ -2511,7 +2510,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation>Editor comando SVG:</translation>
+        <translation>Editor comando &amp;SVG:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
@@ -2542,12 +2541,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>A&amp;bove Item</source>
-        <translation>Elemento soprastante</translation>
+        <translation>Elemento so&amp;prastante</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>B&amp;elow Item</source>
-        <translation>Elemento sottostante</translation>
+        <translation>Elemento so&amp;ttostante</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
@@ -2732,7 +2731,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="154"/>
         <source>Add a Tag</source>
-        <translation>&amp;Aggiungi un tag</translation>
+        <translation>Aggiungi un tag</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="159"/>
@@ -2922,7 +2921,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1264"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation>Abili&amp;ta cronologuia Appunti</translation>
+        <translation>Abili&amp;ta cronologia Appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1265"/>
@@ -3517,7 +3516,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="390"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>La scheda %1 è corrotta o alcuni plugin CopyQ non sono presenti!</translation>
     </message>
 </context>
 <context>
@@ -3915,7 +3914,7 @@ Visualizza programma e librerie.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="871"/>
         <source>Terminating server.
 </source>
-        <translation>Chiusura server
+        <translation>Chiusura server.
 </translation>
     </message>
     <message>
@@ -3979,13 +3978,13 @@ Visualizza programma e librerie.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1701"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished">%1 - CopyQ</translation>
+        <translation>%1 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1704"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished">%1 - %2 - CopyQ</translation>
+        <translation>%1 - %2 - CopyQ</translation>
     </message>
 </context>
 <context>
@@ -4038,7 +4037,7 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="298"/>
         <source>Shortcut can be triggered from any application</source>
-        <translation type="unfinished"></translation>
+        <translation>Il collegamento può essere attivato da qualsiasi applicazione</translation>
     </message>
 </context>
 <context>
