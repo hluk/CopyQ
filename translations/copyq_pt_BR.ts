@@ -4012,7 +4012,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="298"/>
         <source>Shortcut can be triggered from any application</source>
-        <translation type="unfinished"></translation>
+        <translation>O atalho pode ser acionado a partir de qualquer aplicativo</translation>
     </message>
 </context>
 <context>
