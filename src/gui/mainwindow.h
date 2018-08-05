@@ -689,6 +689,8 @@ private:
     MenuMatchCommands m_itemMenuMatchCommands;
 
     ClipboardManager m_clipboardManager;
+
+    bool m_isActiveWindow = false;
 };
 
 #endif // MAINWINDOW_H

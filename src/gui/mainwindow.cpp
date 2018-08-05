@@ -428,7 +428,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     updateCommands();
 
-    initSingleShotTimer( &m_timerUpdateFocusWindows, 50, this, SLOT(updateFocusWindows()) );
+    initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, SLOT(updateFocusWindows()) );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
     initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, SLOT(updateTrayMenuTimeout()) );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
@@ -1417,7 +1417,7 @@ void MainWindow::initTray()
 
 bool MainWindow::isWindowVisible() const
 {
-    return !isMinimized() && isVisible() && isActiveWindow();
+    return !isMinimized() && isVisible() && m_isActiveWindow;
 }
 
 void MainWindow::onEscape()
@@ -2039,6 +2039,7 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency(false);
         setHideTabs(m_options.hideTabs);
     } else if (type == QEvent::WindowActivate) {
+        m_isActiveWindow = true;
         if ( !isActiveWindow() )
             updateFocusWindows();
         updateWindowTransparency();
@@ -2790,6 +2791,8 @@ void MainWindow::raiseLastWindowAfterMenuClosed()
 
 void MainWindow::updateFocusWindows()
 {
+    m_isActiveWindow = isActiveWindow();
+
     if ( QApplication::activePopupWidget() )
         return;
 
