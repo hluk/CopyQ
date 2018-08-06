@@ -31,7 +31,7 @@
 namespace {
 
 const int iconFontMaxHeight = 128;
-const int iconFontMaxWidthDefault = 160;
+const int iconFontMaxWidth = 160;
 
 int solidIconFontId()
 {
@@ -45,14 +45,6 @@ int brandsIconFontId()
     static const auto fontId =
             QFontDatabase::addApplicationFont(":/images/fontawesome-brands.ttf");
     return fontId;
-}
-
-int iconFontMaxWidth()
-{
-    QFont font = iconFont();
-    font.setPixelSize(iconFontMaxHeight);
-    const auto maxWidth = QFontMetrics(font).maxWidth();
-    return maxWidth > 0 ? maxWidth : iconFontMaxWidthDefault;
 }
 
 std::vector<int> smoothSizes()
@@ -111,7 +103,6 @@ int iconFontSizePixels()
 
 QFont iconFontFitSize(int w, int h)
 {
-    static const auto iconFontMaxWidth = ::iconFontMaxWidth();
     QFont font = iconFont();
     const auto pixelSize = w < h
         ? w * iconFontMaxWidth / iconFontMaxHeight
