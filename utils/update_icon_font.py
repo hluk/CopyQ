@@ -71,7 +71,7 @@ def write_icons_header_file(header_icons, icons):
 
 
 def copy_fonts(font_awesome_src, target_font_dir):
-    font_dir = os.path.join(font_awesome_src, 'web-fonts-with-css', 'webfonts')
+    font_dir = os.path.join(font_awesome_src, 'webfonts')
     for src_name, dest_name in fonts_src_dest:
         src_path = os.path.join(font_dir, src_name)
         dest_path = os.path.join(target_font_dir, dest_name)
@@ -93,7 +93,7 @@ def main():
     copy_fonts(font_awesome_src, target_font_dir)
 
     icons_json = os.path.join(
-            font_awesome_src, 'advanced-options', 'metadata', 'icons.json')
+            font_awesome_src, 'metadata', 'icons.json')
     icons = read_icons(icons_json)
 
     write_add_icons_header_file(header_add_icons, icons)

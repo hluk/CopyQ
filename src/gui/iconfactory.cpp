@@ -19,6 +19,7 @@
 
 #include "iconfactory.h"
 
+#include "gui/fix_icon_id.h"
 #include "gui/icons.h"
 #include "gui/iconfont.h"
 

@@ -13,6 +13,7 @@ enum IconId {
     IconAdn = 0xf170,
     IconAdversal = 0xf36a,
     IconAffiliatetheme = 0xf36b,
+    IconAirFreshener = 0xf5d0,
     IconAlgolia = 0xf36c,
     IconAlignCenter = 0xf037,
     IconAlignJustify = 0xf039,
@@ -35,14 +36,17 @@ enum IconId {
     IconAngleLeft = 0xf104,
     IconAngleRight = 0xf105,
     IconAngleUp = 0xf106,
+    IconAngry = 0xf556,
     IconAngrycreative = 0xf36e,
     IconAngular = 0xf420,
     IconAppStore = 0xf36f,
     IconAppStoreIos = 0xf370,
     IconApper = 0xf371,
     IconApple = 0xf179,
+    IconAppleAlt = 0xf5d1,
     IconApplePay = 0xf415,
     IconArchive = 0xf187,
+    IconArchway = 0xf557,
     IconArrowAltCircleDown = 0xf358,
     IconArrowAltCircleLeft = 0xf359,
     IconArrowAltCircleRight = 0xf35a,
@@ -62,12 +66,16 @@ enum IconId {
     IconAsterisk = 0xf069,
     IconAsymmetrik = 0xf372,
     IconAt = 0xf1fa,
+    IconAtlas = 0xf558,
+    IconAtom = 0xf5d2,
     IconAudible = 0xf373,
     IconAudioDescription = 0xf29e,
     IconAutoprefixer = 0xf41c,
     IconAvianex = 0xf374,
     IconAviato = 0xf421,
+    IconAward = 0xf559,
     IconAws = 0xf375,
+    IconBackspace = 0xf55a,
     IconBackward = 0xf04a,
     IconBalanceScale = 0xf24e,
     IconBan = 0xf05e,
@@ -89,6 +97,7 @@ enum IconId {
     IconBehanceSquare = 0xf1b5,
     IconBell = 0xf0f3,
     IconBellSlash = 0xf1f6,
+    IconBezierCurve = 0xf55b,
     IconBicycle = 0xf206,
     IconBimobject = 0xf378,
     IconBinoculars = 0xf1e5,
@@ -107,18 +116,23 @@ enum IconId {
     IconBold = 0xf032,
     IconBolt = 0xf0e7,
     IconBomb = 0xf1e2,
+    IconBone = 0xf5d7,
+    IconBong = 0xf55c,
     IconBook = 0xf02d,
     IconBookOpen = 0xf518,
+    IconBookReader = 0xf5da,
     IconBookmark = 0xf02e,
     IconBowlingBall = 0xf436,
     IconBox = 0xf466,
     IconBoxOpen = 0xf49e,
     IconBoxes = 0xf468,
     IconBraille = 0xf2a1,
+    IconBrain = 0xf5dc,
     IconBriefcase = 0xf0b1,
     IconBriefcaseMedical = 0xf469,
     IconBroadcastTower = 0xf519,
     IconBroom = 0xf51a,
+    IconBrush = 0xf55d,
     IconBtc = 0xf15a,
     IconBug = 0xf188,
     IconBuilding = 0xf1ad,
@@ -127,6 +141,7 @@ enum IconId {
     IconBurn = 0xf46a,
     IconBuromobelexperte = 0xf37f,
     IconBus = 0xf207,
+    IconBusAlt = 0xf55e,
     IconBuysellads = 0xf20d,
     IconCalculator = 0xf1ec,
     IconCalendar = 0xf133,
@@ -137,8 +152,13 @@ enum IconId {
     IconCalendarTimes = 0xf273,
     IconCamera = 0xf030,
     IconCameraRetro = 0xf083,
+    IconCannabis = 0xf55f,
     IconCapsules = 0xf46b,
     IconCar = 0xf1b9,
+    IconCarAlt = 0xf5de,
+    IconCarBattery = 0xf5df,
+    IconCarCrash = 0xf5e1,
+    IconCarSide = 0xf5e4,
     IconCaretDown = 0xf0d7,
     IconCaretLeft = 0xf0d9,
     IconCaretRight = 0xf0da,
@@ -163,12 +183,14 @@ enum IconId {
     IconCertificate = 0xf0a3,
     IconChalkboard = 0xf51b,
     IconChalkboardTeacher = 0xf51c,
+    IconChargingStation = 0xf5e7,
     IconChartArea = 0xf1fe,
     IconChartBar = 0xf080,
     IconChartLine = 0xf201,
     IconChartPie = 0xf200,
     IconCheck = 0xf00c,
     IconCheckCircle = 0xf058,
+    IconCheckDouble = 0xf560,
     IconCheckSquare = 0xf14a,
     IconChess = 0xf439,
     IconChessBishop = 0xf43a,
@@ -203,6 +225,7 @@ enum IconId {
     IconCloudscale = 0xf383,
     IconCloudsmith = 0xf384,
     IconCloudversify = 0xf385,
+    IconCocktail = 0xf561,
     IconCode = 0xf121,
     IconCodeBranch = 0xf126,
     IconCodepen = 0xf1cb,
@@ -220,8 +243,11 @@ enum IconId {
     IconCompactDisc = 0xf51f,
     IconCompass = 0xf14e,
     IconCompress = 0xf066,
+    IconConciergeBell = 0xf562,
     IconConnectdevelop = 0xf20e,
     IconContao = 0xf26d,
+    IconCookie = 0xf563,
+    IconCookieBite = 0xf564,
     IconCopy = 0xf0c5,
     IconCopyright = 0xf1f9,
     IconCouch = 0xf4b8,
@@ -241,6 +267,7 @@ enum IconId {
     IconCreativeCommonsShare = 0xf4f2,
     IconCreditCard = 0xf09d,
     IconCrop = 0xf125,
+    IconCropAlt = 0xf565,
     IconCrosshairs = 0xf05b,
     IconCrow = 0xf520,
     IconCrown = 0xf521,
@@ -269,9 +296,12 @@ enum IconId {
     IconDiceTwo = 0xf528,
     IconDigg = 0xf1a6,
     IconDigitalOcean = 0xf391,
+    IconDigitalTachograph = 0xf566,
+    IconDirections = 0xf5eb,
     IconDiscord = 0xf392,
     IconDiscourse = 0xf393,
     IconDivide = 0xf529,
+    IconDizzy = 0xf567,
     IconDna = 0xf471,
     IconDochub = 0xf394,
     IconDocker = 0xf395,
@@ -285,9 +315,13 @@ enum IconId {
     IconDove = 0xf4ba,
     IconDownload = 0xf019,
     IconDraft2Digital = 0xf396,
+    IconDraftingCompass = 0xf568,
+    IconDrawPolygon = 0xf5ee,
     IconDribbble = 0xf17d,
     IconDribbbleSquare = 0xf397,
     IconDropbox = 0xf16b,
+    IconDrum = 0xf569,
+    IconDrumSteelpan = 0xf56a,
     IconDrupal = 0xf1a9,
     IconDumbbell = 0xf44b,
     IconDyalog = 0xf399,
@@ -299,6 +333,7 @@ enum IconId {
     IconElementor = 0xf430,
     IconEllipsisH = 0xf141,
     IconEllipsisV = 0xf142,
+    IconEllo = 0xf5f1,
     IconEmber = 0xf423,
     IconEmpire = 0xf1d1,
     IconEnvelope = 0xf0e0,
@@ -331,6 +366,7 @@ enum IconId {
     IconFastForward = 0xf050,
     IconFax = 0xf1ac,
     IconFeather = 0xf52d,
+    IconFeatherAlt = 0xf56b,
     IconFemale = 0xf182,
     IconFighterJet = 0xf0fb,
     IconFile = 0xf15b,
@@ -338,16 +374,28 @@ enum IconId {
     IconFileArchive = 0xf1c6,
     IconFileAudio = 0xf1c7,
     IconFileCode = 0xf1c9,
+    IconFileContract = 0xf56c,
+    IconFileDownload = 0xf56d,
     IconFileExcel = 0xf1c3,
+    IconFileExport = 0xf56e,
     IconFileImage = 0xf1c5,
+    IconFileImport = 0xf56f,
+    IconFileInvoice = 0xf570,
+    IconFileInvoiceDollar = 0xf571,
     IconFileMedical = 0xf477,
     IconFileMedicalAlt = 0xf478,
     IconFilePdf = 0xf1c1,
     IconFilePowerpoint = 0xf1c4,
+    IconFilePrescription = 0xf572,
+    IconFileSignature = 0xf573,
+    IconFileUpload = 0xf574,
     IconFileVideo = 0xf1c8,
     IconFileWord = 0xf1c2,
+    IconFill = 0xf575,
+    IconFillDrip = 0xf576,
     IconFilm = 0xf008,
     IconFilter = 0xf0b0,
+    IconFingerprint = 0xf577,
     IconFire = 0xf06d,
     IconFireExtinguisher = 0xf134,
     IconFirefox = 0xf269,
@@ -355,11 +403,13 @@ enum IconId {
     IconFirstOrder = 0xf2b0,
     IconFirstOrderAlt = 0xf50a,
     IconFirstdraft = 0xf3a1,
+    IconFish = 0xf578,
     IconFlag = 0xf024,
     IconFlagCheckered = 0xf11e,
     IconFlask = 0xf0c3,
     IconFlickr = 0xf16e,
     IconFlipboard = 0xf44d,
+    IconFlushed = 0xf579,
     IconFly = 0xf417,
     IconFolder = 0xf07b,
     IconFolderOpen = 0xf07c,
@@ -380,6 +430,7 @@ enum IconId {
     IconFreebsd = 0xf3a4,
     IconFrog = 0xf52e,
     IconFrown = 0xf119,
+    IconFrownOpen = 0xf57a,
     IconFulcrum = 0xf50b,
     IconFutbol = 0xf1e3,
     IconGalacticRepublic = 0xf50c,
@@ -402,10 +453,14 @@ enum IconId {
     IconGitlab = 0xf296,
     IconGitter = 0xf426,
     IconGlassMartini = 0xf000,
+    IconGlassMartiniAlt = 0xf57b,
     IconGlasses = 0xf530,
     IconGlide = 0xf2a5,
     IconGlideG = 0xf2a6,
     IconGlobe = 0xf0ac,
+    IconGlobeAfrica = 0xf57c,
+    IconGlobeAmericas = 0xf57d,
+    IconGlobeAsia = 0xf57e,
     IconGofore = 0xf3a7,
     IconGolfBall = 0xf450,
     IconGoodreads = 0xf3a8,
@@ -422,12 +477,29 @@ enum IconId {
     IconGrav = 0xf2d6,
     IconGreaterThan = 0xf531,
     IconGreaterThanEqual = 0xf532,
+    IconGrimace = 0xf57f,
+    IconGrin = 0xf580,
+    IconGrinAlt = 0xf581,
+    IconGrinBeam = 0xf582,
+    IconGrinBeamSweat = 0xf583,
+    IconGrinHearts = 0xf584,
+    IconGrinSquint = 0xf585,
+    IconGrinSquintTears = 0xf586,
+    IconGrinStars = 0xf587,
+    IconGrinTears = 0xf588,
+    IconGrinTongue = 0xf589,
+    IconGrinTongueSquint = 0xf58a,
+    IconGrinTongueWink = 0xf58b,
+    IconGrinWink = 0xf58c,
+    IconGripHorizontal = 0xf58d,
+    IconGripVertical = 0xf58e,
     IconGripfire = 0xf3ac,
     IconGrunt = 0xf3ad,
     IconGulp = 0xf3ae,
     IconHSquare = 0xf0fd,
     IconHackerNews = 0xf1d4,
     IconHackerNewsSquare = 0xf3af,
+    IconHackerrank = 0xf5f7,
     IconHandHolding = 0xf4bd,
     IconHandHoldingHeart = 0xf4be,
     IconHandHoldingUsd = 0xf4c0,
@@ -449,18 +521,24 @@ enum IconId {
     IconHdd = 0xf0a0,
     IconHeading = 0xf1dc,
     IconHeadphones = 0xf025,
+    IconHeadphonesAlt = 0xf58f,
+    IconHeadset = 0xf590,
     IconHeart = 0xf004,
     IconHeartbeat = 0xf21e,
     IconHelicopter = 0xf533,
+    IconHighlighter = 0xf591,
     IconHips = 0xf452,
     IconHireAHelper = 0xf3b0,
     IconHistory = 0xf1da,
     IconHockeyPuck = 0xf453,
     IconHome = 0xf015,
     IconHooli = 0xf427,
+    IconHornbill = 0xf592,
     IconHospital = 0xf0f8,
     IconHospitalAlt = 0xf47d,
     IconHospitalSymbol = 0xf47e,
+    IconHotTub = 0xf593,
+    IconHotel = 0xf594,
     IconHotjar = 0xf3b1,
     IconHourglass = 0xf254,
     IconHourglassEnd = 0xf253,
@@ -492,23 +570,34 @@ enum IconId {
     IconJediOrder = 0xf50e,
     IconJenkins = 0xf3b6,
     IconJoget = 0xf3b7,
+    IconJoint = 0xf595,
     IconJoomla = 0xf1aa,
     IconJs = 0xf3b8,
     IconJsSquare = 0xf3b9,
     IconJsfiddle = 0xf1cc,
+    IconKaggle = 0xf5fa,
     IconKey = 0xf084,
     IconKeybase = 0xf4f5,
     IconKeyboard = 0xf11c,
     IconKeycdn = 0xf3ba,
     IconKickstarter = 0xf3bb,
     IconKickstarterK = 0xf3bc,
+    IconKiss = 0xf596,
+    IconKissBeam = 0xf597,
+    IconKissWinkHeart = 0xf598,
     IconKiwiBird = 0xf535,
     IconKorvue = 0xf42f,
     IconLanguage = 0xf1ab,
     IconLaptop = 0xf109,
+    IconLaptopCode = 0xf5fc,
     IconLaravel = 0xf3bd,
     IconLastfm = 0xf202,
     IconLastfmSquare = 0xf203,
+    IconLaugh = 0xf599,
+    IconLaughBeam = 0xf59a,
+    IconLaughSquint = 0xf59b,
+    IconLaughWink = 0xf59c,
+    IconLayerGroup = 0xf5fd,
     IconLeaf = 0xf06c,
     IconLeanpub = 0xf212,
     IconLemon = 0xf094,
@@ -538,17 +627,23 @@ enum IconId {
     IconLongArrowAltRight = 0xf30b,
     IconLongArrowAltUp = 0xf30c,
     IconLowVision = 0xf2a8,
+    IconLuggageCart = 0xf59d,
     IconLyft = 0xf3c3,
     IconMagento = 0xf3c4,
     IconMagic = 0xf0d0,
     IconMagnet = 0xf076,
+    IconMailchimp = 0xf59e,
     IconMale = 0xf183,
     IconMandalorian = 0xf50f,
     IconMap = 0xf279,
+    IconMapMarked = 0xf59f,
+    IconMapMarkedAlt = 0xf5a0,
     IconMapMarker = 0xf041,
     IconMapMarkerAlt = 0xf3c5,
     IconMapPin = 0xf276,
     IconMapSigns = 0xf277,
+    IconMarkdown = 0xf60f,
+    IconMarker = 0xf5a1,
     IconMars = 0xf222,
     IconMarsDouble = 0xf227,
     IconMarsStroke = 0xf229,
@@ -556,13 +651,17 @@ enum IconId {
     IconMarsStrokeV = 0xf22a,
     IconMastodon = 0xf4f6,
     IconMaxcdn = 0xf136,
+    IconMedal = 0xf5a2,
     IconMedapps = 0xf3c6,
     IconMedium = 0xf23a,
     IconMediumM = 0xf3c7,
     IconMedkit = 0xf0fa,
     IconMedrt = 0xf3c8,
     IconMeetup = 0xf2e0,
+    IconMegaport = 0xf5a3,
     IconMeh = 0xf11a,
+    IconMehBlank = 0xf5a4,
+    IconMehRollingEyes = 0xf5a5,
     IconMemory = 0xf538,
     IconMercury = 0xf223,
     IconMicrochip = 0xf2db,
@@ -570,6 +669,7 @@ enum IconId {
     IconMicrophoneAlt = 0xf3c9,
     IconMicrophoneAltSlash = 0xf539,
     IconMicrophoneSlash = 0xf131,
+    IconMicroscope = 0xf610,
     IconMicrosoft = 0xf3ca,
     IconMinus = 0xf068,
     IconMinusCircle = 0xf056,
@@ -587,13 +687,17 @@ enum IconId {
     IconMoneyBillWaveAlt = 0xf53b,
     IconMoneyCheck = 0xf53c,
     IconMoneyCheckAlt = 0xf53d,
+    IconMonument = 0xf5a6,
     IconMoon = 0xf186,
+    IconMortarPestle = 0xf5a7,
     IconMotorcycle = 0xf21c,
     IconMousePointer = 0xf245,
     IconMusic = 0xf001,
     IconNapster = 0xf3d2,
+    IconNeos = 0xf612,
     IconNeuter = 0xf22c,
     IconNewspaper = 0xf1ea,
+    IconNimblr = 0xf5a8,
     IconNintendoSwitch = 0xf418,
     IconNode = 0xf419,
     IconNodeJs = 0xf3d3,
@@ -606,6 +710,7 @@ enum IconId {
     IconObjectUngroup = 0xf248,
     IconOdnoklassniki = 0xf263,
     IconOdnoklassnikiSquare = 0xf264,
+    IconOilCan = 0xf613,
     IconOldRepublic = 0xf510,
     IconOpencart = 0xf23d,
     IconOpenid = 0xf19b,
@@ -616,6 +721,7 @@ enum IconId {
     IconPage4 = 0xf3d7,
     IconPagelines = 0xf18c,
     IconPaintBrush = 0xf1fc,
+    IconPaintRoller = 0xf5aa,
     IconPalette = 0xf53f,
     IconPalfed = 0xf3d8,
     IconPallet = 0xf482,
@@ -624,14 +730,20 @@ enum IconId {
     IconParachuteBox = 0xf4cd,
     IconParagraph = 0xf1dd,
     IconParking = 0xf540,
+    IconPassport = 0xf5ab,
     IconPaste = 0xf0ea,
     IconPatreon = 0xf3d9,
     IconPause = 0xf04c,
     IconPauseCircle = 0xf28b,
     IconPaw = 0xf1b0,
     IconPaypal = 0xf1ed,
+    IconPen = 0xf304,
+    IconPenAlt = 0xf305,
+    IconPenFancy = 0xf5ac,
+    IconPenNib = 0xf5ad,
     IconPenSquare = 0xf14b,
     IconPencilAlt = 0xf303,
+    IconPencilRuler = 0xf5ae,
     IconPeopleCarry = 0xf4ce,
     IconPercent = 0xf295,
     IconPercentage = 0xf541,
@@ -654,6 +766,8 @@ enum IconId {
     IconPinterestP = 0xf231,
     IconPinterestSquare = 0xf0d3,
     IconPlane = 0xf072,
+    IconPlaneArrival = 0xf5af,
+    IconPlaneDeparture = 0xf5b0,
     IconPlay = 0xf04b,
     IconPlayCircle = 0xf144,
     IconPlaystation = 0xf3df,
@@ -663,9 +777,11 @@ enum IconId {
     IconPlusSquare = 0xf0fe,
     IconPodcast = 0xf2ce,
     IconPoo = 0xf2fe,
+    IconPoop = 0xf619,
     IconPortrait = 0xf3e0,
     IconPoundSign = 0xf154,
     IconPowerOff = 0xf011,
+    IconPrescription = 0xf5b1,
     IconPrescriptionBottle = 0xf485,
     IconPrescriptionBottleAlt = 0xf486,
     IconPrint = 0xf02f,
@@ -707,12 +823,14 @@ enum IconId {
     IconResearchgate = 0xf4f8,
     IconResolving = 0xf3e7,
     IconRetweet = 0xf079,
+    IconRev = 0xf5b2,
     IconRibbon = 0xf4d6,
     IconRoad = 0xf018,
     IconRobot = 0xf544,
     IconRocket = 0xf135,
     IconRocketchat = 0xf3e8,
     IconRockrms = 0xf3e9,
+    IconRoute = 0xf4d7,
     IconRss = 0xf09e,
     IconRssSquare = 0xf143,
     IconRubleSign = 0xf158,
@@ -721,6 +839,8 @@ enum IconId {
     IconRulerHorizontal = 0xf547,
     IconRulerVertical = 0xf548,
     IconRupeeSign = 0xf156,
+    IconSadCry = 0xf5b3,
+    IconSadTear = 0xf5b4,
     IconSafari = 0xf267,
     IconSass = 0xf41e,
     IconSave = 0xf0c7,
@@ -737,6 +857,7 @@ enum IconId {
     IconSellsy = 0xf213,
     IconServer = 0xf233,
     IconServicestack = 0xf3ec,
+    IconShapes = 0xf61f,
     IconShare = 0xf064,
     IconShareAlt = 0xf1e0,
     IconShareAltSquare = 0xf1e1,
@@ -750,12 +871,15 @@ enum IconId {
     IconShoppingBag = 0xf290,
     IconShoppingBasket = 0xf291,
     IconShoppingCart = 0xf07a,
+    IconShopware = 0xf5b5,
     IconShower = 0xf2cc,
+    IconShuttleVan = 0xf5b6,
     IconSign = 0xf4d9,
     IconSignInAlt = 0xf2f6,
     IconSignLanguage = 0xf2a7,
     IconSignOutAlt = 0xf2f5,
     IconSignal = 0xf012,
+    IconSignature = 0xf5b7,
     IconSimplybuilt = 0xf215,
     IconSistrix = 0xf3ee,
     IconSitemap = 0xf0e8,
@@ -768,12 +892,15 @@ enum IconId {
     IconSlidersH = 0xf1de,
     IconSlideshare = 0xf1e7,
     IconSmile = 0xf118,
+    IconSmileBeam = 0xf5b8,
+    IconSmileWink = 0xf4da,
     IconSmoking = 0xf48d,
     IconSmokingBan = 0xf54d,
     IconSnapchat = 0xf2ab,
     IconSnapchatGhost = 0xf2ac,
     IconSnapchatSquare = 0xf2ad,
     IconSnowflake = 0xf2dc,
+    IconSolarPanel = 0xf5ba,
     IconSort = 0xf0dc,
     IconSortAlphaDown = 0xf15d,
     IconSortAlphaUp = 0xf15e,
@@ -784,16 +911,23 @@ enum IconId {
     IconSortNumericUp = 0xf163,
     IconSortUp = 0xf0de,
     IconSoundcloud = 0xf1be,
+    IconSpa = 0xf5bb,
     IconSpaceShuttle = 0xf197,
     IconSpeakap = 0xf3f3,
     IconSpinner = 0xf110,
+    IconSplotch = 0xf5bc,
     IconSpotify = 0xf1bc,
+    IconSprayCan = 0xf5bd,
     IconSquare = 0xf0c8,
     IconSquareFull = 0xf45c,
+    IconSquarespace = 0xf5be,
     IconStackExchange = 0xf18d,
     IconStackOverflow = 0xf16c,
+    IconStamp = 0xf5bf,
     IconStar = 0xf005,
     IconStarHalf = 0xf089,
+    IconStarHalfAlt = 0xf5c0,
+    IconStarOfLife = 0xf621,
     IconStaylinked = 0xf3f5,
     IconSteam = 0xf1b6,
     IconSteamSquare = 0xf1b7,
@@ -821,10 +955,15 @@ enum IconId {
     IconSubscript = 0xf12c,
     IconSubway = 0xf239,
     IconSuitcase = 0xf0f2,
+    IconSuitcaseRolling = 0xf5c1,
     IconSun = 0xf185,
     IconSuperpowers = 0xf2dd,
     IconSuperscript = 0xf12b,
     IconSupple = 0xf3f9,
+    IconSurprise = 0xf5c2,
+    IconSwatchbook = 0xf5c3,
+    IconSwimmer = 0xf5c4,
+    IconSwimmingPool = 0xf5c5,
     IconSync = 0xf021,
     IconSyncAlt = 0xf2f1,
     IconSyringe = 0xf48e,
@@ -840,6 +979,8 @@ enum IconId {
     IconTasks = 0xf0ae,
     IconTaxi = 0xf1ba,
     IconTeamspeak = 0xf4f9,
+    IconTeeth = 0xf62e,
+    IconTeethOpen = 0xf62f,
     IconTelegram = 0xf2c6,
     IconTelegramPlane = 0xf3fe,
     IconTencentWeibo = 0xf1d5,
@@ -849,6 +990,8 @@ enum IconId {
     IconTh = 0xf00a,
     IconThLarge = 0xf009,
     IconThList = 0xf00b,
+    IconTheaterMasks = 0xf630,
+    IconThemeco = 0xf5c6,
     IconThemeisle = 0xf2b2,
     IconThermometer = 0xf491,
     IconThermometerEmpty = 0xf2cb,
@@ -863,11 +1006,15 @@ enum IconId {
     IconTimes = 0xf00d,
     IconTimesCircle = 0xf057,
     IconTint = 0xf043,
+    IconTintSlash = 0xf5c7,
+    IconTired = 0xf5c8,
     IconToggleOff = 0xf204,
     IconToggleOn = 0xf205,
     IconToolbox = 0xf552,
+    IconTooth = 0xf5c9,
     IconTradeFederation = 0xf513,
     IconTrademark = 0xf25c,
+    IconTrafficLight = 0xf637,
     IconTrain = 0xf238,
     IconTransgender = 0xf224,
     IconTransgenderAlt = 0xf225,
@@ -879,7 +1026,9 @@ enum IconId {
     IconTrophy = 0xf091,
     IconTruck = 0xf0d1,
     IconTruckLoading = 0xf4de,
+    IconTruckMonster = 0xf63b,
     IconTruckMoving = 0xf4df,
+    IconTruckPickup = 0xf63c,
     IconTshirt = 0xf553,
     IconTty = 0xf1e4,
     IconTumblr = 0xf173,
@@ -892,6 +1041,7 @@ enum IconId {
     IconUber = 0xf402,
     IconUikit = 0xf403,
     IconUmbrella = 0xf0e9,
+    IconUmbrellaBeach = 0xf5ca,
     IconUnderline = 0xf0cd,
     IconUndo = 0xf0e2,
     IconUndoAlt = 0xf2ea,
@@ -932,6 +1082,7 @@ enum IconId {
     IconUtensilSpoon = 0xf2e5,
     IconUtensils = 0xf2e7,
     IconVaadin = 0xf408,
+    IconVectorSquare = 0xf5cb,
     IconVenus = 0xf221,
     IconVenusDouble = 0xf226,
     IconVenusMars = 0xf228,
@@ -957,8 +1108,10 @@ enum IconId {
     IconWalking = 0xf554,
     IconWallet = 0xf555,
     IconWarehouse = 0xf494,
+    IconWeebly = 0xf5cc,
     IconWeibo = 0xf18a,
     IconWeight = 0xf496,
+    IconWeightHanging = 0xf5cd,
     IconWeixin = 0xf1d7,
     IconWhatsapp = 0xf232,
     IconWhatsappSquare = 0xf40c,
@@ -972,6 +1125,8 @@ enum IconId {
     IconWindowRestore = 0xf2d2,
     IconWindows = 0xf17a,
     IconWineGlass = 0xf4e3,
+    IconWineGlassAlt = 0xf5ce,
+    IconWix = 0xf5cf,
     IconWolfPackBattalion = 0xf514,
     IconWonSign = 0xf159,
     IconWordpress = 0xf19a,
@@ -993,245 +1148,7 @@ enum IconId {
     IconYoast = 0xf2b1,
     IconYoutube = 0xf167,
     IconYoutubeSquare = 0xf431,
+    IconZhihu = 0xf63f,
 };
-
-/// Backwards compatibility with old icon font.
-/// Returns icon ID in the new icon font for an ID from the old one.
-inline unsigned short fixIconId(unsigned short id)
-{
-    switch (id) {
-
-    // envelope-o, notification, support, e-mail, letter, mail, email
-    case 0xf003: return IconEnvelope; // notification, support, envelope, e-mail, letter, mail, message, email
-
-    // rating, favorite, star-o, score, award, night, achievement
-    case 0xf006: return IconStar; // rating, star, favorite, award, score, night, achievement
-
-    // hide, garbage, trash-o, remove, trash, delete
-    case 0xf014: return IconTrash; // trash, hide, garbage, remove, delete
-
-    // file-o, new, document, page, pdf
-    case 0xf016: return IconFile; // new, document, page, file, pdf
-
-    // download, arrow-circle-o-down
-    case 0xf01a: return IconDownload; // download, import
-
-    // arrow-circle-o-up
-    case 0xf01b: return IconArrowAltCircleUp; // arrow-alt-circle-up, arrow-circle-o-up
-
-    // play-circle-o
-    case 0xf01d: return IconPlayCircle;
-
-    // write, pencil, edit, update
-    case 0xf040: return IconPencilAlt; // write, edit, pencil-alt, update, pencil
-
-    // send, share-square-o, arrow, social
-    case 0xf045: return IconExternalLinkAlt;
-
-    // ok, confirm, check-square-o, done, accept, todo, agree
-    case 0xf046: return IconCheckSquare; // ok, confirm, checkmark, accept, done, check-square, todo, agree
-
-    // move, arrows, reorder, resize
-    case 0xf047: return IconArrowsAlt; // fullscreen, move, arrows, enlarge, arrows-alt, resize, arrow, expand, bigger, reorder
-
-    // close, times-circle-o, exit, x
-    case 0xf05c: return IconTimesCircle; // close, times-circle, exit, x
-
-    // ok, confirm, accept, done, todo, agree, check-circle-o
-    case 0xf05d: return IconCheckCircle; // check-circle, ok, confirm, accept, done, todo, agree
-
-    // resize, arrows-v
-    case 0xf07d: return IconArrowsAltV; // arrows-alt-v, resize, arrows-v
-
-    // arrows-h, resize
-    case 0xf07e: return IconArrowsAltH; // arrows-h, arrows-alt-h, resize
-
-    // thumbs-o-up, like, favorite, hand, approve, agree
-    case 0xf087: return IconThumbsUp; // thumbs-o-up, thumbs-up, like, favorite, hand, approve, agree
-
-    // disapprove, dislike, disagree, thumbs-o-down, hand
-    case 0xf088: return IconThumbsDown; // thumbs-down, thumbs-o-down, disagree, disapprove, hand, dislike
-
-    // love, heart-o, favorite, like
-    case 0xf08a: return IconHeart; // heart, favorite, like, love
-
-    // sign-out, log out, leave, logout, arrow, exit
-    case 0xf08b: return IconSignOutAlt; // sign-out, log out, leave, logout, arrow, exit, sign-out-alt
-
-    // new, open, external-link
-    case 0xf08e: return IconFileAlt; // file-alt, file-text, new, pdf, document, page
-
-    // join, signup, enter, sign-in, signin, sign up, arrow, sign in, login, log in
-    case 0xf090: return IconSignInAlt; // sign-in-alt, join, signup, enter, sign-in, signin, sign up, arrow, sign in, login, log in
-
-    // box, square-o, square, block
-    case 0xf096: return IconSquare; // box, square, block
-
-    // bookmark-o, save
-    case 0xf097: return IconBookmark; // bookmark, save
-
-    // notification, reminder, bell-o, alert
-    case 0xf0a2: return IconBell; // notification, reminder, bell, alert
-
-    // purchase, buy, money, cash, checkout, payment
-    case 0xf0d6: return IconMoneyBillAlt; // money, money-bill-alt
-
-    // tachometer
-    case 0xf0e4: return IconTachometerAlt; // tachometer, tachometer-alt
-
-    // feedback, notification, sms, comment-o, note, conversation, speech, chat, texting, message, bubble
-    case 0xf0e5: return IconComment; // comment, feedback, notification, sms, note, conversation, speech, chat, texting, message, bubble
-
-    // feedback, notification, sms, note, conversation, speech, chat, texting, comments-o, message, bubble
-    case 0xf0e6: return IconComments; // feedback, notification, sms, comments, note, conversation, speech, chat, texting, message, bubble
-
-    // transfer, arrows, arrow, exchange
-    case 0xf0ec: return IconExchangeAlt; // transfer, arrows, exchange-alt, arrow, exchange
-
-    // import, cloud-download
-    case 0xf0ed: return IconCloudDownloadAlt; // cloud-download-alt, cloud-download
-
-    // import, cloud-upload
-    case 0xf0ee: return IconCloudUploadAlt; // cloud-upload-alt, cloud-upload
-
-    // restaurant, food, spoon, cutlery, dinner, eat, knife
-    case 0xf0f5: return IconUtensils; // restaurant, food, spoon, cutlery, utensils, dinner, eat, knife
-
-    // file-text-o, document, page, new, pdf
-    case 0xf0f6: return IconFileAlt; // file-alt, file-text, new, pdf, document, page
-
-    // apartment, business, office, company, work, building-o
-    case 0xf0f7: return IconBuilding; // building, apartment, business, office, company, work
-
-    // circle-o
-    case 0xf10c: return IconCircle;
-
-    // reply
-    case 0xf112: return IconReply; // reply
-
-    // folder-o
-    case 0xf114: return IconFolder;
-
-    // folder-open-o
-    case 0xf115: return IconFolderOpen;
-
-    // report, notification, flag-o
-    case 0xf11d: return IconFlag; // report, notification, flag, notify
-
-    // star-half-o, score, award, achievement, rating
-    case 0xf123: return IconStarHalf; // rating, star-half-empty, star-half-full, award, score, star-half, achievement
-
-    // security, winner, award, shield, achievement
-    case 0xf132: return IconShieldAlt; // shield, shield-alt
-
-    // movie, ticket, support, pass
-    case 0xf145: return IconTicketAlt; // ticket-alt, ticket
-
-    // hide, collapse, remove, minus-square-o, minify, trash, delete
-    case 0xf147: return IconMinusSquare; // hide, collapse, remove, minus-square, minify, trash, delete
-
-    // level-up, arrow
-    case 0xf148: return IconLevelUpAlt; // level-up, level-up-alt
-
-    // level-down, arrow
-    case 0xf149: return IconLevelDownAlt; // level-down, level-down-alt
-
-    // new, external-link-square, open
-    case 0xf14c: return IconExternalLinkSquareAlt; // external-link-square-alt, external-link-square, open, new
-
-    // video, film, youtube-square
-    case 0xf166: return 0xf431;
-
-    // start, playing, youtube-play
-    case 0xf16a: return IconYoutube;
-
-    // long-arrow-down
-    case 0xf175: return IconLongArrowAltDown; // long-arrow-down, long-arrow-alt-down
-
-    // long-arrow-up
-    case 0xf176: return IconLongArrowAltUp; // long-arrow-alt-up, long-arrow-up
-
-    // long-arrow-left, back, previous
-    case 0xf177: return IconLongArrowAltLeft; // long-arrow-alt-left, previous, back, long-arrow-left
-
-    // long-arrow-right
-    case 0xf178: return IconLongArrowAltRight; // long-arrow-alt-right, long-arrow-right
-
-    // forward, arrow-circle-o-right, next
-    case 0xf18e: return IconArrowAltCircleRight; // forward, next, arrow-circle-o-right, arrow-alt-circle-right
-
-    // arrow-circle-o-left, back, previous
-    case 0xf190: return IconArrowAltCircleLeft; // arrow-circle-o-left, previous, back, arrow-alt-circle-left
-
-    // new, add, create, expand, plus-square-o
-    case 0xf196: return IconPlusSquare; // new, add, plus-square, create, expand
-
-    // spoon
-    case 0xf1b1: return IconUtensilSpoon; // spoon, utensil-spoon
-
-    // circle-thin
-    case 0xf1db: return IconCircle; // notification, circle, dot, circle-thin
-
-    // bell-slash-o
-    case 0xf1f7: return IconBellSlash;
-
-    // diamond, gemstone, gem
-    case 0xf219: return IconGem; // diamond, gem
-
-    // sticky-note-o
-    case 0xf24a: return IconStickyNote;
-
-    // hourglass-o
-    case 0xf250: return IconHourglass;
-
-    // map-o
-    case 0xf278: return IconMap;
-
-    // commenting-o, feedback, sms, texting, note, conversation, speech, chat, notification, message, bubble
-    case 0xf27b: return IconCommentAlt; // commenting, feedback, notification, sms, note, conversation, speech, chat, texting, comment-alt, bubble, message
-
-    // purchase, buy, money, debit, credit card, checkout, payment, credit-card-alt
-    case 0xf283: return IconCreditCard; // purchase, buy, money, credit-card, debit, checkout, payment, credit-card-alt
-
-    // pause-circle-o
-    case 0xf28c: return IconPauseCircle;
-
-    // stop-circle-o
-    case 0xf28e: return IconStopCircle;
-
-    // wheelchair-alt, handicap, person
-    case 0xf29b: return IconWheelchair; // handicap, person, wheelchair
-
-    // question-circle-o
-    case 0xf29c: return IconQuestionCircle;
-
-    // envelope-open-o
-    case 0xf2b7: return IconEnvelopeOpen;
-
-    // address-book-o
-    case 0xf2ba: return IconAddressBook;
-
-    // address-card-o
-    case 0xf2bc: return IconAddressCard;
-
-    // user-circle-o
-    case 0xf2be: return IconUserCircle;
-
-    // user-o
-    case 0xf2c0: return IconUser;
-
-    // id-card-o
-    case 0xf2c3: return IconIdCard;
-
-    // window-close
-    case 0xf2d3: return IconWindowClose; // window-close
-
-    // window-close-o
-    case 0xf2d4: return IconWindowClose;
-
-    default:
-        return id;
-    }
-}
 
 #endif // ICONS_H

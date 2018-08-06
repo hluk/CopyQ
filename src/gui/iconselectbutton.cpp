@@ -21,6 +21,7 @@
 
 #include "common/config.h"
 #include "common/common.h"
+#include "gui/fix_icon_id.h"
 #include "gui/iconfont.h"
 #include "gui/iconselectdialog.h"
 #include "gui/icons.h"
