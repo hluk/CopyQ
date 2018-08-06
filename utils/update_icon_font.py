@@ -10,6 +10,7 @@ import sys
 
 from shutil import copyfile
 
+from fontTools.ttLib import TTFont
 
 fonts_src_dest = [
     ('fa-solid-900.ttf', 'fontawesome-solid.ttf'),
@@ -70,6 +71,26 @@ def write_icons_header_file(header_icons, icons):
         header_file.write('#endif // ICONS_H\n')
 
 
+def rename_font_family(path):
+    """
+    Adds suffix to font family it doesn't conflict with font installed on
+    system, which could be in incorrect version.
+    """
+    font = TTFont(path)
+    name_table = font['name']
+
+    name = name_table.getName(nameID=1, platformID=3, platEncID=1, langID=0x409)
+    assert name
+
+    name = name.toUnicode()
+    assert name.startswith('Font Awesome')
+
+    name = name + ' (CopyQ)'
+    name = name_table.setName(name, nameID=1, platformID=3, platEncID=1, langID=0x409)
+
+    font.save(path)
+
+
 def copy_fonts(font_awesome_src, target_font_dir):
     font_dir = os.path.join(font_awesome_src, 'webfonts')
     for src_name, dest_name in fonts_src_dest:
@@ -77,6 +98,7 @@ def copy_fonts(font_awesome_src, target_font_dir):
         dest_path = os.path.join(target_font_dir, dest_name)
         print(f'Copying: {src_path} -> {dest_path}')
         copyfile(src_path, dest_path)
+        rename_font_family(dest_path)
 
 
 def main():
