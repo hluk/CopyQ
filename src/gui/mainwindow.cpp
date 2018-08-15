@@ -1091,6 +1091,11 @@ void MainWindow::setFilter(const QString &text)
     getPlaceholder()->setFocus();
 }
 
+QString MainWindow::filter() const
+{
+    return ui->searchBar->text();
+}
+
 void MainWindow::updateNotifications()
 {
     if (m_notifications == nullptr) {

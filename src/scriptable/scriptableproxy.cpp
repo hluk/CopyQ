@@ -1750,6 +1750,12 @@ void ScriptableProxy::filter(const QString &text)
     m_wnd->setFilter(text);
 }
 
+QString ScriptableProxy::filter()
+{
+    INVOKE(filter, ());
+    return m_wnd->filter();
+}
+
 QVector<Command> ScriptableProxy::commands()
 {
     INVOKE(commands, ());

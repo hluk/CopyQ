@@ -903,10 +903,14 @@ QScriptValue Scriptable::focused()
     return m_proxy->isMainWindowFocused();
 }
 
-void Scriptable::filter()
+QScriptValue Scriptable::filter()
 {
     m_skipArguments = 1;
+    if (argumentCount() == 0)
+        return m_proxy->filter();
+
     m_proxy->filter(arg(0));
+    return QScriptValue();
 }
 
 void Scriptable::ignore()

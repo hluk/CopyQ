@@ -155,6 +155,10 @@ omitted.
 
    Sets text for filtering items in main window.
 
+.. js:function:: filter()
+
+   Returns current text for filtering items in main window.
+
 .. js:function:: ignore()
 
    Ignores current clipboard content (used for automatic commands).

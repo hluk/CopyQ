@@ -199,6 +199,7 @@ public slots:
     void setSelectedItemsData(const QString &mime, const QVariant &value);
 
     void filter(const QString &text);
+    QString filter();
 
     QVector<Command> commands();
     void setCommands(const QVector<Command> &commands);

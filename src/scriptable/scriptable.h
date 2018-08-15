@@ -179,7 +179,7 @@ public slots:
     QScriptValue visible();
     QScriptValue focused();
 
-    void filter();
+    QScriptValue filter();
 
     void ignore();
 

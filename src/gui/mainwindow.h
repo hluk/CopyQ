@@ -402,6 +402,7 @@ public slots:
 
     /** Set text for filtering items. */
     void setFilter(const QString &text);
+    QString filter() const;
 
     void updateShortcuts();
 

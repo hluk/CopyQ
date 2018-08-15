@@ -127,6 +127,8 @@ private slots:
 
     void commandAsync();
 
+    void commandFilter();
+
     void classFile();
     void classDir();
     void classTemporaryFile();

@@ -1383,6 +1383,15 @@ void Tests::commandAsync()
     RUN("afterMilliseconds(0, function() { print(currentItem()); abort(); }); dialog()", "-1");
 }
 
+void Tests::commandFilter()
+{
+    RUN("filter", "\n");
+    RUN("filter" << "test", "");
+    RUN("filter", "test\n");
+    RUN("filter" << "", "");
+    RUN("filter", "\n");
+}
+
 void Tests::classFile()
 {
     RUN("var f = new File('/copyq_missing_file'); f.exists()", "false\n");
