@@ -348,12 +348,12 @@ Du kan ændre kommandoen i indstillinget.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag et skærmbillede</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Indsæt aktuel dato og tid</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
@@ -996,12 +996,12 @@ Bemærk: Hvis dette anvendes automatisk, udføres ingen andre automatiske komman
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Skript</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Visning</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="314"/>
@@ -1780,12 +1780,12 @@ Bemærk: er ikke understøttes på alle systemer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Luk hovedvinduet, når andet program har fokus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Luk når ikke har fokus</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="207"/>
@@ -1805,7 +1805,7 @@ Bemærk: er ikke understøttes på alle systemer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ekstern editor kommando (%&amp;1 er fil der skal redigeres):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="720"/>
@@ -1838,12 +1838,12 @@ Brug element eksempelvisning for at få vist hele elementer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktiverer søge efter numre, ellers tryk på en ciffertast aktiverer element på denne position</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Søg &amp;efter for tal</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="784"/>
@@ -1908,7 +1908,7 @@ Brug element eksempelvisning for at få vist hele elementer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1287"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Horihorisontal forskydning:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1299"/>
@@ -2864,7 +2864,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="799"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Dekrypter og indsæt</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="804"/>
@@ -4127,7 +4127,7 @@ som kan bestå af bogstaver, tal, &apos;-&apos; eller &apos;_&apos;!</translatio
     <message>
         <location filename="../src/item/itemfactory.cpp" line="390"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanen %1 er beskadiget eller nogle CopyQ udvidelser mangler!</translation>
     </message>
 </context>
 <context>
@@ -4672,7 +4672,7 @@ Udskriv programversion og biblioteker.</translation>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="298"/>
         <source>Shortcut can be triggered from any application</source>
-        <translation type="unfinished"></translation>
+        <translation>Genvej kan udløses fra et vilkårligt program</translation>
     </message>
 </context>
 <context>
