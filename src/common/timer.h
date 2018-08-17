@@ -9,8 +9,8 @@ void initSingleShotTimer(QTimer *timer, int milliseconds, const Receiver *receiv
     timer->setSingleShot(true);
     timer->setInterval(milliseconds);
 
-    Q_ASSERT(receiver && slot);
-    if (receiver && slot)
+    Q_ASSERT(receiver);
+    if (receiver)
         QObject::connect( timer, &QTimer::timeout, receiver, slot, Qt::UniqueConnection );
 }
 

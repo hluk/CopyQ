@@ -21,9 +21,10 @@
 
 #include "x11platformclipboard.h"
 
-#include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/timer.h"
+#include "platform/platformnativeinterface.h"
+#include "platform/platformwindow.h"
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -33,9 +34,17 @@
 
 namespace {
 
+constexpr auto minCheckAgainIntervalMs = 50;
+constexpr auto maxCheckAgainIntervalMs = 500;
+
 /// Return true only if selection is incomplete, i.e. mouse button or shift key is pressed.
-bool isSelectionIncomplete(Display *display)
+bool isSelectionIncomplete()
 {
+    if (!QX11Info::isPlatformX11())
+        return false;
+
+    auto display = QX11Info::display();
+
     // If mouse button or shift is pressed then assume that user is selecting text.
     XEvent event{};
     XQueryPointer(display, DefaultRootWindow(display),
@@ -51,8 +60,24 @@ bool isSelectionIncomplete(Display *display)
 
 X11PlatformClipboard::X11PlatformClipboard()
 {
-    initSingleShotTimer( &m_timerCheckClipboard, 50, this, &X11PlatformClipboard::onClipboardChanged );
-    initSingleShotTimer( &m_timerCheckSelection, 100, this, &X11PlatformClipboard::onSelectionChanged );
+    initSingleShotTimer( &m_timerCheckAgain, 0, this, &X11PlatformClipboard::check );
+
+    initSingleShotTimer( &m_clipboardData.timerEmitChange, 0, this, [this](){
+        m_clipboardData.data = m_clipboardData.newData;
+        m_clipboardData.newData.clear();
+        emit changed(ClipboardMode::Clipboard);
+    } );
+
+    initSingleShotTimer( &m_selectionData.timerEmitChange, 0, this, [this](){
+        if ( isSelectionIncomplete() ) {
+            m_timerCheckAgain.start(minCheckAgainIntervalMs);
+            return;
+        }
+
+        m_selectionData.data = m_selectionData.newData;
+        m_selectionData.newData.clear();
+        emit changed(ClipboardMode::Selection);
+    } );
 }
 
 void X11PlatformClipboard::setFormats(const QStringList &formats)
@@ -62,7 +87,13 @@ void X11PlatformClipboard::setFormats(const QStringList &formats)
 
 QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) const
 {
-    return mode == ClipboardMode::Clipboard ? m_clipboardData : m_selectionData;
+    const auto &clipboardData = mode == ClipboardMode::Clipboard ? m_clipboardData : m_selectionData;
+    if ( clipboardData.data.contains(mimeOwner) )
+        return clipboardData.data;
+
+    auto data = clipboardData.data;
+    data[mimeWindowTitle] = clipboardData.owner;
+    return data;
 }
 
 void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
@@ -74,62 +105,45 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
 
 void X11PlatformClipboard::onChanged(int mode)
 {
+    // Store the current window title right after the clipboard/selection changes.
+    // This makes sure that the title points to the correct clipboard/selection
+    // owner most of the times.
+    PlatformPtr platform = createPlatformNativeInterface();
+    PlatformWindowPtr currentWindow = platform->getCurrentWindow();
+    auto &owner = mode == QClipboard::Clipboard ? m_clipboardData.owner : m_selectionData.owner;
+    if (currentWindow)
+        owner = currentWindow->getTitle().toUtf8();
+
+    check();
+}
+
+void X11PlatformClipboard::check()
+{
+    m_clipboardData.timerEmitChange.stop();
+    m_selectionData.timerEmitChange.stop();
+
     // Omit checking clipboard and selection too fast.
-    if (mode == QClipboard::Clipboard)
-        m_timerCheckClipboard.start();
-    else
-        m_timerCheckSelection.start();
-}
-
-void X11PlatformClipboard::onClipboardChanged()
-{
-    const QVariantMap data = DummyClipboard::data(ClipboardMode::Clipboard, m_formats);
-    if (m_clipboardData == data)
+    if ( m_timerCheckAgain.isActive() )
         return;
 
-    m_clipboardData = data;
-    emit changed(ClipboardMode::Clipboard);
-
-    checkAgain();
-}
-
-void X11PlatformClipboard::onSelectionChanged()
-{
-    // Qt clipboard data can be in invalid state after this call.
-    if ( waitIfSelectionIncomplete() )
-        return;
+    // Fetch clipboard and selection data first to avoid it being invalidated.
+    m_clipboardData.newData = DummyClipboard::data(ClipboardMode::Clipboard, m_formats);
 
     // Always assume that only plain text can be in primary selection buffer.
     // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
-    const QVariantMap data = DummyClipboard::data( ClipboardMode::Selection, QStringList(mimeText) );
-    if (m_selectionData == data)
-        return;
+    m_selectionData.newData = DummyClipboard::data( ClipboardMode::Selection, QStringList(mimeText) );
 
-    m_selectionData = data;
-    emit changed(ClipboardMode::Selection);
+    if (m_clipboardData.data != m_clipboardData.newData)
+        m_clipboardData.timerEmitChange.start();
 
-    checkAgain();
-}
+    if (m_selectionData.data != m_selectionData.newData)
+        m_selectionData.timerEmitChange.start();
 
-bool X11PlatformClipboard::waitIfSelectionIncomplete()
-{
-    if (!QX11Info::isPlatformX11())
-        return true;
-
-    auto display = QX11Info::display();
-
-    if ( isSelectionIncomplete(display) ) {
-        m_timerCheckSelection.start();
-        return true;
-    }
-
-    return false;
-}
-
-void X11PlatformClipboard::checkAgain()
-{
     // Check clipboard and selection again if some signals where
     // not delivered or older data was received after new one.
-    m_timerCheckClipboard.start();
-    m_timerCheckSelection.start();
+    m_checkAgainIntervalMs = m_checkAgainIntervalMs * 2 + minCheckAgainIntervalMs;
+    if (m_checkAgainIntervalMs < maxCheckAgainIntervalMs)
+        m_timerCheckAgain.start();
+    else
+        m_checkAgainIntervalMs = 0;
 }

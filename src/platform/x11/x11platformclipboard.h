@@ -22,6 +22,7 @@
 
 #include "platform/dummy/dummyclipboard.h"
 
+#include <QByteArray>
 #include <QStringList>
 #include <QTimer>
 
@@ -42,21 +43,23 @@ public:
 protected:
     void onChanged(int mode) override;
 
-private slots:
-    void onClipboardChanged();
-    void onSelectionChanged();
-
 private:
-    bool waitIfSelectionIncomplete();
-    void checkAgain();
+    struct ClipboardData {
+        QVariantMap newData;
+        QVariantMap data;
+        QByteArray owner;
+        QTimer timerEmitChange;
+    };
+
+    void check();
 
     QStringList m_formats;
 
-    QTimer m_timerCheckClipboard;
-    QTimer m_timerCheckSelection;
+    QTimer m_timerCheckAgain;
+    int m_checkAgainIntervalMs = 0;
 
-    QVariantMap m_clipboardData;
-    QVariantMap m_selectionData;
+    ClipboardData m_clipboardData;
+    ClipboardData m_selectionData;
 };
 
 #endif // X11PLATFORMCLIPBOARD_H
