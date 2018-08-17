@@ -166,10 +166,10 @@ bool findFormatsWithPrefix(bool hasPrefix, const QString &prefix, const QVariant
 {
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
         if ( it.key().startsWith(prefix) == hasPrefix )
-            return true;
+            return hasPrefix;
     }
 
-    return false;
+    return !hasPrefix;
 }
 
 } // namespace
