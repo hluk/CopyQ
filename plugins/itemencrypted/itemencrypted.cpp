@@ -65,9 +65,48 @@ struct KeyPairPaths {
     QString pub;
 };
 
-QString gpgExecutable()
+bool waitOrTerminate(QProcess *p, int timeoutMs = 30000)
 {
-    return "gpg2";
+    if ( !p->waitForStarted() )
+        return false;
+
+    if ( p->state() != QProcess::NotRunning && !p->waitForFinished(timeoutMs) ) {
+        p->terminate();
+        if ( !p->waitForFinished(5000) )
+            p->kill();
+        return false;
+    }
+
+    return true;
+}
+
+bool checkGpgExecutable(const QString &executable)
+{
+    QProcess p;
+    p.start(executable, QStringList("--version"), QIODevice::ReadWrite);
+    p.closeReadChannel(QProcess::StandardError);
+
+    if ( !waitOrTerminate(&p, 5000) || p.exitStatus() != QProcess::NormalExit || p.exitCode() != 0)
+        return false;
+
+    const auto versionOutput = p.readAllStandardOutput();
+    return versionOutput.contains(" 2.");
+}
+
+QString findGpgExecutable()
+{
+    for (const auto &executable : {"gpg2", "gpg"}) {
+        if ( checkGpgExecutable(executable) )
+            return executable;
+    }
+
+    return QString();
+}
+
+const QString &gpgExecutable()
+{
+    static const auto gpg = findGpgExecutable();
+    return gpg;
 }
 
 QStringList getDefaultEncryptCommandArguments(const QString &publicKeyPath)
@@ -95,18 +134,6 @@ bool verifyProcess(QProcess *p)
         const QString errors = p->readAllStandardError();
         if ( !errors.isEmpty() )
             log( "ItemEncrypt ERROR: GnuPG stderr:\n" + errors, LogError );
-        return false;
-    }
-
-    return true;
-}
-
-bool waitOrTerminate(QProcess *p)
-{
-    if ( p->state() != QProcess::NotRunning && !p->waitForFinished() ) {
-        p->terminate();
-        if ( !p->waitForFinished(5000) )
-            p->kill();
         return false;
     }
 
@@ -233,16 +260,7 @@ QString exportImportGpgKeys()
 
 bool isGpgInstalled()
 {
-    QProcess p;
-    startGpgProcess(&p, QStringList("--version"), QIODevice::ReadOnly);
-    p.closeReadChannel(QProcess::StandardError);
-    p.waitForFinished();
-
-    if (p.exitStatus() != QProcess::NormalExit || p.exitCode() != 0)
-        return false;
-
-    const auto versionOutput = p.readAllStandardOutput();
-    return versionOutput.contains(" 2.");
+    return !gpgExecutable().isEmpty();
 }
 
 } // namespace
