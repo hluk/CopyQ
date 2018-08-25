@@ -855,7 +855,7 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
             for (int i = selected.size() - 1; i >= 0; --i) {
                 const auto data = c->copyIndex(selected[i]);
                 if ( !data.isEmpty() )
-                    c2->addUnique(data);
+                    c2->addUnique(data, ClipboardMode::Clipboard);
             }
         }
     }

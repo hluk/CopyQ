@@ -957,7 +957,7 @@ QScriptValue Scriptable::hasSelectionFormat()
 
 QScriptValue Scriptable::isClipboard()
 {
-    return !m_data.keys().contains(mimeClipboardMode);
+    return isClipboardData(m_data);
 }
 
 QScriptValue Scriptable::copy()
@@ -2248,10 +2248,8 @@ void Scriptable::saveData()
 {
     const QString outputTab = getTextData(m_data, mimeOutputTab);
 
-    if ( !outputTab.isEmpty() ) {
-        auto data = copyWithoutInternalData(m_data);
-        m_proxy->saveData(outputTab, data);
-    }
+    if ( !outputTab.isEmpty() )
+        saveData(outputTab);
 }
 
 QScriptValue Scriptable::hasData()
@@ -2882,10 +2880,8 @@ bool Scriptable::runCommands(CommandType::CommandType type)
         }
 
         if ( type == CommandType::Automatic ) {
-            if ( !command.tab.isEmpty() ) {
-                auto data = copyWithoutInternalData(m_data);
-                m_proxy->saveData(command.tab, data);
-            }
+            if ( !command.tab.isEmpty() )
+                saveData(command.tab);
 
             if ( command.remove || command.transform || m_data.contains(mimeIgnore) ) {
                 COPYQ_LOG( QString(label).arg(command.name, "Ignoring data") );
@@ -3120,6 +3116,15 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
 #else
     Q_UNUSED(targetMode);
 #endif
+}
+
+void Scriptable::saveData(const QString &tab)
+{
+    const auto data = copyWithoutInternalData(m_data);
+    const auto clipboardMode = isClipboardData(m_data)
+            ? ClipboardMode::Clipboard
+            : ClipboardMode::Selection;
+    m_proxy->saveData(tab, data, clipboardMode);
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

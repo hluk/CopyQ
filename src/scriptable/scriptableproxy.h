@@ -227,7 +227,7 @@ public slots:
     void setClipboardData(const QVariantMap &data);
     void setTitle(const QString &title);
     void setTitleForData(const QVariantMap &data);
-    void saveData(const QString &tab, const QVariantMap &data);
+    void saveData(const QString &tab, const QVariantMap &data, ClipboardMode mode);
     void showDataNotification(const QVariantMap &data);
 
     QStringList menuItemMatchCommands(int actionId);

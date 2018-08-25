@@ -1954,13 +1954,13 @@ void ScriptableProxy::setTitleForData(const QVariantMap &data)
     setTitle(clipboardContent);
 }
 
-void ScriptableProxy::saveData(const QString &tab, const QVariantMap &data)
+void ScriptableProxy::saveData(const QString &tab, const QVariantMap &data, ClipboardMode mode)
 {
-    INVOKE2(saveData, (tab, data));
+    INVOKE2(saveData, (tab, data, mode));
 
     auto c = m_wnd->tab(tab);
     if (c) {
-        c->addUnique(data);
+        c->addUnique(data, mode);
         c->setCurrent(0);
     }
 }

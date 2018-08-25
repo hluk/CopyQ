@@ -405,6 +405,8 @@ private:
 
     void synchronizeSelection(ClipboardMode targetMode);
 
+    void saveData(const QString &tab);
+
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
