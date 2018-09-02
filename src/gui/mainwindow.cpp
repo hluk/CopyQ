@@ -352,7 +352,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
-    , m_iconSnip(false)
     , m_wasMaximized(false)
     , m_showItemPreview(false)
     , m_menuItems(menuItems())
@@ -432,7 +431,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
     initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, SLOT(updateTrayMenuTimeout()) );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
-    initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconSnipTimeout()) );
+    initSingleShotTimer( &m_timerTrayIconSnip, 500, this, SLOT(updateIconSnipTimeout()) );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, SLOT(doSaveTabPositions()) );
     initSingleShotTimer(&m_timerRaiseLastWindowAfterMenuClosed, 50);
     connect(&m_timerRaiseLastWindowAfterMenuClosed, &QTimer::timeout,
@@ -712,10 +711,11 @@ void MainWindow::updateIcon()
 
 void MainWindow::updateIconSnipTimeout()
 {
-    const bool shouldSnip = m_clipboardStoringDisabled || hasRunningAction();
+    const bool shouldSnip = m_forceIconSnip ? !m_iconSnip : m_clipboardStoringDisabled || hasRunningAction();
+    m_forceIconSnip = false;
     if (m_iconSnip != shouldSnip) {
         m_iconSnip = shouldSnip;
-        m_timerTrayIconSnip.start(500);
+        m_timerTrayIconSnip.start();
         updateIcon();
     }
 }
@@ -2622,6 +2622,12 @@ QVariantMap MainWindow::setDisplayData(int actionId, const QVariantMap &data)
     m_currentDisplayItem = m_displayItemList.takeFirst();
     m_actionHandler->setActionData(actionId, m_currentDisplayItem.data());
     return m_currentDisplayItem.data();
+}
+
+void MainWindow::snip()
+{
+    m_forceIconSnip = true;
+    updateIconSnip();
 }
 
 void MainWindow::nextTab()

@@ -278,6 +278,8 @@ public:
     QVector<Command> displayCommands() const { return m_displayCommands; }
     QVector<Command> scriptCommands() const { return m_scriptCommands; }
 
+    void snip();
+
 public slots:
     /** Close main window and exit the application. */
     void exit();
@@ -669,7 +671,8 @@ private:
 
     QPointer<CommandDialog> m_commandDialog;
 
-    bool m_iconSnip;
+    bool m_iconSnip = false;
+    bool m_forceIconSnip = false;
 
     bool m_wasMaximized;
 
