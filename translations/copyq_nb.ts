@@ -3966,7 +3966,7 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="866"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished">Fanen med angitt navn eksisterer allerede!</translation>
+        <translation type="unfinished">Fane med angitt navn eksisterer allerede!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1701"/>
