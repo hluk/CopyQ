@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
-        <translation>Gestionnaire de presse-papiers</translation>
+        <translation>Gestionnaire de presse-papier</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
@@ -26,11 +26,11 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>Web</source>
-        <translation>site internet</translation>
+        <translation>Site Internet</translation>
     </message>
     <message>
         <source>Wiki</source>
-        <translation type="vanished">wiki</translation>
+        <translation>Wiki</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
@@ -43,7 +43,7 @@
     </message>
     <message>
         <source>Iconic font used in the application</source>
-        <translation type="vanished">Police de caractère utilisée dans l&apos;application</translation>
+        <translation>Fonte d&apos;icônes utilisée dans l&apos;application</translation>
     </message>
     <message>
         <source>Color palette used for themes</source>
@@ -63,11 +63,11 @@
     </message>
     <message>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Haut/Bas, Page précédente /Suivante,Accueil/Fin</translation>
+        <translation>Haut/Bas, Page précédente/Suivante, Origine/Fin</translation>
     </message>
     <message>
         <source>Tab navigation</source>
-        <translation type="vanished">Navigation par onglet</translation>
+        <translation>Navigation par onglets</translation>
     </message>
     <message>
         <source>Left, Right, %1, %2</source>
@@ -91,7 +91,7 @@
     <message>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation type="vanished">Police de caractères utilisée dans l&apos;application</translation>
+        <translation>Fonte d&apos;icônes utilisée dans l&apos;application</translation>
     </message>
     <message>
         <source>Color palette used for themes</source>
@@ -101,7 +101,7 @@
     <message>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
-        <translation type="vanished">Système de gestion des traductions libre sur le Web</translation>
+        <translation>Système libre de gestion des traductions sur le Web</translation>
     </message>
     <message>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
@@ -133,7 +133,7 @@
     </message>
     <message>
         <source>Put selected items into clipboard</source>
-        <translation type="vanished">Mettre des élements sélectionnés dans le presse-papiers</translation>
+        <translation>Mettre les éléments sélectionnés dans le presse-papiers</translation>
     </message>
     <message>
         <source>Enter</source>
@@ -165,7 +165,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation>Boite de dialogue CopyQ</translation>
+        <translation>Boîte de dialogue d&apos;Action CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -178,7 +178,7 @@
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; dans la &lt;b&gt;commande&lt;/b&gt; est du &lt;b&gt;texte&lt;/b&gt; dans l’élément sélectionné. Le texte peut être modifié et envoyé à &lt;b&gt;l&apos;entrée standard&lt;/b&gt; de la commande. Il est aussi possible d&apos;enchaîner les commandes en utilisant le caractère séparateur &lt;b&gt;|&lt;/b&gt; (càd en passant sur la sortie standard).</translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; dans la &lt;b&gt;commande&lt;/b&gt; est le &lt;b&gt;texte&lt;/b&gt; des éléments sélectionnés. Le texte peut aussi être modifié et envoyé à &lt;b&gt;l&apos;entrée standard&lt;/b&gt; de la commande. Il est aussi possible d&apos;enchaîner les commandes en utilisant le caractère séparateur &lt;b&gt;|&lt;/b&gt; (càd en passant par la sortie standard).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
@@ -192,11 +192,11 @@
     </message>
     <message>
         <source>Send data of given MIME type to standard input of command (leave empty to disable).</source>
-        <translation type="vanished">Envoyer des données de type MIME proposée à la sortie standard de la commande (laisser vide pour désactiver).</translation>
+        <translation>Envoyer des données du type MIME donné vers l&apos;entrée standard de la commande (laisser vide pour désactiver).</translation>
     </message>
     <message>
         <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation type="vanished">Créer des éléments à partir des sorties standard du programme (laisser vide pour désactiver).</translation>
+        <translation>Créer des éléments à partir de la sortie standard du programme (laisser vide pour désactiver).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -217,8 +217,8 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Expression régulière pour séparer la sortie en plusieurs éléments..&lt;/p&gt;
-&lt;p&gt;utiliser&lt;b&gt;\n&lt;/b&gt; pour sauvegarder chaque ligne à un seul élément.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Expression régulière pour séparer la sortie en plusieurs éléments.&lt;/p&gt;
+&lt;p&gt;Utiliser&lt;b&gt;\n&lt;/b&gt; pour stocker chaque ligne dans un élément distinct.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -228,7 +228,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation>Quitter l&apos;onglet :</translation>
+        <translation>Onglet de sortie :</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -238,7 +238,7 @@
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="202"/>
         <source>Command saved</source>
-        <translation>changement sauvegardé</translation>
+        <translation>Commande sauvegardée</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="203"/>
@@ -256,7 +256,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
     <message>
         <source>Executing: %1</source>
-        <translation type="vanished">Exécution: %1</translation>
+        <translation>Exécution : %1</translation>
     </message>
     <message>
         <source>KILL</source>
@@ -264,16 +264,16 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
     <message>
         <source>&lt;b&gt;COMMAND:&lt;/b&gt;</source>
-        <translation type="vanished">&lt;b&gt;COMMANDE&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;COMMANDE :&lt;/b&gt;</translation>
     </message>
     <message>
         <source>&lt;b&gt;INPUT:&lt;/b&gt;</source>
-        <translation type="vanished">&lt;b&gt;Entrée&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;ENTRÉE :&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Error: %1
 </source>
-        <translation type="vanished">Erreur: %1
+        <translation>Erreur : %1
 </translation>
     </message>
     <message>
