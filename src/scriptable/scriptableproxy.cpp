@@ -627,12 +627,6 @@ void raiseWindow(QPointer<QWidget> window)
 } // namespace
 
 #ifdef HAS_TESTS
-QString currentWindowTitle()
-{
-    const auto window = createPlatformNativeInterface()->getCurrentWindow();
-    return window ? window->getTitle() : QString();
-}
-
 class KeyClicker : public QObject {
 public:
     KeyClicker(MainWindow *wnd, QObject *parent)
@@ -656,6 +650,8 @@ public:
         auto widget = QApplication::focusWidget();
         auto window = QApplication::activeWindow();
         auto modal = QApplication::activeModalWidget();
+        const auto currentWindow = createPlatformNativeInterface()->getCurrentWindow();
+        const auto currentWindowTitle = currentWindow ? currentWindow->getTitle() : QString();
         log( QString("Failed to send key press to target widget")
             + "\nExpected: " + (expectedWidgetName.isEmpty() ? "Any" : expectedWidgetName)
             + "\nActual:   " + keyClicksTargetDescription(actual)
@@ -663,7 +659,7 @@ public:
             + "\nWidget:   " + keyClicksTargetDescription(widget)
             + "\nWindow:   " + keyClicksTargetDescription(window)
             + "\nModal:    " + keyClicksTargetDescription(modal)
-            + "\nTitle:    " + currentWindowTitle()
+            + "\nTitle:    " + currentWindowTitle
             , LogError );
 
         m_failed = true;
