@@ -1628,7 +1628,6 @@ void ClipboardBrowser::addUnique(const QVariantMap &data, ClipboardMode mode)
         return;
     }
 
-#ifdef HAS_MOUSE_SELECTIONS
     // When selecting text under X11, clipboard data may change whenever selection changes.
     // Instead of adding item for each selection change, this updates previously added item.
     // Also update previous item if the same selected text is copied to clipboard afterwards.
@@ -1661,7 +1660,6 @@ void ClipboardBrowser::addUnique(const QVariantMap &data, ClipboardMode mode)
             }
         }
     }
-#endif
 
     COPYQ_LOG("New item: Adding");
 
