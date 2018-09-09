@@ -155,7 +155,7 @@ omitted.
 
    Sets text for filtering items in main window.
 
-.. js:function:: filter()
+.. js:function:: String filter()
 
    Returns current text for filtering items in main window.
 
@@ -205,7 +205,7 @@ omitted.
    Sets clipboard data.
 
    This also sets ``mimeOwner`` format so automatic commands are not run on
-   the new data and it's not store in clipboard tab.
+   the new data and it's not stored in clipboard tab.
 
    Exception is thrown if clipboard fails to be set.
 
@@ -237,7 +237,7 @@ omitted.
    Correct functionality depends a lot on target application and window
    manager.
 
-.. js:function:: Array tab()
+.. js:function:: String[] tab()
 
    Returns array of with tab names.
 
@@ -308,13 +308,13 @@ omitted.
 
    Opens external editor if set, otherwise opens internal editor.
 
-.. js:function:: ByteArray read([mimeType]);
+.. js:function:: ByteArray read([mimeType])
 
    Same as ``clipboard()``.
 
-.. js:function:: ByteArray read(mimeType, row, ...);
+.. js:function:: ByteArray read(mimeType, row, ...)
 
-   Returns concatenated data from items or clipboard if row is negative.
+   Returns concatenated data from items, or clipboard if row is negative.
 
    Pass argument ``"?"`` to list available MIME types.
 
@@ -472,9 +472,13 @@ omitted.
        source('c:/copyq/replace_clipboard_text.js')
        replaceClipboardText('secret', '*****')
 
-.. js:function:: String currentPath([path])
+.. js:function:: currentPath([path])
 
-   Get or set current path.
+   Set current path.
+
+.. js:function:: String currentPath()
+
+   Get current path.
 
 .. js:function:: String str(value)
 
@@ -537,7 +541,7 @@ omitted.
 
    Removes data for ``data()`` and new clipboard item.
 
-.. js:function:: Array dataFormats()
+.. js:function:: String[] dataFormats()
 
    Returns formats available for ``data()``.
 
@@ -567,7 +571,7 @@ omitted.
 
    See `Selected Items`_.
 
-.. js:function:: [row, ...] selectedItems()
+.. js:function:: int[] selectedItems()
 
    Returns selected rows in current tab.
 
@@ -593,14 +597,14 @@ omitted.
 
 .. js:function:: Item[] selectedItemsData()
 
-   Returns data for all selected item.
+   Returns data for all selected items.
 
-   Some data can empty if the item was removed during execution of the
+   Some data can be empty if the item was removed during execution of the
    script.
 
    See `Selected Items`_.
 
-.. js:function:: void setSelectedItemsData(item[])
+.. js:function:: setSelectedItemsData(item[])
 
    Set data to all selected items.
 
@@ -656,7 +660,7 @@ omitted.
    All arguments after ``null`` are passed to standard input of the
    command.
 
-   If arguments is function it will be called with array of lines read from
+   If argument is function it will be called with array of lines read from
    stdout whenever available.
 
    E.g. create item for each line on stdout:
@@ -740,7 +744,7 @@ omitted.
          'Search', ''
          )
 
-.. js:function:: Array settings()
+.. js:function:: String[] settings()
 
    Returns array with names of all custom options.
 
@@ -851,7 +855,7 @@ omitted.
 
    Returns list of currently pressed keyboard modifiers which can be 'Ctrl', 'Shift', 'Alt', 'Meta'.
 
-.. js:function:: iconColor([colorName])
+.. js:function:: String iconColor([colorName])
 
    Get or set current tray and window icon color name.
 
@@ -870,11 +874,11 @@ omitted.
          sleep(500)
        }
 
-.. js:function:: iconTag([tag])
+.. js:function:: String iconTag([tag])
 
    Get or set current tray and window tag text.
 
-.. js:function:: iconTagColor([colorName])
+.. js:function:: String iconTagColor([colorName])
 
    Get or set current tray and window tag color name.
 
@@ -913,7 +917,7 @@ omitted.
 
    Default implementation calls ``updateClipboardData()``.
 
-.. js:function:: runAutomaticCommands()
+.. js:function:: bool runAutomaticCommands()
 
    Executes automatic commands on current data.
 
@@ -993,7 +997,7 @@ omitted.
 
    Save current data (depends on `mimeOutputTab`).
 
-.. js:function:: hasData()
+.. js:function:: bool hasData()
 
    Returns true only if some non-empty data can be returned by data().
 

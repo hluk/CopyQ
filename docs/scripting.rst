@@ -5,8 +5,8 @@ If you need to process items in some non-trivial way you can take
 advantage of the scripting interface the application provides. This is
 accessible on command line as ``copyq eval SCRIPT`` or
 ``copyq -e SCRIPT`` where ``SCRIPT`` is string containing commands
-written in Javascript-similar scripting language (Qt Script with is
-ECMAScript scripting language).
+written in JavaScript-similar scripting language (Qt Script with its
+ECMAScript scripting language, currently equivalent to ES5).
 
 Every command line option is available as function in the scripting
 interface. Command ``copyq help tab`` can be written as
