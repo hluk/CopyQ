@@ -375,8 +375,6 @@ void ClipboardServer::onClientMessageReceived(
 {
     switch (messageCode) {
     case CommandFunctionCall: {
-        m_wnd->snip();
-
         const auto &clientData = m_clients.value(clientId);
         if (!clientData.isValid())
             return;
