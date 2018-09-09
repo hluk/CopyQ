@@ -1036,19 +1036,19 @@ bool ScriptableProxy::copyFromCurrentWindow()
 
 bool ScriptableProxy::isMonitoringEnabled()
 {
-    INVOKE(isMonitoringEnabled, ());
+    INVOKE_NO_SNIP(isMonitoringEnabled, ());
     return m_wnd->isMonitoringEnabled();
 }
 
 bool ScriptableProxy::isMainWindowVisible()
 {
-    INVOKE(isMainWindowVisible, ());
+    INVOKE_NO_SNIP(isMainWindowVisible, ());
     return !m_wnd->isMinimized() && m_wnd->isVisible();
 }
 
 bool ScriptableProxy::isMainWindowFocused()
 {
-    INVOKE(isMainWindowFocused, ());
+    INVOKE_NO_SNIP(isMainWindowFocused, ());
     return m_wnd->isActiveWindow();
 }
 
@@ -1100,7 +1100,7 @@ QString ScriptableProxy::removeTab(const QString &arg1)
 
 QString ScriptableProxy::tabIcon(const QString &tabName)
 {
-    INVOKE(tabIcon, (tabName));
+    INVOKE_NO_SNIP(tabIcon, (tabName));
     return getIconNameForTabName(tabName);
 }
 
@@ -1345,7 +1345,7 @@ bool ScriptableProxy::hasClipboardFormat(const QString &mime, ClipboardMode mode
 
 int ScriptableProxy::browserLength(const QString &tabName)
 {
-    INVOKE(browserLength, (tabName));
+    INVOKE_NO_SNIP(browserLength, (tabName));
     ClipboardBrowser *c = fetchBrowser(tabName);
     return c ? c->length() : 0;
 }
@@ -1424,7 +1424,7 @@ QString ScriptableProxy::tab(const QString &tabName)
 
 int ScriptableProxy::currentItem()
 {
-    INVOKE(currentItem, ());
+    INVOKE_NO_SNIP(currentItem, ());
 
     const QPersistentModelIndex current =
             m_actionData.value(mimeCurrentItem).value<QPersistentModelIndex>();
@@ -1455,7 +1455,7 @@ bool ScriptableProxy::selectItems(const QString &tabName, const QVector<int> &ro
 
 QVector<int> ScriptableProxy::selectedItems()
 {
-    INVOKE(selectedItems, ());
+    INVOKE_NO_SNIP(selectedItems, ());
 
     QVector<int> selectedRows;
     const QList<QPersistentModelIndex> selected = selectedIndexes();
@@ -1466,12 +1466,6 @@ QVector<int> ScriptableProxy::selectedItems()
     }
 
     return selectedRows;
-}
-
-int ScriptableProxy::selectedItemsDataCount()
-{
-    INVOKE(selectedItemsDataCount, ());
-    return selectedIndexes().size();
 }
 
 QVariantMap ScriptableProxy::selectedItemData(int selectedIndex)

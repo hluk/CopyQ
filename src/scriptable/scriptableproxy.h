@@ -174,7 +174,6 @@ public slots:
 
     QVector<int> selectedItems();
 
-    int selectedItemsDataCount();
     QVariantMap selectedItemData(int selectedIndex);
     bool setSelectedItemData(int selectedIndex, const QVariantMap &data);
 
