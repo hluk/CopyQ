@@ -194,13 +194,13 @@ omitted.
    This can be used to check if current automatic command was triggered by
    clipboard and not Linux/X11 mouse selection change.
 
-.. js:function:: bool copy(text)
+.. js:function:: copy(text)
 
    Sets clipboard plain text.
 
    Same as ``copy(mimeText, text)``.
 
-.. js:function:: bool copy(mimeType, data, [mimeType, data]...)
+.. js:function:: copy(mimeType, data, [mimeType, data]...)
 
    Sets clipboard data.
 
@@ -216,14 +216,14 @@ omitted.
        copy(mimeText, 'Hello, World!',
             mimeHtml, '<p>Hello, World!</p>')
 
-.. js:function:: bool copy()
+.. js:function:: copy()
 
    Sends ``Ctrl+C`` to current window.
 
    Exception is thrown if clipboard doesn't change (clipboard is reset
    before sending the shortcut).
 
-.. js:function:: ByteArray copySelection(...)
+.. js:function:: copySelection(...)
 
    Same as ``copy(...)`` for Linux/X11 mouse selection.
 
@@ -239,7 +239,7 @@ omitted.
 
 .. js:function:: String[] tab()
 
-   Returns array of with tab names.
+   Returns array of tab names.
 
 .. js:function:: tab(tabName)
 
@@ -829,6 +829,10 @@ omitted.
 
    Executes function after given time in milliseconds.
 
+.. js:function:: String[] screenNames()
+
+   Returns list of available screen names.
+
 .. js:function:: ByteArray screenshot(format='png', [screenName])
 
    Returns image data with screenshot.
@@ -847,17 +851,17 @@ omitted.
 
    Same as ``screenshot()`` but allows to select an area on screen.
 
-.. js:function:: String[] screenNames()
-
-   Returns list of available screen names.
-
 .. js:function:: String[] queryKeyboardModifiers()
 
    Returns list of currently pressed keyboard modifiers which can be 'Ctrl', 'Shift', 'Alt', 'Meta'.
 
-.. js:function:: String iconColor([colorName])
+.. js:function:: String iconColor()
 
-   Get or set current tray and window icon color name.
+   Get current tray and window icon color name.
+
+.. js:function:: iconColor(colorName)
+
+   Set current tray and window icon color name.
 
    Resets color if color name is empty string.
 
@@ -874,13 +878,21 @@ omitted.
          sleep(500)
        }
 
-.. js:function:: String iconTag([tag])
+.. js:function:: String iconTag()
 
-   Get or set current tray and window tag text.
+   Get current tray and window tag text.
 
-.. js:function:: String iconTagColor([colorName])
+.. js:function:: iconTag(tag)
 
-   Get or set current tray and window tag color name.
+   Set current tray and window tag text.
+
+.. js:function:: String iconTagColor()
+
+   Get current tray and window tag color name.
+
+.. js:function:: iconTagColor()
+
+   Set current tray and window tag color name.
 
    Throws exception is the color name is invalid.
 
