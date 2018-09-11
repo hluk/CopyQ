@@ -549,6 +549,10 @@ omitted.
 
    Prints value to standard output.
 
+.. js:function:: serverLog(value)
+
+   Prints value to application log.
+
 .. js:function:: abort()
 
    Aborts script evaluation.

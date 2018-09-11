@@ -31,24 +31,8 @@ Configuration
     On Windows, to enable this feature you need to install "Pinned Items"
     plugin.
 
-Add menu items and keyboard shortcuts for Pin and Unpin actions.
-
-1. Open "Preferences" (``Ctrl+P`` shortcut),
-2. go to "Items" tab,
-3. select "Pinned Items",
-
-    .. image:: images/pin-items-add-actions.png
-       :scale: 50%
-       :alt: Add Pin and Unpin menu items
-
-4. click "Add Actions to Menu and Toolbar",
-5. optionally change keyboard shortcuts for the two new menu items,
-
-    .. image:: images/pin-items-shortcuts.png
-       :scale: 50%
-       :alt: Set Pin and Unpin shortcuts
-
-6. click OK to save changes.
+To enable this functionality, assign keyboard shortcut for Pin and Unpin
+actions in "Shortcuts" tab in Preferences (``Ctrl+P``).
 
 .. note::
 

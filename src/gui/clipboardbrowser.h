@@ -20,6 +20,7 @@
 #ifndef CLIPBOARDBROWSER_H
 #define CLIPBOARDBROWSER_H
 
+#include "common/clipboardmode.h"
 #include "common/command.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/configtabshortcuts.h"
@@ -179,7 +180,7 @@ class ClipboardBrowser : public QListView
         /**
          * Add item and remove duplicates.
          */
-        void addUnique(const QVariantMap &data);
+        void addUnique(const QVariantMap &data, ClipboardMode mode);
 
         /** Number of items in list. */
         int length() const { return m.rowCount(); }

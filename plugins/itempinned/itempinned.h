@@ -118,7 +118,10 @@ public:
     QString name() const override { return tr("Pinned Items"); }
     QString author() const override { return QString(); }
     QString description() const override {
-        return tr("Pin items to lock them in current row and avoid deletion (unless unpinned).");
+        return tr(
+            "<p>Pin items to lock them in current row and avoid deletion (unless unpinned).</p>"
+            "<p>Provides shortcuts and scripting functionality.</p>"
+        );
     }
     QVariant icon() const override { return QVariant(IconThumbtack); }
 
