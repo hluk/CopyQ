@@ -1621,7 +1621,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     return true;
 }
 
-void ClipboardBrowser::addUnique(const QVariantMap &data)
+void ClipboardBrowser::addUnique(const QVariantMap &data, ClipboardMode mode)
 {
     if ( moveToTop(hash(data)) ) {
         COPYQ_LOG("New item: Moving existing to top");
@@ -1643,8 +1643,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data)
         {
             const auto newText = getTextData(data);
             const auto oldText = getTextData(previousData);
-            const auto isClipboard = isClipboardData(data);
-            if ( isClipboard
+            if ( (mode == ClipboardMode::Clipboard)
                  ? (newText == oldText)
                  : getTextData(data).contains(getTextData(previousData)) )
             {
