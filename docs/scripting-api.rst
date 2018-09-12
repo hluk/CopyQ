@@ -894,7 +894,7 @@ omitted.
 
    Get current tray and window tag color name.
 
-.. js:function:: iconTagColor()
+.. js:function:: iconTagColor(colorName)
 
    Set current tray and window tag color name.
 
