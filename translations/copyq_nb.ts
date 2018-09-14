@@ -2544,7 +2544,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="121"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Fest elementer for å låse dem i nåværende rad og unngå sletting (med mindre de avhektes).&lt;/p&gt;&lt;p&gt;Medfører snarveis- og skriptings-funksjonalitet.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
