@@ -467,12 +467,12 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <translation type="unfinished">Tab is vol. Verwijderen van items mislukt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1867"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
         <source>Discard Changes?</source>
         <translation>Wijzigingen verwerpen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1868"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1866"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Weet u zeker dat u de &lt;strong&gt;wijzigingen wilt verwerpen&lt;/strong&gt;?</translation>
     </message>
@@ -2840,7 +2840,7 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1997"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2001"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -2849,7 +2849,7 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2000"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2004"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation type="unfinished"></translation>
@@ -3629,28 +3629,28 @@ Print version of program and libraries.</source>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="607"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="617"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="612"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="622"/>
         <source>Tab name cannot be empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1079"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1089"/>
         <source>Tab with given name already exists!</source>
         <translation type="unfinished">Er bestaat al een tabblad met deze naam!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1933"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1937"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1936"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1940"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation type="unfinished"></translation>

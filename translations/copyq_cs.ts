@@ -557,12 +557,12 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation>Záložka je zaplněna. Nelpodařilo se odstranit žádné prvky.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1867"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
         <source>Discard Changes?</source>
         <translation>Zahodit změny?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1868"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1866"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Chcete opravdu &lt;strong&gt;zahodit změny&lt;/strong&gt;?</translation>
     </message>
@@ -4874,7 +4874,7 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         <translation type="obsolete">Žádná rozšíření nebyla načtena!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1997"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2001"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -4884,7 +4884,7 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2000"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2004"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -5762,28 +5762,28 @@ Vytiskne verzi programu a jeho knihoven.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="607"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="617"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Záložka s daným názvem neexistuje!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="612"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="622"/>
         <source>Tab name cannot be empty!</source>
         <translation>Název záložky nemůže být prázdný!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1079"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1089"/>
         <source>Tab with given name already exists!</source>
         <translation>Záložka se stejným jménem již existuje!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1933"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1937"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1936"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1940"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation></translation>

@@ -337,12 +337,12 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <translation>Fliken är full. Kunde inte ta bort några objekt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1867"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
         <source>Discard Changes?</source>
         <translation>Förkasta ändringar?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1868"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1866"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Vill du verkligen &lt;strong&gt;förkasta ändringar&lt;/strong&gt;?</translation>
     </message>
@@ -3118,7 +3118,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>&amp;Hjälp</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1997"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2001"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -3127,7 +3127,7 @@ Ställ in till 0 för att inaktivera.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2000"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2004"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3604,28 +3604,28 @@ Skriv ut version på program och bibliotek.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="607"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="617"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Det finns ingen flik med det angivna namnet!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="612"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="622"/>
         <source>Tab name cannot be empty!</source>
         <translation>Fliknamn kan inte vara tomt!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1079"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1089"/>
         <source>Tab with given name already exists!</source>
         <translation>Det finns redan en flik med det angivna namnet!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1933"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1937"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 — CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1936"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1940"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 — %2 — CopyQ</translation>
