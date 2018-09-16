@@ -36,6 +36,7 @@
 #include <QPaintDevice>
 #include <QPaintEngine>
 #include <QPixmap>
+#include <QPixmapCache>
 #include <QPointer>
 #include <QSvgRenderer>
 #include <QVariant>
@@ -134,6 +135,17 @@ QPixmap pixmapFromBitmapFile(const QString &path, QSize size)
 
 QPixmap pixmapFromFile(const QString &path, QSize size)
 {
+    const auto cacheKey = QString("path:%1|%2x%3")
+            .arg(path)
+            .arg(size.width())
+            .arg(size.height());
+
+    {
+        QPixmap pixmap;
+        if ( QPixmapCache::find(cacheKey, &pixmap) )
+            return pixmap;
+    }
+
     if ( !QFile::exists(path) )
         return QPixmap();
 
@@ -149,6 +161,9 @@ QPixmap pixmapFromFile(const QString &path, QSize size)
     pix.fill(Qt::transparent);
     QPainter painter(&pix);
     renderer.render(&painter, pix.rect());
+
+    QPixmapCache::insert(cacheKey, pix);
+
     return pix;
 }
 
@@ -201,11 +216,26 @@ void replaceColor(QPixmap *pix, const QString &iconSuffix, const QColor &targetC
     p.drawPixmap(0, 0, pix2);
 }
 
-void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
+QPixmap drawFontIcon(ushort id, int w, int h, const QColor &color)
 {
+    const auto cacheKey = QString("id:%1|%2x%3|%4")
+            .arg(id)
+            .arg(w)
+            .arg(h)
+            .arg(color.name());
+
+    {
+        QPixmap pixmap;
+        if ( QPixmapCache::find(cacheKey, &pixmap) )
+            return pixmap;
+    }
+
+    QPixmap pixmap(w, h);
+    pixmap.fill(Qt::transparent);
+
     id = fixIconId(id);
 
-    QPainter painter(pix);
+    QPainter painter(&pixmap);
     painter.setRenderHint(QPainter::TextAntialiasing);
     painter.setRenderHint(QPainter::Antialiasing);
     const QFont font = iconFontFitSize(w, h);
@@ -230,6 +260,10 @@ void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
 
     painter.setPen(color);
     painter.drawText(pos, iconText);
+
+    QPixmapCache::insert(cacheKey, pixmap);
+
+    return pixmap;
 }
 
 QColor getDefaultIconColor(const QColor &color)
@@ -377,15 +411,13 @@ public:
 
     QPixmap doCreatePixmap(QSize size, QIcon::Mode mode, QIcon::State, QPainter *painter) override
     {
-        QPixmap pixmap(size);
-        pixmap.fill(Qt::transparent);
-
-        if (m_iconId == 0)
+        if (m_iconId == 0) {
+            QPixmap pixmap(size);
+            pixmap.fill(Qt::transparent);
             return pixmap;
+        }
 
-        drawFontIcon( &pixmap, m_iconId, size.width(), size.height(), colorForMode(painter, mode) );
-
-        return pixmap;
+        return drawFontIcon( m_iconId, size.width(), size.height(), colorForMode(painter, mode) );
     }
 
 private:
@@ -576,12 +608,11 @@ QIcon iconFromFile(const QString &fileName, const QString &tag, const QColor &co
 
 QPixmap createPixmap(unsigned short id, const QColor &color, int size)
 {
+    if (loadIconFont())
+        return drawFontIcon(id, size, size, color);
+
     QPixmap pixmap(size, size);
     pixmap.fill(Qt::transparent);
-
-    if (loadIconFont())
-        drawFontIcon(&pixmap, id, size, size, color);
-
     return pixmap;
 }
 
