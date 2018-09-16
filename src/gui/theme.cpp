@@ -380,6 +380,8 @@ void Theme::resetTheme()
                 "\n    ;border-left: 0.08em solid ${bg + #333}"
                 "\n    ;border-bottom: 0.08em solid ${bg - #333}"
                 "\n    ;border-right: 0.08em solid ${bg - #333}"
+                "\n    ;background: ${bg}"
+                "\n    ;color: ${fg}"
                 );
     m_theme["menu_bar_css"] = Option(
                 "\n    ;background: ${bg}"
@@ -610,7 +612,6 @@ QString Theme::getMenuStyleSheet(const QString &selector) const
 
         + selector + " QMenu {" + themeStyleSheet("menu_css") + "}"
 
-        + selector + " QMenu,"
         + selector + " QMenu::item,"
         + selector + " QMenu::separator {"
           + themeStyleSheet("menu_bar_css") + "}"

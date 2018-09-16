@@ -1827,7 +1827,7 @@ void MainWindow::enableHideWindowOnUnfocus()
 
 void MainWindow::hideWindowIfNotActive()
 {
-    if ( !isAnyApplicationWindowActive() )
+    if ( isVisible() && !isAnyApplicationWindowActive() )
         hideWindow();
 }
 
