@@ -56,6 +56,7 @@
 #include <QScriptEngine>
 #include <QScriptValueIterator>
 #include <QSettings>
+#include <QSysInfo>
 #include <QUrl>
 #include <QVector>
 #include <QTextCodec>
@@ -739,9 +740,24 @@ QScriptValue Scriptable::version()
 {
     m_skipArguments = 0;
     return tr(programName) + " " COPYQ_VERSION "\n"
-            + tr("Built with: ")
-            + "Qt " + QT_VERSION_STR +
-            + '\n';
+            + "Qt: " QT_VERSION_STR "\n"
+#if QT_VERSION >= QT_VERSION_CHECK(5,4,0)
+            + "OS: " + QSysInfo::prettyProductName() + "\n"
+            + "Arch: " + QSysInfo::buildAbi() + "\n"
+#endif
+            + "Compiler: "
+#if defined(Q_CC_GNU)
+            "GCC"
+#elif defined(Q_CC_CLANG)
+            "Clang"
+#elif defined(Q_CC_MINGW)
+            "MinGW"
+#elif defined(Q_CC_MSVC)
+            "MSVC"
+#else
+            "???"
+#endif
+            + "\n";
 }
 
 QScriptValue Scriptable::help()

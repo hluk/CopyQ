@@ -653,7 +653,7 @@ void Tests::commandVersion()
     // Version contains application name and version.
     QVERIFY( version.contains(QRegExp("\\bCopyQ\\b.*" + QRegExp::escape(COPYQ_VERSION))) );
     // Version contains Qt version.
-    QVERIFY( version.contains(QRegExp("\\bQt\\s+\\d")) );
+    QVERIFY( version.contains(QRegExp("\\bQt:\\s+\\d")) );
 }
 
 void Tests::badCommand()
