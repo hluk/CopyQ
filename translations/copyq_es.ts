@@ -318,7 +318,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Show/hide main window</source>
-        <translation>Mostras/ocultar la ventana principal</translation>
+        <translation>Mostrar/ocultar la ventana principal</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
@@ -348,7 +348,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
         <source>Show action dialog</source>
-        <translation type="unfinished">Mostrar el díalogo de acción</translation>
+        <translation>Mostrar el diálogo de acción</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
@@ -393,12 +393,12 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Tomar una captura de pantalla</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar la fecha y hora actual</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
