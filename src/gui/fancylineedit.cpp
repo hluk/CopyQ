@@ -270,6 +270,7 @@ void IconButton::paintEvent(QPaintEvent *)
     auto pixmapCenter = rect().center();
     if (m_hasMenu)
         pixmapCenter.setX( pixmapCenter.x() - 3 );
+    pixmapCenter.setY( pixmapCenter.y() - 2 );
     pixmapRect.moveCenter(pixmapCenter);
 
     QStylePainter painter(this);
@@ -285,7 +286,7 @@ void IconButton::paintEvent(QPaintEvent *)
 
         const QColor c = getDefaultIconColor(*this);
         painter.save();
-        painter.translate(pixmapRect.bottomRight() + QPoint(0, -6));
+        painter.translate(pixmapRect.bottomRight() + QPoint(0, -4));
         painter.setBrush(c);
         painter.setPen(Qt::NoPen);
         painter.drawPolygon(triangle);

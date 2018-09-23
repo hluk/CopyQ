@@ -741,10 +741,6 @@ QScriptValue Scriptable::version()
     m_skipArguments = 0;
     return tr(programName) + " " COPYQ_VERSION "\n"
             + "Qt: " QT_VERSION_STR "\n"
-#if QT_VERSION >= QT_VERSION_CHECK(5,4,0)
-            + "OS: " + QSysInfo::prettyProductName() + "\n"
-            + "Arch: " + QSysInfo::buildAbi() + "\n"
-#endif
             + "Compiler: "
 #if defined(Q_CC_GNU)
             "GCC"
@@ -757,7 +753,12 @@ QScriptValue Scriptable::version()
 #else
             "???"
 #endif
-            + "\n";
+            + "\n"
+#if QT_VERSION >= QT_VERSION_CHECK(5,4,0)
+            + "Arch: " + QSysInfo::buildAbi() + "\n"
+            + "OS: " + QSysInfo::prettyProductName() + "\n"
+#endif
+            ;
 }
 
 QScriptValue Scriptable::help()
