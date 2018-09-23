@@ -135,6 +135,8 @@ public:
                 label = textLabelForData(m_data);
             setText(label);
         }
+
+        m_data.remove(mimeItemNotes);
     }
 
     QWidget *createEditor(QWidget *parent) const override
