@@ -13,7 +13,7 @@ Bump version.
 Commit changes and create version tag.
 
     git commit -a -m v3.3.1
-    git tag -a -m v3.3.1 v3.3.1
+    git tag -s -a -m v3.3.1 v3.3.1
 
 Push the changes.
 
