@@ -46,7 +46,7 @@ def write_add_icons_header_file(header_add_icons, icons):
             for name, icon in icons.items():
                 if style in icon['styles']:
                     code = icon['unicode']
-                    search_terms = [icon['label'].lower()] + icon['search']['terms']
+                    search_terms = [icon['label'].lower()] + (icon['search']['terms'] or [])
                     search_terms_list = (
                             'QStringList()'
                             + ''.join([' << ' + json.dumps(term) for term in search_terms]))
