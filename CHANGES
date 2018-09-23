@@ -1,9 +1,25 @@
-v3.5.1
+v3.6.0
 - Invoking search with a shortcut reuses last search expression
 - Exiting from search (ESC) doesn't unselect found item
 - `COPYQ_SETTINGS_PATH` environment variable overrides default config path
-- Fix overriding `onClipboardChanged()` and similar script functions
+- Merge top item with same new clipboard text
+- Check clipboard after start
+- Animate app icon when a clipboard changes or a client calls some functions
+- Use gpg for encryption if gpg2 is unavailable
+- Faster tray and context menu updates
+- Close dialog() after client process exits
+- Display system, arch and compiler info when using version()
 - Tests are about 2x faster
+- Updated icons (Font Awesome 5.3.1)
+- Fix search field icon position
+- Fix overriding `onClipboardChanged()` and similar script functions
+- Fix closing client processes
+- Fix deleting temporary timer object
+- Fix handling return values and abort() in afterMilliseconds()
+- Fix icon font sizes and omit using system-installed font
+- Fix showing <EMPTY> label
+- X11: Fix showing window after using close button on Qt 5.11
+- X11: Fix crash when UI scaling is too large
 - Windows: Fix removing old DLLs with installer
 
 v3.5.0
