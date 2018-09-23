@@ -4,8 +4,8 @@ set -e
 distros=(
     trusty
     xenial
-    artful
     bionic
+    cosmic
 )
 
 sed -i 's/quilt/native/' 'debian/source/format'
