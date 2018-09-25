@@ -65,15 +65,37 @@ struct KeyPairPaths {
     QString pub;
 };
 
-bool waitOrTerminate(QProcess *p, int timeoutMs = 30000)
+bool waitOrTerminate(QProcess *p, int timeoutMs)
 {
-    if ( !p->waitForStarted() )
-        return false;
+    p->waitForStarted();
 
     if ( p->state() != QProcess::NotRunning && !p->waitForFinished(timeoutMs) ) {
         p->terminate();
         if ( !p->waitForFinished(5000) )
             p->kill();
+        return false;
+    }
+
+    return true;
+}
+
+bool verifyProcess(QProcess *p, int timeoutMs = 30000)
+{
+    if ( !waitOrTerminate(p, timeoutMs) ) {
+        log( "ItemEncrypt ERROR: Process timed out; stderr: " + p->readAllStandardError(), LogError );
+        return false;
+    }
+
+    const int exitCode = p->exitCode();
+    if ( p->exitStatus() != QProcess::NormalExit ) {
+        log( "ItemEncrypt ERROR: Failed to run GnuPG: " + p->errorString(), LogError );
+        return false;
+    }
+
+    if (exitCode != 0) {
+        const QString errors = p->readAllStandardError();
+        if ( !errors.isEmpty() )
+            log( "ItemEncrypt ERROR: GnuPG stderr:\n" + errors, LogError );
         return false;
     }
 
@@ -86,7 +108,7 @@ bool checkGpgExecutable(const QString &executable)
     p.start(executable, QStringList("--version"), QIODevice::ReadWrite);
     p.closeReadChannel(QProcess::StandardError);
 
-    if ( !waitOrTerminate(&p, 5000) || p.exitStatus() != QProcess::NormalExit || p.exitCode() != 0)
+    if ( !verifyProcess(&p, 5000) )
         return false;
 
     const auto versionOutput = p.readAllStandardOutput();
@@ -122,33 +144,12 @@ void startGpgProcess(QProcess *p, const QStringList &args, QIODevice::OpenModeFl
     p->start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) + args, mode);
 }
 
-bool verifyProcess(QProcess *p)
-{
-    const int exitCode = p->exitCode();
-    if ( p->exitStatus() != QProcess::NormalExit ) {
-        log( "ItemEncrypt ERROR: Failed to run GnuPG: " + p->errorString(), LogError );
-        return false;
-    }
-
-    if (exitCode != 0) {
-        const QString errors = p->readAllStandardError();
-        if ( !errors.isEmpty() )
-            log( "ItemEncrypt ERROR: GnuPG stderr:\n" + errors, LogError );
-        return false;
-    }
-
-    return true;
-}
-
 QString importGpgKey()
 {
     KeyPairPaths keys;
 
     QProcess p;
     p.start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) << "--import" << keys.sec);
-    if ( !waitOrTerminate(&p) )
-        return "Failed to import private key (process timed out).";
-
     if ( !verifyProcess(&p) )
         return "Failed to import private key (see log).";
 
@@ -165,9 +166,6 @@ QString exportGpgKey()
 
     QProcess p;
     p.start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) << "--export-secret-key" << "copyq");
-    if ( !waitOrTerminate(&p) )
-        return "Failed to export private key (process timed out).";
-
     if ( !verifyProcess(&p) )
         return "Failed to export private key (see log).";
 
@@ -528,7 +526,7 @@ QString ItemEncryptedScriptable::generateTestKeys()
     QProcess process;
     startGenerateKeysProcess(&process, true);
 
-    if ( !waitOrTerminate(&process) || !verifyProcess(&process) ) {
+    if ( !verifyProcess(&process) ) {
         return QString("ItemEncrypt ERROR: %1; stderr: %2")
                 .arg( process.errorString(),
                       QString::fromUtf8(process.readAllStandardError()) );
@@ -708,7 +706,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
     // Wait for password entry dialog.
     p.waitForFinished(-1);
 
-    if ( !waitOrTerminate(&p) || !verifyProcess(&p) ) {
+    if ( !verifyProcess(&p) ) {
         emitDecryptFailed();
         return nullptr;
     }
