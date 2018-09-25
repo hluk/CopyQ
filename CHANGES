@@ -1,3 +1,7 @@
+v3.6.1
+- Omit displaying notes twice when "Show simple items" is enabled
+- Fix broken tab decryption
+
 v3.6.0
 - Invoking search with a shortcut reuses last search expression
 - Exiting from search (ESC) doesn't unselect found item
