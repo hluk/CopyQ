@@ -301,17 +301,6 @@ ClipboardBrowser::~ClipboardBrowser()
     saveUnsavedItems();
 }
 
-bool ClipboardBrowser::moveToClipboard(uint itemHash)
-{
-    const int row = m.findItem(itemHash);
-    if (row < 0)
-        return false;
-
-    setCurrent(row);
-    moveToClipboard( index(row) );
-    return true;
-}
-
 bool ClipboardBrowser::moveToTop(uint itemHash)
 {
     const int row = m.findItem(itemHash);

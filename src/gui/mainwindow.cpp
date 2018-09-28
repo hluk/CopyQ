@@ -1541,8 +1541,14 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCo
 
 void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, bool omitPaste)
 {
-    const auto itemHash = ::hash(data);
-    if ( !c || !c->moveToClipboard(itemHash) )
+    if ( m_sharedData->moveItemOnReturnKey ) {
+        const auto itemHash = ::hash(data);
+        c->moveToTop(itemHash);
+    }
+
+    if ( QGuiApplication::queryKeyboardModifiers().testFlag(Qt::ShiftModifier) )
+        m_clipboardManager.setClipboard( createDataMap(mimeText, data.value(mimeText) ) );
+    else
         m_clipboardManager.setClipboard(data);
 
     if (!m_lastWindow)

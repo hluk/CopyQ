@@ -88,13 +88,6 @@ class ClipboardBrowser : public QListView
         ~ClipboardBrowser();
 
         /**
-         * Move item with given @a hash to clipboard.
-         *
-         * @return true only if item exists
-         */
-        bool moveToClipboard(uint itemHash);
-
-        /**
          * Move item with given @a hash to the top of the list.
          *
          * @return true only if item exists
