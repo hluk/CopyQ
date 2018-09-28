@@ -143,7 +143,7 @@ bool ItemEditor::start()
 void ItemEditor::close()
 {
     // check if file was modified before closing
-    if ( m_modified || fileModified() )
+    if ( m_modified || wasFileModified() )
         emit fileModified(m_data, m_mime, m_index);
 
     if (m_editor && m_editor->exitCode() != 0 ) {
@@ -162,7 +162,7 @@ void ItemEditor::onError()
     emit closed(this);
 }
 
-bool ItemEditor::fileModified()
+bool ItemEditor::wasFileModified()
 {
     m_info.refresh();
     if ( m_lastmodified != m_info.lastModified() ||  m_lastSize != m_info.size() ) {
@@ -197,13 +197,13 @@ void ItemEditor::onTimer()
 {
     if (m_modified) {
         // Wait until file is fully overwritten.
-        if ( !fileModified() ) {
+        if ( !wasFileModified() ) {
             m_modified = false;
             emit fileModified(m_data, m_mime, m_index);
             m_hash = qHash(m_data);
         }
     } else {
-        m_modified = fileModified();
+        m_modified = wasFileModified();
     }
 }
 

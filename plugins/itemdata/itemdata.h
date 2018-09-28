@@ -81,10 +81,9 @@ public:
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
-private slots:
-    void on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, int column);
-
 private:
+    void onTreeWidgetFormatsItemActivated(QTreeWidgetItem *item, int column);
+
     QVariantMap m_settings;
     std::unique_ptr<Ui::ItemDataSettings> ui;
 };

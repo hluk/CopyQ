@@ -132,12 +132,11 @@ public:
 signals:
     void error(const QString &);
 
-private slots:
+private:
     void setPassword();
     void terminateGpgProcess();
     void onGpgProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
-private:
     enum GpgProcessStatus {
         GpgCheckIfInstalled,
         GpgNotInstalled,

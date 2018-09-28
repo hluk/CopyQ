@@ -72,14 +72,13 @@ signals:
 protected:
     void showEvent(QShowEvent *event) override;
 
-private slots:
+private:
     void onShortcutAdded(const QKeySequence &shortcut);
     void onShortcutRemoved(const QKeySequence &shortcut);
     void checkAmbiguousShortcuts();
 
-    void on_lineEditFilter_textChanged(const QString &text);
+    void onLineEditFilterTextChanged(const QString &text);
 
-private:
     void addShortcutRow(MenuAction &action);
 
     Ui::ShortcutsWidget *ui;

@@ -25,7 +25,6 @@
 TabDialog::TabDialog(TabDialog::TabDialogType type, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::TabDialog)
-    , m_tabIndex(-1)
     , m_tabGroupName()
     , m_tabs()
 {
@@ -42,11 +41,11 @@ TabDialog::TabDialog(TabDialog::TabDialogType type, QWidget *parent)
         setWindowIcon( QIcon(":/images/tab_rename") );
     }
 
-    connect( this, SIGNAL(accepted()),
-             this, SLOT(onAccepted()) );
+    connect( this, &TabDialog::accepted,
+             this, &TabDialog::onAccepted );
 
-    connect( ui->lineEditTabName, SIGNAL(textChanged(QString)),
-             this, SLOT(validate()) );
+    connect( ui->lineEditTabName, &QLineEdit::textChanged,
+             this, &TabDialog::validate );
 
     validate();
 }
@@ -104,8 +103,12 @@ void TabDialog::validate()
 
 void TabDialog::onAccepted()
 {
-    if ( m_tabGroupName.isEmpty() )
-        emit accepted(ui->lineEditTabName->text(), m_tabIndex);
+    const auto newName = ui->lineEditTabName->text();
+
+    if ( m_tabGroupName.isEmpty() && m_tabIndex == -1 )
+        emit newTabNameAccepted(newName);
+    else if ( m_tabGroupName.isEmpty() )
+        emit barTabNameAccepted(newName, m_tabIndex);
     else
-        emit accepted(ui->lineEditTabName->text(), m_tabGroupName);
+        emit treeTabNameAccepted(newName, m_tabGroupName);
 }

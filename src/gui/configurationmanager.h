@@ -73,7 +73,6 @@ public:
     /** Enable/disable autostarting the application. */
     void setAutostartEnable();
 
-public slots:
     void done(int result) override;
 
 signals:
@@ -84,14 +83,15 @@ signals:
 
     void commandsSaved();
 
-private slots:
-    void apply();
-    void on_buttonBox_clicked(QAbstractButton* button);
-
-    void on_checkBoxMenuTabIsCurrent_stateChanged(int);
-    void on_spinBoxTrayItems_valueChanged(int value);
-
 private:
+    void connectSlots();
+
+    void apply();
+    void onButtonBoxClicked(QAbstractButton* button);
+
+    void onCheckBoxMenuTabIsCurrentStateChanged(int);
+    void onSpinBoxTrayItemsValueChanged(int value);
+
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
 

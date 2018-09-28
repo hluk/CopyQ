@@ -39,12 +39,10 @@ private:
 
     bool lockWindowGeometry();
 
-private slots:
     void saveWindowGeometry();
     void restoreWindowGeometry();
     void unlockWindowGeometry();
 
-private:
     QWidget *m_window;
 
     QTimer m_timerSaveGeometry;

@@ -70,15 +70,14 @@ signals:
 
     void saveCommand(const Command &command);
 
-private slots:
-    void on_buttonBox_clicked(QAbstractButton* button);
-    void on_comboBoxCommands_currentIndexChanged(int index);
-    void on_comboBoxInputFormat_currentIndexChanged(const QString &format);
-    void on_comboBoxOutputFormat_editTextChanged(const QString &text);
-    void on_comboBoxOutputTab_editTextChanged(const QString &text);
-    void on_separatorEdit_textEdited(const QString &text);
-
 private:
+    void onButtonBoxClicked(QAbstractButton* button);
+    void onComboBoxCommandsCurrentIndexChanged(int index);
+    void onComboBoxInputFormatCurrentIndexChanged(const QString &format);
+    void onComboBoxOutputFormatEditTextchanged(const QString &text);
+    void onComboBoxOutputTabEditTextChanged(const QString &text);
+    void onSeparatorEditTextEdited(const QString &text);
+
     void acceptCommand();
     QVariant createCurrentItemData();
     void saveCurrentCommandToHistory();

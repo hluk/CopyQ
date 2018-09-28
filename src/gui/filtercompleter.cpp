@@ -173,16 +173,16 @@ FilterCompleter::FilterCompleter(QLineEdit *lineEdit)
     if (window) {
         auto act = new QAction(this);
         act->setShortcut(tr("Alt+Down", "Filter completion shortcut"));
-        connect(act, SIGNAL(triggered()), this, SLOT(onComplete()));
+        connect(act, &QAction::triggered, this, &FilterCompleter::onComplete);
         window->addAction(act);
     }
 
     // Postpone prepending item to completion list because incorrect
     // item will be completed otherwise (prepending shifts rows).
-    connect( lineEdit, SIGNAL(editingFinished()),
-             this, SLOT(onEditingFinished()), Qt::QueuedConnection );
-    connect( lineEdit, SIGNAL(textEdited(QString)),
-             this, SLOT(onTextEdited(QString)) );
+    connect( lineEdit, &QLineEdit::editingFinished,
+             this, &FilterCompleter::onEditingFinished, Qt::QueuedConnection );
+    connect( lineEdit, &QLineEdit::textEdited,
+             this, &FilterCompleter::onTextEdited );
 
     lineEdit->setCompleter(this);
 }

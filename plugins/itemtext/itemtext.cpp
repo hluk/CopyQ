@@ -165,8 +165,8 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
 
     setDocument(&m_textDocument);
 
-    connect( this, SIGNAL(selectionChanged()),
-             this, SLOT(onSelectionChanged()) );
+    connect( this, &QTextEdit::selectionChanged,
+             this, &ItemText::onSelectionChanged );
 }
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)

@@ -118,19 +118,19 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     qApp->setFallbackSessionManagementEnabled(false);
 #endif
 
-    connect( m_wnd, SIGNAL(requestExit()),
-             this, SLOT(maybeQuit()) );
-    connect( m_wnd, SIGNAL(disableClipboardStoringRequest(bool)),
-             this, SLOT(onDisableClipboardStoringRequest(bool)) );
+    connect( m_wnd, &MainWindow::requestExit,
+             this, &ClipboardServer::maybeQuit );
+    connect( m_wnd, &MainWindow::disableClipboardStoringRequest,
+             this, &ClipboardServer::onDisableClipboardStoringRequest );
 
     loadSettings();
 
     // notify window if configuration changes
-    connect( m_wnd, SIGNAL(configurationChanged()),
-             this, SLOT(loadSettings()) );
+    connect( m_wnd, &MainWindow::configurationChanged,
+             this, &ClipboardServer::loadSettings );
 
-    connect( m_wnd, SIGNAL(commandsSaved()),
-             this, SLOT(onCommandsSaved()) );
+    connect( m_wnd, &MainWindow::commandsSaved,
+             this, &ClipboardServer::onCommandsSaved );
     onCommandsSaved();
 
     // run clipboard monitor
@@ -180,8 +180,8 @@ void ClipboardServer::startMonitoring()
 
     m_monitor = new Action();
     m_monitor->setCommand("copyq monitorClipboard");
-    connect( m_monitor, SIGNAL(destroyed()),
-             this, SLOT(onMonitorFinished()) );
+    connect( m_monitor.data(), &QObject::destroyed,
+             this, &ClipboardServer::onMonitorFinished );
     m_wnd->runInternalAction(m_monitor);
 }
 
@@ -422,8 +422,8 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
         return;
     }
 
-    connect( s, SIGNAL(activated(QxtGlobalShortcut*)),
-             this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
+    connect( s, &QxtGlobalShortcut::activated,
+             this, &ClipboardServer::shortcutActivated );
 
     m_shortcutActions[s] = command;
 #endif

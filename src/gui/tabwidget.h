@@ -89,7 +89,6 @@ public:
 
     QToolBar *toolBar() const { return m_toolBarCurrent; }
 
-public slots:
     void setCurrentIndex(int tabIndex);
     void nextTab();
     void previousTab();
@@ -102,8 +101,8 @@ signals:
     void tabMoved(int from, int to);
     /// Tabs moved in tab tree (@a oldPrefix path changed to @a newPrefix).
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix);
-    void tabMenuRequested(const QPoint &pos, int tab);
-    void tabMenuRequested(const QPoint &pos, const QString &groupPath);
+    void tabBarMenuRequested(const QPoint &pos, int tab);
+    void tabTreeMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabRenamed(const QString &newName, int index);
     void currentChanged(int tabIndex, int oldTabIndex);
     void tabCloseRequested(int);
@@ -112,13 +111,12 @@ signals:
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
-private slots:
+private:
     void onTabMoved(int from, int to);
     void onTabsMoved(const QString &oldPrefix, const QString &newPrefix, const QList<int> &indexes);
     void onToolBarOrientationChanged(Qt::Orientation orientation);
     void onTreeItemClicked();
 
-private:
     void createTabBar();
     void createTabTree();
     void updateToolBar();

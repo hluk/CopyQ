@@ -23,6 +23,7 @@
 #include "common/display.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
+#include "common/timer.h"
 #include "gui/notification.h"
 
 #include <QApplication>
@@ -52,7 +53,7 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     , m_maximumWidthPoints(300)
     , m_maximumHeightPoints(100)
 {
-    initSingleShotTimer( &m_timerUpdate, 100, this, SLOT(doUpdateNotifications()) );
+    initSingleShotTimer( &m_timerUpdate, 100, this, &NotificationDaemon::doUpdateNotifications );
 }
 
 void NotificationDaemon::setPosition(NotificationDaemon::Position position)

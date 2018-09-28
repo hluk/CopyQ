@@ -627,8 +627,8 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
 
     updateUi();
 
-    connect( ui->pushButtonPassword, SIGNAL(clicked()),
-             this, SLOT(setPassword()) );
+    connect( ui->pushButtonPassword, &QAbstractButton::clicked,
+             this, &ItemEncryptedLoader::setPassword );
 
     return w;
 }
@@ -843,8 +843,9 @@ void ItemEncryptedLoader::setPassword()
     if ( m_gpgProcess->state() == QProcess::NotRunning ) {
         onGpgProcessFinished( m_gpgProcess->exitCode(), m_gpgProcess->exitStatus() );
     } else {
-        connect( m_gpgProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
-                 this, SLOT(onGpgProcessFinished(int,QProcess::ExitStatus)) );
+        constexpr auto processFinishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
+        QObject::connect(m_gpgProcess, processFinishedSignal,
+                         this, &ItemEncryptedLoader::onGpgProcessFinished);
         updateUi();
     }
 }
@@ -931,8 +932,8 @@ void ItemEncryptedLoader::emitDecryptFailed()
 ItemSaverPtr ItemEncryptedLoader::createSaver()
 {
     auto saver = std::make_shared<ItemEncryptedSaver>();
-    connect( saver.get(), SIGNAL(error(QString)),
-             this, SIGNAL(error(QString)) );
+    connect( saver.get(), &ItemEncryptedSaver::error,
+             this, &ItemEncryptedLoader::error );
     return saver;
 }
 

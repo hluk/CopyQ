@@ -67,12 +67,31 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
 {
     ui->setupUi(this);
 
+    connect(ui->pushButtonLoadTheme, &QPushButton::clicked,
+            this, &ConfigTabAppearance::onPushButtonLoadThemeClicked);
+    connect(ui->pushButtonSaveTheme, &QPushButton::clicked,
+            this, &ConfigTabAppearance::onPushButtonSaveThemeClicked);
+    connect(ui->pushButtonResetTheme, &QPushButton::clicked,
+            this, &ConfigTabAppearance::onPushButtonResetThemeClicked);
+    connect(ui->pushButtonEditTheme, &QPushButton::clicked,
+            this, &ConfigTabAppearance::onPushButtonEditThemeClicked);
+
+    connect(ui->checkBoxShowNumber, &QCheckBox::stateChanged,
+            this, &ConfigTabAppearance::onCheckBoxShowNumberStateChanged);
+    connect(ui->checkBoxScrollbars, &QCheckBox::stateChanged,
+            this, &ConfigTabAppearance::onCheckBoxScrollbarsStateChanged);
+    connect(ui->checkBoxAntialias, &QCheckBox::stateChanged,
+            this, &ConfigTabAppearance::onCheckBoxAntialiasStateChanged);
+
+    connect(ui->comboBoxThemes, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated),
+            this, &ConfigTabAppearance::onComboBoxThemesActivated);
+
     // Connect signals from theme buttons.
     for (auto button : ui->scrollAreaTheme->findChildren<QPushButton *>()) {
         if (button->objectName().endsWith("Font"))
-            connect(button, SIGNAL(clicked()), SLOT(onFontButtonClicked()));
+            connect(button, &QPushButton::clicked, this, &ConfigTabAppearance::onFontButtonClicked);
         else if (button->objectName().startsWith("pushButtonColor"))
-            connect(button, SIGNAL(clicked()), SLOT(onColorButtonClicked()));
+            connect(button, &QPushButton::clicked, this, &ConfigTabAppearance::onColorButtonClicked);
     }
 
     m_theme.resetTheme();
@@ -123,7 +142,7 @@ void ConfigTabAppearance::onColorButtonClicked()
     colorButtonClicked(sender());
 }
 
-void ConfigTabAppearance::on_pushButtonLoadTheme_clicked()
+void ConfigTabAppearance::onPushButtonLoadThemeClicked()
 {
     const QString filename = QFileDialog::getOpenFileName(this, tr("Open Theme File"),
                                                           defaultUserThemePath(), QString("*.ini"));
@@ -133,7 +152,7 @@ void ConfigTabAppearance::on_pushButtonLoadTheme_clicked()
     }
 }
 
-void ConfigTabAppearance::on_pushButtonSaveTheme_clicked()
+void ConfigTabAppearance::onPushButtonSaveThemeClicked()
 {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save Theme File As"),
                                                     defaultUserThemePath(), QString("*.ini"));
@@ -145,13 +164,13 @@ void ConfigTabAppearance::on_pushButtonSaveTheme_clicked()
     }
 }
 
-void ConfigTabAppearance::on_pushButtonResetTheme_clicked()
+void ConfigTabAppearance::onPushButtonResetThemeClicked()
 {
     m_theme.resetTheme();
     updateStyle();
 }
 
-void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
+void ConfigTabAppearance::onPushButtonEditThemeClicked()
 {
     if (m_editor.isEmpty()) {
         QMessageBox::warning( this, tr("No External Editor"),
@@ -174,33 +193,33 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
 
     ItemEditor *editor = new ItemEditor(data, COPYQ_MIME_PREFIX "theme", m_editor, this);
 
-    connect( editor, SIGNAL(fileModified(QByteArray,QString,QModelIndex)),
-             this, SLOT(onThemeModified(QByteArray)) );
+    connect( editor, &ItemEditor::fileModified,
+             this, &ConfigTabAppearance::onThemeModified );
 
-    connect( editor, SIGNAL(closed(QObject*)),
-             editor, SLOT(deleteLater()) );
+    connect( editor, &ItemEditor::closed,
+             editor, &QObject::deleteLater );
 
     if ( !editor->start() )
         delete editor;
 }
 
-void ConfigTabAppearance::on_checkBoxShowNumber_stateChanged(int)
+void ConfigTabAppearance::onCheckBoxShowNumberStateChanged(int)
 {
     decoratePreview();
 }
 
-void ConfigTabAppearance::on_checkBoxScrollbars_stateChanged(int)
+void ConfigTabAppearance::onCheckBoxScrollbarsStateChanged(int)
 {
     decoratePreview();
 }
 
-void ConfigTabAppearance::on_checkBoxAntialias_stateChanged(int)
+void ConfigTabAppearance::onCheckBoxAntialiasStateChanged(int)
 {
     updateFontButtons();
     decoratePreview();
 }
 
-void ConfigTabAppearance::on_comboBoxThemes_activated(const QString &text)
+void ConfigTabAppearance::onComboBoxThemesActivated(const QString &text)
 {
     if ( text.isEmpty() )
         return;

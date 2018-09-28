@@ -33,6 +33,10 @@ CommandEdit::CommandEdit(QWidget *parent)
     , ui(new Ui::CommandEdit)
 {
     ui->setupUi(this);
+
+    connect(ui->plainTextEditCommand, &QPlainTextEdit::textChanged,
+            this, &CommandEdit::onPlainTextEditCommandTextChanged);
+
     ui->labelErrors->hide();
     ui->plainTextEditCommand->document()->setDefaultFont(commandFont());
 
@@ -82,7 +86,7 @@ void CommandEdit::resizeToContent()
     ui->plainTextEditCommand->setMinimumHeight( h + margins.top() + margins.bottom() );
 }
 
-void CommandEdit::on_plainTextEditCommand_textChanged()
+void CommandEdit::onPlainTextEditCommandTextChanged()
 {
     QString errors;
     QList<QTextEdit::ExtraSelection> selections;

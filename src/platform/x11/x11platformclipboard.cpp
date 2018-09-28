@@ -23,6 +23,7 @@
 
 #include "common/common.h"
 #include "common/mimetypes.h"
+#include "common/timer.h"
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -50,8 +51,8 @@ bool isSelectionIncomplete(Display *display)
 
 X11PlatformClipboard::X11PlatformClipboard()
 {
-    initSingleShotTimer( &m_timerCheckClipboard, 50, this, SLOT(onClipboardChanged()) );
-    initSingleShotTimer( &m_timerCheckSelection, 100, this, SLOT(onSelectionChanged()) );
+    initSingleShotTimer( &m_timerCheckClipboard, 50, this, &X11PlatformClipboard::onClipboardChanged );
+    initSingleShotTimer( &m_timerCheckSelection, 100, this, &X11PlatformClipboard::onSelectionChanged );
 }
 
 void X11PlatformClipboard::setFormats(const QStringList &formats)

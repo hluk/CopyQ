@@ -58,7 +58,6 @@ public:
     void internalAction(Action *action);
     bool isInternalActionId(int id) const;
 
-public slots:
     /** Execute action. */
     void action(Action *action);
 
@@ -66,14 +65,13 @@ signals:
     /** Emitted new action starts or ends. */
     void runningActionsCountChanged();
 
-private slots:
+private:
     /** Called after action was started (creates menu item to kill it). */
     void actionStarted(Action *action);
 
     /** Delete finished action and its menu item. */
     void closeAction(Action *action);
 
-private:
     void showActionErrors(Action *action, const QString &message, ushort icon);
 
     MainWindow *m_wnd;

@@ -110,17 +110,16 @@ protected:
     void dropEvent(QDropEvent *event) override;
     void showEvent(QShowEvent *event) override;
 
-private slots:
-    void on_pushButtonUp_clicked();
-    void on_pushButtonDown_clicked();
-    void on_pushButtonRemove_clicked();
-    void on_pushButtonAdd_clicked();
-
-    void on_listWidgetItems_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-    void on_listWidgetItems_itemSelectionChanged();
-    void on_listWidgetItems_itemChanged(QListWidgetItem *item);
-
 private:
+    void onPushButtonUpClicked();
+    void onPushButtonDownClicked();
+    void onPushButtonRemoveClicked();
+    void onPushButtonAddClicked();
+
+    void onListWidgetItemsCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void onListWidgetItemsItemSelectionChanged();
+    void onListWidgetItemsItemChanged(QListWidgetItem *item);
+
     struct ItemWidgetPair {
         ItemWidgetPair() {}
         explicit ItemWidgetPair(const ItemPtr &item, bool checked)

@@ -37,7 +37,6 @@ class QPoint;
 class QProcess;
 class QString;
 class QStringList;
-class QTimer;
 class QWidget;
 
 #if !defined(COPYQ_WS_X11) && !defined(Q_OS_WIN) && !defined(Q_OS_MAC)
@@ -105,8 +104,6 @@ QString textLabelForData(const QVariantMap &data, const QFont &font,
 QString textLabelForData(const QVariantMap &data);
 
 void renameToUnique(QString *name, const QStringList &names);
-
-void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object = nullptr, const char *slot = nullptr);
 
 QString dataToText(const QByteArray &bytes, const QString &mime);
 

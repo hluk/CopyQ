@@ -67,7 +67,6 @@ public:
      */
     void createGlobalShortcut(const QKeySequence &shortcut, const Command &command);
 
-public slots:
     /** Load settings. */
     void loadSettings();
 
@@ -77,7 +76,7 @@ signals:
 protected:
     bool eventFilter(QObject *object, QEvent *ev) override;
 
-private slots:
+private:
     void onClientNewConnection(const ClientSocketPtr &client);
     void onClientMessageReceived(const QByteArray &message, int messageCode, ClientSocketId clientId);
     void onClientDisconnected(ClientSocketId clientId);
@@ -113,7 +112,6 @@ private slots:
     /** Quit application, but ask to cancel exit if there are any active commands. */
     void maybeQuit();
 
-private:
     /** Ask to cancel application exit if there are any active commands. */
     bool askToQuit();
 

@@ -33,6 +33,7 @@
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"
 #include "common/textdata.h"
+#include "common/timer.h"
 #include "gui/aboutdialog.h"
 #include "gui/actiondialog.h"
 #include "gui/actionhandler.h"
@@ -184,8 +185,8 @@ void stealFocus(const QWidget &window)
 template <typename WidgetOrAction>
 void disableActionWhenTabGroupSelected(WidgetOrAction *action, MainWindow *window)
 {
-    QObject::connect( window, SIGNAL(tabGroupSelected(bool)),
-                      action, SLOT(setDisabled(bool)) );
+    QObject::connect( window, &MainWindow::tabGroupSelected,
+                      action, &WidgetOrAction::setDisabled );
 }
 
 /// Adds information about current tab and selection if command is triggered by user.
@@ -378,64 +379,63 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     updateFocusWindows();
 
-    // signals & slots
-    connect( m_trayMenu, SIGNAL(aboutToShow()),
-             this, SLOT(updateFocusWindows()) );
+    connect( m_trayMenu, &QMenu::aboutToShow,
+             this, &MainWindow::updateFocusWindows );
     connect( m_trayMenu, &QMenu::aboutToHide,
              this, [this](){ m_timerRaiseLastWindowAfterMenuClosed.start(); } );
-    connect( m_trayMenu, SIGNAL(searchRequest(QString)),
-             this, SLOT(addTrayMenuItems(QString)) );
+    connect( m_trayMenu, &TrayMenu::searchRequest,
+             this, &MainWindow::filterTrayMenuItems );
     connect( m_trayMenu, &TrayMenu::clipboardItemActionTriggered,
              this, &MainWindow::onTrayActionTriggered );
 
-    connect( m_menu, SIGNAL(aboutToShow()),
-             this, SLOT(updateFocusWindows()) );
+    connect( m_menu, &QMenu::aboutToShow,
+             this, &MainWindow::updateFocusWindows );
     connect( m_menu, &QMenu::aboutToHide,
              this, [this](){ m_timerRaiseLastWindowAfterMenuClosed.start(); } );
-    connect( m_menu, SIGNAL(searchRequest(QString)),
-             this, SLOT(addMenuItems(QString)) );
+    connect( m_menu, &TrayMenu::searchRequest,
+             this, &MainWindow::filterMenuItems );
     connect( m_menu, &TrayMenu::clipboardItemActionTriggered,
              this, &MainWindow::onMenuActionTriggered );
 
-    connect( ui->tabWidget, SIGNAL(currentChanged(int,int)),
-             this, SLOT(tabChanged(int,int)) );
-    connect( ui->tabWidget, SIGNAL(tabMoved(int,int)),
-             this, SLOT(saveTabPositions()) );
-    connect( ui->tabWidget, SIGNAL(tabsMoved(QString,QString)),
-             this, SLOT(tabsMoved(QString,QString)) );
-    connect( ui->tabWidget, SIGNAL(tabMenuRequested(QPoint,int)),
-             this, SLOT(tabMenuRequested(QPoint,int)) );
-    connect( ui->tabWidget, SIGNAL(tabMenuRequested(QPoint,QString)),
-             this, SLOT(tabMenuRequested(QPoint,QString)) );
-    connect( ui->tabWidget, SIGNAL(tabRenamed(QString,int)),
-             this, SLOT(renameTab(QString,int)) );
-    connect( ui->tabWidget, SIGNAL(tabCloseRequested(int)),
-             this, SLOT(tabCloseRequested(int)) );
-    connect( ui->searchBar, SIGNAL(filterChanged(QRegExp)),
-             this, SLOT(onFilterChanged(QRegExp)) );
-    connect( m_actionHandler, SIGNAL(runningActionsCountChanged()),
-             this, SLOT(updateIconSnip()) );
+    connect( ui->tabWidget, &TabWidget::currentChanged,
+             this, &MainWindow::tabChanged );
+    connect( ui->tabWidget, &TabWidget::tabMoved,
+             this, &MainWindow::saveTabPositions );
+    connect( ui->tabWidget, &TabWidget::tabsMoved,
+             this, &MainWindow::tabsMoved );
+    connect( ui->tabWidget, &TabWidget::tabBarMenuRequested,
+             this, &MainWindow::tabBarMenuRequested );
+    connect( ui->tabWidget, &TabWidget::tabTreeMenuRequested,
+             this, &MainWindow::tabTreeMenuRequested );
+    connect( ui->tabWidget, &TabWidget::tabRenamed,
+             this, &MainWindow::renameTab );
+    connect( ui->tabWidget, &TabWidget::tabCloseRequested,
+             this, &MainWindow::tabCloseRequested );
+    connect( ui->tabWidget, &TabWidget::dropItems,
+             this, &MainWindow::onTabWidgetDropItems);
+    connect( ui->searchBar, &Utils::FilterLineEdit::filterChanged,
+             this, &MainWindow::onFilterChanged );
+    connect( m_actionHandler, &ActionHandler::runningActionsCountChanged,
+             this, &MainWindow::updateIconSnip );
     connect( qApp, &QCoreApplication::aboutToQuit,
              this, &MainWindow::onAboutToQuit );
-    connect( this, SIGNAL(configurationChanged()),
-             this, SLOT(loadSettings()) );
+    connect( this, &MainWindow::configurationChanged,
+             this, &MainWindow::loadSettings );
 
-    connect(itemFactory, SIGNAL(error(QString)),
-            this, SLOT(showError(QString)));
-    connect(itemFactory, SIGNAL(addCommands(QVector<Command>)),
-            this, SLOT(addCommands(QVector<Command>)));
+    connect(itemFactory, &ItemFactory::error,
+            this, &MainWindow::showError);
+    connect(itemFactory, &ItemFactory::addCommands,
+            this, &MainWindow::addCommands);
 
     updateCommands();
 
-    initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, SLOT(updateFocusWindows()) );
-    initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
-    initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, SLOT(updateTrayMenuTimeout()) );
-    initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
-    initSingleShotTimer( &m_timerTrayIconSnip, 500, this, SLOT(updateIconSnipTimeout()) );
-    initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, SLOT(doSaveTabPositions()) );
-    initSingleShotTimer(&m_timerRaiseLastWindowAfterMenuClosed, 50);
-    connect(&m_timerRaiseLastWindowAfterMenuClosed, &QTimer::timeout,
-            this, &MainWindow::raiseLastWindowAfterMenuClosed);
+    initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, &MainWindow::updateFocusWindows );
+    initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, &MainWindow::updateContextMenuTimeout );
+    initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, &MainWindow::updateTrayMenuTimeout );
+    initSingleShotTimer( &m_timerTrayAvailable, 1000, this, &MainWindow::createTrayIfSupported );
+    initSingleShotTimer( &m_timerTrayIconSnip, 500, this, &MainWindow::updateIconSnipTimeout );
+    initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, &MainWindow::doSaveTabPositions );
+    initSingleShotTimer( &m_timerRaiseLastWindowAfterMenuClosed, 50, this, &MainWindow::raiseLastWindowAfterMenuClosed);
     enableHideWindowOnUnfocus();
 
     m_trayMenu->setObjectName("TrayMenu");
@@ -453,7 +453,7 @@ void MainWindow::exit()
     for ( int i = 0; i < ui->tabWidget->count(); ++i ) {
         auto c = getPlaceholder(i)->browser();
         if ( c && (c->isInternalEditorOpen() || c->isExternalEditorOpen()) ) {
-            showBrowser(i);
+            setCurrentTab(i);
             if ( !c->maybeCloseEditors() )
                 return;
         }
@@ -520,68 +520,68 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&File") );
 
     // - new
-    act = createAction( Actions::File_New, SLOT(editNewItem()), menu );
+    act = createAction( Actions::File_New, &MainWindow::editNewItem, menu );
     disableActionWhenTabGroupSelected(act, this);
 
     // - import
-    createAction( Actions::File_Import, SLOT(importData()), menu );
+    createAction( Actions::File_Import, &MainWindow::importData, menu );
 
     // - export
-    act = createAction( Actions::File_Export, SLOT(exportData()), menu );
+    act = createAction( Actions::File_Export, &MainWindow::exportData, menu );
     disableActionWhenTabGroupSelected(act, this);
 
     // - separator
     menu->addSeparator();
 
     // - preferences
-    createAction( Actions::File_Preferences, SLOT(openPreferences()), menu );
+    createAction( Actions::File_Preferences, &MainWindow::openPreferences, menu );
 
     // - commands
-    createAction( Actions::File_Commands, SLOT(openCommands()), menu );
+    createAction( Actions::File_Commands, &MainWindow::openCommands, menu );
 
     // - separator
     menu->addSeparator();
 
     // - show clipboard content
-    createAction( Actions::File_ShowClipboardContent, SLOT(showClipboardContent()), menu );
+    createAction( Actions::File_ShowClipboardContent, &MainWindow::showClipboardContent, menu );
 
     // - active commands
-    createAction( Actions::File_ProcessManager, SLOT(showProcessManagerDialog()), menu );
+    createAction( Actions::File_ProcessManager, &MainWindow::showProcessManagerDialog, menu );
 
     // - enable/disable
     m_actionToggleClipboardStoring = createAction( Actions::File_ToggleClipboardStoring,
-                                                   SLOT(toggleClipboardStoring()), menu );
+                                                   &MainWindow::toggleClipboardStoring, menu );
     updateMonitoringActions();
 
     // - separator
     menu->addSeparator();
 
     // - exit
-    createAction( Actions::File_Exit, SLOT(exit()), menu );
+    createAction( Actions::File_Exit, &MainWindow::exit, menu );
 
     // Edit
     menu = menubar->addMenu( tr("&Edit") );
 
     // - find
-    createAction( Actions::Edit_FindItems, SLOT(findNextOrPrevious()), menu );
+    createAction( Actions::Edit_FindItems, &MainWindow::findNextOrPrevious, menu );
 
     // - separator
     menu->addSeparator();
 
     // - sort
-    createAction( Actions::Edit_SortSelectedItems, SLOT(sortSelectedItems()), menu );
+    createAction( Actions::Edit_SortSelectedItems, &MainWindow::sortSelectedItems, menu );
 
     // - reverse order
-    createAction( Actions::Edit_ReverseSelectedItems, SLOT(reverseSelectedItems()), menu );
+    createAction( Actions::Edit_ReverseSelectedItems, &MainWindow::reverseSelectedItems, menu );
 
     // - separator
     menu->addSeparator();
 
     // - paste items
-    createAction( Actions::Edit_PasteItems, SLOT(pasteItems()), menu );
+    createAction( Actions::Edit_PasteItems, &MainWindow::pasteItems, menu );
 
     // - copy items
-    createAction( Actions::Edit_CopySelectedItems, SLOT(copyItems()), menu );
+    createAction( Actions::Edit_CopySelectedItems, &MainWindow::copyItems, menu );
 
     // Items
     m_menuItem = menubar->addMenu( tr("&Item") );
@@ -591,41 +591,41 @@ void MainWindow::createMenu()
     menu = menubar->addMenu(tr("&Tabs"));
 
     // - new tab
-    createAction( Actions::Tabs_NewTab, SLOT(newTab()), menu );
+    createAction( Actions::Tabs_NewTab, &MainWindow::openNewTabDialog, menu );
 
     // - rename tab
-    act = createAction( Actions::Tabs_RenameTab, SLOT(renameTab()), menu );
+    act = createAction( Actions::Tabs_RenameTab, &MainWindow::openRenameTabDialog, menu );
     disableActionWhenTabGroupSelected(act, this);
 
     // - remove tab
-    act = createAction( Actions::Tabs_RemoveTab, SLOT(removeTab()), menu );
+    act = createAction( Actions::Tabs_RemoveTab, &MainWindow::removeTab, menu );
     disableActionWhenTabGroupSelected(act, this);
 
-    createAction( Actions::Tabs_ChangeTabIcon, SLOT(setTabIcon()), menu );
+    createAction( Actions::Tabs_ChangeTabIcon, &MainWindow::setTabIcon, menu );
 
     // - separator
     menu->addSeparator();
 
     // - next tab
-    createAction( Actions::Tabs_NextTab, SLOT(nextTab()), menu );
+    createAction( Actions::Tabs_NextTab, &MainWindow::nextTab, menu );
 
     // - previous tab
-    createAction( Actions::Tabs_PreviousTab, SLOT(previousTab()), menu );
+    createAction( Actions::Tabs_PreviousTab, &MainWindow::previousTab, menu );
 
     // Help
     menu = menubar->addMenu(tr("&Help"));
-    createAction( Actions::Help_Help, SLOT(openHelp()), menu );
-    createAction( Actions::Help_ShowLog, SLOT(openLogDialog()), menu );
-    createAction( Actions::Help_About, SLOT(openAboutDialog()), menu );
+    createAction( Actions::Help_Help, &MainWindow::openHelp, menu );
+    createAction( Actions::Help_ShowLog, &MainWindow::openLogDialog, menu );
+    createAction( Actions::Help_About, &MainWindow::openAboutDialog, menu );
 
     // Open Item Menu
-    createAction( Actions::ItemMenu, SLOT(showContextMenu()), nullptr );
+    createAction( Actions::ItemMenu, &MainWindow::showContextMenu, nullptr );
 
     for (auto menu : menuBar()->findChildren<QMenu*>()) {
-        connect( menu, SIGNAL(aboutToShow()),
-                 this, SLOT(disableHideWindowOnUnfocus()) );
-        connect( menu, SIGNAL(aboutToHide()),
-                 this, SLOT(enableHideWindowOnUnfocus()) );
+        connect( menu, &QMenu::aboutToShow,
+                 this, &MainWindow::disableHideWindowOnUnfocus );
+        connect( menu, &QMenu::aboutToHide,
+                 this, &MainWindow::enableHideWindowOnUnfocus );
     }
 }
 
@@ -653,11 +653,11 @@ void MainWindow::popupTabBarMenu(QPoint pos, const QString &tab)
     QAction *act = menu.exec(pos);
     if (act != nullptr) {
         if (act == actNew)
-            newTab(tab);
+            openNewTabDialog(tab);
         else if (act == actRenameGroup)
-            renameTabGroup(tab);
+            openRenameTabGroupDialog(tab);
         else if (act == actRename)
-            renameTab(tabIndex);
+            openRenameTabDialog(tabIndex);
         else if (act == actRemove)
             removeTab(true, tabIndex);
         else if (act == actRemoveGroup)
@@ -740,29 +740,29 @@ void MainWindow::updateContextMenuTimeout()
 
     m_menuItem->addSeparator();
 
-    addItemAction( Actions::Item_MoveToClipboard, c, SLOT(moveToClipboard()) );
-    addItemAction( Actions::Item_ShowContent, c, SLOT(showItemContent()) );
+    addItemAction( Actions::Item_MoveToClipboard, c, &ClipboardBrowser::moveToClipboard );
+    addItemAction( Actions::Item_ShowContent, c, &ClipboardBrowser::showItemContent );
     QAction *togglePreviewAction =
-            addItemAction( Actions::Item_ShowPreview, this, SLOT(updateItemPreview()) );
-    addItemAction( Actions::Item_Remove, c, SLOT(remove()) );
-    addItemAction( Actions::Item_Edit, c, SLOT(editSelected()) );
-    addItemAction( Actions::Item_EditNotes, c, SLOT(editNotes()) );
-    addItemAction( Actions::Item_EditWithEditor, c, SLOT(openEditor()) );
-    addItemAction( Actions::Item_Action, this, SLOT(openActionDialog()) );
-    addItemAction( Actions::Item_NextFormat, this, SLOT(nextItemFormat()) );
-    addItemAction( Actions::Item_PreviousFormat, this, SLOT(previousItemFormat()) );
+            addItemAction( Actions::Item_ShowPreview, this, &MainWindow::updateItemPreview );
+    addItemAction( Actions::Item_Remove, c, &ClipboardBrowser::remove );
+    addItemAction( Actions::Item_Edit, c, &ClipboardBrowser::editSelected );
+    addItemAction( Actions::Item_EditNotes, c, &ClipboardBrowser::editNotes );
+    addItemAction( Actions::Item_EditWithEditor, c, &ClipboardBrowser::openEditor );
+    addItemAction( Actions::Item_Action, this, &MainWindow::openActionDialog );
+    addItemAction( Actions::Item_NextFormat, this, &MainWindow::nextItemFormat );
+    addItemAction( Actions::Item_PreviousFormat, this, &MainWindow::previousItemFormat );
 
     m_menuItem->addSeparator();
 
-    addItemAction( Actions::Item_MoveUp, this, SLOT(moveUp()) );
-    addItemAction( Actions::Item_MoveDown, this, SLOT(moveDown()) );
-    addItemAction( Actions::Item_MoveToTop, this, SLOT(moveToTop()) );
-    addItemAction( Actions::Item_MoveToBottom, this, SLOT(moveToBottom()) );
+    addItemAction( Actions::Item_MoveUp, this, &MainWindow::moveUp );
+    addItemAction( Actions::Item_MoveDown, this, &MainWindow::moveDown );
+    addItemAction( Actions::Item_MoveToTop, this, &MainWindow::moveToTop );
+    addItemAction( Actions::Item_MoveToBottom, this, &MainWindow::moveToBottom );
 
     togglePreviewAction->setCheckable(true);
     togglePreviewAction->setChecked(m_showItemPreview);
-    connect( togglePreviewAction, SIGNAL(toggled(bool)),
-             this, SLOT(setItemPreviewVisible(bool)), Qt::UniqueConnection );
+    connect( togglePreviewAction, &QAction::toggled,
+             this, &MainWindow::setItemPreviewVisible, Qt::UniqueConnection );
 
     updateToolBar();
 }
@@ -888,7 +888,7 @@ void MainWindow::onClipboardCommandActionTriggered(CommandAction *commandAction,
     action( actionData, command, QModelIndex() );
 }
 
-void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData *data)
+void MainWindow::onTabWidgetDropItems(const QString &tabName, const QMimeData *data)
 {
     auto browser = tab(tabName);
 
@@ -899,7 +899,7 @@ void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData 
     }
 }
 
-void MainWindow::showContextMenu(QPoint position)
+void MainWindow::showContextMenuAt(QPoint position)
 {
     // Restrict menu position to central widget.
     const auto localRect = centralWidget()->rect();
@@ -928,7 +928,7 @@ void MainWindow::showContextMenu()
     const auto itemRect = c->visualRect(index);
     const auto viewportPosition = itemRect.center();
     const auto position = c->mapToGlobal(viewportPosition);
-    showContextMenu(position);
+    showContextMenuAt(position);
 }
 
 void MainWindow::nextItemFormat()
@@ -977,31 +977,31 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
 {
     connect( browser, &ClipboardBrowser::changeClipboard,
              this, &MainWindow::setClipboardAndSelection );
-    connect( browser, SIGNAL(requestShow(const ClipboardBrowser*)),
-             this, SLOT(showBrowser(const ClipboardBrowser*)) );
-    connect( browser, SIGNAL(error(QString)),
-             this, SLOT(showError(QString)) );
-    connect( browser, SIGNAL(doubleClicked(QModelIndex)),
-             this, SLOT(activateCurrentItem()) );
-    connect( browser, SIGNAL(itemCountChanged(QString,int)),
-             ui->tabWidget, SLOT(setTabItemCount(QString,int)) );
-    connect( browser, SIGNAL(showContextMenu(QPoint)),
-             this, SLOT(showContextMenu(QPoint)) );
-    connect( browser, SIGNAL(selectionChanged(const ClipboardBrowser*)),
-             this, SLOT(onSelectionChanged(const ClipboardBrowser*)) );
-    connect( browser, SIGNAL(itemsChanged(const ClipboardBrowser*)),
-             this, SLOT(onItemsChanged(const ClipboardBrowser*)) );
-    connect( browser, SIGNAL(internalEditorStateChanged(const ClipboardBrowser*)),
-             this, SLOT(onInternalEditorStateChanged(const ClipboardBrowser*)) );
-    connect( browser, SIGNAL(searchRequest()),
-             this, SLOT(findNextOrPrevious()) );
+    connect( browser, &ClipboardBrowser::requestShow,
+             this, &MainWindow::showBrowser );
+    connect( browser, &ClipboardBrowser::error,
+             this, &MainWindow::showError );
+    connect( browser, &QAbstractItemView::doubleClicked,
+             this, &MainWindow::activateCurrentItem );
+    connect( browser, &ClipboardBrowser::itemCountChanged,
+             ui->tabWidget, &TabWidget::setTabItemCount );
+    connect( browser, &ClipboardBrowser::showContextMenu,
+             this, &MainWindow::showContextMenu );
+    connect( browser, &ClipboardBrowser::itemSelectionChanged,
+             this, &MainWindow::onItemSelectionChanged );
+    connect( browser, &ClipboardBrowser::itemsChanged,
+             this, &MainWindow::onItemsChanged );
+    connect( browser, &ClipboardBrowser::internalEditorStateChanged,
+             this, &MainWindow::onInternalEditorStateChanged );
+    connect( browser, &ClipboardBrowser::searchRequest,
+             this, &MainWindow::findNextOrPrevious );
     connect( browser, &ClipboardBrowser::searchHideRequest,
              ui->searchBar, &Utils::FilterLineEdit::hide );
-    connect( browser, SIGNAL(itemWidgetCreated(PersistentDisplayItem)),
-             this, SLOT(onItemWidgetCreated(PersistentDisplayItem)) );
+    connect( browser, &ClipboardBrowser::itemWidgetCreated,
+             this, &MainWindow::onItemWidgetCreated );
 }
 
-void MainWindow::onSelectionChanged(const ClipboardBrowser *browser)
+void MainWindow::onItemSelectionChanged(const ClipboardBrowser *browser)
 {
     if (browser == this->browser())
         updateContextMenu(0);
@@ -1077,8 +1077,8 @@ void MainWindow::runDisplayCommands()
     m_currentDisplayItem = m_displayItemList.takeFirst();
 
     m_currentDisplayAction = runScript("runDisplayCommands()", m_currentDisplayItem.data());
-    connect( m_currentDisplayAction.data(), SIGNAL(destroyed()),
-             this, SLOT(onDisplayActionFinished()) );
+    connect( m_currentDisplayAction.data(), &QObject::destroyed,
+             this, &MainWindow::onDisplayActionFinished );
 }
 
 void MainWindow::clearHiddenDisplayData()
@@ -1130,8 +1130,8 @@ void MainWindow::updateNotifications()
 {
     if (m_notifications == nullptr) {
         m_notifications = new NotificationDaemon(this);
-        connect( m_notifications, SIGNAL(notificationButtonClicked(NotificationButton)),
-                 this, SLOT(onNotificationButtonClicked(NotificationButton)) );
+        connect( m_notifications, &NotificationDaemon::notificationButtonClicked,
+                 this, &MainWindow::onNotificationButtonClicked );
     }
 
     notificationDaemon()->setNotificationOpacity( theme().color("notification_bg").alphaF() );
@@ -1227,19 +1227,19 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(
         return getPlaceholder(i);
 
     auto placeholder = new ClipboardBrowserPlaceholder(name, m_sharedData, this);
-    connect( placeholder, SIGNAL(browserCreated(ClipboardBrowser*)),
-             this, SLOT(onBrowserCreated(ClipboardBrowser*)) );
+    connect( placeholder, &ClipboardBrowserPlaceholder::browserCreated,
+             this, &MainWindow::onBrowserCreated );
 
     ui->tabWidget->addTab(placeholder, name);
     saveTabPositions();
     return placeholder;
 }
 
-QAction *MainWindow::createAction(int id, const char *slot, QMenu *menu)
+template <typename SlotReturnType>
+QAction *MainWindow::createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu)
 {
     QAction *act = actionForMenuItem(id, this, Qt::WindowShortcut);
-    connect(act, SIGNAL(triggered()),
-            this, slot, Qt::UniqueConnection);
+    connect(act, &QAction::triggered, this, slot, Qt::UniqueConnection);
     if (menu)
         menu->addAction(act);
     return act;
@@ -1259,11 +1259,11 @@ void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
         setIconNameForTabName(newName, icon);
 }
 
-QAction *MainWindow::addItemAction(int id, QObject *receiver, const char *slot)
+template <typename Receiver, typename ReturnType>
+QAction *MainWindow::addItemAction(int id, Receiver *receiver, ReturnType (Receiver::* slot)())
 {
     QAction *act = actionForMenuItem(id, getPlaceholder(), Qt::WidgetWithChildrenShortcut);
-    if (slot)
-        connect( act, SIGNAL(triggered()), receiver, slot, Qt::UniqueConnection );
+    connect( act, &QAction::triggered, receiver, slot, Qt::UniqueConnection );
     m_menuItem->addAction(act);
     return act;
 }
@@ -1299,13 +1299,13 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
     for (const auto &command : commands) {
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_menuItem);
-        QAction *act = new CommandAction(command, name, currentMenu);
+        auto act = new CommandAction(command, name, currentMenu);
         c->addAction(act);
 
         addMenuMatchCommand(&m_itemMenuMatchCommands, command.matchCmd, act);
 
-        connect(act, SIGNAL(triggerCommand(CommandAction*,QString)),
-                this, SLOT(onItemCommandActionTriggered(CommandAction*,QString)));
+        connect(act, &CommandAction::triggerCommand,
+                this, &MainWindow::onItemCommandActionTriggered);
 
         uniqueShortcuts.clear();
 
@@ -1354,12 +1354,12 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
     for (const auto &command : commands) {
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_trayMenu);
-        QAction *act = new CommandAction(command, name, currentMenu);
+        auto act = new CommandAction(command, name, currentMenu);
 
         addMenuMatchCommand(&m_trayMenuMatchCommands, command.matchCmd, act);
 
-        connect(act, SIGNAL(triggerCommand(CommandAction*,QString)),
-                this, SLOT(onClipboardCommandActionTriggered(CommandAction*,QString)));
+        connect(act, &CommandAction::triggerCommand,
+                this, &MainWindow::onClipboardCommandActionTriggered);
     }
 
     runMenuCommandFilters(&m_trayMenuMatchCommands, data);
@@ -1410,22 +1410,21 @@ void MainWindow::updateToolBar()
             const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
             const QString tooltip = "<center>" + escapeHtml(text)
                     + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
-            act = ui->toolBar->addAction( icon, label, action, SIGNAL(triggered()) );
+            act = ui->toolBar->addAction(icon, label);
+            connect(act, &QAction::triggered, action, &QAction::triggered);
             act->setToolTip(tooltip);
 
-            if ( !action->isEnabled() ) {
-                act->setEnabled(false);
-                connect( action, SIGNAL(enabled(bool)),
-                         act, SLOT(setEnabled(bool)) );
-            }
+            act->setEnabled(action->isEnabled());
+            connect( action, &QAction::changed,
+                     act, [=]() { act->setEnabled(action->isEnabled()); } );
 
             if ( action->isCheckable() ) {
                 act->setCheckable(true);
                 act->setChecked(action->isChecked());
-                connect( act, SIGNAL(triggered(bool)),
-                         action, SLOT(setChecked(bool)) );
-                connect( action, SIGNAL(toggled(bool)),
-                         act, SLOT(setChecked(bool)) );
+                connect( act, &QAction::triggered,
+                         action, &QAction::setChecked );
+                connect( action, &QAction::toggled,
+                         act, &QAction::setChecked );
             }
         }
     }
@@ -1586,7 +1585,7 @@ bool MainWindow::toggleMenu(TrayMenu *menu)
     return toggleMenu(menu, QCursor::pos());
 }
 
-bool MainWindow::exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
+bool MainWindow::exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
 {
     QFile file(fileName);
     if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) )
@@ -1859,7 +1858,7 @@ void MainWindow::disableHideWindowOnUnfocus()
 
 void MainWindow::enableHideWindowOnUnfocus()
 {
-    initSingleShotTimer( &m_timerHideWindowIfNotActive, 250, this, SLOT(hideWindowIfNotActive()) );
+    initSingleShotTimer( &m_timerHideWindowIfNotActive, 250, this, &MainWindow::hideWindowIfNotActive );
 }
 
 void MainWindow::hideWindowIfNotActive()
@@ -2323,12 +2322,6 @@ bool MainWindow::setCurrentTab(int index)
     return true;
 }
 
-void MainWindow::showBrowser(int index)
-{
-    if (setCurrentTab(index))
-        showWindow();
-}
-
 void MainWindow::onMenuActionTriggered(const QVariantMap &data, bool omitPaste)
 {
     activateMenuItem( getTabForMenu(), data, omitPaste );
@@ -2391,7 +2384,7 @@ bool MainWindow::toggleMenu(const QString &tabName, int itemCount, QPoint positi
         m_menuMaxItemCount = m_options.trayItems > 0 ? m_options.trayItems : 10;
 
     m_menu->clearAllActions();
-    addMenuItems(QString());
+    filterMenuItems(QString());
 
     if ( m_menu->isVisible() )
         m_menu->close();
@@ -2470,7 +2463,7 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
     saveTabPositions();
 }
 
-void MainWindow::tabMenuRequested(QPoint pos, int tab)
+void MainWindow::tabBarMenuRequested(QPoint pos, int tab)
 {
     auto placeholder = getPlaceholder(tab);
     if (placeholder == nullptr)
@@ -2479,7 +2472,7 @@ void MainWindow::tabMenuRequested(QPoint pos, int tab)
     popupTabBarMenu(pos, tabName);
 }
 
-void MainWindow::tabMenuRequested(QPoint pos, const QString &groupPath)
+void MainWindow::tabTreeMenuRequested(QPoint pos, const QString &groupPath)
 {
     popupTabBarMenu(pos, groupPath);
 }
@@ -2818,8 +2811,8 @@ void MainWindow::createTrayIfSupported()
     if ( QSystemTrayIcon::isSystemTrayAvailable() ) {
         Q_ASSERT(!m_tray);
         m_tray = new QSystemTrayIcon(this);
-        connect( m_tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-                 this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
+        connect( m_tray, &QSystemTrayIcon::activated,
+                 this, &MainWindow::trayActivated );
         updateIcon();
         m_tray->setContextMenu(m_trayMenu);
         m_tray->show();
@@ -2938,21 +2931,22 @@ void MainWindow::updateTrayMenuTimeout()
     m_trayMenuMatchCommands = MenuMatchCommands();
     m_trayMenu->clearAllActions();
 
-    QAction *act = m_trayMenu->addAction(
-                appIcon(), tr("&Show/Hide"), this, SLOT(toggleVisible()) );
+    QAction *act = m_trayMenu->addAction( appIcon(), tr("&Show/Hide") );
+    connect(act, &QAction::triggered, this, &MainWindow::toggleVisible);
     m_trayMenu->setDefaultAction(act);
     addTrayAction(Actions::File_Preferences);
     addTrayAction(Actions::File_ToggleClipboardStoring);
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
 
-    addTrayMenuItems(QString());
+    filterTrayMenuItems(QString());
 
     // Add commands.
     if (m_options.trayCommands) {
         // Show clipboard content as disabled item.
-        m_trayMenuClipboardAction = m_trayMenu->addAction(
-                    iconClipboard(), QString(), this, SLOT(showClipboardContent()) );
+        m_trayMenuClipboardAction = m_trayMenu->addAction(iconClipboard(), QString());
+        connect(m_trayMenuClipboardAction.data(), &QAction::triggered,
+                this, &MainWindow::showClipboardContent);
         m_trayMenu->addCustomAction(m_trayMenuClipboardAction);
 
         int i = m_trayMenu->actions().size();
@@ -2965,12 +2959,12 @@ void MainWindow::updateTrayMenuTimeout()
     updateTrayMenuClipboard();
 }
 
-void MainWindow::addMenuItems(const QString &searchText)
+void MainWindow::filterMenuItems(const QString &searchText)
 {
     addMenuItems(m_menu, getTabForMenu(), m_menuMaxItemCount, searchText);
 }
 
-void MainWindow::addTrayMenuItems(const QString &searchText)
+void MainWindow::filterTrayMenuItems(const QString &searchText)
 {
     addMenuItems(m_trayMenu, getTabForTrayMenu(), m_options.trayItems, searchText);
     m_trayMenu->markItemInClipboard(m_clipboardData);
@@ -3014,11 +3008,11 @@ ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
         actionDialog->setCurrentTab(currentTab);
     }
 
-    connect( actionDialog, SIGNAL(accepted(Command,QStringList,QVariantMap)),
-             this, SLOT(onActionDialogAccepted(Command,QStringList,QVariantMap)) );
+    connect( actionDialog, &ActionDialog::accepted,
+             this, &MainWindow::onActionDialogAccepted );
 
-    connect( actionDialog, SIGNAL(saveCommand(Command)),
-             this, SLOT(onSaveCommand(Command)) );
+    connect( actionDialog, &ActionDialog::saveCommand,
+             this, &MainWindow::onSaveCommand );
 
     actionDialog->show();
     stealFocus(*actionDialog);
@@ -3047,12 +3041,12 @@ void MainWindow::openPreferences()
     WindowGeometryGuard::create(&configurationManager);
 
     // notify window if configuration changes
-    connect( &configurationManager, SIGNAL(configurationChanged()),
-             this, SIGNAL(configurationChanged()) );
-    connect( &configurationManager, SIGNAL(error(QString)),
-             this, SLOT(showError(QString)) );
-    connect( &configurationManager, SIGNAL(commandsSaved()),
-             this, SLOT(updateCommands()) );
+    connect( &configurationManager, &ConfigurationManager::configurationChanged,
+             this, &MainWindow::configurationChanged );
+    connect( &configurationManager, &ConfigurationManager::error,
+             this, &MainWindow::showError );
+    connect( &configurationManager, &ConfigurationManager::commandsSaved,
+             this, &MainWindow::updateCommands );
 
     // WORKAROUND: Fix drag'n'drop in list in modal dialog for Qt 5.9.2 (QTBUG-63846).
     configurationManager.setWindowModality(Qt::WindowModal);
@@ -3085,8 +3079,8 @@ void MainWindow::openCommands()
             setAlwaysOnTop(m_commandDialog.data(), true);
         m_commandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
         m_commandDialog->show();
-        connect(this, SIGNAL(destroyed()), m_commandDialog, SLOT(close()));
-        connect(m_commandDialog, SIGNAL(commandsSaved()), this, SLOT(onCommandDialogSaved()));
+        connect(this, &QObject::destroyed, m_commandDialog.data(), &QWidget::close);
+        connect(m_commandDialog.data(), &CommandDialog::commandsSaved, this, &MainWindow::onCommandDialogSaved);
     }
 
     if (cm && cm->isVisible())
@@ -3212,7 +3206,7 @@ bool MainWindow::exportData()
     const bool exportConfiguration = exportDialog.isConfigurationEnabled();
     const bool exportCommands = exportDialog.isCommandsEnabled();
 
-    if ( !exportData(fileName, tabs, exportConfiguration, exportCommands) ) {
+    if ( !exportDataFrom(fileName, tabs, exportConfiguration, exportCommands) ) {
         QMessageBox::critical(
                     this, tr("CopyQ Export Error"),
                     tr("Failed to export file %1!")
@@ -3269,7 +3263,7 @@ bool MainWindow::loadTab(const QString &fileName)
     return true;
 }
 
-bool MainWindow::importData(const QString &fileName, ImportOptions options)
+bool MainWindow::importDataFrom(const QString &fileName, ImportOptions options)
 {
     // Compatibility with v2.9.0 and earlier.
     if ( loadTab(fileName) )
@@ -3291,7 +3285,7 @@ bool MainWindow::exportAllData(const QString &fileName)
     const bool exportConfiguration = true;
     const bool exportCommands = true;
 
-    return exportData(fileName, tabs, exportConfiguration, exportCommands);
+    return exportDataFrom(fileName, tabs, exportConfiguration, exportCommands);
 }
 
 bool MainWindow::importData()
@@ -3301,7 +3295,7 @@ bool MainWindow::importData()
     if ( fileName.isNull() )
         return false;
 
-    if ( !importData(fileName, ImportOptions::Select) ) {
+    if ( !importDataFrom(fileName, ImportOptions::Select) ) {
         QMessageBox::critical(
                     this, tr("CopyQ Import Error"),
                     tr("Failed to import file %1!")
@@ -3368,37 +3362,38 @@ bool MainWindow::isInternalActionId(int id) const
     return m_actionHandler->isInternalActionId(id);
 }
 
-void MainWindow::newTab(const QString &name)
+void MainWindow::openNewTabDialog(const QString &name)
 {
     auto d = new TabDialog(TabDialog::TabNew, this);
     d->setAttribute(Qt::WA_DeleteOnClose, true);
     d->setTabs(ui->tabWidget->tabs());
 
-    QString tabPath = name;
+    d->setTabName(name);
 
-    if ( tabPath.isNull() ) {
-        tabPath = ui->tabWidget->getCurrentTabPath();
-        if ( ui->tabWidget->isTabGroup(tabPath) )
-            tabPath.append('/');
-    }
-
-    d->setTabName(tabPath);
-
-    connect( d, SIGNAL(accepted(QString,int)),
-             this, SLOT(addTab(QString)) );
+    connect( d, &TabDialog::newTabNameAccepted,
+             this, &MainWindow::addTab );
 
     d->open();
 }
 
-void MainWindow::renameTabGroup(const QString &name)
+void MainWindow::openNewTabDialog()
+{
+    QString tabPath = ui->tabWidget->getCurrentTabPath();
+    if ( ui->tabWidget->isTabGroup(tabPath) )
+        tabPath.append('/');
+
+    openNewTabDialog(tabPath);
+}
+
+void MainWindow::openRenameTabGroupDialog(const QString &name)
 {
     auto d = new TabDialog(TabDialog::TabGroupRename, this);
     d->setAttribute(Qt::WA_DeleteOnClose, true);
     d->setTabs(ui->tabWidget->tabs());
     d->setTabGroupName(name);
 
-    connect( d, SIGNAL(accepted(QString,QString)),
-             this, SLOT(renameTabGroup(QString,QString)) );
+    connect( d, &TabDialog::treeTabNameAccepted,
+             this, &MainWindow::renameTabGroup );
 
     d->open();
 }
@@ -3415,22 +3410,25 @@ void MainWindow::renameTabGroup(const QString &newName, const QString &oldName)
     }
 }
 
-void MainWindow::renameTab(int tab)
+void MainWindow::openRenameTabDialog(int tabIndex)
 {
-    const int i = tab >= 0 ? tab : ui->tabWidget->currentIndex();
-    if (i < 0)
-        return;
-
     auto d = new TabDialog(TabDialog::TabRename, this);
     d->setAttribute(Qt::WA_DeleteOnClose, true);
-    d->setTabIndex(i);
+    d->setTabIndex(tabIndex);
     d->setTabs(ui->tabWidget->tabs());
-    d->setTabName(browser(i)->tabName());
+    d->setTabName(browser(tabIndex)->tabName());
 
-    connect( d, SIGNAL(accepted(QString,int)),
-             this, SLOT(renameTab(QString,int)) );
+    connect( d, &TabDialog::barTabNameAccepted,
+             this, &MainWindow::renameTab );
 
     d->open();
+}
+
+void MainWindow::openRenameTabDialog()
+{
+    const int tabIndex = ui->tabWidget->currentIndex();
+    if (tabIndex >= 0)
+        openRenameTabDialog(tabIndex);
 }
 
 void MainWindow::renameTab(const QString &name, int tabIndex)

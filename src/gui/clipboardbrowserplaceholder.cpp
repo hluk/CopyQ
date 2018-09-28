@@ -20,6 +20,7 @@
 #include "clipboardbrowserplaceholder.h"
 
 #include "common/common.h"
+#include "common/timer.h"
 #include "item/itemstore.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfactory.h"
@@ -41,7 +42,7 @@ ClipboardBrowserPlaceholder::ClipboardBrowserPlaceholder(
     layout->setContentsMargins(0, 0, 0, 0);
 
     const int expireTimeoutMs = 60000 * m_sharedData->minutesToExpire;
-    initSingleShotTimer( &m_timerExpire, expireTimeoutMs, this, SLOT(expire()) );
+    initSingleShotTimer( &m_timerExpire, expireTimeoutMs, this, &ClipboardBrowserPlaceholder::expire );
 }
 
 ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
@@ -61,10 +62,10 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
     }
 
     if (m_timerExpire.interval() > 0) {
-        connect( c.get(), SIGNAL(selectionChanged(const ClipboardBrowser*)),
-                 &m_timerExpire, SLOT(start()) );
-        connect( c.get(), SIGNAL(itemsChanged(const ClipboardBrowser*)),
-                 &m_timerExpire, SLOT(start()) );
+        connect( c.get(), &ClipboardBrowser::itemSelectionChanged,
+                 &m_timerExpire, static_cast<void (QTimer::*)()>(&QTimer::start) );
+        connect( c.get(), &ClipboardBrowser::itemsChanged,
+                 &m_timerExpire, static_cast<void (QTimer::*)()>(&QTimer::start) );
     }
 
     m_browser = c.release();
@@ -114,8 +115,8 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowserAgain()
 void ClipboardBrowserPlaceholder::reloadBrowser()
 {
     if ( isEditorOpen() ) {
-        connect( m_browser, SIGNAL(editingFinished()),
-                 this, SLOT(reloadBrowser()), Qt::UniqueConnection );
+        connect( m_browser, &ClipboardBrowser::editingFinished,
+                 this, &ClipboardBrowserPlaceholder::reloadBrowser, Qt::UniqueConnection );
     } else {
         unloadBrowser();
         if ( isVisible() )
@@ -162,8 +163,8 @@ void ClipboardBrowserPlaceholder::createLoadButton()
     m_loadButton->setIconSize( QSize(64, 64) );
     m_loadButton->setIcon(icon);
 
-    connect( m_loadButton, SIGNAL(clicked()),
-             this, SLOT(createBrowserAgain()) );
+    connect( m_loadButton, &QAbstractButton::clicked,
+             this, &ClipboardBrowserPlaceholder::createBrowserAgain );
 
     setActiveWidget(m_loadButton);
 }

@@ -32,12 +32,13 @@
 
 namespace {
 
-void connectActionOutput(Action *action, QObject *actionOutput)
+template <typename ActionOutput>
+void connectActionOutput(Action *action, ActionOutput *actionOutput)
 {
-    QObject::connect( action, SIGNAL(actionOutput(QByteArray)),
-                      actionOutput, SLOT(onActionOutput(QByteArray)) );
-    QObject::connect( action, SIGNAL(actionFinished(Action*)),
-                      actionOutput, SLOT(onActionFinished(Action*)) );
+    QObject::connect( action, &Action::actionOutput,
+                      actionOutput, &ActionOutput::onActionOutput );
+    QObject::connect( action, &Action::actionFinished,
+                      actionOutput, &ActionOutput::onActionFinished );
 
     action->setReadOutput(true);
 }
@@ -61,7 +62,6 @@ public:
         connectActionOutput(action, this);
     }
 
-private slots:
     void onActionOutput(const QByteArray &output)
     {
         m_lastOutput.append( getTextData(output) );
@@ -112,7 +112,6 @@ public:
     void setOutputFormat(const QString &outputItemFormat) { m_outputFormat = outputItemFormat; }
     void setOutputTab(const QString &outputTabName) { m_tab = outputTabName; }
 
-private slots:
     void onActionOutput(const QByteArray &output)
     {
         m_output.append(output);
@@ -151,7 +150,6 @@ public:
         connectActionOutput(action, this);
     }
 
-private slots:
     void onActionOutput(const QByteArray &output)
     {
         m_output.append(output);

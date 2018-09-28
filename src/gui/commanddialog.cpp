@@ -108,10 +108,10 @@ private:
         cmdWidget->setFormats(m_formats);
         cmdWidget->setCommand(m_command);
 
-        QObject::connect( cmdWidget, SIGNAL(iconChanged()),
-                          m_cmdDialog, SLOT(onCurrentCommandWidgetIconChanged()) );
-        QObject::connect( cmdWidget, SIGNAL(nameChanged(QString)),
-                          m_cmdDialog, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
+        QObject::connect( cmdWidget, &CommandWidget::iconChanged,
+                          m_cmdDialog, &CommandDialog::onCurrentCommandWidgetIconChanged );
+        QObject::connect( cmdWidget, &CommandWidget::nameChanged,
+                          m_cmdDialog, &CommandDialog::onCurrentCommandWidgetNameChanged );
         QObject::connect( cmdWidget, &CommandWidget::commandTextChanged,
                           m_cmdDialog, &CommandDialog::onCommandTextChanged );
 
@@ -131,6 +131,24 @@ CommandDialog::CommandDialog(
     , m_formats(formats)
 {
     ui->setupUi(this);
+
+    connect(ui->itemOrderListCommands, &ItemOrderList::addButtonClicked,
+            this, &CommandDialog::onItemOrderListCommandsAddButtonClicked);
+    connect(ui->itemOrderListCommands, &ItemOrderList::itemSelectionChanged,
+            this, &CommandDialog::onItemOrderListCommandsItemSelectionChanged);
+    connect(ui->pushButtonLoadCommands, &QPushButton::clicked,
+            this, &CommandDialog::onPushButtonLoadCommandsClicked);
+    connect(ui->pushButtonSaveCommands, &QPushButton::clicked,
+            this, &CommandDialog::onPushButtonSaveCommandsClicked);
+    connect(ui->pushButtonCopyCommands, &QPushButton::clicked,
+            this, &CommandDialog::onPushButtonCopyCommandsClicked);
+    connect(ui->pushButtonPasteCommands, &QPushButton::clicked,
+            this, &CommandDialog::onPushButtonPasteCommandsClicked);
+    connect(ui->lineEditFilterCommands, &QLineEdit::textChanged,
+            this, &CommandDialog::onLineEditFilterCommandsTextChanged);
+    connect(ui->buttonBox, &QDialogButtonBox::clicked,
+            this, &CommandDialog::onButtonBoxClicked);
+
     ui->pushButtonLoadCommands->setIcon(iconLoadCommands());
     ui->pushButtonSaveCommands->setIcon(iconSaveCommands());
     ui->pushButtonCopyCommands->setIcon(iconCopyCommands());
@@ -145,28 +163,28 @@ CommandDialog::CommandDialog(
     auto act = new QAction(ui->itemOrderListCommands);
     ui->itemOrderListCommands->addAction(act);
     act->setShortcut(QKeySequence::Paste);
-    connect(act, SIGNAL(triggered()), SLOT(tryPasteCommandFromClipboard()));
+    connect(act, &QAction::triggered, this, &CommandDialog::tryPasteCommandFromClipboard);
 
     act = new QAction(ui->itemOrderListCommands);
     ui->itemOrderListCommands->addAction(act);
     act->setShortcut(QKeySequence::Copy);
-    connect(act, SIGNAL(triggered()), SLOT(copySelectedCommandsToClipboard()));
+    connect(act, &QAction::triggered, this, &CommandDialog::copySelectedCommandsToClipboard);
 
     ui->itemOrderListCommands->setDragAndDropValidator(QRegExp("\\[Commands?\\]"));
-    connect( ui->itemOrderListCommands, SIGNAL(dropped(QString,int)),
-             SLOT(onCommandDropped(QString,int)) );
+    connect( ui->itemOrderListCommands, &ItemOrderList::dropped,
+             this, &CommandDialog::onCommandDropped );
 
-    connect( ui->itemOrderListCommands, SIGNAL(itemCheckStateChanged(int,bool)),
-             SLOT(onCommandEnabledDisabled(int)) );
+    connect( ui->itemOrderListCommands, &ItemOrderList::itemCheckStateChanged,
+             this, &CommandDialog::onCommandEnabledDisabled );
 
-    connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
+    connect(this, &QDialog::finished, this, &CommandDialog::onFinished);
 
     restoreWindowGeometry(this, false);
 
     m_savedCommands = currentCommands();
 
-    connect(QApplication::clipboard(), SIGNAL(dataChanged()),
-            this, SLOT(onClipboardChanged()));
+    connect(QApplication::clipboard(), &QClipboard::dataChanged,
+            this, &CommandDialog::onClipboardChanged);
     onClipboardChanged();
 }
 
@@ -254,21 +272,21 @@ void CommandDialog::onFinished(int result)
     saveWindowGeometry(this, false);
 }
 
-void CommandDialog::on_itemOrderListCommands_addButtonClicked()
+void CommandDialog::onItemOrderListCommandsAddButtonClicked()
 {
     AddCommandDialog addCommandDialog(m_pluginCommands, this);
-    connect(&addCommandDialog, SIGNAL(addCommands(QVector<Command>)), SLOT(onAddCommands(QVector<Command>)));
+    connect(&addCommandDialog, &AddCommandDialog::addCommands, this, &CommandDialog::onAddCommands);
     addCommandDialog.exec();
 }
 
-void CommandDialog::on_itemOrderListCommands_itemSelectionChanged()
+void CommandDialog::onItemOrderListCommandsItemSelectionChanged()
 {
     bool hasSelection = !ui->itemOrderListCommands->selectedRows().isEmpty();
     ui->pushButtonSaveCommands->setEnabled(hasSelection);
     ui->pushButtonCopyCommands->setEnabled(hasSelection);
 }
 
-void CommandDialog::on_pushButtonLoadCommands_clicked()
+void CommandDialog::onPushButtonLoadCommandsClicked()
 {
     const QStringList fileNames =
             QFileDialog::getOpenFileNames(this, tr("Open Files with Commands"),
@@ -280,7 +298,7 @@ void CommandDialog::on_pushButtonLoadCommands_clicked()
     }
 }
 
-void CommandDialog::on_pushButtonSaveCommands_clicked()
+void CommandDialog::onPushButtonSaveCommandsClicked()
 {
     QString fileName =
             QFileDialog::getSaveFileName(this, tr("Save Selected Commands"),
@@ -295,17 +313,17 @@ void CommandDialog::on_pushButtonSaveCommands_clicked()
     }
 }
 
-void CommandDialog::on_pushButtonCopyCommands_clicked()
+void CommandDialog::onPushButtonCopyCommandsClicked()
 {
     copySelectedCommandsToClipboard();
 }
 
-void CommandDialog::on_pushButtonPasteCommands_clicked()
+void CommandDialog::onPushButtonPasteCommandsClicked()
 {
     tryPasteCommandFromClipboard();
 }
 
-void CommandDialog::on_lineEditFilterCommands_textChanged(const QString &text)
+void CommandDialog::onLineEditFilterCommandsTextChanged(const QString &text)
 {
     // Omit pasting commands accidentally to filter text field.
     if (hasCommandsToPaste(text)) {
@@ -322,7 +340,7 @@ void CommandDialog::on_lineEditFilterCommands_textChanged(const QString &text)
     }
 }
 
-void CommandDialog::on_buttonBox_clicked(QAbstractButton *button)
+void CommandDialog::onButtonBoxClicked(QAbstractButton *button)
 {
     switch( ui->buttonBox->buttonRole(button) ) {
     case QDialogButtonBox::ApplyRole:

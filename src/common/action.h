@@ -102,7 +102,6 @@ public:
     void appendOutput(const QByteArray &output);
     void appendErrorOutput(const QByteArray &errorOutput);
 
-public slots:
     /** Terminate (kill) process. */
     void terminate();
 
@@ -114,7 +113,7 @@ signals:
 
     void actionOutput(const QByteArray &output);
 
-private slots:
+private:
     void onSubProcessError(QProcess::ProcessError error);
     void onSubProcessStarted();
     void onSubProcessFinished();
@@ -123,9 +122,8 @@ private slots:
     void writeInput();
     void onBytesWritten();
 
-private:
     void closeSubCommands();
-    void actionFinished();
+    void finish();
 
     QByteArray m_input;
     QList< QList<QStringList> > m_cmds;

@@ -56,10 +56,6 @@ public:
 
     bool isDataLoaded() const;
 
-signals:
-    void browserCreated(ClipboardBrowser *browser);
-
-public slots:
     /// Create browser if it doesn't exist and even if it previously failed.
     ClipboardBrowser *createBrowserAgain();
 
@@ -68,6 +64,9 @@ public slots:
 
     /// Unload browser and data.
     void expire();
+
+signals:
+    void browserCreated(ClipboardBrowser *browser);
 
 protected:
     void showEvent(QShowEvent *event) override;

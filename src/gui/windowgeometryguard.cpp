@@ -22,6 +22,7 @@
 #include "common/appconfig.h"
 #include "common/common.h"
 #include "common/config.h"
+#include "common/timer.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -75,10 +76,10 @@ WindowGeometryGuard::WindowGeometryGuard(QWidget *window)
     : QObject(window)
     , m_window(window)
 {
-    connect( QApplication::desktop(), SIGNAL(resized(int)), this, SLOT(restoreWindowGeometry()) );
-    connect( QApplication::desktop(), SIGNAL(workAreaResized(int)), this, SLOT(restoreWindowGeometry()) );
-    initSingleShotTimer(&m_timerSaveGeometry, 250, this, SLOT(saveWindowGeometry()));
-    initSingleShotTimer(&m_timerUnlockGeometry, 250, this, SLOT(unlockWindowGeometry()));
+    connect( QApplication::desktop(), &QDesktopWidget::resized, this, &WindowGeometryGuard::restoreWindowGeometry );
+    connect( QApplication::desktop(), &QDesktopWidget::workAreaResized, this, &WindowGeometryGuard::restoreWindowGeometry );
+    initSingleShotTimer(&m_timerSaveGeometry, 250, this, &WindowGeometryGuard::saveWindowGeometry);
+    initSingleShotTimer(&m_timerUnlockGeometry, 250, this, &WindowGeometryGuard::unlockWindowGeometry);
 
     m_window->installEventFilter(this);
     restoreWindowGeometry();

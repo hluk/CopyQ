@@ -28,6 +28,7 @@
 #include "item/serialize.h"
 #include "gui/windowgeometryguard.h"
 
+#include <QAbstractButton>
 #include <QFile>
 #include <QMessageBox>
 
@@ -72,8 +73,21 @@ ActionDialog::ActionDialog(QWidget *parent)
     ui->setupUi(this);
     ui->comboBoxCommands->setFont( ui->commandEdit->commandFont() );
 
-    on_comboBoxInputFormat_currentIndexChanged(QString());
-    on_comboBoxOutputFormat_editTextChanged(QString());
+    connect(ui->buttonBox, &QDialogButtonBox::clicked,
+            this, &ActionDialog::onButtonBoxClicked);
+    connect(ui->comboBoxCommands, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &ActionDialog::onComboBoxCommandsCurrentIndexChanged);
+    connect(ui->comboBoxInputFormat, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged),
+            this, &ActionDialog::onComboBoxInputFormatCurrentIndexChanged);
+    connect(ui->comboBoxOutputFormat, &QComboBox::editTextChanged,
+            this, &ActionDialog::onComboBoxOutputFormatEditTextchanged);
+    connect(ui->comboBoxOutputTab, &QComboBox::editTextChanged,
+            this, &ActionDialog::onComboBoxOutputTabEditTextChanged);
+    connect(ui->separatorEdit, &QLineEdit::textEdited,
+            this, &ActionDialog::onSeparatorEditTextEdited);
+
+    onComboBoxInputFormatCurrentIndexChanged(QString());
+    onComboBoxOutputFormatEditTextchanged(QString());
     loadSettings();
 
     WindowGeometryGuard::create(this);
@@ -182,7 +196,7 @@ Command ActionDialog::command() const
     return cmd;
 }
 
-void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
+void ActionDialog::onButtonBoxClicked(QAbstractButton* button)
 {
     switch ( ui->buttonBox->standardButton(button) ) {
     case QDialogButtonBox::Ok:
@@ -213,7 +227,7 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
     }
 }
 
-void ActionDialog::on_comboBoxCommands_currentIndexChanged(int index)
+void ActionDialog::onComboBoxCommandsCurrentIndexChanged(int index)
 {
     if ( m_currentCommandIndex >= 0 && m_currentCommandIndex < ui->comboBoxCommands->count() ) {
         QVariant itemData = createCurrentItemData();
@@ -247,7 +261,7 @@ void ActionDialog::on_comboBoxCommands_currentIndexChanged(int index)
         ui->comboBoxOutputTab->setEditText(values.value(outputTab).toString());
 }
 
-void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &format)
+void ActionDialog::onComboBoxInputFormatCurrentIndexChanged(const QString &format)
 {
     setChangedByUser(ui->comboBoxInputFormat);
 
@@ -260,7 +274,7 @@ void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &for
     ui->inputText->setPlainText(text);
 }
 
-void ActionDialog::on_comboBoxOutputFormat_editTextChanged(const QString &text)
+void ActionDialog::onComboBoxOutputFormatEditTextchanged(const QString &text)
 {
     setChangedByUser(ui->comboBoxOutputFormat);
 
@@ -273,12 +287,12 @@ void ActionDialog::on_comboBoxOutputFormat_editTextChanged(const QString &text)
     ui->comboBoxOutputTab->setVisible(showOutputTab);
 }
 
-void ActionDialog::on_comboBoxOutputTab_editTextChanged(const QString &)
+void ActionDialog::onComboBoxOutputTabEditTextChanged(const QString &)
 {
     setChangedByUser(ui->comboBoxOutputTab);
 }
 
-void ActionDialog::on_separatorEdit_textEdited(const QString &)
+void ActionDialog::onSeparatorEditTextEdited(const QString &)
 {
     setChangedByUser(ui->separatorEdit);
 }

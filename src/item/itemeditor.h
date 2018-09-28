@@ -84,7 +84,7 @@ class ItemEditor : public QObject
 
     private:
         /** Return true only if file was modified and reset this status. */
-        bool fileModified();
+        bool wasFileModified();
 
         void emitError(const QString &errorString);
 

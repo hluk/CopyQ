@@ -36,11 +36,10 @@ public:
 signals:
     void changed();
 
-private slots:
+private:
     void onChanged();
     bool check();
 
-private:
     ClipboardMode m_mode;
     bool m_changed = false;
     QByteArray m_oldOwnerData;

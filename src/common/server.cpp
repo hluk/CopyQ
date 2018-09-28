@@ -120,8 +120,8 @@ Server::~Server()
 
 void Server::start()
 {
-    connect( m_server, SIGNAL(newConnection()),
-             this, SLOT(onNewConnection()) );
+    connect( m_server, &QLocalServer::newConnection,
+             this, &Server::onNewConnection );
 
     while (m_server->hasPendingConnections())
         onNewConnection();
@@ -159,8 +159,8 @@ void Server::onNewConnection()
         socket->deleteLater();
     } else {
         ++m_socketCount;
-        connect( socket, SIGNAL(disconnected()),
-                 this, SLOT(onSocketDestroyed()) );
+        connect( socket, &QLocalSocket::disconnected,
+                 this, &Server::onSocketDestroyed );
 
         auto clientSocket = std::make_shared<ClientSocket>(socket);
         emit newConnection(clientSocket);

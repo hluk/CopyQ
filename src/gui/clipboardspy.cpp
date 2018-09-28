@@ -27,11 +27,12 @@
 
 namespace {
 
-void connectClipboardSignal(ClipboardMode mode, QObject *receiver, const char *slot)
+template <typename Receiver, typename Slot>
+void connectClipboardSignal(ClipboardMode mode, Receiver *receiver, Slot slot)
 {
     const auto signal = mode == ClipboardMode::Clipboard
-            ? SIGNAL(dataChanged())
-            : SIGNAL(selectionChanged());
+            ? &QClipboard::dataChanged
+            : &QClipboard::selectionChanged;
     QObject::connect( QApplication::clipboard(), signal, receiver, slot );
 }
 
@@ -41,7 +42,7 @@ ClipboardSpy::ClipboardSpy(ClipboardMode mode)
     : m_mode(mode)
     , m_oldOwnerData(clipboardOwnerData(mode))
 {
-    connectClipboardSignal(mode, this, SLOT(onChanged()));
+    connectClipboardSignal(mode, this, &ClipboardSpy::onChanged);
 }
 
 void ClipboardSpy::wait(int ms)
@@ -50,18 +51,18 @@ void ClipboardSpy::wait(int ms)
         return;
 
     QEventLoop loop;
-    connectClipboardSignal(m_mode, &loop, SLOT(quit()));
+    connectClipboardSignal(m_mode, &loop, &QEventLoop::quit);
 
-    connect( this, SIGNAL(changed()), &loop, SLOT(quit()) );
+    connect( this, &ClipboardSpy::changed, &loop, &QEventLoop::quit );
 
     QTimer timerStop;
     timerStop.setInterval(ms);
-    connect( &timerStop, SIGNAL(timeout()), &loop, SLOT(quit()) );
+    connect( &timerStop, &QTimer::timeout, &loop, &QEventLoop::quit );
     timerStop.start();
 
     QTimer timerCheck;
     timerCheck.setInterval(100);
-    connect( &timerCheck, SIGNAL(timeout()), this, SLOT(check()) );
+    connect( &timerCheck, &QTimer::timeout, this, &ClipboardSpy::check );
     timerCheck.start();
 
     loop.exec();

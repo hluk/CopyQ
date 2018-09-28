@@ -83,12 +83,9 @@ public:
 
     QSize sizeHint() const override;
 
-public slots:
-    void onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
-
 signals:
     void currentTabChanged(int index);
-    void tabMenuRequested(const QPoint &pos, const QString &groupPath);
+    void tabTreeMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix, const QList<int> &indexes);
     void dropItems(const QString &tabName, const QMimeData *data);
 
@@ -101,11 +98,11 @@ protected:
     void rowsInserted(const QModelIndex &parent, int start, int end) override;
     void showEvent(QShowEvent *event) override;
 
-private slots:
+private:
+    void onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void updateSize();
     void doUpdateSize();
 
-private:
     void requestTabMenu(QPoint itemPosition, QPoint menuPosition);
     void deleteItem(QTreeWidgetItem *item);
 

@@ -25,6 +25,7 @@
 #include "common/mimetypes.h"
 #include "common/temporaryfile.h"
 #include "common/textdata.h"
+#include "common/timer.h"
 #include "gui/clipboarddialog.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
@@ -34,6 +35,7 @@
 #include "item/itemfactory.h"
 #include "item/itemstore.h"
 #include "item/itemwidget.h"
+#include "item/persistentdisplayitem.h"
 
 #include <QApplication>
 #include <QDrag>
@@ -110,7 +112,7 @@ private:
         // Set interval to wait before removing temporary file after data were dropped.
         const int transferRateBytesPerSecond = 100000;
         const int removeAfterDropSeconds = 5 + static_cast<int>(imageFile.size()) / transferRateBytesPerSecond;
-        initSingleShotTimer( &m_timerRemove, removeAfterDropSeconds * 1000, this, SLOT(deleteLater()) );
+        initSingleShotTimer( &m_timerRemove, removeAfterDropSeconds * 1000, this, &TemporaryDragAndDropImage::deleteLater );
     }
 
     QTimer m_timerRemove;
@@ -272,11 +274,11 @@ ClipboardBrowser::ClipboardBrowser(
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setAlternatingRowColors(true);
 
-    initSingleShotTimer( &m_timerSave, 30000, this, SLOT(saveItems()) );
-    initSingleShotTimer( &m_timerEmitItemCount, 0, this, SLOT(emitItemCount()) );
-    initSingleShotTimer( &m_timerUpdateSizes, 0, this, SLOT(updateSizes()) );
-    initSingleShotTimer( &m_timerUpdateItemWidgets, 0, this, SLOT(updateItemWidgets()) );
-    initSingleShotTimer( &m_timerUpdateCurrent, 0, this, SLOT(updateCurrent()) );
+    initSingleShotTimer( &m_timerSave, 30000, this, &ClipboardBrowser::saveItems );
+    initSingleShotTimer( &m_timerEmitItemCount, 0, this, &ClipboardBrowser::emitItemCount );
+    initSingleShotTimer( &m_timerUpdateSizes, 0, this, &ClipboardBrowser::updateSizes );
+    initSingleShotTimer( &m_timerUpdateItemWidgets, 0, this, &ClipboardBrowser::updateItemWidgets );
+    initSingleShotTimer( &m_timerUpdateCurrent, 0, this, &ClipboardBrowser::updateCurrent );
 
     m_timerDragDropScroll.setInterval(20);
     connect( &m_timerDragDropScroll, &QTimer::timeout,
@@ -400,8 +402,8 @@ bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
     connect( editor, SIGNAL(error(QString)),
              this, SIGNAL(error(QString)) );
 
-    connect( this, SIGNAL(closeExternalEditors()),
-             editor, SLOT(deleteLater()) );
+    connect( this, &ClipboardBrowser::closeExternalEditors,
+             editor, &QObject::deleteLater );
 
     bool retVal = false;
     bool result = QMetaObject::invokeMethod( editor, "start", Qt::DirectConnection,
@@ -432,18 +434,18 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
 
         m_editor = editor;
         if (active) {
-            connect( editor, SIGNAL(save()),
-                     this, SLOT(onEditorSave()) );
+            connect( editor, &ItemEditorWidget::save,
+                     this, &ClipboardBrowser::onEditorSave );
             if (changeClipboard) {
-                connect( editor, SIGNAL(save()),
-                         this, SLOT(onEditorNeedsChangeClipboard()) );
+                connect( editor, &ItemEditorWidget::save,
+                         this, &ClipboardBrowser::setClipboardFromEditor );
             }
-            connect( editor, SIGNAL(cancel()),
-                     this, SLOT(onEditorCancel()) );
-            connect( editor, SIGNAL(invalidate()),
-                     this, SLOT(onEditorInvalidate()) );
-            connect( editor, SIGNAL(searchRequest()),
-                     this, SIGNAL(searchRequest()) );
+            connect( editor, &ItemEditorWidget::cancel,
+                     this, &ClipboardBrowser::onEditorCancel );
+            connect( editor, &ItemEditorWidget::invalidate,
+                     this, &ClipboardBrowser::onEditorInvalidate );
+            connect( editor, &ItemEditorWidget::searchRequest,
+                     this, &ClipboardBrowser::searchRequest );
             updateEditorGeometry();
             editor->show();
             editor->setFocus();
@@ -526,38 +528,38 @@ void ClipboardBrowser::connectModelAndDelegate()
     setItemDelegate(&d);
 
     // Delegate receives model signals first to update internal item list.
-    connect( &m, SIGNAL(rowsInserted(QModelIndex,int,int)),
-             &d, SLOT(rowsInserted(QModelIndex,int,int)) );
-    connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
-             &d, SLOT(rowsRemoved(QModelIndex,int,int)) );
-    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex,int,int,QModelIndex,int)),
-             &d, SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)) );
-    connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             &d, SLOT(dataChanged(QModelIndex,QModelIndex)) );
+    connect( &m, &QAbstractItemModel::rowsInserted,
+             &d, &ItemDelegate::rowsInserted );
+    connect( &m, &QAbstractItemModel::rowsAboutToBeRemoved,
+             &d, &ItemDelegate::rowsRemoved );
+    connect( &m, &QAbstractItemModel::rowsAboutToBeMoved,
+             &d, &ItemDelegate::rowsMoved );
+    connect( &m, &QAbstractItemModel::dataChanged,
+             &d, &ItemDelegate::dataChanged );
 
-    connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             SLOT(onDataChanged(QModelIndex,QModelIndex)) );
-    connect( &m, SIGNAL(rowsInserted(QModelIndex,int,int)),
-             SLOT(onRowsInserted(QModelIndex,int,int)));
+    connect( &m, &QAbstractItemModel::dataChanged,
+             this, &ClipboardBrowser::onDataChanged );
+    connect( &m, &QAbstractItemModel::rowsInserted,
+             this, &ClipboardBrowser::onRowsInserted);
 
     // Item count change
-    connect( &m, SIGNAL(rowsInserted(QModelIndex,int,int)),
-             SLOT(onItemCountChanged()) );
-    connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
-             SLOT(onItemCountChanged()) );
+    connect( &m, &QAbstractItemModel::rowsInserted,
+             this, &ClipboardBrowser::onItemCountChanged );
+    connect( &m, &QAbstractItemModel::rowsRemoved,
+             this, &ClipboardBrowser::onItemCountChanged );
 
     // Save on change
-    connect( &m, SIGNAL(rowsInserted(QModelIndex,int,int)),
-             SLOT(delayedSaveItems()) );
-    connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
-             SLOT(delayedSaveItems()) );
-    connect( &m, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
-             SLOT(delayedSaveItems()) );
-    connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             SLOT(delayedSaveItems()) );
+    connect( &m, &QAbstractItemModel::rowsInserted,
+             this, &ClipboardBrowser::delayedSaveItems );
+    connect( &m, &QAbstractItemModel::rowsRemoved,
+             this, &ClipboardBrowser::delayedSaveItems );
+    connect( &m, &QAbstractItemModel::rowsMoved,
+             this, &ClipboardBrowser::delayedSaveItems );
+    connect( &m, &QAbstractItemModel::dataChanged,
+             this, &ClipboardBrowser::delayedSaveItems );
 
-    connect( &d, SIGNAL(itemWidgetCreated(PersistentDisplayItem)),
-             this, SIGNAL(itemWidgetCreated(PersistentDisplayItem)) );
+    connect( &d, &ItemDelegate::itemWidgetCreated,
+             this, &ClipboardBrowser::itemWidgetCreated );
 }
 
 void ClipboardBrowser::updateItemMaximumSize()
@@ -905,7 +907,7 @@ void ClipboardBrowser::onEditorInvalidate()
     setEditorWidget(nullptr);
 }
 
-void ClipboardBrowser::onEditorNeedsChangeClipboard()
+void ClipboardBrowser::setClipboardFromEditor()
 {
     QModelIndex index = m_editor->index();
     if (index.isValid())
@@ -966,7 +968,7 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
         d.setItemWidgetSelected(index, true);
     for ( auto index : deselected.indexes() )
         d.setItemWidgetSelected(index, false);
-    emit selectionChanged(this);
+    emit itemSelectionChanged(this);
 }
 
 void ClipboardBrowser::focusInEvent(QFocusEvent *event)

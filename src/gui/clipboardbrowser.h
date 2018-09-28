@@ -246,7 +246,6 @@ class ClipboardBrowser : public QListView
 
         bool isLoaded() const;
 
-    public slots:
         /**
          * Save items to configuration.
          * @see setID, loadItems, purgeItems
@@ -271,11 +270,6 @@ class ClipboardBrowser : public QListView
         /** Show content of current item. */
         void showItemContent();
 
-        /** Item modified in external editor. */
-        void itemModified(const QByteArray &bytes, const QString &mime, const QModelIndex &index);
-        /** Called if editor was closed. */
-        void closeExternalEditor(QObject *editor);
-
         void emitItemCount();
 
         bool eventFilter(QObject *watched, QEvent *event) override;
@@ -297,7 +291,7 @@ class ClipboardBrowser : public QListView
 
         void itemsChanged(const ClipboardBrowser *self);
 
-        void selectionChanged(const ClipboardBrowser *self);
+        void itemSelectionChanged(const ClipboardBrowser *self);
 
         void internalEditorStateChanged(const ClipboardBrowser *self);
 
@@ -333,6 +327,13 @@ class ClipboardBrowser : public QListView
         void doItemsLayout() override;
 
     private slots:
+        void itemModified(const QByteArray &bytes, const QString &mime, const QModelIndex &index);
+
+        void onEditorNeedsChangeClipboard(const QByteArray &bytes, const QString &mime);
+
+        void closeExternalEditor(QObject *editor);
+
+    private:
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
         void onRowsInserted(const QModelIndex &parent, int first, int last);
@@ -345,9 +346,7 @@ class ClipboardBrowser : public QListView
 
         void onEditorInvalidate();
 
-        void onEditorNeedsChangeClipboard();
-
-        void onEditorNeedsChangeClipboard(const QByteArray &bytes, const QString &mime);
+        void setClipboardFromEditor();
 
         /**
          * Save items to configuration after an interval.
@@ -363,8 +362,6 @@ class ClipboardBrowser : public QListView
 
         void updateCurrent();
 
-
-    private:
         /**
          * Hide row if filtered out, otherwise show.
          * @return true only if hidden

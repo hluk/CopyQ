@@ -34,11 +34,10 @@ class FileDialog : public QObject
 public:
     FileDialog(QWidget *parent, const QString &caption, const QString &fileName);
 
+    void exec();
+
 signals:
     void fileSelected(const QString &fileName);
-
-public slots:
-    void exec();
 
 private:
     QWidget *m_parent;

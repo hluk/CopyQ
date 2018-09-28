@@ -32,12 +32,12 @@ public:
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
-private slots:
-    void updateCompletion(bool forceShow = false);
+private:
+    void onTextChanged();
+    void updateCompletion(bool forceShow);
     void insertCompletion(const QString &completion);
     void showCompletion();
 
-private:
     QString textUnderCursor() const;
 
     QPlainTextEdit *m_editor;

@@ -65,11 +65,6 @@ signals:
 
     void searchRequest(const QString &text);
 
-private slots:
-    void onClipboardItemActionTriggered();
-
-    void updateActiveAction();
-
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
@@ -81,6 +76,10 @@ protected:
     void leaveEvent(QEvent *event) override;
 
 private:
+    void onClipboardItemActionTriggered();
+
+    void updateActiveAction();
+
     void resetSeparators();
     void setSearchMenuItem(const QString &text);
 

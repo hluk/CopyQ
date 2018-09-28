@@ -38,17 +38,15 @@ public:
     explicit AddCommandDialog(const QVector<Command> &pluginCommands, QWidget *parent = nullptr);
     ~AddCommandDialog();
 
-public slots:
     void accept() override;
 
 signals:
     void addCommands(const QVector<Command> &commands);
 
-private slots:
-    void on_filterLineEdit_filterChanged(const QRegExp &re);
-    void on_listViewCommands_activated();
-
 private:
+    void onFilterLineEditFilterChanged(const QRegExp &re);
+    void onListViewCommandsActivated();
+
     Ui::AddCommandDialog *ui;
     QSortFilterProxyModel *m_filterModel;
 };

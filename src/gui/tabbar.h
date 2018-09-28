@@ -64,7 +64,7 @@ public:
     virtual void adjustSize() override;
 
 signals:
-    void tabMenuRequested(const QPoint &pos, int tab);
+    void tabBarMenuRequested(const QPoint &pos, int tab);
     void tabRenamed(const QString &newName, int index);
     void dropItems(const QString &tabName, const QMimeData *data);
 
@@ -76,10 +76,9 @@ protected:
     void dropEvent(QDropEvent *event) override;
     void tabInserted(int index) override;
 
-private slots:
+private:
     void onCurrentChanged();
 
-private:
     void updateTabStyle(int index);
 };
 

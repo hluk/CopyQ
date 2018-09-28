@@ -36,12 +36,11 @@ public:
     QStringList history() const;
     void setHistory(const QStringList &history);
 
-private slots:
+private:
     void onTextEdited(const QString &text);
     void onEditingFinished();
     void onComplete();
 
-private:
     explicit FilterCompleter(QLineEdit *lineEdit);
     void setUnfiltered(bool unfiltered);
     void prependItem(const QString &item);

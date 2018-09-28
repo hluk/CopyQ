@@ -21,6 +21,7 @@
 
 #include "common/common.h"
 #include "common/log.h"
+#include "common/timer.h"
 
 #include <QCheckBox>
 #include <QElapsedTimer>
@@ -71,7 +72,7 @@ public:
         : QObject(parent)
         , m_re(re)
     {
-        initSingleShotTimer(&m_timerDecorate, 0, this, SLOT(decorateBatch()));
+        initSingleShotTimer(&m_timerDecorate, 0, this, &Decorator::decorateBatch);
     }
 
     /// Start decorating.

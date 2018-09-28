@@ -116,15 +116,14 @@ class ItemDelegate : public QItemDelegate
          */
         void setItemWidgetSelected(const QModelIndex &index, bool isSelected);
 
-    signals:
-        void itemWidgetCreated(const PersistentDisplayItem &selection);
-
-    public slots:
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
         void rowsRemoved(const QModelIndex &parent, int start, int end);
         void rowsInserted(const QModelIndex &parent, int start, int end);
         void rowsMoved(const QModelIndex &parent, int sourceStart, int sourceEnd,
                        const QModelIndex &destination, int destinationRow);
+
+    signals:
+        void itemWidgetCreated(const PersistentDisplayItem &selection);
 
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,

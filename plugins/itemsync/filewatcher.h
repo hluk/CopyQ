@@ -80,7 +80,6 @@ public:
 
     QAbstractItemModel *model() const { return m_model; }
 
-public slots:
     bool lock();
 
     void unlock();
@@ -94,14 +93,13 @@ public slots:
      */
     void updateItems();
 
-private slots:
+private:
     void onRowsInserted(const QModelIndex &, int first, int last);
 
     void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
     void onRowsRemoved(const QModelIndex &, int first, int last);
 
-private:
     struct IndexData {
         QPersistentModelIndex index;
         QString baseName;

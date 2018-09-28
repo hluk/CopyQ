@@ -22,6 +22,7 @@
 #include "common/common.h"
 #include "common/display.h"
 #include "common/mimetypes.h"
+#include "common/timer.h"
 #include "gui/iconfactory.h"
 #include "gui/iconfont.h"
 #include "gui/tabicons.h"
@@ -255,8 +256,8 @@ bool isInside(QWidget *child, QWidget *parent)
 TabTree::TabTree(QWidget *parent)
     : QTreeWidget(parent)
 {
-    connect( this, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
-             this, SLOT(onCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)) );
+    connect( this, &QTreeWidget::currentItemChanged,
+             this, &TabTree::onCurrentItemChanged );
 
     setDragEnabled(true);
     setDragDropMode(QAbstractItemView::InternalMove);
@@ -275,10 +276,10 @@ TabTree::TabTree(QWidget *parent)
 
     verticalScrollBar()->installEventFilter(this);
 
-    connect( this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), SLOT(updateSize()) );
-    connect( this, SIGNAL(itemExpanded(QTreeWidgetItem*)), SLOT(updateSize()) );
+    connect( this, &QTreeWidget::itemCollapsed, this, &TabTree::updateSize );
+    connect( this, &QTreeWidget::itemExpanded, this, &TabTree::updateSize );
 
-    initSingleShotTimer( &m_timerUpdate, 0, this, SLOT(doUpdateSize()) );
+    initSingleShotTimer( &m_timerUpdate, 0, this, &TabTree::doUpdateSize );
 }
 
 QString TabTree::getCurrentTabPath() const
@@ -710,7 +711,7 @@ void TabTree::requestTabMenu(QPoint itemPosition, QPoint menuPosition)
 {
     QTreeWidgetItem *item = itemAt(itemPosition);
     QString tabPath = getTabPath(item);
-    emit tabMenuRequested(menuPosition, tabPath);
+    emit tabTreeMenuRequested(menuPosition, tabPath);
 }
 
 void TabTree::deleteItem(QTreeWidgetItem *item)

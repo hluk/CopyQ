@@ -24,6 +24,7 @@
 #include "common/common.h"
 #include "common/predefinedcommands.h"
 #include "common/shortcuts.h"
+#include "common/timer.h"
 #include "gui/commanddialog.h"
 #include "gui/iconfactory.h"
 #include "gui/iconfont.h"
@@ -104,6 +105,9 @@ ShortcutsWidget::ShortcutsWidget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    connect(ui->lineEditFilter, &QLineEdit::textChanged,
+            this, &ShortcutsWidget::onLineEditFilterTextChanged);
+
     ui->tableWidget->setColumnCount(Columns::Count);
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->horizontalHeader()->hide();
@@ -112,7 +116,7 @@ ShortcutsWidget::ShortcutsWidget(QWidget *parent)
     const int iconSize = iconFontSizePixels();
     ui->tableWidget->setIconSize(QSize(iconSize, iconSize));
 
-    initSingleShotTimer( &m_timerCheckAmbiguous, 0, this, SLOT(checkAmbiguousShortcuts()) );
+    initSingleShotTimer( &m_timerCheckAmbiguous, 0, this, &ShortcutsWidget::checkAmbiguousShortcuts );
 }
 
 ShortcutsWidget::~ShortcutsWidget()
@@ -251,7 +255,7 @@ void ShortcutsWidget::checkAmbiguousShortcuts()
         action.shortcutButton->checkAmbiguousShortcuts(ambiguousShortcuts, iconAmbiguous, toolTipAmbiguous);
 }
 
-void ShortcutsWidget::on_lineEditFilter_textChanged(const QString &text)
+void ShortcutsWidget::onLineEditFilterTextChanged(const QString &text)
 {
     const QString needle = text.toLower();
 
@@ -303,8 +307,8 @@ void ShortcutsWidget::addShortcutRow(MenuAction &action)
 
     m_actions.append(action);
 
-    connect( action.shortcutButton, SIGNAL(shortcutAdded(QKeySequence)),
-             this, SLOT(onShortcutAdded(QKeySequence)) );
-    connect( action.shortcutButton, SIGNAL(shortcutRemoved(QKeySequence)),
-             this, SLOT(onShortcutRemoved(QKeySequence)) );
+    connect( action.shortcutButton, &ShortcutButton::shortcutAdded,
+             this, &ShortcutsWidget::onShortcutAdded );
+    connect( action.shortcutButton, &ShortcutButton::shortcutRemoved,
+             this, &ShortcutsWidget::onShortcutRemoved );
 }

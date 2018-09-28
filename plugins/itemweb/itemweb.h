@@ -56,14 +56,12 @@ protected:
 
     void mouseDoubleClickEvent(QMouseEvent *e) override;
 
-private slots:
+private:
     void onSelectionChanged();
     void onLinkClicked(const QUrl &url);
 
-private slots:
     void onItemChanged();
 
-private:
     bool m_copyOnMouseUp;
     int m_maximumHeight;
     QSize m_maximumSize;

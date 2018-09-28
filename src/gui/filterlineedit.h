@@ -54,13 +54,12 @@ protected:
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
 
-private slots:
+private:
     void onTextChanged();
     void onMenuAction();
 
     void emitTextChanged();
 
-private:
     QTimer *m_timerSearch;
     QAction *m_actionRe;
     QAction *m_actionCaseInsensitive;

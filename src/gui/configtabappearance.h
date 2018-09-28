@@ -54,24 +54,23 @@ public:
 protected:
     void showEvent(QShowEvent *event) override;
 
-private slots:
+private:
     void onFontButtonClicked();
     void onColorButtonClicked();
 
-    void on_pushButtonLoadTheme_clicked();
-    void on_pushButtonSaveTheme_clicked();
-    void on_pushButtonResetTheme_clicked();
-    void on_pushButtonEditTheme_clicked();
+    void onPushButtonLoadThemeClicked();
+    void onPushButtonSaveThemeClicked();
+    void onPushButtonResetThemeClicked();
+    void onPushButtonEditThemeClicked();
 
-    void on_checkBoxShowNumber_stateChanged(int);
-    void on_checkBoxScrollbars_stateChanged(int);
-    void on_checkBoxAntialias_stateChanged(int);
+    void onCheckBoxShowNumberStateChanged(int);
+    void onCheckBoxScrollbarsStateChanged(int);
+    void onCheckBoxAntialiasStateChanged(int);
 
-    void on_comboBoxThemes_activated(const QString &text);
+    void onComboBoxThemesActivated(const QString &text);
 
     void onThemeModified(const QByteArray &bytes);
 
-private:
     void updateThemes();
     void addThemes(const QString &path);
     void updateStyle();

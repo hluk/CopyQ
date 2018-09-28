@@ -676,8 +676,8 @@ QWidget *ItemTagsLoader::createSettingsWidget(QWidget *parent)
     setFixedColumnSize(ui->tableWidget, tagsTableColumns::color);
     setFixedColumnSize(ui->tableWidget, tagsTableColumns::icon);
 
-    connect( ui->tableWidget, SIGNAL(itemChanged(QTableWidgetItem*)),
-             this, SLOT(onTableWidgetItemChanged(QTableWidgetItem*)) );
+    connect( ui->tableWidget, &QTableWidget::itemChanged,
+             this, &ItemTagsLoader::onTableWidgetItemChanged );
 
     return w;
 }
@@ -785,7 +785,7 @@ void ItemTagsLoader::onColorButtonClicked()
     if ( dialog.exec() == QDialog::Accepted )
         setColorIcon( button, dialog.selectedColor() );
 
-    onTableWidgetItemChanged();
+    onAllTableWidgetItemsChanged();
 }
 
 void ItemTagsLoader::onTableWidgetItemChanged(QTableWidgetItem *item)
@@ -804,7 +804,7 @@ void ItemTagsLoader::onTableWidgetItemChanged(QTableWidgetItem *item)
     m_blockDataChange = false;
 }
 
-void ItemTagsLoader::onTableWidgetItemChanged()
+void ItemTagsLoader::onAllTableWidgetItemsChanged()
 {
     for (int row = 0; row < ui->tableWidget->rowCount(); ++row)
         onTableWidgetItemChanged(ui->tableWidget->item(row, 0));
@@ -881,12 +881,12 @@ void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
             : deserializeColor(tag.color);
     setColorIcon(colorButton, color);
     t->setCellWidget(row, tagsTableColumns::color, colorButton);
-    connect(colorButton, SIGNAL(clicked()), SLOT(onColorButtonClicked()));
+    connect(colorButton, &QAbstractButton::clicked, this, &ItemTagsLoader::onColorButtonClicked);
 
     auto iconButton = new IconSelectButton(t);
     iconButton->setCurrentIcon(tag.icon);
     t->setCellWidget(row, tagsTableColumns::icon, iconButton);
-    connect(iconButton, SIGNAL(currentIconChanged(QString)), SLOT(onTableWidgetItemChanged()));
+    connect(iconButton, &IconSelectButton::currentIconChanged, this, &ItemTagsLoader::onAllTableWidgetItemsChanged);
 
     onTableWidgetItemChanged(t->item(row, 0));
 }

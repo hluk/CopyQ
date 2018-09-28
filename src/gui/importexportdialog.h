@@ -47,12 +47,11 @@ public:
     bool isConfigurationEnabled() const;
     bool isCommandsEnabled() const;
 
-private slots:
-    void on_checkBoxAll_clicked(bool checked);
+private:
+    void onCheckBoxAllClicked(bool checked);
 
     void update();
 
-private:
     bool canAccept() const;
 
     Ui::ImportExportDialog *ui;

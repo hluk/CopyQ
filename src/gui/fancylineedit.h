@@ -92,13 +92,12 @@ signals:
     void leftButtonClicked();
     void rightButtonClicked();
 
-private slots:
-    void iconClicked();
-
 protected:
     void resizeEvent(QResizeEvent *e) override;
 
 private:
+    void iconClicked();
+
     void updateMargins();
     void updateButtonPositions();
     friend class FancyLineEditPrivate;

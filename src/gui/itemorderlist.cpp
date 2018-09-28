@@ -44,6 +44,23 @@ ItemOrderList::ItemOrderList(QWidget *parent)
     , ui(new Ui::ItemOrderList)
 {
     ui->setupUi(this);
+
+    connect(ui->pushButtonUp, &QToolButton::clicked,
+            this, &ItemOrderList::onPushButtonUpClicked);
+    connect(ui->pushButtonDown, &QToolButton::clicked,
+            this, &ItemOrderList::onPushButtonDownClicked);
+    connect(ui->pushButtonRemove, &QToolButton::clicked,
+            this, &ItemOrderList::onPushButtonRemoveClicked);
+    connect(ui->pushButtonAdd, &QToolButton::clicked,
+            this, &ItemOrderList::onPushButtonAddClicked);
+
+    connect(ui->listWidgetItems, &QListWidget::currentItemChanged,
+            this, &ItemOrderList::onListWidgetItemsCurrentItemChanged);
+    connect(ui->listWidgetItems, &QListWidget::itemSelectionChanged,
+            this, &ItemOrderList::onListWidgetItemsItemSelectionChanged);
+    connect(ui->listWidgetItems, &QListWidget::itemChanged,
+            this, &ItemOrderList::onListWidgetItemsItemChanged);
+
     ui->pushButtonRemove->hide();
     ui->pushButtonAdd->hide();
     setFocusProxy(ui->listWidgetItems);
@@ -241,7 +258,7 @@ void ItemOrderList::showEvent(QShowEvent *event)
     QWidget::showEvent(event);
 }
 
-void ItemOrderList::on_pushButtonUp_clicked()
+void ItemOrderList::onPushButtonUpClicked()
 {
     QListWidget *list = ui->listWidgetItems;
     const int row = list->currentRow();
@@ -254,7 +271,7 @@ void ItemOrderList::on_pushButtonUp_clicked()
     list->blockSignals(false);
 }
 
-void ItemOrderList::on_pushButtonDown_clicked()
+void ItemOrderList::onPushButtonDownClicked()
 {
     QListWidget *list = ui->listWidgetItems;
     const int row = list->currentRow();
@@ -267,30 +284,30 @@ void ItemOrderList::on_pushButtonDown_clicked()
     list->blockSignals(false);
 }
 
-void ItemOrderList::on_pushButtonRemove_clicked()
+void ItemOrderList::onPushButtonRemoveClicked()
 {
     for (auto item : ui->listWidgetItems->selectedItems())
         removeItem(item);
 }
 
-void ItemOrderList::on_pushButtonAdd_clicked()
+void ItemOrderList::onPushButtonAddClicked()
 {
     emit addButtonClicked();
 }
 
-void ItemOrderList::on_listWidgetItems_currentItemChanged(QListWidgetItem *current, QListWidgetItem *)
+void ItemOrderList::onListWidgetItemsCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *)
 {
     setCurrentItemWidget( current ? createWidget(current) : nullptr );
 }
 
-void ItemOrderList::on_listWidgetItems_itemSelectionChanged()
+void ItemOrderList::onListWidgetItemsItemSelectionChanged()
 {
     const QItemSelectionModel *sel = ui->listWidgetItems->selectionModel();
     ui->pushButtonRemove->setEnabled( sel->hasSelection() );
     emit itemSelectionChanged();
 }
 
-void ItemOrderList::on_listWidgetItems_itemChanged(QListWidgetItem *item)
+void ItemOrderList::onListWidgetItemsItemChanged(QListWidgetItem *item)
 {
     const auto row = ui->listWidgetItems->row(item);
     const bool checked = isItemChecked(row);

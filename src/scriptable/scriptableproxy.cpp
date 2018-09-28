@@ -476,11 +476,11 @@ QWidget *createDateTimeEdit(
     return label(Qt::Horizontal, name, w);
 }
 
-void installShortcutToCloseDialog(QWidget *dialog, QWidget *shortcutParent, int shortcut)
+void installShortcutToCloseDialog(QDialog *dialog, QWidget *shortcutParent, int shortcut)
 {
     QShortcut *s = new QShortcut(QKeySequence(shortcut), shortcutParent);
-    QObject::connect(s, SIGNAL(activated()), dialog, SLOT(accept()));
-    QObject::connect(s, SIGNAL(activatedAmbiguously()), dialog, SLOT(accept()));
+    QObject::connect(s, &QShortcut::activated, dialog, &QDialog::accept);
+    QObject::connect(s, &QShortcut::activatedAmbiguously, dialog, &QDialog::accept);
 }
 
 QWidget *createListWidget(const QString &name, const QStringList &items, InputDialog *inputDialog)
@@ -523,7 +523,7 @@ QWidget *createSpinBox(const QString &name, const QVariant &value, QWidget *pare
     return label(Qt::Horizontal, name, w);
 }
 
-QWidget *createLineEdit(const QVariant &value, QWidget *parent)
+QLineEdit *createLineEdit(const QVariant &value, QWidget *parent)
 {
     QLineEdit *lineEdit = createAndSetWidget<QLineEdit>("text", value, parent);
     lineEdit->selectAll();
@@ -538,16 +538,16 @@ QWidget *createFileNameEdit(const QString &name, const QString &path, QWidget *p
     auto layout = new QHBoxLayout(w);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    QWidget *lineEdit = createLineEdit(path, w);
+    QLineEdit *lineEdit = createLineEdit(path, w);
     lineEdit->setProperty(propertyWidgetName, name);
 
     QPushButton *browseButton = new QPushButton("...");
 
     FileDialog *dialog = new FileDialog(w, name, path);
-    QObject::connect( browseButton, SIGNAL(clicked()),
-                      dialog, SLOT(exec()) );
-    QObject::connect( dialog, SIGNAL(fileSelected(QString)),
-                      lineEdit, SLOT(setText(QString)) );
+    QObject::connect( browseButton, &QAbstractButton::clicked,
+                      dialog, &FileDialog::exec );
+    QObject::connect( dialog, &FileDialog::fileSelected,
+                      lineEdit, &QLineEdit::setText );
 
     layout->addWidget(lineEdit);
     layout->addWidget(browseButton);
@@ -1315,7 +1315,7 @@ bool ScriptableProxy::saveTab(const QString &tabName, const QString &arg1)
 bool ScriptableProxy::importData(const QString &fileName)
 {
     INVOKE(importData, (fileName));
-    return m_wnd->importData(fileName, ImportOptions::All);
+    return m_wnd->importDataFrom(fileName, ImportOptions::All);
 }
 
 bool ScriptableProxy::exportData(const QString &fileName)
@@ -1688,8 +1688,8 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
 
     auto buttons = new QDialogButtonBox(
                 QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
-    QObject::connect( buttons, SIGNAL(accepted()), &dialog, SLOT(accept()) );
-    QObject::connect( buttons, SIGNAL(rejected()), &dialog, SLOT(reject()) );
+    QObject::connect( buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept );
+    QObject::connect( buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
     layout.addWidget(buttons);
 
     installShortcutToCloseDialog(&dialog, &dialog, Qt::CTRL | Qt::Key_Enter);

@@ -35,20 +35,18 @@ public:
 
     const QString &selectedIcon() const { return m_selectedIcon; }
 
-public slots:
     void done(int result) override;
 
 signals:
     void iconSelected(const QString &icon);
 
-private slots:
+private:
     void onIconListItemActivated(const QModelIndex &index);
 
     void onBrowse();
 
     void onAcceptCurrent();
 
-private:
     void addIcons();
     void addIcon(ushort unicode, bool isBrand, const QStringList &searchTerms);
 

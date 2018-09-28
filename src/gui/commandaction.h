@@ -37,19 +37,16 @@ public:
 
 signals:
     void triggerCommand(CommandAction *self, const QString &triggeredShortcut);
-    void enabled(bool enabled);
 
 protected:
     bool event(QEvent *event) override;
 
-private slots:
+private:
     void onTriggered();
     void onChanged();
 
-private:
     Command m_command;
     QString m_triggeredShortcut;
-    bool m_wasEnabled = true;
 };
 
 #endif // COMMANDACTION_H

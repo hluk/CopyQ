@@ -50,10 +50,9 @@ protected:
 
     QMimeData *createMimeDataFromSelection() const override;
 
-private slots:
+private:
     void onSelectionChanged();
 
-private:
     QTextDocument m_textDocument;
     QTextDocumentFragment m_elidedFragment;
     int m_ellipsisPosition = -1;

@@ -38,7 +38,7 @@ IconSelectButton::IconSelectButton(QWidget *parent)
 {
     setToolTip(tr("Select Icon..."));
 
-    connect( this, SIGNAL(clicked()), SLOT(onClicked()) );
+    connect( this, &QAbstractButton::clicked, this, &IconSelectButton::onClicked );
 
     // reset button text to "..."
     m_currentIcon = "X";
@@ -92,8 +92,8 @@ void IconSelectButton::onClicked()
     moveWindowOnScreen( dialog.get(), dialogPosition );
 
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
-    connect( dialog.get(), SIGNAL(iconSelected(QString)),
-             this, SLOT(setCurrentIcon(QString)) );
+    connect( dialog.get(), &IconSelectDialog::iconSelected,
+             this, &IconSelectButton::setCurrentIcon );
     dialog->open();
     dialog.release();
 }

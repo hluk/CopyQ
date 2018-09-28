@@ -96,22 +96,22 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
 {
     setButtonVisible(Left, true);
     setButtonVisible(Right, true);
-    connect(this, SIGNAL(rightButtonClicked()), this, SLOT(clear()));
+    connect(this, &FancyLineEdit::rightButtonClicked, this, &QLineEdit::clear);
 
     // search timer
     m_timerSearch->setSingleShot(true);
     m_timerSearch->setInterval(200);
 
-    connect( m_timerSearch, SIGNAL(timeout()),
-             this, SLOT(emitTextChanged()) );
-    connect( this, SIGNAL(textChanged(QString)),
-             this, SLOT(onTextChanged()) );
+    connect( m_timerSearch, &QTimer::timeout,
+             this, &FilterLineEdit::emitTextChanged );
+    connect( this, &QLineEdit::textChanged,
+             this, &FilterLineEdit::onTextChanged );
 
     // menu
     auto menu = new QMenu(this);
     setButtonMenu(Left, menu);
-    connect( menu, SIGNAL(triggered(QAction*)),
-             this, SLOT(onMenuAction()) );
+    connect( menu, &QMenu::triggered,
+             this, &FilterLineEdit::onMenuAction );
 
     m_actionRe = menu->addAction(tr("Regular Expression"));
     m_actionRe->setCheckable(true);

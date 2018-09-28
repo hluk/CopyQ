@@ -117,8 +117,10 @@ FancyLineEdit::FancyLineEdit(QWidget *parent) :
     ensurePolished();
     updateMargins();
 
-    connect(d->m_iconbutton[Left], SIGNAL(clicked()), this, SLOT(iconClicked()));
-    connect(d->m_iconbutton[Right], SIGNAL(clicked()), this, SLOT(iconClicked()));
+    connect(d->m_iconbutton[Left], &QAbstractButton::clicked,
+            this, &FancyLineEdit::iconClicked);
+    connect(d->m_iconbutton[Right], &QAbstractButton::clicked,
+            this, &FancyLineEdit::iconClicked);
 }
 
 FancyLineEdit::~FancyLineEdit() = default;

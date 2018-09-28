@@ -33,16 +33,14 @@ public:
 
     QSize sizeHint() const override;
 
-public slots:
     void setCurrentIcon(const QString &iconString);
 
 signals:
     void currentIconChanged(const QString &icon);
 
-private slots:
+private:
     void onClicked();
 
-private:
     QString m_currentIcon;
 };
 

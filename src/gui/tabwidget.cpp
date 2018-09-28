@@ -27,6 +27,7 @@
 #include <QBoxLayout>
 #include <QEvent>
 #include <QMainWindow>
+#include <QMimeData>
 #include <QPoint>
 #include <QSettings>
 #include <QStackedWidget>
@@ -39,14 +40,15 @@ QString getTabWidgetConfigurationFilePath()
     return getConfigurationFilePath("_tabs.ini");
 }
 
+template <typename Receiver, typename Slot>
 void addTabAction(QWidget *widget, const QKeySequence &shortcut,
-                  QWidget *receiver, const char *slot,
+                  Receiver *receiver, Slot slot,
                   Qt::ShortcutContext context = Qt::WindowShortcut)
 {
     auto act = new QAction(widget);
     act->setShortcut(shortcut);
     act->setShortcutContext(context);
-    receiver->connect(act, SIGNAL(triggered()), slot);
+    QObject::connect(act, &QAction::triggered, receiver, slot);
     widget->addAction(act);
 }
 
@@ -68,8 +70,8 @@ TabWidget::TabWidget(QWidget *parent)
     m_toolBarTree->setContextMenuPolicy(Qt::NoContextMenu);
 
     m_toolBar->installEventFilter(this);
-    connect( m_toolBar, SIGNAL(orientationChanged(Qt::Orientation)),
-             this, SLOT(onToolBarOrientationChanged(Qt::Orientation)) );
+    connect( m_toolBar, &QToolBar::orientationChanged,
+             this, &TabWidget::onToolBarOrientationChanged );
 
     auto layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
     setLayout(layout);
@@ -81,8 +83,8 @@ TabWidget::TabWidget(QWidget *parent)
 
     createTabBar();
 
-    addTabAction(this, QKeySequence::PreviousChild, this, SLOT(previousTab()));
-    addTabAction(this, QKeySequence::NextChild, this, SLOT(nextTab()));
+    addTabAction(this, QKeySequence::PreviousChild, this, &TabWidget::previousTab);
+    addTabAction(this, QKeySequence::NextChild, this, &TabWidget::nextTab);
 
     loadTabInfo();
 }
@@ -405,18 +407,18 @@ void TabWidget::createTabBar()
     tabBar->setExpanding(false);
     tabBar->setMovable(true);
 
-    connect( tabBar, SIGNAL(tabMenuRequested(QPoint,int)),
-             this, SIGNAL(tabMenuRequested(QPoint,int)) );
-    connect( tabBar, SIGNAL(tabRenamed(QString,int)),
-             this, SIGNAL(tabRenamed(QString,int)) );
-    connect( tabBar, SIGNAL(tabCloseRequested(int)),
-             this, SIGNAL(tabCloseRequested(int)) );
-    connect( tabBar, SIGNAL(dropItems(QString,const QMimeData*)),
-             this, SIGNAL(dropItems(QString,const QMimeData*)) );
-    connect( tabBar, SIGNAL(currentChanged(int)),
-             this, SLOT(setCurrentIndex(int)) );
-    connect( tabBar, SIGNAL(tabMoved(int,int)),
-             this, SLOT(onTabMoved(int,int)) );
+    connect( tabBar, &TabBar::tabBarMenuRequested,
+             this, &TabWidget::tabBarMenuRequested );
+    connect( tabBar, &TabBar::tabRenamed,
+             this, &TabWidget::tabRenamed );
+    connect( tabBar, &QTabBar::tabCloseRequested,
+             this, &TabWidget::tabCloseRequested );
+    connect( tabBar, &TabBar::dropItems,
+             this, &TabWidget::dropItems );
+    connect( tabBar, &QTabBar::currentChanged,
+             this, &TabWidget::setCurrentIndex );
+    connect( tabBar, &QTabBar::tabMoved,
+             this, &TabWidget::onTabMoved );
 
     delete m_tabs;
     m_tabs = tabBar;
@@ -431,16 +433,16 @@ void TabWidget::createTabTree()
     auto tabTree = new TabTree(this);
     tabTree->setObjectName("tab_tree");
 
-    connect( tabTree, SIGNAL(tabMenuRequested(QPoint,QString)),
-             this, SIGNAL(tabMenuRequested(QPoint,QString)) );
-    connect( tabTree, SIGNAL(tabsMoved(QString,QString,QList<int>)),
-             this, SLOT(onTabsMoved(QString,QString,QList<int>)) );
-    connect( tabTree, SIGNAL(dropItems(QString,const QMimeData*)),
-             this, SIGNAL(dropItems(QString,const QMimeData*)) );
-    connect( tabTree, SIGNAL(currentTabChanged(int)),
-             this, SLOT(setCurrentIndex(int)) );
-    connect( tabTree, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
-             this, SLOT(onTreeItemClicked()) );
+    connect( tabTree, &TabTree::tabTreeMenuRequested,
+             this, &TabWidget::tabTreeMenuRequested );
+    connect( tabTree, &TabTree::tabsMoved,
+             this, &TabWidget::onTabsMoved );
+    connect( tabTree, &TabTree::dropItems,
+             this, &TabWidget::dropItems );
+    connect( tabTree, &TabTree::currentTabChanged,
+             this, &TabWidget::setCurrentIndex );
+    connect( tabTree, &QTreeWidget::itemClicked,
+             this, &TabWidget::onTreeItemClicked );
 
     delete m_tabs;
     m_tabs = tabTree;

@@ -22,6 +22,7 @@
 #include "common/common.h"
 #include "common/display.h"
 #include "common/textdata.h"
+#include "common/timer.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 
@@ -144,7 +145,7 @@ void Notification::setIcon(ushort icon)
 void Notification::setInterval(int msec)
 {
     if (msec >= 0) {
-        initSingleShotTimer( &m_timer, msec, this, SLOT(onTimeout()) );
+        initSingleShotTimer( &m_timer, msec, this, &Notification::onTimeout );
         m_timer.start();
     } else {
         m_timer.stop();

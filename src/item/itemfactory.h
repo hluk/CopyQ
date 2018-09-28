@@ -147,11 +147,10 @@ signals:
     void error(const QString &errorString);
     void addCommands(const QVector<Command> &commands);
 
-private slots:
+private:
     /** Called if child ItemWidget destroyed. **/
     void loaderChildDestroyed(QObject *obj);
 
-private:
     /** Return enabled plugins with dummy item loader. */
     ItemLoaderList enabledLoaders() const;
 

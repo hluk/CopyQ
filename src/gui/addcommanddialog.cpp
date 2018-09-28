@@ -89,6 +89,11 @@ AddCommandDialog::AddCommandDialog(const QVector<Command> &pluginCommands, QWidg
 {
     ui->setupUi(this);
 
+    connect(ui->filterLineEdit, &Utils::FilterLineEdit::filterChanged,
+            this, &AddCommandDialog::onFilterLineEditFilterChanged);
+    connect(ui->listViewCommands, &QListView::activated,
+            this, &AddCommandDialog::onListViewCommandsActivated);
+
     ui->filterLineEdit->loadSettings();
 
     QAbstractItemModel *model = new CommandModel(predefinedCommands() + pluginCommands, m_filterModel);
@@ -122,12 +127,12 @@ void AddCommandDialog::accept()
     QDialog::accept();
 }
 
-void AddCommandDialog::on_filterLineEdit_filterChanged(const QRegExp &re)
+void AddCommandDialog::onFilterLineEditFilterChanged(const QRegExp &re)
 {
     m_filterModel->setFilterRegExp(re);
 }
 
-void AddCommandDialog::on_listViewCommands_activated()
+void AddCommandDialog::onListViewCommandsActivated()
 {
     accept();
 }

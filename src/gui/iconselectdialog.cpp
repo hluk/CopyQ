@@ -78,8 +78,8 @@ public:
     {
         if (!m_search) {
             m_search = new QLineEdit(this);
-            connect( m_search, SIGNAL(textChanged(QString)),
-                     this, SLOT(onSearchTextChanged(QString)) );
+            connect( m_search, &QLineEdit::textChanged,
+                     this, &IconListWidget::onSearchTextChanged );
             m_search->show();
             updateSearchPosition();
         }
@@ -116,7 +116,7 @@ protected:
             updateSearchPosition();
     }
 
-private slots:
+private:
     void onSearchTextChanged(const QString &text)
     {
         if ( text.isEmpty() )
@@ -125,7 +125,6 @@ private slots:
             search( text.toLower() );
     }
 
-private:
     void updateSearchPosition()
     {
         if (!m_search)
@@ -168,23 +167,23 @@ IconSelectDialog::IconSelectDialog(const QString &defaultIcon, QWidget *parent)
 {
     setWindowTitle( tr("CopyQ Select Icon") );
 
-    connect( m_iconList, SIGNAL(activated(QModelIndex)),
-             this, SLOT(onIconListItemActivated(QModelIndex)) );
+    connect( m_iconList, &QAbstractItemView::activated,
+             this, &IconSelectDialog::onIconListItemActivated );
 
     addIcons();
 
     QPushButton *browseButton = new QPushButton(tr("Browse..."), this);
     if ( m_selectedIcon.size() > 2 )
         browseButton->setIcon(QIcon(m_selectedIcon));
-    connect( browseButton, SIGNAL(clicked()),
-             this, SLOT(onBrowse()) );
+    connect( browseButton, &QAbstractButton::clicked,
+             this, &IconSelectDialog::onBrowse );
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(
                 QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this);
-    connect( buttonBox, SIGNAL(rejected()),
-             this, SLOT(reject()) );
-    connect( buttonBox, SIGNAL(accepted()),
-             this, SLOT(onAcceptCurrent()) );
+    connect( buttonBox, &QDialogButtonBox::rejected,
+             this, &QDialog::reject );
+    connect( buttonBox, &QDialogButtonBox::accepted,
+             this, &IconSelectDialog::onAcceptCurrent );
 
     auto layout = new QVBoxLayout(this);
     layout->addWidget(m_iconList);

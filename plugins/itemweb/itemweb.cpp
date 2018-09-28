@@ -86,11 +86,11 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *
     setContextMenuPolicy(Qt::NoContextMenu);
 
     // Selecting text copies it to clipboard.
-    connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
+    connect( this, &QWebView::selectionChanged, this, &ItemWeb::onSelectionChanged );
 
     // Open link with external application.
     page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-    connect( page(), SIGNAL(linkClicked(QUrl)), SLOT(onLinkClicked(QUrl)) );
+    connect( page(), &QWebPage::linkClicked, this, &ItemWeb::onLinkClicked );
 
     settings()->setAttribute(QWebSettings::LinksIncludedInFocusChain, false);
     settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, false);
@@ -118,8 +118,8 @@ void ItemWeb::onItemChanged()
 void ItemWeb::updateSize(QSize maximumSize, int)
 {
     QWebFrame *frame = page()->mainFrame();
-    disconnect( frame, SIGNAL(contentsSizeChanged(QSize)),
-                this, SLOT(onItemChanged()) );
+    disconnect( frame, &QWebFrame::contentsSizeChanged,
+                this, &ItemWeb::onItemChanged );
 
     setMaximumSize(maximumSize);
     m_maximumSize = maximumSize;
@@ -144,8 +144,8 @@ void ItemWeb::updateSize(QSize maximumSize, int)
     // FIXME: This fixes background color but makes black scroll bar.
     setStyleSheet("background-color:transparent");
 
-    connect( frame, SIGNAL(contentsSizeChanged(QSize)),
-             this, SLOT(onItemChanged()) );
+    connect( frame, &QWebFrame::contentsSizeChanged,
+             this, &ItemWeb::onItemChanged );
 }
 
 void ItemWeb::onSelectionChanged()

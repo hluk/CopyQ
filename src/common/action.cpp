@@ -22,6 +22,7 @@
 #include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/timer.h"
 #include "item/serialize.h"
 
 #include <QCoreApplication>
@@ -33,6 +34,17 @@
 #include <cstring>
 
 namespace {
+
+template <typename Receiver, typename Slot>
+void connectProcessFinished(QProcess *process, Receiver receiver, Slot slot)
+{
+    constexpr auto processFinishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
+    QObject::connect(
+        process, processFinishedSignal, receiver,
+        [receiver, slot](int, QProcess::ExitStatus) {
+            (receiver->*slot)();
+        });
+}
 
 void startProcess(QProcess *process, const QStringList &args, QIODevice::OpenModeFlag mode)
 {
@@ -221,7 +233,7 @@ void Action::start()
     closeSubCommands();
 
     if ( m_currentLine + 1 >= m_cmds.size() ) {
-        actionFinished();
+        finish();
         return;
     }
 
@@ -244,34 +256,32 @@ void Action::start()
             process->setWorkingDirectory(m_workingDirectoryPath);
 
 #if QT_VERSION < 0x050600
-        connect( process, SIGNAL(error(QProcess::ProcessError)),
-                 SLOT(onSubProcessError(QProcess::ProcessError)) );
+        connect( process, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
+                 this, &Action::onSubProcessError );
 #else
-        connect( process, SIGNAL(errorOccurred(QProcess::ProcessError)),
-                 SLOT(onSubProcessError(QProcess::ProcessError)) );
+        connect( process, &QProcess::errorOccurred,
+                 this, &Action::onSubProcessError );
 #endif
-        connect( process, SIGNAL(readyReadStandardError()),
-                 SLOT(onSubProcessErrorOutput()) );
+        connect( process, &QProcess::readyReadStandardError,
+                 this, &Action::onSubProcessErrorOutput );
     }
 
     for (int i = 1; i < m_processes.size(); ++i) {
         m_processes[i - 1]->setStandardOutputProcess(m_processes[i]);
-        connect( m_processes[i], SIGNAL(finished(int)),
-                 m_processes[i - 1], SLOT(terminate()) );
+        connectProcessFinished( m_processes[i], m_processes[i - 1], &QProcess::terminate );
     }
 
-    connect( m_processes.last(), SIGNAL(started()),
-             this, SLOT(onSubProcessStarted()) );
-    connect( m_processes.last(), SIGNAL(finished(int,QProcess::ExitStatus)),
-             this, SLOT(onSubProcessFinished()) );
-    connect( m_processes.last(), SIGNAL(readyReadStandardOutput()),
-             this, SLOT(onSubProcessOutput()) );
+    connect( m_processes.last(), &QProcess::started,
+             this, &Action::onSubProcessStarted );
+    connectProcessFinished( m_processes.last(), this, &Action::onSubProcessFinished );
+    connect( m_processes.last(), &QProcess::readyReadStandardOutput,
+             this, &Action::onSubProcessOutput );
 
     // Writing directly to stdin of a process on Windows can hang the app.
-    connect( m_processes.first(), SIGNAL(started()),
-             this, SLOT(writeInput()), Qt::QueuedConnection );
-    connect( m_processes.first(), SIGNAL(bytesWritten(qint64)),
-             this, SLOT(onBytesWritten()), Qt::QueuedConnection );
+    connect( m_processes.first(), &QProcess::started,
+             this, &Action::writeInput, Qt::QueuedConnection );
+    connect( m_processes.first(), &QProcess::bytesWritten,
+             this, &Action::onBytesWritten, Qt::QueuedConnection );
 
     const bool needWrite = !m_input.isEmpty();
     if (m_processes.size() == 1) {
@@ -302,8 +312,8 @@ bool Action::waitForFinished(int msecs)
     QPointer<QObject> self(this);
     QEventLoop loop;
     QTimer t;
-    connect(m_processes.last(), SIGNAL(finished(int)), &loop, SLOT(quit()));
-    connect(&t, SIGNAL(timeout()), &loop, SLOT(quit()));
+    connectProcessFinished(m_processes.last(), &loop, &QEventLoop::quit);
+    connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
     t.start(msecs);
     loop.exec(QEventLoop::ExcludeUserInputEvents);
 
@@ -350,7 +360,7 @@ void Action::onSubProcessError(QProcess::ProcessError error)
     }
 
     if ( !isRunning() )
-        actionFinished();
+        finish();
 }
 
 void Action::onSubProcessStarted()
@@ -433,7 +443,7 @@ void Action::closeSubCommands()
     m_processes.clear();
 }
 
-void Action::actionFinished()
+void Action::finish()
 {
     closeSubCommands();
     emit actionFinished(this);

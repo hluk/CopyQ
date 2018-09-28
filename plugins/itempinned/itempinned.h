@@ -86,13 +86,12 @@ public:
 
     QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
 
-private slots:
+private:
     void onRowsInserted(const QModelIndex &parent, int start, int end);
     void onRowsRemoved(const QModelIndex &parent, int start, int end);
     void onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow);
     void onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
-private:
     void moveRow(int from, int to);
     void updateLastPinned(int from, int to);
 

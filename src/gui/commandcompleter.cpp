@@ -223,17 +223,17 @@ CommandCompleter::CommandCompleter(QPlainTextEdit *editor)
     m_completer->setPopup(new CommandCompleterPopup(m_editor));
     m_completer->popup()->installEventFilter(this);
 
-    connect( m_completer, SIGNAL(activated(QString)),
-             this, SLOT(insertCompletion(QString)) );
+    connect( m_completer, static_cast<void (QCompleter::*)(const QString&)>(&QCompleter::activated),
+             this, &CommandCompleter::insertCompletion );
 
-    connect( m_editor, SIGNAL(textChanged()),
-             this, SLOT(updateCompletion()) );
-    connect( m_editor, SIGNAL(cursorPositionChanged()),
-             m_completer->popup(), SLOT(hide()) );
+    connect( m_editor, &QPlainTextEdit::textChanged,
+             this, &CommandCompleter::onTextChanged );
+    connect( m_editor, &QPlainTextEdit::cursorPositionChanged,
+             m_completer->popup(), &QWidget::hide );
 
     auto shortcut = new QShortcut(tr("Ctrl+Space", "Shortcut to show completion menu"), editor);
-    connect( shortcut, SIGNAL(activated()),
-             this, SLOT(showCompletion()) );
+    connect( shortcut, &QShortcut::activated,
+             this, &CommandCompleter::showCompletion );
 }
 
 bool CommandCompleter::eventFilter(QObject *, QEvent *event)
@@ -261,6 +261,11 @@ bool CommandCompleter::eventFilter(QObject *, QEvent *event)
     default:
         return false;
     }
+}
+
+void CommandCompleter::onTextChanged()
+{
+    updateCompletion(false);
 }
 
 void CommandCompleter::updateCompletion(bool forceShow)

@@ -31,7 +31,7 @@ class CommandHelpButton : public QWidget
 public:
     explicit CommandHelpButton(QWidget *parent = nullptr);
 
-public slots:
+public:
     void showHelp();
 
 signals:

@@ -305,7 +305,7 @@ ItemWidget *ItemFactory::createItem(
         }
 
         m_loaderChildren[w] = loader;
-        connect(w, SIGNAL(destroyed(QObject*)), SLOT(loaderChildDestroyed(QObject*)));
+        connect(w, &QObject::destroyed, this, &ItemFactory::loaderChildDestroyed);
         return item;
     }
 

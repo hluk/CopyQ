@@ -193,13 +193,13 @@ QWidget *ItemDataLoader::createSettingsWidget(QWidget *parent)
     ui->plainTextEditFormats->setPlainText( formats.join(QString("\n")) );
     ui->spinBoxMaxChars->setValue( m_settings.value("max_bytes", defaultMaxBytes).toInt() );
 
-    connect( ui->treeWidgetFormats, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
-             SLOT(on_treeWidgetFormats_itemActivated(QTreeWidgetItem*,int)) );
+    connect( ui->treeWidgetFormats, &QTreeWidget::itemActivated,
+             this, &ItemDataLoader::onTreeWidgetFormatsItemActivated );
 
     return w;
 }
 
-void ItemDataLoader::on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, int column)
+void ItemDataLoader::onTreeWidgetFormatsItemActivated(QTreeWidgetItem *item, int column)
 {
     const QString mime = item->toolTip(column);
     if ( !mime.isEmpty() )

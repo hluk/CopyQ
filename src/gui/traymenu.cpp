@@ -23,6 +23,7 @@
 #include "common/common.h"
 #include "common/display.h"
 #include "common/textdata.h"
+#include "common/timer.h"
 #include "gui/icons.h"
 #include "gui/iconfactory.h"
 
@@ -75,7 +76,7 @@ TrayMenu::TrayMenu(QWidget *parent)
     , m_viMode(false)
     , m_numberSearch(false)
 {
-    initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, SLOT(updateActiveAction()) );
+    initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, &TrayMenu::updateActiveAction );
 }
 
 void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent)
@@ -130,7 +131,7 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
         }
     }
 
-    connect(act, SIGNAL(triggered()), this, SLOT(onClipboardItemActionTriggered()));
+    connect(act, &QAction::triggered, this, &TrayMenu::onClipboardItemActionTriggered);
 
     if (isCurrent)
         setActiveAction(act);

@@ -60,10 +60,10 @@ public:
         m_handler->installEventFilter();
         m_handler->setupWidget();
 
-        connect( editor, SIGNAL(selectionChanged()),
-                 this, SLOT(onSelectionChanged()) );
-        connect( editor, SIGNAL(cursorPositionChanged()),
-                 this, SLOT(onSelectionChanged()) );
+        connect( editor, &QTextEdit::selectionChanged,
+                 this, &TextEditWidget::onSelectionChanged );
+        connect( editor, &QTextEdit::cursorPositionChanged,
+                 this, &TextEditWidget::onSelectionChanged );
 
         setLineWrappingEnabled(true);
 
@@ -215,7 +215,7 @@ public:
         editor()->setLineWrapMode(enable ? QTextEdit::WidgetWidth : QTextEdit::NoWrap);
     }
 
-private slots:
+private:
     void onSelectionChanged() {
         m_hasBlockSelection = false;
         m_selection.clear();
@@ -232,7 +232,6 @@ private slots:
         updateSelections();
     }
 
-private:
     int horizontalOffset() const
     {
         QScrollBar *hbar = editor()->horizontalScrollBar();
@@ -282,7 +281,6 @@ public:
       : QObject(parent), m_editorWidget(editorWidget), m_statusBar(statusBar)
     {}
 
-public slots:
     void changeStatusData(const QString &info)
     {
         m_statusData = info;
@@ -446,26 +444,26 @@ protected:
 private:
     void connectSignals(FakeVimHandler *handler, Proxy *proxy)
     {
-        connect(handler, SIGNAL(commandBufferChanged(QString,int,int,int,QObject*)),
-                proxy, SLOT(changeStatusMessage(QString,int)));
-        connect(handler, SIGNAL(extraInformationChanged(QString)),
-                proxy, SLOT(changeExtraInformation(QString)));
-        connect(handler, SIGNAL(statusDataChanged(QString)),
-                proxy, SLOT(changeStatusData(QString)));
-        connect(handler, SIGNAL(highlightMatches(QString)),
-                proxy, SLOT(highlightMatches(QString)));
-        connect(handler, SIGNAL(handleExCommandRequested(bool*,ExCommand)),
-                proxy, SLOT(handleExCommand(bool*,ExCommand)));
-        connect(handler, SIGNAL(requestSetBlockSelection(QTextCursor)),
-                proxy, SLOT(requestSetBlockSelection(QTextCursor)));
-        connect(handler, SIGNAL(requestDisableBlockSelection()),
-                proxy, SLOT(requestDisableBlockSelection()));
-        connect(handler, SIGNAL(requestBlockSelection(QTextCursor*)),
-                proxy, SLOT(requestBlockSelection(QTextCursor*)));
+        connect(handler, &FakeVimHandler::commandBufferChanged,
+                proxy, &Proxy::changeStatusMessage);
+        connect(handler, &FakeVimHandler::extraInformationChanged,
+                proxy, &Proxy::changeExtraInformation);
+        connect(handler, &FakeVimHandler::statusDataChanged,
+                proxy, &Proxy::changeStatusData);
+        connect(handler, &FakeVimHandler::highlightMatches,
+                proxy, &Proxy::highlightMatches);
+        connect(handler, &FakeVimHandler::handleExCommandRequested,
+                proxy, &Proxy::handleExCommand);
+        connect(handler, &FakeVimHandler::requestSetBlockSelection,
+                proxy, &Proxy::requestSetBlockSelection);
+        connect(handler, &FakeVimHandler::requestDisableBlockSelection,
+                proxy, &Proxy::requestDisableBlockSelection);
+        connect(handler, &FakeVimHandler::requestBlockSelection,
+                proxy, &Proxy::requestBlockSelection);
 
-        connect(proxy, SIGNAL(save()), SIGNAL(save()));
-        connect(proxy, SIGNAL(cancel()), SIGNAL(cancel()));
-        connect(proxy, SIGNAL(invalidate()), SIGNAL(invalidate()));
+        connect(proxy, &Proxy::save, this, &Editor::save);
+        connect(proxy, &Proxy::cancel, this, &Editor::cancel);
+        connect(proxy, &Proxy::invalidate, this, &Editor::invalidate);
     }
 
     TextEditWidget *m_editor;

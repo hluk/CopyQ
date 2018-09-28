@@ -74,6 +74,34 @@ CommandWidget::CommandWidget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    connect(ui->lineEditName, &QLineEdit::textChanged,
+            this, &CommandWidget::onLineEditNameTextChanged);
+    connect(ui->buttonIcon, &IconSelectButton::currentIconChanged,
+            this, &CommandWidget::onButtonIconCurrentIconChanged);
+    connect(ui->checkBoxShowAdvanced, &QCheckBox::stateChanged,
+            this, &CommandWidget::onCheckBoxShowAdvancedStateChanged);
+
+    connect(ui->checkBoxAutomatic, &QCheckBox::stateChanged,
+            this, &CommandWidget::onCheckBoxAutomaticStateChanged);
+    connect(ui->checkBoxDisplay, &QCheckBox::stateChanged,
+            this, &CommandWidget::onCheckBoxDisplayStateChanged);
+    connect(ui->checkBoxInMenu, &QCheckBox::stateChanged,
+            this, &CommandWidget::onCheckBoxInMenuStateChanged);
+    connect(ui->checkBoxIsScript, &QCheckBox::stateChanged,
+            this, &CommandWidget::onCheckBoxIsScriptStateChanged);
+    connect(ui->checkBoxGlobalShortcut, &QCheckBox::stateChanged,
+            this, &CommandWidget::onCheckBoxGlobalShortcutStateChanged);
+
+    connect(ui->shortcutButtonGlobalShortcut, &ShortcutButton::shortcutAdded,
+            this, &CommandWidget::onShortcutButtonGlobalShortcutShortcutAdded);
+    connect(ui->shortcutButtonGlobalShortcut, &ShortcutButton::shortcutRemoved,
+            this, &CommandWidget::onShortcutButtonGlobalShortcutShortcutRemoved);
+
+    connect(ui->commandEdit, &CommandEdit::changed,
+            this, &CommandWidget::onCommandEditChanged);
+    connect(ui->commandEdit, &CommandEdit::commandTextChanged,
+            this, &CommandWidget::onCommandEditCommandTextChanged);
+
     ui->widgetAdvanced->hide();
 
     updateWidgets();
@@ -184,17 +212,17 @@ void CommandWidget::showEvent(QShowEvent *event)
     QWidget::showEvent(event);
 }
 
-void CommandWidget::on_lineEditName_textChanged(const QString &text)
+void CommandWidget::onLineEditNameTextChanged(const QString &text)
 {
     emit nameChanged(text);
 }
 
-void CommandWidget::on_buttonIcon_currentIconChanged()
+void CommandWidget::onButtonIconCurrentIconChanged()
 {
     emitIconChanged();
 }
 
-void CommandWidget::on_checkBoxShowAdvanced_stateChanged(int state)
+void CommandWidget::onCheckBoxShowAdvancedStateChanged(int state)
 {
     const bool showAdvanced = state == Qt::Checked;
     AppConfig appConfig;
@@ -203,47 +231,47 @@ void CommandWidget::on_checkBoxShowAdvanced_stateChanged(int state)
     updateWidgets();
 }
 
-void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
+void CommandWidget::onCheckBoxAutomaticStateChanged(int)
 {
     updateWidgets();
 }
 
-void CommandWidget::on_checkBoxDisplay_stateChanged(int)
+void CommandWidget::onCheckBoxDisplayStateChanged(int)
 {
     updateWidgets();
 }
 
-void CommandWidget::on_checkBoxInMenu_stateChanged(int)
+void CommandWidget::onCheckBoxInMenuStateChanged(int)
 {
     updateWidgets();
 }
 
-void CommandWidget::on_checkBoxIsScript_stateChanged(int)
+void CommandWidget::onCheckBoxIsScriptStateChanged(int)
 {
     updateWidgets();
 }
 
-void CommandWidget::on_checkBoxGlobalShortcut_stateChanged(int)
+void CommandWidget::onCheckBoxGlobalShortcutStateChanged(int)
 {
     updateWidgets();
 }
 
-void CommandWidget::on_shortcutButtonGlobalShortcut_shortcutAdded(const QKeySequence &)
+void CommandWidget::onShortcutButtonGlobalShortcutShortcutAdded(const QKeySequence &)
 {
     updateWidgets();
 }
 
-void CommandWidget::on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySequence &)
+void CommandWidget::onShortcutButtonGlobalShortcutShortcutRemoved(const QKeySequence &)
 {
     updateWidgets();
 }
 
-void CommandWidget::on_commandEdit_changed()
+void CommandWidget::onCommandEditChanged()
 {
     updateWidgets();
 }
 
-void CommandWidget::on_commandEdit_commandTextChanged(const QString &command)
+void CommandWidget::onCommandEditCommandTextChanged(const QString &command)
 {
     emit commandTextChanged(command);
 }

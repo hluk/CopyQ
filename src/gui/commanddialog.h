@@ -50,13 +50,12 @@ public:
 
     bool maybeClose(QWidget *saveMessageBoxParent);
 
-public slots:
     void reject() override;
 
 signals:
     void commandsSaved();
 
-private slots:
+private:
     void tryPasteCommandFromClipboard();
     void copySelectedCommandsToClipboard();
     void onCommandDropped(const QString &text, int row);
@@ -67,22 +66,21 @@ private slots:
 
     void onFinished(int result);
 
-    void on_itemOrderListCommands_addButtonClicked();
-    void on_itemOrderListCommands_itemSelectionChanged();
-    void on_pushButtonLoadCommands_clicked();
-    void on_pushButtonSaveCommands_clicked();
-    void on_pushButtonCopyCommands_clicked();
-    void on_pushButtonPasteCommands_clicked();
-    void on_lineEditFilterCommands_textChanged(const QString &text);
-    void on_buttonBox_clicked(QAbstractButton* button);
-
     void onAddCommands(const QVector<Command> &commands);
 
     void onClipboardChanged();
 
     void onCommandTextChanged(const QString &command);
 
-private:
+    void onItemOrderListCommandsAddButtonClicked();
+    void onItemOrderListCommandsItemSelectionChanged();
+    void onPushButtonLoadCommandsClicked();
+    void onPushButtonSaveCommandsClicked();
+    void onPushButtonCopyCommandsClicked();
+    void onPushButtonPasteCommandsClicked();
+    void onLineEditFilterCommandsTextChanged(const QString &text);
+    void onButtonBoxClicked(QAbstractButton* button);
+
     Command currentCommand(int row) const;
     Commands currentCommands() const;
 

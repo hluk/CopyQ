@@ -152,12 +152,11 @@ public:
 
     QVector<Command> commands() const override;
 
-private slots:
+private:
     void onColorButtonClicked();
     void onTableWidgetItemChanged(QTableWidgetItem *item);
-    void onTableWidgetItemChanged();
+    void onAllTableWidgetItemsChanged();
 
-private:
     QStringList userTags() const;
 
     using Tag = ItemTags::Tag;

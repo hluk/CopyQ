@@ -103,10 +103,10 @@ void ActionHandler::action(Action *action)
     action->setId(id);
     m_actions.insert(id, action);
 
-    connect( action, SIGNAL(actionStarted(Action*)),
-             this, SLOT(actionStarted(Action*)) );
-    connect( action, SIGNAL(actionFinished(Action*)),
-             this, SLOT(closeAction(Action*)) );
+    connect( action, &Action::actionStarted,
+             this, &ActionHandler::actionStarted );
+    connect( action, &Action::actionFinished,
+             this, &ActionHandler::closeAction );
 
     m_activeActionDialog->actionAboutToStart(action);
     COPYQ_LOG( QString("Executing: %1").arg(actionDescription(*action)) );

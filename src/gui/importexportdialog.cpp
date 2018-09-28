@@ -30,12 +30,15 @@ ImportExportDialog::ImportExportDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect( ui->listTabs, SIGNAL(itemSelectionChanged()),
-             this, SLOT(update()) );
-    connect( ui->checkBoxConfiguration, SIGNAL(stateChanged(int)),
-             this, SLOT(update()) );
-    connect( ui->checkBoxCommands, SIGNAL(stateChanged(int)),
-             this, SLOT(update()) );
+    connect(ui->checkBoxAll, &QCheckBox::clicked,
+            this, &ImportExportDialog::onCheckBoxAllClicked);
+
+    connect( ui->listTabs, &QListWidget::itemSelectionChanged,
+             this, &ImportExportDialog::update );
+    connect( ui->checkBoxConfiguration, &QCheckBox::stateChanged,
+             this, &ImportExportDialog::update );
+    connect( ui->checkBoxCommands, &QCheckBox::stateChanged,
+             this, &ImportExportDialog::update );
 }
 
 ImportExportDialog::~ImportExportDialog()
@@ -106,7 +109,7 @@ bool ImportExportDialog::isCommandsEnabled() const
             && !ui->checkBoxCommands->isHidden();
 }
 
-void ImportExportDialog::on_checkBoxAll_clicked(bool checked)
+void ImportExportDialog::onCheckBoxAllClicked(bool checked)
 {
     ui->checkBoxConfiguration->setChecked(checked);
     ui->checkBoxCommands->setChecked(checked);

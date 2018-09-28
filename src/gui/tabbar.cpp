@@ -64,8 +64,8 @@ TabBar::TabBar(QWidget *parent)
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setAcceptDrops(true);
 
-    connect( this,SIGNAL(currentChanged(int)),
-             this, SLOT(onCurrentChanged()) );
+    connect( this, &QTabBar::currentChanged,
+             this, &TabBar::onCurrentChanged );
 }
 
 QString TabBar::getCurrentTabPath() const
@@ -170,7 +170,7 @@ void TabBar::adjustSize()
 void TabBar::contextMenuEvent(QContextMenuEvent *event)
 {
     const int tab = tabAt(event->pos());
-    emit tabMenuRequested(event->globalPos(), tab);
+    emit tabBarMenuRequested(event->globalPos(), tab);
     event->accept();
 }
 

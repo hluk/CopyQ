@@ -141,8 +141,8 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
         m_timerShowToolTip = new QTimer(this);
         m_timerShowToolTip->setInterval(250);
         m_timerShowToolTip->setSingleShot(true);
-        connect( m_timerShowToolTip, SIGNAL(timeout()),
-                 this, SLOT(showToolTip()) );
+        connect( m_timerShowToolTip, &QTimer::timeout,
+                 this, &ItemNotes::showToolTip );
         m_toolTipText = text;
     }
 

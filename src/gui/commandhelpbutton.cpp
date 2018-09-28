@@ -136,8 +136,8 @@ CommandHelpButton::CommandHelpButton(QWidget *parent)
     m_button->setIconSize(QSize(x, x));
     m_button->setIcon( getIcon("help-faq", IconInfoCircle) );
 
-    connect( m_button, SIGNAL(clicked()),
-             this, SLOT(showHelp()) );
+    connect( m_button, &QAbstractButton::clicked,
+             this, &CommandHelpButton::showHelp );
 
     QVBoxLayout *layout = createLayout(this);
     layout->addWidget(m_button);
@@ -157,7 +157,7 @@ void CommandHelpButton::showHelp()
         QDialogButtonBox *buttonBox = new QDialogButtonBox(
                     QDialogButtonBox::Close, Qt::Horizontal, m_help);
         layout->addWidget(buttonBox);
-        QObject::connect(buttonBox, SIGNAL(rejected()), m_help, SLOT(hide()));
+        QObject::connect(buttonBox, &QDialogButtonBox::rejected, m_help, &QWidget::hide);
 
         browser->setText(help());
     }

@@ -354,8 +354,8 @@ QWidget *ProcessManagerDialog::createRemoveButton(Action *action)
     button->setToolTip(tr("Terminate"));
 
     if (action) {
-        connect( button, SIGNAL(clicked()),
-                 action, SLOT(terminate()) );
+        connect( button, &QAbstractButton::clicked,
+                 action, &Action::terminate );
     } else {
         connect( button, SIGNAL(clicked()),
                  this, SLOT(onRemoveActionButtonClicked()) );

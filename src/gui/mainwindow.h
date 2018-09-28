@@ -192,11 +192,9 @@ public:
     void minimizeWindow();
     /** Set current tab. */
     bool setCurrentTab(int index);
-    /** Show window and given tab and give focus to the tab. */
-    void showBrowser(int index);
 
     /** Open tab group renaming dialog. */
-    void renameTabGroup(const QString &name);
+    void openRenameTabGroupDialog(const QString &name);
     /** Remove all tab in group. */
     void removeTabGroup(const QString &name);
     /** Remove tab. */
@@ -231,7 +229,7 @@ public:
      * Import tabs, settings etc.
      * @return True only if all data were successfully loaded.
      */
-    bool importData(const QString &fileName, ImportOptions options);
+    bool importDataFrom(const QString &fileName, ImportOptions options);
 
     /**
      * Export tabs, settings etc.
@@ -280,7 +278,6 @@ public:
 
     void snip();
 
-public slots:
     /** Close main window and exit the application. */
     void exit();
 
@@ -369,7 +366,8 @@ public slots:
     void setTabIcon();
 
     /** Open tab creation dialog. */
-    void newTab(const QString &name = QString());
+    void openNewTabDialog(const QString &name);
+    void openNewTabDialog();
 
     /** Remove tab. */
     void removeTab();
@@ -377,7 +375,8 @@ public slots:
     /** Rename current tab to given name (if possible). */
     void renameTabGroup(const QString &newName, const QString &oldName);
     /** Open tab renaming dialog (for given tab index or current tab). */
-    void renameTab(int tab = -1);
+    void openRenameTabDialog(int tabIndex);
+    void openRenameTabDialog();
     /** Rename current tab to given name (if possible). */
     void renameTab(const QString &name, int tabIndex);
 
@@ -434,11 +433,11 @@ protected:
 
     bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
 
-private slots:
+private:
     ClipboardBrowser *getTabForMenu();
     ClipboardBrowser *getTabForTrayMenu();
-    void addMenuItems(const QString &searchText);
-    void addTrayMenuItems(const QString &searchText);
+    void filterMenuItems(const QString &searchText);
+    void filterTrayMenuItems(const QString &searchText);
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
     void onMenuActionTriggered(const QVariantMap &data, bool omitPaste);
     void onTrayActionTriggered(const QVariantMap &data, bool omitPaste);
@@ -447,8 +446,8 @@ private slots:
     void saveTabPositions();
     void doSaveTabPositions();
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix);
-    void tabMenuRequested(QPoint pos, int tab);
-    void tabMenuRequested(QPoint pos, const QString &groupPath);
+    void tabBarMenuRequested(QPoint pos, int tab);
+    void tabTreeMenuRequested(QPoint pos, const QString &groupPath);
     void tabCloseRequested(int tab);
     void onFilterChanged(const QRegExp &re);
     void createTrayIfSupported();
@@ -481,9 +480,9 @@ private slots:
     void onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut);
     void onClipboardCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut);
 
-    void on_tabWidget_dropItems(const QString &tabName, const QMimeData *data);
+    void onTabWidgetDropItems(const QString &tabName, const QMimeData *data);
 
-    void showContextMenu(QPoint position);
+    void showContextMenuAt(QPoint position);
 
     void showContextMenu();
 
@@ -497,7 +496,7 @@ private slots:
 
     void onBrowserCreated(ClipboardBrowser *browser);
 
-    void onSelectionChanged(const ClipboardBrowser *browser);
+    void onItemSelectionChanged(const ClipboardBrowser *browser);
     void onItemsChanged(const ClipboardBrowser *browser);
     void onInternalEditorStateChanged(const ClipboardBrowser *self);
 
@@ -515,7 +514,9 @@ private slots:
     void enableHideWindowOnUnfocus();
     void hideWindowIfNotActive();
 
-private:
+    template <typename SlotReturnType>
+    using MainWindowActionSlot = SlotReturnType (MainWindow::*)();
+
     enum TabNameMatching {
         MatchExactTabName,
         MatchSimilarTabName
@@ -580,13 +581,15 @@ private:
     /** Return notification daemon (create if doesn't exist). */
     NotificationDaemon *notificationDaemon();
 
-    QAction *createAction(int id, const char *slot, QMenu *menu);
+    template <typename SlotReturnType>
+    QAction *createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu);
 
     QAction *addTrayAction(int id);
 
     void updateTabIcon(const QString &newName, const QString &oldName);
 
-    QAction *addItemAction(int id, QObject *receiver, const char *slot);
+    template <typename Receiver, typename ReturnType>
+    QAction *addItemAction(int id, Receiver *receiver, ReturnType (Receiver::* slot)());
 
     QVector<Command> commandsForMenu(const QVariantMap &data, const QString &tabName);
     void addCommandsToItemMenu(ClipboardBrowser *c);
@@ -619,7 +622,7 @@ private:
     bool toggleMenu(TrayMenu *menu, QPoint pos);
     bool toggleMenu(TrayMenu *menu);
 
-    bool exportData(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
+    bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool importDataV3(QDataStream *in, ImportOptions options);
 

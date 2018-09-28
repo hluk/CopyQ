@@ -58,32 +58,31 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
     void showEvent(QShowEvent *event) override;
 
-private slots:
-    void on_lineEditName_textChanged(const QString &text);
-
-    void on_buttonIcon_currentIconChanged();
-
-    void on_checkBoxShowAdvanced_stateChanged(int state);
-
-    void on_checkBoxAutomatic_stateChanged(int);
-
-    void on_checkBoxDisplay_stateChanged(int);
-
-    void on_checkBoxInMenu_stateChanged(int);
-
-    void on_checkBoxIsScript_stateChanged(int);
-
-    void on_checkBoxGlobalShortcut_stateChanged(int);
-
-    void on_shortcutButtonGlobalShortcut_shortcutAdded(const QKeySequence &shortcut);
-
-    void on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySequence &shortcut);
-
-    void on_commandEdit_changed();
-
-    void on_commandEdit_commandTextChanged(const QString &command);
-
 private:
+    void onLineEditNameTextChanged(const QString &text);
+
+    void onButtonIconCurrentIconChanged();
+
+    void onCheckBoxShowAdvancedStateChanged(int state);
+
+    void onCheckBoxAutomaticStateChanged(int);
+
+    void onCheckBoxDisplayStateChanged(int);
+
+    void onCheckBoxInMenuStateChanged(int);
+
+    void onCheckBoxIsScriptStateChanged(int);
+
+    void onCheckBoxGlobalShortcutStateChanged(int);
+
+    void onShortcutButtonGlobalShortcutShortcutAdded(const QKeySequence &shortcut);
+
+    void onShortcutButtonGlobalShortcutShortcutRemoved(const QKeySequence &shortcut);
+
+    void onCommandEditChanged();
+
+    void onCommandEditCommandTextChanged(const QString &command);
+
     void init();
 
     void updateWidgets();

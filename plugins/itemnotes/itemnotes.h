@@ -65,10 +65,9 @@ protected:
 
     bool eventFilter(QObject *, QEvent *event) override;
 
-private slots:
+private:
     void showToolTip();
 
-private:
     QTextEdit *m_notes;
     QWidget *m_icon;
     std::unique_ptr<ItemWidget> m_childItem;

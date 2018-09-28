@@ -444,14 +444,6 @@ void renameToUnique(QString *name, const QStringList &names)
         *name = baseName + " (" + QString::number(++i) + ')';
 }
 
-void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object, const char *slot)
-{
-    timer->setSingleShot(true);
-    timer->setInterval(milliseconds);
-    if (object && slot)
-        QObject::connect( timer, SIGNAL(timeout()), object, slot, Qt::UniqueConnection );
-}
-
 QString dataToText(const QByteArray &bytes, const QString &mime)
 {
     auto codec = (mime == mimeHtml)

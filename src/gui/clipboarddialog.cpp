@@ -24,6 +24,7 @@
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"
+#include "common/timer.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"
@@ -39,9 +40,6 @@ static const int batchLoadCharacters = 4096;
 
 ClipboardDialog::ClipboardDialog(QWidget *parent)
     : QDialog(parent)
-    , ui(nullptr)
-    , m_animationBuffer(nullptr)
-    , m_animation(nullptr)
 {
     init();
 
@@ -53,17 +51,14 @@ ClipboardDialog::ClipboardDialog(QWidget *parent)
 ClipboardDialog::ClipboardDialog(
         const QPersistentModelIndex &index, QAbstractItemModel *model, QWidget *parent)
     : QDialog(parent)
-    , ui(nullptr)
     , m_model(model)
     , m_index(index)
-    , m_animationBuffer(nullptr)
-    , m_animation(nullptr)
 {
     init();
 
     setWindowTitle( tr("CopyQ Item Content") );
-    connect( m_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             this, SLOT(onDataChanged(QModelIndex,QModelIndex)) );
+    connect( m_model.data(), &QAbstractItemModel::dataChanged,
+             this, &ClipboardDialog::onDataChanged );
     onDataChanged(m_index, m_index);
 }
 
@@ -72,7 +67,7 @@ ClipboardDialog::~ClipboardDialog()
     delete ui;
 }
 
-void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
+void ClipboardDialog::onListWidgetFormatsCurrentItemChanged(
         QListWidgetItem *current, QListWidgetItem *)
 {
     ui->actionRemove_Format->setEnabled(current != nullptr);
@@ -126,7 +121,7 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
                 tr("<strong>Size:</strong> %1 bytes", "Size of data in bytes").arg(bytes.size()) );
 }
 
-void ClipboardDialog::on_actionRemove_Format_triggered()
+void ClipboardDialog::onActionRemoveFormatTriggered()
 {
      QListWidgetItem *item = ui->listWidgetFormats->currentItem();
      if (item) {
@@ -171,6 +166,11 @@ void ClipboardDialog::init()
     ui = new Ui::ClipboardDialog;
     ui->setupUi(this);
 
+    connect(ui->listWidgetFormats, &QListWidget::currentItemChanged,
+            this, &ClipboardDialog::onListWidgetFormatsCurrentItemChanged);
+    connect(ui->actionRemove_Format, &QAction::triggered,
+            this, &ClipboardDialog::onActionRemoveFormatTriggered);
+
     setWindowIcon(appIcon());
 
     ui->horizontalLayout->setStretchFactor(1, 1);
@@ -182,7 +182,7 @@ void ClipboardDialog::init()
     ui->actionRemove_Format->setShortcut(shortcutToRemove());
     ui->listWidgetFormats->addAction(ui->actionRemove_Format);
 
-    on_listWidgetFormats_currentItemChanged(nullptr, nullptr);
+    onListWidgetFormatsCurrentItemChanged(nullptr, nullptr);
 }
 
 void ClipboardDialog::setData(const QVariantMap &data)
@@ -205,5 +205,5 @@ void ClipboardDialog::setData(const QVariantMap &data)
         }
     }
 
-    initSingleShotTimer(&m_timerTextLoad, 10, this, SLOT(addText()));
+    initSingleShotTimer(&m_timerTextLoad, 10, this, &ClipboardDialog::addText);
 }

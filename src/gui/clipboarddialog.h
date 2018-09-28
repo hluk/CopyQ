@@ -54,30 +54,29 @@ public:
 signals:
     void changeClipboard(const QVariantMap &data);
 
-private slots:
-    void on_listWidgetFormats_currentItemChanged(
+private:
+    void onListWidgetFormatsCurrentItemChanged(
             QListWidgetItem *current, QListWidgetItem *previous);
 
-    void on_actionRemove_Format_triggered();
+    void onActionRemoveFormatTriggered();
 
     void onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
     void addText();
 
-private:
     void init();
 
     void setData(const QVariantMap &data);
 
-    Ui::ClipboardDialog *ui;
+    Ui::ClipboardDialog *ui = nullptr;
     QPointer<QAbstractItemModel> m_model;
     QPersistentModelIndex m_index;
     QVariantMap m_data;
     QString m_textToShow;
     QTimer m_timerTextLoad;
 
-    QBuffer *m_animationBuffer;
-    QMovie *m_animation;
+    QBuffer *m_animationBuffer = nullptr;
+    QMovie *m_animation = nullptr;
 };
 
 #endif // CLIPBOARDDIALOG_H

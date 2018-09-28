@@ -88,10 +88,11 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     , m_options()
 {
     ui->setupUi(this);
+    connectSlots();
     setWindowIcon(appIcon());
 
-    connect( ui->configTabShortcuts, SIGNAL(commandsSaved()),
-             this, SIGNAL(commandsSaved()) );
+    connect( ui->configTabShortcuts, &ConfigTabShortcuts::commandsSaved,
+             this, &ConfigurationManager::commandsSaved );
 
     ui->spinBoxItems->setMaximum(Config::maxItems);
 
@@ -116,6 +117,7 @@ ConfigurationManager::ConfigurationManager()
     , m_options()
 {
     ui->setupUi(this);
+    connectSlots();
     initOptions();
 }
 
@@ -382,14 +384,14 @@ void ConfigurationManager::loadSettings()
 
     ui->configTabAppearance->setEditor( AppConfig().option<Config::editor>() );
 
-    on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
+    onCheckBoxMenuTabIsCurrentStateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 
     updateTabComboBoxes();
 
     updateAutostart();
 }
 
-void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
+void ConfigurationManager::onButtonBoxClicked(QAbstractButton* button)
 {
     int answer;
 
@@ -431,6 +433,16 @@ void ConfigurationManager::setVisible(bool visible)
         initTabIcons();
         initLanguages();
     }
+}
+
+void ConfigurationManager::connectSlots()
+{
+    connect(ui->buttonBox, &QDialogButtonBox::clicked,
+            this, &ConfigurationManager::onButtonBoxClicked);
+    connect(ui->checkBoxMenuTabIsCurrent, &QCheckBox::stateChanged,
+            this, &ConfigurationManager::onCheckBoxMenuTabIsCurrentStateChanged);
+    connect(ui->spinBoxTrayItems, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            this, &ConfigurationManager::onSpinBoxTrayItemsValueChanged);
 }
 
 void ConfigurationManager::apply()
@@ -516,12 +528,12 @@ void ConfigurationManager::done(int result)
     QDialog::done(result);
 }
 
-void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
+void ConfigurationManager::onCheckBoxMenuTabIsCurrentStateChanged(int state)
 {
     ui->comboBoxMenuTab->setEnabled(state == Qt::Unchecked);
 }
 
-void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
+void ConfigurationManager::onSpinBoxTrayItemsValueChanged(int value)
 {
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
 }

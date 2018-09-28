@@ -49,11 +49,10 @@ public:
 signals:
     void newConnection(const ClientSocketPtr &socket);
 
-private slots:
+private:
     void onNewConnection();
     void onSocketDestroyed();
 
-private:
     QLocalServer *m_server;
     QObject *m_systemMutex;
     int m_socketCount;
