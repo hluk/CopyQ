@@ -69,7 +69,9 @@ enum Id {
 
     Help_Help,
     Help_ShowLog,
-    Help_About
+    Help_About,
+
+    ItemMenu
 };
 
 } // Actions

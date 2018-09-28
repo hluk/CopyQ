@@ -145,6 +145,10 @@ MenuItems menuItems()
     addMenuItem( items, Actions::Help_About, QObject::tr("&About"), "about", QKeySequence::WhatsThis,
                   "help-about", IconInfoCircle );
 
+    addMenuItem( items, Actions::ItemMenu, QObject::tr("Open Item Context Menu"), "item-menu",
+                 QObject::tr("Shift+F10", "Default shortcut to open item context menu"),
+                 "", IconListAlt );
+
     return items;
 }
 

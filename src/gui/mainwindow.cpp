@@ -618,6 +618,9 @@ void MainWindow::createMenu()
     createAction( Actions::Help_ShowLog, SLOT(openLogDialog()), menu );
     createAction( Actions::Help_About, SLOT(openAboutDialog()), menu );
 
+    // Open Item Menu
+    createAction( Actions::ItemMenu, SLOT(showContextMenu()), nullptr );
+
     for (auto menu : menuBar()->findChildren<QMenu*>()) {
         connect( menu, SIGNAL(aboutToShow()),
                  this, SLOT(disableHideWindowOnUnfocus()) );
@@ -898,7 +901,34 @@ void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData 
 
 void MainWindow::showContextMenu(QPoint position)
 {
-    m_menuItem->exec(position);
+    // Restrict menu position to central widget.
+    const auto localRect = centralWidget()->rect();
+    const auto rect = QRect(
+        centralWidget()->mapToGlobal(localRect.topLeft()),
+        centralWidget()->mapToGlobal(localRect.bottomRight())
+    );
+    const QPoint positionInCentralWidget(
+        qBound(rect.left(), position.x(), rect.right()),
+        qBound(rect.top(), position.y(), rect.bottom())
+    );
+
+    m_menuItem->exec(positionInCentralWidget);
+}
+
+void MainWindow::showContextMenu()
+{
+    auto c = browser();
+    if (!c)
+        return;
+
+    const auto index = c->currentIndex();
+    if ( !index.isValid() )
+        return;
+
+    const auto itemRect = c->visualRect(index);
+    const auto viewportPosition = itemRect.center();
+    const auto position = c->mapToGlobal(viewportPosition);
+    showContextMenu(position);
 }
 
 void MainWindow::nextItemFormat()
@@ -1210,7 +1240,8 @@ QAction *MainWindow::createAction(int id, const char *slot, QMenu *menu)
     QAction *act = actionForMenuItem(id, this, Qt::WindowShortcut);
     connect(act, SIGNAL(triggered()),
             this, slot, Qt::UniqueConnection);
-    menu->addAction(act);
+    if (menu)
+        menu->addAction(act);
     return act;
 }
 

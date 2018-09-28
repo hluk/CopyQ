@@ -485,6 +485,8 @@ private slots:
 
     void showContextMenu(QPoint position);
 
+    void showContextMenu();
+
     void nextItemFormat();
     void previousItemFormat();
 
