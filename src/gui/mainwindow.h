@@ -217,7 +217,7 @@ public:
             );
 
     /** Save all unsaved tabs. */
-    void saveTabs();
+    Q_SLOT void saveTabs();
 
     /**
      * Load saved items to new tab.

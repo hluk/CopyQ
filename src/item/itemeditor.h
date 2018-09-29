@@ -50,7 +50,7 @@ class ItemEditor : public QObject
          * @retval true   Editor successfully opened.
          * @retval false  An error occurred (failed to create temporary file), editor was not opened.
          */
-        bool start();
+        Q_SLOT bool start();
 
     signals:
         /**
