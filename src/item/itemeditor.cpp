@@ -137,7 +137,7 @@ bool ItemEditor::start()
     m_editor->closeWriteChannel();
     m_editor->closeReadChannel(QProcess::StandardOutput);
 
-    return true;
+    return m_editor->waitForStarted(10000);
 }
 
 void ItemEditor::close()
