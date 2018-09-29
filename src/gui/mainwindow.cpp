@@ -528,7 +528,6 @@ void MainWindow::createMenu()
 
     // - export
     act = createAction( Actions::File_Export, &MainWindow::exportData, menu );
-    disableActionWhenTabGroupSelected(act, this);
 
     // - separator
     menu->addSeparator();
@@ -3183,14 +3182,11 @@ bool MainWindow::saveTab(const QString &fileName, int tabIndex)
 
 bool MainWindow::exportData()
 {
-    auto c = browser();
-    if (!c)
-        return false;
-
     ImportExportDialog exportDialog(this);
     exportDialog.setWindowTitle( tr("CopyQ Options for Export") );
     exportDialog.setTabs( ui->tabWidget->tabs() );
-    exportDialog.setCurrentTab( c->tabName() );
+    if ( !ui->tabWidget->isTabGroupSelected() )
+        exportDialog.setCurrentTab( getPlaceholder()->tabName() );
     if ( exportDialog.exec() != QDialog::Accepted )
         return false;
 
@@ -3416,7 +3412,7 @@ void MainWindow::openRenameTabDialog(int tabIndex)
     d->setAttribute(Qt::WA_DeleteOnClose, true);
     d->setTabIndex(tabIndex);
     d->setTabs(ui->tabWidget->tabs());
-    d->setTabName(browser(tabIndex)->tabName());
+    d->setTabName( getPlaceholder(tabIndex)->tabName() );
 
     connect( d, &TabDialog::barTabNameAccepted,
              this, &MainWindow::renameTab );
@@ -3514,7 +3510,10 @@ void MainWindow::removeTab(bool ask, int tabIndex)
 
 void MainWindow::setTabIcon()
 {
-    setTabIcon( browser()->tabName() );
+    if ( ui->tabWidget->isTabGroupSelected() )
+        setTabIcon( ui->tabWidget->getCurrentTabPath() );
+    else
+        setTabIcon( getPlaceholder()->tabName() );
 }
 
 void MainWindow::setTabIcon(const QString &tabName)
