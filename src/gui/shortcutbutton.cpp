@@ -50,8 +50,8 @@ ShortcutButton::ShortcutButton(QWidget *parent)
     m_layout->addWidget(m_buttonAddShortcut);
     setFocusProxy(m_buttonAddShortcut);
 
-    connect( m_buttonAddShortcut, SIGNAL(clicked()),
-             this, SLOT(onButtonAddShortcutClicked()) );
+    connect( m_buttonAddShortcut, &QAbstractButton::clicked,
+             this, &ShortcutButton::onButtonAddShortcutClicked );
 
     addShortcut(m_defaultShortcut);
 }
@@ -67,8 +67,8 @@ void ShortcutButton::addShortcut(const QKeySequence &shortcut)
 
     setTabOrder(m_buttonAddShortcut, button);
 
-    connect( button, SIGNAL(clicked()),
-             this, SLOT(onShortcutButtonClicked()) );
+    connect( button, &QAbstractButton::clicked,
+             this, &ShortcutButton::onShortcutButtonClicked );
     setButtonShortcut(button, shortcut);
     emit shortcutAdded(shortcut);
 }

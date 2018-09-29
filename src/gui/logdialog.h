@@ -19,6 +19,8 @@
 #ifndef LOGDIALOG_H
 #define LOGDIALOG_H
 
+#include "common/log.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -35,7 +37,9 @@ public:
     explicit LogDialog(QWidget *parent = nullptr);
     ~LogDialog();
 
-private slots:
+private:
+    using FilterCheckBoxSlot = void (LogDialog::*)(bool);
+
     void updateLog();
 
     void showError(bool show);
@@ -44,7 +48,8 @@ private slots:
     void showDebug(bool show);
     void showTrace(bool show);
 
-private:
+    void addFilterCheckBox(LogLevel level, FilterCheckBoxSlot slot);
+
     Ui::LogDialog *ui;
 
     Decorator *m_logDecorator;

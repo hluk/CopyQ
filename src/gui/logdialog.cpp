@@ -37,16 +37,6 @@ namespace {
 const int maxDisplayLogSize = 128 * 1024;
 const auto logLinePrefix = "CopyQ ";
 
-void addFilterCheckBox(QLayout *layout, LogLevel level, const char *slot)
-{
-    QWidget *parent = layout->parentWidget();
-    auto checkBox = new QCheckBox(parent);
-    checkBox->setText(logLevelLabel(level));
-    checkBox->setChecked(true);
-    QObject::connect(checkBox, SIGNAL(toggled(bool)), parent, slot);
-    layout->addWidget(checkBox);
-}
-
 void showLogLines(QString *content, bool show, LogLevel level)
 {
     if (show)
@@ -83,7 +73,7 @@ public:
         decorateBatch();
     }
 
-private slots:
+private:
     void decorateBatch()
     {
         if (m_tc.isNull())
@@ -103,7 +93,6 @@ private slots:
         m_timerDecorate.start();
     }
 
-private:
     virtual void decorate(QTextCursor *tc) = 0;
 
     QTimer m_timerDecorate;
@@ -252,11 +241,11 @@ LogDialog::LogDialog(QWidget *parent)
 
     ui->labelLogFileName->setText(logFileName());
 
-    addFilterCheckBox(ui->layoutFilters, LogError, SLOT(showError(bool)));
-    addFilterCheckBox(ui->layoutFilters, LogWarning, SLOT(showWarning(bool)));
-    addFilterCheckBox(ui->layoutFilters, LogNote, SLOT(showNote(bool)));
-    addFilterCheckBox(ui->layoutFilters, LogDebug, SLOT(showDebug(bool)));
-    addFilterCheckBox(ui->layoutFilters, LogTrace, SLOT(showTrace(bool)));
+    addFilterCheckBox(LogError, &LogDialog::showError);
+    addFilterCheckBox(LogWarning, &LogDialog::showWarning);
+    addFilterCheckBox(LogNote, &LogDialog::showNote);
+    addFilterCheckBox(LogDebug, &LogDialog::showDebug);
+    addFilterCheckBox(LogTrace, &LogDialog::showTrace);
     ui->layoutFilters->addStretch(1);
 
     updateLog();
@@ -327,6 +316,15 @@ void LogDialog::showTrace(bool show)
 {
     m_showTrace = show;
     updateLog();
+}
+
+void LogDialog::addFilterCheckBox(LogLevel level, FilterCheckBoxSlot slot)
+{
+    auto checkBox = new QCheckBox(this);
+    checkBox->setText(logLevelLabel(level));
+    checkBox->setChecked(true);
+    QObject::connect(checkBox, &QCheckBox::toggled, this, slot);
+    ui->layoutFilters->addWidget(checkBox);
 }
 
 #include "logdialog.moc"

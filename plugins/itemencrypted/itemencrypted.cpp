@@ -26,6 +26,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"
+#include "common/processsignals.h"
 #include "common/textdata.h"
 #include "gui/icons.h"
 #include "gui/iconwidget.h"
@@ -843,9 +844,7 @@ void ItemEncryptedLoader::setPassword()
     if ( m_gpgProcess->state() == QProcess::NotRunning ) {
         onGpgProcessFinished( m_gpgProcess->exitCode(), m_gpgProcess->exitStatus() );
     } else {
-        constexpr auto processFinishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
-        QObject::connect(m_gpgProcess, processFinishedSignal,
-                         this, &ItemEncryptedLoader::onGpgProcessFinished);
+        connectProcessFinished(m_gpgProcess, this, &ItemEncryptedLoader::onGpgProcessFinished);
         updateUi();
     }
 }

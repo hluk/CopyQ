@@ -45,11 +45,10 @@ public:
 protected:
     void showEvent(QShowEvent *event) override;
 
-private slots:
+private:
     void onRemoveActionButtonClicked();
     void onDeleteShortcut();
 
-private:
     class TableRow;
     TableRow tableRowForAction(Action *action) const;
     TableRow tableRowForActionButton(QObject *button) const;

@@ -22,6 +22,7 @@
 #include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/processsignals.h"
 #include "common/timer.h"
 #include "item/serialize.h"
 
@@ -34,17 +35,6 @@
 #include <cstring>
 
 namespace {
-
-template <typename Receiver, typename Slot>
-void connectProcessFinished(QProcess *process, Receiver receiver, Slot slot)
-{
-    constexpr auto processFinishedSignal = static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished);
-    QObject::connect(
-        process, processFinishedSignal, receiver,
-        [receiver, slot](int, QProcess::ExitStatus) {
-            (receiver->*slot)();
-        });
-}
 
 void startProcess(QProcess *process, const QStringList &args, QIODevice::OpenModeFlag mode)
 {
@@ -255,13 +245,7 @@ void Action::start()
         if ( !m_workingDirectoryPath.isEmpty() )
             process->setWorkingDirectory(m_workingDirectoryPath);
 
-#if QT_VERSION < 0x050600
-        connect( process, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
-                 this, &Action::onSubProcessError );
-#else
-        connect( process, &QProcess::errorOccurred,
-                 this, &Action::onSubProcessError );
-#endif
+        connectProcessError(process, this, &Action::onSubProcessError);
         connect( process, &QProcess::readyReadStandardError,
                  this, &Action::onSubProcessErrorOutput );
     }

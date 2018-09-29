@@ -62,7 +62,8 @@ ShortcutDialog::ShortcutDialog(QWidget *parent)
     QPushButton *resetButton = ui->buttonBox->button(QDialogButtonBox::Reset);
     Q_ASSERT(resetButton);
     resetButton->setText(tr("Remove Shortcut"));
-    connect(resetButton, SIGNAL(clicked()), SLOT(onResetButtonClicked()));
+    connect(resetButton, &QAbstractButton::clicked,
+            this, &ShortcutDialog::onResetButtonClicked);
 
     ui->lineEditShortcut->installEventFilter(this);
 

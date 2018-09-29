@@ -53,20 +53,19 @@ public:
         : QPushButton(button.name, parent)
         , m_button(button)
     {
-        connect( this, SIGNAL(clicked()),
-                 this, SLOT(onClicked()) );
+        connect( this, &NotificationButtonWidget::clicked,
+                 this, &NotificationButtonWidget::onClicked );
     }
 
 signals:
-    void clicked(const NotificationButton &button);
-
-private slots:
-    void onClicked()
-    {
-        emit clicked(m_button);
-    }
+    void clickedButton(const NotificationButton &button);
 
 private:
+    void onClicked()
+    {
+        emit clickedButton(m_button);
+    }
+
     NotificationButton m_button;
 };
 
@@ -172,8 +171,8 @@ void Notification::setButtons(const NotificationButtons &buttons)
 
         for (const auto &button : buttons) {
             const auto buttonWidget = new NotificationButtonWidget(button, this);
-            connect( buttonWidget, SIGNAL(clicked(NotificationButton)),
-                     this, SLOT(onButtonClicked(NotificationButton)) );
+            connect( buttonWidget, &NotificationButtonWidget::clickedButton,
+                     this, &Notification::onButtonClicked );
             m_buttonLayout->addWidget(buttonWidget);
         }
     } else if (m_buttonLayout) {

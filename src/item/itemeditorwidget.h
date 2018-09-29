@@ -73,7 +73,7 @@ signals:
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
-private slots:
+private:
     void saveAndExit();
 
     void setFont();
@@ -85,7 +85,6 @@ private slots:
     void setBackground();
     void eraseStyle();
 
-private:
     QWidget *createEditor();
     void initEditor(QWidget *editor);
     void initMenuItems();

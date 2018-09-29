@@ -27,7 +27,6 @@
 
 class DummyClipboard : public PlatformClipboard
 {
-    Q_OBJECT
 public:
     explicit DummyClipboard(bool connectClipboardSignal = true);
 
@@ -40,8 +39,8 @@ public:
 protected:
     virtual void onChanged(int mode);
 
-private slots:
-    void onChanged(QClipboard::Mode mode);
+private:
+    void onClipboardChanged(QClipboard::Mode mode);
 };
 
 #endif // DUMMYCLIPBOARD_H

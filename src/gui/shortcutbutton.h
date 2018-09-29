@@ -73,13 +73,12 @@ signals:
 protected:
     void showEvent(QShowEvent *event) override;
 
-private slots:
+private:
     void onShortcutButtonClicked();
     void onButtonAddShortcutClicked();
     void addShortcut(QPushButton *shortcutButton);
     void setButtonShortcut(QPushButton *shortcutButton, const QKeySequence &shortcut);
 
-private:
     QWidget *shortcutButton(int index) const;
 
     QKeySequence shortcutForButton(const QWidget &w) const;

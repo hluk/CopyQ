@@ -40,10 +40,9 @@ public:
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
 
-private slots:
+private:
     void onResetButtonClicked();
 
-private:
     void processKey(int key, int mods);
 
     int getModifiers(const QKeyEvent &event);

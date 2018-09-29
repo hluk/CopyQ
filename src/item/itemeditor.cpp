@@ -21,6 +21,7 @@
 
 #include "common/mimetypes.h"
 #include "common/log.h"
+#include "common/processsignals.h"
 #include "common/temporaryfile.h"
 
 #include <QDir>
@@ -118,15 +119,13 @@ bool ItemEditor::start()
     m_lastmodified = m_info.lastModified();
     m_lastSize = m_info.size();
     m_timer->start(500);
-    connect( m_timer, SIGNAL(timeout()),
-             this, SLOT(onTimer()) );
+    connect( m_timer, &QTimer::timeout,
+             this, &ItemEditor::onTimer );
 
     // create editor process
     m_editor = new QProcess(this);
-    connect( m_editor, SIGNAL(finished(int,QProcess::ExitStatus)),
-            this, SLOT(close()) );
-    connect( m_editor, SIGNAL(error(QProcess::ProcessError)),
-            this, SLOT(onError()) );
+    connectProcessFinished(m_editor, this, &ItemEditor::close);
+    connectProcessError(m_editor, this, &ItemEditor::onError);
 
     // use native path for filename to edit
     const auto nativeFilePath = QDir::toNativeSeparators( m_info.absoluteFilePath() );

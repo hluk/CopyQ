@@ -163,11 +163,11 @@ Notification *NotificationDaemon::createNotification(const QString &id)
 
     if (notification == nullptr) {
         notification = new Notification();
-        connect(this, SIGNAL(destroyed()), notification, SLOT(deleteLater()));
-        connect( notification, SIGNAL(closeNotification(Notification*)),
-                 this, SLOT(onNotificationClose(Notification*)) );
-        connect( notification, SIGNAL(buttonClicked(NotificationButton)),
-                 this, SIGNAL(notificationButtonClicked(NotificationButton)) );
+        connect(this, &QObject::destroyed, notification, &QObject::deleteLater);
+        connect( notification, &Notification::closeNotification,
+                 this, &NotificationDaemon::onNotificationClose );
+        connect( notification, &Notification::buttonClicked,
+                 this, &NotificationDaemon::notificationButtonClicked );
 
         m_notifications.append(NotificationData{id, notification});
     }

@@ -123,9 +123,10 @@ public:
         return m_table->item(row(), column);
     }
 
-    QWidget *widget(int column)
+    QToolButton *button(int column)
     {
-        return m_table->cellWidget(row(), column);
+        QWidget *cellWidget = m_table->cellWidget(row(), column);
+        return qobject_cast<QToolButton*>(cellWidget);
     }
 
     void remove()
@@ -158,8 +159,8 @@ ProcessManagerDialog::ProcessManagerDialog(QWidget *parent)
 
     auto act = new QAction(this);
     act->setShortcut(shortcutToRemove());
-    connect( act, SIGNAL(triggered()),
-             this, SLOT(onDeleteShortcut()) );
+    connect( act, &QAction::triggered,
+             this, &ProcessManagerDialog::onDeleteShortcut );
     addAction(act);
 }
 
@@ -213,7 +214,7 @@ void ProcessManagerDialog::actionFinished(Action *action)
     QTableWidget *t = ui->tableWidgetCommands;
     SortingGuard sortGuard(t);
 
-    QWidget *button = tableRow.widget(tableCommandsColumns::action);
+    QToolButton *button = tableRow.button(tableCommandsColumns::action);
     QTableWidgetItem *statusItem = tableRow.item(tableCommandsColumns::status);
     statusItem->setText(status);
     statusItem->setData(statusItemData::status, QProcess::NotRunning);
@@ -233,13 +234,15 @@ void ProcessManagerDialog::actionFinished(Action *action)
         endTimeText.prepend( QString("%1d ").arg(days) );
     tableRow.item(tableCommandsColumns::endTime)->setText(endTimeText);
 
-    button->setToolTip( tr("Remove") );
-    button->setProperty( "text", QString(IconTrash) );
-    updateTable();
+    if (button) {
+        button->setToolTip( tr("Remove") );
+        button->setProperty( "text", QString(IconTrash) );
+        updateTable();
 
-    button->disconnect();
-    connect( button, SIGNAL(clicked()),
-             this, SLOT(onRemoveActionButtonClicked()) );
+        button->disconnect();
+        connect( button, &QToolButton::clicked,
+                 this, &ProcessManagerDialog::onRemoveActionButtonClicked );
+    }
 
     // Reset action ID so it can be used again.
     tableRow.item(tableCommandsColumns::status)->setData(statusItemData::actionId, 0);
@@ -357,8 +360,8 @@ QWidget *ProcessManagerDialog::createRemoveButton(Action *action)
         connect( button, &QAbstractButton::clicked,
                  action, &Action::terminate );
     } else {
-        connect( button, SIGNAL(clicked()),
-                 this, SLOT(onRemoveActionButtonClicked()) );
+        connect( button, &QAbstractButton::clicked,
+                 this, &ProcessManagerDialog::onRemoveActionButtonClicked );
     }
 
     return button;

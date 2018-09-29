@@ -69,11 +69,10 @@ public:
 signals:
     void notificationButtonClicked(const NotificationButton &button);
 
-private slots:
+private:
     void onNotificationClose(Notification *notification);
     void doUpdateNotifications();
 
-private:
     struct NotificationData {
         QString id;
         Notification *notification;

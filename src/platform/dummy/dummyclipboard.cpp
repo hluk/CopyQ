@@ -44,8 +44,8 @@ QClipboard::Mode modeToQClipboardMode(ClipboardMode mode)
 DummyClipboard::DummyClipboard(bool connectClipboardSignal)
 {
     if (connectClipboardSignal) {
-        connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
-                 this, SLOT(onChanged(QClipboard::Mode)) );
+        connect(QApplication::clipboard(), &QClipboard::changed,
+                this, &DummyClipboard::onClipboardChanged);
     }
 }
 
@@ -68,7 +68,7 @@ void DummyClipboard::onChanged(int mode)
         emit changed(ClipboardMode::Clipboard);
 }
 
-void DummyClipboard::onChanged(QClipboard::Mode mode)
+void DummyClipboard::onClipboardChanged(QClipboard::Mode mode)
 {
     onChanged(static_cast<int>(mode));
 }

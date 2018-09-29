@@ -44,7 +44,6 @@ class ItemEditor : public QObject
          */
         void setIndex(const QModelIndex &index);
 
-    public slots:
         /**
          * Execute editor process.
          * @retval true   Editor successfully opened.
@@ -72,7 +71,7 @@ class ItemEditor : public QObject
          */
         void error(const QString &errorString);
 
-    private slots:
+    private:
         /**
          * Close editor.
          */
@@ -82,7 +81,6 @@ class ItemEditor : public QObject
 
         void onTimer();
 
-    private:
         /** Return true only if file was modified and reset this status. */
         bool wasFileModified();
 
