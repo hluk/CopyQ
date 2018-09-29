@@ -41,9 +41,6 @@ will be created in that particular tab. The item will contain only text
 and data that are needed by plugins (e.g. plugin "Images" requires
 ``image/svg``, ``image/png`` or similar).
 
-Any additional data to store can be specified using configuration for
-"Data" plugin (under "Items" tab in config dialog).
-
 Organizing Items
 ----------------
 

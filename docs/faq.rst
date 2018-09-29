@@ -200,12 +200,34 @@ By default only the text is stored in item list when you copy of cut
 files from a file manager. Other data are usually needed to be able to
 copy/paste files from CopyQ.
 
-You have to add new data formats (MIME) to format list in "Data" item
-under "Item" configuration tab. Commonly used format in many file
-managers is ``text/uri-list``. Other special formats include
+You have to add additional data formats (MIME) using an automatic command
+(similar to one below). Commonly used format in many file managers is
+``text/uri-list``. Other special formats include
 ``x-special/gnome-copied-files`` for Nautilus,
-``application/x-kde-cutselection`` for Dolphin. These formats are used
-to specify type of action (copy or cut).
+``application/x-kde-cutselection`` for Dolphin. These formats are used to
+specify type of action (copy or cut).
+
+.. code-block:: ini
+
+    [Command]
+    Automatic=true
+    Command="
+        copyq:
+        var formats = [
+            mimeUriList,
+            'x-special/gnome-copied-files',
+            'application/x-kde-cutselection',
+        ]
+
+        for (var i in formats) {
+            var format = formats[i]
+            var data = clipboard(format)
+            if ( data.size() > 0 )
+               setData(format, data)
+        }"
+    Icon=\xf56f
+    Name=Store File Manager Metadata
+
 
 Why does my external editor fail to edit items?
 -----------------------------------------------
@@ -231,15 +253,6 @@ Here is the correct command to use for some editors::
     sublime_text --wait %1
     code --wait %1
     open -t -W -n %1
-
-Why pasting URL or file items doesn't work in some applications?
-----------------------------------------------------------------
-
-Some application can handle ``text/uri-list`` formats copied from web browsers
-or file managers in unexpected ways.
-
-To fix this and always save URLs as plain text, remove ``text/uri-list`` from
-format list from configuration ("Data" item under "Item" configuration tab).
 
 Where to find saved items and configuration?
 --------------------------------------------

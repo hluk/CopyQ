@@ -40,7 +40,6 @@ en.Plugins=Plugins
 en.PluginText=Text with Highlighting
 en.PluginImages=Images
 en.PluginWeb=Web Pages
-en.PluginData=Various Data
 en.PluginNotes=Notes
 en.PluginEncrypted=Encryption
 en.PluginFakeVim=FakeVim Editor
@@ -54,7 +53,6 @@ cz.Plugins=Zásuvné moduly
 cz.PluginText=Text se zvýrazňováním
 cz.PluginImages=Obrázky
 cz.PluginWeb=Webové stránky
-cz.PluginData=Různá data
 cz.PluginNotes=Poznámky
 cz.PluginEncrypted=Šifrování
 cz.PluginFakeVim=FakeVim editor
@@ -69,7 +67,6 @@ es.Plugins=Complementos
 es.PluginText=Texto resaltado
 es.PluginImages=Imágenes
 es.PluginWeb=Páginas web
-es.PluginData=Varios datos
 
 it.ProgramFiles=File programma
 it.Translations=Traduzioni
@@ -77,7 +74,6 @@ it.Plugins=Plugin
 it.PluginText=Testo evidenziato
 it.PluginImages=Immagini
 it.PluginWeb=Pagine web
-it.PluginData=Tipi dati vari
 it.PluginNotes=Note
 it.PluginEncrypted=Criptazione
 it.PluginFakeVim=Editor FakeVim
@@ -96,7 +92,6 @@ Name: "translations"; Description: "{cm:Translations}"; Types: full compact cust
 Name: "plugins"; Description: "{cm:Plugins}"; Types: full
 Name: "plugins/text"; Description: "{cm:PluginText}"; Types: full
 Name: "plugins/images"; Description: "{cm:PluginImages}"; Types: full
-Name: "plugins/data"; Description: "{cm:PluginData}"; Types: full
 Name: "plugins/notes"; Description: "{cm:PluginNotes}"; Types: full
 Name: "plugins/encrypted"; Description: "{cm:PluginEncrypted}"; Types: full
 Name: "plugins/fakevim"; Description: "{cm:PluginFakeVim}"; Types: full
@@ -117,7 +112,6 @@ Source: "{#Root}\themes\*"; DestDir: "{app}\themes"; Components: program; Flags:
 Source: "{#Root}\translations\*.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "{#Root}\plugins\*itemtext.dll"; DestDir: "{app}\plugins"; Components: plugins/text; Flags: ignoreversion
 Source: "{#Root}\plugins\*itemimage.dll"; DestDir: "{app}\plugins"; Components: plugins/images; Flags: ignoreversion
-Source: "{#Root}\plugins\*itemdata.dll"; DestDir: "{app}\plugins"; Components: plugins/data; Flags: ignoreversion
 Source: "{#Root}\plugins\*itemnotes.dll"; DestDir: "{app}\plugins"; Components: plugins/notes; Flags: ignoreversion
 Source: "{#Root}\plugins\*itemencrypted.dll"; DestDir: "{app}\plugins"; Components: plugins/encrypted; Flags: ignoreversion
 Source: "{#Root}\plugins\*itemfakevim.dll"; DestDir: "{app}\plugins"; Components: plugins/fakevim; Flags: ignoreversion

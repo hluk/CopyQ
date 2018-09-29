@@ -40,7 +40,6 @@ endmacro()
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/plugins)
 
-add_subdirectory("itemdata")
 add_subdirectory("itemencrypted")
 add_subdirectory("itemfakevim")
 add_subdirectory("itemimage")
