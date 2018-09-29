@@ -829,12 +829,20 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
 
 void ScriptableProxy::callFunction(const QByteArray &serializedFunctionCall)
 {
-    auto t = new QTimer(m_wnd);
+    if (m_shouldBeDeleted)
+        return;
+
+    ++m_functionCallStack;
+    auto t = new QTimer(this);
     t->setSingleShot(true);
     QObject::connect( t, &QTimer::timeout, this, [=]() {
         const auto result = callFunctionHelper(serializedFunctionCall);
         emit sendMessage(result, CommandFunctionCallReturnValue);
         t->deleteLater();
+
+        --m_functionCallStack;
+        if (m_shouldBeDeleted && m_functionCallStack == 0)
+            deleteLater();
     });
     t->start(0);
 }
@@ -976,6 +984,13 @@ void ScriptableProxy::setInputDialogResult(const QByteArray &bytes)
         return;
     }
     emit inputDialogFinished(dialogId, result);
+}
+
+void ScriptableProxy::safeDeleteLater()
+{
+    m_shouldBeDeleted = true;
+    if (m_functionCallStack == 0)
+        deleteLater();
 }
 
 QVariantMap ScriptableProxy::getActionData(int id)

@@ -352,7 +352,7 @@ void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 
     auto proxy = new ScriptableProxy(m_wnd);
     connect( client.get(), &ClientSocket::destroyed,
-             proxy, &ScriptableProxy::deleteLater );
+             proxy, &ScriptableProxy::safeDeleteLater );
     connect( proxy, &ScriptableProxy::sendMessage,
              client.get(), &ClientSocket::sendMessage );
 

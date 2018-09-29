@@ -89,6 +89,8 @@ public:
     void setFunctionCallReturnValue(const QByteArray &bytes);
     void setInputDialogResult(const QByteArray &bytes);
 
+    void safeDeleteLater();
+
 public slots:
     QVariantMap getActionData(int id);
     void setActionData(int id, const QVariantMap &data);
@@ -270,6 +272,9 @@ private:
 
     int m_lastFunctionCallId = -1;
     int m_lastInputDialogId = -1;
+
+    int m_functionCallStack = 0;
+    bool m_shouldBeDeleted = false;
 };
 
 QString pluginsPath();
