@@ -87,22 +87,35 @@ int fitFontWeight(int weight, int low, int high, int highCss)
 
 int getFontWeightForStyleSheet(int weight)
 {
-    if (weight < QFont::ExtraLight)
-        return fitFontWeight(weight, QFont::Thin, QFont::ExtraLight, 200);
-    if (weight < QFont::Light)
-        return fitFontWeight(weight, QFont::ExtraLight, QFont::Light, 300);
-    if (weight < QFont::Normal)
-        return fitFontWeight(weight, QFont::Light, QFont::Normal, 400);
-    if (weight < QFont::Medium)
-        return fitFontWeight(weight, QFont::Normal, QFont::Medium, 500);
-    if (weight < QFont::DemiBold)
-        return fitFontWeight(weight, QFont::Medium, QFont::DemiBold, 600);
-    if (weight < QFont::Bold)
-        return fitFontWeight(weight, QFont::DemiBold, QFont::Bold, 700);
-    if (weight < QFont::ExtraBold)
-        return fitFontWeight(weight, QFont::Bold, QFont::ExtraBold, 800);
-    if (weight < QFont::Black)
-        return fitFontWeight(weight, QFont::ExtraBold, QFont::Black, 900);
+    // Copied from QFont sources (not available in all Qt versions).
+    enum Weight {
+        Thin     = 0,    // 100
+        ExtraLight = 12, // 200
+        Light    = 25,   // 300
+        Normal   = 50,   // 400
+        Medium   = 57,   // 500
+        DemiBold = 63,   // 600
+        Bold     = 75,   // 700
+        ExtraBold = 81,  // 800
+        Black    = 87    // 900
+    };
+
+    if (weight < ExtraLight)
+        return fitFontWeight(weight, Thin, ExtraLight, 200);
+    if (weight < Light)
+        return fitFontWeight(weight, ExtraLight, Light, 300);
+    if (weight < Normal)
+        return fitFontWeight(weight, Light, Normal, 400);
+    if (weight < Medium)
+        return fitFontWeight(weight, Normal, Medium, 500);
+    if (weight < DemiBold)
+        return fitFontWeight(weight, Medium, DemiBold, 600);
+    if (weight < Bold)
+        return fitFontWeight(weight, DemiBold, Bold, 700);
+    if (weight < ExtraBold)
+        return fitFontWeight(weight, Bold, ExtraBold, 800);
+    if (weight < Black)
+        return fitFontWeight(weight, ExtraBold, Black, 900);
 
     return 900;
 }
