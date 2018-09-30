@@ -320,8 +320,8 @@ void ConfigTabAppearance::colorButtonClicked(QObject *button)
         button->setProperty( "VALUE", serializeColor(color) );
         decoratePreview();
 
-        const int iconSize = pointsToPixels(16);
-        QPixmap pix(iconSize, iconSize);
+        const QSize iconSize = button->property("iconSize").toSize();
+        QPixmap pix(iconSize);
         pix.fill(color);
         button->setProperty("icon", QIcon(pix));
 
@@ -335,8 +335,8 @@ void ConfigTabAppearance::updateColorButtons()
         return;
 
     /* color indicating icons for color buttons */
-    const int iconSize = pointsToPixels(16);
-    QPixmap pix(iconSize, iconSize);
+    const QSize iconSize = ui->pushButtonColorFg->iconSize();
+    QPixmap pix(iconSize);
 
     QList<QPushButton *> buttons =
             ui->scrollAreaTheme->findChildren<QPushButton *>(QRegExp("^pushButtonColor"));
@@ -346,6 +346,7 @@ void ConfigTabAppearance::updateColorButtons()
         pix.fill(color);
         button->setIcon(pix);
         button->setIconSize(pix.size());
+        button->setMinimumSize(iconSize);
     }
 }
 
@@ -354,7 +355,7 @@ void ConfigTabAppearance::updateFontButtons()
     if ( !isVisible() )
         return;
 
-    const int iconExtent = pointsToPixels(16);
+    const int iconExtent = pointsToPixels(12);
     const QSize iconSize(iconExtent * 2, iconExtent);
 
     const auto ratio = ui->scrollAreaTheme->devicePixelRatio();
