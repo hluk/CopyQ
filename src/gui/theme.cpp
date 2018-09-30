@@ -74,6 +74,39 @@ void addColor(
         *a = normalizeColorValue(*a + x * toAdd.alpha());
 }
 
+int fitFontWeight(int weight, int low, int high, int highCss)
+{
+    const int diffCss = 100;
+    const int lowCss = highCss - diffCss;
+    if (weight == low)
+        return lowCss;
+
+    const int diff = high - low;
+    return lowCss + diffCss * weight / diff;
+}
+
+int getFontWeightForStyleSheet(int weight)
+{
+    if (weight < QFont::ExtraLight)
+        return fitFontWeight(weight, QFont::Thin, QFont::ExtraLight, 200);
+    if (weight < QFont::Light)
+        return fitFontWeight(weight, QFont::ExtraLight, QFont::Light, 300);
+    if (weight < QFont::Normal)
+        return fitFontWeight(weight, QFont::Light, QFont::Normal, 400);
+    if (weight < QFont::Medium)
+        return fitFontWeight(weight, QFont::Normal, QFont::Medium, 500);
+    if (weight < QFont::DemiBold)
+        return fitFontWeight(weight, QFont::Medium, QFont::DemiBold, 600);
+    if (weight < QFont::Bold)
+        return fitFontWeight(weight, QFont::DemiBold, QFont::Bold, 700);
+    if (weight < QFont::ExtraBold)
+        return fitFontWeight(weight, QFont::Bold, QFont::ExtraBold, 800);
+    if (weight < QFont::Black)
+        return fitFontWeight(weight, QFont::ExtraBold, QFont::Black, 900);
+
+    return 900;
+}
+
 QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
 {
     QFont font;
@@ -101,10 +134,8 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
                         font.underline() ? "underline" : "",
                         font.overline() ? "overline" : "")
                    );
-    // QFont::weight -> CSS
-    // (normal) 50 -> 400
-    // (bold)   75 -> 700
-    int w = font.weight() * 12 - 200;
+
+    const int w = getFontWeightForStyleSheet( font.weight() );
     result.append( QString(";font-weight:%1").arg(w) );
 
     result.append(";");
