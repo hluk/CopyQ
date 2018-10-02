@@ -2865,7 +2865,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="121"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;釘選項目鎖在目前的行列中，並避免被刪除（除非已取消釘選）。&lt;/p&gt;&lt;p&gt;提供捷徑和腳本功能。&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
