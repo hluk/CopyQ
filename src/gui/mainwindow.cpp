@@ -3534,5 +3534,6 @@ void MainWindow::setTabIcon(const QString &tabName, const QString &icon)
 
 MainWindow::~MainWindow()
 {
+    disconnect();
     delete ui;
 }
