@@ -246,8 +246,8 @@ QPixmap drawFontIcon(ushort id, int w, int h, const QColor &color)
     const auto flags = Qt::AlignTop | Qt::AlignLeft;
     const auto iconText = QString(QChar(id));
     auto boundingRect = painter.boundingRect(0, 0, w, h, flags, iconText);
-    const auto x = w - boundingRect.width();
-    const auto y = h - boundingRect.height();
+    const auto x = (w - boundingRect.width()) / 4;
+    const auto y = (h - boundingRect.height()) / 4;
     // If icon is wider, assume that a tag will be rendered and align image to the right.
     const auto pos = boundingRect.bottomLeft()
             + ((w > h) ? QPoint(x, y / 2) : QPoint(x, y) / 2);

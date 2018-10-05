@@ -168,8 +168,9 @@ void FancyLineEdit::updateMargins()
     Side realLeft = (leftToRight ? Left : Right);
     Side realRight = (leftToRight ? Right : Left);
 
-    auto leftMargin = static_cast<int>( d->m_iconbutton[realLeft]->sizeHint().width() + 8 );
-    auto rightMargin = static_cast<int>( d->m_iconbutton[realRight]->sizeHint().width() + 8 );
+    const auto buttonExtent = height();
+    auto leftMargin = static_cast<int>( buttonExtent + 8 );
+    auto rightMargin = static_cast<int>( buttonExtent + 8 );
     // Note KDE does not reserve space for the highlight color
     if (style()->inherits("OxygenStyle")) {
         leftMargin = qMax(24, leftMargin);
@@ -190,28 +191,27 @@ void FancyLineEdit::updateButtonPositions()
         if (layoutDirection() == Qt::RightToLeft)
             iconpos = (iconpos == Left ? Right : Left);
 
+        IconButton *button = d->m_iconbutton[i];
+        const auto margin = 8 - (button->hasMenu() ? 3 : 0);
         if (iconpos == FancyLineEdit::Right) {
-            const int iconoffset = textMargins().right() + 4;
-            d->m_iconbutton[i]->setGeometry(contentRect.adjusted(width() - iconoffset, 0, 0, 0));
+            const int iconoffset = textMargins().right() - margin;
+            button->setGeometry(contentRect.adjusted(contentRect.width() - iconoffset, 0, 0, 0));
         } else {
-            const int iconoffset = textMargins().left() + 4;
-            d->m_iconbutton[i]->setGeometry(contentRect.adjusted(0, 0, -width() + iconoffset, 0));
+            const int iconoffset = textMargins().left() - margin;
+            button->setGeometry(contentRect.adjusted(0, 0, -contentRect.width() + iconoffset, 0));
         }
     }
 }
 
 void FancyLineEdit::resizeEvent(QResizeEvent *)
 {
+    updateMargins();
     updateButtonPositions();
 }
 
 void FancyLineEdit::setButtonIcon(Side side, const QIcon &icon)
 {
-    const auto size = d->m_iconbutton[side]->iconSize();
-    d->m_iconbutton[side]->setIcon( icon.pixmap(size) );
-    updateMargins();
-    updateButtonPositions();
-    update();
+    d->m_iconbutton[side]->setIcon(icon);
 }
 
 void FancyLineEdit::setButtonMenu(Side side, QMenu *buttonMenu)
@@ -264,19 +264,12 @@ IconButton::IconButton(QWidget *parent)
 
 void IconButton::paintEvent(QPaintEvent *)
 {
-    const qreal ratio = devicePixelRatio();
-    //const auto iconSize = static_cast<int>( qMin(width(), height()) - ratio * 8 );
-    const QPixmap pixmap = m_icon.pixmap(iconSize() / ratio);
-
-    QRect pixmapRect = pixmap.rect();
-    auto pixmapCenter = rect().center();
+    const auto m = 3;
+    auto pixmapRect = contentsRect().adjusted(m, m, -m, -m);
     if (m_hasMenu)
-        pixmapCenter.setX( pixmapCenter.x() - 3 );
-    pixmapCenter.setY( pixmapCenter.y() - 2 );
-    pixmapRect.moveCenter(pixmapCenter);
+        pixmapRect.setWidth( pixmapRect.width() - 2 );
 
     QStylePainter painter(this);
-
     m_icon.paint(&painter, pixmapRect);
 
     if (m_hasMenu) {
@@ -305,11 +298,6 @@ void IconButton::paintEvent(QPaintEvent *)
 #endif
         painter.drawPrimitive(QStyle::PE_FrameFocusRect, focusOption);
     }
-}
-
-QSize IconButton::sizeHint() const
-{
-    return QSize(16 + (m_hasMenu ? 3 : 0), 16);
 }
 
 void IconButton::keyPressEvent(QKeyEvent *ke)

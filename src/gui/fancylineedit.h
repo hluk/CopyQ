@@ -48,8 +48,7 @@ public:
     void paintEvent(QPaintEvent *event) override;
     void setIcon(const QIcon &icon) { m_icon = icon; update(); }
     void setHasMenu(bool hasMenu) { m_hasMenu = hasMenu; update(); }
-
-    QSize sizeHint() const override;
+    bool hasMenu() const { return m_hasMenu; }
 
 protected:
     void keyPressEvent(QKeyEvent *ke) override;
