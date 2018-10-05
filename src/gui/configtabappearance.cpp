@@ -346,7 +346,6 @@ void ConfigTabAppearance::updateColorButtons()
         pix.fill(color);
         button->setIcon(pix);
         button->setIconSize(pix.size());
-        button->setMinimumSize(iconSize);
     }
 }
 
