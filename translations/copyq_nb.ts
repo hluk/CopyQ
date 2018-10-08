@@ -3418,7 +3418,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
         <source>Open Item Context Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Åpne elementsbindeleddsmeny</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="151"/>
