@@ -134,9 +134,11 @@ MenuItems menuItems()
     addMenuItem( items, Actions::Tabs_ChangeTabIcon, QObject::tr("&Change Tab Icon"),
                   "change_tab_icon", QObject::tr("Ctrl+Shift+T"), ":/images/tab_icon" );
     addMenuItem( items, Actions::Tabs_NextTab, QObject::tr("Ne&xt Tab"),
-                  "next_tab", QObject::tr("Right"), "go-next", IconArrowRight );
+                  "next_tab", QObject::tr("Right", "Default shortcut to focus next tab"),
+                  "go-next", IconArrowRight );
     addMenuItem( items, Actions::Tabs_PreviousTab, QObject::tr("&Previous Tab"),
-                  "previous_tab", QObject::tr("Left"), "go-previous", IconArrowLeft );
+                  "previous_tab", QObject::tr("Left", "Default shortcut to focus previous tab"),
+                  "go-previous", IconArrowLeft );
 
     addMenuItem( items, Actions::Help_Help, QObject::tr("&Help"), "help", QKeySequence::HelpContents,
                   "help-contents", IconQuestionCircle );
