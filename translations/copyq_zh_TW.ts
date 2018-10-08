@@ -3773,13 +3773,13 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished">右鍵</translation>
+        <translation>Right</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="140"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished">左鍵</translation>
+        <translation>Left</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
