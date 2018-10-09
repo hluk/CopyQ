@@ -75,66 +75,59 @@ QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
 } // namespace
 
 ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArray &icon,
-                     bool notesAtBottom, bool showIconOnly, bool showToolTip)
+                     NotesPosition notesPosition, bool showToolTip)
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
-    , m_notes(nullptr)
+    , m_notes(new QTextEdit(this))
     , m_icon(nullptr)
     , m_childItem(childItem)
-    , m_notesAtBottom(notesAtBottom)
     , m_timerShowToolTip(nullptr)
     , m_toolTipText()
 {
     m_childItem->widget()->setObjectName("item_child");
     m_childItem->widget()->setParent(this);
 
-    if (showIconOnly || !icon.isEmpty())
+    if (!icon.isEmpty())
         m_icon = createIconWidget(icon, this);
-
-    if (!showIconOnly)
-        m_notes = new QTextEdit(this);
 
     QBoxLayout *layout;
 
-    if (showIconOnly) {
+    m_notes->setObjectName("item_child");
+    m_notes->setProperty("CopyQ_item_type", "notes");
+
+    m_notes->setReadOnly(true);
+    m_notes->setUndoRedoEnabled(false);
+
+    m_notes->setFocusPolicy(Qt::NoFocus);
+    m_notes->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_notes->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_notes->setFrameStyle(QFrame::NoFrame);
+    m_notes->setContextMenuPolicy(Qt::NoContextMenu);
+
+    m_notes->viewport()->installEventFilter(this);
+
+    m_notes->setPlainText( text.left(defaultMaxBytes) );
+
+    if (notesPosition == NotesBeside)
         layout = new QHBoxLayout(this);
-        layout->addWidget(m_icon, 0, Qt::AlignRight | Qt::AlignTop);
-        layout->addWidget(m_childItem->widget());
-    } else {
-        m_notes->setObjectName("item_child");
-        m_notes->setProperty("CopyQ_item_type", "notes");
-
-        m_notes->setReadOnly(true);
-        m_notes->setUndoRedoEnabled(false);
-
-        m_notes->setFocusPolicy(Qt::NoFocus);
-        m_notes->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        m_notes->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        m_notes->setFrameStyle(QFrame::NoFrame);
-        m_notes->setContextMenuPolicy(Qt::NoContextMenu);
-
-        m_notes->viewport()->installEventFilter(this);
-
-        m_notes->setPlainText( text.left(defaultMaxBytes) );
-
+    else
         layout = new QVBoxLayout(this);
 
-        auto labelLayout = new QHBoxLayout;
-        labelLayout->setMargin(0);
-        labelLayout->setContentsMargins(notesIndent, 0, 0, 0);
+    auto labelLayout = new QHBoxLayout;
+    labelLayout->setMargin(0);
+    labelLayout->setContentsMargins(notesIndent, 0, 0, 0);
 
-        if (m_icon)
-            labelLayout->addWidget(m_icon, 0, Qt::AlignLeft | Qt::AlignTop);
+    if (m_icon)
+        labelLayout->addWidget(m_icon, 0, Qt::AlignLeft | Qt::AlignTop);
 
-        labelLayout->addWidget(m_notes, 1, Qt::AlignLeft);
+    labelLayout->addWidget(m_notes, 1, Qt::AlignLeft | Qt::AlignTop);
 
-        if (notesAtBottom) {
-            layout->addWidget( m_childItem->widget() );
-            layout->addLayout(labelLayout);
-        } else {
-            layout->addLayout(labelLayout);
-            layout->addWidget( m_childItem->widget() );
-        }
+    if (notesPosition == NotesBelow) {
+        layout->addWidget( m_childItem->widget() );
+        layout->addLayout(labelLayout);
+    } else {
+        layout->addLayout(labelLayout);
+        layout->addWidget( m_childItem->widget() );
     }
 
     if (showToolTip) {
@@ -312,7 +305,7 @@ QStringList ItemNotesLoader::formatsToSave() const
 QVariantMap ItemNotesLoader::applySettings()
 {
     m_settings["notes_at_bottom"] = ui->radioButtonBottom->isChecked();
-    m_settings["icon_only"] = ui->radioButtonIconOnly->isChecked();
+    m_settings["notes_beside"] =  ui->radioButtonBeside->isChecked();
     m_settings["show_tooltip"] = ui->checkBoxShowToolTip->isChecked();
     return m_settings;
 }
@@ -323,10 +316,10 @@ QWidget *ItemNotesLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
-    if ( m_settings["icon_only"].toBool() )
-        ui->radioButtonIconOnly->setChecked(true);
-    else if ( m_settings["notes_at_bottom"].toBool() )
+    if ( m_settings["notes_at_bottom"].toBool() )
         ui->radioButtonBottom->setChecked(true);
+    else if ( m_settings["notes_beside"].toBool() )
+        ui->radioButtonBeside->setChecked(true);
     else
         ui->radioButtonTop->setChecked(true);
 
@@ -342,11 +335,15 @@ ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QVariantMap
     if ( text.isEmpty() && icon.isEmpty() )
         return nullptr;
 
+    const NotesPosition notesPosition =
+            m_settings["notes_at_bottom"].toBool() ? NotesBelow
+          : m_settings["notes_beside"].toBool() ? NotesBeside
+          : NotesAbove;
+
     itemWidget->setTagged(true);
-    return new ItemNotes( itemWidget, text, icon,
-                          m_settings["notes_at_bottom"].toBool(),
-                          m_settings["icon_only"].toBool(),
-            m_settings["show_tooltip"].toBool() );
+    return new ItemNotes(
+        itemWidget, text, icon, notesPosition,
+        m_settings["show_tooltip"].toBool() );
 }
 
 bool ItemNotesLoader::matches(const QModelIndex &index, const QRegExp &re) const

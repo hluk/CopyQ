@@ -34,13 +34,19 @@ class ItemNotesSettings;
 class QTextEdit;
 class QTimer;
 
+enum NotesPosition {
+    NotesAbove,
+    NotesBelow,
+    NotesBeside,
+};
+
 class ItemNotes : public QWidget, public ItemWidget
 {
     Q_OBJECT
 
 public:
     ItemNotes(ItemWidget *childItem, const QString &text, const QByteArray &icon,
-              bool notesAtBottom, bool showIconOnly, bool showToolTip);
+              NotesPosition notesPosition, bool showToolTip);
 
     void setCurrent(bool current) override;
 
@@ -71,7 +77,6 @@ private:
     QTextEdit *m_notes;
     QWidget *m_icon;
     std::unique_ptr<ItemWidget> m_childItem;
-    bool m_notesAtBottom;
     QTimer *m_timerShowToolTip;
     QString m_toolTipText;
     bool m_isCurrent = false;
