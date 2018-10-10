@@ -411,23 +411,24 @@ omitted.
 
 .. js:function:: String config()
 
-   Returns help with list of available options.
+   Returns help with list of available application options.
 
 .. js:function:: String config(optionName)
 
-   Returns value of given option.
+   Returns value of given application option.
 
    Throws an exception if the option is invalid.
 
 .. js:function:: String config(optionName, value)
 
-   Sets option and returns new value.
+   Sets application option and returns new value.
 
    Throws an exception if the option is invalid.
 
 .. js:function:: String config(optionName, value, ...)
 
-   Sets multiple options and return list with values in format ``optionName=newValue``.
+   Sets multiple application options and return list with values in format
+   ``optionName=newValue``.
 
    Throws an exception if there is an invalid option in which case it won't
    set any options.
@@ -750,15 +751,15 @@ omitted.
 
 .. js:function:: String[] settings()
 
-   Returns array with names of all custom options.
+   Returns array with names of all custom user options.
 
 .. js:function:: Value settings(optionName)
 
-   Returns value for an option.
+   Returns value for a custom user option.
 
 .. js:function:: settings(optionName, value)
 
-   Sets value for a new option or overrides existing option.
+   Sets value for a new custom user option or overrides existing one.
 
 .. js:function:: String dateString(format)
 
