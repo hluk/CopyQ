@@ -527,7 +527,7 @@ void MainWindow::createMenu()
     createAction( Actions::File_Import, &MainWindow::importData, menu );
 
     // - export
-    act = createAction( Actions::File_Export, &MainWindow::exportData, menu );
+    createAction( Actions::File_Export, &MainWindow::exportData, menu );
 
     // - separator
     menu->addSeparator();
