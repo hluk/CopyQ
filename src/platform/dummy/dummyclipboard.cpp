@@ -59,7 +59,7 @@ void DummyClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
 {
     Q_ASSERT( isMainThread() );
 
-    systemClipboard()->setMimeData( createMimeData(dataMap), modeToQClipboardMode(mode) );
+    QGuiApplication::clipboard()->setMimeData( createMimeData(dataMap), modeToQClipboardMode(mode) );
 }
 
 void DummyClipboard::onChanged(int mode)

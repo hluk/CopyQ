@@ -179,17 +179,6 @@ bool isMainThread()
     return QThread::currentThread() == qApp->thread();
 }
 
-QClipboard *systemClipboard()
-{
-#ifdef PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
-    // WORKAROUND: Avoid getting X11 warnings:
-    //  - QXcbClipboard: SelectionRequest too old
-    //  - QXcbXSettings::QXcbXSettings(QXcbScreen*) Failed to get selection owner for XSETTINGS_S atom
-    QCoreApplication::processEvents();
-#endif
-    return QGuiApplication::clipboard();
-}
-
 const QMimeData *clipboardData(ClipboardMode mode)
 {
     Q_ASSERT( isMainThread() );
@@ -201,7 +190,7 @@ const QMimeData *clipboardData(ClipboardMode mode)
             ? QClipboard::Clipboard
             : QClipboard::Selection;
 
-    const QMimeData *data = systemClipboard()->mimeData(qtmode);
+    const QMimeData *data = QGuiApplication::clipboard()->mimeData(qtmode);
 
     if (data)
         COPYQ_LOG_VERBOSE( QString("Got %1 data.").arg(modeText) );
@@ -247,7 +236,6 @@ QVariantMap cloneData(const QMimeData &data, QStringList formats)
 
     for (const auto &mime : formats) {
 #ifdef PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
-        QCoreApplication::processEvents();
         if (dataGuard.isNull()) {
             log("Clipboard data lost", LogWarning);
             return newdata;

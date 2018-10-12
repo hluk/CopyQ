@@ -3101,7 +3101,7 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
         const auto source = targetMode == ClipboardMode::Selection ? QClipboard::Clipboard : QClipboard::Selection;
 
         // Stop if the clipboard/selection text already changed again.
-        auto clipboard = systemClipboard();
+        auto clipboard = QGuiApplication::clipboard();
         const auto sourceText = clipboard->text(source);
         if (sourceText != getTextData(m_data)) {
             COPYQ_SYNC_LOG("Cancelled (source text changed)");
