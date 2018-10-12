@@ -3089,6 +3089,8 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
         return;
 
     {
+        SleepTimer tMin(100);
+
         // Avoid changing clipboard after a text is selected just before it's copied
         // with a keyboard shortcut.
         SleepTimer t(5000);
@@ -3099,6 +3101,10 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
 
         const auto target = targetMode == ClipboardMode::Clipboard ? QClipboard::Clipboard : QClipboard::Selection;
         const auto source = targetMode == ClipboardMode::Selection ? QClipboard::Clipboard : QClipboard::Selection;
+
+        // Wait at least few milliseconds before synchronization
+        // to avoid overriding just changed clipboard/selection.
+        while ( tMin.sleep() ) {}
 
         // Stop if the clipboard/selection text already changed again.
         auto clipboard = QGuiApplication::clipboard();

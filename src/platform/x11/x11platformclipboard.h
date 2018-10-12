@@ -49,11 +49,12 @@ private:
         QVariantMap data;
         QByteArray owner;
         QTimer timerEmitChange;
+        QStringList formats;
     };
 
     void check();
-
-    QStringList m_formats;
+    bool updateClipboardData(ClipboardData *clipboardData, ClipboardMode mode);
+    void checkAgainLater(bool clipboardChanged);
 
     QTimer m_timerCheckAgain;
     int m_checkAgainIntervalMs = 0;

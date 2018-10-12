@@ -22,6 +22,7 @@
 #include "x11platformclipboard.h"
 
 #include "common/mimetypes.h"
+#include "common/log.h"
 #include "common/timer.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
@@ -60,6 +61,10 @@ bool isSelectionIncomplete()
 
 X11PlatformClipboard::X11PlatformClipboard()
 {
+    // Always assume that only plain text can be in primary selection buffer.
+    // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
+    m_selectionData.formats.append(mimeText);
+
     initSingleShotTimer( &m_timerCheckAgain, 0, this, &X11PlatformClipboard::check );
 
     initSingleShotTimer( &m_clipboardData.timerEmitChange, 0, this, [this](){
@@ -70,7 +75,9 @@ X11PlatformClipboard::X11PlatformClipboard()
 
     initSingleShotTimer( &m_selectionData.timerEmitChange, 0, this, [this](){
         if ( isSelectionIncomplete() ) {
-            m_timerCheckAgain.start(minCheckAgainIntervalMs);
+            COPYQ_LOG("Selection is incomplete");
+            if ( !m_timerCheckAgain.isActive() )
+                m_timerCheckAgain.start(minCheckAgainIntervalMs);
             return;
         }
 
@@ -82,7 +89,7 @@ X11PlatformClipboard::X11PlatformClipboard()
 
 void X11PlatformClipboard::setFormats(const QStringList &formats)
 {
-    m_formats = formats;
+    m_clipboardData.formats = formats;
 }
 
 QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) const
@@ -114,6 +121,13 @@ void X11PlatformClipboard::onChanged(int mode)
     if (currentWindow)
         owner = currentWindow->getTitle().toUtf8();
 
+    // Omit checking selection too fast.
+    if ( mode == QClipboard::Selection && m_timerCheckAgain.isActive() ) {
+        COPYQ_LOG("Postponing fast selection change");
+        m_selectionData.timerEmitChange.stop();
+        return;
+    }
+
     check();
 }
 
@@ -121,29 +135,45 @@ void X11PlatformClipboard::check()
 {
     m_clipboardData.timerEmitChange.stop();
     m_selectionData.timerEmitChange.stop();
+    m_timerCheckAgain.stop();
 
-    // Omit checking clipboard and selection too fast.
-    if ( m_timerCheckAgain.isActive() )
-        return;
-
-    // Fetch clipboard and selection data first to avoid it being invalidated.
-    m_clipboardData.newData = DummyClipboard::data(ClipboardMode::Clipboard, m_formats);
-
-    // Always assume that only plain text can be in primary selection buffer.
-    // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
-    m_selectionData.newData = DummyClipboard::data( ClipboardMode::Selection, QStringList(mimeText) );
-
-    if (m_clipboardData.data != m_clipboardData.newData)
-        m_clipboardData.timerEmitChange.start();
-
-    if (m_selectionData.data != m_selectionData.newData)
-        m_selectionData.timerEmitChange.start();
+    const auto changed =
+        // Prioritize checking clipboard before selection.
+        updateClipboardData(&m_clipboardData, ClipboardMode::Clipboard)
+        || updateClipboardData(&m_selectionData, ClipboardMode::Selection);
 
     // Check clipboard and selection again if some signals where
     // not delivered or older data was received after new one.
-    m_checkAgainIntervalMs = m_checkAgainIntervalMs * 2 + minCheckAgainIntervalMs;
-    if (m_checkAgainIntervalMs < maxCheckAgainIntervalMs)
+    checkAgainLater(changed);
+}
+
+bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData, ClipboardMode mode)
+{
+    clipboardData->newData = DummyClipboard::data(mode, clipboardData->formats);
+
+    if (clipboardData->data == clipboardData->newData)
+        return false;
+
+    clipboardData->timerEmitChange.start();
+    return true;
+}
+
+void X11PlatformClipboard::checkAgainLater(bool clipboardChanged)
+{
+    const int interval = m_timerCheckAgain.interval() * 2 + minCheckAgainIntervalMs;
+    m_timerCheckAgain.setInterval(interval);
+    if (interval < maxCheckAgainIntervalMs)
         m_timerCheckAgain.start();
+    else if (clipboardChanged)
+        m_timerCheckAgain.start(maxCheckAgainIntervalMs);
     else
-        m_checkAgainIntervalMs = 0;
+        m_timerCheckAgain.setInterval(0);
+
+    COPYQ_LOG( QString("Clipboard %1, selection %2.%3")
+               .arg(m_clipboardData.data == m_clipboardData.newData ? "unchanged" : "*CHANGED*")
+               .arg(m_selectionData.data == m_selectionData.newData ? "unchanged" : "*CHANGED*")
+               .arg(m_timerCheckAgain.isActive()
+                    ? QString(" Test clipboard in %1ms.").arg(m_timerCheckAgain.interval())
+                    : QString())
+             );
 }
