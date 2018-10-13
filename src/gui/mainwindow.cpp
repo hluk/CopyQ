@@ -985,7 +985,7 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
     connect( browser, &ClipboardBrowser::itemCountChanged,
              ui->tabWidget, &TabWidget::setTabItemCount );
     connect( browser, &ClipboardBrowser::showContextMenu,
-             this, &MainWindow::showContextMenu );
+             this, &MainWindow::showContextMenuAt );
     connect( browser, &ClipboardBrowser::itemSelectionChanged,
              this, &MainWindow::onItemSelectionChanged );
     connect( browser, &ClipboardBrowser::itemsChanged,
