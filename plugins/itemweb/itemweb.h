@@ -56,6 +56,8 @@ protected:
 
     void mouseDoubleClickEvent(QMouseEvent *e) override;
 
+    QSize sizeHint() const override;
+
 private:
     void onSelectionChanged();
     void onLinkClicked(const QUrl &url);
@@ -65,6 +67,8 @@ private:
     bool m_copyOnMouseUp;
     int m_maximumHeight;
     QSize m_maximumSize;
+    int m_idealWidth = 100;
+    bool m_resizing = false;
     bool m_preview;
 };
 

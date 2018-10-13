@@ -98,6 +98,9 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *
 
     // Set some remote URL as base URL so we can include remote scripts.
     setHtml(html, QUrl("http://example.com/"));
+
+    connect( frame, &QWebFrame::contentsSizeChanged,
+             this, &ItemWeb::onItemChanged );
 }
 
 void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
@@ -112,40 +115,35 @@ void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
 
 void ItemWeb::onItemChanged()
 {
-    updateSize(m_maximumSize, 0);
+    updateSize(m_maximumSize, m_idealWidth);
 }
 
-void ItemWeb::updateSize(QSize maximumSize, int)
+void ItemWeb::updateSize(QSize maximumSize, int idealWidth)
 {
+    if (m_resizing)
+        return;
+
+    m_resizing = true;
     QWebFrame *frame = page()->mainFrame();
-    disconnect( frame, &QWebFrame::contentsSizeChanged,
-                this, &ItemWeb::onItemChanged );
 
     setMaximumSize(maximumSize);
     m_maximumSize = maximumSize;
+    m_idealWidth = idealWidth;
 
-    const int w = maximumSize.width();
     const int scrollBarWidth = frame->scrollBarGeometry(Qt::Vertical).width();
-    page()->setPreferredContentsSize( QSize(w - scrollBarWidth, 10) );
+    page()->setPreferredContentsSize( QSize(idealWidth - scrollBarWidth, 10) );
 
     int h = frame->contentsSize().height();
     if (0 < m_maximumHeight && m_maximumHeight < h)
         h = m_maximumHeight;
 
-    const QSize size(w, h);
+    const QSize size(m_maximumSize.width(), h);
     page()->setViewportSize(size);
-    if (size != this->size()) {
-        setFixedSize(size);
-        // WORKAROUND: Setting fixed size above doesn't update parent layout.
-        if (parentWidget())
-            parentWidget()->adjustSize();
-    }
 
     // FIXME: This fixes background color but makes black scroll bar.
     setStyleSheet("background-color:transparent");
 
-    connect( frame, &QWebFrame::contentsSizeChanged,
-             this, &ItemWeb::onItemChanged );
+    m_resizing = false;
 }
 
 void ItemWeb::onSelectionChanged()
@@ -205,6 +203,11 @@ void ItemWeb::mouseDoubleClickEvent(QMouseEvent *e)
         QWebView::mouseDoubleClickEvent(e);
     else
         e->ignore();
+}
+
+QSize ItemWeb::sizeHint() const
+{
+    return page()->viewportSize();
 }
 
 ItemWebLoader::ItemWebLoader()
