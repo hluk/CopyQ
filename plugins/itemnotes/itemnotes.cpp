@@ -152,6 +152,8 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
 
 void ItemNotes::setCurrent(bool current)
 {
+    m_childItem->setCurrent(current);
+
     m_isCurrent = current;
 
     ItemWidget::setCurrent(current);
