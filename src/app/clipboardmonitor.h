@@ -43,18 +43,10 @@ signals:
     void synchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash);
 
 private:
-    struct ClipboardData {
-        QVariantMap lastData;
-        bool runAutomaticCommands = false;
-    };
-
     void onClipboardChanged(ClipboardMode mode);
 
-    bool m_executingAutomaticCommands = false;
-    ClipboardData m_clipboardData;
-    ClipboardData m_selectionData;
-
-    void runAutomaticCommands();
+    QVariantMap m_clipboardData;
+    QVariantMap m_selectionData;
 
     PlatformClipboardPtr m_clipboard;
     QStringList m_formats;

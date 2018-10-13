@@ -375,7 +375,6 @@ private:
     bool sourceScriptCommands();
     void callDisplayFunctions(QScriptValueList displayFunctions);
     QString processUncaughtException(const QString &cmd);
-    void processUncaughtMonitorException(const char *label);
     void showExceptionMessage(const QString &message);
     QVector<int> getRows() const;
     QScriptValue copy(ClipboardMode mode);

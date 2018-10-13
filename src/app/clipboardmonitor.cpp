@@ -94,11 +94,13 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
     auto clipboardData = mode == ClipboardMode::Clipboard
             ? &m_clipboardData : &m_selectionData;
 
-    if ( hasSameData(data, clipboardData->lastData) ) {
+    if ( hasSameData(data, *clipboardData) ) {
         COPYQ_LOG( QString("Ignoring unchanged %1")
                    .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
         return;
     }
+
+    *clipboardData = data;
 
     COPYQ_LOG( QString("%1 changed, owner is \"%2\"")
                .arg(mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection")
@@ -129,53 +131,25 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
         if ( !text.isEmpty() ) {
             const auto targetData = mode == ClipboardMode::Clipboard
                     ? &m_selectionData : &m_clipboardData;
-            const auto targetText = getTextData(targetData->lastData);
+            const auto targetText = getTextData(*targetData);
             emit synchronizeSelection(mode, text, qHash(targetText));
         }
     }
 #endif
 
-    clipboardData->lastData = data;
-    clipboardData->runAutomaticCommands = true;
-    runAutomaticCommands();
-}
+    // run automatic commands
+    if ( anySessionOwnsClipboardData(data) ) {
+        emit clipboardChanged(data, ClipboardOwnership::Own);
+    } else if ( isClipboardDataHidden(data) ) {
+        emit clipboardChanged(data, ClipboardOwnership::Hidden);
+    } else {
+        setTextData(&data, defaultTabName(), mimeCurrentTab);
 
-void ClipboardMonitor::runAutomaticCommands()
-{
-    if (m_executingAutomaticCommands)
-        return;
-
-    for (;;) {
-        ClipboardData *clipboardData = nullptr;
-        if (m_clipboardData.runAutomaticCommands) {
-            clipboardData = &m_clipboardData;
-        } else if (m_selectionData.runAutomaticCommands) {
-            clipboardData = &m_selectionData;
+        if ( needStore(data) ) {
+            const auto clipboardTab = AppConfig().option<Config::clipboard_tab>();
+            setTextData(&data, clipboardTab, mimeOutputTab);
         }
 
-        if (clipboardData == nullptr)
-            return;
-
-        m_executingAutomaticCommands = true;
-
-        clipboardData->runAutomaticCommands = false;
-        auto &data = clipboardData->lastData;
-
-        if ( anySessionOwnsClipboardData(data) ) {
-            emit clipboardChanged(data, ClipboardOwnership::Own);
-        } else if ( isClipboardDataHidden(data) ) {
-            emit clipboardChanged(data, ClipboardOwnership::Hidden);
-        } else {
-            setTextData(&data, defaultTabName(), mimeCurrentTab);
-
-            if ( needStore(data) ) {
-                const auto clipboardTab = AppConfig().option<Config::clipboard_tab>();
-                setTextData(&data, clipboardTab, mimeOutputTab);
-            }
-
-            emit clipboardChanged(data, ClipboardOwnership::Foreign);
-        }
-
-        m_executingAutomaticCommands = false;
+        emit clipboardChanged(data, ClipboardOwnership::Foreign);
     }
 }

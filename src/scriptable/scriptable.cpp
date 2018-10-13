@@ -2391,18 +2391,13 @@ void Scriptable::onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwn
                .arg(isClipboardData(data) ? "clipboard" : "selection")
                .arg(getTextData(data, mimeOwner)) );
 
-    m_data = data;
-    setActionData();
+    Command command;
+    command.cmd =
+        ownership == ClipboardOwnership::Own ? "copyq onOwnClipboardChanged"
+      : ownership == ClipboardOwnership::Hidden ? "copyq onHiddenClipboardChanged"
+      : "copyq onClipboardChanged";
 
-    const auto functionName =
-        ownership == ClipboardOwnership::Own ? "onOwnClipboardChanged"
-      : ownership == ClipboardOwnership::Hidden ? "onHiddenClipboardChanged"
-      : "onClipboardChanged";
-
-    auto function = m_engine->globalObject().property(functionName);
-    function.call();
-
-    processUncaughtMonitorException("ClipboardMonitor::onMonitorClipboardChanged");
+    m_proxy->action(data, command);
 }
 
 void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash)
@@ -2566,14 +2561,6 @@ QString Scriptable::processUncaughtException(const QString &cmd)
         showExceptionMessage(exceptionName);
 
     return exceptionText;
-}
-
-void Scriptable::processUncaughtMonitorException(const char *label)
-{
-    if ( !engine()->hasUncaughtException() ) {
-        processUncaughtException(label);
-        engine()->clearExceptions();
-    }
 }
 
 void Scriptable::showExceptionMessage(const QString &message)
