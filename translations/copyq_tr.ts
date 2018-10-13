@@ -820,7 +820,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="406"/>
         <source>Cop&amp;y to tab:</source>
-        <translation>Sekmeye Kop&amp;yala:/translation>
+        <translation>Sekmeye Kop&amp;yala:<translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="516"/>
