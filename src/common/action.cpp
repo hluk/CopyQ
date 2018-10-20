@@ -413,13 +413,12 @@ void Action::terminate()
     if (m_processes.empty())
         return;
 
-    // try to terminate process
     for (auto p : m_processes)
         p->terminate();
 
-    // if process still running: kill it
-    if ( !waitForFinished(5000) )
-        terminateProcess( m_processes.back() );
+    waitForFinished(5000);
+    for (auto p : m_processes)
+        terminateProcess(p);
 }
 
 void Action::closeSubCommands()
