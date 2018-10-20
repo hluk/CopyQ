@@ -65,7 +65,7 @@ QString decompressMime(QDataStream *out)
         return QString();
 
     bool ok;
-    const int id = mime.mid(0, 1).toInt(&ok, 16);
+    const int id = mime.midRef(0, 1).toInt(&ok, 16);
     if (!ok) {
         out->setStatus(QDataStream::ReadCorruptData);
         return QString();

@@ -24,7 +24,8 @@
 #include <QProcess>
 #include <QStringList>
 #include <QVariantMap>
-#include <QVector>
+
+#include <vector>
 
 class QAction;
 
@@ -135,7 +136,7 @@ private:
     int m_currentLine;
     QString m_name;
     QVariantMap m_data;
-    QVector<QProcess*> m_processes;
+    std::vector<QProcess*> m_processes;
 
     int m_exitCode;
     QString m_errorString;

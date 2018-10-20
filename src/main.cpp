@@ -123,8 +123,7 @@ int startServer(int argc, char *argv[], QString sessionName)
         const auto sessionId = qapp->sessionId();
         sessionName = restoreSessionName(sessionId);
         COPYQ_LOG( QString("Restoring session ID \"%1\", session name \"%2\"")
-                   .arg(sessionId)
-                   .arg(sessionName) );
+                   .arg(sessionId, sessionName) );
         if ( !sessionName.isEmpty() && !isValidSessionName(sessionName) ) {
             log("Failed to restore session name", LogError);
             return 2;

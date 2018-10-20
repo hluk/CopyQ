@@ -167,6 +167,16 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
     return lines;
 }
 
+template <typename Iterator>
+void pipeThroughProcesses(Iterator begin, Iterator end)
+{
+    auto it1 = begin;
+    for (auto it2 = it1 + 1; it2 != end; it1 = it2++) {
+        (*it1)->setStandardOutputProcess(*it2);
+        connectProcessFinished(*it2, *it1, &QProcess::terminate);
+    }
+}
+
 } // namespace
 
 Action::Action(QObject *parent)
@@ -240,7 +250,7 @@ void Action::start()
 
     for (int i = 0; i < cmds.size(); ++i) {
         auto process = new QProcess(this);
-        m_processes.append(process);
+        m_processes.push_back(process);
         process->setProcessEnvironment(env);
         if ( !m_workingDirectoryPath.isEmpty() )
             process->setWorkingDirectory(m_workingDirectoryPath);
@@ -250,21 +260,20 @@ void Action::start()
                  this, &Action::onSubProcessErrorOutput );
     }
 
-    for (int i = 1; i < m_processes.size(); ++i) {
-        m_processes[i - 1]->setStandardOutputProcess(m_processes[i]);
-        connectProcessFinished( m_processes[i], m_processes[i - 1], &QProcess::terminate );
-    }
+    pipeThroughProcesses(m_processes.begin(), m_processes.end());
 
-    connect( m_processes.last(), &QProcess::started,
+    QProcess *lastProcess = m_processes.back();
+    connect( lastProcess, &QProcess::started,
              this, &Action::onSubProcessStarted );
-    connectProcessFinished( m_processes.last(), this, &Action::onSubProcessFinished );
-    connect( m_processes.last(), &QProcess::readyReadStandardOutput,
+    connectProcessFinished( lastProcess, this, &Action::onSubProcessFinished );
+    connect( lastProcess, &QProcess::readyReadStandardOutput,
              this, &Action::onSubProcessOutput );
 
     // Writing directly to stdin of a process on Windows can hang the app.
-    connect( m_processes.first(), &QProcess::started,
+    QProcess *firstProcess = m_processes.front();
+    connect( firstProcess, &QProcess::started,
              this, &Action::writeInput, Qt::QueuedConnection );
-    connect( m_processes.first(), &QProcess::bytesWritten,
+    connect( firstProcess, &QProcess::bytesWritten,
              this, &Action::onBytesWritten, Qt::QueuedConnection );
 
     const bool needWrite = !m_input.isEmpty();
@@ -274,18 +283,20 @@ void Action::start()
               : needWrite ? QIODevice::WriteOnly
               : m_readOutput ? QIODevice::ReadOnly
               : QIODevice::NotOpen;
-        startProcess(m_processes.first(), cmds.first(), mode);
+        startProcess(firstProcess, cmds.first(), mode);
     } else {
-        startProcess(m_processes.first(), cmds.first(), needWrite ? QIODevice::ReadWrite : QIODevice::ReadOnly);
-        for (int i = 1; i < m_processes.size() - 1; ++i)
-            startProcess(m_processes[i], cmds[i], QIODevice::ReadWrite);
-        startProcess(m_processes.last(), cmds.last(), m_readOutput ? QIODevice::ReadWrite : QIODevice::WriteOnly);
+        auto it = m_processes.begin();
+        auto cmdIt = cmds.constBegin();
+        startProcess(*it, *cmdIt, needWrite ? QIODevice::ReadWrite : QIODevice::ReadOnly);
+        for (++it, ++cmdIt; it != m_processes.end() - 1; ++it, ++cmdIt)
+            startProcess(*it, *cmdIt, QIODevice::ReadWrite);
+        startProcess(lastProcess, cmds.last(), m_readOutput ? QIODevice::ReadWrite : QIODevice::WriteOnly);
     }
 }
 
 bool Action::waitForStarted(int msecs)
 {
-    return !m_processes.isEmpty() && m_processes.last()->waitForStarted(msecs);
+    return !m_processes.empty() && m_processes.back()->waitForStarted(msecs);
 }
 
 bool Action::waitForFinished(int msecs)
@@ -296,7 +307,7 @@ bool Action::waitForFinished(int msecs)
     QPointer<QObject> self(this);
     QEventLoop loop;
     QTimer t;
-    connectProcessFinished(m_processes.last(), &loop, &QEventLoop::quit);
+    connectProcessFinished(m_processes.back(), &loop, &QEventLoop::quit);
     connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
     t.start(msecs);
     loop.exec(QEventLoop::ExcludeUserInputEvents);
@@ -306,7 +317,7 @@ bool Action::waitForFinished(int msecs)
 
 bool Action::isRunning() const
 {
-    return !m_processes.isEmpty() && m_processes.last()->state() != QProcess::NotRunning;
+    return !m_processes.empty() && m_processes.back()->state() != QProcess::NotRunning;
 }
 
 void Action::setData(const QVariantMap &data)
@@ -361,10 +372,10 @@ void Action::onSubProcessFinished()
 
 void Action::onSubProcessOutput()
 {
-    if ( m_processes.isEmpty() )
+    if ( m_processes.empty() )
         return;
 
-    auto p = m_processes.last();
+    auto p = m_processes.back();
     if ( p->isReadable() )
         appendOutput( p->readAll() );
 }
@@ -380,10 +391,10 @@ void Action::onSubProcessErrorOutput()
 
 void Action::writeInput()
 {
-    if (m_processes.isEmpty())
+    if (m_processes.empty())
         return;
 
-    QProcess *p = m_processes.first();
+    QProcess *p = m_processes.front();
 
     if (m_input.isEmpty())
         p->closeWriteChannel();
@@ -393,13 +404,13 @@ void Action::writeInput()
 
 void Action::onBytesWritten()
 {
-    if ( !m_processes.isEmpty() )
-        m_processes.first()->closeWriteChannel();
+    if ( !m_processes.empty() )
+        m_processes.front()->closeWriteChannel();
 }
 
 void Action::terminate()
 {
-    if (m_processes.isEmpty())
+    if (m_processes.empty())
         return;
 
     // try to terminate process
@@ -408,18 +419,18 @@ void Action::terminate()
 
     // if process still running: kill it
     if ( !waitForFinished(5000) )
-        terminateProcess( m_processes.last() );
+        terminateProcess( m_processes.back() );
 }
 
 void Action::closeSubCommands()
 {
     terminate();
 
-    if (m_processes.isEmpty())
+    if (m_processes.empty())
         return;
 
-    m_exitCode = m_processes.last()->exitCode();
-    m_failed = m_failed || m_processes.last()->exitStatus() != QProcess::NormalExit;
+    m_exitCode = m_processes.back()->exitCode();
+    m_failed = m_failed || m_processes.back()->exitStatus() != QProcess::NormalExit;
 
     for (auto p : m_processes)
         p->deleteLater();

@@ -1707,7 +1707,7 @@ void ClipboardBrowser::updateItemWidgets()
     UpdatesLocker locker(this);
 
     const auto contents = viewport()->contentsRect();
-    for (auto index : m_itemWidgetsToUpdate) {
+    for (const auto &index : m_itemWidgetsToUpdate) {
         if (index.isValid()) {
             const auto rect = visualRect(index);
             if (contents.top() < rect.bottom() && rect.top() < contents.bottom()) {

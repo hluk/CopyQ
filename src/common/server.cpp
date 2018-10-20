@@ -105,8 +105,7 @@ Server::Server(const QString &name, QObject *parent)
         QLocalServer::removeServer(name);
         if ( !m_server->listen(name) ) {
             log( QString("Failed to create server \"%1\": %2")
-                 .arg(m_server->fullServerName())
-                 .arg(m_server->errorString()),
+                 .arg(m_server->fullServerName(), m_server->errorString()),
                  LogError);
         }
     }

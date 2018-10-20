@@ -253,7 +253,11 @@ void ClipboardClient::start(const QStringList &arguments)
              &scriptableProxy, &ScriptableProxy::clientDisconnected );
 
     bool hasData;
+#if QT_VERSION < QT_VERSION_CHECK(5,5,0)
     auto actionId = qgetenv("COPYQ_ACTION_ID").toInt(&hasData);
+#else
+    auto actionId = qEnvironmentVariableIntValue("COPYQ_ACTION_ID", &hasData);
+#endif
     if (!hasData)
         actionId = -1;
     scriptable.setActionId(actionId);

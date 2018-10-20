@@ -263,7 +263,8 @@ QString iconForItem(const QVariantMap &dataMap, const QString &baseName, const Q
         return icon;
 
     // Try to get default icon from MIME type.
-    for ( const auto &format : dataMap.keys() ) {
+    for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {
+        const auto &format = it.key();
         const auto mimeIcon = iconFromMime(format);
         if ( !mimeIcon.isEmpty() )
             return mimeIcon;

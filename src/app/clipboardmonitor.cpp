@@ -103,8 +103,8 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
     *clipboardData = data;
 
     COPYQ_LOG( QString("%1 changed, owner is \"%2\"")
-               .arg(mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection")
-               .arg(getTextData(data, mimeOwner)) );
+               .arg(mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection",
+                    getTextData(data, mimeOwner)) );
 
     if (mode != ClipboardMode::Clipboard) {
         const QString modeName = mode == ClipboardMode::Selection
