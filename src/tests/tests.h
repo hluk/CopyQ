@@ -133,6 +133,8 @@ private slots:
     void classDir();
     void classTemporaryFile();
 
+    void pipingCommands();
+
     void chainingCommands();
 
     void configMaxitems();

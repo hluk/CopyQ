@@ -1500,6 +1500,24 @@ void Tests::classTemporaryFile()
     QVERIFY( !QFile::exists(QString::fromUtf8(fileName)) );
 }
 
+void Tests::pipingCommands()
+{
+    const auto tab = testTab(1);
+    const Args args = Args("tab") << tab << "separator" << ",";
+
+    RUN(args << "action"
+        << "copyq print HELLO | copyq print(str(input()).toLowerCase())", "");
+    WAIT_ON_OUTPUT(args << "read" << "0" << "1", "hello,");
+
+    RUN(args << "action"
+        << "copyq print TEST"
+        " | copyq 'print(str(input()) + 1)'"
+        " | copyq 'print(str(input()) + 2)'"
+        " | copyq 'print(str(input()) + 3)'"
+        , "");
+    WAIT_ON_OUTPUT(args << "read" << "0" << "1", "TEST123,hello");
+}
+
 void Tests::chainingCommands()
 {
     const auto tab1 = testTab(1);
