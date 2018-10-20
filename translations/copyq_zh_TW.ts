@@ -3784,13 +3784,13 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
         <source>Open Item Context Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>開啟項目快顯功能表</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="151"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation type="unfinished">Shift+F10</translation>
+        <translation>Shift+F10</translation>
     </message>
     <message>
         <source>Right</source>
