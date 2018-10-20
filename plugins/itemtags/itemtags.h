@@ -84,8 +84,8 @@ class ItemTagsLoader;
 class ItemTagsScriptable : public ItemScriptable
 {
     Q_OBJECT
-    Q_PROPERTY(QStringList userTags READ getUserTags)
-    Q_PROPERTY(QString mimeTags READ getMimeTags)
+    Q_PROPERTY(QStringList userTags READ getUserTags CONSTANT)
+    Q_PROPERTY(QString mimeTags READ getMimeTags CONSTANT)
 
 public:
     explicit ItemTagsScriptable(const QStringList &userTags)

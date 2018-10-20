@@ -52,24 +52,24 @@ class Scriptable : public QObject, protected QScriptable
 {
     Q_OBJECT
     Q_PROPERTY(QScriptValue inputSeparator READ getInputSeparator WRITE setInputSeparator)
-    Q_PROPERTY(QScriptValue mimeText READ getMimeText)
-    Q_PROPERTY(QScriptValue mimeHtml READ getMimeHtml)
-    Q_PROPERTY(QScriptValue mimeUriList READ getMimeUriList)
-    Q_PROPERTY(QScriptValue mimeWindowTitle READ getMimeWindowTitle)
-    Q_PROPERTY(QScriptValue mimeItems READ getMimeItems)
-    Q_PROPERTY(QScriptValue mimeItemNotes READ getMimeItemNotes)
-    Q_PROPERTY(QScriptValue mimeOwner READ getMimeOwner)
-    Q_PROPERTY(QScriptValue mimeClipboardMode READ getMimeClipboardMode)
-    Q_PROPERTY(QScriptValue mimeCurrentTab READ getMimeCurrentTab)
-    Q_PROPERTY(QScriptValue mimeSelectedItems READ getMimeSelectedItems)
-    Q_PROPERTY(QScriptValue mimeCurrentItem READ getMimeCurrentItem)
-    Q_PROPERTY(QScriptValue mimeHidden READ getMimeHidden)
-    Q_PROPERTY(QScriptValue mimeShortcut READ getMimeShortcut)
-    Q_PROPERTY(QScriptValue mimeColor READ getMimeColor)
-    Q_PROPERTY(QScriptValue mimeOutputTab READ getMimeOutputTab)
+    Q_PROPERTY(QScriptValue mimeText READ getMimeText CONSTANT)
+    Q_PROPERTY(QScriptValue mimeHtml READ getMimeHtml CONSTANT)
+    Q_PROPERTY(QScriptValue mimeUriList READ getMimeUriList CONSTANT)
+    Q_PROPERTY(QScriptValue mimeWindowTitle READ getMimeWindowTitle CONSTANT)
+    Q_PROPERTY(QScriptValue mimeItems READ getMimeItems CONSTANT)
+    Q_PROPERTY(QScriptValue mimeItemNotes READ getMimeItemNotes CONSTANT)
+    Q_PROPERTY(QScriptValue mimeOwner READ getMimeOwner CONSTANT)
+    Q_PROPERTY(QScriptValue mimeClipboardMode READ getMimeClipboardMode CONSTANT)
+    Q_PROPERTY(QScriptValue mimeCurrentTab READ getMimeCurrentTab CONSTANT)
+    Q_PROPERTY(QScriptValue mimeSelectedItems READ getMimeSelectedItems CONSTANT)
+    Q_PROPERTY(QScriptValue mimeCurrentItem READ getMimeCurrentItem CONSTANT)
+    Q_PROPERTY(QScriptValue mimeHidden READ getMimeHidden CONSTANT)
+    Q_PROPERTY(QScriptValue mimeShortcut READ getMimeShortcut CONSTANT)
+    Q_PROPERTY(QScriptValue mimeColor READ getMimeColor CONSTANT)
+    Q_PROPERTY(QScriptValue mimeOutputTab READ getMimeOutputTab CONSTANT)
 
-    Q_PROPERTY(QScriptValue global READ getGlobal)
-    Q_PROPERTY(QScriptValue plugins READ getPlugins)
+    Q_PROPERTY(QScriptValue global READ getGlobal CONSTANT)
+    Q_PROPERTY(QScriptValue plugins READ getPlugins CONSTANT)
 
 public:
     explicit Scriptable(
@@ -438,11 +438,11 @@ private:
 
 class NetworkReply : public QObject {
     Q_OBJECT
-    Q_PROPERTY(QScriptValue data READ data)
-    Q_PROPERTY(QScriptValue error READ error)
-    Q_PROPERTY(QScriptValue status READ status)
-    Q_PROPERTY(QScriptValue redirect READ redirect)
-    Q_PROPERTY(QScriptValue headers READ headers)
+    Q_PROPERTY(QScriptValue data READ data CONSTANT)
+    Q_PROPERTY(QScriptValue error READ error CONSTANT)
+    Q_PROPERTY(QScriptValue status READ status CONSTANT)
+    Q_PROPERTY(QScriptValue redirect READ redirect CONSTANT)
+    Q_PROPERTY(QScriptValue headers READ headers CONSTANT)
 
 public:
     static QScriptValue get(const QString &url, Scriptable *scriptable);
