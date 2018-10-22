@@ -233,13 +233,12 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="128"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Fout: %1</translation>
+        <translation>Fout: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="138"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">Afsluitcode: %1
- {1?}</translation>
+        <translation>Afsluitcode: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="169"/>
@@ -337,12 +336,12 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Schermafbeelding maken</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidige datum en tijd plakken</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
@@ -398,13 +397,13 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished">Voeg toe aan tab %1</translation>
+        <translation>Toevoegen aan tabblad %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished">Verplaats naar tab %1</translation>
+        <translation>Verplaatsen naar tab %1</translation>
     </message>
     <message>
         <source>Add to &amp;TODO tab</source>
@@ -458,13 +457,13 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="789"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1592"/>
         <source>Cannot Add New Items</source>
-        <translation type="unfinished">Kan geen nieuw item toevoegen</translation>
+        <translation>Kan geen nieuwe items toevoegen</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="790"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1593"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation type="unfinished">Tab is vol. Verwijderen van items mislukt.</translation>
+        <translation>Tabblad is vol; kan geen items verwijderen.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1847"/>
