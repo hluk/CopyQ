@@ -1493,7 +1493,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
         <translation type="vanished">&amp;Exportiere Reiter...</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2148"/>
+        <location filename="../src/tests/tests.cpp" line="2166"/>
         <source>Ctrl+P</source>
         <translation>Strg+P</translation>
     </message>
@@ -3999,12 +3999,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
 <context>
     <name>ItemNotesLoader</name>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="91"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="96"/>
         <source>Notes</source>
         <translation>Notizen</translation>
     </message>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="93"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
         <source>Display notes for items.</source>
         <translation>Notizen zu Elementen anzeigen.</translation>
     </message>
@@ -4018,18 +4018,30 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
-        <source>A&amp;bove Item</source>
-        <translation>Ü&amp;ber Elementen</translation>
+        <source>Abo&amp;ve Item</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
-        <source>B&amp;elow Item</source>
-        <translation>Unt&amp;er Elementen</translation>
+        <source>Below Ite&amp;m</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
+        <source>Beside Ite&amp;m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A&amp;bove Item</source>
+        <translation type="vanished">Ü&amp;ber Elementen</translation>
+    </message>
+    <message>
+        <source>B&amp;elow Item</source>
+        <translation type="vanished">Unt&amp;er Elementen</translation>
+    </message>
+    <message>
         <source>&amp;Icon Only</source>
-        <translation>Nur &amp;Icon</translation>
+        <translation type="vanished">Nur &amp;Icon</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -4143,12 +4155,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">Möchten Sie wirklich &lt;strong&gt;alle Elemente und zugehörige Dateien entfernen&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="848"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
         <translation>Verzeichnis für Synchronisierung öffnen</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="862"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
         <translation>Synchronisierungs-Verzeichnis konnte nicht erstellt werden</translation>
     </message>
@@ -4166,17 +4178,17 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="512"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="513"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation>Die Synchronisierung des Reiters &quot;%1&quot; mit dem Verzeichnis &quot;%2&quot; ist fehlgeschlagen!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="547"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
         <source>Remove Items?</source>
         <translation>Elemente entfernen?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="549"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Möchten Sie wirklich &lt;strong&gt;alle Elemente und zugehörige Dateien entfernen&lt;/strong&gt;?</translation>
     </message>
@@ -4991,13 +5003,13 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">FEHLER: %1</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="400"/>
+        <location filename="../src/common/common.cpp" line="388"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;VERSTECKT&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="406"/>
+        <location filename="../src/common/common.cpp" line="394"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -5006,7 +5018,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="416"/>
+        <location filename="../src/common/common.cpp" line="404"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;BILD&gt;</translation>
@@ -5017,13 +5029,13 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">&lt;DATEI&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="418"/>
+        <location filename="../src/common/common.cpp" line="406"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;LEER&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="420"/>
+        <location filename="../src/common/common.cpp" line="408"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATEN&gt;</translation>
@@ -5049,7 +5061,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">CopyQ Server ist bereits gestartet.</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="211"/>
+        <location filename="../src/main.cpp" line="210"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Sitzungsnamen darf höchstens 16 Zeichen (Buchstaben,Zahlen &apos;-&apos; oder &apos;_&apos;) enthalten!</translation>
@@ -5884,17 +5896,17 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <translation type="vanished">Gebaut mit: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2585"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2572"/>
         <source>Exception</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2586"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2573"/>
         <source>Exception in %1</source>
         <translation>Fehler in %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2628"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2615"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Das Kopieren in die Zwischenablage ist fehlgeschlagen!</translation>
     </message>

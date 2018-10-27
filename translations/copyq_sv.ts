@@ -978,7 +978,7 @@ CTRL samt upp- eller ned-tangenten.</translation>
         <translation type="vanished">An&amp;passade åtgärder och globala genvägar…</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2148"/>
+        <location filename="../src/tests/tests.cpp" line="2166"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -2143,12 +2143,12 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>ItemNotesLoader</name>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="91"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="96"/>
         <source>Notes</source>
         <translation>Anteckningar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="93"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
         <source>Display notes for items.</source>
         <translation>Visa anteckningar för objekt.</translation>
     </message>
@@ -2162,18 +2162,30 @@ Ställ in till 0 för att inaktivera.</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
-        <source>A&amp;bove Item</source>
-        <translation>O&amp;vanför objekt</translation>
+        <source>Abo&amp;ve Item</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
-        <source>B&amp;elow Item</source>
-        <translation>Und&amp;er objekt</translation>
+        <source>Below Ite&amp;m</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
+        <source>Beside Ite&amp;m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A&amp;bove Item</source>
+        <translation type="vanished">O&amp;vanför objekt</translation>
+    </message>
+    <message>
+        <source>B&amp;elow Item</source>
+        <translation type="vanished">Und&amp;er objekt</translation>
+    </message>
+    <message>
         <source>&amp;Icon Only</source>
-        <translation>Endast &amp;ikon</translation>
+        <translation type="vanished">Endast &amp;ikon</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2267,12 +2279,12 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Bläddra…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="848"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
         <translation>Öppna katalog för synkronisering</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="862"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
         <translation>Misslyckades med att skapa synkroniseringskatalog</translation>
     </message>
@@ -2290,17 +2302,17 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="512"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="513"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation>Misslyckades med att synkronisera fliken ”%1” med katalogen ”%2”!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="547"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
         <source>Remove Items?</source>
         <translation>Ta bort objekt?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="549"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Vill du verkligen &lt;strong&gt;ta bort objekt och associerade filer&lt;/strong&gt;?</translation>
     </message>
@@ -2721,13 +2733,13 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>&amp;urklipp</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="400"/>
+        <location filename="../src/common/common.cpp" line="388"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;DOLD&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="406"/>
+        <location filename="../src/common/common.cpp" line="394"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2736,7 +2748,7 @@ Ställ in till 0 för att inaktivera.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="416"/>
+        <location filename="../src/common/common.cpp" line="404"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;BILD&gt;</translation>
@@ -2747,13 +2759,13 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="vanished">&lt;FILER&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="418"/>
+        <location filename="../src/common/common.cpp" line="406"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;TOM&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="420"/>
+        <location filename="../src/common/common.cpp" line="408"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
@@ -3154,7 +3166,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Deserialisering av data misslyckades: %1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="211"/>
+        <location filename="../src/main.cpp" line="210"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Sessionsnamn får innehålla högst 16 tecken
@@ -3585,17 +3597,17 @@ Skriv ut version på program och bibliotek.</translation>
         <translation>Ogiltigt alternativ ”%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2585"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2572"/>
         <source>Exception</source>
         <translation>Undantag</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2586"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2573"/>
         <source>Exception in %1</source>
         <translation>Undantag i %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2628"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2615"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Misslyckades med att kopiera till urklipp!</translation>
     </message>

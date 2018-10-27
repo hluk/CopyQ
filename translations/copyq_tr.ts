@@ -700,7 +700,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="274"/>
         <source>&amp;Window:</source>
-        <translation>>&amp;Pencere:</translation>
+        <translation>&gt;&amp;Pencere:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="267"/>
@@ -845,7 +845,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="546"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Çıktı &amp;tab:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="556"/>
@@ -1042,7 +1042,7 @@ press F2 to edit.</source>
 <context>
     <name>ConfigTabShortcuts</name>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2148"/>
+        <location filename="../src/tests/tests.cpp" line="2166"/>
         <source>Ctrl+P</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1565,7 +1565,7 @@ Set to 0 to disable this.
 Set to -1 to keep visible until clicked.</source>
         <translation>Yeni pano bildirimleri için saniye cinsinden zaman (yalnızca ana pencere kapalıysa)
 
-Bunu devre dışı bırakmak için 0'a ayarlayın.
+Bunu devre dışı bırakmak için 0&apos;a ayarlayın.
 
 Tıklayana kadar görünür kalması için -1 olarak ayarlayın.</translation>
     </message>
@@ -1581,7 +1581,7 @@ Tıklayana kadar görünür kalması için -1 olarak ayarlayın.</translation>
 Set to 0 to disable.</source>
         <translation>Yeni pano içeriğinin gösterileceği satır sayısı.
 
-Devre dışı bırakmak için 0'a ayarlayın.</translation>
+Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1281"/>
@@ -2078,12 +2078,12 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
 <context>
     <name>ItemNotesLoader</name>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="91"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="96"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notlar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="93"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
         <source>Display notes for items.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2097,17 +2097,17 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
-        <source>A&amp;bove Item</source>
+        <source>Abo&amp;ve Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
-        <source>B&amp;elow Item</source>
+        <source>Below Ite&amp;m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
-        <source>&amp;Icon Only</source>
+        <source>Beside Ite&amp;m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2183,15 +2183,15 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
         <location filename="../plugins/itemsync/itemsync.cpp" line="123"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gözat...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="848"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="862"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2209,17 +2209,17 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="512"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="513"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="547"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
         <source>Remove Items?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="549"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2617,13 +2617,13 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="400"/>
+        <location filename="../src/common/common.cpp" line="388"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="406"/>
+        <location filename="../src/common/common.cpp" line="394"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -2631,19 +2631,19 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="416"/>
+        <location filename="../src/common/common.cpp" line="404"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="418"/>
+        <location filename="../src/common/common.cpp" line="406"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="420"/>
+        <location filename="../src/common/common.cpp" line="408"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation type="unfinished"></translation>
@@ -2813,7 +2813,7 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Düzenle</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -2913,7 +2913,7 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Yeni Sekme</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
@@ -3001,7 +3001,7 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Yardım</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2016"/>
@@ -3023,7 +3023,7 @@ Devre dışı bırakmak için 0'a ayarlayın.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="211"/>
+        <location filename="../src/main.cpp" line="210"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation type="unfinished"></translation>
@@ -3433,17 +3433,17 @@ Print version of program and libraries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2585"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2572"/>
         <source>Exception</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2586"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2573"/>
         <source>Exception in %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2628"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2615"/>
         <source>Failed to copy to clipboard!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3514,7 +3514,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Bul:</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="245"/>
@@ -3539,7 +3539,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;İsim:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>

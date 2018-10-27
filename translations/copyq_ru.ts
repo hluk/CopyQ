@@ -1167,7 +1167,7 @@ CTRL and up or down key.</source>
         <translation type="vanished">Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2148"/>
+        <location filename="../src/tests/tests.cpp" line="2166"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -2340,12 +2340,12 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemNotesLoader</name>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="91"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="96"/>
         <source>Notes</source>
         <translation>Заметки</translation>
     </message>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="93"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
         <source>Display notes for items.</source>
         <translation>Отображать заметки для элементов.</translation>
     </message>
@@ -2359,18 +2359,30 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
-        <source>A&amp;bove Item</source>
-        <translation>(&amp;b) Выше элемента</translation>
+        <source>Abo&amp;ve Item</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
-        <source>B&amp;elow Item</source>
-        <translation>(&amp;e) Ниже элемента</translation>
+        <source>Below Ite&amp;m</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
+        <source>Beside Ite&amp;m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A&amp;bove Item</source>
+        <translation type="vanished">(&amp;b) Выше элемента</translation>
+    </message>
+    <message>
+        <source>B&amp;elow Item</source>
+        <translation type="vanished">(&amp;e) Ниже элемента</translation>
+    </message>
+    <message>
         <source>&amp;Icon Only</source>
-        <translation>(&amp;i) Только значек</translation>
+        <translation type="vanished">(&amp;i) Только значек</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2464,12 +2476,12 @@ Set to 0 to disable.</source>
         <translation>Обзор...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="848"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
         <translation>Открыть каталог для синхронизации</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="862"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
         <translation>Не удалось создать каталог синхронизации</translation>
     </message>
@@ -2487,17 +2499,17 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="512"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="513"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation>Не удалось синхронизировать вкладку «% 1» с каталогом «% 2»!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="547"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
         <source>Remove Items?</source>
         <translation>Удалить элементы?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="549"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Вы действительно хотите &lt;strong&gt;удалить элементы и связанные файлы&lt;/strong&gt;?</translation>
     </message>
@@ -2899,13 +2911,13 @@ Set to 0 to disable.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="400"/>
+        <location filename="../src/common/common.cpp" line="388"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;Скрыто&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="406"/>
+        <location filename="../src/common/common.cpp" line="394"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2915,7 +2927,7 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="416"/>
+        <location filename="../src/common/common.cpp" line="404"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;Изображение&gt;</translation>
@@ -2926,13 +2938,13 @@ Set to 0 to disable.</source>
         <translation type="vanished">&lt;Файлы&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="418"/>
+        <location filename="../src/common/common.cpp" line="406"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;Пусто&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="420"/>
+        <location filename="../src/common/common.cpp" line="408"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;Данные&gt;</translation>
@@ -2971,7 +2983,7 @@ Set to 0 to disable.</source>
         <translation>Данные десериализации ошибка: %1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="211"/>
+        <location filename="../src/main.cpp" line="210"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Название сессии должна содержать не более 16 символов
@@ -3739,17 +3751,17 @@ Print version of program and libraries.</source>
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2585"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2572"/>
         <source>Exception</source>
         <translation>Исключение</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2586"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2573"/>
         <source>Exception in %1</source>
         <translation>Исключение в %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2628"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2615"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Не удается скопировать в буфер обмена!</translation>
     </message>

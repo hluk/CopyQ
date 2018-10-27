@@ -1496,7 +1496,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">&amp;Nastavení...</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2148"/>
+        <location filename="../src/tests/tests.cpp" line="2166"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
@@ -3849,12 +3849,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 <context>
     <name>ItemNotesLoader</name>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="91"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="96"/>
         <source>Notes</source>
         <translation>Poznámky</translation>
     </message>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="93"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
         <source>Display notes for items.</source>
         <translation>Zobrazení poznámek pro prvky.</translation>
     </message>
@@ -3868,18 +3868,30 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
-        <source>A&amp;bove Item</source>
+        <source>Abo&amp;ve Item</source>
         <translation>N&amp;ad prvkem</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
-        <source>B&amp;elow Item</source>
+        <source>Below Ite&amp;m</source>
         <translation>Po&amp;d prvkem</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
+        <source>Beside Ite&amp;m</source>
+        <translation>V&amp;edle prvku</translation>
+    </message>
+    <message>
+        <source>A&amp;bove Item</source>
+        <translation type="vanished">N&amp;ad prvkem</translation>
+    </message>
+    <message>
+        <source>B&amp;elow Item</source>
+        <translation type="vanished">Po&amp;d prvkem</translation>
+    </message>
+    <message>
         <source>&amp;Icon Only</source>
-        <translation>Pouze &amp;ikona</translation>
+        <translation type="vanished">Pouze &amp;ikona</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -3992,12 +4004,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">Opravdu chcete &lt;strong&gt;odebrat všechny prvky a přiřazené soubory&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="848"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
         <translation>Otevřít adresář pro synchronizaci</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="862"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
         <translation>Nelze vytvořit adresář pro synchronizaci</translation>
     </message>
@@ -4015,17 +4027,17 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="512"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="513"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation>Nelze synchronizovat záložku &quot;%1&quot; s adresářem &quot;%2&quot;!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="547"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
         <source>Remove Items?</source>
         <translation>Odstranit prvky?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="549"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Opravdu chcete &lt;strong&gt;odebrat všechny prvky a přiřazené soubory&lt;/strong&gt;?</translation>
     </message>
@@ -4736,7 +4748,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="406"/>
+        <location filename="../src/common/common.cpp" line="394"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -4773,13 +4785,13 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">CHYBA: %1</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="400"/>
+        <location filename="../src/common/common.cpp" line="388"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;SKRYTÁ&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="416"/>
+        <location filename="../src/common/common.cpp" line="404"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;OBRÁZEK&gt;</translation>
@@ -4790,13 +4802,13 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">&lt;SOUBORY&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="418"/>
+        <location filename="../src/common/common.cpp" line="406"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;PRÁZDNÁ&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="420"/>
+        <location filename="../src/common/common.cpp" line="408"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
@@ -4822,7 +4834,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">CopyQ server již běží.</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="211"/>
+        <location filename="../src/main.cpp" line="210"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Název Sezení musí obsahovat ne více než 16 znaků,
@@ -5190,24 +5202,24 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished">Vpravo</translation>
+        <translation>Vpravo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="140"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished">Vlevo</translation>
+        <translation>Vlevo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
         <source>Open Item Context Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevři kontextové menu</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="151"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Shift+F10</translation>
     </message>
     <message>
         <source>Right</source>
@@ -5664,17 +5676,17 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation type="vanished">Sestaveno s: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2585"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2572"/>
         <source>Exception</source>
         <translation>Výjimka</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2586"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2573"/>
         <source>Exception in %1</source>
         <translation>Výjimka v %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2628"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2615"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Nepodařilo se kopírovat do schránky!</translation>
     </message>

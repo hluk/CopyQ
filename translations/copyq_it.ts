@@ -1162,7 +1162,7 @@ CTRL e tasto su o giù.</translation>
 <context>
     <name>ConfigTabShortcuts</name>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2148"/>
+        <location filename="../src/tests/tests.cpp" line="2166"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -2504,12 +2504,12 @@ Imposta a 0 per disabilitare.</translation>
 <context>
     <name>ItemNotesLoader</name>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="91"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="96"/>
         <source>Notes</source>
         <translation>Note</translation>
     </message>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="93"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
         <source>Display notes for items.</source>
         <translation>Visualizza note degli elementi.</translation>
     </message>
@@ -2523,18 +2523,30 @@ Imposta a 0 per disabilitare.</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
-        <source>A&amp;bove Item</source>
-        <translation>Elemento so&amp;prastante</translation>
+        <source>Abo&amp;ve Item</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
-        <source>B&amp;elow Item</source>
-        <translation>Elemento so&amp;ttostante</translation>
+        <source>Below Ite&amp;m</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
+        <source>Beside Ite&amp;m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A&amp;bove Item</source>
+        <translation type="vanished">Elemento so&amp;prastante</translation>
+    </message>
+    <message>
+        <source>B&amp;elow Item</source>
+        <translation type="vanished">Elemento so&amp;ttostante</translation>
+    </message>
+    <message>
         <source>&amp;Icon Only</source>
-        <translation>Solo &amp;icona</translation>
+        <translation type="vanished">Solo &amp;icona</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2628,12 +2640,12 @@ Imposta a 0 per disabilitare.</translation>
         <translation>Sfoglia...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="848"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
         <translation>Apri cartella per sincronizzazione</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="862"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
         <translation>Impossibile creare la cartella della sincronizzazione</translation>
     </message>
@@ -2651,17 +2663,17 @@ Imposta a 0 per disabilitare.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="512"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="513"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation>Sincronizzazione fallita della scheda &quot;%1&quot; con la cartella &quot;%2&quot;!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="547"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
         <source>Remove Items?</source>
         <translation>Vuoi rimuovere gli elementi?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="549"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Vuoi veramente &lt;strong&gt;rimuovere gli elementi e i file associati&lt;/strong&gt;?</translation>
     </message>
@@ -3076,13 +3088,13 @@ Imposta a 0 per disabilitare.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="400"/>
+        <location filename="../src/common/common.cpp" line="388"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;NASCOSTO&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="406"/>
+        <location filename="../src/common/common.cpp" line="394"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -3091,7 +3103,7 @@ Imposta a 0 per disabilitare.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="416"/>
+        <location filename="../src/common/common.cpp" line="404"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;IMMAGINE&gt;</translation>
@@ -3102,13 +3114,13 @@ Imposta a 0 per disabilitare.</translation>
         <translation type="vanished">&lt;FILE&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="418"/>
+        <location filename="../src/common/common.cpp" line="406"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;VUOTO&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="420"/>
+        <location filename="../src/common/common.cpp" line="408"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATI&gt;</translation>
@@ -3158,7 +3170,7 @@ Imposta a 0 per disabilitare.</translation>
         <translation>Deserializzazioen dati fallita: %1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="211"/>
+        <location filename="../src/main.cpp" line="210"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Il nome della sessione deve avere max 16 caratteri
@@ -3925,17 +3937,17 @@ Visualizza programma e librerie.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2585"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2572"/>
         <source>Exception</source>
         <translation>Eccezione</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2586"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2573"/>
         <source>Exception in %1</source>
         <translation>Eccezione in %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2628"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2615"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Impossibile copiare negli Appunti!</translation>
     </message>
