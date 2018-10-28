@@ -1,7 +1,25 @@
-v3.6.2
+v3.7.0
+- New option to show notes beside item content
+- Removed option to show icon instead of notes
 - Only plain text is Copied/Pasted from menu if Shift key is pressed
 - Customizable shortcut for Item context menu
+- Remove unmaintained Data plugin (can be replaced with a script)
+- Allow to set icon to tab groups in tree view
+- Allow export even if a tab group or an unloaded tab is selected
+- Automatic commands are no longer run in clipboard monitor context
+- Omit aborting monitor by calling abort() from automatic commands
+- Omit aborting automatic commands by changing configuration
+- Updated icons (Font Awesome 5.4.2)
+- Fix sizes of items with notes and when using Web plugin
+- Fix icons alignment
+- Fix setting different font weights in Appearance configuration
+- Fix button sizes in Appearance configuration
 - Fix position of the context menu for large items
+- Fix server crash when a client disconnected while processing its request
+- Fix crash when changing icon or renaming unloaded tab
+- Fix handling of incorrect editor command
+- X11: Faster and safer clipboard checking and synchronization
+- X11: Prioritize checking clipboard before selection
 
 v3.6.1
 - Omit displaying notes twice when "Show simple items" is enabled
