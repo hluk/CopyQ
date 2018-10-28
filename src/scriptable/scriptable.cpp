@@ -3076,7 +3076,7 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
         return;
 
     {
-        SleepTimer tMin(100);
+        SleepTimer tMin(50);
 
         // Avoid changing clipboard after a text is selected just before it's copied
         // with a keyboard shortcut.
