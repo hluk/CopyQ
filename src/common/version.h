@@ -2,7 +2,7 @@
 #define VERSION_H
 
 #ifndef COPYQ_VERSION
-#   define COPYQ_VERSION "v3.6.1"
+#   define COPYQ_VERSION "v3.7.0"
 #endif
 
 #endif // VERSION_H
