@@ -82,7 +82,6 @@ check_changes
 fix_version_header
 fix_itemwidget
 fix_appdata
-git diff
-
-echo "If changes are OK, run:"
-echo "    git commit -a -m v$version && git tag -a -m v$version v$version"
+git commit -a -m "v$version"
+git tag -s -a -m "v$version" "v$version"
+git show
