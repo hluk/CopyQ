@@ -72,6 +72,7 @@ struct MainWindowOptions {
 
     bool confirmExit = true;
     bool viMode = false;
+    bool emacsMode = false;
     bool trayCommands = false;
     bool trayCurrentTab = false;
     QString trayTabName;

@@ -258,6 +258,7 @@ void ConfigurationManager::initOptions()
     bind<Config::check_clipboard>(m_tabGeneral->checkBoxClip);
     bind<Config::confirm_exit>(m_tabGeneral->checkBoxConfirmExit);
     bind<Config::vi>(m_tabGeneral->checkBoxViMode);
+    bind<Config::emacs>(m_tabGeneral->checkBoxEmacsMode);
     bind<Config::save_filter_history>(m_tabGeneral->checkBoxSaveFilterHistory);
     bind<Config::autocompletion>(m_tabGeneral->checkBoxAutocompleteCommands);
     bind<Config::always_on_top>(m_tabGeneral->checkBoxAlwaysOnTop);
