@@ -161,6 +161,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkBoxEmacsMode">
+        <property name="toolTip">
+         <string>Support for Emacs navigation keys (Ctrl+N, P, V ... ), Ctrl+S key to search</string>
+        </property>
+        <property name="text">
+         <string>&amp;Emacs style navigation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkBoxSaveFilterHistory">
         <property name="toolTip">
          <string>Save and restore history of item filters</string>
@@ -285,6 +295,7 @@
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>checkBoxAutostart</tabstop>
   <tabstop>checkBoxViMode</tabstop>
+  <tabstop>checkBoxEmacsMode</tabstop>
   <tabstop>checkBoxSaveFilterHistory</tabstop>
   <tabstop>checkBoxAutocompleteCommands</tabstop>
   <tabstop>checkBoxClip</tabstop>

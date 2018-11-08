@@ -1054,7 +1054,7 @@ void MainWindow::setScriptOverrides(const QVector<int> &overrides, int actionId)
 
 bool MainWindow::isScriptOverridden(int id) const
 {
-    return 
+    return
         // Assume everything is overridden until collectOverrides() finishes
         (m_actionCollectOverrides && m_actionCollectOverrides->isRunning() && m_overrides.isEmpty())
         || std::binary_search(m_overrides.begin(), m_overrides.end(), id);
@@ -2557,6 +2557,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
 
+    if (m_options.emacsMode) {
+        if ((modifiers == Qt::ControlModifier && key == Qt::Key_G)
+            || (key == Qt::Key_Escape)) {
+            onEscape();
+            return;
+        }
+
+        if (browseMode()) {
+            if (c && handleEmacsKey(event, c))
+                return;
+        }
+    }
+
     if ( event->matches(QKeySequence::NextChild) ) {
          nextTab();
          return;
@@ -2706,6 +2719,11 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     m_options.viMode = appConfig->option<Config::vi>();
     m_trayMenu->setViModeEnabled(m_options.viMode);
     m_menu->setViModeEnabled(m_options.viMode);
+
+    // Emacs mode
+    m_options.emacsMode = appConfig->option<Config::emacs>();
+    m_trayMenu->setEmacsModeEnabled(m_options.emacsMode);
+    m_menu->setEmacsModeEnabled(m_options.emacsMode);
 
     // Number search
     m_trayMenu->setNumberSearchEnabled(m_sharedData->numberSearch);
