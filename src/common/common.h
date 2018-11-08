@@ -114,6 +114,11 @@ bool isClipboardData(const QVariantMap &data);
 bool handleViKey(QKeyEvent *event, QObject *eventReceiver);
 
 /**
+ * Handle key for Emacs mode.
+ */
+bool handleEmacsKey(QKeyEvent *event, QObject *eventReceiver);
+
+/**
  * Terminate process or kill if it takes too long.
  */
 void terminateProcess(QProcess *p);

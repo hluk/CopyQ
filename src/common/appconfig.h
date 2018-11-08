@@ -133,6 +133,10 @@ struct vi : Config<bool> {
     static QString name() { return "vi"; }
 };
 
+struct emacs : Config<bool> {
+    static QString name() { return "emacs"; }
+};
+
 struct save_filter_history : Config<bool> {
     static QString name() { return "save_filter_history"; }
 };

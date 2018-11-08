@@ -1982,6 +1982,25 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
 
+    if (m_options.emacsMode) {
+      if ((modifiers == Qt::ControlModifier && key == Qt::Key_G)
+          || (key == Qt::Key_Escape)) {
+        onEscape();
+        return;
+      }
+
+      if (browseMode()) {
+        if (c && handleEmacsKey(event, c))
+          return;
+
+        if (key == Qt::Key_S && modifiers == Qt::ControlModifier) {
+          enterSearchMode();
+          event->accept();
+          return;
+        }
+      }
+    }
+
     if ( event->matches(QKeySequence::NextChild) ) {
          nextTab();
          return;
@@ -2135,6 +2154,11 @@ void MainWindow::loadSettings()
     m_trayMenu->setViModeEnabled(m_options.viMode);
     m_menu->setViModeEnabled(m_options.viMode);
 
+    // Emacs mode
+    m_options.emacsMode = appConfig.option<Config::emacs>();
+    m_trayMenu->setEmacsModeEnabled(m_options.emacsMode);
+    m_menu->setEmacsModeEnabled(m_options.emacsMode);
+
     // Number search
     m_sharedData->numberSearch = appConfig.option<Config::number_search>();
     m_trayMenu->setNumberSearchEnabled(m_sharedData->numberSearch);
@@ -2176,6 +2200,7 @@ void MainWindow::loadSettings()
     m_sharedData->maxItems = appConfig.option<Config::maxitems>();
     m_sharedData->textWrap = appConfig.option<Config::text_wrap>();
     m_sharedData->viMode = appConfig.option<Config::vi>();
+    m_sharedData->emacsMode = appConfig.option<Config::emacs>();
     m_sharedData->saveOnReturnKey = !appConfig.option<Config::edit_ctrl_return>();
     m_sharedData->moveItemOnReturnKey = appConfig.option<Config::move>();
     m_sharedData->showSimpleItems = appConfig.option<Config::show_simple_items>();

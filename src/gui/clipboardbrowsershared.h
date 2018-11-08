@@ -32,6 +32,7 @@ struct ClipboardBrowserShared {
     int maxItems = 100;
     bool textWrap = true;
     bool viMode = false;
+    bool emacsMode = false;
     bool saveOnReturnKey = false;
     bool moveItemOnReturnKey = false;
     bool showSimpleItems = false;

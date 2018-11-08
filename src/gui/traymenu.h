@@ -51,6 +51,9 @@ public:
     /** Handle Vi shortcuts. */
     void setViModeEnabled(bool enabled);
 
+    /** Handle Emacs shortcuts. */
+    void setEmacsModeEnabled(bool enabled);
+
     /** Enable searching for numbers. */
     void setNumberSearchEnabled(bool enabled);
 
@@ -90,6 +93,7 @@ private:
 
     bool m_omitPaste;
     bool m_viMode;
+    bool m_emacsMode;
     bool m_numberSearch;
 
     QString m_searchText;

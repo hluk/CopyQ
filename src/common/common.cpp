@@ -498,6 +498,70 @@ bool handleViKey(QKeyEvent *event, QObject *eventReceiver)
     return true;
 }
 
+bool handleEmacsKey(QKeyEvent *event, QObject *eventReceiver)
+{
+  int key = event->key();
+  Qt::KeyboardModifiers mods = event->modifiers();
+
+  switch ( key ) {
+  case Qt::Key_V:
+    if (mods & Qt::ControlModifier) {
+      key = Qt::Key_PageDown;
+      mods = mods & ~Qt::ControlModifier;
+    } else if (mods & Qt::AltModifier) {
+      key = Qt::Key_PageUp;
+      mods = mods & ~Qt::AltModifier;
+    } else {
+      return false;
+    }
+    break;
+  case Qt::Key_N:
+    if (mods & Qt::ControlModifier) {
+      key = Qt::Key_Down;
+      mods = mods & ~Qt::ControlModifier;
+      break;
+    }
+    return false;
+  case Qt::Key_P:
+    if (mods & Qt::ControlModifier) {
+      key = Qt::Key_Up;
+      mods = mods & ~Qt::ControlModifier;
+      break;
+    }
+    return false;
+  case Qt::Key_Comma:
+    if ((mods & Qt::ControlModifier) && (mods & Qt::ShiftModifier)) {
+      key = Qt::Key_Home;
+      mods = mods & ~(Qt::ShiftModifier || Qt::ControlModifier);
+    } else {
+      return false;
+    }
+  case Qt::Key_Stop:
+    if ((mods & Qt::ControlModifier) && (mods & Qt::ShiftModifier)) {
+      key = Qt::Key_End;
+      mods = mods & ~(Qt::ShiftModifier || Qt::ControlModifier);
+    } else {
+      return false;
+    }
+    break;
+  case Qt::Key_G:
+    if (mods & Qt::ControlModifier) {
+      key = Qt::Key_Escape;
+      mods = mods & ~Qt::ControlModifier;
+      break;
+    }
+    return false;
+  default:
+    return false;
+  }
+
+  QKeyEvent event2(QEvent::KeyPress, key, mods, event->text());
+  QCoreApplication::sendEvent(eventReceiver, &event2);
+  event->accept();
+
+  return true;
+}
+
 void terminateProcess(QProcess *p)
 {
     if (p->state() == QProcess::NotRunning)
