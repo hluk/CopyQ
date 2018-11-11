@@ -177,14 +177,6 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
             }
         }
 
-        // Workaround for broken geometry restore.
-        if ( w->geometry().isEmpty() ) {
-            GEOMETRY_LOG( w, QString("Workaround for broken geometry restore") );
-            w->showNormal();
-            w->restoreGeometry(geometry);
-            w->showMinimized();
-        }
-
         const auto oldGeometry = w->geometry();
         w->restoreGeometry(geometry);
 
