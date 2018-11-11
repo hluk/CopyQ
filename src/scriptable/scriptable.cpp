@@ -490,7 +490,7 @@ QVariantMap copyWithoutInternalData(const QVariantMap &data) {
     return newData;
 }
 
-QStringList monitorFormatsToSave()
+QStringList monitorFormatsToSave(const Commands &&automaticCommands)
 {
     ItemFactory factory;
     factory.loadPlugins();
@@ -498,7 +498,18 @@ QStringList monitorFormatsToSave()
     QSettings settings;
     factory.loadItemFactorySettings(&settings);
 
-    return factory.formatsToSave();
+    QStringList formats = factory.formatsToSave();
+    COPYQ_LOG( "Clipboard formats to save: " + formats.join(", ") );
+
+    for (const auto &command : automaticCommands) {
+        if ( !command.input.isEmpty() && !formats.contains(command.input) ) {
+            COPYQ_LOG( QString("Clipboard format to save for command \"%1\": %2")
+                       .arg(command.name, command.input) );
+            formats.append(command.input);
+        }
+    }
+
+    return formats;
 }
 
 } // namespace
@@ -2345,7 +2356,7 @@ void Scriptable::monitorClipboard()
     if (!verifyClipboardAccess())
         return;
 
-    ClipboardMonitor monitor( monitorFormatsToSave() );
+    ClipboardMonitor monitor( monitorFormatsToSave(m_proxy->automaticCommands()) );
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
@@ -2884,8 +2895,10 @@ bool Scriptable::runCommands(CommandType::CommandType type)
         }
 
         if ( type == CommandType::Automatic ) {
-            if ( !command.tab.isEmpty() )
+            if ( !command.tab.isEmpty() ) {
+                COPYQ_LOG( QString(label).arg(command.name, "Saving to tab: " + command.tab) );
                 saveData(command.tab);
+            }
 
             if ( command.remove || command.transform || m_data.contains(mimeIgnore) ) {
                 COPYQ_LOG( QString(label).arg(command.name, "Ignoring data") );

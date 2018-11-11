@@ -53,13 +53,15 @@ class QxtGlobalShortcut {};
 
 namespace {
 
-uint scriptCommandsHash(const QVector<Command> &commands)
+uint monitorCommandStateHash(const QVector<Command> &commands)
 {
     uint hash = 0;
 
     for (const auto &command : commands) {
-        if (command.type() == CommandType::Script && command.enable)
-            hash ^= qHash(command.cmd);
+        if (command.type() == CommandType::Script)
+            hash = qHash(command.cmd, hash);
+        else if (command.type() == CommandType::Automatic && !command.input.isEmpty())
+            hash = qHash(command.input, hash);
     }
 
     return hash;
@@ -133,9 +135,6 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
              this, &ClipboardServer::onCommandsSaved );
     onCommandsSaved();
 
-    // run clipboard monitor
-    startMonitoring();
-
     qApp->installEventFilter(this);
 
     m_server->start();
@@ -143,6 +142,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     // Ignore global shortcut key presses in any widget.
     m_ignoreKeysTimer.setInterval(100);
     m_ignoreKeysTimer.setSingleShot(true);
+
+    startMonitoring();
 }
 
 ClipboardServer::~ClipboardServer()
@@ -214,9 +215,9 @@ void ClipboardServer::onCommandsSaved()
     }
 #endif
 
-    const auto scriptCommandsHash_ = scriptCommandsHash(commands);
-    if ( m_monitor && scriptCommandsHash_ != m_scriptCommandsHash ) {
-        m_scriptCommandsHash = scriptCommandsHash_;
+    const auto hash = monitorCommandStateHash(commands);
+    if ( m_monitor && hash != m_monitorCommandsStateHash ) {
+        m_monitorCommandsStateHash = hash;
         stopMonitoring();
         startMonitoring();
     }

@@ -128,7 +128,7 @@ private:
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;
-    uint m_scriptCommandsHash = 0;
+    uint m_monitorCommandsStateHash = 0;
 
     struct ClientData {
         ClientData() = default;

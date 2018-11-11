@@ -214,6 +214,8 @@ private slots:
     void automaticCommandNoOutputTab();
     void automaticCommandChaining();
     void automaticCommandCopyToTab();
+    void automaticCommandStoreSpecialFormat();
+    void automaticCommandIgnoreSpecialFormat();
 
     void scriptCommandLoaded();
     void scriptCommandAddFunction();

@@ -2537,7 +2537,7 @@ void Tests::automaticCommandIgnore()
     const auto script = R"(
         setCommands([
             { automatic: true, cmd: 'copyq ignore; copyq add OK' },
-            { automatic: true, cmd: 'copyq add "SHOULDN NOT BE EXECUTED"' }
+            { automatic: true, cmd: 'copyq add "SHOULD NOT BE EXECUTED"' }
         ])
         )";
     RUN(script, "");
@@ -2556,7 +2556,7 @@ void Tests::automaticCommandRemove()
     const auto script = R"(
         setCommands([
             { automatic: true, remove: true, cmd: 'copyq add OK' },
-            { automatic: true, cmd: 'copyq add "SHOULDN NOT BE EXECUTED"' }
+            { automatic: true, cmd: 'copyq add "SHOULD NOT BE EXECUTED"' }
         ])
         )";
     RUN(script, "");
@@ -2663,6 +2663,37 @@ void Tests::automaticCommandCopyToTab()
     TEST( m_test->setClipboard("TEST") );
     WAIT_ON_OUTPUT("tab" << QString(clipboardTabName) << "read" << "0", "TEST");
     RUN("tab" << tab1 << "read" << "0", "TEST");
+}
+
+void Tests::automaticCommandStoreSpecialFormat()
+{
+    const auto script = R"(
+        setCommands([
+            { automatic: true, name: 'CMD1', input: 'test-format' }
+        ])
+        )";
+    RUN(script, "");
+
+    TEST( m_test->setClipboard("DATA", "test-format") );
+    WAIT_ON_OUTPUT("separator" << "," << "read" << "test-format" << "0" << "1", "DATA,");
+}
+
+void Tests::automaticCommandIgnoreSpecialFormat()
+{
+    const auto script = R"(
+        setCommands([
+            { automatic: true, name: 'CMD1', cmd: 'copyq add CMD1', input: 'test-format', remove: true },
+            { automatic: true, name: 'CMD2', cmd: 'copyq add CMD2' },
+            { automatic: true, name: 'CMD3', cmd: 'copyq add CMD3', input: 'test-format' }
+        ])
+        )";
+    RUN(script, "");
+
+    TEST( m_test->setClipboard("SHOULD BE IGNORED", "test-format") );
+    WAIT_ON_OUTPUT("separator" << "," << "read" << "0" << "1", "CMD1,");
+
+    TEST( m_test->setClipboard("SHOULD NOT BE IGNORED") );
+    WAIT_ON_OUTPUT("separator" << "," << "read" << "0" << "1" << "2" << "3", "SHOULD NOT BE IGNORED,CMD2,CMD1,");
 }
 
 void Tests::scriptCommandLoaded()
