@@ -25,10 +25,12 @@
 #include <QDesktopWidget>
 #include <QDir>
 #include <QRegExp>
+#include <QScreen>
 #include <QSettings>
 #include <QString>
 #include <QVariant>
 #include <QWidget>
+#include <QWindow>
 
 #define GEOMETRY_LOG(window, message) \
     COPYQ_LOG( QString("Geometry: Window \"%1\": %2").arg(window->objectName(), message) )
@@ -163,8 +165,17 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     }
 
     if (w->saveGeometry() != geometry) {
-        const auto oldGeometry = w->geometry();
-        w->restoreGeometry(geometry);
+        // WORKAROUND: Fixes QWidget::restoreGeometry() for different monitor scaling.
+        if ( openOnCurrentScreen ) {
+            const int screenNumber = ::screenNumber(*w, GeometryAction::Restore);
+            QScreen *screen = QGuiApplication::screens().value(screenNumber);
+            if (screen) {
+                if ( w->windowHandle() )
+                    w->windowHandle()->setScreen(screen);
+                else
+                    w->move(screen->geometry().topLeft());
+            }
+        }
 
         // Workaround for broken geometry restore.
         if ( w->geometry().isEmpty() ) {
@@ -174,8 +185,10 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
             w->showMinimized();
         }
 
-        const auto newGeometry = w->geometry();
+        const auto oldGeometry = w->geometry();
+        w->restoreGeometry(geometry);
 
+        const auto newGeometry = w->geometry();
         GEOMETRY_LOG( w, QString("Restore geometry \"%1%2\": %3 -> %4").arg(
                           optionName,
                           hasGeometryTag ? tag : QString(),
