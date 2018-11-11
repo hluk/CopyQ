@@ -20,6 +20,7 @@
 #ifndef TESTINTERFACE_H
 #define TESTINTERFACE_H
 
+#include "common/clipboardmode.h"
 #include "common/sleeptimer.h"
 
 #include <QStringList>
@@ -70,7 +71,10 @@ public:
     virtual QByteArray getClientOutput(const QStringList &arguments, QByteArray *stdoutActual) = 0;
 
     /// Set clipboard through monitor process.
-    virtual QByteArray setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain")) = 0;
+    virtual QByteArray setClipboard(
+            const QByteArray &bytes,
+            const QString &mime = QString("text/plain"),
+            ClipboardMode mode = ClipboardMode::Clipboard) = 0;
 
     /**
      * Return errors/warning from server (otherwise empty output).

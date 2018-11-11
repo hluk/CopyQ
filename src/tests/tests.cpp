@@ -113,9 +113,9 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     return output.indexOf(scriptExceptionError) == -1;
 }
 
-QByteArray getClipboard(const QString &mime = QString("text/plain"))
+QByteArray getClipboard(const QString &mime = QString("text/plain"), ClipboardMode mode = ClipboardMode::Clipboard)
 {
-    const QMimeData *data = clipboardData();
+    const QMimeData *data = clipboardData(mode);
     return (data != nullptr) ? data->data(mime) : QByteArray();
 }
 
@@ -373,21 +373,24 @@ public:
         return readServerErrors(ReadErrorsWithoutScriptException);
     }
 
-    QByteArray setClipboard(const QByteArray &bytes, const QString &mime) override
+    QByteArray setClipboard(const QByteArray &bytes, const QString &mime, ClipboardMode mode) override
     {
-        if ( getClipboard(mime) == bytes )
+        if ( getClipboard(mime, mode) == bytes )
             return QByteArray();
 
         waitFor(waitMsSetClipboard);
 
         auto mimeData = new QMimeData();
         mimeData->setData(mime, bytes);
-        QGuiApplication::clipboard()->setMimeData(mimeData);
+        const auto qmode = mode == ClipboardMode::Clipboard ? QClipboard::Clipboard : QClipboard::Selection;
+        QGuiApplication::clipboard()->setMimeData(mimeData, qmode);
 
         waitFor(waitMsSetClipboard);
 
         waitUntilClipboardSet(bytes, mime);
-        RETURN_ON_ERROR( testClipboard(bytes, mime), "Failed to set clipboard" );
+        RETURN_ON_ERROR(
+            testClipboard(bytes, mime),
+            "Failed to set " + QByteArray(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
 
         return QByteArray();
     }
@@ -481,7 +484,10 @@ public:
         verifyConfiguration();
 
         // Clear clipboard.
-        RETURN_ON_ERROR( setClipboard(QByteArray(), mimeText), "Failed to reset clipboard" );
+        RETURN_ON_ERROR( setClipboard(QByteArray(), mimeText, ClipboardMode::Clipboard), "Failed to reset clipboard" );
+#ifdef HAS_MOUSE_SELECTIONS
+        RETURN_ON_ERROR( setClipboard(QByteArray(), mimeText, ClipboardMode::Selection), "Failed to reset selection" );
+#endif
 
         RETURN_ON_ERROR( startServer(), "Failed to start server" );
 
