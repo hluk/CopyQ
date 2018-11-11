@@ -90,6 +90,8 @@ X11PlatformClipboard::X11PlatformClipboard()
 void X11PlatformClipboard::setFormats(const QStringList &formats)
 {
     m_clipboardData.formats = formats;
+    m_clipboardData.data = DummyClipboard::data(ClipboardMode::Clipboard, m_clipboardData.formats);
+    m_selectionData.data = DummyClipboard::data(ClipboardMode::Selection, m_selectionData.formats);
 }
 
 QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) const
