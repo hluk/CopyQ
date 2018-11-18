@@ -1,8 +1,12 @@
 This is step-by-step description on how to release new version of CopyQ.
 
-Test the builds (optional step):
+# Verify the Builds
+
 - [copyq-beta Ubuntu package](https://launchpad.net/~hluk/+archive/ubuntu/copyq-beta)
 - [copyq-beta on OBS](https://build.opensuse.org/package/show/home:lukho:copyq-beta/CopyQ-Qt5-beta)
+- [Windows builds](https://ci.appveyor.com/project/hluk/copyq)
+
+# Update Version and Changelog
 
 Update CHANGES file.
 
@@ -10,17 +14,15 @@ Bump version.
 
     utils/bump_version.sh 3.3.1
 
-Commit changes and create version tag.
+Verify and push the changes.
 
-    git commit -a -m v3.3.1
-    git tag -s -a -m v3.3.1 v3.3.1
+    for r in origin gitlab bitbucket; do git push --follow-tags $r master || break; done
 
-Push the changes.
-
-Create [release on github](https://github.com/hluk/CopyQ/releases) for the new version tag.
+# Build Packages
 
 Upload source files for [copyq Ubuntu package](https://launchpad.net/~hluk/+archive/ubuntu/copyq).
 
+    git checkout v3.3.1
     utils/debian/create_source_packages.sh
     cd ..
     dput ppa:hluk/copyq copyq_3.3.1~*.changes
@@ -33,6 +35,16 @@ Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt
     $EDITOR debian.changelog
     osc commit
 
+Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
+- update "tag" and "commit" in "com.github.hluk.copyq.json" file,
+- push to fork,
+- create pull request,
+- add comment "bot, build",
+- [verify the build](https://flathub.org/builds/#/),
+- merge the changes if build is OK.
+
+# Publish Release
+
 Download:
 - binaries for Windows from [AppVeyor](https://ci.appveyor.com/project/hluk/copyq).
 - binary for OS X from [github](https://github.com/hluk/CopyQ/releases).
@@ -40,6 +52,8 @@ Download:
 - OBS packages
 
       utils/download_obs_packages.sh 3.3.1 1.1
+
+Create [release on github](https://github.com/hluk/CopyQ/releases) for the new version tag.
 
 Upload packages and binaries to:
 - [github](https://github.com/hluk/CopyQ/releases)
@@ -50,13 +64,5 @@ Update Homebrew package for OS X.
     brew install vitorgalvao/tiny-scripts/cask-repair
     cask upgrade cask-repair
     cask-repair copyq
-
-Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
-- update "tag" and "commit" in "com.github.hluk.copyq.json" file,
-- push to fork,
-- create pull request,
-- add comment "bot, build",
-- [verify the build](https://flathub.org/builds/#/),
-- merge the changes if build is OK.
 
 Write release announcement to [CopyQ group](https://groups.google.com/forum/#!forum/copyq).
