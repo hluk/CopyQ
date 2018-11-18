@@ -1,3 +1,9 @@
+v3.7.1
+- Store formats specified in Format field in automatic commands
+- Fix restoring geometry on screens with different scaling factors
+- X11: Fix restoring geometry on i3 window manager
+- X11: Fix the first clipboard/selection signal when unchanged
+
 v3.7.0
 - New option to show notes beside item content
 - Removed option to show icon instead of notes
