@@ -605,7 +605,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandcompleter.cpp" line="234"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation>Ctrl+Space</translation>
+        <translation>Ctrl+Пробел</translation>
     </message>
 </context>
 <context>
@@ -1131,7 +1131,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="488"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation>Некоторые случайные заметки (Shift + F2 для редактирования)</translation>
+        <translation>Некоторые случайные заметки (Shift+F2 для редактирования)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="147"/>
@@ -3158,7 +3158,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>Edit &amp;Notes</source>
-        <translation>(&amp;n) Редактировать примечания</translation>
+        <translation>(&amp;n) Редактировать Заметки</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
@@ -3294,13 +3294,13 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished">Вправо</translation>
+        <translation>Вправо</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="140"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished">Влево</translation>
+        <translation>Влево</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
@@ -3311,7 +3311,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="151"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation type="unfinished">Shift+F10</translation>
+        <translation>Shift+F10</translation>
     </message>
     <message>
         <source>Right</source>
@@ -3715,7 +3715,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="82"/>
         <source>NOTES:</source>
-        <translation>Примечания:</translation>
+        <translation>ЗАМЕТКИ:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="84"/>
@@ -3880,9 +3880,9 @@ Print version of program and libraries.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Вкладка имя должно быть уникальным и не пусто. &lt; br / &gt; 
-вкладка &lt;b&gt;No &amp;amp; tes&lt;/b&gt; может быть открыта с помощью &lt;b&gt;Alt + t&lt;/b&gt;. &lt; br / &gt;
-используйте &lt;b&gt;/&lt;/b&gt; в качестве разделителя пути в макет вкладка вид дерева.</translation>
+        <translation type="unfinished">Имя вкладки должно быть уникальным и не пустым.&lt;br /&gt; 
+Вкладка &lt;b&gt;Заметки&lt;/b&gt; может быть открыта с помощью &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
+Используйте &lt;b&gt;/&lt;/b&gt; в качестве разделителя пути в вкладке вида дерева.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
