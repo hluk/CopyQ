@@ -4019,17 +4019,17 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vorheriges Element</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>Ele&amp;ment Darunter</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>Ele&amp;ment Daneben</translation>
     </message>
     <message>
         <source>A&amp;bove Item</source>
@@ -4120,7 +4120,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="120"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Elemente pinnen, um sie in der aktuellen Zeile zu sperren und ein Löschen zu vermeiden (es sei denn, sie sind nicht gepinned).&lt;/p&gt;&lt;p&gt;Bietet Verknüpfungen und Skriptfunktionen.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
@@ -5423,24 +5423,24 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished">Rechts</translation>
+        <translation>Rechts</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="140"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished">Links</translation>
+        <translation>Links</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
         <source>Open Item Context Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontextmenü für Elemente öffnen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="151"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation type="unfinished">Umschalt+F10</translation>
+        <translation>Umschalt+F10</translation>
     </message>
     <message>
         <source>Right</source>
