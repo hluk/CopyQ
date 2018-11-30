@@ -2388,9 +2388,9 @@ Laisser vide pour désactiver le stockage automatique.</translation>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation>Afficher la description en une ligne chaque élément.↵
+        <translation>Afficher la description de chaque éléments sur une ligne .↵
 ↵
-Utiliser l&apos;aperçu de l’élément pour afficher les éléments entiers.</translation>
+Aperçu de l’élément permet d’afficher des éléments entiers.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="761"/>
