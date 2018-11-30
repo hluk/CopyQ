@@ -1499,7 +1499,7 @@ Use a antevisão dos itens para os ver completos.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir a pesquisa por números, caso contrário, pressionar uma tecla numérica ativa o item nessa posição</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
