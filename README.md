@@ -90,9 +90,7 @@ Install `copyq` package.
 
 ### Arch Linux
 
-[![AUR package](https://repology.org/badge/version-for-repo/aur/copyq.svg)](https://repology.org/metapackage/copyq)
-
-Install [copyq](https://aur.archlinux.org/packages/copyq/)<sup>AUR</sup> package.
+Install `copyq` package.
 
 ### Other Linux Distributions
 
