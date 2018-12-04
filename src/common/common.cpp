@@ -29,6 +29,7 @@
 #include <QBuffer>
 #include <QClipboard>
 #include <QDropEvent>
+#include <QElapsedTimer>
 #include <QImage>
 #include <QImageWriter>
 #include <QKeyEvent>
@@ -39,14 +40,8 @@
 #include <QProcess>
 #include <QTextCodec>
 #include <QThread>
-#include <QTimer>
 #include <QUrl>
 #include <QWidget>
-
-// This is needed on X11 when retrieving lots of data from clipboard.
-#ifdef COPYQ_WS_X11
-#   define PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
-#endif
 
 #include <algorithm>
 #include <memory>
@@ -55,21 +50,97 @@ namespace {
 
 const int maxElidedTextLineLength = 512;
 
+// Avoids accessing old clipboard/drag'n'drop data.
+class ClipboardDataGuard {
+public:
+    explicit ClipboardDataGuard(const QMimeData &data)
+        : m_dataGuard(&data)
+    {
+        m_timerExpire.start();
+    }
+
+    bool hasFormat(const QString &mime)
+    {
+        return refresh() && m_dataGuard->hasFormat(mime);
+    }
+
+    QByteArray data(const QString &mime)
+    {
+        return refresh() ? m_dataGuard->data(mime) : QByteArray();
+    }
+
+    QStringList formats()
+    {
+        return refresh() ? m_dataGuard->formats() : QStringList();
+    }
+
+    QList<QUrl> urls()
+    {
+        return refresh() ? m_dataGuard->urls() : QList<QUrl>();
+    }
+
+    QImage getImageData()
+    {
+        if (!refresh())
+            return QImage();
+
+        // NOTE: Application hangs if using mulitple sessions and
+        //       calling QMimeData::hasImage() on X11 clipboard.
+        COPYQ_LOG_VERBOSE("Fetching image data from clipboard");
+        const QImage image = m_dataGuard->imageData().value<QImage>();
+        COPYQ_LOG_VERBOSE( QString("Image is %1").arg(image.isNull() ? "invalid" : "valid") );
+        return image;
+    }
+
+    QByteArray getUtf8Data(const QString &format)
+    {
+        if (!refresh())
+            return QByteArray();
+
+        if (format == mimeText || format == mimeHtml)
+            return dataToText( data(format), format ).toUtf8();
+
+        if (format == mimeUriList) {
+            QByteArray bytes;
+            for ( const auto &url : urls() ) {
+                if ( !bytes.isEmpty() )
+                    bytes += '\n';
+                bytes += url.toString().toUtf8();
+            }
+            return bytes;
+        }
+
+        return data(format);
+    }
+
+private:
+    bool refresh()
+    {
+        if (m_dataGuard.isNull())
+            return false;
+
+        const auto elapsed = m_timerExpire.elapsed();
+        if (elapsed > 5000) {
+            log("Clipboard data expired, refusing to access old data", LogWarning);
+            m_dataGuard = nullptr;
+            return false;
+        }
+
+        if (elapsed > 100)
+            QCoreApplication::processEvents();
+
+        return !m_dataGuard.isNull();
+    }
+
+    QPointer<const QMimeData> m_dataGuard;
+    QElapsedTimer m_timerExpire;
+};
+
 QString getImageFormatFromMime(const QString &mime)
 {
     const auto imageMimePrefix = "image/";
     const auto prefixLength = static_cast<int>(strlen(imageMimePrefix));
     return mime.startsWith(imageMimePrefix) ? mime.mid(prefixLength) : QString();
-}
-
-QImage getImageData(const QMimeData &data)
-{
-    // NOTE: Application hangs if using mulitple sessions and
-    //       calling QMimeData::hasImage() on X11 clipboard.
-    COPYQ_LOG_VERBOSE("Fetching image data from clipboard");
-    const QImage image = data.imageData().value<QImage>();
-    COPYQ_LOG_VERBOSE( QString("Image is %1").arg(image.isNull() ? "invalid" : "valid") );
-    return image;
 }
 
 /**
@@ -144,24 +215,6 @@ QTextCodec *codecForText(const QByteArray &bytes)
     return QTextCodec::codecForName("utf-8");
 }
 
-QByteArray getUtf8Data(const QMimeData &data, const QString &format)
-{
-    if (format == mimeText || format == mimeHtml)
-        return dataToText( data.data(format), format ).toUtf8();
-
-    if (format == mimeUriList) {
-        QByteArray bytes;
-        for ( const auto &url : data.urls() ) {
-            if ( !bytes.isEmpty() )
-                bytes += '\n';
-            bytes += url.toString().toUtf8();
-        }
-        return bytes;
-    }
-
-    return data.data(format);
-}
-
 bool findFormatsWithPrefix(bool hasPrefix, const QString &prefix, const QVariantMap &data)
 {
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
@@ -200,14 +253,13 @@ const QMimeData *clipboardData(ClipboardMode mode)
     return data;
 }
 
-QVariantMap cloneData(const QMimeData &data, QStringList formats)
+QVariantMap cloneData(const QMimeData &rawData, QStringList formats)
 {
+    ClipboardDataGuard data(rawData);
+
     const auto internalMimeTypes = {mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden};
 
     QVariantMap newdata;
-
-    QImage image;
-    bool imageLoaded = false;
 
     /*
      Some apps provide images even when copying huge spreadsheet, this can
@@ -230,36 +282,30 @@ QVariantMap cloneData(const QMimeData &data, QStringList formats)
         formats.erase(first, std::end(formats));
     }
 
-#ifdef PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
-    const QPointer<const QMimeData> dataGuard(&data);
-#endif
-
+    QStringList imageFormats;
     for (const auto &mime : formats) {
-#ifdef PROCESS_EVENTS_BEFORE_CLIPBOARD_DATA
-        if (dataGuard.isNull()) {
-            log("Clipboard data lost", LogWarning);
-            return newdata;
-        }
-#endif
-
-        const QByteArray bytes = getUtf8Data(data, mime);
-        if ( !bytes.isEmpty() ) {
+        const QByteArray bytes = data.getUtf8Data(mime);
+        if ( bytes.isEmpty() )
+            imageFormats.append(mime);
+        else
             newdata.insert(mime, bytes);
-        } else if ( !imageLoaded || !image.isNull() ) {
-            const QString format = getImageFormatFromMime(mime);
-            if ( !format.isEmpty() ) {
-                if (!imageLoaded) {
-                    image = getImageData(data);
-                    imageLoaded = true;
-                }
-                cloneImageData(image, format, mime, &newdata);
-            }
-        }
     }
 
     for (const auto &internalMime : internalMimeTypes) {
         if ( data.hasFormat(internalMime) )
             newdata.insert( internalMime, data.data(internalMime) );
+    }
+
+    // Retrieve images last since this can take a while.
+    if ( !imageFormats.isEmpty() ) {
+        const QImage image = data.getImageData();
+        if ( !image.isNull() ) {
+            for (const auto &mime : imageFormats) {
+                const QString format = getImageFormatFromMime(mime);
+                if ( !format.isEmpty() )
+                    cloneImageData(image, format, mime, &newdata);
+            }
+        }
     }
 
     if ( hasLogLevel(LogTrace) ) {
