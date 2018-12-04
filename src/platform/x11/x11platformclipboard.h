@@ -50,6 +50,7 @@ private:
         QByteArray owner;
         QTimer timerEmitChange;
         QStringList formats;
+        QByteArray newDataTimestamp;
     };
 
     void check();

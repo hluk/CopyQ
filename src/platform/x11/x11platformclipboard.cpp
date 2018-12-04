@@ -21,6 +21,7 @@
 
 #include "x11platformclipboard.h"
 
+#include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/log.h"
 #include "common/timer.h"
@@ -31,6 +32,7 @@
 #include <X11/Xatom.h>
 
 #include <QClipboard>
+#include <QMimeData>
 #include <QX11Info>
 
 namespace {
@@ -151,6 +153,15 @@ void X11PlatformClipboard::check()
 
 bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData, ClipboardMode mode)
 {
+    const auto data = ::clipboardData(mode);
+    if (!data)
+        return false;
+
+    const auto newDataTimestamp = data->data(QLatin1String("TIMESTAMP"));
+    if ( !newDataTimestamp.isEmpty() && clipboardData->newDataTimestamp == newDataTimestamp )
+        return false;
+
+    clipboardData->newDataTimestamp = newDataTimestamp;
     clipboardData->newData = DummyClipboard::data(mode, clipboardData->formats);
 
     if (clipboardData->data == clipboardData->newData)
