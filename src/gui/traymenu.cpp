@@ -205,6 +205,8 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
             close();
             break;
         case Qt::Key_Backspace:
+            search( m_searchText.left(m_searchText.size() - 1) );
+            break;
         case Qt::Key_Delete:
             search(QString());
             break;
