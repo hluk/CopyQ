@@ -71,7 +71,6 @@ X11PlatformClipboard::X11PlatformClipboard()
 
     initSingleShotTimer( &m_clipboardData.timerEmitChange, 0, this, [this](){
         m_clipboardData.data = m_clipboardData.newData;
-        m_clipboardData.newData.clear();
         emit changed(ClipboardMode::Clipboard);
     } );
 
@@ -84,7 +83,6 @@ X11PlatformClipboard::X11PlatformClipboard()
         }
 
         m_selectionData.data = m_selectionData.newData;
-        m_selectionData.newData.clear();
         emit changed(ClipboardMode::Selection);
     } );
 }
@@ -92,8 +90,8 @@ X11PlatformClipboard::X11PlatformClipboard()
 void X11PlatformClipboard::setFormats(const QStringList &formats)
 {
     m_clipboardData.formats = formats;
-    m_clipboardData.data = DummyClipboard::data(ClipboardMode::Clipboard, m_clipboardData.formats);
-    m_selectionData.data = DummyClipboard::data(ClipboardMode::Selection, m_selectionData.formats);
+    m_clipboardData.data = m_clipboardData.newData = DummyClipboard::data(ClipboardMode::Clipboard, m_clipboardData.formats);
+    m_selectionData.data = m_selectionData.newData = DummyClipboard::data(ClipboardMode::Selection, m_selectionData.formats);
 }
 
 QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) const
@@ -154,15 +152,16 @@ void X11PlatformClipboard::check()
 bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData, ClipboardMode mode)
 {
     const auto data = ::clipboardData(mode);
-    if (!data)
+    if (!data) {
+        m_timerCheckAgain.start(maxCheckAgainIntervalMs);
         return false;
+    }
 
     const auto newDataTimestamp = data->data(QLatin1String("TIMESTAMP"));
-    if ( !newDataTimestamp.isEmpty() && clipboardData->newDataTimestamp == newDataTimestamp )
-        return false;
-
-    clipboardData->newDataTimestamp = newDataTimestamp;
-    clipboardData->newData = DummyClipboard::data(mode, clipboardData->formats);
+    if ( newDataTimestamp.isEmpty() || clipboardData->newDataTimestamp != newDataTimestamp ) {
+        clipboardData->newDataTimestamp = newDataTimestamp;
+        clipboardData->newData = cloneData(*data, clipboardData->formats);
+    }
 
     if (clipboardData->data == clipboardData->newData)
         return false;
