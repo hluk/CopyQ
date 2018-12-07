@@ -858,9 +858,9 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
         <translation>&lt;p&gt;Используйте команды, только если команда фильтрации успешно выполняется.&lt;/p&gt;
 
-&lt;p&gt;Элементы текста передаются &lt;b&gt; стандартному вводу &lt;/b&gt; от команды фильтрации. Элемент &lt;b&gt;совпадает только если команда фильтра выдаёт выходной код 0&lt;/b&gt;.&lt;/p&gt;
+&lt;p&gt;Элементы текста передаются &lt;b&gt;стандартному вводу&lt;/b&gt; от команды фильтрации. Элемент &lt;b&gt;совпадает только если команда фильтра выдаёт выходной код 0&lt;/b&gt;.&lt;/p&gt;
 
-&lt;p&gt;Используйте &lt;b&gt;% 1 &lt;/ b&gt; для элемента текста, переданного в качестве аргумента и &lt;b&gt;% 2 &lt;/ b&gt; на &lt;б&gt;% 9 &lt;/ b&gt; для аргументов, захваченных регулярным выражением (детали, указанные в скобках).&lt;/p&gt;
+&lt;p&gt;Используйте &lt;b&gt;% 1 &lt;/b&gt; для элемента текста, переданного в качестве аргумента и &lt;b&gt;% 2 &lt;/b&gt; на &lt;b&gt;% 9 &lt;/b&gt; для аргументов, захваченных регулярным выражением (детали, указанные в скобках).&lt;/p&gt;
 
 &lt;p&gt;Используйте  &lt;b&gt;|&lt;/b&gt; для цепи команд (передать стандартному выводу следующей команды).&lt;/p&gt;</translation>
     </message>
@@ -2111,7 +2111,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="616"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation>Для совместного использования зашифрованных элементов на другом компьютере или сеансе вам понадобятся общедоступные и секретные ключевые файлы:&lt;ul&gt;&lt;li&gt; %1&lt;/li&gt;&lt;li&gt; %2&lt;br /&gt; (Сохраните этот секретный ключ в безопасном месте.)</translation>
+        <translation>Для совместного использования зашифрованных элементов на другом компьютере или сеансе вам понадобятся общедоступные и секретные ключевые файлы:&lt;ul&gt;&lt;li&gt; %1&lt;/li&gt;&lt;li&gt; %2&lt;br /&gt; (Сохраните этот секретный ключ в безопасном месте.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
