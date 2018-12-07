@@ -48,13 +48,16 @@ private:
         QVariantMap newData;
         QVariantMap data;
         QByteArray owner;
+        QByteArray newOwner;
         QTimer timerEmitChange;
         QStringList formats;
         QByteArray newDataTimestamp;
+        ClipboardMode mode;
     };
 
     void check();
-    bool updateClipboardData(ClipboardData *clipboardData, ClipboardMode mode);
+    bool updateClipboardData(ClipboardData *clipboardData);
+    void useNewClipboardData(ClipboardData *clipboardData);
     void checkAgainLater(bool clipboardChanged);
 
     QTimer m_timerCheckAgain;

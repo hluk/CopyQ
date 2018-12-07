@@ -63,6 +63,9 @@ bool isSelectionIncomplete()
 
 X11PlatformClipboard::X11PlatformClipboard()
 {
+    m_clipboardData.mode = ClipboardMode::Clipboard;
+    m_selectionData.mode = ClipboardMode::Selection;
+
     // Always assume that only plain text can be in primary selection buffer.
     // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
     m_selectionData.formats.append(mimeText);
@@ -70,8 +73,7 @@ X11PlatformClipboard::X11PlatformClipboard()
     initSingleShotTimer( &m_timerCheckAgain, 0, this, &X11PlatformClipboard::check );
 
     initSingleShotTimer( &m_clipboardData.timerEmitChange, 0, this, [this](){
-        m_clipboardData.data = m_clipboardData.newData;
-        emit changed(ClipboardMode::Clipboard);
+        useNewClipboardData(&m_clipboardData);
     } );
 
     initSingleShotTimer( &m_selectionData.timerEmitChange, 0, this, [this](){
@@ -82,24 +84,25 @@ X11PlatformClipboard::X11PlatformClipboard()
             return;
         }
 
-        m_selectionData.data = m_selectionData.newData;
-        emit changed(ClipboardMode::Selection);
+        useNewClipboardData(&m_selectionData);
     } );
 }
 
 void X11PlatformClipboard::setFormats(const QStringList &formats)
 {
     m_clipboardData.formats = formats;
-    m_clipboardData.data = m_clipboardData.newData = DummyClipboard::data(ClipboardMode::Clipboard, m_clipboardData.formats);
-    m_selectionData.data = m_selectionData.newData = DummyClipboard::data(ClipboardMode::Selection, m_selectionData.formats);
+
+    for (auto clipboardData : {&m_clipboardData, &m_selectionData}) {
+        clipboardData->owner.clear();
+        clipboardData->newOwner.clear();
+        updateClipboardData(clipboardData);
+        useNewClipboardData(clipboardData);
+    }
 }
 
 QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) const
 {
     const auto &clipboardData = mode == ClipboardMode::Clipboard ? m_clipboardData : m_selectionData;
-    if ( clipboardData.data.contains(mimeOwner) )
-        return clipboardData.data;
-
     auto data = clipboardData.data;
     data[mimeWindowTitle] = clipboardData.owner;
     return data;
@@ -119,9 +122,9 @@ void X11PlatformClipboard::onChanged(int mode)
     // owner most of the times.
     PlatformPtr platform = createPlatformNativeInterface();
     PlatformWindowPtr currentWindow = platform->getCurrentWindow();
-    auto &owner = mode == QClipboard::Clipboard ? m_clipboardData.owner : m_selectionData.owner;
+    auto &newOwner = mode == QClipboard::Clipboard ? m_clipboardData.newOwner : m_selectionData.newOwner;
     if (currentWindow)
-        owner = currentWindow->getTitle().toUtf8();
+        newOwner = currentWindow->getTitle().toUtf8();
 
     // Omit checking selection too fast.
     if ( mode == QClipboard::Selection && m_timerCheckAgain.isActive() ) {
@@ -141,17 +144,17 @@ void X11PlatformClipboard::check()
 
     const auto changed =
         // Prioritize checking clipboard before selection.
-        updateClipboardData(&m_clipboardData, ClipboardMode::Clipboard)
-        || updateClipboardData(&m_selectionData, ClipboardMode::Selection);
+        updateClipboardData(&m_clipboardData)
+        || updateClipboardData(&m_selectionData);
 
     // Check clipboard and selection again if some signals where
     // not delivered or older data was received after new one.
     checkAgainLater(changed);
 }
 
-bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData, ClipboardMode mode)
+bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
 {
-    const auto data = ::clipboardData(mode);
+    const auto data = ::clipboardData(clipboardData->mode);
     if (!data) {
         m_timerCheckAgain.start(maxCheckAgainIntervalMs);
         return false;
@@ -168,6 +171,14 @@ bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
 
     clipboardData->timerEmitChange.start();
     return true;
+}
+
+void X11PlatformClipboard::useNewClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
+{
+    clipboardData->data = clipboardData->newData;
+    clipboardData->owner = clipboardData->newOwner;
+    clipboardData->timerEmitChange.stop();
+    emit changed(clipboardData->mode);
 }
 
 void X11PlatformClipboard::checkAgainLater(bool clipboardChanged)
