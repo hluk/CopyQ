@@ -292,6 +292,11 @@ public slots:
     QScriptValue fromBase64();
     QScriptValue frombase64() { return fromBase64(); }
 
+    QScriptValue md5sum();
+    QScriptValue sha1sum();
+    QScriptValue sha256sum();
+    QScriptValue sha512sum();
+
     QScriptValue open();
     QScriptValue execute();
 

@@ -83,6 +83,8 @@ private slots:
     void commandsBase64();
     void commandsGetSetItem();
 
+    void commandsChecksums();
+
     void commandEscapeHTML();
 
     void commandExecute();

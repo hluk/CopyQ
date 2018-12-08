@@ -42,6 +42,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QCryptographicHash>
 #include <QDateTime>
 #include <QDir>
 #include <QFile>
@@ -510,6 +511,13 @@ QStringList monitorFormatsToSave(const Commands &&automaticCommands)
     }
 
     return formats;
+}
+
+QScriptValue checksumForArgument(Scriptable *scriptable, QCryptographicHash::Algorithm method)
+{
+    const auto data = scriptable->makeByteArray(scriptable->argument(0));
+    const QByteArray hash = QCryptographicHash::hash(data, method).toHex();
+    return scriptable->newByteArray(hash);
 }
 
 } // namespace
@@ -1839,6 +1847,26 @@ QScriptValue Scriptable::fromBase64()
 {
     m_skipArguments = 1;
     return newByteArray(QByteArray::fromBase64(makeByteArray(argument(0))));
+}
+
+QScriptValue Scriptable::md5sum()
+{
+    return checksumForArgument(this, QCryptographicHash::Md5);
+}
+
+QScriptValue Scriptable::sha1sum()
+{
+    return checksumForArgument(this, QCryptographicHash::Sha1);
+}
+
+QScriptValue Scriptable::sha256sum()
+{
+    return checksumForArgument(this, QCryptographicHash::Sha256);
+}
+
+QScriptValue Scriptable::sha512sum()
+{
+    return checksumForArgument(this, QCryptographicHash::Sha512);
 }
 
 QScriptValue Scriptable::open()
