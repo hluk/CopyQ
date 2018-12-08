@@ -100,6 +100,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     output.remove("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)");
     output.remove("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)");
 #ifdef Q_OS_MAC
+    output.remove("QtWarning: Failed to get QCocoaScreen for NSObject(0x0)");
     output.remove("ERROR: Failed to open session mutex: QSystemSemaphore::handle:: ftok failed");
 #endif
 
