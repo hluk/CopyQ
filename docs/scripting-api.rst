@@ -652,6 +652,22 @@ omitted.
 
    Returns base64-decoded data.
 
+.. js:function:: ByteArray md5sum(data)
+
+   Returns MD5 checksum of data.
+
+.. js:function:: ByteArray sha1sum(data)
+
+   Returns SHA1 checksum of data.
+
+.. js:function:: ByteArray sha256sum(data)
+
+   Returns SHA256 checksum of data.
+
+.. js:function:: ByteArray sha512sum(data)
+
+   Returns SHA512 checksum of data.
+
 .. js:function:: bool open(url, ...)
 
    Tries to open URLs in appropriate applications.
