@@ -1051,10 +1051,10 @@ void Tests::commandsGetSetItem()
 
 void Tests::commandsChecksums()
 {
-    RUN("md5sum" << "TEST", "033bd94b1168d7e4f0d644c3c95e35bf");
-    RUN("sha1sum" << "TEST", "984816fd329622876e14907634264e6f332e9fb3");
-    RUN("sha256sum" << "TEST", "94ee059335e587e501cc4bf90613e0814f00a7b08bc7c648fd865a2af6a22cc2");
-    RUN("sha512sum" << "TEST", "7bfa95a688924c47c7d22381f20cc926f524beacb13f84e203d4bd8cb6ba2fce81c57a5f059bf3d509926487bde925b3bcee0635e4f7baeba054e5dba696b2bf");
+    RUN("md5sum" << "TEST", "033bd94b1168d7e4f0d644c3c95e35bf\n");
+    RUN("sha1sum" << "TEST", "984816fd329622876e14907634264e6f332e9fb3\n");
+    RUN("sha256sum" << "TEST", "94ee059335e587e501cc4bf90613e0814f00a7b08bc7c648fd865a2af6a22cc2\n");
+    RUN("sha512sum" << "TEST", "7bfa95a688924c47c7d22381f20cc926f524beacb13f84e203d4bd8cb6ba2fce81c57a5f059bf3d509926487bde925b3bcee0635e4f7baeba054e5dba696b2bf\n");
 }
 
 void Tests::commandEscapeHTML()
