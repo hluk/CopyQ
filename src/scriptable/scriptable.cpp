@@ -517,7 +517,7 @@ QScriptValue checksumForArgument(Scriptable *scriptable, QCryptographicHash::Alg
 {
     const auto data = scriptable->makeByteArray(scriptable->argument(0));
     const QByteArray hash = QCryptographicHash::hash(data, method).toHex();
-    return scriptable->newByteArray(hash);
+    return QString::fromUtf8(hash);
 }
 
 } // namespace
