@@ -22,6 +22,7 @@
 #include "commandcompleterdocumentation.h"
 
 #include "common/appconfig.h"
+#include "common/timer.h"
 
 #include <QAbstractItemView>
 #include <QCompleter>
@@ -30,6 +31,7 @@
 #include <QHeaderView>
 #include <QKeyEvent>
 #include <QTableView>
+#include <QTimer>
 #include <QPlainTextEdit>
 #include <QScrollBar>
 #include <QStringListModel>
@@ -158,24 +160,20 @@ public:
         setContentsMargins(0, 0, 0, 0);
         setSelectionBehavior(QAbstractItemView::SelectRows);
         setAlternatingRowColors(true);
+
+        initSingleShotTimer(&m_timerResize, 10, this, &CommandCompleterPopup::updateSize);
     }
 
 protected:
     void showEvent(QShowEvent *event) override
     {
         QTableView::showEvent(event);
-        m_resizeTimer = startTimer(0);
+        m_timerResize.start();
     }
 
-    void timerEvent(QTimerEvent *event) override
+private:
+    void updateSize()
     {
-        if (m_resizeTimer) {
-            killTimer(m_resizeTimer);
-            m_resizeTimer = 0;
-        }
-
-        QTableView::timerEvent(event);
-
         if (!model())
             return;
 
@@ -189,7 +187,6 @@ protected:
         resize(w, h);
     }
 
-private:
     int columnsWidth() const
     {
         int width = 0;
@@ -206,7 +203,7 @@ private:
         return height;
     }
 
-    int m_resizeTimer = 0;
+    QTimer m_timerResize;
 };
 
 } // namespace
