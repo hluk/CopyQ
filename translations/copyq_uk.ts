@@ -334,22 +334,22 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Вимкнути збереження буфера обміну</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути збереження буфера оміну</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished">Вставити і скопіювати наступний</translation>
+        <translation>Вставити і скопіювати наступний</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставити і скопіювати попередній</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
@@ -359,7 +359,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставити поточну дату і час</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
@@ -369,7 +369,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="64"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>Ігнорувати елементи без символів або тільки з одним символом</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
@@ -415,13 +415,13 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Додати до вклади %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Перемістити до вкладки  %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
@@ -431,7 +431,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ігнорувати вікно *&quot;Пароль&quot;*</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
@@ -468,7 +468,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="790"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1593"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкладку заповнено. Не вдалося видалити будь-які предмети.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1847"/>
@@ -519,7 +519,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="59"/>
         <source>CopyQ Item Content</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ: Вміст елементу</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="121"/>
@@ -538,12 +538,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="299"/>
         <source>Cancel Active Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Скасувати активні команди</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="300"/>
         <source>Cancel active commands and exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Скасувати активні команди та вийти?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="303"/>
@@ -562,7 +562,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandcompleter.cpp" line="234"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Пробіл</translation>
     </message>
 </context>
 <context>
@@ -595,7 +595,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
         <source>Copy Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Копіювати виділене</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
@@ -610,12 +610,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="214"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>В діалозі Команди є незбережені зміни.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="292"/>
         <source>Open Files with Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити файли з командами</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="293"/>
@@ -646,17 +646,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
         <source>Show command help (F1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати довідку для команд (F1)</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>Команди містять список програм з аргументами, як будуть виконуватись. Наприклад:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Аргумент програми %1 буде замінений на текст елементу, а аргументи з %2 по %9 для текстів, що захоплений регулярним виразом.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -666,7 +666,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Наступний синтаксис може використовуватись як один параметр для визначення частини команди, що залишилася.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
@@ -676,7 +676,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Функції, що перераховані нижче, можуть використовуватись в наступних командах.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
@@ -695,17 +695,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Ім’я команди в меню</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="156"/>
         <source>Type of Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип дії</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="177"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation type="unfinished"></translation>
+        <translation>Запускати команду автоматично при появі нового вмісту в буфері обміну</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="180"/>
