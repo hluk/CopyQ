@@ -185,12 +185,13 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Çıktıyı birden çok öğeye ayırmak için düzenli ifade.&lt;/p&gt;
+&lt;p&gt;Her satırı ayrı bir öğeye kaydetmek için &lt;b&gt;\n&lt;/b&gt; kullanın.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
@@ -200,7 +201,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğeleri verilen adla sekmesine kaydedin (geçerli sekmede kaydetmek için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="216"/>
@@ -420,7 +421,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="790"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1593"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation>Sekme dolu. Herhangi bir öğe silinemedi</translation>
+        <translation>Sekme dolu. Herhangi bir öğe kaldırılamadı.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1847"/>
@@ -461,7 +462,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation>İçerik</translation>
+        <translation>&amp;İçerik:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
@@ -485,7 +486,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="89"/>
         <source>CopyQ server is already running.</source>
-        <translation>CopyQ sunucusu zaten çalışıyor</translation>
+        <translation>CopyQ sunucusu zaten çalışıyor.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="299"/>
@@ -514,7 +515,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandcompleter.cpp" line="234"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Space</translation>
     </message>
 </context>
 <context>
@@ -527,7 +528,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni pano içeriğinde veya menüden kullanıcı tarafından veya sistem kısayolunu kullanarak otomatik olarak çağrılabilen yeni komutları tanımlayın.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
@@ -572,7 +573,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="293"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>Komutlar (*.ini);; CopyQ Yapılandırma (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="304"/>
@@ -621,12 +622,12 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;pano</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
         <source>Show command help (F1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Komut yardımını göster (F1)</translation>
     </message>
 </context>
 <context>
@@ -815,7 +816,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="314"/>
         <source>For&amp;mat:</source>
-        <translation>Format</translation>
+        <translation>&amp;Biçim:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="406"/>
@@ -845,7 +846,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="546"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished">Çıktı &amp;tab:</translation>
+        <translation>Çıktı &amp;sekme:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="556"/>
@@ -983,7 +984,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation>Ön izleme</translation>
+        <translation>Önizleme:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="476"/>
@@ -994,13 +995,14 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="479"/>
         <source>Search string is %1.</source>
-        <translation>Ara %1</translation>
+        <translation>Arama dizesi %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="480"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation>Öğeyi seçin ve düzenlemek için F2 tuşuna basın</translation>
+        <translation>Bir öğe seçin ve
+düzenlemek için F2&apos;ye basın.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="483"/>
@@ -1030,7 +1032,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="177"/>
         <source>Set external editor command first!</source>
-        <translation>Önce harici editör için komut seçin</translation>
+        <translation>Önce harici düzenleyici komutunu seçin!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="391"/>
@@ -1182,7 +1184,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="249"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished">Pano geçmişini kaydet</translation>
+        <translation>Geçmişte panoya kaydet</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="252"/>
@@ -1554,7 +1556,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1196"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>Bildirimlerin gösterileceği süre</translation>
+        <translation>&amp;Bildirimleri görüntülemek için saniye cinsinden aralıklar:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1208"/>
@@ -1733,7 +1735,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation>&amp;Sekmeler</translation>
+        <translation>&amp;Sekmeler:</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
@@ -1791,7 +1793,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <location filename="../src/item/itemeditorwidget.cpp" line="336"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Escape</translation>
+        <translation>Escape</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="361"/>
@@ -1864,7 +1866,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="787"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished">Şifrele (GnuPG gerekli)</translation>
+        <translation>Şifrele (GnuPG gerekli)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="793"/>
@@ -1895,7 +1897,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="821"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>Gir</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="890"/>
@@ -1936,7 +1938,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="920"/>
         <source>Generate New Keys...</source>
-        <translation>Yeni Anahtar Oluştur</translation>
+        <translation>Yeni Anahtarlar Oluştur...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="922"/>
@@ -1961,7 +1963,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="105"/>
         <source>Encrypt items and tabs.</source>
-        <translation>Öğeleri ve sekmeleri şifrele</translation>
+        <translation>Öğeleri ve sekmeleri şifrele.</translation>
     </message>
 </context>
 <context>
@@ -2080,7 +2082,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="96"/>
         <source>Notes</source>
-        <translation type="unfinished">Notlar</translation>
+        <translation>Notlar</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
@@ -2183,7 +2185,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <location filename="../plugins/itemsync/itemsync.cpp" line="123"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished">Gözat...</translation>
+        <translation>Gözat...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
@@ -2400,7 +2402,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="467"/>
         <source>Exit?</source>
-        <translation type="unfinished">Çıkış?</translation>
+        <translation>Çıkış?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="468"/>
@@ -2703,7 +2705,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
@@ -2793,7 +2795,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -2803,7 +2805,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>F7</source>
-        <translation type="unfinished">F7</translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
@@ -2813,12 +2815,12 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished">&amp;Düzenle</translation>
+        <translation>&amp;Düzen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
@@ -2848,7 +2850,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
@@ -2913,7 +2915,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished">&amp;Yeni Sekme</translation>
+        <translation>&amp;Yeni Sekme</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
@@ -2991,7 +2993,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>F12</source>
-        <translation type="unfinished">F12</translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="147"/>
@@ -3001,7 +3003,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">Yardım</translation>
+        <translation>&amp;Yardım</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2016"/>
@@ -3514,7 +3516,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished">&amp;Bul:</translation>
+        <translation>&amp;Bul:</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="245"/>
@@ -3539,7 +3541,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished">&amp;İsim:</translation>
+        <translation>&amp;Adı:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
@@ -3586,7 +3588,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="119"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Büyük/Küçük Harf Duyarsız</translation>
     </message>
 </context>
 </TS>
