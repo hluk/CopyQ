@@ -32,7 +32,7 @@
 namespace {
     template<typename T> inline T* objc_cast(id from)
     {
-        if ([from isKindOfClass:[T class]]) {
+        if (from && [from isKindOfClass:[T class]]) {
             return static_cast<T*>(from);
         }
         return nil;
