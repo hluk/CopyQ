@@ -192,7 +192,7 @@
             <x>0</x>
             <y>0</y>
             <width>277</width>
-            <height>615</height>
+            <height>596</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -622,6 +622,16 @@ Note: If this is applied automatically, no other automatic commands are executed
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelDescription">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>

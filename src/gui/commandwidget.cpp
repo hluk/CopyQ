@@ -79,24 +79,23 @@ CommandWidget::CommandWidget(QWidget *parent)
     connect(ui->buttonIcon, &IconSelectButton::currentIconChanged,
             this, &CommandWidget::onButtonIconCurrentIconChanged);
 
-    connect(ui->checkBoxAutomatic, &QCheckBox::stateChanged,
-            this, &CommandWidget::onCheckBoxAutomaticStateChanged);
-    connect(ui->checkBoxDisplay, &QCheckBox::stateChanged,
-            this, &CommandWidget::onCheckBoxDisplayStateChanged);
-    connect(ui->checkBoxInMenu, &QCheckBox::stateChanged,
-            this, &CommandWidget::onCheckBoxInMenuStateChanged);
-    connect(ui->checkBoxIsScript, &QCheckBox::stateChanged,
-            this, &CommandWidget::onCheckBoxIsScriptStateChanged);
-    connect(ui->checkBoxGlobalShortcut, &QCheckBox::stateChanged,
-            this, &CommandWidget::onCheckBoxGlobalShortcutStateChanged);
+    for (auto checkBox : findChildren<QCheckBox *>()) {
+        connect(checkBox, &QCheckBox::stateChanged,
+                this, &CommandWidget::updateWidgets);
+    }
+
+    for (auto lineEdit : findChildren<QLineEdit *>()) {
+        connect(lineEdit, &QLineEdit::textEdited,
+                this, &CommandWidget::updateWidgets);
+    }
 
     connect(ui->shortcutButtonGlobalShortcut, &ShortcutButton::shortcutAdded,
-            this, &CommandWidget::onShortcutButtonGlobalShortcutShortcutAdded);
+            this, &CommandWidget::updateWidgets);
     connect(ui->shortcutButtonGlobalShortcut, &ShortcutButton::shortcutRemoved,
-            this, &CommandWidget::onShortcutButtonGlobalShortcutShortcutRemoved);
+            this, &CommandWidget::updateWidgets);
 
     connect(ui->commandEdit, &CommandEdit::changed,
-            this, &CommandWidget::onCommandEditChanged);
+            this, &CommandWidget::updateWidgets);
     connect(ui->commandEdit, &CommandEdit::commandTextChanged,
             this, &CommandWidget::onCommandEditCommandTextChanged);
 
@@ -204,46 +203,6 @@ void CommandWidget::onButtonIconCurrentIconChanged()
     emitIconChanged();
 }
 
-void CommandWidget::onCheckBoxAutomaticStateChanged(int)
-{
-    updateWidgets();
-}
-
-void CommandWidget::onCheckBoxDisplayStateChanged(int)
-{
-    updateWidgets();
-}
-
-void CommandWidget::onCheckBoxInMenuStateChanged(int)
-{
-    updateWidgets();
-}
-
-void CommandWidget::onCheckBoxIsScriptStateChanged(int)
-{
-    updateWidgets();
-}
-
-void CommandWidget::onCheckBoxGlobalShortcutStateChanged(int)
-{
-    updateWidgets();
-}
-
-void CommandWidget::onShortcutButtonGlobalShortcutShortcutAdded(const QKeySequence &)
-{
-    updateWidgets();
-}
-
-void CommandWidget::onShortcutButtonGlobalShortcutShortcutRemoved(const QKeySequence &)
-{
-    updateWidgets();
-}
-
-void CommandWidget::onCommandEditChanged()
-{
-    updateWidgets();
-}
-
 void CommandWidget::onCommandEditCommandTextChanged(const QString &command)
 {
     emit commandTextChanged(command);
@@ -272,10 +231,94 @@ void CommandWidget::updateWidgets()
     ui->groupBoxInMenu->setVisible(inMenu);
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->commandEdit->isEmpty());
 
+    ui->labelDescription->setText(description());
+
     emitIconChanged();
 }
 
 void CommandWidget::emitIconChanged()
 {
     emit iconChanged();
+}
+
+QString CommandWidget::description() const
+{
+    const Command cmd = command();
+
+    if (cmd.type() & CommandType::Script)
+        return "<b>Extends scripting</b> or command line.";
+
+    if (cmd.type() & CommandType::Display)
+        return "Changes <b>visual</b> item representation.";
+
+    QString description("<table><tr><td>");
+
+    if (cmd.type() & CommandType::Automatic) {
+        description.append("On <b>clipboard change</b>");
+    } else if (cmd.type() & CommandType::GlobalShortcut) {
+        description.append("On <b>global shortcut</b>");
+    } else if (cmd.type() & CommandType::Menu) {
+        description.append("On <b>menu item or application shortcut</b>");
+    }
+
+    if ( !(cmd.type() & CommandType::GlobalShortcut) ) {
+        if (cmd.input.isEmpty() || cmd.input == mimeText)
+            description.append( QString("<div><b>input format:</b> text</div>") );
+        else if (cmd.input == "!OUTPUT")
+            description.append( QString("<div><b>input format NOT:</b> %1</div>").arg(cmd.output) );
+        else
+            description.append( QString("<div><b>input format:</b> %1</div>").arg(cmd.input) );
+    }
+
+    description.append("</td><td width=15></td><td>");
+
+    const bool isAutomaticOrMenu = cmd.type() & (CommandType::Automatic | CommandType::Menu);
+
+    if ( !cmd.re.isEmpty() && isAutomaticOrMenu ) {
+        description.append(
+            QString("<div>if text matches <b>/%1/</b></div>").arg(cmd.re.pattern()) );
+    }
+
+    if ( !cmd.wndre.isEmpty() && cmd.type() & CommandType::Automatic ) {
+        description.append(
+            QString("<div>if current window title matches <b>/%1/</b></div>").arg(cmd.wndre.pattern()) );
+    }
+
+    if ( !cmd.matchCmd.isEmpty() && isAutomaticOrMenu ) {
+        description.append(
+            QString("<div>if <b>filter</b> command succeeds</div>").arg(cmd.wndre.pattern()) );
+    }
+
+    description.append("</td><td width=15></td><td>");
+
+    if (cmd.wait) {
+        description.append("<div><b>shows action dialog</b></div>");
+    } else if ( !cmd.cmd.isEmpty() && isAutomaticOrMenu ) {
+        if ( !cmd.output.isEmpty() )
+            description.append( QString("<div><b>output format:</b> %1</div>").arg(cmd.output) );
+        if ( !cmd.outputTab.isEmpty() )
+            description.append( QString("<div><b>output tab:</b> %1</div>").arg(cmd.outputTab) );
+    }
+
+    if ( !cmd.tab.isEmpty() && cmd.type() & CommandType::Automatic )
+        description.append( QString("<div>saves clipboard in tab <b>%1</b></div>").arg(cmd.tab) );
+
+    if (cmd.remove) {
+        if ( cmd.type() & CommandType::Automatic )
+            description.append("<div><b>ignores clipboard</b></div>");
+        else if ( cmd.type() & CommandType::Menu )
+            description.append("<div><b>removes</b> items</div>");
+    } else if (cmd.transform) {
+        if ( cmd.type() & CommandType::Automatic )
+            description.append("<div><b>replaces data</b></div>");
+        else if ( cmd.type() & CommandType::Menu )
+            description.append("<div><b>replaces selected items</b></div>");
+    }
+
+    if (cmd.hideWindow && cmd.type() & CommandType::Menu )
+        description.append("<br/><b>closes</b> main window");
+
+    description.append("</td></tr></table>");
+
+    return description;
 }

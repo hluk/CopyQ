@@ -59,22 +59,6 @@ private:
 
     void onButtonIconCurrentIconChanged();
 
-    void onCheckBoxAutomaticStateChanged(int);
-
-    void onCheckBoxDisplayStateChanged(int);
-
-    void onCheckBoxInMenuStateChanged(int);
-
-    void onCheckBoxIsScriptStateChanged(int);
-
-    void onCheckBoxGlobalShortcutStateChanged(int);
-
-    void onShortcutButtonGlobalShortcutShortcutAdded(const QKeySequence &shortcut);
-
-    void onShortcutButtonGlobalShortcutShortcutRemoved(const QKeySequence &shortcut);
-
-    void onCommandEditChanged();
-
     void onCommandEditCommandTextChanged(const QString &command);
 
     void init();
@@ -82,6 +66,8 @@ private:
     void updateWidgets();
 
     void emitIconChanged();
+
+    QString description() const;
 
     Ui::CommandWidget *ui;
 };
