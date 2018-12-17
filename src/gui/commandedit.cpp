@@ -40,6 +40,14 @@ CommandEdit::CommandEdit(QWidget *parent)
     ui->labelErrors->hide();
     ui->plainTextEditCommand->document()->setDefaultFont(commandFont());
 
+    auto document = ui->plainTextEditCommand->document();
+    QTextCursor tc(document);
+    const QRect cursorRect = ui->plainTextEditCommand->cursorRect(tc);
+    const QMargins margins = ui->plainTextEditCommand->contentsMargins();
+    const int minimumHeight = 3 * cursorRect.height() / 2
+            + margins.top() + margins.bottom();
+    ui->plainTextEditCommand->setMinimumHeight(minimumHeight);
+
     setFocusProxy(ui->plainTextEditCommand);
 
     installCommandSyntaxHighlighter(ui->plainTextEditCommand);
@@ -73,17 +81,6 @@ QFont CommandEdit::commandFont() const
     font.setStyleHint(QFont::TypeWriter);
     font.setPointSize(10);
     return font;
-}
-
-void CommandEdit::resizeToContent()
-{
-    auto document = ui->plainTextEditCommand->document();
-    QTextCursor tc(document);
-    tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
-    const auto cursorRect = ui->plainTextEditCommand->cursorRect(tc);
-    const auto h = static_cast<int>( cursorRect.bottom() + 2 * cursorRect.height() );
-    const auto margins = ui->plainTextEditCommand->contentsMargins();
-    ui->plainTextEditCommand->setMinimumHeight( h + margins.top() + margins.bottom() );
 }
 
 void CommandEdit::onPlainTextEditCommandTextChanged()

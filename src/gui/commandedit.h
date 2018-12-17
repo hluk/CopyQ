@@ -41,8 +41,6 @@ public:
 
     QFont commandFont() const;
 
-    void resizeToContent();
-
 signals:
     void changed();
     void commandTextChanged(const QString &command);

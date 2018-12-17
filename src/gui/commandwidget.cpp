@@ -78,8 +78,6 @@ CommandWidget::CommandWidget(QWidget *parent)
             this, &CommandWidget::onLineEditNameTextChanged);
     connect(ui->buttonIcon, &IconSelectButton::currentIconChanged,
             this, &CommandWidget::onButtonIconCurrentIconChanged);
-    connect(ui->checkBoxShowAdvanced, &QCheckBox::stateChanged,
-            this, &CommandWidget::onCheckBoxShowAdvancedStateChanged);
 
     connect(ui->checkBoxAutomatic, &QCheckBox::stateChanged,
             this, &CommandWidget::onCheckBoxAutomaticStateChanged);
@@ -102,8 +100,6 @@ CommandWidget::CommandWidget(QWidget *parent)
     connect(ui->commandEdit, &CommandEdit::commandTextChanged,
             this, &CommandWidget::onCommandEditCommandTextChanged);
 
-    ui->widgetAdvanced->hide();
-
     updateWidgets();
 
 #ifdef NO_GLOBAL_SHORTCUTS
@@ -112,8 +108,6 @@ CommandWidget::CommandWidget(QWidget *parent)
 #else
     ui->checkBoxGlobalShortcut->setIcon(iconShortcut());
 #endif
-
-    ui->groupBoxCommand->setFocusProxy(ui->commandEdit);
 
     ui->checkBoxAutomatic->setIcon(iconClipboard());
     ui->checkBoxInMenu->setIcon(iconMenu());
@@ -189,27 +183,15 @@ void CommandWidget::setCommand(const Command &c)
                 ui->shortcutButtonGlobalShortcut);
     ui->comboBoxCopyToTab->setEditText(c.tab);
     ui->comboBoxOutputTab->setEditText(c.outputTab);
+
+    if (c.cmd.isEmpty())
+        ui->tabWidget->setCurrentWidget(ui->tabAdvanced);
 }
 
 void CommandWidget::setFormats(const QStringList &formats)
 {
     setComboBoxItems(ui->comboBoxInputFormat, formats);
     setComboBoxItems(ui->comboBoxOutputFormat, formats);
-}
-
-void CommandWidget::resizeEvent(QResizeEvent *event)
-{
-    QWidget::resizeEvent(event);
-    ui->commandEdit->resizeToContent();
-}
-
-void CommandWidget::showEvent(QShowEvent *event)
-{
-    AppConfig appConfig;
-    const bool showAdvanced = appConfig.option<Config::show_advanced_command_settings>();
-    ui->checkBoxShowAdvanced->setChecked(showAdvanced);
-
-    QWidget::showEvent(event);
 }
 
 void CommandWidget::onLineEditNameTextChanged(const QString &text)
@@ -220,15 +202,6 @@ void CommandWidget::onLineEditNameTextChanged(const QString &text)
 void CommandWidget::onButtonIconCurrentIconChanged()
 {
     emitIconChanged();
-}
-
-void CommandWidget::onCheckBoxShowAdvancedStateChanged(int state)
-{
-    const bool showAdvanced = state == Qt::Checked;
-    AppConfig appConfig;
-    appConfig.setOption(Config::show_advanced_command_settings::name(), showAdvanced);
-    ui->widgetAdvanced->setVisible(showAdvanced);
-    updateWidgets();
 }
 
 void CommandWidget::onCheckBoxAutomaticStateChanged(int)
@@ -298,10 +271,6 @@ void CommandWidget::updateWidgets()
     ui->groupBoxAction->setVisible(copyOrExecute);
     ui->groupBoxInMenu->setVisible(inMenu);
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->commandEdit->isEmpty());
-
-    ui->widgetSpacer->setVisible(ui->widgetAdvanced->isHidden());
-
-    ui->commandEdit->resizeToContent();
 
     emitIconChanged();
 }
