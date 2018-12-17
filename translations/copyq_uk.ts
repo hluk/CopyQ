@@ -682,7 +682,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;c) буфер обміну</translation>
     </message>
 </context>
 <context>
@@ -690,7 +690,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;n) Ім’я:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
@@ -730,7 +730,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="227"/>
         <source>Match Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Збіг елементів</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="324"/>
@@ -772,7 +772,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="197"/>
         <source>Global Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Глобальні ярлики</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="274"/>
@@ -1233,7 +1233,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="190"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;v) Стиль навігації Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="217"/>
@@ -1283,7 +1283,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="154"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути відкривання вікна на поточному екрані. Виключити відкривання вікон там, де вони були закриті раніше</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="239"/>
@@ -1293,7 +1293,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="262"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дозволити вставляти скопійований вміст таким же способом, як  вибір миші (як правило, натиснувши середню кнопку миші)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="265"/>
@@ -1506,7 +1506,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматично відображувати спливні вікна для завершення вводу функцій, типів та перемінних в командах</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="210"/>
@@ -1749,7 +1749,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1281"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished"></translation>
+        <translation>Розміри вікна сповіщень (в точках екрана)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1327"/>
@@ -1769,12 +1769,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1477"/>
         <source>&amp;Items</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;i) Елементи</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1489"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат показу вибраного елементу в історії можна змінити натиснувши &lt;b&gt;Ctrl+Left&lt;/b&gt; або &lt;b&gt;Ctrl+Right&lt;/b&gt;. Ви можете змінити пріоритет форматів для показу змінивши порядок розташування елементів нижче.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1507"/>
@@ -1806,27 +1806,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="370"/>
         <source>Invalid value for option &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Неправильне значення для параметра &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="413"/>
         <source>Reset preferences?</source>
-        <translation type="unfinished"></translation>
+        <translation>Скинути налаштування?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="414"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ця дія скине всі ваші налаштування (у всіх вкладках) на значення за умовчанням.&lt;br /&gt;&lt;br /&gt; Ви точно хочете &lt;strong&gt; скинути всі налаштування&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="516"/>
         <source>Restart Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Потрібен перезапуск</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="517"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Зміна мови відбудеться після перезапуску програми.</translation>
     </message>
 </context>
 <context>
@@ -1834,7 +1834,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="611"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалось створити теку синхронізації &quot;%1&quot;!</translation>
     </message>
 </context>
 <context>
@@ -1843,7 +1843,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/filtercompleter.cpp" line="175"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Down</translation>
     </message>
 </context>
 <context>
@@ -1851,13 +1851,13 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon...</source>
-        <translation type="unfinished"></translation>
+        <translation>Оберіть піктограму...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -1865,22 +1865,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>CopyQ Select Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>оберіть піктограму CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation>Огляд...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="221"/>
         <source>Open Icon file</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити файл піктограми</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="222"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Файли зображень (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -1893,7 +1893,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;t) Вкладки:</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
@@ -1923,7 +1923,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="192"/>
         <source>Editor command: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Команда редактора: %1</translation>
     </message>
 </context>
 <context>
@@ -1936,7 +1936,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="328"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти елемент (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="329"/>
@@ -1947,12 +1947,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="333"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="335"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Закінчити редагування та повернути зміни</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="336"/>
@@ -1968,22 +1968,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="366"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Жирний</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="372"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Курсив</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="378"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Підкреслення</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="384"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Закреслений</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="391"/>
@@ -1998,22 +1998,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="403"/>
         <source>Erase Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Стиль стирання</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="410"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Пошук</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="345"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="352"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Вернути</translation>
     </message>
 </context>
 <context>
@@ -2026,12 +2026,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для перегляду зашифрованих вкладок необхідний встановлений GnuPG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="787"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>Шифрування (потрібен GnuPG)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="793"/>
@@ -2042,12 +2042,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="797"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Розшифрувати</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="807"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Розшифрувати та копіювати</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="812"/>
@@ -2057,7 +2057,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="816"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Розшифрувати та вставити</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="821"/>
@@ -2072,63 +2072,63 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="878"/>
         <source>Failed to generate keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Помилка генерації ключів.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="895"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Завершити</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="911"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Створення нових ключів (це може тривати кілька хвилин)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="915"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="914"/>
         <source>Setting new password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкажіть новий пароль...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="917"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключі шифрування &lt;strong&gt; потрібно згенерувати&lt;/strong&gt; перед використанням для шифрування елементу.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="920"/>
         <source>Generate New Keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>Генерування нових ключів...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="922"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Зміна паролю...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="345"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Шифрування невдале!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="928"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Розшифрування невдале!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="103"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Шифрування</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="105"/>
         <source>Encrypt items and tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Шифрувати елементи і вкладки.</translation>
     </message>
 </context>
 <context>
@@ -2136,17 +2136,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб зашифрувати та розшифрувати елементи додайте відповідні команди на вкладці &quot;Команди&quot;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Спільне використання зашифрованих елементів та вкладок</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="92"/>
         <source>Encrypted Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Зашифровані вкладки</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
@@ -2160,17 +2160,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="75"/>
         <source>FakeVim</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="77"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Додаток FakeVim це частина Qt Creator</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="79"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Емуляція редактора Vim під час редагування елементів.</translation>
     </message>
 </context>
 <context>
@@ -2178,12 +2178,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути FakeVim для редагування елементів</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Шлях до файлу налаштувань:</translation>
     </message>
 </context>
 <context>
@@ -2191,12 +2191,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="88"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Зображення</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="90"/>
         <source>Display images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати зображення.</translation>
     </message>
 </context>
 <context>
@@ -2204,12 +2204,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;w) Максимальна ширина зображення:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальна ширина зображення яке показується в історії (встановіть нуль для оригінального розміру)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
@@ -2219,7 +2219,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальна висота зображення яке показується в історії (встановіть 0 для оригінального розміру)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
@@ -2229,7 +2229,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation type="unfinished"></translation>
+        <translation>Команда редактора для підтримуваних форматів зображень, які відмінні від SVG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
@@ -2239,7 +2239,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактор для зображень формату SVG.</translation>
     </message>
 </context>
 <context>
@@ -2252,7 +2252,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
         <source>Display notes for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показувати нотатки для елементів.</translation>
     </message>
 </context>
 <context>
@@ -2260,7 +2260,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Позиція нотаток</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
@@ -2293,22 +2293,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="53"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="66"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;r) Видалити</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>&amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;u)  Вгору</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>&amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;d) Вниз</translation>
     </message>
 </context>
 <context>
@@ -2321,7 +2321,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="230"/>
         <source>Cannot Remove Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Неможливо видалити закріплені елементи</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="231"/>
@@ -2331,17 +2331,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="409"/>
         <source>Pin</source>
-        <translation type="unfinished"></translation>
+        <translation>Закріпити</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="416"/>
         <source>Unpin</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкріпити</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="117"/>
         <source>Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Закріплені елементи</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="120"/>
@@ -2355,27 +2355,27 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsync.cpp" line="123"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished"></translation>
+        <translation>Огляд...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити теку для синхронізації</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Невдача при створенні теки синхронізації</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="159"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Синхронізація</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="161"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation type="unfinished"></translation>
+        <translation>Синхронізувати елементи та нотатки з текою на диску.</translation>
     </message>
 </context>
 <context>
@@ -2383,17 +2383,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="513"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалось синхронізувати вкладку &quot;%1&quot; з текою &quot;%2&quot;!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
         <source>Remove Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Видалити  елементи?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="549"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ви точно хочете &lt;strong&gt;видалити елементи та пов’язані файли&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -2412,12 +2412,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ім’я вкладки</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Шлях</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
@@ -2433,7 +2433,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Розширення</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
@@ -2446,43 +2446,43 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="154"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Додати мітку</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="159"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Видалити мітку</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="178"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Помітити як %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="184"/>
         <source>Remove tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Видалити мітку %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="736"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"></translation>
+        <translation>Важливо</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="757"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистити всі мітки</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="130"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Мітки</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="132"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показувати мітки для елементів.</translation>
     </message>
 </context>
 <context>
@@ -2495,32 +2495,32 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Додаткова інформація на &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;сторінці wiki&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Ім’я мітки</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Збіг</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Таблиця стилів</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Колір</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Піктограма</translation>
     </message>
 </context>
 <context>
@@ -2528,12 +2528,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="76"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Текст</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="78"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Відображення звичайного тексту та простих HTML елементів.</translation>
     </message>
 </context>
 <context>
@@ -2541,17 +2541,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберігання і відображення HTML та розширеного тексту</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальна кількість рядків, які відображаються  (0 для показу всіх):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальна висота в пікселях (0 без обмежень):</translation>
     </message>
 </context>
 <context>
