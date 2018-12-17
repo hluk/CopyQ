@@ -329,7 +329,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished">Вставити буфер обміну як простий текст</translation>
+        <translation>Вставити вміст буферу обміну як простий текст</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
@@ -504,7 +504,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
         <source>&amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;f) Формати:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
@@ -575,7 +575,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Визначте нові команди, які можуть бути автоматично викликані в новому вмісті буфера обміну або користувачем із меню або з допомогою ярлика системи.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
@@ -620,7 +620,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="293"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>Файли команд (*.ini);; Файли конфігурації CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="304"/>
@@ -630,7 +630,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="305"/>
         <source>Commands (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation>Файли команд (*.ini)</translation>
     </message>
     <message>
         <source>Ctrl+L</source>
@@ -661,17 +661,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Символ %1 може використовуватись для передавання стандартного виводу до наступної програми.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished">Наступний синтаксис може використовуватись як один параметр для визначення частини команди, що залишилася.</translation>
+        <translation>Наступний синтаксис може використовуватись як один параметр для визначення частини команди, що залишилася.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Це надає такий самий вихід як і %1, але корисніший для більш довгих команд.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
@@ -715,7 +715,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="187"/>
         <source>Show command in context menu of matching items</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати команду в контекстному меню відповідних елементів</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="190"/>
@@ -736,7 +736,8 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="324"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Дані цього типу MIME буде відправлені на стандартний ввід команди.
+Залиште поле порожнім, щоб вимкнути це.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="349"/>
@@ -746,12 +747,12 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="464"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation type="unfinished"></translation>
+        <translation>Приховати вікно після активації команди із контекстного меню елементу</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="583"/>
         <source>Change item, don&apos;t create any new items</source>
-        <translation type="unfinished"></translation>
+        <translation>Змінити елемент без створення нових елементів</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="586"/>
@@ -781,17 +782,17 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="267"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Використовуйте команду лише для елементів текст яких збігається з регулярним виразом (залиште порожнім для відповідності будь-чому)&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Приклади:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  збігається URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  збігаються імена файлів PDF    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  збігається один символ    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  збігаються віддалені мультимедія    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрипт</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Дисплей</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
@@ -822,7 +823,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="383"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Дія</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="406"/>
@@ -832,14 +833,16 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation type="unfinished"></translation>
+        <translation>Назва вкладки для копіювання нових елементів (залиште порожньою, щоб не копіювати)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="428"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Видалити відповідний пункт
+
+Примітка: Якщо це застосовується автоматично, то жодні інші команди не виконуються.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="433"/>
@@ -849,7 +852,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="443"/>
         <source>Menu Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Меню дії</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="467"/>
@@ -859,7 +862,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="627"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати Розширені</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="62"/>
@@ -869,12 +872,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="477"/>
         <source>Command options</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметри команди</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="573"/>
         <source>Show action dialog before executing the command</source>
-        <translation type="unfinished"></translation>
+        <translation>Показувати діалог дій перед виконання команди</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="576"/>
@@ -909,7 +912,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="556"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти елементи у вкладці з вказаним ім’ям (залиште порожнім, щоб зберегти в першій вкладці)</translation>
     </message>
 </context>
 <context>
@@ -942,7 +945,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Звичайний</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
@@ -977,7 +980,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати смуги прокрутки</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
@@ -987,7 +990,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовувати піктограми із середовища стільниці, якщо це можливо</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
@@ -1012,7 +1015,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Тема:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
@@ -1027,7 +1030,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Редагувати поточну тему в зовнішньому редакторі</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
@@ -1037,60 +1040,61 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Попередній перегляд:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="476"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>елемент</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="479"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Рядок пошуку %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="480"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Виберіть елемент і
+натисніть клавішу F2 для редагування.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="483"/>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Приклад елемента %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="488"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Деякі випадкові нотатки (Shift+F2 для редагування)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="147"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>Відкрити файл теми</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="157"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти тему як файл</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="176"/>
         <source>No External Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Немає зовнішнього редактора</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="177"/>
         <source>Set external editor command first!</source>
-        <translation type="unfinished"></translation>
+        <translation>Спочатку вкажіть команду зовнішнього редактора!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="391"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Абв</translation>
     </message>
 </context>
 <context>
@@ -1174,7 +1178,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Конфігурація CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="39"/>
@@ -1184,17 +1188,17 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="134"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Тримати головне вікно поверх інших вікон</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрити головне вікно, коли інша програма в фокусі</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрити коли не активне</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="157"/>
@@ -1204,7 +1208,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="164"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Підтверджувати вихід з програми</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="167"/>
@@ -1214,7 +1218,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="177"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Запуск програми при старті системи</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="180"/>
@@ -1224,7 +1228,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="187"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Підтримка навігаційних клавіш Vi (Н, J, K, L та інші), клавіша слеш (/) для пошуку</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="190"/>
@@ -1234,12 +1238,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="217"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Маніпуляції з буфером обміну</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="229"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти виділений мишкою текст (первинний відбір) в історії</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="232"/>
@@ -1254,7 +1258,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="249"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберігати буфер обміну в історії</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="252"/>
@@ -1264,7 +1268,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="124"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished"></translation>
+        <translation>Розділити текст якщо він занадто довгий для тог,о щоб поміститися в стрічці</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="127"/>
@@ -1284,7 +1288,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="239"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дозволити вставку виділеного мишкою з використанням клавіш (зазвичай Ctrl+V чи Shift+Insert)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="262"/>
@@ -1299,12 +1303,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="408"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Макет та прозорість</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="417"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Показувати дерево вкладок замість панелі вкладок</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="420"/>
@@ -1321,7 +1325,9 @@ press F2 to edit.</source>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Прозорість головного вікна, коли воно у фокусі.
+
+Примітка: Підтримується не у всі системах.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="469"/>
@@ -1333,12 +1339,14 @@ Note: This is not be supported on all systems.</source>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Прозорість головного вікна, коли воно не у фокусі.
+
+Примітка: Підтримується не у всіх системах.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="511"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Показувати кількість елементів у вкладках</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="514"/>
@@ -1348,12 +1356,12 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="362"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати/Сховати</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="368"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished"></translation>
+        <translation>Приховати вкладки (натисніть клавішу Alt, щоб відобразити)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="371"/>
@@ -1363,7 +1371,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="378"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Сховати панель інструментів</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="381"/>
@@ -1378,7 +1386,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="912"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Не показувати іконку в треї; згорнути вікно при закритті</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="915"/>
@@ -1388,12 +1396,12 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="784"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Перемістити елемент до верхньої частини списку після його активації</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Команда зовнішнього редактора (%&amp;1 файл для редагування):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="787"/>
@@ -1403,27 +1411,27 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="794"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрити основне вікно після активації елемента</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="804"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Фокус на останньому вікні після активації елемента</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="814"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставити в поточне вікно після активації елемента</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="922"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Показувати команду для поточного вмісту буферу обміну в меню трея</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="971"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Показувати елементи з поточної вкладки в меню  в треї</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="974"/>
@@ -1438,7 +1446,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1022"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставити елемент до поточного вікна після вибору його в меню</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1035"/>
@@ -1458,22 +1466,22 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1299"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Відстань сповіщення від лівого та правого країв екрану в точках екрану</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1339"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Відстань сповіщення від верхнього та нижнього країв екрану в точках екрану</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1379"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальна ширина для повідомлень в точках екрану</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1416"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальна висота для сповіщень в точках екрану</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="559"/>
@@ -1503,7 +1511,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="210"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Авто-завершення команд</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="308"/>
@@ -1513,7 +1521,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="395"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Сховати головне вікно при закритті</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="398"/>
@@ -1528,7 +1536,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="628"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальна кількість елементів у кожній вкладці</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="656"/>
@@ -1540,7 +1548,9 @@ Note: This is not be supported on all systems.</source>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вивантажувати кожну вкладку з пам’яті при бездіяльності після вказаної кількості хвилин.
+
+Встановіть 0, щоб не вивантажувати вкладки.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="705"/>
@@ -1550,7 +1560,12 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Команди зовнішнього редактора (%1 файлів для редагування).
+  Приклади:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="720"/>
@@ -1562,14 +1577,18 @@ Set to 0 not to unload tabs.</source>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ім’я вкладки, яка буде автоматично зберігати новий вміст буферу обміну.
+
+Залишіть порожнім, щоб вимкнути автоматичне запам’ятовування.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="744"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не залишати прапорець  на клавіші Return, щоб зберегти відредагований елемент і Ctrl+Enter для створення нової лінії.
+
+Примітка: Редаговані елементи можуть бути збережені з F2, що ігнорує цей параметр.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="749"/>
@@ -1581,7 +1600,9 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Показувати однорядковий опис кожного елемента.
+
+Використовуйте попередній перегляд елементу, щоб повністю відобразити на екрані елементи.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="761"/>
@@ -1591,7 +1612,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>Увімкнути пошук цифр, в іншому разі натискання цифрової клавіші активує  елемент в цій позиції</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
@@ -1601,7 +1622,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Після активації елементу (подвійний клік чи клавіша Enter ), скопіювати його до буфера обміну та ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="797"/>
@@ -1636,12 +1657,12 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="944"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Кількість елементів в меню трея</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="997"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ім’я вкладки для відображення в меню трея (порожнє для першої вкладки)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1025"/>
@@ -1651,7 +1672,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1032"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished"></translation>
+        <translation>Показати попередній перегляд зображення поряд з пунктами меню</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1075"/>
@@ -1666,37 +1687,37 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1144"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Розташування повідомлень на екрані</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1148"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Зверху</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1153"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Знизу</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1158"/>
         <source>Top Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Вгорі праворуч</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1163"/>
         <source>Bottom Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Внизу праворуч</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1168"/>
         <source>Bottom Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Внизу ліворуч</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1173"/>
         <source>Top Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Вгорі ліворуч</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1208"/>
@@ -1705,7 +1726,11 @@ Use Item Preview to display whole items.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Інтервал в секундах для показу сповіщень для нового вмісту буферу обміну (тільки якщо головне вікно закрите).
+
+Встановіть 0, щоб вимкнути.
+
+Встановіть -1, щоб показувати до моменту кліку мишкою.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1240"/>
@@ -1717,7 +1742,9 @@ Set to -1 to keep visible until clicked.</source>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Кількість рядків для показу для нового вмісту буферу обміну.
+
+Встановіть 0 для вимкнення.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1281"/>
