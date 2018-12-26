@@ -230,6 +230,10 @@ private slots:
 
     void setTabName();
 
+    void showHideAboutDialog();
+    void showHideClipboardDialog();
+    void showHideItemDialog();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

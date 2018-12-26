@@ -72,8 +72,10 @@ const auto trayMenuId = "focus:TrayMenu";
 const auto menuId = "focus:Menu";
 const auto editorId = "focus::QTextEdit";
 const auto tabDialogLineEditId = "focus:lineEditTabName";
-const auto commandDialogId = "focus:CommandDialog";
 const auto commandDialogListId = "focus:listWidgetItems";
+const auto aboutDialogId = "focus:AboutDialog";
+const auto clipboardDialogId = "focus:ClipboardDialog";
+const auto clipboardDialogFormatListId = "focus:listWidgetFormats";
 
 template <typename Fn1, typename Fn2>
 void runMultiple(Fn1 f1, Fn2 f2)
@@ -2813,6 +2815,55 @@ void Tests::setTabName()
         print(tab1Size + ',' + tab2Size)
         )";
     RUN(script, "1,0");
+}
+
+void Tests::showHideAboutDialog()
+{
+    const auto aboutShortcut = keyNameFor(QKeySequence::QKeySequence::WhatsThis);
+    RUN("keys" << clipboardBrowserId << aboutShortcut << aboutDialogId, "");
+    RUN("keys" << aboutDialogId << "ESCAPE" << clipboardBrowserId, "");
+}
+
+void Tests::showHideClipboardDialog()
+{
+    TEST( m_test->setClipboard("TEST", "test-format") );
+    RUN("keys" << clipboardBrowserId << "CTRL+SHIFT+C" << clipboardDialogId, "");
+
+    RUN("keys" << clipboardDialogId << "DOWN" << clipboardDialogFormatListId, "");
+    RUN("keys" << clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy), "");
+#ifdef Q_OS_WIN
+    WAIT_FOR_CLIPBOARD("application/x-qt-windows-mime;value=\"test-format\"");
+#else
+    WAIT_FOR_CLIPBOARD("test-format");
+#endif
+
+    RUN("keys" << clipboardDialogFormatListId << "DOWN", "");
+    RUN("keys" << clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy), "");
+#ifdef Q_OS_WIN
+    WAIT_FOR_CLIPBOARD("application/x-qt-windows-mime;value=\"test-format\"");
+#else
+    WAIT_FOR_CLIPBOARD("test-format");
+#endif
+
+    RUN("keys" << clipboardDialogId << "ESCAPE" << clipboardBrowserId, "");
+}
+
+void Tests::showHideItemDialog()
+{
+    RUN("write" << "test-format" << "TEST", "")
+    RUN("selectItems" << "0", "true\n");
+
+    RUN("keys" << clipboardBrowserId << "F4" << clipboardDialogId, "");
+
+    RUN("keys" << clipboardDialogId << "DOWN" << clipboardDialogFormatListId, "");
+    RUN("keys" << clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy), "");
+    WAIT_FOR_CLIPBOARD("test-format");
+
+    RUN("keys" << clipboardDialogFormatListId << "DOWN", "");
+    RUN("keys" << clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy), "");
+    WAIT_FOR_CLIPBOARD("test-format");
+
+    RUN("keys" << clipboardDialogId << "ESCAPE" << clipboardBrowserId, "");
 }
 
 int Tests::run(
