@@ -284,10 +284,8 @@ QString CommandWidget::description() const
             QString("<div>if current window title matches <b>/%1/</b></div>").arg(cmd.wndre.pattern()) );
     }
 
-    if ( !cmd.matchCmd.isEmpty() && isAutomaticOrMenu ) {
-        description.append(
-            QString("<div>if <b>filter</b> command succeeds</div>").arg(cmd.wndre.pattern()) );
-    }
+    if ( !cmd.matchCmd.isEmpty() && isAutomaticOrMenu )
+        description.append("<div>if <b>filter</b> command succeeds</div>");
 
     description.append("</td><td width=15></td><td>");
 
