@@ -85,10 +85,8 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
     if (object != ui->lineEditShortcut)
         return QDialog::eventFilter(object, event);
 
-    if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        COPYQ_LOG(QString("Shortcut key press: %1").arg(keyEvent->key()));
-
+    if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
+        auto keyEvent = static_cast<QKeyEvent*>(event);
         const int key = createPlatformNativeInterface()->keyCode(*keyEvent);
         const int mods = getModifiers(*keyEvent);
 
@@ -104,23 +102,19 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
 
         event->accept();
 
-        if ( isModifierKey(keyEvent->key()) ) {
+        if (event->type() == QEvent::KeyPress) {
+            COPYQ_LOG(QString("Shortcut key press: %1").arg(keyEvent->key()));
+
+            if ( isModifierKey(keyEvent->key()) ) {
+                processKey(0, mods);
+            } else {
+                processKey(key, mods);
+                accept();
+            }
+        } else if (result() != QDialog::Accepted) {
+            COPYQ_LOG(QString("Shortcut key release: %1").arg(keyEvent->key()));
             processKey(0, mods);
-        } else {
-            processKey(key, mods);
-            accept();
         }
-
-        return QDialog::eventFilter(object, event);
-    }
-
-    if (event->type() == QEvent::KeyRelease) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        COPYQ_LOG(QString("Shortcut key release: %1").arg(keyEvent->key()));
-
-        const int mods = getModifiers(*keyEvent);
-
-        processKey(0, mods);
 
         return true;
     }
