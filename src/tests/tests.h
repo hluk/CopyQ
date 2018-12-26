@@ -153,6 +153,8 @@ private slots:
 
     void createTabDialog();
 
+    void copyPasteCommands();
+
     void editItems();
     void createNewItem();
     void editNotes();

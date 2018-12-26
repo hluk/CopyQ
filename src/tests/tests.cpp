@@ -72,6 +72,8 @@ const auto trayMenuId = "focus:TrayMenu";
 const auto menuId = "focus:Menu";
 const auto editorId = "focus::QTextEdit";
 const auto tabDialogLineEditId = "focus:lineEditTabName";
+const auto commandDialogId = "focus:CommandDialog";
+const auto commandDialogListId = "focus:listWidgetItems";
 
 template <typename Fn1, typename Fn2>
 void runMultiple(Fn1 f1, Fn2 f2)
@@ -1706,6 +1708,26 @@ void Tests::createTabDialog()
         << clipboardBrowserId << "CTRL+T"
         << tabDialogLineEditId << ":" + tab1 << "ENTER", "");
     RUN("testSelected", tab1 + "\n");
+}
+
+void Tests::copyPasteCommands()
+{
+    const QByteArray commands =
+            "[Commands]\n"
+            "1\\Name=Test 1\n"
+            "2\\Name=Test 2\n"
+            "size=2";
+
+    RUN("keys" << clipboardBrowserId << "F6", "");
+    TEST( m_test->setClipboard(commands) );
+    RUN("keys" << commandDialogListId << keyNameFor(QKeySequence::Paste), "");
+
+    TEST( m_test->setClipboard(QByteArray()) );
+    RUN("keys" << commandDialogListId << keyNameFor(QKeySequence::Copy), "");
+    WAIT_FOR_CLIPBOARD(commands);
+
+    RUN("keys" << commandDialogListId << "Enter" << clipboardBrowserId, "");
+    RUN("commands().length", "2\n")
 }
 
 void Tests::editItems()
