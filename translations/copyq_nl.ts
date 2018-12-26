@@ -913,7 +913,7 @@ Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatis
     <message>
         <location filename="../src/ui/commandwidget.ui" line="627"/>
         <source>Show Advanced</source>
-        <translation>Toon gevorderd</translation>
+        <translation>Geavanceerde opties tonen</translation>
     </message>
 </context>
 <context>
@@ -1291,7 +1291,7 @@ CTRL en pijltje omhoog/omlaag.</translation>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
-        <translation>Doorzichtigheid van het hoofdvenster indien gefocust.
+        <translation>Doorzichtigheid van het hoofdvenster wanneer deze focus heeft.
 
 Let op: dit wordt niet op alle systemen ondersteund.</translation>
     </message>
@@ -1305,7 +1305,7 @@ Let op: dit wordt niet op alle systemen ondersteund.</translation>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
-        <translation>Doorzichtigheid van het hoofdvenster indien ontfocust.
+        <translation>Doorzichtigheid van het hoofdvenster wanneer deze geen focus heeft.
 
 Let op: dit wordt niet op alle systemen ondersteund.</translation>
     </message>
@@ -1357,7 +1357,7 @@ Let op: dit wordt niet op alle systemen ondersteund.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdracht geven aan een externe bewerker (%&amp;1 is het bestand dat bewerkt gaat worden):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="912"/>
@@ -1729,42 +1729,42 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1489"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het weergaveformaat van het geselecteerde item in de geschiedenis kan worden gewijzigd door te drukken op &lt;b&gt;Ctrl+Links&lt;/b&gt; of &lt;b&gt;Ctrl+Right&lt;/b&gt;. U kunt de prioriteit van de weer te geven formaten wijzigen door de items hieronder opnieuw te ordenen.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1507"/>
         <source>&amp;Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Snelkoppelingen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1517"/>
         <source>&amp;Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vormgeving</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="370"/>
         <source>Invalid value for option &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongeldige waarde voor optie &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="413"/>
         <source>Reset preferences?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorkeuren resetten?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="414"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Deze actie zet al je voorkeuren (in alle tabbladen) terug naar de standaardwaarden.&lt;br /&gt;1&lt;br /&gt;2&lt;br /&gt;Weet je zeker dat je &lt;sterke&gt;3alle voorkeuren&lt;/sterke&gt;4wilt resetten?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="516"/>
         <source>Restart Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Herstart vereist</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="517"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Taal zal worden gewijzigd na het opnieuw opstarten van de applicatie.</translation>
     </message>
 </context>
 <context>
@@ -1772,7 +1772,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="611"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Er kan geen synchronisatie map &quot;%1&quot; worden gemaakt!</translation>
     </message>
 </context>
 <context>
@@ -1781,7 +1781,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../src/gui/filtercompleter.cpp" line="175"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Pijl-Omlaag</translation>
     </message>
 </context>
 <context>
@@ -1789,13 +1789,13 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon...</source>
-        <translation type="unfinished"></translation>
+        <translation>Een pictogram selecteren...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -1803,22 +1803,22 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>CopyQ Select Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Pictogram Selecteren</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bladeren...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="221"/>
         <source>Open Icon file</source>
-        <translation type="unfinished"></translation>
+        <translation>Pictogrambestand openen</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="222"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Beeldbestanden (*.png *.jpg *.jpeg *.bmp *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -1826,22 +1826,22 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="17"/>
         <source>&amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Alle</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tabs:</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
         <source>Co&amp;nfiguration</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;nfiguratie</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;mmandos</translation>
     </message>
 </context>
 <context>
@@ -1849,12 +1849,12 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="149"/>
         <source>editor exit code is %1</source>
-        <translation type="unfinished"></translation>
+        <translation>De afsluitcode van de editor is : %1</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="192"/>
         <source>Editor command: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor commando: %1</translation>
     </message>
 </context>
 <context>
@@ -1862,12 +1862,12 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="326"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="328"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewaar item (&lt;sterk&gt;1F2&lt;/sterk&gt;2)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="329"/>
@@ -1878,12 +1878,12 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="333"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="335"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuleren van gemaakte wijzigingen tijdens het bewerken</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="336"/>
@@ -1899,22 +1899,22 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="366"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Vet</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="372"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Cursief</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="378"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Onderstrepen</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="384"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Doorhalen</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="391"/>
@@ -1929,22 +1929,22 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="403"/>
         <source>Erase Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Wissen Stijl</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="410"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoeken</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="345"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongedaan maken</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="352"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Opnieuw</translation>
     </message>
 </context>
 <context>
@@ -1952,43 +1952,43 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="616"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Om versleutelde items op andere computers of tijdens een sessie te delen, hebt u een openbare en een geheime sleutelbestand nodig: &lt;ul&gt;1&lt;li&gt;2%1&lt;/li&gt;3&lt;li&gt;4%2&lt;br /&gt;5(Bewaar deze geheime sleutel op een veilige plaats.)&lt;/li&gt;&lt;/li&gt;6&lt;/ul&gt;7</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>GnuPG moet worden geïnstalleerd om gecodeerde tabbladen te kunnen bekijken.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="787"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>Encryptie (heeft GnuPG nodig)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="793"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="803"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="797"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Ontsleutelen</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="807"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Ontsleutelen en kopiëren</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="812"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="816"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Ontsleutelen en plakken</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="821"/>
@@ -2003,63 +2003,63 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="878"/>
         <source>Failed to generate keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er kan geen sleutel worden aangemaakt.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="895"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Klaar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="911"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Er worden nieuwe sleutels gemaakt(dit kan een paar minuten duren)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="915"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuleren</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="914"/>
         <source>Setting new password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuw wachtwoord instellen.....</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="917"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er moeten Encryptiesleutels &lt;strong&gt; worden gegenereerd&lt;/strong&gt; voordat er encryptie kan worden gebruikt.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="920"/>
         <source>Generate New Keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>Genereer nieuwe sleutels.....</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="922"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wachtwoord wijzigen.....</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="345"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Het versleutelen is niet gelukt!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="928"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Het ontsleutelen is niet gelukt!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="103"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Versleutelen</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="105"/>
         <source>Encrypt items and tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het versleutelen van artikelen en tabbladen.</translation>
     </message>
 </context>
 <context>
@@ -2067,17 +2067,17 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om items te kunnen versleutelen en te ontsleutelen, voegt u de juiste commando&apos;s toe onder het tabblad Opdrachten.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Delen van versleutelde items en tabbladen</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="92"/>
         <source>Encrypted Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Versleutelde tabbladen</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
@@ -3425,7 +3425,9 @@ Default is the first tab.</source>
         <source>
 Evaluate ECMAScript program.
 Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Uitvoeren van ECMAScript-programma.
+Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
