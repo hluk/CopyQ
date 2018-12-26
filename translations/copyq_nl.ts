@@ -129,7 +129,7 @@
     </message>
     <message>
         <source>Change item display format</source>
-        <translation type="vanished">Itemweergave wijzigen</translation>
+        <translation>Opmaak itemweergave wijzigen</translation>
     </message>
     <message>
         <source>Ctrl+Left/Right</source>
@@ -913,7 +913,7 @@ Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatis
     <message>
         <location filename="../src/ui/commandwidget.ui" line="627"/>
         <source>Show Advanced</source>
-        <translation type="unfinished">Toon geavanceerd</translation>
+        <translation>Toon gevorderd</translation>
     </message>
 </context>
 <context>
