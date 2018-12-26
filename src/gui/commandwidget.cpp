@@ -78,6 +78,8 @@ CommandWidget::CommandWidget(QWidget *parent)
             this, &CommandWidget::onLineEditNameTextChanged);
     connect(ui->buttonIcon, &IconSelectButton::currentIconChanged,
             this, &CommandWidget::onButtonIconCurrentIconChanged);
+    connect(ui->checkBoxShowAdvanced, &QCheckBox::stateChanged,
+            this, &CommandWidget::onCheckBoxShowAdvancedStateChanged);
 
     for (auto checkBox : findChildren<QCheckBox *>()) {
         connect(checkBox, &QCheckBox::stateChanged,
@@ -193,6 +195,15 @@ void CommandWidget::setFormats(const QStringList &formats)
     setComboBoxItems(ui->comboBoxOutputFormat, formats);
 }
 
+void CommandWidget::showEvent(QShowEvent *event)
+{
+    AppConfig appConfig;
+    const bool showAdvanced = appConfig.option<Config::show_advanced_command_settings>();
+    ui->checkBoxShowAdvanced->setChecked(showAdvanced);
+
+    QWidget::showEvent(event);
+}
+
 void CommandWidget::onLineEditNameTextChanged(const QString &text)
 {
     emit nameChanged(text);
@@ -201,6 +212,15 @@ void CommandWidget::onLineEditNameTextChanged(const QString &text)
 void CommandWidget::onButtonIconCurrentIconChanged()
 {
     emitIconChanged();
+}
+
+void CommandWidget::onCheckBoxShowAdvancedStateChanged(int state)
+{
+    const bool showAdvanced = state == Qt::Checked;
+    AppConfig appConfig;
+    appConfig.setOption(Config::show_advanced_command_settings::name(), showAdvanced);
+    ui->tabWidget->setVisible(showAdvanced);
+    ui->labelDescription->setVisible(showAdvanced);
 }
 
 void CommandWidget::onCommandEditCommandTextChanged(const QString &command)

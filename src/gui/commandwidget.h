@@ -54,10 +54,15 @@ signals:
 
     void commandTextChanged(const QString &command);
 
+protected:
+    void showEvent(QShowEvent *event) override;
+
 private:
     void onLineEditNameTextChanged(const QString &text);
 
     void onButtonIconCurrentIconChanged();
+
+    void onCheckBoxShowAdvancedStateChanged(int state);
 
     void onCommandEditCommandTextChanged(const QString &command);
 
