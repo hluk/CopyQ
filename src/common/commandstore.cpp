@@ -274,5 +274,5 @@ QString exportCommands(const Commands &commands)
         commandData.append('\n');
     }
 
-    return commandData;
+    return commandData.trimmed();
 }
