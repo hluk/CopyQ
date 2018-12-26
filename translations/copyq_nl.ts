@@ -133,7 +133,7 @@
     </message>
     <message>
         <source>Ctrl+Left/Right</source>
-        <translation type="vanished">CTRL + links/rechts</translation>
+        <translation>Ctrl + Links / Rechts</translation>
     </message>
     <message>
         <source>Edit Item</source>
@@ -753,7 +753,7 @@ Laat leeg om uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="267"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt; 1Gebruik opdracht alleen voor items wiens tekst overeenkomt met deze reguliere expressie (laat leeg om alles te matchen).&lt;/p&gt; 2&lt;p&gt; 3&lt;span style=&quot; font-weight:600;&quot;&gt; 4Voorbeelden:&lt;/span&gt; 5&lt;/p&gt; 6&lt;p&gt; 7  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt; 8^(https?|ftp)://&lt;/span&gt; 9&lt;/p&gt; 0&lt;p&gt;  Match PDF bestandsnamen    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match enkel karakter    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match multimedia op afstand    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt; 1Gebruik opdracht alleen voor items wiens tekst overeenkomt met deze reguliere expressie (laat leeg om alles te matchen).&lt;/p&gt; 2&lt;p&gt; 3&lt;span style=&quot; font-weight:600;&quot;&gt; 4Voorbeelden:&lt;/span&gt; 5&lt;/p&gt; 6&lt;p&gt; 7  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt; 8^(https?|ftp)://&lt;/span&gt; 9&lt;/p&gt; 0&lt;p&gt;  Match PDF bestandsnamen    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match enkel karakter    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match multimedia op afstand    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
@@ -774,13 +774,13 @@ Laat leeg om uit te schakelen.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt; 1Gebruik opdracht alleen als filter opdracht slaagt.&lt;/p&gt; 2
+        <translation>&lt;p&gt; 1Gebruik opdracht alleen als filter wanneer de opdracht slaagt.&lt;/p&gt; 2
 
-&lt;p&gt; 3Item tekst is door gegeven aan &lt;b&gt; 4standaard input&lt;/b&gt; 5 van de filteropdracht. Het item wordt &lt;b&gt; 6alleen gematched als de filteropdracht exitcode 0 is&lt;/b&gt; 7.&lt;/p&gt; 8
+&lt;p&gt; 3Item tekst is door gegeven aan &lt;b&gt; 4standaard input&lt;/b&gt; 5 van de filteropdracht. Het item wordt &lt;b&gt; 6alleen gematched als de filteropdracht een exitcode van 0 heeft&lt;/b&gt; 7.&lt;/p&gt; 8
 
-&lt;p&gt; 9Gebruik &lt;b&gt; 0%1&lt;/b&gt; voor de tekst van het item doorgegeven als argument en &lt;b&gt;%2&lt;/b&gt; naar &lt;b&gt;%9&lt;/b&gt; voor argumenten opgepakt door een reguliere expressie (onderdelen ingesloten in haakjes).&lt;/p&gt;
+&lt;p&gt; 9Gebruik &lt;b&gt; 0%1&lt;/b&gt; voor het doorgeven van de tekst van het item als argument en &lt;b&gt;%2&lt;/b&gt; naar &lt;b&gt;%9&lt;/b&gt; voor de voor argumenten opgepakt als een reguliere expressie (onderdelen ingesloten tussen haakjes).&lt;/p&gt;
 
-&lt;p&gt;Gebruik &lt;b&gt;|&lt;/b&gt; om opdrachten in een keten te zetten (geef standaard uitvoer door aan de volgende opdracht).&lt;/p&gt;</translation>
+&lt;p&gt;Gebruik &lt;b&gt;|&lt;/b&gt; om opdrachten in een keten te zetten (geeft standaard uitvoer door aan de volgende opdracht).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="349"/>
@@ -863,12 +863,12 @@ Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatis
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Script</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="211"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Weergave</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="314"/>
@@ -1164,12 +1164,12 @@ CTRL en pijltje omhoog/omlaag.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluit het hoofdvenster wanneer een andere toepassing focus heeft</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluiten als venster niet actief is</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="154"/>
@@ -1377,12 +1377,12 @@ Let op: dit wordt niet op alle systemen ondersteund.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon automatisch een popup om functie, type en variabele namen in te geven en commando&apos;s te voltooien</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="210"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch uitvoeren van opdrachten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="398"/>
@@ -1482,12 +1482,12 @@ Gebruik Itemvoorbeeld om gehele items weer te geven.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeer het zoeken naar nummers, anders wordt het item op deze positie geactiveerd door op een cijfertoets te drukken</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Z&amp;oeken naar nummers</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
@@ -1577,77 +1577,77 @@ Gebruik Itemvoorbeeld om gehele items weer te geven.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="997"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam van het tabblad om in het tray menu te tonen (leeg voor het eerste tabblad)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1022"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Plakken in het huidige venster na selectie in het menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1025"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Plakken actief item in het huidige venster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1032"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished"></translation>
+        <translation>Afbeeldingsvoorbeeld naast menu-items weergeven</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1035"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Afbeeldingsvoorbeeld als een menupictogram weergeven</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1075"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Meldingen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1132"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Notificatie positie:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1144"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Plaats op scherm voor meldingen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1148"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Bovenkant</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1153"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Onderkant</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1158"/>
         <source>Top Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechtsboven</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1163"/>
         <source>Bottom Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechtsonder</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1168"/>
         <source>Bottom Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Linksonder</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1173"/>
         <source>Top Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Linksboven</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1196"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished"></translation>
+        <translation>Het aantal seconden dat meldingen worden weer gegeven:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1208"/>
@@ -1656,69 +1656,75 @@ Gebruik Itemvoorbeeld om gehele items weer te geven.</translation>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Interval in seconden dat de inhoud van een nieuwe toevoeging word weergeven. (word allen gebruikt wanneer het hoofdscherm gesloten is.) 
+
+Zet op 0 om uit te schakelen.
+
+Stel in op -1 om zichtbaar te blijven tot erop wordt geklikt.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1240"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aantal regels voor klembordmeldingen:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1252"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aantal regels dat wordt weergegeven bij een nieuwe item op het klembord.
+
+Deze op 0 zetten om dit uit te schakelen.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1281"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished"></translation>
+        <translation>Afmetingen (in pixels)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1287"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hori&amp;horizontale verschuiving:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1299"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Afstand van rechter tot linkerkant scherm in pixels</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1327"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verticale verschuiving:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1339"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Afstand tussen boven- of onderrand van het scherm in pixels</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1367"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale &amp;breedte:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1379"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale breedte voor melding in pixels</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1404"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ma&amp;ximum hoogte:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1416"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale breedte voor melding in pixels</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1477"/>
         <source>&amp;Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Artikelen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1489"/>
@@ -1867,7 +1873,7 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="329"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="333"/>
@@ -1883,12 +1889,12 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="336"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Esc</translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="361"/>
         <source>Font</source>
-        <translation type="unfinished">Lettertype</translation>
+        <translation>Lettertype</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="366"/>
@@ -1913,12 +1919,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="391"/>
         <source>Foreground</source>
-        <translation type="unfinished">Voorgrond</translation>
+        <translation>Voorgrond</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="396"/>
         <source>Background</source>
-        <translation type="unfinished">Achtergrond</translation>
+        <translation>Achtergrond</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="403"/>
@@ -1987,7 +1993,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="821"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="890"/>
@@ -2172,7 +2178,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="96"/>
         <source>Notes</source>
-        <translation type="unfinished">Notities</translation>
+        <translation>Notities</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
@@ -2777,7 +2783,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished">&amp;klembord</translation>
+        <translation>&amp;klembord</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
@@ -2807,7 +2813,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished">Ctrl+P</translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
@@ -2822,7 +2828,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
@@ -2912,7 +2918,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -2922,7 +2928,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>F7</source>
-        <translation type="unfinished">F7</translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
@@ -2937,7 +2943,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
@@ -2967,7 +2973,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
@@ -3110,7 +3116,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>F12</source>
-        <translation type="unfinished">F12</translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="147"/>
@@ -3557,7 +3563,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1104"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished">Er bestaat al een tabblad met deze naam!</translation>
+        <translation>Er bestaat al een tabblad met deze naam!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1952"/>
@@ -3608,7 +3614,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished">&amp;Zoeken:</translation>
+        <translation>&amp;Zoeken:</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="245"/>
@@ -3633,7 +3639,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished">&amp;Naam:</translation>
+        <translation>&amp;Naam:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
