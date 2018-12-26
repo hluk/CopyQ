@@ -234,6 +234,12 @@ private slots:
     void showHideClipboardDialog();
     void showHideItemDialog();
 
+    void shortcutDialogAddShortcut();
+    void shortcutDialogAddTwoShortcut();
+    void shortcutDialogChangeShortcut();
+    void shortcutDialogSameShortcut();
+    void shortcutDialogCancel();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

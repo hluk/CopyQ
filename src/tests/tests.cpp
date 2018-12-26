@@ -72,7 +72,11 @@ const auto trayMenuId = "focus:TrayMenu";
 const auto menuId = "focus:Menu";
 const auto editorId = "focus::QTextEdit";
 const auto tabDialogLineEditId = "focus:lineEditTabName";
+const auto commandDialogId = "focus:CommandDialog";
+const auto commandDialogSaveButtonId = "focus::QPushButton in :QMessageBox";
 const auto commandDialogListId = "focus:listWidgetItems";
+const auto shortcutButtonId = "focus::QPushButton in CommandDialog";
+const auto shortcutDialogId = "focus::QLineEdit in ShortcutDialog";
 const auto aboutDialogId = "focus:AboutDialog";
 const auto clipboardDialogId = "focus:ClipboardDialog";
 const auto clipboardDialogFormatListId = "focus:listWidgetFormats";
@@ -2864,6 +2868,107 @@ void Tests::showHideItemDialog()
     WAIT_FOR_CLIPBOARD("test-format");
 
     RUN("keys" << clipboardDialogId << "ESCAPE" << clipboardBrowserId, "");
+}
+
+void Tests::shortcutDialogAddShortcut()
+{
+#ifdef Q_OS_MAC
+    SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
+#endif
+
+    RUN("setCommands([{name: 'test', inMenu: true, cmd: 'copyq add OK'}])", "");
+    RUN("commands()[0].shortcuts", "")
+
+    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
+    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
+    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
+    RUN("keys" << shortcutDialogId << "CTRL+F1" << shortcutButtonId, "");
+
+    RUN("keys" << commandDialogId << "ESCAPE" << commandDialogSaveButtonId, "");
+    RUN("keys" << commandDialogSaveButtonId << "Enter" << clipboardBrowserId, "");
+    RUN("commands()[0].shortcuts", "ctrl+f1\n")
+}
+
+void Tests::shortcutDialogAddTwoShortcut()
+{
+#ifdef Q_OS_MAC
+    SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
+#endif
+
+    RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['ctrl+f1'], cmd: 'copyq add OK'}])", "");
+    RUN("commands()[0].shortcuts", "ctrl+f1\n")
+
+    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
+    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
+
+    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
+    RUN("keys" << shortcutDialogId << "F1" << shortcutButtonId, "");
+
+    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
+    RUN("keys" << shortcutDialogId << "F2" << shortcutButtonId, "");
+
+    RUN("keys" << commandDialogId << "ESCAPE" << commandDialogSaveButtonId, "");
+    RUN("keys" << commandDialogSaveButtonId << "Enter" << clipboardBrowserId, "");
+    RUN("commands()[0].shortcuts", "ctrl+f1\nf1\nf2\n")
+}
+
+void Tests::shortcutDialogChangeShortcut()
+{
+#ifdef Q_OS_MAC
+    SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
+#endif
+
+    RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['f1','f2','f3'], cmd: 'copyq add OK'}])", "");
+    RUN("commands()[0].shortcuts", "f1\nf2\nf3\n")
+
+    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
+    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
+    RUN("keys" << commandDialogId << "TAB" << shortcutButtonId, "");
+    RUN("keys" << commandDialogId << "TAB" << shortcutButtonId, "");
+    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
+    RUN("keys" << shortcutDialogId << "F4" << shortcutButtonId, "");
+
+    RUN("keys" << commandDialogId << "ESCAPE" << commandDialogSaveButtonId, "");
+    RUN("keys" << commandDialogSaveButtonId << "Enter" << clipboardBrowserId, "");
+    RUN("commands()[0].shortcuts", "f1\nf4\nf3\n")
+}
+
+void Tests::shortcutDialogSameShortcut()
+{
+#ifdef Q_OS_MAC
+    SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
+#endif
+
+    RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['ctrl+f1'], cmd: 'copyq add OK'}])", "");
+    RUN("commands()[0].shortcuts", "ctrl+f1\n")
+
+    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
+    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
+    RUN("keys" << shortcutButtonId << "TAB" << shortcutButtonId, "");
+    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
+    RUN("keys" << shortcutDialogId << "CTRL+F1" << shortcutButtonId, "");
+
+    RUN("keys" << commandDialogId << "ESCAPE" << clipboardBrowserId, "");
+    RUN("commands()[0].shortcuts", "ctrl+f1\n")
+}
+
+void Tests::shortcutDialogCancel()
+{
+#ifdef Q_OS_MAC
+    SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
+#endif
+
+    RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['ctrl+f1'], cmd: 'copyq add OK'}])", "");
+    RUN("commands()[0].shortcuts", "ctrl+f1\n")
+
+    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
+    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
+    RUN("keys" << commandDialogId << "TAB" << shortcutButtonId, "");
+    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
+    RUN("keys" << shortcutDialogId << "ESCAPE" << shortcutButtonId, "");
+
+    RUN("keys" << commandDialogId << "ESCAPE" << clipboardBrowserId, "");
+    RUN("commands()[0].shortcuts", "ctrl+f1\n")
 }
 
 int Tests::run(
