@@ -448,6 +448,8 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
         return elideText(textWithNotes, font, label, escapeAmpersands, maxWidthPixels, maxLines);
     } else if ( findFormatsWithPrefix(true, "image/", data) ) {
         label = QObject::tr("<IMAGE>", "Label for image in clipboard");
+    } else if ( data.contains(mimeItems) ) {
+        label = QObject::tr("<ITEMS>", "Label for copied items in clipboard");
     } else if ( findFormatsWithPrefix(false, COPYQ_MIME_PREFIX, data) ) {
         label = QObject::tr("<EMPTY>", "Label for empty clipboard");
     } else {
