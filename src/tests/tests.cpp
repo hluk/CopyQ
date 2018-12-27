@@ -1415,6 +1415,27 @@ void Tests::commandFilter()
     RUN("filter", "\n");
 }
 
+void Tests::classByteArray()
+{
+    RUN("ByteArray('test')", "test");
+    RUN("b = ByteArray('0123'); b.chop(2); b", "01");
+    RUN("ByteArray('0123').equals(ByteArray('0123'))", "true\n");
+    RUN("ByteArray('0123').left(3)", "012");
+    RUN("ByteArray('0123').mid(1, 2)", "12");
+    RUN("ByteArray('0123').mid(1)", "123");
+    RUN("ByteArray('0123').right(3)", "123");
+    RUN("ByteArray(' 01  23 ').simplified()", "01 23");
+    RUN("ByteArray('0123').toBase64()", "MDEyMw==");
+    RUN("ByteArray('ABCd').toLower()", "abcd");
+    RUN("ByteArray('abcD').toUpper()", "ABCD");
+    RUN("ByteArray(' 01  23 ').trimmed()", "01  23");
+    RUN("b = ByteArray('0123'); b.truncate(2); b", "01");
+    RUN("ByteArray('0123').toLatin1String() == '0123'", "true\n");
+    RUN("ByteArray('0123').valueOf() == '0123'", "true\n");
+    RUN("ByteArray(8).size()", "8\n");
+    RUN("b = ByteArray(); b.length = 10; b.length", "10\n");
+}
+
 void Tests::classFile()
 {
     RUN("var f = new File('/copyq_missing_file'); f.exists()", "false\n");
