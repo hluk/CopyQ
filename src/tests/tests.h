@@ -47,6 +47,7 @@ private slots:
     void commandHelp();
     void commandVersion();
     void badCommand();
+    void badSessionName();
 
     void commandExit();
     void commandEval();

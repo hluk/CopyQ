@@ -686,6 +686,12 @@ void Tests::badCommand()
              .contains(QRegExp("^" + QRegExp::escape(testTab(1)) + "$")) );
 }
 
+void Tests::badSessionName()
+{
+    RUN_EXPECT_ERROR("-s" << "max_16_characters_in_session_name_allowed" << "", CommandBadSyntax);
+    RUN_EXPECT_ERROR("-s" << "spaces disallowed" << "", CommandBadSyntax);
+}
+
 void Tests::commandExit()
 {
     TEST( m_test->stopServer() );
