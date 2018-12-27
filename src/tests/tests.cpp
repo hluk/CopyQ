@@ -1637,6 +1637,9 @@ void Tests::classTemporaryFile()
     QVERIFY2( testStderr(err), err );
     QCOMPARE(QByteArray(), out);
     QVERIFY( !QFile::exists(QString::fromUtf8(fileName)) );
+
+    RUN("TemporaryFile().autoRemove()", "true\n");
+    RUN("TemporaryFile().fileTemplate()", QDir::temp().filePath("copyq.test.XXXXXX") + "\n");
 }
 
 void Tests::pipingCommands()
