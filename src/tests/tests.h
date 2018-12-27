@@ -131,6 +131,8 @@ private slots:
 
     void commandFilter();
 
+    void commandMimeTypes();
+
     void classByteArray();
     void classFile();
     void classDir();

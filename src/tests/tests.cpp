@@ -1416,6 +1416,25 @@ void Tests::commandFilter()
     RUN("filter", "\n");
 }
 
+void Tests::commandMimeTypes()
+{
+    RUN("print(mimeText)", mimeText);
+    RUN("print(mimeHtml)", mimeHtml);
+    RUN("print(mimeUriList)", mimeUriList);
+    RUN("print(mimeWindowTitle)", mimeWindowTitle);
+    RUN("print(mimeItems)", mimeItems);
+    RUN("print(mimeItemNotes)", mimeItemNotes);
+    RUN("print(mimeOwner)", mimeOwner);
+    RUN("print(mimeClipboardMode)", mimeClipboardMode);
+    RUN("print(mimeCurrentTab)", mimeCurrentTab);
+    RUN("print(mimeSelectedItems)", mimeSelectedItems);
+    RUN("print(mimeCurrentItem)", mimeCurrentItem);
+    RUN("print(mimeHidden)", mimeHidden);
+    RUN("print(mimeShortcut)", mimeShortcut);
+    RUN("print(mimeColor)", mimeColor);
+    RUN("print(mimeOutputTab)", mimeOutputTab);
+}
+
 void Tests::classByteArray()
 {
     RUN("ByteArray('test')", "test");
