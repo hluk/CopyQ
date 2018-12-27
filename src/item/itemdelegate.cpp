@@ -354,10 +354,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_view);
 
     const int row = index.row();
-    const auto w = cacheOrNull(row);
+    auto w = cacheOrNull(row);
     if (w == nullptr) {
         m_view->updateItemWidget(index);
-        return;
+        w = cacheOrNull(row);
+        if (!w)
+            return;
     }
 
     // Colorize item.

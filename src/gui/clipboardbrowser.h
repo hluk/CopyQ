@@ -328,8 +328,6 @@ class ClipboardBrowser : public QListView
          */
         void updateSizes();
 
-        void updateItemWidgets();
-
         void updateCurrent();
 
         /**
@@ -397,7 +395,6 @@ class ClipboardBrowser : public QListView
         QTimer m_timerSave;
         QTimer m_timerEmitItemCount;
         QTimer m_timerUpdateSizes;
-        QTimer m_timerUpdateItemWidgets;
         QTimer m_timerUpdateCurrent;
         QTimer m_timerDragDropScroll;
         bool m_ignoreMouseMoveWithButtonPressed = false;
@@ -412,8 +409,6 @@ class ClipboardBrowser : public QListView
         QPoint m_dragStartPosition;
 
         int m_filterRow = -1;
-
-        QVector<QPersistentModelIndex> m_itemWidgetsToUpdate;
 };
 
 #endif // CLIPBOARDBROWSER_H

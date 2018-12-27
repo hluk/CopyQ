@@ -307,7 +307,6 @@ ClipboardBrowser::ClipboardBrowser(
     initSingleShotTimer( &m_timerSave, 30000, this, &ClipboardBrowser::saveItems );
     initSingleShotTimer( &m_timerEmitItemCount, 0, this, &ClipboardBrowser::emitItemCount );
     initSingleShotTimer( &m_timerUpdateSizes, 0, this, &ClipboardBrowser::updateSizes );
-    initSingleShotTimer( &m_timerUpdateItemWidgets, 0, this, &ClipboardBrowser::updateItemWidgets );
     initSingleShotTimer( &m_timerUpdateCurrent, 0, this, &ClipboardBrowser::updateCurrent );
 
     m_timerDragDropScroll.setInterval(20);
@@ -1073,10 +1072,9 @@ void ClipboardBrowser::paintEvent(QPaintEvent *e)
         }
     }
 
+    const bool canUpdate = updatesEnabled();
     QListView::paintEvent(e);
-
-    if (!m_itemWidgetsToUpdate.isEmpty())
-        m_timerUpdateItemWidgets.start();
+    setUpdatesEnabled(canUpdate);
 
     // If dragging an item into list, draw indicator for dropping items.
     if (m_dragTargetRow != -1) {
@@ -1421,7 +1419,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         const int h = viewport()->contentsRect().height();
 
         // Preload next and previous pages so that up/down and page up/down keys scroll correctly.
-        if ( m_itemWidgetsToUpdate.isEmpty() ) {
+        {
             UpdatesLocker locker(this);
             locker.lock();
 
@@ -1732,24 +1730,6 @@ void ClipboardBrowser::updateSizes()
     updateEditorGeometry();
 }
 
-void ClipboardBrowser::updateItemWidgets()
-{
-    UpdatesLocker locker(this);
-
-    const auto contents = viewport()->contentsRect();
-    for (const auto &index : m_itemWidgetsToUpdate) {
-        if (index.isValid()) {
-            const auto rect = visualRect(index);
-            if (contents.top() < rect.bottom() && rect.top() < contents.bottom()) {
-                locker.lock();
-                d.cache(index);
-            }
-        }
-    }
-
-    m_itemWidgetsToUpdate.clear();
-}
-
 void ClipboardBrowser::updateCurrent()
 {
     if ( !updatesEnabled() ) {
@@ -1850,7 +1830,8 @@ void ClipboardBrowser::findPrevious()
 
 void ClipboardBrowser::updateItemWidget(const QModelIndex &index)
 {
-    m_itemWidgetsToUpdate.append(index);
+    setUpdatesEnabled(false);
+    d.cache(index);
 }
 
 bool ClipboardBrowser::isInternalEditorOpen() const
