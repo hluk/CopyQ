@@ -47,6 +47,7 @@
 #include <QMimeData>
 #include <QProcess>
 #include <QRegExp>
+#include <QTemporaryDir>
 #include <QTemporaryFile>
 #include <QTest>
 #include <QTimer>
@@ -1443,13 +1444,82 @@ void Tests::classFile()
 
 void Tests::classDir()
 {
-    RUN("eval" <<
-        "; var d = new Dir('/missing_directory/')"
+    RUN("var d = new Dir('/missing_directory/')"
         "; d.exists()"
         , "false\n"
         );
 
-    RUN("eval" << "Dir().homePath()" , QDir::homePath() + "\n");
+    const auto home = QDir::homePath();
+    RUN("Dir().homePath()", home + "\n");
+    RUN("Dir().home().path()", home + "\n");
+
+    const auto root = QDir::rootPath();
+    RUN("Dir().rootPath()", root + "\n");
+    RUN("Dir().root().path()", root + "\n");
+
+    const auto temp = QDir::tempPath();
+    RUN("Dir().tempPath()", temp + "\n");
+    RUN("Dir().temp().path()", temp + "\n");
+
+    RUN("Dir().separator()", QString(QDir::separator()) + "\n");
+
+    QTemporaryDir tmpDir;
+    QVERIFY(tmpDir.isValid());
+    QDir dir(tmpDir.path());
+    const auto path = dir.path();
+    const auto args = QString("var d = new Dir('%1')").arg(path);
+
+    RUN(args << "d.exists()", "true\n");
+    RUN(args << "d.isReadable()", "true\n");
+    RUN(args << "d.isAbsolute()", "true\n");
+    RUN(args << "d.isRelative()", "false\n");
+    RUN(args << "d.absolutePath()", path + "\n");
+    RUN(args << "d.path()", path + "\n");
+    RUN(args << "d.makeAbsolute()", "true\n");
+
+    RUN(args << "d.mkdir('test')", "true\n");
+    QVERIFY( QDir(dir.filePath("test")).exists() );
+    RUN(args << "d.exists('test')", "true\n");
+
+    RUN(args << "d.mkpath('a/b/c')", "true\n");
+    QVERIFY( QDir(dir.filePath("a/b/c")).exists() );
+    RUN(args << "d.exists('a/b/c')", "true\n");
+    RUN(args << "d.filePath('a/b/c')", dir.filePath("a/b/c") + "\n");
+    RUN(args << "d.relativeFilePath('" + path + "/a/b/c')", "a/b/c\n");
+    RUN("Dir('" + path + "/test/../a//b/c/..').canonicalPath()", dir.filePath("a/b") + "\n");
+    RUN(args << "d.setPath('" + path + "/a/b/c')" << "d.path()", dir.filePath("a/b/c") + "\n");
+
+    RUN(args << "d.cd('a')" << "d.cd('b')", "true\n");
+    RUN(args << "d.cd('x')", "false\n");
+    RUN(args << "d.cd('a')" << "d.cd('b')" << "d.path()", dir.filePath("a/b") + "\n");
+    RUN(args << "d.cd('a')" << "d.cd('..')" << "d.path()", path + "\n");
+    RUN(args << "d.cd('a')" << "d.cdUp()" << "d.path()", path + "\n");
+
+    RUN(args << "d.count()", QString("%1\n").arg(dir.count()));
+    RUN(args << "d.dirName()", QString("%1\n").arg(dir.dirName()));
+
+    RUN(args << "d.match(['a*'], 'test')", "false\n");
+    RUN(args << "d.match(['t*'], 'test')", "true\n");
+    RUN(args << "d.entryList()", ".\n..\na\ntest\n");
+    RUN(args << "d.entryList(['t*'])", "test\n");
+    RUN(args << "d.entryList(['t?st', 'a*'])", "a\ntest\n");
+
+    RUN(args << "d.setNameFilters(['t?st', 'a*'])" << "d.nameFilters()", "t?st\na*\n");
+
+    QFile f(dir.filePath("test.txt"));
+    QVERIFY( f.open(QIODevice::WriteOnly) );
+    f.close();
+    RUN(args << "d.exists('test.txt')", "true\n");
+    RUN(args << "d.absoluteFilePath('test.txt')", dir.filePath("test.txt") + "\n");
+    RUN(args << "d.rename('test.txt', 'test2.txt')", "true\n");
+    RUN(args << "d.exists('test2.txt')", "true\n");
+    RUN(args << "d.remove('test2.txt')", "true\n");
+    RUN(args << "d.exists('test2.txt')", "false\n");
+
+    RUN(args << "d.rmdir('test')", "true\n");
+    RUN(args << "d.exists('test')", "false\n");
+
+    RUN("Dir().cleanPath('/a//b/../c/')", QDir::cleanPath("/a//b/../c/") + "\n");
 }
 
 void Tests::classTemporaryFile()
