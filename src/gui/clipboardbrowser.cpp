@@ -65,6 +65,36 @@ enum class MoveType {
     Relative
 };
 
+class UpdatesLocker {
+public:
+    explicit UpdatesLocker(QWidget *widget)
+        : m_widget(widget)
+    {
+    }
+
+    UpdatesLocker(const UpdatesLocker &) = delete;
+    UpdatesLocker &operator =(const UpdatesLocker &) = delete;
+
+    ~UpdatesLocker()
+    {
+        if (m_updatesDisabled)
+            m_widget->setUpdatesEnabled(true);
+    }
+
+    void lock() {
+        if (m_updatesDisabled)
+            return;
+
+        m_updatesDisabled = m_widget->updatesEnabled();
+        if (m_updatesDisabled)
+            m_widget->setUpdatesEnabled(false);
+    }
+
+private:
+    QWidget *m_widget;
+    bool m_updatesDisabled = false;
+};
+
 /// Save drag'n'drop image data in temporary file (required by some applications).
 class TemporaryDragAndDropImage : public QObject {
 public:
