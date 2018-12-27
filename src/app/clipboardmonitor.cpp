@@ -57,17 +57,6 @@ bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
     return true;
 }
 
-bool needStore(const QVariantMap &data)
-{
-    return isClipboardData(data)
-            ? AppConfig().option<Config::check_clipboard>()
-#ifdef HAS_MOUSE_SELECTIONS
-            : AppConfig().option<Config::check_selection>();
-#else
-            : false;
-#endif
-}
-
 bool isClipboardDataHidden(const QVariantMap &data)
 {
     return data.value(mimeHidden).toByteArray() == "1";
@@ -79,10 +68,20 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     : m_clipboard(createPlatformNativeInterface()->clipboard())
     , m_formats(formats)
 {
+    const AppConfig config;
+    m_storeClipboard = config.option<Config::check_clipboard>();
+    m_clipboardTab = config.option<Config::clipboard_tab>();
+
     m_clipboard->setFormats(formats);
     connect( m_clipboard.get(), &PlatformClipboard::changed,
              this, &ClipboardMonitor::onClipboardChanged );
+
 #ifdef HAS_MOUSE_SELECTIONS
+    m_storeSelection = config.option<Config::check_selection>();
+
+    m_clipboardToSelection = config.option<Config::copy_clipboard>();
+    m_selectionToClipboard = config.option<Config::copy_selection>();
+
     onClipboardChanged(ClipboardMode::Selection);
 #endif
     onClipboardChanged(ClipboardMode::Clipboard);
@@ -122,10 +121,8 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
     }
 
 #ifdef HAS_MOUSE_SELECTIONS
-    if ( !data.contains(mimeOwner)
-         && (mode == ClipboardMode::Clipboard
-             ? AppConfig().option<Config::copy_clipboard>()
-             : AppConfig().option<Config::copy_selection>()) )
+    if ( (mode == ClipboardMode::Clipboard ? m_clipboardToSelection : m_selectionToClipboard)
+        && !data.contains(mimeOwner) )
     {
         const auto text = getTextData(data);
         if ( !text.isEmpty() ) {
@@ -143,11 +140,16 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
     } else if ( isClipboardDataHidden(data) ) {
         emit clipboardChanged(data, ClipboardOwnership::Hidden);
     } else {
-        setTextData(&data, defaultTabName(), mimeCurrentTab);
+        const auto defaultTab = m_clipboardTab.isEmpty() ? defaultClipboardTabName() : m_clipboardTab;
+        setTextData(&data, defaultTab, mimeCurrentTab);
 
-        if ( needStore(data) ) {
-            const auto clipboardTab = AppConfig().option<Config::clipboard_tab>();
-            setTextData(&data, clipboardTab, mimeOutputTab);
+
+#ifdef HAS_MOUSE_SELECTIONS
+        if (mode == ClipboardMode::Clipboard ? m_storeClipboard : m_storeSelection) {
+#else
+        if (m_storeClipboard) {
+#endif
+            setTextData(&data, m_clipboardTab, mimeOutputTab);
         }
 
         emit clipboardChanged(data, ClipboardOwnership::Foreign);

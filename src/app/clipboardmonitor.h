@@ -20,6 +20,7 @@
 #ifndef CLIPBOARDMONITOR_H
 #define CLIPBOARDMONITOR_H
 
+#include "common/common.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformclipboard.h"
 
@@ -50,6 +51,15 @@ private:
 
     PlatformClipboardPtr m_clipboard;
     QStringList m_formats;
+
+    QString m_clipboardTab;
+    bool m_storeClipboard;
+
+#ifdef HAS_MOUSE_SELECTIONS
+    bool m_storeSelection;
+    bool m_clipboardToSelection;
+    bool m_selectionToClipboard;
+#endif
 };
 
 #endif // CLIPBOARDMONITOR_H

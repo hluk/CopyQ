@@ -40,12 +40,6 @@ QString defaultClipboardTabName()
                 "&clipboard", "Default name of the tab that automatically stores new clipboard content");
 }
 
-QString defaultTabName()
-{
-    const QString tab = AppConfig().option<Config::clipboard_tab>();
-    return tab.isEmpty() ? defaultClipboardTabName() : tab;
-}
-
 QVariant AppConfig::option(const QString &name) const
 {
     return m_settings.value(name);
