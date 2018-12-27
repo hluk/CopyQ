@@ -601,22 +601,22 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 karakteri standart çıktıyı bir sonraki programa geçirmek için kullanılabilir.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aşağıdaki sözdizimi komutun geri kalanını tek parametre olarak geçirmek için kullanılabilir.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu, %1 ile aynı çıktıyı verir, ancak daha uzun komutlar için daha kullanışlıdır.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aşağıda listelenen işlevler aşağıdaki komutlarda olduğu gibi kullanılabilir.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
@@ -696,7 +696,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="284"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Komutu yalnızca panoya kopyalanan öğeler için bu normal ifadeyle eşleşen başlık metnini içeren pencerelerde kullanın (herhangi bir pencereyle eşleşmek için boş bırakın). OS X&apos;te bu, uygulama adını ve ardından kısa çizgi (&quot;-&quot;), ardından pencere başlığını içerir. Örneğin. &amp;quot;Safari - GitHub &amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="274"/>
@@ -706,7 +706,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="267"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Komutu yalnızca metni &quot;düzenli ifade&quot; ile eşleşen öğeler için kullanın. (her şeyi eşleştirmek için boş bırakın). &lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-weight:600;&quot;&gt;Örnekler: &lt;/span&gt;&lt;/p&gt;&lt;p&gt; URL’yi eşle &lt;span style=&quot;font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; PDF dosya adlarını eşle &lt;span style=&quot;font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Tek karakterle eşleş &lt;span style=&quot;font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Uzak multimedyayla eşleş &lt;span style=&quot;font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="204"/>
