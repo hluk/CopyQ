@@ -10,6 +10,7 @@ exclude_files=(
 
 # Exclude generated files.
 exclude_regexs=(
+    'build/.*'
     '.*/moc_.*'
     '.*\.moc$'
     '.*_automoc\..*'
