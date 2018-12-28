@@ -432,7 +432,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, &MainWindow::updateFocusWindows );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, &MainWindow::updateContextMenuTimeout );
     initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, &MainWindow::updateTrayMenuTimeout );
-    initSingleShotTimer( &m_timerTrayAvailable, 1000, this, &MainWindow::createTrayIfSupported );
+    initSingleShotTimer( &m_timerTrayAvailable, 1000, this, [this]() { setTrayEnabled(); } );
     initSingleShotTimer( &m_timerTrayIconSnip, 500, this, &MainWindow::updateIconSnipTimeout );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, &MainWindow::doSaveTabPositions );
     initSingleShotTimer( &m_timerRaiseLastWindowAfterMenuClosed, 50, this, &MainWindow::raiseLastWindowAfterMenuClosed);
@@ -1429,24 +1429,38 @@ void MainWindow::updateToolBar()
     }
 }
 
-void MainWindow::initTray()
+void MainWindow::setTrayEnabled(bool enable)
 {
-    if ( AppConfig().option<Config::disable_tray>() ) {
-        if (m_tray) {
-            // Hide tray on Ubuntu (buggy sni-qt)
-            m_tray->hide();
+    m_timerTrayAvailable.stop();
 
-            delete m_tray;
-            m_tray = nullptr;
+    const bool trayAlreadyEnabled = m_tray != nullptr;
+    if (enable == trayAlreadyEnabled)
+        return;
+
+    if (enable) {
+        if ( QSystemTrayIcon::isSystemTrayAvailable() ) {
+            m_tray = new QSystemTrayIcon(this);
+            connect( m_tray, &QSystemTrayIcon::activated,
+                     this, &MainWindow::trayActivated );
+            updateIcon();
+            m_tray->setContextMenu(m_trayMenu);
+            m_tray->show();
+
+            if ( isMinimized() )
+                hideWindow();
+        } else {
+            m_timerTrayAvailable.start();
         }
+    } else {
+        // Hide tray on Ubuntu (buggy sni-qt) before disabling.
+        m_tray->hide();
 
-        m_timerTrayAvailable.stop();
-    } else if (!m_tray) {
-        createTrayIfSupported();
+        delete m_tray;
+        m_tray = nullptr;
+
+        if ( isHidden() && !isMinimized() )
+            minimizeWindow();
     }
-
-    if (closeMinimizes() && isHidden() && !isMinimized())
-        minimizeWindow();
 }
 
 bool MainWindow::isWindowVisible() const
@@ -2217,7 +2231,7 @@ void MainWindow::loadSettings()
     m_trayMenu->setStyleSheet( theme().getToolTipStyleSheet() );
     m_menu->setStyleSheet( theme().getToolTipStyleSheet() );
 
-    initTray();
+    setTrayEnabled( !AppConfig().option<Config::disable_tray>() );
     updateTrayMenu();
 
     if (m_notifications != nullptr)
@@ -2803,24 +2817,6 @@ void MainWindow::onFilterChanged(const QRegExp &re)
     if (c)
         c->filterItems(re);
     updateItemPreview();
-}
-
-void MainWindow::createTrayIfSupported()
-{
-    if ( QSystemTrayIcon::isSystemTrayAvailable() ) {
-        Q_ASSERT(!m_tray);
-        m_tray = new QSystemTrayIcon(this);
-        connect( m_tray, &QSystemTrayIcon::activated,
-                 this, &MainWindow::trayActivated );
-        updateIcon();
-        m_tray->setContextMenu(m_trayMenu);
-        m_tray->show();
-
-        if ( isMinimized() )
-            hideWindow();
-    } else {
-        m_timerTrayAvailable.start();
-    }
 }
 
 void MainWindow::raiseLastWindowAfterMenuClosed()

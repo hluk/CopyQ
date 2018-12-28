@@ -450,7 +450,6 @@ private:
     void tabTreeMenuRequested(QPoint pos, const QString &groupPath);
     void tabCloseRequested(int tab);
     void onFilterChanged(const QRegExp &re);
-    void createTrayIfSupported();
 
     void raiseLastWindowAfterMenuClosed();
 
@@ -601,7 +600,7 @@ private:
 
     void updateToolBar();
 
-    void initTray();
+    void setTrayEnabled(bool enable = true);
 
     void runDisplayCommand(const Command &command);
 
