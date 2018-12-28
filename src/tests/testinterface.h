@@ -51,6 +51,9 @@ public:
     /// Stop GUI server and return true if server is was stopped or is not running.
     virtual QByteArray stopServer() = 0;
 
+    /// Returns an error if server doesn't stop after some interval.
+    virtual QByteArray waitForServerToStop() = 0;
+
     /// Return true if GUI server is not running.
     virtual bool isServerRunning() = 0;
 

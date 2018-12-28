@@ -249,6 +249,9 @@ private slots:
     void actionDialogSelection();
     void actionDialogSelectionInputOutput();
 
+    void exitConfirm();
+    void exitNoConfirm();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

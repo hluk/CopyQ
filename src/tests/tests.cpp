@@ -82,6 +82,7 @@ const auto actionDialogId = "focus:ActionDialog";
 const auto aboutDialogId = "focus:AboutDialog";
 const auto clipboardDialogId = "focus:ClipboardDialog";
 const auto clipboardDialogFormatListId = "focus:listWidgetFormats";
+const auto confirmExitDialogId = "focus::QPushButton in :QMessageBox";
 
 template <typename Fn1, typename Fn2>
 void runMultiple(Fn1 f1, Fn2 f2)
@@ -226,6 +227,11 @@ public:
                     + printClienAndServerStderr(errors, exitCode);
         }
 
+        return waitForServerToStop();
+    }
+
+    QByteArray waitForServerToStop() override
+    {
         PerformanceTimer perf;
 
         // Process events in case we own clipboard and the new process requests the contents.
@@ -695,9 +701,11 @@ void Tests::badSessionName()
 
 void Tests::commandExit()
 {
-    TEST( m_test->stopServer() );
+    RUN("exit", "Terminating server.\n")
+
+    TEST( m_test->waitForServerToStop() );
+
     QCOMPARE( run(Args("exit")), 1 );
-    TEST( m_test->startServer() );
 }
 
 void Tests::commandEval()
@@ -3175,6 +3183,20 @@ void Tests::actionDialogSelectionInputOutput()
     RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
     RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
     WAIT_ON_OUTPUT(args << "read" << "0", "A\nC");
+}
+
+void Tests::exitConfirm()
+{
+    RUN("keys" << clipboardBrowserId << "CTRL+Q" << confirmExitDialogId, "");
+    RUN("keys" << confirmExitDialogId << "ENTER", "");
+    TEST( m_test->waitForServerToStop() );
+}
+
+void Tests::exitNoConfirm()
+{
+    RUN("config" << "confirm_exit" << "false", "false\n")
+    RUN("keys" << clipboardBrowserId << "CTRL+Q", "");
+    TEST( m_test->waitForServerToStop() );
 }
 
 int Tests::run(
