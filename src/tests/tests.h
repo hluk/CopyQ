@@ -244,6 +244,11 @@ private slots:
     void shortcutDialogSameShortcut();
     void shortcutDialogCancel();
 
+    void actionDialogCancel();
+    void actionDialogAccept();
+    void actionDialogSelection();
+    void actionDialogSelectionInputOutput();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

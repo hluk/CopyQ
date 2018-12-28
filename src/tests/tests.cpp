@@ -78,6 +78,7 @@ const auto commandDialogSaveButtonId = "focus::QPushButton in :QMessageBox";
 const auto commandDialogListId = "focus:listWidgetItems";
 const auto shortcutButtonId = "focus::QPushButton in CommandDialog";
 const auto shortcutDialogId = "focus::QLineEdit in ShortcutDialog";
+const auto actionDialogId = "focus:ActionDialog";
 const auto aboutDialogId = "focus:AboutDialog";
 const auto clipboardDialogId = "focus:ClipboardDialog";
 const auto clipboardDialogFormatListId = "focus:listWidgetFormats";
@@ -3088,6 +3089,92 @@ void Tests::shortcutDialogCancel()
 
     RUN("keys" << commandDialogId << "ESCAPE" << clipboardBrowserId, "");
     RUN("commands()[0].shortcuts", "ctrl+f1\n")
+}
+
+void Tests::actionDialogCancel()
+{
+    const auto script = R"(
+        setCommands([{
+            name: 'test',
+            inMenu: true,
+            shortcuts: ['ctrl+f1'],
+            wait: true,
+            cmd: 'copyq settings test SHOULD_NOT_BE_SET'
+        }])
+        )";
+    RUN(script, "");
+
+    RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
+    RUN("keys" << actionDialogId << "ESCAPE" << clipboardBrowserId, "");
+    RUN("settings" << "test", "");
+}
+
+void Tests::actionDialogAccept()
+{
+    const auto script = R"(
+        setCommands([{
+            name: 'test',
+            inMenu: true,
+            shortcuts: ['ctrl+f1'],
+            wait: true,
+            cmd: 'copyq settings test SHOULD_BE_SET'
+        }])
+        )";
+    RUN(script, "");
+
+    RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
+    RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
+    WAIT_ON_OUTPUT("settings" << "test", "SHOULD_BE_SET");
+}
+
+void Tests::actionDialogSelection()
+{
+    const auto script = R"(
+        setCommands([{
+            name: 'test',
+            inMenu: true,
+            shortcuts: ['ctrl+f1'],
+            wait: true,
+            cmd: 'copyq settings test %1'
+        }])
+        )";
+    RUN(script, "");
+
+    const auto tab = testTab(1);
+    const auto args = Args("tab") << tab;
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN("setCurrentTab" << tab, "");
+    RUN(args << "selectItems" << "0" << "2", "true\n");
+
+    RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
+    RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
+    WAIT_ON_OUTPUT("settings" << "test", "A\nC");
+}
+
+void Tests::actionDialogSelectionInputOutput()
+{
+    const auto script = R"(
+        setCommands([{
+            name: 'test',
+            inMenu: true,
+            shortcuts: ['ctrl+f1'],
+            wait: true,
+            input: 'text/plain',
+            output: 'text/plain',
+            cmd: 'copyq input'
+        }])
+        )";
+    RUN(script, "");
+
+    const auto tab = testTab(1);
+    const auto args = Args("tab") << tab;
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN("setCurrentTab" << tab, "");
+    RUN(args << "selectItems" << "0" << "2", "true\n");
+
+    RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
+    RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
+    WAIT_ON_OUTPUT(args << "read" << "0", "A\nC");
 }
 
 int Tests::run(
