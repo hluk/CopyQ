@@ -72,6 +72,7 @@ ActionDialog::ActionDialog(QWidget *parent)
 {
     ui->setupUi(this);
     ui->comboBoxCommands->setFont( ui->commandEdit->commandFont() );
+    ui->commandEdit->setFocus();
 
     connect(ui->buttonBox, &QDialogButtonBox::clicked,
             this, &ActionDialog::onButtonBoxClicked);
