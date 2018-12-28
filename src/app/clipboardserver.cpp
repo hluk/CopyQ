@@ -304,6 +304,16 @@ bool ClipboardServer::askToQuit()
         messageBox.addButton(tr("Cancel Exiting"), QMessageBox::RejectRole);
         messageBox.addButton(tr("Exit Anyway"), QMessageBox::AcceptRole);
 
+        // Close the message box automatically after all running commands finish.
+        QTimer timerCheckRunningCommands;
+        timerCheckRunningCommands.setInterval(1000);
+        connect( &timerCheckRunningCommands, &QTimer::timeout,
+                 this, [&]() {
+                    if ( !hasRunningCommands() )
+                        messageBox.accept();
+                 });
+        timerCheckRunningCommands.start();
+
         return messageBox.exec() == QMessageBox::Accepted;
     }
 
