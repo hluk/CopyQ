@@ -6,6 +6,7 @@ exclude_files=(
     qxt
     /usr
     plugins/itemfakevim/fakevim
+    src/gui/fix_icon_id.h
 )
 
 # Exclude generated files.
