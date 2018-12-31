@@ -232,12 +232,12 @@
         <translation>Сохранить элементы во вкладке с данным именем (оставьте пустым для сохранения в текущей вкладке)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="216"/>
+        <location filename="../src/gui/actiondialog.cpp" line="217"/>
         <source>Command saved</source>
         <translation>Команда сохранена</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="217"/>
+        <location filename="../src/gui/actiondialog.cpp" line="218"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>Команда была сохранена и теперь она доступна из меню элементов.↵
@@ -502,24 +502,24 @@ You can set up the command in preferences.</source>
         <translation type="vanished">Поиск %p%...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="789"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1592"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="818"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1620"/>
         <source>Cannot Add New Items</source>
         <translation>Не удалось добавить новые элементы</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="790"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1593"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="819"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1621"/>
         <source>Tab is full. Failed to remove any items.</source>
         <translation>Вкладка заполнена. Ошибка удаления каких-либо элементов.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1847"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1858"/>
         <source>Discard Changes?</source>
         <translation>Отменить изменения?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1848"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1859"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Вы точно хотите &lt;strong&gt;отменить изменения&lt;/strong&gt;?</translation>
     </message>
@@ -574,27 +574,27 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="89"/>
+        <location filename="../src/app/clipboardserver.cpp" line="91"/>
         <source>CopyQ server is already running.</source>
         <translation>Сервер CopyQ уже запущен.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="299"/>
+        <location filename="../src/app/clipboardserver.cpp" line="300"/>
         <source>Cancel Active Commands</source>
         <translation>Отменить запущенные команды</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="300"/>
+        <location filename="../src/app/clipboardserver.cpp" line="301"/>
         <source>Cancel active commands and exit?</source>
         <translation>Отменить запущенные команды и выйти?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="303"/>
+        <location filename="../src/app/clipboardserver.cpp" line="304"/>
         <source>Cancel Exiting</source>
         <translation>Отменить выход</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="304"/>
+        <location filename="../src/app/clipboardserver.cpp" line="305"/>
         <source>Exit Anyway</source>
         <translation>Всё равно выйти</translation>
     </message>
@@ -602,7 +602,7 @@ You can set up the command in preferences.</source>
 <context>
     <name>CommandCompleter</name>
     <message>
-        <location filename="../src/gui/commandcompleter.cpp" line="234"/>
+        <location filename="../src/gui/commandcompleter.cpp" line="231"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
         <translation>Ctrl+Пробел</translation>
@@ -733,27 +733,27 @@ You can set up the command in preferences.</source>
         <translation>Имя команды, показываемое в меню</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="156"/>
+        <location filename="../src/ui/commandwidget.ui" line="216"/>
         <source>Type of Action</source>
         <translation>Тип действия</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="177"/>
+        <location filename="../src/ui/commandwidget.ui" line="237"/>
         <source>Run the command automatically if clipboard has new content</source>
         <translation>Запускать команду автоматически про появлении нового содержимого в буфере обмена</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="180"/>
+        <location filename="../src/ui/commandwidget.ui" line="240"/>
         <source>Auto&amp;matic</source>
         <translation>(&amp;m) Автоматически</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="187"/>
+        <location filename="../src/ui/commandwidget.ui" line="247"/>
         <source>Show command in context menu of matching items</source>
         <translation>Показать команду в контекстном меню подходящих элементов</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="190"/>
+        <location filename="../src/ui/commandwidget.ui" line="250"/>
         <source>In M&amp;enu</source>
         <translation>(&amp;e) В меню</translation>
     </message>
@@ -763,12 +763,12 @@ You can set up the command in preferences.</source>
         <translation>(&amp;g) Глобальный ярлык:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="227"/>
+        <location filename="../src/ui/commandwidget.ui" line="287"/>
         <source>Match Items</source>
         <translation>Совпадение элементов</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="324"/>
+        <location filename="../src/ui/commandwidget.ui" line="384"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
         <translation>Данные этого MIME-типа будут отправлены в стандартный ввод команды.
@@ -779,7 +779,7 @@ Leave empty to disable this.</source>
         <translation type="vanished">(&amp;o) Формат:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="349"/>
+        <location filename="../src/ui/commandwidget.ui" line="143"/>
         <source>Comman&amp;d</source>
         <translation>(&amp;d) Команда</translation>
     </message>
@@ -788,67 +788,72 @@ Leave empty to disable this.</source>
         <translation type="vanished">(&amp;p) Копировать во вкладку:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="464"/>
+        <location filename="../src/ui/commandwidget.ui" line="481"/>
         <source>Hide window after command is activated from context menu of an item</source>
         <translation>Скрыть окно после активации команды из контекстного меню элемента</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="583"/>
+        <location filename="../src/ui/commandwidget.ui" line="600"/>
         <source>Change item, don&apos;t create any new items</source>
         <translation>Изменить элемент, не создавать новых элементов</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="586"/>
+        <location filename="../src/ui/commandwidget.ui" line="603"/>
         <source>Tr&amp;ansform</source>
         <translation>(&amp;a) Трансформация</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="516"/>
+        <location filename="../src/ui/commandwidget.ui" line="533"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
         <translation>Создать элементы из стандартного вывода программы (оставьте пустым для отключения)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="284"/>
+        <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Используйте команду только для элементов, скопированных в буфер обмена из окна с текстом заголовка, который соответствует этому регулярному выражению (оставьте пустым, чтобы соответствовало любому окну). На OS X содержит имя приложения, сопровождаемое тире  (&amp;quot; 2-&amp;quot; 3) тогда заголовок окна. Например, &amp;quot; 4 Safari - GitHub &amp;quot; 5.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="197"/>
+        <location filename="../src/ui/commandwidget.ui" line="257"/>
         <source>Global Shortcut</source>
         <translation>Глобальные ярлыки</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="274"/>
+        <location filename="../src/ui/commandwidget.ui" line="334"/>
         <source>&amp;Window:</source>
         <translation>(&amp;w) Окно:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="267"/>
+        <location filename="../src/ui/commandwidget.ui" line="327"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Используйте команду только для элементов, текст которых совпадает с регулярным выражением (оставьте пустым для соответствия чему-угодно)&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Примеры:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадающий URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; совпадающие имена файлов PDF &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение одного символа &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение удаленного мультимедиа &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="204"/>
+        <location filename="../src/ui/commandwidget.ui" line="175"/>
+        <source>&amp;Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="264"/>
         <source>Script</source>
         <translation>Сценарий</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="211"/>
+        <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
         <translation>Дисплей</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="257"/>
+        <location filename="../src/ui/commandwidget.ui" line="317"/>
         <source>&amp;Content:</source>
         <translation>(&amp;c) Содержимое:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="291"/>
+        <location filename="../src/ui/commandwidget.ui" line="351"/>
         <source>&amp;Filter:</source>
         <translation>(&amp;f) Фильтр:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="301"/>
+        <location filename="../src/ui/commandwidget.ui" line="361"/>
         <source>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
 &lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
@@ -865,27 +870,27 @@ Leave empty to disable this.</source>
 &lt;p&gt;Используйте  &lt;b&gt;|&lt;/b&gt; для цепи команд (передать стандартному выводу следующей команды).&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="314"/>
+        <location filename="../src/ui/commandwidget.ui" line="374"/>
         <source>For&amp;mat:</source>
         <translation>(&amp;) Формат:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="383"/>
+        <location filename="../src/ui/commandwidget.ui" line="400"/>
         <source>Action</source>
         <translation>Действие</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="406"/>
+        <location filename="../src/ui/commandwidget.ui" line="423"/>
         <source>Cop&amp;y to tab:</source>
         <translation>(&amp;y) Копировать во вкладку:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="416"/>
+        <location filename="../src/ui/commandwidget.ui" line="433"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
         <translation>Название вкладки для копирования новых элементов (оставьте пустым, чтобы не копировать)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="428"/>
+        <location filename="../src/ui/commandwidget.ui" line="445"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
@@ -894,22 +899,22 @@ Note: If this is applied automatically, no other automatic commands are executed
 Примечание: Если применяется автоматически, никакие другие автоматические команды не выполняются.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="433"/>
+        <location filename="../src/ui/commandwidget.ui" line="450"/>
         <source>&amp;Remove Item</source>
         <translation>(&amp;r) Удалить объект</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="443"/>
+        <location filename="../src/ui/commandwidget.ui" line="460"/>
         <source>Menu Action</source>
         <translation>Меню действия</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="467"/>
+        <location filename="../src/ui/commandwidget.ui" line="484"/>
         <source>&amp;Hide main window after activation</source>
         <translation>(&amp;h) Скрыть главное окно после активации</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="627"/>
+        <location filename="../src/ui/commandwidget.ui" line="675"/>
         <source>Show Advanced</source>
         <translation>Показать Расширенный</translation>
     </message>
@@ -919,22 +924,22 @@ Note: If this is applied automatically, no other automatic commands are executed
         <translation>(&amp;s) Ярлык:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="477"/>
+        <location filename="../src/ui/commandwidget.ui" line="494"/>
         <source>Command options</source>
         <translation>Настройки команды</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="573"/>
+        <location filename="../src/ui/commandwidget.ui" line="590"/>
         <source>Show action dialog before executing the command</source>
         <translation>Показывать диалог действий перед выполнением команды</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="576"/>
+        <location filename="../src/ui/commandwidget.ui" line="593"/>
         <source>&amp;Wait</source>
         <translation>(&amp;w) Подождите</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="506"/>
+        <location filename="../src/ui/commandwidget.ui" line="523"/>
         <source>O&amp;utput:</source>
         <translation>(&amp;u) Вывод:</translation>
     </message>
@@ -943,27 +948,27 @@ Note: If this is applied automatically, no other automatic commands are executed
         <translation type="obsolete">Создать элементы из стандартного вывода программы (оставьте пустым для отключения).</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="526"/>
+        <location filename="../src/ui/commandwidget.ui" line="543"/>
         <source>&amp;Separator:</source>
         <translation>(&amp;s) Разделитель:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="536"/>
+        <location filename="../src/ui/commandwidget.ui" line="553"/>
         <source>Separator to match for splitting the output to multiple items</source>
         <translation>Разделитель для соответствия разделения вывода на несколько элементов</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="539"/>
+        <location filename="../src/ui/commandwidget.ui" line="556"/>
         <source>\n</source>
         <translation>\n</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="546"/>
+        <location filename="../src/ui/commandwidget.ui" line="563"/>
         <source>Output &amp;tab:</source>
         <translation>(&amp;t) Вкладка вывода:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="556"/>
+        <location filename="../src/ui/commandwidget.ui" line="573"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
         <translation>Сохранить элементы на вкладке с указанным именем (оставьте пустым, чтобы сохранить в первой вкладке)</translation>
     </message>
@@ -1167,7 +1172,7 @@ CTRL and up or down key.</source>
         <translation type="vanished">Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2166"/>
+        <location filename="../src/tests/tests.cpp" line="2337"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -2584,13 +2589,13 @@ Set to 0 to disable.</source>
         <translation>Удалить метку %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="736"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="733"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Важный</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="757"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="754"/>
         <source>Clear all tags</source>
         <translation>Очистить все метки</translation>
     </message>
@@ -2729,27 +2734,27 @@ Set to 0 to disable.</source>
         <translation>(&amp;h) Помощь</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1716"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1730"/>
         <source>CopyQ Options for Import</source>
         <translation>Параметры CopyQ для импорта</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2933"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2929"/>
         <source>&amp;Show/Hide</source>
         <translation>(&amp;s) Показать/спрятать</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3186"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3182"/>
         <source>CopyQ Options for Export</source>
         <translation>Параметры CopyQ для экспорта</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3207"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3203"/>
         <source>CopyQ Export Error</source>
         <translation>Ошибка копирования CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3208"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3204"/>
         <source>Failed to export file %1!</source>
         <translation>Не удалось экспортировать файл% 1!</translation>
     </message>
@@ -2764,7 +2769,7 @@ Set to 0 to disable.</source>
         <translation>(&amp;d) Отключить хранение буфера обмен</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1921"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1935"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>Ошибка CopyQ</translation>
@@ -2815,32 +2820,32 @@ Set to 0 to disable.</source>
         <translation>Элементы CopyQ (* .cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3296"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3292"/>
         <source>CopyQ Import Error</source>
         <translation>Ошибка копирования CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3297"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3293"/>
         <source>Failed to import file %1!</source>
         <translation>Не удалось импортировать файл %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3448"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3444"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Удалить все вкладки в группе?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3449"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3445"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Вы хотите удалить &lt;strong&gt;все вкладки&lt;/strong&gt; в группе &lt;strong&gt;%1 &lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3496"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3492"/>
         <source>Remove Tab?</source>
         <translation>Удалить вкладку ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3493"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Вы хотите удалить вкладку &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2911,13 +2916,13 @@ Set to 0 to disable.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="388"/>
+        <location filename="../src/common/common.cpp" line="434"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;Скрыто&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="394"/>
+        <location filename="../src/common/common.cpp" line="440"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2927,10 +2932,16 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="404"/>
+        <location filename="../src/common/common.cpp" line="450"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;Изображение&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/common/common.cpp" line="452"/>
+        <source>&lt;ITEMS&gt;</source>
+        <comment>Label for copied items in clipboard</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&lt;FILES&gt;</source>
@@ -2938,13 +2949,13 @@ Set to 0 to disable.</source>
         <translation type="vanished">&lt;Файлы&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="406"/>
+        <location filename="../src/common/common.cpp" line="454"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;Пусто&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="408"/>
+        <location filename="../src/common/common.cpp" line="456"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;Данные&gt;</translation>
@@ -3600,7 +3611,7 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="75"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="76"/>
         <source>COMMAND</source>
         <translation>Команда</translation>
     </message>
@@ -3698,39 +3709,39 @@ Print version of program and libraries.</source>
 Печатать версию программы и библиотек.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="75"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="76"/>
         <source>Usage: copyq [%1]</source>
         <translation>Использование: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="76"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
         <source>Starts server if no command is specified.</source>
         <translation>Запуск сервера, если команда не указана.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
         <source>  COMMANDs:</source>
         <translation>  Команды:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="82"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="83"/>
         <source>NOTES:</source>
         <translation>ЗАМЕТКИ:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="84"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="85"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  -Используйте аргумент двойной тире (-) для чтения все следующие аргументы без расширения escape
 -последовательности (например, \n, \t и другие).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="86"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="87"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  -Использования? для MIME печати доступных типов MIME (значение по умолчанию — «text/plain»).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="91"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="92"/>
         <source>Invalid number of arguments!</source>
         <translation>Неверное число аргументов!</translation>
     </message>
@@ -3739,29 +3750,29 @@ Print version of program and libraries.</source>
         <translation type="vanished">Построен с: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="788"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="807"/>
         <source>Command not found!</source>
         <translation>Команда не найдена!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="888"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="907"/>
         <source>Terminating server.
 </source>
         <translation>Сервер завершает работу.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2572"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2611"/>
         <source>Exception</source>
         <translation>Исключение</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2573"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2612"/>
         <source>Exception in %1</source>
         <translation>Исключение в %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2615"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2654"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Не удается скопировать в буфер обмена!</translation>
     </message>
@@ -3770,22 +3781,22 @@ Print version of program and libraries.</source>
         <translation type="vanished">Не удалось задать буфер обмена!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="690"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="709"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Не удается сохранить в файл «%1»!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="83"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="84"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  -Используйте аргумент тире (-) для чтения данных из стандартного ввода.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="695"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="714"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Не удается импортировать файл «%1»!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1338"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1357"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Недопустимый параметр «%1»!</translation>
     </message>
