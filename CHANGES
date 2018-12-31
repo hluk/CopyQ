@@ -1,3 +1,29 @@
+v3.7.2
+- Backspace deletes last character in tray menu search instead of clearing it
+  completely
+- Window title shows "<ITEMS>" label when non-text items are copied
+- Command dialog uses simpler layout for easier command editing
+- Command dialog shows simple command description
+- Remove empty lines at the end of copied and exported commands
+- New script functions to calculate hash: md5sum, sha1sum, sha256sum, sha512sum
+- Retrieving clipboard data is interrupted if it's slow
+- Editing commands no longer causes high CPU usage
+- Completion menu for command editor is resized once
+- Items are rendered faster and are shown with incorrect size initially while
+  scrolling instead of showing empty items
+- When Action dialog opens, the command editor is focused instead of the combo
+  box containing command history (this consistent with default focus behavior
+  on OS X)
+- Clipboard monitor process loads configuration only at start
+- Autostart option now works in the Flatpak package
+- OSX: Application no longer crashes when using the main window close button
+- X11: TIMESTAMP clipboard format is used to avoid retrieving unchanged content
+  unnecessarily
+- X11: Data installation path can be overridden with CMake options
+  (CMAKE_INSTALL_DATAROOTDIR and DATA_INSTALL_PREFIX)
+- X11: Store current window title with new clipboard data right after
+  clipboard-change signal is received
+
 v3.7.1
 - Store formats specified in Format field in automatic commands
 - Fix restoring geometry on screens with different scaling factors
