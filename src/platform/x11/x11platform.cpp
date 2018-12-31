@@ -207,7 +207,11 @@ void X11Platform::setAutostartEnabled(bool enable)
         desktopFile2.write(defaultDesktopFileContent);
     }
 
+#ifdef COPYQ_AUTOSTART_COMMAND
+    QString cmd = COPYQ_AUTOSTART_COMMAND;
+#else
     QString cmd = "\"" + QApplication::applicationFilePath() + "\"";
+#endif
     const QString sessionName = qApp->property("CopyQ_session_name").toString();
     if ( !sessionName.isEmpty() )
         cmd.append(" -s " + sessionName);
