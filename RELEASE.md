@@ -39,7 +39,7 @@ Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
 - update "tag" and "commit" in "com.github.hluk.copyq.json" file,
 - push to fork,
 - create pull request,
-- add comment "bot, build",
+- wait for build to finish (flathubbot will add comments),
 - [verify the build](https://flathub.org/builds/#/),
 - merge the changes if build is OK.
 
