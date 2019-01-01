@@ -863,7 +863,7 @@ Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatis
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Geavanceerde</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
@@ -1759,7 +1759,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="414"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Deze actie zet al je voorkeuren (in alle tabbladen) terug naar de standaardwaarden.&lt;br /&gt;1&lt;br /&gt;2&lt;br /&gt;Weet je zeker dat je &lt;sterke&gt;3alle voorkeuren&lt;/sterke&gt;4wilt resetten?</translation>
+        <translation>Deze actie zet al je voorkeuren (in alle tabbladen) terug naar de standaardwaarden.&lt;br /&gt;&lt;br /&gt;Weet je zeker dat je &lt;strong&gt;alle voorkeuren&lt;/strong&gt;wilt resetten?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="516"/>
@@ -1872,7 +1872,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="328"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation>Bewaar item (&lt;sterk&gt;1F2&lt;/sterk&gt;2)</translation>
+        <translation>Bewaar item (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="329"/>
@@ -1957,7 +1957,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="616"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation>Om versleutelde items op andere computers of tijdens een sessie te delen, hebt u een openbare en een geheime sleutelbestand nodig: &lt;ul&gt;1&lt;li&gt;2%1&lt;/li&gt;3&lt;li&gt;4%2&lt;br /&gt;5(Bewaar deze geheime sleutel op een veilige plaats.)&lt;/li&gt;&lt;/li&gt;6&lt;/ul&gt;7</translation>
+        <translation>Om versleutelde items op andere computers of tijdens een sessie te delen, hebt u een openbare en een geheime sleutelbestand nodig: &lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt; (Bewaar deze geheime sleutel op een veilige plaats.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
@@ -2088,7 +2088,8 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;1Specificeer de namen van tabbladen (één per regel) die automatisch moeten worden versleuteld en gedecodeerd.&lt;/p&gt;2
+&lt;p&gt;3Tabbladinterval instellen bij geschiedenis om gedecodeerde items weer uit het geheugen te verwijderen.&lt;/p&gt;4</translation>
     </message>
 </context>
 <context>
@@ -2096,17 +2097,17 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="75"/>
         <source>FakeVim</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="77"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim plugin is onderdeel van Qt Creator</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="79"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Emuleren Vim editor tijdens het bewerken van items.</translation>
     </message>
 </context>
 <context>
@@ -2114,12 +2115,12 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Inschakelen FakeVim voor het Bewerken van Items</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pad naar configuratiebestand:</translation>
     </message>
 </context>
 <context>
@@ -2127,12 +2128,12 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="88"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Afbeeldingen</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="90"/>
         <source>Display images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afbeeldingen weergeven.</translation>
     </message>
 </context>
 <context>
@@ -2140,42 +2141,42 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale &amp;Breedte Afbeelding:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>De maximale breedte van de afbeelding die wordt weergegeven in de geschiedenis (op nul zetten voor originele grootte)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale &amp;Hoogte Afbeelding:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>De maximale hoogte van de afbeelding die wordt weergegeven in de geschiedenis (op nul zetten voor de originele grootte)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Plaatjes bewerker commando:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewerker voor de ondersteunde type plaatjes behalve SVG plaatjes.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;SVG bewerken:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewerkings opdracht voor SVG bestanden.</translation>
     </message>
 </context>
 <context>
@@ -2188,7 +2189,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
         <source>Display notes for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Weergeven notities voor artikelen.</translation>
     </message>
 </context>
 <context>
@@ -2196,27 +2197,27 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Positie Opmerkingen Venster</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Boven Item</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>Onder Ite&amp;m</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>Naast Ite&amp;m</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon Too&amp;l Tip</translation>
     </message>
 </context>
 <context>
@@ -2224,27 +2225,27 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Toevoegen</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="53"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="66"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Verwijderen</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>&amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Omhoog</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>&amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Omlaag</translation>
     </message>
 </context>
 <context>
@@ -2252,32 +2253,32 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="230"/>
         <source>Cannot Remove Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan vastgepinde notities niet verwijderen</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="231"/>
         <source>Unpin items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder eerst de speld om de notities te kunnen verwijderen.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="409"/>
         <source>Pin</source>
-        <translation type="unfinished"></translation>
+        <translation>Speld</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="416"/>
         <source>Unpin</source>
-        <translation type="unfinished"></translation>
+        <translation>Losmaken speld</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="117"/>
         <source>Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Vastgemaakte Spelden</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="120"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt; Speld items om ze in de huidige rij te vergrendelen en te voorkomen dat ze kunnen worden verwijderd (behalve als ze geen speld hebben).&lt;/p&gt;&lt;p&gt; Biedt snelkoppelingen en scriptfunctionaliteit.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2286,27 +2287,27 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../plugins/itemsync/itemsync.cpp" line="123"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished">Bladeren...</translation>
+        <translation>Bladeren...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>Open Directory voor synchronisatie</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Er kan geen synchronisatie map worden gemaakt</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="159"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchroniseren</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="161"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchroniseer items en notities met een map op onze schijf.</translation>
     </message>
 </context>
 <context>
@@ -2314,17 +2315,17 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="513"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Mislukt om tabblad te synchroniseren &quot;%1&quot; met map &quot;%2&quot;!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
         <source>Remove Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Items verwijderen?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="549"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wilt u echt &lt;strong&gt; 1 Notities en bijbehorende bestanden&lt;/strong&gt; verwijderen2?</translation>
     </message>
 </context>
 <context>
@@ -2332,7 +2333,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
         <source>Synchronization Tabs and Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronisatie van Tabbladen en Mappen</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
@@ -2343,17 +2344,17 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabblad Naam</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Locatie</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
         <source>Files to Item Data Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestanden aanpassen naar andere formaten</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
@@ -2364,7 +2365,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitbreidingen</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
