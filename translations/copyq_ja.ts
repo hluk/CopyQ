@@ -791,7 +791,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>高度(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"/>
@@ -3784,7 +3784,7 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="434"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
-        <translation>&lt;HIDDEN&gt;</translation>
+        <translation>&lt;非表示&gt;</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/common/common.cpp" line="440"/>
@@ -3798,30 +3798,30 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="450"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation>&lt;IMAGE&gt;</translation>
+        <translation>&lt;画像&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="452"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;アイテム&gt;</translation>
     </message>
     <message>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
-        <translation type="vanished">&lt;FILES&gt;</translation>
+        <translation>&lt;ファイル&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="454"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation>&lt;EMPTY&gt;</translation>
+        <translation>&lt;空&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="456"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
-        <translation>&lt;DATA&gt;</translation>
+        <translation>&lt;データ&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="49"/>
