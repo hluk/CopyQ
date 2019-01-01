@@ -82,7 +82,7 @@ Install `copyq` package.
 
 ### Arch Linux
 
-Install [copyq](https://aur.archlinux.org/packages/copyq/)<sup>AUR</sup> package.
+Install `copyq` package.
 
 ### Other Linux Distributions
 
