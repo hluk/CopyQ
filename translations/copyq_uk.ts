@@ -509,7 +509,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"></translation>
+        <translation>Вміст:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
@@ -580,7 +580,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>Знайти:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="62"/>
@@ -590,7 +590,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="72"/>
         <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти вибрані команди...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
@@ -710,7 +710,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="240"/>
         <source>Auto&amp;matic</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматично</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="247"/>
@@ -742,7 +742,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
+        <translation>Команда</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="481"/>
@@ -777,7 +777,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
         <source>&amp;Window:</source>
-        <translation type="unfinished"></translation>
+        <translation>Вікно:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
@@ -802,12 +802,12 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="317"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>Вміст:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>Фільтр:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="361"/>
@@ -823,7 +823,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="400"/>
@@ -833,7 +833,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="423"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Копіювати до вкладки:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="433"/>
@@ -852,7 +852,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="450"/>
         <source>&amp;Remove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Видалити елемент</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="460"/>
@@ -887,7 +887,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="593"/>
         <source>&amp;Wait</source>
-        <translation type="unfinished"></translation>
+        <translation>Почекайте</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="523"/>
@@ -897,7 +897,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="543"/>
         <source>&amp;Separator:</source>
-        <translation type="unfinished"></translation>
+        <translation>Розділювач:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="553"/>
@@ -912,7 +912,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="563"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished">Вкладка для &amp;виводу:</translation>
+        <translation>Вкладка для &amp;виводу:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="573"/>
@@ -1005,7 +1005,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Системні піктограми</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
@@ -1015,7 +1015,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Скинути тему</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
@@ -1025,12 +1025,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Завантажити тему</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Зберегти тему</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
@@ -1040,7 +1040,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Редагувати тему</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
@@ -1228,7 +1228,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="180"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматичний запуск</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="187"/>
