@@ -438,7 +438,7 @@
                       <property name="toolTip">
                        <string>Transparency of main window if focused.
 
-Note: This is not be supported on all systems.</string>
+Note: This is not supported on all systems.</string>
                       </property>
                       <property name="suffix">
                        <string notr="true">%</string>
