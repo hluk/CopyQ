@@ -1194,7 +1194,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Erweitert</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
@@ -5032,12 +5032,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <location filename="../src/common/common.cpp" line="452"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;ELEMENTE&gt;</translation>
     </message>
     <message>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
-        <translation type="vanished">&lt;DATEI&gt;</translation>
+        <translation>&lt;DATEIEN&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="454"/>
