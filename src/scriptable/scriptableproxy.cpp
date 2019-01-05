@@ -1159,7 +1159,7 @@ void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
 
 void ScriptableProxy::runInternalAction(const QVariantMap &data, const QString &command)
 {
-    INVOKE2(runInternalAction, (data, command));
+    INVOKE_NO_SNIP2(runInternalAction, (data, command));
     auto action = new Action();
     action->setCommand(command);
     action->setData(data);

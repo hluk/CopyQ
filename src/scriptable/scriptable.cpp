@@ -2430,13 +2430,12 @@ void Scriptable::onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwn
                .arg(isClipboardData(data) ? "clipboard" : "selection")
                .arg(getTextData(data, mimeOwner)) );
 
-    Command command;
-    command.cmd =
+    const QString command =
         ownership == ClipboardOwnership::Own ? "copyq onOwnClipboardChanged"
       : ownership == ClipboardOwnership::Hidden ? "copyq onHiddenClipboardChanged"
       : "copyq onClipboardChanged";
 
-    m_proxy->action(data, command);
+    m_proxy->runInternalAction(data, command);
 }
 
 void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash)
