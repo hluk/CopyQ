@@ -2339,7 +2339,8 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Synchroniseer de inhoud van de &lt;strong&gt;tab&lt;/strong&gt; met een map in de opgegeven &lt;strong&gt;locatie&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;stel&lt;strong&gt;een leeg pad in&lt;/strong&gt; om items niet op te slaan in &lt;strong&gt;de tab&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
@@ -2360,7 +2361,8 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;stel  MIME typen in op &lt;strong&gt;-&lt;/strong&gt; (streepje) om deze bestanden te negeren. Alle andere onbekende of verborgen bestanden worden al genegeerd.&lt;/p&gt;
+&lt;p&gt;voorbeeld: Laad &lt;strong&gt;txt&lt;/strong&gt; bestandsextensie als &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
@@ -2370,7 +2372,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item MIME Type</source>
-        <translation type="unfinished"></translation>
+        <translation>MIME type notitie</translation>
     </message>
 </context>
 <context>
@@ -2378,43 +2380,43 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="154"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Een label toevoegen</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="159"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Een label verwijderen</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="178"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Label als %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="184"/>
         <source>Remove tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder label %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="733"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"></translation>
+        <translation>Belangrijk</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="754"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle labels wissen</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="130"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Labels</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="132"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Labels weergeven voor notities.</translation>
     </message>
 </context>
 <context>
@@ -2422,37 +2424,37 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>In het dialoogvenster Opdrachten kunnen menu-items voor het toevoegen en verwijderen van aangepaste labels worden toegevoegd en aangepast.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer info is beschikbaar op &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki pagina&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam Label</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Overeenkomen</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Style Sheet</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Kleur</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Pictogram</translation>
     </message>
 </context>
 <context>
@@ -2460,12 +2462,12 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="76"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekst</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="78"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geef de platte tekst en eenvoudige HTML-items weer.</translation>
     </message>
 </context>
 <context>
@@ -2473,17 +2475,17 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML volledig weergeven en opslaan</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximaal aantal weer te geven regels (0 om alle regels weer te geven):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale hoogte in pixels (0 voor geen limiet):</translation>
     </message>
 </context>
 <context>
@@ -2491,7 +2493,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>CopyQ Log</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ logboek</translation>
     </message>
 </context>
 <context>
@@ -2499,154 +2501,154 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="467"/>
         <source>Exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Afsluiten?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="468"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wilt u CopyQ&lt;strong&gt;geforceerd afsluiten&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="520"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bestand</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="562"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bewerken</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="586"/>
         <source>&amp;Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Item</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="590"/>
         <source>&amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tabs</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="615"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Help</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="640"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nieuw Tabblad</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="642"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Hernoemen &amp;Groep %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="644"/>
         <source>Re&amp;name Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Her&amp;noemen Tab %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="646"/>
         <source>Re&amp;move Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen Tab%1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="648"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen Groep %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="650"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aanpassen Picogram van Tab</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1175"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Inschakelen Klembord Opslag</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1176"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitschakelen Opslaan op Klembord</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1730"/>
         <source>CopyQ Options for Import</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Opties voor Importeren</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1935"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Fout</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2929"/>
         <source>&amp;Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Weergeven/Verbergen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3182"/>
         <source>CopyQ Options for Export</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ opties voor exporteren</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3203"/>
         <source>CopyQ Export Error</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Export Fout</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3204"/>
         <source>Failed to export file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Mislukt om bestand te exporteren %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="697"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;klembord: 1%</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="298"/>
         <source>CopyQ Items (*.cpq)</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Notities(*.cpq)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3292"/>
         <source>CopyQ Import Error</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Fout Bij Importeren</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3293"/>
         <source>Failed to import file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Het is niet gelukt om bestand %1 te importeren!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3444"/>
         <source>Remove All Tabs in Group?</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle tabbladen in de groep verwijderen?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3445"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wilt u &lt;strong&gt;alle tabbladen&lt;/strong&gt; in groep &lt;strong&gt;%1&lt;/strong&gt; verwijderen?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3492"/>
         <source>Remove Tab?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabblad verwijderen?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3493"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wilt u het tabblad &lt;strong&gt;%1&lt;/strong&gt; verwijderen?</translation>
     </message>
 </context>
 <context>
@@ -2654,54 +2656,54 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/processmanagerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Proces Manager</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="65"/>
         <source>Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestart</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="67"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="212"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="337"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltooid</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="69"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Naam</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="71"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Status</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="201"/>
         <source>Running</source>
-        <translation type="unfinished"></translation>
+        <translation>Actief</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="212"/>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Mislukt</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="238"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="337"/>
         <source>Starting</source>
-        <translation type="unfinished"></translation>
+        <translation>Start</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="357"/>
         <source>Terminate</source>
-        <translation type="unfinished"></translation>
+        <translation>Beëindigen</translation>
     </message>
 </context>
 <context>
@@ -2709,7 +2711,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="304"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informatie</translation>
     </message>
 </context>
 <context>
@@ -2718,7 +2720,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../src/common/common.cpp" line="434"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;VERBORGEN&gt;</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/common/common.cpp" line="440"/>
@@ -2733,37 +2735,37 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../src/common/common.cpp" line="450"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;AFBEELDING&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="452"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;NOTITIES&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="454"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;LEEG&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="456"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;GEGEVENS&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="49"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation type="unfinished"></translation>
+        <translation>Backspace</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="51"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2016"/>
