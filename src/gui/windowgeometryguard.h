@@ -46,7 +46,6 @@ private:
     QWidget *m_window;
 
     QTimer m_timerSaveGeometry;
-    QTimer m_timerRestoreGeometry;
     QTimer m_timerUnlockGeometry;
 };
 
