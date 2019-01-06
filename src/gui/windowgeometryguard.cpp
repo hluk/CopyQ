@@ -52,7 +52,10 @@ bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
 
     switch (type) {
     case QEvent::Show:
-        restoreWindowGeometry();
+        if ( !isWindowGeometryLocked() ) {
+            m_timerSaveGeometry.stop();
+            m_timerRestoreGeometry.start();
+        }
         break;
 
     case QEvent::Move:
@@ -79,6 +82,7 @@ WindowGeometryGuard::WindowGeometryGuard(QWidget *window)
     connect( QApplication::desktop(), &QDesktopWidget::resized, this, &WindowGeometryGuard::restoreWindowGeometry );
     connect( QApplication::desktop(), &QDesktopWidget::workAreaResized, this, &WindowGeometryGuard::restoreWindowGeometry );
     initSingleShotTimer(&m_timerSaveGeometry, 250, this, &WindowGeometryGuard::saveWindowGeometry);
+    initSingleShotTimer(&m_timerRestoreGeometry, 0, this, &WindowGeometryGuard::restoreWindowGeometry);
     initSingleShotTimer(&m_timerUnlockGeometry, 250, this, &WindowGeometryGuard::unlockWindowGeometry);
 
     m_window->installEventFilter(this);
@@ -117,7 +121,6 @@ void WindowGeometryGuard::restoreWindowGeometry()
         return;
 
     ::restoreWindowGeometry(m_window, openOnCurrentScreen());
-    m_timerSaveGeometry.stop();
 }
 
 void WindowGeometryGuard::unlockWindowGeometry()
