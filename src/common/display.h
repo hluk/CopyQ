@@ -21,10 +21,11 @@
 #define DISPLAY_H
 
 class QPoint;
+class QWidget;
 
 int smallIconSize();
 
-QPoint toScreen(QPoint pos, int w = 0, int h = 0);
+QPoint toScreen(QPoint pos, QWidget *w);
 
 int pointsToPixels(int points);
 

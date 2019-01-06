@@ -23,18 +23,27 @@
 #include <QDesktopWidget>
 #include <QPoint>
 #include <QStyle>
+#include <QWidget>
+#include <QWindow>
 
 int smallIconSize()
 {
     return QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
 }
 
-QPoint toScreen(QPoint pos, int w, int h)
+QPoint toScreen(QPoint pos, QWidget *w)
 {
+    QWindow *window = w->windowHandle();
+    if (window) {
+        window->setPosition(pos);
+        window->requestUpdate();
+    }
+
     const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
+    const QSize size = window ? window->size() : w->size();
     return QPoint(
-                qMax(availableGeometry.left(), qMin(pos.x(), availableGeometry.right() - w)),
-                qMax(availableGeometry.top(), qMin(pos.y(), availableGeometry.bottom() - h))
+                qMax(availableGeometry.left(), qMin(pos.x(), availableGeometry.right() - size.width())),
+                qMax(availableGeometry.top(), qMin(pos.y(), availableGeometry.bottom() - size.height()))
                 );
 }
 

@@ -1582,7 +1582,7 @@ bool MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
         return false;
     }
 
-    menu->popup( toScreen(pos, menu->width(), menu->height()) );
+    menu->popup( toScreen(pos, menu) );
 
     menu->raise();
     menu->activateWindow();
