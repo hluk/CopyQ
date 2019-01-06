@@ -27,6 +27,7 @@
 #include <QDesktopWidget>
 #include <QListView>
 #include <QSettings>
+#include <QStyleFactory>
 
 #include <cmath>
 
@@ -285,8 +286,7 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
         "#menu_bar::item:disabled {"
           + themeStyleSheet("menu_bar_disabled_css") + "}"
 
-        + getMenuStyleSheet("#menu_bar")
-        + getMenuStyleSheet("#centralWidget")
+        + getMenuStyleSheet()
 
         + themeStyleSheet("css")
     );
@@ -420,10 +420,7 @@ void Theme::resetTheme()
 
     m_theme["css"] = Option("");
     m_theme["menu_css"] = Option(
-                "\n    ;border-top: 0.08em solid ${bg + #333}"
-                "\n    ;border-left: 0.08em solid ${bg + #333}"
-                "\n    ;border-bottom: 0.08em solid ${bg - #333}"
-                "\n    ;border-right: 0.08em solid ${bg - #333}"
+                "\n    ;border: 1px solid ${sel_bg}"
                 "\n    ;background: ${bg}"
                 "\n    ;color: ${fg}"
                 );
@@ -590,6 +587,9 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
           + unfocusedTheme.themeStyleSheet("sel_item_css") +
         "}"
 
+        // Omit showing current item outline.
+        "#ClipboardBrowser::focus{outline:0}"
+
         "#ClipboardBrowser::item:focus{"
           + themeStyleSheet("cur_item_css") +
         "}"
@@ -640,28 +640,28 @@ QString Theme::themeColorString(const QString &name) const
     return serializeColor( color(name) );
 }
 
-QString Theme::getMenuStyleSheet(const QString &selector) const
+QString Theme::getMenuStyleSheet() const
 {
     const int iconSize = iconFontSizePixels();
     return
         // Remove icon border in menus.
-        selector + " QMenu::item:selected{border:none}"
-        + selector + " QMenu::item{"
+        "#MainWindow QMenu::item:selected{border:none}"
+        "#MainWindow QMenu::item{"
           ";padding:0.2em 1em 0.2em 1em"
           ";padding-left:" + QString::number(iconSize * 2) + "px}"
-        + selector + " QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
+        + "#MainWindow QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
 
         // Keep default item highlighted (removing icon border resets the style).
-        + selector + " QMenu::item:default{font-weight:bold}"
+        + "#MainWindow QMenu::item:default{font-weight:bold}"
 
-        + selector + " QMenu {" + themeStyleSheet("menu_css") + "}"
+        + "#MainWindow QMenu {" + themeStyleSheet("menu_css") + "}"
 
-        + selector + " QMenu::item,"
-        + selector + " QMenu::separator {"
+        + "#MainWindow QMenu::item,"
+        + "#MainWindow QMenu::separator {"
           + themeStyleSheet("menu_bar_css") + "}"
-        + selector + " QMenu::item:selected {"
+        + "#MainWindow QMenu::item:selected {"
           + themeStyleSheet("menu_bar_selected_css") + "}"
-        + selector + "  QMenu::item:disabled {"
+        + "#MainWindow  QMenu::item:disabled {"
           + themeStyleSheet("menu_bar_disabled_css") + "}";
 }
 

@@ -118,7 +118,7 @@ private:
     /** Return parsed color name. */
     QString themeColorString(const QString &name) const;
 
-    QString getMenuStyleSheet(const QString &selector) const;
+    QString getMenuStyleSheet() const;
 
     QHash<QString, Option> m_theme;
     Ui::ConfigTabAppearance *ui = nullptr;
