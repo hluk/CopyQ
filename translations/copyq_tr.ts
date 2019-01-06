@@ -737,7 +737,14 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Komutları yalnızca filtre komutu başarılı olursa kullanın.&lt;/p&gt;
+
+&lt;p&gt;Öğe metni, filtre komutunun &lt;b&gt;standart girişine&lt;/b&gt; geçirilir. Öğe, &lt;b&gt;yalnızca filtre komutu çıkış kodu 0 ise&lt;/b&gt; eşleştirilir.&lt;/p&gt;
+
+&lt;p&gt;Bağımsız ifade olarak iletilen öğe metni için &lt;b&gt;%1&lt;/b&gt; ve düzenli ifadeyle yakalanan argümanlar için&lt;b&gt;%2&lt;/b&gt; ila &lt;b&gt;%9&lt;/b&gt; (parantez içine alınmış parçalar) kullanın ). &lt;/p&gt;
+
+
+&lt;p&gt;Komutları zincirlemek için &lt;b&gt;|&lt;/b&gt; kullanın (standart çıktıyı bir sonraki komuta geçirin).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
@@ -954,7 +961,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sekmeler, araç çubuğu ve menüler için renkleri ayarla</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
@@ -984,7 +991,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Temayı Düzenle</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
@@ -1043,7 +1050,7 @@ düzenlemek için F2&apos;ye basın.</translation>
         <location filename="../src/gui/configtabappearance.cpp" line="391"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Abc</translation>
     </message>
 </context>
 <context>
@@ -1051,7 +1058,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/tests/tests.cpp" line="2337"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
 </context>
 <context>
@@ -1079,7 +1086,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="127"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uzun metni kaydır</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="134"/>
@@ -1164,7 +1171,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="217"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Pano Manipülasyonu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="229"/>
@@ -1174,7 +1181,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="232"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;2) Fareyi kullanarak seçilen metni saklayın</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="239"/>
@@ -1184,7 +1191,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="242"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;4) Klavye ile fare seçimini yapıştırın</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="249"/>
@@ -1194,7 +1201,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="252"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;1) Panoya aktar</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="262"/>
@@ -1224,7 +1231,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="371"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sekmeleri gizle</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="378"/>
@@ -1234,12 +1241,12 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="381"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Araç çubuğunu gizle</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="388"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Araç çubuğu etiketlerini gizle</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="395"/>
@@ -1249,7 +1256,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="398"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ana pencereyi gizle</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="408"/>
@@ -1259,83 +1266,89 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="417"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekme çubuğu yerine sekmeli ağacı göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="420"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sekme ağacı</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="427"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Odaklanmış şeffaflık:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="439"/>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odaklandığı takdirde ana pencerenin şeffaflığı.
+
+Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="469"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Odaklanmamış şeffaflık:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="481"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not be supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odaklanmadığında ana pencerenin şeffaflığı.
+
+Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="511"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekmelerdeki öğe sayısını göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="514"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Öğe Sayısını Göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="559"/>
         <source>&amp;History</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Geçmiş</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="616"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçmişte maksimum öğe sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="628"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Her sekmedeki maksimum öğe sayısı</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="656"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekmeyi dakikalar sonra verilen aralıktan sonra kaldır:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="668"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Her bir sekmeyi, belirli sayıda etkinlik dışı kaldıktan sonra bellekten çıkarın.
+
+Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Harici editör komutu (%&amp;1 düzenlemek için dosya):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1287"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Yatay ofset:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="705"/>
@@ -1345,19 +1358,26 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Harici editör komutu (%1 düzenlenecek dosya).
+  Örnekler:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="720"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pano aktarması için sekme:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="730"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni pano içeriğini otomatik olarak depolayacak sekmenin adı.
+
+Otomatik depolamayı devre dışı bırakmak için boş bırakın.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="744"/>
