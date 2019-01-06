@@ -35,6 +35,8 @@ public:
     explicit ItemPinned(ItemWidget *childItem);
 
 protected:
+    void paintEvent(QPaintEvent *paintEvent) override;
+
     void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette) override;
 
@@ -52,7 +54,6 @@ protected:
     void updateSize(QSize maximumSize, int idealWidth) override;
 
 private:
-    QWidget *m_border;
     std::unique_ptr<ItemWidget> m_childItem;
 };
 

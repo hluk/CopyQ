@@ -31,6 +31,8 @@
 #include <QBoxLayout>
 #include <QMessageBox>
 #include <QModelIndex>
+#include <QPalette>
+#include <QPainter>
 
 #include <algorithm>
 
@@ -62,15 +64,20 @@ bool containsPinnedItems(const QModelIndexList &indexList)
 ItemPinned::ItemPinned(ItemWidget *childItem)
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
-    , m_border(new QWidget(this))
     , m_childItem(childItem)
 {
     m_childItem->widget()->setObjectName("item_child");
     m_childItem->widget()->setParent(this);
 
-    m_border->setFixedWidth( pointsToPixels(6) );
+    QBoxLayout *layout;
+    layout = new QHBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(m_childItem->widget());
+    layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+}
 
-    // Set pinned item border color.
+void ItemPinned::paintEvent(QPaintEvent *paintEvent)
+{
     const auto *parent = parentWidget();
     auto color = parent->palette().color(QPalette::Background);
     const int lightThreshold = 100;
@@ -80,20 +87,14 @@ ItemPinned::ItemPinned(ItemWidget *childItem)
                 color.saturation(),
                 qMax(0, qMin(255, color.lightness() + (menuBackgrounIsLight ? -200 : 50)))
                 );
-    const auto styleSheet = QString("background-color: rgba(%1,%2,%3,15\\%)")
-            .arg(color.red())
-            .arg(color.green())
-            .arg(color.blue());
-    m_border->setStyleSheet(styleSheet);
 
-    QBoxLayout *layout;
-    layout = new QHBoxLayout(this);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing( pointsToPixels(5) );
+    QPainter painter(this);
+    const int border = pointsToPixels(6);
+    const QRect rect(width() - border, 0, width(), height());
+    painter.setOpacity(0.15);
+    painter.fillRect(rect, color);
 
-    layout->addWidget(m_childItem->widget());
-    layout->addStretch();
-    layout->addWidget(m_border);
+    QWidget::paintEvent(paintEvent);
 }
 
 void ItemPinned::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
@@ -130,9 +131,9 @@ void ItemPinned::updateSize(QSize maximumSize, int idealWidth)
 {
     setMinimumWidth(idealWidth);
     setMaximumWidth(maximumSize.width());
-    const int width = m_border->width() + layout()->spacing();
-    const int childItemWidth = idealWidth - width;
-    const auto childItemMaximumSize = QSize(maximumSize.width() - width, maximumSize.height());
+    const int border = pointsToPixels(12);
+    const int childItemWidth = idealWidth - border;
+    const auto childItemMaximumSize = QSize(maximumSize.width() - border, maximumSize.height());
     m_childItem->updateSize(childItemMaximumSize, childItemWidth);
     adjustSize();
 }
