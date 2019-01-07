@@ -476,14 +476,9 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    event->ignore();
+    hideWindow();
     COPYQ_LOG("Got main window close event.");
-
-    if ( closeMinimizes() ) {
-        event->ignore();
-        minimizeWindow();
-    } else {
-        QMainWindow::closeEvent(event);
-    }
 }
 
 bool MainWindow::focusNextPrevChild(bool next)
