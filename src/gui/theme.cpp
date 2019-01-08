@@ -230,11 +230,13 @@ void Theme::decorateBrowser(QListView *c) const
 void Theme::decorateMainWindow(QWidget *mainWindow) const
 {
     QPalette palette = QApplication::palette();
-    if ( !isMainWindowThemeEnabled() ) {
-        mainWindow->setPalette(palette);
-        mainWindow->setStyleSheet(QString());
+
+    // This seems to properly reset icon colors.
+    mainWindow->setPalette(palette);
+    mainWindow->setStyleSheet(QString());
+
+    if ( !isMainWindowThemeEnabled() )
         return;
-    }
 
     const auto bg = color("bg");
     const auto fg = color("fg");
