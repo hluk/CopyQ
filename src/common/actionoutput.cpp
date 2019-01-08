@@ -45,7 +45,6 @@ void connectActionOutput(Action *action, ActionOutput *actionOutput)
 
 class ActionOutputItems : public QObject
 {
-    Q_OBJECT
 public:
     ActionOutputItems(
             MainWindow *wnd,
@@ -94,7 +93,6 @@ private:
 
 class ActionOutputItem : public QObject
 {
-    Q_OBJECT
 public:
     ActionOutputItem(
             MainWindow *wnd,
@@ -135,7 +133,6 @@ private:
 
 class ActionOutputIndex : public QObject
 {
-    Q_OBJECT
 public:
     ActionOutputIndex(
             MainWindow *wnd,
@@ -225,5 +222,3 @@ void actionOutput(
 {
     new ActionOutputIndex(wnd, action, outputItemFormat, index);
 }
-
-#include "actionoutput.moc"

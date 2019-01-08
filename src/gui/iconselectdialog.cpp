@@ -32,7 +32,6 @@
 #include <QVBoxLayout>
 
 class IconListWidget : public QListWidget {
-    Q_OBJECT
 public:
     explicit IconListWidget(QWidget *parent)
         : QListWidget(parent)
@@ -245,5 +244,3 @@ void IconSelectDialog::addIcon(ushort unicode, bool isBrand, const QStringList &
     if (m_selectedIcon == icon)
         m_iconList->setCurrentRow(m_iconList->count() - 1);
 }
-
-#include "iconselectdialog.moc"

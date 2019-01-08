@@ -56,7 +56,6 @@ void showLogLines(QString *content, bool show, LogLevel level)
 /// Decorates document in batches so it doesn't block UI.
 class Decorator : public QObject
 {
-    Q_OBJECT
 public:
     Decorator(const QRegExp &re, QObject *parent)
         : QObject(parent)
@@ -326,5 +325,3 @@ void LogDialog::addFilterCheckBox(LogLevel level, FilterCheckBoxSlot slot)
     QObject::connect(checkBox, &QCheckBox::toggled, this, slot);
     ui->layoutFilters->addWidget(checkBox);
 }
-
-#include "logdialog.moc"
