@@ -222,7 +222,7 @@ QPixmap drawFontIcon(ushort id, int w, int h, const QColor &color)
             .arg(id)
             .arg(w)
             .arg(h)
-            .arg(color.name());
+            .arg(color.rgba());
 
     {
         QPixmap pixmap;
