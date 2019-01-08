@@ -9,6 +9,7 @@ import os
 import sys
 
 from shutil import copyfile
+from textwrap import dedent
 
 from fontTools.ttLib import TTFont
 
@@ -26,7 +27,6 @@ def read_icons(icons_json):
         icons_content = icons_file.read()
         return json.loads(icons_content)
 
-
 def write_header_file_preamble(header_file):
     script = os.path.realpath(__file__)
     script_name = os.path.basename(script)
@@ -35,22 +35,33 @@ def write_header_file_preamble(header_file):
             + ' from FontAwesome\'s metadata.\n\n')
     header_file.write(comment)
 
-
-def write_add_icons_header_file(header_add_icons, icons):
-    with open(header_add_icons, 'w') as header_file:
-        write_header_file_preamble(header_file)
-        header_file.write('// List of method calls for IconSelectDialog.\n')
-
+def write_icon_list_header_file(header_icon_list, icons):
+    with open(header_icon_list, 'w') as header_file:
+        items = []
         for style in [solid_style, brands_style]:
             is_brand = 'true' if style == brands_style else 'false'
             for name, icon in icons.items():
                 if style in icon['styles']:
                     code = icon['unicode']
                     search_terms = [icon['label'].lower()] + (icon['search']['terms'] or [])
-                    search_terms_list = (
-                            'QStringList()'
-                            + ''.join([' << ' + json.dumps(term) for term in search_terms]))
-                    header_file.write(f'addIcon(0x{code}, {is_brand}, {search_terms_list});' + '\n')
+                    search_terms_list = '|'.join(search_terms)
+                    items.append('{0x%s, %s, "%s"}' % (code, is_brand, search_terms_list))
+
+        item_list_content = ',\n'.join(items)
+        content = dedent('''\
+            struct Icon {
+                unsigned int unicode;
+                bool isBrand;
+                const char *searchTerms;
+            };
+
+            constexpr Icon iconList[] = {
+            %s
+            };
+        ''') % item_list_content
+
+        write_header_file_preamble(header_file)
+        header_file.write(content)
 
 
 def write_icons_header_file(header_icons, icons):
@@ -108,7 +119,7 @@ def main():
     utils_dir = os.path.dirname(script)
     src_dir = os.path.join(utils_dir, '..', 'src')
 
-    header_add_icons = os.path.join(src_dir, 'gui', 'add_icons.h')
+    header_icon_list = os.path.join(src_dir, 'gui', 'icon_list.h')
     header_icons = os.path.join(src_dir, 'gui', 'icons.h')
 
     target_font_dir = os.path.join(src_dir, 'images')
@@ -118,8 +129,8 @@ def main():
             font_awesome_src, 'metadata', 'icons.json')
     icons = read_icons(icons_json)
 
-    write_add_icons_header_file(header_add_icons, icons)
-    print(f'Header file "{header_add_icons}" updated.')
+    write_icon_list_header_file(header_icon_list, icons)
+    print(f'Header file "{header_icon_list}" updated.')
 
     write_icons_header_file(header_icons, icons)
     print(f'Header file "{header_icons}" updated.')

@@ -22,6 +22,7 @@
 #include "common/config.h"
 #include "gui/iconfont.h"
 #include "gui/icons.h"
+#include "gui/icon_list.h"
 
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -235,12 +236,10 @@ void IconSelectDialog::onAcceptCurrent()
 
 void IconSelectDialog::addIcons()
 {
-#include "add_icons.h"
-}
-
-void IconSelectDialog::addIcon(ushort unicode, bool isBrand, const QStringList &searchTerms)
-{
-    const auto icon = m_iconList->addIcon(unicode, isBrand, searchTerms);
-    if (m_selectedIcon == icon)
-        m_iconList->setCurrentRow(m_iconList->count() - 1);
+    for (const Icon &icon : iconList) {
+        const auto searchTerms = QString(icon.searchTerms).split('|');
+        const auto iconText = m_iconList->addIcon(icon.unicode, icon.isBrand, searchTerms);
+        if (m_selectedIcon == iconText)
+            m_iconList->setCurrentRow(m_iconList->count() - 1);
+    }
 }

@@ -48,7 +48,6 @@ private:
     void onAcceptCurrent();
 
     void addIcons();
-    void addIcon(ushort unicode, bool isBrand, const QStringList &searchTerms);
 
     IconListWidget *m_iconList;
     QString m_selectedIcon;
