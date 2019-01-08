@@ -2123,7 +2123,6 @@ void MainWindow::loadSettings()
     m_sharedData->theme.loadTheme(settings);
     settings.endGroup();
 
-    theme().decorateToolBar(ui->toolBar);
     theme().decorateMainWindow(this);
     ui->scrollAreaItemPreview->setObjectName("ClipboardBrowser");
     theme().decorateItemPreview(ui->scrollAreaItemPreview);

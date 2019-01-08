@@ -67,9 +67,6 @@ public:
     /** Decorate main window. */
     void decorateMainWindow(QWidget *mainWindow) const;
 
-    /** Decorate tool bar. */
-    void decorateToolBar(QWidget *toolBar) const;
-
     /** Decorate scroll area (toggle scroll bar). */
     void decorateScrollArea(QAbstractScrollArea *scrollArea) const;
 

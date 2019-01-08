@@ -229,14 +229,27 @@ void Theme::decorateBrowser(QListView *c) const
 
 void Theme::decorateMainWindow(QWidget *mainWindow) const
 {
+    QPalette palette = QApplication::palette();
     if ( !isMainWindowThemeEnabled() ) {
+        mainWindow->setPalette(palette);
         mainWindow->setStyleSheet(QString());
         return;
     }
 
-    mainWindow->setStyleSheet(
-        "MainWindow{background:" + themeColorString("bg") + "}"
+    const auto bg = color("bg");
+    const auto fg = color("fg");
+    palette.setColor( QPalette::Base, bg );
+    palette.setColor( QPalette::AlternateBase, color("alt_bg") );
+    palette.setColor( QPalette::Text, fg );
+    palette.setColor( QPalette::Window, bg );
+    palette.setColor( QPalette::WindowText, fg );
+    palette.setColor( QPalette::Button, bg );
+    palette.setColor( QPalette::ButtonText, fg );
+    palette.setColor( QPalette::Highlight, color("sel_bg") );
+    palette.setColor( QPalette::HighlightedText, color("sel_fg") );
 
+    mainWindow->setPalette(palette);
+    mainWindow->setStyleSheet(
         "#searchBar{"
         + themeStyleSheet("search_bar") +
         "}"
@@ -258,7 +271,7 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
         "#tab_tree, #tab_tree_item{" + themeStyleSheet("tab_tree_css") + "}"
 
         // GTK has incorrect background for branches
-        "#tab_tree::branch:selected{background:" + themeColorString("bg") + "}"
+        "#tab_tree::branch:selected{background:" + serializeColor(bg) + "}"
 
         "#tab_tree::item:selected"
         ",#tab_tree_item[CopyQ_selected=\"true\"]"
@@ -276,8 +289,10 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
         "}"
 
         // Remove border in toolbars.
-        "QToolBar{border:none}"
-        "QToolBar QToolButton{color:" + themeColorString("fg") + "}"
+        "QToolBar{" + themeStyleSheet("tool_bar_css") + "}"
+        "QToolButton{" + themeStyleSheet("tool_button_css") + "}"
+        "QToolButton:hover{" + themeStyleSheet("tool_button_selected_css") + "}"
+        "QToolButton:pressed{" + themeStyleSheet("tool_button_pressed_css") + "}"
 
         "#menu_bar, #menu_bar::item {"
           + themeStyleSheet("menu_bar_css") + "}"
@@ -290,19 +305,6 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
 
         + themeStyleSheet("css")
     );
-}
-
-void Theme::decorateToolBar(QWidget *toolBar) const
-{
-    if ( isMainWindowThemeEnabled() ) {
-        toolBar->setStyleSheet(
-            "QToolBar{" + themeStyleSheet("tool_bar_css") + "}"
-            "QToolButton{" + themeStyleSheet("tool_button_css") + "}"
-            "QToolButton:hover{" + themeStyleSheet("tool_button_selected_css") + "}"
-                    );
-    } else {
-        toolBar->setStyleSheet(QString());
-    }
 }
 
 void Theme::decorateScrollArea(QAbstractScrollArea *scrollArea) const
@@ -496,11 +498,18 @@ void Theme::resetTheme()
                 "\n    ;border: 0"
                 );
     m_theme["tool_button_css"] = Option(
-                "\n    ;background-color: transparent"
+                "\n    ;color: ${fg}"
+                "\n    ;background: ${bg}"
+                "\n    ;border: 0"
+                "\n    ;border-radius: 2px"
                 );
     m_theme["tool_button_selected_css"] = Option(
-                "\n    ;background: ${sel_bg}"
+                "\n    ;background: ${sel_bg - #222}"
                 "\n    ;color: ${sel_fg}"
+                "\n    ;border: 1px solid ${sel_bg}"
+                );
+    m_theme["tool_button_pressed_css"] = Option(
+                "\n    ;background: ${sel_bg}"
                 );
 
     m_theme["search_bar"] = Option(
