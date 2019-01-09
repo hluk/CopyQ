@@ -362,15 +362,11 @@ public:
         return taggedIcon(&pixmap);
     }
 
-    QList<QSize> availableSizes(QIcon::Mode, QIcon::State) const override
+    QList<QSize> availableSizes(QIcon::Mode mode, QIcon::State state) const override
     {
-        static const auto sizes = QList<QSize>()
-                << QSize(16, 16)
-                << QSize(32, 32)
-                << QSize(48, 48)
-                << QSize(64, 64)
-                << QSize(96, 96)
-                << QSize(128, 128);
+        auto sizes = QIconEngine::availableSizes(mode, state);
+        if ( !sizes.isEmpty() )
+            sizes.append( sizes.last() * 2 );
         return sizes;
     }
 
@@ -523,13 +519,6 @@ public:
         }
 
         return pix;
-    }
-
-    // WORKAROUND: Fixes ugly icon in Latte-Dock.
-    QList<QSize> availableSizes(QIcon::Mode, QIcon::State) const override
-    {
-        static const auto sizes = QList<QSize>() << QSize(128, 128);
-        return sizes;
     }
 
 private:
