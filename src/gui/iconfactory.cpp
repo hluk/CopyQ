@@ -203,7 +203,7 @@ QPixmap appPixmap(const QString &iconSuffix, QSize size)
 
 void replaceColor(QPixmap *pix, const QString &iconSuffix, const QColor &targetColor)
 {
-    auto pix2 = appPixmap(iconSuffix + "-mask", pix->size());
+    auto pix2 = appPixmap("_mask" + iconSuffix, pix->size());
 
     {
         QPainter p1(&pix2);
