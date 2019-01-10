@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
         <source>Author</source>
-        <translation>Author</translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
@@ -88,7 +88,7 @@
     </message>
     <message>
         <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">Drücke eine Taste um im Verlauf zu suchen.</translation>
+        <translation>Tippe beliebigen Text um danach im Verlauf zu suchen.</translation>
     </message>
     <message>
         <source>Item list navigation</source>
@@ -109,7 +109,7 @@
     </message>
     <message>
         <source>Left, Right, Tab, Shift+Tab</source>
-        <translation type="vanished">Links, Rechts, Strg+Tab, Strg+Umschalt+Tab</translation>
+        <translation>Links, Rechts, Tab, Umschalt+Tab</translation>
     </message>
     <message>
         <source>Move selected items</source>
@@ -161,7 +161,7 @@
     </message>
     <message>
         <source>Library used in the application</source>
-        <translation type="vanished">Verwendete Bibliotheken</translation>
+        <translation>In dieser Anwendung verwendete Bibliothek</translation>
     </message>
 </context>
 <context>
@@ -210,7 +210,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>Erstelle Elemente aus der Standardausgabe des Programms (zum Deaktivieren leer lassen)</translation>
+        <translation>Erstelle Elemente aus der Standardausgabe eines Programms (zum Deaktivieren leer lassen)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -221,8 +221,8 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Reguläre Ausdrücke um die Ausgabe in mehrere Elemente aufzuteilen&lt;\p&gt;
-&lt;p&gt;Benutze&lt;b&gt;\n&lt;/b&gt;um verschiedene Zeilen in verschiedene Elemente zu speichern&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Regulärer Ausdruck um die Ausgabe in mehrere Elemente aufzuteilen.&lt;\p&gt;
+&lt;p&gt;Benutze &lt;b&gt;\n&lt;/b&gt; um jede Zeile in ein eigenes Element zu speichern.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -1099,7 +1099,7 @@ Zum Deaktivieren frei lassen.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Der Befehl wird nur auf kopierte Elemente angewendet, wenn der Titel des Fensters aus dem kopierte wurde auf den angegebenen regulären Ausdruck passt (leer lassen um den Titel des Fensters zu ignorieren). Unter OS X, beinhaltet das den Anwendungsname gefolgt von einem Bindestrich (&amp;quot;-&amp;quot;) und dem Titel des Fensters. Z.B.: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Der Befehl wird nur auf kopierte Elemente angewendet, wenn der Titel des Fensters aus dem kopiert wurde auf den angegebenen regulären Ausdruck passt (leer lassen, um den Titel des Fensters zu ignorieren). Unter OS X beinhaltet das den Anwendungsnamen gefolgt von einem Bindestrich (&amp;quot;-&amp;quot;) und dem Titel des Fensters. Z.B.: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="361"/>

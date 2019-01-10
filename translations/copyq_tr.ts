@@ -1384,69 +1384,73 @@ Otomatik depolamayı devre dışı bırakmak için boş bırakın.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Düzenlenen öğeyi kaydetmek için Return tuşunun işaretini kaldırın ve Ctrl+Return ile yeni bir satır oluşturun.
+
+Not: Düzenlenmiş öğeler, bu seçenek dikkate alınmadan F2 ile kaydedilebilir.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="749"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Düzenlenen öğeyi Ctrl+Return ile kaydet ve Return tuşuyla yeni satır oluştur</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="756"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Her bir öğenin tek satır açıklamasını göster.
+
+Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="761"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Basit öğeleri göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>Numara aramayı etkinleştirin, aksi halde bir rakam tuşuna basılması, bu konumdaki öğeyi etkinleştirir</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="771"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sayılar için Ara</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğe etkinleştirildikten sonra (çift tıklayın veya Enter tuşuna basın), panoya kopyalayın ve ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="784"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğeyi etkinleştirildikten sonra listenin en üstüne taşı</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="787"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Öğeyi en üste taşı</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="794"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğe etkinleştirildikten sonra ana pencereyi kapat</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="797"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ana pencereyi kapat</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="804"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğe etkinleştirildikten sonra son pencereye odaklan</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="807"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Son pencereye odaklan</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="814"/>
