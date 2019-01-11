@@ -2780,7 +2780,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2019"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../src/item/serialize.cpp" line="180"/>
