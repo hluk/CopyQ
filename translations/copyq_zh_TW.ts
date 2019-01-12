@@ -868,7 +868,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;進階</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
@@ -3406,7 +3406,7 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="452"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;ITEMS&gt;</translation>
     </message>
     <message>
         <source>&lt;FILES&gt;</source>
