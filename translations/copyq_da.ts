@@ -996,7 +996,7 @@ Bemærk: Hvis dette anvendes automatisk, udføres ingen andre automatiske komman
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Avanceret</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
