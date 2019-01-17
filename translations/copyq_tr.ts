@@ -1485,12 +1485,12 @@ Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</transla
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="925"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pano içeriği için komutları göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="934"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistem tepsi menüsündeki öğelerin sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="944"/>
@@ -1505,12 +1505,12 @@ Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</transla
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="974"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Menüdeki geçerli sekmeyi göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="981"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>veya &amp;diğer sekmeyi seçin:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="997"/>
@@ -1535,7 +1535,7 @@ Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</transla
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1035"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Görüntü önizlemesini menü öğesi simgesi olarak göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1075"/>
@@ -1627,7 +1627,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1327"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dikey kaydırma:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1339"/>
@@ -1642,7 +1642,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1379"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran noktalarında bildirim için maksimum genişlik</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1404"/>
@@ -1652,7 +1652,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1416"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran noktalarında bildirim için maksimum yükseklik</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1477"/>
