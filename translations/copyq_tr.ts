@@ -515,7 +515,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandcompleter.cpp" line="231"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation>Ctrl+Space</translation>
+        <translation>Ctrl+Boşluk</translation>
     </message>
 </context>
 <context>
@@ -1662,7 +1662,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1489"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seçilen öğenin geçmişindeki görüntüleme biçimi &lt;b&gt;Ctrl+Left&lt;/b&gt; veya &lt;b&gt;Ctrl+Right&lt;/b&gt; tuşlarına basılarak değiştirilebilir. Aşağıdaki öğeleri yeniden sıralayarak görüntülemek için biçimlerin önceliğini değiştirebilirsiniz.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1507"/>
@@ -1687,7 +1687,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="414"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu işlem, tüm tercihlerinizi (tüm sekmelerde) varsayılan değerlere sıfırlar.&lt;br/&gt;&lt;br/&gt;Gerçekten &lt;strong&gt;tüm tercihleri sıfırlamak&lt;/strong&gt; istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="516"/>
@@ -1714,7 +1714,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <location filename="../src/gui/filtercompleter.cpp" line="175"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Down</translation>
     </message>
 </context>
 <context>
@@ -1782,7 +1782,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="149"/>
         <source>editor exit code is %1</source>
-        <translation type="unfinished"></translation>
+        <translation>editör çıkış kodu %1</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="192"/>
@@ -1885,12 +1885,12 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="616"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Şifrelenmiş öğeleri diğer bilgisayarlarda veya oturumlarda paylaşmak için herkese açık ve gizli anahtar dosyalara ihtiyacınız vardır: &lt;ul&gt; &lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br/&gt; (Bu gizli anahtarı güvenli bir yerde saklayın.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Şifrelenmiş sekmeleri görüntülemek için GnuPG kurulu olmalıdır.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="787"/>
@@ -1901,7 +1901,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="793"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="803"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="797"/>
@@ -1916,7 +1916,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="812"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="816"/>
@@ -1962,7 +1962,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="917"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğe şifrelemenin kullanılmasından önce şifreleme anahtarları &lt;strong&gt;oluşturulmalı&lt;/strong&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="920"/>
@@ -2016,7 +2016,8 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Otomatik olarak şifrelenecek ve şifresi çözülecek sekmelerin adlarını (her satıra bir tane) belirtin.&lt;/p&gt;
+&lt;p&gt;Şifresi çözülmüş öğeleri bellekten güvenle kaldırmak için Geçmiş sekmesinde kaldırma sekmesi aralığını ayarlayın.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2024,17 +2025,17 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="75"/>
         <source>FakeVim</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="77"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim eklentisi Qt Oluşturan&apos;ın bir parçasıdır</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="79"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğeleri düzenlerken Vim düzenleyicisini taklit edin.</translation>
     </message>
 </context>
 <context>
@@ -2042,12 +2043,12 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğeleri Düzenlemek için FakeVim&apos;i etkinleştir</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Yapılandırma Dosyasının Yolu:</translation>
     </message>
 </context>
 <context>
@@ -2068,27 +2069,27 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimum Görüntü Genişliği:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçmişte görüntülenen maksimum resim genişliği (orijinal boyut için sıfıra ayarlayın)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksimum Görüntü Yüksekliği:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçmişte görüntülenen maksimum resim yüksekliği (orijinal boyut için sıfıra ayarlayın)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Görüntü düzenleyici komutu:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
@@ -2098,7 +2099,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;SVG editörü komutu:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
@@ -2116,7 +2117,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="98"/>
         <source>Display notes for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğeler için notları görüntüle.</translation>
     </message>
 </context>
 <context>
@@ -2124,7 +2125,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Notlar Konumu</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
@@ -2144,7 +2145,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Araç İpucunu Göster</translation>
     </message>
 </context>
 <context>
@@ -2152,27 +2153,27 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ekle</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="53"/>
         <source>+</source>
-        <translation type="unfinished"></translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="66"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kaldır</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>&amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Yukarı</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>&amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aşağı</translation>
     </message>
 </context>
 <context>
@@ -2180,7 +2181,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="230"/>
         <source>Cannot Remove Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Sabitlenmiş Öğeler Kaldırılamıyor</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="231"/>
@@ -2190,17 +2191,17 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="409"/>
         <source>Pin</source>
-        <translation type="unfinished"></translation>
+        <translation>İşaretle</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="416"/>
         <source>Unpin</source>
-        <translation type="unfinished"></translation>
+        <translation>İşareti kaldır</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="117"/>
         <source>Pinned Items</source>
-        <translation type="unfinished"></translation>
+        <translation>İşaretli Öğeler</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="120"/>
@@ -2645,7 +2646,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished">&amp;pano</translation>
+        <translation>&amp;pano</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="434"/>
