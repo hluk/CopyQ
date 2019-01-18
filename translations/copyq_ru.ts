@@ -2976,12 +2976,10 @@ Set to 0 to disable.</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2016"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
-        <translation>
-            <numerusform>%1 тег&lt;div выровнять=&quot;право&quot;&gt;&lt;малых&gt;&amp;mdash; не %N строк того &amp;mdash;&lt;/маленький&gt;&lt;/див&gt;</numerusform>
-            <numerusform>%1 тегов&lt;div выровнять=&quot;право&quot;&gt;&lt;малых&gt;&amp;mdash; не %N строк того &amp;mdash;&lt;/маленький&gt;&lt;/див&gt;</numerusform>
-            <numerusform>%1 тег&lt;div выровнять=&quot;право&quot;&gt;&lt;малых&gt;&amp;mdash; не %N строк того &amp;mdash;&lt;/маленький&gt;&lt;/див&gt;</numerusform>
-        </translation>
-    </message>
+        <translation><numerusform>%1 тег&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; не %n строк того &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+        <numerusform>%1 тегов&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; не %n строк того &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+        <numerusform>%1 тег&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; не %n строк того &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+        </translation></message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2019"/>
         <source>%1</source>
