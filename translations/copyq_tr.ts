@@ -2094,7 +2094,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation type="unfinished"></translation>
+        <translation>SVG dışındaki desteklenen görüntü formatları için editör komutu.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
@@ -2104,7 +2104,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation type="unfinished"></translation>
+        <translation>SVG görüntü formatı için editör komutu.</translation>
     </message>
 </context>
 <context>
@@ -2130,17 +2130,17 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Öğenin üstünde</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğenin &amp;Altında</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğenin &amp;Yanında</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2186,7 +2186,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="231"/>
         <source>Unpin items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğeleri kaldırmak için önce işaretini kaldırın.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="409"/>
@@ -2206,7 +2206,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="120"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Geçerli satırda kilitlemek için öğeleri işaretleyin ve silmeyi önlemeyin (işaretlenmemişse).&lt;/p&gt;&lt;p&gt;Kısayollar ve komut dosyası işlevselliği sağlar.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2220,22 +2220,22 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="849"/>
         <source>Open Directory for Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>Eşitleme için klasörü açın</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="863"/>
         <source>Failed to create synchronization directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Eşitleme dizini oluşturulamadı</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="159"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Eşitleme</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="161"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğeleri ve notları diskteki bir klasörle eşitle.</translation>
     </message>
 </context>
 <context>
@@ -2243,17 +2243,17 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="513"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; sekmesini &quot;%2&quot; klasörüyle eşitleyemedi!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="548"/>
         <source>Remove Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğeleri Kaldır?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="549"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;Öğeleri ve ilişkili dosyaları kaldırmayı&lt;/strong&gt; gerçekten istiyor musunuz?</translation>
     </message>
 </context>
 <context>
@@ -2261,7 +2261,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
         <source>Synchronization Tabs and Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Eşitleme Sekmeleri ve Klasörler</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
