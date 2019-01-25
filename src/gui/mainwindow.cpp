@@ -1866,7 +1866,7 @@ void MainWindow::disableHideWindowOnUnfocus()
 
 void MainWindow::enableHideWindowOnUnfocus()
 {
-    initSingleShotTimer( &m_timerHideWindowIfNotActive, 250, this, &MainWindow::hideWindowIfNotActive );
+    initSingleShotTimer( &m_timerHideWindowIfNotActive, 100, this, &MainWindow::hideWindowIfNotActive );
 }
 
 void MainWindow::hideWindowIfNotActive()
@@ -2096,8 +2096,6 @@ bool MainWindow::event(QEvent *event)
     } else if (type == QEvent::WindowDeactivate) {
         updateWindowTransparency();
         setHideTabs(m_options.hideTabs);
-        if (m_options.closeOnUnfocus)
-            m_timerHideWindowIfNotActive.start();
         m_timerUpdateFocusWindows.start();
     } else if (type == QEvent::Hide) {
         m_wasMaximized = isMaximized();
@@ -2841,6 +2839,9 @@ void MainWindow::updateFocusWindows()
         COPYQ_LOG( QString("Focus window is \"%1\"").arg(lastWindow->getTitle()) );
         m_lastWindow = lastWindow;
     }
+
+    if (m_options.closeOnUnfocus)
+        m_timerHideWindowIfNotActive.start();
 }
 
 void MainWindow::updateShortcuts()
