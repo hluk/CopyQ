@@ -2287,6 +2287,14 @@ void MainWindow::hideWindow()
         minimizeWindow();
     else
         hide();
+
+    // It can be unexpected to have search active or random items selected when
+    // reopening main window. This resets search and selection after the window
+    // is closed.
+    enterBrowseMode();
+    auto c = browser();
+    if (c)
+        c->setCurrent(0);
 }
 
 void MainWindow::minimizeWindow()
