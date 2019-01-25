@@ -750,7 +750,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>高级(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"/>
