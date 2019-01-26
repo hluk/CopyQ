@@ -335,6 +335,16 @@ bool isAnyApplicationWindowActive()
     return false;
 }
 
+bool hasDialogOpen(QWidget *parent)
+{
+    for ( auto window : qApp->topLevelWidgets() ) {
+        if ( window->isVisible() && window->parentWidget() == parent )
+            return true;
+    }
+
+    return false;
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -1871,7 +1881,7 @@ void MainWindow::enableHideWindowOnUnfocus()
 
 void MainWindow::hideWindowIfNotActive()
 {
-    if ( isVisible() && !isAnyApplicationWindowActive() )
+    if ( isVisible() && !hasDialogOpen(this) && !isAnyApplicationWindowActive() )
         hideWindow();
 }
 
