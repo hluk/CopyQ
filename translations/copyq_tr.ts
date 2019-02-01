@@ -2283,7 +2283,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
         <source>Files to Item Data Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğe Veri Biçimlerindeki Dosyalar</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
@@ -2294,12 +2294,12 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzantılar</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item MIME Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğe MIME Tipi</translation>
     </message>
 </context>
 <context>
@@ -2307,28 +2307,28 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="154"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir Etiket Ekle</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="159"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir etiket kaldır</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="178"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 olarak etiketle</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="184"/>
         <source>Remove tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 etiketini kaldır</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="733"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"></translation>
+        <translation>Önemli</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="754"/>
