@@ -362,11 +362,14 @@ public:
         return taggedIcon(&pixmap);
     }
 
-    QList<QSize> availableSizes(QIcon::Mode mode, QIcon::State state) const override
+    QList<QSize> availableSizes(QIcon::Mode, QIcon::State) const override
     {
-        auto sizes = QIconEngine::availableSizes(mode, state);
-        if ( !sizes.isEmpty() )
-            sizes.append( sizes.last() * 2 );
+        static const auto sizes = QList<QSize>()
+                << QSize(32, 32)
+                << QSize(48, 48)
+                << QSize(64, 64)
+                << QSize(96, 96)
+                << QSize(128, 128);
         return sizes;
     }
 
