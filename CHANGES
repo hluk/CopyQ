@@ -1,3 +1,16 @@
+v3.7.3
+- Search and item selection reset when main window is closed
+- Updated icons (Font Awesome 5.6.3)
+- Tray icon animation is not triggered if no automatic commands are run.
+- Improved color themes on some systems
+- Omit auto-hiding main window when it has a dialog open
+- Fix transparency of some icons
+- Fix size of menu when open on different screen
+- Fix window geometry restore and rendering issues
+- Fix auto-hide main window (e.g. on Gnome when using Activities)
+- X11: Fix small tray icon on Gnome
+- X11: Fix icon mask file name according to standard ("copyq_mask")
+
 v3.7.2
 - Backspace deletes last character in tray menu search instead of clearing it
   completely
