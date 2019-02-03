@@ -2289,7 +2289,8 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Dosyaları yoksaymak için MIME türünü &lt;strong&gt;-&lt;/strong&gt; (çizgi) olarak ayarlayın. Diğer bilinmeyen veya gizli dosyalar dikkate alınmaz.&lt;/p&gt;
+&lt;p&gt;Örnek: &lt;strong&gt;txt&lt;/strong&gt; dosya uzantısını &lt;strong&gt;metin/düz&lt;/strong&gt; MIME türü olarak yükleyin.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
@@ -2333,17 +2334,17 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="754"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm etiketleri temizle</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="130"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiketler</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="132"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Öğeler için etiketleri göster.</translation>
     </message>
 </context>
 <context>
@@ -2351,37 +2352,37 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel etiket ekleme ve çıkarma için menü öğeleri Komutlar iletişim kutusunda eklenebilir ve özelleştirilebilir.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Daha fazla bilgi &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki sayfasında&lt;/a&gt; mevcuttur.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiket Adı</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation type="unfinished"></translation>
+        <translation>Eşle</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Stil sayfası</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Renk</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Simge</translation>
     </message>
 </context>
 <context>
@@ -2389,12 +2390,12 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="76"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="78"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Düz metni ve basit HTML öğelerini görüntüleyin.</translation>
     </message>
 </context>
 <context>
@@ -2402,17 +2403,17 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML ve zengin metni kaydetme ve görüntüleme</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation type="unfinished"></translation>
+        <translation>Gösterilecek maksimum satır sayısı (hepsini göstermesi için 0):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Piksel cinsinden maksimum yükseklik (0 = limitsiz):</translation>
     </message>
 </context>
 <context>
@@ -2420,7 +2421,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>CopyQ Log</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ günlüğü</translation>
     </message>
 </context>
 <context>
@@ -2428,7 +2429,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="467"/>
@@ -2438,7 +2439,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="468"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ&apos;dan &lt;strong&gt;çıkmak&lt;/strong&gt; ister misiniz?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="520"/>
