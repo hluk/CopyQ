@@ -64,7 +64,7 @@
     </message>
     <message>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Haut/Bas, Page Précédente/Suivante, Accueil/Fin</translation>
+        <translation>Haut/Bas, Page Précédente/Suivante, Début/Fin</translation>
     </message>
     <message>
         <source>Tab navigation</source>
@@ -558,7 +558,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1621"/>
         <source>Tab is full. Failed to remove any items.</source>
         <translatorcomment>Is this correct? Is it really &quot;remove&quot;?</translatorcomment>
-        <translation>L&apos;onglet est complet. Impossible d&apos;enlever des éléments.</translation>
+        <translation>L&apos;onglet est plein. Impossible d&apos;enlever des éléments.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1858"/>
@@ -1113,7 +1113,7 @@ Laisser vide pour désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Utiliser la commande seulement pour les éléments copiés dans le presse-papier depuis la fenêtre avec le titre qui correspond à cette expression (laisser vide pour accepter n&apos;importe quelle fenêtre).Sur OS X, il contient le nom de l&apos;application suivi d&apos;un tiret (&amp;quot;-&amp;quot;) et du titre de la fenêtre. Par exemple&amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Utiliser la commande seulement pour les éléments copiés dans le presse-papier depuis la fenêtre avec le titre qui correspond à cette expression (laisser vide pour accepter n&apos;importe quelle fenêtre). Sur OS X, il contient le nom de l&apos;application suivi d&apos;un tiret (&amp;quot;-&amp;quot;) et du titre de la fenêtre. Par exemple &amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Comman&amp;d:</source>
@@ -2251,7 +2251,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
 Note: This is not be supported on all systems.</source>
         <translation>Transparence de la fenêtre principale quand elle n&apos;a pas le focus.
 
-Remarque: Cette fonction n&apos;est pas prise en charge sur certains systèmes.</translation>
+Remarque: Cette fonction n&apos;est pas prise en charge sur tous les systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="469"/>
@@ -2563,9 +2563,9 @@ Mettre à 0 pour désactiver.</translation>
         <source>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</source>
-        <translation>Transparence de la fenêtre principale si elle a le focus.
+        <translation>Transparence de la fenêtre principale quand elle a le focus.
 
-Remarque : Cette fonction n&apos;est pas prise en charge sur certains systèmes.</translation>
+Remarque : Cette fonction n&apos;est pas prise en charge sur tous les systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="362"/>
@@ -2801,7 +2801,7 @@ Remarque : les éléments modifiés peuvent être enregistrés à l&apos;aide de
     </message>
     <message>
         <source>Paste current clipboard content and copy next item to clipboard.</source>
-        <translation type="vanished">Vložit aktuální obsah schránky a zkopírovat další prvek do schránky.</translation>
+        <translation>Colle le contenu actuel du presse-papier et copie l&apos;élément suivant dans le presse-papier.</translation>
     </message>
     <message>
         <source>Paste and copy previous</source>
@@ -4366,7 +4366,7 @@ CTRL et touche haut ou Bas.</translation>
     </message>
     <message>
         <source>&amp;Sort Selected Items</source>
-        <translation type="vanished">&amp;Uspořádat vybrané prvky</translation>
+        <translation>&amp;Sort Les éléments sélectionnés</translation>
     </message>
     <message>
         <source>&amp;Reverse Selected Items</source>
@@ -5265,7 +5265,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
         <source>Open Item Context Menu</source>
-        <translation type="unfinished">Menu contextuel d&apos;élément ouvert</translation>
+        <translation>Ouvrir le menu contextuel de l&apos;élément</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="151"/>
@@ -5369,7 +5369,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     </message>
     <message>
         <source>Print number of items in history.</source>
-        <translation type="vanished">Imprime le nombre d&apos;éléments dans l&apos;historique.</translation>
+        <translation>Affiche le nombre d&apos;éléments dans l&apos;historique.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
@@ -5888,7 +5888,7 @@ Affiche la version du programme et de ses bibliothèques.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;body&gt;&lt;p&gt;Appuyer sur n&apos;importe quelle combinaison de touches. &lt;span style=&quot;font-weight:600;&quot;&gt;Échap&lt;/span&gt; pour annuler.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Appuyer sur n&apos;importe quelle combinaison de touches. &lt;span style=&quot;font-weight:600;&quot;&gt;Échap&lt;/span&gt; pour annuler.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
