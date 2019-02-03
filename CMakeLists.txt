@@ -140,13 +140,13 @@ add_custom_target(
     ALL
     COMMAND ${CMAKE_COMMAND}
         -D INPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/src/common/version.h.in
-        -D OUTPUT_FILE=${CMAKE_CURRENT_BINARY_DIR}/src/common/version.h
+        -D OUTPUT_FILE=${CMAKE_CURRENT_BINARY_DIR}/src/version.h
         -P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
-    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/src/common/version.h
+    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/src/version.h
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 set_source_files_properties(
-    ${CMAKE_CURRENT_BINARY_DIR}/src/common/version.h
+    ${CMAKE_CURRENT_BINARY_DIR}/src/version.h
     PROPERTIES GENERATED TRUE
 )
 

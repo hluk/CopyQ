@@ -27,7 +27,6 @@
 #include "common/common.h"
 #include "common/log.h"
 #include "common/sleeptimer.h"
-#include "common/version.h"
 #include "common/textdata.h"
 #include "gui/clipboardspy.h"
 #include "gui/icons.h"
@@ -40,6 +39,7 @@
 #include "scriptable/scriptablefile.h"
 #include "scriptable/scriptableproxy.h"
 #include "scriptable/scriptabletemporaryfile.h"
+#include "version.h"
 
 #include <QApplication>
 #include <QCryptographicHash>

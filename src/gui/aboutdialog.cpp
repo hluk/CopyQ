@@ -22,9 +22,9 @@
 
 #include "common/shortcuts.h"
 #include "common/textdata.h"
-#include "common/version.h"
 #include "gui/icons.h"
 #include "gui/iconfont.h"
+#include "version.h"
 
 namespace {
 

@@ -31,13 +31,13 @@
 #include "common/shortcuts.h"
 #include "common/sleeptimer.h"
 #include "common/textdata.h"
-#include "common/version.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
 #include "gui/tabicons.h"
 #include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
+#include "version.h"
 
 #include <QDebug>
 #include <QDir>
