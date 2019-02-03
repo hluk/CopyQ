@@ -1,3 +1,7 @@
+v3.7.4
+- Fix GUI scaling when auto-started on Gnome
+- Fix tray icon on KDE
+
 v3.7.3
 - Search and item selection reset when main window is closed
 - Updated icons (Font Awesome 5.6.3)
