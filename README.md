@@ -240,14 +240,14 @@ Change install prefix if needed:
 ```bash
 git clone https://github.com/hluk/CopyQ.git
 cd CopyQ
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local .
+cmake .
 make
 ```
 
-### Install the App
+You can now run the built app.
 
 ```bash
-sudo make install
+./copyq
 ```
 
 ## Contributions
