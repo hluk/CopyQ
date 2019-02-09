@@ -122,9 +122,16 @@ void X11PlatformClipboard::onChanged(int mode)
     // owner most of the times.
     PlatformPtr platform = createPlatformNativeInterface();
     PlatformWindowPtr currentWindow = platform->getCurrentWindow();
-    auto &newOwner = mode == QClipboard::Clipboard ? m_clipboardData.newOwner : m_selectionData.newOwner;
-    if (currentWindow)
-        newOwner = currentWindow->getTitle().toUtf8();
+    if (currentWindow) {
+        const auto currentWindowTitle = currentWindow->getTitle().toUtf8();
+        auto &newOwner = mode == QClipboard::Clipboard ? m_clipboardData.newOwner : m_selectionData.newOwner;
+        if (currentWindowTitle != newOwner) {
+            COPYQ_LOG( QString("New %1 owner: \"%2\"")
+                       .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection")
+                       .arg(QString::fromUtf8(currentWindowTitle)) );
+            newOwner = currentWindowTitle;
+        }
+    }
 
     // Omit checking selection too fast.
     if ( mode == QClipboard::Selection && m_timerCheckAgain.isActive() ) {
@@ -133,7 +140,7 @@ void X11PlatformClipboard::onChanged(int mode)
         return;
     }
 
-    check();
+    checkAgainLater(true, 0);
 }
 
 void X11PlatformClipboard::check()
@@ -149,7 +156,8 @@ void X11PlatformClipboard::check()
 
     // Check clipboard and selection again if some signals where
     // not delivered or older data was received after new one.
-    checkAgainLater(changed);
+    const int interval = m_timerCheckAgain.interval() * 2 + minCheckAgainIntervalMs;
+    checkAgainLater(changed, interval);
 }
 
 bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
@@ -181,9 +189,8 @@ void X11PlatformClipboard::useNewClipboardData(X11PlatformClipboard::ClipboardDa
     emit changed(clipboardData->mode);
 }
 
-void X11PlatformClipboard::checkAgainLater(bool clipboardChanged)
+void X11PlatformClipboard::checkAgainLater(bool clipboardChanged, int interval)
 {
-    const int interval = m_timerCheckAgain.interval() * 2 + minCheckAgainIntervalMs;
     m_timerCheckAgain.setInterval(interval);
     if (interval < maxCheckAgainIntervalMs)
         m_timerCheckAgain.start();
