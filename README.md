@@ -98,7 +98,7 @@ Install [Flatpak](https://www.flatpak.org/) and `com.github.hluk.copyq` from
 [Flathub](https://flathub.org/).
 
 ```bash
-flatpak install --user --from https://flathub.org/repo/appstream/com.github.hluk.copyq.flatpakref
+flatpak install flathub com.github.hluk.copyq
 ```
 
 Start the application from menu or with following command.
