@@ -90,7 +90,7 @@ Install [Flatpak](https://www.flatpak.org/) and `com.github.hluk.copyq` from
 [Flathub](https://flathub.org/).
 
 ```bash
-flatpak install --user --from https://flathub.org/repo/appstream/com.github.hluk.copyq.flatpakref
+flatpak install flathub com.github.hluk.copyq
 ```
 
 Start the application from menu or with following command.
@@ -232,14 +232,14 @@ Change install prefix if needed:
 ```bash
 git clone https://github.com/hluk/CopyQ.git
 cd CopyQ
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local .
+cmake .
 make
 ```
 
-### Install the App
+You can now run the built app.
 
 ```bash
-sudo make install
+./copyq
 ```
 
 ## Contributions
