@@ -136,7 +136,6 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         auto timer = new QTimer(this);
         timer->setInterval(250);
         connect(timer, &QTimer::timeout, this, &ClipboardClient::stopEventLoops);
-        connect(timer, &QTimer::timeout, timer, &QTimer::deleteLater);
         timer->start();
         break;
     }
