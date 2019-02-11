@@ -120,10 +120,14 @@ private:
     void terminateClients(int waitMs);
 
     void waitForClientsToFinish(int waitMs);
+    void waitForCallbackToFinish();
+
+    void callback(const QString &scriptFunction);
 
     Server *m_server = nullptr;
     MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;
+    QPointer<Action> m_callback;
     bool m_ignoreNewConnections = false;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;

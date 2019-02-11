@@ -344,6 +344,9 @@ public slots:
     void onOwnClipboardChanged();
     void onHiddenClipboardChanged();
 
+    void onStart() {}
+    void onExit() {}
+
     void synchronizeToSelection();
     void synchronizeFromSelection();
 

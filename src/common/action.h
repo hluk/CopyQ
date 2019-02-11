@@ -78,7 +78,7 @@ public:
 
     bool waitForStarted(int msecs);
 
-    bool waitForFinished(int msecs);
+    bool waitForFinished(int msecs = -1);
 
     bool isRunning() const;
 

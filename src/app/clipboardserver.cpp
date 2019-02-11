@@ -144,6 +144,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     m_ignoreKeysTimer.setSingleShot(true);
 
     startMonitoring();
+
+    callback("onStart");
 }
 
 ClipboardServer::~ClipboardServer()
@@ -226,6 +228,9 @@ void ClipboardServer::onCommandsSaved()
 void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
+
+    callback("onExit");
+    waitForCallbackToFinish();
 
     m_ignoreNewConnections = true;
 
@@ -351,6 +356,23 @@ void ClipboardServer::waitForClientsToFinish(int waitMs)
 {
     SleepTimer t(waitMs);
     while ( !m_clients.isEmpty() && t.sleep() ) {}
+}
+
+void ClipboardServer::waitForCallbackToFinish()
+{
+    if (m_callback) {
+        COPYQ_LOG("Waiting for callback to finish");
+        m_callback->waitForFinished();
+    }
+}
+
+void ClipboardServer::callback(const QString &scriptFunction)
+{
+    waitForCallbackToFinish();
+    COPYQ_LOG( QString("Starting callback: %1").arg(scriptFunction) );
+    m_callback = new Action();
+    m_callback->setCommand(QStringList() << "copyq" << scriptFunction);
+    m_wnd->runInternalAction(m_callback);
 }
 
 void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)

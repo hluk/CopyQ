@@ -307,10 +307,19 @@ bool Action::waitForFinished(int msecs)
     QPointer<QObject> self(this);
     QEventLoop loop;
     QTimer t;
-    connectProcessFinished(m_processes.back(), &loop, &QEventLoop::quit);
-    connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
-    t.start(msecs);
+    connect(this, &Action::actionFinished, &loop, &QEventLoop::quit);
+    if (msecs >= 0) {
+        connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
+        t.setSingleShot(true);
+        t.start(msecs);
+    }
     loop.exec(QEventLoop::ExcludeUserInputEvents);
+
+    // Loop stopped because application is exiting?
+    while ( self && isRunning() && (msecs < 0 || t.isActive()) ) {
+        m_processes.back()->waitForFinished(50);
+        QCoreApplication::processEvents();
+    }
 
     return !self || !isRunning();
 }
