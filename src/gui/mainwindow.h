@@ -608,10 +608,6 @@ private:
 
     void onEscape();
 
-    /** Disable shortcuts for all default actions. */
-    void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
-
-    void updateActionShortcuts(int id);
     void updateActionShortcuts();
 
     QAction *actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context);
@@ -683,8 +679,6 @@ private:
     bool m_showItemPreview;
 
     bool m_activatingItem = false;
-
-    QList<QKeySequence> m_disabledShortcuts;
 
     QVector< QPointer<QAction> > m_actions;
     MenuItems m_menuItems;

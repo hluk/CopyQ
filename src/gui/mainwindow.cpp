@@ -101,6 +101,8 @@ const QIcon iconTabRename() { return getIconFromResources("tab_rename"); }
 
 const char propertyWidgetSizeGuarded[] = "CopyQ_widget_size_guarded";
 
+const char propertyActionFilterCommandFailed[] = "CopyQ_action_filter_command_failed";
+
 /// Omit size changes of a widget.
 class WidgetSizeGuard final : public QObject {
 public:
@@ -738,8 +740,6 @@ void MainWindow::updateContextMenuTimeout()
         return;
     }
 
-    setDisabledShortcuts(QList<QKeySequence>());
-
     addCommandsToItemMenu(c);
 
     m_menuItem->addSeparator();
@@ -769,6 +769,7 @@ void MainWindow::updateContextMenuTimeout()
              this, &MainWindow::setItemPreviewVisible, Qt::UniqueConnection );
 
     updateToolBar();
+    updateActionShortcuts();
 }
 
 void MainWindow::updateItemPreview()
@@ -1297,9 +1298,6 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
     const auto data = addSelectionData(*c);
     const auto commands = commandsForMenu(data, c->tabName());
 
-    QList<QKeySequence> usedShortcuts = m_disabledShortcuts;
-    QList<QKeySequence> uniqueShortcuts;
-
     for (const auto &command : commands) {
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_menuItem);
@@ -1310,26 +1308,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
 
         connect(act, &CommandAction::triggerCommand,
                 this, &MainWindow::onItemCommandActionTriggered);
-
-        uniqueShortcuts.clear();
-
-        for (const auto &shortcutText : command.shortcuts) {
-            const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
-            if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
-                if (act->isEnabled())
-                    usedShortcuts.append(shortcut);
-                uniqueShortcuts.append(shortcut);
-
-                if ( !isItemMenuDefaultActionValid() && isItemActivationShortcut(shortcut) )
-                    m_menuItem->setDefaultAction(act);
-            }
-        }
-
-        if (!uniqueShortcuts.isEmpty())
-            act->setShortcuts(uniqueShortcuts);
     }
-
-    setDisabledShortcuts(usedShortcuts);
 
     runMenuCommandFilters(&m_itemMenuMatchCommands, data);
 }
@@ -1485,32 +1464,43 @@ void MainWindow::onEscape()
     }
 }
 
-void MainWindow::setDisabledShortcuts(const QList<QKeySequence> &shortcuts)
-{
-    m_disabledShortcuts = shortcuts;
-    updateActionShortcuts();
-}
-
-void MainWindow::updateActionShortcuts(int id)
-{
-    Q_ASSERT(id < m_actions.size());
-    Q_ASSERT(id < m_menuItems.size());
-
-    QAction *action = m_actions[id];
-    if (!action)
-        return;
-
-    QList<QKeySequence> shortcuts = m_menuItems[id].shortcuts;
-    for (const auto &shortcut : m_disabledShortcuts)
-        shortcuts.removeAll(shortcut);
-
-    action->setShortcuts(shortcuts);
-}
-
 void MainWindow::updateActionShortcuts()
 {
-    for (int id = 0; id < m_actions.size(); ++id)
-        updateActionShortcuts(id);
+    QList<QKeySequence> usedShortcuts;
+
+    for (auto act : m_menuItem->findChildren<CommandAction*>()) {
+        if ( act->property(propertyActionFilterCommandFailed).toBool() )
+            continue;
+
+        const Command &command = act->command();
+        QList<QKeySequence> uniqueShortcuts;
+
+        for (const auto &shortcutText : command.shortcuts) {
+            const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
+            if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
+                usedShortcuts.append(shortcut);
+                uniqueShortcuts.append(shortcut);
+
+                if ( !isItemMenuDefaultActionValid() && isItemActivationShortcut(shortcut) )
+                    m_menuItem->setDefaultAction(act);
+            }
+        }
+
+        if (!uniqueShortcuts.isEmpty())
+            act->setShortcuts(uniqueShortcuts);
+    }
+
+    for (int id = 0; id < m_actions.size(); ++id) {
+        QAction *action = m_actions[id];
+        if (!action)
+            continue;
+
+        QList<QKeySequence> shortcuts = m_menuItems[id].shortcuts;
+        for (const auto &shortcut : usedShortcuts)
+            shortcuts.removeAll(shortcut);
+
+        action->setShortcuts(shortcuts);
+    }
 }
 
 QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context)
@@ -1529,7 +1519,6 @@ QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutCont
     }
 
     action->setIcon( getIcon(item.iconName, item.iconId) );
-    updateActionShortcuts(id);
 
     return action;
 }
@@ -2245,6 +2234,7 @@ void MainWindow::loadSettings()
 
     settings.beginGroup("Shortcuts");
     loadShortcuts(&m_menuItems, settings);
+    updateActionShortcuts();
     settings.endGroup();
 
     enterBrowseMode();
@@ -2639,24 +2629,15 @@ bool MainWindow::setMenuItemEnabled(int actionId, int menuItemMatchCommandIndex,
         return true;
 
     action->setEnabled(enabled);
+    action->setProperty(propertyActionFilterCommandFailed, !enabled);
 
-    if (enabled) {
-        const auto shortcuts = action->shortcuts();
-        if ( !shortcuts.isEmpty() ) {
-            setDisabledShortcuts(m_disabledShortcuts + shortcuts);
+    const auto shortcuts = action->shortcuts();
 
-            if ( !isItemMenuDefaultActionValid() ) {
-                for (const auto &shortcut : shortcuts) {
-                    if ( isItemActivationShortcut(shortcut) ) {
-                        m_menuItem->setDefaultAction(action);
-                        break;
-                    }
-                }
-            }
-        }
-    } else if ( actionId == m_trayMenuMatchCommands.actionId || !m_menuItem->isVisible() ) {
+    if ( !enabled && (actionId == m_trayMenuMatchCommands.actionId || !m_menuItem->isVisible()) )
         action->deleteLater();
-    }
+
+    if ( !shortcuts.isEmpty() )
+        updateActionShortcuts();
 
     return true;
 }
