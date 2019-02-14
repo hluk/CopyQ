@@ -245,13 +245,11 @@ void ClipboardServer::onCommitData(QSessionManager &sessionManager)
 {
     COPYQ_LOG("Got commit data request from session manager.");
 
-    m_ignoreNewConnections = true;
     const bool cancel = sessionManager.allowsInteraction() && !askToQuit();
     sessionManager.release();
 
     if (cancel) {
         sessionManager.cancel();
-        m_ignoreNewConnections = false;
         startMonitoring();
     } else {
         m_wnd->saveTabs();
