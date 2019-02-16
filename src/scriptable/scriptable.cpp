@@ -3142,10 +3142,12 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
         }
 
         const auto targetText = clipboard->text(target);
-        const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
-        if (targetTextHash != qHash(targetText)) {
-            COPYQ_SYNC_LOG("Cancelled (target text changed)");
-            return;
+        if ( clipboardOwnerData(targetMode).isEmpty() && !targetText.isEmpty() ) {
+            const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
+            if (targetTextHash != qHash(targetText)) {
+                COPYQ_SYNC_LOG("Cancelled (target text changed)");
+                return;
+            }
         }
 
         // Stop if the clipboard and selection text is already synchronized
