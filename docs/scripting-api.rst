@@ -950,6 +950,14 @@ omitted.
 
    Default implementation calls ``updateClipboardData()``.
 
+.. js:function:: onStart()
+
+   Called when application starts.
+
+.. js:function:: onExit()
+
+   Called just before application exists.
+
 .. js:function:: bool runAutomaticCommands()
 
    Executes automatic commands on current data.
