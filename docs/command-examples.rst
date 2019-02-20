@@ -96,27 +96,6 @@ it. If the editing is canceled the text won't be pasted.
     Icon=\xf0ea
     Name=Edit and Paste
 
-Ignore Images when Text is Available
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This is useful for ignoring cells copied as images from Microsoft Excel
-and LibreOffice Calc.
-
-.. code-block:: ini
-
-    [Command]
-    Automatic=true
-    Command="
-        copyq:
-        var text = data('text/plain')
-        copy(text)
-        add(text)"
-    Icon=\xf031
-    Input=image/bmp
-    MatchCommand="copyq: if ( str(data('text/plain')) == '' ) fail()"
-    Name=Ignore Images when Text Copied
-    Remove=true
-
 Remove Background and Text Colors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
