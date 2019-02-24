@@ -108,13 +108,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
     }
 
     case CommandStop: {
-        emit stopEventLoops();
-
-        // Stop any event loops started later.
-        auto timer = new QTimer(this);
-        timer->setInterval(250);
-        connect(timer, &QTimer::timeout, this, &ClipboardClient::stopEventLoops);
-        timer->start();
+        exit(0);
         break;
     }
 
@@ -168,11 +162,6 @@ void ClipboardClient::start(const QStringList &arguments)
              &scriptable, &Scriptable::abort );
     connect( &socket, &ClientSocket::disconnected,
              &scriptableProxy, &ScriptableProxy::clientDisconnected );
-
-    connect( this, &ClipboardClient::stopEventLoops,
-             &scriptable, &Scriptable::stopEventLoops );
-    connect( qApp, &QCoreApplication::aboutToQuit,
-             &scriptable, &Scriptable::stopEventLoops );
 
     connect( &scriptable, &Scriptable::finished,
              this, &ClipboardClient::scriptableFinished );

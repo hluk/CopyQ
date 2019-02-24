@@ -157,8 +157,6 @@ public:
     void setActionName(const QString &actionName);
     int executeArguments(const QStringList &args);
 
-    void stopEventLoops();
-
     void abortEvaluation(Abort abort = Abort::AllEvaluations);
 
 public slots:
@@ -369,7 +367,6 @@ public slots:
 
 signals:
     void finished();
-    void stop();
 
 private:
     void onExecuteOutput(const QByteArray &output);

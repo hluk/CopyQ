@@ -375,12 +375,6 @@ void ClipboardServer::callback(const QString &scriptFunction)
 
 void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 {
-    if (m_ignoreNewConnections) {
-        COPYQ_LOG("Ignoring new client while exiting");
-        client->close();
-        return;
-    }
-
     auto proxy = new ScriptableProxy(m_wnd);
     connect( client.get(), &ClientSocket::destroyed,
              proxy, &ScriptableProxy::safeDeleteLater );
@@ -399,6 +393,11 @@ void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
     connect( client.get(), &ClientSocket::connectionFailed,
              this, &ClipboardServer::onClientConnectionFailed );
     client->start();
+
+    if (m_ignoreNewConnections) {
+        COPYQ_LOG("Ignoring new client while exiting");
+        client->sendMessage(QByteArray(), CommandStop);
+    }
 }
 
 void ClipboardServer::onClientMessageReceived(

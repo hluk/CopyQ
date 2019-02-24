@@ -1951,7 +1951,6 @@ QScriptValue Scriptable::dialog()
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
-    connect(this, &Scriptable::stop, &loop, &QEventLoop::quit);
     connect( m_proxy, &ScriptableProxy::inputDialogFinished,
              &loop, [&](int finishedDialogId, const NamedValueList &result) {
                  if (finishedDialogId != dialogId)
@@ -2382,7 +2381,6 @@ void Scriptable::monitorClipboard()
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
-    connect(this, &Scriptable::stop, &loop, &QEventLoop::quit);
     connect( &monitor, &ClipboardMonitor::clipboardChanged,
              this, &Scriptable::onMonitorClipboardChanged );
     connect( &monitor, &ClipboardMonitor::synchronizeSelection,
@@ -2664,11 +2662,6 @@ QScriptValue Scriptable::copy(ClipboardMode mode)
 
     throwError(argumentError());
     return false;
-}
-
-void Scriptable::stopEventLoops()
-{
-    emit stop();
 }
 
 void Scriptable::abortEvaluation(Abort abort)
@@ -3000,7 +2993,6 @@ void Scriptable::provideClipboard(ClipboardMode mode)
     t.start();
 
     connect( this, &Scriptable::finished, &loop, &QEventLoop::quit );
-    connect( this, &Scriptable::stop, &loop, &QEventLoop::quit );
     connect( QGuiApplication::clipboard(), &QClipboard::changed,
              &t, checkClipboardOwnership );
 
@@ -3186,7 +3178,6 @@ QScriptValue Scriptable::readInput()
     QEventLoop loop;
     connect(inputReaderThread, &QThread::finished, &loop, &QEventLoop::quit);
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
-    connect(this, &Scriptable::stop, &loop, &QEventLoop::quit);
     inputReaderThread->start();
     loop.exec();
 
