@@ -61,6 +61,7 @@
 #include <QUrl>
 #include <QVector>
 #include <QTextCodec>
+#include <QThread>
 #include <QTimer>
 
 Q_DECLARE_METATYPE(QByteArray*)
@@ -1539,15 +1540,8 @@ QScriptValue Scriptable::input()
 {
     m_skipArguments = 0;
 
-    if ( !getByteArray(m_input, this) ) {
-        emit readInput();
-        if (canContinue()) {
-            QEventLoop loop;
-            connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
-            connect(this, &Scriptable::dataReceived, &loop, &QEventLoop::quit);
-            loop.exec(QEventLoop::ExcludeUserInputEvents);
-        }
-    }
+    if ( !getByteArray(m_input, this) )
+        m_input = readInput();
 
     return m_input;
 }
@@ -2552,12 +2546,6 @@ int Scriptable::executeArguments(const QStringList &args)
     return exitCode;
 }
 
-void Scriptable::setInput(const QByteArray &input)
-{
-    m_input = newByteArray(input);
-    emit dataReceived();
-}
-
 QString Scriptable::processUncaughtException(const QString &cmd)
 {
     if ( !m_engine->hasUncaughtException() )
@@ -3177,6 +3165,41 @@ void Scriptable::saveData(const QString &tab)
             ? ClipboardMode::Clipboard
             : ClipboardMode::Selection;
     m_proxy->saveData(tab, data, clipboardMode);
+}
+
+QScriptValue Scriptable::readInput()
+{
+    // Try to read stdin in a non-blocking way.
+    class InputReaderThread final : public QThread {
+    public:
+        QByteArray input;
+
+    protected:
+        void run() override {
+            QFile in;
+            in.open(stdin, QIODevice::ReadOnly);
+            input = in.readAll();
+        }
+    };
+
+    auto inputReaderThread = new InputReaderThread;
+    QEventLoop loop;
+    connect(inputReaderThread, &QThread::finished, &loop, &QEventLoop::quit);
+    connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
+    connect(this, &Scriptable::stop, &loop, &QEventLoop::quit);
+    inputReaderThread->start();
+    loop.exec();
+
+    if ( inputReaderThread->isRunning() ) {
+        inputReaderThread->terminate();
+        COPYQ_LOG("Terminating input reader");
+        if ( !inputReaderThread->wait(4000) )
+            COPYQ_LOG("Failed to terminate input reader");
+        return QScriptValue();
+    }
+
+    inputReaderThread->deleteLater();
+    return newByteArray(inputReaderThread->input);
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

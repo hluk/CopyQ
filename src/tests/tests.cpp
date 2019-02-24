@@ -56,6 +56,8 @@
 
 #define WITH_TIMEOUT "afterMilliseconds(10000, fail); "
 
+#define KEEP_STDIN_OPEN "KEEP_STDIN_OPEN"
+
 // WORKAROUND: Checking clipboard right after closing menu gets stuck on OS X.
 #define ACTIVATE_MENU_ITEM(MENU_ID, WIDGET_ID, CONTENT) \
     RUN("keys" << MENU_ID << "ENTER", ""); \
@@ -274,10 +276,12 @@ public:
         if (!startTestProcess(&p, arguments, QIODevice::ReadWrite, environment))
             return -1;
 
-        if ( p.write(in) != in.size() )
-            return -2;
+        if (in != KEEP_STDIN_OPEN) {
+            if ( p.write(in) != in.size() )
+                return -2;
 
-        p.closeWriteChannel();
+            p.closeWriteChannel();
+        }
 
         if (stdoutData == nullptr)
             p.closeReadChannel(QProcess::StandardOutput);
@@ -3197,6 +3201,13 @@ void Tests::exitNoConfirm()
     RUN("config" << "confirm_exit" << "false", "false\n")
     RUN("keys" << clipboardBrowserId << "CTRL+Q", "");
     TEST( m_test->waitForServerToStop() );
+}
+
+void Tests::abortInputReader()
+{
+    RUN_WITH_INPUT("afterMilliseconds(0, abort); input(); 'DONE'", KEEP_STDIN_OPEN, "");
+    RUN_WITH_INPUT("afterMilliseconds(50, abort); input(); 'DONE'", KEEP_STDIN_OPEN, "");
+    RUN_WITH_INPUT("afterMilliseconds(250, abort); input(); 'DONE'", KEEP_STDIN_OPEN, "");
 }
 
 int Tests::run(

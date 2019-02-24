@@ -252,6 +252,8 @@ private slots:
     void exitConfirm();
     void exitNoConfirm();
 
+    void abortInputReader();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

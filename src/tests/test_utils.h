@@ -66,8 +66,8 @@ do { \
 #define RUN(ARGUMENTS, STDOUT_EXPECTED) \
     TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) );
 
-#define RUN_WITH_INPUT(ARGUMENTS, STDOUT_EXPECTED, INPUT) \
-    TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(INPUT), toByteArray(STDOUT_EXPECTED)) );
+#define RUN_WITH_INPUT(ARGUMENTS, INPUT, STDOUT_EXPECTED) \
+    TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED), toByteArray(INPUT)) );
 
 #define RUN_EXPECT_ERROR(ARGUMENTS, EXIT_CODE) \
     TEST( m_test->runClientWithError((Args() << ARGUMENTS), (EXIT_CODE)) );

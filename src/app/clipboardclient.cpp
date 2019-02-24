@@ -80,18 +80,8 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
 
 } // namespace
 
-void InputReader::readInput()
-{
-    QFile in;
-    in.open(stdin, QIODevice::ReadOnly);
-
-    QByteArray input = in.readAll();
-    emit inputRead(input);
-}
-
 ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &arguments, const QString &sessionName)
     : App(createClientApplication(argc, argv, arguments), sessionName)
-    , m_inputReaderThread(nullptr)
 {
     restoreSettings();
 
@@ -141,8 +131,6 @@ void ClipboardClient::onDisconnected()
 
     log( tr("Connection lost!"), LogError );
 
-    abortInputReader();
-
     exit(1);
 }
 
@@ -150,60 +138,6 @@ void ClipboardClient::onConnectionFailed()
 {
     log( tr("Cannot connect to server! Start CopyQ server first."), LogError );
     exit(1);
-}
-
-void ClipboardClient::setInput(const QByteArray &input)
-{
-    m_input = input;
-    sendInput();
-    abortInputReader();
-}
-
-void ClipboardClient::sendInput()
-{
-    if ( !wasClosed() )
-        emit inputReceived(m_input);
-}
-
-void ClipboardClient::exit(int exitCode)
-{
-    abortInputReader();
-    App::exit(exitCode);
-}
-
-void ClipboardClient::startInputReader()
-{
-    if ( wasClosed() || m_inputReaderThread )
-        return;
-
-    if ( isInputReaderFinished() ) {
-        sendInput();
-        return;
-    }
-
-    auto reader = new InputReader;
-    m_inputReaderThread = new QThread(this);
-    reader->moveToThread(m_inputReaderThread);
-    connect( m_inputReaderThread, &QThread::started, reader, &InputReader::readInput );
-    connect( m_inputReaderThread, &QThread::finished, reader, &InputReader::deleteLater );
-    connect( reader, &InputReader::inputRead, this, &ClipboardClient::setInput );
-    m_inputReaderThread->start();
-}
-
-void ClipboardClient::abortInputReader()
-{
-    if (m_inputReaderThread) {
-        m_inputReaderThread->exit();
-        if (!m_inputReaderThread->wait(2000)) {
-            m_inputReaderThread->terminate();
-            m_inputReaderThread->wait(2000);
-        }
-    }
-}
-
-bool ClipboardClient::isInputReaderFinished() const
-{
-    return m_inputReaderThread && m_inputReaderThread->isFinished();
 }
 
 void ClipboardClient::start(const QStringList &arguments)
@@ -222,13 +156,9 @@ void ClipboardClient::start(const QStringList &arguments)
     connect( &socket, &ClientSocket::connectionFailed,
              this, &ClipboardClient::onConnectionFailed );
 
-    connect( &scriptable, &Scriptable::readInput,
-             this, &ClipboardClient::startInputReader );
     connect( &scriptableProxy, &ScriptableProxy::sendMessage,
              &socket, &ClientSocket::sendMessage );
 
-    connect( this, &ClipboardClient::inputReceived,
-             &scriptable, &Scriptable::setInput );
     connect( this, &ClipboardClient::functionCallResultReceived,
              &scriptableProxy, &ScriptableProxy::setFunctionCallReturnValue );
     connect( this, &ClipboardClient::inputDialogFinished,

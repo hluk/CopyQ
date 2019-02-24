@@ -25,17 +25,6 @@
 #include <QObject>
 #include <QStringList>
 
-class InputReader : public QObject
-{
-    Q_OBJECT
-
-public:
-    void readInput();
-
-signals:
-    void inputRead(const QByteArray &input);
-};
-
 /**
  * Application client.
  *
@@ -52,17 +41,8 @@ public:
     ClipboardClient(
             int &argc, char **argv, const QStringList &arguments, const QString &sessionName);
 
-    void setInput(const QByteArray &input);
-
-    void sendInput();
-
-    void exit(int exitCode) override;
-
-    void startInputReader();
-
 signals:
     void functionCallResultReceived(const QByteArray &returnValue);
-    void inputReceived(const QByteArray &input);
     void inputDialogFinished(const QByteArray &data);
     void stopEventLoops();
     void scriptableFinished();
@@ -72,12 +52,7 @@ private:
     void onDisconnected();
     void onConnectionFailed();
 
-    void abortInputReader();
-    bool isInputReaderFinished() const;
     void start(const QStringList &arguments);
-
-    QThread *m_inputReaderThread;
-    QByteArray m_input;
 };
 
 #endif // CLIPBOARDCLIENT_H

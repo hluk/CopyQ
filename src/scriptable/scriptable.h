@@ -162,8 +162,6 @@ public:
     void abortEvaluation(Abort abort = Abort::AllEvaluations);
 
 public slots:
-    void setInput(const QByteArray &input);
-
     QScriptValue version();
     QScriptValue help();
 
@@ -370,9 +368,7 @@ public slots:
     void provideSelection();
 
 signals:
-    void dataReceived();
     void finished();
-    void readInput();
     void stop();
 
 private:
@@ -413,6 +409,8 @@ private:
     void synchronizeSelection(ClipboardMode targetMode);
 
     void saveData(const QString &tab);
+
+    QScriptValue readInput();
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
