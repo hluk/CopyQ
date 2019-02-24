@@ -164,8 +164,6 @@ void ClipboardClient::start(const QStringList &arguments)
              &scriptableProxy, &ScriptableProxy::clientDisconnected );
 
     connect( &scriptable, &Scriptable::finished,
-             this, &ClipboardClient::scriptableFinished );
-    connect( &scriptable, &Scriptable::finished,
              &scriptableProxy, &ScriptableProxy::clientDisconnected );
 
     bool hasActionId;

@@ -44,7 +44,6 @@ public:
 signals:
     void functionCallResultReceived(const QByteArray &returnValue);
     void inputDialogFinished(const QByteArray &data);
-    void scriptableFinished();
 
 private:
     void onMessageReceived(const QByteArray &data, int messageCode);
