@@ -136,6 +136,9 @@ void setGeometryOptionValue(const QString &optionName, const QVariant &value)
 
 void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
+    if ( isGeometryGuardBlockedUntilHidden(w) )
+        return;
+
     const QString optionName = geometryOptionName(*w, GeometryAction::Restore, openOnCurrentScreen);
     const QString tag = resolutionTag(*w, GeometryAction::Restore, openOnCurrentScreen);
     QByteArray geometry = geometryOptionValue(optionName + tag).toByteArray();
