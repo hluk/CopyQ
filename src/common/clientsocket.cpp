@@ -162,12 +162,12 @@ void ClientSocket::waitForReadyRead()
         m_socket->waitForReadyRead(2000);
 }
 
-void ClientSocket::start()
+bool ClientSocket::start()
 {
     if ( !m_socket || !m_socket->waitForConnected(4000) )
     {
         emit connectionFailed(id());
-        return;
+        return false;
     }
 
     SOCKET_LOG("Creating socket.");
@@ -182,6 +182,8 @@ void ClientSocket::start()
     onStateChanged(m_socket->state());
 
     onReadyRead();
+
+    return true;
 }
 
 void ClientSocket::sendMessage(const QByteArray &message, int messageCode)

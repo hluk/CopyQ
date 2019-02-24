@@ -62,7 +62,7 @@ public:
     void waitForReadyRead();
 
     /// Start emitting messageReceived().
-    void start();
+    bool start();
 
     /** Send message to client. */
     void sendMessage(

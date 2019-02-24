@@ -25,8 +25,6 @@
 #include <QObject>
 #include <QStringList>
 
-class ClientSocket;
-
 class InputReader : public QObject
 {
     Q_OBJECT
@@ -78,7 +76,6 @@ private:
     bool isInputReaderFinished() const;
     void start(const QStringList &arguments);
 
-    ClientSocket *m_socket = nullptr;
     QThread *m_inputReaderThread;
     QByteArray m_input;
 };
