@@ -317,7 +317,8 @@ bool Action::waitForFinished(int msecs)
 
     // Loop stopped because application is exiting?
     while ( self && isRunning() && (msecs < 0 || t.isActive()) ) {
-        m_processes.back()->waitForFinished(50);
+        if ( m_processes.back()->waitForFinished(0) )
+            break;
         QCoreApplication::processEvents();
     }
 
