@@ -55,76 +55,95 @@ ByteArrayPrototype::~ByteArrayPrototype()
 //! [0]
 QByteArray *ByteArrayPrototype::thisByteArray() const
 {
-    return qscriptvalue_cast<QByteArray*>(thisObject().data());
+    const auto v = qscriptvalue_cast<QByteArray*>(thisObject().data());
+    if (!v && engine() && engine()->currentContext())
+        engine()->currentContext()->throwError("Invalid ByteArray object");
+    return v;
 }
 //! [0]
 
 void ByteArrayPrototype::chop(int n)
 {
-    thisByteArray()->chop(n);
+    const auto v = thisByteArray();
+    if (v)
+        v->chop(n);
 }
 
 bool ByteArrayPrototype::equals(const QByteArray &other)
 {
-    return *thisByteArray() == other;
+    const auto v = thisByteArray();
+    return v && *v == other;
 }
 
 QByteArray ByteArrayPrototype::left(int len) const
 {
-    return thisByteArray()->left(len);
+    const auto v = thisByteArray();
+    return v ? v->left(len) : QByteArray();
 }
 
 //! [1]
 QByteArray ByteArrayPrototype::mid(int pos, int len) const
 {
-    return thisByteArray()->mid(pos, len);
+    const auto v = thisByteArray();
+    return v ? v->mid(pos, len) : QByteArray();
 }
 
 QScriptValue ByteArrayPrototype::remove(int pos, int len)
 {
-    thisByteArray()->remove(pos, len);
+    const auto v = thisByteArray();
+    if (v)
+        v->remove(pos, len);
     return thisObject();
 }
 //! [1]
 
 QByteArray ByteArrayPrototype::right(int len) const
 {
-    return thisByteArray()->right(len);
+    const auto v = thisByteArray();
+    return v ? v->right(len) : QByteArray();
 }
 
 QByteArray ByteArrayPrototype::simplified() const
 {
-    return thisByteArray()->simplified();
+    const auto v = thisByteArray();
+    return v ? v->simplified() : QByteArray();
 }
 
 QByteArray ByteArrayPrototype::toBase64() const
 {
-    return thisByteArray()->toBase64();
+    const auto v = thisByteArray();
+    return v ? v->toBase64() : QByteArray();
 }
 
 QByteArray ByteArrayPrototype::toLower() const
 {
-    return thisByteArray()->toLower();
+    const auto v = thisByteArray();
+    return v ? v->toLower() : QByteArray();
 }
 
 QByteArray ByteArrayPrototype::toUpper() const
 {
-    return thisByteArray()->toUpper();
+    const auto v = thisByteArray();
+    return v ? v->toUpper() : QByteArray();
 }
 
 QByteArray ByteArrayPrototype::trimmed() const
 {
-    return thisByteArray()->trimmed();
+    const auto v = thisByteArray();
+    return v ? v->trimmed() : QByteArray();
 }
 
 void ByteArrayPrototype::truncate(int pos)
 {
-    thisByteArray()->truncate(pos);
+    const auto v = thisByteArray();
+    if (v)
+        v->truncate(pos);
 }
 
 QString ByteArrayPrototype::toLatin1String() const
 {
-    return QString::fromLatin1(*thisByteArray());
+    const auto v = thisByteArray();
+    return v ? QString::fromLatin1(*v) : QString();
 }
 
 //! [2]
@@ -135,6 +154,7 @@ QScriptValue ByteArrayPrototype::valueOf() const
 
 int ByteArrayPrototype::size() const
 {
-    return thisByteArray()->size();
+    const auto v = thisByteArray();
+    return v ? v->size() : 0;
 }
 //! [2]

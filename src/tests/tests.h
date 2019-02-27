@@ -138,6 +138,7 @@ private slots:
     void classFile();
     void classDir();
     void classTemporaryFile();
+    void calledWithBadInstance();
 
     void pipingCommands();
 

@@ -1655,6 +1655,18 @@ void Tests::classTemporaryFile()
     RUN("TemporaryFile().fileTemplate()", QDir::temp().filePath("copyq.test.XXXXXX") + "\n");
 }
 
+void Tests::calledWithBadInstance()
+{
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "f=ByteArray().size; f()", CommandException, "ScriptError: Invalid ByteArray object");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "f=Dir().count; f()", CommandException, "ScriptError: Invalid Dir object");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "f=File().open; f()", CommandException, "ScriptError: Invalid File object");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "f=TemporaryFile().autoRemove; f()", CommandException, "ScriptError: Invalid TemporaryFile object");
+}
+
 void Tests::pipingCommands()
 {
     const auto tab = testTab(1);

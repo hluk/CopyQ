@@ -31,7 +31,7 @@ public:
     explicit DirWrapper(const QString &path) : m_dir(path) {}
     explicit DirWrapper(const QDir &dir) : m_dir(dir) {}
 
-    QDir &dir() { return m_dir; }
+    QDir *dir() { return &m_dir; }
 private:
     QDir m_dir;
 };
@@ -93,7 +93,7 @@ public slots:
     QScriptValue toNativeSeparators(const QScriptValue &pathName) const;
 
 private:
-    QDir &thisDir() const;
+    QDir *thisDir() const;
 
     QScriptValue newDir(const QDir &dir) const;
 };

@@ -32,25 +32,34 @@ TemporaryFilePrototype::TemporaryFilePrototype(QObject *parent)
 
 bool TemporaryFilePrototype::autoRemove() const
 {
-    return thisTemporaryFile()->autoRemove();
+    const auto v = thisTemporaryFile();
+    return v && v->autoRemove();
 }
 
 QString TemporaryFilePrototype::fileTemplate() const
 {
-    return thisTemporaryFile()->fileTemplate();
+    const auto v = thisTemporaryFile();
+    return v ? v->fileTemplate() : QString();
 }
 
 void TemporaryFilePrototype::setAutoRemove(bool autoRemove)
 {
-    thisTemporaryFile()->setAutoRemove(autoRemove);
+    const auto v = thisTemporaryFile();
+    if (v)
+        v->setAutoRemove(autoRemove);
 }
 
 void TemporaryFilePrototype::setFileTemplate(const QScriptValue &name)
 {
-    thisTemporaryFile()->setFileTemplate(name.toString());
+    const auto v = thisTemporaryFile();
+    if (v)
+        v->setFileTemplate(name.toString());
 }
 
 QTemporaryFile *TemporaryFilePrototype::thisTemporaryFile() const
 {
-    return qscriptvalue_cast<QTemporaryFile*>(thisObject().data());
+    const auto v = qscriptvalue_cast<QTemporaryFile*>(thisObject().data());
+    if (!v && engine() && engine()->currentContext())
+        engine()->currentContext()->throwError("Invalid TemporaryFile object");
+    return v;
 }

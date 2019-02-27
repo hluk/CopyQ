@@ -2515,7 +2515,7 @@ int Scriptable::executeArguments(const QStringList &args)
     }
 
     if ( result.isFunction() && canContinue() && !m_engine->hasUncaughtException() )
-        result = result.call( QScriptValue(), fnArgs.mid(skipArguments) );
+        result = result.call( result.data(), fnArgs.mid(skipArguments) );
 
     int exitCode;
 

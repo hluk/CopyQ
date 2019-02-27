@@ -46,142 +46,174 @@ FilePrototype::FilePrototype(QObject *parent)
 
 bool FilePrototype::open()
 {
-    return thisFile()->open(QIODevice::ReadWrite);
+    const auto v = thisFile();
+    return v && v->open(QIODevice::ReadWrite);
 }
 
 bool FilePrototype::openReadOnly()
 {
-    return thisFile()->open(QIODevice::ReadOnly);
+    const auto v = thisFile();
+    return v && v->open(QIODevice::ReadOnly);
 }
 
 bool FilePrototype::openWriteOnly()
 {
-    return thisFile()->open(QIODevice::WriteOnly);
+    const auto v = thisFile();
+    return v && v->open(QIODevice::WriteOnly);
 }
 
 bool FilePrototype::openAppend()
 {
-    return thisFile()->open(QIODevice::Append);
+    const auto v = thisFile();
+    return v && v->open(QIODevice::Append);
 }
 
 void FilePrototype::close()
 {
-    thisFile()->close();
+    const auto v = thisFile();
+    if (v)
+        v->close();
 }
 
 QScriptValue FilePrototype::read(qint64 maxSize)
 {
-    return newByteArray(thisFile()->read(maxSize));
+    const auto v = thisFile();
+    return v ? newByteArray(v->read(maxSize)) : QScriptValue();
 }
 
 QScriptValue FilePrototype::readLine(qint64 maxSize)
 {
-    return newByteArray(thisFile()->readLine(maxSize));
+    const auto v = thisFile();
+    return v ? newByteArray(v->readLine(maxSize)) : QScriptValue();
 }
 
 QScriptValue FilePrototype::readAll()
 {
-    return newByteArray(thisFile()->readAll());
+    const auto v = thisFile();
+    return v ? newByteArray(v->readAll()) : QScriptValue();
 }
 
 qint64 FilePrototype::write(const QScriptValue &value)
 {
-    return thisFile()->write(toByteArray(value));
+    const auto v = thisFile();
+    return v ? v->write(toByteArray(value)) : 0;
 }
 
 bool FilePrototype::atEnd() const
 {
-    return thisFile()->atEnd();
+    const auto v = thisFile();
+    return v && v->atEnd();
 }
 
 qint64 FilePrototype::bytesAvailable() const
 {
-    return thisFile()->bytesAvailable();
+    const auto v = thisFile();
+    return v ? v->bytesAvailable() : 0;
 }
 
 qint64 FilePrototype::bytesToWrite() const
 {
-    return thisFile()->bytesToWrite();
+    const auto v = thisFile();
+    return v ? v->bytesToWrite() : 0;
 }
 
 bool FilePrototype::canReadLine() const
 {
-    return thisFile()->canReadLine();
+    const auto v = thisFile();
+    return v && v->canReadLine();
 }
 
 QScriptValue FilePrototype::errorString() const
 {
-    return thisFile()->errorString();
+    const auto v = thisFile();
+    return v ? v->errorString() : QScriptValue();
 }
 
 bool FilePrototype::isOpen() const
 {
-    return thisFile()->isOpen();
+    const auto v = thisFile();
+    return v && v->isOpen();
 }
 
 bool FilePrototype::isReadable() const
 {
-    return thisFile()->isReadable();
+    const auto v = thisFile();
+    return v && v->isReadable();
 }
 
 bool FilePrototype::isWritable() const
 {
-    return thisFile()->isWritable();
+    const auto v = thisFile();
+    return v && v->isWritable();
 }
 
 QScriptValue FilePrototype::peek(qint64 maxSize)
 {
-    return newByteArray(thisFile()->peek(maxSize));
+    const auto v = thisFile();
+    return v ? newByteArray(v->peek(maxSize)) : QScriptValue();
 }
 
 qint64 FilePrototype::pos() const
 {
-    return thisFile()->pos();
+    const auto v = thisFile();
+    return v ? v->pos() : 0;
 }
 
 bool FilePrototype::reset()
 {
-    return thisFile()->reset();
+    const auto v = thisFile();
+    return v && v->reset();
 }
 
 bool FilePrototype::seek(qint64 pos)
 {
-    return thisFile()->seek(pos);
+    const auto v = thisFile();
+    return v && v->seek(pos);
 }
 
 void FilePrototype::setTextModeEnabled(bool enabled)
 {
-    thisFile()->setTextModeEnabled(enabled);
+    const auto v = thisFile();
+    if (v)
+        v->setTextModeEnabled(enabled);
 }
 
 qint64 FilePrototype::size() const
 {
-    return thisFile()->size();
+    const auto v = thisFile();
+    return v ? v->size() : 0;
 }
 
 QScriptValue FilePrototype::fileName() const
 {
-    return thisFile()->fileName();
+    const auto v = thisFile();
+    return v ? v->fileName() : QScriptValue();
 }
 
 bool FilePrototype::exists() const
 {
-    return thisFile()->exists();
+    const auto v = thisFile();
+    return v && v->exists();
 }
 
 bool FilePrototype::flush()
 {
-    return thisFile()->flush();
+    const auto v = thisFile();
+    return v && v->flush();
 }
 
 bool FilePrototype::remove()
 {
-    return thisFile()->remove();
+    const auto v = thisFile();
+    return v && v->remove();
 }
 
 QFile *FilePrototype::thisFile() const
 {
-    return qscriptvalue_cast<QFile*>(thisObject().data());
+    const auto v = qscriptvalue_cast<QFile*>(thisObject().data());
+    if (!v && engine() && engine()->currentContext())
+        engine()->currentContext()->throwError("Invalid File object");
+    return v;
 }
 
 QScriptValue FilePrototype::newByteArray(const QByteArray &bytes)
