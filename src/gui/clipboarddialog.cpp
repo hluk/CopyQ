@@ -31,12 +31,26 @@
 
 #include <QBuffer>
 #include <QListWidgetItem>
+#include <QMimeData>
 #include <QMovie>
 #include <QScrollBar>
 #include <QUrl>
 
+namespace {
+
 // Limit number of characters to load at once - performance reasons.
 static const int batchLoadCharacters = 4096;
+
+QVariant cloneClipboardData(const QString &format)
+{
+    const QMimeData *clipData = clipboardData();
+    if (!clipData)
+        return QVariant();
+
+    return cloneData(*clipData, QStringList(format)).value(format);
+}
+
+} // namespace
 
 ClipboardDialog::ClipboardDialog(QWidget *parent)
     : QDialog(parent)
@@ -44,8 +58,13 @@ ClipboardDialog::ClipboardDialog(QWidget *parent)
     init();
 
     const QMimeData *clipData = clipboardData();
-    if (clipData)
-        setData( cloneData(*clipData) );
+    if (clipData) {
+        m_dataFromClipboard = true;
+        for (const auto &format : clipData->formats()) {
+            m_data.insert(format, QVariant());
+        }
+        setData(m_data);
+    }
 }
 
 ClipboardDialog::ClipboardDialog(
@@ -87,7 +106,11 @@ void ClipboardDialog::onListWidgetFormatsCurrentItemChanged(
     else
         ui->labelContent->setBuddy(ui->textEdit);
 
-    const QByteArray bytes = m_data.value(mime).toByteArray();
+    QVariant value = m_data.value(mime);
+    if ( m_dataFromClipboard && !value.isValid() )
+        value = m_data[mime] = cloneClipboardData(mime).toByteArray();
+
+    const QByteArray bytes = value.toByteArray();
 
     m_timerTextLoad.stop();
 
@@ -189,19 +212,14 @@ void ClipboardDialog::setData(const QVariantMap &data)
 {
     const QString currentFormat = ui->listWidgetFormats->currentIndex().data().toString();
     ui->listWidgetFormats->clear();
-    m_data.clear();
+    m_data = data;
 
-    // Show only data that can be displayed.
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
         const auto &mime = it.key();
-        const auto &bytes = it.value();
-        if ( bytes.canConvert<QByteArray>() ) {
-            m_data.insert(mime, bytes);
-            ui->listWidgetFormats->addItem(mime);
-            if (mime == currentFormat) {
-                ui->listWidgetFormats->setCurrentRow(
-                            ui->listWidgetFormats->count() - 1);
-            }
+        ui->listWidgetFormats->addItem(mime);
+        if (mime == currentFormat) {
+            ui->listWidgetFormats->setCurrentRow(
+                        ui->listWidgetFormats->count() - 1);
         }
     }
 

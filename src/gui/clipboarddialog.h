@@ -72,6 +72,7 @@ private:
     QPointer<QAbstractItemModel> m_model;
     QPersistentModelIndex m_index;
     QVariantMap m_data;
+    bool m_dataFromClipboard = false;
     QString m_textToShow;
     QTimer m_timerTextLoad;
 
