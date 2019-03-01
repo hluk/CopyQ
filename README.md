@@ -12,7 +12,7 @@ CopyQ is advanced clipboard manager with editing and scripting features.
 - [Documentation](https://copyq.readthedocs.io)
 - [Mailing List](https://groups.google.com/group/copyq)
 - [Bug Reports](https://github.com/hluk/CopyQ/issues)
-- [Donate](https://www.bountysource.com/teams/copyq)
+- [Donate](https://liberapay.com/CopyQ/)
 - [Scripting API](https://copyq.readthedocs.io/en/latest/scripting-api.html)
 
 ## Overview
