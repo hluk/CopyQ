@@ -39,7 +39,12 @@
 namespace {
 
 // Limit number of characters to load at once - performance reasons.
-static const int batchLoadCharacters = 4096;
+constexpr int batchLoadCharacters = 4096;
+constexpr int priorityHigh = 100;
+constexpr int priorityMedium = priorityHigh / 2;
+constexpr int priorityLow = priorityMedium / 2;
+constexpr int priorityLower = priorityLow / 2;
+constexpr int priorityLowest = 0;
 
 QVariant cloneClipboardData(const QString &format)
 {
@@ -48,6 +53,29 @@ QVariant cloneClipboardData(const QString &format)
         return QVariant();
 
     return cloneData(*clipData, QStringList(format)).value(format);
+}
+
+int formatSortPriority(const QString &format)
+{
+    if (format == mimeText)
+        return priorityHigh + 2;
+
+    if (format == mimeHtml)
+        return priorityHigh + 1;
+
+    if ( format.startsWith("text/") )
+        return priorityHigh;
+
+    if ( format.startsWith("application/") )
+        return priorityLow;
+
+    if ( format.contains("/x-") )
+        return priorityLower;
+
+    if ( format.isEmpty() || format[0].isUpper() )
+        return priorityLowest;
+
+    return priorityMedium;
 }
 
 } // namespace
@@ -214,10 +242,13 @@ void ClipboardDialog::setData(const QVariantMap &data)
     ui->listWidgetFormats->clear();
     m_data = data;
 
-    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
-        const auto &mime = it.key();
-        ui->listWidgetFormats->addItem(mime);
-        if (mime == currentFormat) {
+    QStringList formats = data.keys();
+    std::sort( std::begin(formats), std::end(formats), [](const QString &lhs, const QString &rhs) {
+        return formatSortPriority(lhs) > formatSortPriority(rhs) || lhs < rhs;
+    } );
+    for (const QString &format : formats) {
+        ui->listWidgetFormats->addItem(format);
+        if (format == currentFormat) {
             ui->listWidgetFormats->setCurrentRow(
                         ui->listWidgetFormats->count() - 1);
         }
