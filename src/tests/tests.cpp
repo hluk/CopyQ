@@ -2974,15 +2974,16 @@ void Tests::showHideAboutDialog()
 
 void Tests::showHideClipboardDialog()
 {
-    TEST( m_test->setClipboard("TEST", "text/test-format") );
+    TEST( m_test->setClipboard("TEST", "test-format") );
     RUN("keys" << clipboardBrowserId << "CTRL+SHIFT+C" << clipboardDialogId, "");
 
-    RUN("keys" << clipboardDialogId << "DOWN" << clipboardDialogFormatListId, "");
+    RUN("keys" << clipboardDialogId << "DOWN" << "HOME" << clipboardDialogFormatListId, "");
+
     RUN("keys" << clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy), "");
 #ifdef Q_OS_WIN
-    WAIT_FOR_CLIPBOARD("application/x-qt-windows-mime;value=\"text/test-format\"");
+    WAIT_FOR_CLIPBOARD("application/x-qt-windows-mime;value=\"test-format\"");
 #else
-    WAIT_FOR_CLIPBOARD("text/test-format");
+    WAIT_FOR_CLIPBOARD("test-format");
 #endif
 
     RUN("keys" << clipboardDialogId << "ESCAPE" << clipboardBrowserId, "");
