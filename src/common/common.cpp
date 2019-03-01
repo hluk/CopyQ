@@ -97,9 +97,6 @@ public:
         if (!refresh())
             return QByteArray();
 
-        if (format == mimeText || format == mimeHtml)
-            return dataToText( data(format), format ).toUtf8();
-
         if (format == mimeUriList) {
             QByteArray bytes;
             for ( const auto &url : urls() ) {
@@ -109,6 +106,9 @@ public:
             }
             return bytes;
         }
+
+        if ( format.startsWith("text/") )
+            return dataToText( data(format), format ).toUtf8();
 
         return data(format);
     }
