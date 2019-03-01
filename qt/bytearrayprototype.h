@@ -71,6 +71,8 @@ public slots:
     QScriptValue valueOf() const;
     int size() const;
 
+    QString text() const;
+
 private:
     QByteArray *thisByteArray() const;
 };

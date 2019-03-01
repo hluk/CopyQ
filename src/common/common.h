@@ -104,7 +104,7 @@ QString textLabelForData(const QVariantMap &data);
 
 void renameToUnique(QString *name, const QStringList &names);
 
-QString dataToText(const QByteArray &bytes, const QString &mime);
+QString dataToText(const QByteArray &bytes, const QString &mime = QString());
 
 bool isClipboardData(const QVariantMap &data);
 

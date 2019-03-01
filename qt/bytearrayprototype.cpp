@@ -39,6 +39,9 @@
 ****************************************************************************/
 
 #include "bytearrayprototype.h"
+
+#include "common/common.h"
+
 #include <QtScript/QScriptEngine>
 
 Q_DECLARE_METATYPE(QByteArray*)
@@ -156,5 +159,11 @@ int ByteArrayPrototype::size() const
 {
     const auto v = thisByteArray();
     return v ? v->size() : 0;
+}
+
+QString ByteArrayPrototype::text() const
+{
+    const auto v = thisByteArray();
+    return v ? dataToText(*v) : QString();
 }
 //! [2]
