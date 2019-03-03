@@ -331,58 +331,22 @@ private:
 
 ItemTags::ItemTags(ItemWidget *childItem, const Tags &tags)
     : QWidget( childItem->widget()->parentWidget() )
-    , ItemWidget(this)
+    , ItemWidgetWrapper(childItem, this)
     , m_tagWidget(new QWidget(childItem->widget()->parentWidget()))
-    , m_childItem(childItem)
 {
     QBoxLayout *tagLayout = new QHBoxLayout(m_tagWidget);
     tagLayout->setMargin(0);
     addTagButtons(tagLayout, tags);
 
-    m_childItem->widget()->setObjectName("item_child");
-    m_childItem->widget()->setParent(this);
+    childItem->widget()->setObjectName("item_child");
+    childItem->widget()->setParent(this);
 
     QBoxLayout *layout = new QVBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(0);
 
     layout->addWidget(m_tagWidget);
-    layout->addWidget( m_childItem->widget() );
-}
-
-void ItemTags::setCurrent(bool current)
-{
-    m_childItem->setCurrent(current);
-}
-
-void ItemTags::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
-{
-    m_childItem->setHighlight(re, highlightFont, highlightPalette);
-}
-
-QWidget *ItemTags::createEditor(QWidget *parent) const
-{
-    return m_childItem->createEditor(parent);
-}
-
-void ItemTags::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-    m_childItem->setEditorData(editor, index);
-}
-
-void ItemTags::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
-{
-    m_childItem->setModelData(editor, model, index);
-}
-
-bool ItemTags::hasChanges(QWidget *editor) const
-{
-    return m_childItem->hasChanges(editor);
-}
-
-QObject *ItemTags::createExternalEditor(const QModelIndex &index, QWidget *parent) const
-{
-    return m_childItem->createExternalEditor(index, parent);
+    layout->addWidget( childItem->widget() );
 }
 
 void ItemTags::updateSize(QSize maximumSize, int idealWidth)
@@ -393,7 +357,7 @@ void ItemTags::updateSize(QSize maximumSize, int idealWidth)
     m_tagWidget->setFixedWidth(idealWidth);
     setFixedWidth(idealWidth);
 
-    m_childItem->updateSize(maximumSize, idealWidth);
+    ItemWidgetWrapper::updateSize(maximumSize, idealWidth);
 }
 
 QStringList ItemTagsScriptable::getUserTags() const

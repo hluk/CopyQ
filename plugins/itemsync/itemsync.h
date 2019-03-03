@@ -21,7 +21,7 @@
 #define ITEMSYNC_H
 
 #include "gui/icons.h"
-#include "item/itemwidget.h"
+#include "item/itemwidgetwrapper.h"
 
 #include <QWidget>
 
@@ -38,29 +38,16 @@ struct FileFormat;
 
 using ItemSyncTabPaths = QMap<QString, QString>;
 
-class ItemSync : public QWidget, public ItemWidget
+class ItemSync : public QWidget, public ItemWidgetWrapper
 {
     Q_OBJECT
 
 public:
     ItemSync(const QString &label, const QString &icon, ItemWidget *childItem = nullptr);
 
-    void setCurrent(bool current) override;
-
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette) override;
-
-    QWidget *createEditor(QWidget *parent) const override;
-
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-
-    void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const override;
-
-    bool hasChanges(QWidget *editor) const override;
-
-    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
 
     void updateSize(QSize maximumSize, int idealWidth) override;
 
@@ -69,7 +56,6 @@ protected:
 private:
     QTextEdit *m_label;
     QWidget *m_icon;
-    std::unique_ptr<ItemWidget> m_childItem;
 };
 
 class ItemSyncSaver : public QObject, public ItemSaverInterface

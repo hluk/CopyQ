@@ -519,7 +519,7 @@ void ClipboardBrowser::updateEditorGeometry()
     if ( isInternalEditorOpen() ) {
         const QRect contents = viewport()->contentsRect();
         const QMargins margins = contentsMargins();
-        m_editor->setGeometry( contents.translated(margins.left(), margins.top()) );
+        m_editor->parentWidget()->setGeometry( contents.translated(margins.left(), margins.top()) );
     }
 }
 
@@ -917,7 +917,13 @@ void ClipboardBrowser::onItemCountChanged()
 void ClipboardBrowser::onEditorSave()
 {
     Q_ASSERT(!m_editor.isNull());
-    m_editor->commitData(&m);
+
+    if ( m_editor && m_editor->hasChanges() ) {
+        const QVariantMap data = m_editor->data();
+        if ( m_sharedData->itemFactory->setData(data, m_editor->index(), &m) )
+            m_editor->setHasChanges(false);
+    }
+
     focusEditedIndex();
     saveItems();
 }
@@ -1256,13 +1262,18 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
     if ( !isLoaded() )
         return false;
 
-    ItemWidget *item = d.cache(index);
-    QObject *editor = item->createExternalEditor(index, this);
+    auto data = m_sharedData->itemFactory->data(index);
+    if (m_itemSaver)
+        data = m_itemSaver->copyItem(m, data);
+
+    if ( data.isEmpty() )
+        return false;
+
+    QObject *editor = m_sharedData->itemFactory->createExternalEditor(index, data, this);
     if ( editor != nullptr && startEditor(editor) )
         return true;
 
     if ( !m_sharedData->editor.trimmed().isEmpty() ) {
-        const QVariantMap data = copyIndex(index);
         if ( data.contains(mimeText) ) {
             auto itemEditor = new ItemEditor( data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this );
             itemEditor->setIndex(index);
@@ -1311,7 +1322,7 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
     if ( !bytes.isEmpty() ) {
         const QVariantMap dataMap = createDataMap(mime, bytes);
         if (index.isValid())
-            m.setData(index, dataMap, contentType::updateData);
+            m_sharedData->itemFactory->setData(dataMap, index, &m);
         else
             add(dataMap);
         saveItems();

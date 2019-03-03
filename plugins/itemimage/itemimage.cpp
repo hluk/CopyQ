@@ -95,12 +95,9 @@ bool getPixmapFromData(const QVariantMap &dataMap, QPixmap *pix)
 ItemImage::ItemImage(
         const QPixmap &pix,
         const QByteArray &animationData, const QByteArray &animationFormat,
-        const QString &imageEditor, const QString &svgEditor,
         QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
-    , m_editor(imageEditor)
-    , m_svgEditor(svgEditor)
     , m_pixmap(pix)
     , m_animationData(animationData)
     , m_animationFormat(animationFormat)
@@ -108,19 +105,6 @@ ItemImage::ItemImage(
 {
     setMargin(4);
     setPixmap(pix);
-}
-
-QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *parent) const
-{
-    QString mime;
-    QByteArray data;
-    const auto dataMap = index.data(contentType::data).toMap();
-    if ( !getImageData(dataMap, &data, &mime) )
-        return nullptr;
-
-    const QString &cmd = mime.contains("svg") ? m_svgEditor : m_editor;
-
-    return cmd.isEmpty() ? nullptr : new ItemEditor(data, mime, cmd, parent);
 }
 
 void ItemImage::updateSize(QSize, int)
@@ -223,10 +207,7 @@ ItemWidget *ItemImageLoader::create(const QVariantMap &data, QWidget *parent, bo
     QByteArray animationFormat;
     getAnimatedImageData(data, &animationData, &animationFormat);
 
-    return new ItemImage(pix,
-                         animationData, animationFormat,
-                         m_settings.value("image_editor").toString(),
-                         m_settings.value("svg_editor").toString(), parent);
+    return new ItemImage(pix, animationData, animationFormat, parent);
 }
 
 QStringList ItemImageLoader::formatsToSave() const
@@ -256,4 +237,16 @@ QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)
     ui->lineEditImageEditor->setText( m_settings.value("image_editor", "").toString() );
     ui->lineEditSvgEditor->setText( m_settings.value("svg_editor", "").toString() );
     return w;
+}
+
+QObject *ItemImageLoader::createExternalEditor(const QModelIndex &, const QVariantMap &data, QWidget *parent) const
+{
+    QString mime;
+    QByteArray imageData;
+    if ( !getImageData(data, &imageData, &mime) )
+        return nullptr;
+
+    const auto editorConfigKey = mime.contains("svg") ? "image_editor" : "svg_editor";
+    const QString cmd = m_settings.value(editorConfigKey).toString();
+    return cmd.isEmpty() ? nullptr : new ItemEditor(imageData, mime, cmd, parent);
 }

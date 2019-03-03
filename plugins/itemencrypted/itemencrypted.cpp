@@ -200,25 +200,34 @@ bool keysExist()
     return !readGpgOutput( QStringList("--list-keys") ).isEmpty();
 }
 
-bool decryptMimeData(QVariantMap *detinationData, const QModelIndex &index)
+bool decryptMimeData(QVariantMap *data)
 {
-    const QVariantMap data = index.data(contentType::data).toMap();
-    if ( !data.contains(mimeEncryptedData) )
+    const QByteArray encryptedBytes = data->take(mimeEncryptedData).toByteArray();
+    const QByteArray bytes = readGpgOutput( QStringList() << "--decrypt", encryptedBytes );
+    if ( bytes.isEmpty() )
         return false;
 
-    const QByteArray encryptedBytes = data.value(mimeEncryptedData).toByteArray();
-    const QByteArray bytes = readGpgOutput( QStringList() << "--decrypt", encryptedBytes );
-
-    return deserializeData(detinationData, bytes);
+    return deserializeData(data, bytes);
 }
 
-void encryptMimeData(const QVariantMap &data, const QModelIndex &index, QAbstractItemModel *model)
+bool encryptMimeData(const QVariantMap &data, const QModelIndex &index, QAbstractItemModel *model)
 {
-    const QByteArray bytes = serializeData(data);
-    const QByteArray encryptedBytes = readGpgOutput( QStringList("--encrypt"), bytes );
+    QVariantMap dataToEncrypt;
     QVariantMap dataMap;
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        if ( it.key().startsWith(COPYQ_MIME_PREFIX) )
+            dataMap.insert(it.key(), it.value());
+        else
+            dataToEncrypt.insert(it.key(), it.value());
+    }
+
+    const QByteArray bytes = serializeData(dataToEncrypt);
+    const QByteArray encryptedBytes = readGpgOutput( QStringList("--encrypt"), bytes );
+    if ( encryptedBytes.isEmpty() )
+        return false;
+
     dataMap.insert(mimeEncryptedData, encryptedBytes);
-    model->setData(index, dataMap, contentType::data);
+    return model->setData(index, dataMap, contentType::updateData);
 }
 
 void startGenerateKeysProcess(QProcess *process, bool useTransientPasswordlessKey = false)
@@ -274,28 +283,6 @@ ItemEncrypted::ItemEncrypted(QWidget *parent)
     // Show small icon.
     QWidget *iconWidget = new IconWidget(IconLock, this);
     layout->addWidget(iconWidget);
-}
-
-void ItemEncrypted::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-    // Decrypt before editing.
-    QTextEdit *textEdit = qobject_cast<QTextEdit *>(editor);
-    if (textEdit != nullptr) {
-        QVariantMap data;
-        if ( decryptMimeData(&data, index) ) {
-            textEdit->setPlainText( getTextData(data, mimeText) );
-            textEdit->selectAll();
-        }
-    }
-}
-
-void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
-                                 const QModelIndex &index) const
-{
-    // Encrypt after editing.
-    QTextEdit *textEdit = qobject_cast<QTextEdit*>(editor);
-    if (textEdit != nullptr)
-        encryptMimeData( createDataMap(mimeText, textEdit->toPlainText()), index, model );
 }
 
 bool ItemEncryptedSaver::saveItems(const QString &, const QAbstractItemModel &model, QIODevice *file)
@@ -946,4 +933,17 @@ ItemEncryptedLoader::GpgProcessStatus ItemEncryptedLoader::status() const
     }
 
     return m_gpgProcessStatus;
+}
+
+bool ItemEncryptedLoader::data(QVariantMap *data, const QModelIndex &) const
+{
+    return !data->contains(mimeEncryptedData) || decryptMimeData(data);
+}
+
+bool ItemEncryptedLoader::setData(const QVariantMap &data, const QModelIndex &index, QAbstractItemModel *model) const
+{
+    if ( !index.data(contentType::data).toMap().contains(mimeEncryptedData) )
+        return false;
+
+    return encryptMimeData(data, index, model);
 }

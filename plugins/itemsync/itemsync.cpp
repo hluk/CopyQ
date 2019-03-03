@@ -342,10 +342,9 @@ void setNormalStretchFixedColumns(QTableWidget *table, int normalColumn, int str
 
 ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childItem)
     : QWidget( childItem->widget()->parentWidget() )
-    , ItemWidget(this)
+    , ItemWidgetWrapper(childItem, this)
     , m_label( new QTextEdit(this) )
     , m_icon( new IconWidget(icon, this) )
-    , m_childItem(childItem)
 {
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -364,7 +363,7 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
 
     layout->addLayout(labelLayout);
 
-    QWidget *w = m_childItem->widget();
+    QWidget *w = childItem->widget();
     layout->addWidget(w);
     w->setObjectName("item_child");
     w->setParent(this);
@@ -391,15 +390,9 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     m_label->setPlainText(label);
 }
 
-void ItemSync::setCurrent(bool current)
-{
-    if (m_childItem != nullptr)
-        m_childItem->setCurrent(current);
-}
-
 void ItemSync::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
-    m_childItem->setHighlight(re, highlightFont, highlightPalette);
+    ItemWidgetWrapper::highlight(re, highlightFont, highlightPalette);
 
     QList<QTextEdit::ExtraSelection> selections;
 
@@ -435,31 +428,6 @@ void ItemSync::highlight(const QRegExp &re, const QFont &highlightFont, const QP
     update();
 }
 
-QWidget *ItemSync::createEditor(QWidget *parent) const
-{
-    return m_childItem->createEditor(parent);
-}
-
-void ItemSync::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-    m_childItem->setEditorData(editor, index);
-}
-
-void ItemSync::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
-{
-    m_childItem->setModelData(editor, model, index);
-}
-
-bool ItemSync::hasChanges(QWidget *editor) const
-{
-    return m_childItem->hasChanges(editor);
-}
-
-QObject *ItemSync::createExternalEditor(const QModelIndex &index, QWidget *parent) const
-{
-    return m_childItem->createExternalEditor(index, parent);
-}
-
 void ItemSync::updateSize(QSize maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
@@ -469,7 +437,7 @@ void ItemSync::updateSize(QSize maximumSize, int idealWidth)
     doc->setTextWidth(w);
     m_label->setFixedSize( w, static_cast<int>(doc->size().height()) );
 
-    m_childItem->updateSize(maximumSize, idealWidth);
+    ItemWidgetWrapper::updateSize(maximumSize, idealWidth);
 
     adjustSize();
     setFixedSize(sizeHint());

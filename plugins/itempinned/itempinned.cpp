@@ -63,16 +63,15 @@ bool containsPinnedItems(const QModelIndexList &indexList)
 
 ItemPinned::ItemPinned(ItemWidget *childItem)
     : QWidget( childItem->widget()->parentWidget() )
-    , ItemWidget(this)
-    , m_childItem(childItem)
+    , ItemWidgetWrapper(childItem, this)
 {
-    m_childItem->widget()->setObjectName("item_child");
-    m_childItem->widget()->setParent(this);
+    childItem->widget()->setObjectName("item_child");
+    childItem->widget()->setParent(this);
 
     QBoxLayout *layout;
     layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(m_childItem->widget());
+    layout->addWidget(childItem->widget());
     layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 }
 
@@ -97,36 +96,6 @@ void ItemPinned::paintEvent(QPaintEvent *paintEvent)
     QWidget::paintEvent(paintEvent);
 }
 
-void ItemPinned::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
-{
-    m_childItem->setHighlight(re, highlightFont, highlightPalette);
-}
-
-QWidget *ItemPinned::createEditor(QWidget *parent) const
-{
-    return m_childItem->createEditor(parent);
-}
-
-void ItemPinned::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-    m_childItem->setEditorData(editor, index);
-}
-
-void ItemPinned::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
-{
-    m_childItem->setModelData(editor, model, index);
-}
-
-bool ItemPinned::hasChanges(QWidget *editor) const
-{
-    return m_childItem->hasChanges(editor);
-}
-
-QObject *ItemPinned::createExternalEditor(const QModelIndex &index, QWidget *parent) const
-{
-    return m_childItem->createExternalEditor(index, parent);
-}
-
 void ItemPinned::updateSize(QSize maximumSize, int idealWidth)
 {
     setMinimumWidth(idealWidth);
@@ -134,7 +103,7 @@ void ItemPinned::updateSize(QSize maximumSize, int idealWidth)
     const int border = pointsToPixels(12);
     const int childItemWidth = idealWidth - border;
     const auto childItemMaximumSize = QSize(maximumSize.width() - border, maximumSize.height());
-    m_childItem->updateSize(childItemMaximumSize, childItemWidth);
+    ItemWidgetWrapper::updateSize(childItemMaximumSize, childItemWidth);
     adjustSize();
 }
 

@@ -20,9 +20,11 @@
 #ifndef ITEMEDITORWIDGET_H
 #define ITEMEDITORWIDGET_H
 
+#include "item/itemwidget.h"
+
 #include <QPersistentModelIndex>
 #include <QRegExp>
-#include <QWidget>
+#include <QTextEdit>
 
 #include <memory>
 
@@ -31,30 +33,26 @@ class QAbstractItemModel;
 class QPlainTextEdit;
 class QTextCursor;
 class QTextDocument;
-class QToolBar;
+class QWidget;
 
 /**
  * Internal editor widget for items.
  */
-class ItemEditorWidget : public QWidget
+class ItemEditorWidget : public QTextEdit
 {
     Q_OBJECT
 public:
-    ItemEditorWidget(
-            const std::shared_ptr<ItemWidget> &itemWidget,
-            const QModelIndex &index, bool editNotes, QWidget *parent = nullptr);
+    ItemEditorWidget(const QModelIndex &index, bool editNotes, QWidget *parent = nullptr);
 
     bool isValid() const;
 
-    void commitData(QAbstractItemModel *model) const;
-
     bool hasChanges() const;
 
-    void setEditorPalette(const QPalette &palette);
-
-    void setEditorFont(const QFont &font);
+    void setHasChanges(bool hasChanges);
 
     void setSaveOnReturnKey(bool enabled);
+
+    QVariantMap data() const;
 
     QModelIndex index() const { return m_index; }
 
@@ -64,6 +62,8 @@ public:
 
     void findPrevious(const QRegExp &re);
 
+    QWidget *createToolbar(QWidget *parent);
+
 signals:
     void save();
     void cancel();
@@ -71,12 +71,16 @@ signals:
     void searchRequest();
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+
+    bool canInsertFromMimeData(const QMimeData *source) const override;
+
+    void insertFromMimeData(const QMimeData *source) override;
 
 private:
     void saveAndExit();
 
-    void setFont();
+    void changeSelectionFont();
     void toggleBoldText();
     void toggleItalicText();
     void toggleUnderlineText();
@@ -85,25 +89,11 @@ private:
     void setBackground();
     void eraseStyle();
 
-    QWidget *createEditor();
-    void initEditor(QWidget *editor);
-    void initMenuItems();
-
     void search(const QRegExp &re, bool backwards);
 
-    template <typename TextEdit>
-    TextEdit *editor() const;
-
-    QTextDocument *document() const;
-    QTextCursor textCursor() const;
-    void setTextCursor(const QTextCursor &tc);
-
-    std::shared_ptr<ItemWidget> m_itemWidget;
     QPersistentModelIndex m_index;
-    QWidget *m_editor;
-    QPlainTextEdit *m_noteEditor;
-    QToolBar *m_toolBar;
     bool m_saveOnReturnKey;
+    bool m_editNotes;
 };
 
 #endif // ITEMEDITORWIDGET_H

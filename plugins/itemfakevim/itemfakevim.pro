@@ -1,7 +1,8 @@
 include(../plugins_common.pri)
 
 HEADERS += itemfakevim.h
-SOURCES += itemfakevim.cpp
+SOURCES += itemfakevim.cpp \
+    ../../src/item/itemwidgetwrapper.cpp
 FORMS   += itemfakevimsettings.ui
 TARGET   = $$qtLibraryTarget(itemfakevim)
 RESOURCES += itemfakevim.qrc

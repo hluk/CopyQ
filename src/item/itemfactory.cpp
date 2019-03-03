@@ -139,11 +139,6 @@ public:
         m_data.remove(mimeItemNotes);
     }
 
-    QWidget *createEditor(QWidget *parent) const override
-    {
-        return m_hasText ? ItemWidget::createEditor(parent) : nullptr;
-    }
-
     void updateSize(QSize, int idealWidth) override
     {
         setFixedWidth(idealWidth);
@@ -553,6 +548,37 @@ void ItemFactory::loadItemFactorySettings(QSettings *settings)
     const QStringList pluginPriority =
             settings->value("plugin_priority", QStringList()).toStringList();
     setPluginPriority(pluginPriority);
+}
+
+QObject *ItemFactory::createExternalEditor(const QModelIndex &index, const QVariantMap &data, QWidget *parent) const
+{
+    for ( auto &loader : enabledLoaders() ) {
+        QObject *editor = loader->createExternalEditor(index, data, parent);
+        if (editor != nullptr)
+            return editor;
+    }
+
+    return nullptr;
+}
+
+QVariantMap ItemFactory::data(const QModelIndex &index) const
+{
+    QVariantMap data = index.data(contentType::data).toMap();
+    for (auto &loader : enabledLoaders()) {
+        if ( !loader->data(&data, index) )
+            return QVariantMap();
+    }
+    return data;
+}
+
+bool ItemFactory::setData(const QVariantMap &data, const QModelIndex &index, QAbstractItemModel *model) const
+{
+    for (auto &loader : enabledLoaders()) {
+        if ( loader->setData(data, index, model) )
+            return true;
+    }
+
+    return model->setData(index, data, contentType::updateData);
 }
 
 ItemLoaderList ItemFactory::enabledLoaders() const

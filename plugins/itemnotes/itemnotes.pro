@@ -3,6 +3,7 @@ include(../plugins_common.pri)
 HEADERS += itemnotes.h \
     ../../src/gui/iconwidget.h
 SOURCES += itemnotes.cpp \
+    ../../src/item/itemwidgetwrapper.cpp \
     ../../src/gui/iconfont.cpp \
     ../../src/gui/iconwidget.cpp \
     ../../src/common/mimetypes.cpp \

@@ -20,46 +20,13 @@
 #ifndef ITEMFAKEVIM_H
 #define ITEMFAKEVIM_H
 
-#include "item/itemwidget.h"
-
-#include <QScopedPointer>
+#include "item/itemwidgetwrapper.h"
 
 namespace Ui {
 class ItemFakeVimSettings;
 }
 
 class QWidget;
-
-class ItemFakeVim : public ItemWidget
-{
-public:
-    ItemFakeVim(ItemWidget *childItem, const QString &sourceFileName);
-
-    void setCurrent(bool current) override;
-
-protected:
-    void highlight(const QRegExp &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette) override;
-
-    void updateSize(QSize maximumSize, int idealWidth) override;
-
-    QWidget *createEditor(QWidget *parent) const override;
-
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-
-    void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const override;
-
-    bool hasChanges(QWidget *editor) const override;
-
-    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
-
-    void setTagged(bool tagged) override;
-
-private:
-    QScopedPointer<ItemWidget> m_childItem;
-    QString m_sourceFileName;
-};
 
 class ItemFakeVimLoader : public QObject, public ItemLoaderInterface
 {
@@ -85,9 +52,9 @@ public:
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
-    ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data) override;
-
     QObject *tests(const TestInterfacePtr &test) const override;
+
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
     bool m_enabled;

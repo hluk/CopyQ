@@ -19,7 +19,6 @@
 
 #include "itemtagstests.h"
 
-#include "common/mimetypes.h"
 #include "tests/test_utils.h"
 
 namespace {

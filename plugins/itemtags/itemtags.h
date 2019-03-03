@@ -21,13 +21,11 @@
 #define ITEMTAGS_H
 
 #include "gui/icons.h"
-#include "item/itemwidget.h"
+#include "item/itemwidgetwrapper.h"
 
 #include <QVariant>
 #include <QVector>
 #include <QWidget>
-
-#include <memory>
 
 namespace Ui {
 class ItemTagsSettings;
@@ -35,7 +33,7 @@ class ItemTagsSettings;
 
 class QTableWidgetItem;
 
-class ItemTags : public QWidget, public ItemWidget
+class ItemTags : public QWidget, public ItemWidgetWrapper
 {
     Q_OBJECT
 
@@ -52,31 +50,14 @@ public:
 
     ItemTags(ItemWidget *childItem, const Tags &tags);
 
-    void setCurrent(bool current) override;
-
 signals:
     void runCommand(const Command &command);
 
 protected:
-    void highlight(const QRegExp &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette) override;
-
-    QWidget *createEditor(QWidget *parent) const override;
-
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-
-    void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const override;
-
-    bool hasChanges(QWidget *editor) const override;
-
-    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
-
     void updateSize(QSize maximumSize, int idealWidth) override;
 
 private:
     QWidget *m_tagWidget;
-    std::unique_ptr<ItemWidget> m_childItem;
 };
 
 class ItemTagsLoader;

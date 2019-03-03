@@ -40,23 +40,17 @@ using namespace FakeVim::Internal;
 
 namespace {
 
-class TextEditWidget : public QWidget
+class TextEditWidget : public QObject
 {
     Q_OBJECT
 
 public:
     explicit TextEditWidget(QTextEdit *editor, QWidget *parent = nullptr)
-        : QWidget(parent)
+        : QObject(parent)
         , m_textEdit(editor)
         , m_handler(new FakeVimHandler(editor, nullptr))
         , m_hasBlockSelection(false)
     {
-        auto layout = new QVBoxLayout(this);
-        layout->setMargin(0);
-        layout->addWidget(editor);
-
-        setFocusProxy(editor);
-
         m_handler->installEventFilter();
         m_handler->setupWidget();
 
@@ -68,8 +62,6 @@ public:
         setLineWrappingEnabled(true);
 
         editor->viewport()->installEventFilter(this);
-
-        editor->setStyleSheet("QTextEdit{background:transparent}");
     }
 
     ~TextEditWidget()
@@ -94,7 +86,7 @@ public:
         const QTextCursor tc = editor()->textCursor();
 
         m_context.cursorPosition = -1;
-        m_context.palette = palette();
+        m_context.palette = editor()->palette();
 
         const int h = horizontalOffset();
         const int v = verticalOffset();
@@ -129,7 +121,7 @@ public:
         QRect rect = editor()->cursorRect();
 
         if (editor()->overwriteMode() || hasBlockSelection() ) {
-            QFontMetrics fm(font());
+            QFontMetrics fm(editor()->font());
             QChar c = editor()->document()->characterAt( tc.position() );
             rect.setWidth( fm.width(c) );
             if (rect.width() == 0)
@@ -222,7 +214,7 @@ private:
 
         Selection selection;
 
-        const QPalette pal = palette();
+        const QPalette pal = editor()->palette();
         selection.format.setBackground( pal.color(QPalette::Highlight) );
         selection.format.setForeground( pal.color(QPalette::HighlightedText) );
         selection.cursor = editor()->textCursor();
@@ -235,7 +227,7 @@ private:
     int horizontalOffset() const
     {
         QScrollBar *hbar = editor()->horizontalScrollBar();
-        return isRightToLeft() ? (hbar->maximum() - hbar->value()) : hbar->value();
+        return editor()->isRightToLeft() ? (hbar->maximum() - hbar->value()) : hbar->value();
     }
 
     int verticalOffset() const
@@ -301,7 +293,7 @@ public:
 
     void changeExtraInformation(const QString &info)
     {
-        QMessageBox::information(m_editorWidget, tr("Information"), info);
+        QMessageBox::information(m_editorWidget->editor(), tr("Information"), info);
     }
 
     void updateStatusBar()
@@ -403,16 +395,15 @@ public:
         m_editor->editor()->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         // Create status bar.
-        m_statusBar = new QStatusBar(this);
+        m_statusBar = new QStatusBar(editor);
+        const auto layout = editor->parentWidget()->layout();
+        if (layout)
+            layout->addWidget(m_statusBar);
+        m_statusBar->setFont(editor->font());
 
         // Connect slots to FakeVimHandler signals.
         auto proxy = new Proxy(m_editor, m_statusBar, this);
-        connectSignals( &m_editor->fakeVimHandler(), proxy );
-
-        auto layout = new QVBoxLayout(this);
-        layout->addWidget(m_editor);
-        layout->addWidget(m_statusBar);
-        setFocusProxy(m_editor);
+        connectSignals( &m_editor->fakeVimHandler(), proxy, editor );
 
         if (!sourceFileName.isEmpty())
             m_editor->fakeVimHandler().handleCommand("source " + sourceFileName);
@@ -420,29 +411,8 @@ public:
 
     TextEditWidget *textEditWidget() { return m_editor; }
 
-signals:
-    void save();
-    void cancel();
-    void invalidate();
-
-protected:
-    bool event(QEvent *event) override
-    {
-        if (event->type() == QEvent::PaletteChange) {
-            QPalette pal = palette();
-            m_editor->setPalette(pal);
-            pal.setColor(QPalette::Window, pal.color(QPalette::Base));
-            pal.setColor(QPalette::WindowText, pal.color(QPalette::Text));
-            m_statusBar->setPalette(pal);
-        } else if (event->type() == QEvent::FontChange) {
-            m_editor->setFont(font());
-            m_editor->editor()->setFont(font());
-        }
-        return QWidget::event(event);
-    }
-
 private:
-    void connectSignals(FakeVimHandler *handler, Proxy *proxy)
+    void connectSignals(FakeVimHandler *handler, Proxy *proxy, QObject *editor)
     {
         connect(handler, &FakeVimHandler::commandBufferChanged,
                 proxy, &Proxy::changeStatusMessage);
@@ -461,86 +431,20 @@ private:
         connect(handler, &FakeVimHandler::requestBlockSelection,
                 proxy, &Proxy::requestBlockSelection);
 
-        connect(proxy, &Proxy::save, this, &Editor::save);
-        connect(proxy, &Proxy::cancel, this, &Editor::cancel);
-        connect(proxy, &Proxy::invalidate, this, &Editor::invalidate);
+        const QMetaObject *metaObject = editor->metaObject();
+        if ( metaObject->indexOfSignal("save()") != -1 )
+            connect( proxy, SIGNAL(save()), editor, SIGNAL(save()) );
+        if ( metaObject->indexOfSignal("cancel()") != -1 )
+            connect( proxy, SIGNAL(cancel()), editor, SIGNAL(cancel()) );
+        if ( metaObject->indexOfSignal("invalidate()") != -1 )
+            connect( proxy, SIGNAL(invalidate()), editor, SIGNAL(invalidate()) );
     }
 
     TextEditWidget *m_editor;
     QStatusBar *m_statusBar;
 };
 
-QWidget *getItemEditorWidget(QWidget *editor)
-{
-    Editor *ed = qobject_cast<Editor*>(editor);
-    return ed ? ed->textEditWidget()->editor() : editor;
-}
-
 } // namespace
-
-ItemFakeVim::ItemFakeVim(ItemWidget *childItem, const QString &sourceFileName)
-    : ItemWidget(childItem->widget())
-    , m_childItem(childItem)
-    , m_sourceFileName(sourceFileName)
-{
-}
-
-void ItemFakeVim::setCurrent(bool current)
-{
-    m_childItem->setCurrent(current);
-}
-
-void ItemFakeVim::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
-{
-    m_childItem->setHighlight(re, highlightFont, highlightPalette);
-}
-
-void ItemFakeVim::updateSize(QSize maximumSize, int idealWidth)
-{
-    m_childItem->updateSize(maximumSize, idealWidth);
-}
-
-QWidget *ItemFakeVim::createEditor(QWidget *parent) const
-{
-    QWidget *editor = m_childItem->createEditor(parent);
-    QTextEdit *textEdit = qobject_cast<QTextEdit *>(editor);
-    if (textEdit)
-        return new Editor(textEdit, m_sourceFileName, parent);
-    return editor;
-}
-
-void ItemFakeVim::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-    m_childItem->setEditorData( getItemEditorWidget(editor), index );
-
-    // Position text cursor at the beginning of text instead of selecting all.
-    auto ed = qobject_cast<Editor*>(editor);
-    if (ed) {
-        auto textEdit = ed->textEditWidget()->editor();
-        textEdit->setTextCursor( QTextCursor(textEdit->document()) );
-    }
-}
-
-void ItemFakeVim::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
-{
-    m_childItem->setModelData( getItemEditorWidget(editor), model, index );
-}
-
-bool ItemFakeVim::hasChanges(QWidget *editor) const
-{
-    return m_childItem->hasChanges( getItemEditorWidget(editor) );
-
-}
-
-QObject *ItemFakeVim::createExternalEditor(const QModelIndex &index, QWidget *parent) const
-{
-    return m_childItem->createExternalEditor(index, parent);
-}
-
-void ItemFakeVim::setTagged(bool tagged)
-{
-    m_childItem->setTagged(tagged);
-}
 
 ItemFakeVimLoader::ItemFakeVimLoader()
     : m_enabled(false)
@@ -567,6 +471,10 @@ void ItemFakeVimLoader::loadSettings(const QVariantMap &settings)
 {
     m_enabled = settings.value("really_enable", false).toBool();
     m_sourceFileName = settings.value("source_file").toString();
+    if (m_enabled)
+        qApp->installEventFilter(this);
+    else
+        qApp->removeEventFilter(this);
 }
 
 QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
@@ -579,11 +487,6 @@ QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
     ui->lineEditSourceFileName->setText(m_sourceFileName);
 
     return w;
-}
-
-ItemWidget *ItemFakeVimLoader::transform(ItemWidget *itemWidget, const QVariantMap &)
-{
-    return m_enabled ? new ItemFakeVim(itemWidget, m_sourceFileName) : nullptr;
 }
 
 QObject *ItemFakeVimLoader::tests(const TestInterfacePtr &test) const
@@ -599,6 +502,28 @@ QObject *ItemFakeVimLoader::tests(const TestInterfacePtr &test) const
     Q_UNUSED(test);
     return nullptr;
 #endif
+}
+
+bool ItemFakeVimLoader::eventFilter(QObject *watched, QEvent *event)
+{
+    if ( event->type() == QEvent::Show ) {
+        QTextEdit *textEdit = qobject_cast<QTextEdit *>(watched);
+        if (!textEdit || textEdit->isReadOnly())
+            return false;
+
+        auto parent = textEdit->parentWidget();
+        for (auto ed : parent->findChildren<Editor*>()) {
+            if ( ed->textEditWidget()->editor() == textEdit )
+                return false;
+        }
+        auto ed = new Editor(textEdit, m_sourceFileName, parent);
+        QObject::connect( textEdit, &QObject::destroyed, ed, &QObject::deleteLater );
+
+        // Position text cursor at the beginning of text instead of selecting all.
+        textEdit->setTextCursor( QTextCursor(textEdit->document()) );
+    }
+
+    return false;
 }
 
 #include "itemfakevim.moc"

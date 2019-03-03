@@ -40,11 +40,6 @@ class ItemEncrypted : public QWidget, public ItemWidget
 
 public:
     explicit ItemEncrypted(QWidget *parent);
-
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-
-    void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const override;
 };
 
 class ItemEncryptedSaver : public QObject, public ItemSaverInterface
@@ -128,6 +123,10 @@ public:
     ItemScriptable *scriptableObject() override;
 
     QVector<Command> commands() const override;
+
+    bool data(QVariantMap *data, const QModelIndex &) const override;
+
+    bool setData(const QVariantMap &data, const QModelIndex &index, QAbstractItemModel *model) const override;
 
 signals:
     void error(const QString &);

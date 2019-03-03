@@ -21,6 +21,7 @@
 
 #include "common/command.h"
 #include "common/contenttype.h"
+#include "common/mimetypes.h"
 #include "item/itemeditor.h"
 
 #include <QAbstractItemModel>
@@ -43,51 +44,6 @@ bool canMouseInteract(const QMouseEvent &event)
 {
     return event.modifiers() & Qt::ShiftModifier;
 }
-
-bool containsRichText(const QTextDocument &document)
-{
-    return document.allFormats().size() > 3;
-}
-
-QString findImageFormat(const QMimeData &data)
-{
-    const auto imageFormats = {"image/svg+xml", "image/png", "image/bmp", "image/jpeg", "image/gif"};
-    for (const auto &format : imageFormats) {
-        if ( data.hasFormat(format) )
-            return format;
-    }
-
-    return QString();
-}
-
-/**
- * Text edit with support for pasting/dropping images.
- *
- * Images are saved in HTML in base64-encoded form.
- */
-class TextEdit : public QTextEdit {
-public:
-    explicit TextEdit(QWidget *parent) : QTextEdit(parent) {}
-
-protected:
-    bool canInsertFromMimeData(const QMimeData *source) const override
-    {
-        return source->hasImage() || QTextEdit::canInsertFromMimeData(source);
-    }
-
-    void insertFromMimeData(const QMimeData *source) override
-    {
-        const QString mime = findImageFormat(*source);
-
-        if (!mime.isEmpty()) {
-            const QByteArray imageData = source->data(mime);
-            textCursor().insertHtml(
-                        "<img src=\"data:" + mime + ";base64," + imageData.toBase64() + "\" />");
-        } else {
-            QTextEdit::insertFromMimeData(source);
-        }
-    }
-};
 
 } // namespace
 
@@ -117,57 +73,6 @@ void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
         return;
     m_re = re;
     highlight(re, highlightFont, highlightPalette);
-}
-
-QWidget *ItemWidget::createEditor(QWidget *parent) const
-{
-    QTextEdit *editor = new TextEdit(parent);
-    editor->setFrameShape(QFrame::NoFrame);
-    return editor;
-}
-
-void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-    QTextEdit *textEdit = qobject_cast<QTextEdit *>(editor);
-    if (textEdit != nullptr) {
-        if ( index.data(contentType::hasHtml).toBool() ) {
-            const QString html = index.data(contentType::html).toString();
-            textEdit->setHtml(html);
-        } else {
-            const QString text = index.data(Qt::EditRole).toString();
-            textEdit->setPlainText(text);
-        }
-        textEdit->selectAll();
-    }
-}
-
-void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const
-{
-    QTextEdit *textEdit = qobject_cast<QTextEdit*>(editor);
-    if (textEdit != nullptr) {
-        // Clear text.
-        model->setData(index, QString());
-
-        QVariantMap data;
-        data["text/plain"] = textEdit->toPlainText().toUtf8();
-        if ( containsRichText(*textEdit->document()) )
-            data["text/html"] = textEdit->toHtml().toUtf8();
-        model->setData(index, data, contentType::updateData);
-
-        textEdit->document()->setModified(false);
-    }
-}
-
-bool ItemWidget::hasChanges(QWidget *editor) const
-{
-    QTextEdit *textEdit = (qobject_cast<QTextEdit *>(editor));
-    return textEdit != nullptr && textEdit->document() && textEdit->document()->isModified();
-}
-
-QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const
-{
-    return nullptr;
 }
 
 void ItemWidget::updateSize(QSize maximumSize, int idealWidth)
@@ -378,3 +283,19 @@ QVector<Command> ItemLoaderInterface::commands() const
 {
     return QVector<Command>();
 }
+
+bool ItemLoaderInterface::data(QVariantMap *, const QModelIndex &) const
+{
+    return true;
+}
+
+bool ItemLoaderInterface::setData(const QVariantMap &, const QModelIndex &, QAbstractItemModel *) const
+{
+    return false;
+}
+
+QObject *ItemLoaderInterface::createExternalEditor(const QModelIndex &, const QVariantMap &, QWidget *) const
+{
+    return nullptr;
+}
+

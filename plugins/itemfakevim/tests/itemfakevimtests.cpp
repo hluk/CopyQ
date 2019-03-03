@@ -70,7 +70,6 @@ void ItemFakeVimTests::createItem()
 
     RUN(args << "read" << "0", "ABC\nDEF");
 
-    SKIP("Command :w saves item and the editor widget is destroyed because data changed.");
     RUN(args << "keys" << "F2" << ":GccXYZ" << "ESC" << "::w" << "ENTER", "");
     RUN(args << "read" << "0", "ABC\nXYZ");
     RUN(args << "keys" << ":p:wq" << "ENTER", "");

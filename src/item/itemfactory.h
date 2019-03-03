@@ -143,6 +143,12 @@ public:
 
     void loadItemFactorySettings(QSettings *settings);
 
+    QObject *createExternalEditor(const QModelIndex &index, const QVariantMap &data, QWidget *parent) const;
+
+    QVariantMap data(const QModelIndex &index) const;
+
+    bool setData(const QVariantMap &data, const QModelIndex &index, QAbstractItemModel *model) const;
+
 signals:
     void error(const QString &errorString);
     void addCommands(const QVector<Command> &commands);

@@ -21,11 +21,9 @@
 #define ITEMNOTES_H
 
 #include "gui/icons.h"
-#include "item/itemwidget.h"
+#include "item/itemwidgetwrapper.h"
 
 #include <QWidget>
-
-#include <memory>
 
 namespace Ui {
 class ItemNotesSettings;
@@ -40,7 +38,7 @@ enum NotesPosition {
     NotesBeside,
 };
 
-class ItemNotes : public QWidget, public ItemWidget
+class ItemNotes : public QWidget, public ItemWidgetWrapper
 {
     Q_OBJECT
 
@@ -54,17 +52,6 @@ protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette) override;
 
-    QWidget *createEditor(QWidget *parent) const override;
-
-    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
-
-    void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const override;
-
-    bool hasChanges(QWidget *editor) const override;
-
-    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
-
     void updateSize(QSize maximumSize, int idealWidth) override;
 
     void paintEvent(QPaintEvent *event) override;
@@ -76,7 +63,6 @@ private:
 
     QTextEdit *m_notes;
     QWidget *m_icon;
-    std::unique_ptr<ItemWidget> m_childItem;
     QTimer *m_timerShowToolTip;
     QString m_toolTipText;
     bool m_isCurrent = false;

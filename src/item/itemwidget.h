@@ -27,6 +27,7 @@
 #include <QtPlugin>
 #include <QVariantMap>
 #include <QVector>
+#include <QWidget>
 
 #include <memory>
 
@@ -37,7 +38,6 @@ class QFont;
 class QModelIndex;
 class QPalette;
 class QRegExp;
-class QWidget;
 struct Command;
 
 class ItemLoaderInterface;
@@ -71,44 +71,6 @@ public:
      * Return widget to render.
      */
     QWidget *widget() const { return m_widget; }
-
-    /**
-     * Create editor widget with given @a parent.
-     * Editor widget can have signals:
-     *   1. save(), to save data,
-     *   2. cancel(), if hasChanges() is true a dialog will pop-up asking user whether to save
-     *      changes, otherwise editor closes,
-     *   3. invalidate(), to close editor immediately.
-     */
-    virtual QWidget *createEditor(QWidget *parent) const;
-
-    /**
-     * Set data for editor widget.
-     */
-    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
-
-    /**
-     * Set data from editor widget to model.
-     */
-    virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
-                              const QModelIndex &index) const;
-
-    /**
-     * Return true if data in editor were changed.
-     */
-    virtual bool hasChanges(QWidget *editor) const;
-
-    /**
-     * Create external editor for @a index.
-     *
-     * Default implementation returns nullptr.
-     *
-     * @param index  index for which the editor is opened
-     *
-     * @return Editor object -- see documentation for public signals and slots of ItemEditor class --
-     *         nullptr so default text editor is opened.
-     */
-    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
     /**
      * Size of widget needs to be updated (because maximum size chaged).
@@ -430,6 +392,22 @@ public:
      * Adds commands from scripts for command dialog.
      */
     virtual QVector<Command> commands() const;
+
+    virtual bool data(QVariantMap *data, const QModelIndex &index) const;
+
+    virtual bool setData(const QVariantMap &data, const QModelIndex &index, QAbstractItemModel *model) const;
+
+    /**
+     * Create external editor for @a index.
+     *
+     * Default implementation returns nullptr.
+     *
+     * @param index  index for which the editor is opened
+     *
+     * @return Editor object -- see documentation for public signals and slots of ItemEditor class --
+     *         nullptr so default text editor is opened.
+     */
+    virtual QObject *createExternalEditor(const QModelIndex &index, const QVariantMap &data, QWidget *parent) const;
 
     ItemLoaderInterface(const ItemLoaderInterface &) = delete;
     ItemLoaderInterface &operator=(const ItemLoaderInterface &) = delete;

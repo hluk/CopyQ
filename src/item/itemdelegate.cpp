@@ -22,6 +22,7 @@
 #include "common/client_server.h"
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
+#include "common/textdata.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfactory.h"
 #include "item/itemfactory.h"
@@ -31,6 +32,7 @@
 
 #include <QEvent>
 #include <QPainter>
+#include <QVBoxLayout>
 
 #include <algorithm>
 
@@ -206,12 +208,60 @@ bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
 ItemEditorWidget *ItemDelegate::createCustomEditor(
         QWidget *parent, const QModelIndex &index, bool editNotes)
 {
-    cache(index);
-    const int row = index.row();
-    auto editor = new ItemEditorWidget(m_cache[row], index, editNotes, parent);
-    editor->setEditorPalette( m_sharedData->theme.editorPalette() );
-    editor->setEditorFont( m_sharedData->theme.editorFont() );
+    bool hasHtml = false;
+    QString text;
+    if (editNotes) {
+        text = index.data(contentType::notes).toString();
+    } else {
+        const QVariantMap data = m_sharedData->itemFactory->data(index);
+        if ( !data.contains(mimeText) )
+            return nullptr;
+
+        text = getTextData(data, mimeHtml);
+        if (text.isEmpty()) {
+            text = getTextData(data, mimeText);
+        } else {
+            hasHtml = true;
+        }
+    }
+
+    auto editorParent = new QWidget(parent);
+    auto editor = new ItemEditorWidget(index, editNotes, editorParent);
+
+    connect(editor, &QObject::destroyed, editorParent, &QObject::deleteLater);
+
+    if (hasHtml)
+        editor->setHtml(text);
+    else
+        editor->setPlainText(text);
+
+    editor->selectAll();
+
+    auto toolBar = editor->createToolbar(editorParent);
+    auto palette = m_sharedData->theme.editorPalette();
+    editorParent->setBackgroundRole(QPalette::Base);
+    editorParent->setAutoFillBackground(true);
+    editorParent->setPalette(palette);
+    editor->setStyleSheet("QTextEdit{background:transparent}");
+
+    palette.setColor(QPalette::Base, Qt::transparent);
+    editor->setPalette(palette);
+
+    const auto font = m_sharedData->theme.editorFont();
+    editorParent->setFont(font);
+    editor->setFont(font);
+    toolBar->setFont(font);
+
     editor->setSaveOnReturnKey(m_sharedData->saveOnReturnKey);
+
+    auto layout = new QVBoxLayout(editorParent);
+    layout->setSpacing(0);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(toolBar);
+    layout->addWidget(editor);
+
+    editorParent->show();
+
     return editor;
 }
 

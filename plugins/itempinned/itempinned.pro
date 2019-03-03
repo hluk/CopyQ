@@ -2,6 +2,7 @@ include(../plugins_common.pri)
 
 HEADERS += itempinned.h
 SOURCES += itempinned.cpp \
+    ../../src/item/itemwidgetwrapper.cpp \
     ../../src/common/display.cpp
 TARGET   = $$qtLibraryTarget(itempinned)
 

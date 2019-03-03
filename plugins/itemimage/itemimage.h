@@ -42,12 +42,7 @@ public:
     ItemImage(
             const QPixmap &pix,
             const QByteArray &animationData, const QByteArray &animationFormat,
-            const QString &imageEditor, const QString &svgEditor,
             QWidget *parent);
-
-    QWidget *createEditor(QWidget *) const override { return nullptr; }
-
-    QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const override;
 
     void updateSize(QSize maximumSize, int idealWidth) override;
 
@@ -62,8 +57,6 @@ private:
     void startAnimation();
     void stopAnimation();
 
-    QString m_editor;
-    QString m_svgEditor;
     QPixmap m_pixmap;
     QByteArray m_animationData;
     QByteArray m_animationFormat;
@@ -97,6 +90,8 @@ public:
     void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
 
     QWidget *createSettingsWidget(QWidget *parent) override;
+
+    QObject *createExternalEditor(const QModelIndex &index, const QVariantMap &data, QWidget *parent) const override;
 
 private:
     QVariantMap m_settings;

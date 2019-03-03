@@ -77,15 +77,14 @@ QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
 ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArray &icon,
                      NotesPosition notesPosition, bool showToolTip)
     : QWidget( childItem->widget()->parentWidget() )
-    , ItemWidget(this)
+    , ItemWidgetWrapper(childItem, this)
     , m_notes(new QTextEdit(this))
     , m_icon(nullptr)
-    , m_childItem(childItem)
     , m_timerShowToolTip(nullptr)
     , m_toolTipText()
 {
-    m_childItem->widget()->setObjectName("item_child");
-    m_childItem->widget()->setParent(this);
+    childItem->widget()->setObjectName("item_child");
+    childItem->widget()->setParent(this);
 
     if (!icon.isEmpty())
         m_icon = createIconWidget(icon, this);
@@ -123,11 +122,11 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
     labelLayout->addWidget(m_notes, 1, Qt::AlignLeft | Qt::AlignTop);
 
     if (notesPosition == NotesBelow) {
-        layout->addWidget( m_childItem->widget() );
+        layout->addWidget( childItem->widget() );
         layout->addLayout(labelLayout);
     } else {
         layout->addLayout(labelLayout);
-        layout->addWidget( m_childItem->widget() );
+        layout->addWidget( childItem->widget() );
     }
 
     if (showToolTip) {
@@ -145,7 +144,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
 
 void ItemNotes::setCurrent(bool current)
 {
-    m_childItem->setCurrent(current);
+    ItemWidgetWrapper::setCurrent(current);
 
     m_isCurrent = current;
 
@@ -164,7 +163,7 @@ void ItemNotes::setCurrent(bool current)
 
 void ItemNotes::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
-    m_childItem->setHighlight(re, highlightFont, highlightPalette);
+    ItemWidgetWrapper::highlight(re, highlightFont, highlightPalette);
 
     if (m_notes != nullptr) {
         QList<QTextEdit::ExtraSelection> selections;
@@ -202,35 +201,6 @@ void ItemNotes::highlight(const QRegExp &re, const QFont &highlightFont, const Q
     update();
 }
 
-QWidget *ItemNotes::createEditor(QWidget *parent) const
-{
-    return (m_childItem == nullptr) ? nullptr : m_childItem->createEditor(parent);
-}
-
-void ItemNotes::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-    Q_ASSERT(m_childItem != nullptr);
-    m_childItem->setEditorData(editor, index);
-}
-
-void ItemNotes::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
-{
-    Q_ASSERT(m_childItem != nullptr);
-    m_childItem->setModelData(editor, model, index);
-}
-
-bool ItemNotes::hasChanges(QWidget *editor) const
-{
-    Q_ASSERT(m_childItem != nullptr);
-    return m_childItem->hasChanges(editor);
-}
-
-QObject *ItemNotes::createExternalEditor(const QModelIndex &index, QWidget *parent) const
-{
-    return m_childItem ? m_childItem->createExternalEditor(index, parent)
-                       : ItemWidget::createExternalEditor(index, parent);
-}
-
 void ItemNotes::updateSize(QSize maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
@@ -244,8 +214,7 @@ void ItemNotes::updateSize(QSize maximumSize, int idealWidth)
                     static_cast<int>(doc->size().height()) );
     }
 
-    if (m_childItem != nullptr)
-        m_childItem->updateSize(maximumSize, idealWidth);
+    ItemWidgetWrapper::updateSize(maximumSize, idealWidth);
 
     adjustSize();
     setFixedSize(sizeHint());
