@@ -42,8 +42,7 @@ QString findImageFormat(const QList<QString> &formats)
             << QString("image/png")
             << QString("image/bmp")
             << QString("image/jpeg")
-            << QString("image/gif")
-            << QString("image/svg+xml");
+            << QString("image/gif");
 
     for (const auto &format : imageFormats) {
         if ( formats.contains(format) )
@@ -61,6 +60,17 @@ bool getImageData(const QVariantMap &dataMap, QByteArray *data, QString *mime)
 
     *data = dataMap[*mime].toByteArray();
 
+    return true;
+}
+
+bool getSvgData(const QVariantMap &dataMap, QByteArray *data, QString *mime)
+{
+    const QString svgMime("image/svg+xml");
+    if ( !dataMap.contains(svgMime) )
+        return false;
+
+    *mime = svgMime;
+    *data = dataMap[*mime].toByteArray();
     return true;
 }
 
@@ -82,7 +92,7 @@ bool getPixmapFromData(const QVariantMap &dataMap, QPixmap *pix)
 {
     QString mime;
     QByteArray data;
-    if ( !getImageData(dataMap, &data, &mime) )
+    if ( !getImageData(dataMap, &data, &mime) && !getSvgData(dataMap, &data, &mime) )
         return false;
 
     pix->loadFromData( data, mime.toLatin1() );
@@ -241,12 +251,16 @@ QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)
 
 QObject *ItemImageLoader::createExternalEditor(const QModelIndex &, const QVariantMap &data, QWidget *parent) const
 {
+    const QString imageCmd = m_settings.value("image_editor").toString();
+    const QString svgCmd = m_settings.value("svg_editor").toString();
+
     QString mime;
     QByteArray imageData;
-    if ( !getImageData(data, &imageData, &mime) )
-        return nullptr;
+    if ( !imageCmd.isEmpty() && getImageData(data, &imageData, &mime) )
+        return new ItemEditor(imageData, mime, imageCmd, parent);
 
-    const auto editorConfigKey = mime.contains("svg") ? "image_editor" : "svg_editor";
-    const QString cmd = m_settings.value(editorConfigKey).toString();
-    return cmd.isEmpty() ? nullptr : new ItemEditor(imageData, mime, cmd, parent);
+    if ( !svgCmd.isEmpty() && getSvgData(data, &imageData, &mime) )
+        return new ItemEditor(imageData, mime, svgCmd, parent);
+
+    return nullptr;
 }
