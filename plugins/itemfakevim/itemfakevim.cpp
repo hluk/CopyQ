@@ -29,42 +29,121 @@ using namespace FakeVim::Internal;
 
 #include <QIcon>
 #include <QMessageBox>
+#include <QMetaMethod>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QStatusBar>
 #include <QTextBlock>
 #include <QTextEdit>
+#include <QPlainTextEdit>
 #include <QAbstractTextDocumentLayout>
 #include <QScrollBar>
+#include <QStyleHints>
 #include <QtPlugin>
+
+#define EDITOR(s) (m_textEdit ? m_textEdit->s : m_plainTextEdit->s)
 
 namespace {
 
-class TextEditWidget : public QObject
-{
-    Q_OBJECT
+const char propertyWrapped[] = "CopyQ_fakevim_wrapped";
 
+// The same method for rendering document doesn't work for QPlainTextEdit.
+// This is simplified code from Qt source code.
+void drawPlainTextDocument(
+        QPlainTextEdit *textEdit,
+        const QAbstractTextDocumentLayout::PaintContext context,
+        QPainter *painter)
+{
+    QTextDocument *doc = textEdit->document();
+    const auto documentLayout = doc->documentLayout();
+    const QTextCursor tc = textEdit->cursorForPosition(QPoint(0,0));
+    QTextBlock block = tc.block();
+    const auto hbar = textEdit->horizontalScrollBar();
+    const auto h = textEdit->isRightToLeft() ? (hbar->maximum() - hbar->value()) : hbar->value();
+    const auto v = doc->documentMargin();
+    QPointF offset(h, v);
+
+    while (block.isValid()) {
+        const QRectF r = documentLayout->blockBoundingRect(block).translated(offset);
+        if (block.isVisible()) {
+            QTextLayout *layout = block.layout();
+
+            QVector<QTextLayout::FormatRange> selections;
+            int blpos = block.position();
+            int bllen = block.length();
+            for (int i = 0; i < context.selections.size(); ++i) {
+                const QAbstractTextDocumentLayout::Selection &range = context.selections.at(i);
+                const int selStart = range.cursor.selectionStart() - blpos;
+                const int selEnd = range.cursor.selectionEnd() - blpos;
+                if (selStart < bllen && selEnd > 0
+                        && selEnd > selStart) {
+                    QTextLayout::FormatRange o;
+                    o.start = selStart;
+                    o.length = selEnd - selStart;
+                    o.format = range.format;
+                    selections.append(o);
+                } else if (!range.cursor.hasSelection() && range.format.hasProperty(QTextFormat::FullWidthSelection)
+                           && block.contains(range.cursor.position())) {
+                    // for full width selections we don't require an actual selection, just
+                    // a position to specify the line. that's more convenience in usage.
+                    QTextLayout::FormatRange o;
+                    QTextLine l = layout->lineForTextPosition(range.cursor.position() - blpos);
+                    o.start = l.textStart();
+                    o.length = l.textLength();
+                    if (o.start + o.length == bllen - 1)
+                        ++o.length; // include newline
+                    o.format = range.format;
+                    selections.append(o);
+                }
+            }
+
+            layout->draw(painter, offset, selections);
+        }
+        offset.ry() += r.height();
+        block = block.next();
+        if (offset.y() > context.clip.bottom())
+            break;
+    }
+}
+
+class TextEditWrapper : public QObject
+{
 public:
-    explicit TextEditWidget(QTextEdit *editor, QWidget *parent = nullptr)
-        : QObject(parent)
-        , m_textEdit(editor)
+    explicit TextEditWrapper(QAbstractScrollArea *editor)
+        : QObject(editor)
+        , m_textEditWidget(editor)
+        , m_textEdit(qobject_cast<QTextEdit *>(editor))
+        , m_plainTextEdit(qobject_cast<QPlainTextEdit *>(editor))
         , m_handler(new FakeVimHandler(editor, nullptr))
         , m_hasBlockSelection(false)
     {
+        editor->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
         m_handler->installEventFilter();
         m_handler->setupWidget();
 
-        connect( editor, &QTextEdit::selectionChanged,
-                 this, &TextEditWidget::onSelectionChanged );
-        connect( editor, &QTextEdit::cursorPositionChanged,
-                 this, &TextEditWidget::onSelectionChanged );
+        if (m_textEdit) {
+            connect( m_textEdit, &QTextEdit::selectionChanged,
+                     this, &TextEditWrapper::onSelectionChanged );
+            connect( m_textEdit, &QTextEdit::cursorPositionChanged,
+                     this, &TextEditWrapper::onSelectionChanged );
+        } else if (m_plainTextEdit) {
+            connect( m_plainTextEdit, &QPlainTextEdit::selectionChanged,
+                     this, &TextEditWrapper::onSelectionChanged );
+            connect( m_plainTextEdit, &QPlainTextEdit::cursorPositionChanged,
+                     this, &TextEditWrapper::onSelectionChanged );
+        }
 
         setLineWrappingEnabled(true);
 
         editor->viewport()->installEventFilter(this);
+
+        // WORKAROUND: Disallow blinking text cursor application-wide
+        // (unfortunately, there doesn't seem other way to do this).
+        qApp->setCursorFlashTime(0);
     }
 
-    ~TextEditWidget()
+    ~TextEditWrapper()
     {
         m_handler->disconnectFromEditor();
         m_handler->deleteLater();
@@ -83,7 +162,7 @@ public:
 
         QPainter painter(viewport);
 
-        const QTextCursor tc = editor()->textCursor();
+        const QTextCursor tc = EDITOR(textCursor());
 
         m_context.cursorPosition = -1;
         m_context.palette = editor()->palette();
@@ -103,9 +182,9 @@ public:
             QRect rect;
             QTextCursor tc2 = tc;
             tc2.setPosition(tc.position());
-            rect = editor()->cursorRect(tc2);
+            rect = EDITOR(cursorRect(tc2));
             tc2.setPosition(tc.anchor());
-            rect = rect.united( editor()->cursorRect(tc2) );
+            rect = rect.united( EDITOR(cursorRect(tc2)) );
 
             m_context.palette.setColor(QPalette::Base, m_context.palette.color(QPalette::Highlight));
             m_context.palette.setColor(QPalette::Text, m_context.palette.color(QPalette::HighlightedText));
@@ -118,13 +197,21 @@ public:
         painter.restore();
 
         // Draw text cursor.
-        QRect rect = editor()->cursorRect();
+        QRect rect = EDITOR(cursorRect());
 
-        if (editor()->overwriteMode() || hasBlockSelection() ) {
+        if (EDITOR(overwriteMode()) || hasBlockSelection() ) {
             QFontMetrics fm(editor()->font());
-            QChar c = editor()->document()->characterAt( tc.position() );
-            rect.setWidth( fm.width(c) );
-            if (rect.width() == 0)
+            if ( !tc.atBlockEnd() ) {
+                QTextCursor tc2 = tc;
+                tc2.movePosition(QTextCursor::NextCharacter);
+                const int nextX = EDITOR(cursorRect(tc2)).left();
+                const int w = nextX - rect.left();
+                rect.setWidth(w);
+            } else {
+                QChar c = document()->characterAt( tc.position() );
+                rect.setWidth( fm.width(c) );
+            }
+            if (rect.width() < 2)
                 rect.setWidth( fm.averageCharWidth() );
         } else {
             rect.setWidth(2);
@@ -153,14 +240,14 @@ public:
 
     void highlightMatches(const QString &pattern)
     {
-        QTextCursor cur = editor()->textCursor();
+        QTextCursor cur = EDITOR(textCursor());
 
         Selection selection;
         selection.format.setBackground(Qt::yellow);
         selection.format.setForeground(Qt::black);
 
         // Highlight matches.
-        QTextDocument *doc = editor()->document();
+        QTextDocument *doc = document();
         QRegExp re(pattern);
         cur = doc->find(re);
 
@@ -200,11 +287,29 @@ public:
         return m_hasBlockSelection;
     }
 
-    QTextEdit *editor() const { return m_textEdit; }
+    void setTextCursor(const QTextCursor &tc)
+    {
+        EDITOR(setTextCursor(tc));
+    }
+
+    QTextCursor textCursor() const
+    {
+        return EDITOR(textCursor());
+    }
+
+    QTextDocument *document() const
+    {
+        return EDITOR(document());
+    }
+
+    QAbstractScrollArea *editor() const { return m_textEditWidget; }
 
     void setLineWrappingEnabled(bool enable)
     {
-        editor()->setLineWrapMode(enable ? QTextEdit::WidgetWidth : QTextEdit::NoWrap);
+        if (m_textEdit)
+            m_textEdit->setLineWrapMode(enable ? QTextEdit::WidgetWidth : QTextEdit::NoWrap);
+        else if (m_plainTextEdit)
+            m_plainTextEdit->setLineWrapMode(enable ? QPlainTextEdit::WidgetWidth : QPlainTextEdit::NoWrap);
     }
 
 private:
@@ -217,7 +322,7 @@ private:
         const QPalette pal = editor()->palette();
         selection.format.setBackground( pal.color(QPalette::Highlight) );
         selection.format.setForeground( pal.color(QPalette::HighlightedText) );
-        selection.cursor = editor()->textCursor();
+        selection.cursor = EDITOR(textCursor());
         if ( selection.cursor.hasSelection() )
             m_selection.append(selection);
 
@@ -239,7 +344,10 @@ private:
     {
         painter->setClipRect(m_context.clip);
         painter->fillRect(m_context.clip, m_context.palette.base());
-        editor()->document()->documentLayout()->draw(painter, m_context);
+        if (m_textEdit)
+            document()->documentLayout()->draw(painter, m_context);
+        else if (m_plainTextEdit)
+            drawPlainTextDocument(m_plainTextEdit, m_context, painter);
     }
 
     void updateSelections()
@@ -250,7 +358,9 @@ private:
         editor()->viewport()->update();
     }
 
+    QAbstractScrollArea *m_textEditWidget;
     QTextEdit *m_textEdit;
+    QPlainTextEdit *m_plainTextEdit;
     FakeVimHandler *m_handler;
     QRect m_cursorRect;
 
@@ -266,10 +376,8 @@ private:
 
 class Proxy : public QObject
 {
-    Q_OBJECT
-
 public:
-    Proxy(TextEditWidget *editorWidget, QStatusBar *statusBar, QObject *parent = nullptr)
+    Proxy(TextEditWrapper *editorWidget, QStatusBar *statusBar, QObject *parent = nullptr)
       : QObject(parent), m_editorWidget(editorWidget), m_statusBar(statusBar)
     {}
 
@@ -313,15 +421,15 @@ public:
             *handled = setOption(arg, enable);
         } else if ( wantSaveAndQuit(cmd) ) {
             // :wq
-            emit save();
-            emit cancel();
+            emitEditorSignal("save()");
+            emitEditorSignal("cancel()");
         } else if ( wantSave(cmd) ) {
-            emit save(); // :w
+            emitEditorSignal("save()"); // :w
         } else if ( wantQuit(cmd) ) {
             if (cmd.hasBang)
-                emit invalidate(); // :q!
+                emitEditorSignal("invalidate()"); // :q!
             else
-                emit cancel(); // :q
+                emitEditorSignal("cancel()"); // :q
         } else {
             *handled = false;
             return;
@@ -332,7 +440,7 @@ public:
 
     void requestSetBlockSelection(const QTextCursor &cursor)
     {
-        m_editorWidget->editor()->setTextCursor(cursor);
+        m_editorWidget->setTextCursor(cursor);
         m_editorWidget->setBlockSelection(true);
     }
 
@@ -343,16 +451,19 @@ public:
 
     void requestBlockSelection(QTextCursor *cursor)
     {
-        *cursor = m_editorWidget->editor()->textCursor();
+        *cursor = m_editorWidget->textCursor();
         m_editorWidget->setBlockSelection(true);
     }
 
-signals:
-    void save();
-    void cancel();
-    void invalidate();
-
 private:
+    void emitEditorSignal(const char *signal)
+    {
+        const auto editor = m_editorWidget->editor();
+        const QMetaObject *metaObject = editor->metaObject();
+        const int i = metaObject->indexOfSignal(signal);
+        metaObject->method(i).invoke(editor);
+    }
+
     bool wantSaveAndQuit(const ExCommand &cmd)
     {
         return cmd.cmd == "wq";
@@ -377,72 +488,61 @@ private:
         return true;
     }
 
-    TextEditWidget *m_editorWidget;
+    TextEditWrapper *m_editorWidget;
     QStatusBar *m_statusBar;
     QString m_statusMessage;
     QString m_statusData;
 };
 
-class Editor : public QWidget
+void connectSignals(FakeVimHandler *handler, Proxy *proxy)
 {
-    Q_OBJECT
+    QObject::connect(handler, &FakeVimHandler::commandBufferChanged,
+                     proxy, &Proxy::changeStatusMessage);
+    QObject::connect(handler, &FakeVimHandler::extraInformationChanged,
+                     proxy, &Proxy::changeExtraInformation);
+    QObject::connect(handler, &FakeVimHandler::statusDataChanged,
+                     proxy, &Proxy::changeStatusData);
+    QObject::connect(handler, &FakeVimHandler::highlightMatches,
+                     proxy, &Proxy::highlightMatches);
+    QObject::connect(handler, &FakeVimHandler::handleExCommandRequested,
+                     proxy, &Proxy::handleExCommand);
+    QObject::connect(handler, &FakeVimHandler::requestSetBlockSelection,
+                     proxy, &Proxy::requestSetBlockSelection);
+    QObject::connect(handler, &FakeVimHandler::requestDisableBlockSelection,
+                     proxy, &Proxy::requestDisableBlockSelection);
+    QObject::connect(handler, &FakeVimHandler::requestBlockSelection,
+                     proxy, &Proxy::requestBlockSelection);
+}
 
-public:
-    Editor(QTextEdit *editor, const QString &sourceFileName, QWidget *parent)
-        : QWidget(parent)
-        , m_editor(new TextEditWidget(editor, this))
-    {
-        m_editor->editor()->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName)
+{
+    auto wrapper = new TextEditWrapper(textEdit);
 
-        // Create status bar.
-        m_statusBar = new QStatusBar(editor);
-        const auto layout = editor->parentWidget()->layout();
-        if (layout)
-            layout->addWidget(m_statusBar);
-        m_statusBar->setFont(editor->font());
+    // Position text cursor at the beginning of text instead of selecting all.
+    wrapper->setTextCursor( QTextCursor(wrapper->document()) );
 
-        // Connect slots to FakeVimHandler signals.
-        auto proxy = new Proxy(m_editor, m_statusBar, this);
-        connectSignals( &m_editor->fakeVimHandler(), proxy, editor );
+    QStatusBar *statusBar = new QStatusBar(textEdit);
+    const auto layout = textEdit->parentWidget()->layout();
+    if (layout)
+        layout->addWidget(statusBar);
+    statusBar->setFont(textEdit->font());
 
-        if (!sourceFileName.isEmpty())
-            m_editor->fakeVimHandler().handleCommand("source " + sourceFileName);
-    }
+    // Connect slots to FakeVimHandler signals.
+    auto proxy = new Proxy(wrapper, statusBar, wrapper);
+    connectSignals( &wrapper->fakeVimHandler(), proxy );
 
-    TextEditWidget *textEditWidget() { return m_editor; }
+    if (!sourceFileName.isEmpty())
+        wrapper->fakeVimHandler().handleCommand("source " + sourceFileName);
 
-private:
-    void connectSignals(FakeVimHandler *handler, Proxy *proxy, QObject *editor)
-    {
-        connect(handler, &FakeVimHandler::commandBufferChanged,
-                proxy, &Proxy::changeStatusMessage);
-        connect(handler, &FakeVimHandler::extraInformationChanged,
-                proxy, &Proxy::changeExtraInformation);
-        connect(handler, &FakeVimHandler::statusDataChanged,
-                proxy, &Proxy::changeStatusData);
-        connect(handler, &FakeVimHandler::highlightMatches,
-                proxy, &Proxy::highlightMatches);
-        connect(handler, &FakeVimHandler::handleExCommandRequested,
-                proxy, &Proxy::handleExCommand);
-        connect(handler, &FakeVimHandler::requestSetBlockSelection,
-                proxy, &Proxy::requestSetBlockSelection);
-        connect(handler, &FakeVimHandler::requestDisableBlockSelection,
-                proxy, &Proxy::requestDisableBlockSelection);
-        connect(handler, &FakeVimHandler::requestBlockSelection,
-                proxy, &Proxy::requestBlockSelection);
+    return true;
+}
 
-        const QMetaObject *metaObject = editor->metaObject();
-        if ( metaObject->indexOfSignal("save()") != -1 )
-            connect( proxy, SIGNAL(save()), editor, SIGNAL(save()) );
-        if ( metaObject->indexOfSignal("cancel()") != -1 )
-            connect( proxy, SIGNAL(cancel()), editor, SIGNAL(cancel()) );
-        if ( metaObject->indexOfSignal("invalidate()") != -1 )
-            connect( proxy, SIGNAL(invalidate()), editor, SIGNAL(invalidate()) );
-    }
-
-    TextEditWidget *m_editor;
-    QStatusBar *m_statusBar;
-};
+template <typename TextEdit>
+bool installEditor(QObject *obj, const QString &sourceFileName)
+{
+    auto textEdit = qobject_cast<TextEdit *>(obj);
+    return textEdit && !textEdit->isReadOnly() && installEditor(textEdit, sourceFileName);
+}
 
 } // namespace
 
@@ -506,24 +606,14 @@ QObject *ItemFakeVimLoader::tests(const TestInterfacePtr &test) const
 
 bool ItemFakeVimLoader::eventFilter(QObject *watched, QEvent *event)
 {
-    if ( event->type() == QEvent::Show ) {
-        QTextEdit *textEdit = qobject_cast<QTextEdit *>(watched);
-        if (!textEdit || textEdit->isReadOnly())
-            return false;
-
-        auto parent = textEdit->parentWidget();
-        for (auto ed : parent->findChildren<Editor*>()) {
-            if ( ed->textEditWidget()->editor() == textEdit )
-                return false;
-        }
-        auto ed = new Editor(textEdit, m_sourceFileName, parent);
-        QObject::connect( textEdit, &QObject::destroyed, ed, &QObject::deleteLater );
-
-        // Position text cursor at the beginning of text instead of selecting all.
-        textEdit->setTextCursor( QTextCursor(textEdit->document()) );
+    if ( event->type() == QEvent::Show
+         && !watched->property(propertyWrapped).toBool()
+         && ( installEditor<QTextEdit>(watched, m_sourceFileName)
+              || installEditor<QPlainTextEdit>(watched, m_sourceFileName) )
+         )
+    {
+         watched->setProperty(propertyWrapped, true);
     }
 
     return false;
 }
-
-#include "itemfakevim.moc"
