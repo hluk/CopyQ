@@ -54,14 +54,23 @@ void drawPlainTextDocument(
         const QAbstractTextDocumentLayout::PaintContext context,
         QPainter *painter)
 {
+    // WORKAROUND: Access protected members of QPlainTextEdit.
+    class PlainTextEdit : public QPlainTextEdit {
+    public:
+        static QPointF getContentOffset(QPlainTextEdit *edit) {
+            return (edit->*(&PlainTextEdit::contentOffset))();
+        }
+        static QTextBlock getFirstVisibleBlock(QPlainTextEdit *edit) {
+            return (edit->*(&PlainTextEdit::firstVisibleBlock))();
+        }
+    };
+    QPointF offset = PlainTextEdit::getContentOffset(textEdit);
+    QTextBlock block = PlainTextEdit::getFirstVisibleBlock(textEdit);
+
     QTextDocument *doc = textEdit->document();
     const auto documentLayout = doc->documentLayout();
-    const QTextCursor tc = textEdit->cursorForPosition(QPoint(0,0));
-    QTextBlock block = tc.block();
-    const auto hbar = textEdit->horizontalScrollBar();
-    const auto h = textEdit->isRightToLeft() ? (hbar->maximum() - hbar->value()) : hbar->value();
-    const auto v = doc->documentMargin();
-    QPointF offset(h, v);
+
+    painter->setBrushOrigin(offset);
 
     while (block.isValid()) {
         const QRectF r = documentLayout->blockBoundingRect(block).translated(offset);
@@ -99,10 +108,12 @@ void drawPlainTextDocument(
 
             layout->draw(painter, offset, selections);
         }
+
         offset.ry() += r.height();
-        block = block.next();
         if (offset.y() > context.clip.bottom())
             break;
+
+        block = block.next();
     }
 }
 
@@ -167,8 +178,8 @@ public:
         m_context.cursorPosition = -1;
         m_context.palette = editor()->palette();
 
-        const int h = horizontalOffset();
-        const int v = verticalOffset();
+        const int h = m_textEdit ? horizontalOffset() : 0;
+        const int v = m_textEdit ? verticalOffset() : 0;
         m_context.clip = r.translated(h, v);
 
         painter.save();
@@ -201,18 +212,15 @@ public:
 
         if (EDITOR(overwriteMode()) || hasBlockSelection() ) {
             QFontMetrics fm(editor()->font());
-            if ( !tc.atBlockEnd() ) {
-                QTextCursor tc2 = tc;
-                tc2.movePosition(QTextCursor::NextCharacter);
-                const int nextX = EDITOR(cursorRect(tc2)).left();
-                const int w = nextX - rect.left();
+            QTextCursor tc2 = tc;
+            tc2.movePosition(QTextCursor::NextCharacter);
+            if (tc2.block() == tc.block() && !tc2.atEnd()) {
+                const QRect nextRect = EDITOR(cursorRect(tc2));
+                const int w = nextRect.left() - rect.left();
                 rect.setWidth(w);
             } else {
-                QChar c = document()->characterAt( tc.position() );
-                rect.setWidth( fm.width(c) );
-            }
-            if (rect.width() < 2)
                 rect.setWidth( fm.averageCharWidth() );
+            }
         } else {
             rect.setWidth(2);
             rect.adjust(-1, 0, 0, 0);
