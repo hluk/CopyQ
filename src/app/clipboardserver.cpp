@@ -361,6 +361,7 @@ void ClipboardServer::waitForCallbackToFinish()
     if (m_callback) {
         COPYQ_LOG("Waiting for callback to finish");
         m_callback->waitForFinished();
+        COPYQ_LOG("Callback finished");
     }
 }
 

@@ -316,11 +316,8 @@ bool Action::waitForFinished(int msecs)
     loop.exec(QEventLoop::ExcludeUserInputEvents);
 
     // Loop stopped because application is exiting?
-    while ( self && isRunning() && (msecs < 0 || t.isActive()) ) {
-        if ( m_processes.back()->waitForFinished(0) )
-            break;
-        QCoreApplication::processEvents();
-    }
+    while ( self && isRunning() && (msecs < 0 || t.isActive()) )
+        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
 
     return !self || !isRunning();
 }
