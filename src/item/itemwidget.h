@@ -315,6 +315,8 @@ public:
      */
     virtual QVariantMap applySettings() { return QVariantMap(); }
 
+    virtual void setEnabled(bool) {}
+
     /**
      * Load stored configuration values.
      */

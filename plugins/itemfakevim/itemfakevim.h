@@ -46,6 +46,8 @@ public:
     QString description() const override { return tr("Emulate Vim editor while editing items."); }
     QVariant icon() const override;
 
+    void setEnabled(bool enabled) override;
+
     QVariantMap applySettings() override;
 
     void loadSettings(const QVariantMap &settings) override;
@@ -56,10 +58,21 @@ public:
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
+signals:
+    void deleteAllWrappers();
+
 private:
-    bool m_enabled;
+    void updateCurrentlyEnabledState();
+
+    void wrapEditWidget(QObject *obj);
+
+    bool m_enabled = true;
+    bool m_reallyEnabled = false;
+    bool m_currentlyEnabled = false;
     QString m_sourceFileName;
     QScopedPointer<Ui::ItemFakeVimSettings> ui;
+
+    int m_oldCursorFlashTime = -1;
 };
 
 #endif // ITEMFAKEVIM_H

@@ -148,10 +148,6 @@ public:
         setLineWrappingEnabled(true);
 
         editor->viewport()->installEventFilter(this);
-
-        // WORKAROUND: Disallow blinking text cursor application-wide
-        // (unfortunately, there doesn't seem other way to do this).
-        qApp->setCursorFlashTime(0);
     }
 
     ~TextEditWrapper()
@@ -522,7 +518,7 @@ void connectSignals(FakeVimHandler *handler, Proxy *proxy)
                      proxy, &Proxy::requestBlockSelection);
 }
 
-bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName)
+bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName, ItemFakeVimLoader *loader)
 {
     auto wrapper = new TextEditWrapper(textEdit);
 
@@ -530,6 +526,7 @@ bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName)
     wrapper->setTextCursor( QTextCursor(wrapper->document()) );
 
     QStatusBar *statusBar = new QStatusBar(textEdit);
+
     const auto layout = textEdit->parentWidget()->layout();
     if (layout)
         layout->addWidget(statusBar);
@@ -542,20 +539,25 @@ bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName)
     if (!sourceFileName.isEmpty())
         wrapper->fakeVimHandler().handleCommand("source " + sourceFileName);
 
+    QObject::connect(loader, &ItemFakeVimLoader::deleteAllWrappers, wrapper, &QObject::deleteLater);
+    QObject::connect(loader, &ItemFakeVimLoader::deleteAllWrappers, statusBar, &QObject::deleteLater);
+    QObject::connect(loader, &ItemFakeVimLoader::deleteAllWrappers, textEdit, [textEdit](){
+        textEdit->setProperty(propertyWrapped, false);
+    });
+
     return true;
 }
 
 template <typename TextEdit>
-bool installEditor(QObject *obj, const QString &sourceFileName)
+bool installEditor(QObject *obj, const QString &sourceFileName, ItemFakeVimLoader *loader)
 {
     auto textEdit = qobject_cast<TextEdit *>(obj);
-    return textEdit && !textEdit->isReadOnly() && installEditor(textEdit, sourceFileName);
+    return textEdit && !textEdit->isReadOnly() && installEditor(textEdit, sourceFileName, loader);
 }
 
 } // namespace
 
 ItemFakeVimLoader::ItemFakeVimLoader()
-    : m_enabled(false)
 {
 }
 
@@ -566,10 +568,16 @@ QVariant ItemFakeVimLoader::icon() const
     return QIcon(":/fakevim/fakevim.png");
 }
 
+void ItemFakeVimLoader::setEnabled(bool enabled)
+{
+    m_enabled = enabled;
+    updateCurrentlyEnabledState();
+}
+
 QVariantMap ItemFakeVimLoader::applySettings()
 {
     QVariantMap settings;
-    settings["really_enable"] = m_enabled = ui->checkBoxEnable->isChecked();
+    settings["really_enable"] = m_reallyEnabled = ui->checkBoxEnable->isChecked();
     settings["source_file"] = m_sourceFileName = ui->lineEditSourceFileName->text();
 
     return settings;
@@ -577,12 +585,9 @@ QVariantMap ItemFakeVimLoader::applySettings()
 
 void ItemFakeVimLoader::loadSettings(const QVariantMap &settings)
 {
-    m_enabled = settings.value("really_enable", false).toBool();
+    m_reallyEnabled = settings.value("really_enable", false).toBool();
     m_sourceFileName = settings.value("source_file").toString();
-    if (m_enabled)
-        qApp->installEventFilter(this);
-    else
-        qApp->removeEventFilter(this);
+    updateCurrentlyEnabledState();
 }
 
 QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
@@ -591,7 +596,7 @@ QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
-    ui->checkBoxEnable->setChecked(m_enabled);
+    ui->checkBoxEnable->setChecked(m_reallyEnabled);
     ui->lineEditSourceFileName->setText(m_sourceFileName);
 
     return w;
@@ -614,14 +619,53 @@ QObject *ItemFakeVimLoader::tests(const TestInterfacePtr &test) const
 
 bool ItemFakeVimLoader::eventFilter(QObject *watched, QEvent *event)
 {
-    if ( event->type() == QEvent::Show
-         && !watched->property(propertyWrapped).toBool()
-         && ( installEditor<QTextEdit>(watched, m_sourceFileName)
-              || installEditor<QPlainTextEdit>(watched, m_sourceFileName) )
-         )
-    {
-         watched->setProperty(propertyWrapped, true);
-    }
+    if (event->type() == QEvent::Show)
+        wrapEditWidget(watched);
 
     return false;
+}
+
+void ItemFakeVimLoader::updateCurrentlyEnabledState()
+{
+    if ( qobject_cast<QGuiApplication*>(qApp) == nullptr )
+        return;
+
+    const bool enable = m_enabled && m_reallyEnabled;
+    if (m_currentlyEnabled == enable)
+        return;
+
+    if (enable) {
+        // WORKAROUND: Disallow blinking text cursor application-wide
+        // (unfortunately, there doesn't seem other way to do this).
+        m_oldCursorFlashTime = qApp->cursorFlashTime();
+        qApp->setCursorFlashTime(0);
+
+        qApp->installEventFilter(this);
+
+        for (auto topLevel : qApp->topLevelWidgets()) {
+            for ( auto textEdit : topLevel->findChildren<QTextEdit*>() )
+                wrapEditWidget(textEdit);
+            for ( auto textEdit : topLevel->findChildren<QPlainTextEdit*>() )
+                wrapEditWidget(textEdit);
+        }
+    } else {
+        emit deleteAllWrappers();
+
+        qApp->removeEventFilter(this);
+
+        qApp->setCursorFlashTime(m_oldCursorFlashTime);
+    }
+
+    m_currentlyEnabled = enable;
+}
+
+void ItemFakeVimLoader::wrapEditWidget(QObject *obj)
+{
+    if ( !obj->property(propertyWrapped).toBool()
+         && ( installEditor<QTextEdit>(obj, m_sourceFileName, this)
+              || installEditor<QPlainTextEdit>(obj, m_sourceFileName, this) )
+         )
+    {
+        obj->setProperty(propertyWrapped, true);
+    }
 }

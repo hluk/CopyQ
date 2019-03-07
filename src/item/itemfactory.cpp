@@ -359,6 +359,8 @@ void ItemFactory::setLoaderEnabled(const ItemLoaderPtr &loader, bool enabled)
             m_disabledLoaders.remove( m_disabledLoaders.indexOf(loader) );
         else
             m_disabledLoaders.append(loader);
+
+        loader->setEnabled(enabled);
     }
 }
 
@@ -537,8 +539,8 @@ void ItemFactory::loadItemFactorySettings(QSettings *settings)
         for (const auto &name : settings->allKeys()) {
             s[name] = settings->value(name);
         }
-        loader->loadSettings(s);
         setLoaderEnabled( loader, settings->value("enabled", true).toBool() );
+        loader->loadSettings(s);
 
         settings->endGroup();
     }
