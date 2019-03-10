@@ -503,22 +503,46 @@ private:
 
 void connectSignals(FakeVimHandler *handler, Proxy *proxy)
 {
-    QObject::connect(handler, &FakeVimHandler::commandBufferChanged,
-                     proxy, &Proxy::changeStatusMessage);
-    QObject::connect(handler, &FakeVimHandler::extraInformationChanged,
-                     proxy, &Proxy::changeExtraInformation);
-    QObject::connect(handler, &FakeVimHandler::statusDataChanged,
-                     proxy, &Proxy::changeStatusData);
-    QObject::connect(handler, &FakeVimHandler::highlightMatches,
-                     proxy, &Proxy::highlightMatches);
-    QObject::connect(handler, &FakeVimHandler::handleExCommandRequested,
-                     proxy, &Proxy::handleExCommand);
-    QObject::connect(handler, &FakeVimHandler::requestSetBlockSelection,
-                     proxy, &Proxy::requestSetBlockSelection);
-    QObject::connect(handler, &FakeVimHandler::requestDisableBlockSelection,
-                     proxy, &Proxy::requestDisableBlockSelection);
-    QObject::connect(handler, &FakeVimHandler::requestBlockSelection,
-                     proxy, &Proxy::requestBlockSelection);
+    handler->commandBufferChanged.connect(
+        [proxy](const QString &msg, int cursorPos, int, int) {
+            proxy->changeStatusMessage(msg, cursorPos);
+        }
+    );
+    handler->extraInformationChanged.connect(
+        [proxy](const QString &msg) {
+            proxy->changeExtraInformation(msg);
+        }
+    );
+    handler->statusDataChanged.connect(
+        [proxy](const QString &msg) {
+            proxy->changeStatusData(msg);
+        }
+    );
+    handler->highlightMatches.connect(
+        [proxy](const QString &needle) {
+            proxy->highlightMatches(needle);
+        }
+    );
+    handler->handleExCommandRequested.connect(
+        [proxy](bool *handled, const ExCommand &cmd) {
+            proxy->handleExCommand(handled, cmd);
+        }
+    );
+    handler->requestSetBlockSelection.connect(
+        [proxy](const QTextCursor &cursor) {
+            proxy->requestSetBlockSelection(cursor);
+        }
+    );
+    handler->requestDisableBlockSelection.connect(
+        [proxy]() {
+            proxy->requestDisableBlockSelection();
+        }
+    );
+    handler->requestBlockSelection.connect(
+        [proxy](QTextCursor *cursor) {
+            proxy->requestBlockSelection(cursor);
+        }
+    );
 }
 
 bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName, ItemFakeVimLoader *loader)

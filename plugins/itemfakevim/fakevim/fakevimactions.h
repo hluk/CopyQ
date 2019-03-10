@@ -1,7 +1,7 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of Qt Creator.
 **
@@ -9,62 +9,62 @@
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.  For licensing terms and
-** conditions see http://qt.digia.com/licensing.  For further information
-** use the contact form at http://qt.digia.com/contact-us.
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, Digia gives you certain additional
-** rights.  These rights are described in the Digia Qt LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3 as published by the Free Software
+** Foundation with exceptions as appearing in the file LICENSE.GPL3-EXCEPT
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ****************************************************************************/
 
-#ifndef FAKEVIM_ACTIONS_H
-#define FAKEVIM_ACTIONS_H
+#pragma once
 
 #ifndef FAKEVIM_STANDALONE
 #   include <utils/savedaction.h>
 #endif
 
+#include <QCoreApplication>
 #include <QHash>
 #include <QObject>
 #include <QString>
+#include <QSettings>
 #include <QVariant>
 
 namespace FakeVim {
 namespace Internal {
 
-#ifdef FAKEVIM_STANDALONE
-namespace Utils {
-
-class SavedAction : public QObject
+class DummyAction
 {
-    Q_OBJECT
-
 public:
-    SavedAction(QObject *parent);
+    DummyAction(void *parent);
     void setValue(const QVariant &value);
     QVariant value() const;
     void setDefaultValue(const QVariant &value);
     QVariant defaultValue() const;
-    void setSettingsKey(const QString &key);
+    void setSettingsKey(const QString &group, const QString &key);
     QString settingsKey() const;
+    void setCheckable(bool) {}
+
+    void readSettings(QSettings *) {}
+    void writeSettings(QSettings *) {}
 
     QVariant m_value;
     QVariant m_defaultValue;
+    QString m_settingsGroup;
     QString m_settingsKey;
 };
 
-} // namespace Utils
-#endif // FAKEVIM_STANDALONE
+#ifdef FAKEVIM_STANDALONE
+using FakeVimAction = DummyAction;
+#else
+using FakeVimAction = Utils::SavedAction;
+#endif
 
 enum FakeVimSettingsCode
 {
@@ -106,39 +106,41 @@ enum FakeVimSettingsCode
     ConfigClipboard,
     ConfigShowCmd,
     ConfigScrollOff,
-    ConfigRelativeNumber
+    ConfigRelativeNumber,
+
+    ConfigBlinkingCursor
 };
 
-class FakeVimSettings : public QObject
+class FakeVimSettings
 {
-    Q_OBJECT
+    Q_DECLARE_TR_FUNCTIONS(FakeVim)
 
 public:
     FakeVimSettings();
     ~FakeVimSettings();
-    void insertItem(int code, Utils::SavedAction *item,
+    void insertItem(int code, FakeVimAction *item,
         const QString &longname = QString(),
         const QString &shortname = QString());
 
-    Utils::SavedAction *item(int code);
-    Utils::SavedAction *item(const QString &name);
+    FakeVimAction *item(int code);
+    FakeVimAction *item(const QString &name);
     QString trySetValue(const QString &name, const QString &value);
 
-#ifndef FAKEVIM_STANDALONE
     void readSettings(QSettings *settings);
     void writeSettings(QSettings *settings);
-#endif
 
 private:
-    QHash<int, Utils::SavedAction *> m_items;
+    void createAction(int code, const QVariant &value,
+                      const QString &settingsKey = QString(),
+                      const QString &shortKey = QString());
+
+    QHash<int, FakeVimAction *> m_items;
     QHash<QString, int> m_nameToCode;
     QHash<int, QString> m_codeToName;
 };
 
 FakeVimSettings *theFakeVimSettings();
-Utils::SavedAction *theFakeVimSetting(int code);
+FakeVimAction *theFakeVimSetting(int code);
 
 } // namespace Internal
 } // namespace FakeVim
-
-#endif // FAKEVIM_ACTTIONS_H

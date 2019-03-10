@@ -42,7 +42,7 @@ public:
     QString name() const override { return tr("FakeVim"); }
     QString author() const override
     { return tr("FakeVim plugin is part of Qt Creator")
-                + " (Copyright (C) override 2013 Digia Plc and/or its subsidiary(-ies))."; }
+                + " (Copyright (C) 2016 The Qt Company Ltd.)"; }
     QString description() const override { return tr("Emulate Vim editor while editing items."); }
     QVariant icon() const override;
 

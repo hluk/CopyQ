@@ -1,7 +1,7 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of Qt Creator.
 **
@@ -9,29 +9,27 @@
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Digia.  For licensing terms and
-** conditions see http://qt.digia.com/licensing.  For further information
-** use the contact form at http://qt.digia.com/contact-us.
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, Digia gives you certain additional
-** rights.  These rights are described in the Digia Qt LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3 as published by the Free Software
+** Foundation with exceptions as appearing in the file LICENSE.GPL3-EXCEPT
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ****************************************************************************/
 
-#ifndef FAKEVIM_HANDLER_H
-#define FAKEVIM_HANDLER_H
+#pragma once
 
 #include <QObject>
 #include <QTextEdit>
+
+#include <functional>
+#include <vector>
 
 namespace FakeVim {
 namespace Internal {
@@ -49,29 +47,29 @@ enum RangeMode
 
 struct Range
 {
-    Range();
+    Range() = default;
     Range(int b, int e, RangeMode m = RangeCharMode);
     QString toString() const;
     bool isValid() const;
 
-    int beginPos;
-    int endPos;
-    RangeMode rangemode;
+    int beginPos = -1;
+    int endPos = -1;
+    RangeMode rangemode = RangeCharMode;
 };
 
 struct ExCommand
 {
-    ExCommand() : hasBang(false), count(1) {}
+    ExCommand() = default;
     ExCommand(const QString &cmd, const QString &args = QString(),
         const Range &range = Range());
 
     bool matches(const QString &min, const QString &full) const;
 
     QString cmd;
-    bool hasBang;
+    bool hasBang = false;
     QString args;
     Range range;
-    int count;
+    int count = 1;
 };
 
 // message levels sorted by severity
@@ -85,20 +83,41 @@ enum MessageLevel
     MessageShowCmd  // partial command
 };
 
+template <typename Type>
+class Signal
+{
+public:
+    using Callable = std::function<Type>;
+
+    void connect(const Callable &callable) { m_callables.push_back(callable); }
+
+    template <typename ...Args>
+    void operator()(Args ...args) const
+    {
+        for (const Callable &callable : m_callables)
+            callable(args...);
+   }
+
+private:
+    std::vector<Callable> m_callables;
+};
+
 class FakeVimHandler : public QObject
 {
     Q_OBJECT
 
 public:
     explicit FakeVimHandler(QWidget *widget, QObject *parent = nullptr);
-    ~FakeVimHandler();
+    ~FakeVimHandler() override;
 
     QWidget *widget();
 
     // call before widget is deleted
     void disconnectFromEditor();
 
-public slots:
+    static void updateGlobalMarksFilenames(const QString &oldFileName, const QString &newFileName);
+
+public:
     void setCurrentFileName(const QString &fileName);
     QString currentFileName() const;
 
@@ -109,6 +128,7 @@ public slots:
     void handleCommand(const QString &cmd);
     void handleReplay(const QString &keys);
     void handleInput(const QString &keys);
+    void enterCommandMode();
 
     void installEventFilter();
 
@@ -131,39 +151,39 @@ public slots:
 
     bool jumpToLocalMark(QChar mark, bool backTickMode);
 
-signals:
-    void commandBufferChanged(const QString &msg, int cursorPos,
-        int anchorPos, int messageLevel, QObject *eventFilter);
-    void statusDataChanged(const QString &msg);
-    void extraInformationChanged(const QString &msg);
-    void selectionChanged(const QList<QTextEdit::ExtraSelection> &selection);
-    void highlightMatches(const QString &needle);
-    void writeAllRequested(QString *error);
-    void moveToMatchingParenthesis(bool *moved, bool *forward, QTextCursor *cursor);
-    void checkForElectricCharacter(bool *result, QChar c);
-    void indentRegion(int beginLine, int endLine, QChar typedChar);
-    void completionRequested();
-    void simpleCompletionRequested(const QString &needle, bool forward);
-    void windowCommandRequested(const QString &key, int count);
-    void findRequested(bool reverse);
-    void findNextRequested(bool reverse);
-    void handleExCommandRequested(bool *handled, const ExCommand &cmd);
-    void requestDisableBlockSelection();
-    void requestSetBlockSelection(const QTextCursor&);
-    void requestBlockSelection(QTextCursor*);
-    void requestHasBlockSelection(bool *on);
-    void foldToggle(int depth);
-    void foldAll(bool fold);
-    void fold(int depth, bool fold);
-    void foldGoTo(int count, bool current);
-    void jumpToGlobalMark(QChar mark, bool backTickMode, const QString &fileName);
+    bool eventFilter(QObject *ob, QEvent *ev) override;
+
+    Signal<void(const QString &msg, int cursorPos, int anchorPos, int messageLevel)> commandBufferChanged;
+    Signal<void(const QString &msg)> statusDataChanged;
+    Signal<void(const QString &msg)> extraInformationChanged;
+    Signal<void(const QList<QTextEdit::ExtraSelection> &selection)> selectionChanged;
+    Signal<void(const QString &needle)>  highlightMatches;
+    Signal<void(bool *moved, bool *forward, QTextCursor *cursor)> moveToMatchingParenthesis;
+    Signal<void(bool *result, QChar c)> checkForElectricCharacter;
+    Signal<void(int beginLine, int endLine, QChar typedChar)> indentRegion;
+    Signal<void(const QString &needle, bool forward)> simpleCompletionRequested;
+    Signal<void(const QString &key, int count)> windowCommandRequested;
+    Signal<void(bool reverse)> findRequested;
+    Signal<void(bool reverse)> findNextRequested;
+    Signal<void(bool *handled, const ExCommand &cmd)> handleExCommandRequested;
+    Signal<void()> requestDisableBlockSelection;
+    Signal<void(const QTextCursor &cursor)> requestSetBlockSelection;
+    Signal<void(QTextCursor *cursor)> requestBlockSelection;
+    Signal<void(bool *on)> requestHasBlockSelection;
+    Signal<void(int depth)> foldToggle;
+    Signal<void(bool fold)> foldAll;
+    Signal<void(int depth, bool dofold)> fold;
+    Signal<void(int count, bool current)> foldGoTo;
+    Signal<void(QChar mark, bool backTickMode, const QString &fileName)> requestJumpToLocalMark;
+    Signal<void(QChar mark, bool backTickMode, const QString &fileName)> requestJumpToGlobalMark;
+    Signal<void()> completionRequested;
+    Signal<void()> tabPreviousRequested;
+    Signal<void()> tabNextRequested;
 
 public:
     class Private;
 
 private:
-    bool eventFilter(QObject *ob, QEvent *ev) override;
-
     Private *d;
 };
 
@@ -171,6 +191,3 @@ private:
 } // namespace FakeVim
 
 Q_DECLARE_METATYPE(FakeVim::Internal::ExCommand)
-
-
-#endif // FAKEVIM_HANDLER_H
