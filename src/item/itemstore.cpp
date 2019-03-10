@@ -108,7 +108,7 @@ ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFa
     if ( !QFile::exists(tabFileName) ) {
         QFile tmpFile(tabFileName + ".tmp");
         if ( tmpFile.exists() ) {
-            log( QString("Tab \"%1\": Restoring items (previous save failed)"), LogWarning );
+            log( QString("Tab \"%1\": Restoring items (previous save failed)").arg(tabName), LogWarning );
             if ( !tmpFile.rename(tabFileName) ) {
                 printItemFileError("load tab (restore previous file)", tabName, tmpFile);
                 return nullptr;
