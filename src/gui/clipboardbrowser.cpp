@@ -447,8 +447,6 @@ bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
 
 void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClipboard)
 {
-    emit searchHideRequest();
-
     bool active = editor != nullptr;
 
     if (m_editor != editor) {
@@ -460,6 +458,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
 
         m_editor = editor;
         if (active) {
+            emit searchHideRequest();
             connect( editor, &ItemEditorWidget::save,
                      this, &ClipboardBrowser::onEditorSave );
             if (changeClipboard) {
@@ -478,6 +477,8 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
         } else {
             setFocus();
             maybeEmitEditingFinished();
+            if ( !d.searchExpression().isEmpty() )
+                emit searchRequest();
         }
 
         emit internalEditorStateChanged(this);
