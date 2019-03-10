@@ -41,16 +41,13 @@
 #include <QDrag>
 #include <QKeyEvent>
 #include <QMimeData>
-#include <QPushButton>
 #include <QProgressBar>
 #include <QMenu>
 #include <QMessageBox>
 #include <QPainter>
-#include <QProcess>
 #include <QScrollBar>
 #include <QTemporaryFile>
 #include <QUrl>
-#include <QElapsedTimer>
 
 #include <algorithm>
 #include <cmath>
