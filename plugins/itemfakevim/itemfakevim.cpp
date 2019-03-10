@@ -28,6 +28,7 @@
 using namespace FakeVim::Internal;
 
 #include <QIcon>
+#include <QLabel>
 #include <QMessageBox>
 #include <QMetaMethod>
 #include <QPaintEvent>
@@ -38,6 +39,7 @@ using namespace FakeVim::Internal;
 #include <QPlainTextEdit>
 #include <QAbstractTextDocumentLayout>
 #include <QScrollBar>
+#include <QStyle>
 #include <QStyleHints>
 #include <QtPlugin>
 
@@ -385,8 +387,14 @@ class Proxy : public QObject
 {
 public:
     Proxy(TextEditWrapper *editorWidget, QStatusBar *statusBar, QObject *parent = nullptr)
-      : QObject(parent), m_editorWidget(editorWidget), m_statusBar(statusBar)
-    {}
+      : QObject(parent)
+      , m_editorWidget(editorWidget)
+      , m_statusBar(statusBar)
+      , m_statusBarIcon(new QLabel(statusBar))
+    {
+        m_statusBar->addPermanentWidget(m_statusBarIcon);
+        m_statusBarIcon->show();
+    }
 
     void changeStatusData(const QString &info)
     {
@@ -399,10 +407,39 @@ public:
         m_editorWidget->highlightMatches(pattern);
     }
 
-    void changeStatusMessage(const QString &contents, int cursorPos)
+    void setStatusIcon(QStyle::StandardPixmap standardPixmap)
+    {
+        const auto icon = m_statusBarIcon->style()->standardIcon(standardPixmap);
+        const auto maxHeight = m_statusBarIcon->contentsRect().height();
+        const auto window = m_statusBarIcon->windowHandle();
+
+        auto sizes = icon.availableSizes();
+        std::sort(std::begin(sizes), std::end(sizes), [](const QSize &lhs, const QSize &rhs){
+            return lhs.height() > rhs.height();
+        });
+
+        const auto it = std::lower_bound(
+            sizes.begin(), sizes.end(), maxHeight,
+            [](const QSize &size, int height){
+                return size.height() > height;
+            });
+        const auto size = it == sizes.end() ? icon.actualSize(window, QSize(maxHeight, maxHeight)) : *it;
+        const auto pixmap = icon.pixmap(window, size);
+        m_statusBarIcon->setPixmap(pixmap);
+    }
+
+    void changeStatusMessage(const QString &contents, int cursorPos, int messageLevel)
     {
         m_statusMessage = cursorPos == -1 ? contents
             : contents.left(cursorPos) + QChar(10073) + contents.mid(cursorPos);
+
+        if (messageLevel == MessageWarning)
+            setStatusIcon(QStyle::SP_MessageBoxWarning);
+        else if (messageLevel == MessageError)
+            setStatusIcon(QStyle::SP_MessageBoxCritical);
+        else
+            m_statusBarIcon->clear();
+
         updateStatusBar();
     }
 
@@ -497,6 +534,7 @@ private:
 
     TextEditWrapper *m_editorWidget;
     QStatusBar *m_statusBar;
+    QLabel *m_statusBarIcon;
     QString m_statusMessage;
     QString m_statusData;
 };
@@ -504,8 +542,8 @@ private:
 void connectSignals(FakeVimHandler *handler, Proxy *proxy)
 {
     handler->commandBufferChanged.connect(
-        [proxy](const QString &msg, int cursorPos, int, int) {
-            proxy->changeStatusMessage(msg, cursorPos);
+        [proxy](const QString &msg, int cursorPos, int, int messageLevel) {
+            proxy->changeStatusMessage(msg, cursorPos, messageLevel);
         }
     );
     handler->extraInformationChanged.connect(
