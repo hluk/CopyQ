@@ -83,7 +83,7 @@ class ClipboardBrowser : public QListView
          *
          * If ID is empty saving is disabled.
          */
-        void setTabName(const QString &tabName);
+        bool setTabName(const QString &tabName);
         const QString &tabName() const { return m_tabName; }
 
         /**

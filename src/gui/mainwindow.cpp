@@ -2469,10 +2469,11 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
         if ( (oldTabName == oldPrefix || oldTabName.startsWith(prefix)) && newPrefix != oldPrefix) {
             const QString newName = newPrefix + oldTabName.mid(oldPrefix.size());
             updateTabIcon(newName, placeholder->tabName());
-            placeholder->setTabName(newName);
-            auto c = placeholder->browser();
-            if (c)
-                ui->tabWidget->setTabItemCount( newName, c->length() );
+            if ( placeholder->setTabName(newName) ) {
+                auto c = placeholder->browser();
+                if (c)
+                    ui->tabWidget->setTabItemCount( newName, c->length() );
+            }
         }
     }
 
@@ -3428,9 +3429,10 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
     auto placeholder = getPlaceholder(tabIndex);
     if (placeholder) {
         updateTabIcon(name, placeholder->tabName());
-        placeholder->setTabName(name);
-        ui->tabWidget->setTabName(tabIndex, name);
-        saveTabPositions();
+        if ( placeholder->setTabName(name) ) {
+            ui->tabWidget->setTabName(tabIndex, name);
+            saveTabPositions();
+        }
     }
 }
 

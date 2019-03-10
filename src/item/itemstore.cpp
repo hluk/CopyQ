@@ -188,19 +188,22 @@ void removeItems(const QString &tabName)
     QFile::remove(tabFileName + ".tmp");
 }
 
-void moveItems(const QString &oldId, const QString &newId)
+bool moveItems(const QString &oldId, const QString &newId)
 {
     const QString oldFileName = itemFileName(oldId);
     const QString newFileName = itemFileName(newId);
 
     if ( oldFileName != newFileName && QFile::copy(oldFileName, newFileName) ) {
         QFile::remove(oldFileName);
-    } else {
-        log( QString("Failed to move items from \"%1\" (tab \"%2\") to \"%3\" (tab \"%4\")").arg(
-                 oldFileName,
-                 oldId,
-                 newFileName,
-                 newId
-           ), LogError );
+        return true;
     }
+
+    log( QString("Failed to move items from \"%1\" (tab \"%2\") to \"%3\" (tab \"%4\")").arg(
+             oldFileName,
+             oldId,
+             newFileName,
+             newId
+       ), LogError );
+
+    return false;
 }

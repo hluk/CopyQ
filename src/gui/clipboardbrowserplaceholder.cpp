@@ -76,14 +76,19 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
     return m_browser;
 }
 
-void ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
+bool ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
 {
     if ( isEditorOpen() ) {
-        m_browser->setTabName(tabName);
+        if ( !m_browser->setTabName(tabName) )
+            return false;
         reloadBrowser();
     } else {
         unloadBrowser();
-        moveItems(m_tabName, tabName);
+        if ( !moveItems(m_tabName, tabName) ) {
+            if ( isVisible() )
+                createBrowser();
+            return false;
+        }
     }
 
     ::removeItems(m_tabName);
@@ -91,6 +96,8 @@ void ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
 
     if ( isVisible() )
         createBrowser();
+
+    return true;
 }
 
 void ClipboardBrowserPlaceholder::removeItems()

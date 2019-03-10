@@ -1779,10 +1779,16 @@ const QString ClipboardBrowser::selectedText() const
     return result;
 }
 
-void ClipboardBrowser::setTabName(const QString &tabName)
+bool ClipboardBrowser::setTabName(const QString &tabName)
 {
+    const QString oldTabName = m_tabName;
+
     m_tabName = tabName;
-    saveItems();
+    if ( saveItems() )
+        return true;
+
+    m_tabName = oldTabName;
+    return false;
 }
 
 void ClipboardBrowser::editRow(int row)

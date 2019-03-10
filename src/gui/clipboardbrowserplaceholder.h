@@ -49,7 +49,7 @@ public:
      */
     ClipboardBrowser *createBrowser();
 
-    void setTabName(const QString &tabName);
+    bool setTabName(const QString &tabName);
     QString tabName() const { return m_tabName; }
 
     void removeItems();

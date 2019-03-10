@@ -38,7 +38,7 @@ void removeItems(const QString &tabName //!< See ClipboardBrowser::getID().
         );
 
 /** Move configuration file for items. */
-void moveItems(
+bool moveItems(
         const QString &oldId, //!< See ClipboardBrowser::getID().
         const QString &newId //!< See ClipboardBrowser::getID().
         );
