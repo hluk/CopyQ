@@ -104,22 +104,25 @@ ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFa
 
     const QString tabFileName = itemFileName(tabName);
 
+    ItemSaverPtr saver;
+
     // If tab file doesn't exist, try to restore data from temporary file.
     if ( !QFile::exists(tabFileName) ) {
         QFile tmpFile(tabFileName + ".tmp");
         if ( tmpFile.exists() ) {
             log( QString("Tab \"%1\": Restoring items (previous save failed)").arg(tabName), LogWarning );
-            if ( !tmpFile.rename(tabFileName) ) {
-                printItemFileError("load tab (restore previous file)", tabName, tmpFile);
-                return nullptr;
-            }
+
+            saver = loadItems(tabName, tmpFile.fileName(), model, itemFactory, maxItems);
+            if ( saver && !tmpFile.rename(tabFileName) )
+                printItemFileError("overwrite original file", tabName, tmpFile);
         }
     }
 
-    // Load file with items or create new file.
-    auto saver = QFile::exists(tabFileName)
-            ? loadItems(tabName, tabFileName, model, itemFactory, maxItems)
-            : createTab(tabName, model, itemFactory, maxItems);
+    if (!saver) {
+        saver = QFile::exists(tabFileName)
+                ? loadItems(tabName, tabFileName, model, itemFactory, maxItems)
+                : createTab(tabName, model, itemFactory, maxItems);
+    }
 
     if (!saver) {
         model.removeRows(0, model.rowCount());
