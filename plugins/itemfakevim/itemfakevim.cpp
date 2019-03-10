@@ -467,19 +467,19 @@ public:
             // :wq
             emitEditorSignal("save()");
             emitEditorSignal("cancel()");
+            *handled = true;
         } else if ( wantSave(cmd) ) {
             emitEditorSignal("save()"); // :w
+            *handled = true;
         } else if ( wantQuit(cmd) ) {
             if (cmd.hasBang)
                 emitEditorSignal("invalidate()"); // :q!
             else
                 emitEditorSignal("cancel()"); // :q
+            *handled = true;
         } else {
             *handled = false;
-            return;
         }
-
-        *handled = true;
     }
 
     void requestSetBlockSelection(const QTextCursor &cursor)
