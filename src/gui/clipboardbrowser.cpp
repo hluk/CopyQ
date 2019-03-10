@@ -1393,6 +1393,7 @@ void ClipboardBrowser::editNew(const QString &text, bool changeClipboard)
         return;
 
     emit searchHideRequest();
+    filterItems(QRegExp());
     if ( add(text) )
         editItem(currentIndex(), false, changeClipboard);
 }
