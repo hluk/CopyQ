@@ -130,9 +130,6 @@ public:
     {
         editor->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-        m_handler->installEventFilter();
-        m_handler->setupWidget();
-
         if (m_textEdit) {
             connect( m_textEdit, &QTextEdit::selectionChanged,
                      this, &TextEditWrapper::onSelectionChanged );
@@ -154,6 +151,12 @@ public:
     {
         m_handler->disconnectFromEditor();
         m_handler->deleteLater();
+    }
+
+    void install()
+    {
+        m_handler->installEventFilter();
+        m_handler->setupWidget();
     }
 
     bool eventFilter(QObject *, QEvent *ev) override
@@ -535,6 +538,8 @@ bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName,
     // Connect slots to FakeVimHandler signals.
     auto proxy = new Proxy(wrapper, statusBar, wrapper);
     connectSignals( &wrapper->fakeVimHandler(), proxy );
+
+    wrapper->install();
 
     if (!sourceFileName.isEmpty())
         wrapper->fakeVimHandler().handleCommand("source " + sourceFileName);
