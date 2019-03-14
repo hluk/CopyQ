@@ -31,13 +31,10 @@
 
 namespace {
 
-void loadCommand(const QSettings &settings, CommandFilter filter, Commands *commands)
+void loadCommand(const QSettings &settings, Commands *commands)
 {
     Command c;
     c.enable = settings.value("Enable", true).toBool();
-
-    if (filter == EnabledCommands && !c.enable)
-        return;
 
     c.name = settings.value("Name").toString();
     c.re   = QRegExp( settings.value("Match").toString() );
@@ -137,7 +134,7 @@ void saveCommand(const Command &c, QSettings *settings)
 
 Commands importCommands(QSettings *settings)
 {
-    auto commands = loadCommands(settings, AllCommands);
+    auto commands = loadCommands(settings);
     for (auto &command : commands) {
         if (command.cmd.startsWith("\n    ")) {
             command.cmd.remove(0, 5);
@@ -150,16 +147,10 @@ Commands importCommands(QSettings *settings)
 
 } // namespace
 
-Commands loadEnabledCommands()
-{
-    QSettings settings;
-    return loadCommands(&settings, EnabledCommands);
-}
-
 Commands loadAllCommands()
 {
     QSettings settings;
-    return loadCommands(&settings, AllCommands);
+    return loadCommands(&settings);
 }
 
 void saveCommands(const Commands &commands)
@@ -168,7 +159,7 @@ void saveCommands(const Commands &commands)
     saveCommands(commands, settings.settingsData());
 }
 
-Commands loadCommands(QSettings *settings, CommandFilter filter)
+Commands loadCommands(QSettings *settings)
 {
     Commands commands;
 
@@ -176,7 +167,7 @@ Commands loadCommands(QSettings *settings, CommandFilter filter)
 
     if ( groups.contains("Command") ) {
         settings->beginGroup("Command");
-        loadCommand(*settings, filter, &commands);
+        loadCommand(*settings, &commands);
         settings->endGroup();
     }
 
@@ -184,7 +175,7 @@ Commands loadCommands(QSettings *settings, CommandFilter filter)
 
     for(int i=0; i<size; ++i) {
         settings->setArrayIndex(i);
-        loadCommand(*settings, filter, &commands);
+        loadCommand(*settings, &commands);
     }
 
     settings->endArray();

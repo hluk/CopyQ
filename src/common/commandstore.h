@@ -28,16 +28,10 @@ struct Command;
 
 using Commands = QVector<Command>;
 
-enum CommandFilter {
-    EnabledCommands,
-    AllCommands
-};
-
 Commands loadAllCommands();
-Commands loadEnabledCommands();
 void saveCommands(const Commands &commands);
 
-Commands loadCommands(QSettings *settings, CommandFilter filter);
+Commands loadCommands(QSettings *settings);
 void saveCommands(const Commands &commands, QSettings *settings);
 
 Commands importCommandsFromFile(const QString &filePath);

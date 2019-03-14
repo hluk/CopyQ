@@ -81,8 +81,6 @@ signals:
 
     void error(const QString &error);
 
-    void commandsSaved();
-
 private:
     void connectSlots();
 

@@ -30,9 +30,6 @@ ConfigTabShortcuts::ConfigTabShortcuts(QWidget *parent)
     , ui(new Ui::ConfigTabShortcuts)
 {
     ui->setupUi(this);
-
-    connect( ui->shortcutsWidgetGeneral, SIGNAL(commandsSaved()),
-             this, SIGNAL(commandsSaved()) );
 }
 
 ConfigTabShortcuts::~ConfigTabShortcuts()

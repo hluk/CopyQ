@@ -33,8 +33,6 @@ struct Command;
 
 class ConfigTabShortcuts : public QWidget
 {
-    Q_OBJECT
-
 public:
     explicit ConfigTabShortcuts(QWidget *parent = nullptr);
 
@@ -46,9 +44,6 @@ public:
     void saveShortcuts(QSettings *settings) const;
 
     void addCommands(const QVector<Command> &commands);
-
-signals:
-    void commandsSaved();
 
 private:
     Ui::ConfigTabShortcuts *ui;

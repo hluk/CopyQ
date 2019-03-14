@@ -91,7 +91,7 @@ private:
     void removeGlobalShortcuts();
 
     /** Called when new commands are available. */
-    void onCommandsSaved();
+    void onCommandsSaved(const QVector<Command> &commands);
 
     /** Clean up before quitting. */
     void onAboutToQuit();

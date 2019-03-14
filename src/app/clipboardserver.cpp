@@ -104,10 +104,6 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     if ( !m_itemFactory->hasLoaders() )
         log("No plugins loaded", LogNote);
 
-    m_wnd->loadSettings();
-    m_wnd->setCurrentTab(0);
-    m_wnd->enterBrowseMode();
-
     connect( m_server, &Server::newConnection,
              this, &ClipboardServer::onClientNewConnection );
 
@@ -133,7 +129,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     connect( m_wnd, &MainWindow::commandsSaved,
              this, &ClipboardServer::onCommandsSaved );
-    onCommandsSaved();
+
+    m_wnd->loadSettings();
+    m_wnd->setCurrentTab(0);
+    m_wnd->enterBrowseMode();
 
     qApp->installEventFilter(this);
 
@@ -195,10 +194,8 @@ void ClipboardServer::removeGlobalShortcuts()
     m_shortcutActions.clear();
 }
 
-void ClipboardServer::onCommandsSaved()
+void ClipboardServer::onCommandsSaved(const QVector<Command> &commands)
 {
-    const auto commands = loadEnabledCommands();
-
 #ifndef NO_GLOBAL_SHORTCUTS
     removeGlobalShortcuts();
 

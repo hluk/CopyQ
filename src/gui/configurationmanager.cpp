@@ -91,9 +91,6 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     connectSlots();
     setWindowIcon(appIcon());
 
-    connect( ui->configTabShortcuts, &ConfigTabShortcuts::commandsSaved,
-             this, &ConfigurationManager::commandsSaved );
-
     ui->spinBoxItems->setMaximum(Config::maxItems);
 
     if ( itemFactory && itemFactory->hasLoaders() )

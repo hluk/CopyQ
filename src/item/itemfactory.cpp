@@ -442,6 +442,17 @@ QList<ItemScriptable*> ItemFactory::scriptableObjects() const
 
 QVector<Command> ItemFactory::commands() const
 {
+#ifdef HAS_TESTS
+    const QString id = qApp->property("CopyQ_test_id").toString();
+    if ( !id.isEmpty() ) {
+        for ( const auto &loader : enabledLoaders() ) {
+            if (loader->id() == id)
+                return loader->commands();
+        }
+        return QVector<Command>();
+    }
+#endif
+
     QVector<Command> commands;
 
     for ( const auto &loader : enabledLoaders() )

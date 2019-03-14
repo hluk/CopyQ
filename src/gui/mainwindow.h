@@ -415,7 +415,7 @@ signals:
 
     void requestExit();
 
-    void commandsSaved();
+    void commandsSaved(const QVector<Command> &commands);
 
     void configurationChanged();
 
@@ -472,8 +472,6 @@ private:
 
     void onAboutToQuit();
 
-    void onCommandDialogSaved();
-
     void onSaveCommand(const Command &command);
 
     void onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut);
@@ -507,7 +505,9 @@ private:
 
     void onActionDialogAccepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
 
-    void updateCommands();
+    void updateEnabledCommands();
+
+    void updateCommands(QVector<Command> allCommands, bool forceSave);
 
     void disableHideWindowOnUnfocus();
     void enableHideWindowOnUnfocus();

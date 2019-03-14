@@ -166,13 +166,11 @@ void ShortcutsWidget::saveShortcuts(QSettings *settings)
 
         if ( action.settingsKey.isEmpty() ) {
             auto savedCommand = findShortcutCommand(action.command.name, commands);
-            const bool enable = !shortcutNames.isEmpty();
             if (savedCommand) {
-                if ( savedCommand->enable != enable || (enable && shortcuts(*savedCommand) != shortcutNames) ) {
+                if ( savedCommand->enable ? (shortcuts(*savedCommand) != shortcutNames) : !shortcutNames.empty() ) {
                     needSaveCommands = true;
-                    savedCommand->enable = enable;
-                    if (enable)
-                        setShortcuts(savedCommand, shortcutNames);
+                    savedCommand->enable = true;
+                    setShortcuts(savedCommand, shortcutNames);
                 }
             } else if ( !shortcutNames.isEmpty() ) {
                 needSaveCommands = true;

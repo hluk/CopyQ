@@ -439,8 +439,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     connect(itemFactory, &ItemFactory::addCommands,
             this, &MainWindow::addCommands);
 
-    updateCommands();
-
     initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, &MainWindow::updateFocusWindows );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, &MainWindow::updateContextMenuTimeout );
     initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, &MainWindow::updateTrayMenuTimeout );
@@ -816,11 +814,6 @@ void MainWindow::onAboutToQuit()
 
     m_itemMenuMatchCommands = MenuMatchCommands();
     m_trayMenuMatchCommands = MenuMatchCommands();
-}
-
-void MainWindow::onCommandDialogSaved()
-{
-    updateCommands();
 }
 
 void MainWindow::onSaveCommand(const Command &command)
@@ -1815,13 +1808,18 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
         settings.endArray();
 
-        onCommandDialogSaved();
+        updateEnabledCommands();
     }
 
     return in->status() == QDataStream::Ok;
 }
 
-void MainWindow::updateCommands()
+void MainWindow::updateEnabledCommands()
+{
+    updateCommands(loadAllCommands(), false);
+}
+
+void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
 {
     m_automaticCommands.clear();
     m_menuCommands.clear();
@@ -1829,7 +1827,29 @@ void MainWindow::updateCommands()
 
     QVector<Command> displayCommands;
 
-    const auto commands = loadEnabledCommands();
+    QSet<QString> commandNames;
+    QSet<QString> commandCmds;
+    for (const auto &command : allCommands) {
+        commandNames.insert(command.name);
+        commandCmds.insert(command.cmd);
+    }
+
+    for ( const auto &command : m_sharedData->itemFactory->commands() ) {
+        if ( !commandNames.contains(command.name) && !commandCmds.contains(command.cmd) ) {
+            allCommands.append(command);
+            forceSave = true;
+        }
+    }
+
+    if (forceSave)
+        saveCommands(allCommands);
+
+    Commands commands;
+    for (const auto &command : allCommands) {
+        if (command.enable)
+            commands.append(command);
+    }
+
     for (const auto &command : commands) {
         const auto type = command.type();
 
@@ -1855,7 +1875,7 @@ void MainWindow::updateCommands()
     updateContextMenu(contextMenuUpdateIntervalMsec);
     if (m_options.trayCommands)
         updateTrayMenu();
-    emit commandsSaved();
+    emit commandsSaved(commands);
 }
 
 void MainWindow::disableHideWindowOnUnfocus()
@@ -2239,6 +2259,8 @@ void MainWindow::loadSettings()
 
     enterBrowseMode();
 
+    updateEnabledCommands();
+
     COPYQ_LOG("Configuration loaded");
 }
 
@@ -2561,8 +2583,7 @@ void MainWindow::setCommands(const QVector<Command> &commands)
     if ( !maybeCloseCommandDialog() )
         return;
 
-    saveCommands(commands);
-    updateCommands();
+    updateCommands(commands, true);
 }
 
 void MainWindow::setSessionIconColor(QColor color)
@@ -3038,8 +3059,6 @@ void MainWindow::openPreferences()
              this, &MainWindow::configurationChanged );
     connect( &configurationManager, &ConfigurationManager::error,
              this, &MainWindow::showError );
-    connect( &configurationManager, &ConfigurationManager::commandsSaved,
-             this, &MainWindow::updateCommands );
 
     // WORKAROUND: Fix drag'n'drop in list in modal dialog for Qt 5.9.2 (QTBUG-63846).
     configurationManager.setWindowModality(Qt::WindowModal);
@@ -3073,7 +3092,7 @@ void MainWindow::openCommands()
         m_commandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
         m_commandDialog->show();
         connect(this, &QObject::destroyed, m_commandDialog.data(), &QWidget::close);
-        connect(m_commandDialog.data(), &CommandDialog::commandsSaved, this, &MainWindow::onCommandDialogSaved);
+        connect(m_commandDialog.data(), &CommandDialog::commandsSaved, this, &MainWindow::updateEnabledCommands);
     }
 
     if (cm && cm->isVisible())
