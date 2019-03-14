@@ -765,7 +765,7 @@ ItemScriptable *ItemEncryptedLoader::scriptableObject()
 
 QVector<Command> ItemEncryptedLoader::commands() const
 {
-    if (status() == GpgNotInstalled)
+    if ( status() == GpgNotInstalled || !keysExist() )
         return QVector<Command>();
 
     QVector<Command> commands;
