@@ -32,13 +32,19 @@
    </item>
    <item>
     <widget class="ItemOrderList" name="itemOrderListCommands" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
      <property name="focusPolicy">
       <enum>Qt::WheelFocus</enum>
      </property>
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_19">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
       <widget class="QLabel" name="label_3">
        <property name="text">
@@ -52,10 +58,6 @@
      <item>
       <widget class="QLineEdit" name="lineEditFilterCommands"/>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
       <widget class="QPushButton" name="pushButtonLoadCommands">
        <property name="text">
@@ -69,7 +71,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Sa&amp;ve Selected Commands...</string>
+        <string>Sa&amp;ve Selected...</string>
        </property>
       </widget>
      </item>
@@ -92,19 +94,6 @@
         <string>Paste Commands</string>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
