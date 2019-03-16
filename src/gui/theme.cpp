@@ -292,9 +292,9 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
 
         // Remove border in toolbars.
         "QToolBar{" + themeStyleSheet("tool_bar_css") + "}"
-        "QToolButton{" + themeStyleSheet("tool_button_css") + "}"
-        "QToolButton:hover{" + themeStyleSheet("tool_button_selected_css") + "}"
-        "QToolButton:pressed{" + themeStyleSheet("tool_button_pressed_css") + "}"
+        "QToolBar QToolButton{" + themeStyleSheet("tool_button_css") + "}"
+        "QToolBar QToolButton:hover{" + themeStyleSheet("tool_button_selected_css") + "}"
+        "QToolBar QToolButton:pressed{" + themeStyleSheet("tool_button_pressed_css") + "}"
 
         "#menu_bar, #menu_bar::item {"
           + themeStyleSheet("menu_bar_css") + "}"
