@@ -29,6 +29,7 @@ using namespace FakeVim::Internal;
 
 #include <QIcon>
 #include <QLabel>
+#include <QDialogButtonBox>
 #include <QMessageBox>
 #include <QMetaMethod>
 #include <QPaintEvent>
@@ -37,6 +38,7 @@ using namespace FakeVim::Internal;
 #include <QTextBlock>
 #include <QTextEdit>
 #include <QPlainTextEdit>
+#include <QPushButton>
 #include <QAbstractTextDocumentLayout>
 #include <QScrollBar>
 #include <QStyle>
@@ -466,17 +468,16 @@ public:
             *handled = setOption(arg, enable);
         } else if ( wantSaveAndQuit(cmd) ) {
             // :wq
-            emitEditorSignal("save()");
-            emitEditorSignal("cancel()");
+            saveAndClose();
             *handled = true;
         } else if ( wantSave(cmd) ) {
-            emitEditorSignal("save()"); // :w
+            save(); // :w
             *handled = true;
         } else if ( wantQuit(cmd) ) {
             if (cmd.hasBang)
-                emitEditorSignal("invalidate()"); // :q!
+                invalidate(); // :q!
             else
-                emitEditorSignal("cancel()"); // :q
+                cancel(); // :q
             *handled = true;
         } else {
             *handled = false;
@@ -501,12 +502,48 @@ public:
     }
 
 private:
-    void emitEditorSignal(const char *signal)
+    bool emitEditorSignal(const char *signal)
     {
         const auto editor = m_editorWidget->editor();
         const QMetaObject *metaObject = editor->metaObject();
         const int i = metaObject->indexOfSignal(signal);
+        if (i == -1)
+            return false;
         metaObject->method(i).invoke(editor);
+        return true;
+    }
+
+    void clickDialogButton(QDialogButtonBox::StandardButton standardButton)
+    {
+        const auto window = m_editorWidget->editor()->window();
+        const auto buttonBox = window->findChild<QDialogButtonBox*>();
+        QPushButton *button = buttonBox->button(standardButton);
+        if (button)
+            button->click();
+    }
+
+    void save()
+    {
+        if ( !emitEditorSignal("save()") )
+            clickDialogButton(QDialogButtonBox::Apply);
+    }
+
+    void saveAndClose()
+    {
+        if ( !emitEditorSignal("save()") || !emitEditorSignal("cancel()") )
+            clickDialogButton(QDialogButtonBox::Ok);
+    }
+
+    void cancel()
+    {
+        if ( !emitEditorSignal("cancel()") )
+            clickDialogButton(QDialogButtonBox::Cancel);
+    }
+
+    void invalidate()
+    {
+        if ( !emitEditorSignal("invalidate()") )
+            clickDialogButton(QDialogButtonBox::Cancel);
     }
 
     bool wantSaveAndQuit(const ExCommand &cmd)
