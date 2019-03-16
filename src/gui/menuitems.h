@@ -52,8 +52,6 @@ enum Id {
     Item_EditNotes,
     Item_EditWithEditor,
     Item_Action,
-    Item_NextFormat,
-    Item_PreviousFormat,
 
     Item_MoveUp,
     Item_MoveDown,

@@ -1795,13 +1795,6 @@ void ClipboardBrowser::editRow(int row)
     editItem( index(row) );
 }
 
-void ClipboardBrowser::otherItemLoader(bool next)
-{
-    QModelIndex index = currentIndex();
-    if ( index.isValid() )
-        d.otherItemLoader(index, next);
-}
-
 void ClipboardBrowser::move(int key)
 {
     if (key == Qt::Key_Home)

@@ -472,38 +472,6 @@ void ItemFactory::loaderChildDestroyed(QObject *obj)
     m_loaderChildren.remove(obj);
 }
 
-ItemWidget *ItemFactory::otherItemLoader(
-        const QVariantMap &data, ItemWidget *current, bool next, bool antialiasing)
-{
-    Q_ASSERT(current->widget() != nullptr);
-
-    auto w = current->widget();
-    auto currentLoader = m_loaderChildren.value(w);
-    if (!currentLoader)
-        return nullptr;
-
-
-    const ItemLoaderList loaders = enabledLoaders();
-
-    const int currentIndex = loaders.indexOf(currentLoader);
-    Q_ASSERT(currentIndex != -1);
-
-    const int size = loaders.size();
-    const int dir = next ? 1 : -1;
-    for (int i = currentIndex + dir; i != currentIndex; i = i + dir) {
-        if (i >= size)
-            i = i % size;
-        else if (i < 0)
-            i = size - 1;
-
-        ItemWidget *item = createItem(loaders[i], data, w->parentWidget(), antialiasing);
-        if (item != nullptr)
-            return item;
-    }
-
-    return nullptr;
-}
-
 bool ItemFactory::loadPlugins()
 {
 #ifdef COPYQ_PLUGIN_PREFIX

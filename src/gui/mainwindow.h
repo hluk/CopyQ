@@ -483,9 +483,6 @@ private:
 
     void showContextMenu();
 
-    void nextItemFormat();
-    void previousItemFormat();
-
     void moveUp();
     void moveDown();
     void moveToTop();

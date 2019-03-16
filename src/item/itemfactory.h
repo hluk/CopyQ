@@ -74,11 +74,6 @@ public:
     ItemWidget *createSimpleItem(const QVariantMap &data, QWidget *parent, bool antialiasing);
 
     /**
-     * Uses next/previous item loader to instantiate ItemWidget.
-     */
-    ItemWidget *otherItemLoader(const QVariantMap &data, ItemWidget *current, bool next, bool antialiasing);
-
-    /**
      * Formats to save in history, union of enabled ItemLoaderInterface objects.
      */
     QStringList formatsToSave() const;

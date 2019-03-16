@@ -751,8 +751,6 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_EditNotes, c, &ClipboardBrowser::editNotes );
     addItemAction( Actions::Item_EditWithEditor, c, &ClipboardBrowser::openEditor );
     addItemAction( Actions::Item_Action, this, &MainWindow::openActionDialog );
-    addItemAction( Actions::Item_NextFormat, this, &MainWindow::nextItemFormat );
-    addItemAction( Actions::Item_PreviousFormat, this, &MainWindow::previousItemFormat );
 
     m_menuItem->addSeparator();
 
@@ -927,20 +925,6 @@ void MainWindow::showContextMenu()
     const auto viewportPosition = itemRect.center();
     const auto position = c->mapToGlobal(viewportPosition);
     showContextMenuAt(position);
-}
-
-void MainWindow::nextItemFormat()
-{
-    auto c = browser();
-    if (c)
-        c->otherItemLoader(true);
-}
-
-void MainWindow::previousItemFormat()
-{
-    auto c = browser();
-    if (c)
-        c->otherItemLoader(false);
 }
 
 void MainWindow::moveUp()

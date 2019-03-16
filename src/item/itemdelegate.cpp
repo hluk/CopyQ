@@ -188,23 +188,6 @@ void ItemDelegate::setItemSizes(QSize size, int idealWidth)
     }
 }
 
-bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
-{
-    const int row = index.row();
-    ItemWidget *w = cacheOrNull(row);
-    if (w != nullptr) {
-        const auto data = m_view->itemData(index);
-        const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
-        auto w2 = m_sharedData->itemFactory->otherItemLoader(data, w, next, antialiasing);
-        if (w2 != nullptr) {
-            setIndexWidget(index, w2);
-            return true;
-        }
-    }
-
-    return false;
-}
-
 ItemEditorWidget *ItemDelegate::createCustomEditor(
         QWidget *parent, const QModelIndex &index, bool editNotes)
 {

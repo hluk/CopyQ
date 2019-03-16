@@ -18,7 +18,6 @@ Default Shortcuts
 -  Left, Right, Ctrl+Tab, Ctrl+Shift+Tab - tab navigation
 -  Ctrl+T, Ctrl+W - create and remove tabs
 -  Ctrl+Up, Ctrl+Down - move selected items
--  Ctrl+Left, Ctrl+Right - cycle through item formats
 -  Esc - cancel search, hide window
 -  Ctrl+Q - exit
 -  F2 - edit selected items

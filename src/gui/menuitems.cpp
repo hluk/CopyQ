@@ -111,10 +111,6 @@ MenuItems menuItems()
                   "editor", QObject::tr("Ctrl+E"), "accessories-text-editor", IconPencilAlt );
     addMenuItem( items, Actions::Item_Action, QObject::tr("&Action..."), "system-run", QObject::tr("F5"),
                   "action", IconBolt );
-    addMenuItem( items, Actions::Item_NextFormat, QObject::tr("Next Format"), "format-next", QObject::tr("Ctrl+Right"),
-                  "go-next", IconArrowRight );
-    addMenuItem( items, Actions::Item_PreviousFormat, QObject::tr("Previous Format"), "format-previous", QObject::tr("Ctrl+Left"),
-                  "go-previous", IconArrowLeft );
 
     addMenuItem( items, Actions::Item_MoveUp, QObject::tr("Move Up"),
                   "move_up",  QObject::tr("Ctrl+Up"), "go-up", IconAngleUp );

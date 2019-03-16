@@ -88,9 +88,6 @@ class ItemDelegate : public QItemDelegate
         /** Set maximum size for all items. */
         void setItemSizes(QSize size, int idealWidth);
 
-        /** Use next/previous item loader available for @a index. */
-        bool otherItemLoader(const QModelIndex &index, bool next);
-
         /** Create internal item editor widget. */
         ItemEditorWidget *createCustomEditor(QWidget *parent, const QModelIndex &index,
                                              bool editNotes);
