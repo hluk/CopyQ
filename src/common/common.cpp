@@ -69,11 +69,6 @@ public:
         return refresh() ? m_dataGuard->data(mime) : QByteArray();
     }
 
-    QStringList formats()
-    {
-        return refresh() ? m_dataGuard->formats() : QStringList();
-    }
-
     QList<QUrl> urls()
     {
         return refresh() ? m_dataGuard->urls() : QList<QUrl>();
@@ -305,13 +300,6 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats)
                 if ( !format.isEmpty() )
                     cloneImageData(image, format, mime, &newdata);
             }
-        }
-    }
-
-    if ( hasLogLevel(LogTrace) ) {
-        for (const auto &format : data.formats()) {
-            if ( !formats.contains(format) )
-                COPYQ_LOG_VERBOSE(QString("Skipping format: %1").arg(format));
         }
     }
 
