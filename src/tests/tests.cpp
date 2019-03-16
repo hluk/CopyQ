@@ -82,6 +82,7 @@ const auto shortcutButtonId = "focus::QPushButton in CommandDialog";
 const auto shortcutDialogId = "focus::QLineEdit in ShortcutDialog";
 const auto actionDialogId = "focus:ActionDialog";
 const auto aboutDialogId = "focus:AboutDialog";
+const auto logDialogId = "focus:LogDialog";
 const auto clipboardDialogId = "focus:ClipboardDialog";
 const auto clipboardDialogFormatListId = "focus:listWidgetFormats";
 const auto confirmExitDialogId = "focus::QPushButton in :QMessageBox";
@@ -133,13 +134,13 @@ QByteArray getClipboard(const QString &mime = QString("text/plain"), ClipboardMo
     return (data != nullptr) ? data->data(mime) : QByteArray();
 }
 
-QByteArray waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString("text/plain"))
+QByteArray waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString("text/plain"), bool exact = true)
 {
     PerformanceTimer perf;
 
     SleepTimer t(waitMsSetClipboard * 5);
     do {
-        if (getClipboard(mime) == data) {
+        if ( exact ? getClipboard(mime) == data : getClipboard(mime).contains(data) ) {
             perf.printPerformance("waitUntilClipboardSet", QStringList() << QString::fromUtf8(data) << mime);
             waitFor(waitMsSetClipboard);
             return data;
@@ -3005,6 +3006,17 @@ void Tests::showHideItemDialog()
     WAIT_FOR_CLIPBOARD("test-format");
 
     RUN("keys" << clipboardDialogId << "ESCAPE" << clipboardBrowserId, "");
+}
+
+void Tests::showHideLogDialog()
+{
+    RUN("keys" << clipboardBrowserId << "F12" << logDialogId, "");
+
+    RUN("keys" << logDialogId << "CTRL+A" << "CTRL+C" << logDialogId, "");
+    const QByteArray expectedLog = "Starting callback: onStart";
+    QCOMPARE( waitUntilClipboardSet(expectedLog, mimeHtml, false), expectedLog );
+
+    RUN("keys" << logDialogId << "ESCAPE" << clipboardBrowserId, "");
 }
 
 void Tests::shortcutDialogAddShortcut()

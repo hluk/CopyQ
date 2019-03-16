@@ -238,6 +238,7 @@ private slots:
     void showHideAboutDialog();
     void showHideClipboardDialog();
     void showHideItemDialog();
+    void showHideLogDialog();
 
     void shortcutDialogAddShortcut();
     void shortcutDialogAddTwoShortcut();
