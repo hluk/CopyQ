@@ -76,12 +76,6 @@ void installTranslator(const QString &filename, const QString &directory)
 
 void installTranslator()
 {
-#ifdef HAS_TESTS
-    // Keep texts and shortcuts untranslated for tests.
-    if ( isTesting() )
-        return;
-#endif
-
     QString locale = QSettings().value("Options/language").toString();
     if (locale.isEmpty())
         locale = QLocale::system().name();
@@ -118,6 +112,12 @@ void installTranslator()
 #endif
 
     qApp->setProperty("CopyQ_translation_directories", translationDirectories);
+
+#ifdef HAS_TESTS
+    // Keep texts and shortcuts untranslated for tests.
+    if ( isTesting() )
+        return;
+#endif
 
     QLocale::setDefault(QLocale(locale));
 }
