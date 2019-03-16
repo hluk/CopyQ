@@ -235,7 +235,8 @@ public:
         }
 
         painter.setCompositionMode(QPainter::CompositionMode_Difference);
-        painter.fillRect(rect, Qt::white);
+        const auto color = editor()->hasFocus() ? Qt::white : Qt::darkGray;
+        painter.fillRect(rect, color);
 
         if (!hasBlockSelection() && m_cursorRect.width() != rect.width())
             viewport->update();
