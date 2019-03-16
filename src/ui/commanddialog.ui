@@ -31,6 +31,13 @@
     </widget>
    </item>
    <item>
+    <widget class="ItemOrderList" name="itemOrderListCommands" native="true">
+     <property name="focusPolicy">
+      <enum>Qt::WheelFocus</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_19">
      <item>
       <widget class="QLabel" name="label_3">
@@ -46,13 +53,6 @@
       <widget class="QLineEdit" name="lineEditFilterCommands"/>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="ItemOrderList" name="itemOrderListCommands" native="true">
-     <property name="focusPolicy">
-      <enum>Qt::WheelFocus</enum>
-     </property>
-    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_7">

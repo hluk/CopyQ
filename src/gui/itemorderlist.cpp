@@ -64,6 +64,7 @@ ItemOrderList::ItemOrderList(QWidget *parent)
     ui->pushButtonRemove->hide();
     ui->pushButtonAdd->hide();
     setFocusProxy(ui->listWidgetItems);
+    ui->listWidgetItems->setFocus();
     setCurrentItemWidget(nullptr);
 
     // Make icon wider so icon tag can be bigger.
