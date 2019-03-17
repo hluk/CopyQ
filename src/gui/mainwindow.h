@@ -574,9 +574,6 @@ private:
      */
     bool closeMinimizes() const;
 
-    /** Return notification daemon (create if doesn't exist). */
-    NotificationDaemon *notificationDaemon();
-
     template <typename SlotReturnType>
     QAction *createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu);
 

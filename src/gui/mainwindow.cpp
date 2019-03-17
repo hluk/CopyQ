@@ -360,8 +360,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_actionToggleClipboardStoring()
     , m_sharedData(std::make_shared<ClipboardBrowserShared>())
     , m_lastWindow()
-    , m_notifications(nullptr)
-    , m_actionHandler(new ActionHandler(this))
+    , m_notifications(new NotificationDaemon(this))
+    , m_actionHandler(new ActionHandler(m_notifications, this))
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
@@ -429,6 +429,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, &MainWindow::onFilterChanged );
     connect( m_actionHandler, &ActionHandler::runningActionsCountChanged,
              this, &MainWindow::updateIconSnip );
+    connect( m_notifications, &NotificationDaemon::notificationButtonClicked,
+             this, &MainWindow::onNotificationButtonClicked );
     connect( qApp, &QCoreApplication::aboutToQuit,
              this, &MainWindow::onAboutToQuit );
     connect( this, &MainWindow::configurationChanged,
@@ -1110,14 +1112,8 @@ QString MainWindow::filter() const
 
 void MainWindow::updateNotifications()
 {
-    if (m_notifications == nullptr) {
-        m_notifications = new NotificationDaemon(this);
-        connect( m_notifications, &NotificationDaemon::notificationButtonClicked,
-                 this, &MainWindow::onNotificationButtonClicked );
-    }
-
-    notificationDaemon()->setNotificationOpacity( theme().color("notification_bg").alphaF() );
-    notificationDaemon()->setNotificationStyleSheet( theme().getNotificationStyleSheet() );
+    m_notifications->setNotificationOpacity( theme().color("notification_bg").alphaF() );
+    m_notifications->setNotificationStyleSheet( theme().getNotificationStyleSheet() );
 
     AppConfig appConfig;
     int id = appConfig.option<Config::notification_position>();
@@ -1186,14 +1182,6 @@ void MainWindow::setHideTabs(bool hide)
 bool MainWindow::closeMinimizes() const
 {
     return !m_tray;
-}
-
-NotificationDaemon *MainWindow::notificationDaemon()
-{
-    if (m_notifications == nullptr)
-        updateNotifications();
-
-    return m_notifications;
 }
 
 ClipboardBrowserPlaceholder *MainWindow::createTab(
@@ -1937,7 +1925,7 @@ void MainWindow::showError(const QString &msg)
 
 Notification *MainWindow::createNotification(const QString &id)
 {
-    return notificationDaemon()->createNotification(id);
+    return m_notifications->createNotification(id);
 }
 
 void MainWindow::addCommands(const QVector<Command> &commands)
@@ -2229,8 +2217,7 @@ void MainWindow::loadSettings()
     setTrayEnabled( !AppConfig().option<Config::disable_tray>() );
     updateTrayMenu();
 
-    if (m_notifications != nullptr)
-        updateNotifications();
+    updateNotifications();
 
     updateIcon();
 

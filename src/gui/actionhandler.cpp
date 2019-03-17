@@ -29,6 +29,7 @@
 #include "common/textdata.h"
 #include "gui/icons.h"
 #include "gui/notification.h"
+#include "gui/notificationdaemon.h"
 #include "gui/processmanagerdialog.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/mainwindow.h"
@@ -52,12 +53,11 @@ QString actionDescription(const Action &action)
 
 } // namespace
 
-ActionHandler::ActionHandler(MainWindow *mainWindow)
-    : QObject(mainWindow)
-    , m_wnd(mainWindow)
-    , m_activeActionDialog(new ProcessManagerDialog(mainWindow))
+ActionHandler::ActionHandler(NotificationDaemon *notificationDaemon, QWidget *parent)
+    : QObject(parent)
+    , m_notificationDaemon(notificationDaemon)
+    , m_activeActionDialog(new ProcessManagerDialog(parent))
 {
-    Q_ASSERT(mainWindow);
 }
 
 void ActionHandler::showProcessManagerDialog()
@@ -150,7 +150,7 @@ void ActionHandler::closeAction(Action *action)
 void ActionHandler::showActionErrors(Action *action, const QString &message, ushort icon)
 {
     const auto notificationId = qHash(action->commandLine()) ^ qHash(message);
-    auto notification = m_wnd->createNotification( QString::number(notificationId) );
+    auto notification = m_notificationDaemon->createNotification( QString::number(notificationId) );
     if ( notification->isVisible() )
         return;
 

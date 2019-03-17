@@ -20,34 +20,21 @@
 #ifndef ACTIONHANDLER_H
 #define ACTIONHANDLER_H
 
-#include "common/command.h"
-
-#include <QDateTime>
-#include <QMenu>
 #include <QObject>
-#include <QPointer>
-#include <QMap>
 #include <QSet>
 
 class Action;
-class ActionDialog;
+class NotificationDaemon;
 class ProcessManagerDialog;
-class QDialog;
-class MainWindow;
-class QModelIndex;
 
-/**
- * Creates action dialog and handles actions created by the dialog.
- */
 class ActionHandler : public QObject
 {
     Q_OBJECT
 public:
-    explicit ActionHandler(MainWindow *mainWindow);
+    explicit ActionHandler(NotificationDaemon *notificationDaemon, QWidget *parent);
 
     int runningActionCount() const { return m_actions.size() - m_internalActions.size(); }
 
-    /** Open dialog with active commands. */
     void showProcessManagerDialog();
 
     void addFinishedAction(const QString &name);
@@ -74,7 +61,7 @@ private:
 
     void showActionErrors(Action *action, const QString &message, ushort icon);
 
-    MainWindow *m_wnd;
+    NotificationDaemon *m_notificationDaemon;
     ProcessManagerDialog *m_activeActionDialog;
     QHash<int, Action*> m_actions;
     QSet<int> m_internalActions;
