@@ -83,6 +83,9 @@ const auto shortcutDialogId = "focus::QLineEdit in ShortcutDialog";
 const auto actionDialogId = "focus:ActionDialog";
 const auto aboutDialogId = "focus:AboutDialog";
 const auto logDialogId = "focus:LogDialog";
+const auto actionHandlerDialogId = "focus:ActionHandlerDialog";
+const auto actionHandlerFilterId = "focus:filterLineEdit";
+const auto actionHandlerTableId = "focus:tableView";
 const auto clipboardDialogId = "focus:ClipboardDialog";
 const auto clipboardDialogFormatListId = "focus:listWidgetFormats";
 const auto confirmExitDialogId = "focus::QPushButton in :QMessageBox";
@@ -3017,6 +3020,25 @@ void Tests::showHideLogDialog()
     QCOMPARE( waitUntilClipboardSet(expectedLog, mimeHtml, false), expectedLog );
 
     RUN("keys" << logDialogId << "ESCAPE" << clipboardBrowserId, "");
+}
+
+void Tests::showHideActionHandlerDialog()
+{
+    RUN("keys" << clipboardBrowserId << "CTRL+SHIFT+Z" << actionHandlerDialogId, "");
+
+    RUN("keys" << actionHandlerFilterId << "TAB" << actionHandlerTableId, "");
+
+    RUN("keys" << actionHandlerTableId << "CTRL+C", "");
+    WAIT_FOR_CLIPBOARD("copyq monitorClipboard");
+
+    RUN("keys" << actionHandlerDialogId << "ESCAPE" << clipboardBrowserId, "");
+
+    RUN("keys" << clipboardBrowserId << "CTRL+SHIFT+Z" << actionHandlerDialogId, "");
+
+    RUN("keys" << actionHandlerFilterId << ":onstart" << "TAB" << actionHandlerTableId, "");
+
+    RUN("keys" << actionHandlerTableId << "CTRL+C", "");
+    WAIT_FOR_CLIPBOARD("copyq onStart");
 }
 
 void Tests::shortcutDialogAddShortcut()
