@@ -21,7 +21,7 @@ FORMS += \
     ui/tabdialog.ui \
     ui/configtabshortcuts.ui \
     ui/shortcutswidget.ui \
-    ui/processmanagerdialog.ui \
+    ui/actionhandlerdialog.ui \
     ui/commanddialog.ui \
     ui/commandedit.ui \
     ui/addcommanddialog.ui \
@@ -105,7 +105,7 @@ HEADERS += \
     common/settings.h \
     common/temporarysettings.h \
     common/config.h \
-    gui/processmanagerdialog.h \
+    gui/actionhandlerdialog.h \
     gui/iconselectdialog.h \
     gui/commanddialog.h \
     gui/commandedit.h \
@@ -135,6 +135,7 @@ SOURCES += \
     app/clipboardmonitor.cpp \
     app/clipboardserver.cpp \
     common/action.cpp \
+    common/actiontablemodel.cpp \
     common/actionoutput.cpp \
     common/client_server.cpp \
     common/clientsocket.cpp \
@@ -206,7 +207,7 @@ SOURCES += \
     common/settings.cpp \
     common/temporarysettings.cpp \
     common/config.cpp \
-    gui/processmanagerdialog.cpp \
+    gui/actionhandlerdialog.cpp \
     gui/iconselectdialog.cpp \
     gui/commanddialog.cpp \
     gui/commandedit.cpp \

@@ -25,7 +25,7 @@
 
 class Action;
 class NotificationDaemon;
-class ProcessManagerDialog;
+class ActionTableModel;
 
 class ActionHandler : public QObject
 {
@@ -35,7 +35,7 @@ public:
 
     int runningActionCount() const { return m_actions.size() - m_internalActions.size(); }
 
-    void showProcessManagerDialog();
+    void showProcessManagerDialog(QWidget *parent);
 
     void addFinishedAction(const QString &name);
 
@@ -47,6 +47,8 @@ public:
 
     /** Execute action. */
     void action(Action *action);
+
+    void terminateAction(int id);
 
 signals:
     /** Emitted new action starts or ends. */
@@ -62,7 +64,7 @@ private:
     void showActionErrors(Action *action, const QString &message, ushort icon);
 
     NotificationDaemon *m_notificationDaemon;
-    ProcessManagerDialog *m_activeActionDialog;
+    ActionTableModel *m_actionModel;
     QHash<int, Action*> m_actions;
     QSet<int> m_internalActions;
     int m_lastActionId = -1;

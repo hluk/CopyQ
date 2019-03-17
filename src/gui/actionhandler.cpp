@@ -21,22 +21,22 @@
 
 #include "common/appconfig.h"
 #include "common/action.h"
+#include "common/actiontablemodel.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
+#include "gui/actionhandlerdialog.h"
 #include "gui/icons.h"
 #include "gui/notification.h"
 #include "gui/notificationdaemon.h"
-#include "gui/processmanagerdialog.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/mainwindow.h"
 #include "item/serialize.h"
 
-#include <QDateTime>
-#include <QModelIndex>
+#include <QDialog>
 
 #include <cmath>
 
@@ -56,18 +56,20 @@ QString actionDescription(const Action &action)
 ActionHandler::ActionHandler(NotificationDaemon *notificationDaemon, QWidget *parent)
     : QObject(parent)
     , m_notificationDaemon(notificationDaemon)
-    , m_activeActionDialog(new ProcessManagerDialog(parent))
+    , m_actionModel(new ActionTableModel(parent))
 {
 }
 
-void ActionHandler::showProcessManagerDialog()
+void ActionHandler::showProcessManagerDialog(QWidget *parent)
 {
-    m_activeActionDialog->show();
+    auto dialog = new ActionHandlerDialog(this, m_actionModel, parent);
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
+    dialog->show();
 }
 
 void ActionHandler::addFinishedAction(const QString &name)
 {
-    m_activeActionDialog->actionFinished(name);
+    m_actionModel->actionFinished(name);
 }
 
 QVariantMap ActionHandler::actionData(int id) const
@@ -99,7 +101,7 @@ void ActionHandler::action(Action *action)
 {
     action->setParent(this);
 
-    const auto id = ++m_lastActionId;
+    const auto id = m_actionModel->rowCount();
     action->setId(id);
     m_actions.insert(id, action);
 
@@ -108,14 +110,21 @@ void ActionHandler::action(Action *action)
     connect( action, &Action::actionFinished,
              this, &ActionHandler::closeAction );
 
-    m_activeActionDialog->actionAboutToStart(action);
+    m_actionModel->actionAboutToStart(action);
     COPYQ_LOG( QString("Executing: %1").arg(actionDescription(*action)) );
     action->start();
 }
 
+void ActionHandler::terminateAction(int id)
+{
+    Action *action = m_actions.value(id);
+    if (action)
+        action->terminate();
+}
+
 void ActionHandler::actionStarted(Action *action)
 {
-    m_activeActionDialog->actionStarted(action);
+    m_actionModel->actionStarted(action);
     emit runningActionsCountChanged();
 }
 
@@ -139,7 +148,7 @@ void ActionHandler::closeAction(Action *action)
         showActionErrors(action, msg, IconTimesCircle);
     }
 
-    m_activeActionDialog->actionFinished(action);
+    m_actionModel->actionFinished(action);
     Q_ASSERT(runningActionCount() >= 0);
 
     emit runningActionsCountChanged();
@@ -149,6 +158,7 @@ void ActionHandler::closeAction(Action *action)
 
 void ActionHandler::showActionErrors(Action *action, const QString &message, ushort icon)
 {
+    m_actionModel->actionFailed(action, message);
     const auto notificationId = qHash(action->commandLine()) ^ qHash(message);
     auto notification = m_notificationDaemon->createNotification( QString::number(notificationId) );
     if ( notification->isVisible() )

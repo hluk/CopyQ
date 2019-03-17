@@ -2974,7 +2974,7 @@ void MainWindow::showClipboardContent()
 
 void MainWindow::showProcessManagerDialog()
 {
-    m_actionHandler->showProcessManagerDialog();
+    m_actionHandler->showProcessManagerDialog(this);
 }
 
 ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
