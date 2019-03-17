@@ -96,8 +96,6 @@ private:
  */
 class ClipboardModel : public QAbstractListModel
 {
-    Q_OBJECT
-
 public:
     /** Return true if @a lhs is less than @a rhs. */
     using CompareItems = bool (const QModelIndex &, const QModelIndex &);

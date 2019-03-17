@@ -25,8 +25,6 @@
 
 class WindowGeometryGuard : public QObject
 {
-    Q_OBJECT
-
 public:
     static void create(QWidget *window);
 

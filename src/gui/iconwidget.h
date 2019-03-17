@@ -26,7 +26,6 @@ class QString;
 
 class IconWidget : public QWidget
 {
-    Q_OBJECT
 public:
     explicit IconWidget(int icon, QWidget *parent = nullptr);
 

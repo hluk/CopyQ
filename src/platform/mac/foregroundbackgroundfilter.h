@@ -33,8 +33,6 @@
  */
 class ForegroundBackgroundFilter : public QObject
 {
-    Q_OBJECT
-
 public:
     /**
      * Install the filter to parent.

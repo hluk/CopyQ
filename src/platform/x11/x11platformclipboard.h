@@ -30,7 +30,6 @@
 
 class X11PlatformClipboard : public DummyClipboard
 {
-    Q_OBJECT
 public:
     X11PlatformClipboard();
 

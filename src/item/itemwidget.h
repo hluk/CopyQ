@@ -131,7 +131,6 @@ private:
  */
 class ItemScriptable : public QObject
 {
-    Q_OBJECT
 public:
     /** Return scriptable object (nullptr before start() is called). */
     QObject *scriptable() const { return m_scriptable; }

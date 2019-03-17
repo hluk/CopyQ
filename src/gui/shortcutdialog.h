@@ -28,8 +28,6 @@ class ShortcutDialog;
 
 class ShortcutDialog : public QDialog
 {
-    Q_OBJECT
-
 public:
     explicit ShortcutDialog(QWidget *parent = nullptr);
     ~ShortcutDialog();

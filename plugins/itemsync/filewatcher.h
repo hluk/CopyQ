@@ -55,8 +55,6 @@ using BaseNameExtensionsList = QList<BaseNameExtensions>;
 using Hash = QByteArray;
 
 class FileWatcher : public QObject {
-    Q_OBJECT
-
 public:
     static QString getBaseName(const QModelIndex &index);
 

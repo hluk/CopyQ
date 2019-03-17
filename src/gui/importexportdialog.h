@@ -28,8 +28,6 @@ class ImportExportDialog;
 
 class ImportExportDialog : public QDialog
 {
-    Q_OBJECT
-
 public:
     explicit ImportExportDialog(QWidget *parent = nullptr);
     ~ImportExportDialog();
