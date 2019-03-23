@@ -104,7 +104,8 @@ QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) 
 {
     const auto &clipboardData = mode == ClipboardMode::Clipboard ? m_clipboardData : m_selectionData;
     auto data = clipboardData.data;
-    data[mimeWindowTitle] = clipboardData.owner;
+    if ( !data.contains(mimeOwner) )
+        data[mimeWindowTitle] = clipboardData.owner;
     return data;
 }
 
