@@ -47,6 +47,8 @@ public:
      */
     virtual void setData(ClipboardMode mode, const QVariantMap &dataMap) = 0;
 
+    virtual QByteArray clipboardOwner() = 0;
+
 signals:
     /// Notifies about clipboard changes.
     void changed(ClipboardMode mode);

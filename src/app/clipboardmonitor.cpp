@@ -27,7 +27,6 @@
 #include "common/textdata.h"
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
-#include "platform/platformwindow.h"
 
 #include <QApplication>
 
@@ -114,10 +113,9 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
 
     // add window title of clipboard owner
     if ( !data.contains(mimeOwner) && !data.contains(mimeWindowTitle) ) {
-        PlatformPtr platform = createPlatformNativeInterface();
-        PlatformWindowPtr currentWindow = platform->getCurrentWindow();
-        if (currentWindow)
-            data.insert( mimeWindowTitle, currentWindow->getTitle().toUtf8() );
+        const QByteArray windowTitle = m_clipboard->clipboardOwner();
+        if ( !windowTitle.isEmpty() )
+            data.insert(mimeWindowTitle, windowTitle);
     }
 
 #ifdef HAS_MOUSE_SELECTIONS

@@ -25,8 +25,6 @@
 #include "common/mimetypes.h"
 #include "common/log.h"
 #include "common/timer.h"
-#include "platform/platformnativeinterface.h"
-#include "platform/platformwindow.h"
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -121,17 +119,13 @@ void X11PlatformClipboard::onChanged(int mode)
     // Store the current window title right after the clipboard/selection changes.
     // This makes sure that the title points to the correct clipboard/selection
     // owner most of the times.
-    PlatformPtr platform = createPlatformNativeInterface();
-    PlatformWindowPtr currentWindow = platform->getCurrentWindow();
-    if (currentWindow) {
-        const auto currentWindowTitle = currentWindow->getTitle().toUtf8();
-        auto &newOwner = mode == QClipboard::Clipboard ? m_clipboardData.newOwner : m_selectionData.newOwner;
-        if (currentWindowTitle != newOwner) {
-            COPYQ_LOG( QString("New %1 owner: \"%2\"")
-                       .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection")
-                       .arg(QString::fromUtf8(currentWindowTitle)) );
-            newOwner = currentWindowTitle;
-        }
+    const auto currentWindowTitle = clipboardOwner();
+    auto &newOwner = mode == QClipboard::Clipboard ? m_clipboardData.newOwner : m_selectionData.newOwner;
+    if (currentWindowTitle != newOwner) {
+        COPYQ_LOG( QString("New %1 owner: \"%2\"")
+                   .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection")
+                   .arg(QString::fromUtf8(currentWindowTitle)) );
+        newOwner = currentWindowTitle;
     }
 
     // Omit checking selection too fast.

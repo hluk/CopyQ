@@ -133,6 +133,7 @@ SOURCES += \
     app/clipboardclient.cpp \
     app/clipboardmanager.cpp \
     app/clipboardmonitor.cpp \
+    app/clipboardownermonitor.cpp \
     app/clipboardserver.cpp \
     common/action.cpp \
     common/actiontablemodel.cpp \
