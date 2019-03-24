@@ -3028,7 +3028,7 @@ void Tests::showHideActionHandlerDialog()
 
     RUN("keys" << actionHandlerFilterId << "TAB" << actionHandlerTableId, "");
 
-    RUN("keys" << actionHandlerTableId << "CTRL+C", "");
+    RUN("keys" << actionHandlerTableId << "RIGHT" << "CTRL+C", "");
     WAIT_FOR_CLIPBOARD("copyq monitorClipboard");
 
     RUN("keys" << actionHandlerDialogId << "ESCAPE" << clipboardBrowserId, "");
@@ -3037,7 +3037,7 @@ void Tests::showHideActionHandlerDialog()
 
     RUN("keys" << actionHandlerFilterId << ":onstart" << "TAB" << actionHandlerTableId, "");
 
-    RUN("keys" << actionHandlerTableId << "CTRL+C", "");
+    RUN("keys" << actionHandlerTableId << "RIGHT" << "CTRL+C", "");
     WAIT_FOR_CLIPBOARD("copyq onStart");
 }
 

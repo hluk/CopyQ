@@ -10,6 +10,7 @@ enum class ActionState {
 
 namespace ActionHandlerColumn {
 enum {
+    id,
     name,
     status,
     started,

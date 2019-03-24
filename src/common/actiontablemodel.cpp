@@ -117,6 +117,8 @@ QVariant ActionTableModel::headerData(int section, Qt::Orientation orientation, 
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         switch (section) {
+        case ActionHandlerColumn::id:
+            return "ID";
         case ActionHandlerColumn::name:
             return "Name";
         case ActionHandlerColumn::status:
@@ -128,8 +130,6 @@ QVariant ActionTableModel::headerData(int section, Qt::Orientation orientation, 
         case ActionHandlerColumn::error:
             return "Error";
         }
-    } else if (orientation == Qt::Vertical && role == Qt::DisplayRole) {
-        return section;
     }
 
     return QVariant();
@@ -161,6 +161,8 @@ QVariant ActionTableModel::data(const QModelIndex &index, int role) const
         const int column = index.column();
         const ActionData &data = actionData(row);
         switch (column) {
+        case ActionHandlerColumn::id:
+            return row;
         case ActionHandlerColumn::name:
             return data.name;
         case ActionHandlerColumn::status:
@@ -199,6 +201,8 @@ QVariant ActionTableModel::data(const QModelIndex &index, int role) const
             const int column = index.column();
             const ActionData &data = actionData(row);
             switch (column) {
+            case ActionHandlerColumn::id:
+                return row;
             case ActionHandlerColumn::name:
                 return data.name;
             case ActionHandlerColumn::status:
