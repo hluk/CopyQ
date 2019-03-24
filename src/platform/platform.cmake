@@ -9,7 +9,7 @@ if (UNIX)
     file(GLOB copyq_SOURCES ${copyq_SOURCES} platform/unix/*.cpp)
 endif()
 
-if (X11_FOUND)
+if (X11_FOUND AND NOT APPLE)
     include(platform/x11/x11platform.cmake)
 elseif (Q_WS_WIN OR WIN32)
     include(platform/win/winplatform.cmake)

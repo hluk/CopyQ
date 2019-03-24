@@ -1,5 +1,4 @@
-macro (copyq_add_plugin)
-    set(copyq_pkg ${ARGV0})
+macro (copyq_add_plugin copyq_pkg)
 
     file(GLOB copyq_plugin_SOURCES
         ${copyq_plugin_${copyq_pkg}_SOURCES}
@@ -35,6 +34,15 @@ macro (copyq_add_plugin)
 
     if (UNIX AND NOT APPLE)
         install(TARGETS ${copyq_pkg} DESTINATION ${PLUGIN_INSTALL_PREFIX})
+    elseif (APPLE)
+        set(copyq_plugins_dest_dir "${COPYQ_EXECUTABLE_NAME}.app/Contents/PlugIns/copyq")
+        install(TARGETS ${copyq_pkg} DESTINATION "${copyq_plugins_dest_dir}" COMPONENT Runtime)
+        get_property(_copyq_installed_plugins GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS)
+        # We need this list to perform fixups during the creation of an application bundle (in src)
+        list(APPEND _copyq_installed_plugins
+            "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${copyq_plugins_dest_dir}/${CMAKE_SHARED_MODULE_PREFIX}${copyq_pkg}${CMAKE_SHARED_MODULE_SUFFIX}"
+        )
+        set_property(GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS "${_copyq_installed_plugins}")
     endif()
 endmacro()
 

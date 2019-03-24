@@ -7,5 +7,4 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
 
 set(USE_QXT TRUE)
 
-set(copyq_Qt5_Modules ${copyq_Qt5_Modules} MacExtras)
-
+list(APPEND copyq_qt_modules MacExtras)
