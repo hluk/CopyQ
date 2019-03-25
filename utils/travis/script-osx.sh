@@ -13,7 +13,7 @@ cmake \
     -DWITH_TESTS=ON \
     ..
 
-cmake --build . --target all --parallel
+cmake --build . --target all
 
 cpack
 
