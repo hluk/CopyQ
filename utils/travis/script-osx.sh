@@ -9,6 +9,7 @@ cd build
 
 cmake \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_PREFIX_PATH="$(brew --prefix qt5)" \
     -DWITH_TESTS=ON \
     ..
 
