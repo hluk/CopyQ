@@ -8,7 +8,7 @@ Applications, Frameworks and Libraries
 
 The application is written in C++11 and uses Qt framework.
 
-Source code can be build either with CMake (preferred) or QMake.
+Source code can be build either with CMake.
 
 Most icons in the application are taken from theme by default (which
 currently works only on Linux) with fallback to built-in icons provided

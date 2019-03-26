@@ -113,8 +113,9 @@ Build with the following commands.
 
 ::
 
-    /usr/local/opt/qt5/bin/qmake
-    make CopyQ.app
+    cmake -DCMAKE_PREFIX_PATH="$(brew --prefix qt5)" .
+    cmake --build .
+    cpack
 
 This will produce a self-contained application bundle ``CopyQ.app``
 which can then be copied or moved into ``/Applications``.

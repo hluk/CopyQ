@@ -27,8 +27,7 @@ Run Tests
 ---------
 
 You can run automated tests if the application is built either in debug
-mode, with CMake flag ``-DWITH_TESTS=ON`` or QMake flag
-``CONFIG+=tests`` (releases are usually build with tests).
+mode, with CMake flag ``-DWITH_TESTS=ON``.
 
 Run the tests with following command.
 
