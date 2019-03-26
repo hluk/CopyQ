@@ -1,5 +1,11 @@
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 3.1)
 project(copyq)
+
+if (NOT APPLE)
+    set(COPYQ_EXECUTABLE_NAME ${PROJECT_NAME})
+else()
+    set(COPYQ_EXECUTABLE_NAME "CopyQ")
+endif()
 
 # C++11
 if (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 3.1)
@@ -190,13 +196,18 @@ if (UNIX AND NOT APPLE)
     if (COPYQ_AUTOSTART_COMMAND)
         add_definitions( -DCOPYQ_AUTOSTART_COMMAND="${COPYQ_AUTOSTART_COMMAND}" )
     endif()
+elseif (APPLE)
+    set(copyq_themes_dest_dir "${COPYQ_EXECUTABLE_NAME}.app/Contents/Resources/themes")
+    file(GLOB copyq_THEMES shared/themes/*.ini)
+    install(FILES ${copyq_THEMES} DESTINATION "${copyq_themes_dest_dir}" COMPONENT Runtime)
 endif()
 
 add_definitions( -DQT_NO_CAST_TO_ASCII )
 
-add_subdirectory(src)
+set_property(GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS)
 
 if (WITH_PLUGINS)
     add_subdirectory(plugins)
 endif()
 
+add_subdirectory(src)
