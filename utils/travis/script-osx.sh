@@ -3,7 +3,6 @@
 
 set -exuo pipefail
 
-root=$PWD
 mkdir -p build
 cd build
 
@@ -17,7 +16,8 @@ cmake --build . --target all
 
 cpack
 
-executable="$(ls ${PWD}/_CPack_Packages/Darwin/DragNDrop/copyq-*/CopyQ.app/Contents/MacOS/CopyQ)"
+app_bundle_path="_CPack_Packages/Darwin/DragNDrop/copyq-*/CopyQ.app"
+executable="$(ls ${PWD}/${app_bundle_path}/Contents/MacOS/CopyQ)"
 
 # Test the app before deployment.
 "$executable" --help
@@ -30,6 +30,9 @@ ls "$("$executable" info themes)/"
 ls "$("$executable" info translations)/"
 test "$("$executable" info has-global-shortcuts)" -eq "1"
 
+# Uninstall local Qt to make sure we only use libraries from the bundle
+brew uninstall --force qt5
+
 # Run tests (retry once on error).
 export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
 export COPYQ_TESTS_SKIP_CONFIG_MOVE=1
@@ -39,4 +42,7 @@ export COPYQ_TESTS_SKIP_CONFIG_MOVE=1
 # Create "CopyQ.dmg".
 cp -a copyq-*.dmg CopyQ.dmg
 
-cd "$root"
+# Print dependencies to let us make sure that we don't depend on locally installed Qt libraries
+otool -L $executable
+otool -L ${app_bundle_path}/Contents/PlugIns/copyq/*
+otool -L ${app_bundle_path}/Contents/Frameworks/Qt*.framework/Versions/5/Qt*
