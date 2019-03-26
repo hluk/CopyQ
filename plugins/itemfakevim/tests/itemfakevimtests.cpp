@@ -23,6 +23,12 @@
 
 #include <QDir>
 
+#ifdef Q_OS_DARWIN
+#define FAKEVIM_CTRL "META"
+#else
+#define FAKEVIM_CTRL "CTRL"
+#endif
+
 ItemFakeVimTests::ItemFakeVimTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
@@ -88,7 +94,7 @@ void ItemFakeVimTests::blockSelection()
 
     RUN(args << "edit" << "0", "");
     RUN(args << "keys"
-        << ":ggl" << "CTRL+V" << ":jjs_" << "ESC" << "::wq" << "ENTER", "");
+        << ":ggl" << FAKEVIM_CTRL "+V" << ":jjs_" << "ESC" << "::wq" << "ENTER", "");
     RUN(args << "read" << "0", "A_C\nD_F\nG_I");
 }
 

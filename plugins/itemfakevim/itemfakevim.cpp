@@ -214,14 +214,14 @@ public:
         QRect rect = EDITOR(cursorRect());
 
         if (EDITOR(overwriteMode()) || hasBlockSelection() ) {
-            QFontMetrics fm(editor()->font());
             QTextCursor tc2 = tc;
-            tc2.movePosition(QTextCursor::NextCharacter);
-            if (tc2.block() == tc.block() && !tc2.atEnd()) {
-                const QRect nextRect = EDITOR(cursorRect(tc2));
-                const int w = nextRect.left() - rect.left();
+            tc2.movePosition(QTextCursor::Right);
+            const QRect nextRect = EDITOR(cursorRect(tc2));
+            const int w = nextRect.left() - rect.left();
+            if (w > 3) {
                 rect.setWidth(w);
             } else {
+                const QFontMetrics fm(editor()->font());
                 rect.setWidth( fm.averageCharWidth() );
             }
         } else {
