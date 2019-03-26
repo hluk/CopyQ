@@ -42,7 +42,7 @@ export COPYQ_TESTS_SKIP_CONFIG_MOVE=1
 # Create "CopyQ.dmg".
 cp -a copyq-*.dmg CopyQ.dmg
 
-# Print dependencies to let us make sure that we don't depend on locally installed Qt libraries
+# Print dependencies to let us further make sure that we don't depend on local libraries
 otool -L $executable
 otool -L ${app_bundle_path}/Contents/PlugIns/copyq/*
 otool -L ${app_bundle_path}/Contents/Frameworks/Qt*.framework/Versions/5/Qt*
