@@ -24,6 +24,8 @@
 
 #include <QColor>
 
+#include <algorithm>
+
 namespace {
 
 constexpr auto dateTimeFormat = "yyyy-MM-dd HH:mm:ss.zzz";
@@ -52,27 +54,33 @@ int actionStateOrder(ActionState state)
 
 } // namespace
 
-ActionTableModel::ActionTableModel(QObject *parent)
+ActionTableModel::ActionTableModel(uint maxRowCount, QObject *parent)
     : QAbstractTableModel(parent)
+    , m_maxRowCount(maxRowCount)
 {
 }
 
-void ActionTableModel::actionAboutToStart(Action *action)
+int ActionTableModel::actionAboutToStart(Action *action)
 {
     ActionData actionData;
+    actionData.id = m_actions.empty() ? 1 : m_actions[m_actions.size() - 1].id + 1;
     actionData.name = action->name();
     if ( actionData.name.isEmpty() )
         actionData.name = action->commandLine();
     actionData.finished = -1;
 
+    limitItems();
+
     beginInsertRows(QModelIndex(), actionCount(), actionCount());
     m_actions.push_back(actionData);
     endInsertRows();
+
+    return actionData.id;
 }
 
 void ActionTableModel::actionStarted(Action *action)
 {
-    const int row = action->id();
+    const int row = rowFor(action);
     actionData(row).started = QDateTime::currentDateTime();
     for (const int column : { ActionHandlerColumn::started, ActionHandlerColumn::status }) {
         const auto index = this->index(row, column);
@@ -82,7 +90,7 @@ void ActionTableModel::actionStarted(Action *action)
 
 void ActionTableModel::actionFailed(Action *action, const QString &error)
 {
-    const int row = action->id();
+    const int row = rowFor(action);
     actionData(row).error = error;
     for (const int column : { ActionHandlerColumn::error, ActionHandlerColumn::status }) {
         const auto index = this->index(row, column);
@@ -92,7 +100,7 @@ void ActionTableModel::actionFailed(Action *action, const QString &error)
 
 void ActionTableModel::actionFinished(Action *action)
 {
-    const int row = action->id();
+    const int row = rowFor(action);
     ActionData &data = actionData(row);
     data.finished = data.started.msecsTo(QDateTime::currentDateTime());
     for (const int column : { ActionHandlerColumn::finished, ActionHandlerColumn::status }) {
@@ -104,9 +112,12 @@ void ActionTableModel::actionFinished(Action *action)
 void ActionTableModel::actionFinished(const QString &name)
 {
     ActionData actionData;
+    actionData.id = m_actions.empty() ? 1 : m_actions.end()->id + 1;
     actionData.name = name;
     actionData.started = QDateTime::currentDateTime();
     actionData.finished = 0;
+
+    limitItems();
 
     beginInsertRows(QModelIndex(), actionCount(), actionCount());
     m_actions.push_back(actionData);
@@ -202,7 +213,7 @@ QVariant ActionTableModel::data(const QModelIndex &index, int role) const
             const ActionData &data = actionData(row);
             switch (column) {
             case ActionHandlerColumn::id:
-                return row;
+                return data.id;
             case ActionHandlerColumn::name:
                 return data.name;
             case ActionHandlerColumn::status:
@@ -218,6 +229,10 @@ QVariant ActionTableModel::data(const QModelIndex &index, int role) const
             const int row = index.row();
             const ActionData &data = actionData(row);
             return static_cast<int>(actionState(data));
+        } else if (role == ActionHandlerRole::id) {
+            const int row = index.row();
+            const ActionData &data = actionData(row);
+            return data.id;
         }
     }
 
@@ -233,4 +248,38 @@ ActionState ActionTableModel::actionState(const ActionTableModel::ActionData &da
     if ( data.started.isValid() )
         return ActionState::Running;
     return ActionState::Starting;
+}
+
+int ActionTableModel::rowFor(const Action *action) const
+{
+    const auto found = std::lower_bound(
+        std::begin(m_actions), std::end(m_actions), action->id(),
+        [](const ActionData &data, int id) {
+            return data.id < id;
+        });
+    const auto row = std::distance(std::begin(m_actions), found);
+    return static_cast<int>(row);
+}
+
+void ActionTableModel::limitItems()
+{
+    if (m_actions.size() < m_maxRowCount * 4 / 3)
+        return;
+
+    while (m_actions.size() >= m_maxRowCount) {
+        const auto found = std::find_if(
+            std::begin(m_actions), std::end(m_actions),
+            [](const ActionData &data) {
+                const auto state = actionState(data);
+                return state == ActionState::Finished || state == ActionState::Error;
+            });
+
+        if ( found == std::end(m_actions) )
+            break;
+
+        const auto row = static_cast<int>( std::distance(std::begin(m_actions), found) );
+        beginRemoveRows(QModelIndex(), row, row);
+        m_actions.erase(found);
+        endRemoveRows();
+    }
 }

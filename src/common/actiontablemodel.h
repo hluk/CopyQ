@@ -30,9 +30,9 @@ enum class ActionState;
 class ActionTableModel : public QAbstractTableModel
 {
 public:
-    explicit ActionTableModel(QObject *parent = nullptr);
+    explicit ActionTableModel(uint maxRowCount, QObject *parent = nullptr);
 
-    void actionAboutToStart(Action *action);
+    int actionAboutToStart(Action *action);
     void actionStarted(Action *action);
     void actionFailed(Action *action, const QString &error);
     void actionFinished(Action *action);
@@ -47,6 +47,7 @@ public:
 
 private:
     struct ActionData {
+        int id;
         QString name;
         QDateTime started;
         qint64 finished;
@@ -57,9 +58,12 @@ private:
 
     ActionData &actionData(int row) { return m_actions[row]; }
     const ActionData &actionData(int row) const { return m_actions[row]; }
+    int rowFor(const Action *action) const;
     int actionCount() const { return m_actions.size(); }
+    void limitItems();
 
     std::vector<ActionData> m_actions;
+    uint m_maxRowCount;
 };
 
 #endif // ACTIONTABLEMODEL_H

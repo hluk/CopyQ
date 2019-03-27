@@ -292,6 +292,11 @@ struct autocompletion : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
+struct max_process_manager_rows : Config<uint> {
+    static QString name() { return "max_process_manager_rows"; }
+    static Value defaultValue() { return 1000; }
+};
+
 } // namespace Config
 
 class AppConfig

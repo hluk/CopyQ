@@ -51,12 +51,17 @@ QString actionDescription(const Action &action)
     return action.commandLine();
 }
 
+uint maxRowCount()
+{
+    return AppConfig().option<Config::max_process_manager_rows>();
+}
+
 } // namespace
 
 ActionHandler::ActionHandler(NotificationDaemon *notificationDaemon, QWidget *parent)
     : QObject(parent)
     , m_notificationDaemon(notificationDaemon)
-    , m_actionModel(new ActionTableModel(parent))
+    , m_actionModel(new ActionTableModel(maxRowCount(), parent))
 {
 }
 
@@ -101,16 +106,15 @@ void ActionHandler::action(Action *action)
 {
     action->setParent(this);
 
-    const auto id = m_actionModel->rowCount();
-    action->setId(id);
-    m_actions.insert(id, action);
-
     connect( action, &Action::actionStarted,
              this, &ActionHandler::actionStarted );
     connect( action, &Action::actionFinished,
              this, &ActionHandler::closeAction );
 
-    m_actionModel->actionAboutToStart(action);
+    const int id = m_actionModel->actionAboutToStart(action);
+    action->setId(id);
+    m_actions.insert(id, action);
+
     COPYQ_LOG( QString("Executing: %1").arg(actionDescription(*action)) );
     action->start();
 }

@@ -29,11 +29,11 @@
 
 namespace {
 
-void terminateSelectedActions(QItemSelectionModel *selectionModel, QSortFilterProxyModel *model, ActionHandler *actionHandler)
+void terminateSelectedActions(QItemSelectionModel *selectionModel, ActionHandler *actionHandler)
 {
      QSet<int> ids;
      for ( const auto &index : selectionModel->selectedIndexes() ) {
-         const int actionId = model->mapToSource(index).row();
+         const int actionId = index.data(Qt::UserRole + ActionHandlerRole::id).toInt();
          ids.insert(actionId);
      }
      for (const int id : ids)
@@ -82,8 +82,8 @@ ActionHandlerDialog::ActionHandlerDialog(ActionHandler *actionHandler, QAbstract
 
     const auto selectionModel = ui->tableView->selectionModel();
     connect( ui->terminateButton, &QPushButton::clicked, this,
-             [selectionModel, actionHandler, proxyModel]() {
-                 terminateSelectedActions(selectionModel, proxyModel, actionHandler);
+             [selectionModel, actionHandler]() {
+                 terminateSelectedActions(selectionModel, actionHandler);
              } );
 
     const auto updateTerminateButtonSlot =

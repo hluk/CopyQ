@@ -486,6 +486,8 @@ public:
             settings.beginGroup("Options");
             settings.setValue( Config::clipboard_tab::name(), clipboardTabName );
             settings.setValue( Config::close_on_unfocus::name(), false );
+            // Exercise limiting rows in Process Manager dialog when testing.
+            settings.setValue( Config::max_process_manager_rows::name(), 4 );
             settings.endGroup();
 
             if ( !m_settings.isEmpty() ) {

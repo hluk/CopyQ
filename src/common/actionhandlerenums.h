@@ -23,7 +23,8 @@ enum {
 namespace ActionHandlerRole {
 enum {
     sort,
-    status
+    status,
+    id
 };
 }
 
