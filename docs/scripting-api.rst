@@ -999,19 +999,6 @@ omitted.
            setClipboardData();
        }
 
-.. js:function:: updateClipboardData()
-
-   Clears current clipboard data for tray menu, window title and notification.
-
-   Default implementation is:
-
-   .. code-block:: js
-
-       if (isClipboard()) {
-           setTitle();
-           hideDataNotification();
-       }
-
 .. js:function:: setTitle([title])
 
    Set main window title and tool tip.
