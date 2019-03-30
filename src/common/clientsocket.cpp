@@ -156,12 +156,6 @@ ClientSocket::~ClientSocket()
     close();
 }
 
-void ClientSocket::waitForReadyRead()
-{
-    if (m_socket)
-        m_socket->waitForReadyRead(2000);
-}
-
 bool ClientSocket::start()
 {
     if ( !m_socket || !m_socket->waitForConnected(4000) )
@@ -213,11 +207,6 @@ void ClientSocket::close()
         SOCKET_LOG("Disconnecting socket.");
         m_socket->disconnectFromServer();
     }
-}
-
-bool ClientSocket::isClosed() const
-{
-    return m_closed;
 }
 
 void ClientSocket::onReadyRead()

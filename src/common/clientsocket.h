@@ -59,8 +59,6 @@ public:
     /// Return socket ID unique in process (thread-safe).
     ClientSocketId id() const { return m_socketId; }
 
-    void waitForReadyRead();
-
     /// Start emitting messageReceived().
     bool start();
 
@@ -71,8 +69,6 @@ public:
             );
 
     void close();
-
-    bool isClosed() const;
 
 signals:
     void messageReceived(const QByteArray &message, int messageCode, ClientSocketId clientId);
