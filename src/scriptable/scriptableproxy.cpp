@@ -95,9 +95,9 @@ const quint32 serializedFunctionCallVersion = 2;
 #define STR(str) str
 
 #define INVOKE_(function, arguments, functionCallId) \
-    static auto f = FunctionCallSerializer(STR(#function)).withSlotArguments arguments; \
-    f.setArguments arguments; \
-    emit sendMessage(f.serializeAndClear(functionCallId), CommandFunctionCall)
+    static const auto f = FunctionCallSerializer(STR(#function)).withSlotArguments arguments; \
+    const auto args = f.argumentList arguments; \
+    emit sendMessage(f.serialize(functionCallId, args), CommandFunctionCall)
 
 #define INVOKE_NO_SNIP(function, arguments) \
     if (!m_wnd) { \
@@ -315,24 +315,20 @@ public:
         return *this;
     }
 
-    QByteArray serializeAndClear(int functionCallId)
+    QByteArray serialize(int functionCallId, const QVector<QVariant> args) const
     {
         QByteArray bytes;
         QDataStream stream(&bytes, QIODevice::WriteOnly);
         stream.setVersion(QDataStream::Qt_5_0);
         stream << serializedFunctionCallMagicNumber << serializedFunctionCallVersion
-               << functionCallId << m_slotName << m_args;
-        m_args.clear();
+               << functionCallId << m_slotName << args;
         return bytes;
     }
 
-    void setArguments() {}
-
-    template<typename T, typename ...Ts>
-    void setArguments(const T &head, Ts... args)
+    template<typename ...Ts>
+    static QVector<QVariant> argumentList(Ts... arguments)
     {
-        m_args << QVariant::fromValue(head);
-        setArguments(args...);
+        return { QVariant::fromValue(arguments)... };
     }
 
 private:
@@ -346,7 +342,6 @@ private:
         }
     }
 
-    QVector<QVariant> m_args;
     QByteArray m_slotName;
 };
 
