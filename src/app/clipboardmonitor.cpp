@@ -64,7 +64,7 @@ bool isClipboardDataHidden(const QVariantMap &data)
 } // namespace
 
 ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
-    : m_clipboard(createPlatformNativeInterface()->clipboard())
+    : m_clipboard(platformNativeInterface()->clipboard())
     , m_formats(formats)
 {
     const AppConfig config;

@@ -53,7 +53,7 @@ public:
         data.insert(mimeOwner, owner);
 
         // Provide clipboard here first to be able to paste quickly.
-        createPlatformNativeInterface()->clipboard()->setData(mode, data);
+        platformNativeInterface()->clipboard()->setData(mode, data);
 
         // Start separate process later to take over clipboard ownership.
         if (mode == ClipboardMode::Clipboard) {

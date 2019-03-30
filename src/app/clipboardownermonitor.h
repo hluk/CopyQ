@@ -37,7 +37,6 @@ public:
     bool nativeEventFilter(const QByteArray &, void *message, long *result) override;
 
 private:
-    PlatformPtr m_platform;
     QByteArray m_clipboardOwner;
     QByteArray m_newClipboardOwner;
     QTimer m_timer;

@@ -51,7 +51,7 @@ int evaluate(
         const QStringList &arguments, int argc, char **argv,
         const QString &sessionName)
 {
-    App app( createPlatformNativeInterface()->createConsoleApplication(argc, argv), sessionName );
+    App app( platformNativeInterface()->createConsoleApplication(argc, argv), sessionName );
     setCurrentThreadName("Prompt");
 
     QScriptEngine engine;
@@ -118,7 +118,7 @@ int startServer(int argc, char *argv[], QString sessionName)
     if ( qEnvironmentVariableIsEmpty("QT_AUTO_SCREEN_SCALE_FACTOR") )
         qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
 
-    auto qapp = createPlatformNativeInterface()->createServerApplication(argc, argv);
+    auto qapp = platformNativeInterface()->createServerApplication(argc, argv);
     if ( qapp->isSessionRestored() ) {
         const auto sessionId = qapp->sessionId();
         sessionName = restoreSessionName(sessionId);
@@ -200,7 +200,7 @@ int startApplication(int argc, char **argv)
 #endif
 
     const QStringList arguments =
-            createPlatformNativeInterface()->getCommandLineArguments(argc, argv);
+            platformNativeInterface()->getCommandLineArguments(argc, argv);
 
     // Get session name (default is empty).
     int skipArguments;

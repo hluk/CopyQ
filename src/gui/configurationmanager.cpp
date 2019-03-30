@@ -186,7 +186,7 @@ void ConfigurationManager::initLanguages()
 
 void ConfigurationManager::updateAutostart()
 {
-    PlatformPtr platform = createPlatformNativeInterface();
+    auto platform = platformNativeInterface();
 
     if ( platform->canAutostart() ) {
         bind<Config::autostart>(ui->checkBoxAutostart);
@@ -197,7 +197,7 @@ void ConfigurationManager::updateAutostart()
 
 void ConfigurationManager::setAutostartEnable()
 {
-    PlatformPtr platform = createPlatformNativeInterface();
+    auto platform = platformNativeInterface();
     platform->setAutostartEnabled( AppConfig().option<Config::autostart>() );
 }
 

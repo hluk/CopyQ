@@ -257,9 +257,10 @@ BOOL CALLBACK getCurrentWindowProc(HWND window, LPARAM)
 
 } // namespace
 
-PlatformPtr createPlatformNativeInterface()
+PlatformNativeInterface *platformNativeInterface()
 {
-    return PlatformPtr(new WinPlatform);
+    static WinPlatform platform;
+    return &platform;
 }
 
 PlatformWindowPtr WinPlatform::getWindow(WId winId)

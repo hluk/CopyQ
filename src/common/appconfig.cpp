@@ -26,12 +26,12 @@
 
 Config::Config<QString>::Value Config::editor::defaultValue()
 {
-    return createPlatformNativeInterface()->defaultEditorCommand();
+    return platformNativeInterface()->defaultEditorCommand();
 }
 
 Config::Config<bool>::Value Config::autostart::defaultValue()
 {
-    return createPlatformNativeInterface()->isAutostartEnabled();
+    return platformNativeInterface()->isAutostartEnabled();
 }
 
 QString defaultClipboardTabName()

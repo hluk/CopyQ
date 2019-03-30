@@ -2522,7 +2522,7 @@ void Tests::configTrayTabIsCurrent()
 
 void Tests::configAutostart()
 {
-    if ( !createPlatformNativeInterface()->canAutostart() ) {
+    if ( !platformNativeInterface()->canAutostart() ) {
         SKIP("Autostart is unsupported on this platform");
         return;
     }
@@ -3292,7 +3292,7 @@ int runTests(int argc, char *argv[])
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
     Settings::canModifySettings = true;
-    createPlatformNativeInterface()->loadSettings();
+    platformNativeInterface()->loadSettings();
 
     int exitCode = 0;
     std::shared_ptr<TestInterfaceImpl> test(new TestInterfaceImpl);

@@ -157,14 +157,6 @@ public:
     PlatformNativeInterface &operator=(const PlatformNativeInterface &) = delete;
 };
 
-/**
- * Shared pointer type for PlatformNativeInterface instance.
- */
-using PlatformPtr = std::shared_ptr<PlatformNativeInterface>;
-
-/**
- * Factory method to create PlatformNativeInterface instance.
- */
-PlatformPtr createPlatformNativeInterface();
+PlatformNativeInterface *platformNativeInterface();
 
 #endif // PLATFORMNATIVEINTERFACE_H

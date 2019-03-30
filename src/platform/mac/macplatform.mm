@@ -161,9 +161,10 @@ namespace {
 
 } // namespace
 
-PlatformPtr createPlatformNativeInterface()
+PlatformNativeInterface *platformNativeInterface()
 {
-    return PlatformPtr(new MacPlatform);
+    static MacPlatform platform;
+    return &platform;
 }
 
 MacPlatform::MacPlatform()

@@ -152,7 +152,7 @@ in common code.
 
 Each supported platform implements
 `PlatformNativeInterface <https://github.com/hluk/CopyQ/blob/master/src/platform/platformnativeinterface.h>`__
-and ``createPlatformNativeInterface()``.
+and ``platformNativeInterface()``.
 
 The implementations can contain:
 

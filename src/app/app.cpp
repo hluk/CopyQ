@@ -83,7 +83,7 @@ void installTranslator()
 #ifdef COPYQ_TRANSLATION_PREFIX
     const QString translationPrefix = COPYQ_TRANSLATION_PREFIX;
 #else
-    const QString translationPrefix = createPlatformNativeInterface()->translationPrefix();
+    const QString translationPrefix = platformNativeInterface()->translationPrefix();
 #endif
 
     QStringList translationDirectories;
@@ -174,7 +174,7 @@ void App::restoreSettings(bool canModifySettings)
 {
     Settings::canModifySettings = canModifySettings;
 
-    createPlatformNativeInterface()->loadSettings();
+    platformNativeInterface()->loadSettings();
 
     if (canModifySettings)
         Settings::restore();

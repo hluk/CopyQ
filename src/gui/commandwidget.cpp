@@ -119,7 +119,7 @@ CommandWidget::CommandWidget(QWidget *parent)
     initTabComboBox(ui->comboBoxCopyToTab);
     initTabComboBox(ui->comboBoxOutputTab);
 
-    if ( !createPlatformNativeInterface()->canGetWindowTitle() )
+    if ( !platformNativeInterface()->canGetWindowTitle() )
         ui->lineEditWindow->hide();
 }
 

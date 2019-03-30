@@ -2978,7 +2978,7 @@ void Scriptable::provideClipboard(ClipboardMode mode)
     const auto owner = makeClipboardOwnerData();
     m_data.insert(mimeOwner, owner);
 
-    createPlatformNativeInterface()->clipboard()->setData(mode, m_data);
+    platformNativeInterface()->clipboard()->setData(mode, m_data);
 
     QEventLoop loop;
 

@@ -102,9 +102,10 @@ void maybePrintFileError(const QFile &file, const char *message)
 
 } // namespace
 
-PlatformPtr createPlatformNativeInterface()
+PlatformNativeInterface *platformNativeInterface()
 {
-    return PlatformPtr(new X11Platform);
+    static X11Platform platform;
+    return &platform;
 }
 
 X11Platform::~X11Platform() = default;

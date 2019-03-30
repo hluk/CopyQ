@@ -624,7 +624,7 @@ void raiseWindow(QPointer<QWidget> window)
     QApplication::setActiveWindow(window);
     QApplication::processEvents();
     const auto wid = window->winId();
-    const auto platformWindow = createPlatformNativeInterface()->getWindow(wid);
+    const auto platformWindow = platformNativeInterface()->getWindow(wid);
     if (platformWindow)
         platformWindow->raise();
 }
@@ -655,7 +655,7 @@ public:
         auto widget = QApplication::focusWidget();
         auto window = QApplication::activeWindow();
         auto modal = QApplication::activeModalWidget();
-        const auto currentWindow = createPlatformNativeInterface()->getCurrentWindow();
+        const auto currentWindow = platformNativeInterface()->getCurrentWindow();
         const auto currentWindowTitle = currentWindow ? currentWindow->getTitle() : QString();
         log( QString("Failed to send key press to target widget")
             + "\nExpected: " + (expectedWidgetName.isEmpty() ? "Any" : expectedWidgetName)
@@ -1036,7 +1036,7 @@ bool ScriptableProxy::pasteToCurrentWindow()
 {
     INVOKE(pasteToCurrentWindow, ());
 
-    PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
+    PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
     if (!window)
         return false;
     window->pasteClipboard();
@@ -1047,7 +1047,7 @@ bool ScriptableProxy::copyFromCurrentWindow()
 {
     INVOKE(copyFromCurrentWindow, ());
 
-    PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
+    PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
     if (!window)
         return false;
     window->copy();
@@ -1623,7 +1623,7 @@ void ScriptableProxy::serverLog(const QString &text)
 QString ScriptableProxy::currentWindowTitle()
 {
     INVOKE(currentWindowTitle, ());
-    PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
+    PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
     return window ? window->getTitle() : QString();
 }
 
@@ -2167,7 +2167,7 @@ KeyClicker *ScriptableProxy::keyClicker()
 QString pluginsPath()
 {
     QDir dir;
-    if (createPlatformNativeInterface()->findPluginDir(&dir))
+    if (platformNativeInterface()->findPluginDir(&dir))
         return dir.absolutePath();
 
     return QString();
@@ -2175,10 +2175,10 @@ QString pluginsPath()
 
 QString themesPath()
 {
-    return createPlatformNativeInterface()->themePrefix();
+    return platformNativeInterface()->themePrefix();
 }
 
 QString translationsPath()
 {
-    return createPlatformNativeInterface()->translationPrefix();
+    return platformNativeInterface()->translationPrefix();
 }

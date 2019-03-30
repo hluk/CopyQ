@@ -144,7 +144,7 @@ QVector<Command> predefinedCommands()
     c->remove = true;
     c->automatic = true;
 
-    if ( createPlatformNativeInterface()->canGetWindowTitle() ) {
+    if ( platformNativeInterface()->canGetWindowTitle() ) {
         c = newCommand(&commands);
         c->name = AddCommandDialog::tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(AddCommandDialog::tr("Password"));

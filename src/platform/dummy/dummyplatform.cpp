@@ -28,9 +28,10 @@
 #include <QDir>
 #include <QStringList>
 
-PlatformPtr createPlatformNativeInterface()
+PlatformNativeInterface *platformNativeInterface()
 {
-    return PlatformPtr(new DummyPlatform);
+    static DummyPlatform platform;
+    return &platform;
 }
 
 QCoreApplication *DummyPlatform::createConsoleApplication(int &argc, char **argv)

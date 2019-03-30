@@ -24,7 +24,6 @@
 #include <QCoreApplication>
 
 ClipboardOwnerMonitor::ClipboardOwnerMonitor()
-    : m_platform(createPlatformNativeInterface())
 {
     qApp->installNativeEventFilter(this);
 
@@ -42,7 +41,7 @@ ClipboardOwnerMonitor::~ClipboardOwnerMonitor()
 
 bool ClipboardOwnerMonitor::nativeEventFilter(const QByteArray &, void *, long *)
 {
-    PlatformWindowPtr currentWindow = m_platform->getCurrentWindow();
+    PlatformWindowPtr currentWindow = platformNativeInterface()->getCurrentWindow();
     if (currentWindow) {
         const auto currentWindowTitle = currentWindow->getTitle().toUtf8();
         if (m_newClipboardOwner != currentWindowTitle) {

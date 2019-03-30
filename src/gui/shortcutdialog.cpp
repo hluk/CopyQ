@@ -87,7 +87,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
 
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         auto keyEvent = static_cast<QKeyEvent*>(event);
-        const int key = createPlatformNativeInterface()->keyCode(*keyEvent);
+        const int key = platformNativeInterface()->keyCode(*keyEvent);
         const int mods = getModifiers(*keyEvent);
 
         if (mods == Qt::NoModifier) {

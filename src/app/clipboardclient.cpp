@@ -67,13 +67,13 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
              ) )
     {
         QGuiApplication::setDesktopSettingsAware(false);
-        const auto app = createPlatformNativeInterface()
+        const auto app = platformNativeInterface()
                 ->createClipboardProviderApplication(argc, argv);
         setCurrentThreadName(arguments[0]);
         return app;
     }
 
-    const auto app = createPlatformNativeInterface()->createClientApplication(argc, argv);
+    const auto app = platformNativeInterface()->createClientApplication(argc, argv);
     setCurrentThreadName("Client");
     return app;
 }

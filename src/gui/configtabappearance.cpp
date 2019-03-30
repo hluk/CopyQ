@@ -53,7 +53,7 @@ QString themePrefix()
 #ifdef COPYQ_THEME_PREFIX
     return COPYQ_THEME_PREFIX;
 #else
-    return createPlatformNativeInterface()->themePrefix();
+    return platformNativeInterface()->themePrefix();
 #endif
 }
 

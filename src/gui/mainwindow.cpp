@@ -179,7 +179,7 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 void stealFocus(const QWidget &window)
 {
     WId wid = window.winId();
-    PlatformWindowPtr platformWindow = createPlatformNativeInterface()->getWindow(wid);
+    PlatformWindowPtr platformWindow = platformNativeInterface()->getWindow(wid);
     if (platformWindow)
         platformWindow->raise();
 }
@@ -319,7 +319,7 @@ bool isAnyApplicationWindowActive()
     if ( qApp->activeWindow() )
         return true;
 
-    const auto platform = createPlatformNativeInterface();
+    const auto platform = platformNativeInterface();
     const auto currentWindow = platform->getCurrentWindow();
     if (!currentWindow)
         return false;
@@ -2819,7 +2819,7 @@ void MainWindow::updateFocusWindows()
     if ( QApplication::activePopupWidget() )
         return;
 
-    PlatformPtr platform = createPlatformNativeInterface();
+    auto platform = platformNativeInterface();
     PlatformWindowPtr lastWindow = platform->getCurrentWindow();
     if (lastWindow) {
         COPYQ_LOG( QString("Focus window is \"%1\"").arg(lastWindow->getTitle()) );

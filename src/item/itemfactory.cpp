@@ -46,7 +46,7 @@ namespace {
 
 bool findPluginDir(QDir *pluginsDir)
 {
-    return createPlatformNativeInterface()->findPluginDir(pluginsDir)
+    return platformNativeInterface()->findPluginDir(pluginsDir)
             && pluginsDir->isReadable();
 }
 
