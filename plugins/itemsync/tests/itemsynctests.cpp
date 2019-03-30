@@ -38,7 +38,7 @@ QString fileNameForId(int i)
     return QString("copyq_%1.txt").arg(i, 4, 10, QChar('0'));
 }
 
-class TestDir {
+class TestDir final {
 public:
     explicit TestDir(int i, bool createPath = true)
         : m_dir(ItemSyncTests::testDir(i))

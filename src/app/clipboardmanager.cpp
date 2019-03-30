@@ -29,7 +29,7 @@
 
 #include <QTimer>
 
-class ClipboardManagerPrivate {
+class ClipboardManagerPrivate final {
 public:
     explicit ClipboardManagerPrivate(ActionHandler *actionHandler)
         : m_actionHandler(actionHandler)

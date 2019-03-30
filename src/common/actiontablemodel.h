@@ -27,7 +27,7 @@ class Action;
 
 enum class ActionState;
 
-class ActionTableModel : public QAbstractTableModel
+class ActionTableModel final : public QAbstractTableModel
 {
 public:
     explicit ActionTableModel(uint maxRowCount, QObject *parent = nullptr);

@@ -38,7 +38,7 @@ enum NotesPosition {
     NotesBeside,
 };
 
-class ItemNotes : public QWidget, public ItemWidgetWrapper
+class ItemNotes final : public QWidget, public ItemWidgetWrapper
 {
     Q_OBJECT
 
@@ -68,7 +68,7 @@ private:
     bool m_isCurrent = false;
 };
 
-class ItemNotesLoader : public QObject, public ItemLoaderInterface
+class ItemNotesLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)

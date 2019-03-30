@@ -40,7 +40,7 @@ namespace {
 const int waitForModsReleaseMs = 25;
 const int maxWaitForModsReleaseMs = 2000;
 
-class KeyPressTester {
+class KeyPressTester final {
 public:
     explicit KeyPressTester(Display *display)
         : m_display(display)
@@ -150,7 +150,7 @@ void simulateKeyPress(Display *display, Window window, unsigned int modifiers, u
 }
 #endif
 
-class X11WindowProperty {
+class X11WindowProperty final {
 public:
     X11WindowProperty(Display *display, Window w, Atom property, long longOffset,
                       long longLength, Atom reqType)

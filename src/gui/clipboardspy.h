@@ -24,7 +24,7 @@
 
 #include <QObject>
 
-class ClipboardSpy : public QObject
+class ClipboardSpy final : public QObject
 {
     Q_OBJECT
 public:

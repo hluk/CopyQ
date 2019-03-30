@@ -29,7 +29,7 @@ namespace Ui {
 class ActionHandlerDialog;
 }
 
-class ActionHandlerDialog : public QDialog
+class ActionHandlerDialog final : public QDialog
 {
 public:
     explicit ActionHandlerDialog(ActionHandler *actionHandler, QAbstractItemModel *model, QWidget *parent = nullptr);

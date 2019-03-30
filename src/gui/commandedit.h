@@ -26,7 +26,7 @@ namespace Ui {
 class CommandEdit;
 }
 
-class CommandEdit : public QWidget
+class CommandEdit final : public QWidget
 {
     Q_OBJECT
 

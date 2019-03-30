@@ -31,7 +31,7 @@ class CommandDialog;
 
 class QAbstractButton;
 
-class CommandDialog : public QDialog
+class CommandDialog final : public QDialog
 {
     Q_OBJECT
 

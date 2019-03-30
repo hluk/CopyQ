@@ -59,7 +59,7 @@ void drawPlainTextDocument(
         QPainter *painter)
 {
     // WORKAROUND: Access protected members of QPlainTextEdit.
-    class PlainTextEdit : public QPlainTextEdit {
+    class PlainTextEdit final : public QPlainTextEdit {
     public:
         static QPointF getContentOffset(QPlainTextEdit *edit) {
             return (edit->*(&PlainTextEdit::contentOffset))();
@@ -121,7 +121,7 @@ void drawPlainTextDocument(
     }
 }
 
-class TextEditWrapper : public QObject
+class TextEditWrapper final : public QObject
 {
 public:
     explicit TextEditWrapper(QAbstractScrollArea *editor)
@@ -386,7 +386,7 @@ private:
     QAbstractTextDocumentLayout::PaintContext m_context;
 };
 
-class Proxy : public QObject
+class Proxy final : public QObject
 {
 public:
     Proxy(TextEditWrapper *editorWidget, QStatusBar *statusBar, QObject *parent = nullptr)

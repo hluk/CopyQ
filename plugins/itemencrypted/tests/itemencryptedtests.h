@@ -24,7 +24,7 @@
 
 #include <QObject>
 
-class ItemEncryptedTests : public QObject
+class ItemEncryptedTests final : public QObject
 {
     Q_OBJECT
 public:

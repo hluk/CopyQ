@@ -31,7 +31,7 @@ class QByteArray;
 /**
  * Tests for the application.
  */
-class Tests : public QObject
+class Tests final : public QObject
 {
     Q_OBJECT
 

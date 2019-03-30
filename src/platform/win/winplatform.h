@@ -22,7 +22,7 @@
 
 #include "platform/platformnativeinterface.h"
 
-class WinPlatform : public PlatformNativeInterface
+class WinPlatform final : public PlatformNativeInterface
 {
 public:
     WinPlatform() {}

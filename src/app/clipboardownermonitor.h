@@ -26,7 +26,7 @@
 
 #include "platform/platformnativeinterface.h"
 
-class ClipboardOwnerMonitor : public QAbstractNativeEventFilter
+class ClipboardOwnerMonitor final : public QAbstractNativeEventFilter
 {
 public:
     ClipboardOwnerMonitor();

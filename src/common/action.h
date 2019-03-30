@@ -33,7 +33,7 @@ class QAction;
  * Execute external program and emits signals
  * to create or change items from the program's stdout.
  */
-class Action : public QObject
+class Action final : public QObject
 {
     Q_OBJECT
 public:

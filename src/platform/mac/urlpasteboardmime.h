@@ -25,7 +25,7 @@
 /**
  * Class for doing conversions of URLs between OS X UTIs and "normal" mimeTypes.
  */
-class UrlPasteboardMime : public QMacPasteboardMime {
+class UrlPasteboardMime final : public QMacPasteboardMime {
 public:
     //! Create an instance of UrlPasteboardMime which will try to convert to/from the given UTI.
     UrlPasteboardMime(const QString &urlUti);

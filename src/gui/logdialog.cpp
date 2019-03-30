@@ -101,7 +101,7 @@ private:
 
 namespace {
 
-class LogDecorator : public Decorator
+class LogDecorator final : public Decorator
 {
 public:
     LogDecorator(const QFont &font, QObject *parent)
@@ -164,7 +164,7 @@ private:
     QTextCharFormat m_traceLogLevelFormat;
 };
 
-class StringDecorator : public Decorator
+class StringDecorator final : public Decorator
 {
 public:
     explicit StringDecorator(QObject *parent)
@@ -182,7 +182,7 @@ private:
     QTextCharFormat m_stringFormat;
 };
 
-class ThreadNameDecorator : public Decorator
+class ThreadNameDecorator final : public Decorator
 {
 public:
     explicit ThreadNameDecorator(const QFont &font, QObject *parent)

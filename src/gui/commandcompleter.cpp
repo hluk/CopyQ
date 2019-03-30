@@ -47,7 +47,7 @@ QStringList scriptableCompletions()
          + scriptableKeywords();
 }
 
-class CommandCompleterModel : public QStringListModel {
+class CommandCompleterModel final : public QStringListModel {
 public:
     explicit CommandCompleterModel(QObject *parent)
         : QStringListModel(scriptableCompletions(), parent)
@@ -149,7 +149,7 @@ void setUpHeader(QHeaderView *header)
     header->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
-class CommandCompleterPopup : public QTableView {
+class CommandCompleterPopup final : public QTableView {
 public:
     explicit CommandCompleterPopup(QWidget *parent)
         : QTableView(parent)

@@ -33,7 +33,7 @@ using NSWindow = void;
 using NSRunningApplication = void;
 #endif
 
-class MacPlatformWindow : public PlatformWindow
+class MacPlatformWindow final : public PlatformWindow
 {
 public:
     MacPlatformWindow();

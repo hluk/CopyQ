@@ -28,7 +28,7 @@ class ItemFakeVimSettings;
 
 class QWidget;
 
-class ItemFakeVimLoader : public QObject, public ItemLoaderInterface
+class ItemFakeVimLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)

@@ -24,7 +24,7 @@
 
 #include <QObject>
 
-class ItemSyncTests : public QObject
+class ItemSyncTests final : public QObject
 {
     Q_OBJECT
 public:

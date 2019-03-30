@@ -25,7 +25,7 @@
 class QToolButton;
 class QDialog;
 
-class CommandHelpButton : public QWidget
+class CommandHelpButton final : public QWidget
 {
     Q_OBJECT
 public:

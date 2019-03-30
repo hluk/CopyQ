@@ -33,7 +33,7 @@
  * Also the received message is printed on standard output (if exit code is
  * zero) or standard error output.
  */
-class ClipboardClient : public QObject, public App
+class ClipboardClient final : public QObject, public App
 {
     Q_OBJECT
 

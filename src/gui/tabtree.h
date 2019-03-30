@@ -30,7 +30,7 @@
 class QMimeData;
 class QTreeWidgetItem;
 
-class TabTree : public QTreeWidget, public TabsWidgetInterface
+class TabTree final : public QTreeWidget, public TabsWidgetInterface
 {
     Q_OBJECT
 public:

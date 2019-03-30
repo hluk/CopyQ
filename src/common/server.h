@@ -32,7 +32,7 @@ class QLocalServer;
 using ClientSocketPtr = std::shared_ptr<ClientSocket>;
 Q_DECLARE_METATYPE(ClientSocketPtr)
 
-class Server : public QObject
+class Server final : public QObject
 {
     Q_OBJECT
 public:

@@ -78,7 +78,7 @@ void trySetPixmap(QLabel *label, const QVariantMap &data, int height)
 
 
 /** Sort plugins by prioritized list of names. */
-class PluginSorter {
+class PluginSorter final {
 public:
     explicit PluginSorter(const QStringList &pluginNames) : m_order(pluginNames) {}
 
@@ -106,7 +106,7 @@ private:
     const QStringList &m_order;
 };
 
-class DummyItem : public QLabel, public ItemWidget {
+class DummyItem final : public QLabel, public ItemWidget {
 public:
     DummyItem(const QVariantMap &data, QWidget *parent, bool preview)
         : QLabel(parent)
@@ -162,7 +162,7 @@ private:
     QString m_imageFormat;
 };
 
-class DummySaver : public ItemSaverInterface
+class DummySaver final : public ItemSaverInterface
 {
 public:
     bool saveItems(const QString & /* tabName */, const QAbstractItemModel &model, QIODevice *file) override
@@ -171,7 +171,7 @@ public:
     }
 };
 
-class DummyLoader : public ItemLoaderInterface
+class DummyLoader final : public ItemLoaderInterface
 {
 public:
     QString id() const override { return QString(); }

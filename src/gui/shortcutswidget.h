@@ -50,7 +50,7 @@ struct MenuAction {
 /**
  * Widget with list of modifiable shortcuts and filter field.
  */
-class ShortcutsWidget : public QWidget
+class ShortcutsWidget final : public QWidget
 {
     Q_OBJECT
 

@@ -30,7 +30,7 @@ class QFile;
 class QScriptContext;
 class QScriptEngine;
 
-class FileClass : public ScriptableClass<QFile, FilePrototype>
+class FileClass final : public ScriptableClass<QFile, FilePrototype>
 {
     Q_OBJECT
 public:

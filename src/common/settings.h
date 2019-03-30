@@ -46,7 +46,7 @@
  *   - copies settings from copy to real application settings and flushes it,
  *   - deletes special file.
  */
-class Settings
+class Settings final
 {
 public:
     static bool canModifySettings;

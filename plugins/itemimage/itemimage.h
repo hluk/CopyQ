@@ -34,7 +34,7 @@ namespace Ui {
 class ItemImageSettings;
 }
 
-class ItemImage : public QLabel, public ItemWidget
+class ItemImage final : public QLabel, public ItemWidget
 {
     Q_OBJECT
 
@@ -63,7 +63,7 @@ private:
     QMovie *m_animation;
 };
 
-class ItemImageLoader : public QObject, public ItemLoaderInterface
+class ItemImageLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)

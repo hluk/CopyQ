@@ -178,7 +178,7 @@ QByteArray decorateOutput(const QByteArray &label, const QByteArray &stderrOutpu
     return output;
 }
 
-class TestInterfaceImpl : public TestInterface {
+class TestInterfaceImpl final : public TestInterface {
 public:
     TestInterfaceImpl()
         : m_server(nullptr)

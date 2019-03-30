@@ -53,7 +53,7 @@
 namespace Utils {
 
 // --------- FancyLineEditPrivate
-class FancyLineEditPrivate : public QObject
+class FancyLineEditPrivate final : public QObject
 {
 public:
     explicit FancyLineEditPrivate(FancyLineEdit *parent);

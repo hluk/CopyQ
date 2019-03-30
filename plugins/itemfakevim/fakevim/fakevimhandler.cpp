@@ -278,7 +278,7 @@ QDebug operator<<(QDebug ts, const CursorPosition &pos)
     return ts << "(line: " << pos.line << ", column: " << pos.column << ")";
 }
 
-class Mark
+class Mark final
 {
 public:
     Mark(const CursorPosition &pos = CursorPosition(), const QString &fileName = QString())
@@ -973,7 +973,7 @@ static void initSingleShotTimer(QTimer *timer, int interval, FakeVimHandler::Pri
     QObject::connect(timer, &QTimer::timeout, receiver, slot);
 }
 
-class Input
+class Input final
 {
 public:
     // Remove some extra "information" on Mac.
@@ -1249,7 +1249,7 @@ QString dotCommandFromSubMode(SubMode submode)
 
 QDebug operator<<(QDebug ts, const Input &input) { return input.dump(ts); }
 
-class Inputs : public QVector<Input>
+class Inputs final : public QVector<Input>
 {
 public:
     Inputs() = default;
@@ -1336,7 +1336,7 @@ void Inputs::parseFrom(const QString &str)
     }
 }
 
-class History
+class History final
 {
 public:
     History() : m_items(QString()) {}
@@ -1381,7 +1381,7 @@ const QString &History::move(const QStringRef &prefix, int skip)
 }
 
 // Command line buffer with prompt (i.e. :, / or ? characters), text contents and cursor position.
-class CommandBuffer
+class CommandBuffer final
 {
 public:
     void setPrompt(const QChar &prompt) { m_prompt = prompt; }
@@ -1511,7 +1511,7 @@ private:
 };
 
 // Mappings for a specific mode (trie structure)
-class ModeMapping : public QMap<Input, ModeMapping>
+class ModeMapping final : public QMap<Input, ModeMapping>
 {
 public:
     const Inputs &value() const { return m_value; }
@@ -1524,7 +1524,7 @@ private:
 using Mappings = QHash<char, ModeMapping>;
 
 // Iterator for mappings
-class MappingsIterator : public QVector<ModeMapping::Iterator>
+class MappingsIterator final : public QVector<ModeMapping::Iterator>
 {
 public:
     MappingsIterator(Mappings *mappings, char mode = -1, const Inputs &inputs = Inputs())

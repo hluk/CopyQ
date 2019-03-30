@@ -22,7 +22,7 @@
 
 #include <QPushButton>
 
-class IconSelectButton : public QPushButton
+class IconSelectButton final : public QPushButton
 {
     Q_OBJECT
     Q_PROPERTY(QString currentIcon READ currentIcon WRITE setCurrentIcon NOTIFY currentIconChanged)

@@ -42,7 +42,7 @@
 
 namespace Utils {
 
-class QTCREATOR_UTILS_EXPORT HostOsInfo
+class QTCREATOR_UTILS_EXPORT final HostOsInfo
 {
 public:
     // Add more as needed.

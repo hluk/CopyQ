@@ -24,7 +24,7 @@
 
 #include <QObject>
 
-class ItemTagsTests : public QObject
+class ItemTagsTests final : public QObject
 {
     Q_OBJECT
 public:

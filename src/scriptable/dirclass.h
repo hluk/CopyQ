@@ -29,7 +29,7 @@
 class QScriptContext;
 class QScriptEngine;
 
-class DirClass : public ScriptableClass<DirWrapper, DirPrototype>
+class DirClass final : public ScriptableClass<DirWrapper, DirPrototype>
 {
     Q_OBJECT
 public:

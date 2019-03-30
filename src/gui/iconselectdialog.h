@@ -26,7 +26,7 @@ class QModelIndex;
 
 class IconListWidget;
 
-class IconSelectDialog : public QDialog
+class IconSelectDialog final : public QDialog
 {
     Q_OBJECT
 

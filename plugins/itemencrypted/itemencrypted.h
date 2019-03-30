@@ -34,7 +34,7 @@ class ItemEncryptedSettings;
 
 class QIODevice;
 
-class ItemEncrypted : public QWidget, public ItemWidget
+class ItemEncrypted final : public QWidget, public ItemWidget
 {
     Q_OBJECT
 
@@ -42,7 +42,7 @@ public:
     explicit ItemEncrypted(QWidget *parent);
 };
 
-class ItemEncryptedSaver : public QObject, public ItemSaverInterface
+class ItemEncryptedSaver final : public QObject, public ItemSaverInterface
 {
     Q_OBJECT
 
@@ -56,7 +56,7 @@ private:
     void emitEncryptFailed();
 };
 
-class ItemEncryptedScriptable : public ItemScriptable
+class ItemEncryptedScriptable final : public ItemScriptable
 {
     Q_OBJECT
 public slots:
@@ -81,7 +81,7 @@ private:
     QByteArray decrypt(const QByteArray &bytes);
 };
 
-class ItemEncryptedLoader : public QObject, public ItemLoaderInterface
+class ItemEncryptedLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)

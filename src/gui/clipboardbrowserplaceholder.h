@@ -30,7 +30,7 @@ class ClipboardBrowser;
 class MainWindow;
 class QPushButton;
 
-class ClipboardBrowserPlaceholder : public QWidget
+class ClipboardBrowserPlaceholder final : public QWidget
 {
     Q_OBJECT
 

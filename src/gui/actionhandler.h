@@ -27,7 +27,7 @@ class Action;
 class NotificationDaemon;
 class ActionTableModel;
 
-class ActionHandler : public QObject
+class ActionHandler final : public QObject
 {
     Q_OBJECT
 public:

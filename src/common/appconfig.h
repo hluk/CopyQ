@@ -299,7 +299,7 @@ struct max_process_manager_rows : Config<uint> {
 
 } // namespace Config
 
-class AppConfig
+class AppConfig final
 {
 public:
     explicit AppConfig();

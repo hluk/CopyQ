@@ -41,7 +41,7 @@ class QSpinBox;
 /**
  * Configuration dialog.
  */
-class ConfigurationManager : public QDialog
+class ConfigurationManager final : public QDialog
 {
     Q_OBJECT
 

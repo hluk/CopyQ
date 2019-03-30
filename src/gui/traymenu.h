@@ -27,7 +27,7 @@
 class QAction;
 class QModelIndex;
 
-class TrayMenu : public QMenu
+class TrayMenu final : public QMenu
 {
     Q_OBJECT
 public:

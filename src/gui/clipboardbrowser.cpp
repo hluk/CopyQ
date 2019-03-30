@@ -62,7 +62,7 @@ enum class MoveType {
     Relative
 };
 
-class UpdatesLocker {
+class UpdatesLocker final {
 public:
     explicit UpdatesLocker(QWidget *widget)
         : m_widget(widget)
@@ -93,7 +93,7 @@ private:
 };
 
 /// Save drag'n'drop image data in temporary file (required by some applications).
-class TemporaryDragAndDropImage : public QObject {
+class TemporaryDragAndDropImage final : public QObject {
 public:
     /// Return temporary image file for data or nullptr if file cannot be created.
     static TemporaryDragAndDropImage *create(QMimeData *mimeData, QObject *parent)

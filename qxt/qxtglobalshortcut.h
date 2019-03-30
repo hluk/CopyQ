@@ -36,7 +36,7 @@
 
 class QxtGlobalShortcutPrivate;
 
-class QxtGlobalShortcut : public QObject
+class QxtGlobalShortcut final : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled)

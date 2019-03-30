@@ -38,7 +38,7 @@ struct FileFormat;
 
 using ItemSyncTabPaths = QMap<QString, QString>;
 
-class ItemSync : public QWidget, public ItemWidgetWrapper
+class ItemSync final : public QWidget, public ItemWidgetWrapper
 {
     Q_OBJECT
 
@@ -58,7 +58,7 @@ private:
     QWidget *m_icon;
 };
 
-class ItemSyncSaver : public QObject, public ItemSaverInterface
+class ItemSyncSaver final : public QObject, public ItemSaverInterface
 {
     Q_OBJECT
 
@@ -88,7 +88,7 @@ private:
     FileWatcher *m_watcher;
 };
 
-class ItemSyncScriptable : public ItemScriptable
+class ItemSyncScriptable final : public ItemScriptable
 {
     Q_OBJECT
     Q_PROPERTY(QVariantMap tabPaths READ getTabPaths CONSTANT)
@@ -131,7 +131,7 @@ private:
  *
  * Item data with unknown MIME type is serialized in '<BASE NAME>_copyq.dat' file.
  */
-class ItemSyncLoader : public QObject, public ItemLoaderInterface
+class ItemSyncLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)

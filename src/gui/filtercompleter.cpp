@@ -29,7 +29,7 @@ namespace {
 
 const int maxCompletionItems = 100;
 
-class CompletionModel : public QAbstractListModel
+class CompletionModel final : public QAbstractListModel
 {
 public:
     explicit CompletionModel(QObject *parent)

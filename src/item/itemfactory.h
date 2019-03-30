@@ -46,7 +46,7 @@ using ItemLoaderList = QVector<ItemLoaderPtr>;
  * Loads item plugins (loaders) and instantiates ItemWidget objects using appropriate
  * ItemLoaderInterface::create().
  */
-class ItemFactory : public QObject
+class ItemFactory final : public QObject
 {
     Q_OBJECT
 

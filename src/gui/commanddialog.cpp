@@ -90,7 +90,7 @@ QString commandsToPaste()
 
 Q_DECLARE_METATYPE(Command)
 
-class CommandItem : public ItemOrderList::Item {
+class CommandItem final : public ItemOrderList::Item {
 public:
     CommandItem(const Command &command, const QStringList &formats, CommandDialog *cmdDialog)
         : m_command(command)

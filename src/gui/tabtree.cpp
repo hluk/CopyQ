@@ -151,7 +151,7 @@ QLabel *createLabel(const QString &objectName, QWidget *parent)
     return label;
 }
 
-class ItemLabel : public QWidget {
+class ItemLabel final : public QWidget {
 public:
     explicit ItemLabel(QTreeWidgetItem *item)
         : QWidget(item->treeWidget())

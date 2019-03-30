@@ -25,7 +25,7 @@
 #include <QAction>
 #include <QPointer>
 
-class CommandAction : public QAction
+class CommandAction final : public QAction
 {
     Q_OBJECT
 public:

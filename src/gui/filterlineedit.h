@@ -36,7 +36,7 @@ class QTimer;
 
 namespace Utils {
 
-class FilterLineEdit : public FancyLineEdit
+class FilterLineEdit final : public FancyLineEdit
 {
     Q_OBJECT
 public:

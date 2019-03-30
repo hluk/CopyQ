@@ -36,7 +36,7 @@
  * - https://www.qt.gitorious.org/qt/qt/source/src/gui/kernel/qclipboard_mac.cpp
  */
 
-class CopyQPasteboardMime : public QMacPasteboardMime {
+class CopyQPasteboardMime final : public QMacPasteboardMime {
 public:
     CopyQPasteboardMime() : QMacPasteboardMime(MIME_ALL) { }
     QString convertorName() override;

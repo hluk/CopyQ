@@ -44,7 +44,7 @@ class QProgressBar;
 class QPushButton;
 
 /** List view of clipboard items. */
-class ClipboardBrowser : public QListView
+class ClipboardBrowser final : public QListView
 {
     Q_OBJECT
 

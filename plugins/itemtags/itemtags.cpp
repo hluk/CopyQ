@@ -61,7 +61,7 @@ enum {
 };
 }
 
-class ElidedLabel : public QLabel
+class ElidedLabel final : public QLabel
 {
 public:
     explicit ElidedLabel(const QString &text, QWidget *parent = nullptr)
@@ -277,7 +277,7 @@ ItemTags::Tag findMatchingTag(const QString &tagText, const ItemTags::Tags &tags
     return ItemTags::Tag();
 }
 
-class TagTableWidgetItem : public QTableWidgetItem
+class TagTableWidgetItem final : public QTableWidgetItem
 {
 public:
     enum {

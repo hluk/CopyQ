@@ -26,7 +26,7 @@ namespace Ui {
     class AboutDialog;
 }
 
-class AboutDialog : public QDialog
+class AboutDialog final : public QDialog
 {
 public:
     explicit AboutDialog(QWidget *parent = nullptr);

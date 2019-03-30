@@ -33,7 +33,7 @@ class QPixmap;
 class QPoint;
 class QWidget;
 
-class NotificationDaemon : public QObject
+class NotificationDaemon final : public QObject
 {
     Q_OBJECT
 public:

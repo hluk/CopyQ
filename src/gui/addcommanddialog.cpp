@@ -39,7 +39,7 @@ Q_DECLARE_METATYPE(Command)
 
 namespace {
 
-class CommandModel : public QAbstractListModel {
+class CommandModel final : public QAbstractListModel {
 public:
     explicit CommandModel(const QVector<Command> &commands, QObject *parent = nullptr)
         : QAbstractListModel(parent)

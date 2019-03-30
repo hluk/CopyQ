@@ -38,7 +38,7 @@ class QVariant;
 
 struct ClipboardBrowserShared;
 
-class Theme {
+class Theme final {
 public:
     Theme() = default;
     explicit Theme(const QSettings &settings);

@@ -33,7 +33,7 @@ namespace Ui {
 class ItemWebSettings;
 }
 
-class ItemWeb : public QWebView, public ItemWidget
+class ItemWeb final : public QWebView, public ItemWidget
 {
     Q_OBJECT
 
@@ -72,7 +72,7 @@ private:
     bool m_preview;
 };
 
-class ItemWebLoader : public QObject, public ItemLoaderInterface
+class ItemWebLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)

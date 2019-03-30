@@ -24,7 +24,7 @@
 
 #include <QObject>
 
-class ItemFakeVimTests : public QObject
+class ItemFakeVimTests final : public QObject
 {
     Q_OBJECT
 public:

@@ -49,7 +49,7 @@
 
 namespace {
 
-class PluginItem : public ItemOrderList::Item {
+class PluginItem final : public ItemOrderList::Item {
 public:
     explicit PluginItem(const ItemLoaderPtr &loader)
         : m_loader(loader)

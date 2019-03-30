@@ -31,7 +31,7 @@
  *
  * If only menu or some notifications are visible dock icon is hidden.
  */
-class ForegroundBackgroundFilter : public QObject
+class ForegroundBackgroundFilter final : public QObject
 {
 public:
     /**

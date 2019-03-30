@@ -47,7 +47,7 @@
 #include <QtScript/QScriptValue>
 
 //! [0]
-class ByteArrayPrototype : public QObject, public QScriptable
+class ByteArrayPrototype final : public QObject, public QScriptable
 {
 Q_OBJECT
 public:

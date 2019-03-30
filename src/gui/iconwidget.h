@@ -24,7 +24,7 @@
 
 class QString;
 
-class IconWidget : public QWidget
+class IconWidget final : public QWidget
 {
 public:
     explicit IconWidget(int icon, QWidget *parent = nullptr);

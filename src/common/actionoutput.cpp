@@ -43,7 +43,7 @@ void connectActionOutput(Action *action, ActionOutput *actionOutput)
     action->setReadOutput(true);
 }
 
-class ActionOutputItems : public QObject
+class ActionOutputItems final : public QObject
 {
 public:
     ActionOutputItems(
@@ -91,7 +91,7 @@ private:
     QString m_lastOutput;
 };
 
-class ActionOutputItem : public QObject
+class ActionOutputItem final : public QObject
 {
 public:
     ActionOutputItem(
@@ -131,7 +131,7 @@ private:
     QByteArray m_output;
 };
 
-class ActionOutputIndex : public QObject
+class ActionOutputIndex final : public QObject
 {
 public:
     ActionOutputIndex(

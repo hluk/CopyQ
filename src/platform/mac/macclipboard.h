@@ -24,7 +24,7 @@
 
 class MacTimer;
 
-class MacClipboard : public DummyClipboard {
+class MacClipboard final : public DummyClipboard {
     Q_OBJECT
 public:
     explicit MacClipboard();

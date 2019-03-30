@@ -25,7 +25,7 @@
 
 class QLineEdit;
 
-class FilterCompleter : public QCompleter
+class FilterCompleter final : public QCompleter
 {
     Q_OBJECT
     Q_PROPERTY(QStringList history READ history WRITE setHistory)

@@ -32,7 +32,7 @@ using NSTimer = void;
  * Class similar to a QTimer but allows setting a tolerance, which
  * makes timers more battery-friendly on OSX.
  */
-class MacTimer : public QObject
+class MacTimer final : public QObject
 {
     Q_OBJECT
 

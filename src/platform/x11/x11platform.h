@@ -25,7 +25,7 @@
 #include <QKeyEvent>
 #include <QString>
 
-class X11Platform : public PlatformNativeInterface
+class X11Platform final : public PlatformNativeInterface
 {
 public:
     X11Platform() = default;

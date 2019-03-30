@@ -26,7 +26,7 @@
 
 using ClientSocketId = qulonglong;
 
-class LocalSocketGuard
+class LocalSocketGuard final
 {
 public:
     explicit LocalSocketGuard(QLocalSocket *socket);
@@ -44,7 +44,7 @@ private:
     QPointer<QLocalSocket> m_socket;
 };
 
-class ClientSocket : public QObject
+class ClientSocket final : public QObject
 {
     Q_OBJECT
 public:

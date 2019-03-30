@@ -299,7 +299,7 @@ public:
     static QByteArray arguments() { return QByteArray(); }
 };
 
-class FunctionCallSerializer {
+class FunctionCallSerializer final {
 public:
     explicit FunctionCallSerializer(const char *functionName)
     {
@@ -350,7 +350,7 @@ private:
     QByteArray m_slotName;
 };
 
-class ScreenshotRectWidget : public QLabel {
+class ScreenshotRectWidget final : public QLabel {
 public:
     explicit ScreenshotRectWidget(const QPixmap &pixmap)
     {
@@ -637,7 +637,7 @@ void raiseWindow(QPointer<QWidget> window)
 } // namespace
 
 #ifdef HAS_TESTS
-class KeyClicker : public QObject {
+class KeyClicker final : public QObject {
 public:
     KeyClicker(MainWindow *wnd, QObject *parent)
         : QObject(parent)

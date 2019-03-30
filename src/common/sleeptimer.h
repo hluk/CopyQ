@@ -25,7 +25,7 @@
 
 #include <cmath>
 
-class SleepTimer
+class SleepTimer final
 {
 public:
     explicit SleepTimer(int timeoutMs)

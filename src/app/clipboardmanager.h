@@ -29,7 +29,7 @@
 class ActionHandler;
 class ClipboardManagerPrivate;
 
-class ClipboardManager {
+class ClipboardManager final {
 public:
     explicit ClipboardManager(ActionHandler *actionHandler);
 

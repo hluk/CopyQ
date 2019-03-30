@@ -27,7 +27,7 @@
  *
  * Use this to get ini as data instead of saving to a file.
  */
-class TemporarySettings
+class TemporarySettings final
 {
 public:
     /// Creates temporary settings file.

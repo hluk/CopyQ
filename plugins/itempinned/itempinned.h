@@ -25,7 +25,7 @@
 
 #include <QWidget>
 
-class ItemPinned : public QWidget, public ItemWidgetWrapper
+class ItemPinned final : public QWidget, public ItemWidgetWrapper
 {
     Q_OBJECT
 
@@ -38,7 +38,7 @@ protected:
     void updateSize(QSize maximumSize, int idealWidth) override;
 };
 
-class ItemPinnedScriptable : public ItemScriptable
+class ItemPinnedScriptable final : public ItemScriptable
 {
     Q_OBJECT
 public slots:
@@ -51,7 +51,7 @@ public slots:
     void unpinData();
 };
 
-class ItemPinnedSaver : public QObject, public ItemSaverInterface
+class ItemPinnedSaver final : public QObject, public ItemSaverInterface
 {
     Q_OBJECT
 
@@ -85,7 +85,7 @@ private:
     int m_lastPinned = -1;
 };
 
-class ItemPinnedLoader : public QObject, public ItemLoaderInterface
+class ItemPinnedLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)

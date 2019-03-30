@@ -33,7 +33,7 @@ class QStackedWidget;
 class QToolBar;
 class TabsWidgetInterface;
 
-class TabWidget : public QWidget
+class TabWidget final : public QWidget
 {
     Q_OBJECT
 

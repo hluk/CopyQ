@@ -26,7 +26,7 @@ namespace Ui {
 class ShortcutDialog;
 }
 
-class ShortcutDialog : public QDialog
+class ShortcutDialog final : public QDialog
 {
 public:
     explicit ShortcutDialog(QWidget *parent = nullptr);

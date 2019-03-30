@@ -30,7 +30,7 @@
 #include <QTest>
 #include <QVariantMap>
 
-class PerformanceTimer {
+class PerformanceTimer final {
 public:
     PerformanceTimer() {
         m_timer.start();

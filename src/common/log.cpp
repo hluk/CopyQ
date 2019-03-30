@@ -42,7 +42,7 @@
 #endif
 
 /// System-wide mutex
-class SystemMutex {
+class SystemMutex final {
 public:
     /**
      * Open system mutex if exists, otherwise create one.
@@ -121,7 +121,7 @@ QString envString(const char *varName)
 }
 
 /// Lock guard for SystemMutex.
-class SystemMutexLocker {
+class SystemMutexLocker final {
 public:
     /// Locks mutex (it's possible that the mutex won't be locked because of errors).
     explicit SystemMutexLocker(const SystemMutexPtr &mutex)

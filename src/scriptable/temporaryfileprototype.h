@@ -24,7 +24,7 @@
 
 class QTemporaryFile;
 
-class TemporaryFilePrototype : public FilePrototype
+class TemporaryFilePrototype final : public FilePrototype
 {
     Q_OBJECT
 public:

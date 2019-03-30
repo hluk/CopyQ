@@ -84,7 +84,7 @@ enum MessageLevel
 };
 
 template <typename Type>
-class Signal
+class Signal final
 {
 public:
     using Callable = std::function<Type>;
@@ -102,7 +102,7 @@ private:
     std::vector<Callable> m_callables;
 };
 
-class FakeVimHandler : public QObject
+class FakeVimHandler final : public QObject
 {
 public:
     explicit FakeVimHandler(QWidget *widget, QObject *parent = nullptr);

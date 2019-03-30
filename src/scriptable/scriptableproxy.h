@@ -75,7 +75,7 @@ QDataStream &operator>>(QDataStream &in, ScriptablePath &path);
 QDataStream &operator<<(QDataStream &out, Qt::KeyboardModifiers value);
 QDataStream &operator>>(QDataStream &in, Qt::KeyboardModifiers &value);
 
-class ScriptableProxy : public QObject
+class ScriptableProxy final : public QObject
 {
     Q_OBJECT
 

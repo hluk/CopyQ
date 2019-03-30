@@ -28,7 +28,7 @@
 
 namespace {
 
-class ExceptionQtFatal : public std::exception {
+class ExceptionQtFatal final : public std::exception {
 public:
     explicit ExceptionQtFatal(const QByteArray &message)
         : m_message(message)

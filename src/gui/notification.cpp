@@ -44,7 +44,7 @@
 
 namespace {
 
-class NotificationButtonWidget : public QPushButton
+class NotificationButtonWidget final : public QPushButton
 {
     Q_OBJECT
 

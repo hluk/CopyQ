@@ -34,7 +34,7 @@ namespace Ui {
     class ClipboardDialog;
 }
 
-class ClipboardDialog : public QDialog
+class ClipboardDialog final : public QDialog
 {
     Q_OBJECT
 

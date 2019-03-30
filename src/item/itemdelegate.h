@@ -46,7 +46,7 @@ class PersistentDisplayItem;
  * Before calling paint() for an index item on given index must be cached
  * using cache().
  */
-class ItemDelegate : public QItemDelegate
+class ItemDelegate final : public QItemDelegate
 {
     Q_OBJECT
 

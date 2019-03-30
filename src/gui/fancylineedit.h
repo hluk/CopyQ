@@ -40,7 +40,7 @@ namespace Utils {
 
 class FancyLineEditPrivate;
 
-class IconButton : public QAbstractButton
+class IconButton final : public QAbstractButton
 {
     Q_OBJECT
 public:

@@ -49,7 +49,7 @@
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(ByteArrayClass*)
 
-class ByteArrayClassPropertyIterator : public QScriptClassPropertyIterator
+class ByteArrayClassPropertyIterator final : public QScriptClassPropertyIterator
 {
 public:
     ByteArrayClassPropertyIterator(const QScriptValue &object);

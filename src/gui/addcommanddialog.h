@@ -30,7 +30,7 @@ class AddCommandDialog;
 class QSortFilterProxyModel;
 struct Command;
 
-class AddCommandDialog : public QDialog
+class AddCommandDialog final : public QDialog
 {
     Q_OBJECT
 

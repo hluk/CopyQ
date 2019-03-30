@@ -29,7 +29,7 @@ class QLabel;
 class QGridLayout;
 class QHBoxLayout;
 
-class Notification : public QWidget
+class Notification final : public QWidget
 {
     Q_OBJECT
 

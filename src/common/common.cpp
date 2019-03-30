@@ -51,7 +51,7 @@ namespace {
 const int maxElidedTextLineLength = 512;
 
 // Avoids accessing old clipboard/drag'n'drop data.
-class ClipboardDataGuard {
+class ClipboardDataGuard final {
 public:
     explicit ClipboardDataGuard(const QMimeData &data)
         : m_dataGuard(&data)

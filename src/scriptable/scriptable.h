@@ -48,7 +48,7 @@ class QTextCodec;
 
 enum class ClipboardOwnership;
 
-class Scriptable : public QObject, protected QScriptable
+class Scriptable final : public QObject, protected QScriptable
 {
     Q_OBJECT
     Q_PROPERTY(QScriptValue inputSeparator READ getInputSeparator WRITE setInputSeparator)
@@ -439,7 +439,7 @@ private:
     QString m_tabName;
 };
 
-class NetworkReply : public QObject {
+class NetworkReply final : public QObject {
     Q_OBJECT
     Q_PROPERTY(QScriptValue data READ data CONSTANT)
     Q_PROPERTY(QScriptValue error READ error CONSTANT)

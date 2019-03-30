@@ -32,7 +32,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-class IconListWidget : public QListWidget {
+class IconListWidget final : public QListWidget {
 public:
     explicit IconListWidget(QWidget *parent)
         : QListWidget(parent)

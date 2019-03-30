@@ -27,7 +27,7 @@
 #endif
 #include <qt_windows.h>
 
-class WinPlatformWindow : public PlatformWindow
+class WinPlatformWindow final : public PlatformWindow
 {
 public:
     explicit WinPlatformWindow(HWND window);

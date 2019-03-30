@@ -29,7 +29,7 @@ class QModelIndex;
 class QMouseEvent;
 class QPoint;
 
-class TabBar : public QTabBar, public TabsWidgetInterface
+class TabBar final : public QTabBar, public TabsWidgetInterface
 {
     Q_OBJECT
 

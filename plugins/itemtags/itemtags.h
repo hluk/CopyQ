@@ -33,7 +33,7 @@ class ItemTagsSettings;
 
 class QTableWidgetItem;
 
-class ItemTags : public QWidget, public ItemWidgetWrapper
+class ItemTags final : public QWidget, public ItemWidgetWrapper
 {
     Q_OBJECT
 
@@ -62,7 +62,7 @@ private:
 
 class ItemTagsLoader;
 
-class ItemTagsScriptable : public ItemScriptable
+class ItemTagsScriptable final : public ItemScriptable
 {
     Q_OBJECT
     Q_PROPERTY(QStringList userTags READ getUserTags CONSTANT)
@@ -97,7 +97,7 @@ private:
     QStringList m_userTags;
 };
 
-class ItemTagsLoader : public QObject, public ItemLoaderInterface
+class ItemTagsLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)

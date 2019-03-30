@@ -26,7 +26,7 @@ namespace Ui {
 class ImportExportDialog;
 }
 
-class ImportExportDialog : public QDialog
+class ImportExportDialog final : public QDialog
 {
 public:
     explicit ImportExportDialog(QWidget *parent = nullptr);

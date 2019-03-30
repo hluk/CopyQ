@@ -25,7 +25,7 @@
 #include <QKeyEvent>
 #include <QString>
 
-class MacPlatform : public PlatformNativeInterface
+class MacPlatform final : public PlatformNativeInterface
 {
 public:
     MacPlatform();

@@ -82,7 +82,7 @@ QColor mixColor(const QColor &color, int r, int g, int b)
                 );
 }
 
-class CommandSyntaxHighlighter : public QSyntaxHighlighter
+class CommandSyntaxHighlighter final : public QSyntaxHighlighter
 {
 public:
     explicit CommandSyntaxHighlighter(QWidget *editor, QTextDocument *parent)

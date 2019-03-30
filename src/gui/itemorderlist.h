@@ -35,7 +35,7 @@ class QAbstractButton;
 class QMenu;
 class QScrollArea;
 
-class ItemOrderList : public QWidget
+class ItemOrderList final : public QWidget
 {
     Q_OBJECT
 

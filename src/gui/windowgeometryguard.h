@@ -23,7 +23,7 @@
 #include <QWidget>
 #include <QTimer>
 
-class WindowGeometryGuard : public QObject
+class WindowGeometryGuard final : public QObject
 {
 public:
     static void create(QWidget *window);

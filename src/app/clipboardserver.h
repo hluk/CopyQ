@@ -46,7 +46,7 @@ struct Command;
  *
  * If user already run this server isListening() returns false.
  */
-class ClipboardServer : public QObject, public App
+class ClipboardServer final : public QObject, public App
 {
     Q_OBJECT
 

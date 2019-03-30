@@ -33,7 +33,7 @@ namespace Ui {
 class ItemTextSettings;
 }
 
-class ItemText : public QTextEdit, public ItemWidget
+class ItemText final : public QTextEdit, public ItemWidget
 {
     Q_OBJECT
 
@@ -60,7 +60,7 @@ private:
     bool m_isRichText = false;
 };
 
-class ItemTextLoader : public QObject, public ItemLoaderInterface
+class ItemTextLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)

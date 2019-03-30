@@ -34,7 +34,7 @@ class Option;
 class QAbstractScrollArea;
 class QSettings;
 
-class ConfigTabAppearance : public QWidget
+class ConfigTabAppearance final : public QWidget
 {
 public:
     explicit ConfigTabAppearance(QWidget *parent = nullptr);

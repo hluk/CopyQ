@@ -45,7 +45,7 @@ copySelection(dateTime)
 paste()
 )";
 
-class AddCommandDialog
+class AddCommandDialog final
 {
     Q_DECLARE_TR_FUNCTIONS(AddCommandDialog)
 };

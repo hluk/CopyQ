@@ -28,7 +28,7 @@ class QWidget;
 /**
  * Opens native file dialog (unlike QFileDialog).
  */
-class FileDialog : public QObject
+class FileDialog final : public QObject
 {
     Q_OBJECT
 public:

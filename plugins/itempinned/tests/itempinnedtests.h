@@ -24,7 +24,7 @@
 
 #include <QObject>
 
-class ItemPinnedTests : public QObject
+class ItemPinnedTests final : public QObject
 {
     Q_OBJECT
 public:

@@ -31,7 +31,7 @@ class QSettings;
 
 struct Command;
 
-class ConfigTabShortcuts : public QWidget
+class ConfigTabShortcuts final : public QWidget
 {
 public:
     explicit ConfigTabShortcuts(QWidget *parent = nullptr);

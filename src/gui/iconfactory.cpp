@@ -422,7 +422,7 @@ private:
     ushort m_iconId;
 };
 
-class ImageIconEngine : public FontIconEngine
+class ImageIconEngine final : public FontIconEngine
 {
 public:
     ImageIconEngine(const QString &iconName, ushort fallbackIconId, const QString &tag, QColor tagColor)
@@ -493,7 +493,7 @@ private:
     QString m_iconName;
 };
 
-class AppIconEngine : public BaseIconEngine
+class AppIconEngine final : public BaseIconEngine
 {
 public:
     AppIconEngine(AppIconType iconType)
@@ -528,7 +528,7 @@ private:
     AppIconType m_iconType;
 };
 
-class IconEngine
+class IconEngine final
 {
 public:
     static bool useSystemIcons;

@@ -32,7 +32,7 @@ enum class ClipboardOwnership {
     Hidden,
 };
 
-class ClipboardMonitor : public QObject
+class ClipboardMonitor final : public QObject
 {
     Q_OBJECT
 

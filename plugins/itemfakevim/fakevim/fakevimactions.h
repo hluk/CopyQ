@@ -39,7 +39,7 @@
 namespace FakeVim {
 namespace Internal {
 
-class DummyAction
+class DummyAction final
 {
 public:
     DummyAction(void *parent);
@@ -111,7 +111,7 @@ enum FakeVimSettingsCode
     ConfigBlinkingCursor
 };
 
-class FakeVimSettings
+class FakeVimSettings final
 {
     Q_DECLARE_TR_FUNCTIONS(FakeVim)
 

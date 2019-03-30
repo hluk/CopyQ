@@ -29,7 +29,7 @@
 
 class QTemporaryFile;
 
-class TemporaryFileClass : public ScriptableClass<QTemporaryFile, TemporaryFilePrototype>
+class TemporaryFileClass final : public ScriptableClass<QTemporaryFile, TemporaryFilePrototype>
 {
     Q_OBJECT
 public:

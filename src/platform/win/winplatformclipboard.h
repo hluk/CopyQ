@@ -24,7 +24,7 @@
 
 #include <qt_windows.h>
 
-class WinPlatformClipboard : public DummyClipboard
+class WinPlatformClipboard final : public DummyClipboard
 {
     Q_OBJECT
 public:

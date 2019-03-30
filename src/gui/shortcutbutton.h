@@ -30,7 +30,7 @@ class QPushButton;
 /**
  * Widget with buttons for defining shortcuts and single button for adding shortcuts.
  */
-class ShortcutButton : public QWidget
+class ShortcutButton final : public QWidget
 {
     Q_OBJECT
 public:

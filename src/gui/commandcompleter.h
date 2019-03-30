@@ -25,7 +25,7 @@
 class QCompleter;
 class QPlainTextEdit;
 
-class CommandCompleter : public QObject {
+class CommandCompleter final : public QObject {
 public:
     explicit CommandCompleter(QPlainTextEdit *editor);
 

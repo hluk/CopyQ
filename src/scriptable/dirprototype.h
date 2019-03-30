@@ -25,7 +25,7 @@
 #include <QScriptable>
 #include <QScriptValue>
 
-class DirWrapper : public QObject {
+class DirWrapper final : public QObject {
     Q_OBJECT
 public:
     explicit DirWrapper(const QString &path) : m_dir(path) {}
@@ -36,7 +36,7 @@ private:
     QDir m_dir;
 };
 
-class DirPrototype : public QObject, public QScriptable
+class DirPrototype final : public QObject, public QScriptable
 {
     Q_OBJECT
 public:

@@ -28,7 +28,7 @@
 
 #include <memory>
 
-class X11PlatformClipboard : public DummyClipboard
+class X11PlatformClipboard final : public DummyClipboard
 {
 public:
     X11PlatformClipboard();

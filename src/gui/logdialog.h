@@ -29,7 +29,7 @@ class LogDialog;
 
 class Decorator;
 
-class LogDialog : public QDialog
+class LogDialog final : public QDialog
 {
 public:
     explicit LogDialog(QWidget *parent = nullptr);

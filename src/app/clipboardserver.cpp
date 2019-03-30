@@ -46,7 +46,7 @@
 #include <QSessionManager>
 
 #ifdef NO_GLOBAL_SHORTCUTS
-class QxtGlobalShortcut {};
+class QxtGlobalShortcut final {};
 #else
 #include "../qxt/qxtglobalshortcut.h"
 #endif

@@ -30,7 +30,7 @@ namespace Ui {
 /**
  * Dialog for naming and renaming tabs.
  */
-class TabDialog : public QDialog
+class TabDialog final : public QDialog
 {
     Q_OBJECT
 

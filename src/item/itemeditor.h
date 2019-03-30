@@ -30,7 +30,7 @@ class QModelIndex;
 class QProcess;
 class QTimer;
 
-class ItemEditor : public QObject
+class ItemEditor final : public QObject
 {
     Q_OBJECT
 

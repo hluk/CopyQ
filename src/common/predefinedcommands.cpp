@@ -37,7 +37,7 @@ Command *newCommand(QVector<Command> *commands)
     return &commands->last();
 }
 
-class AddCommandDialog
+class AddCommandDialog final
 {
     Q_DECLARE_TR_FUNCTIONS(AddCommandDialog)
 };

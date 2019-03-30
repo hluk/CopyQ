@@ -77,7 +77,7 @@ QVector<quint32> maskModifiers()
 
 using X11ErrorHandler = int (*)(Display* display, XErrorEvent* event);
 
-class QxtX11ErrorHandler {
+class QxtX11ErrorHandler final {
 public:
     static bool error;
 
@@ -119,7 +119,7 @@ private:
 
 bool QxtX11ErrorHandler::error = false;
 
-class QxtX11Data {
+class QxtX11Data final {
 public:
     QxtX11Data()
         : m_display(nullptr)

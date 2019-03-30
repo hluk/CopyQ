@@ -31,7 +31,7 @@ class QString;
  * Clipboard item stores data of different MIME types and has single default
  * MIME type for displaying the contents.
  */
-class ClipboardItem
+class ClipboardItem final
 {
 public:
     ClipboardItem();

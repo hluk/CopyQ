@@ -44,7 +44,7 @@ namespace {
 
 const char optionFilterHistory[] = "filter_history";
 
-class FilterHistory {
+class FilterHistory final {
 public:
     FilterHistory()
         : m_settings( getConfigurationFilePath("-filter.ini"), QSettings::IniFormat )

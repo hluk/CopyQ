@@ -38,7 +38,7 @@ class QWidget;
 /**
  * Internal editor widget for items.
  */
-class ItemEditorWidget : public QTextEdit
+class ItemEditorWidget final : public QTextEdit
 {
     Q_OBJECT
 public:

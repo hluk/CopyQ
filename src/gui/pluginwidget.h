@@ -30,7 +30,7 @@ namespace Ui {
 class PluginWidget;
 }
 
-class PluginWidget : public QWidget
+class PluginWidget final : public QWidget
 {
     Q_OBJECT
 

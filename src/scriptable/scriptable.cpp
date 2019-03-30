@@ -2119,7 +2119,7 @@ void Scriptable::afterMilliseconds()
         return;
     }
 
-    class TimedFunctionCall : public QObject {
+    class TimedFunctionCall final : public QObject {
     public:
         TimedFunctionCall(int msec, const QScriptValue &fn, QObject *parent)
             : QObject(parent)

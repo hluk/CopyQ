@@ -30,7 +30,7 @@
  *
  * Item prepending is optimized.
  */
-class ClipboardItemList {
+class ClipboardItemList final {
 public:
     ClipboardItem &operator [](int i)
     {
@@ -94,7 +94,7 @@ private:
  * Clipboard item in model can be serialized and deserialized using
  * operators << and >> (see @ref clipboard_model_serialization_operators).
  */
-class ClipboardModel : public QAbstractListModel
+class ClipboardModel final : public QAbstractListModel
 {
 public:
     /** Return true if @a lhs is less than @a rhs. */

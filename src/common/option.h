@@ -27,7 +27,7 @@ class QObject;
 /**
  * Configuration option.
  */
-class Option {
+class Option final {
 public:
     Option();
 

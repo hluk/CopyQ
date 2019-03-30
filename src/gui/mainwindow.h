@@ -120,7 +120,7 @@ struct MainWindowOptions {
  * the search bar focused.
  * If the text is deleted or escape pressed the browse mode will become active.
  */
-class MainWindow : public QMainWindow
+class MainWindow final : public QMainWindow
 {
     Q_OBJECT
 

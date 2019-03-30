@@ -34,7 +34,7 @@ namespace Ui {
 }
 
 /** Dialog class for executing Command objects. */
-class ActionDialog : public QDialog {
+class ActionDialog final : public QDialog {
     Q_OBJECT
 public:
     explicit ActionDialog(QWidget *parent = nullptr);
