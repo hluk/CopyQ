@@ -141,7 +141,6 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("clearClipboardData", "clearClipboardData()", "Clear clipboard visibility in GUI.");
     addDocumentation("updateTitle", "updateTitle()", "Update main window title and tool tip from current data.");
     addDocumentation("updateClipboardData", "updateClipboardData()", "Sets current clipboard data for tray menu, window title and notification.");
-    addDocumentation("updateClipboardData", "updateClipboardData()", "Clears current clipboard data for tray menu, window title and notification.");
     addDocumentation("setTitle", "setTitle([title])", "Set main window title and tool tip.");
     addDocumentation("synchronizeToSelection", "synchronizeToSelection(text)", "Synchronize current data from clipboard to X11 selection.");
     addDocumentation("synchronizeFromSelection", "synchronizeFromSelection(text)", "Synchronize current data from X11 selection to clipboard.");
