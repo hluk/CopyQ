@@ -156,6 +156,7 @@ void ItemEditorWidget::keyPressEvent(QKeyEvent *event)
                 keyevent->setModifiers(mods & ~Qt::ControlModifier);
             } else if ( m_saveOnReturnKey || controlPressed ) {
                 saveAndExit();
+                return;
             }
         }
     }
