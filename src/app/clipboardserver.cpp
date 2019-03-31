@@ -268,14 +268,23 @@ void ClipboardServer::onSaveState(QSessionManager &sessionManager)
     const auto sessionName = qApp->property("CopyQ_session_name").toString();
     settings.setValue(sessionNameKey, sessionName);
 
-    // Remove last session name from configuration.
-    const auto lastSessionIdKey = "last_session_id_for_" + sessionName;
+    const QString lastSessionIdPrefix = "last_session_id_for_";
+    const auto lastSessionIdKey = lastSessionIdPrefix + sessionName;
     const auto lastSessionId = settings.value(lastSessionIdKey).toString();
-    if ( !lastSessionId.isEmpty() ) {
-        const auto lastSessionNameKey = "session_" + lastSessionId;
-        settings.remove(lastSessionNameKey);
-    }
+    const auto lastSessionNameKey = "session_" + lastSessionId;
     settings.setValue(lastSessionIdKey, sessionNameKey);
+
+    // Remove no longer valid sessions from configuration.
+    QSet<QString> validSessions;
+    for (const QString &key : settings.childKeys()) {
+        if ( key.startsWith(lastSessionIdPrefix) )
+            validSessions.insert( settings.value(key).toString() );
+    }
+
+    for (const QString &key : settings.childKeys()) {
+        if ( !key.startsWith(lastSessionIdPrefix) && !validSessions.contains(key) )
+            settings.remove(key);
+    }
 }
 
 void ClipboardServer::onDisableClipboardStoringRequest(bool disabled)

@@ -104,10 +104,9 @@ bool isValidSessionName(const QString &sessionName)
 
 QString restoreSessionName(const QString &sessionId)
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "copyq", "copyq_no_session");
+    const QSettings settings(QSettings::IniFormat, QSettings::UserScope, "copyq", "copyq_no_session");
     const auto sessionNameKey = "session_" + sessionId;
     const auto sessionName = settings.value(sessionNameKey).toString();
-    settings.remove(sessionNameKey);
     return sessionName;
 }
 
