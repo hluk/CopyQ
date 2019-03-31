@@ -876,6 +876,10 @@ omitted.
 
    Returns list of currently pressed keyboard modifiers which can be 'Ctrl', 'Shift', 'Alt', 'Meta'.
 
+.. js:function:: int[] pointerPosition()
+
+   Returns current mouse pointer position (x, y coordinates on screen).
+
 .. js:function:: String iconColor()
 
    Get current tray and window icon color name.

@@ -211,6 +211,7 @@ public slots:
     QStringList screenNames();
 
     Qt::KeyboardModifiers queryKeyboardModifiers();
+    QPoint pointerPosition();
 
     QString pluginsPath();
     QString themesPath();

@@ -2956,6 +2956,14 @@ void Tests::queryKeyboardModifiersCommand()
     // TODO: Is there a way to press modifiers?
 }
 
+void Tests::pointerPositionCommand()
+{
+    QCursor::setPos(1, 2);
+    RUN("pointerPosition", "1\n2\n");
+    QCursor::setPos(2, 3);
+    RUN("pointerPosition", "2\n3\n");
+}
+
 void Tests::setTabName()
 {
     const auto script = R"(

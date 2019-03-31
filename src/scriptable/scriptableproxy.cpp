@@ -1862,6 +1862,12 @@ Qt::KeyboardModifiers ScriptableProxy::queryKeyboardModifiers()
     return QApplication::queryKeyboardModifiers();
 }
 
+QPoint ScriptableProxy::pointerPosition()
+{
+    INVOKE(pointerPosition, ());
+    return QCursor::pos();
+}
+
 QString ScriptableProxy::pluginsPath()
 {
     INVOKE_NO_SNIP(pluginsPath, ());

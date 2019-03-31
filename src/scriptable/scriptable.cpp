@@ -2200,6 +2200,12 @@ QScriptValue Scriptable::queryKeyboardModifiers()
     return toScriptValue(modifierList, this);
 }
 
+QScriptValue Scriptable::pointerPosition()
+{
+    const QPoint pos = m_proxy->pointerPosition();
+    return toScriptValue(QVector<int>{pos.x(), pos.y()}, this);
+}
+
 QScriptValue Scriptable::iconColor()
 {
     m_skipArguments = 1;

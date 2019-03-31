@@ -329,6 +329,7 @@ public slots:
     QScriptValue screenNames();
 
     QScriptValue queryKeyboardModifiers();
+    QScriptValue pointerPosition();
 
     QScriptValue iconColor();
 
