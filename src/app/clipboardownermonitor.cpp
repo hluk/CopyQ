@@ -31,6 +31,15 @@ ClipboardOwnerMonitor::ClipboardOwnerMonitor()
     m_timer.setInterval(50);
     QObject::connect( &m_timer, &QTimer::timeout, [this]() {
         m_clipboardOwner = m_newClipboardOwner;
+
+        PlatformWindowPtr currentWindow = platformNativeInterface()->getCurrentWindow();
+        if (currentWindow) {
+            const auto currentWindowTitle = currentWindow->getTitle().toUtf8();
+            if (m_newClipboardOwner != currentWindowTitle) {
+                m_newClipboardOwner = currentWindowTitle;
+                m_timer.start();
+            }
+        }
     });
 }
 
@@ -41,13 +50,8 @@ ClipboardOwnerMonitor::~ClipboardOwnerMonitor()
 
 bool ClipboardOwnerMonitor::nativeEventFilter(const QByteArray &, void *, long *)
 {
-    PlatformWindowPtr currentWindow = platformNativeInterface()->getCurrentWindow();
-    if (currentWindow) {
-        const auto currentWindowTitle = currentWindow->getTitle().toUtf8();
-        if (m_newClipboardOwner != currentWindowTitle) {
-            m_newClipboardOwner = currentWindowTitle;
-            m_timer.start();
-        }
-    }
+    if ( !m_timer.isActive() )
+        m_timer.start();
+
     return false;
 }
