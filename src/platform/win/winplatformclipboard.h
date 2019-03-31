@@ -26,15 +26,13 @@
 
 class WinPlatformClipboard final : public DummyClipboard
 {
-    Q_OBJECT
 public:
-    WinPlatformClipboard();
-
-private slots:
-    void checkClipboard();
+    void startMonitoring(const QStringList &) override;
 
 private:
-    DWORD m_lastClipboardSequenceNumber;
+    void checkClipboard();
+
+    DWORD m_lastClipboardSequenceNumber = -1;
 };
 
 #endif // WINPLATFORMCLIPBOARD_H

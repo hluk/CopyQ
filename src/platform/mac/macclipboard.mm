@@ -32,16 +32,13 @@
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
 
-MacClipboard::MacClipboard():
-        m_prevChangeCount(0)
-        , m_clipboardCheckTimer(new MacTimer(this)) {
-
-    m_clipboardCheckTimer->setInterval(250);
-    m_clipboardCheckTimer->setTolerance(500);
-
-    connect(m_clipboardCheckTimer, SIGNAL(timeout()), this, SLOT(clipboardTimeout()));
-
-    m_clipboardCheckTimer->start();
+void MacClipboard::startMonitoring(const QStringList &)
+{
+    auto timer = new MacTimer(this);
+    timer->setInterval(250);
+    timer->setTolerance(500);
+    connect(timer, &MacTimer::timeout, this, &MacClipboard::clipboardTimeout);
+    timer->start();
 }
 
 void MacClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)

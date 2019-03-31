@@ -41,12 +41,10 @@ QClipboard::Mode modeToQClipboardMode(ClipboardMode mode)
 
 } // namespace
 
-DummyClipboard::DummyClipboard(bool connectClipboardSignal)
+void DummyClipboard::startMonitoring(const QStringList &)
 {
-    if (connectClipboardSignal) {
-        connect(QApplication::clipboard(), &QClipboard::changed,
-                this, &DummyClipboard::onClipboardChanged);
-    }
+    connect(QApplication::clipboard(), &QClipboard::changed,
+            this, &DummyClipboard::onClipboardChanged);
 }
 
 QVariantMap DummyClipboard::data(ClipboardMode mode, const QStringList &formats) const

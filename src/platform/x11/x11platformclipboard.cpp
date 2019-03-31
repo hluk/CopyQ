@@ -63,10 +63,22 @@ X11PlatformClipboard::X11PlatformClipboard()
 {
     m_clipboardData.mode = ClipboardMode::Clipboard;
     m_selectionData.mode = ClipboardMode::Selection;
+}
+
+void X11PlatformClipboard::startMonitoring(const QStringList &formats)
+{
+    m_clipboardData.formats = formats;
 
     // Always assume that only plain text can be in primary selection buffer.
     // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
     m_selectionData.formats.append(mimeText);
+
+    for (auto clipboardData : {&m_clipboardData, &m_selectionData}) {
+        clipboardData->owner.clear();
+        clipboardData->newOwner.clear();
+        updateClipboardData(clipboardData);
+        useNewClipboardData(clipboardData);
+    }
 
     initSingleShotTimer( &m_timerCheckAgain, 0, this, &X11PlatformClipboard::check );
 
@@ -84,18 +96,8 @@ X11PlatformClipboard::X11PlatformClipboard()
 
         useNewClipboardData(&m_selectionData);
     } );
-}
 
-void X11PlatformClipboard::setFormats(const QStringList &formats)
-{
-    m_clipboardData.formats = formats;
-
-    for (auto clipboardData : {&m_clipboardData, &m_selectionData}) {
-        clipboardData->owner.clear();
-        clipboardData->newOwner.clear();
-        updateClipboardData(clipboardData);
-        useNewClipboardData(clipboardData);
-    }
+    DummyClipboard::startMonitoring(formats);
 }
 
 QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) const

@@ -33,9 +33,9 @@ class PlatformClipboard : public QObject
     Q_OBJECT
 public:
     /**
-     * Set MIME types to monitor.
+     * Starts emitting changed.
      */
-    virtual void setFormats(const QStringList &formats) = 0;
+    virtual void startMonitoring(const QStringList &formats) = 0;
 
     /**
      * Return clipboard data containing specified @a formats if available.

@@ -33,7 +33,7 @@ class X11PlatformClipboard final : public DummyClipboard
 public:
     X11PlatformClipboard();
 
-    void setFormats(const QStringList &formats) override;
+    void startMonitoring(const QStringList &formats) override;
 
     QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
 

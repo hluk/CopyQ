@@ -71,7 +71,7 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     m_storeClipboard = config.option<Config::check_clipboard>();
     m_clipboardTab = config.option<Config::clipboard_tab>();
 
-    m_clipboard->setFormats(formats);
+    m_clipboard->startMonitoring(formats);
     connect( m_clipboard.get(), &PlatformClipboard::changed,
              this, &ClipboardMonitor::onClipboardChanged );
 

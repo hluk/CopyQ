@@ -22,21 +22,16 @@
 
 #include "platform/dummy/dummyclipboard.h"
 
-class MacTimer;
-
 class MacClipboard final : public DummyClipboard {
-    Q_OBJECT
 public:
-    explicit MacClipboard();
+    void startMonitoring(const QStringList &) override;
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
 
 private:
-    long int m_prevChangeCount;
-    MacTimer *m_clipboardCheckTimer;
+    void clipboardTimeout();
 
-private slots:
-    virtual void clipboardTimeout();
+    long int m_prevChangeCount = 0;
 };
 
 #endif // MACCLIPBOARD_H

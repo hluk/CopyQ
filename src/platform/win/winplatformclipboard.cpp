@@ -21,17 +21,14 @@
 
 #include <QTimer>
 
-WinPlatformClipboard::WinPlatformClipboard()
-    : DummyClipboard(false)
-    , m_lastClipboardSequenceNumber(-1)
+void WinPlatformClipboard::startMonitoring(const QStringList &)
 {
     /* Clipboard needs to be checked in intervals since
      * the QClipboard::changed() signal is not emitted in some cases on Windows.
      */
     QTimer *timer = new QTimer(this);
     timer->setInterval(200);
-    connect( timer, SIGNAL(timeout()),
-             this, SLOT(checkClipboard()) );
+    connect( timer, &QTimer::timeout, this, &WinPlatformClipboard::checkClipboard );
     timer->start();
 }
 
