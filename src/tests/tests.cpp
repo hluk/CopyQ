@@ -2964,6 +2964,14 @@ void Tests::pointerPositionCommand()
     RUN("pointerPosition", "2\n3\n");
 }
 
+void Tests::setPointerPositionCommand()
+{
+    RUN("setPointerPosition(1,2)", "");
+    QCOMPARE(QPoint(1, 2), QCursor::pos());
+    RUN("setPointerPosition(2,3)", "");
+    QCOMPARE(QPoint(2, 3), QCursor::pos());
+}
+
 void Tests::setTabName()
 {
     const auto script = R"(

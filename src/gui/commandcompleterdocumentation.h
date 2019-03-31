@@ -127,6 +127,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("screenshotSelect", "ByteArray screenshotSelect(format='png', [screenName])", "Same as `screenshot()` but allows to select an area on screen.");
     addDocumentation("queryKeyboardModifiers", "String[] queryKeyboardModifiers()", "Returns list of currently pressed keyboard modifiers which can be 'Ctrl', 'Shift', 'Alt', 'Meta'.");
     addDocumentation("pointerPosition", "int[] pointerPosition()", "Returns current mouse pointer position (x, y coordinates on screen).");
+    addDocumentation("setPointerPosition", "setPointerPosition(x, y)", "Moves mouse pointer to given coordinates on screen.");
     addDocumentation("iconColor", "String iconColor()", "Get current tray and window icon color name.");
     addDocumentation("iconColor", "iconColor(colorName)", "Set current tray and window icon color name.");
     addDocumentation("iconTag", "String iconTag()", "Get current tray and window tag text.");

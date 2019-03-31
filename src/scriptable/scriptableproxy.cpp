@@ -1868,6 +1868,26 @@ QPoint ScriptableProxy::pointerPosition()
     return QCursor::pos();
 }
 
+void ScriptableProxy::setPointerPosition(int x, int y)
+{
+    INVOKE2(setPointerPosition, (x, y));
+    const QPoint pos(x, y);
+#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
+    const auto screens = QApplication::screens();
+    const auto found = std::find_if(
+        std::begin(screens), std::end(screens),
+        [pos](QScreen *screen) { return screen->geometry().contains(pos); });
+    if (found == std::end(screens))
+        return;
+    QScreen *screen = *found;
+#else
+    QScreen *screen = QGuiApplication::screenAt(pos);
+#endif
+
+    if (screen)
+        QCursor::setPos(screen, pos);
+}
+
 QString ScriptableProxy::pluginsPath()
 {
     INVOKE_NO_SNIP(pluginsPath, ());

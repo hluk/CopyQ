@@ -233,6 +233,7 @@ private slots:
 
     void queryKeyboardModifiersCommand();
     void pointerPositionCommand();
+    void setPointerPositionCommand();
 
     void setTabName();
 

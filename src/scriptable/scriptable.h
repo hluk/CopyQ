@@ -330,6 +330,7 @@ public slots:
 
     QScriptValue queryKeyboardModifiers();
     QScriptValue pointerPosition();
+    void setPointerPosition();
 
     QScriptValue iconColor();
 

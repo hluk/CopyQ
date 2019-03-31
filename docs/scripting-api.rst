@@ -880,6 +880,10 @@ omitted.
 
    Returns current mouse pointer position (x, y coordinates on screen).
 
+.. js:function:: setPointerPosition(x, y)
+
+   Moves mouse pointer to given coordinates on screen.
+
 .. js:function:: String iconColor()
 
    Get current tray and window icon color name.

@@ -2206,6 +2206,18 @@ QScriptValue Scriptable::pointerPosition()
     return toScriptValue(QVector<int>{pos.x(), pos.y()}, this);
 }
 
+void Scriptable::setPointerPosition()
+{
+    m_skipArguments = 2;
+    int x = 0;
+    int y = 0;
+    if ( !toInt(argument(0), &x) || !toInt(argument(1), &y) ) {
+        throwError(argumentError());
+        return;
+    }
+    m_proxy->setPointerPosition(x, y);
+}
+
 QScriptValue Scriptable::iconColor()
 {
     m_skipArguments = 1;

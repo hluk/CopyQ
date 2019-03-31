@@ -212,6 +212,7 @@ public slots:
 
     Qt::KeyboardModifiers queryKeyboardModifiers();
     QPoint pointerPosition();
+    void setPointerPosition(int x, int y);
 
     QString pluginsPath();
     QString themesPath();
