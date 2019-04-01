@@ -4,6 +4,8 @@ v3.7.4
   window immediately).
 - New script functions onStart and onExit allow to defined commands run when
   the application starts and exits.
+- New script functions pointerPosition and setPointerPosition to get/set mouse
+  cursor position on screen.
 - Block default shortcut overridden by a command while its filter command needs
   to run.
 - Item selection is not cleared when main window hides in response to
