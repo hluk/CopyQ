@@ -372,6 +372,12 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 {
     ui->setupUi(this);
 
+#ifdef Q_OS_MAC
+    // Open above fullscreen windows on OS X.
+    setWindowModality(Qt::WindowModal);
+    setWindowFlag(Qt::Sheet);
+#endif
+
     menuBar()->setObjectName("menu_bar");
     createMenu();
 
