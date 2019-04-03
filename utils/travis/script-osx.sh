@@ -44,5 +44,4 @@ otool -L $executable
 otool -L ${app_bundle_path}/Contents/PlugIns/copyq/*
 otool -L ${app_bundle_path}/Contents/Frameworks/Qt*.framework/Versions/5/Qt*
 
-# Create "CopyQ.dmg".
-cp -a copyq-*.dmg CopyQ.dmg
+mv copyq-*.dmg CopyQ.dmg
