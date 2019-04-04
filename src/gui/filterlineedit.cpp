@@ -35,6 +35,7 @@
 #include "gui/icons.h"
 #include "gui/filtercompleter.h"
 
+#include <QKeyEvent>
 #include <QMenu>
 #include <QPainter>
 #include <QSettings>
@@ -170,6 +171,18 @@ void FilterLineEdit::loadSettings()
         FilterCompleter::removeCompleter(this);
         FilterHistory().setHistory(QStringList());
     }
+}
+
+void FilterLineEdit::keyPressEvent(QKeyEvent *ke)
+{
+    // Up/Down arrow keys should be passed to item list
+    // (on OS X this moves text cursor to the beginning/end).
+    if (ke->key() == Qt::Key_Down || ke->key() == Qt::Key_Up) {
+        ke->ignore();
+        return;
+    }
+
+    FancyLineEdit::keyPressEvent(ke);
 }
 
 void FilterLineEdit::hideEvent(QHideEvent *event)

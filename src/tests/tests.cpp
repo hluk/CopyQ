@@ -71,6 +71,7 @@ const auto defaultSessionColor = "#ff8800";
 const auto defaultTagColor = "#000000";
 
 const auto clipboardBrowserId = "focus:ClipboardBrowser";
+const auto filterEditId = "focus:Utils::FilterLineEdit";
 const auto trayMenuId = "focus:TrayMenu";
 const auto menuId = "focus:Menu";
 const auto editorId = "focus::ItemEditorWidget";
@@ -1829,6 +1830,18 @@ void Tests::searchItems()
     RUN("add" << "a" << "b" << "c", "");
     RUN("keys" << ":b" << "TAB", "");
     RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
+}
+
+void Tests::searchItemsAndSelect()
+{
+    RUN("add" << "xx2" << "a" << "xx" << "c", "");
+    RUN("keys" << ":xx" << filterEditId, "");
+
+    RUN("keys" << filterEditId << "DOWN" << clipboardBrowserId, "");
+    RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
+
+    RUN("keys" << clipboardBrowserId << "DOWN" << clipboardBrowserId, "");
+    RUN("testSelected", QString(clipboardTabName) + " 3 3\n");
 }
 
 void Tests::searchRowNumber()

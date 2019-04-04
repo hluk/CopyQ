@@ -153,6 +153,7 @@ private slots:
     void moveItems();
     void deleteItems();
     void searchItems();
+    void searchItemsAndSelect();
     void searchRowNumber();
     void copyItems();
 
