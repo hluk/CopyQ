@@ -50,6 +50,7 @@ signals:
     void filterChanged(const QRegExp &);
 
 protected:
+    void keyPressEvent(QKeyEvent *ke) override;
     void hideEvent(QHideEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
