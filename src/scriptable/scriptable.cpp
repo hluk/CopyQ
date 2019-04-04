@@ -2283,6 +2283,10 @@ void Scriptable::onHiddenClipboardChanged()
     eval("updateClipboardData()");
 }
 
+void Scriptable::onClipboardUnchanged()
+{
+}
+
 void Scriptable::synchronizeToSelection()
 {
     synchronizeSelection(ClipboardMode::Selection);
@@ -2401,6 +2405,8 @@ void Scriptable::monitorClipboard()
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
     connect( &monitor, &ClipboardMonitor::clipboardChanged,
              this, &Scriptable::onMonitorClipboardChanged );
+    connect( &monitor, &ClipboardMonitor::clipboardUnchanged,
+             this, &Scriptable::onMonitorClipboardUnchanged );
     connect( &monitor, &ClipboardMonitor::synchronizeSelection,
              this, &Scriptable::onSynchronizeSelection );
     loop.exec();
@@ -2446,6 +2452,11 @@ void Scriptable::onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwn
       : "copyq onClipboardChanged";
 
     m_proxy->runInternalAction(data, command);
+}
+
+void Scriptable::onMonitorClipboardUnchanged(const QVariantMap &data)
+{
+    m_proxy->runInternalAction(data, "copyq onClipboardUnchanged");
 }
 
 void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash)

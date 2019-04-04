@@ -118,16 +118,18 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
 
 void X11PlatformClipboard::onChanged(int mode)
 {
+    auto &clipboardData = mode == QClipboard::Clipboard ? m_clipboardData : m_selectionData;
+    clipboardData.changed = true;
+
     // Store the current window title right after the clipboard/selection changes.
     // This makes sure that the title points to the correct clipboard/selection
     // owner most of the times.
     const auto currentWindowTitle = clipboardOwner();
-    auto &newOwner = mode == QClipboard::Clipboard ? m_clipboardData.newOwner : m_selectionData.newOwner;
-    if (currentWindowTitle != newOwner) {
+    if (currentWindowTitle != clipboardData.newOwner) {
         COPYQ_LOG( QString("New %1 owner: \"%2\"")
                    .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection")
                    .arg(QString::fromUtf8(currentWindowTitle)) );
-        newOwner = currentWindowTitle;
+        clipboardData.newOwner = currentWindowTitle;
     }
 
     // Omit checking selection too fast.
@@ -171,8 +173,12 @@ bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
         clipboardData->newData = cloneData(*data, clipboardData->formats);
     }
 
-    if (clipboardData->data == clipboardData->newData)
-        return false;
+    if (!clipboardData->changed) {
+        if (clipboardData->data == clipboardData->newData)
+            return false;
+
+        clipboardData->changed = true;
+    }
 
     clipboardData->timerEmitChange.start();
     return true;
@@ -182,6 +188,7 @@ void X11PlatformClipboard::useNewClipboardData(X11PlatformClipboard::ClipboardDa
 {
     clipboardData->data = clipboardData->newData;
     clipboardData->owner = clipboardData->newOwner;
+    clipboardData->changed = false;
     clipboardData->timerEmitChange.stop();
     emit changed(clipboardData->mode);
 }

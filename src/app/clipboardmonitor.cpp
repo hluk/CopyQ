@@ -95,6 +95,7 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
     if ( hasSameData(data, *clipboardData) ) {
         COPYQ_LOG( QString("Ignoring unchanged %1")
                    .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
+        emit clipboardUnchanged(data);
         return;
     }
 

@@ -341,6 +341,7 @@ public slots:
     void onClipboardChanged();
     void onOwnClipboardChanged();
     void onHiddenClipboardChanged();
+    void onClipboardUnchanged();
 
     void onStart() {}
     void onExit() {}
@@ -373,6 +374,7 @@ signals:
 private:
     void onExecuteOutput(const QByteArray &output);
     void onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
+    void onMonitorClipboardUnchanged(const QVariantMap &data);
     void onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash);
 
     bool sourceScriptCommands();

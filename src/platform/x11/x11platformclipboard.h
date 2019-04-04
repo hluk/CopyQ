@@ -52,6 +52,7 @@ private:
         QStringList formats;
         QByteArray newDataTimestamp;
         ClipboardMode mode;
+        bool changed = false;
     };
 
     void check();

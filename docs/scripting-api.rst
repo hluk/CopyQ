@@ -958,6 +958,12 @@ omitted.
 
    Default implementation calls ``updateClipboardData()``.
 
+.. js:function:: onClipboardUnchanged()
+
+   Called when clipboard or X11 selection changes but data remained the same.
+
+   Default implementation does nothing.
+
 .. js:function:: onStart()
 
    Called when application starts.
