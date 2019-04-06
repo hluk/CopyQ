@@ -277,28 +277,6 @@ struct InputDialog {
     QString defaultChoice; /// Default text for list widgets.
 };
 
-template<typename ...Ts>
-class SlotArguments;
-
-template<typename T, typename ...Ts>
-class SlotArguments<T, Ts...> {
-public:
-    static QByteArray arguments()
-    {
-        if ( std::is_same<QVariant, T>::value )
-            return "QVariant," + SlotArguments<Ts...>::arguments();
-
-        return QByteArray(QMetaType::typeName(qMetaTypeId<T>()))
-                + "," + SlotArguments<Ts...>::arguments();
-    }
-};
-
-template<>
-class SlotArguments<> {
-public:
-    static QByteArray arguments() { return QByteArray(); }
-};
-
 class FunctionCallSerializer final {
 public:
     explicit FunctionCallSerializer(const char *functionName)
@@ -307,9 +285,13 @@ public:
     }
 
     template<typename ...Ts>
-    FunctionCallSerializer &withSlotArguments(Ts...)
+    FunctionCallSerializer &withSlotArguments(Ts... arguments)
     {
-        QByteArray args = SlotArguments<Ts...>::arguments();
+        QByteArray args;
+        for (const auto argType : std::initializer_list<const char *>{ argumentType(arguments)... }) {
+            args.append(argType);
+            args.append(',');
+        }
         args.chop(1);
         setSlotArgumentTypes(args);
         return *this;
@@ -329,6 +311,15 @@ public:
     static QVector<QVariant> argumentList(Ts... arguments)
     {
         return { QVariant::fromValue(arguments)... };
+    }
+
+    template<typename T>
+    static const char *argumentType(const T &)
+    {
+        if ( std::is_same<QVariant, T>::value )
+            return "QVariant";
+
+        return QMetaType::typeName(qMetaTypeId<T>());
     }
 
 private:
