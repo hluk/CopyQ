@@ -1978,17 +1978,19 @@ QScriptValue Scriptable::settings()
 {
     m_skipArguments = 2;
 
+    QSettings settings(
+          QSettings::IniFormat,
+          QSettings::UserScope,
+          QCoreApplication::organizationName(),
+          QCoreApplication::applicationName() + "-scripts");
+
     if (argumentCount() == 2) {
         const QString key = arg(0);
         const QScriptValue value = argument(1);
         const QVariant saveValue = toVariant(value);
-        m_proxy->setUserValue(key, saveValue);
-
+        settings.setValue(key, saveValue);
         return QScriptValue();
     }
-
-    QSettings settings;
-    settings.beginGroup("script");
 
     if (argumentCount() == 1) {
         const auto value = settings.value(arg(0));

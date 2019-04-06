@@ -1729,14 +1729,6 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     return dialogId;
 }
 
-void ScriptableProxy::setUserValue(const QString &key, const QVariant &value)
-{
-    INVOKE2(setUserValue, (key, value));
-    Settings settings;
-    settings.beginGroup("script");
-    settings.setValue(key, value);
-}
-
 void ScriptableProxy::setSelectedItemsData(const QString &mime, const QVariant &value)
 {
     INVOKE_NO_SNIP2(setSelectedItemsData, (mime, value));

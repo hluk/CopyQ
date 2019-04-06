@@ -195,8 +195,6 @@ public slots:
 
     int inputDialog(const NamedValueList &values);
 
-    void setUserValue(const QString &key, const QVariant &value);
-
     void setSelectedItemsData(const QString &mime, const QVariant &value);
 
     void filter(const QString &text);
