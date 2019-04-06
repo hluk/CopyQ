@@ -356,7 +356,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_menuItem(nullptr)
     , m_trayMenu( new TrayMenu(this) )
     , m_tray(nullptr)
-    , m_clipboardStoringDisabled(false)
     , m_actionToggleClipboardStoring()
     , m_sharedData(std::make_shared<ClipboardBrowserShared>())
     , m_lastWindow()
@@ -365,8 +364,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
-    , m_wasMaximized(false)
-    , m_showItemPreview(false)
     , m_menuItems(menuItems())
     , m_clipboardManager(m_actionHandler)
 {
@@ -2688,15 +2685,11 @@ void MainWindow::setClipboardAndSelection(const QVariantMap &data)
 
 void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
 {
-    if (c) {
-        const auto index = c->index(row);
-        if ( index.isValid() )
-            c->moveToClipboard(index);
-        else
-            m_clipboardManager.setClipboard(QVariantMap());
-    } else {
+    const auto index = c ? c->index(row) : QModelIndex();
+    if ( index.isValid() )
+        c->moveToClipboard(index);
+    else
         m_clipboardManager.setClipboard(QVariantMap());
-    }
 }
 
 void MainWindow::activateCurrentItem()

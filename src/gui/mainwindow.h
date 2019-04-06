@@ -632,7 +632,7 @@ private:
 
     MainWindowOptions m_options;
 
-    bool m_clipboardStoringDisabled;
+    bool m_clipboardStoringDisabled = false;
     QPointer<QAction> m_actionToggleClipboardStoring;
 
     ClipboardBrowserSharedPtr m_sharedData;
@@ -668,9 +668,9 @@ private:
     bool m_iconSnip = false;
     bool m_forceIconSnip = false;
 
-    bool m_wasMaximized;
+    bool m_wasMaximized = false;
 
-    bool m_showItemPreview;
+    bool m_showItemPreview = false;
 
     bool m_activatingItem = false;
 
