@@ -1,37 +1,65 @@
-v3.7.4
+v3.8.0
+
+- Custom settings from scripts (using settings() function) are now saved in
+  "copyq-scripts.ini" file in configuration directory. Existing configuration
+  needs to be moved manually from "[script]" section in the main configuration
+  file ("copyq info config" command prints the path) to "[General]" section to
+  the new file (in the same directory).
+
 - Correct clipboard owner (window title) is now used when the window is hidden
   after copy operation (e.g. password manager copies password and hides its
   window immediately).
+
 - New script functions onStart and onExit allow to defined commands run when
   the application starts and exits.
+
 - New script functions pointerPosition and setPointerPosition to get/set mouse
   cursor position on screen.
+
+- New script callback onClipboardUnchanged called when clipboard changes but
+  monitored content remains the same.
+
 - Block default shortcut overridden by a command while its filter command needs
   to run.
+
 - Item selection is not cleared when main window hides in response to
   activating an item or automatically when unfocused.
+
 - Clipboard dialog opens much faster and retrieves clipboard data only when
   needed.
+
 - Clipboard dialog contains special clipboard formats and the whole list is
   sorted - plain text first, HTML, other text, application, application
   specific (`application/x-`), special (uppercase).
+
 - Detect encoding for other text formats.
+
 - Method text for ByteArray returns correctly formatted text from unicode
   encoded data (e.g. UTF-8).
+
 - Show pin and tag menu items even if shortcut is not assigned (can be disabled
   completely in Command dialog).
+
 - Hide encrypt/decrypt commands when keys for Encrypt plugin don't exist.
+
 - Command list is focused when Command dialog opens; the less important "Find"
   field is smaller and moved below the list.
+
 - Process manager is completely redone and the dialog is no longer created at
   application start (faster application start, smaller memory footprint).
+
 - Process manager has filter field for searching for commands.
+
 - Process manager has new column showing error message.
+
 - Process manager has color status icons for running, starting and failed
   processes.
+
 - Next/Previous formats are no longer available (were rarely used and
   untested).
+
 - Updated donation link: https://liberapay.com/CopyQ/
+
 - FakeVim, if enabled, is used for other multi-line text fields in the
   application (e.g. item notes, command editor).
 - FakeVim, if in a dialog, binds save and quit command to the dialog buttons -
@@ -39,12 +67,17 @@ v3.7.4
 - FakeVim status bar shows an icon for errors and warnings.
 - FakeVim now handles set commands correctly.
 - FakeVim text cursor is gray if the editor is not focused.
+
 - Fix opening image editor for encrypted items.
 - Fix opening SVG image editor if the bitmap one is unset.
 - Fix stopping client processes properly.
 - Fix showing main window under mouse pointer (with showAt function).
 - Fix client crash when calling a method without instance (e.g. command "copyq
   ByteArray().size").
+
+- OSX: Fix opening main window above full screen window.
+- OSX: Fix selecting item with Up/Down keys when searching.
+
 - X11: Fix setting wrong window title for own clipboard.
 - X11: Fix synchronizing selection if the change is quick.
 - X11: Fix tray icon on KDE.
