@@ -16,7 +16,7 @@ pkg="${project}_${version}"
 pkg_deb="amd64/${pkg}${xdeb}"
 pkg_deb_i386="i386/${pkg}${xdeb_i386}"
 pkg_rpm="x86_64/${project}-${version}-${rpm_version}${xrpm}"
-pkg_rpm_lp15="x86_64/${project}-${version}-lp150.${rpm_version}${xrpm}"
+pkg_rpm_lp15="x86_64/${project}-${version}-lp151.${rpm_version}${xrpm}"
 
 failed=""
 
@@ -36,7 +36,7 @@ if [ -z "$version" ]; then
 fi
 
 fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pkg_rpm}"
-fetch_package "${pkg}_openSUSE_Leap_15.0${xrpm}"  "$url/openSUSE_Leap_15.0/${pkg_rpm_lp15}"
+fetch_package "${pkg}_openSUSE_Leap_15.1${xrpm}"  "$url/openSUSE_Leap_15.1/${pkg_rpm_lp15}"
 fetch_package "${pkg}_Fedora_28${xrpm}"           "$url/Fedora_28/${pkg_rpm}"
 fetch_package "${pkg}_Fedora_29${xrpm}"           "$url/Fedora_29/${pkg_rpm}"
 fetch_package "${pkg}_Debian_8.0${xdeb_i386}"     "$url/Debian_8.0/${pkg_deb_i386}"
