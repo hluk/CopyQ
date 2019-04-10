@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 2.8.12)
 project(copyq)
 
-if (NOT APPLE)
-    set(COPYQ_EXECUTABLE_NAME ${PROJECT_NAME})
-else()
+if (APPLE)
+    cmake_minimum_required(VERSION 3.1)
     set(COPYQ_EXECUTABLE_NAME "CopyQ")
+else()
+    cmake_minimum_required(VERSION 2.8.12)
+    set(COPYQ_EXECUTABLE_NAME ${PROJECT_NAME})
 endif()
 
 # C++11
