@@ -347,6 +347,33 @@ bool hasDialogOpen(QWidget *parent)
     return false;
 }
 
+void deleteSubMenus(QObject *parent)
+{
+    for (auto subMenu : parent->findChildren<QMenu*>())
+        delete subMenu;
+}
+
+void clearActions(QMenu *menu)
+{
+    for (QAction *action : menu->actions())
+        delete action;
+
+    deleteSubMenus(menu);
+    menu->clear();
+}
+
+void clearActions(QToolBar *toolBar)
+{
+    for (QAction *action : toolBar->actions()) {
+        // Omit removing action from other menus.
+        if (action->parent() == toolBar)
+            delete action;
+    }
+
+    deleteSubMenus(toolBar);
+    toolBar->clear();
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -680,13 +707,7 @@ void MainWindow::updateContextMenu(int intervalMsec)
 {
     m_itemMenuMatchCommands = MenuMatchCommands();
 
-    for (auto action : m_menuItem->actions())
-        delete action;
-
-    for (auto menu : m_menuItem->findChildren<QMenu*>())
-        delete menu;
-
-    m_menuItem->clear();
+    clearActions(m_menuItem);
     // Omit tool bar flickering.
     ui->toolBar->setUpdatesEnabled(false);
     ui->toolBar->setEnabled(false);
@@ -738,7 +759,7 @@ void MainWindow::updateContextMenuTimeout()
 
     auto c = getPlaceholder()->createBrowser();
     if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
-        ui->toolBar->clear();
+        clearActions(ui->toolBar);
         ui->toolBar->setUpdatesEnabled(true);
         return;
     }
@@ -1341,7 +1362,7 @@ bool MainWindow::isItemMenuDefaultActionValid() const
 
 void MainWindow::updateToolBar()
 {
-    ui->toolBar->clear();
+    clearActions(ui->toolBar);
     ui->toolBar->setEnabled(true);
     ui->toolBar->setUpdatesEnabled(true);
 
@@ -2162,7 +2183,7 @@ void MainWindow::loadSettings()
     setHideTabs(m_options.hideTabs);
 
     bool hideToolbar = appConfig.option<Config::hide_toolbar>();
-    ui->toolBar->clear();
+    clearActions(ui->toolBar);
     ui->toolBar->setHidden(hideToolbar);
     bool hideToolBarLabels = appConfig.option<Config::hide_toolbar_labels>();
     ui->toolBar->setToolButtonStyle(hideToolBarLabels ? Qt::ToolButtonIconOnly

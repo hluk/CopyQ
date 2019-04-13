@@ -1921,10 +1921,10 @@ void Tests::createNewItem()
 {
     RUN("config" << "edit_ctrl_return" << "true", "true\n");
 
-    RUN("keys" << "CTRL+N" << ":Line 1" << "ENTER" << ":Line 2" << "F2", "");
+    RUN("keys" << "CTRL+N" << editorId << ":Line 1" << "ENTER" << ":Line 2" << "F2", "");
     RUN("read" << "0", "Line 1\nLine 2");
 
-    RUN("keys" << "CTRL+N" << ":Line 3" << "ENTER" << ":Line 4" << "F2", "");
+    RUN("keys" << "CTRL+N" << editorId << ":Line 3" << "ENTER" << ":Line 4" << "F2", "");
     RUN("read" << "0", "Line 3\nLine 4");
 }
 
