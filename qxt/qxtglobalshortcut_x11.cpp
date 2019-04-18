@@ -186,13 +186,36 @@ private:
     Display *m_display;
 };
 
-KeySym qtKeyToXKeySym(Qt::Key key)
+KeySym qtKeyToXKeySym(Qt::Key key, Qt::KeyboardModifiers mods)
 {
-    const auto keySym = XStringToKeysym(QKeySequence(key).toString().toLatin1().data());
-    if (keySym != NoSymbol)
-        return keySym;
+    int i = 0;
 
-    for (int i = 0; KeyTbl[i] != 0; i += 2) {
+    if ( mods.testFlag(Qt::KeypadModifier) ) {
+        switch (key) {
+        case Qt::Key_0: return XK_KP_Insert;
+        case Qt::Key_1: return XK_KP_End;
+        case Qt::Key_2: return XK_KP_Down;
+        case Qt::Key_3: return XK_KP_Page_Down;
+        case Qt::Key_4: return XK_KP_Left;
+        case Qt::Key_5: return XK_KP_Begin;
+        case Qt::Key_6: return XK_KP_Right;
+        case Qt::Key_7: return XK_KP_Home;
+        case Qt::Key_8: return XK_KP_Up;
+        case Qt::Key_9: return XK_KP_Page_Up;
+        default: break;
+        }
+
+        for (; KeyTbl[i] != 0; i += 2) {
+            if (KeyTbl[i] == XK_Num_Lock)
+                break;
+        }
+    } else {
+        const auto keySym = XStringToKeysym(QKeySequence(key).toString().toLatin1().data());
+        if (keySym != NoSymbol)
+            return keySym;
+    }
+
+    for (; KeyTbl[i] != 0; i += 2) {
         if (KeyTbl[i + 1] == key)
             return KeyTbl[i];
     }
@@ -263,13 +286,13 @@ quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifier
     return native;
 }
 
-quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
+quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key, Qt::KeyboardModifiers mods)
 {
     QxtX11Data x11;
     if (!x11.isValid())
         return 0;
 
-    const KeySym keysym = qtKeyToXKeySym(key);
+    const KeySym keysym = qtKeyToXKeySym(key, mods);
     return XKeysymToKeycode(x11.display(), keysym);
 }
 

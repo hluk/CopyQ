@@ -78,7 +78,7 @@ public:
 private:
     QxtGlobalShortcut *q_ptr;
 
-    static quint32 nativeKeycode(Qt::Key keycode);
+    static quint32 nativeKeycode(Qt::Key keycode, Qt::KeyboardModifiers mods);
     static quint32 nativeModifiers(Qt::KeyboardModifiers modifiers);
 
     static bool registerShortcut(quint32 nativeKey, quint32 nativeMods);

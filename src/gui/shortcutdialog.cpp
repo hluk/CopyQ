@@ -161,6 +161,8 @@ int ShortcutDialog::getModifiers(const QKeyEvent &event)
         result |= Qt::CTRL;
     if (mods & Qt::AltModifier)
         result |= Qt::ALT;
+    if (mods & Qt::KeypadModifier)
+        result |= Qt::KeypadModifier;
     if (m_metaPressed || mods & Qt::MetaModifier)
         result |= Qt::META;
 
