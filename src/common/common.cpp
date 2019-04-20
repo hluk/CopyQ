@@ -164,6 +164,16 @@ void cloneImageData(
         dataMap->insert(mime, buffer.buffer());
 }
 
+/**
+ * Allow cloning images only with reasonable size.
+ */
+bool canCloneImageData(const QImage &image)
+{
+    return !image.isNull()
+        && image.height() <= 4096
+        && image.width() <= 4096;
+}
+
 bool setImageData(const QVariantMap &data, const QString &mime, QMimeData *mimeData)
 {
     if ( !data.contains(mime) )
@@ -294,7 +304,7 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats)
     // Retrieve images last since this can take a while.
     if ( !imageFormats.isEmpty() ) {
         const QImage image = data.getImageData();
-        if ( !image.isNull() ) {
+        if ( canCloneImageData(image) ) {
             for (const auto &mime : imageFormats) {
                 const QString format = getImageFormatFromMime(mime);
                 if ( !format.isEmpty() )
