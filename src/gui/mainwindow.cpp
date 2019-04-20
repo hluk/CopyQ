@@ -392,7 +392,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
     , m_menuItems(menuItems())
-    , m_clipboardManager(m_actionHandler)
+    , m_clipboard(platformNativeInterface()->clipboard())
 {
     ui->setupUi(this);
 
@@ -1542,9 +1542,9 @@ void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, 
     }
 
     if ( QGuiApplication::queryKeyboardModifiers().testFlag(Qt::ShiftModifier) )
-        m_clipboardManager.setClipboard( createDataMap(mimeText, data.value(mimeText) ) );
+        setClipboard( createDataMap(mimeText, data.value(mimeText) ) );
     else
-        m_clipboardManager.setClipboard(data);
+        setClipboard(data);
 
     if (!m_lastWindow)
         updateFocusWindows();
@@ -2694,14 +2694,20 @@ void MainWindow::previousTab()
     ui->tabWidget->previousTab();
 }
 
+void MainWindow::setClipboard(const QVariantMap &data)
+{
+    setClipboard(data, ClipboardMode::Clipboard);
+    setClipboard(data, ClipboardMode::Selection);
+}
+
 void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
-    m_clipboardManager.setClipboard(data, mode);
+    m_clipboard->setData(mode, data);
 }
 
 void MainWindow::setClipboardAndSelection(const QVariantMap &data)
 {
-    m_clipboardManager.setClipboard(data);
+    setClipboard(data);
 }
 
 void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
@@ -2710,7 +2716,7 @@ void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
     if ( index.isValid() )
         c->moveToClipboard(index);
     else
-        m_clipboardManager.setClipboard(QVariantMap());
+        setClipboard(QVariantMap());
 }
 
 void MainWindow::activateCurrentItem()
@@ -3159,7 +3165,7 @@ void MainWindow::copyItems()
         return;
 
     const auto data = c->copyIndexes(indexes);
-    m_clipboardManager.setClipboard(data);
+    setClipboard(data);
 }
 
 bool MainWindow::saveTab(const QString &fileName, int tabIndex)

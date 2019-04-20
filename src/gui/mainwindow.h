@@ -20,7 +20,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "app/clipboardmanager.h"
 #include "common/clipboardmode.h"
 #include "common/command.h"
 #include "gui/clipboardbrowsershared.h"
@@ -355,6 +354,7 @@ public:
     void runInternalAction(Action *action);
     bool isInternalActionId(int id) const;
 
+    void setClipboard(const QVariantMap &data);
     void setClipboard(const QVariantMap &data, ClipboardMode mode);
     void setClipboardAndSelection(const QVariantMap &data);
     void moveToClipboard(ClipboardBrowser *c, int row);
@@ -684,7 +684,7 @@ private:
     MenuMatchCommands m_trayMenuMatchCommands;
     MenuMatchCommands m_itemMenuMatchCommands;
 
-    ClipboardManager m_clipboardManager;
+    PlatformClipboardPtr m_clipboard;
 
     bool m_isActiveWindow = false;
 };
