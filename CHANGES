@@ -1,3 +1,18 @@
+v3.8.1
+
+- Large images in clipboard are no longer automatically converted to other
+  formats - it caused slowdowns and was mostly unnecessary since some usable
+  image format was provided.
+
+- The server/GUI process now provides the clipboard and no other process is
+  started (i.e. "copyq provideClipboard"). The other process helped to unblock
+  GUI in rare cases when an application requested large amount of clipboard
+  data, but it could cause some slowdowns to start the process.
+
+- Fix memory leak (tool bar and menu items were not properly cleaned up)
+
+- X11: Fix assigning global shortcuts with keypad keys
+
 v3.8.0
 
 - Custom settings from scripts (using settings() function) are now saved in
