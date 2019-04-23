@@ -1125,13 +1125,17 @@ void MainWindow::setClipboardData(const QVariantMap &data)
 
 void MainWindow::setFilter(const QString &text)
 {
-    ui->searchBar->setText(text);
-    getPlaceholder()->setFocus();
+    if ( text.isEmpty() ) {
+        enterBrowseMode();
+    } else {
+        enterSearchMode(text);
+        getPlaceholder()->setFocus();
+    }
 }
 
 QString MainWindow::filter() const
 {
-    return ui->searchBar->text();
+    return ui->searchBar->isVisible() ? ui->searchBar->text() : QString();
 }
 
 void MainWindow::updateNotifications()

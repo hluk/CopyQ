@@ -9,6 +9,8 @@ v3.8.1
   GUI in rare cases when an application requested large amount of clipboard
   data, but it could cause some slowdowns to start the process.
 
+- Fix value returned by filter() after it's hidden
+
 - Fix memory leak (tool bar and menu items were not properly cleaned up)
 
 - X11: Fix assigning global shortcuts with keypad keys

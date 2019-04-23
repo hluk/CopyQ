@@ -1440,6 +1440,12 @@ void Tests::commandFilter()
     RUN("filter", "test\n");
     RUN("filter" << "", "");
     RUN("filter", "\n");
+
+    // Empty filter() after ESC.
+    RUN("filter" << "test", "");
+    RUN("filter", "test\n");
+    RUN("keys" << "ESC", "");
+    RUN("filter", "\n");
 }
 
 void Tests::commandMimeTypes()
