@@ -2470,7 +2470,7 @@ Defina como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation>Item acima</translation>
+        <translation>Item a&amp;cima</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
