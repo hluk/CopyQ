@@ -238,17 +238,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished">CopyQ İşlem Yöneticisi</translation>
+        <translation>CopyQ İşlem Yöneticisi</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtre</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Seçilenleri Sonlandır</translation>
     </message>
 </context>
 <context>
@@ -561,7 +561,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected...</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;eçileni Kaydet ...</translation>
     </message>
     <message>
         <source>Sa&amp;ve Selected Commands...</source>
@@ -780,7 +780,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Komutu yalnızca panoya kopyalanan öğeler için bu normal ifadeyle eşleşen başlık metnini içeren pencerelerde kullanın (herhangi bir pencereyle eşleşmek için boş bırakın). OS X&apos;te bu, uygulama adını ve ardından bir kısa çizgi (&amp;quot;-&amp;quot;), ardından pencere başlığını içerir. Örneğin. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="400"/>
@@ -1394,14 +1394,18 @@ Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odaklandığında ana pencerenin şeffaflığı.
+
+Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="481"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odaklanmadığında ana pencerenin şeffaflığı.
+
+Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="720"/>
@@ -1700,7 +1704,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1489"/>
         <source>You can change priority of formats to display by reordering items below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aşağıdaki öğeleri yeniden sıralayıp görüntülemek için biçimlerin önceliğini değiştirebilirsiniz.</translation>
     </message>
     <message>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
@@ -2691,7 +2695,8 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
-            <numerusform>%1  (%n satır)</numerusform>
+            <numerusform>%1 (%n satır)</numerusform>
+            <numerusform>%1 (%n satır)</numerusform>
         </translation>
     </message>
     <message>
@@ -3074,7 +3079,8 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
-            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt; &lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
     <message>
