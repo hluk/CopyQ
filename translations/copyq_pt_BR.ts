@@ -113,7 +113,7 @@
     </message>
     <message>
         <source>Escape</source>
-        <translation type="vanished">Sair</translation>
+        <translation>Escape</translation>
     </message>
     <message>
         <source>Delete item</source>
@@ -125,7 +125,7 @@
     </message>
     <message>
         <source>Enter</source>
-        <translation type="vanished">Entrar</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <source>Change item display format</source>
@@ -159,12 +159,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation>Standart &amp;input:</translation>
+        <translation>&amp;Inserção padrão:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation>Loja Standart &amp;input:</translation>
+        <translation>G&amp;uardar saída padrão:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -439,7 +439,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>Ignorar janela * &quot;Password&quot; *</translation>
+        <translation>Ignorar janela * &quot;Senha&quot; *</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
@@ -2655,11 +2655,11 @@ Defina em 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="102"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Fixe itens para bloqueá-los na linha atual e evitar a exclusão (a menos que não sejam desafixados).&lt;/p&gt;&lt;p&gt;Fornece atalhos e funcionalidade de scripting.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
-        <translation type="vanished">Fixar itens pra bloqueá-los na linha atual e evitar a exclusão (a menos que seja desafixado).</translation>
+        <translation>Fixar itens para bloqueá-los na linha atual e evitar a exclusão (a menos que sejam desafixados).</translation>
     </message>
 </context>
 <context>
