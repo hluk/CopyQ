@@ -272,7 +272,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>フィルター</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
@@ -623,7 +623,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected...</source>
-        <translation type="unfinished"></translation>
+        <translation>選択したコマンドを保存(&amp;V)...</translation>
     </message>
     <message>
         <source>Sa&amp;ve Selected Commands...</source>
@@ -868,7 +868,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;この正規表現に一致するウィンドウタイトルのウィンドウからクリップボードにコピーしたアイテムにのみ、コマンドを使用します (任意のウィンドウに使用したい場合は空白にしてください)。OS X では、ウィンドウタイトルだけでなくアプリケーション名とダッシュ (&amp;quot;-&amp;quot;) も含まれています (例: &amp;quot;Safari - GitHub&amp;quot;)。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
@@ -1882,14 +1882,18 @@ Note: This is not be supported on all systems.</source>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーカスがある場合のメインウィンドウの透過度です。
+
+メモ: これは全てのシステムでサポートされているわけではありません。</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="481"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーカスがない場合のメインウィンドウの透過度です。
+
+メモ: これは全てのシステムでサポートされているわけではありません。</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
@@ -2022,7 +2026,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1489"/>
         <source>You can change priority of formats to display by reordering items below.</source>
-        <translation type="unfinished"></translation>
+        <translation>以下の項目を並び替えることで、表示されるフォーマットの優先度を変更できます。</translation>
     </message>
     <message>
         <source>&amp;Disable tray</source>
