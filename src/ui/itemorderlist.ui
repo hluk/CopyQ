@@ -49,9 +49,6 @@
            <property name="text">
             <string>&amp;Add</string>
            </property>
-           <property name="shortcut">
-            <string>+</string>
-           </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>
            </property>
