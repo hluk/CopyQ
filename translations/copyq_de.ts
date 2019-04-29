@@ -121,7 +121,7 @@
     </message>
     <message>
         <source>Reset search or hide window</source>
-        <translation type="vanished">Suche zurücksetzen oder Fenster verstecken</translation>
+        <translation>Suche zurücksetzen oder Fenster ausblenden</translation>
     </message>
     <message>
         <source>Escape</source>
@@ -1082,7 +1082,7 @@ Zum Deaktivieren leerlassen.</translation>
     </message>
     <message>
         <source>Hide window after command is activated from context menu of an item.</source>
-        <translation>Fenster verbergen, nachdem der Befehl aus dem Kontextmenü ausgeführt wurde.</translation>
+        <translation>Fenster ausblenden, nachdem der Befehl aus dem Kontextmenü ausgeführt wurde.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="494"/>
@@ -1189,7 +1189,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine weiteren 
     <message>
         <location filename="../src/ui/commandwidget.ui" line="481"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation>Fenster verbergen, nachdem der Befehl per Kontextmenü aktiviert wird</translation>
+        <translation>Fenster ausblenden, nachdem der Befehl per Kontextmenü aktiviert wird</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="484"/>
@@ -5537,7 +5537,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="66"/>
         <source>Hide main window.</source>
-        <translation>Hauptfenster verausblenden.</translation>
+        <translation>Hauptfenster ausblenden.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
