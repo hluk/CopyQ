@@ -2539,7 +2539,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="981"/>
         <source>or &amp;choose other tab:</source>
-        <translation>oder einen anderen Reiter auswählen:</translation>
+        <translation>oder einen anderen Reiter &amp;wählen:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1022"/>
@@ -2809,7 +2809,7 @@ Hinweis: Bearbeitete Elemente können mit F2 gespeichert werden, ungeachtet dies
     </message>
     <message>
         <source>Show c&amp;urrent tab in menu,</source>
-        <translation type="vanished">&amp;Aktuellen Reiter in Menü anzeigen</translation>
+        <translation>&amp;Aktuellen Reiter in Menü anzeigen,</translation>
     </message>
     <message>
         <source>or choose o&amp;ther tab:</source>
@@ -3816,7 +3816,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="603"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation>Um verschlüsselte Elemente für andere Computer oder Sitzungen freizugeben, benötigen Sie öffentliche und geheimen Schlüsseldateien:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt; (Bewahren Sie diesen geheimen Schlüssel an einen sicheren Ort auf.) &lt;/li&gt;&lt;/ul&gt;</translation>
+        <translation>Um verschlüsselte Elemente für andere Computer oder Sitzungen freizugeben, benötigen Sie öffentliche und geheimen Schlüsseldateien:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt; (Bewahren Sie diesen geheimen Schlüssel an einem sicheren Ort auf.) &lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="670"/>
