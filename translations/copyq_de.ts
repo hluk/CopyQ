@@ -4653,7 +4653,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="651"/>
         <source>Re&amp;name Tab %1</source>
-        <translation>Tab %1 umbe&amp;nennen</translation>
+        <translation>Reiter %1 umbe&amp;nennen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="653"/>
@@ -5436,7 +5436,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>Re&amp;move Tab</source>
-        <translation>Tab entfernen</translation>
+        <translation>Reiter entfernen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
