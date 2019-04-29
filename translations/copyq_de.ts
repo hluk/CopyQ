@@ -2768,9 +2768,9 @@ Hinweis: Dies wird nicht auf allen Systemen unterstützt.</translation>
         <source>Interval in seconds for tray message which is shown after an item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.</source>
-        <translation type="vanished">Dauer in Sekunden für Tray Nachrichten, welche angezeigt werden nachdem ein Element in die Zwischenablage kopiert wurde (nur wenn das Hauptfenster geschlossen ist).
+        <translation>Dauer in Sekunden für Tray-Nachrichten, welche angezeigt werden, nachdem ein Element in die Zwischenablage kopiert wurde (nur wenn das Hauptfenster geschlossen ist).
 
-Setze diesen Eintrag auf 0 zum Deaktivieren.</translation>
+Auf 0 setzen, um dies zu deaktivieren.</translation>
     </message>
     <message>
         <source>Application will start with empty first tab.</source>
