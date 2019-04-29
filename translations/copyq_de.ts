@@ -2758,11 +2758,11 @@ Hinweis: Dies wird nicht auf allen Systemen unterstützt.</translation>
     </message>
     <message>
         <source>Hide menu bar in main window (press Alt key or move mouse to top of the window to show)</source>
-        <translation type="vanished">Verstecke Menübar im Hauptfenster (Drücke Alt oder bewege die Maus nach oben um das Fenster anzuzeigen)</translation>
+        <translation>Menüleiste im Hauptfenster ausblenden (zum Anzeigen die Alt-Taste drücken oder Maus an oberen Fensterrand bewegen)</translation>
     </message>
     <message>
         <source>Hide me&amp;nu bar</source>
-        <translation type="vanished">Me&amp;nübar verstecken</translation>
+        <translation>Me&amp;nüleiste ausblenden</translation>
     </message>
     <message>
         <source>Interval in seconds for tray message which is shown after an item is copied to clipboard (only if main window is closed).
