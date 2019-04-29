@@ -1194,7 +1194,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine weiteren 
     <message>
         <location filename="../src/ui/commandwidget.ui" line="484"/>
         <source>&amp;Hide main window after activation</source>
-        <translation>&amp;Hauptfenster nach der Aktivierung verbergen</translation>
+        <translation>&amp;Hauptfenster nach der Aktivierung ausblenden</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="600"/>
@@ -2036,19 +2036,19 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</source>
-        <translation type="vanished">Abwählen um Enter-Taste zum Speichern eines neuen Elements und Strg+Enter zum Erstellen einer neuen Zeile zu verwenden.
+        <translation>Abwählen, um Eingabetaste zum Speichern eines neuen Elements und Strg+Eingabe zum Erstellen einer neuen Zeile zu verwenden.
 
-Anmerkung: Bearbeitete Elemente können mit Strg+S oder mit F2 gespeichert werden (unabhängig von der Auswahl dieser Option).</translation>
+Anmerkung: Bearbeitete Elemente können mit Strg+S oder mit F2 gespeichert werden, ungeachtet dieser Option.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="749"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>S&amp;peichere bearbeitete Elemente mit Strg+Enter und erstelle neue Zeile mit der Enter-Taste</translation>
+        <translation>Be&amp;arbeitete Elemente mit Strg+Eingabe speichern und neue Zeile mit Eingabetaste erstellen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Nach der Aktivierung eines Elements (per Doppelklick oder Enter-Taste), kopiere dieses in die Zwischenablage und...</translation>
+        <translation>Nachdem Element aktiviert wurde (Doppelklick oder Eingabetaste), dieses in die Zwischenablage kopieren und …</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="417"/>
@@ -2071,7 +2071,7 @@ Anmerkung: Bearbeitete Elemente können mit Strg+S oder mit F2 gespeichert werde
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="656"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation>Entlade Reiter im Intervall nach Min&amp;uten:</translation>
+        <translation>Reiter nach einem Inter&amp;vall entladen (Minuten):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="668"/>
@@ -2092,21 +2092,21 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <source>Close main window after item is activated.</source>
-        <translation type="vanished">Schließe Hauptfenster nach der Aktivierung des Element.</translation>
+        <translation>Hauptfenster schließen, nachdem Element aktiviert wurde.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="797"/>
         <source>&amp;Close main window</source>
-        <translation>S&amp;chließe Hauptfenster</translation>
+        <translation>Hauptfenster s&amp;chließen</translation>
     </message>
     <message>
         <source>Focus last window after item is activated.</source>
-        <translation type="vanished">Fokusiere letztes Fenster nach der Aktivierung des Element.</translation>
+        <translation>Letztes Fenster fokussieren, nachdem Element aktiviert wurde.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="807"/>
         <source>&amp;Focus last window</source>
-        <translation>&amp;Fokusiere letztes Fenster</translation>
+        <translation>Letztes Fenster &amp;fokussieren</translation>
     </message>
     <message>
         <source>Paste to current window after item is activated.</source>
@@ -2125,7 +2125,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1281"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation>Geometrie der Benachrichtigungen (In Bildschirm-Punkten)</translation>
+        <translation>Geometrie der Benachrichtigungen (in Bildschirmpunkten)</translation>
     </message>
     <message>
         <source>Ho&amp;rizontal offset:</source>
@@ -2133,7 +2133,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <source>Notification distance from left or right screen edge in screen points.</source>
-        <translation type="vanished">Distanz vom linken oder rechten Bildschirmrand in Bildschirm-Punkten.</translation>
+        <translation>Distanz vom linken oder rechten Bildschirmrand in Bildschirmpunkten.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1327"/>
@@ -2142,7 +2142,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <source>Notification distance from top or bottom screen edge in screen points.</source>
-        <translation type="vanished">Distanz vom oberen oder unteren Bildschirmrand in Bildschirm-Punkten.</translation>
+        <translation>Distanz vom oberen oder unteren Bildschirmrand in Bildschirmpunkten.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1367"/>
@@ -2151,7 +2151,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <source>Maximum width for notification in screen points.</source>
-        <translation type="vanished">Maximale Breite für Benachrichtigungen in Bildschirm-Punkten.</translation>
+        <translation>Maximale Breite für Benachrichtigungen in Bildschirmpunkten.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1404"/>
@@ -2160,7 +2160,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <source>Maximum height for notification in screen points.</source>
-        <translation type="vanished">Maximale Höhe für Benachrichtigungen in Bildschirm-Punkten.</translation>
+        <translation>Maximale Höhe für Benachrichtigungen in Bildschirmpunkten.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1477"/>
