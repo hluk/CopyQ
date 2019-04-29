@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
-        <translation>Clipboard Manager</translation>
+        <translation>Zwischenablageverwaltung</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
@@ -54,7 +54,7 @@
     <message>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation type="vanished">In dieser Anwendung verwendete Icon-Schriftart</translation>
+        <translation>In dieser Anwendung verwendete Symbolschriftart</translation>
     </message>
     <message>
         <source>Color palette used for themes</source>
@@ -68,7 +68,7 @@
     </message>
     <message>
         <source>Iconic font used in the application</source>
-        <translation type="vanished">In der Anwendung verwendete ikonische Schriftart</translation>
+        <translation>In der Anwendung verwendete Symbolschriftart</translation>
     </message>
     <message>
         <source>Color palette used for themes</source>
@@ -80,11 +80,11 @@
     </message>
     <message>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation>Die Tastenkombinationen können im Dialog »Eigenschaften« angepasst werden.</translation>
+        <translation>Die Tastenkombinationen können im Dialog „Eigenschaften“ angepasst werden.</translation>
     </message>
     <message>
         <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation>Globale Tastenkombinationen (systemweite Tastenkombinationen) können im Dialog »Befehl« eingestellt werden (Standardtastenkombination ist F6).</translation>
+        <translation>Globale Tastenkombinationen (systemweite Tastenkombinationen) können im Dialog „Befehl“ eingestellt werden (Standardtastenkombination ist F6).</translation>
     </message>
     <message>
         <source>Type any text to search the clipboard history.</source>
@@ -96,7 +96,7 @@
     </message>
     <message>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Hoch/Runter, Bild hoch/runter, Pos1/Ende</translation>
+        <translation>Pfeil hoch/runter, Bild hoch/runter, Pos1/Ende</translation>
     </message>
     <message>
         <source>Tab navigation</source>
@@ -117,7 +117,7 @@
     </message>
     <message>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="vanished">Strg+Hoch/Runter, Strg+Pos1/Ende</translation>
+        <translation>Strg+Pfeil hoch/runter, Strg+Pos1/Ende</translation>
     </message>
     <message>
         <source>Reset search or hide window</source>
@@ -125,7 +125,7 @@
     </message>
     <message>
         <source>Escape</source>
-        <translation type="vanished">Escape</translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <source>Delete item</source>
@@ -494,7 +494,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>*»Passwort«*-Fenster ignorieren</translation>
+        <translation>*„Passwort“*-Fenster ignorieren</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
@@ -788,7 +788,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="213"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation>Dialog »Befehl« enthält nicht gespeicherte Änderungen.</translation>
+        <translation>Dialog „Befehl“ enthält nicht gespeicherte Änderungen.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="291"/>
@@ -860,7 +860,7 @@ You can set up the command in preferences.</source>
     </message>
     <message>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>*»Passwort«*-Fenster ignorieren</translation>
+        <translation>*„Passwort“*-Fenster ignorieren</translation>
     </message>
     <message>
         <source>Password</source>
@@ -996,7 +996,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Befehle nur auf Elemente anwenden, die mit dem regulären Ausdruck übereinstimmen (leerlassen, um mit allen übereinzustimmen).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beispiele:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  auf ».pdf« endende Dateinamen    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ein einzelnes Zeichen    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL mit einer der angegeben Dateiendungen    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Befehle nur auf Elemente anwenden, die mit dem regulären Ausdruck übereinstimmen (leerlassen, um mit allen übereinzustimmen).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beispiele:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  auf „.pdf“ endende Dateinamen    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ein einzelnes Zeichen    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL mit einer der angegeben Dateiendungen    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
@@ -1229,7 +1229,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine weiteren 
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Der Befehl wird nur auf kopierte Elemente angewendet, wenn der Titel des Fensters aus dem kopiert wurde, auf den angegebenen regulären Ausdruck passt (leer lassen, um den Titel des Fensters zu ignorieren). Unter OS X beinhaltet das den Anwendungsnamen, gefolgt von einem Bindestrich (»-«) und dem Titel des Fensters. Zum Beispiel: »Safari - GitHub«.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Der Befehl wird nur auf kopierte Elemente angewendet, wenn der Titel des Fensters aus dem kopiert wurde, auf den angegebenen regulären Ausdruck passt (leer lassen, um den Titel des Fensters zu ignorieren). Unter OS X beinhaltet das den Anwendungsnamen, gefolgt von einem Bindestrich („-“) und dem Titel des Fensters. Zum Beispiel: „Safari - GitHub“.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
@@ -1425,7 +1425,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine weiteren 
     </message>
     <message>
         <source>Search string is &quot;item&quot;.</source>
-        <translation>Der Suchtext für »Eintrag«.</translation>
+        <translation>Der Suchtext für „Eintrag“.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="480"/>
@@ -2856,7 +2856,7 @@ Hinweis: Bearbeitete Elemente können mit F2 gespeichert werden, ungeachtet dies
     </message>
     <message>
         <source>Shortcut to show action dialog</source>
-        <translation>Tastenkombination, um den Dialog »Aktion« anzuzeigen</translation>
+        <translation>Tastenkombination, um den Dialog „Aktion“ anzuzeigen</translation>
     </message>
     <message>
         <source>Shortcut to create new item</source>
@@ -3081,11 +3081,11 @@ Hinweis: Bearbeitete Elemente können mit F2 gespeichert werden, ungeachtet dies
     </message>
     <message>
         <source>Cannot save tab &quot;%1&quot; to &quot;%2&quot; (%3)!</source>
-        <translation>Reiter »%1« konnte nicht nach »%2« gespeichert werden (%3)!</translation>
+        <translation>Reiter „%1“ konnte nicht nach „%2“ gespeichert werden (%3)!</translation>
     </message>
     <message>
         <source>Search string is &quot;item&quot;.</source>
-        <translation>Suche für »Element«.</translation>
+        <translation>Suche für „Element“.</translation>
     </message>
     <message>
         <source>Select an item and
@@ -3117,7 +3117,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>Cannot create directory for settings &quot;%1&quot;!</source>
-        <translation>Konfigurationsverzeichnis kann nicht erstellen werden »%1«!</translation>
+        <translation>Konfigurationsverzeichnis kann nicht erstellen werden „%1“!</translation>
     </message>
     <message>
         <source>Cannot save tab %1 to %2 (%3)!</source>
@@ -3238,7 +3238,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>*»Passwort«*-Fenster ignorieren</translation>
+        <translation>*„Passwort“*-Fenster ignorieren</translation>
     </message>
     <message>
         <source>Password</source>
@@ -3275,7 +3275,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="367"/>
         <source>Invalid value for option &quot;%1&quot;</source>
-        <translation>Ungültiger Wert für die Option »%1«</translation>
+        <translation>Ungültiger Wert für die Option „%1“</translation>
     </message>
     <message>
         <source>Open Files with Commands</source>
@@ -3378,11 +3378,11 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>Mark &apos;%1&apos; not set.</source>
-        <translation>Die Markierung »%1« ist nicht gesetzt.</translation>
+        <translation>Die Markierung „%1“ ist nicht gesetzt.</translation>
     </message>
     <message>
         <source>Mark &quot;%1&quot; not set.</source>
-        <translation>Die Markierung »%1« ist nicht gesetzt.</translation>
+        <translation>Die Markierung „%1“ ist nicht gesetzt.</translation>
     </message>
     <message>
         <source>%1%2%</source>
@@ -3422,23 +3422,23 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation>Die Datei »%1« existiert bereits (! zum Überschreiben verwenden)</translation>
+        <translation>Die Datei „%1“ existiert bereits (! zum Überschreiben verwenden)</translation>
     </message>
     <message>
         <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation>Die Datei »%1« konnte nicht zum Schreiben geöffnet werden</translation>
+        <translation>Die Datei „%1“ konnte nicht zum Schreiben geöffnet werden</translation>
     </message>
     <message>
         <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation>»%1« %2 %3L, %4C geschrieben.</translation>
+        <translation>„%1“ %2 %3L, %4C geschrieben.</translation>
     </message>
     <message>
         <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation>Die Datei »%1« konnte nicht zum Lesen geöffnet werden</translation>
+        <translation>Die Datei „%1“ konnte nicht zum Lesen geöffnet werden</translation>
     </message>
     <message>
         <source>&quot;%1&quot; %2L, %3C</source>
-        <translation>»%1« %2L, %3C</translation>
+        <translation>„%1“ %2L, %3C</translation>
     </message>
     <message numerus="yes">
         <source>%n lines filtered.</source>
@@ -3449,7 +3449,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>Cannot open file %1</source>
-        <translation>Die Datei »%1« konnte nicht geöffnet werden</translation>
+        <translation>Die Datei „%1“ konnte nicht geöffnet werden</translation>
     </message>
     <message>
         <source>Invalid regular expression: %1</source>
@@ -3530,7 +3530,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="611"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation>Erstellen des Synchronisiationsverzeichnis fehlgeschlagen »%1«!</translation>
+        <translation>Erstellen des Synchronisiationsverzeichnis fehlgeschlagen „%1“!</translation>
     </message>
 </context>
 <context>
@@ -3561,7 +3561,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>CopyQ Select Icon</source>
-        <translation>CopyQ-Auswahlicon</translation>
+        <translation>CopyQ Symbol auswählen</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -3753,7 +3753,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
         <location filename="../src/item/itemeditorwidget.cpp" line="290"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation>Escape</translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="314"/>
@@ -3931,7 +3931,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation>Um Elemente zu ver- und entschlüsseln, im Reiter »Befehle« die entsprechenden Befehle hinzufügen.</translation>
+        <translation>Um Elemente zu ver- und entschlüsseln, im Reiter „Befehle“ die entsprechenden Befehle hinzufügen.</translation>
     </message>
     <message>
         <source>Add Actions to Menu and Toolbar</source>
@@ -4194,7 +4194,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation>Synchronisieren des Reiters »%1« mit Verzeichnis »%2« fehlgeschlagen!</translation>
+        <translation>Synchronisieren des Reiters „%1“ mit Verzeichnis „%2“ fehlgeschlagen!</translation>
     </message>
     <message>
         <source>Remove Items?</source>
@@ -4230,7 +4230,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="481"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation>Synchronisieren des Reiters »%1« mit Verzeichnis »%2« fehlgeschlagen!</translation>
+        <translation>Synchronisieren des Reiters „%1“ mit Verzeichnis „%2“ fehlgeschlagen!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="516"/>
@@ -4339,7 +4339,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation>Menüeinträge zum Hinzufügen und zum Entfernen von Tags können im Dialog »Befehle« konfiguriert werden.</translation>
+        <translation>Menüeinträge zum Hinzufügen und zum Entfernen von Tags können im Dialog „Befehle“ konfiguriert werden.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
@@ -4451,7 +4451,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>&quot;%1&quot;</source>
-        <translation>»%1«</translation>
+        <translation>„%1“</translation>
     </message>
     <message>
         <source>&lt;EMPTY&gt;</source>
@@ -4460,7 +4460,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <source>&quot;%1&quot;</source>
         <comment>Quoted clipboard text in main window title and tray tooltip</comment>
-        <translation>»%1«</translation>
+        <translation>„%1“</translation>
     </message>
     <message>
         <source>&lt;IMAGE&gt;</source>
@@ -4752,19 +4752,19 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>Rename &amp;group &quot;%1&quot;</source>
-        <translation>&amp;Gruppe »%1« umbenennen</translation>
+        <translation>&amp;Gruppe „%1“ umbenennen</translation>
     </message>
     <message>
         <source>Re&amp;name tab &quot;%1&quot;</source>
-        <translation>Reiter »%1« umbe&amp;nennen</translation>
+        <translation>Reiter „%1“ umbe&amp;nennen</translation>
     </message>
     <message>
         <source>Re&amp;move tab &quot;%1&quot;</source>
-        <translation>Reiter »%1« ent&amp;fernen</translation>
+        <translation>Reiter „%1“ ent&amp;fernen</translation>
     </message>
     <message>
         <source>Remove group &quot;%1&quot;</source>
-        <translation>Gruppe »%1« entfernen</translation>
+        <translation>Gruppe „%1“ entfernen</translation>
     </message>
     <message>
         <source>Error: %1
@@ -4780,7 +4780,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>Command &quot;%1&quot;</source>
-        <translation>Befehl: »%1«</translation>
+        <translation>Befehl: „%1“</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1154"/>
@@ -4807,11 +4807,11 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>&amp;Rename tab &quot;%1&quot;</source>
-        <translation>&amp;Reiter »%1« umbenennen</translation>
+        <translation>&amp;Reiter „%1“ umbenennen</translation>
     </message>
     <message>
         <source>&amp;Remove tab &quot;%1&quot;</source>
-        <translation>&amp;Reiter »%1« entfernen</translation>
+        <translation>&amp;Reiter „%1“ entfernen</translation>
     </message>
     <message>
         <source>&lt;IMAGE&gt;</source>
@@ -4872,7 +4872,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>Cannot save file &quot;%1&quot;!</source>
-        <translation>Datei »%1« konnte nicht gespeichert werden!</translation>
+        <translation>Datei „%1“ konnte nicht gespeichert werden!</translation>
     </message>
     <message>
         <source>CopyQ Error Opening File</source>
@@ -4880,7 +4880,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>Cannot open file &quot;%1&quot;!</source>
-        <translation>Datei »%1« konnte nicht geöffnet werden!</translation>
+        <translation>Datei „%1“ konnte nicht geöffnet werden!</translation>
     </message>
     <message>
         <source>Executing: %1</source>
@@ -5022,14 +5022,14 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
         <source>&quot;%1&quot; (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
-            <numerusform>»%1« (%n Zeile)</numerusform>
-            <numerusform>»%1« (%n Zeilen)</numerusform>
+            <numerusform>„%1“ (%n Zeile)</numerusform>
+            <numerusform>„%1“ (%n Zeilen)</numerusform>
         </translation>
     </message>
     <message>
         <source>&quot;%1&quot;</source>
         <comment>Label for single-line text in clipboard</comment>
-        <translation>»%1«</translation>
+        <translation>„%1“</translation>
     </message>
     <message>
         <source>warning: %1</source>
@@ -5107,7 +5107,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
         <location filename="../src/main.cpp" line="210"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
-        <translation>Sitzungsname darf höchstens 16 Zeichen enthalten, erlaubt sind Buchstaben, Zahlen, »-« oder »_«!</translation>
+        <translation>Sitzungsname darf höchstens 16 Zeichen enthalten, erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
     </message>
     <message>
         <source>socketpair() failed!</source>
@@ -5396,7 +5396,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move to Top</source>
-        <translation>Nach ganz oben verschieben</translation>
+        <translation>An Anfang verschieben</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"/>
@@ -5406,7 +5406,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move to Bottom</source>
-        <translation>Nach ganz unten verschieben</translation>
+        <translation>Ans Ende verschieben</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
@@ -5850,7 +5850,7 @@ Evaluate ECMAScript program.
 Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
         <translation>
 ECMAScript-Programm auswerten.
-Argumente sind über »arguments(0..N)« verfügbar.</translation>
+Argumente sind über „arguments(0..N)“ verfügbar.</translation>
     </message>
     <message>
         <source>Failed to set clipboard!</source>
@@ -5859,7 +5859,7 @@ Argumente sind über »arguments(0..N)« verfügbar.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1358"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation>Ungültige Option »%1«!</translation>
+        <translation>Ungültige Option „%1“!</translation>
     </message>
     <message>
         <source>Evaluate ECMAScript program.</source>
@@ -5967,7 +5967,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="88"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation>  - ? verwenden, um alle verfügbaren MIME-Typen auszugeben (Standard ist »text/plain«).</translation>
+        <translation>  - ? verwenden, um alle verfügbaren MIME-Typen auszugeben (Standard ist „text/plain“).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="93"/>
@@ -5976,7 +5976,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     </message>
     <message>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
-        <translation>Name »%1« verweist auf keine Funktion.</translation>
+        <translation>Name „%1“ verweist auf keine Funktion.</translation>
     </message>
     <message>
         <source>Build with: </source>
@@ -6005,16 +6005,16 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="710"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation>Datei »%1« kann nicht gespeichert werden!</translation>
+        <translation>Datei „%1“ kann nicht gespeichert werden!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="715"/>
         <source>Cannot import file &quot;%1&quot;!</source>
-        <translation>Datei »%1« kann nicht importiert werden!</translation>
+        <translation>Datei „%1“ kann nicht importiert werden!</translation>
     </message>
     <message>
         <source>To modify options from command line you must first close the CopyQ Configuration dialog!</source>
-        <translation>Um Optionen von der Kommandozeile zu ändern, muss erst der CopyQ-Dialog »Einstellungen« geschlossen werden!</translation>
+        <translation>Um Optionen von der Kommandozeile zu ändern, muss erst der CopyQ-Dialog „Einstellungen“ geschlossen werden!</translation>
     </message>
     <message>
         <source>Invalid option!</source>
@@ -6189,7 +6189,7 @@ In der Baumansicht der Reiter kann &lt;b&gt;/&lt;/b&gt; als Pfadtrennzeichen ver
     <message>
         <location filename="../src/gui/traymenu.cpp" line="88"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation>Zum Suchen »/« drücken</translation>
+        <translation>Zum Suchen „/“ drücken</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="88"/>
