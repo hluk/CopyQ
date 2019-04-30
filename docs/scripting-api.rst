@@ -1119,6 +1119,8 @@ Types
 
    Wrapper for QDir Qt class.
 
+   Use forward slash as path separator, e.g. "D:/Documents/".
+
    See `QDir <http://doc.qt.io/qt-5/qdir.html>`__.
 
 .. js:class:: TemporaryFile
