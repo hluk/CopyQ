@@ -339,7 +339,7 @@ bool ClipboardBrowser::moveToTop(uint itemHash)
     return true;
 }
 
-void ClipboardBrowser::closeExternalEditor(QObject *editor)
+void ClipboardBrowser::closeExternalEditor(QObject *editor, const QModelIndex &index)
 {
     editor->disconnect(this);
     disconnect(editor);
@@ -347,6 +347,12 @@ void ClipboardBrowser::closeExternalEditor(QObject *editor)
 
     Q_ASSERT(m_externalEditorsOpen > 0);
     --m_externalEditorsOpen;
+
+    if ( index.isValid() && !isInternalEditorOpen() ) {
+        setCurrentIndex(index);
+        emit requestShow(this);
+    }
+
     maybeEmitEditingFinished();
 }
 
@@ -412,18 +418,13 @@ bool ClipboardBrowser::hideFiltered(const QModelIndex &index)
     return hideFiltered(index.row());
 }
 
-bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
+bool ClipboardBrowser::startEditor(QObject *editor)
 {
     connect( editor, SIGNAL(fileModified(QByteArray,QString,QModelIndex)),
              this, SLOT(itemModified(QByteArray,QString,QModelIndex)) );
 
-    if (changeClipboard) {
-        connect( editor, SIGNAL(fileModified(QByteArray,QString,QModelIndex)),
-                 this, SLOT(onEditorNeedsChangeClipboard(QByteArray,QString)) );
-    }
-
-    connect( editor, SIGNAL(closed(QObject*)),
-             this, SLOT(closeExternalEditor(QObject*)) );
+    connect( editor, SIGNAL(closed(QObject*,QModelIndex)),
+             this, SLOT(closeExternalEditor(QObject*,QModelIndex)) );
 
     connect( editor, SIGNAL(error(QString)),
              this, SIGNAL(error(QString)) );
@@ -436,7 +437,7 @@ bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
                                              Q_RETURN_ARG(bool, retVal) );
 
     if (!retVal || !result) {
-        closeExternalEditor(editor);
+        closeExternalEditor(editor, QModelIndex());
         return false;
     }
 
@@ -1252,7 +1253,15 @@ bool ClipboardBrowser::openEditor(const QByteArray &textData, bool changeClipboa
         return false;
 
     QObject *editor = new ItemEditor(textData, mimeText, m_sharedData->editor, this);
-    return startEditor(editor, changeClipboard);
+    if ( !startEditor(editor) )
+        return false;
+
+    if (changeClipboard) {
+        connect( editor, SIGNAL(fileModified(QByteArray,QString,QModelIndex)),
+                 this, SLOT(onEditorNeedsChangeClipboard(QByteArray,QString)) );
+    }
+
+    return true;
 }
 
 bool ClipboardBrowser::openEditor(const QModelIndex &index)

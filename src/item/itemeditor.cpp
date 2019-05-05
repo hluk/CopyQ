@@ -152,13 +152,13 @@ void ItemEditor::close()
             emitError( QString::fromUtf8(errors) );
     }
 
-    emit closed(this);
+    emit closed(this, m_index);
 }
 
 void ItemEditor::onError()
 {
     emitError( m_editor->errorString() );
-    emit closed(this);
+    emit closed(this, m_index);
 }
 
 bool ItemEditor::wasFileModified()

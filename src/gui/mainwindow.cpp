@@ -1001,8 +1001,6 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              this, &MainWindow::onItemsChanged );
     connect( browser, &ClipboardBrowser::internalEditorStateChanged,
              this, &MainWindow::onInternalEditorStateChanged );
-    connect( browser, &ClipboardBrowser::editingFinished,
-             this, &MainWindow::onEditingFinished );
     connect( browser, &ClipboardBrowser::searchRequest,
              this, &MainWindow::findNextOrPrevious );
     connect( browser, &ClipboardBrowser::searchHideRequest,
@@ -1029,12 +1027,6 @@ void MainWindow::onInternalEditorStateChanged(const ClipboardBrowser *browser)
 {
     if (browser == this->browser())
         updateContextMenu(0);
-}
-
-void MainWindow::onEditingFinished()
-{
-    if ( !isAnyApplicationWindowActive() )
-        showWindow();
 }
 
 void MainWindow::onNotificationButtonClicked(const NotificationButton &button)

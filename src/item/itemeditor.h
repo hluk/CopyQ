@@ -64,7 +64,7 @@ class ItemEditor final : public QObject
          * Editor was closed.
          * @param who  pointer to this object
          */
-        void closed(QObject *who);
+        void closed(QObject *who, const QModelIndex &index);
 
         /**
          * Failed to run editor command.

@@ -493,7 +493,6 @@ private:
     void onItemSelectionChanged(const ClipboardBrowser *browser);
     void onItemsChanged(const ClipboardBrowser *browser);
     void onInternalEditorStateChanged(const ClipboardBrowser *self);
-    void onEditingFinished();
 
     void onNotificationButtonClicked(const NotificationButton &button);
 

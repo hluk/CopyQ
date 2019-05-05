@@ -299,7 +299,7 @@ class ClipboardBrowser final : public QListView
 
         void onEditorNeedsChangeClipboard(const QByteArray &bytes, const QString &mime);
 
-        void closeExternalEditor(QObject *editor);
+        void closeExternalEditor(QObject *editor, const QModelIndex &index);
 
     private:
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
@@ -338,7 +338,7 @@ class ClipboardBrowser final : public QListView
         /**
          * Connects signals and starts external editor.
          */
-        bool startEditor(QObject *editor, bool changeClipboard = false);
+        bool startEditor(QObject *editor);
 
         void setEditorWidget(ItemEditorWidget *editor, bool changeClipboard = false);
 
