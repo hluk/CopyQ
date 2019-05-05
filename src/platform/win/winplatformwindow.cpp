@@ -161,8 +161,7 @@ void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key)
 
     Sleep(150);
 
-    QVector<INPUT> input1;
-    QVector<INPUT> input2;
+    QVector<INPUT> input;
 
     static const QList<int> mods = QList<int>()
             << VK_LCONTROL << VK_RCONTROL
@@ -172,18 +171,15 @@ void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key)
 
     // Release all modifiers first to send just Shift+Insert.
     for (int mod : mods) {
-        if ( isKeyPressed(mod) ) {
-            input1 << createInput(mod, KEYEVENTF_KEYUP);
-            input2 << createInput(mod); // Press again at the end.
-        }
+        if ( isKeyPressed(mod) )
+            input << createInput(mod, KEYEVENTF_KEYUP);
     }
 
-    input1 << createInput(modifier)
-           << createInput(key)
-           << createInput(key, KEYEVENTF_KEYUP)
-           << createInput(modifier, KEYEVENTF_KEYUP);
+    input << createInput(modifier)
+          << createInput(key)
+          << createInput(key, KEYEVENTF_KEYUP)
+          << createInput(modifier, KEYEVENTF_KEYUP);
 
-    QVector<INPUT> input = input1 + input2;
     const UINT numberOfAddedEvents = SendInput( input.size(), input.data(), sizeof(INPUT) );
 
     if (numberOfAddedEvents == 0u)
