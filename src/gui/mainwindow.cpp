@@ -2701,7 +2701,9 @@ void MainWindow::previousTab()
 void MainWindow::setClipboard(const QVariantMap &data)
 {
     setClipboard(data, ClipboardMode::Clipboard);
+#ifdef HAS_MOUSE_SELECTIONS
     setClipboard(data, ClipboardMode::Selection);
+#endif
 }
 
 void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
