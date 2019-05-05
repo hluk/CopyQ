@@ -4916,7 +4916,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <name>Notification</name>
     <message>
         <source>CopyQ Inspect Notification</source>
-        <translation type="unfinished">CopyQ untersuche Benachrichtigung</translation>
+        <translation>CopyQ Untersuchungsbenachrichtigung</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
