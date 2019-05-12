@@ -53,6 +53,7 @@ private:
         QByteArray newDataTimestamp;
         ClipboardMode mode;
         bool changed = false;
+        int retry = 0;
     };
 
     void check();

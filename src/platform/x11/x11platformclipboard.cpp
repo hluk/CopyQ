@@ -37,6 +37,7 @@ namespace {
 
 constexpr auto minCheckAgainIntervalMs = 50;
 constexpr auto maxCheckAgainIntervalMs = 500;
+constexpr auto maxRetryCount = 3;
 
 /// Return true only if selection is incomplete, i.e. mouse button or shift key is pressed.
 bool isSelectionIncomplete()
@@ -153,6 +154,9 @@ void X11PlatformClipboard::check()
         updateClipboardData(&m_clipboardData)
         || updateClipboardData(&m_selectionData);
 
+    if ( m_timerCheckAgain.isActive() )
+        return;
+
     // Check clipboard and selection again if some signals where
     // not delivered or older data was received after new one.
     const int interval = m_timerCheckAgain.interval() * 2 + minCheckAgainIntervalMs;
@@ -162,10 +166,22 @@ void X11PlatformClipboard::check()
 bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
 {
     const auto data = ::clipboardData(clipboardData->mode);
+
+    // Retry to retrieve clipboard data few times.
     if (!data) {
-        m_timerCheckAgain.start(maxCheckAgainIntervalMs);
+        if (clipboardData->retry < maxRetryCount) {
+            ++clipboardData->retry;
+            m_timerCheckAgain.start(clipboardData->retry * maxCheckAgainIntervalMs);
+        }
+
+        log( QString("Failed to retrieve %1 data (try %2/%3)")
+             .arg(clipboardData->mode == ClipboardMode::Clipboard ? "clipboard" : "selection")
+             .arg(clipboardData->retry)
+             .arg(maxRetryCount), LogWarning );
+
         return false;
     }
+    clipboardData->retry = 0;
 
     const auto newDataTimestamp = data->data(QLatin1String("TIMESTAMP"));
     if ( newDataTimestamp.isEmpty() || clipboardData->newDataTimestamp != newDataTimestamp ) {
