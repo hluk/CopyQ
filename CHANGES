@@ -9,9 +9,18 @@ v3.8.1
   GUI in rare cases when an application requested large amount of clipboard
   data, but it could cause some slowdowns to start the process.
 
+- Closing external editor focuses the edited item again (if the editor was open
+  from main window).
+
 - Fix value returned by filter() after it's hidden
 
 - Fix memory leak (tool bar and menu items were not properly cleaned up)
+
+- Windows: Fix blocking Ctrl, Shift and other modifier keys after invoking
+  paste action. The downside is that it's no longer possible to invoke command
+  assigned to a global shortcut repeatedly without releasing these keys.
+
+- X11: Fix high CPU usage when mouse selection cannot be accessed.
 
 - X11: Fix assigning global shortcuts with keypad keys
 
