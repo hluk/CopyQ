@@ -280,6 +280,11 @@ struct action_output_tab : Config<QString> {
 
 struct tabs : Config<QStringList> {
     static QString name() { return "tabs"; }
+    static Value value(Value v) {
+        v.removeAll(QString());
+        v.removeDuplicates();
+        return v;
+    }
 };
 
 struct show_advanced_command_settings : Config<bool> {

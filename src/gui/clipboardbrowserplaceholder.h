@@ -52,6 +52,9 @@ public:
     bool setTabName(const QString &tabName);
     QString tabName() const { return m_tabName; }
 
+    void setMaxItemCount(int count);
+    void setStoreItems(bool store);
+
     void removeItems();
 
     bool isDataLoaded() const;
@@ -90,6 +93,8 @@ private:
     QPushButton *m_loadButton = nullptr;
 
     QString m_tabName;
+    int m_maxItemCount = 200;
+    bool m_storeItems = true;
     ClipboardBrowserSharedPtr m_sharedData;
 
     QTimer m_timerExpire;

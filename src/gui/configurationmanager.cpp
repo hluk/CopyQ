@@ -59,7 +59,7 @@ public:
     QVariant data() const override { return m_loader->id(); }
 
 private:
-    QWidget *createWidget(QWidget *parent) const override
+    QWidget *createWidget(QWidget *parent) override
     {
         return new PluginWidget(m_loader, parent);
     }
@@ -132,6 +132,7 @@ void ConfigurationManager::initTabIcons()
     tw->setTabIcon( tw->indexOf(ui->tabGeneral), getIcon("", IconWrench) );
     tw->setTabIcon( tw->indexOf(ui->tabLayout), getIcon("", IconColumns) );
     tw->setTabIcon( tw->indexOf(ui->tabHistory), getIcon("", IconListAlt) );
+    tw->setTabIcon( tw->indexOf(ui->tabTabs), getIconFromResources("tab_rename") );
     tw->setTabIcon( tw->indexOf(ui->tabItems), getIcon("", IconThList) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), getIcon("", IconInbox) );
     tw->setTabIcon( tw->indexOf(ui->tabNotifications), getIcon("", IconInfoCircle) );
@@ -146,8 +147,10 @@ void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)
     for ( const auto &loader : itemFactory->loaders() ) {
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
         const QIcon icon = getIcon(loader->icon());
-        ui->itemOrderListPlugins->appendItem(
-                    loader->name(), itemFactory->isLoaderEnabled(loader), icon, pluginItem );
+        const auto state = itemFactory->isLoaderEnabled(loader)
+                ? ItemOrderList::Checked
+                : ItemOrderList::Unchecked;
+        ui->itemOrderListPlugins->appendItem( loader->name(), icon, pluginItem, state );
     }
 }
 
@@ -450,6 +453,8 @@ void ConfigurationManager::apply()
     for (auto it = m_options.constBegin(); it != m_options.constEnd(); ++it)
         settings.setValue( it.key(), it.value().value() );
     settings.endGroup();
+
+    ui->configTabTabs->saveTabs(settings.settingsData());
 
     // Save configuration without command line alternatives only if option widgets are initialized
     // (i.e. clicked OK or Apply in configuration dialog).

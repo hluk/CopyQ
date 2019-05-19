@@ -32,6 +32,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"
+#include "common/tabs.h"
 #include "common/textdata.h"
 #include "common/timer.h"
 #include "gui/aboutdialog.h"
@@ -2248,15 +2249,29 @@ void MainWindow::loadSettings()
     m_sharedData->showSimpleItems = appConfig.option<Config::show_simple_items>();
     m_sharedData->minutesToExpire = appConfig.option<Config::expire_tab>();
 
-    reloadBrowsers();
-
     // create tabs
-    const QStringList tabs = savedTabs();
-    for (const auto &name : tabs)
-        createTab(name, MatchExactTabName);
+    const Tabs tabs;
+    const QStringList tabNames = savedTabs();
+    for (const auto &name : tabNames) {
+        auto placeholder = createTab(name, MatchExactTabName);
+
+        const TabProperties tab = tabs.tabProperties(name);
+        placeholder->setStoreItems(tab.storeItems);
+
+        int maxItemCount = tab.maxItemCount;
+        if (maxItemCount <= 0)
+            maxItemCount = m_sharedData->maxItems;
+        else if (maxItemCount > Config::maxItems)
+            maxItemCount = Config::maxItems;
+        placeholder->setMaxItemCount(maxItemCount);
+    }
 
     Q_ASSERT( ui->tabWidget->count() > 0 );
-    setTabs(tabs); // Save any tabs loaded from new tab files.
+
+    // Save any tabs loaded from new tab files.
+    appConfig.setOption("tabs", tabNames);
+
+    reloadBrowsers();
 
     ui->tabWidget->updateTabs();
 
@@ -2507,7 +2522,8 @@ void MainWindow::saveTabPositions()
 
 void MainWindow::doSaveTabPositions()
 {
-    setTabs( ui->tabWidget->tabs() );
+    const QStringList tabs = ui->tabWidget->tabs();
+    AppConfig().setOption("tabs", tabs);
 }
 
 void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)

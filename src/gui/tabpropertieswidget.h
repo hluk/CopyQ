@@ -16,28 +16,36 @@
     You should have received a copy of the GNU General Public License
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TABICONS_H
-#define TABICONS_H
 
-class QIcon;
-class QComboBox;
-class QString;
-class QStringList;
-class QWidget;
+#ifndef TABPROPERTIESWIDGET_H
+#define TABPROPERTIESWIDGET_H
 
-/** Return list of saved tabs (ordered by "tabs" option if possible). */
-QStringList savedTabs();
+#include <QWidget>
 
-QString getIconNameForTabName(const QString &tabName);
+namespace Ui {
+class TabPropertiesWidget;
+}
 
-void setIconNameForTabName(const QString &name, const QString &icon);
+class TabPropertiesWidget : public QWidget
+{
+    Q_OBJECT
 
-QIcon getIconForTabName(const QString &tabName);
+public:
+    explicit TabPropertiesWidget(QWidget *parent = nullptr);
+    ~TabPropertiesWidget();
 
-void initTabComboBox(QComboBox *comboBox);
+    void setTabName(const QString &name);
+    void setIconName(const QString &iconName);
+    void setMaxItemCount(int maxItemCount);
+    void setStoreItems(bool storeItems);
 
-void setDefaultTabItemCounterStyle(QWidget *widget);
+signals:
+    void iconNameChanged(const QString &iconName);
+    void maxItemCountChanged(int maxItemCount);
+    void storeItemsChanged(bool storeItems);
 
-void setComboBoxItems(QComboBox *comboBox, const QStringList &items);
+private:
+    Ui::TabPropertiesWidget *ui;
+};
 
-#endif // TABICONS_H
+#endif // TABPROPERTIESWIDGET_H

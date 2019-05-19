@@ -102,7 +102,7 @@ public:
     QVariant data() const override { return QVariant::fromValue(m_command); }
 
 private:
-    QWidget *createWidget(QWidget *parent) const override
+    QWidget *createWidget(QWidget *parent) override
     {
         auto cmdWidget = new CommandWidget(parent);
         cmdWidget->setFormats(m_formats);
@@ -417,8 +417,11 @@ void CommandDialog::addCommandsWithoutSave(const Commands &commands, int targetR
     for (auto &command : commands) {
         ItemOrderList::ItemPtr item(new CommandItem(command, m_formats, this));
         const auto icon = getCommandIcon(command.icon, command.type());
+        const auto state = command.enable
+                ? ItemOrderList::Checked
+                : ItemOrderList::Unchecked;
         ui->itemOrderListCommands->insertItem(
-                    command.name, command.enable, icon, item, row);
+                    command.name, icon, item, row, state);
         rowsToSelect.append(row);
         ++row;
     }

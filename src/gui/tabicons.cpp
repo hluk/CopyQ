@@ -49,21 +49,9 @@ QHash<QString, QString> tabIcons()
 
 } // namespace
 
-QStringList tabs()
-{
-    QStringList tabs = AppConfig().option<Config::tabs>();
-    tabs.removeAll(QString());
-    return tabs;
-}
-
-void setTabs(const QStringList &tabs)
-{
-    AppConfig().setOption("tabs", tabs);
-}
-
 QStringList savedTabs()
 {
-    QStringList tabs = ::tabs();
+    QStringList tabs = AppConfig().option<Config::tabs>();
 
     const QString configPath = settingsDirectoryPath();
 
@@ -126,7 +114,7 @@ QIcon getIconForTabName(const QString &tabName)
 
 void initTabComboBox(QComboBox *comboBox)
 {
-    setComboBoxItems(comboBox, tabs());
+    setComboBoxItems(comboBox, AppConfig().option<Config::tabs>());
 
     for (int i = 1; i < comboBox->count(); ++i) {
         const QString tabName = comboBox->itemText(i);

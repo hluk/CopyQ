@@ -282,6 +282,7 @@ ClipboardBrowser::ClipboardBrowser(
     : QListView(parent)
     , m_itemSaver(nullptr)
     , m_tabName(tabName)
+    , m_maxItemCount(sharedData->maxItems)
     , m(this)
     , d(this, sharedData)
     , m_editor(nullptr)
@@ -1600,7 +1601,7 @@ void ClipboardBrowser::reverseItems(const QModelIndexList &indexes)
 
 bool ClipboardBrowser::allocateSpaceForNewItems(int newItemCount)
 {
-    const auto targetRowCount = m_sharedData->maxItems - newItemCount;
+    const auto targetRowCount = m_maxItemCount - newItemCount;
     const auto toRemove = m.rowCount() - targetRowCount;
     if (toRemove <= 0)
         return true;
@@ -1703,7 +1704,7 @@ bool ClipboardBrowser::loadItems()
     m_timerSave.stop();
 
     m.blockSignals(true);
-    m_itemSaver = ::loadItems(m_tabName, m, m_sharedData->itemFactory, m_sharedData->maxItems);
+    m_itemSaver = ::loadItems(m_tabName, m, m_sharedData->itemFactory, m_maxItemCount);
     m.blockSignals(false);
 
     if ( !isLoaded() )
@@ -1723,6 +1724,9 @@ bool ClipboardBrowser::saveItems()
 
     if ( !isLoaded() || m_tabName.isEmpty() )
         return false;
+
+    if (!m_storeItems)
+        return true;
 
     return ::saveItems(m_tabName, m, m_itemSaver);
 }
@@ -1797,6 +1801,18 @@ bool ClipboardBrowser::setTabName(const QString &tabName)
 
     m_tabName = oldTabName;
     return false;
+}
+
+void ClipboardBrowser::setMaxItemCount(int count)
+{
+    m_maxItemCount = count;
+}
+
+void ClipboardBrowser::setStoreItems(bool store)
+{
+    m_storeItems = store;
+    if (!m_storeItems)
+        ::removeItems(m_tabName);
 }
 
 void ClipboardBrowser::editRow(int row)

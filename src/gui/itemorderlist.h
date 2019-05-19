@@ -40,6 +40,12 @@ class ItemOrderList final : public QWidget
     Q_OBJECT
 
 public:
+    enum CheckState {
+        Checked,
+        Unchecked,
+        NotCheckable
+    };
+
     class Item {
         friend class ItemOrderList;
     public:
@@ -49,7 +55,7 @@ public:
         Item(const Item &) = delete;
         Item &operator=(const Item &) = delete;
     private:
-        virtual QWidget *createWidget(QWidget *parent) const = 0;
+        virtual QWidget *createWidget(QWidget *parent) = 0;
     };
 
     using ItemPtr = std::shared_ptr<Item>;
@@ -61,9 +67,9 @@ public:
 
     void clearItems();
 
-    void appendItem(const QString &label, bool checked, const QIcon &icon, const ItemPtr &item);
+    void appendItem(const QString &label, const QIcon &icon, const ItemPtr &item, CheckState state = NotCheckable);
 
-    void insertItem(const QString &label, bool checked, const QIcon &icon, const ItemPtr &item, int targetRow);
+    void insertItem(const QString &label, const QIcon &icon, const ItemPtr &item, int targetRow, CheckState state = NotCheckable);
 
     void removeRow(int row);
 

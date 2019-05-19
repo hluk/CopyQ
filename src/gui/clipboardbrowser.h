@@ -86,6 +86,9 @@ class ClipboardBrowser final : public QListView
         bool setTabName(const QString &tabName);
         const QString &tabName() const { return m_tabName; }
 
+        void setMaxItemCount(int count);
+        void setStoreItems(bool store);
+
         /**
          * Return true only if the internal editor widget is open.
          */
@@ -387,7 +390,11 @@ class ClipboardBrowser final : public QListView
         void setCurrentIndex(const QModelIndex &index);
 
         ItemSaverPtr m_itemSaver;
+
         QString m_tabName;
+        int m_maxItemCount = 200;
+        bool m_storeItems = true;
+
         ClipboardModel m;
         ItemDelegate d;
         QTimer m_timerSave;

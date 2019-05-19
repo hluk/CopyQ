@@ -52,8 +52,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>644</width>
-            <height>470</height>
+            <width>622</width>
+            <height>480</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -321,8 +321,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>270</width>
-            <height>338</height>
+            <width>636</width>
+            <height>459</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_23">
@@ -572,8 +572,8 @@ Note: This is not supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>477</width>
-            <height>381</height>
+            <width>636</width>
+            <height>459</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -873,8 +873,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>408</width>
-            <height>196</height>
+            <width>636</width>
+            <height>459</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1088,8 +1088,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>389</width>
-            <height>281</height>
+            <width>636</width>
+            <height>459</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1472,6 +1472,16 @@ Set to 0 to disable.</string>
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tabTabs">
+      <attribute name="title">
+       <string>Ta&amp;bs</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="ConfigTabTabs" name="configTabTabs" native="true"/>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tabItems">
       <attribute name="title">
        <string>&amp;Items</string>
@@ -1553,6 +1563,12 @@ Set to 0 to disable.</string>
    <class>ConfigTabShortcuts</class>
    <extends>QWidget</extends>
    <header>gui/configtabshortcuts.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ConfigTabTabs</class>
+   <extends>QWidget</extends>
+   <header>gui/configtabtabs.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

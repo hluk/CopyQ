@@ -54,6 +54,8 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
         return nullptr;
 
     std::unique_ptr<ClipboardBrowser> c( new ClipboardBrowser(m_tabName, m_sharedData, this) );
+    c->setStoreItems(m_storeItems);
+    c->setMaxItemCount(m_maxItemCount);
 
     if ( !c->loadItems() ) {
         createLoadButton();
@@ -98,6 +100,20 @@ bool ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
         createBrowser();
 
     return true;
+}
+
+void ClipboardBrowserPlaceholder::setMaxItemCount(int count)
+{
+    m_maxItemCount = count;
+    if (m_browser)
+        m_browser->setMaxItemCount(count);
+}
+
+void ClipboardBrowserPlaceholder::setStoreItems(bool store)
+{
+    m_storeItems = store;
+    if (m_browser)
+        m_browser->setStoreItems(store);
 }
 
 void ClipboardBrowserPlaceholder::removeItems()
@@ -201,6 +217,7 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
 bool ClipboardBrowserPlaceholder::canExpire() const
 {
     return m_browser
+            && m_storeItems
             && !m_browser->isVisible()
             && !isEditorOpen();
 }

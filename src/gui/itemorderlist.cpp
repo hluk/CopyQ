@@ -91,18 +91,22 @@ void ItemOrderList::clearItems()
     m_items.clear();
 }
 
-void ItemOrderList::appendItem(const QString &label, bool checked, const QIcon &icon, const ItemPtr &item)
+void ItemOrderList::appendItem(
+        const QString &label, const QIcon &icon,
+        const ItemPtr &item, CheckState state)
 {
-    insertItem(label, checked, icon, item, -1);
+    insertItem(label, icon, item, -1, state);
 }
 
-void ItemOrderList::insertItem(const QString &label, bool checked, const QIcon &icon,
-                               const ItemPtr &item, int targetRow)
+void ItemOrderList::insertItem(
+        const QString &label, const QIcon &icon,
+        const ItemPtr &item, int targetRow, CheckState state)
 {
     QListWidget *list = ui->listWidgetItems;
     auto listItem = new QListWidgetItem(icon, label);
-    listItem->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
-    m_items[listItem] = ItemWidgetPair(item, checked);
+    if (state != NotCheckable)
+        listItem->setCheckState(state == Checked ? Qt::Checked : Qt::Unchecked);
+    m_items[listItem] = ItemWidgetPair(item, state == Checked);
 
     const int row = targetRow >= 0 ? qMin(list->count(), targetRow) : list->count();
     list->insertItem(row, listItem);

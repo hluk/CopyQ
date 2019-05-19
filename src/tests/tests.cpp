@@ -552,7 +552,7 @@ private:
         QCOMPARE( appConfig.option<Config::clipboard_tab>(), QString(clipboardTabName) );
         QCOMPARE( appConfig.option<Config::maxitems>(), Config::maxitems::defaultValue() );
         QCOMPARE( savedTabs(), QStringList(clipboardTabName) );
-        QCOMPARE( tabs(), QStringList() );
+        QCOMPARE( AppConfig().option<Config::tabs>(), QStringList() );
     }
 
     bool startTestProcess(QProcess *p, const QStringList &arguments,

@@ -16,28 +16,25 @@
     You should have received a copy of the GNU General Public License
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TABICONS_H
-#define TABICONS_H
 
-class QIcon;
-class QComboBox;
-class QString;
-class QStringList;
-class QWidget;
+#ifndef CONFIGTABTABS_H
+#define CONFIGTABTABS_H
 
-/** Return list of saved tabs (ordered by "tabs" option if possible). */
-QStringList savedTabs();
+#include <QWidget>
 
-QString getIconNameForTabName(const QString &tabName);
+class ItemOrderList;
+class QSettings;
 
-void setIconNameForTabName(const QString &name, const QString &icon);
+class ConfigTabTabs final : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit ConfigTabTabs(QWidget *parent = nullptr);
 
-QIcon getIconForTabName(const QString &tabName);
+    void saveTabs(QSettings *settings);
 
-void initTabComboBox(QComboBox *comboBox);
+private:
+    ItemOrderList *m_list;
+};
 
-void setDefaultTabItemCounterStyle(QWidget *widget);
-
-void setComboBoxItems(QComboBox *comboBox, const QStringList &items);
-
-#endif // TABICONS_H
+#endif // CONFIGTABTABS_H
