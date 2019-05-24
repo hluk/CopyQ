@@ -29,6 +29,8 @@ How to paste double-clicked item from application window?
 
 Next time you open main window and activate an item it should be pasted.
 
+.. _faq-paste-text:
+
 How to paste as plain text?
 ---------------------------
 
@@ -43,8 +45,28 @@ To **paste clipboard as plain text**:
 To **paste selected items as plain text** (from application window) follow the steps above
 but add "Paste as Plain Text" command instead and change "Shortcut".
 
-You can also disallow rich text storing: go to preferences,
-"Items" tab and uncheck "Web" checkbox under "Text" uncheck "HTML" checkbox.
+.. _faq-store-text:
+
+How to store only plain text?
+-----------------------------
+
+To **disallow storing HTML and rich text**:
+
+1. Open "Preferences" (``Ctrl+P`` shortcut),
+2. go to "Items" tab,
+3. disable "Web" item in the list,
+4. select "Text" item,
+5. and disable "Save and display HTML and rich text".
+
+Similarly you can also disable "Images" in the list to avoid storing and
+rendering images.
+
+Existing items won't be affected but **any data formats can be removed**:
+
+1. Select an item,
+2. press ``F4`` shortcut ("Item - Show Content..." in menu),
+3. select format from list,
+4. press ``Delete`` key.
 
 .. _faq-disable-clipboard-storing:
 
