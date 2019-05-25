@@ -138,6 +138,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("onClipboardChanged", "onClipboardChanged()", "Called when clipboard or X11 selection changes.");
     addDocumentation("onOwnClipboardChanged", "onOwnClipboardChanged()", "Called when clipboard or X11 selection changes by a CopyQ instance.");
     addDocumentation("onHiddenClipboardChanged", "onHiddenClipboardChanged()", "Called when hidden clipboard or X11 selection changes.");
+    addDocumentation("onClipboardUnchanged", "onClipboardUnchanged()", "Called when clipboard or X11 selection changes but data remained the same.");
     addDocumentation("onStart", "onStart()", "Called when application starts.");
     addDocumentation("onExit", "onExit()", "Called just before application exists.");
     addDocumentation("runAutomaticCommands", "bool runAutomaticCommands()", "Executes automatic commands on current data.");
