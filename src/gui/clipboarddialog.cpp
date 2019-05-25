@@ -244,7 +244,9 @@ void ClipboardDialog::setData(const QVariantMap &data)
 
     QStringList formats = data.keys();
     std::sort( std::begin(formats), std::end(formats), [](const QString &lhs, const QString &rhs) {
-        return formatSortPriority(lhs) > formatSortPriority(rhs) || lhs < rhs;
+        const int lhsPriority = formatSortPriority(lhs);
+        const int rhsPriority = formatSortPriority(rhs);
+        return lhsPriority == rhsPriority ? lhs < rhs : lhsPriority > rhsPriority;
     } );
     for (const QString &format : formats) {
         ui->listWidgetFormats->addItem(format);
