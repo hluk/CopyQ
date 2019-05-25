@@ -1467,6 +1467,29 @@ void Tests::commandMimeTypes()
     RUN("print(mimeOutputTab)", mimeOutputTab);
 }
 
+void Tests::commandUnload()
+{
+    // Failure if tab is visible.
+    RUN("unload", "");
+
+    const auto tab = testTab(1);
+
+    // Success if tab doesn't exist.
+    RUN("unload" << tab, tab + "\n");
+
+    RUN("tab" << tab << "add" << "A", "");
+    // Success if tab is not visible and editor is not open.
+    RUN("unload" << tab, tab + "\n");
+
+    RUN("tab" << tab << "add" << "B", "");
+    RUN("unload", tab + "\n");
+    // Success if tab is not loaded.
+    RUN("unload", tab + "\n");
+
+    // Success if tab does not exist.
+    RUN("unload" << "missing-tab", "missing-tab\n");
+}
+
 void Tests::classByteArray()
 {
     RUN("ByteArray('test')", "test");

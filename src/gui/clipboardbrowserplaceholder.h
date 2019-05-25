@@ -63,7 +63,7 @@ public:
     void reloadBrowser();
 
     /// Unload browser and data.
-    void expire();
+    bool expire();
 
 signals:
     void browserCreated(ClipboardBrowser *browser);

@@ -116,6 +116,8 @@ public slots:
     QString tabIcon(const QString &tabName);
     void setTabIcon(const QString &tabName, const QString &icon);
 
+    QStringList unloadTabs(const QStringList &tabs);
+
     bool showBrowser(const QString &tabName);
     bool showBrowserAt(const QString &tabName, QRect rect);
 

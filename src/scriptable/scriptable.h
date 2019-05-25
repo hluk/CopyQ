@@ -195,6 +195,7 @@ public slots:
     void renametab() { renameTab(); }
     QScriptValue tabIcon();
     QScriptValue tabicon() { return tabIcon(); }
+    QScriptValue unload();
 
     QScriptValue length();
     QScriptValue size() { return length(); }

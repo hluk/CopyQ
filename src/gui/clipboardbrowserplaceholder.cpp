@@ -143,12 +143,18 @@ void ClipboardBrowserPlaceholder::hideEvent(QHideEvent *event)
     QWidget::hideEvent(event);
 }
 
-void ClipboardBrowserPlaceholder::expire()
+bool ClipboardBrowserPlaceholder::expire()
 {
-    if (canExpire())
+    if (!m_browser)
+        return true;
+
+    if (canExpire()) {
         unloadBrowser();
-    else
-        restartExpiring();
+        return true;
+    }
+
+    restartExpiring();
+    return false;
 }
 
 void ClipboardBrowserPlaceholder::setActiveWidget(QWidget *widget)

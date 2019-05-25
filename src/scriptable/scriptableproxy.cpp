@@ -1121,6 +1121,17 @@ void ScriptableProxy::setTabIcon(const QString &tabName, const QString &icon)
     m_wnd->setTabIcon(tabName, icon);
 }
 
+QStringList ScriptableProxy::unloadTabs(const QStringList &tabs)
+{
+    INVOKE(unloadTabs, (tabs));
+    QStringList unloaded;
+    for (const auto &tab : tabs) {
+        if ( m_wnd->unloadTab(tab) )
+            unloaded.append(tab);
+    }
+    return unloaded;
+}
+
 bool ScriptableProxy::showBrowser(const QString &tabName)
 {
     INVOKE(showBrowser, (tabName));

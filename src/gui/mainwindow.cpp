@@ -1189,6 +1189,15 @@ ClipboardBrowserPlaceholder *MainWindow::getPlaceholder(int index) const
     return qobject_cast<ClipboardBrowserPlaceholder*>( ui->tabWidget->widget(index) );
 }
 
+ClipboardBrowserPlaceholder *MainWindow::getPlaceholder(const QString &tabName) const
+{
+    for (auto placeholder : findChildren<ClipboardBrowserPlaceholder*>()) {
+        if ( placeholder->tabName() == tabName )
+            return placeholder;
+    }
+    return nullptr;
+}
+
 ClipboardBrowserPlaceholder *MainWindow::getPlaceholder() const
 {
     return qobject_cast<ClipboardBrowserPlaceholder*>( ui->tabWidget->currentWidget() );
@@ -3547,6 +3556,12 @@ void MainWindow::setTabIcon(const QString &tabName, const QString &icon)
         setIconNameForTabName(tabName, icon);
         ui->tabWidget->updateTabIcon(tabName);
     }
+}
+
+bool MainWindow::unloadTab(const QString &tabName)
+{
+    ClipboardBrowserPlaceholder *placeholder = getPlaceholder(tabName);
+    return !placeholder || placeholder->expire();
 }
 
 MainWindow::~MainWindow()

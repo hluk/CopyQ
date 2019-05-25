@@ -1066,6 +1066,13 @@ QScriptValue Scriptable::tabIcon()
     return QScriptValue();
 }
 
+QScriptValue Scriptable::unload()
+{
+    const auto tabs = arguments();
+    const QStringList unloaded = m_proxy->unloadTabs(tabs.isEmpty() ? m_proxy->tabs() : tabs);
+    return toScriptValue(unloaded, this);
+}
+
 QScriptValue Scriptable::length()
 {
     m_skipArguments = 0;

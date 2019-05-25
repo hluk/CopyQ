@@ -206,6 +206,8 @@ public:
 
     void setTabIcon(const QString &tabName, const QString &icon);
 
+    bool unloadTab(const QString &tabName);
+
     /**
      * Save all items in tab to file.
      * @return True only if all items were successfully saved.
@@ -556,6 +558,8 @@ private:
 
     /** Return browser widget in given tab @a index. */
     ClipboardBrowserPlaceholder *getPlaceholder(int index) const;
+
+    ClipboardBrowserPlaceholder *getPlaceholder(const QString &tabName) const;
 
     /** Return browser widget in current tab. */
     ClipboardBrowserPlaceholder *getPlaceholder() const;

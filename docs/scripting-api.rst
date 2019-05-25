@@ -268,6 +268,16 @@ omitted.
 
    Sets icon for tab.
 
+.. js:function:: String[] unload([tabNames...])
+
+   Unload tabs (i.e. items from memory).
+
+   If no tabs are specified, unloads all tabs.
+
+   If a tab is open and visible or has an editor open, it won't be unloaded.
+
+   Returns list of successfully unloaded tabs.
+
 .. js:function:: count(), length(), size()
 
    Returns amount of items in current tab.
