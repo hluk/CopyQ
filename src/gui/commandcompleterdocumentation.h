@@ -40,6 +40,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("tabIcon", "String tabIcon(tabName)", "Returns path to icon for tab.");
     addDocumentation("tabIcon", "tabIcon(tabName, iconPath)", "Sets icon for tab.");
     addDocumentation("unload", "String[] unload([tabNames...])", "Unload tabs (i.e. items from memory).");
+    addDocumentation("forceUnload", "forceUnload([tabNames...])", "Force-unload tabs (i.e. items from memory).");
     addDocumentation("count", "count(), length(), size()", "Returns amount of items in current tab.");
     addDocumentation("select", "select(row)", "Copies item in the row to clipboard.");
     addDocumentation("next", "next()", "Copies next item from current tab to clipboard.");

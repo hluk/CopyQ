@@ -71,6 +71,7 @@ const auto defaultSessionColor = "#ff8800";
 const auto defaultTagColor = "#000000";
 
 const auto clipboardBrowserId = "focus:ClipboardBrowser";
+const auto clipboardBrowserRefreshButtonId = "focus:ClipboardBrowserRefreshButton";
 const auto filterEditId = "focus:Utils::FilterLineEdit";
 const auto trayMenuId = "focus:TrayMenu";
 const auto menuId = "focus:Menu";
@@ -1488,6 +1489,27 @@ void Tests::commandUnload()
 
     // Success if tab does not exist.
     RUN("unload" << "missing-tab", "missing-tab\n");
+}
+
+void Tests::commandForceUnload()
+{
+    RUN("forceUnload", "");
+    RUN_EXPECT_ERROR_WITH_STDERR("add" << "A", CommandException, "ScriptError: Invalid tab");
+
+    RUN("keys" << clipboardBrowserRefreshButtonId << "Space", "");
+    RUN("add" << "A", "");
+
+    const auto tab = testTab(1);
+    RUN("tab" << tab << "add" << "A", "");
+
+    RUN("forceUnload" << tab, "");
+
+    RUN("setCurrentTab" << tab, "");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "tab" << tab << "add" << "B", CommandException, "ScriptError: Invalid tab");
+
+    RUN("keys" << clipboardBrowserRefreshButtonId << "Space", "");
+    RUN("add" << "B", "");
 }
 
 void Tests::classByteArray()

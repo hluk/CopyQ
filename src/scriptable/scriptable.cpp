@@ -1073,6 +1073,12 @@ QScriptValue Scriptable::unload()
     return toScriptValue(unloaded, this);
 }
 
+void Scriptable::forceUnload()
+{
+    const auto tabs = arguments();
+    m_proxy->forceUnloadTabs(tabs.isEmpty() ? m_proxy->tabs() : tabs);
+}
+
 QScriptValue Scriptable::length()
 {
     m_skipArguments = 0;

@@ -278,6 +278,18 @@ omitted.
 
    Returns list of successfully unloaded tabs.
 
+.. js:function:: forceUnload([tabNames...])
+
+   Force-unload tabs (i.e. items from memory).
+
+   If no tabs are specified, unloads all tabs.
+
+   Refresh button needs to be clicked to show the content of a force-unloaded
+   tab.
+
+   If a tab has an editor open, the editor will be closed first even if it has
+   unsaved changes.
+
 .. js:function:: count(), length(), size()
 
    Returns amount of items in current tab.

@@ -196,6 +196,7 @@ public slots:
     QScriptValue tabIcon();
     QScriptValue tabicon() { return tabIcon(); }
     QScriptValue unload();
+    void forceUnload();
 
     QScriptValue length();
     QScriptValue size() { return length(); }

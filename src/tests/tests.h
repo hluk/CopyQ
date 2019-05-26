@@ -135,6 +135,7 @@ private slots:
     void commandMimeTypes();
 
     void commandUnload();
+    void commandForceUnload();
 
     void classByteArray();
     void classFile();

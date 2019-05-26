@@ -65,8 +65,13 @@ public:
     /// Unload browser and data.
     bool expire();
 
+    void unloadBrowser();
+
+    void createLoadButton();
+
 signals:
     void browserCreated(ClipboardBrowser *browser);
+    void browserDestroyed();
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -74,10 +79,6 @@ protected:
 
 private:
     void setActiveWidget(QWidget *widget);
-
-    void createLoadButton();
-
-    void unloadBrowser();
 
     bool canExpire() const;
 

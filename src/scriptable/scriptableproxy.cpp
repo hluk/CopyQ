@@ -1132,6 +1132,13 @@ QStringList ScriptableProxy::unloadTabs(const QStringList &tabs)
     return unloaded;
 }
 
+void ScriptableProxy::forceUnloadTabs(const QStringList &tabs)
+{
+    INVOKE2(forceUnloadTabs, (tabs));
+    for (const auto &tab : tabs)
+        m_wnd->forceUnloadTab(tab);
+}
+
 bool ScriptableProxy::showBrowser(const QString &tabName)
 {
     INVOKE(showBrowser, (tabName));
@@ -1432,9 +1439,7 @@ QVariantMap ScriptableProxy::browserItemData(const QString &tabName, int arg1)
 void ScriptableProxy::setCurrentTab(const QString &tabName)
 {
     INVOKE2(setCurrentTab, (tabName));
-    ClipboardBrowser *c = fetchBrowser(tabName);
-    if (c)
-        m_wnd->setCurrentTab(c);
+    m_wnd->addAndFocusTab(tabName);
 }
 
 QString ScriptableProxy::tab(const QString &tabName)

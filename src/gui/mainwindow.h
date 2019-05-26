@@ -207,6 +207,7 @@ public:
     void setTabIcon(const QString &tabName, const QString &icon);
 
     bool unloadTab(const QString &tabName);
+    void forceUnloadTab(const QString &tabName);
 
     /**
      * Save all items in tab to file.
@@ -333,9 +334,6 @@ public:
     /** Activate current item. */
     void activateCurrentItem();
 
-    /** Set current tab. */
-    void setCurrentTab(const ClipboardBrowser *browser);
-
     /** Show window and given tab and give focus to the tab. */
     void showBrowser(const ClipboardBrowser *browser);
 
@@ -382,10 +380,7 @@ public:
     /** Rename current tab to given name (if possible). */
     void renameTab(const QString &name, int tabIndex);
 
-    /**
-     * Add tab with given name if doesn't exist and focus the tab.
-     */
-    void addTab(const QString &name);
+    void addAndFocusTab(const QString &name);
 
     /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
     void toggleClipboardStoring();
@@ -436,8 +431,8 @@ protected:
     bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
 
 private:
-    ClipboardBrowser *getTabForMenu();
-    ClipboardBrowser *getTabForTrayMenu();
+    ClipboardBrowserPlaceholder *getPlaceholderForMenu();
+    ClipboardBrowserPlaceholder *getPlaceholderForTrayMenu();
     void filterMenuItems(const QString &searchText);
     void filterTrayMenuItems(const QString &searchText);
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
@@ -491,6 +486,7 @@ private:
     void moveToBottom();
 
     void onBrowserCreated(ClipboardBrowser *browser);
+    void onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder);
 
     void onItemSelectionChanged(const ClipboardBrowser *browser);
     void onItemsChanged(const ClipboardBrowser *browser);
@@ -610,8 +606,8 @@ private:
 
     QAction *actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context);
 
-    void addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText);
-    void activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, bool omitPaste);
+    void addMenuItems(TrayMenu *menu, ClipboardBrowserPlaceholder *placeholder, int maxItemCount, const QString &searchText);
+    void activateMenuItem(ClipboardBrowserPlaceholder *placeholder, const QVariantMap &data, bool omitPaste);
     bool toggleMenu(TrayMenu *menu, QPoint pos);
     bool toggleMenu(TrayMenu *menu);
 

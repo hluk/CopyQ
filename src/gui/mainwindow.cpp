@@ -1007,6 +1007,25 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              ui->searchBar, &Utils::FilterLineEdit::hide );
     connect( browser, &ClipboardBrowser::itemWidgetCreated,
              this, &MainWindow::onItemWidgetCreated );
+
+    const ClipboardBrowserPlaceholder *currentPlaceholder = getPlaceholder();
+    if (currentPlaceholder && currentPlaceholder->browser() == browser) {
+        const int index = ui->tabWidget->currentIndex();
+        tabChanged(index, index);
+    }
+
+    const ClipboardBrowserPlaceholder *placeholderForTrayMenu = getPlaceholderForTrayMenu();
+    if (placeholderForTrayMenu && placeholderForTrayMenu->browser() == browser)
+        updateTrayMenu();
+}
+
+void MainWindow::onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder)
+{
+    if (placeholder == getPlaceholder())
+        updateContextMenu(0);
+
+    if (placeholder == getPlaceholderForTrayMenu())
+        updateTrayMenu();
 }
 
 void MainWindow::onItemSelectionChanged(const ClipboardBrowser *browser)
@@ -1019,7 +1038,9 @@ void MainWindow::onItemsChanged(const ClipboardBrowser *browser)
 {
     if (browser == this->browser())
         updateContextMenu(contextMenuUpdateIntervalMsec);
-    if (browser == getTabForTrayMenu())
+
+    const ClipboardBrowserPlaceholder *placeholder = getPlaceholderForTrayMenu();
+    if (placeholder && placeholder->browser() == browser)
         updateTrayMenu();
 }
 
@@ -1224,7 +1245,8 @@ bool MainWindow::closeMinimizes() const
 ClipboardBrowserPlaceholder *MainWindow::createTab(
         const QString &name, TabNameMatching nameMatch)
 {
-    Q_ASSERT( !name.isEmpty() );
+    if ( name.isEmpty() )
+        return nullptr;
 
     const int i = nameMatch == MatchExactTabName
             ? findTabIndexExactMatch(name)
@@ -1236,6 +1258,8 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(
     auto placeholder = new ClipboardBrowserPlaceholder(name, m_sharedData, this);
     connect( placeholder, &ClipboardBrowserPlaceholder::browserCreated,
              this, &MainWindow::onBrowserCreated );
+    connect( placeholder, &ClipboardBrowserPlaceholder::browserDestroyed,
+             this, [this, placeholder]() { onBrowserDestroyed(placeholder); } );
 
     ui->tabWidget->addTab(placeholder, name);
     saveTabPositions();
@@ -1322,12 +1346,13 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
     if ( m_menuCommands.isEmpty() )
         return;
 
-    auto c = getTabForTrayMenu();
-    if (!c) {
-        c = getPlaceholder()->createBrowser();
-        if (!c)
-            return;
-    }
+    ClipboardBrowserPlaceholder *placeholder = getPlaceholderForTrayMenu();
+    if (!placeholder)
+        return;
+
+    ClipboardBrowser *c = placeholder->createBrowser();
+    if (!c)
+        return;
 
     // Pass current window title to commands in tray menu.
     auto data = clipboardData;
@@ -1525,11 +1550,15 @@ QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutCont
     return action;
 }
 
-void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCount, const QString &searchText)
+void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowserPlaceholder *placeholder, int maxItemCount, const QString &searchText)
 {
     WidgetSizeGuard sizeGuard(menu);
     menu->clearClipboardItems();
 
+    if (!placeholder)
+        return;
+
+    const ClipboardBrowser *c = placeholder->createBrowser();
     if (!c)
         return;
 
@@ -1547,11 +1576,15 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowser *c, int maxItemCo
     }
 }
 
-void MainWindow::activateMenuItem(ClipboardBrowser *c, const QVariantMap &data, bool omitPaste)
+void MainWindow::activateMenuItem(ClipboardBrowserPlaceholder *placeholder, const QVariantMap &data, bool omitPaste)
 {
     if ( m_sharedData->moveItemOnReturnKey ) {
         const auto itemHash = ::hash(data);
-        c->moveToTop(itemHash);
+        if (placeholder) {
+            ClipboardBrowser *c = placeholder->createBrowser();
+            if (c)
+                c->moveToTop(itemHash);
+        }
     }
 
     if ( QGuiApplication::queryKeyboardModifiers().testFlag(Qt::ShiftModifier) )
@@ -2346,16 +2379,11 @@ bool MainWindow::toggleVisible()
     return true;
 }
 
-void MainWindow::setCurrentTab(const ClipboardBrowser *browser)
+void MainWindow::showBrowser(const ClipboardBrowser *browser)
 {
     int i = 0;
     for( ; i < ui->tabWidget->count() && getPlaceholder(i)->browser() != browser; ++i ) {}
     setCurrentTab(i);
-}
-
-void MainWindow::showBrowser(const ClipboardBrowser *browser)
-{
-    setCurrentTab(browser);
     showWindow();
 }
 
@@ -2370,12 +2398,12 @@ bool MainWindow::setCurrentTab(int index)
 
 void MainWindow::onMenuActionTriggered(const QVariantMap &data, bool omitPaste)
 {
-    activateMenuItem( getTabForMenu(), data, omitPaste );
+    activateMenuItem( getPlaceholderForMenu(), data, omitPaste );
 }
 
 void MainWindow::onTrayActionTriggered(const QVariantMap &data, bool omitPaste)
 {
-    activateMenuItem( getTabForTrayMenu(), data, omitPaste );
+    activateMenuItem( getPlaceholderForTrayMenu(), data, omitPaste );
 }
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
@@ -2816,22 +2844,22 @@ QStringList MainWindow::tabs() const
     return ui->tabWidget->tabs();
 }
 
-ClipboardBrowser *MainWindow::getTabForMenu()
+ClipboardBrowserPlaceholder *MainWindow::getPlaceholderForMenu()
 {
     const auto i = findTabIndex(m_menuTabName);
-    return i != -1 ? browser(i) : nullptr;
+    return i != -1 ? getPlaceholder(i) : nullptr;
 }
 
-ClipboardBrowser *MainWindow::getTabForTrayMenu()
+ClipboardBrowserPlaceholder *MainWindow::getPlaceholderForTrayMenu()
 {
     if (m_options.trayCurrentTab)
-        return browser();
+        return getPlaceholder();
 
     if ( m_options.trayTabName.isEmpty() )
-        return m_options.clipboardTab.isEmpty() ? nullptr : tab(m_options.clipboardTab);
+        return m_options.clipboardTab.isEmpty() ? nullptr : getPlaceholder(m_options.clipboardTab);
 
     int i = findTabIndex(m_options.trayTabName);
-    return i != -1 ? browser(i) : nullptr;
+    return i != -1 ? getPlaceholder(i) : nullptr;
 }
 
 void MainWindow::onFilterChanged(const QRegExp &re)
@@ -2987,12 +3015,12 @@ void MainWindow::updateTrayMenuTimeout()
 
 void MainWindow::filterMenuItems(const QString &searchText)
 {
-    addMenuItems(m_menu, getTabForMenu(), m_menuMaxItemCount, searchText);
+    addMenuItems(m_menu, getPlaceholderForMenu(), m_menuMaxItemCount, searchText);
 }
 
 void MainWindow::filterTrayMenuItems(const QString &searchText)
 {
-    addMenuItems(m_trayMenu, getTabForTrayMenu(), m_options.trayItems, searchText);
+    addMenuItems(m_trayMenu, getPlaceholderForTrayMenu(), m_options.trayItems, searchText);
     m_trayMenu->markItemInClipboard(m_clipboardData);
 }
 
@@ -3132,11 +3160,16 @@ ClipboardBrowser *MainWindow::browserForItem(const QModelIndex &index)
     return nullptr;
 }
 
-void MainWindow::addTab(const QString &name)
+void MainWindow::addAndFocusTab(const QString &name)
 {
-    createTab(name, MatchExactTabName);
-    auto w = ui->tabWidget;
-    w->setCurrentIndex( w->count()-1 );
+    auto placeholder = createTab(name, MatchExactTabName);
+    if (!placeholder)
+        return;
+
+    int i = 0;
+    for( ; i < ui->tabWidget->count() && getPlaceholder(i) != placeholder; ++i ) {}
+    setCurrentTab(i);
+
     saveTabPositions();
 }
 
@@ -3392,7 +3425,7 @@ void MainWindow::openNewTabDialog(const QString &name)
     d->setTabName(name);
 
     connect( d, &TabDialog::newTabNameAccepted,
-             this, &MainWindow::addTab );
+             this, &MainWindow::addAndFocusTab );
 
     d->open();
 }
@@ -3562,6 +3595,17 @@ bool MainWindow::unloadTab(const QString &tabName)
 {
     ClipboardBrowserPlaceholder *placeholder = getPlaceholder(tabName);
     return !placeholder || placeholder->expire();
+}
+
+void MainWindow::forceUnloadTab(const QString &tabName)
+{
+    ClipboardBrowserPlaceholder *placeholder = getPlaceholder(tabName);
+    if (!placeholder)
+        return;
+
+    placeholder->unloadBrowser();
+
+    placeholder->createLoadButton();
 }
 
 MainWindow::~MainWindow()

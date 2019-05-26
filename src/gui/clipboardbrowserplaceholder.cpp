@@ -54,7 +54,6 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
         return nullptr;
 
     std::unique_ptr<ClipboardBrowser> c( new ClipboardBrowser(m_tabName, m_sharedData, this) );
-    emit browserCreated(c.get());
 
     if ( !c->loadItems() ) {
         createLoadButton();
@@ -73,6 +72,7 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
 
     restartExpiring();
 
+    emit browserCreated(m_browser);
     return m_browser;
 }
 
@@ -162,6 +162,8 @@ void ClipboardBrowserPlaceholder::setActiveWidget(QWidget *widget)
     layout()->addWidget(widget);
     setFocusProxy(widget);
     widget->show();
+    if (isVisible())
+        widget->setFocus();
 }
 
 void ClipboardBrowserPlaceholder::createLoadButton()
@@ -170,6 +172,8 @@ void ClipboardBrowserPlaceholder::createLoadButton()
         return;
 
     m_loadButton = new QPushButton(this);
+    m_loadButton->setObjectName("ClipboardBrowserRefreshButton");
+    m_loadButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_loadButton->setFlat(true);
 
     const QIcon icon( getIcon("", IconRedo) );
@@ -190,6 +194,8 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
     m_browser->saveUnsavedItems();
     m_browser->deleteLater();
     m_browser = nullptr;
+
+    emit browserDestroyed();
 }
 
 bool ClipboardBrowserPlaceholder::canExpire() const
