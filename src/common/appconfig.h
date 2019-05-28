@@ -261,6 +261,11 @@ struct copy_selection : Config<bool> {
     static QString name() { return "copy_selection"; }
 };
 
+struct run_selection : Config<bool> {
+    static QString name() { return "run_selection"; }
+    static Value defaultValue() { return true; }
+};
+
 struct action_has_input : Config<bool> {
     static QString name() { return "action_has_input"; }
 };

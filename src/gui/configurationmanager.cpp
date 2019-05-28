@@ -260,10 +260,12 @@ void ConfigurationManager::initOptions()
     bind<Config::check_selection>(ui->checkBoxSel);
     bind<Config::copy_clipboard>(ui->checkBoxCopyClip);
     bind<Config::copy_selection>(ui->checkBoxCopySel);
+    bind<Config::run_selection>(ui->checkBoxRunSel);
 #else
     ui->checkBoxCopySel->hide();
     ui->checkBoxSel->hide();
     ui->checkBoxCopyClip->hide();
+    ui->checkBoxRunSel->hide();
 #endif
 
     // values of last submitted action

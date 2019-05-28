@@ -58,6 +58,7 @@ private:
 
 #ifdef HAS_MOUSE_SELECTIONS
     bool m_storeSelection;
+    bool m_runSelection;
     bool m_clipboardToSelection;
     bool m_selectionToClipboard;
 #endif

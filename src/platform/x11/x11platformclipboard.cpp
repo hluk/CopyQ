@@ -101,6 +101,12 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     DummyClipboard::startMonitoring(formats);
 }
 
+void X11PlatformClipboard::setMonitoringEnabled(ClipboardMode mode, bool enable)
+{
+    auto &clipboardData = mode == ClipboardMode::Clipboard ? m_clipboardData : m_selectionData;
+    clipboardData.enabled = enable;
+}
+
 QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) const
 {
     const auto &clipboardData = mode == ClipboardMode::Clipboard ? m_clipboardData : m_selectionData;
@@ -120,6 +126,9 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
 void X11PlatformClipboard::onChanged(int mode)
 {
     auto &clipboardData = mode == QClipboard::Clipboard ? m_clipboardData : m_selectionData;
+    if (!clipboardData.enabled)
+        return;
+
     clipboardData.changed = true;
 
     // Store the current window title right after the clipboard/selection changes.
@@ -165,6 +174,9 @@ void X11PlatformClipboard::check()
 
 bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
 {
+    if (!clipboardData->enabled)
+        return false;
+
     const auto data = ::clipboardData(clipboardData->mode);
 
     // Retry to retrieve clipboard data few times.

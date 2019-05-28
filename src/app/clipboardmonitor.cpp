@@ -77,9 +77,15 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
 
 #ifdef HAS_MOUSE_SELECTIONS
     m_storeSelection = config.option<Config::check_selection>();
+    m_runSelection = config.option<Config::run_selection>();
 
     m_clipboardToSelection = config.option<Config::copy_clipboard>();
     m_selectionToClipboard = config.option<Config::copy_selection>();
+
+    if (!m_storeSelection && !m_runSelection && !m_selectionToClipboard) {
+        COPYQ_LOG("Disabling selection monitoring");
+        m_clipboard->setMonitoringEnabled(ClipboardMode::Selection, false);
+    }
 
     onClipboardChanged(ClipboardMode::Selection);
 #endif
@@ -93,6 +99,10 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
             ? &m_clipboardData : &m_selectionData;
 
     if ( hasSameData(data, *clipboardData) ) {
+#ifdef HAS_MOUSE_SELECTIONS
+        if ( !m_runSelection && mode == ClipboardMode::Selection )
+            return;
+#endif
         COPYQ_LOG( QString("Ignoring unchanged %1")
                    .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
         emit clipboardUnchanged(data);
@@ -131,6 +141,10 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
             emit synchronizeSelection(mode, text, qHash(targetText));
         }
     }
+
+    // omit running run automatic commands when disabled
+    if ( !m_runSelection && mode == ClipboardMode::Selection )
+        return;
 #endif
 
     // run automatic commands

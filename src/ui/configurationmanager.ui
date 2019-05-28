@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>676</width>
-    <height>557</height>
+    <width>679</width>
+    <height>621</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -52,8 +52,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>622</width>
-            <height>480</height>
+            <width>639</width>
+            <height>523</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -223,13 +223,13 @@
                 <bool>false</bool>
                </property>
                <layout class="QGridLayout" name="gridLayout_8">
-                <item row="2" column="0">
-                 <widget class="QCheckBox" name="checkBoxSel">
+                <item row="3" column="0">
+                 <widget class="QCheckBox" name="checkBoxCopyClip">
                   <property name="toolTip">
-                   <string>Save text selected with mouse (primary selection) in history</string>
+                   <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</string>
                   </property>
                   <property name="text">
-                   <string>(&amp;2) Store text selected using mouse</string>
+                   <string>(&amp;3) Paste clipboard with mouse</string>
                   </property>
                  </widget>
                 </item>
@@ -256,13 +256,20 @@
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="0">
-                 <widget class="QCheckBox" name="checkBoxCopyClip">
+                <item row="2" column="0">
+                 <widget class="QCheckBox" name="checkBoxSel">
                   <property name="toolTip">
-                   <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</string>
+                   <string>Save text selected with mouse (primary selection) in history</string>
                   </property>
                   <property name="text">
-                   <string>(&amp;3) Paste clipboard with mouse</string>
+                   <string>(&amp;2) Store text selected using mouse</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QCheckBox" name="checkBoxRunSel">
+                  <property name="text">
+                   <string>(&amp;5) Run automatic commands on selection</string>
                   </property>
                  </widget>
                 </item>
@@ -321,8 +328,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>636</width>
-            <height>459</height>
+            <width>639</width>
+            <height>523</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_23">
@@ -572,8 +579,8 @@ Note: This is not supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>636</width>
-            <height>459</height>
+            <width>639</width>
+            <height>523</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -873,8 +880,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>636</width>
-            <height>459</height>
+            <width>639</width>
+            <height>523</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1088,8 +1095,8 @@ Use Item Preview to display whole items.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>636</width>
-            <height>459</height>
+            <width>639</width>
+            <height>523</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1586,6 +1593,7 @@ Set to 0 to disable.</string>
   <tabstop>checkBoxSel</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxCopySel</tabstop>
+  <tabstop>checkBoxRunSel</tabstop>
   <tabstop>scrollArea</tabstop>
   <tabstop>checkBoxHideTabs</tabstop>
   <tabstop>checkBoxHideToolbar</tabstop>

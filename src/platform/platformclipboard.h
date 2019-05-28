@@ -37,6 +37,8 @@ public:
      */
     virtual void startMonitoring(const QStringList &formats) = 0;
 
+    virtual void setMonitoringEnabled(ClipboardMode mode, bool enable) = 0;
+
     /**
      * Return clipboard data containing specified @a formats if available.
      */

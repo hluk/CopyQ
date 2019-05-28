@@ -35,6 +35,8 @@ public:
 
     void startMonitoring(const QStringList &formats) override;
 
+    void setMonitoringEnabled(ClipboardMode mode, bool enable) override;
+
     QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
@@ -52,6 +54,7 @@ private:
         QStringList formats;
         QByteArray newDataTimestamp;
         ClipboardMode mode;
+        bool enabled = true;
         bool changed = false;
         int retry = 0;
     };
