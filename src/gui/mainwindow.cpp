@@ -1300,10 +1300,10 @@ QAction *MainWindow::addItemAction(int id, Receiver *receiver, ReturnType (Recei
     return act;
 }
 
-QVector<Command> MainWindow::commandsForMenu(const QVariantMap &data, const QString &tabName)
+QVector<Command> MainWindow::commandsForMenu(const QVariantMap &data, const QString &tabName, const QVector<Command> &allCommands)
 {
     QVector<Command> commands;
-    for (const auto &command : m_menuCommands) {
+    for (const auto &command : allCommands) {
         if ( canExecuteCommand(command, data, tabName) ) {
             Command cmd = command;
             if ( cmd.outputTab.isEmpty() )
@@ -1323,7 +1323,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
         return;
 
     const auto data = addSelectionData(*c);
-    const auto commands = commandsForMenu(data, c->tabName());
+    const auto commands = commandsForMenu(data, c->tabName(), m_menuCommands);
 
     for (const auto &command : commands) {
         QString name = command.name;
@@ -1344,7 +1344,7 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
 {
     m_trayMenuMatchCommands = MenuMatchCommands();
 
-    if ( m_menuCommands.isEmpty() )
+    if ( m_trayMenuCommands.isEmpty() )
         return;
 
     ClipboardBrowserPlaceholder *placeholder = getPlaceholderForTrayMenu();
@@ -1360,7 +1360,7 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
     if (m_lastWindow)
         data.insert( mimeWindowTitle, m_lastWindow->getTitle() );
 
-    const auto commands = commandsForMenu(data, c->tabName());
+    const auto commands = commandsForMenu(data, c->tabName(), m_trayMenuCommands);
 
     for (const auto &command : commands) {
         QString name = command.name;
@@ -1904,6 +1904,9 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
 
         if (type & CommandType::Menu)
             m_menuCommands.append(command);
+
+        if (m_options.trayCommands && type & CommandType::GlobalShortcut)
+            m_trayMenuCommands.append(command);
 
         if (type & CommandType::Script)
             m_scriptCommands.append(command);

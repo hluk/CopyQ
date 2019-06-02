@@ -584,7 +584,7 @@ private:
     template <typename Receiver, typename ReturnType>
     QAction *addItemAction(int id, Receiver *receiver, ReturnType (Receiver::* slot)());
 
-    QVector<Command> commandsForMenu(const QVariantMap &data, const QString &tabName);
+    QVector<Command> commandsForMenu(const QVariantMap &data, const QString &tabName, const QVector<Command> &allCommands);
     void addCommandsToItemMenu(ClipboardBrowser *c);
     void addCommandsToTrayMenu(const QVariantMap &clipboardData);
     void addMenuMatchCommand(MenuMatchCommands *menuMatchCommands, const QString &matchCommand, QAction *act);
@@ -640,6 +640,7 @@ private:
     QVector<Command> m_automaticCommands;
     QVector<Command> m_displayCommands;
     QVector<Command> m_menuCommands;
+    QVector<Command> m_trayMenuCommands;
     QVector<Command> m_scriptCommands;
 
     PlatformWindowPtr m_lastWindow;
