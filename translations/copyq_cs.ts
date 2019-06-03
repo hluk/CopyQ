@@ -993,7 +993,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Použij příkaz pouze na text zkopírovaný z okna, u kterého se název shoduje s tímto regulárním výrazem. Pod macOS je název okna složen z názvu aplikace, pomlčky (&amp;quot;-&amp;quot;) a titulku okna. Například &amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="361"/>
@@ -2378,7 +2378,7 @@ Nastav na -1 pro skrytí po kliknutí.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="272"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) Spouštět automatické příkazy pro výběr myši</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="405"/>
@@ -2573,7 +2573,7 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1484"/>
         <source>Ta&amp;bs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Záložky</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1506"/>
@@ -4283,12 +4283,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="90"/>
         <source>Web</source>
-        <translation type="unfinished">Web</translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation type="unfinished">Zobrazení webových stránek.</translation>
+        <translation>Zobrazení webových stránek.</translation>
     </message>
 </context>
 <context>
@@ -4296,7 +4296,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemweb/itemwebsettings.ui" line="19"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished">Maximální výška prvků v pixelech (0 pro nelimitovaní):</translation>
+        <translation>Maximální výška prvků v pixelech (0 pro nelimitovaní):</translation>
     </message>
 </context>
 <context>
@@ -5983,7 +5983,7 @@ Pouožij &lt;b&gt;/&lt;/b&gt; jako rozdělovník pro cestu ve stromu záložek.<
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maximální počet prvků:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
@@ -5993,12 +5993,12 @@ Pouožij &lt;b&gt;/&lt;/b&gt; jako rozdělovník pro cestu ve stromu záložek.<
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="59"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>výchozí</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="87"/>
         <source>&amp;Store Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ukládat prvky</translation>
     </message>
 </context>
 <context>
