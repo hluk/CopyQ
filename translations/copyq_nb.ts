@@ -1744,7 +1744,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1484"/>
         <source>Ta&amp;bs</source>
-        <translation type="unfinished"></translation>
+        <translation>Fa&amp;ner</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1506"/>
@@ -2850,7 +2850,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis nettsider.</translation>
     </message>
 </context>
 <context>
@@ -4165,12 +4165,12 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Skjema</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maksimalt antall elementer:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
@@ -4180,7 +4180,7 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="59"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>forvalg</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="87"/>
