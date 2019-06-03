@@ -1396,7 +1396,7 @@ Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="272"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) Seçimde otomatik komut çalıştır</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="446"/>
@@ -1708,7 +1708,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1484"/>
         <source>Ta&amp;bs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sekmeler</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1494"/>
@@ -2480,12 +2480,12 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="90"/>
         <source>Web</source>
-        <translation type="unfinished">Web</translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Web sayfalarını göster.</translation>
     </message>
 </context>
 <context>
@@ -2493,7 +2493,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemweb/itemwebsettings.ui" line="19"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished">Piksel cinsinden maksimum yükseklik (0 = limitsiz):</translation>
+        <translation>Piksel cinsinden maksimum yükseklik (0 = limitsiz):</translation>
     </message>
 </context>
 <context>
@@ -3685,27 +3685,27 @@ Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; 
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maksimum öğe sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="59"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>varsayılan</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="87"/>
         <source>&amp;Store Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mağaza Öğeleri</translation>
     </message>
 </context>
 <context>
