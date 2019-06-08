@@ -182,7 +182,7 @@
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; im &lt;b&gt;Befehl&lt;/b&gt; ist der &lt;b&gt;Text&lt;/b&gt; der ausgewählten Elemente. Der Text kann ebenfalls angepasst und an die &lt;b&gt;Standardeingabe&lt;/b&gt;(stdin) weitergereicht werden. Es ist ebenfalls möglich, Befehle durch Pipes mit &lt;b&gt;|&lt;/b&gt; zu verketten (z.&#xa0;B. zur Weitergabe an die Standardausgabe -stdout).</translation>
+        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; im &lt;b&gt;Befehl&lt;/b&gt; ist der &lt;b&gt;Text&lt;/b&gt; der ausgewählten Elemente. Der Text kann ebenfalls angepasst und an die &lt;b&gt;Standardeingabe&lt;/b&gt;(stdin) weitergereicht werden. Es ist ebenfalls möglich, Befehle durch Pipes mit &lt;b&gt;|&lt;/b&gt; zu verketten (z. B. zur Weitergabe an die Standardausgabe -stdout).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
@@ -560,7 +560,7 @@ You can set up the command in preferences.</source>
     <message>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="vanished">Suche läuft %p&#xa0;% …</translation>
+        <translation type="vanished">Suche läuft %p % …</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="818"/>
@@ -1078,7 +1078,7 @@ Zum Deaktivieren leerlassen.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Verwenden Sie den Befehl nur für Elemente, die aus dem Fenster, mit einem Titeltext, der mit diesem regulären Ausdruck übereinstimmt in die Zwischenablage kopiert wurden (leer lassen, um mit einem beliebigen Fenster übereinzustimmen). Unter macOS enthält dies den Anwendungsnamen, gefolgt von einem Bindestrich (&amp;quot;-&amp;quot;) und dem Fenstertitel. Z.B. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="400"/>
@@ -2437,7 +2437,7 @@ Auf -1 setzen, um Benachrichtigung bis zum Klicken sichtbar zu halten.</translat
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="272"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) Automatische Befehle bei Auswahl ausführen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="405"/>
@@ -2632,7 +2632,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1484"/>
         <source>Ta&amp;bs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta&amp;bs</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1506"/>
@@ -2898,7 +2898,7 @@ Hinweis: Bearbeitete Elemente können mit F2 gespeichert werden, ungeachtet dies
     </message>
     <message>
         <source>Paste current clipboard content as plain text (i.e. remove formating).</source>
-        <translation type="vanished">Aktuellen Inhalt der Zwischenablage als reinen Text einfügen (z.&#xa0;B., um Formatierungen zu entfernen).</translation>
+        <translation type="vanished">Aktuellen Inhalt der Zwischenablage als reinen Text einfügen (z. B., um Formatierungen zu entfernen).</translation>
     </message>
     <message>
         <source>Disable clipboard storing</source>
@@ -3660,11 +3660,11 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>List of URI (e.g. copied files, URLs)</source>
-        <translation type="vanished">Liste von URI (z.&#xa0;B. kopierte Dateien, URLs)</translation>
+        <translation type="vanished">Liste von URI (z. B. kopierte Dateien, URLs)</translation>
     </message>
     <message>
         <source>List of URI (e.g. copied files)</source>
-        <translation type="vanished">Liste von URI (z.&#xa0;B. kopierte Dateien)</translation>
+        <translation type="vanished">Liste von URI (z. B. kopierte Dateien)</translation>
     </message>
     <message>
         <source>Images</source>
@@ -4446,7 +4446,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     <message>
         <location filename="../plugins/itemweb/itemwebsettings.ui" line="19"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished">Maximale Höhe in Pixeln (0 für keine Begrenzung):</translation>
+        <translation>Maximale Höhe in Pixeln (0 für keine Begrenzung):</translation>
     </message>
 </context>
 <context>
@@ -5985,7 +5985,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Doppelbindestrichargument (--) verwenden, um alle folgenden Argumente
-    zu lesen ohne die Escapesequenzen zu erweitern (z.&#xa0;B. \n, \t und weitere).</translation>
+    zu lesen ohne die Escapesequenzen zu erweitern (z. B. \n, \t und weitere).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="88"/>
@@ -6200,27 +6200,27 @@ In der Baumansicht der Reiter kann &lt;b&gt;/&lt;/b&gt; als Pfadtrennzeichen ver
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formular</translation>
+        <translation>Formular</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maximale Anzahl von Elementen:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="59"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="87"/>
         <source>&amp;Store Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Elemente &amp;speichern</translation>
     </message>
 </context>
 <context>
