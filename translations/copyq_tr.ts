@@ -853,7 +853,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Komutu, yalnızca normal ifadeyle eşleşen başlık metniyle pencereden panoya kopyalanan öğeler için kullanın (herhangi bir pencereye uyması için boş bırakın). MacOS&apos;ta bu, uygulama adını ve ardından bir kısa çizgi (&amp;quot;-&amp;quot;) ve ardından pencere başlığını içerir. Örneğin: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
@@ -2730,6 +2730,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
             <numerusform>%1 (%n satır)</numerusform>
+            <numerusform>%1 (%n satır)</numerusform>
         </translation>
     </message>
     <message>
@@ -3112,6 +3113,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
