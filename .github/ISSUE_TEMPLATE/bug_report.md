@@ -29,5 +29,13 @@ If applicable, add screenshots to help explain your problem.
  - OS [e.g. Windows]
  - Desktop environment, window manager (if applicable)
 
+**Useful info**
+Provide the output of the following commands:
+```bash
+$ copyq info
+$ ls -ld ~/.config/copyq
+$ ls -l ~/.config/copyq/.copyq*
+```
+
 **Additional context**
 Add any other context about the problem here.
