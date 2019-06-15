@@ -44,7 +44,6 @@ namespace Columns {
 enum Columns {
     Icon,
     Text,
-    Type,
     Shortcut,
 
     Count
@@ -108,13 +107,14 @@ ShortcutsWidget::ShortcutsWidget(QWidget *parent)
     connect(ui->lineEditFilter, &QLineEdit::textChanged,
             this, &ShortcutsWidget::onLineEditFilterTextChanged);
 
-    ui->tableWidget->setColumnCount(Columns::Count);
-    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
-    ui->tableWidget->horizontalHeader()->hide();
-    ui->tableWidget->verticalHeader()->hide();
-
     const int iconSize = iconFontSizePixels();
-    ui->tableWidget->setIconSize(QSize(iconSize, iconSize));
+    for (auto table : { ui->tableWidgetApplication, ui->tableWidgetGlobal }) {
+        table->setColumnCount(Columns::Count);
+        table->horizontalHeader()->setStretchLastSection(true);
+        table->horizontalHeader()->hide();
+        table->verticalHeader()->hide();
+        table->setIconSize(QSize(iconSize, iconSize));
+    }
 
     initSingleShotTimer( &m_timerCheckAmbiguous, 0, this, &ShortcutsWidget::checkAmbiguousShortcuts );
 }
@@ -132,9 +132,10 @@ void ShortcutsWidget::loadShortcuts(const QSettings &settings)
     m_actions.clear();
     m_shortcuts.clear();
 
-    QTableWidget *table = ui->tableWidget;
-    while (table->rowCount() > 0)
-        table->removeRow(0);
+    for (auto table : { ui->tableWidgetApplication, ui->tableWidgetGlobal }) {
+        while (table->rowCount() > 0)
+            table->removeRow(0);
+    }
 
     for (const auto &item : items) {
         MenuAction action;
@@ -219,9 +220,11 @@ void ShortcutsWidget::showEvent(QShowEvent *event)
     }
 
     QWidget::showEvent(event);
-    ui->tableWidget->resizeColumnToContents(Columns::Icon);
-    ui->tableWidget->resizeColumnToContents(Columns::Text);
-    ui->tableWidget->resizeColumnToContents(Columns::Type);
+
+    for (auto table : { ui->tableWidgetApplication, ui->tableWidgetGlobal }) {
+        table->resizeColumnToContents(Columns::Icon);
+        table->resizeColumnToContents(Columns::Text);
+    }
     m_timerCheckAmbiguous.start(); // Update because shortcuts for commands may have changed.
 }
 
@@ -269,16 +272,23 @@ void ShortcutsWidget::onLineEditFilterTextChanged(const QString &text)
         }
 
         const int row = action.tableItem->row();
-        if (found)
-            ui->tableWidget->showRow(row);
-        else
-            ui->tableWidget->hideRow(row);
+
+        for (auto table : { ui->tableWidgetApplication, ui->tableWidgetGlobal }) {
+            if (found)
+                table->showRow(row);
+            else
+                table->hideRow(row);
+        }
     }
 }
 
 void ShortcutsWidget::addShortcutRow(MenuAction &action)
 {
-    QTableWidget *table = ui->tableWidget;
+    const bool isGlobal = action.command.type() & CommandType::GlobalShortcut;
+
+    QTableWidget *table = isGlobal
+        ? ui->tableWidgetGlobal
+        : ui->tableWidgetApplication;
 
     const int row = table->rowCount();
     table->insertRow(row);
@@ -291,14 +301,6 @@ void ShortcutsWidget::addShortcutRow(MenuAction &action)
     tableItem = new QTableWidgetItem(uiText(action.text));
     table->setItem(row, Columns::Text, tableItem);
     tableItem->setFlags(Qt::ItemIsEnabled);
-
-    tableItem = new QTableWidgetItem();
-    table->setItem(row, Columns::Type, tableItem);
-    tableItem->setFlags(Qt::ItemIsEnabled);
-    if (action.command.type() & CommandType::GlobalShortcut) {
-        tableItem->setIcon( getIcon("", IconExternalLinkSquareAlt) );
-        tableItem->setToolTip( tr("Shortcut can be triggered from any application") );
-    }
 
     action.shortcutButton = new ShortcutButton(table);
     table->setCellWidget(row, Columns::Shortcut, action.shortcutButton);

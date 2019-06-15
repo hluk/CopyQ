@@ -41,13 +41,64 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableWidget" name="tableWidget">
-     <property name="alternatingRowColors">
-      <bool>true</bool>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="showGrid">
-      <bool>false</bool>
-     </property>
+     <widget class="QWidget" name="tabGlobal">
+      <attribute name="title">
+       <string>Gl&amp;obal</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Global shortcuts can be triggered from any application.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidgetGlobal">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="showGrid">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabApplication">
+      <attribute name="title">
+       <string>A&amp;pplication</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Application shortcuts can be triggered only from the main window.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidgetApplication">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="showGrid">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
