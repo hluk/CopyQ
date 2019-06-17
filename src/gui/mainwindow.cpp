@@ -3629,6 +3629,10 @@ void MainWindow::forceUnloadTab(const QString &tabName)
 
 MainWindow::~MainWindow()
 {
-    disconnect();
+    // Fix calling onDisplayActionFinished slot after main window is destroyed.
+    m_displayItemList.clear();
+    if (m_currentDisplayAction)
+        m_currentDisplayAction->disconnect();
+
     delete ui;
 }
