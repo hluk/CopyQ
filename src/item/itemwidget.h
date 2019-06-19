@@ -233,6 +233,8 @@ public:
      */
     virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
 
+    virtual void setFocus(bool focus);
+
     ItemSaverInterface(const ItemSaverInterface &) = delete;
     ItemSaverInterface &operator=(const ItemSaverInterface &) = delete;
 };

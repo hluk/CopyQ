@@ -25,6 +25,7 @@
 
 #include <QAbstractItemModel>
 #include <QCryptographicHash>
+#include <QDateTime>
 #include <QDir>
 #include <QMimeData>
 #include <QUrl>
@@ -62,7 +63,7 @@ namespace {
 const char dataFileSuffix[] = "_copyq.dat";
 const char noteFileSuffix[] = "_note.txt";
 
-const int updateItemsIntervalMs = 5000; // Interval to update items after a file has changed.
+const int defaultUpdateFocusItemsIntervalMs = 10000;
 
 const qint64 sizeLimit = 10 << 20;
 
@@ -409,14 +410,11 @@ FileWatcher::FileWatcher(
     , m_indexData()
     , m_maxItems(maxItems)
 {
-    m_updateTimer.setInterval(updateItemsIntervalMs);
     m_updateTimer.setSingleShot(true);
 
-#ifdef HAS_TESTS
-    // Use smaller update interval for tests.
-    if ( !qEnvironmentVariableIsEmpty("COPYQ_TEST_ID") )
-        m_updateTimer.setInterval(100);
-#endif
+    bool ok;
+    const int interval = qgetenv("COPYQ_SYNC_UPDATE_INTERVAL_MS").toInt(&ok);
+    m_updateTimer.setInterval(ok && interval > 0 ? interval : defaultUpdateFocusItemsIntervalMs);
 
     connect( &m_updateTimer, &QTimer::timeout,
              this, &FileWatcher::updateItems );
@@ -432,8 +430,6 @@ FileWatcher::FileWatcher(
         saveItems(0, model->rowCount() - 1);
 
     createItemsFromFiles( QDir(path), listFiles(paths, m_formatSettings) );
-
-    updateItems();
 }
 
 bool FileWatcher::lock()
@@ -441,7 +437,6 @@ bool FileWatcher::lock()
     if ( !m_valid )
         return false;
 
-    m_updateTimer.stop();
     m_valid = false;
     return true;
 }
@@ -449,7 +444,6 @@ bool FileWatcher::lock()
 void FileWatcher::unlock()
 {
     m_valid = true;
-    m_updateTimer.start();
 }
 
 bool FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow)
@@ -483,8 +477,12 @@ void FileWatcher::createItemsFromFiles(const QDir &dir, const BaseNameExtensions
 
 void FileWatcher::updateItems()
 {
-    if ( !lock() )
+    if ( !lock() ) {
+        m_updateTimer.start();
         return;
+    }
+
+    m_lastUpdateTimeMs = QDateTime::currentMSecsSinceEpoch();
 
     const QDir dir(m_path);
     const QStringList files = listFiles(dir, QDir::Time | QDir::Reversed);
@@ -517,6 +515,27 @@ void FileWatcher::updateItems()
     createItemsFromFiles(dir, fileList);
 
     unlock();
+
+    if (m_updatesEnabled)
+        m_updateTimer.start();
+}
+
+void FileWatcher::updateItemsIfNeeded()
+{
+    const auto time = QDateTime::currentMSecsSinceEpoch();
+    if (time < m_lastUpdateTimeMs + m_updateTimer.interval())
+        return;
+
+    updateItems();
+}
+
+void FileWatcher::setUpdatesEnabled(bool enabled)
+{
+    m_updatesEnabled = enabled;
+    if (enabled)
+        updateItems();
+    else
+        m_updateTimer.stop();
 }
 
 void FileWatcher::onRowsInserted(const QModelIndex &, int first, int last)

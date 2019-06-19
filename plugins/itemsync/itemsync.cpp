@@ -538,6 +538,9 @@ void ItemSyncSaver::itemsRemovedByUser(const QList<QModelIndex> &indexList)
 
 QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMap &itemData)
 {
+    if (m_watcher)
+        m_watcher->updateItemsIfNeeded();
+
     QVariantMap copiedItemData = itemData;
     copiedItemData.insert(mimeSyncPath, m_tabPath);
 
@@ -583,6 +586,12 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
     }
 
     return copiedItemData;
+}
+
+void ItemSyncSaver::setFocus(bool focus)
+{
+    if (m_watcher)
+        m_watcher->setUpdatesEnabled(focus);
 }
 
 QString ItemSyncScriptable::getMimeBaseName() const

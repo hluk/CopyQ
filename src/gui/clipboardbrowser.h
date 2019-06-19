@@ -281,6 +281,7 @@ class ClipboardBrowser final : public QListView
         void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
         void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) override;
         void focusInEvent(QFocusEvent *event) override;
+        void focusOutEvent(QFocusEvent *event) override;
 
         void dragEnterEvent(QDragEnterEvent *event) override;
         void dragLeaveEvent(QDragLeaveEvent *event) override;

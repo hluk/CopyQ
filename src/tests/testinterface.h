@@ -100,6 +100,9 @@ public:
     /// Platform specific key to remove (usually Delete, Backspace on OS X).
     virtual QString shortcutToRemove() = 0;
 
+    /// Set environment variable for test.
+    virtual void setEnv(const QString &name, const QString &value) = 0;
+
     TestInterface(const TestInterface &) = delete;
     TestInterface &operator=(const TestInterface &) = delete;
 };

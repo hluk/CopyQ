@@ -224,6 +224,10 @@ QVariantMap ItemSaverInterface::copyItem(const QAbstractItemModel &, const QVari
     return itemData;
 }
 
+void ItemSaverInterface::setFocus(bool)
+{
+}
+
 ItemWidget *ItemLoaderInterface::create(const QVariantMap &, QWidget *, bool) const
 {
     return nullptr;

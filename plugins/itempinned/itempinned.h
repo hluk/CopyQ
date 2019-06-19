@@ -68,6 +68,8 @@ public:
 
     QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
 
+    void setFocus(bool focus) override;
+
 private:
     void onRowsInserted(const QModelIndex &parent, int start, int end);
     void onRowsRemoved(const QModelIndex &parent, int start, int end);

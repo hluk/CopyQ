@@ -537,6 +537,11 @@ public:
         return ::shortcutToRemove();
     }
 
+    void setEnv(const QString &name, const QString &value) override
+    {
+        m_env.insert(name, value);
+    }
+
     void setupTest(const QString &id, const QVariant &settings)
     {
         m_testId = id;

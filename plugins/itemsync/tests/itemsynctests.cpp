@@ -120,6 +120,7 @@ ItemSyncTests::ItemSyncTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
 {
+    m_test->setEnv("COPYQ_SYNC_UPDATE_INTERVAL_MS", "100");
 }
 
 QString ItemSyncTests::testTab(int i)

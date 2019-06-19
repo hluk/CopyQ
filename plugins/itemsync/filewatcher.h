@@ -88,6 +88,10 @@ public:
      */
     void updateItems();
 
+    void updateItemsIfNeeded();
+
+    void setUpdatesEnabled(bool enabled);
+
 private:
     void onRowsInserted(const QModelIndex &, int first, int last);
 
@@ -134,6 +138,8 @@ private:
     bool m_valid;
     IndexDataList m_indexData;
     int m_maxItems;
+    bool m_updatesEnabled = false;
+    qint64 m_lastUpdateTimeMs = 0;
 };
 
 #endif // FILEWATCHER_H

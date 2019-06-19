@@ -218,6 +218,11 @@ QVariantMap ItemPinnedSaver::copyItem(const QAbstractItemModel &model, const QVa
     return m_saver->copyItem(model, itemData);
 }
 
+void ItemPinnedSaver::setFocus(bool focus)
+{
+    return m_saver->setFocus(focus);
+}
+
 void ItemPinnedSaver::onRowsInserted(const QModelIndex &, int start, int end)
 {
     if (!m_model || m_lastPinned < start) {

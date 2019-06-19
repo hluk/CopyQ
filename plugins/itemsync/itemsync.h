@@ -83,6 +83,8 @@ public:
 
     QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
 
+    void setFocus(bool focus) override;
+
 private:
     QString m_tabPath;
     FileWatcher *m_watcher;
