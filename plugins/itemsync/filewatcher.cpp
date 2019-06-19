@@ -26,6 +26,7 @@
 #include <QAbstractItemModel>
 #include <QCryptographicHash>
 #include <QDir>
+#include <QFileSystemWatcher>
 #include <QMimeData>
 #include <QUrl>
 
@@ -409,8 +410,22 @@ FileWatcher::FileWatcher(
     , m_indexData()
     , m_maxItems(maxItems)
 {
+    auto watcher = new QFileSystemWatcher(this);
+    const bool watched = watcher->addPath(path);
+    m_updateTimer.setSingleShot(watched);
+    if (watched) {
+        connect( watcher, &QFileSystemWatcher::directoryChanged,
+                 this, [this](){
+                     COPYQ_LOG( QString("Synchronization directory changed: \"%1\"").arg(m_path) );
+                     m_updateTimer.start();
+                 } );
+    } else {
+        log( tr("Using timer to watch synchronization directory \"%1\"!").arg(m_path), LogWarning );
+        delete watcher;
+        watcher = nullptr;
+    }
+
     m_updateTimer.setInterval(updateItemsIntervalMs);
-    m_updateTimer.setSingleShot(true);
 
 #ifdef HAS_TESTS
     // Use smaller update interval for tests.
