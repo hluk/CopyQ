@@ -23,7 +23,6 @@
 #include "common/mimetypes.h"
 
 #include <QObject>
-#include <QPointer>
 #include <QPersistentModelIndex>
 #include <QStringList>
 #include <QTimer>
@@ -75,8 +74,6 @@ public:
     const QString &path() const { return m_path; }
 
     bool isValid() const { return m_valid; }
-
-    QAbstractItemModel *model() const { return m_model; }
 
     bool lock();
 
@@ -130,7 +127,7 @@ private:
 
     bool copyFilesFromUriList(const QByteArray &uriData, int targetRow, const QStringList &baseNames);
 
-    QPointer<QAbstractItemModel> m_model;
+    QAbstractItemModel *m_model;
     QTimer m_updateTimer;
     const QList<FileFormat> &m_formatSettings;
     QString m_path;

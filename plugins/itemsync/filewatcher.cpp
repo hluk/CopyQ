@@ -421,11 +421,11 @@ FileWatcher::FileWatcher(
     connect( &m_updateTimer, &QTimer::timeout,
              this, &FileWatcher::updateItems );
 
-    connect( m_model.data(), &QAbstractItemModel::rowsInserted,
+    connect( m_model, &QAbstractItemModel::rowsInserted,
              this, &FileWatcher::onRowsInserted );
-    connect( m_model.data(), &QAbstractItemModel::rowsAboutToBeRemoved,
+    connect( m_model, &QAbstractItemModel::rowsAboutToBeRemoved,
              this, &FileWatcher::onRowsRemoved );
-    connect( m_model.data(), &QAbstractItemModel::dataChanged,
+    connect( m_model, &QAbstractItemModel::dataChanged,
              this, &FileWatcher::onDataChanged );
 
     if (model->rowCount() > 0)
