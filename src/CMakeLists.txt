@@ -123,6 +123,8 @@ if (NOT APPLE)
 else()
     set_source_files_properties(${copyq_QM} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources/translations")
 
+    set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/../shared/Info.plist")
+
     set(plugin_dest_dir "${COPYQ_EXECUTABLE_NAME}.app/Contents/PlugIns")
     set(qtconf_dest_dir "${COPYQ_EXECUTABLE_NAME}.app/Contents/Resources")
 
