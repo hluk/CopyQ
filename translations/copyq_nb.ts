@@ -755,7 +755,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Bruk kommando kun for elementer kopiert til utklippstavle fra vindu med titteltekst som samsvarer med regulært uttrykk (la stå tomt for å samsvare med vilkårlig vindu). På macOS, inneholder dette programnavnet etterfulgt av en bindestrek (&amp;quot;-&amp;quot;) og så vindustittelen. F.eks. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="384"/>
@@ -1311,7 +1311,7 @@ CTRL og opp- eller ned-tasten.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="272"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) Kjør automatisk kommandoer ved utvalg</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="315"/>
@@ -4185,7 +4185,7 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="87"/>
         <source>&amp;Store Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Lagre elementer</translation>
     </message>
 </context>
 <context>
