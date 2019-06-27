@@ -66,4 +66,6 @@
 
     <update_contact>hluk_at_email.cz</update_contact>
     <developer_name>Lukas Holecek</developer_name>
+
+    <content_rating type="oars-1.0" />
 </component>
