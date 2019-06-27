@@ -1,4 +1,4 @@
-v3.8.1
+v3.9.0
 
 - Large images in clipboard are no longer automatically converted to other
   formats - it caused slowdowns and was mostly unnecessary since some usable
@@ -12,9 +12,33 @@ v3.8.1
 - Closing external editor focuses the edited item again (if the editor was open
   from main window).
 
+- Only Global Shortcut commands are shown in tray menu.
+
+- Separate Global and Application shortcuts into tabs in configuration dialog.
+
+- New per-tab configuration allows disabling storing items on disk and limiting
+  number of items.
+
+- New script function unload() and forceUnload() allow unloading tabs from main
+  memory.
+
+- Tabs synchronized with a directory on disk are updated only when needed. An
+  update happens regularly when synced tab has focus or item data and are too
+  old. Update interval is 10s and can be changed by setting env variable
+  COPYQ_SYNC_UPDATE_INTERVAL_MS (in ms).
+
+- X11: New option allows to disable running automatic commands on X11 selection
+  change.
+
+- Fix rare crash on exit.
+
 - Fix value returned by filter() after it's hidden
 
 - Fix memory leak (tool bar and menu items were not properly cleaned up)
+
+- Fix crash when opening content dialog with many formats
+
+- OSX: Fix pixelated UI rendering on retina displays.
 
 - Windows: Fix blocking Ctrl, Shift and other modifier keys after invoking
   paste action. The downside is that it's no longer possible to invoke command
