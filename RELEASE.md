@@ -58,6 +58,9 @@ Create [release on github](https://github.com/hluk/CopyQ/releases) for the new v
 Upload packages and binaries to:
 - [github](https://github.com/hluk/CopyQ/releases)
 - [sourceforge](https://sourceforge.net/projects/copyq/files/)
+- [fosshub](https://www.fosshub.com/CopyQ.html)
+
+        ./utils/fosshub.py 3.3.1 $TOKEN
 
 Update Homebrew package for OS X.
 
