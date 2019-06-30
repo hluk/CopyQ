@@ -66,10 +66,6 @@ ItemOrderList::ItemOrderList(QWidget *parent)
     setFocusProxy(ui->listWidgetItems);
     ui->listWidgetItems->setFocus();
     setCurrentItemWidget(nullptr);
-
-    // Make icon wider so icon tag can be bigger.
-    const auto size = iconFontSizePixels();
-    ui->listWidgetItems->setIconSize( QSize(size * 3/2, size) );
 }
 
 ItemOrderList::~ItemOrderList()
@@ -227,6 +223,13 @@ void ItemOrderList::setDragAndDropValidator(const QRegExp &re)
 {
     m_dragAndDropRe = re;
     setAcceptDrops(m_dragAndDropRe.isValid());
+}
+
+void ItemOrderList::setWiderIconsEnabled(bool wider)
+{
+    const auto height = iconFontSizePixels();
+    const auto width = wider ? height * 3/2 : height;
+    ui->listWidgetItems->setIconSize( QSize(width, height) );
 }
 
 void ItemOrderList::dragEnterEvent(QDragEnterEvent *event)

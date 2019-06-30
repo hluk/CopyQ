@@ -105,6 +105,9 @@ public:
 
     void setDragAndDropValidator(const QRegExp &re);
 
+    /// Make icons wider so icon tag can be bigger.
+    void setWiderIconsEnabled(bool wider);
+
 signals:
     void addButtonClicked();
     void itemSelectionChanged();

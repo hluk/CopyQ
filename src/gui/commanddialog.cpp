@@ -153,6 +153,7 @@ CommandDialog::CommandDialog(
     ui->pushButtonSaveCommands->setIcon(iconSaveCommands());
     ui->pushButtonCopyCommands->setIcon(iconCopyCommands());
     ui->pushButtonPasteCommands->setIcon(iconPasteCommands());
+    ui->itemOrderListCommands->setWiderIconsEnabled(true);
     ui->itemOrderListCommands->setAddRemoveButtonsVisible(true);
 
     addCommandsWithoutSave(loadAllCommands(), -1);
