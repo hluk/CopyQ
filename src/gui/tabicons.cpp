@@ -47,6 +47,11 @@ QHash<QString, QString> tabIcons()
     return icons;
 }
 
+QByteArray tabNameFromFileSuffix(QByteArray base64Suffix)
+{
+    return QByteArray::fromBase64(base64Suffix.replace('-', '/'));
+}
+
 } // namespace
 
 QStringList savedTabs()
@@ -63,7 +68,7 @@ QStringList savedTabs()
     for (const auto &fileName : files) {
         if ( fileName.contains(re) ) {
             const QString tabName =
-                    getTextData(QByteArray::fromBase64(re.cap(1).toUtf8()));
+                    getTextData(tabNameFromFileSuffix(re.cap(1).toUtf8()));
             if ( !tabName.isEmpty() && !tabs.contains(tabName) )
                 tabs.append(tabName);
         }
