@@ -22,6 +22,7 @@
 #include "common/client_server.h"
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
+#include "common/sanitize_text_document.h"
 #include "common/textdata.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfactory.h"
@@ -213,10 +214,12 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
 
     connect(editor, &QObject::destroyed, editorParent, &QObject::deleteLater);
 
-    if (hasHtml)
+    if (hasHtml) {
         editor->setHtml(text);
-    else
+        sanitizeTextDocument(editor->document());
+    } else {
         editor->setPlainText(text);
+    }
 
     editor->selectAll();
 

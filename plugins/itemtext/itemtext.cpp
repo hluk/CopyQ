@@ -21,6 +21,7 @@
 #include "ui_itemtextsettings.h"
 
 #include "common/mimetypes.h"
+#include "common/sanitize_text_document.h"
 #include "common/textdata.h"
 
 #include <QAbstractTextDocumentLayout>
@@ -34,10 +35,6 @@
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QtPlugin>
-
-#ifdef Q_OS_MAC
-#   include <QFontDatabase>
-#endif
 
 namespace {
 
@@ -57,9 +54,6 @@ const char optionMaximumLines[] = "max_lines";
 const char optionMaximumHeight[] = "max_height";
 
 const char mimeRichText[] = "text/richtext";
-
-const int maxFontPointSize = 256;
-const int maxFontPixelSize = maxFontPointSize * 4 / 3;
 
 // Some applications insert \0 teminator at the end of text data.
 // It needs to be removed because QTextBrowser can render the character.
@@ -170,50 +164,8 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
         }
     }
 
-    if (m_isRichText) {
-#ifdef Q_OS_MAC
-        // Prevent showing font download dialog on macOS.
-        QFontDatabase fontDatabase;
-        for (auto block = m_textDocument.begin(); block != m_textDocument.end(); block = block.next()) {
-            for (auto it = block.begin(); !it.atEnd(); ++it) {
-                const QTextFragment fragment = it.fragment();
-                QTextCharFormat charFormat = fragment.charFormat();
-                const QString fontFamily = charFormat.fontFamily();
-                if ( !fontDatabase.hasFamily(fontFamily) ) {
-                    QTextCursor tc(&m_textDocument);
-                    tc.setPosition( fragment.position() );
-                    tc.setPosition( fragment.position() + fragment.length(), QTextCursor::KeepAnchor );
-                    charFormat.setFontFamily(QString());
-                    tc.setCharFormat(charFormat);
-                }
-            }
-        }
-#endif
-
-        // Sanitize font sizes to prevent app freeze.
-        for (auto block = m_textDocument.begin(); block != m_textDocument.end(); block = block.next()) {
-            for (auto it = block.begin(); !it.atEnd(); ++it) {
-                const QTextFragment fragment = it.fragment();
-                QTextCharFormat charFormat = fragment.charFormat();
-                QFont font = charFormat.font();
-
-                const int pixelSize = font.pixelSize();
-                const int pointSize = font.pointSize();
-                if (-maxFontPixelSize > pixelSize || pixelSize > maxFontPixelSize)
-                    font.setPixelSize(maxFontPixelSize);
-                else if (-maxFontPointSize > pointSize || pointSize > maxFontPointSize)
-                    font.setPointSize(maxFontPointSize);
-                else
-                    continue;
-
-                QTextCursor tc(&m_textDocument);
-                tc.setPosition( fragment.position() );
-                tc.setPosition( fragment.position() + fragment.length(), QTextCursor::KeepAnchor );
-                charFormat.setFont(font);
-                tc.setCharFormat(charFormat);
-            }
-        }
-    }
+    if (m_isRichText)
+        sanitizeTextDocument(&m_textDocument);
 
     setDocument(&m_textDocument);
 
