@@ -58,6 +58,9 @@ const char optionMaximumHeight[] = "max_height";
 
 const char mimeRichText[] = "text/richtext";
 
+const int maxFontPointSize = 256;
+const int maxFontPixelSize = maxFontPointSize * 4 / 3;
+
 // Some applications insert \0 teminator at the end of text data.
 // It needs to be removed because QTextBrowser can render the character.
 void removeTrailingNull(QString *text)
@@ -167,8 +170,8 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
         }
     }
 
-#ifdef Q_OS_MAC
     if (m_isRichText) {
+#ifdef Q_OS_MAC
         // Prevent showing font download dialog on macOS.
         QFontDatabase fontDatabase;
         for (auto block = m_textDocument.begin(); block != m_textDocument.end(); block = block.next()) {
@@ -185,8 +188,32 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
                 }
             }
         }
-    }
 #endif
+
+        // Sanitize font sizes to prevent app freeze.
+        for (auto block = m_textDocument.begin(); block != m_textDocument.end(); block = block.next()) {
+            for (auto it = block.begin(); !it.atEnd(); ++it) {
+                const QTextFragment fragment = it.fragment();
+                QTextCharFormat charFormat = fragment.charFormat();
+                QFont font = charFormat.font();
+
+                const int pixelSize = font.pixelSize();
+                const int pointSize = font.pointSize();
+                if (-maxFontPixelSize > pixelSize || pixelSize > maxFontPixelSize)
+                    font.setPixelSize(maxFontPixelSize);
+                else if (-maxFontPointSize > pointSize || pointSize > maxFontPointSize)
+                    font.setPointSize(maxFontPointSize);
+                else
+                    continue;
+
+                QTextCursor tc(&m_textDocument);
+                tc.setPosition( fragment.position() );
+                tc.setPosition( fragment.position() + fragment.length(), QTextCursor::KeepAnchor );
+                charFormat.setFont(font);
+                tc.setCharFormat(charFormat);
+            }
+        }
+    }
 
     setDocument(&m_textDocument);
 
