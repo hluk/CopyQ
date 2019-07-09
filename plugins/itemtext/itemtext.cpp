@@ -170,12 +170,13 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
 #ifdef Q_OS_MAC
     if (m_isRichText) {
         // Prevent showing font download dialog on macOS.
+        QFontDatabase fontDatabase;
         for (auto block = m_textDocument.begin(); block != m_textDocument.end(); block = block.next()) {
             for (auto it = block.begin(); !it.atEnd(); ++it) {
                 const QTextFragment fragment = it.fragment();
                 QTextCharFormat charFormat = fragment.charFormat();
                 const QString fontFamily = charFormat.fontFamily();
-                if ( !QFontDatabase().hasFamily(fontFamily) ) {
+                if ( !fontDatabase.hasFamily(fontFamily) ) {
                     QTextCursor tc(&m_textDocument);
                     tc.setPosition( fragment.position() );
                     tc.setPosition( fragment.position() + fragment.length(), QTextCursor::KeepAnchor );
