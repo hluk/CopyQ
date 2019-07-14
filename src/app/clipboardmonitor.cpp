@@ -115,20 +115,6 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
                .arg(mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection",
                     getTextData(data, mimeOwner)) );
 
-    if (mode != ClipboardMode::Clipboard) {
-        const QString modeName = mode == ClipboardMode::Selection
-                ? "selection"
-                : "find buffer";
-        data.insert(mimeClipboardMode, modeName);
-    }
-
-    // add window title of clipboard owner
-    if ( !data.contains(mimeOwner) && !data.contains(mimeWindowTitle) ) {
-        const QByteArray windowTitle = m_clipboard->clipboardOwner();
-        if ( !windowTitle.isEmpty() )
-            data.insert(mimeWindowTitle, windowTitle);
-    }
-
 #ifdef HAS_MOUSE_SELECTIONS
     if ( (mode == ClipboardMode::Clipboard ? m_clipboardToSelection : m_selectionToClipboard)
         && !data.contains(mimeOwner) )
@@ -146,6 +132,20 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
     if ( !m_runSelection && mode == ClipboardMode::Selection )
         return;
 #endif
+
+    if (mode != ClipboardMode::Clipboard) {
+        const QString modeName = mode == ClipboardMode::Selection
+                ? "selection"
+                : "find buffer";
+        data.insert(mimeClipboardMode, modeName);
+    }
+
+    // add window title of clipboard owner
+    if ( !data.contains(mimeOwner) && !data.contains(mimeWindowTitle) ) {
+        const QByteArray windowTitle = m_clipboard->clipboardOwner();
+        if ( !windowTitle.isEmpty() )
+            data.insert(mimeWindowTitle, windowTitle);
+    }
 
     // run automatic commands
     if ( anySessionOwnsClipboardData(data) ) {
