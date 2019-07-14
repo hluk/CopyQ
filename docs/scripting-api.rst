@@ -576,6 +576,10 @@ omitted.
 
    Prints value to application log.
 
+.. js:function:: String logs()
+
+   Returns application logs.
+
 .. js:function:: abort()
 
    Aborts script evaluation.

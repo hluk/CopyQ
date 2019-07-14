@@ -1517,6 +1517,27 @@ void Tests::commandForceUnload()
     RUN("add" << "B", "");
 }
 
+void Tests::commandServerLogAndLogs()
+{
+    const QByteArray data1 = generateData();
+    QRegExp re("CopyQ Note \\[[^]]+\\] <Server-[0-9]+>: " + QRegExp::escape(data1));
+
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+
+    QCOMPARE( run(Args("logs"), &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QVERIFY( !stdoutActual.isEmpty() );
+    QVERIFY( !QString::fromUtf8(stdoutActual).contains(re) );
+
+    RUN("serverLog" << data1, "");
+
+    QCOMPARE( run(Args("logs"), &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QVERIFY( !stdoutActual.isEmpty() );
+    QVERIFY( QString::fromUtf8(stdoutActual).contains(re) );
+}
+
 void Tests::classByteArray()
 {
     RUN("ByteArray('test')", "test");

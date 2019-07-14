@@ -84,6 +84,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("dataFormats", "String[] dataFormats()", "Returns formats available for `data()`.");
     addDocumentation("print", "print(value)", "Prints value to standard output.");
     addDocumentation("serverLog", "serverLog(value)", "Prints value to application log.");
+    addDocumentation("logs", "String logs()", "Returns application logs.");
     addDocumentation("abort", "abort()", "Aborts script evaluation.");
     addDocumentation("fail", "fail()", "Aborts script evaluation with nonzero exit code.");
     addDocumentation("setCurrentTab", "setCurrentTab(tabName)", "Focus tab without showing main window.");

@@ -159,6 +159,12 @@ bool needsInfo(const QString &arg)
            arg == "info";
 }
 
+bool needsLogs(const QString &arg)
+{
+    return arg == "--logs" ||
+           arg == "logs";
+}
+
 #ifdef HAS_TESTS
 bool needsTests(const QString &arg)
 {
@@ -223,6 +229,9 @@ int startApplication(int argc, char **argv)
 
         if ( needsInfo(arg) )
             return evaluate( "info", arguments.mid(skipArguments + 1), argc, argv, sessionName );
+
+        if ( needsLogs(arg) )
+            return evaluate( "logs", arguments.mid(skipArguments + 1), argc, argv, sessionName );
 
 #ifdef HAS_TESTS
         if ( needsTests(arg) ) {

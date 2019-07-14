@@ -1732,6 +1732,12 @@ void Scriptable::serverLog()
     m_proxy->serverLog(arg(0));
 }
 
+QScriptValue Scriptable::logs()
+{
+    m_skipArguments = 0;
+    return readLogFile(50 * 1024 * 1024);
+}
+
 void Scriptable::setCurrentTab()
 {
     m_skipArguments = 1;

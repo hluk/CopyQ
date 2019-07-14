@@ -137,6 +137,8 @@ private slots:
     void commandUnload();
     void commandForceUnload();
 
+    void commandServerLogAndLogs();
+
     void classByteArray();
     void classFile();
     void classDir();
