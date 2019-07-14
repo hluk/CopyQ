@@ -23,7 +23,6 @@
 #include "common/clipboardmode.h"
 #include "common/command.h"
 #include "gui/clipboardbrowsershared.h"
-#include "gui/configtabshortcuts.h"
 #include "gui/theme.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"

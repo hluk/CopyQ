@@ -32,7 +32,6 @@
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
-#include "gui/configtabshortcuts.h"
 #include "gui/tabicons.h"
 #include "platform/platformnativeinterface.h"
 
@@ -2446,7 +2445,7 @@ void Tests::openAndSavePreferences()
     RUN("config" << "check_clipboard" << "false", "false\n");
 
     // Open preferences dialog.
-    RUN("keys" << ConfigTabShortcuts::tr("Ctrl+P"), "");
+    RUN("keys" << "Ctrl+P", "");
 
     // Focus and set wrap text option.
     // This behavior could differ on some systems and in other languages.

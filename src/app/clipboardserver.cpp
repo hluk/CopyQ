@@ -30,7 +30,6 @@
 #include "common/sleeptimer.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/commanddialog.h"
-#include "gui/configtabshortcuts.h"
 #include "gui/iconfactory.h"
 #include "gui/mainwindow.h"
 #include "item/itemfactory.h"

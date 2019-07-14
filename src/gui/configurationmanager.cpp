@@ -20,6 +20,12 @@
 #include "configurationmanager.h"
 #include "ui_configurationmanager.h"
 
+#include "ui_configtabgeneral.h"
+#include "ui_configtabhistory.h"
+#include "ui_configtablayout.h"
+#include "ui_configtabnotifications.h"
+#include "ui_configtabtray.h"
+
 #include "common/appconfig.h"
 #include "common/command.h"
 #include "common/common.h"
@@ -28,9 +34,12 @@
 #include "common/mimetypes.h"
 #include "common/option.h"
 #include "common/settings.h"
+#include "gui/configtabappearance.h"
+#include "gui/configtabtabs.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/pluginwidget.h"
+#include "gui/shortcutswidget.h"
 #include "gui/tabicons.h"
 #include "gui/windowgeometryguard.h"
 #include "item/clipboardmodel.h"
@@ -44,10 +53,48 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QScrollArea>
 #include <QSettings>
 #include <QTranslator>
 
 namespace {
+
+class TabItem final : public ItemOrderList::Item {
+public:
+    explicit TabItem(QWidget *widget) noexcept
+        : m_widget(widget)
+    {
+        m_widget->hide();
+    }
+
+    QVariant data() const override { return QVariant(); }
+
+private:
+    QWidget *createWidget(QWidget *) override
+    {
+        return m_widget;
+    }
+
+    QWidget *m_widget;
+};
+
+template <typename Ui>
+ItemOrderList::ItemPtr makeTab(std::shared_ptr<Ui> &ui, QWidget *parent)
+{
+    Q_ASSERT(!ui);
+    auto widget = new QScrollArea(parent);
+    ui = std::make_shared<Ui>();
+    ui->setupUi(widget);
+    return std::make_shared<TabItem>(widget);
+}
+
+template <typename Widget>
+ItemOrderList::ItemPtr makeTab(Widget **widget, QWidget *parent)
+{
+    Q_ASSERT(!*widget);
+    *widget = new Widget(parent);
+    return std::make_shared<TabItem>(*widget);
+}
 
 class PluginItem final : public ItemOrderList::Item {
 public:
@@ -88,25 +135,24 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     , m_options()
 {
     ui->setupUi(this);
+    initTabIcons();
     connectSlots();
     setWindowIcon(appIcon());
 
-    ui->spinBoxItems->setMaximum(Config::maxItems);
+    m_tabHistory->spinBoxItems->setMaximum(Config::maxItems);
 
     if ( itemFactory && itemFactory->hasLoaders() )
         initPluginWidgets(itemFactory);
-    else
-        ui->tabItems->hide();
 
     initOptions();
 
     if (itemFactory)
-        ui->configTabAppearance->createPreview(itemFactory);
+        m_tabAppearance->createPreview(itemFactory);
 
     loadSettings();
 
     if (itemFactory)
-        ui->configTabShortcuts->addCommands( itemFactory->commands() );
+        m_tabShortcuts->addCommands( itemFactory->commands() );
 }
 
 ConfigurationManager::ConfigurationManager()
@@ -114,6 +160,7 @@ ConfigurationManager::ConfigurationManager()
     , m_options()
 {
     ui->setupUi(this);
+    initTabIcons();
     connectSlots();
     initOptions();
 }
@@ -125,24 +172,22 @@ ConfigurationManager::~ConfigurationManager()
 
 void ConfigurationManager::initTabIcons()
 {
-    QTabWidget *tw = ui->tabWidget;
-    if ( !tw->tabIcon(0).isNull() )
-        return;
-
-    tw->setTabIcon( tw->indexOf(ui->tabGeneral), getIcon("", IconWrench) );
-    tw->setTabIcon( tw->indexOf(ui->tabLayout), getIcon("", IconColumns) );
-    tw->setTabIcon( tw->indexOf(ui->tabHistory), getIcon("", IconListAlt) );
-    tw->setTabIcon( tw->indexOf(ui->tabTabs), getIconFromResources("tab_rename") );
-    tw->setTabIcon( tw->indexOf(ui->tabItems), getIcon("", IconThList) );
-    tw->setTabIcon( tw->indexOf(ui->tabTray), getIcon("", IconInbox) );
-    tw->setTabIcon( tw->indexOf(ui->tabNotifications), getIcon("", IconInfoCircle) );
-    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), getIcon("", IconKeyboard) );
-    tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconImage) );
+    ItemOrderList *list = ui->itemOrderList;
+    list->setUpDownButtonsVisible(false);
+    list->appendItem( tr("General"), getIcon("", IconWrench), makeTab(m_tabGeneral, this) );
+    list->appendItem( tr("Layout"), getIcon("", IconColumns), makeTab(m_tabLayout, this) );
+    list->appendItem( tr("History"), getIcon("", IconThList), makeTab(m_tabHistory, this) );
+    list->appendItem( tr("Tray"), getIcon("", IconInbox), makeTab(m_tabTray, this) );
+    list->appendItem( tr("Notifications"), getIcon("", IconInfoCircle), makeTab(m_tabNotifications, this) );
+    list->appendItem( tr("Tabs"), getIconFromResources("tab_rename"), makeTab(&m_tabTabs, this) );
+    list->appendItem( tr("Items"), getIcon("", IconThList), makeTab(&m_tabItems, this) );
+    list->appendItem( tr("Shortcuts"), getIcon("", IconKeyboard), makeTab(&m_tabShortcuts, this) );
+    list->appendItem( tr("Appearance"), getIcon("", IconImage), makeTab(&m_tabAppearance, this) );
 }
 
 void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)
 {
-    ui->itemOrderListPlugins->clearItems();
+    m_tabItems->clearItems();
 
     for ( const auto &loader : itemFactory->loaders() ) {
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
@@ -150,14 +195,14 @@ void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)
         const auto state = itemFactory->isLoaderEnabled(loader)
                 ? ItemOrderList::Checked
                 : ItemOrderList::Unchecked;
-        ui->itemOrderListPlugins->appendItem( loader->name(), icon, pluginItem, state );
+        m_tabItems->appendItem( loader->name(), icon, pluginItem, state );
     }
 }
 
 void ConfigurationManager::initLanguages()
 {
-    ui->comboBoxLanguage->addItem("English");
-    ui->comboBoxLanguage->setItemData(0, "en");
+    m_tabGeneral->comboBoxLanguage->addItem("English");
+    m_tabGeneral->comboBoxLanguage->setItemData(0, "en");
 
     const QString currentLocale = QLocale().name();
     bool currentLocaleFound = false; // otherwise not found or partial match ("uk" partially matches locale "uk_UA")
@@ -171,20 +216,20 @@ void ConfigurationManager::initLanguages()
 
             if (!language.isEmpty()) {
                 languages.insert(language);
-                const int index = ui->comboBoxLanguage->count();
-                ui->comboBoxLanguage->addItem(language);
-                ui->comboBoxLanguage->setItemData(index, locale);
+                const int index = m_tabGeneral->comboBoxLanguage->count();
+                m_tabGeneral->comboBoxLanguage->addItem(language);
+                m_tabGeneral->comboBoxLanguage->setItemData(index, locale);
 
                 if (!currentLocaleFound) {
                     currentLocaleFound = (locale == currentLocale);
                     if (currentLocaleFound || currentLocale.startsWith(locale + "_"))
-                        ui->comboBoxLanguage->setCurrentIndex(index);
+                        m_tabGeneral->comboBoxLanguage->setCurrentIndex(index);
                 }
             }
         }
     }
 
-    ui->comboBoxLanguage->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    m_tabGeneral->comboBoxLanguage->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 }
 
 void ConfigurationManager::updateAutostart()
@@ -192,9 +237,9 @@ void ConfigurationManager::updateAutostart()
     auto platform = platformNativeInterface();
 
     if ( platform->canAutostart() ) {
-        bind<Config::autostart>(ui->checkBoxAutostart);
+        bind<Config::autostart>(m_tabGeneral->checkBoxAutostart);
     } else {
-        ui->checkBoxAutostart->hide();
+        m_tabGeneral->checkBoxAutostart->hide();
     }
 }
 
@@ -207,65 +252,65 @@ void ConfigurationManager::setAutostartEnable()
 void ConfigurationManager::initOptions()
 {
     /* general options */
-    bind<Config::autostart>(ui->checkBoxAutostart);
-    bind<Config::clipboard_tab>(ui->comboBoxClipboardTab->lineEdit());
-    bind<Config::maxitems>(ui->spinBoxItems);
-    bind<Config::expire_tab>(ui->spinBoxExpireTab);
-    bind<Config::editor>(ui->lineEditEditor);
-    bind<Config::item_popup_interval>(ui->spinBoxNotificationPopupInterval);
-    bind<Config::notification_position>(ui->comboBoxNotificationPosition);
-    bind<Config::clipboard_notification_lines>(ui->spinBoxClipboardNotificationLines);
-    bind<Config::notification_horizontal_offset>(ui->spinBoxNotificationHorizontalOffset);
-    bind<Config::notification_vertical_offset>(ui->spinBoxNotificationVerticalOffset);
-    bind<Config::notification_maximum_width>(ui->spinBoxNotificationMaximumWidth);
-    bind<Config::notification_maximum_height>(ui->spinBoxNotificationMaximumHeight);
-    bind<Config::edit_ctrl_return>(ui->checkBoxEditCtrlReturn);
-    bind<Config::show_simple_items>(ui->checkBoxShowSimpleItems);
-    bind<Config::number_search>(ui->checkBoxNumberSearch);
-    bind<Config::move>(ui->checkBoxMove);
-    bind<Config::check_clipboard>(ui->checkBoxClip);
-    bind<Config::confirm_exit>(ui->checkBoxConfirmExit);
-    bind<Config::vi>(ui->checkBoxViMode);
-    bind<Config::save_filter_history>(ui->checkBoxSaveFilterHistory);
-    bind<Config::autocompletion>(ui->checkBoxAutocompleteCommands);
-    bind<Config::always_on_top>(ui->checkBoxAlwaysOnTop);
-    bind<Config::close_on_unfocus>(ui->checkBoxCloseOnUnfocus);
-    bind<Config::open_windows_on_current_screen>(ui->checkBoxOpenWindowsOnCurrentScreen);
-    bind<Config::transparency_focused>(ui->spinBoxTransparencyFocused);
-    bind<Config::transparency>(ui->spinBoxTransparencyUnfocused);
-    bind<Config::hide_tabs>(ui->checkBoxHideTabs);
-    bind<Config::hide_toolbar>(ui->checkBoxHideToolbar);
-    bind<Config::hide_toolbar_labels>(ui->checkBoxHideToolbarLabels);
-    bind<Config::disable_tray>(ui->checkBoxDisableTray);
-    bind<Config::hide_main_window>(ui->checkBoxHideWindow);
-    bind<Config::tab_tree>(ui->checkBoxTabTree);
-    bind<Config::show_tab_item_count>(ui->checkBoxShowTabItemCount);
-    bind<Config::text_wrap>(ui->checkBoxTextWrap);
+    bind<Config::autostart>(m_tabGeneral->checkBoxAutostart);
+    bind<Config::clipboard_tab>(m_tabHistory->comboBoxClipboardTab->lineEdit());
+    bind<Config::maxitems>(m_tabHistory->spinBoxItems);
+    bind<Config::expire_tab>(m_tabHistory->spinBoxExpireTab);
+    bind<Config::editor>(m_tabHistory->lineEditEditor);
+    bind<Config::item_popup_interval>(m_tabNotifications->spinBoxNotificationPopupInterval);
+    bind<Config::notification_position>(m_tabNotifications->comboBoxNotificationPosition);
+    bind<Config::clipboard_notification_lines>(m_tabNotifications->spinBoxClipboardNotificationLines);
+    bind<Config::notification_horizontal_offset>(m_tabNotifications->spinBoxNotificationHorizontalOffset);
+    bind<Config::notification_vertical_offset>(m_tabNotifications->spinBoxNotificationVerticalOffset);
+    bind<Config::notification_maximum_width>(m_tabNotifications->spinBoxNotificationMaximumWidth);
+    bind<Config::notification_maximum_height>(m_tabNotifications->spinBoxNotificationMaximumHeight);
+    bind<Config::edit_ctrl_return>(m_tabHistory->checkBoxEditCtrlReturn);
+    bind<Config::show_simple_items>(m_tabHistory->checkBoxShowSimpleItems);
+    bind<Config::number_search>(m_tabHistory->checkBoxNumberSearch);
+    bind<Config::move>(m_tabHistory->checkBoxMove);
+    bind<Config::check_clipboard>(m_tabGeneral->checkBoxClip);
+    bind<Config::confirm_exit>(m_tabGeneral->checkBoxConfirmExit);
+    bind<Config::vi>(m_tabGeneral->checkBoxViMode);
+    bind<Config::save_filter_history>(m_tabGeneral->checkBoxSaveFilterHistory);
+    bind<Config::autocompletion>(m_tabGeneral->checkBoxAutocompleteCommands);
+    bind<Config::always_on_top>(m_tabGeneral->checkBoxAlwaysOnTop);
+    bind<Config::close_on_unfocus>(m_tabGeneral->checkBoxCloseOnUnfocus);
+    bind<Config::open_windows_on_current_screen>(m_tabGeneral->checkBoxOpenWindowsOnCurrentScreen);
+    bind<Config::transparency_focused>(m_tabLayout->spinBoxTransparencyFocused);
+    bind<Config::transparency>(m_tabLayout->spinBoxTransparencyUnfocused);
+    bind<Config::hide_tabs>(m_tabLayout->checkBoxHideTabs);
+    bind<Config::hide_toolbar>(m_tabLayout->checkBoxHideToolbar);
+    bind<Config::hide_toolbar_labels>(m_tabLayout->checkBoxHideToolbarLabels);
+    bind<Config::disable_tray>(m_tabTray->checkBoxDisableTray);
+    bind<Config::hide_main_window>(m_tabLayout->checkBoxHideWindow);
+    bind<Config::tab_tree>(m_tabLayout->checkBoxTabTree);
+    bind<Config::show_tab_item_count>(m_tabLayout->checkBoxShowTabItemCount);
+    bind<Config::text_wrap>(m_tabGeneral->checkBoxTextWrap);
 
-    bind<Config::activate_closes>(ui->checkBoxActivateCloses);
-    bind<Config::activate_focuses>(ui->checkBoxActivateFocuses);
-    bind<Config::activate_pastes>(ui->checkBoxActivatePastes);
+    bind<Config::activate_closes>(m_tabHistory->checkBoxActivateCloses);
+    bind<Config::activate_focuses>(m_tabHistory->checkBoxActivateFocuses);
+    bind<Config::activate_pastes>(m_tabHistory->checkBoxActivatePastes);
 
-    bind<Config::tray_items>(ui->spinBoxTrayItems);
-    bind<Config::tray_item_paste>(ui->checkBoxPasteMenuItem);
-    bind<Config::tray_commands>(ui->checkBoxTrayShowCommands);
-    bind<Config::tray_tab_is_current>(ui->checkBoxMenuTabIsCurrent);
-    bind<Config::tray_images>(ui->checkBoxTrayImages);
-    bind<Config::tray_tab>(ui->comboBoxMenuTab->lineEdit());
+    bind<Config::tray_items>(m_tabTray->spinBoxTrayItems);
+    bind<Config::tray_item_paste>(m_tabTray->checkBoxPasteMenuItem);
+    bind<Config::tray_commands>(m_tabTray->checkBoxTrayShowCommands);
+    bind<Config::tray_tab_is_current>(m_tabTray->checkBoxMenuTabIsCurrent);
+    bind<Config::tray_images>(m_tabTray->checkBoxTrayImages);
+    bind<Config::tray_tab>(m_tabTray->comboBoxMenuTab->lineEdit());
 
     /* other options */
     bind<Config::command_history_size>();
 #ifdef HAS_MOUSE_SELECTIONS
     /* X11 clipboard selection monitoring and synchronization */
-    bind<Config::check_selection>(ui->checkBoxSel);
-    bind<Config::copy_clipboard>(ui->checkBoxCopyClip);
-    bind<Config::copy_selection>(ui->checkBoxCopySel);
-    bind<Config::run_selection>(ui->checkBoxRunSel);
+    bind<Config::check_selection>(m_tabGeneral->checkBoxSel);
+    bind<Config::copy_clipboard>(m_tabGeneral->checkBoxCopyClip);
+    bind<Config::copy_selection>(m_tabGeneral->checkBoxCopySel);
+    bind<Config::run_selection>(m_tabGeneral->checkBoxRunSel);
 #else
-    ui->checkBoxCopySel->hide();
-    ui->checkBoxSel->hide();
-    ui->checkBoxCopyClip->hide();
-    ui->checkBoxRunSel->hide();
+    m_tabGeneral->checkBoxCopySel->hide();
+    m_tabGeneral->checkBoxSel->hide();
+    m_tabGeneral->checkBoxCopyClip->hide();
+    m_tabGeneral->checkBoxRunSel->hide();
 #endif
 
     // values of last submitted action
@@ -314,8 +359,8 @@ void ConfigurationManager::bind(const QString &optionKey, const QVariant &defaul
 
 void ConfigurationManager::updateTabComboBoxes()
 {
-    initTabComboBox(ui->comboBoxClipboardTab);
-    initTabComboBox(ui->comboBoxMenuTab);
+    initTabComboBox(m_tabHistory->comboBoxClipboardTab);
+    initTabComboBox(m_tabTray->comboBoxMenuTab);
 }
 
 QStringList ConfigurationManager::options() const
@@ -377,16 +422,16 @@ void ConfigurationManager::loadSettings()
     settings.endGroup();
 
     settings.beginGroup("Shortcuts");
-    ui->configTabShortcuts->loadShortcuts(settings);
+    m_tabShortcuts->loadShortcuts(settings);
     settings.endGroup();
 
     settings.beginGroup("Theme");
-    ui->configTabAppearance->loadTheme(settings);
+    m_tabAppearance->loadTheme(settings);
     settings.endGroup();
 
-    ui->configTabAppearance->setEditor( AppConfig().option<Config::editor>() );
+    m_tabAppearance->setEditor( AppConfig().option<Config::editor>() );
 
-    onCheckBoxMenuTabIsCurrentStateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
+    onCheckBoxMenuTabIsCurrentStateChanged( m_tabTray->checkBoxMenuTabIsCurrent->checkState() );
 
     updateTabComboBoxes();
 
@@ -432,7 +477,6 @@ void ConfigurationManager::setVisible(bool visible)
     QDialog::setVisible(visible);
 
     if (visible) {
-        initTabIcons();
         initLanguages();
     }
 }
@@ -441,9 +485,9 @@ void ConfigurationManager::connectSlots()
 {
     connect(ui->buttonBox, &QDialogButtonBox::clicked,
             this, &ConfigurationManager::onButtonBoxClicked);
-    connect(ui->checkBoxMenuTabIsCurrent, &QCheckBox::stateChanged,
+    connect(m_tabTray->checkBoxMenuTabIsCurrent, &QCheckBox::stateChanged,
             this, &ConfigurationManager::onCheckBoxMenuTabIsCurrentStateChanged);
-    connect(ui->spinBoxTrayItems, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+    connect(m_tabTray->spinBoxTrayItems, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &ConfigurationManager::onSpinBoxTrayItemsValueChanged);
 }
 
@@ -456,33 +500,33 @@ void ConfigurationManager::apply()
         settings.setValue( it.key(), it.value().value() );
     settings.endGroup();
 
-    ui->configTabTabs->saveTabs(settings.settingsData());
+    m_tabTabs->saveTabs(settings.settingsData());
 
     // Save configuration without command line alternatives only if option widgets are initialized
     // (i.e. clicked OK or Apply in configuration dialog).
     settings.beginGroup("Shortcuts");
-    ui->configTabShortcuts->saveShortcuts(settings.settingsData());
+    m_tabShortcuts->saveShortcuts(settings.settingsData());
     settings.endGroup();
 
     settings.beginGroup("Theme");
-    ui->configTabAppearance->saveTheme(settings.settingsData());
+    m_tabAppearance->saveTheme(settings.settingsData());
     settings.endGroup();
 
     // Save settings for each plugin.
     settings.beginGroup("Plugins");
 
     QStringList pluginPriority;
-    pluginPriority.reserve( ui->itemOrderListPlugins->itemCount() );
+    pluginPriority.reserve( m_tabItems->itemCount() );
 
-    for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
-        const QString loaderId = ui->itemOrderListPlugins->data(i).toString();
+    for (int i = 0; i < m_tabItems->itemCount(); ++i) {
+        const QString loaderId = m_tabItems->data(i).toString();
         Q_ASSERT(!loaderId.isEmpty());
 
         pluginPriority.append(loaderId);
 
         settings.beginGroup(loaderId);
 
-        QWidget *w = ui->itemOrderListPlugins->widget(i);
+        QWidget *w = m_tabItems->widget(i);
         if (w) {
             PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
             const auto &loader = pluginWidget->loader();
@@ -491,7 +535,7 @@ void ConfigurationManager::apply()
                 settings.setValue( it.key(), it.value() );
         }
 
-        const bool isPluginEnabled = ui->itemOrderListPlugins->isItemChecked(i);
+        const bool isPluginEnabled = m_tabItems->isItemChecked(i);
         settings.setValue("enabled", isPluginEnabled);
 
         settings.endGroup();
@@ -502,13 +546,13 @@ void ConfigurationManager::apply()
     if (!pluginPriority.isEmpty())
         settings.setValue("plugin_priority", pluginPriority);
 
-    ui->configTabAppearance->setEditor( AppConfig().option<Config::editor>() );
+    m_tabAppearance->setEditor( AppConfig().option<Config::editor>() );
 
     setAutostartEnable();
 
     // Language changes after restart.
-    const int newLocaleIndex = ui->comboBoxLanguage->currentIndex();
-    const QString newLocaleName = ui->comboBoxLanguage->itemData(newLocaleIndex).toString();
+    const int newLocaleIndex = m_tabGeneral->comboBoxLanguage->currentIndex();
+    const QString newLocaleName = m_tabGeneral->comboBoxLanguage->itemData(newLocaleIndex).toString();
     QString oldLocaleName = settings.value("Options/language").toString();
     if (oldLocaleName.isEmpty())
         oldLocaleName = "en";
@@ -534,10 +578,10 @@ void ConfigurationManager::done(int result)
 
 void ConfigurationManager::onCheckBoxMenuTabIsCurrentStateChanged(int state)
 {
-    ui->comboBoxMenuTab->setEnabled(state == Qt::Unchecked);
+    m_tabTray->comboBoxMenuTab->setEnabled(state == Qt::Unchecked);
 }
 
 void ConfigurationManager::onSpinBoxTrayItemsValueChanged(int value)
 {
-    ui->checkBoxPasteMenuItem->setEnabled(value > 0);
+    m_tabTray->checkBoxPasteMenuItem->setEnabled(value > 0);
 }

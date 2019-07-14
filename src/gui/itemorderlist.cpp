@@ -79,6 +79,12 @@ void ItemOrderList::setAddRemoveButtonsVisible(bool visible)
     ui->pushButtonAdd->setVisible(visible);
 }
 
+void ItemOrderList::setUpDownButtonsVisible(bool visible)
+{
+    ui->pushButtonUp->setVisible(visible);
+    ui->pushButtonDown->setVisible(visible);
+}
+
 void ItemOrderList::clearItems()
 {
     ui->listWidgetItems->clear();
@@ -334,18 +340,16 @@ QListWidgetItem *ItemOrderList::listItem(int row) const
 
 void ItemOrderList::setCurrentItemWidget(QWidget *widget)
 {
-    if (widget == nullptr)
-        widget = ui->defaultWidget;
+    QLayoutItem *layoutItem =  ui->widgetLayout->takeAt(0);
+    if (layoutItem)
+        layoutItem->widget()->hide();
+    delete layoutItem;
 
-    QWidget *currentWidget = ui->splitter->replaceWidget(1, widget);
-
-    // Reparent current widget so it's safely deleted.
-    if (currentWidget) {
-        currentWidget->setParent(this);
-        currentWidget->hide();
+    if (widget) {
+        ui->widgetLayout->addWidget(widget);
+        ui->widgetParent->setFocusProxy(widget);
+        widget->show();
     }
-
-    widget->show();
 }
 
 QWidget *ItemOrderList::createWidget(QListWidgetItem *item)

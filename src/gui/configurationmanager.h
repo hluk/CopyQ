@@ -25,12 +25,23 @@
 #include <QDialog>
 #include <QHash>
 
+#include <memory>
+
 namespace Ui {
+    class ConfigTabGeneral;
+    class ConfigTabHistory;
+    class ConfigTabLayout;
+    class ConfigTabNotifications;
+    class ConfigTabTray;
     class ConfigurationManager;
 }
 
+class ConfigTabAppearance;
+class ConfigTabTabs;
 class ItemFactory;
+class ItemOrderList;
 class Option;
+class ShortcutsWidget;
 class QAbstractButton;
 class QCheckBox;
 class QComboBox;
@@ -119,6 +130,17 @@ private:
     void updateTabComboBoxes();
 
     Ui::ConfigurationManager *ui;
+
+    ConfigTabAppearance *m_tabAppearance = nullptr;
+    ConfigTabTabs *m_tabTabs = nullptr;
+    ItemOrderList *m_tabItems = nullptr;
+    ShortcutsWidget *m_tabShortcuts = nullptr;
+    std::shared_ptr<Ui::ConfigTabGeneral> m_tabGeneral;
+    std::shared_ptr<Ui::ConfigTabHistory> m_tabHistory;
+    std::shared_ptr<Ui::ConfigTabLayout> m_tabLayout;
+    std::shared_ptr<Ui::ConfigTabNotifications> m_tabNotifications;
+    std::shared_ptr<Ui::ConfigTabTray> m_tabTray;
+
     QHash<QString, Option> m_options;
 };
 

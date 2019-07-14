@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConfigTabHistory</class>
+ <widget class="QScrollArea" name="ConfigTabHistory">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>639</width>
+    <height>523</height>
+   </rect>
+  </property>
+  <property name="frameShape">
+   <enum>QFrame::NoFrame</enum>
+  </property>
+  <property name="widgetResizable">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="scrollAreaWidgetContents_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>639</width>
+     <height>523</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_16">
+    <item>
+     <spacer name="horizontalSpacer_14">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_11">
+      <item>
+       <spacer name="verticalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_2">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+        </property>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Maximum &amp;number of items in history:</string>
+          </property>
+          <property name="buddy">
+           <cstring>spinBoxItems</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QSpinBox" name="spinBoxItems">
+            <property name="toolTip">
+             <string>Maximum number of items in each tab</string>
+            </property>
+            <property name="maximum">
+             <number>10000</number>
+            </property>
+            <property name="value">
+             <number>200</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>&amp;Unload tab after an interval in minutes:</string>
+          </property>
+          <property name="buddy">
+           <cstring>spinBoxExpireTab</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QSpinBox" name="spinBoxExpireTab">
+            <property name="toolTip">
+             <string>Unload each tab from memory after specified number of minutes of inactivity.
+
+Set to 0 not to unload tabs.</string>
+            </property>
+            <property name="maximum">
+             <number>480</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>External editor command (%&amp;1 is file to edit):</string>
+          </property>
+          <property name="buddy">
+           <cstring>lineEditEditor</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="lineEditEditor">
+          <property name="toolTip">
+           <string>External editor command (%1 is file to edit).
+  Examples:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Ta&amp;b for storing clipboard:</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBoxClipboardTab</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBoxClipboardTab">
+          <property name="toolTip">
+           <string>Name of tab that will automatically store new clipboard content.
+
+Leave empty to disable automatic storing.</string>
+          </property>
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
+        <property name="toolTip">
+         <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
+
+Note: Edited items can be saved with F2 disregarding this option.</string>
+        </property>
+        <property name="text">
+         <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxShowSimpleItems">
+        <property name="toolTip">
+         <string>Show single line description of each item.
+
+Use Item Preview to display whole items.</string>
+        </property>
+        <property name="text">
+         <string>Sho&amp;w simple items</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxNumberSearch">
+        <property name="toolTip">
+         <string>Enable searching for numbers, otherwise pressing a digit key activates item on that position</string>
+        </property>
+        <property name="text">
+         <string>S&amp;earch for numbers</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <widget class="QCheckBox" name="checkBoxMove">
+           <property name="toolTip">
+            <string>Move item to the top of the list after it is activated</string>
+           </property>
+           <property name="text">
+            <string>Move item to the t&amp;op</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxActivateCloses">
+           <property name="toolTip">
+            <string>Close main window after item is activated</string>
+           </property>
+           <property name="text">
+            <string>&amp;Close main window</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxActivateFocuses">
+           <property name="toolTip">
+            <string>Focus last window after item is activated</string>
+           </property>
+           <property name="text">
+            <string>&amp;Focus last window</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxActivatePastes">
+           <property name="toolTip">
+            <string>Paste to current window after item is activated</string>
+           </property>
+           <property name="text">
+            <string>&amp;Paste to current window</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_5">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>comboBoxClipboardTab</tabstop>
+  <tabstop>spinBoxItems</tabstop>
+  <tabstop>spinBoxExpireTab</tabstop>
+  <tabstop>lineEditEditor</tabstop>
+  <tabstop>checkBoxEditCtrlReturn</tabstop>
+  <tabstop>checkBoxShowSimpleItems</tabstop>
+  <tabstop>checkBoxNumberSearch</tabstop>
+  <tabstop>checkBoxMove</tabstop>
+  <tabstop>checkBoxActivateCloses</tabstop>
+  <tabstop>checkBoxActivateFocuses</tabstop>
+  <tabstop>checkBoxActivatePastes</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

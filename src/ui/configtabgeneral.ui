@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConfigTabGeneral</class>
+ <widget class="QScrollArea" name="ConfigTabGeneral">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>639</width>
+    <height>523</height>
+   </rect>
+  </property>
+  <property name="frameShape">
+   <enum>QFrame::NoFrame</enum>
+  </property>
+  <property name="widgetResizable">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="scrollAreaWidgetContents">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>639</width>
+     <height>523</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_15">
+    <item>
+     <spacer name="horizontalSpacer_13">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_10">
+      <item>
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>&amp;Language:</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBoxLanguage</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBoxLanguage"/>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxTextWrap">
+        <property name="toolTip">
+         <string>Break text if it's too long to fit on line</string>
+        </property>
+        <property name="text">
+         <string>Wrap l&amp;ong text</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxAlwaysOnTop">
+        <property name="toolTip">
+         <string>Keep main window above other windows</string>
+        </property>
+        <property name="text">
+         <string>Alwa&amp;ys on Top</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxCloseOnUnfocus">
+        <property name="toolTip">
+         <string>Close main window when other application has focus</string>
+        </property>
+        <property name="text">
+         <string>Close When Unfocused</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxOpenWindowsOnCurrentScreen">
+        <property name="toolTip">
+         <string>Enable to open windows on current screen. Disable to open windows where they were last closed</string>
+        </property>
+        <property name="text">
+         <string>O&amp;pen windows on current screen</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxConfirmExit">
+        <property name="toolTip">
+         <string>Confirm application exit</string>
+        </property>
+        <property name="text">
+         <string>Confirm application e&amp;xit</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxAutostart">
+        <property name="toolTip">
+         <string>Run the application on system startup</string>
+        </property>
+        <property name="text">
+         <string>&amp;Autostart</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxViMode">
+        <property name="toolTip">
+         <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
+        </property>
+        <property name="text">
+         <string>&amp;Vi style navigation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxSaveFilterHistory">
+        <property name="toolTip">
+         <string>Save and restore history of item filters</string>
+        </property>
+        <property name="text">
+         <string>Save Filter History</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxAutocompleteCommands">
+        <property name="toolTip">
+         <string>Automatically show popup to complete function, type and variable names in commands</string>
+        </property>
+        <property name="text">
+         <string>Auto-complete Commands</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>Clipboard Manipulation</string>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_8">
+         <item row="3" column="0">
+          <widget class="QCheckBox" name="checkBoxCopyClip">
+           <property name="toolTip">
+            <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</string>
+           </property>
+           <property name="text">
+            <string>(&amp;3) Paste clipboard with mouse</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QCheckBox" name="checkBoxCopySel">
+           <property name="toolTip">
+            <string>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</string>
+           </property>
+           <property name="text">
+            <string>(&amp;4) Paste mouse selection with keyboard</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="checkBoxClip">
+           <property name="toolTip">
+            <string>Save clipboard in history</string>
+           </property>
+           <property name="text">
+            <string>(&amp;1) Store clipboard</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="checkBoxSel">
+           <property name="toolTip">
+            <string>Save text selected with mouse (primary selection) in history</string>
+           </property>
+           <property name="text">
+            <string>(&amp;2) Store text selected using mouse</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QCheckBox" name="checkBoxRunSel">
+           <property name="text">
+            <string>(&amp;5) Run automatic commands on selection</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_12">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>comboBoxLanguage</tabstop>
+  <tabstop>checkBoxTextWrap</tabstop>
+  <tabstop>checkBoxAlwaysOnTop</tabstop>
+  <tabstop>checkBoxCloseOnUnfocus</tabstop>
+  <tabstop>checkBoxOpenWindowsOnCurrentScreen</tabstop>
+  <tabstop>checkBoxConfirmExit</tabstop>
+  <tabstop>checkBoxAutostart</tabstop>
+  <tabstop>checkBoxViMode</tabstop>
+  <tabstop>checkBoxSaveFilterHistory</tabstop>
+  <tabstop>checkBoxAutocompleteCommands</tabstop>
+  <tabstop>checkBoxClip</tabstop>
+  <tabstop>checkBoxSel</tabstop>
+  <tabstop>checkBoxCopyClip</tabstop>
+  <tabstop>checkBoxCopySel</tabstop>
+  <tabstop>checkBoxRunSel</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

@@ -64,6 +64,7 @@ public:
     ~ItemOrderList();
 
     void setAddRemoveButtonsVisible(bool visible);
+    void setUpDownButtonsVisible(bool visible);
 
     void clearItems();
 
