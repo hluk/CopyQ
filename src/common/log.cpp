@@ -235,6 +235,24 @@ void rotateLogFiles()
     }
 }
 
+bool writeLogFile(const QByteArray &message)
+{
+    SystemMutexLocker lock(getSessionMutex());
+
+    QFile f( ::logFileName() );
+    if ( !f.open(QIODevice::Append) )
+        return false;
+
+    if ( !f.write(message) )
+        return false;
+
+    f.close();
+    if ( f.size() > logFileSize )
+        rotateLogFiles();
+
+    return true;
+}
+
 QByteArray createLogMessage(const QByteArray &label, const QByteArray &text)
 {
     return label + QByteArray(text).replace("\n", "\n" + label + "   ") + "\n";
@@ -320,15 +338,9 @@ void log(const QString &text, const LogLevel level)
     if ( !hasLogLevel(level) )
         return;
 
-    SystemMutexLocker lock(getSessionMutex());
-
     const auto msgText = text.toUtf8();
     const auto msg = createLogMessage(msgText, level);
-
-    QFile f( logFileName() );
-    const bool writtenToLogFile = f.open(QIODevice::Append) && f.write(msg);
-    if (writtenToLogFile)
-        f.close();
+    const bool writtenToLogFile = writeLogFile(msg);
 
     // Log to file and if needed to stderr.
     if ( !writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug) ) {
@@ -337,9 +349,6 @@ void log(const QString &text, const LogLevel level)
         const auto simpleMsg = createSimpleLogMessage(msgText, level);
         ferr.write(simpleMsg);
     }
-
-    if ( writtenToLogFile && f.size() > logFileSize )
-        rotateLogFiles();
 }
 
 void setCurrentThreadName(const QString &name)
