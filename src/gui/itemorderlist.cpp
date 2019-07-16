@@ -107,13 +107,6 @@ void ItemOrderList::insertItem(
     const int row = targetRow >= 0 ? qMin(list->count(), targetRow) : list->count();
     list->insertItem(row, listItem);
 
-    // Resize list to minimal size.
-    if ( !isVisible() ) {
-        const int w = list->sizeHintForColumn(0)
-                    + list->verticalScrollBar()->sizeHint().width() + 4;
-        list->resize( w, list->height() );
-    }
-
     if ( list->currentItem() == nullptr )
         list->setCurrentRow(row);
 }
@@ -262,6 +255,13 @@ void ItemOrderList::showEvent(QShowEvent *event)
         ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown) );
         ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp) );
     }
+
+    // Resize list to minimal size.
+    QListWidget *list = ui->listWidgetItems;
+    const int w = list->sizeHintForColumn(0)
+                + list->verticalScrollBar()->sizeHint().width() + 4;
+    const auto sizes = ui->splitter->sizes();
+    ui->splitter->setSizes({w, sizes[0] + sizes[1] - w});
 
     QWidget::showEvent(event);
 }
