@@ -1867,6 +1867,7 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
     m_automaticCommands.clear();
     m_menuCommands.clear();
     m_scriptCommands.clear();
+    m_trayMenuCommands.clear();
 
     QVector<Command> displayCommands;
 
