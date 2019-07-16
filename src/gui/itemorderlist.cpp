@@ -334,24 +334,25 @@ QListWidgetItem *ItemOrderList::listItem(int row) const
 
 void ItemOrderList::setCurrentItemWidget(QWidget *widget)
 {
+    if (widget == nullptr)
+        widget = ui->defaultWidget;
+
+    QWidget *currentWidget = ui->splitter->replaceWidget(1, widget);
+
     // Reparent current widget so it's safely deleted.
-    QWidget *currentWidget = ui->scrollArea->takeWidget();
-    if (currentWidget != nullptr) {
+    if (currentWidget) {
         currentWidget->setParent(this);
         currentWidget->hide();
     }
 
-    if (widget != nullptr) {
-        ui->scrollArea->setWidget(widget);
-        widget->show();
-    }
+    widget->show();
 }
 
 QWidget *ItemOrderList::createWidget(QListWidgetItem *item)
 {
     ItemWidgetPair &pair = m_items[item];
     if (!pair.widget)
-        pair.widget = pair.item->createWidget(ui->scrollArea);
+        pair.widget = pair.item->createWidget(this);
     return pair.widget;
 }
 
