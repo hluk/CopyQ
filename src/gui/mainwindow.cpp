@@ -276,6 +276,17 @@ void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
     }
 }
 
+void setHideInTaskBar(QWidget *window, bool hideInTaskBar)
+{
+    if (!window)
+        return;
+
+    const Qt::WindowFlags flags = window->windowFlags();
+    const bool hiddenInTaskBar = flags.testFlag(Qt::Tool);
+    if (hiddenInTaskBar != hideInTaskBar)
+        window->setWindowFlags(flags ^ Qt::Tool);
+}
+
 template <typename Dialog>
 Dialog *openDialog(QWidget *dialogParent)
 {
@@ -2242,6 +2253,9 @@ void MainWindow::loadSettings()
 
     m_options.hideMainWindow = appConfig.option<Config::hide_main_window>();
     m_options.closeOnUnfocus = appConfig.option<Config::close_on_unfocus>();
+
+    const bool hideInTaskBar = appConfig.option<Config::hide_main_window_in_task_bar>();
+    setHideInTaskBar(this, hideInTaskBar);
 
     // shared data for browsers
     m_sharedData->editor = appConfig.option<Config::editor>();

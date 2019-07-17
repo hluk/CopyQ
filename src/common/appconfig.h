@@ -181,6 +181,11 @@ struct hide_main_window : Config<bool> {
     static QString name() { return "hide_main_window"; }
 };
 
+struct hide_main_window_in_task_bar : Config<bool> {
+    static QString name() { return "hide_main_window_in_task_bar"; }
+    static Value defaultValue() { return false; }
+};
+
 struct tab_tree : Config<bool> {
     static QString name() { return "tab_tree"; }
 };
