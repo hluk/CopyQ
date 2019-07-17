@@ -231,6 +231,23 @@ void ItemOrderList::setWiderIconsEnabled(bool wider)
     ui->listWidgetItems->setIconSize( QSize(width, height) );
 }
 
+void ItemOrderList::keyPressEvent(QKeyEvent *event)
+{
+    if ( event->matches(QKeySequence::NextChild) ) {
+         nextPreviousItem(1);
+         event->accept();
+         return;
+    }
+
+    if ( event->matches(QKeySequence::PreviousChild) ) {
+         nextPreviousItem(-1);
+         event->accept();
+         return;
+    }
+
+    QWidget::keyPressEvent(event);
+}
+
 void ItemOrderList::dragEnterEvent(QDragEnterEvent *event)
 {
     const QString text = event->mimeData()->text();
@@ -270,6 +287,18 @@ void ItemOrderList::showEvent(QShowEvent *event)
     ui->splitter->setSizes({w, sizes[0] + sizes[1] - w});
 
     QWidget::showEvent(event);
+}
+
+void ItemOrderList::nextPreviousItem(int d)
+{
+    QListWidget *list = ui->listWidgetItems;
+    const int rowCount = list->count();
+    if (rowCount < 2)
+        return;
+
+    const int row = list->currentRow();
+    const int nextRow = (row + d + rowCount) % rowCount;
+    list->setCurrentRow(nextRow, QItemSelectionModel::ClearAndSelect);
 }
 
 void ItemOrderList::onPushButtonUpClicked()

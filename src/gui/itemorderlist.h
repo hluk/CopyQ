@@ -116,11 +116,14 @@ signals:
     void itemCheckStateChanged(int row, bool checked);
 
 protected:
+    void keyPressEvent(QKeyEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
     void showEvent(QShowEvent *event) override;
 
 private:
+    void nextPreviousItem(int d);
+
     void onPushButtonUpClicked();
     void onPushButtonDownClicked();
     void onPushButtonRemoveClicked();
