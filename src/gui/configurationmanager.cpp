@@ -318,6 +318,10 @@ void ConfigurationManager::initOptions()
     bind<Config::action_has_output>();
     bind<Config::action_separator>();
     bind<Config::action_output_tab>();
+
+    bind<Config::hide_main_window_in_task_bar>();
+    bind<Config::max_process_manager_rows>();
+    bind<Config::show_advanced_command_settings>();
 }
 
 template <typename Config, typename Widget>
@@ -368,11 +372,8 @@ QStringList ConfigurationManager::options() const
     QStringList options;
     for (auto it = m_options.constBegin(); it != m_options.constEnd(); ++it) {
         const auto &option = it.key();
-        if ( it.value().value().canConvert(QVariant::String)
-             && !optionToolTip(option).isEmpty() )
-        {
+        if ( it.value().value().canConvert(QVariant::String) )
             options.append(option);
-        }
     }
 
     return options;
