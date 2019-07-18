@@ -66,6 +66,9 @@ ItemOrderList::ItemOrderList(QWidget *parent)
     setFocusProxy(ui->listWidgetItems);
     ui->listWidgetItems->setFocus();
     setCurrentItemWidget(nullptr);
+
+    setEditable(false);
+    setItemsMovable(false);
 }
 
 ItemOrderList::~ItemOrderList()
@@ -73,16 +76,21 @@ ItemOrderList::~ItemOrderList()
     delete ui;
 }
 
-void ItemOrderList::setAddRemoveButtonsVisible(bool visible)
+void ItemOrderList::setEditable(bool editable)
 {
-    ui->pushButtonRemove->setVisible(visible);
-    ui->pushButtonAdd->setVisible(visible);
+    ui->pushButtonRemove->setVisible(editable);
+    ui->pushButtonAdd->setVisible(editable);
+    ui->listWidgetItems->setSelectionMode(
+        editable
+            ? QAbstractItemView::ExtendedSelection
+            : QAbstractItemView::SingleSelection);
 }
 
-void ItemOrderList::setUpDownButtonsVisible(bool visible)
+void ItemOrderList::setItemsMovable(bool movable)
 {
-    ui->pushButtonUp->setVisible(visible);
-    ui->pushButtonDown->setVisible(visible);
+    ui->pushButtonUp->setVisible(movable);
+    ui->pushButtonDown->setVisible(movable);
+    ui->listWidgetItems->setDragEnabled(movable);
 }
 
 void ItemOrderList::clearItems()

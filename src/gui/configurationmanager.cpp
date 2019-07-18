@@ -173,7 +173,7 @@ ConfigurationManager::~ConfigurationManager()
 void ConfigurationManager::initTabIcons()
 {
     ItemOrderList *list = ui->itemOrderList;
-    list->setUpDownButtonsVisible(false);
+    list->setItemsMovable(false);
     list->appendItem( tr("General"), getIcon("", IconWrench), makeTab(m_tabGeneral, this) );
     list->appendItem( tr("Layout"), getIcon("", IconColumns), makeTab(m_tabLayout, this) );
     list->appendItem( tr("History"), getIcon("", IconThList), makeTab(m_tabHistory, this) );
@@ -188,6 +188,7 @@ void ConfigurationManager::initTabIcons()
 void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)
 {
     m_tabItems->clearItems();
+    m_tabItems->setItemsMovable(true);
 
     for ( const auto &loader : itemFactory->loaders() ) {
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));

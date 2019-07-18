@@ -63,8 +63,8 @@ public:
     explicit ItemOrderList(QWidget *parent = nullptr);
     ~ItemOrderList();
 
-    void setAddRemoveButtonsVisible(bool visible);
-    void setUpDownButtonsVisible(bool visible);
+    void setEditable(bool editable);
+    void setItemsMovable(bool movable);
 
     void clearItems();
 

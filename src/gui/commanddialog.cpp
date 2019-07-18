@@ -154,7 +154,8 @@ CommandDialog::CommandDialog(
     ui->pushButtonCopyCommands->setIcon(iconCopyCommands());
     ui->pushButtonPasteCommands->setIcon(iconPasteCommands());
     ui->itemOrderListCommands->setWiderIconsEnabled(true);
-    ui->itemOrderListCommands->setAddRemoveButtonsVisible(true);
+    ui->itemOrderListCommands->setEditable(true);
+    ui->itemOrderListCommands->setItemsMovable(true);
 
     addCommandsWithoutSave(loadAllCommands(), -1);
     if ( ui->itemOrderListCommands->itemCount() != 0 )
