@@ -21,6 +21,7 @@
 #define SETTINGS_H
 
 #include <QSettings>
+#include <QString>
 
 /**
  * Wrapper for safer QSettings() handling.
@@ -55,9 +56,9 @@ public:
 
     Settings();
 
-    ~Settings();
+    explicit Settings(const QString &path);
 
-    static void restore();
+    ~Settings();
 
     bool isEmpty() const { return isEmpty(m_settings); }
 
@@ -115,11 +116,19 @@ public:
     Settings(const Settings &) = delete;
     Settings &operator=(const Settings &) = delete;
 
+    void restore();
+
 private:
+    void restore(const QSettings &settings);
+
+    void save();
+
     QSettings m_settings;
 
     /// True only if QSetting data changed and need to be synced.
     bool m_changed;
+
+    QString m_path;
 };
 
 

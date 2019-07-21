@@ -21,6 +21,7 @@
 
 #include "common/command.h"
 #include "common/common.h"
+#include "common/config.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
 #include "common/temporarysettings.h"
@@ -149,13 +150,13 @@ Commands importCommands(QSettings *settings)
 
 Commands loadAllCommands()
 {
-    QSettings settings;
-    return loadCommands(&settings);
+    const QString commandConfigPath = getConfigurationFilePath("-commands.ini");
+    return importCommandsFromFile(commandConfigPath);
 }
 
 void saveCommands(const Commands &commands)
 {
-    Settings settings;
+    Settings settings(getConfigurationFilePath("-commands.ini"));
     saveCommands(commands, settings.settingsData());
 }
 

@@ -55,25 +55,27 @@ void copySettings(const QSettings &from, QSettings *to)
     to->sync();
 }
 
-QString lockFileName()
+QString lockFileName(const QString &path)
 {
-    return getConfigurationFilePath(".bad");
+    if ( path.isEmpty() )
+        return getConfigurationFilePath(".bad");
+    return path + ".bad";
 }
 
-bool isLastSaveUnfinished()
+bool isLastSaveUnfinished(const QString &path)
 {
-    return QFile::exists(lockFileName());
+    return QFile::exists(lockFileName(path));
 }
 
-void beginSave()
+void beginSave(const QString &path)
 {
-    QFile lockFile(lockFileName());
+    QFile lockFile(lockFileName(path));
     lockFile.open(QIODevice::WriteOnly);
 }
 
-void endSave()
+void endSave(const QString &path)
 {
-    QFile::remove(lockFileName());
+    QFile::remove(lockFileName(path));
 }
 
 } // namespace
@@ -93,7 +95,12 @@ Settings::Settings()
           QCoreApplication::applicationName() + "-bak" )
     , m_changed(false)
 {
-    Q_ASSERT( isMainThread() );
+}
+
+Settings::Settings(const QString &path)
+    : m_settings(path + ".bak", QSettings::IniFormat)
+    , m_path(path)
+{
 }
 
 Settings::~Settings()
@@ -102,33 +109,48 @@ Settings::~Settings()
     if (canModifySettings && m_changed) {
         m_settings.sync();
 
-        beginSave();
-        QSettings to;
+        beginSave(m_path);
+
         while ( !m_settings.group().isEmpty() )
             m_settings.endGroup();
-        copySettings(m_settings, &to);
-        endSave();
+
+        save();
+
+        endSave(m_path);
     }
 }
 
 void Settings::restore()
 {
-    Settings appSettings;
-
-    if ( isLastSaveUnfinished() ) {
+    if ( isLastSaveUnfinished(m_path) ) {
         log("Restoring application settings", LogWarning);
 
-        if ( appSettings.isEmpty() ) {
+        if ( isEmpty() )
             log("Cannot restore application settings", LogError);
-        } else {
-            QSettings settings;
-            copySettings(appSettings.m_settings, &settings);
-        }
+        else
+            save();
 
-        endSave();
+        endSave(m_path);
+    } else if ( m_path.isEmpty() ) {
+        restore( QSettings() );
     } else {
-        const QSettings settings;
-        if ( needsUpdate(appSettings, settings) )
-            copySettings(settings, &appSettings.m_settings);
+        restore( QSettings(m_path, QSettings::IniFormat) );
+    }
+}
+
+void Settings::restore(const QSettings &settings)
+{
+    if ( needsUpdate(*this, settings) )
+        copySettings(settings, &m_settings);
+}
+
+void Settings::save()
+{
+    if ( m_path.isEmpty() ) {
+        QSettings settings;
+        copySettings(m_settings, &settings);
+    } else {
+        QSettings settings(m_path, QSettings::IniFormat);
+        copySettings(m_settings, &settings);
     }
 }
