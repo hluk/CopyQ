@@ -88,13 +88,6 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     } );
 
     initSingleShotTimer( &m_selectionData.timerEmitChange, 0, this, [this](){
-        if ( isSelectionIncomplete() ) {
-            COPYQ_LOG("Selection is incomplete");
-            if ( !m_timerCheckAgain.isActive() )
-                m_timerCheckAgain.start(minCheckAgainIntervalMs);
-            return;
-        }
-
         useNewClipboardData(&m_selectionData);
     } );
 
@@ -129,7 +122,7 @@ void X11PlatformClipboard::onChanged(int mode)
     if (!clipboardData.enabled)
         return;
 
-    clipboardData.changed = true;
+    clipboardData.timerEmitChange.stop();
 
     // Store the current window title right after the clipboard/selection changes.
     // This makes sure that the title points to the correct clipboard/selection
@@ -142,29 +135,41 @@ void X11PlatformClipboard::onChanged(int mode)
         clipboardData.newOwner = currentWindowTitle;
     }
 
-    // Omit checking selection too fast.
-    if ( mode == QClipboard::Selection && m_timerCheckAgain.isActive() ) {
-        COPYQ_LOG("Postponing fast selection change");
-        m_selectionData.timerEmitChange.stop();
-        return;
+    if (mode == QClipboard::Selection) {
+        // Omit checking selection too fast.
+        if ( mode == QClipboard::Selection && m_timerCheckAgain.isActive() ) {
+            COPYQ_LOG("Postponing fast selection change");
+            return;
+        }
+
+        if ( isSelectionIncomplete() ) {
+            COPYQ_LOG("Selection is incomplete");
+            if ( !m_timerCheckAgain.isActive()
+                 || minCheckAgainIntervalMs < m_timerCheckAgain.remainingTime() )
+            {
+                m_timerCheckAgain.start(minCheckAgainIntervalMs);
+            }
+            return;
+        }
     }
+
+    updateClipboardData(&clipboardData);
 
     checkAgainLater(true, 0);
 }
 
 void X11PlatformClipboard::check()
 {
-    m_clipboardData.timerEmitChange.stop();
-    m_selectionData.timerEmitChange.stop();
     m_timerCheckAgain.stop();
 
-    const auto changed =
-        // Prioritize checking clipboard before selection.
-        updateClipboardData(&m_clipboardData)
-        || updateClipboardData(&m_selectionData);
+    updateClipboardData(&m_clipboardData);
+    updateClipboardData(&m_selectionData);
 
     if ( m_timerCheckAgain.isActive() )
         return;
+
+    const bool changed = m_clipboardData.timerEmitChange.isActive()
+        || m_selectionData.timerEmitChange.isActive();
 
     // Check clipboard and selection again if some signals where
     // not delivered or older data was received after new one.
@@ -172,10 +177,10 @@ void X11PlatformClipboard::check()
     checkAgainLater(changed, interval);
 }
 
-bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
+void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
 {
     if (!clipboardData->enabled)
-        return false;
+        return;
 
     const auto data = ::clipboardData(clipboardData->mode);
 
@@ -191,32 +196,28 @@ bool X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
              .arg(clipboardData->retry)
              .arg(maxRetryCount), LogWarning );
 
-        return false;
+        return;
     }
     clipboardData->retry = 0;
 
     const auto newDataTimestamp = data->data(QLatin1String("TIMESTAMP"));
-    if ( newDataTimestamp.isEmpty() || clipboardData->newDataTimestamp != newDataTimestamp ) {
-        clipboardData->newDataTimestamp = newDataTimestamp;
-        clipboardData->newData = cloneData(*data, clipboardData->formats);
-    }
+    // In case there is a timestamp, omit update if it did not change.
+    if ( !newDataTimestamp.isEmpty() && clipboardData->newDataTimestamp == newDataTimestamp )
+        return;
 
-    if (!clipboardData->changed) {
-        if (clipboardData->data == clipboardData->newData)
-            return false;
-
-        clipboardData->changed = true;
-    }
+    clipboardData->newDataTimestamp = newDataTimestamp;
+    clipboardData->newData = cloneData(*data, clipboardData->formats);
+    // In case there is no timestamp, update only if the data changed.
+    if ( newDataTimestamp.isEmpty() && clipboardData->data == clipboardData->newData )
+        return;
 
     clipboardData->timerEmitChange.start();
-    return true;
 }
 
 void X11PlatformClipboard::useNewClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
 {
     clipboardData->data = clipboardData->newData;
     clipboardData->owner = clipboardData->newOwner;
-    clipboardData->changed = false;
     clipboardData->timerEmitChange.stop();
     emit changed(clipboardData->mode);
 }
@@ -232,10 +233,10 @@ void X11PlatformClipboard::checkAgainLater(bool clipboardChanged, int interval)
         m_timerCheckAgain.setInterval(0);
 
     COPYQ_LOG( QString("Clipboard %1, selection %2.%3")
-               .arg(m_clipboardData.data == m_clipboardData.newData ? "unchanged" : "*CHANGED*")
-               .arg(m_selectionData.data == m_selectionData.newData ? "unchanged" : "*CHANGED*")
+               .arg(m_clipboardData.timerEmitChange.isActive() ? "*CHANGED*" : "unchanged")
+               .arg(m_selectionData.timerEmitChange.isActive() ? "*CHANGED*" : "unchanged")
                .arg(m_timerCheckAgain.isActive()
-                    ? QString(" Test clipboard in %1ms.").arg(m_timerCheckAgain.interval())
+                    ? QString(" Test again in %1ms.").arg(m_timerCheckAgain.interval())
                     : QString())
              );
 }
