@@ -50,9 +50,37 @@ namespace {
 
 const int maxElidedTextLineLength = 512;
 
+class MimeData final : public QMimeData {
+protected:
+    QVariant retrieveData(const QString &mimeType, QVariant::Type preferredType) const override {
+        COPYQ_LOG_VERBOSE( QString("Providing \"%1\"").arg(mimeType) );
+        return QMimeData::retrieveData(mimeType, preferredType);
+    }
+};
+
 // Avoids accessing old clipboard/drag'n'drop data.
 class ClipboardDataGuard final {
 public:
+    class ElapsedGuard {
+    public:
+        explicit ElapsedGuard(const QString &format)
+            : m_format(format)
+        {
+            COPYQ_LOG_VERBOSE( QString("Accessing \"%1\"").arg(format) );
+            m_elapsed.start();
+        }
+
+        ~ElapsedGuard()
+        {
+            const auto t = m_elapsed.elapsed();
+            if (t > 500)
+                log( QString("ELAPSED %1 ms acessing \"%2\"").arg(t).arg(m_format), LogWarning );
+        }
+    private:
+        QString m_format;
+        QElapsedTimer m_elapsed;
+    };
+
     explicit ClipboardDataGuard(const QMimeData &data)
         : m_dataGuard(&data)
     {
@@ -61,21 +89,25 @@ public:
 
     bool hasFormat(const QString &mime)
     {
+        ElapsedGuard _("has:" + mime);
         return refresh() && m_dataGuard->hasFormat(mime);
     }
 
     QByteArray data(const QString &mime)
     {
+        ElapsedGuard _(mime);
         return refresh() ? m_dataGuard->data(mime) : QByteArray();
     }
 
     QList<QUrl> urls()
     {
+        ElapsedGuard _("urls");
         return refresh() ? m_dataGuard->urls() : QList<QUrl>();
     }
 
     QImage getImageData()
     {
+        ElapsedGuard _("imageData");
         if (!refresh())
             return QImage();
 
@@ -89,6 +121,7 @@ public:
 
     QByteArray getUtf8Data(const QString &format)
     {
+        ElapsedGuard _("UTF8:" + format);
         if (!refresh())
             return QByteArray();
 
@@ -335,7 +368,7 @@ QMimeData* createMimeData(const QVariantMap &data)
     QStringList copyFormats = data.keys();
     copyFormats.removeOne(mimeClipboardMode);
 
-    std::unique_ptr<QMimeData> newClipboardData(new QMimeData);
+    std::unique_ptr<QMimeData> newClipboardData(new MimeData);
 
     for ( const auto &format : copyFormats )
         newClipboardData->setData( format, data[format].toByteArray() );
