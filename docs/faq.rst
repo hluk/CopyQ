@@ -250,6 +250,37 @@ specify type of action (copy or cut).
     Icon=\xf56f
     Name=Store File Manager Metadata
 
+How to trigger a command based on primary selection only?
+---------------------------------------------------------
+
+You can check ``application/x-copyq-clipboard-mode`` format in automatic commands.
+
+E.g. if you set input format of a command it would be only executed on X11 selection change:
+
+.. code-block:: ini
+
+    [Command]
+    Automatic=true
+    Command="
+        copyq:
+        popup(input())"
+    Input=application/x-copyq-clipboard-mode
+    Name=Executed only on X11 selection change
+
+Otherwise you can check it in command:
+
+.. code-block:: ini
+
+    [Command]
+    Automatic=true
+    Command="
+        copyq:
+        if (str(data(mimeClipboardMode)) == 'selection')
+          popup('selection changed')
+        else
+          popup('clipboard changed')"
+    Name=Show clipboard/selection change
+
 Why can I no longer paste from the application on macOS?
 --------------------------------------------------------
 
