@@ -2486,8 +2486,8 @@ void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString 
     auto data = createDataMap(mimeText, text);
     data[COPYQ_MIME_PREFIX "target-text-hash"] = QByteArray::number(targetTextHash);
     const auto command = sourceMode == ClipboardMode::Clipboard
-        ? "copyq synchronizeToSelection"
-        : "copyq synchronizeFromSelection";
+        ? "copyq --clipboard-access synchronizeToSelection"
+        : "copyq --clipboard-access synchronizeFromSelection";
     m_proxy->runInternalAction(data, command);
 #else
     Q_UNUSED(text);
@@ -2550,6 +2550,9 @@ int Scriptable::executeArguments(const QStringList &args)
     QScriptValue result;
 
     int skipArguments = 0;
+    if (!fnArgs.isEmpty() && toString(fnArgs[0], this) == "--clipboard-access")
+        ++skipArguments;
+
     while ( skipArguments < fnArgs.size() && canContinue() && !m_engine->hasUncaughtException() ) {
         if ( result.isFunction() ) {
             m_skipArguments = -1;

@@ -180,7 +180,7 @@ void ClipboardServer::startMonitoring()
     COPYQ_LOG("Starting monitor");
 
     m_monitor = new Action();
-    m_monitor->setCommand("copyq monitorClipboard");
+    m_monitor->setCommand("copyq --clipboard-access monitorClipboard");
     connect( m_monitor.data(), &QObject::destroyed,
              this, &ClipboardServer::onMonitorFinished );
     m_wnd->runInternalAction(m_monitor);

@@ -56,20 +56,11 @@ QString messageCodeToString(int code)
 QCoreApplication *createClientApplication(int &argc, char **argv, const QStringList &arguments)
 {
     // Clipboard access requires QApplication.
-    if ( !arguments.isEmpty() && (
-             arguments[0] == "monitorClipboard"
-             || arguments[0] == "provideClipboard"
-             || arguments[0] == "provideSelection"
-#ifdef HAS_MOUSE_SELECTIONS
-             || arguments[0] == "synchronizeToSelection"
-             || arguments[0] == "synchronizeFromSelection"
-#endif
-             ) )
-    {
+    if ( arguments.size() > 1 && arguments[0] == "--clipboard-access" ) {
         QGuiApplication::setDesktopSettingsAware(false);
         const auto app = platformNativeInterface()
                 ->createClipboardProviderApplication(argc, argv);
-        setCurrentThreadName(arguments[0]);
+        setCurrentThreadName(arguments[1]);
         return app;
     }
 

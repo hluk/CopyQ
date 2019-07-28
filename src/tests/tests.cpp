@@ -3136,7 +3136,7 @@ void Tests::showHideActionHandlerDialog()
     RUN("keys" << actionHandlerFilterId << "TAB" << actionHandlerTableId, "");
 
     RUN("keys" << actionHandlerTableId << "RIGHT" << "CTRL+C", "");
-    WAIT_FOR_CLIPBOARD("copyq monitorClipboard");
+    WAIT_FOR_CLIPBOARD("copyq --clipboard-access monitorClipboard");
 
     RUN("keys" << actionHandlerDialogId << "ESCAPE" << clipboardBrowserId, "");
 
