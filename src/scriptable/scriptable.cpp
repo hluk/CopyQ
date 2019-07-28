@@ -48,6 +48,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QMap>
+#include <QMimeData>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -960,7 +961,7 @@ QScriptValue Scriptable::clipboard()
 {
     m_skipArguments = 1;
     const QString &mime = arg(0, mimeText);
-    return newByteArray( m_proxy->getClipboardData(mime) );
+    return newByteArray( getClipboardData(mime) );
 }
 
 QScriptValue Scriptable::selection()
@@ -968,7 +969,7 @@ QScriptValue Scriptable::selection()
     m_skipArguments = 1;
 #ifdef HAS_MOUSE_SELECTIONS
     const QString &mime = arg(0, mimeText);
-    return newByteArray( m_proxy->getClipboardData(mime, ClipboardMode::Selection) );
+    return newByteArray( getClipboardData(mime, ClipboardMode::Selection) );
 #else
     return QScriptValue();
 #endif
@@ -978,7 +979,7 @@ QScriptValue Scriptable::hasClipboardFormat()
 {
     m_skipArguments = 1;
     const QString &mime = arg(0);
-    return m_proxy->hasClipboardFormat(mime, ClipboardMode::Clipboard);
+    return hasClipboardFormat(mime, ClipboardMode::Clipboard);
 }
 
 QScriptValue Scriptable::hasSelectionFormat()
@@ -986,7 +987,7 @@ QScriptValue Scriptable::hasSelectionFormat()
     m_skipArguments = 1;
 #ifdef HAS_MOUSE_SELECTIONS
     const QString &mime = arg(0);
-    return m_proxy->hasClipboardFormat(mime, ClipboardMode::Selection);
+    return hasClipboardFormat(mime, ClipboardMode::Selection);
 #else
     return false;
 #endif
@@ -1146,7 +1147,7 @@ void Scriptable::edit()
             text.append(m_inputSeparator);
         if ( toInt(value, &row) ) {
             const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(m_tabName, row, mimeText)
-                                              : m_proxy->getClipboardData(mimeText);
+                                              : getClipboardData(mimeText);
             text.append( getTextData(bytes) );
         } else {
             text.append( toString(value, this) );
@@ -1183,14 +1184,14 @@ QScriptValue Scriptable::read()
                 result.append( m_inputSeparator.toUtf8() );
             used = true;
             result.append( row >= 0 ? m_proxy->browserItemData(m_tabName, row, mime)
-                                    : m_proxy->getClipboardData(mime) );
+                                    : getClipboardData(mime) );
         } else {
             mime = toString(value, this);
         }
     }
 
     if (!used)
-        result.append( m_proxy->getClipboardData(mime) );
+        result.append( getClipboardData(mime) );
 
     return newByteArray(result);
 }
@@ -1235,7 +1236,7 @@ void Scriptable::action()
     m_skipArguments = i + 2;
 
     if (!anyRows) {
-        text = getTextData( m_proxy->getClipboardData(mimeText) );
+        text = getTextData( getClipboardData(mimeText) );
     }
 
     const QVariantMap data = createDataMap(mimeText, text);
@@ -2684,7 +2685,7 @@ QScriptValue Scriptable::copy(ClipboardMode mode)
 
         // Wait for clipboard to be set.
         for (int i = 0; i < 10; ++i) {
-            if ( m_proxy->getClipboardData(mime) != value )
+            if ( getClipboardData(mime) != value )
                 return true;
             waitFor(5 + i * 25);
         }
@@ -2894,11 +2895,6 @@ bool Scriptable::runAction(Action *action)
     action->setWorkingDirectory( m_dirClass->getCurrentPath() );
     action->start();
 
-    if ( !action->waitForStarted(5000) ) {
-        action->terminate();
-        return false;
-    }
-
     while ( !action->waitForFinished(5000) && canContinue() ) {}
 
     if ( action->isRunning() && !action->waitForFinished(5000) ) {
@@ -3014,9 +3010,14 @@ bool Scriptable::canExecuteCommandFilter(const QString &matchCommand)
     return runAction(&action) && action.exitCode() == 0;
 }
 
+bool Scriptable::canAccessClipboard() const
+{
+    return qobject_cast<QGuiApplication*>(qApp);
+}
+
 bool Scriptable::verifyClipboardAccess()
 {
-    if ( qobject_cast<QGuiApplication*>(qApp) != nullptr )
+    if ( canAccessClipboard() )
         return true;
 
     throwError("Cannot access system clipboard with QCoreApplication");
@@ -3136,6 +3137,38 @@ void Scriptable::setActionData()
         m_proxy->setActionData(m_actionId, m_data);
         m_oldData = m_data;
     }
+}
+
+QByteArray Scriptable::getClipboardData(const QString &mime, ClipboardMode mode)
+{
+    if ( !canAccessClipboard() ) {
+        const auto command = QString("copyq --clipboard-access %1 %2")
+                .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection")
+                .arg(mime);
+        return m_proxy->tryGetCommandOutput(command);
+    }
+
+    const QMimeData *data = clipboardData(mode);
+    if (!data)
+        return QByteArray();
+
+    if (mime == "?")
+        return data->formats().join("\n").toUtf8() + '\n';
+
+    return cloneData(*data, QStringList(mime)).value(mime).toByteArray();
+}
+
+bool Scriptable::hasClipboardFormat(const QString &mime, ClipboardMode mode)
+{
+    if ( !canAccessClipboard() ) {
+        const auto command = QString("copyq --clipboard-access %1 %2")
+                .arg(mode == ClipboardMode::Clipboard ? "hasClipboardFormat" : "hasSelectionFormat")
+                .arg(mime);
+        return m_proxy->tryGetCommandOutput(command).startsWith("true");
+    }
+
+    const QMimeData *data = clipboardData(mode);
+    return data && data->hasFormat(mime);
 }
 
 void Scriptable::synchronizeSelection(ClipboardMode targetMode)

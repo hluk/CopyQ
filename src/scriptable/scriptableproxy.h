@@ -125,6 +125,7 @@ public slots:
     void action(const QVariantMap &arg1, const Command &arg2);
 
     void runInternalAction(const QVariantMap &data, const QString &command);
+    QByteArray tryGetCommandOutput(const QString &command);
 
     void showMessage(const QString &title,
             const QString &msg,
@@ -157,9 +158,6 @@ public slots:
 
     QVariant config(const QStringList &nameValue);
     QVariant toggleConfig(const QString &optionName);
-
-    QByteArray getClipboardData(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
-    bool hasClipboardFormat(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
 
     int browserLength(const QString &tabName);
     bool browserOpenEditor(const QString &tabName, const QByteArray &arg1, bool changeClipboard);

@@ -66,7 +66,6 @@
 #include <QListWidget>
 #include <QMetaMethod>
 #include <QMetaType>
-#include <QMimeData>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPen>
@@ -1170,6 +1169,38 @@ void ScriptableProxy::runInternalAction(const QVariantMap &data, const QString &
     m_wnd->runInternalAction(action);
 }
 
+QByteArray ScriptableProxy::tryGetCommandOutput(const QString &command)
+{
+    INVOKE_NO_SNIP(tryGetCommandOutput, (command));
+
+    for (int i = 0; i < 3; ++i) {
+        Action action;
+        action.setCommand(command);
+        action.setReadOutput(true);
+
+        QByteArray output;
+        connect( &action, &Action::actionOutput,
+                 this, [&output](const QByteArray &actionOutput) {
+                     output.append(actionOutput);
+                 } );
+
+        action.start();
+        if ( !action.waitForFinished(5000) ) {
+            if ( output.isEmpty() || !action.waitForFinished(30000) ) {
+                action.terminate();
+                continue;
+            }
+        }
+
+        if ( action.actionFailed() || action.exitCode() != 0 )
+            continue;
+
+        return output;
+    }
+
+    return QByteArray();
+}
+
 void ScriptableProxy::showMessage(const QString &title,
         const QString &msg,
         const QString &icon,
@@ -1350,26 +1381,6 @@ QVariant ScriptableProxy::toggleConfig(const QString &optionName)
     const auto newValue = !QVariant(oldValue).toBool();
     nameValue.append( QVariant(newValue).toString() );
     return m_wnd->config(nameValue).toMap().constBegin().value();
-}
-
-QByteArray ScriptableProxy::getClipboardData(const QString &mime, ClipboardMode mode)
-{
-    INVOKE(getClipboardData, (mime, mode));
-    const QMimeData *data = clipboardData(mode);
-    if (!data)
-        return QByteArray();
-
-    if (mime == "?")
-        return data->formats().join("\n").toUtf8() + '\n';
-
-    return cloneData(*data, QStringList(mime)).value(mime).toByteArray();
-}
-
-bool ScriptableProxy::hasClipboardFormat(const QString &mime, ClipboardMode mode)
-{
-    INVOKE(hasClipboardFormat, (mime, mode));
-    const QMimeData *data = clipboardData(mode);
-    return data && data->hasFormat(mime);
 }
 
 int ScriptableProxy::browserLength(const QString &tabName)

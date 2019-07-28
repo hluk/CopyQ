@@ -396,6 +396,7 @@ private:
     bool runCommands(CommandType::CommandType type);
     bool canExecuteCommand(const Command &command);
     bool canExecuteCommandFilter(const QString &matchCommand);
+    bool canAccessClipboard() const;
     bool verifyClipboardAccess();
     void provideClipboard(ClipboardMode mode);
 
@@ -409,6 +410,9 @@ private:
 
     void getActionData();
     void setActionData();
+
+    QByteArray getClipboardData(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
+    bool hasClipboardFormat(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
 
     void synchronizeSelection(ClipboardMode targetMode);
 

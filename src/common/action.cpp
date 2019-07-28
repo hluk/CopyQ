@@ -294,11 +294,6 @@ void Action::start()
     }
 }
 
-bool Action::waitForStarted(int msecs)
-{
-    return !m_processes.empty() && m_processes.back()->waitForStarted(msecs);
-}
-
 bool Action::waitForFinished(int msecs)
 {
     if ( !isRunning() )
