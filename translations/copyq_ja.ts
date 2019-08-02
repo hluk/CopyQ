@@ -267,7 +267,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished">CopyQ プロセスマネージャー</translation>
+        <translation>CopyQ プロセスマネージャー</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -2035,7 +2035,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1484"/>
         <source>Ta&amp;bs</source>
-        <translation type="unfinished"></translation>
+        <translation>タブ(&amp;B)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1506"/>
@@ -3560,7 +3560,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="90"/>
         <source>Web</source>
-        <translation type="unfinished">ウェブ</translation>
+        <translation>ウェブ</translation>
     </message>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
@@ -3573,7 +3573,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemweb/itemwebsettings.ui" line="19"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished">表示最大幅をピクセル指定 (0で無制限):</translation>
+        <translation>表示最大幅をピクセル指定 (0で無制限):</translation>
     </message>
 </context>
 <context>
@@ -4910,22 +4910,22 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>アイテムの最大数(&amp;M):</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="59"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>デフォルト</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="87"/>
         <source>&amp;Store Items</source>
-        <translation type="unfinished"></translation>
+        <translation>アイテムを復元(&amp;S)</translation>
     </message>
 </context>
 <context>
