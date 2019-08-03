@@ -43,12 +43,49 @@
 #include <QUrl>
 #include <QWidget>
 
+#ifdef COPYQ_WS_X11
+# include "platform/x11/x11platform.h"
+# include <QTimer>
+#endif
+
 #include <algorithm>
 #include <memory>
 
 namespace {
 
 const int maxElidedTextLineLength = 512;
+
+#ifdef COPYQ_WS_X11
+// WORKAROUND: This fixes stuck clipboard access by creating dummy X11 events
+//             when accessing clipboard takes too long.
+class WakeUpThread final {
+public:
+    WakeUpThread()
+    {
+        m_timerWakeUp.setInterval(200);
+        QObject::connect( &m_timerWakeUp, &QTimer::timeout, []() {
+            sendDummyX11Event();
+        });
+
+        m_timerWakeUp.moveToThread(&m_wakeUpThread);
+        QObject::connect( &m_wakeUpThread, &QThread::started,
+                          &m_timerWakeUp, [this]() { m_timerWakeUp.start(); } );
+        QObject::connect( &m_wakeUpThread, &QThread::finished,
+                          &m_timerWakeUp, &QTimer::stop );
+        m_wakeUpThread.start();
+    }
+
+    ~WakeUpThread()
+    {
+        m_wakeUpThread.quit();
+        m_wakeUpThread.wait();
+    }
+
+private:
+    QTimer m_timerWakeUp;
+    QThread m_wakeUpThread;
+};
+#endif
 
 class MimeData final : public QMimeData {
 protected:
@@ -162,6 +199,10 @@ private:
 
     QPointer<const QMimeData> m_dataGuard;
     QElapsedTimer m_timerExpire;
+
+#ifdef COPYQ_WS_X11
+    WakeUpThread m_wakeUpThread;
+#endif
 };
 
 QString getImageFormatFromMime(const QString &mime)

@@ -319,3 +319,16 @@ QString X11Platform::translationPrefix()
 {
     return QString();
 }
+
+void sendDummyX11Event()
+{
+    if (!QX11Info::isPlatformX11())
+        return;
+
+    auto display = QX11Info::display();
+    auto black = BlackPixel(display, 0);
+    Window window = XCreateSimpleWindow(
+        display, RootWindow(display, 0), -100000, -100000, 1, 1, 0, black, black);
+    XDestroyWindow(display, window);
+    XFlush(display);
+}
