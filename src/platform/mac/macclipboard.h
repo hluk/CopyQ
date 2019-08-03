@@ -28,6 +28,8 @@ public:
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
 
+    QByteArray clipboardOwner() override;
+
 private:
     void clipboardTimeout();
 

@@ -22,6 +22,8 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
+#include "platform/platformnativeinterface.h"
+#include "platform/platformwindow.h"
 
 #include <QApplication>
 #include <QMimeData>
@@ -61,6 +63,13 @@ void MacClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
     return DummyClipboard::setData(mode, dataMapForMac);
 }
 
+QByteArray MacClipboard::clipboardOwner()
+{
+    PlatformWindowPtr currentWindow = platformNativeInterface()->getCurrentWindow();
+    if (currentWindow)
+        return currentWindow->getTitle().toUtf8();
+    return QByteArray();
+}
 
 void MacClipboard::clipboardTimeout() {
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
