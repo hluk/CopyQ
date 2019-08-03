@@ -509,17 +509,31 @@ public:
 
     QPixmap doCreatePixmap(QSize size, QIcon::Mode, QIcon::State, QPainter *) override
     {
+        // If copyq-normal icon exist in theme, omit changing color.
+        const bool useColoredIcon = !hasNormalIcon();
+        const auto sessionColor = useColoredIcon ? sessionIconColor() : QColor();
+
+        const auto cacheKey = QString("app:%1|%2|%3x%4")
+                .arg(m_iconType)
+                .arg(sessionColor.name())
+                .arg(size.width())
+                .arg(size.height());
+
+        {
+            QPixmap pixmap;
+            if ( QPixmapCache::find(cacheKey, &pixmap) )
+                return pixmap;
+        }
+
         const bool running = m_iconType == AppIconRunning;
         const auto suffix = running ? QLatin1String("-busy") : QLatin1String("");
 
         auto pix = appPixmap(suffix, size);
 
-        // If copyq-normal icon exist in theme, omit changing color.
-        if ( !hasNormalIcon() ) {
-            const auto sessionColor = sessionIconColor();
-            if ( sessionColor.isValid() )
-                replaceColor(&pix, suffix, sessionColor);
-        }
+        if ( sessionColor.isValid() )
+            replaceColor(&pix, suffix, sessionColor);
+
+        QPixmapCache::insert(cacheKey, pix);
 
         return pix;
     }
