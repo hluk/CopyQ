@@ -138,23 +138,6 @@ QByteArray getClipboard(const QString &mime = QString("text/plain"), ClipboardMo
     return (data != nullptr) ? data->data(mime) : QByteArray();
 }
 
-QByteArray waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString("text/plain"), bool exact = true)
-{
-    PerformanceTimer perf;
-
-    SleepTimer t(waitMsSetClipboard * 5);
-    do {
-        if ( exact ? getClipboard(mime) == data : getClipboard(mime).contains(data) ) {
-            perf.printPerformance("waitUntilClipboardSet", QStringList() << QString::fromUtf8(data) << mime);
-            waitFor(waitMsSetClipboard);
-            return data;
-        }
-    } while (t.sleep());
-
-    waitFor(waitMsSetClipboard);
-    return getClipboard(mime);
-}
-
 bool waitWhileFileExists(const QFile &file)
 {
     SleepTimer t(2000);
@@ -217,7 +200,7 @@ public:
 
         m_server->closeReadChannel(QProcess::StandardOutput);
 
-        RETURN_ON_ERROR( readServerErrors(), "Failed to read server errors" );
+        RETURN_ON_ERROR( readServerErrors(), "Failed to start server" );
 
         return waitForServerToStart();
     }
@@ -350,7 +333,7 @@ public:
             return printClienAndServerStderr(stderrActual, exitCode);
 
         if (stdoutActual != stdoutExpected) {
-            return "Test failed: "
+            return "Test failed:"
                     + decorateOutput("Unexpected output", stdoutActual)
                     + decorateOutput("Expected output", stdoutExpected)
                     + printClienAndServerStderr(stderrActual, exitCode);
@@ -412,13 +395,29 @@ public:
         QGuiApplication::clipboard()->setMimeData(mimeData, qmode);
 
         waitFor(waitMsSetClipboard);
+        return verifyClipboard(bytes, mime);
+    }
 
-        waitUntilClipboardSet(bytes, mime);
-        RETURN_ON_ERROR(
-            testClipboard(bytes, mime),
-            "Failed to set " + QByteArray(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
+    QByteArray verifyClipboard(const QByteArray &data, const QString &mime, bool exact = true) override
+    {
+        PerformanceTimer perf;
 
-        return QByteArray();
+        SleepTimer t(waitMsSetClipboard * 5);
+        do {
+            if ( exact ? getClipboard(mime) == data : getClipboard(mime).contains(data) ) {
+                perf.printPerformance("verifyClipboard", QStringList() << QString::fromUtf8(data) << mime);
+                waitFor(waitMsSetClipboard);
+                RETURN_ON_ERROR( readServerErrors(), "Failed to set or test clipboard content" );
+                return QByteArray();
+            }
+        } while (t.sleep());
+
+        const QByteArray actualBytes = getClipboard(mime);
+        return QString("Unexpected clipboard data for MIME \"%1\":")
+                .arg(mime).toUtf8()
+                + decorateOutput("Unexpected content", actualBytes)
+                + decorateOutput("Expected content", data)
+                + readServerErrors(ReadAllStderr);
     }
 
     QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors) override
@@ -441,9 +440,29 @@ public:
         if ( !testStderr(stderrActual) || exitCode != 0 )
             return printClienAndServerStderr(stderrActual, exitCode);
 
-        RETURN_ON_ERROR( readServerErrors(), "Failed to read server errors" );
+        RETURN_ON_ERROR( readServerErrors(), "Failed gettting client output" );
 
         return "";
+    }
+
+    QByteArray waitOnOutput(const QStringList &arguments, const QByteArray &stdoutExpected) override
+    {
+        PerformanceTimer perf;
+        QByteArray stdoutActual;
+
+        SleepTimer t_(8000);
+        do {
+            RETURN_ON_ERROR( getClientOutput(arguments, &stdoutActual), "Failed to wait on client output" );
+        } while (stdoutActual != stdoutExpected && t_.sleep());
+
+        if (stdoutActual == stdoutExpected)
+            return QByteArray();
+
+        return QString("Unexpected output for command \"%1\":")
+                .arg(arguments.join(' ')).toUtf8()
+                + decorateOutput("Unexpected content", stdoutActual)
+                + decorateOutput("Expected content", stdoutExpected)
+                + readServerErrors(ReadAllStderr);
     }
 
     QByteArray cleanupTestCase() override
@@ -517,7 +536,7 @@ public:
         RETURN_ON_ERROR( setClipboard(QByteArray(), mimeText, ClipboardMode::Selection), "Failed to reset selection" );
 #endif
 
-        RETURN_ON_ERROR( startServer(), "Failed to start server" );
+        RETURN_ON_ERROR( startServer(), "Failed to initialize server" );
 
         // Always show main window first so that the results are consistent with desktop environments
         // where user cannot hide main window (tiling window managers without tray).
@@ -579,19 +598,6 @@ private:
 
         p->start( QCoreApplication::applicationFilePath(), arguments, mode );
         return p->waitForStarted(10000);
-    }
-
-    QByteArray testClipboard(const QByteArray &bytes, const QString &mime)
-    {
-        const QByteArray actualBytes = getClipboard(mime);
-        if (actualBytes != bytes) {
-            return QString("Test failed (clipboard data for MIME \"%1\"): ")
-                    .arg(mime).toUtf8()
-                    + decorateOutput("Unexpected content", actualBytes)
-                    + decorateOutput("Expected content", bytes);
-        }
-
-        return "";
     }
 
     QByteArray waitForServerToStart()
@@ -3124,7 +3130,7 @@ void Tests::showHideLogDialog()
 
     RUN("keys" << logDialogId << "CTRL+A" << "CTRL+C" << logDialogId, "");
     const QByteArray expectedLog = "Starting callback: onStart";
-    QCOMPARE( waitUntilClipboardSet(expectedLog, mimeHtml, false), expectedLog );
+    TEST( m_test->verifyClipboard(expectedLog, mimeHtml, false) );
 
     RUN("keys" << logDialogId << "ESCAPE" << clipboardBrowserId, "");
 }

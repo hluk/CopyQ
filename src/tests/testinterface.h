@@ -73,11 +73,17 @@ public:
     /// Run client with given @a arguments and read output, check stderr and exit code.
     virtual QByteArray getClientOutput(const QStringList &arguments, QByteArray *stdoutActual) = 0;
 
+    /// Waits on client output.
+    virtual QByteArray waitOnOutput(const QStringList &arguments, const QByteArray &stdoutExpected) = 0;
+
     /// Set clipboard through monitor process.
     virtual QByteArray setClipboard(
             const QByteArray &bytes,
             const QString &mime = QString("text/plain"),
             ClipboardMode mode = ClipboardMode::Clipboard) = 0;
+
+    /// Verify clipboard content.
+    virtual QByteArray verifyClipboard(const QByteArray &data, const QString &mime, bool exact = true) = 0;
 
     /**
      * Return errors/warning from server (otherwise empty output).

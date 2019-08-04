@@ -59,7 +59,7 @@ do { \
       ferr.open(stderr, QIODevice::WriteOnly); \
       ferr.write(errors_ + "\n"); \
       ferr.close(); \
-      QVERIFY2(false, "Failed with errors above."); \
+      QFAIL("Failed with errors above."); \
     } \
 } while (false)
 
@@ -76,10 +76,10 @@ do { \
     TEST( m_test->runClientWithError((Args() << ARGUMENTS), (EXIT_CODE), toByteArray(STDERR_CONTAINS)) );
 
 #define WAIT_FOR_CLIPBOARD(DATA) \
-    QCOMPARE( waitUntilClipboardSet(DATA), QByteArray(DATA) )
+    TEST( m_test->verifyClipboard(DATA, "text/plain") )
 
 #define WAIT_FOR_CLIPBOARD2(DATA, MIME) \
-    QCOMPARE( waitUntilClipboardSet(DATA, MIME), QByteArray(DATA) )
+    TEST( m_test->verifyClipboard((DATA), (MIME)) )
 
 #define RETURN_ON_ERROR(CALLBACK, ERROR) \
     do { \
@@ -103,17 +103,7 @@ do { \
 } while(false)
 
 #define WAIT_ON_OUTPUT(ARGUMENTS, OUTPUT) \
-do { \
-    PerformanceTimer perf; \
-    QByteArray out_; \
-    const QByteArray expected_(OUTPUT); \
-    SleepTimer t_(8000); \
-    do { \
-        TEST( m_test->getClientOutput((Args() << ARGUMENTS), &out_) ); \
-    } while (out_ != expected_ && t_.sleep()); \
-    perf.printPerformance("WAIT_ON_OUTPUT", (Args() << ARGUMENTS)); \
-    QCOMPARE(QString(out_), QString(expected_)); \
-} while(false)
+    TEST( m_test->waitOnOutput((Args() << ARGUMENTS), (OUTPUT)) )
 
 #define SKIP_ON_ENV(ENV) \
     if ( qgetenv(ENV) == "1" ) \
