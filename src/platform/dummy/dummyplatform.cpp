@@ -59,6 +59,11 @@ QCoreApplication *DummyPlatform::createClientApplication(int &argc, char **argv)
     return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);
 }
 
+QGuiApplication *DummyPlatform::createTestApplication(int &argc, char **argv)
+{
+    return new ApplicationExceptionHandler<QGuiApplication>(argc, argv);
+}
+
 PlatformClipboardPtr DummyPlatform::clipboard()
 {
     return PlatformClipboardPtr(new DummyClipboard());

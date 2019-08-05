@@ -44,6 +44,7 @@ private slots:
     void init();
     void cleanup();
 
+    void readLog();
     void commandHelp();
     void commandVersion();
     void badCommand();

@@ -302,6 +302,11 @@ QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
     return createApplication<QCoreApplication>(argc, argv);
 }
 
+QGuiApplication *WinPlatform::createTestApplication(int &argc, char **argv)
+{
+    return createApplication<QGuiApplication>(argc, argv);
+}
+
 void WinPlatform::loadSettings()
 {
     migrateConfigToAppDir();

@@ -36,6 +36,8 @@ QString logFileName();
 
 QString readLogFile(int maxReadSize);
 
+bool removeLogFiles();
+
 void createSessionMutex();
 
 bool hasLogLevel(LogLevel level);

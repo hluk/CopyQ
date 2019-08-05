@@ -262,6 +262,11 @@ QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)
     return new ApplicationExceptionHandler<QCoreApplication>(argc, argv);
 }
 
+QGuiApplication *X11Platform::createTestApplication(int &argc, char **argv)
+{
+    return new ApplicationExceptionHandler<QGuiApplication>(argc, argv);
+}
+
 PlatformClipboardPtr X11Platform::clipboard()
 {
     return PlatformClipboardPtr(new X11PlatformClipboard());

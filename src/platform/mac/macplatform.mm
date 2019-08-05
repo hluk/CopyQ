@@ -201,6 +201,11 @@ QCoreApplication *MacPlatform::createClientApplication(int &argc, char **argv)
     return new Activity<QCoreApplication>(argc, argv, MacActivity::User, "CopyQ Client");
 }
 
+QGuiApplication *MacPlatform::createTestApplication(int &argc, char **argv)
+{
+    return new Activity<QGuiApplication>(argc, argv, MacActivity::Background, "CopyQ Tests");
+}
+
 PlatformClipboardPtr MacPlatform::clipboard()
 {
     return PlatformClipboardPtr(new MacClipboard());

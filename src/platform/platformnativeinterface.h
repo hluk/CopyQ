@@ -100,6 +100,10 @@ public:
      * Create QCoreApplication object for client.
      */
     virtual QCoreApplication *createClientApplication(int &argc, char **argv) = 0;
+    /**
+     * Create QGuiApplication object for tests.
+     */
+    virtual QGuiApplication *createTestApplication(int &argc, char **argv) = 0;
 
     /**
      * Modify settings (QSettings) before it's first used.

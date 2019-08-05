@@ -50,6 +50,8 @@ public:
 
     QCoreApplication *createClientApplication(int &argc, char **argv) override;
 
+    QGuiApplication *createTestApplication(int &argc, char **argv) override;
+
     void loadSettings() override {}
 
     PlatformClipboardPtr clipboard() override;

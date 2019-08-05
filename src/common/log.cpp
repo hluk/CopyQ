@@ -302,6 +302,19 @@ QString readLogFile(int maxReadSize)
     return content;
 }
 
+bool removeLogFiles()
+{
+    SystemMutexLocker lock(getSessionMutex());
+
+    for (int i = 0; i < logFileCount; ++i) {
+        QFile logFile( logFileName(i) );
+        if ( logFile.exists() && !logFile.remove() )
+            return false;
+    }
+
+    return true;
+}
+
 void createSessionMutex()
 {
     initSessionMutex(QSystemSemaphore::Create);

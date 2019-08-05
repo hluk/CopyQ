@@ -24,6 +24,7 @@
 #include "common/client_server.h"
 #include "common/common.h"
 #include "common/config.h"
+#include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
 #include "common/shortcuts.h"
@@ -65,6 +66,8 @@
 
 namespace {
 
+const int maxReadLogSize = 1 * 1024 * 1024;
+
 const auto clipboardTabName = "CLIPBOARD";
 const auto defaultSessionColor = "#ff8800";
 const auto defaultTagColor = "#000000";
@@ -104,9 +107,15 @@ void runMultiple(Fn1 f1, Fn2 f2)
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
-    const QRegExp re("Warning:|ERROR:|ASSERT", Qt::CaseInsensitive);
+    static const QRegExp reFailure("Warning:|ERROR:|ASSERT", Qt::CaseInsensitive);
+    static const QRegExp reClient(
+        R"(CopyQ Note \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Client-[^\n]*)");
 
     QString output = QString::fromUtf8(stderrData);
+
+    // Ignore exceptions and errors from clients in application log
+    // (these are expected in some tests).
+    output.remove(reClient);
 
     // FIXME: These warnings should be fixed.
     // Ignore known warnings.
@@ -122,7 +131,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     output.remove("ERROR: Failed to open session mutex: QSystemSemaphore::handle:: ftok failed");
 #endif
 
-    if ( output.indexOf(re) != -1 )
+    if ( output.indexOf(reFailure) != -1 )
         return false;
 
     if (flag == TestInterface::ReadErrorsWithoutScriptException)
@@ -182,16 +191,11 @@ public:
         if ( isServerRunning() )
             return "Server is already running.";
 
-        m_server.reset(new QProcess);
-        m_serverErrorOutput.clear();
-        QObject::connect(
-            m_server.get(), &QProcess::readyReadStandardError,
-            [this]() {
-                const auto errorOutput = m_server->readAllStandardError().replace('\r', "");
-                m_serverErrorOutput.append(errorOutput);
-            });
+        if ( !removeLogFiles() )
+            return "Failed to remove log files";
 
-        if ( !startTestProcess(m_server.get(), QStringList(), QIODevice::ReadOnly) ) {
+        m_server.reset(new QProcess);
+        if ( !startTestProcess(m_server.get(), QStringList(), QIODevice::NotOpen) ) {
             return QString("Failed to launch \"%1\": %2")
                 .arg(QCoreApplication::applicationFilePath())
                 .arg(m_server->errorString())
@@ -424,8 +428,9 @@ public:
     {
         if (m_server) {
             QCoreApplication::processEvents();
-            if ( flag == ReadAllStderr || !testStderr(m_serverErrorOutput, flag) )
-              return decorateOutput("Server STDERR", m_serverErrorOutput);
+            const QByteArray output = readLogFile(maxReadLogSize).toUtf8();
+            if ( flag == ReadAllStderr || !testStderr(output, flag) )
+              return decorateOutput("Server STDERR", output);
         }
 
         return QByteArray();
@@ -612,7 +617,6 @@ private:
     }
 
     std::unique_ptr<QProcess> m_server;
-    QByteArray m_serverErrorOutput;
     QProcessEnvironment m_env;
     QString m_testId;
     QVariantMap m_settings;
@@ -621,6 +625,21 @@ private:
 QString keyNameFor(QKeySequence::StandardKey standardKey)
 {
     return QKeySequence(standardKey).toString();
+}
+
+int count(const QStringList &items, const QString &pattern)
+{
+    int from = -1;
+    int count = 0;
+    const QRegExp re(pattern);
+    while ( (from = items.indexOf(re, from + 1)) != -1 )
+        ++count;
+    return count;
+}
+
+QStringList splitLines(const QString &nativeText)
+{
+    return nativeText.split(QRegExp("\r\n|\n|\r"));
 }
 
 } // namespace
@@ -649,6 +668,28 @@ void Tests::init()
 void Tests::cleanup()
 {
     TEST( m_test->cleanup() );
+}
+
+void Tests::readLog()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QCOMPARE( logFileName() + "\n", QString::fromUtf8(stdoutActual) );
+    QTRY_VERIFY( !readLogFile(maxReadLogSize).isEmpty() );
+
+#define LOGGED_ONCE(PATTERN) \
+    QTRY_COMPARE( count(splitLines(readLogFile(maxReadLogSize)), PATTERN), 1 )
+
+    LOGGED_ONCE(
+        R"(^CopyQ DEBUG \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Server-\d+>: Loading configuration$)");
+
+    LOGGED_ONCE(
+        R"(^CopyQ DEBUG \[.*\] <Server-\d+>: Starting monitor$)");
+
+    LOGGED_ONCE(
+        R"(^.*<monitorClipboard-\d+>: Clipboard formats to save: .*$)");
 }
 
 void Tests::commandHelp()
@@ -3373,7 +3414,7 @@ bool Tests::hasTab(const QString &tabName)
 {
     QByteArray out;
     run(Args("tab"), &out);
-    return QString::fromUtf8(out).split(QRegExp("\r\n|\n|\r")).contains(tabName);
+    return splitLines(QString::fromUtf8(out)).contains(tabName);
 }
 
 int runTests(int argc, char *argv[])
@@ -3396,14 +3437,15 @@ int runTests(int argc, char *argv[])
         }
     }
 
-    QGuiApplication app(argc, argv);
+    const auto platform = platformNativeInterface();
+    std::unique_ptr<QGuiApplication> app( platform->createTestApplication(argc, argv) );
     Q_UNUSED(app);
 
     const QString session = "copyq.test";
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
     Settings::canModifySettings = true;
-    platformNativeInterface()->loadSettings();
+    platform->loadSettings();
 
     int exitCode = 0;
     std::shared_ptr<TestInterfaceImpl> test(new TestInterfaceImpl);
