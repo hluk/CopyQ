@@ -46,12 +46,12 @@ QApplication *DummyPlatform::createServerApplication(int &argc, char **argv)
 
 QGuiApplication *DummyPlatform::createMonitorApplication(int &argc, char **argv)
 {
-    return new ApplicationExceptionHandler<QApplication>(argc, argv);
+    return new ApplicationExceptionHandler<QGuiApplication>(argc, argv);
 }
 
 QGuiApplication *DummyPlatform::createClipboardProviderApplication(int &argc, char **argv)
 {
-    return new ApplicationExceptionHandler<QApplication>(argc, argv);
+    return new ApplicationExceptionHandler<QGuiApplication>(argc, argv);
 }
 
 QCoreApplication *DummyPlatform::createClientApplication(int &argc, char **argv)
