@@ -150,6 +150,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("setTitle", "setTitle([title])", "Set main window title and tool tip.");
     addDocumentation("synchronizeToSelection", "synchronizeToSelection(text)", "Synchronize current data from clipboard to X11 selection.");
     addDocumentation("synchronizeFromSelection", "synchronizeFromSelection(text)", "Synchronize current data from X11 selection to clipboard.");
+    addDocumentation("clipboardFormatsToSave", "String[] clipboardFormatsToSave()", "Returns list of clipboard format to save automatically.");
     addDocumentation("saveData", "saveData()", "Save current data (depends on `mimeOutputTab`).");
     addDocumentation("hasData", "bool hasData()", "Returns true only if some non-empty data can be returned by data().");
     addDocumentation("showDataNotification", "showDataNotification()", "Show notification for current data.");

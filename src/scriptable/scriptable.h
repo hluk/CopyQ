@@ -371,6 +371,8 @@ public slots:
     void provideClipboard();
     void provideSelection();
 
+    QScriptValue clipboardFormatsToSave();
+
 signals:
     void finished();
 

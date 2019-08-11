@@ -493,28 +493,6 @@ QVariantMap copyWithoutInternalData(const QVariantMap &data) {
     return newData;
 }
 
-QStringList monitorFormatsToSave(const Commands &&automaticCommands)
-{
-    ItemFactory factory;
-    factory.loadPlugins();
-
-    QSettings settings;
-    factory.loadItemFactorySettings(&settings);
-
-    QStringList formats = factory.formatsToSave();
-    COPYQ_LOG( "Clipboard formats to save: " + formats.join(", ") );
-
-    for (const auto &command : automaticCommands) {
-        if ( !command.input.isEmpty() && !formats.contains(command.input) ) {
-            COPYQ_LOG( QString("Clipboard format to save for command \"%1\": %2")
-                       .arg(command.name, command.input) );
-            formats.append(command.input);
-        }
-    }
-
-    return formats;
-}
-
 QScriptValue checksumForArgument(Scriptable *scriptable, QCryptographicHash::Algorithm method)
 {
     const auto data = scriptable->makeByteArray(scriptable->argument(0));
@@ -2421,7 +2399,8 @@ void Scriptable::monitorClipboard()
     if (!verifyClipboardAccess())
         return;
 
-    ClipboardMonitor monitor( monitorFormatsToSave(m_proxy->automaticCommands()) );
+    ClipboardMonitor monitor(
+        fromScriptValue<QStringList>(eval("clipboardFormatsToSave()"), this) );
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
@@ -2442,6 +2421,28 @@ void Scriptable::provideClipboard()
 void Scriptable::provideSelection()
 {
     provideClipboard(ClipboardMode::Selection);
+}
+
+QScriptValue Scriptable::clipboardFormatsToSave()
+{
+    ItemFactory factory;
+    factory.loadPlugins();
+
+    QSettings settings;
+    factory.loadItemFactorySettings(&settings);
+
+    QStringList formats = factory.formatsToSave();
+    COPYQ_LOG( "Clipboard formats to save: " + formats.join(", ") );
+
+    for (const auto &command : m_proxy->automaticCommands()) {
+        if ( !command.input.isEmpty() && !formats.contains(command.input) ) {
+            COPYQ_LOG( QString("Clipboard format to save for command \"%1\": %2")
+                       .arg(command.name, command.input) );
+            formats.append(command.input);
+        }
+    }
+
+    return toScriptValue(formats, this);
 }
 
 void Scriptable::onExecuteOutput(const QByteArray &output)

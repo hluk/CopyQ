@@ -1061,6 +1061,30 @@ omitted.
 
    Default implementation calls ``provideClipboard()``.
 
+.. js:function:: String[] clipboardFormatsToSave()
+
+   Returns list of clipboard format to save automatically.
+
+   Override the funtion, for example, to save only plain text:
+
+   .. code-block:: js
+
+       global.clipboardFormatsToSave = function() {
+           return ["text/plain"]
+       }
+
+   Or to save additional formats:
+
+   .. code-block:: js
+
+       var originalFunction = global.clipboardFormatsToSave;
+       global.clipboardFormatsToSave = function() {
+           return originalFunction().concat([
+               "text/uri-list",
+               "text/xml"
+           ])
+       }
+
 .. js:function:: saveData()
 
    Save current data (depends on `mimeOutputTab`).
