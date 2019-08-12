@@ -172,11 +172,20 @@ Commands loadCommands(QSettings *settings)
         settings->endGroup();
     }
 
-    int size = settings->beginReadArray("Commands");
-
-    for(int i=0; i<size; ++i) {
-        settings->setArrayIndex(i);
-        loadCommand(*settings, &commands);
+    const int size = settings->beginReadArray("Commands");
+    // Allow undefined "size" for the array in settings.
+    if (size == 0) {
+        for (int i = 0; ; ++i) {
+            settings->setArrayIndex(i);
+            if ( settings->childKeys().isEmpty() )
+                break;
+            loadCommand(*settings, &commands);
+        }
+    } else {
+        for (int i = 0; i < size; ++i) {
+            settings->setArrayIndex(i);
+            loadCommand(*settings, &commands);
+        }
     }
 
     settings->endArray();
