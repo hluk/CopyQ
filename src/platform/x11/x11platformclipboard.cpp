@@ -182,6 +182,11 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     if (!clipboardData->enabled)
         return;
 
+    if ( isSelectionIncomplete() ) {
+        m_timerCheckAgain.start(minCheckAgainIntervalMs);
+        return;
+    }
+
     const auto data = ::clipboardData(clipboardData->mode);
 
     // Retry to retrieve clipboard data few times.
