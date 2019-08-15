@@ -154,13 +154,6 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
             const auto position = availableGeometry.center() - w->rect().center();
             w->move(position);
 
-            // Adjust window size to current screen and move to center again.
-            const auto idealSize = w->size();
-            w->adjustSize();
-            const auto size = w->size().expandedTo(idealSize);
-            w->resize(size);
-            w->move(position);
-
             geometry = w->saveGeometry();
 
             GEOMETRY_LOG( w, QString("New geometry for \"%1%2\"").arg(optionName, tag) );
