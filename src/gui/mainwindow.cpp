@@ -361,8 +361,10 @@ bool hasDialogOpen(QWidget *parent)
 
 void deleteSubMenus(QObject *parent)
 {
-    for (auto subMenu : parent->findChildren<QMenu*>())
-        delete subMenu;
+    for (auto subMenu : parent->findChildren<QMenu*>()) {
+        if (subMenu->parent() == parent)
+            delete subMenu;
+    }
 }
 
 void clearActions(QMenu *menu)
