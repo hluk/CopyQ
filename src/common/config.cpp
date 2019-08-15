@@ -105,6 +105,23 @@ QString resolutionTag(const QWidget &widget, GeometryAction geometryAction, bool
     return tag;
 }
 
+/// Make top of the window always visible on screen so it's possible to move and resize the window.
+QPoint sanitizeWindowPosition(QPoint pos)
+{
+    const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
+    const int x = qBound(availableGeometry.left(), pos.x(), availableGeometry.right() - 10);
+    const int y = qBound(availableGeometry.top(), pos.y(), availableGeometry.bottom() - 10);
+    return QPoint(x, y);
+}
+
+void ensureWindowOnScreen(QWidget *w)
+{
+    const QPoint pos = w->pos();
+    const QPoint newPos = sanitizeWindowPosition(pos);
+    if (pos != newPos)
+        w->move(pos);
+}
+
 } // namespace
 
 QString getConfigurationFilePath(const QString &suffix)
@@ -154,27 +171,31 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
             const auto position = availableGeometry.center() - w->rect().center();
             w->move(position);
 
-            geometry = w->saveGeometry();
-
             GEOMETRY_LOG( w, QString("New geometry for \"%1%2\"").arg(optionName, tag) );
         }
     }
 
     if (w->saveGeometry() != geometry) {
-        // WORKAROUND: Fixes QWidget::restoreGeometry() for different monitor scaling.
         if ( openOnCurrentScreen ) {
             const int screenNumber = ::screenNumber(*w, GeometryAction::Restore);
             QScreen *screen = QGuiApplication::screens().value(screenNumber);
             if (screen) {
-                if ( w->windowHandle() )
-                    w->windowHandle()->setScreen(screen);
-                else
-                    w->move(screen->geometry().topLeft());
+                // WORKAROUND: Fixes QWidget::restoreGeometry() for different monitor scaling.
+                auto windowHandle = w->windowHandle();
+                if ( windowHandle && windowHandle->screen() != screen )
+                    windowHandle->setScreen(screen);
+
+                const QRect availableGeometry = screen->availableGeometry();
+                const auto position = availableGeometry.center() - w->rect().center();
+                w->move(position);
             }
         }
 
         const auto oldGeometry = w->geometry();
-        w->restoreGeometry(geometry);
+        if ( !geometry.isEmpty() )
+            w->restoreGeometry(geometry);
+
+        ensureWindowOnScreen(w);
 
         const auto newGeometry = w->geometry();
         GEOMETRY_LOG( w, QString("Restore geometry \"%1%2\": %3 -> %4").arg(
@@ -226,13 +247,11 @@ void moveToCurrentWorkspace(QWidget *w)
 
 void moveWindowOnScreen(QWidget *w, QPoint pos)
 {
-    const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
-    const int x = qMax(availableGeometry.left(), qMin(pos.x(), availableGeometry.right() - w->width()));
-    const int y = qMax(availableGeometry.top(), qMin(pos.y(), availableGeometry.bottom() - w->height()));
-    GEOMETRY_LOG( w, QString("Move window on screen %1x%2")
-                  .arg(availableGeometry.right())
-                  .arg(availableGeometry.bottom()) );
-    w->move(x, y);
+    const QPoint newPos = sanitizeWindowPosition(pos);
+    GEOMETRY_LOG( w, QString("Move window [%1, %2]")
+                  .arg(newPos.x())
+                  .arg(newPos.y()) );
+    w->move(newPos);
     moveToCurrentWorkspace(w);
 }
 
