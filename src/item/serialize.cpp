@@ -28,13 +28,23 @@
 #include <QDataStream>
 #include <QIODevice>
 #include <QList>
-#include <QObject>
 #include <QPair>
 #include <QStringList>
 
 #include <unordered_map>
 
 namespace {
+
+template <typename T>
+bool readOrError(QDataStream *out, T *value, const char *error)
+{
+    *out >> *value;
+    if ( out->status() == QDataStream::Ok )
+        return true;
+
+    log( QString("Corrupted data: %1").arg(error), LogError );
+    return false;
+}
 
 const std::unordered_map<int, QString> &idToMime()
 {
@@ -60,13 +70,13 @@ const std::unordered_map<int, QString> &idToMime()
 QString decompressMime(QDataStream *out)
 {
     QString mime;
-    *out >> mime;
-    if ( out->status() != QDataStream::Ok )
+    if ( !readOrError(out, &mime, "Failed to read MIME type") )
         return QString();
 
     bool ok;
     const int id = mime.midRef(0, 1).toInt(&ok, 16);
     if (!ok) {
+        log("Corrupted data: Failed to parse MIME type ID", LogError);
         out->setStatus(QDataStream::ReadCorruptData);
         return QString();
     }
@@ -78,6 +88,7 @@ QString decompressMime(QDataStream *out)
     if ( it != std::end(idToMime()) )
         return it->second + mime.mid(1);
 
+    log("Corrupted data: Failed to decompress MIME type", LogError);
     out->setStatus(QDataStream::ReadCorruptData);
     return QString();
 }
@@ -97,22 +108,26 @@ QString compressMime(const QString &mime)
 bool deserializeDataV2(QDataStream *out, QVariantMap *data)
 {
     qint32 size;
-    *out >> size;
+    if ( !readOrError(out, &size, "Failed to read size (v2)") )
+        return false;
 
     QByteArray tmpBytes;
     bool compress;
-    for (qint32 i = 0; i < size && out->status() == QDataStream::Ok; ++i) {
+    for (qint32 i = 0; i < size; ++i) {
         const QString mime = decompressMime(out);
         if ( out->status() != QDataStream::Ok )
             return false;
 
-        *out >> compress >> tmpBytes;
-        if ( out->status() != QDataStream::Ok )
+        if ( !readOrError(out, &compress, "Failed to read compression flag (v2)") )
+            return false;
+
+        if ( !readOrError(out, &tmpBytes, "Failed to read item data (v2)") )
             return false;
 
         if (compress) {
             tmpBytes = qUncompress(tmpBytes);
             if ( tmpBytes.isEmpty() ) {
+                log("Corrupted data: Failed to decompress data (v2)", LogError);
                 out->setStatus(QDataStream::ReadCorruptData);
                 return false;
             }
@@ -142,44 +157,50 @@ void serializeData(QDataStream *stream, const QVariantMap &data)
     }
 }
 
-void deserializeData(QDataStream *stream, QVariantMap *data)
+bool deserializeData(QDataStream *stream, QVariantMap *data)
 {
     try {
         qint32 length;
+        if ( !readOrError(stream, &length, "Failed to read length") )
+            return false;
 
-        *stream >> length;
-        if ( stream->status() != QDataStream::Ok )
-            return;
-
-        if (length == -2) {
-            deserializeDataV2(stream, data);
-            return;
-        }
+        if (length == -2)
+            return deserializeDataV2(stream, data);
 
         if (length < 0) {
+            log("Corrupted data: Invalid length (v1)", LogError);
             stream->setStatus(QDataStream::ReadCorruptData);
-            return;
+            return false;
         }
 
         // Deprecated format.
         // TODO: Data should be saved again in new format.
         QString mime;
         QByteArray tmpBytes;
-        for (qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {
-            *stream >> mime >> tmpBytes;
+        for (qint32 i = 0; i < length; ++i) {
+            if ( !readOrError(stream, &mime, "Failed to read MIME type (v1)") )
+                return false;
+
+            if ( !readOrError(stream, &tmpBytes, "Failed to read item data (v1)") )
+                return false;
+
             if( !tmpBytes.isEmpty() ) {
                 tmpBytes = qUncompress(tmpBytes);
                 if ( tmpBytes.isEmpty() ) {
+                    log("Corrupted data: Failed to decompress data (v1)", LogError);
                     stream->setStatus(QDataStream::ReadCorruptData);
-                    break;
+                    return false;
                 }
             }
             data->insert(mime, tmpBytes);
         }
     } catch (const std::exception &e) {
-        log( QObject::tr("Data deserialization failed: %1").arg(e.what()), LogError );
+        log( QString("Data deserialization failed: %1").arg(e.what()), LogError );
         stream->setStatus(QDataStream::ReadCorruptData);
+        return false;
     }
+
+    return stream->status() == QDataStream::Ok;
 }
 
 QByteArray serializeData(const QVariantMap &data)
@@ -193,8 +214,7 @@ QByteArray serializeData(const QVariantMap &data)
 bool deserializeData(QVariantMap *data, const QByteArray &bytes)
 {
     QDataStream out(bytes);
-    deserializeData(&out, data);
-    return out.status() == QDataStream::Ok;
+    return deserializeData(&out, data);
 }
 
 bool serializeData(const QAbstractItemModel &model, QDataStream *stream)
@@ -211,12 +231,11 @@ bool serializeData(const QAbstractItemModel &model, QDataStream *stream)
 bool deserializeData(QAbstractItemModel *model, QDataStream *stream, int maxItems)
 {
     qint32 length;
-    *stream >> length;
-
-    if ( stream->status() != QDataStream::Ok )
+    if ( !readOrError(stream, &length, "Failed to read length") )
         return false;
 
     if (length < 0) {
+        log("Corrupted data: Invalid length", LogError);
         stream->setStatus(QDataStream::ReadCorruptData);
         return false;
     }
@@ -227,10 +246,16 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream, int maxItem
     if ( length != 0 && !model->insertRows(0, length) )
         return false;
 
-    for(qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {
+    for(qint32 i = 0; i < length; ++i) {
         QVariantMap data;
-        deserializeData(stream, &data);
-        model->setData( model->index(i, 0), data, contentType::data );
+        if ( !deserializeData(stream, &data) )
+            return false;
+
+        if ( !model->setData(model->index(i, 0), data, contentType::data) ) {
+            log("Failed to set model data", LogError);
+            stream->setStatus(QDataStream::ReadCorruptData);
+            return false;
+        }
     }
 
     return stream->status() == QDataStream::Ok;

@@ -28,7 +28,7 @@ class QDataStream;
 class QIODevice;
 
 void serializeData(QDataStream *stream, const QVariantMap &data);
-void deserializeData(QDataStream *stream, QVariantMap *data);
+bool deserializeData(QDataStream *stream, QVariantMap *data);
 QByteArray serializeData(const QVariantMap &data);
 bool deserializeData(QVariantMap *data, const QByteArray &bytes);
 
