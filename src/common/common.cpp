@@ -62,7 +62,7 @@ class WakeUpThread final {
 public:
     WakeUpThread()
     {
-        m_timerWakeUp.setInterval(200);
+        m_timerWakeUp.setInterval(100);
         QObject::connect( &m_timerWakeUp, &QTimer::timeout, []() {
             sendDummyX11Event();
         });
