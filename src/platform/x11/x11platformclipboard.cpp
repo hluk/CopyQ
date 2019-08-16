@@ -122,8 +122,6 @@ void X11PlatformClipboard::onChanged(int mode)
     if (!clipboardData.enabled)
         return;
 
-    clipboardData.timerEmitChange.stop();
-
     // Store the current window title right after the clipboard/selection changes.
     // This makes sure that the title points to the correct clipboard/selection
     // owner most of the times.
