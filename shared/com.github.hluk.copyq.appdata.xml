@@ -26,6 +26,7 @@
     <url type="translate">https://hosted.weblate.org/engage/copyq/</url>
 
     <releases>
+        <release version="3.9.1" date="2019-08-18" />
         <release version="3.9.0" date="2019-06-27" />
         <release version="3.8.0" date="2019-04-10" />
         <release version="3.7.3" date="2019-02-02" />
