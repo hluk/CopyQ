@@ -98,7 +98,7 @@ Install [Flatpak](https://www.flatpak.org/) and `com.github.hluk.copyq` from
 [Flathub](https://flathub.org/).
 
 ```bash
-flatpak install --user --from https://flathub.org/repo/appstream/com.github.hluk.copyq.flatpakref
+flatpak install flathub com.github.hluk.copyq
 ```
 
 Start the application from menu or with following command.
@@ -162,7 +162,15 @@ Print help for some useful command line arguments:
 
 Insert some texts to the history:
 
-    copyq add "first item" "second item" "third item"
+    copyq add -- 'first item' 'second item' 'third item'
+
+Omitting double-dash (`--`) in the command above would mean that slash
+(`\`) in arguments will be treated as special character so that `\n` is new
+line character, `\t` is tab, `\\` is slash, `\x` is `x` etc.
+
+Create single item containing two lines:
+
+    copyq add 'first line\nsecond line'
 
 Print content of the first three items:
 
@@ -240,14 +248,14 @@ Change install prefix if needed:
 ```bash
 git clone https://github.com/hluk/CopyQ.git
 cd CopyQ
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local .
+cmake .
 make
 ```
 
-### Install the App
+You can now run the built app.
 
 ```bash
-sudo make install
+./copyq
 ```
 
 ## Contributions

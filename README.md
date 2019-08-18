@@ -12,7 +12,7 @@ CopyQ is advanced clipboard manager with editing and scripting features.
 - [Documentation](https://copyq.readthedocs.io)
 - [Mailing List](https://groups.google.com/group/copyq)
 - [Bug Reports](https://github.com/hluk/CopyQ/issues)
-- [Donate](https://www.bountysource.com/teams/copyq)
+- [Donate](https://liberapay.com/CopyQ/)
 - [Scripting API](https://copyq.readthedocs.io/en/latest/scripting-api.html)
 
 ## Overview
@@ -37,12 +37,18 @@ Saved clipboard can be later copied and pasted directly into any application.
 
 ## Install
 
+<a href="https://repology.org/metapackage/copyq">
+    <img src="https://repology.org/badge/vertical-allrepos/copyq.svg" alt="Packaging status" align="right">
+</a>
+
 To install CopyQ, use the binary package or installer provided for your system.
 
 For unlisted systems, please follow the instructions in
 [Build from Source Code](https://copyq.readthedocs.io/en/latest/build-source-code.html).
 
 ### Windows
+
+[![Chocolatey package](https://repology.org/badge/version-for-repo/chocolatey/copyq.svg)](https://repology.org/metapackage/copyq)
 
 On Windows you either use installer ([setup.exe](https://github.com/hluk/CopyQ/releases)),
 portable [zip](https://github.com/hluk/CopyQ/releases)
@@ -53,6 +59,8 @@ choco install copyq
 ```
 
 ### OS X
+
+[![Homebrew package](https://repology.org/badge/version-for-repo/homebrew/copyq.svg)](https://repology.org/metapackage/copyq)
 
 On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 
@@ -154,7 +162,15 @@ Print help for some useful command line arguments:
 
 Insert some texts to the history:
 
-    copyq add "first item" "second item" "third item"
+    copyq add -- 'first item' 'second item' 'third item'
+
+Omitting double-dash (`--`) in the command above would mean that slash
+(`\`) in arguments will be treated as special character so that `\n` is new
+line character, `\t` is tab, `\\` is slash, `\x` is `x` etc.
+
+Create single item containing two lines:
+
+    copyq add 'first line\nsecond line'
 
 Print content of the first three items:
 
