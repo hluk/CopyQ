@@ -24,8 +24,7 @@ Upload source files for [copyq Ubuntu package](https://launchpad.net/~hluk/+arch
 
     git checkout v3.3.1
     utils/debian/create_source_packages.sh
-    cd ..
-    dput ppa:hluk/copyq copyq_3.3.1~*.changes
+    dput ppa:hluk/copyq ../copyq_3.3.1~*.changes
 
 Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt5).
 

@@ -5,7 +5,6 @@ distros=(
     trusty
     xenial
     bionic
-    cosmic
     disco
 )
 
