@@ -162,7 +162,15 @@ Print help for some useful command line arguments:
 
 Insert some texts to the history:
 
-    copyq add "first item" "second item" "third item"
+    copyq add -- 'first item' 'second item' 'third item'
+
+Omitting double-dash (`--`) in the command above would mean that slash
+(`\`) in arguments will be treated as special character so that `\n` is new
+line character, `\t` is tab, `\\` is slash, `\x` is `x` etc.
+
+Create single item containing two lines:
+
+    copyq add 'first line\nsecond line'
 
 Print content of the first three items:
 
