@@ -1,3 +1,42 @@
+v3.9.1
+
+- Commands are moved to a separate configuration file "copyq-commands.ini".
+
+- Horizontal tabs in the configuration dialog were replaced with a list of
+  sections so it's possible to view all of the sections even in a smaller
+  window.
+
+- New option `hide_main_window_in_task_bar` to hide window in task bar can be
+  set using `copyq config hide_main_window_in_task_bar true`.
+
+- New `logs()` script function prints application logs.
+
+- New `clipboardFormatsToSave()` script function allows to override clipboard
+  formats to save.
+
+- Some hidden options can be modified using `config()` script function.
+
+- Font sizes in items and editor are limited to prevent application freeze.
+
+- Application icons are cached so as to avoid creating icons for the snip
+  animation again.
+
+- Fix restoring tabs with some non-ASCII characters
+
+- Fix opening window on different screen with different DPI
+
+- Fix 100% CPU utilization on wide screens (5120x1440)
+
+- Fix icon size and GUI margins in Tabs configuration tab
+
+- X11: Fix stuck clipboard access
+
+- X11: Faster selection synchronization
+
+- OSX: Prevent showing font download dialog
+
+- OSX: Fix clipboard owner window title
+
 v3.9.0
 
 - Large images in clipboard are no longer automatically converted to other
