@@ -232,22 +232,17 @@ specify type of action (copy or cut).
 .. code-block:: ini
 
     [Command]
-    Automatic=true
     Command="
-        copyq:
-        var formats = [
-            mimeUriList,
-            'x-special/gnome-copied-files',
-            'application/x-kde-cutselection',
-        ]
-
-        for (var i in formats) {
-            var format = formats[i]
-            var data = clipboard(format)
-            if ( data.size() > 0 )
-               setData(format, data)
+        var originalFunction = global.clipboardFormatsToSave
+        global.clipboardFormatsToSave = function() {
+            return originalFunction().concat([
+                mimeUriList,
+                'x-special/gnome-copied-files',
+                'application/x-kde-cutselection',
+            ])
         }"
-    Icon=\xf56f
+    Icon=\xf0c1
+    IsScript=true
     Name=Store File Manager Metadata
 
 How to trigger a command based on primary selection only?
