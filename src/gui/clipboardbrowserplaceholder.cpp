@@ -149,8 +149,12 @@ void ClipboardBrowserPlaceholder::reloadBrowser()
 
 void ClipboardBrowserPlaceholder::showEvent(QShowEvent *event)
 {
-    createBrowser();
     QWidget::showEvent(event);
+#if QT_VERSION >= QT_VERSION_CHECK(5,4,0)
+    QTimer::singleShot(0, this, &ClipboardBrowserPlaceholder::createBrowser);
+#else
+    createBrowser();
+#endif
 }
 
 void ClipboardBrowserPlaceholder::hideEvent(QHideEvent *event)
