@@ -2319,7 +2319,7 @@ void MainWindow::loadSettings()
     m_trayMenu->setStyleSheet( theme().getToolTipStyleSheet() );
     m_menu->setStyleSheet( theme().getToolTipStyleSheet() );
 
-    setTrayEnabled( !AppConfig().option<Config::disable_tray>() );
+    setTrayEnabled( !appConfig.option<Config::disable_tray>() );
     updateTrayMenu();
 
     updateNotifications();
