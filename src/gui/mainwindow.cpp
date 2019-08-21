@@ -1027,19 +1027,12 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
         const int index = ui->tabWidget->currentIndex();
         tabChanged(index, index);
     }
-
-    const ClipboardBrowserPlaceholder *placeholderForTrayMenu = getPlaceholderForTrayMenu();
-    if (placeholderForTrayMenu && placeholderForTrayMenu->browser() == browser)
-        updateTrayMenu();
 }
 
 void MainWindow::onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder)
 {
     if (placeholder == getPlaceholder())
         updateContextMenu(0);
-
-    if (placeholder == getPlaceholderForTrayMenu())
-        updateTrayMenu();
 }
 
 void MainWindow::onItemSelectionChanged(const ClipboardBrowser *browser)
