@@ -771,7 +771,7 @@ void MainWindow::updateContextMenuTimeout()
 {
     updateItemPreview();
 
-    auto c = getPlaceholder()->createBrowser();
+    auto c = getPlaceholder()->browser();
     if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
         clearActions(ui->toolBar);
         ui->toolBar->setUpdatesEnabled(true);
@@ -810,7 +810,7 @@ void MainWindow::updateContextMenuTimeout()
 
 void MainWindow::updateItemPreview()
 {
-    auto c = browser();
+    auto c = getPlaceholder()->browser();
     if (!c)
         return;
 
@@ -1364,16 +1364,12 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
     if (!placeholder)
         return;
 
-    ClipboardBrowser *c = placeholder->createBrowser();
-    if (!c)
-        return;
-
     // Pass current window title to commands in tray menu.
     auto data = clipboardData;
     if (m_lastWindow)
         data.insert( mimeWindowTitle, m_lastWindow->getTitle() );
 
-    const auto commands = commandsForMenu(data, c->tabName(), m_trayMenuCommands);
+    const auto commands = commandsForMenu(data, placeholder->tabName(), m_trayMenuCommands);
 
     for (const auto &command : commands) {
         QString name = command.name;
@@ -1568,6 +1564,9 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowserPlaceholder *place
 {
     WidgetSizeGuard sizeGuard(menu);
     menu->clearClipboardItems();
+
+    if (maxItemCount <= 0)
+        return;
 
     if (!placeholder)
         return;
@@ -2515,7 +2514,7 @@ void MainWindow::tabChanged(int current, int)
 
     if (!currentIsTabGroup) {
         // update item menu (necessary for keyboard shortcuts to work)
-        auto c = browser();
+        auto c = getPlaceholder()->browser();
         if (c) {
             c->filterItems( browseMode() ? QRegExp() : ui->searchBar->filter() );
 
@@ -2971,7 +2970,7 @@ void MainWindow::enterBrowseMode()
     getPlaceholder()->setFocus();
     ui->searchBar->hide();
 
-    auto c = browser();
+    auto c = getPlaceholder()->browser();
     if (c)
         c->filterItems(QRegExp());
 }
@@ -2982,7 +2981,7 @@ void MainWindow::enterSearchMode()
     ui->searchBar->setFocus(Qt::ShortcutFocusReason);
 
     if ( !ui->searchBar->text().isEmpty() ) {
-        auto c = browser();
+        auto c = getPlaceholder()->browser();
         if (c) {
             const int currentRow = c->currentIndex().row();
             c->filterItems( ui->searchBar->filter() );
