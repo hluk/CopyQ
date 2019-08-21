@@ -55,7 +55,7 @@ struct clipboard_tab : Config<QString> {
     static Value defaultValue() { return defaultClipboardTabName(); }
 };
 
-struct expire_tab : Config<bool> {
+struct expire_tab : Config<int> {
     static QString name() { return "expire_tab"; }
 };
 

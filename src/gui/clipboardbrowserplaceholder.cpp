@@ -41,8 +41,7 @@ ClipboardBrowserPlaceholder::ClipboardBrowserPlaceholder(
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    const int expireTimeoutMs = 60000 * m_sharedData->minutesToExpire;
-    initSingleShotTimer( &m_timerExpire, expireTimeoutMs, this, &ClipboardBrowserPlaceholder::expire );
+    initSingleShotTimer( &m_timerExpire, 0, this, &ClipboardBrowserPlaceholder::expire );
 }
 
 ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
@@ -62,12 +61,10 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
         return nullptr;
     }
 
-    if (m_timerExpire.interval() > 0) {
-        connect( c.get(), &ClipboardBrowser::itemSelectionChanged,
-                 &m_timerExpire, static_cast<void (QTimer::*)()>(&QTimer::start) );
-        connect( c.get(), &ClipboardBrowser::itemsChanged,
-                 &m_timerExpire, static_cast<void (QTimer::*)()>(&QTimer::start) );
-    }
+    connect( c.get(), &ClipboardBrowser::itemSelectionChanged,
+             this, &ClipboardBrowserPlaceholder::restartExpiring);
+    connect( c.get(), &ClipboardBrowser::itemsChanged,
+             this, &ClipboardBrowserPlaceholder::restartExpiring);
 
     m_browser = c.release();
     setActiveWidget(m_browser);
@@ -228,8 +225,9 @@ bool ClipboardBrowserPlaceholder::canExpire() const
 
 void ClipboardBrowserPlaceholder::restartExpiring()
 {
-    if ( m_timerExpire.interval() > 0 )
-        m_timerExpire.start();
+    const int expireTimeoutMs = 60000 * m_sharedData->minutesToExpire;
+    if (expireTimeoutMs > 0)
+        m_timerExpire.start(expireTimeoutMs);
 }
 
 bool ClipboardBrowserPlaceholder::isEditorOpen() const
