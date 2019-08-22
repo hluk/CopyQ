@@ -20,6 +20,7 @@
 #include "clipboardbrowserplaceholder.h"
 
 #include "common/common.h"
+#include "common/log.h"
 #include "common/timer.h"
 #include "item/itemstore.h"
 #include "gui/clipboardbrowser.h"
@@ -166,6 +167,7 @@ bool ClipboardBrowserPlaceholder::expire()
         return true;
 
     if (canExpire()) {
+        COPYQ_LOG( QString("Tab \"%1\": Expired").arg(m_tabName) );
         unloadBrowser();
         return true;
     }
@@ -208,6 +210,7 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
     if (!m_browser)
         return;
 
+    COPYQ_LOG( QString("Tab \"%1\": Unloading").arg(m_tabName) );
     m_browser->saveUnsavedItems();
     m_browser->deleteLater();
     m_browser = nullptr;
