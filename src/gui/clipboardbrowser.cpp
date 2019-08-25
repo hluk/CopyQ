@@ -566,8 +566,6 @@ void ClipboardBrowser::connectModelAndDelegate()
     connect( &m, &QAbstractItemModel::dataChanged,
              &d, &ItemDelegate::dataChanged );
 
-    connect( &m, &QAbstractItemModel::dataChanged,
-             this, &ClipboardBrowser::onDataChanged );
     connect( &m, &QAbstractItemModel::rowsInserted,
              this, &ClipboardBrowser::onRowsInserted);
 
@@ -881,11 +879,6 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
     p.drawRect( rect.adjusted(x, x, -x, -x) );
 
     return pix;
-}
-
-void ClipboardBrowser::onDataChanged(const QModelIndex &, const QModelIndex &)
-{
-    emit itemsChanged(this);
 }
 
 void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int last)
@@ -1654,8 +1647,6 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     // create new item
     const int newRow = row < 0 ? m.rowCount() : qMin(row, m.rowCount());
     m.insertItem(data, newRow);
-
-    delayedSaveItems();
 
     return true;
 }

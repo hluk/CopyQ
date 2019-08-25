@@ -93,6 +93,7 @@ namespace {
 
 const int contextMenuUpdateIntervalMsec = 100;
 const int trayMenuUpdateIntervalMsec = 100;
+const int itemPreviewUpdateIntervalMsec = 100;
 
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 const QIcon iconTabIcon() { return getIconFromResources("tab_icon"); }
@@ -488,6 +489,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, &MainWindow::updateFocusWindows );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, &MainWindow::updateContextMenuTimeout );
     initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, &MainWindow::updateTrayMenuTimeout );
+    initSingleShotTimer( &m_timerUpdatePreview, 0, this, &MainWindow::updateItemPreviewTimeout );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, [this]() { setTrayEnabled(); } );
     initSingleShotTimer( &m_timerTrayIconSnip, 500, this, &MainWindow::updateIconSnipTimeout );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, &MainWindow::doSaveTabPositions );
@@ -769,8 +771,6 @@ void MainWindow::updateIconSnipTimeout()
 
 void MainWindow::updateContextMenuTimeout()
 {
-    updateItemPreview();
-
     auto c = getPlaceholder()->browser();
     if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
         clearActions(ui->toolBar);
@@ -785,7 +785,7 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveToClipboard, c, &ClipboardBrowser::moveToClipboard );
     addItemAction( Actions::Item_ShowContent, c, &ClipboardBrowser::showItemContent );
     QAction *togglePreviewAction =
-            addItemAction( Actions::Item_ShowPreview, this, &MainWindow::updateItemPreview );
+            addItemAction( Actions::Item_ShowPreview, this, &MainWindow::updateItemPreviewTimeout );
     addItemAction( Actions::Item_Remove, c, &ClipboardBrowser::remove );
     addItemAction( Actions::Item_Edit, c, &ClipboardBrowser::editSelected );
     addItemAction( Actions::Item_EditNotes, c, &ClipboardBrowser::editNotes );
@@ -808,7 +808,12 @@ void MainWindow::updateContextMenuTimeout()
     updateActionShortcuts();
 }
 
-void MainWindow::updateItemPreview()
+void MainWindow::updateItemPreviewAfterMs(int ms)
+{
+    m_timerUpdatePreview.start(ms);
+}
+
+void MainWindow::updateItemPreviewTimeout()
 {
     auto c = getPlaceholder()->browser();
     if (!c)
@@ -831,7 +836,7 @@ void MainWindow::updateItemPreview()
 void MainWindow::setItemPreviewVisible(bool visible)
 {
     m_showItemPreview = visible;
-    updateItemPreview();
+    updateItemPreviewAfterMs(0);
 }
 
 void MainWindow::updateIconSnip()
@@ -1031,20 +1036,26 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
 
 void MainWindow::onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder)
 {
-    if (placeholder == getPlaceholder())
+    if (placeholder == getPlaceholder()) {
         updateContextMenu(0);
+        updateItemPreviewAfterMs(0);
+    }
 }
 
 void MainWindow::onItemSelectionChanged(const ClipboardBrowser *browser)
 {
-    if (browser == this->browser())
+    if (browser == this->browser()) {
         updateContextMenu(0);
+        updateItemPreviewAfterMs(0);
+    }
 }
 
 void MainWindow::onItemsChanged(const ClipboardBrowser *browser)
 {
-    if (browser == this->browser())
+    if (browser == this->browser()) {
         updateContextMenu(contextMenuUpdateIntervalMsec);
+        updateItemPreviewAfterMs(itemPreviewUpdateIntervalMsec);
+    }
 
     const ClipboardBrowserPlaceholder *placeholder = getPlaceholderForTrayMenu();
     if (placeholder && placeholder->browser() == browser)
@@ -1053,8 +1064,10 @@ void MainWindow::onItemsChanged(const ClipboardBrowser *browser)
 
 void MainWindow::onInternalEditorStateChanged(const ClipboardBrowser *browser)
 {
-    if (browser == this->browser())
+    if (browser == this->browser()) {
         updateContextMenu(0);
+        updateItemPreviewAfterMs(0);
+    }
 }
 
 void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
@@ -2290,6 +2303,7 @@ void MainWindow::loadSettings()
     m_timerSaveTabPositions.stop();
 
     updateContextMenu(contextMenuUpdateIntervalMsec);
+    updateItemPreviewAfterMs(itemPreviewUpdateIntervalMsec);
 
     m_options.itemActivationCommands = ActivateNoCommand;
     if ( appConfig.option<Config::activate_closes>() )
@@ -2900,7 +2914,7 @@ void MainWindow::onFilterChanged(const QRegExp &re)
     auto c = browser();
     if (c)
         c->filterItems(re);
-    updateItemPreview();
+    updateItemPreviewAfterMs(2 * itemPreviewUpdateIntervalMsec);
 }
 
 void MainWindow::raiseLastWindowAfterMenuClosed()

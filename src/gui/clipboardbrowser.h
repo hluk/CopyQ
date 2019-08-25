@@ -305,8 +305,6 @@ class ClipboardBrowser final : public QListView
         void closeExternalEditor(QObject *editor, const QModelIndex &index);
 
     private:
-        void onDataChanged(const QModelIndex &a, const QModelIndex &b);
-
         void onRowsInserted(const QModelIndex &parent, int first, int last);
 
         void onItemCountChanged();

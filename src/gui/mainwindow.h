@@ -461,7 +461,10 @@ private:
 
     void updateTrayMenuTimeout();
 
-    void updateItemPreview();
+    void updateItemPreviewAfterMs(int ms);
+
+    void updateItemPreviewTimeout();
+
     void setItemPreviewVisible(bool visible);
 
     /** Update icon snip animation. */
@@ -648,6 +651,7 @@ private:
     QTimer m_timerUpdateFocusWindows;
     QTimer m_timerUpdateContextMenu;
     QTimer m_timerUpdateTrayMenu;
+    QTimer m_timerUpdatePreview;
     QTimer m_timerTrayAvailable;
     QTimer m_timerTrayIconSnip;
     QTimer m_timerSaveTabPositions;
