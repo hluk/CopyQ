@@ -35,9 +35,10 @@ Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt
     osc commit
 
 Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
+
 - update "tag" and "commit" in "com.github.hluk.copyq.json" file,
 - push to fork,
-- create pull request,
+- [create pull request](https://github.com/flathub/com.github.hluk.copyq/compare/master...hluk:master),
 - wait for build to finish (flathubbot will add comments),
 - [verify the build](https://flathub.org/builds/#/),
 - merge the changes if build is OK.
@@ -64,7 +65,7 @@ Upload packages and binaries to:
 Update Homebrew package for OS X.
 
     brew install vitorgalvao/tiny-scripts/cask-repair
-    cask upgrade cask-repair
+    brew upgrade cask-repair
     cask-repair copyq
 
 Write release announcement to [CopyQ group](https://groups.google.com/forum/#!forum/copyq).
