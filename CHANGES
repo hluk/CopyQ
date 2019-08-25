@@ -1,3 +1,13 @@
+v3.9.2
+
+- Fix unnecessary tab reloading after expired.
+
+- Fix repeated menu updates.
+
+- Fix loading tabs with an empty item
+
+- Fix initializing expire timeout (it was always 0 or 1 minute)
+
 v3.9.1
 
 - Commands are moved to a separate configuration file "copyq-commands.ini".
