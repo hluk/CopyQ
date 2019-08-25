@@ -771,7 +771,7 @@ void MainWindow::updateIconSnipTimeout()
 
 void MainWindow::updateContextMenuTimeout()
 {
-    auto c = getPlaceholder()->browser();
+    auto c = browser();
     if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
         clearActions(ui->toolBar);
         ui->toolBar->setUpdatesEnabled(true);
@@ -815,7 +815,7 @@ void MainWindow::updateItemPreviewAfterMs(int ms)
 
 void MainWindow::updateItemPreviewTimeout()
 {
-    auto c = getPlaceholder()->browser();
+    auto c = browserOrNull();
     if (!c)
         return;
 
@@ -1027,8 +1027,7 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
     connect( browser, &ClipboardBrowser::itemWidgetCreated,
              this, &MainWindow::onItemWidgetCreated );
 
-    const ClipboardBrowserPlaceholder *currentPlaceholder = getPlaceholder();
-    if (currentPlaceholder && currentPlaceholder->browser() == browser) {
+    if (browserOrNull() == browser) {
         const int index = ui->tabWidget->currentIndex();
         tabChanged(index, index);
     }
@@ -1044,7 +1043,7 @@ void MainWindow::onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder)
 
 void MainWindow::onItemSelectionChanged(const ClipboardBrowser *browser)
 {
-    if (browser == this->browser()) {
+    if (browser == browserOrNull()) {
         updateContextMenu(0);
         updateItemPreviewAfterMs(0);
     }
@@ -1052,7 +1051,7 @@ void MainWindow::onItemSelectionChanged(const ClipboardBrowser *browser)
 
 void MainWindow::onItemsChanged(const ClipboardBrowser *browser)
 {
-    if (browser == this->browser()) {
+    if (browser == browserOrNull()) {
         updateContextMenu(contextMenuUpdateIntervalMsec);
         updateItemPreviewAfterMs(itemPreviewUpdateIntervalMsec);
     }
@@ -1064,7 +1063,7 @@ void MainWindow::onItemsChanged(const ClipboardBrowser *browser)
 
 void MainWindow::onInternalEditorStateChanged(const ClipboardBrowser *browser)
 {
-    if (browser == this->browser()) {
+    if (browser == browserOrNull()) {
         updateContextMenu(0);
         updateItemPreviewAfterMs(0);
     }
@@ -2521,7 +2520,7 @@ void MainWindow::tabChanged(int current, int)
 
     if (!currentIsTabGroup) {
         // update item menu (necessary for keyboard shortcuts to work)
-        auto c = getPlaceholder()->browser();
+        auto c = browserOrNull();
         if (c) {
             c->filterItems( browseMode() ? QRegExp() : ui->searchBar->filter() );
 
@@ -2977,7 +2976,7 @@ void MainWindow::enterBrowseMode()
     getPlaceholder()->setFocus();
     ui->searchBar->hide();
 
-    auto c = getPlaceholder()->browser();
+    auto c = browserOrNull();
     if (c)
         c->filterItems(QRegExp());
 }
@@ -2988,7 +2987,7 @@ void MainWindow::enterSearchMode()
     ui->searchBar->setFocus(Qt::ShortcutFocusReason);
 
     if ( !ui->searchBar->text().isEmpty() ) {
-        auto c = getPlaceholder()->browser();
+        auto c = browserOrNull();
         if (c) {
             const int currentRow = c->currentIndex().row();
             c->filterItems( ui->searchBar->filter() );
@@ -3189,6 +3188,12 @@ ClipboardBrowser *MainWindow::browser(int index)
 ClipboardBrowser *MainWindow::browser()
 {
     return browser( ui->tabWidget->currentIndex() );
+}
+
+ClipboardBrowser *MainWindow::browserOrNull()
+{
+    const ClipboardBrowserPlaceholder *currentPlaceholder = getPlaceholder();
+    return currentPlaceholder ? currentPlaceholder->browser() : nullptr;
 }
 
 ClipboardBrowser *MainWindow::browserForItem(const QModelIndex &index)

@@ -152,6 +152,11 @@ public:
      */
     ClipboardBrowser *browser();
 
+    /**
+     * Return browser widget in current tab or nullptr if not loaded.
+     */
+    ClipboardBrowser *browserOrNull();
+
     /** Return browser containing item or nullptr. */
     ClipboardBrowser *browserForItem(const QModelIndex &index);
 
