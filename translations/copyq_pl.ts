@@ -765,7 +765,7 @@ Pozostaw puste, aby wyłączyć.</translation>
         <translation type="unfinished">Tworzenie elementów ze standardowego wyjścia programu (pozostaw puste, aby wyłączyć)</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="vanished">&lt;p&gt;Użyj polecenia tylko dla elementów skopiowanych do schowka z okna, którego tytuł pasuje do tego regularnego wyrażenia (pozostaw puste, aby dopasować do każdego okna). W OS X zawiera ono nazwę aplikacji rozdzielonej pauzą (&amp;quot;-&amp;quot;), a następnie tytuł okna. Na przykład: &amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
