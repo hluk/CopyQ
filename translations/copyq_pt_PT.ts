@@ -769,7 +769,7 @@ Deixe vazio para desativar.</translation>
         <translation type="vanished">F&amp;ormato:</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="vanished">&lt;p&gt;Use o comando só para itens copiados a partir de janelas com texto de título que corresponda à expressão regular (vazio para corresponder a qualquer janela). Em OS X, isto contém o nome da aplicação seguida de hífen (&amp;quot;-&amp;quot;) e do título da janela. Por exemplo &amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
