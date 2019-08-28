@@ -630,7 +630,7 @@ Leave empty to disable this.</source>
 Lämna tomt för att inaktivera detta.</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="vanished">&lt;p&gt;Använd kommando endast för objekt som kopierats till urklipp från fönster vars titeltext matchar detta reguljära uttryck (lämna tomt för alla fönster). På OS X innehåller detta programnamnet följt av ett bindestreck (&amp;quot;-&amp;quot;) och sedan fönstertiteln. T.ex. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
