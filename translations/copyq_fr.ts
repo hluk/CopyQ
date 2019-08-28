@@ -1133,7 +1133,7 @@ Laisser vide pour désactiver.</translation>
         <translation>&amp;Attendre</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="vanished">&lt;p&gt;Utiliser la commande seulement pour les éléments copiés dans le presse-papier depuis la fenêtre avec le titre qui correspond à cette expression (laisser vide pour accepter n&apos;importe quelle fenêtre). Sur OS X, il contient le nom de l&apos;application suivi d&apos;un tiret (&amp;quot;-&amp;quot;) et du titre de la fenêtre. Par exemple &amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
