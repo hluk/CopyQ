@@ -716,7 +716,7 @@ Leave empty to disable this.</source>
         <translation>Bu MIME tipinde veriler standart komut girişine gönderilecektir. Bunu devredışı bırakmak için boş bırakın.</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="vanished">&lt;p&gt;Komutu yalnızca panoya kopyalanan öğeler için bu normal ifadeyle eşleşen başlık metnini içeren pencerelerde kullanın (herhangi bir pencereyle eşleşmek için boş bırakın). OS X&apos;te bu, uygulama adını ve ardından kısa çizgi (&quot;-&quot;), ardından pencere başlığını içerir. Örneğin. &amp;quot;Safari - GitHub &amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
