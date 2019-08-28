@@ -769,7 +769,7 @@ Leave empty to disable this.</source>
         <translation type="vanished">F&amp;ormat:</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="vanished">&lt;p&gt; Bruk kommandoen kun for elementer kopiert til utklippstavlen fra vindu med tittel-tekst som samsvarer med dette regulære utrykket (ingen for å matche alle vinduer). På OS X vil dette være programnavnet fulgt av en bindestrek (&amp;quot;-&amp;quot;) og vinduets tittel. F.eks. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
