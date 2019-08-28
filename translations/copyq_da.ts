@@ -908,7 +908,7 @@ Lad være tom for at deaktivere.</translation>
         <translation type="vanished">&amp;Format:</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="vanished">&lt;p&gt;Brug kun kommandoen for elementer kopieret til klippebordet fra vindue med titeltekst, der matcher dette regulære udtryk (lad være tom for at matche ethvert vindue). På OS X, indeholder det programnavn efterfulgt af en bindestreg (&amp;quot;-&amp;quot;), derefter vinduets titel. F.eks &amp;quot;Safari - GitHub&amp;quot;&lt;/p&gt;</translation>
     </message>
     <message>
