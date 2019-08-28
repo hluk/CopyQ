@@ -167,12 +167,6 @@ ItemWidget *ItemDelegate::cacheOrNull(int row) const
     return m_cache[static_cast<size_t>(row)].get();
 }
 
-bool ItemDelegate::hasCache(const QModelIndex &index) const
-{
-    const int row = index.row();
-    return cacheOrNull(row) != nullptr;
-}
-
 void ItemDelegate::setItemSizes(QSize size, int idealWidth)
 {
     const auto margins = m_sharedData->theme.margins();

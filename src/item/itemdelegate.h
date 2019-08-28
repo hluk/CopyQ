@@ -82,9 +82,6 @@ class ItemDelegate final : public QItemDelegate
         /** Return cached item or nullptr. */
         ItemWidget *cacheOrNull(int row) const;
 
-        /** Return true only if item at index is already in cache. */
-        bool hasCache(const QModelIndex &index) const;
-
         /** Set maximum size for all items. */
         void setItemSizes(QSize size, int idealWidth);
 

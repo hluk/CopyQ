@@ -526,11 +526,15 @@ void ClipboardBrowser::updateEditorGeometry()
 void ClipboardBrowser::updateCurrentItem()
 {
     const QModelIndex current = currentIndex();
-    if ( current.isValid() && d.hasCache(current) ) {
-        ItemWidget *item = d.cache(current);
-        item->setCurrent(false);
-        item->setCurrent( hasFocus() );
-    }
+    if ( !current.isValid() )
+        return;
+
+    ItemWidget *item = d.cacheOrNull(current.row());
+    if (!item)
+        return;
+
+    item->setCurrent(false);
+    item->setCurrent( hasFocus() );
 }
 
 QModelIndex ClipboardBrowser::indexNear(int offset) const
@@ -972,7 +976,7 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
 {
-    if ( m.rowCount() > 0 && !d.hasCache(index(0)) )
+    if ( m.rowCount() > 0 && d.cacheOrNull(0) == nullptr )
         scrollToTop();
 
     QListView::showEvent(event);
