@@ -1320,7 +1320,7 @@ CTRL en pijltje omhoog/omlaag.</translation>
     <message>
         <source>Transparency of main window if focused.
 
-Note: This is not be supported on all systems.</source>
+Note: This is notsupported on all systems.</source>
         <translation type="vanished">Doorzichtigheid van het hoofdvenster wanneer deze focus heeft.
 
 Let op: dit wordt niet op alle systemen ondersteund.</translation>
@@ -1333,7 +1333,7 @@ Let op: dit wordt niet op alle systemen ondersteund.</translation>
     <message>
         <source>Transparency of main window if unfocused.
 
-Note: This is not be supported on all systems.</source>
+Note: This is not supported on all systems.</source>
         <translation type="vanished">Doorzichtigheid van het hoofdvenster wanneer deze geen focus heeft.
 
 Let op: dit wordt niet op alle systemen ondersteund.</translation>
