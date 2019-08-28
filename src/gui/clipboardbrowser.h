@@ -198,8 +198,6 @@ class ClipboardBrowser final : public QListView
 
         void findPrevious();
 
-        void updateItemWidget(const QModelIndex &index);
-
         /**
          * Load items from configuration.
          * This function does nothing if model is disabled (e.g. loading failed previously).
@@ -373,6 +371,8 @@ class ClipboardBrowser final : public QListView
         int findNextVisibleRow(int row);
         int findPreviousVisibleRow(int row);
 
+        void preloadCurrentPage();
+        void preloadCurrentPageLater();
         void preload(int pixels, bool above, const QModelIndex &start);
 
         void updateCurrentIndex();
@@ -400,6 +400,7 @@ class ClipboardBrowser final : public QListView
         QTimer m_timerUpdateSizes;
         QTimer m_timerUpdateCurrent;
         QTimer m_timerDragDropScroll;
+        QTimer m_timerPreload;
         bool m_ignoreMouseMoveWithButtonPressed = false;
         bool m_resizing = false;
 

@@ -128,6 +128,23 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
     std::rotate(start1, start2, end2);
 }
 
+bool ItemDelegate::showAt(const QModelIndex &index, QPoint pos)
+{
+    auto w = cache(index);
+    auto ww = w->widget();
+    ww->move(pos);
+
+    if ( !ww->isHidden() )
+        return false;
+
+    ww->show();
+
+    if (m_idealWidth > 0)
+        w->updateSize(m_maxSize, m_idealWidth);
+
+    return true;
+}
+
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
 {
     const auto count = static_cast<size_t>(end - start + 1);
@@ -350,6 +367,8 @@ ItemWidget *ItemDelegate::updateCache(const QModelIndex &index, const QVariantMa
             : m_sharedData->itemFactory->createItem(data, parent, antialiasing);
 
     setIndexWidget(index, w);
+    highlightMatches(w);
+
     return w;
 }
 
@@ -385,12 +404,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     const int row = index.row();
     auto w = cacheOrNull(row);
-    if (w == nullptr) {
-        m_view->updateItemWidget(index);
-        w = cacheOrNull(row);
-        if (!w)
-            return;
-    }
+    if (w == nullptr)
+        return;
 
     // Colorize item.
     const QString colorExpr = index.data(contentType::color).toString();
@@ -418,20 +433,5 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                             rowNumberPalette, true, num,
                             role);
         painter->restore();
-    }
-
-    highlightMatches(w);
-
-    auto ww = w->widget();
-    const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-    const auto offset = rect.topLeft() + QPoint(rowNumberSize.width() + margins.width(), margins.height());
-    ww->move(offset);
-    if ( ww->isHidden() ) {
-        ww->show();
-        if (m_idealWidth > 0)
-            w->updateSize(m_maxSize, m_idealWidth);
-
-        // Workaround: This fixes badly rendered items.
-        ww->update();
     }
 }

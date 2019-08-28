@@ -39,6 +39,7 @@
 
 #include <QApplication>
 #include <QDrag>
+#include <QElapsedTimer>
 #include <QKeyEvent>
 #include <QMimeData>
 #include <QProgressBar>
@@ -306,6 +307,7 @@ ClipboardBrowser::ClipboardBrowser(
     initSingleShotTimer( &m_timerEmitItemCount, 0, this, &ClipboardBrowser::emitItemCount );
     initSingleShotTimer( &m_timerUpdateSizes, 0, this, &ClipboardBrowser::updateSizes );
     initSingleShotTimer( &m_timerUpdateCurrent, 0, this, &ClipboardBrowser::updateCurrent );
+    initSingleShotTimer( &m_timerPreload, 0, this, &ClipboardBrowser::preloadCurrentPage );
 
     m_timerDragDropScroll.setInterval(20);
     connect( &m_timerDragDropScroll, &QTimer::timeout,
@@ -636,20 +638,55 @@ int ClipboardBrowser::findPreviousVisibleRow(int row)
     return row >= 0 ? row : -1;
 }
 
+void ClipboardBrowser::preloadCurrentPage()
+{
+    const int h = viewport()->contentsRect().height();
+    const QModelIndex start = indexNear(0);
+    preload(h, false, start);
+}
+
+void ClipboardBrowser::preloadCurrentPageLater()
+{
+    if ( !m_timerPreload.isActive() )
+        m_timerPreload.start();
+}
+
 void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &start)
 {
-    const int s = 2 * spacing();
+    QElapsedTimer t;
+    t.start();
+
+    const int s = spacing();
     const int direction = above ? -1 : 1;
     int row = start.row();
-    QModelIndex ind = index(row);
+    QModelIndex ind = start;
     int y = 0;
 
-    for ( ; ind.isValid() && y < pixels; ind = index(row) ) {
-        if ( !isRowHidden(row) ) {
-            d.cache(ind);
-            y += s + d.sizeHint(ind).height();
+    const auto margins = m_sharedData->theme.margins();
+    const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
+    const auto padding = QPoint(rowNumberSize.width() + margins.width() - s, margins.height() - s);
+
+    int items = 0;
+    bool anyShown = false;
+    for ( ; ind.isValid() && y < pixels; row += direction, ind = index(row) ) {
+        if ( isRowHidden(row) )
+            continue;
+
+        const auto rect = visualRect(ind);
+        const auto pos = rect.topLeft() + padding;
+
+        if ( d.showAt(ind, pos) )
+            anyShown = true;
+
+        if (items > 0)
+            y += rect.height();
+
+        ++items;
+        if (anyShown && items > 1 && t.elapsed() > 20) {
+            // Preloading takes too long, preload rest of the items later.
+            preloadCurrentPageLater();
+            return;
         }
-        row += direction;
     }
 }
 
@@ -1084,9 +1121,9 @@ void ClipboardBrowser::paintEvent(QPaintEvent *e)
         }
     }
 
-    const bool canUpdate = updatesEnabled();
+    preloadCurrentPage();
+
     QListView::paintEvent(e);
-    setUpdatesEnabled(canUpdate);
 
     // If dragging an item into list, draw indicator for dropping items.
     if (m_dragTargetRow != -1) {
@@ -1864,12 +1901,6 @@ void ClipboardBrowser::findPrevious()
 {
     if (isInternalEditorOpen())
         m_editor->findPrevious(d.searchExpression());
-}
-
-void ClipboardBrowser::updateItemWidget(const QModelIndex &index)
-{
-    setUpdatesEnabled(false);
-    d.cache(index);
 }
 
 bool ClipboardBrowser::isInternalEditorOpen() const
