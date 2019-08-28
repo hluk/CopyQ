@@ -830,7 +830,7 @@ Leave empty to disable this.</source>
         <translation>Создать элементы из стандартного вывода программы (оставьте пустым для отключения)</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="vanished">&lt;p&gt;Используйте команду только для элементов, скопированных в буфер обмена из окна с текстом заголовка, который соответствует этому регулярному выражению (оставьте пустым, чтобы соответствовало любому окну). На OS X содержит имя приложения, сопровождаемое тире  (&amp;quot; 2-&amp;quot; 3) тогда заголовок окна. Например, &amp;quot; 4 Safari - GitHub &amp;quot; 5.&lt;/p&gt;</translation>
     </message>
     <message>
