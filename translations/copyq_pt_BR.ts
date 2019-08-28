@@ -782,7 +782,7 @@ Deixe em branco para desabilitar esta.</translation>
         <translation>Criar itens da saída padrão do programa (deixar vazio para inativar)</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="vanished">&lt;p&gt; Use comando somente para itens copiados para o clipboard de janela com texto de título que corresponde a esta expressão regular (deixe em branco para combinar com qualquer janela). No OS X, este contém o nome aplicação seguido por um traço (&amp;quot; - &amp;quot;), então o título da janela. Por exemplo &amp;quot;. Safári - GitHub &amp;quot; &lt;/p&gt;</translation>
     </message>
     <message>
