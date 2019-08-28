@@ -117,6 +117,11 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
 {
     m_textDocument.setDefaultFont(font());
 
+    // Disable slow word wrapping initially.
+    QTextOption option = m_textDocument.defaultTextOption();
+    option.setWrapMode(QTextOption::NoWrap);
+    m_textDocument.setDefaultTextOption(option);
+
     setReadOnly(true);
     setUndoRedoEnabled(false);
     setTextInteractionFlags(
