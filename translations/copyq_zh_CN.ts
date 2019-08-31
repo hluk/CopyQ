@@ -301,7 +301,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;中止所选</translation>
     </message>
 </context>
 <context>
@@ -666,7 +666,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected...</source>
-        <translation type="unfinished"></translation>
+        <translation>保存所选</translation>
     </message>
     <message>
         <source>Sa&amp;ve Selected Commands...</source>
