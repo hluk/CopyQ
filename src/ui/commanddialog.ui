@@ -61,7 +61,7 @@
      <item>
       <widget class="QPushButton" name="pushButtonLoadCommands">
        <property name="text">
-        <string>&amp;Load Commands...</string>
+        <string>&amp;Load Commands…</string>
        </property>
       </widget>
      </item>
@@ -71,7 +71,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Sa&amp;ve Selected...</string>
+        <string>Sa&amp;ve Selected…</string>
        </property>
       </widget>
      </item>
