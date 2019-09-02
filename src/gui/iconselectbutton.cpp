@@ -36,7 +36,7 @@ IconSelectButton::IconSelectButton(QWidget *parent)
     : QPushButton(parent)
     , m_currentIcon()
 {
-    setToolTip(tr("Select Icon..."));
+    setToolTip(tr("Select Icon…"));
 
     connect( this, &QAbstractButton::clicked, this, &IconSelectButton::onClicked );
 
