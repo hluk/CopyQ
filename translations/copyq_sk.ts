@@ -6,32 +6,32 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>CopyQ About</source>
-        <translation type="unfinished"></translation>
+        <translation>O programe CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Správca schránky</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Prispejte</translation>
     </message>
 </context>
 <context>
@@ -39,69 +39,71 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ akcia</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Príkaz:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"></translation>
+        <translation>Štandardný &amp;vstup:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uložiť štandardný výstup:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslať dáta daného MIME typu na štandardný vstup príkazu (pre vypnutie ponechať prázdne)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvoriť prvky zo štandardného výstupu príkazu (pre vypnutie ponechať prázdne)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Oddeľovač nových prvkov:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Regulárny výraz na rozdelenie výstupu do viacerých prvkov. &lt;/p&gt;
+&lt;p&gt; Na uloženie každého riadku to jedného prvku treba použiť &lt;b&gt;\n&lt;/b&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp; Výstupná záložka:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložiť prvky do záložky s daným názvom (do aktuálne otvorenej záložky, ak nie je názov uvedený)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="217"/>
         <source>Command saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Príkaz bol uložený</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="218"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation type="unfinished"></translation>
+        <translation>Príkaz bol uložený a je prístupný z menu prvku.
+Príkaz je možné zmeniť v nastaveniach.</translation>
     </message>
 </context>
 <context>
@@ -109,17 +111,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="151"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Návratový kód: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="183"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Príkaz %1</translation>
     </message>
 </context>
 <context>
@@ -127,17 +129,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Správca procesov</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filter</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ukončiť vybrané</translation>
     </message>
 </context>
 <context>
@@ -145,175 +147,175 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Pridať príkazy</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť / skryť hlavné okno</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť menu lišty</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť hlavné okno pod kurzorom myši</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovať schránku</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>Editovať prvý prvok</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="83"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>Skopírovať druhý prvok</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť dialógové okno Akcie</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvoriť nový prvok</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="86"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>Skopírovať ďalší prvok</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="87"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>Skopírovať predchádzajúci prvok</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložiť schránku ako obyčajný text</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakázať ukladanie schránky</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoliť ukladanie schránky</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložiť a skopírovať ďalší</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložiť a skopírovať predchádzajúci</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Snímka obrazovky</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložiť dátum a čas</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
         <source>New command</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový príkaz</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="64"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorovať prvky so žiadnym alebo jedným znakom</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Otvoriť v prehliadači</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložiť ako obyčajný text</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Video prehrať automaticky</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="97"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Skopírovať URL (webovú adresu) do inej záložky</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="104"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvoriť náhľad (vyžaduje ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="112"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvoriť QR kód z URL (vyžaduje qrencode)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Úlohy</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pridať do záložky %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Presunúť do záložky %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorovať kopírované súbory</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorovať okno *&quot;Heslo&quot;*</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Heslo</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="158"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Presunúť do koša</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(kôš)</translation>
     </message>
 </context>
 <context>
@@ -322,23 +324,23 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="818"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1640"/>
         <source>Cannot Add New Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Nemožno sa vytvoriť nový prvok</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="819"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1641"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Záložka je zaplnená. Nepodarilo sa odstrániť žiadne prvky.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1892"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahodiť zmeny?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1893"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcete naozaj &lt;strong&gt;zahodiť zmeny&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -346,12 +348,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="126"/>
         <source>Connection lost!</source>
-        <translation type="unfinished"></translation>
+        <translation>Pripojenie stratené!</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="133"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nedá sa pripojiť k serveru. Najskôr je nutné spustiť CopyQ server.</translation>
     </message>
 </context>
 <context>
@@ -359,33 +361,33 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>CopyQ Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Obsah schránky</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
         <source>&amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Formáty:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Obsah:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstrániť formátovanie</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>CopyQ Item Content</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Obsah položky</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;Veľkosť: &lt;/strong&gt; %1 bajtov</translation>
     </message>
 </context>
 <context>
@@ -393,27 +395,27 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="91"/>
         <source>CopyQ server is already running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Server CopyQ je už spustený.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="309"/>
         <source>Cancel Active Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušiť aktívne príkazy</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="310"/>
         <source>Cancel active commands and exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušiť aktívne príkazy a ukončiť?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="313"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrušiť ukončenie</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="314"/>
         <source>Exit Anyway</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukončiť napriek tomu</translation>
     </message>
 </context>
 <context>
@@ -422,7 +424,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandcompleter.cpp" line="231"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Medzerník</translation>
     </message>
 </context>
 <context>
@@ -430,67 +432,67 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Príkazy</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definovať nové príkazy, ktoré možno použiť automaticky na nový obsah schránky, alebo používateľom z menu alebo pomocou skratky v systéme.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hľadať:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Načítať príkazy...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uložiť vybrané...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovať vybraté</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="94"/>
         <source>Paste Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložiť príkazy</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="213"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuložené zmeny</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="213"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>V dialógovom okne príkazu sú neuložené zmeny.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="291"/>
         <source>Open Files with Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Otvoriť súbory s príkazmi</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="292"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>Príkazy (*.ini);; CopyQ nastavenia (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="303"/>
         <source>Save Selected Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložiť vybraté príkazy</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="304"/>
         <source>Commands (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation>Príkazy (*. ini)</translation>
     </message>
 </context>
 <context>
@@ -498,43 +500,43 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>Príkaz obsahuje zoznam programov s argumentmi, ktoré sa vykonajú. Napríklad:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Argument programu %1 bude nahradený za text prvku, %2 až %9 za texty zachytené regulárnym výrazom.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Znak %1 môže byť použitý na odoslanie štandardného výstupu do ďalšieho programu.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nasledujúcu syntax možno použiť na odovzdanie zvyšku príkazu ako jedného parametra.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Výsledok je rovnaký ako u %1, ale je užitočnejší pre dlhšie príkazy.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Funkcie uvedené nižšie sa dajú použiť ako v nasledujúcich príkazoch.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;schránka</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
         <source>Show command help (F1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť Pomocníka príkazu (F1)</translation>
     </message>
 </context>
 <context>
@@ -542,93 +544,94 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Názov:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Názov príkazu zobrazený v menu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"/>
         <source>Type of Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Druh akcie</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="237"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustiť príkaz automaticky, ak schránka má nový obsah</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="240"/>
         <source>Auto&amp;matic</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Automaticky</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="247"/>
         <source>Show command in context menu of matching items</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť príkaz v kontextovom menu zodpovedajúcich položiek</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="250"/>
         <source>In M&amp;enu</source>
-        <translation type="unfinished"></translation>
+        <translation>V &amp;menu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="62"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Klávesová skratka:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="100"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Globálna klávesová skratka:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
         <source>Global Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Globálna klávesová skratka</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="287"/>
         <source>Match Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Porovnať položky</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="384"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dáta tohoto MIME typu budú poslané na štandardný vstup príkazu.
+Pre vypnutie ponechať prázdne.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
         <source>&amp;Window:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Okno:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Pokiaľ nie je políčko prázdne, použi príkaz iba na prvky, pri ktorých sa text zhoduje s týmto regulárnym výrazom&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Príklady:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL  &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Názov PDF   súboru&lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Jediný znak &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Vzdialené multimediálne súbory   &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Skript</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazenie</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="317"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Obsah:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Filter:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="361"/>
@@ -639,129 +642,137 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Použi príkaz len ak filter uspeje.&lt;/p&gt;
+
+&lt;p&gt;Text prvku je odoslaný na &lt;b&gt;štandardný vstup&lt;/b&gt; filtra. Príkaz sa &lt;b&gt;vykoná iba ak filter skončí z nulovým kódom&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p&gt;Výraz %1 bude nahradený za text prvku a %2 až %9 za texty zachytené pomocou regulárneho výrazu (časti uzatvorené v zátvorkách).&lt;/p&gt;
+
+&lt;p&gt;Použite &lt;b&gt;|&lt;/b&gt; na zreťazenie viacerých príkazov (odovzdanie štandardného výstupu do ďalšieho príkazu).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
+        <translation>Príka&amp;z</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pokročilé</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="400"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Akcia</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="433"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation type="unfinished"></translation>
+        <translation>Názov záložky, do ktorej sa majú skopírovať nové položky (ak ponecháte prázdne, nebude sa kopírovať)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="445"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstrániť položku vyhovujúcu filtru
+
+Poznámka: Ak sa aplikuje automaticky, nie sú vykonané žiadne ďalšie automatické príkazy.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="450"/>
         <source>&amp;Remove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Odstrániť prvok</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="460"/>
         <source>Menu Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Menu Akcia</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="481"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation type="unfinished"></translation>
+        <translation>Skryť okno po aktivácii príkazu z kontextového menu položky</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="484"/>
         <source>&amp;Hide main window after activation</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Po aktivácii skryť hlavné okno</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="494"/>
         <source>Command options</source>
-        <translation type="unfinished"></translation>
+        <translation>Možnosti príkazu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="590"/>
         <source>Show action dialog before executing the command</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť dialógové okno akcie pred vykonaním príkazu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="593"/>
         <source>&amp;Wait</source>
-        <translation type="unfinished"></translation>
+        <translation>Č&amp;akať</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="600"/>
         <source>Change item, don&apos;t create any new items</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmeniť položku, nevytvárať žiadne nové položky</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="603"/>
         <source>Tr&amp;ansform</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Transformovať</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="523"/>
         <source>O&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vý&amp;stup:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt; Príkaz používajte iba pre položky skopírované do schránky z okna s názvom, ktorý sa zhoduje s týmto regulárnym výrazom (nechajte prázdne, aby zodpovedalo každému oknu). V systéme MacOS obsahuje názov aplikácie, za ktorým nasleduje pomlčka (&amp;quot;-&amp;quot;) a potom názov okna. Napr. &amp;quot;Safari - GitHub&amp;quot;. &lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Formát:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="423"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopírovať do &amp;záložky:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="533"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvoriť prvky zo štandardného výstupu príkazu (pre vypnutie ponechať prázdne)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="543"/>
         <source>&amp;Separator:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Oddeľovač:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="553"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation type="unfinished"></translation>
+        <translation>Oddeľovač prvkov na výstupe</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="556"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="563"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Výstupná záložka:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="573"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložiť prvky do záložky s daným názvom (do prvej záložky, ak nie je názov uvedený)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="675"/>
