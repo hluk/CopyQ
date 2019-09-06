@@ -755,7 +755,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Use apenas o comando para os itens copiados para a área de transferência a partir da janela com o texto do título que corresponda com esta expressão regular (deixar em branco para corresponder com qualquer janela). No macOS, este contém o nome da aplicação seguido de um travessão (&amp;quot;-&amp;quot;) depois o título da janela. Por exemplo, &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="384"/>
@@ -900,7 +900,7 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
-        <translation>Expositor</translation>
+        <translation>Exibir</translation>
     </message>
     <message>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
@@ -1301,12 +1301,12 @@ CTRL e seta acima ou abaixo.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="249"/>
         <source>Save clipboard in history</source>
-        <translation>Gravar área de transferência no histórico</translation>
+        <translation>Guardar área de transferência no histórico</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="252"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation>(&amp;1) Gravar área de transferência</translation>
+        <translation>(&amp;1) Guardar área de transferência</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="229"/>
@@ -1321,7 +1321,7 @@ CTRL e seta acima ou abaixo.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="272"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) Executar comandos automáticos na seleção</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="315"/>
@@ -1331,7 +1331,7 @@ CTRL e seta acima ou abaixo.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="369"/>
         <source>Show/Hide</source>
-        <translation>Mostrar/ocultar</translation>
+        <translation>Mostrar/Ocultar</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="375"/>
@@ -1384,12 +1384,12 @@ Nota: isto não é suportado em todos os sistemas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="919"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation>Não mostrar ícone no tabuleiro; minimizar janela quando fechado</translation>
+        <translation>Não mostrar ícone na bandeja; minimizar janela quando fechado</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="922"/>
         <source>Disabl&amp;e tray</source>
-        <translation>Desati&amp;var tabuleiro</translation>
+        <translation>Desati&amp;var bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="402"/>
@@ -1399,12 +1399,12 @@ Nota: isto não é suportado em todos os sistemas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation>Mostrar balão nos comandos automaticamente para completar nomes de função, tipo e variável</translation>
+        <translation>Mostrar automaticamente o balão para completar a função, tipo e nomes de variável nos comandos</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="210"/>
         <source>Auto-complete Commands</source>
-        <translation>Concluir comandos automaticamente</translation>
+        <translation>Completar Comandos Automaticamente</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="405"/>
@@ -1762,7 +1762,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1484"/>
         <source>Ta&amp;bs</source>
-        <translation type="unfinished"></translation>
+        <translation>Se&amp;paradores</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1506"/>
@@ -2851,12 +2851,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="90"/>
         <source>Web</source>
-        <translation type="unfinished">Web</translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exibir as páginas da Web.</translation>
     </message>
 </context>
 <context>
@@ -2864,7 +2864,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemweb/itemwebsettings.ui" line="19"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished">Altura máxima em pixels (0 para ilimitado):</translation>
+        <translation>Altura máxima em píxeis (0 para ilimitado):</translation>
     </message>
 </context>
 <context>
@@ -4131,27 +4131,27 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulário</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>Número &amp;máximo de itens:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="59"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>predefinição</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="87"/>
         <source>&amp;Store Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Guardar itens</translation>
     </message>
 </context>
 <context>
