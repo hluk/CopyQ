@@ -50,9 +50,20 @@ For unlisted systems, please follow the instructions in
 
 [![Chocolatey package](https://repology.org/badge/version-for-repo/chocolatey/copyq.svg)](https://repology.org/metapackage/copyq)
 
-On Windows you either use installer ([setup.exe](https://github.com/hluk/CopyQ/releases)),
-portable [zip](https://github.com/hluk/CopyQ/releases)
-or you can install the copyq [Chocolatey package](https://chocolatey.org/packages/copyq).
+On Windows you can use one of the following options to install the app:
+
+* [The Installer (setup.exe)](https://github.com/hluk/CopyQ/releases)
+* [Portable zip package](https://github.com/hluk/CopyQ/releases)
+* [Scoop package](https://scoop.sh/) from the [extras bucket](https://github.com/lukesampson/scoop-extras).
+* [Chocolatey package](https://chocolatey.org/packages/copyq)
+
+Using Scoop:
+
+```
+scoop install copyq
+```
+
+Using Chocolatey:
 
 ```
 choco install copyq
