@@ -1464,6 +1464,31 @@ void Tests::commandIconTagColor()
     RUN("iconTagColor", QByteArray(defaultTagColor) + "\n");
 }
 
+void Tests::commandLoadTheme()
+{
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "loadTheme" << "a non-existent file", CommandException, "ScriptError: Failed to read theme");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "loadTheme" << ".", CommandException, "ScriptError: Failed to read theme");
+
+    {
+        QTemporaryFile tmp;
+        QVERIFY(tmp.open());
+        tmp.write("INVALID INI FILE");
+        tmp.close();
+        RUN_EXPECT_ERROR_WITH_STDERR(
+            "loadTheme" << tmp.fileName(), CommandException, "ScriptError: Failed to parse theme");
+    }
+
+    {
+        QTemporaryFile tmp;
+        QVERIFY(tmp.open());
+        tmp.write("[General]");
+        tmp.close();
+        RUN("loadTheme" << tmp.fileName(), "");
+    }
+}
+
 void Tests::commandDateString()
 {
     const auto dateFormat = "TEST:yyyy-MM-dd";

@@ -2345,6 +2345,22 @@ void MainWindow::loadSettings()
     COPYQ_LOG("Configuration loaded");
 }
 
+void MainWindow::loadTheme(const QSettings &themeSettings)
+{
+    m_sharedData->theme.loadTheme(themeSettings);
+    if (themeSettings.status() != QSettings::NoError)
+        return;
+
+    {
+        Settings settings;
+        settings.beginGroup("Theme");
+        m_sharedData->theme.saveTheme(settings.settingsData());
+        settings.endGroup();
+    }
+
+    emit configurationChanged();
+}
+
 void MainWindow::openHelp()
 {
     QDesktopServices::openUrl( QUrl("https://copyq.readthedocs.io") );

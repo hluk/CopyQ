@@ -243,6 +243,8 @@ public slots:
 
     bool openUrls(const QStringList &urls);
 
+    QString loadTheme(const QString &path);
+
 signals:
     void functionCallFinished(int functionCallId, const QVariant &returnValue);
     void inputDialogFinished(int dialogId, const NamedValueList &result);

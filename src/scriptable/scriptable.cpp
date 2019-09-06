@@ -2259,6 +2259,16 @@ QScriptValue Scriptable::iconTagColor()
     return QScriptValue();
 }
 
+void Scriptable::loadTheme()
+{
+    m_skipArguments = 1;
+
+    const QString path = getAbsoluteFilePath(arg(0));
+    const QString error = m_proxy->loadTheme(path);
+    if ( !error.isEmpty() )
+        throwError(error);
+}
+
 void Scriptable::onClipboardChanged()
 {
     eval(R"(

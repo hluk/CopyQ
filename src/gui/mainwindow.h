@@ -291,6 +291,8 @@ public:
     /** Load settings. */
     void loadSettings();
 
+    void loadTheme(const QSettings &themeSettings);
+
     /** Open help. */
     void openHelp();
 

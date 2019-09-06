@@ -124,6 +124,7 @@ private slots:
     void commandIcon();
     void commandIconTag();
     void commandIconTagColor();
+    void commandLoadTheme();
 
     void commandDateString();
 

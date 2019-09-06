@@ -59,6 +59,7 @@
 #include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QFile>
+#include <QFileInfo>
 #include <QFileDialog>
 #include <QWidget>
 #include <QLabel>
@@ -2117,6 +2118,27 @@ bool ScriptableProxy::openUrls(const QStringList &urls)
     }
 
     return true;
+}
+
+QString ScriptableProxy::loadTheme(const QString &path)
+{
+    INVOKE(loadTheme, (path));
+
+    {
+        const QFileInfo fileInfo(path);
+        if ( !fileInfo.isFile() || !fileInfo.isReadable() )
+            return "Failed to read theme";
+    }
+
+    const QSettings settings(path, QSettings::IniFormat);
+    if ( settings.status() != QSettings::NoError )
+        return "Failed to load theme";
+
+    m_wnd->loadTheme(settings);
+    if ( settings.status() != QSettings::NoError )
+        return "Failed to parse theme";
+
+    return QString();
 }
 
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)

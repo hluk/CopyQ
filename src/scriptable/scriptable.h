@@ -341,6 +341,8 @@ public slots:
 
     QScriptValue iconTagColor();
 
+    void loadTheme();
+
     void onClipboardChanged();
     void onOwnClipboardChanged();
     void onHiddenClipboardChanged();

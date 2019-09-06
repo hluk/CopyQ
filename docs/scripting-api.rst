@@ -951,6 +951,12 @@ omitted.
 
    Throws exception is the color name is invalid.
 
+.. js:function:: loadTheme(path)
+
+   Loads theme from an INI file.
+
+   Throws an exception if the file cannot be read or is not valid INI format.
+
 .. js:function:: onClipboardChanged()
 
    Called when clipboard or X11 selection changes.
