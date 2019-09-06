@@ -167,14 +167,22 @@
         <translation>(&amp;U)儲存標準輸出：</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation>將指定 MIME 類型的資料，轉送到命令的標準輸入 (要停用則留白)</translation>
+        <translation type="vanished">將指定 MIME 類型的資料，轉送到命令的標準輸入 (要停用則留白)</translation>
+    </message>
+    <message>
+        <source>Create items from standard output of the program (leave empty to disable)</source>
+        <translation type="vanished">用程式的標準輸出建立項目 (要停用則留白)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/actiondialog.ui" line="78"/>
+        <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>用程式的標準輸出建立項目 (要停用則留白)</translation>
+        <source>Create items from standard output of the program (leave empty to turn off)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -472,14 +480,14 @@ You can set up the command in preferences.</source>
         <translation type="vanished">搜尋 %p%...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="818"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1640"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="816"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1642"/>
         <source>Cannot Add New Items</source>
         <translation>無法加入新的項目</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="819"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1641"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="817"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
         <source>Tab is full. Failed to remove any items.</source>
         <translation>分頁已滿，無法移除任何項目。</translation>
     </message>
@@ -497,12 +505,12 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="133"/>
+        <location filename="../src/app/clipboardclient.cpp" line="124"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>無法連上伺服器！請先啟動 CopyQ 伺服器。</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="126"/>
+        <location filename="../src/app/clipboardclient.cpp" line="117"/>
         <source>Connection lost!</source>
         <translation>失去連線！</translation>
     </message>
@@ -544,27 +552,27 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="91"/>
+        <location filename="../src/app/clipboardserver.cpp" line="90"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ 伺服器已運作。</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="309"/>
+        <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Cancel Active Commands</source>
         <translation>取消目前命令</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="310"/>
+        <location filename="../src/app/clipboardserver.cpp" line="309"/>
         <source>Cancel active commands and exit?</source>
         <translation>取消目前命令並結束？</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="313"/>
+        <location filename="../src/app/clipboardserver.cpp" line="312"/>
         <source>Cancel Exiting</source>
         <translation>取消結束</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="314"/>
+        <location filename="../src/app/clipboardserver.cpp" line="313"/>
         <source>Exit Anyway</source>
         <translation>結束</translation>
     </message>
@@ -597,13 +605,17 @@ You can set up the command in preferences.</source>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
-        <source>&amp;Load Commands...</source>
-        <translation>(&amp;L)載入命令...</translation>
+        <source>&amp;Load Commands…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
-        <source>Sa&amp;ve Selected...</source>
+        <source>Sa&amp;ve Selected…</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Load Commands...</source>
+        <translation type="vanished">(&amp;L)載入命令...</translation>
     </message>
     <message>
         <source>Sa&amp;ve Selected Commands...</source>
@@ -620,32 +632,32 @@ You can set up the command in preferences.</source>
         <translation>貼上命令</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="213"/>
+        <location filename="../src/gui/commanddialog.cpp" line="215"/>
         <source>Unsaved Changes</source>
         <translation>未儲存的變更</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="213"/>
+        <location filename="../src/gui/commanddialog.cpp" line="215"/>
         <source>Command dialog has unsaved changes.</source>
         <translation>命令對話方塊有未儲存的變更。</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="291"/>
+        <location filename="../src/gui/commanddialog.cpp" line="293"/>
         <source>Open Files with Commands</source>
         <translation>以命令開啟檔案</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="292"/>
+        <location filename="../src/gui/commanddialog.cpp" line="294"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>命令 (*.ini);; CopyQ 設定 (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="303"/>
+        <location filename="../src/gui/commanddialog.cpp" line="305"/>
         <source>Save Selected Commands</source>
         <translation>儲存所選命令</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="304"/>
+        <location filename="../src/gui/commanddialog.cpp" line="306"/>
         <source>Commands (*.ini)</source>
         <translation>命令 (*.ini)</translation>
     </message>
@@ -1139,6 +1151,510 @@ CTRL and up or down key.</source>
     </message>
 </context>
 <context>
+    <name>ConfigTabGeneral</name>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="65"/>
+        <source>&amp;Language:</source>
+        <translation type="unfinished">(&amp;L)語言：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="93"/>
+        <source>Break text if it&apos;s too long to fit on line</source>
+        <translation type="unfinished">如果文字太長，換行</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="96"/>
+        <source>Wrap l&amp;ong text</source>
+        <translation type="unfinished">(&amp;O)長文自動換行</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="103"/>
+        <source>Keep main window above other windows</source>
+        <translation type="unfinished">保持主視窗在其他視窗之上</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="106"/>
+        <source>Alwa&amp;ys on Top</source>
+        <translation type="unfinished">(&amp;Y)總是在最上層</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="113"/>
+        <source>Close main window when other application has focus</source>
+        <translation type="unfinished">當有其他應用程式具有焦點時，關閉主視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="116"/>
+        <source>Close When Unfocused</source>
+        <translation type="unfinished">非焦點時關閉</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="123"/>
+        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
+        <translation type="unfinished">啟用，以在目前螢幕開啟視窗。停用，以在它們最後被關閉處開啟視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="126"/>
+        <source>O&amp;pen windows on current screen</source>
+        <translation type="unfinished">(&amp;P)於目前螢幕開啟視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="133"/>
+        <source>Confirm application exit</source>
+        <translation type="unfinished">確認要結束應用程式</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="136"/>
+        <source>Confirm application e&amp;xit</source>
+        <translation type="unfinished">(&amp;X)確認應用程式之退出</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="146"/>
+        <source>Run the application on system startup</source>
+        <translation type="unfinished">於系統啟動時執行應用程式</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="149"/>
+        <source>&amp;Autostart</source>
+        <translation type="unfinished">(&amp;A)自動啟動</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="156"/>
+        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
+        <translation type="unfinished">支援 Vi 移動瀏覽鍵 (H, J, K, L 等)，斜線 (/) 鍵以搜尋</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="159"/>
+        <source>&amp;Vi style navigation</source>
+        <translation type="unfinished">(&amp;V)Vi 樣式瀏覽</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="166"/>
+        <source>Save and restore history of item filters</source>
+        <translation type="unfinished">儲存和還原項目處理器的歷史記錄</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="169"/>
+        <source>Save Filter History</source>
+        <translation type="unfinished">儲存篩選器歷史記錄</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="176"/>
+        <source>Automatically show popup to complete function, type and variable names in commands</source>
+        <translation type="unfinished">自動顯示快顯至完整的功能表，在命令中輸入和變數名稱</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="179"/>
+        <source>Auto-complete Commands</source>
+        <translation type="unfinished">自動完成命令</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="186"/>
+        <source>Clipboard Manipulation</source>
+        <translation type="unfinished">剪貼簿歷史編輯</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="198"/>
+        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
+        <translation type="unfinished">允許貼上複製的內容，就是滑鼠選後自動貼上(通常是藉由按中鍵)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="201"/>
+        <source>(&amp;3) Paste clipboard with mouse</source>
+        <translation type="unfinished">(&amp;3) 用滑鼠自動貼上剪貼</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="208"/>
+        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
+        <translation type="unfinished">允許用快捷鍵 (常為 Ctrl+V 或 Shift+Insert) 貼上滑鼠選的</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="211"/>
+        <source>(&amp;4) Paste mouse selection with keyboard</source>
+        <translation type="unfinished">(&amp;4) 用鍵盤貼上滑鼠選的</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="218"/>
+        <source>Save clipboard in history</source>
+        <translation type="unfinished">儲存剪貼簿歷史記錄</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="221"/>
+        <source>(&amp;1) Store clipboard</source>
+        <translation type="unfinished">(&amp;1) 存放剪貼簿</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="231"/>
+        <source>Save text selected with mouse (primary selection) in history</source>
+        <translation type="unfinished">儲存滑鼠選的 (沒用複製) 文字到歷史紀錄</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="234"/>
+        <source>(&amp;2) Store text selected using mouse</source>
+        <translation type="unfinished">(&amp;2) 儲存用滑鼠選的文字</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="241"/>
+        <source>(&amp;5) Run automatic commands on selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabHistory</name>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="65"/>
+        <source>Maximum &amp;number of items in history:</source>
+        <translation type="unfinished">(&amp;N)歷史記錄中的項目數量上限：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="77"/>
+        <source>Maximum number of items in each tab</source>
+        <translation type="unfinished">每一分頁中的項目數量上限</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="105"/>
+        <source>&amp;Unload tab after an interval in minutes:</source>
+        <translation type="unfinished">(&amp;U)於若干分鐘後卸載分頁：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="117"/>
+        <source>Unload each tab from memory after specified number of minutes of inactivity.
+
+Set to 0 not to unload tabs.</source>
+        <translation type="unfinished">不活動超過指定分鐘數後，從記憶體卸載分頁。
+
+設為 0，則不卸載分頁。</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="144"/>
+        <source>External editor command (%&amp;1 is file to edit):</source>
+        <translation type="unfinished">外部編輯器命令 (%&amp;1 是要編輯的檔案)：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="154"/>
+        <source>External editor command (%1 is file to edit).
+  Examples:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</source>
+        <translation type="unfinished">外部編輯器命令 (%1 表要編輯的檔)。
+  範例：
+    gedit %1
+    notepad %1
+    gvim-f %1
+    xterm-e vim %1</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="169"/>
+        <source>Ta&amp;b for storing clipboard:</source>
+        <translation type="unfinished">(&amp;B)存放剪貼歷史之分頁：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="179"/>
+        <source>Name of tab that will automatically store new clipboard content.
+
+Leave empty to disable automatic storing.</source>
+        <translation type="unfinished">自動儲存新剪貼的分頁名稱。
+
+留白，則停用自動儲存功能。</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="193"/>
+        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
+
+Note: Edited items can be saved with F2 disregarding this option.</source>
+        <translation type="unfinished">不勾選，則按 Return 儲存編輯項，Ctrl+Return 換新行。
+
+注意: 編輯項可不顧此選項，以 F2 儲存。</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="198"/>
+        <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
+        <translation type="unfinished">(&amp;V)按 Ctrl+Return 儲存編輯項目，Return 換新行</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="205"/>
+        <source>Show single line description of each item.
+
+Use Item Preview to display whole items.</source>
+        <translation type="unfinished">顯示每一項目的首行。
+
+可透過項目預覽顯示整個項目。</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="210"/>
+        <source>Sho&amp;w simple items</source>
+        <translation type="unfinished">(&amp;W)顯示簡單項目</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="217"/>
+        <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
+        <translation type="unfinished">啟用搜尋號碼，要不然按下數字鍵啟動在該位置的項目</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="220"/>
+        <source>S&amp;earch for numbers</source>
+        <translation type="unfinished">(&amp;E)搜尋號碼</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="227"/>
+        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
+        <translation type="unfinished">(按兩下或按 Enter) 項目被啟用後，即複製到系統剪貼簿，然後...</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="233"/>
+        <source>Move item to the top of the list after it is activated</source>
+        <translation type="unfinished">項目啟用後，移動項目至清單頂部</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="236"/>
+        <source>Move item to the t&amp;op</source>
+        <translation type="unfinished">(&amp;O)移動項目至頂端</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="243"/>
+        <source>Close main window after item is activated</source>
+        <translation type="unfinished">項目啟用後，關閉主窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="246"/>
+        <source>&amp;Close main window</source>
+        <translation type="unfinished">(&amp;C)關閉主視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="253"/>
+        <source>Focus last window after item is activated</source>
+        <translation type="unfinished">項目被啟用後，移焦至啟用前的視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="256"/>
+        <source>&amp;Focus last window</source>
+        <translation type="unfinished">(&amp;F)移焦至之前最後用的視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="263"/>
+        <source>Paste to current window after item is activated</source>
+        <translation type="unfinished">項目啟用後，貼到目前視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="266"/>
+        <source>&amp;Paste to current window</source>
+        <translation type="unfinished">(&amp;P)貼到目前視窗</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabLayout</name>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="62"/>
+        <source>Show/Hide</source>
+        <translation type="unfinished">顯示/隱藏</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="68"/>
+        <source>Hide tabs (press Alt key to show)</source>
+        <translation type="unfinished">隱藏分頁（按 alt 鍵顯示）</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="71"/>
+        <source>Hi&amp;de tabs</source>
+        <translation type="unfinished">(&amp;D)隱藏分頁</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="78"/>
+        <source>Hide toolbar</source>
+        <translation type="unfinished">隱藏工具列</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="81"/>
+        <source>Hide too&amp;lbar</source>
+        <translation type="unfinished">(&amp;L)隱藏工具列</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="88"/>
+        <source>Hide tool&amp;bar labels</source>
+        <translation type="unfinished">(&amp;B)隱藏工具列標籤</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="95"/>
+        <source>Hide main window when closed</source>
+        <translation type="unfinished">(&amp;L)關閉時隱藏主窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="98"/>
+        <source>Hide &amp;main window</source>
+        <translation type="unfinished">(&amp;M)隱藏主視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="108"/>
+        <source>Layout and Transparency</source>
+        <translation type="unfinished">版面和透明度</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="117"/>
+        <source>Show tree with tabs instead of tab bar</source>
+        <translation type="unfinished">不以分頁列，而以分頁顯示樹</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="120"/>
+        <source>Tab T&amp;ree</source>
+        <translation type="unfinished">(&amp;R)分頁樹</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="127"/>
+        <source>&amp;Focused transparency:</source>
+        <translation type="unfinished">(&amp;F)焦點處透明度：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="139"/>
+        <source>Transparency of main window if focused.
+
+Note: This is not supported on all systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="169"/>
+        <source>&amp;Unfocused transparency:</source>
+        <translation type="unfinished">(&amp;U)非焦點處透明度：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="181"/>
+        <source>Transparency of main window if unfocused.
+
+Note: This is not supported on all systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="211"/>
+        <source>Show number of items in tabs</source>
+        <translation type="unfinished">顯示分頁中項目的數量</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="214"/>
+        <source>Sho&amp;w Item Count</source>
+        <translation type="unfinished">(&amp;W)顯示項目數量</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabNotifications</name>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="65"/>
+        <source>&amp;Notification position:</source>
+        <translation type="unfinished">(&amp;N)通知的位置：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="77"/>
+        <source>Position on screen for notifications</source>
+        <translation type="unfinished">通知於螢幕上的位置</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="81"/>
+        <source>Top</source>
+        <translation type="unfinished">頂部</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="86"/>
+        <source>Bottom</source>
+        <translation type="unfinished">底部</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="91"/>
+        <source>Top Right</source>
+        <translation type="unfinished">頂部右邊</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="96"/>
+        <source>Bottom Right</source>
+        <translation type="unfinished">底部右邊</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="101"/>
+        <source>Bottom Left</source>
+        <translation type="unfinished">底部左邊</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="106"/>
+        <source>Top Left</source>
+        <translation type="unfinished">頂部左邊</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="129"/>
+        <source>Int&amp;erval in seconds to display notifications:</source>
+        <translation type="unfinished">通知顯示多久(以秒計時)(&amp;E):</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="141"/>
+        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
+
+Set to 0 to disable this.
+
+Set to -1 to keep visible until clicked.</source>
+        <translation type="unfinished">如有新的剪貼項目複製到系統剪貼簿 (僅當copyq主窗關閉)，顯示通知多久 (以秒為單位)。
+
+設為 0 來停用此功能。
+
+設置為 -1，以維持可見，直到按一下。</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="173"/>
+        <source>Num&amp;ber of lines for clipboard notification:</source>
+        <translation type="unfinished">(&amp;B)剪貼簿通知之行數：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="185"/>
+        <source>Number of lines to show for new clipboard content.
+
+Set to 0 to disable.</source>
+        <translation type="unfinished">顯示剪貼歷史的新[項目]數。
+
+設為 0，則停用此功能。</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="214"/>
+        <source>Notification Geometry (in screen points)</source>
+        <translation type="unfinished">通知之幾何 (以螢幕點為單位)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="220"/>
+        <source>Hori&amp;zontal offset:</source>
+        <translation type="unfinished">(&amp;Z)水平偏移 :</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="232"/>
+        <source>Notification distance from left or right screen edge in screen points</source>
+        <translation type="unfinished">通知與螢幕左邊或右邊的距離 (以螢幕點為單位)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="260"/>
+        <source>&amp;Vertical offset:</source>
+        <translation type="unfinished">(&amp;V)垂直位移量：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="272"/>
+        <source>Notification distance from top or bottom screen edge in screen points</source>
+        <translation type="unfinished">通知與螢幕上緣或下緣的距離 (以螢幕點為單位)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="300"/>
+        <source>Maximum &amp;width:</source>
+        <translation type="unfinished">(&amp;W)寬度上限：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="312"/>
+        <source>Maximum width for notification in screen points</source>
+        <translation type="unfinished">螢幕點中的通知的寬度上限</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="337"/>
+        <source>Ma&amp;ximum height:</source>
+        <translation type="unfinished">(&amp;X)最大高度：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="349"/>
+        <source>Maximum height for notification in screen points</source>
+        <translation type="unfinished">螢幕點中的通知的高度上限</translation>
+    </message>
+</context>
+<context>
     <name>ConfigTabShortcuts</name>
     <message>
         <source>&amp;New Item</source>
@@ -1161,9 +1677,8 @@ CTRL and up or down key.</source>
         <translation type="vanished">(&amp;P)偏好...</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2423"/>
         <source>Ctrl+P</source>
-        <translation>Ctrl+P</translation>
+        <translation type="vanished">Ctrl+P</translation>
     </message>
     <message>
         <source>C&amp;ommands/Global Shortcuts...</source>
@@ -1395,6 +1910,79 @@ CTRL and up or down key.</source>
     </message>
 </context>
 <context>
+    <name>ConfigTabTray</name>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="60"/>
+        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <translation type="unfinished">不顯示通知區圖示；關閉時最小化視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="63"/>
+        <source>Disabl&amp;e tray</source>
+        <translation type="unfinished">(&amp;D)停用通知區圖示</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="70"/>
+        <source>Show command for current clipboard content in tray menu</source>
+        <translation type="unfinished">顯示通知區圖示選單中的目前剪貼歷史的命令</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="73"/>
+        <source>Sho&amp;w commands for clipboard content</source>
+        <translation type="unfinished">(&amp;W)顯示處理剪貼的命令</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="82"/>
+        <source>N&amp;umber of items in tray menu:</source>
+        <translation type="unfinished">(&amp;U)通知區圖示選單中項目的數量：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="92"/>
+        <source>Number of items in tray menu</source>
+        <translation type="unfinished">通知區圖示選單中的項目數量</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="119"/>
+        <source>Show items from current tab in tray menu</source>
+        <translation type="unfinished">於通知區圖示選單顯示目前分頁中的項目</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="122"/>
+        <source>Show cu&amp;rrent tab in menu,</source>
+        <translation type="unfinished">(&amp;R)顯示選單中的目前分頁，</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="129"/>
+        <source>or &amp;choose other tab:</source>
+        <translation type="unfinished">(&amp;C)或選其他分頁：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="145"/>
+        <source>Name of tab to show in tray menu (empty for the first tab)</source>
+        <translation type="unfinished">顯示於通知區圖示選單中的分頁名稱 (留白則為首頁)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="170"/>
+        <source>Paste item to current window after selecting it in menu</source>
+        <translation type="unfinished">選擇選單中的項目後，貼到目前視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="173"/>
+        <source>&amp;Paste activated item to current window</source>
+        <translation type="unfinished">(&amp;P)將啟用的項目貼到目前視窗</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="180"/>
+        <source>Show image preview next to menu items</source>
+        <translation type="unfinished">於選單項目旁顯示圖像預覽</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="183"/>
+        <source>Sh&amp;ow image preview as menu item icon</source>
+        <translation type="unfinished">(&amp;O)以選單項目圖示顯示圖像預覽</translation>
+    </message>
+</context>
+<context>
     <name>ConfigurationManager</name>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
@@ -1402,194 +1990,148 @@ CTRL and up or down key.</source>
         <translation>CopyQ 組態</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="39"/>
         <source>&amp;General</source>
-        <translation>(&amp;G)一般</translation>
+        <translation type="vanished">(&amp;G)一般</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="96"/>
         <source>&amp;Language:</source>
-        <translation>(&amp;L)語言：</translation>
+        <translation type="vanished">(&amp;L)語言：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="124"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation>如果文字太長，換行</translation>
+        <translation type="vanished">如果文字太長，換行</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="127"/>
         <source>Wrap l&amp;ong text</source>
-        <translation>(&amp;O)長文自動換行</translation>
+        <translation type="vanished">(&amp;O)長文自動換行</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="134"/>
         <source>Keep main window above other windows</source>
-        <translation>保持主視窗在其他視窗之上</translation>
+        <translation type="vanished">保持主視窗在其他視窗之上</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="137"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation>(&amp;Y)總是在最上層</translation>
+        <translation type="vanished">(&amp;Y)總是在最上層</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Close main window when other application has focus</source>
-        <translation>當有其他應用程式具有焦點時，關閉主視窗</translation>
+        <translation type="vanished">當有其他應用程式具有焦點時，關閉主視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>Close When Unfocused</source>
-        <translation>非焦點時關閉</translation>
+        <translation type="vanished">非焦點時關閉</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="154"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation>啟用，以在目前螢幕開啟視窗。停用，以在它們最後被關閉處開啟視窗</translation>
+        <translation type="vanished">啟用，以在目前螢幕開啟視窗。停用，以在它們最後被關閉處開啟視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="157"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation>(&amp;P)於目前螢幕開啟視窗</translation>
+        <translation type="vanished">(&amp;P)於目前螢幕開啟視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="164"/>
         <source>Confirm application exit</source>
-        <translation>確認要結束應用程式</translation>
+        <translation type="vanished">確認要結束應用程式</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="167"/>
         <source>Confirm application e&amp;xit</source>
-        <translation>(&amp;X)確認應用程式之退出</translation>
+        <translation type="vanished">(&amp;X)確認應用程式之退出</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="177"/>
         <source>Run the application on system startup</source>
-        <translation>於系統啟動時執行應用程式</translation>
+        <translation type="vanished">於系統啟動時執行應用程式</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="180"/>
         <source>&amp;Autostart</source>
-        <translation>(&amp;A)自動啟動</translation>
+        <translation type="vanished">(&amp;A)自動啟動</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="187"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation>支援 Vi 移動瀏覽鍵 (H, J, K, L 等)，斜線 (/) 鍵以搜尋</translation>
+        <translation type="vanished">支援 Vi 移動瀏覽鍵 (H, J, K, L 等)，斜線 (/) 鍵以搜尋</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="190"/>
         <source>&amp;Vi style navigation</source>
-        <translation>(&amp;V)Vi 樣式瀏覽</translation>
+        <translation type="vanished">(&amp;V)Vi 樣式瀏覽</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="197"/>
         <source>Save and restore history of item filters</source>
-        <translation>儲存和還原項目處理器的歷史記錄</translation>
+        <translation type="vanished">儲存和還原項目處理器的歷史記錄</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="200"/>
         <source>Save Filter History</source>
-        <translation>儲存篩選器歷史記錄</translation>
+        <translation type="vanished">儲存篩選器歷史記錄</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation>自動顯示快顯至完整的功能表，在命令中輸入和變數名稱</translation>
+        <translation type="vanished">自動顯示快顯至完整的功能表，在命令中輸入和變數名稱</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="210"/>
         <source>Auto-complete Commands</source>
-        <translation>自動完成命令</translation>
+        <translation type="vanished">自動完成命令</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="217"/>
         <source>Clipboard Manipulation</source>
-        <translation>剪貼簿歷史編輯</translation>
+        <translation type="vanished">剪貼簿歷史編輯</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="262"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation>儲存滑鼠選的 (沒用複製) 文字到歷史紀錄</translation>
+        <translation type="vanished">儲存滑鼠選的 (沒用複製) 文字到歷史紀錄</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="265"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation>(&amp;2) 儲存用滑鼠選的文字</translation>
+        <translation type="vanished">(&amp;2) 儲存用滑鼠選的文字</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="239"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation>允許用快捷鍵 (常為 Ctrl+V 或 Shift+Insert) 貼上滑鼠選的</translation>
+        <translation type="vanished">允許用快捷鍵 (常為 Ctrl+V 或 Shift+Insert) 貼上滑鼠選的</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="242"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation>(&amp;4) 用鍵盤貼上滑鼠選的</translation>
+        <translation type="vanished">(&amp;4) 用鍵盤貼上滑鼠選的</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="249"/>
         <source>Save clipboard in history</source>
-        <translation>儲存剪貼簿歷史記錄</translation>
+        <translation type="vanished">儲存剪貼簿歷史記錄</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="252"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation>(&amp;1) 存放剪貼簿</translation>
+        <translation type="vanished">(&amp;1) 存放剪貼簿</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="229"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation>允許貼上複製的內容，就是滑鼠選後自動貼上(通常是藉由按中鍵)</translation>
+        <translation type="vanished">允許貼上複製的內容，就是滑鼠選後自動貼上(通常是藉由按中鍵)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="232"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation>(&amp;3) 用滑鼠自動貼上剪貼</translation>
+        <translation type="vanished">(&amp;3) 用滑鼠自動貼上剪貼</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="315"/>
         <source>&amp;Layout</source>
-        <translation>(&amp;L)版面</translation>
+        <translation type="vanished">(&amp;L)版面</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="402"/>
         <source>Hide main window when closed</source>
-        <translation>(&amp;L)關閉時隱藏主窗</translation>
+        <translation type="vanished">(&amp;L)關閉時隱藏主窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="405"/>
         <source>Hide &amp;main window</source>
-        <translation>(&amp;M)隱藏主視窗</translation>
+        <translation type="vanished">(&amp;M)隱藏主視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="415"/>
         <source>Layout and Transparency</source>
-        <translation>版面和透明度</translation>
+        <translation type="vanished">版面和透明度</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="424"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation>不以分頁列，而以分頁顯示樹</translation>
+        <translation type="vanished">不以分頁列，而以分頁顯示樹</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="427"/>
         <source>Tab T&amp;ree</source>
-        <translation>(&amp;R)分頁樹</translation>
+        <translation type="vanished">(&amp;R)分頁樹</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="434"/>
         <source>&amp;Focused transparency:</source>
-        <translation>(&amp;F)焦點處透明度：</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1484"/>
-        <source>Ta&amp;bs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1506"/>
-        <source>You can change priority of formats to display by reordering items below.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">(&amp;F)焦點處透明度：</translation>
     </message>
     <message>
         <source>Transparency of main window if focused.
@@ -1600,9 +2142,8 @@ Note: This is not be supported on all systems.</source>
 注意：不是所有的作業系統支援這個。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="476"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation>(&amp;U)非焦點處透明度：</translation>
+        <translation type="vanished">(&amp;U)非焦點處透明度：</translation>
     </message>
     <message>
         <source>Transparency of main window if unfocused.
@@ -1613,120 +2154,82 @@ Note: This is not be supported on all systems.</source>
 注意: 不是所有的作業系統支援這個。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="518"/>
         <source>Show number of items in tabs</source>
-        <translation>顯示分頁中項目的數量</translation>
+        <translation type="vanished">顯示分頁中項目的數量</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="521"/>
         <source>Sho&amp;w Item Count</source>
-        <translation>(&amp;W)顯示項目數量</translation>
+        <translation type="vanished">(&amp;W)顯示項目數量</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="775"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation>啟用搜尋號碼，要不然按下數字鍵啟動在該位置的項目</translation>
+        <translation type="vanished">啟用搜尋號碼，要不然按下數字鍵啟動在該位置的項目</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>S&amp;earch for numbers</source>
-        <translation>(&amp;E)搜尋號碼</translation>
+        <translation type="vanished">(&amp;E)搜尋號碼</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1294"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation>(&amp;Z)水平偏移 :</translation>
+        <translation type="vanished">(&amp;Z)水平偏移 :</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="369"/>
         <source>Show/Hide</source>
-        <translation>顯示/隱藏</translation>
+        <translation type="vanished">顯示/隱藏</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="272"/>
-        <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="375"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation>隱藏分頁（按 alt 鍵顯示）</translation>
+        <translation type="vanished">隱藏分頁（按 alt 鍵顯示）</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="378"/>
         <source>Hi&amp;de tabs</source>
-        <translation>(&amp;D)隱藏分頁</translation>
+        <translation type="vanished">(&amp;D)隱藏分頁</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="385"/>
         <source>Hide toolbar</source>
-        <translation>隱藏工具列</translation>
+        <translation type="vanished">隱藏工具列</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="388"/>
         <source>Hide too&amp;lbar</source>
-        <translation>(&amp;L)隱藏工具列</translation>
+        <translation type="vanished">(&amp;L)隱藏工具列</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="395"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation>(&amp;B)隱藏工具列標籤</translation>
+        <translation type="vanished">(&amp;B)隱藏工具列標籤</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="446"/>
-        <source>Transparency of main window if focused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="488"/>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="702"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation>外部編輯器命令 (%&amp;1 是要編輯的檔案)：</translation>
+        <translation type="vanished">外部編輯器命令 (%&amp;1 是要編輯的檔案)：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="919"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation>不顯示通知區圖示；關閉時最小化視窗</translation>
+        <translation type="vanished">不顯示通知區圖示；關閉時最小化視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="922"/>
         <source>Disabl&amp;e tray</source>
-        <translation>(&amp;D)停用通知區圖示</translation>
+        <translation type="vanished">(&amp;D)停用通知區圖示</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="566"/>
         <source>&amp;History</source>
-        <translation>(&amp;H)歷史記錄</translation>
+        <translation type="vanished">(&amp;H)歷史記錄</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="623"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation>(&amp;N)歷史記錄中的項目數量上限：</translation>
+        <translation type="vanished">(&amp;N)歷史記錄中的項目數量上限：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="635"/>
         <source>Maximum number of items in each tab</source>
-        <translation>每一分頁中的項目數量上限</translation>
+        <translation type="vanished">每一分頁中的項目數量上限</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="663"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation>(&amp;U)於若干分鐘後卸載分頁：</translation>
+        <translation type="vanished">(&amp;U)於若干分鐘後卸載分頁：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="675"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation>不活動超過指定分鐘數後，從記憶體卸載分頁。
+        <translation type="vanished">不活動超過指定分鐘數後，從記憶體卸載分頁。
 
 設為 0，則不卸載分頁。</translation>
     </message>
@@ -1735,14 +2238,13 @@ Set to 0 not to unload tabs.</source>
         <translation type="vanished">外部編輯器命令 (%1 表要編輯的檔)(&amp;E):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="712"/>
         <source>External editor command (%1 is file to edit).
   Examples:
     gedit %1
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation>外部編輯器命令 (%1 表要編輯的檔)。
+        <translation type="vanished">外部編輯器命令 (%1 表要編輯的檔)。
   範例：
     gedit %1
     notepad %1
@@ -1750,300 +2252,248 @@ Set to 0 not to unload tabs.</source>
     xterm-e vim %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="727"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation>(&amp;B)存放剪貼歷史之分頁：</translation>
+        <translation type="vanished">(&amp;B)存放剪貼歷史之分頁：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="737"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation>自動儲存新剪貼的分頁名稱。
+        <translation type="vanished">自動儲存新剪貼的分頁名稱。
 
 留白，則停用自動儲存功能。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="751"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>不勾選，則按 Return 儲存編輯項，Ctrl+Return 換新行。
+        <translation type="vanished">不勾選，則按 Return 儲存編輯項，Ctrl+Return 換新行。
 
 注意: 編輯項可不顧此選項，以 F2 儲存。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="756"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>(&amp;V)按 Ctrl+Return 儲存編輯項目，Return 換新行</translation>
+        <translation type="vanished">(&amp;V)按 Ctrl+Return 儲存編輯項目，Return 換新行</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="763"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation>顯示每一項目的首行。
+        <translation type="vanished">顯示每一項目的首行。
 
 可透過項目預覽顯示整個項目。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Sho&amp;w simple items</source>
-        <translation>(&amp;W)顯示簡單項目</translation>
+        <translation type="vanished">(&amp;W)顯示簡單項目</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="785"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>(按兩下或按 Enter) 項目被啟用後，即複製到系統剪貼簿，然後...</translation>
+        <translation type="vanished">(按兩下或按 Enter) 項目被啟用後，即複製到系統剪貼簿，然後...</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="791"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation>項目啟用後，移動項目至清單頂部</translation>
+        <translation type="vanished">項目啟用後，移動項目至清單頂部</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="794"/>
         <source>Move item to the t&amp;op</source>
-        <translation>(&amp;O)移動項目至頂端</translation>
+        <translation type="vanished">(&amp;O)移動項目至頂端</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="801"/>
         <source>Close main window after item is activated</source>
-        <translation>項目啟用後，關閉主窗</translation>
+        <translation type="vanished">項目啟用後，關閉主窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="804"/>
         <source>&amp;Close main window</source>
-        <translation>(&amp;C)關閉主視窗</translation>
+        <translation type="vanished">(&amp;C)關閉主視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="811"/>
         <source>Focus last window after item is activated</source>
-        <translation>項目被啟用後，移焦至啟用前的視窗</translation>
+        <translation type="vanished">項目被啟用後，移焦至啟用前的視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="814"/>
         <source>&amp;Focus last window</source>
-        <translation>(&amp;F)移焦至之前最後用的視窗</translation>
+        <translation type="vanished">(&amp;F)移焦至之前最後用的視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="821"/>
         <source>Paste to current window after item is activated</source>
-        <translation>項目啟用後，貼到目前視窗</translation>
+        <translation type="vanished">項目啟用後，貼到目前視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="824"/>
         <source>&amp;Paste to current window</source>
-        <translation>(&amp;P)貼到目前視窗</translation>
+        <translation type="vanished">(&amp;P)貼到目前視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="867"/>
         <source>&amp;Tray</source>
-        <translation>(&amp;T)通知區圖示</translation>
+        <translation type="vanished">(&amp;T)通知區圖示</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="929"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation>顯示通知區圖示選單中的目前剪貼歷史的命令</translation>
+        <translation type="vanished">顯示通知區圖示選單中的目前剪貼歷史的命令</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="932"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>(&amp;W)顯示處理剪貼的命令</translation>
+        <translation type="vanished">(&amp;W)顯示處理剪貼的命令</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="941"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>(&amp;U)通知區圖示選單中項目的數量：</translation>
+        <translation type="vanished">(&amp;U)通知區圖示選單中項目的數量：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="951"/>
         <source>Number of items in tray menu</source>
-        <translation>通知區圖示選單中的項目數量</translation>
+        <translation type="vanished">通知區圖示選單中的項目數量</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="978"/>
         <source>Show items from current tab in tray menu</source>
-        <translation>於通知區圖示選單顯示目前分頁中的項目</translation>
+        <translation type="vanished">於通知區圖示選單顯示目前分頁中的項目</translation>
     </message>
     <message>
         <source>Show items from current tab in content menu</source>
         <translation type="obsolete">顯示右鍵功能表中的目前分頁的項目</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="981"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>(&amp;R)顯示選單中的目前分頁，</translation>
+        <translation type="vanished">(&amp;R)顯示選單中的目前分頁，</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="988"/>
         <source>or &amp;choose other tab:</source>
-        <translation>(&amp;C)或選其他分頁：</translation>
+        <translation type="vanished">(&amp;C)或選其他分頁：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1004"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation>顯示於通知區圖示選單中的分頁名稱 (留白則為首頁)</translation>
+        <translation type="vanished">顯示於通知區圖示選單中的分頁名稱 (留白則為首頁)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1029"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation>選擇選單中的項目後，貼到目前視窗</translation>
+        <translation type="vanished">選擇選單中的項目後，貼到目前視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1032"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation>(&amp;P)將啟用的項目貼到目前視窗</translation>
+        <translation type="vanished">(&amp;P)將啟用的項目貼到目前視窗</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1039"/>
         <source>Show image preview next to menu items</source>
-        <translation>於選單項目旁顯示圖像預覽</translation>
+        <translation type="vanished">於選單項目旁顯示圖像預覽</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1042"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation>(&amp;O)以選單項目圖示顯示圖像預覽</translation>
+        <translation type="vanished">(&amp;O)以選單項目圖示顯示圖像預覽</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1082"/>
         <source>&amp;Notifications</source>
-        <translation>(&amp;N)通知</translation>
+        <translation type="vanished">(&amp;N)通知</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1139"/>
         <source>&amp;Notification position:</source>
-        <translation>(&amp;N)通知的位置：</translation>
+        <translation type="vanished">(&amp;N)通知的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1151"/>
         <source>Position on screen for notifications</source>
-        <translation>通知於螢幕上的位置</translation>
+        <translation type="vanished">通知於螢幕上的位置</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1155"/>
         <source>Top</source>
-        <translation>頂部</translation>
+        <translation type="vanished">頂部</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1160"/>
         <source>Bottom</source>
-        <translation>底部</translation>
+        <translation type="vanished">底部</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1165"/>
         <source>Top Right</source>
-        <translation>頂部右邊</translation>
+        <translation type="vanished">頂部右邊</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1170"/>
         <source>Bottom Right</source>
-        <translation>底部右邊</translation>
+        <translation type="vanished">底部右邊</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1175"/>
         <source>Bottom Left</source>
-        <translation>底部左邊</translation>
+        <translation type="vanished">底部左邊</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1180"/>
         <source>Top Left</source>
-        <translation>頂部左邊</translation>
+        <translation type="vanished">頂部左邊</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1203"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>通知顯示多久(以秒計時)(&amp;E):</translation>
+        <translation type="vanished">通知顯示多久(以秒計時)(&amp;E):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1215"/>
         <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>如有新的剪貼項目複製到系統剪貼簿 (僅當copyq主窗關閉)，顯示通知多久 (以秒為單位)。
+        <translation type="vanished">如有新的剪貼項目複製到系統剪貼簿 (僅當copyq主窗關閉)，顯示通知多久 (以秒為單位)。
 
 設為 0 來停用此功能。
 
 設置為 -1，以維持可見，直到按一下。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1247"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation>(&amp;B)剪貼簿通知之行數：</translation>
+        <translation type="vanished">(&amp;B)剪貼簿通知之行數：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1259"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation>顯示剪貼歷史的新[項目]數。
+        <translation type="vanished">顯示剪貼歷史的新[項目]數。
 
 設為 0，則停用此功能。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1288"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation>通知之幾何 (以螢幕點為單位)</translation>
+        <translation type="vanished">通知之幾何 (以螢幕點為單位)</translation>
     </message>
     <message>
         <source>Ho&amp;rizontal offset:</source>
         <translation type="vanished">(&amp;R)水平位移量：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1306"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation>通知與螢幕左邊或右邊的距離 (以螢幕點為單位)</translation>
+        <translation type="vanished">通知與螢幕左邊或右邊的距離 (以螢幕點為單位)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1334"/>
         <source>&amp;Vertical offset:</source>
-        <translation>(&amp;V)垂直位移量：</translation>
+        <translation type="vanished">(&amp;V)垂直位移量：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1346"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation>通知與螢幕上緣或下緣的距離 (以螢幕點為單位)</translation>
+        <translation type="vanished">通知與螢幕上緣或下緣的距離 (以螢幕點為單位)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1374"/>
         <source>Maximum &amp;width:</source>
-        <translation>(&amp;W)寬度上限：</translation>
+        <translation type="vanished">(&amp;W)寬度上限：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1386"/>
         <source>Maximum width for notification in screen points</source>
-        <translation>螢幕點中的通知的寬度上限</translation>
+        <translation type="vanished">螢幕點中的通知的寬度上限</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1411"/>
         <source>Ma&amp;ximum height:</source>
-        <translation>(&amp;X)最大高度：</translation>
+        <translation type="vanished">(&amp;X)最大高度：</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1423"/>
         <source>Maximum height for notification in screen points</source>
-        <translation>螢幕點中的通知的高度上限</translation>
+        <translation type="vanished">螢幕點中的通知的高度上限</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1494"/>
         <source>&amp;Items</source>
-        <translation>(&amp;E)項目</translation>
+        <translation type="vanished">(&amp;E)項目</translation>
     </message>
     <message>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
         <translation type="vanished">所選的歷史項目的顯示格式，可以通過按 &lt;b&gt;Ctrl+Left&lt;/b&gt; 或 &lt;b&gt;Ctrl+Right&lt;/b&gt; 來變更。可由重新排序下面項目，來變更顯示格式的優先順序。</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1524"/>
         <source>&amp;Shortcuts</source>
-        <translation>(&amp;S)快捷鍵</translation>
+        <translation type="vanished">(&amp;S)快捷鍵</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1534"/>
         <source>&amp;Appearance</source>
-        <translation>(&amp;A)外觀</translation>
+        <translation type="vanished">(&amp;A)外觀</translation>
     </message>
     <message>
         <source>Ctrl+Shift+1</source>
@@ -2124,27 +2574,72 @@ Set to 0 to disable.</source>
         <translation type="vanished">無法建立設定目錄 %1！</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="372"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="177"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="178"/>
+        <source>Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="179"/>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="180"/>
+        <source>Tray</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="181"/>
+        <source>Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="182"/>
+        <source>Tabs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="183"/>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="184"/>
+        <source>Shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="185"/>
+        <source>Appearance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="419"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>選項 &quot;%1&quot; 的值無效</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="415"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="462"/>
         <source>Reset preferences?</source>
         <translation>設回偏好？</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="416"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="463"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>此動作將所有(所有分頁的)偏好回復到預設值。&lt;br /&gt;&lt;br /&gt; 真的要&lt;strong&gt;回復所有偏好&lt;/strong&gt;？</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="520"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="566"/>
         <source>Restart Required</source>
         <translation>必須重新啟動</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="521"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="567"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>重新啟動應用程式，才會更改語言。</translation>
     </message>
@@ -2315,7 +2810,7 @@ Set to 0 to disable.</source>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="611"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="630"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>建立同步(雙向更新)用的目錄 &quot;%1&quot; 失敗！</translation>
     </message>
@@ -2332,9 +2827,13 @@ Set to 0 to disable.</source>
 <context>
     <name>IconSelectButton</name>
     <message>
-        <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon...</source>
-        <translation>選擇圖示...</translation>
+        <translation type="vanished">選擇圖示...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
+        <source>Select Icon…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
@@ -2899,22 +3398,22 @@ Set to 0 to disable.</source>
         <translation>先解除釘選才能移除它們。</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="379"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="384"/>
         <source>Pin</source>
         <translation>釘選</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="386"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="391"/>
         <source>Unpin</source>
         <translation>取消釘選</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="99"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="101"/>
         <source>Pinned Items</source>
         <translation>已釘選項目</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="102"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="104"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation>&lt;p&gt;釘選項目鎖在目前的行列中，並避免被刪除（除非已取消釘選）。&lt;/p&gt;&lt;p&gt;提供捷徑和腳本功能。&lt;/p&gt;</translation>
     </message>
@@ -2951,22 +3450,22 @@ Set to 0 to disable.</source>
         <translation type="vanished">真要 &lt;strong&gt;移除項目與它同步的檔案&lt;/strong&gt;？</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="817"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="826"/>
         <source>Open Directory for Synchronization</source>
         <translation>開啟與分頁同步(雙向更新)的目錄</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="831"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="840"/>
         <source>Failed to create synchronization directory</source>
         <translation>建立用來同步(雙向更新)的目錄失敗</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="145"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="147"/>
         <source>Synchronize</source>
         <translation>同步(雙向更新)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="147"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="149"/>
         <source>Synchronize items and notes with a directory on disk.</source>
         <translation>項目、備註與磁碟上的目錄同步(雙向更新)。</translation>
     </message>
@@ -3190,77 +3689,77 @@ Set to 0 to disable.</source>
         <translation>CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="510"/>
+        <location filename="../src/gui/mainwindow.cpp" line="525"/>
         <source>Exit?</source>
         <translation>結束？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="511"/>
+        <location filename="../src/gui/mainwindow.cpp" line="526"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>想要 &lt;strong&gt;結束&lt;/strong&gt; CopyQ？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="558"/>
+        <location filename="../src/gui/mainwindow.cpp" line="573"/>
         <source>&amp;File</source>
         <translation>(&amp;F)檔案</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="600"/>
+        <location filename="../src/gui/mainwindow.cpp" line="615"/>
         <source>&amp;Edit</source>
         <translation>(&amp;E)編輯</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="624"/>
+        <location filename="../src/gui/mainwindow.cpp" line="639"/>
         <source>&amp;Item</source>
         <translation>(&amp;I)項目</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="628"/>
+        <location filename="../src/gui/mainwindow.cpp" line="643"/>
         <source>&amp;Tabs</source>
         <translation>(&amp;T)分頁</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="653"/>
+        <location filename="../src/gui/mainwindow.cpp" line="668"/>
         <source>&amp;Help</source>
         <translation>(&amp;H)幫助</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="678"/>
+        <location filename="../src/gui/mainwindow.cpp" line="693"/>
         <source>&amp;New Tab</source>
         <translation>(&amp;N)新增分頁</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="680"/>
+        <location filename="../src/gui/mainwindow.cpp" line="695"/>
         <source>Rename &amp;Group %1</source>
         <translation>(&amp;G)重新命名群組 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="682"/>
+        <location filename="../src/gui/mainwindow.cpp" line="697"/>
         <source>Re&amp;name Tab %1</source>
         <translation>(&amp;N)重新命名分頁 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="684"/>
+        <location filename="../src/gui/mainwindow.cpp" line="699"/>
         <source>Re&amp;move Tab %1</source>
         <translation>(&amp;M)移除分頁 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="686"/>
+        <location filename="../src/gui/mainwindow.cpp" line="701"/>
         <source>Remove Group %1</source>
         <translation>移除群組 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="688"/>
+        <location filename="../src/gui/mainwindow.cpp" line="703"/>
         <source>&amp;Change Tab Icon</source>
         <translation>(&amp;C)變更分頁圖示</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1204"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1222"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>(&amp;E)啟用剪貼歷史之儲存</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1205"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1223"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>(&amp;D)停用剪貼歷史之儲存</translation>
     </message>
@@ -3282,43 +3781,43 @@ Set to 0 to disable.</source>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1760"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1777"/>
         <source>CopyQ Options for Import</source>
         <translation>匯入 CopyQ 的選項</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1995"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2013"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>Copyq 出錯</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3007"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3045"/>
         <source>&amp;Show/Hide</source>
         <translation>(&amp;S)顯示/隱藏</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3263"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3307"/>
         <source>CopyQ Options for Export</source>
         <translation>用於匯出 CopyQ 的選項</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3284"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3328"/>
         <source>CopyQ Export Error</source>
         <translation>匯出 CopyQ 錯誤</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3285"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3329"/>
         <source>Failed to export file %1!</source>
         <translation>匯出檔案 %1失敗！</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3373"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3417"/>
         <source>CopyQ Import Error</source>
         <translation>匯入 CopyQ 錯誤</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3374"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3418"/>
         <source>Failed to import file %1!</source>
         <translation>匯入檔案 %1失敗！</translation>
     </message>
@@ -3327,13 +3826,13 @@ Set to 0 to disable.</source>
         <translation type="vanished">開啟動作對話框</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="729"/>
+        <location filename="../src/gui/mainwindow.cpp" line="744"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>(&amp;C)剪貼簿內容：%1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="301"/>
+        <location filename="../src/gui/mainwindow.cpp" line="313"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ 項目 (*.cpq)</translation>
     </message>
@@ -3354,22 +3853,22 @@ Set to 0 to disable.</source>
         <translation type="vanished">無法開啟檔案 %1！</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3526"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3570"/>
         <source>Remove All Tabs in Group?</source>
         <translation>移除群組中的所有分頁？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3527"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3571"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>想移除群組 &lt;strong&gt;%1&lt;/strong&gt; 中的&lt;strong&gt;所有分頁&lt;/strong&gt;？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3574"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3618"/>
         <source>Remove Tab?</source>
         <translation>移除分頁？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3575"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3619"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>想要移除分頁 &lt;strong&gt;%1&lt;/strong&gt;？</translation>
     </message>
@@ -3443,13 +3942,13 @@ Set to 0 to disable.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="432"/>
+        <location filename="../src/common/common.cpp" line="506"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;隱藏&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="438"/>
+        <location filename="../src/common/common.cpp" line="512"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -3457,13 +3956,13 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="448"/>
+        <location filename="../src/common/common.cpp" line="522"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;圖片&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="450"/>
+        <location filename="../src/common/common.cpp" line="524"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;ITEMS&gt;</translation>
@@ -3474,13 +3973,13 @@ Set to 0 to disable.</source>
         <translation type="vanished">&lt;檔案&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="452"/>
+        <location filename="../src/common/common.cpp" line="526"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;空&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="454"/>
+        <location filename="../src/common/common.cpp" line="528"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;資料&gt;</translation>
@@ -3506,7 +4005,7 @@ Set to 0 to disable.</source>
         <translation type="vanished">錯誤：%1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2036"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2048"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -3514,7 +4013,7 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2039"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2051"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3532,12 +4031,11 @@ Set to 0 to disable.</source>
         <translation type="vanished">載入外掛：%1</translation>
     </message>
     <message>
-        <location filename="../src/item/serialize.cpp" line="180"/>
         <source>Data deserialization failed: %1</source>
-        <translation>反序列化資料失敗：%1</translation>
+        <translation type="vanished">反序列化資料失敗：%1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="209"/>
+        <location filename="../src/main.cpp" line="215"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Copyq 工作名稱至多指允許 16 個字元
@@ -4156,7 +4654,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
         <source>COMMAND</source>
         <translation>COMMAND</translation>
     </message>
@@ -4276,22 +4774,22 @@ Print version of program and libraries.</source>
         <translation>執行應用程式測試 (附加 &quot;--help&quot; 參元可得更多資訊)。</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
         <source>Usage: copyq [%1]</source>
         <translation>用法：copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="79"/>
         <source>Starts server if no command is specified.</source>
         <translation>若沒指定命令，啟動伺服器。</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="79"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="80"/>
         <source>  COMMANDs:</source>
         <translation>  命令：</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="84"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="85"/>
         <source>NOTES:</source>
         <translation>注意事項：</translation>
     </message>
@@ -4300,28 +4798,28 @@ Print version of program and libraries.</source>
         <translation type="vanished">  - 用短橫線參元 (-) 使從標準輸入讀入資料。</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="86"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="87"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - 用雙短橫線參元 (--)，使以不展開脫逸字串如 \n, \t 等的方式，讀取後面所有參元。</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="88"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="89"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - 用 &quot;?&quot; 印出所有可用的 MIME 類型 (預設值是 &quot;text/plain&quot;)。</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="93"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="94"/>
         <source>Invalid number of arguments!</source>
         <translation>無效的參元數量！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2640"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2661"/>
         <source>Exception</source>
         <translation>異常</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2683"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2704"/>
         <source>Failed to copy to clipboard!</source>
         <translation>複製到剪貼簿失敗！</translation>
     </message>
@@ -4330,7 +4828,7 @@ Print version of program and libraries.</source>
         <translation type="vanished">名稱 &quot;%1&quot; 未指涉一函應(function)。</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="85"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="86"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - 用短橫線參元 (-) 使從標準輸入讀入資料。</translation>
     </message>
@@ -4339,34 +4837,34 @@ Print version of program and libraries.</source>
         <translation type="vanished">以...組譯： </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="808"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="787"/>
         <source>Command not found!</source>
         <translation>未找到命令！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="908"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="887"/>
         <source>Terminating server.
 </source>
         <translation>正結束伺服器。
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="710"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="689"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>無法存到檔案 &quot;%1&quot;！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="715"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="694"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>無法匯入檔案 &quot;%1&quot;！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1371"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1350"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>無效選項 &quot;%1&quot;！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2641"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2662"/>
         <source>Exception in %1</source>
         <translation>在 %1 有異常</translation>
     </message>
@@ -4393,13 +4891,13 @@ Print version of program and libraries.</source>
         <translation>有給定名稱的分頁已存在！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1972"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1984"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1975"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1987"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
@@ -4444,18 +4942,37 @@ Print version of program and libraries.</source>
         <translation>(&amp;F)尋找：</translation>
     </message>
     <message>
+        <location filename="../src/ui/shortcutswidget.ui" line="50"/>
+        <source>Gl&amp;obal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/shortcutswidget.ui" line="56"/>
+        <source>Global shortcuts can be triggered from any application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/shortcutswidget.ui" line="77"/>
+        <source>A&amp;pplication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/shortcutswidget.ui" line="83"/>
+        <source>Application shortcuts can be triggered only from the main window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>There is command overriding this shortcut.</source>
         <translation type="vanished">有命令覆蓋此快捷鍵。</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="243"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
         <translation>快捷鍵已存在！</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="300"/>
         <source>Shortcut can be triggered from any application</source>
-        <translation>快捷鍵可以從任何應用程式去觸發</translation>
+        <translation type="vanished">快捷鍵可以從任何應用程式去觸發</translation>
     </message>
 </context>
 <context>

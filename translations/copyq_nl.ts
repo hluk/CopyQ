@@ -167,14 +167,22 @@
         <translation>Standaard ui&amp;tvoer opslaan:</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation>Gegevens van MIME-type versturen naar standaard invoer van opdracht (laat leeg om uit te schakelen)</translation>
+        <translation type="vanished">Gegevens van MIME-type versturen naar standaard invoer van opdracht (laat leeg om uit te schakelen)</translation>
+    </message>
+    <message>
+        <source>Create items from standard output of the program (leave empty to disable)</source>
+        <translation type="vanished">Items creëren vanuit standaard uitvoer van de applicatie (laat leeg om uit te schakelen)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/actiondialog.ui" line="78"/>
+        <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>Items creëren vanuit standaard uitvoer van de applicatie (laat leeg om uit te schakelen)</translation>
+        <source>Create items from standard output of the program (leave empty to turn off)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -472,14 +480,14 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <translation type="vanished">Bezig met zoeken naar %p%...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="818"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1640"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="816"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1642"/>
         <source>Cannot Add New Items</source>
         <translation>Kan geen nieuwe items toevoegen</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="819"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1641"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="817"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
         <source>Tab is full. Failed to remove any items.</source>
         <translation>Tabblad is vol; kan geen items verwijderen.</translation>
     </message>
@@ -497,12 +505,12 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="133"/>
+        <location filename="../src/app/clipboardclient.cpp" line="124"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>Het verbinden met de server is mislukt. Start de CopyQ-server.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="126"/>
+        <location filename="../src/app/clipboardclient.cpp" line="117"/>
         <source>Connection lost!</source>
         <translation>Verbinding verbroken!</translation>
     </message>
@@ -544,27 +552,27 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="91"/>
+        <location filename="../src/app/clipboardserver.cpp" line="90"/>
         <source>CopyQ server is already running.</source>
         <translation>De CopyQ-server draait al.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="309"/>
+        <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Cancel Active Commands</source>
         <translation>Actieve opdrachten annuleren</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="310"/>
+        <location filename="../src/app/clipboardserver.cpp" line="309"/>
         <source>Cancel active commands and exit?</source>
         <translation>Wilt u de actieve opdrachten annuleren en afsluiten?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="313"/>
+        <location filename="../src/app/clipboardserver.cpp" line="312"/>
         <source>Cancel Exiting</source>
         <translation>Afsluiten annuleren</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="314"/>
+        <location filename="../src/app/clipboardserver.cpp" line="313"/>
         <source>Exit Anyway</source>
         <translation>Tóch afsluiten</translation>
     </message>
@@ -597,13 +605,17 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
-        <source>&amp;Load Commands...</source>
-        <translation>Opdrachten &amp;laden...</translation>
+        <source>&amp;Load Commands…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
-        <source>Sa&amp;ve Selected...</source>
+        <source>Sa&amp;ve Selected…</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Load Commands...</source>
+        <translation type="vanished">Opdrachten &amp;laden...</translation>
     </message>
     <message>
         <source>Sa&amp;ve Selected Commands...</source>
@@ -620,32 +632,32 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <translation>Opdrachten plakken</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="213"/>
+        <location filename="../src/gui/commanddialog.cpp" line="215"/>
         <source>Unsaved Changes</source>
         <translation>Niet-opgeslagen wijzigingen</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="213"/>
+        <location filename="../src/gui/commanddialog.cpp" line="215"/>
         <source>Command dialog has unsaved changes.</source>
         <translation>Het Opdracht-venster bevat niet-opgeslagen wijzigingen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="291"/>
+        <location filename="../src/gui/commanddialog.cpp" line="293"/>
         <source>Open Files with Commands</source>
         <translation>Bestanden openen met opdrachten</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="292"/>
+        <location filename="../src/gui/commanddialog.cpp" line="294"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>Opdrachten (*.ini);; CopyQ-configuratie (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="303"/>
+        <location filename="../src/gui/commanddialog.cpp" line="305"/>
         <source>Save Selected Commands</source>
         <translation>Geselecteerde opdrachten opslaan</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="304"/>
+        <location filename="../src/gui/commanddialog.cpp" line="306"/>
         <source>Commands (*.ini)</source>
         <translation>Opdrachten (*.ini)</translation>
     </message>
@@ -1140,19 +1152,595 @@ CTRL en pijltje omhoog/omlaag.</translation>
     </message>
 </context>
 <context>
+    <name>ConfigTabGeneral</name>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="65"/>
+        <source>&amp;Language:</source>
+        <translation type="unfinished">Taa&amp;l:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="93"/>
+        <source>Break text if it&apos;s too long to fit on line</source>
+        <translation type="unfinished">Tekst afbreken als deze niet op één regel past</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="96"/>
+        <source>Wrap l&amp;ong text</source>
+        <translation type="unfinished">Lange tekst &amp;omslaan</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="103"/>
+        <source>Keep main window above other windows</source>
+        <translation type="unfinished">Hoofdvenster altijd boven andere vensters weergeven</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="106"/>
+        <source>Alwa&amp;ys on Top</source>
+        <translation type="unfinished">Alti&amp;jd bovenop</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="113"/>
+        <source>Close main window when other application has focus</source>
+        <translation type="unfinished">Sluit het hoofdvenster wanneer een andere toepassing focus heeft</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="116"/>
+        <source>Close When Unfocused</source>
+        <translation type="unfinished">Sluiten als venster niet actief is</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="123"/>
+        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
+        <translation type="unfinished">Schakel in om vensters te openen op het huidige scherm. Schakel uit om vensters te openen op het scherm waar ze het laatst gesloten zijn</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="126"/>
+        <source>O&amp;pen windows on current screen</source>
+        <translation type="unfinished">Vensters o&amp;penen op huidig scherm</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="133"/>
+        <source>Confirm application exit</source>
+        <translation type="unfinished">Om bevestiging vragen bij afsluiten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="136"/>
+        <source>Confirm application e&amp;xit</source>
+        <translation type="unfinished">Om bevestiging vragen bij af&amp;sluiten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="146"/>
+        <source>Run the application on system startup</source>
+        <translation type="unfinished">Automatisch opstarten na inloggen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="149"/>
+        <source>&amp;Autostart</source>
+        <translation type="unfinished">&amp;Automatisch opstarten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="156"/>
+        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
+        <translation type="unfinished">Ondersteuning voor Vi-navigatietoetsen (H, J, K, L enz.), schuine streep (/) om te zoeken</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="159"/>
+        <source>&amp;Vi style navigation</source>
+        <translation type="unfinished">Navigatie in &amp;Vi-stijl</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="166"/>
+        <source>Save and restore history of item filters</source>
+        <translation type="unfinished">Geschiedenis van itemfilters opslaan en herstellen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="169"/>
+        <source>Save Filter History</source>
+        <translation type="unfinished">Filtergeschiedenis opslaan</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="176"/>
+        <source>Automatically show popup to complete function, type and variable names in commands</source>
+        <translation type="unfinished">Toon automatisch een popup om functie, type en variabele namen in te geven en commando&apos;s te voltooien</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="179"/>
+        <source>Auto-complete Commands</source>
+        <translation type="unfinished">Automatisch uitvoeren van opdrachten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="186"/>
+        <source>Clipboard Manipulation</source>
+        <translation type="unfinished">Klembordmanipulatie</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="198"/>
+        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
+        <translation type="unfinished">Gekopieerde inhoud plakken op dezelfde manier als muisselecties (meestal door de middelste muisknop te gebruiken)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="201"/>
+        <source>(&amp;3) Paste clipboard with mouse</source>
+        <translation type="unfinished">(&amp;3) Klembord plakken met muis</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="208"/>
+        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
+        <translation type="unfinished">Muisselecties plakken via sneltoets (meestal Ctrl+V of Shift+Insert)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="211"/>
+        <source>(&amp;4) Paste mouse selection with keyboard</source>
+        <translation type="unfinished">(&amp;4) Muisselectie plakken via toetsenbord</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="218"/>
+        <source>Save clipboard in history</source>
+        <translation type="unfinished">Klembord bewaren in geschiedenis</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="221"/>
+        <source>(&amp;1) Store clipboard</source>
+        <translation type="unfinished">(&amp;1) Klembord bewaren</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="231"/>
+        <source>Save text selected with mouse (primary selection) in history</source>
+        <translation type="unfinished">Geselecteerde tekst (primaire selectie) opslaan in geschiedenis</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="234"/>
+        <source>(&amp;2) Store text selected using mouse</source>
+        <translation type="unfinished">(&amp;2) Geselecteerde tekst opslaan</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="241"/>
+        <source>(&amp;5) Run automatic commands on selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabHistory</name>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="65"/>
+        <source>Maximum &amp;number of items in history:</source>
+        <translation type="unfinished">Maximaal aa&amp;ntal items in geschiedenis:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="77"/>
+        <source>Maximum number of items in each tab</source>
+        <translation type="unfinished">Maximum aantal items per tabblad</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="105"/>
+        <source>&amp;Unload tab after an interval in minutes:</source>
+        <translation type="unfinished">Tabblad in slaapsta&amp;nd zetten na (in minuten):</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="117"/>
+        <source>Unload each tab from memory after specified number of minutes of inactivity.
+
+Set to 0 not to unload tabs.</source>
+        <translation type="unfinished">Elk tabblad uit het geheugen verwijderen na een opgegeven aantal minuten van inactiviteit.
+
+Stel in op 0 om tabbladen nooit in de slaapstand te zetten.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="144"/>
+        <source>External editor command (%&amp;1 is file to edit):</source>
+        <translation type="unfinished">Opdracht geven aan een externe bewerker (%&amp;1 is het bestand dat bewerkt gaat worden):</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="154"/>
+        <source>External editor command (%1 is file to edit).
+  Examples:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</source>
+        <translation type="unfinished">Externe tekstverwerker-opdracht (%1 is het te bewerken bestand).
+  Voorbeelden:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="169"/>
+        <source>Ta&amp;b for storing clipboard:</source>
+        <translation type="unfinished">Ta&amp;bblad voor het bewaren van het klembord:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="179"/>
+        <source>Name of tab that will automatically store new clipboard content.
+
+Leave empty to disable automatic storing.</source>
+        <translation type="unfinished">Naam van het tabblad dat automatisch nieuwe klembordinhoud zal bewaren.
+
+Laat leeg om automatische opslag uit te schakelen.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="193"/>
+        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
+
+Note: Edited items can be saved with F2 disregarding this option.</source>
+        <translation type="unfinished">Vink niet aan om de Enter-toets in te stellen voor het opslaan van een bewerkt item en Ctrl+Enter voor het creëren van een nieuwe regel.
+
+Let op: bewerkte items kunnen sowieso altijd worden opgeslagen met de F2-toets.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="198"/>
+        <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
+        <translation type="unfinished">Ctrl+Enter instellen om bestanden op te slaan en Enter om nieuwe regel te creëren</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="205"/>
+        <source>Show single line description of each item.
+
+Use Item Preview to display whole items.</source>
+        <translation type="unfinished">Enkele regelomschrijving weergeven voor elk item.
+
+Gebruik Itemvoorbeeld om gehele items weer te geven.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="210"/>
+        <source>Sho&amp;w simple items</source>
+        <translation type="unfinished">Simpele items &amp;weergeven</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="217"/>
+        <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
+        <translation type="unfinished">Activeer het zoeken naar nummers, anders wordt het item op deze positie geactiveerd door op een cijfertoets te drukken</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="220"/>
+        <source>S&amp;earch for numbers</source>
+        <translation type="unfinished">Z&amp;oeken naar nummers</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="227"/>
+        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
+        <translation type="unfinished">Na het activeren van een item (dubbelklik of Enter-toets), kopieer het naar het klembord en ...</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="233"/>
+        <source>Move item to the top of the list after it is activated</source>
+        <translation type="unfinished">Item naar bovenkant van de lijst verplaatsen na activeren</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="236"/>
+        <source>Move item to the t&amp;op</source>
+        <translation type="unfinished">Item naar b&amp;oven verplaatsen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="243"/>
+        <source>Close main window after item is activated</source>
+        <translation type="unfinished">Hoofdvenster sluiten na activeren van item</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="246"/>
+        <source>&amp;Close main window</source>
+        <translation type="unfinished">Hoofdvenster &amp;sluiten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="253"/>
+        <source>Focus last window after item is activated</source>
+        <translation type="unfinished">Laatstgebruikte venster focussen na activeren van item</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="256"/>
+        <source>&amp;Focus last window</source>
+        <translation type="unfinished">Laatstgebruikte venster &amp;focussen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="263"/>
+        <source>Paste to current window after item is activated</source>
+        <translation type="unfinished">Plakken in huidig venster na activeren van item</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="266"/>
+        <source>&amp;Paste to current window</source>
+        <translation type="unfinished">&amp;Plakken in huidig venster</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabLayout</name>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="62"/>
+        <source>Show/Hide</source>
+        <translation type="unfinished">Weergeven/Verbergen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="68"/>
+        <source>Hide tabs (press Alt key to show)</source>
+        <translation type="unfinished">Tabbladen verbergen (druk op de Alt-toets om ze te weergeven)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="71"/>
+        <source>Hi&amp;de tabs</source>
+        <translation type="unfinished">Tabbla&amp;den verbergen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="78"/>
+        <source>Hide toolbar</source>
+        <translation type="unfinished">Werkbalk verbergen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="81"/>
+        <source>Hide too&amp;lbar</source>
+        <translation type="unfinished">Werkba&amp;lk verbergen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="88"/>
+        <source>Hide tool&amp;bar labels</source>
+        <translation type="unfinished">Werkba&amp;lk-labels verbergen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="95"/>
+        <source>Hide main window when closed</source>
+        <translation type="unfinished">Hoofdvenster verbergen na sluiten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="98"/>
+        <source>Hide &amp;main window</source>
+        <translation type="unfinished">Hoofdvenster &amp;verbergen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="108"/>
+        <source>Layout and Transparency</source>
+        <translation type="unfinished">Uiterlijk en doorzichtigheid</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="117"/>
+        <source>Show tree with tabs instead of tab bar</source>
+        <translation type="unfinished">Boomstructuur met tabbladen weergeven i.p.v. tabbladbalk</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="120"/>
+        <source>Tab T&amp;ree</source>
+        <translation type="unfinished">Boomst&amp;ructuur met tabbladen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="127"/>
+        <source>&amp;Focused transparency:</source>
+        <translation type="unfinished">Doorzichtigheid bij &amp;focus:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="139"/>
+        <source>Transparency of main window if focused.
+
+Note: This is not supported on all systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="169"/>
+        <source>&amp;Unfocused transparency:</source>
+        <translation type="unfinished">Doorzichtigheid bij ontfoc&amp;us:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="181"/>
+        <source>Transparency of main window if unfocused.
+
+Note: This is not supported on all systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="211"/>
+        <source>Show number of items in tabs</source>
+        <translation type="unfinished">Itemaantal weergeven op tabbladen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="214"/>
+        <source>Sho&amp;w Item Count</source>
+        <translation type="unfinished">Itemaantal &amp;weergeven</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabNotifications</name>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="65"/>
+        <source>&amp;Notification position:</source>
+        <translation type="unfinished">&amp;Notificatie positie:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="77"/>
+        <source>Position on screen for notifications</source>
+        <translation type="unfinished">Plaats op scherm voor meldingen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="81"/>
+        <source>Top</source>
+        <translation type="unfinished">Bovenkant</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="86"/>
+        <source>Bottom</source>
+        <translation type="unfinished">Onderkant</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="91"/>
+        <source>Top Right</source>
+        <translation type="unfinished">Rechtsboven</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="96"/>
+        <source>Bottom Right</source>
+        <translation type="unfinished">Rechtsonder</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="101"/>
+        <source>Bottom Left</source>
+        <translation type="unfinished">Linksonder</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="106"/>
+        <source>Top Left</source>
+        <translation type="unfinished">Linksboven</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="129"/>
+        <source>Int&amp;erval in seconds to display notifications:</source>
+        <translation type="unfinished">Het aantal seconden dat meldingen worden weer gegeven:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="141"/>
+        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
+
+Set to 0 to disable this.
+
+Set to -1 to keep visible until clicked.</source>
+        <translation type="unfinished">Interval in seconden dat de inhoud van een nieuwe toevoeging word weergeven. (word allen gebruikt wanneer het hoofdscherm gesloten is.) 
+
+Zet op 0 om uit te schakelen.
+
+Stel in op -1 om zichtbaar te blijven tot erop wordt geklikt.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="173"/>
+        <source>Num&amp;ber of lines for clipboard notification:</source>
+        <translation type="unfinished">Aantal regels voor klembordmeldingen:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="185"/>
+        <source>Number of lines to show for new clipboard content.
+
+Set to 0 to disable.</source>
+        <translation type="unfinished">Aantal regels dat wordt weergegeven bij een nieuwe item op het klembord.
+
+Deze op 0 zetten om dit uit te schakelen.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="214"/>
+        <source>Notification Geometry (in screen points)</source>
+        <translation type="unfinished">Afmetingen (in pixels)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="220"/>
+        <source>Hori&amp;zontal offset:</source>
+        <translation type="unfinished">Hori&amp;horizontale verschuiving:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="232"/>
+        <source>Notification distance from left or right screen edge in screen points</source>
+        <translation type="unfinished">Afstand van rechter tot linkerkant scherm in pixels</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="260"/>
+        <source>&amp;Vertical offset:</source>
+        <translation type="unfinished">Verticale verschuiving:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="272"/>
+        <source>Notification distance from top or bottom screen edge in screen points</source>
+        <translation type="unfinished">Afstand tussen boven- of onderrand van het scherm in pixels</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="300"/>
+        <source>Maximum &amp;width:</source>
+        <translation type="unfinished">Maximale &amp;breedte:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="312"/>
+        <source>Maximum width for notification in screen points</source>
+        <translation type="unfinished">Maximale breedte voor melding in pixels</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="337"/>
+        <source>Ma&amp;ximum height:</source>
+        <translation type="unfinished">Ma&amp;ximum hoogte:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="349"/>
+        <source>Maximum height for notification in screen points</source>
+        <translation type="unfinished">Maximale breedte voor melding in pixels</translation>
+    </message>
+</context>
+<context>
     <name>ConfigTabShortcuts</name>
     <message>
         <source>&amp;Custom Actions and Global Shortcuts...</source>
         <translation type="vanished">Aangepaste a&amp;cties en algemene sneltoetsen...</translation>
     </message>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2423"/>
         <source>Ctrl+P</source>
-        <translation>Ctrl+P</translation>
+        <translation type="vanished">Ctrl+P</translation>
     </message>
     <message>
         <source>&amp;Paste Items</source>
         <translation type="vanished">&amp;Items plakken</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabTray</name>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="60"/>
+        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <translation type="unfinished">Systeemvakpictogram verbergen; minimaliseer venster na sluiten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="63"/>
+        <source>Disabl&amp;e tray</source>
+        <translation type="unfinished">Systeemvakpictogram verberg&amp;en</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="70"/>
+        <source>Show command for current clipboard content in tray menu</source>
+        <translation type="unfinished">Opdracht voor huidige klembordinhoud weergeven in systeemvakmenu</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="73"/>
+        <source>Sho&amp;w commands for clipboard content</source>
+        <translation type="unfinished">Opdrachten voor klembordinhoud &amp;weergeven</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="82"/>
+        <source>N&amp;umber of items in tray menu:</source>
+        <translation type="unfinished">Aa&amp;ntal items in systeemvakmenu:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="92"/>
+        <source>Number of items in tray menu</source>
+        <translation type="unfinished">Aantal items in systeemvakmenu</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="119"/>
+        <source>Show items from current tab in tray menu</source>
+        <translation type="unfinished">Items van huidig tabblad weergeven in systeemvakmenu</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="122"/>
+        <source>Show cu&amp;rrent tab in menu,</source>
+        <translation type="unfinished">Huidig tabblad wee&amp;rgeven in systeemvakmenu,</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="129"/>
+        <source>or &amp;choose other tab:</source>
+        <translation type="unfinished">of &amp;kies een ander tabblad:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="145"/>
+        <source>Name of tab to show in tray menu (empty for the first tab)</source>
+        <translation type="unfinished">Naam van het tabblad om in het tray menu te tonen (leeg voor het eerste tabblad)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="170"/>
+        <source>Paste item to current window after selecting it in menu</source>
+        <translation type="unfinished">Plakken in het huidige venster na selectie in het menu</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="173"/>
+        <source>&amp;Paste activated item to current window</source>
+        <translation type="unfinished">&amp;Plakken actief item in het huidige venster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="180"/>
+        <source>Show image preview next to menu items</source>
+        <translation type="unfinished">Afbeeldingsvoorbeeld naast menu-items weergeven</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="183"/>
+        <source>Sh&amp;ow image preview as menu item icon</source>
+        <translation type="unfinished">Afbeeldingsvoorbeeld als een menupictogram weergeven</translation>
     </message>
 </context>
 <context>
@@ -1163,159 +1751,128 @@ CTRL en pijltje omhoog/omlaag.</translation>
         <translation>CopyQ-instellingen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="39"/>
         <source>&amp;General</source>
-        <translation>Al&amp;gemeen</translation>
+        <translation type="vanished">Al&amp;gemeen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="96"/>
         <source>&amp;Language:</source>
-        <translation>Taa&amp;l:</translation>
+        <translation type="vanished">Taa&amp;l:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="124"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation>Tekst afbreken als deze niet op één regel past</translation>
+        <translation type="vanished">Tekst afbreken als deze niet op één regel past</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="127"/>
         <source>Wrap l&amp;ong text</source>
-        <translation>Lange tekst &amp;omslaan</translation>
+        <translation type="vanished">Lange tekst &amp;omslaan</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="134"/>
         <source>Keep main window above other windows</source>
-        <translation>Hoofdvenster altijd boven andere vensters weergeven</translation>
+        <translation type="vanished">Hoofdvenster altijd boven andere vensters weergeven</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="137"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation>Alti&amp;jd bovenop</translation>
+        <translation type="vanished">Alti&amp;jd bovenop</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Close main window when other application has focus</source>
-        <translation>Sluit het hoofdvenster wanneer een andere toepassing focus heeft</translation>
+        <translation type="vanished">Sluit het hoofdvenster wanneer een andere toepassing focus heeft</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>Close When Unfocused</source>
-        <translation>Sluiten als venster niet actief is</translation>
+        <translation type="vanished">Sluiten als venster niet actief is</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="154"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation>Schakel in om vensters te openen op het huidige scherm. Schakel uit om vensters te openen op het scherm waar ze het laatst gesloten zijn</translation>
+        <translation type="vanished">Schakel in om vensters te openen op het huidige scherm. Schakel uit om vensters te openen op het scherm waar ze het laatst gesloten zijn</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="157"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation>Vensters o&amp;penen op huidig scherm</translation>
+        <translation type="vanished">Vensters o&amp;penen op huidig scherm</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="164"/>
         <source>Confirm application exit</source>
-        <translation>Om bevestiging vragen bij afsluiten</translation>
+        <translation type="vanished">Om bevestiging vragen bij afsluiten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="167"/>
         <source>Confirm application e&amp;xit</source>
-        <translation>Om bevestiging vragen bij af&amp;sluiten</translation>
+        <translation type="vanished">Om bevestiging vragen bij af&amp;sluiten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="177"/>
         <source>Run the application on system startup</source>
-        <translation>Automatisch opstarten na inloggen</translation>
+        <translation type="vanished">Automatisch opstarten na inloggen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="180"/>
         <source>&amp;Autostart</source>
-        <translation>&amp;Automatisch opstarten</translation>
+        <translation type="vanished">&amp;Automatisch opstarten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="187"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation>Ondersteuning voor Vi-navigatietoetsen (H, J, K, L enz.), schuine streep (/) om te zoeken</translation>
+        <translation type="vanished">Ondersteuning voor Vi-navigatietoetsen (H, J, K, L enz.), schuine streep (/) om te zoeken</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="190"/>
         <source>&amp;Vi style navigation</source>
-        <translation>Navigatie in &amp;Vi-stijl</translation>
+        <translation type="vanished">Navigatie in &amp;Vi-stijl</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="197"/>
         <source>Save and restore history of item filters</source>
-        <translation>Geschiedenis van itemfilters opslaan en herstellen</translation>
+        <translation type="vanished">Geschiedenis van itemfilters opslaan en herstellen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="200"/>
         <source>Save Filter History</source>
-        <translation>Filtergeschiedenis opslaan</translation>
+        <translation type="vanished">Filtergeschiedenis opslaan</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="217"/>
         <source>Clipboard Manipulation</source>
-        <translation>Klembordmanipulatie</translation>
+        <translation type="vanished">Klembordmanipulatie</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="262"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation>Geselecteerde tekst (primaire selectie) opslaan in geschiedenis</translation>
+        <translation type="vanished">Geselecteerde tekst (primaire selectie) opslaan in geschiedenis</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="265"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation>(&amp;2) Geselecteerde tekst opslaan</translation>
+        <translation type="vanished">(&amp;2) Geselecteerde tekst opslaan</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="239"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation>Muisselecties plakken via sneltoets (meestal Ctrl+V of Shift+Insert)</translation>
+        <translation type="vanished">Muisselecties plakken via sneltoets (meestal Ctrl+V of Shift+Insert)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="242"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation>(&amp;4) Muisselectie plakken via toetsenbord</translation>
+        <translation type="vanished">(&amp;4) Muisselectie plakken via toetsenbord</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="249"/>
         <source>Save clipboard in history</source>
-        <translation>Klembord bewaren in geschiedenis</translation>
+        <translation type="vanished">Klembord bewaren in geschiedenis</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="252"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation>(&amp;1) Klembord bewaren</translation>
+        <translation type="vanished">(&amp;1) Klembord bewaren</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="229"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation>Gekopieerde inhoud plakken op dezelfde manier als muisselecties (meestal door de middelste muisknop te gebruiken)</translation>
+        <translation type="vanished">Gekopieerde inhoud plakken op dezelfde manier als muisselecties (meestal door de middelste muisknop te gebruiken)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="232"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation>(&amp;3) Klembord plakken met muis</translation>
+        <translation type="vanished">(&amp;3) Klembord plakken met muis</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="415"/>
         <source>Layout and Transparency</source>
-        <translation>Uiterlijk en doorzichtigheid</translation>
+        <translation type="vanished">Uiterlijk en doorzichtigheid</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="424"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation>Boomstructuur met tabbladen weergeven i.p.v. tabbladbalk</translation>
+        <translation type="vanished">Boomstructuur met tabbladen weergeven i.p.v. tabbladbalk</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="427"/>
         <source>Tab T&amp;ree</source>
-        <translation>Boomst&amp;ructuur met tabbladen</translation>
+        <translation type="vanished">Boomst&amp;ructuur met tabbladen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="434"/>
         <source>&amp;Focused transparency:</source>
-        <translation>Doorzichtigheid bij &amp;focus:</translation>
+        <translation type="vanished">Doorzichtigheid bij &amp;focus:</translation>
     </message>
     <message>
         <source>Transparency of main window if focused.
@@ -1326,9 +1883,8 @@ Note: This is not be supported on all systems.</source>
 Let op: dit wordt niet op alle systemen ondersteund.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="476"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation>Doorzichtigheid bij ontfoc&amp;us:</translation>
+        <translation type="vanished">Doorzichtigheid bij ontfoc&amp;us:</translation>
     </message>
     <message>
         <source>Transparency of main window if unfocused.
@@ -1339,130 +1895,90 @@ Note: This is not be supported on all systems.</source>
 Let op: dit wordt niet op alle systemen ondersteund.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="518"/>
         <source>Show number of items in tabs</source>
-        <translation>Itemaantal weergeven op tabbladen</translation>
+        <translation type="vanished">Itemaantal weergeven op tabbladen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="521"/>
         <source>Sho&amp;w Item Count</source>
-        <translation>Itemaantal &amp;weergeven</translation>
+        <translation type="vanished">Itemaantal &amp;weergeven</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="369"/>
         <source>Show/Hide</source>
-        <translation>Weergeven/Verbergen</translation>
+        <translation type="vanished">Weergeven/Verbergen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="272"/>
-        <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="315"/>
         <source>&amp;Layout</source>
-        <translation>Uiter&amp;lijk</translation>
+        <translation type="vanished">Uiter&amp;lijk</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="375"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation>Tabbladen verbergen (druk op de Alt-toets om ze te weergeven)</translation>
+        <translation type="vanished">Tabbladen verbergen (druk op de Alt-toets om ze te weergeven)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="378"/>
         <source>Hi&amp;de tabs</source>
-        <translation>Tabbla&amp;den verbergen</translation>
+        <translation type="vanished">Tabbla&amp;den verbergen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="385"/>
         <source>Hide toolbar</source>
-        <translation>Werkbalk verbergen</translation>
+        <translation type="vanished">Werkbalk verbergen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="388"/>
         <source>Hide too&amp;lbar</source>
-        <translation>Werkba&amp;lk verbergen</translation>
+        <translation type="vanished">Werkba&amp;lk verbergen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="395"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation>Werkba&amp;lk-labels verbergen</translation>
+        <translation type="vanished">Werkba&amp;lk-labels verbergen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="446"/>
-        <source>Transparency of main window if focused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="488"/>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="702"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation>Opdracht geven aan een externe bewerker (%&amp;1 is het bestand dat bewerkt gaat worden):</translation>
+        <translation type="vanished">Opdracht geven aan een externe bewerker (%&amp;1 is het bestand dat bewerkt gaat worden):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="919"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation>Systeemvakpictogram verbergen; minimaliseer venster na sluiten</translation>
+        <translation type="vanished">Systeemvakpictogram verbergen; minimaliseer venster na sluiten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="922"/>
         <source>Disabl&amp;e tray</source>
-        <translation>Systeemvakpictogram verberg&amp;en</translation>
+        <translation type="vanished">Systeemvakpictogram verberg&amp;en</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="402"/>
         <source>Hide main window when closed</source>
-        <translation>Hoofdvenster verbergen na sluiten</translation>
+        <translation type="vanished">Hoofdvenster verbergen na sluiten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation>Toon automatisch een popup om functie, type en variabele namen in te geven en commando&apos;s te voltooien</translation>
+        <translation type="vanished">Toon automatisch een popup om functie, type en variabele namen in te geven en commando&apos;s te voltooien</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="210"/>
         <source>Auto-complete Commands</source>
-        <translation>Automatisch uitvoeren van opdrachten</translation>
+        <translation type="vanished">Automatisch uitvoeren van opdrachten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="405"/>
         <source>Hide &amp;main window</source>
-        <translation>Hoofdvenster &amp;verbergen</translation>
+        <translation type="vanished">Hoofdvenster &amp;verbergen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="566"/>
         <source>&amp;History</source>
-        <translation>Gesc&amp;hiedenis</translation>
+        <translation type="vanished">Gesc&amp;hiedenis</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="623"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation>Maximaal aa&amp;ntal items in geschiedenis:</translation>
+        <translation type="vanished">Maximaal aa&amp;ntal items in geschiedenis:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="635"/>
         <source>Maximum number of items in each tab</source>
-        <translation>Maximum aantal items per tabblad</translation>
+        <translation type="vanished">Maximum aantal items per tabblad</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="663"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation>Tabblad in slaapsta&amp;nd zetten na (in minuten):</translation>
+        <translation type="vanished">Tabblad in slaapsta&amp;nd zetten na (in minuten):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="675"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation>Elk tabblad uit het geheugen verwijderen na een opgegeven aantal minuten van inactiviteit.
+        <translation type="vanished">Elk tabblad uit het geheugen verwijderen na een opgegeven aantal minuten van inactiviteit.
 
 Stel in op 0 om tabbladen nooit in de slaapstand te zetten.</translation>
     </message>
@@ -1471,14 +1987,13 @@ Stel in op 0 om tabbladen nooit in de slaapstand te zetten.</translation>
         <translation type="vanished">Externe t&amp;ekstverwerker-opdracht (%1 is het te bewerken bestand):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="712"/>
         <source>External editor command (%1 is file to edit).
   Examples:
     gedit %1
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation>Externe tekstverwerker-opdracht (%1 is het te bewerken bestand).
+        <translation type="vanished">Externe tekstverwerker-opdracht (%1 is het te bewerken bestand).
   Voorbeelden:
     gedit %1
     notepad %1
@@ -1486,340 +2001,320 @@ Stel in op 0 om tabbladen nooit in de slaapstand te zetten.</translation>
     xterm -e vim %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="727"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation>Ta&amp;bblad voor het bewaren van het klembord:</translation>
+        <translation type="vanished">Ta&amp;bblad voor het bewaren van het klembord:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="737"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation>Naam van het tabblad dat automatisch nieuwe klembordinhoud zal bewaren.
+        <translation type="vanished">Naam van het tabblad dat automatisch nieuwe klembordinhoud zal bewaren.
 
 Laat leeg om automatische opslag uit te schakelen.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="751"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>Vink niet aan om de Enter-toets in te stellen voor het opslaan van een bewerkt item en Ctrl+Enter voor het creëren van een nieuwe regel.
+        <translation type="vanished">Vink niet aan om de Enter-toets in te stellen voor het opslaan van een bewerkt item en Ctrl+Enter voor het creëren van een nieuwe regel.
 
 Let op: bewerkte items kunnen sowieso altijd worden opgeslagen met de F2-toets.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="756"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>Ctrl+Enter instellen om bestanden op te slaan en Enter om nieuwe regel te creëren</translation>
+        <translation type="vanished">Ctrl+Enter instellen om bestanden op te slaan en Enter om nieuwe regel te creëren</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="763"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation>Enkele regelomschrijving weergeven voor elk item.
+        <translation type="vanished">Enkele regelomschrijving weergeven voor elk item.
 
 Gebruik Itemvoorbeeld om gehele items weer te geven.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Sho&amp;w simple items</source>
-        <translation>Simpele items &amp;weergeven</translation>
+        <translation type="vanished">Simpele items &amp;weergeven</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="775"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation>Activeer het zoeken naar nummers, anders wordt het item op deze positie geactiveerd door op een cijfertoets te drukken</translation>
+        <translation type="vanished">Activeer het zoeken naar nummers, anders wordt het item op deze positie geactiveerd door op een cijfertoets te drukken</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>S&amp;earch for numbers</source>
-        <translation>Z&amp;oeken naar nummers</translation>
+        <translation type="vanished">Z&amp;oeken naar nummers</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="785"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Na het activeren van een item (dubbelklik of Enter-toets), kopieer het naar het klembord en ...</translation>
+        <translation type="vanished">Na het activeren van een item (dubbelklik of Enter-toets), kopieer het naar het klembord en ...</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="791"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation>Item naar bovenkant van de lijst verplaatsen na activeren</translation>
+        <translation type="vanished">Item naar bovenkant van de lijst verplaatsen na activeren</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="794"/>
         <source>Move item to the t&amp;op</source>
-        <translation>Item naar b&amp;oven verplaatsen</translation>
+        <translation type="vanished">Item naar b&amp;oven verplaatsen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="801"/>
         <source>Close main window after item is activated</source>
-        <translation>Hoofdvenster sluiten na activeren van item</translation>
+        <translation type="vanished">Hoofdvenster sluiten na activeren van item</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="804"/>
         <source>&amp;Close main window</source>
-        <translation>Hoofdvenster &amp;sluiten</translation>
+        <translation type="vanished">Hoofdvenster &amp;sluiten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="811"/>
         <source>Focus last window after item is activated</source>
-        <translation>Laatstgebruikte venster focussen na activeren van item</translation>
+        <translation type="vanished">Laatstgebruikte venster focussen na activeren van item</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="814"/>
         <source>&amp;Focus last window</source>
-        <translation>Laatstgebruikte venster &amp;focussen</translation>
+        <translation type="vanished">Laatstgebruikte venster &amp;focussen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="821"/>
         <source>Paste to current window after item is activated</source>
-        <translation>Plakken in huidig venster na activeren van item</translation>
+        <translation type="vanished">Plakken in huidig venster na activeren van item</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="824"/>
         <source>&amp;Paste to current window</source>
-        <translation>&amp;Plakken in huidig venster</translation>
+        <translation type="vanished">&amp;Plakken in huidig venster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="867"/>
         <source>&amp;Tray</source>
-        <translation>Sys&amp;teemvak</translation>
+        <translation type="vanished">Sys&amp;teemvak</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="929"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation>Opdracht voor huidige klembordinhoud weergeven in systeemvakmenu</translation>
+        <translation type="vanished">Opdracht voor huidige klembordinhoud weergeven in systeemvakmenu</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="932"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>Opdrachten voor klembordinhoud &amp;weergeven</translation>
+        <translation type="vanished">Opdrachten voor klembordinhoud &amp;weergeven</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="941"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>Aa&amp;ntal items in systeemvakmenu:</translation>
+        <translation type="vanished">Aa&amp;ntal items in systeemvakmenu:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="951"/>
         <source>Number of items in tray menu</source>
-        <translation>Aantal items in systeemvakmenu</translation>
+        <translation type="vanished">Aantal items in systeemvakmenu</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="978"/>
         <source>Show items from current tab in tray menu</source>
-        <translation>Items van huidig tabblad weergeven in systeemvakmenu</translation>
+        <translation type="vanished">Items van huidig tabblad weergeven in systeemvakmenu</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="981"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>Huidig tabblad wee&amp;rgeven in systeemvakmenu,</translation>
+        <translation type="vanished">Huidig tabblad wee&amp;rgeven in systeemvakmenu,</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="988"/>
         <source>or &amp;choose other tab:</source>
-        <translation>of &amp;kies een ander tabblad:</translation>
+        <translation type="vanished">of &amp;kies een ander tabblad:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1004"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation>Naam van het tabblad om in het tray menu te tonen (leeg voor het eerste tabblad)</translation>
+        <translation type="vanished">Naam van het tabblad om in het tray menu te tonen (leeg voor het eerste tabblad)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1029"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation>Plakken in het huidige venster na selectie in het menu</translation>
+        <translation type="vanished">Plakken in het huidige venster na selectie in het menu</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1032"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation>&amp;Plakken actief item in het huidige venster</translation>
+        <translation type="vanished">&amp;Plakken actief item in het huidige venster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1039"/>
         <source>Show image preview next to menu items</source>
-        <translation>Afbeeldingsvoorbeeld naast menu-items weergeven</translation>
+        <translation type="vanished">Afbeeldingsvoorbeeld naast menu-items weergeven</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1042"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation>Afbeeldingsvoorbeeld als een menupictogram weergeven</translation>
+        <translation type="vanished">Afbeeldingsvoorbeeld als een menupictogram weergeven</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1082"/>
         <source>&amp;Notifications</source>
-        <translation>&amp;Meldingen</translation>
+        <translation type="vanished">&amp;Meldingen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1139"/>
         <source>&amp;Notification position:</source>
-        <translation>&amp;Notificatie positie:</translation>
+        <translation type="vanished">&amp;Notificatie positie:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1151"/>
         <source>Position on screen for notifications</source>
-        <translation>Plaats op scherm voor meldingen</translation>
+        <translation type="vanished">Plaats op scherm voor meldingen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1155"/>
         <source>Top</source>
-        <translation>Bovenkant</translation>
+        <translation type="vanished">Bovenkant</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1160"/>
         <source>Bottom</source>
-        <translation>Onderkant</translation>
+        <translation type="vanished">Onderkant</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1165"/>
         <source>Top Right</source>
-        <translation>Rechtsboven</translation>
+        <translation type="vanished">Rechtsboven</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1170"/>
         <source>Bottom Right</source>
-        <translation>Rechtsonder</translation>
+        <translation type="vanished">Rechtsonder</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1175"/>
         <source>Bottom Left</source>
-        <translation>Linksonder</translation>
+        <translation type="vanished">Linksonder</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1180"/>
         <source>Top Left</source>
-        <translation>Linksboven</translation>
+        <translation type="vanished">Linksboven</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1203"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>Het aantal seconden dat meldingen worden weer gegeven:</translation>
+        <translation type="vanished">Het aantal seconden dat meldingen worden weer gegeven:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1215"/>
         <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Interval in seconden dat de inhoud van een nieuwe toevoeging word weergeven. (word allen gebruikt wanneer het hoofdscherm gesloten is.) 
+        <translation type="vanished">Interval in seconden dat de inhoud van een nieuwe toevoeging word weergeven. (word allen gebruikt wanneer het hoofdscherm gesloten is.) 
 
 Zet op 0 om uit te schakelen.
 
 Stel in op -1 om zichtbaar te blijven tot erop wordt geklikt.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1247"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation>Aantal regels voor klembordmeldingen:</translation>
+        <translation type="vanished">Aantal regels voor klembordmeldingen:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1259"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation>Aantal regels dat wordt weergegeven bij een nieuwe item op het klembord.
+        <translation type="vanished">Aantal regels dat wordt weergegeven bij een nieuwe item op het klembord.
 
 Deze op 0 zetten om dit uit te schakelen.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1288"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation>Afmetingen (in pixels)</translation>
+        <translation type="vanished">Afmetingen (in pixels)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1294"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation>Hori&amp;horizontale verschuiving:</translation>
+        <translation type="vanished">Hori&amp;horizontale verschuiving:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1306"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation>Afstand van rechter tot linkerkant scherm in pixels</translation>
+        <translation type="vanished">Afstand van rechter tot linkerkant scherm in pixels</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1334"/>
         <source>&amp;Vertical offset:</source>
-        <translation>Verticale verschuiving:</translation>
+        <translation type="vanished">Verticale verschuiving:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1346"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation>Afstand tussen boven- of onderrand van het scherm in pixels</translation>
+        <translation type="vanished">Afstand tussen boven- of onderrand van het scherm in pixels</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1374"/>
         <source>Maximum &amp;width:</source>
-        <translation>Maximale &amp;breedte:</translation>
+        <translation type="vanished">Maximale &amp;breedte:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1386"/>
         <source>Maximum width for notification in screen points</source>
-        <translation>Maximale breedte voor melding in pixels</translation>
+        <translation type="vanished">Maximale breedte voor melding in pixels</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1411"/>
         <source>Ma&amp;ximum height:</source>
-        <translation>Ma&amp;ximum hoogte:</translation>
+        <translation type="vanished">Ma&amp;ximum hoogte:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1423"/>
         <source>Maximum height for notification in screen points</source>
-        <translation>Maximale breedte voor melding in pixels</translation>
+        <translation type="vanished">Maximale breedte voor melding in pixels</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1484"/>
-        <source>Ta&amp;bs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1494"/>
         <source>&amp;Items</source>
-        <translation>&amp;Artikelen</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1506"/>
-        <source>You can change priority of formats to display by reordering items below.</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">&amp;Artikelen</translation>
     </message>
     <message>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
         <translation type="vanished">Het weergaveformaat van het geselecteerde item in de geschiedenis kan worden gewijzigd door te drukken op &lt;b&gt;Ctrl+Links&lt;/b&gt; of &lt;b&gt;Ctrl+Right&lt;/b&gt;. U kunt de prioriteit van de weer te geven formaten wijzigen door de items hieronder opnieuw te ordenen.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1524"/>
         <source>&amp;Shortcuts</source>
-        <translation>&amp;Snelkoppelingen</translation>
+        <translation type="vanished">&amp;Snelkoppelingen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1534"/>
         <source>&amp;Appearance</source>
-        <translation>&amp;Vormgeving</translation>
+        <translation type="vanished">&amp;Vormgeving</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="372"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="177"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="178"/>
+        <source>Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="179"/>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="180"/>
+        <source>Tray</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="181"/>
+        <source>Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="182"/>
+        <source>Tabs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="183"/>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="184"/>
+        <source>Shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="185"/>
+        <source>Appearance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="419"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Ongeldige waarde voor optie &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="415"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="462"/>
         <source>Reset preferences?</source>
         <translation>Voorkeuren resetten?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="416"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="463"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Deze actie zet al je voorkeuren (in alle tabbladen) terug naar de standaardwaarden.&lt;br /&gt;&lt;br /&gt;Weet je zeker dat je &lt;strong&gt;alle voorkeuren&lt;/strong&gt;wilt resetten?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="520"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="566"/>
         <source>Restart Required</source>
         <translation>Herstart vereist</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="521"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="567"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Taal zal worden gewijzigd na het opnieuw opstarten van de applicatie.</translation>
     </message>
@@ -1827,7 +2322,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="611"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="630"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Er kan geen synchronisatie map &quot;%1&quot; worden gemaakt!</translation>
     </message>
@@ -1844,9 +2339,13 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
 <context>
     <name>IconSelectButton</name>
     <message>
-        <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon...</source>
-        <translation>Een pictogram selecteren...</translation>
+        <translation type="vanished">Een pictogram selecteren...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
+        <source>Select Icon…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
@@ -2312,22 +2811,22 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <translation>Verwijder eerst de speld om de notities te kunnen verwijderen.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="379"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="384"/>
         <source>Pin</source>
         <translation>Speld</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="386"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="391"/>
         <source>Unpin</source>
         <translation>Losmaken speld</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="99"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="101"/>
         <source>Pinned Items</source>
         <translation>Vastgemaakte Spelden</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="102"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="104"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation>&lt;p&gt; Speld items om ze in de huidige rij te vergrendelen en te voorkomen dat ze kunnen worden verwijderd (behalve als ze geen speld hebben).&lt;/p&gt;&lt;p&gt; Biedt snelkoppelingen en scriptfunctionaliteit.&lt;/p&gt;</translation>
     </message>
@@ -2341,22 +2840,22 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <translation>Bladeren...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="817"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="826"/>
         <source>Open Directory for Synchronization</source>
         <translation>Open Directory voor synchronisatie</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="831"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="840"/>
         <source>Failed to create synchronization directory</source>
         <translation>Er kan geen synchronisatie map worden gemaakt</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="145"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="147"/>
         <source>Synchronize</source>
         <translation>Synchroniseren</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="147"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="149"/>
         <source>Synchronize items and notes with a directory on disk.</source>
         <translation>Synchroniseer items en notities met een map op onze schijf.</translation>
     </message>
@@ -2576,149 +3075,149 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <translation>CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="510"/>
+        <location filename="../src/gui/mainwindow.cpp" line="525"/>
         <source>Exit?</source>
         <translation>Afsluiten?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="511"/>
+        <location filename="../src/gui/mainwindow.cpp" line="526"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>Wilt u CopyQ&lt;strong&gt;geforceerd afsluiten&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="558"/>
+        <location filename="../src/gui/mainwindow.cpp" line="573"/>
         <source>&amp;File</source>
         <translation>&amp;Bestand</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="600"/>
+        <location filename="../src/gui/mainwindow.cpp" line="615"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bewerken</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="624"/>
+        <location filename="../src/gui/mainwindow.cpp" line="639"/>
         <source>&amp;Item</source>
         <translation>&amp;Item</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="628"/>
+        <location filename="../src/gui/mainwindow.cpp" line="643"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Tabs</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="653"/>
+        <location filename="../src/gui/mainwindow.cpp" line="668"/>
         <source>&amp;Help</source>
         <translation>&amp;Help</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="678"/>
+        <location filename="../src/gui/mainwindow.cpp" line="693"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Nieuw Tabblad</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="680"/>
+        <location filename="../src/gui/mainwindow.cpp" line="695"/>
         <source>Rename &amp;Group %1</source>
         <translation>Hernoemen &amp;Groep %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="682"/>
+        <location filename="../src/gui/mainwindow.cpp" line="697"/>
         <source>Re&amp;name Tab %1</source>
         <translation>Her&amp;noemen Tab %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="684"/>
+        <location filename="../src/gui/mainwindow.cpp" line="699"/>
         <source>Re&amp;move Tab %1</source>
         <translation>Verwijderen Tab%1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="686"/>
+        <location filename="../src/gui/mainwindow.cpp" line="701"/>
         <source>Remove Group %1</source>
         <translation>Verwijderen Groep %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="688"/>
+        <location filename="../src/gui/mainwindow.cpp" line="703"/>
         <source>&amp;Change Tab Icon</source>
         <translation>&amp;Aanpassen Picogram van Tab</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1204"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1222"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>&amp;Inschakelen Klembord Opslag</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1205"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1223"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>Uitschakelen Opslaan op Klembord</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1760"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1777"/>
         <source>CopyQ Options for Import</source>
         <translation>CopyQ Opties voor Importeren</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1995"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2013"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Fout</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3007"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3045"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Weergeven/Verbergen</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3263"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3307"/>
         <source>CopyQ Options for Export</source>
         <translation>CopyQ opties voor exporteren</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3284"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3328"/>
         <source>CopyQ Export Error</source>
         <translation>CopyQ Export Fout</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3285"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3329"/>
         <source>Failed to export file %1!</source>
         <translation>Mislukt om bestand te exporteren %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="729"/>
+        <location filename="../src/gui/mainwindow.cpp" line="744"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;klembord: 1%</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="301"/>
+        <location filename="../src/gui/mainwindow.cpp" line="313"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ Notities(*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3373"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3417"/>
         <source>CopyQ Import Error</source>
         <translation>CopyQ Fout Bij Importeren</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3374"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3418"/>
         <source>Failed to import file %1!</source>
         <translation>Het is niet gelukt om bestand %1 te importeren!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3526"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3570"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Alle tabbladen in de groep verwijderen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3527"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3571"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wilt u &lt;strong&gt;alle tabbladen&lt;/strong&gt; in groep &lt;strong&gt;%1&lt;/strong&gt; verwijderen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3574"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3618"/>
         <source>Remove Tab?</source>
         <translation>Tabblad verwijderen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3575"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3619"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wilt u het tabblad &lt;strong&gt;%1&lt;/strong&gt; verwijderen?</translation>
     </message>
@@ -2777,13 +3276,13 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="432"/>
+        <location filename="../src/common/common.cpp" line="506"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;VERBORGEN&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="438"/>
+        <location filename="../src/common/common.cpp" line="512"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -2792,25 +3291,25 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="448"/>
+        <location filename="../src/common/common.cpp" line="522"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;AFBEELDING&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="450"/>
+        <location filename="../src/common/common.cpp" line="524"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;NOTITIES&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="452"/>
+        <location filename="../src/common/common.cpp" line="526"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;LEEG&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="454"/>
+        <location filename="../src/common/common.cpp" line="528"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;GEGEVENS&gt;</translation>
@@ -2828,7 +3327,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <translation>Verwijderen</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2036"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2048"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -2837,18 +3336,13 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2039"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2051"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../src/item/serialize.cpp" line="180"/>
-        <source>Data deserialization failed: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/main.cpp" line="209"/>
+        <location filename="../src/main.cpp" line="215"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation type="unfinished"></translation>
@@ -3413,7 +3907,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
         <source>COMMAND</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3522,84 +4016,84 @@ Print version of program and libraries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
         <source>Usage: copyq [%1]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="79"/>
         <source>Starts server if no command is specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="79"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="80"/>
         <source>  COMMANDs:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="84"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="85"/>
         <source>NOTES:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="85"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="86"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="86"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="87"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="88"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="89"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="93"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="94"/>
         <source>Invalid number of arguments!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="808"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="787"/>
         <source>Command not found!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="908"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="887"/>
         <source>Terminating server.
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="710"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="689"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="715"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="694"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1371"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1350"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2640"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2661"/>
         <source>Exception</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2641"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2662"/>
         <source>Exception in %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2683"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2704"/>
         <source>Failed to copy to clipboard!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3622,13 +4116,13 @@ Print version of program and libraries.</source>
         <translation>Er bestaat al een tabblad met deze naam!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1972"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1984"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1975"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1987"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation type="unfinished"></translation>
@@ -3673,13 +4167,28 @@ Print version of program and libraries.</source>
         <translation>&amp;Zoeken:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="243"/>
-        <source>Shortcut already exists!</source>
+        <location filename="../src/ui/shortcutswidget.ui" line="50"/>
+        <source>Gl&amp;obal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="300"/>
-        <source>Shortcut can be triggered from any application</source>
+        <location filename="../src/ui/shortcutswidget.ui" line="56"/>
+        <source>Global shortcuts can be triggered from any application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/shortcutswidget.ui" line="77"/>
+        <source>A&amp;pplication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/shortcutswidget.ui" line="83"/>
+        <source>Application shortcuts can be triggered only from the main window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
+        <source>Shortcut already exists!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

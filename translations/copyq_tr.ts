@@ -167,14 +167,22 @@
         <translation>Standart çıktıyı saklayın:</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation>Verilen MIME türünün verilerini komutun standart girdisine gönderin (devre dışı bırakmak için boş bırakın)</translation>
+        <translation type="vanished">Verilen MIME türünün verilerini komutun standart girdisine gönderin (devre dışı bırakmak için boş bırakın)</translation>
+    </message>
+    <message>
+        <source>Create items from standard output of the program (leave empty to disable)</source>
+        <translation type="vanished">Programın standart çıkışından öğeleri oluşturun (devre dışı bırakmak için boş bırakın)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/actiondialog.ui" line="78"/>
+        <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>Programın standart çıkışından öğeleri oluşturun (devre dışı bırakmak için boş bırakın)</translation>
+        <source>Create items from standard output of the program (leave empty to turn off)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -430,14 +438,14 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardBrowser</name>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="818"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1640"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="816"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1642"/>
         <source>Cannot Add New Items</source>
         <translation>Yeni öğeler eklenemiyor</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="819"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1641"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="817"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
         <source>Tab is full. Failed to remove any items.</source>
         <translation>Sekme dolu. Herhangi bir öğe kaldırılamadı.</translation>
     </message>
@@ -455,12 +463,12 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="126"/>
+        <location filename="../src/app/clipboardclient.cpp" line="117"/>
         <source>Connection lost!</source>
         <translation>Bağlantı koptu!</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="133"/>
+        <location filename="../src/app/clipboardclient.cpp" line="124"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>Sunucu bağlantısı yapılamıyor! Öncelikle CopyQ sunucusunu başlatın.</translation>
     </message>
@@ -502,27 +510,27 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="91"/>
+        <location filename="../src/app/clipboardserver.cpp" line="90"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ sunucusu zaten çalışıyor.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="309"/>
+        <location filename="../src/app/clipboardserver.cpp" line="308"/>
         <source>Cancel Active Commands</source>
         <translation>Aktif Komutları İptal Et</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="310"/>
+        <location filename="../src/app/clipboardserver.cpp" line="309"/>
         <source>Cancel active commands and exit?</source>
         <translation>Aktif komutları iptal edip çıkmak istiyor musunuz?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="313"/>
+        <location filename="../src/app/clipboardserver.cpp" line="312"/>
         <source>Cancel Exiting</source>
         <translation>Çıkmaktan vazgeç</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="314"/>
+        <location filename="../src/app/clipboardserver.cpp" line="313"/>
         <source>Exit Anyway</source>
         <translation>Her şekilde çık</translation>
     </message>
@@ -555,13 +563,21 @@ You can set up the command in preferences.</source>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
-        <source>&amp;Load Commands...</source>
-        <translation>&amp;Komutlar Yükleniyor...</translation>
+        <source>&amp;Load Commands…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
+        <source>Sa&amp;ve Selected…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Load Commands...</source>
+        <translation type="vanished">&amp;Komutlar Yükleniyor...</translation>
+    </message>
+    <message>
         <source>Sa&amp;ve Selected...</source>
-        <translation>S&amp;eçileni Kaydet ...</translation>
+        <translation type="vanished">S&amp;eçileni Kaydet ...</translation>
     </message>
     <message>
         <source>Sa&amp;ve Selected Commands...</source>
@@ -578,32 +594,32 @@ You can set up the command in preferences.</source>
         <translation>Komutları yapıştır</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="213"/>
+        <location filename="../src/gui/commanddialog.cpp" line="215"/>
         <source>Unsaved Changes</source>
         <translation>Değişiklikler Kaydedilmedi</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="213"/>
+        <location filename="../src/gui/commanddialog.cpp" line="215"/>
         <source>Command dialog has unsaved changes.</source>
         <translation>Komut kutusunda kaydedilmemiş değişiklikler var.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="291"/>
+        <location filename="../src/gui/commanddialog.cpp" line="293"/>
         <source>Open Files with Commands</source>
         <translation>Dosyaları komutlarla aç</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="292"/>
+        <location filename="../src/gui/commanddialog.cpp" line="294"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>Komutlar (*.ini);; CopyQ Yapılandırma (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="303"/>
+        <location filename="../src/gui/commanddialog.cpp" line="305"/>
         <source>Save Selected Commands</source>
         <translation>Seçili Komutları Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="304"/>
+        <location filename="../src/gui/commanddialog.cpp" line="306"/>
         <source>Commands (*.ini)</source>
         <translation>Komutlar (*.ini)</translation>
     </message>
@@ -1084,11 +1100,591 @@ düzenlemek için F2&apos;ye basın.</translation>
     </message>
 </context>
 <context>
+    <name>ConfigTabGeneral</name>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="65"/>
+        <source>&amp;Language:</source>
+        <translation type="unfinished">&amp;Dil:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="93"/>
+        <source>Break text if it&apos;s too long to fit on line</source>
+        <translation type="unfinished">Satıra sığmayan metini kes</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="96"/>
+        <source>Wrap l&amp;ong text</source>
+        <translation type="unfinished">&amp;Uzun metni kaydır</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="103"/>
+        <source>Keep main window above other windows</source>
+        <translation type="unfinished">Ana pencereyi diğer pencereler üzerinde tut</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="106"/>
+        <source>Alwa&amp;ys on Top</source>
+        <translation type="unfinished">Her Zaman Üstte</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="113"/>
+        <source>Close main window when other application has focus</source>
+        <translation type="unfinished">Başka uygulamaya geçince ana pencereyi kapat</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="116"/>
+        <source>Close When Unfocused</source>
+        <translation type="unfinished">Başka uygulamaya geçince ana pencereyi kapat</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="123"/>
+        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
+        <translation type="unfinished">Geçerli ekranda pencereleri açmak için etkinleştirin. En son kapatıldıkları pencereleri açmak için devre dışı bırakın</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="126"/>
+        <source>O&amp;pen windows on current screen</source>
+        <translation type="unfinished">Penreleri mevcut ekranda aç</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="133"/>
+        <source>Confirm application exit</source>
+        <translation type="unfinished">Çıkarken onayla</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="136"/>
+        <source>Confirm application e&amp;xit</source>
+        <translation type="unfinished">Çıkarken o&amp;nayla</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="146"/>
+        <source>Run the application on system startup</source>
+        <translation type="unfinished">Sistem başlangıcında başlat</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="149"/>
+        <source>&amp;Autostart</source>
+        <translation type="unfinished">&amp;Otomatik Başlat</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="156"/>
+        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
+        <translation type="unfinished">Vi gezinme tuşlarını destekle (H, J, K, L and more), arama için (/)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="159"/>
+        <source>&amp;Vi style navigation</source>
+        <translation type="unfinished">&amp;Vi tipi gezinme</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="166"/>
+        <source>Save and restore history of item filters</source>
+        <translation type="unfinished">Öğe filtrelerinin geçmişini kaydet ve düzenle</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="169"/>
+        <source>Save Filter History</source>
+        <translation type="unfinished">Filtreleme Geçmişini Kaydet</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="176"/>
+        <source>Automatically show popup to complete function, type and variable names in commands</source>
+        <translation type="unfinished">Komutlarda işlevi, türü ve değişken adlarını tamamlamak için otomatik olarak açılır pencereleri göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="179"/>
+        <source>Auto-complete Commands</source>
+        <translation type="unfinished">Komutları Otomatik Tamamla</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="186"/>
+        <source>Clipboard Manipulation</source>
+        <translation type="unfinished">Pano Manipülasyonu</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="198"/>
+        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
+        <translation type="unfinished">Kopyalanan içeriği fare ile yapıştırmaya izin ver ( genellikle orta fare tuşu)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="201"/>
+        <source>(&amp;3) Paste clipboard with mouse</source>
+        <translation type="unfinished">(&amp;3) Fare ile yapıştır</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="208"/>
+        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
+        <translation type="unfinished">Kısayol kullanarak fare seçimlerini yapıştırmaya izin ver (genellikle Ctrl+V veya Shift+Insert)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="211"/>
+        <source>(&amp;4) Paste mouse selection with keyboard</source>
+        <translation type="unfinished">(&amp;4) Klavye ile fare seçimini yapıştırın</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="218"/>
+        <source>Save clipboard in history</source>
+        <translation type="unfinished">Geçmişte panoya kaydet</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="221"/>
+        <source>(&amp;1) Store clipboard</source>
+        <translation type="unfinished">(&amp;1) Panoya aktar</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="231"/>
+        <source>Save text selected with mouse (primary selection) in history</source>
+        <translation type="unfinished">Geçmişe fare ile seçilen ilk seçimi kaydet</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="234"/>
+        <source>(&amp;2) Store text selected using mouse</source>
+        <translation type="unfinished">(&amp;2) Fareyi kullanarak seçilen metni saklayın</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="241"/>
+        <source>(&amp;5) Run automatic commands on selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabHistory</name>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="65"/>
+        <source>Maximum &amp;number of items in history:</source>
+        <translation type="unfinished">Geçmişte maksimum öğe sayısı:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="77"/>
+        <source>Maximum number of items in each tab</source>
+        <translation type="unfinished">Her sekmedeki maksimum öğe sayısı</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="105"/>
+        <source>&amp;Unload tab after an interval in minutes:</source>
+        <translation type="unfinished">Sekmeyi dakikalar sonra verilen aralıktan sonra kaldır:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="117"/>
+        <source>Unload each tab from memory after specified number of minutes of inactivity.
+
+Set to 0 not to unload tabs.</source>
+        <translation type="unfinished">Her bir sekmeyi, belirli sayıda etkinlik dışı kaldıktan sonra bellekten çıkarın.
+
+Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="144"/>
+        <source>External editor command (%&amp;1 is file to edit):</source>
+        <translation type="unfinished">Harici editör komutu (%&amp;1 düzenlemek için dosya):</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="154"/>
+        <source>External editor command (%1 is file to edit).
+  Examples:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</source>
+        <translation type="unfinished">Harici editör komutu (%1 düzenlenecek dosya).
+  Örnekler:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="169"/>
+        <source>Ta&amp;b for storing clipboard:</source>
+        <translation type="unfinished">Pano aktarması için sekme:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="179"/>
+        <source>Name of tab that will automatically store new clipboard content.
+
+Leave empty to disable automatic storing.</source>
+        <translation type="unfinished">Yeni pano içeriğini otomatik olarak depolayacak sekmenin adı.
+
+Otomatik depolamayı devre dışı bırakmak için boş bırakın.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="193"/>
+        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
+
+Note: Edited items can be saved with F2 disregarding this option.</source>
+        <translation type="unfinished">Düzenlenen öğeyi kaydetmek için Return tuşunun işaretini kaldırın ve Ctrl+Return ile yeni bir satır oluşturun.
+
+Not: Düzenlenmiş öğeler, bu seçenek dikkate alınmadan F2 ile kaydedilebilir.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="198"/>
+        <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
+        <translation type="unfinished">&amp;Düzenlenen öğeyi Ctrl+Return ile kaydet ve Return tuşuyla yeni satır oluştur</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="205"/>
+        <source>Show single line description of each item.
+
+Use Item Preview to display whole items.</source>
+        <translation type="unfinished">Her bir öğenin tek satır açıklamasını göster.
+
+Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="210"/>
+        <source>Sho&amp;w simple items</source>
+        <translation type="unfinished">&amp;Basit öğeleri göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="217"/>
+        <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
+        <translation type="unfinished">Numara aramayı etkinleştirin, aksi halde bir rakam tuşuna basılması, bu konumdaki öğeyi etkinleştirir</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="220"/>
+        <source>S&amp;earch for numbers</source>
+        <translation type="unfinished">&amp;Sayılar için Ara</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="227"/>
+        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
+        <translation type="unfinished">Öğe etkinleştirildikten sonra (çift tıklayın veya Enter tuşuna basın), panoya kopyalayın ve ...</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="233"/>
+        <source>Move item to the top of the list after it is activated</source>
+        <translation type="unfinished">Öğeyi etkinleştirildikten sonra listenin en üstüne taşı</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="236"/>
+        <source>Move item to the t&amp;op</source>
+        <translation type="unfinished">&amp;Öğeyi en üste taşı</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="243"/>
+        <source>Close main window after item is activated</source>
+        <translation type="unfinished">Öğe etkinleştirildikten sonra ana pencereyi kapat</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="246"/>
+        <source>&amp;Close main window</source>
+        <translation type="unfinished">&amp;Ana pencereyi kapat</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="253"/>
+        <source>Focus last window after item is activated</source>
+        <translation type="unfinished">Öğe etkinleştirildikten sonra son pencereye odaklan</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="256"/>
+        <source>&amp;Focus last window</source>
+        <translation type="unfinished">&amp;Son pencereye odaklan</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="263"/>
+        <source>Paste to current window after item is activated</source>
+        <translation type="unfinished">Öğe aktif edildikten sonra geçerli pencereye yapıştır</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="266"/>
+        <source>&amp;Paste to current window</source>
+        <translation type="unfinished">&amp;Geçerli pencereye yapıştır</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabLayout</name>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="62"/>
+        <source>Show/Hide</source>
+        <translation type="unfinished">Göster/Gizle</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="68"/>
+        <source>Hide tabs (press Alt key to show)</source>
+        <translation type="unfinished">Sekmeleri gizle (göstermek için Alt tuşuna basın)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="71"/>
+        <source>Hi&amp;de tabs</source>
+        <translation type="unfinished">&amp;Sekmeleri gizle</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="78"/>
+        <source>Hide toolbar</source>
+        <translation type="unfinished">Araç çubuğunu gizle</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="81"/>
+        <source>Hide too&amp;lbar</source>
+        <translation type="unfinished">&amp;Araç çubuğunu gizle</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="88"/>
+        <source>Hide tool&amp;bar labels</source>
+        <translation type="unfinished">&amp;Araç çubuğu etiketlerini gizle</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="95"/>
+        <source>Hide main window when closed</source>
+        <translation type="unfinished">Kapatıldığında ana pencereyi gizle</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="98"/>
+        <source>Hide &amp;main window</source>
+        <translation type="unfinished">&amp;Ana pencereyi gizle</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="108"/>
+        <source>Layout and Transparency</source>
+        <translation type="unfinished">Düzen ve Şeffaflık</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="117"/>
+        <source>Show tree with tabs instead of tab bar</source>
+        <translation type="unfinished">Sekme çubuğu yerine sekmeli ağacı göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="120"/>
+        <source>Tab T&amp;ree</source>
+        <translation type="unfinished">&amp;Sekme ağacı</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="127"/>
+        <source>&amp;Focused transparency:</source>
+        <translation type="unfinished">&amp;Odaklanmış şeffaflık:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="139"/>
+        <source>Transparency of main window if focused.
+
+Note: This is not supported on all systems.</source>
+        <translation type="unfinished">Odaklandığında ana pencerenin şeffaflığı.
+
+Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="169"/>
+        <source>&amp;Unfocused transparency:</source>
+        <translation type="unfinished">&amp;Odaklanmamış şeffaflık:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="181"/>
+        <source>Transparency of main window if unfocused.
+
+Note: This is not supported on all systems.</source>
+        <translation type="unfinished">Odaklanmadığında ana pencerenin şeffaflığı.
+
+Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="211"/>
+        <source>Show number of items in tabs</source>
+        <translation type="unfinished">Sekmelerdeki öğe sayısını göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="214"/>
+        <source>Sho&amp;w Item Count</source>
+        <translation type="unfinished">&amp;Öğe Sayısını Göster</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabNotifications</name>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="65"/>
+        <source>&amp;Notification position:</source>
+        <translation type="unfinished">&amp;Bildirimlerin konumu:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="77"/>
+        <source>Position on screen for notifications</source>
+        <translation type="unfinished">Bildirimler için ekran konumu</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="81"/>
+        <source>Top</source>
+        <translation type="unfinished">Üst</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="86"/>
+        <source>Bottom</source>
+        <translation type="unfinished">Alt</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="91"/>
+        <source>Top Right</source>
+        <translation type="unfinished">Üst Sağ</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="96"/>
+        <source>Bottom Right</source>
+        <translation type="unfinished">Alt Sağ</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="101"/>
+        <source>Bottom Left</source>
+        <translation type="unfinished">Alt Sol</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="106"/>
+        <source>Top Left</source>
+        <translation type="unfinished">Üst Sol</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="129"/>
+        <source>Int&amp;erval in seconds to display notifications:</source>
+        <translation type="unfinished">&amp;Bildirimleri görüntülemek için saniye cinsinden aralıklar:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="141"/>
+        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
+
+Set to 0 to disable this.
+
+Set to -1 to keep visible until clicked.</source>
+        <translation type="unfinished">Yeni pano bildirimleri için saniye cinsinden zaman (yalnızca ana pencere kapalıysa)
+
+Bunu devre dışı bırakmak için 0&apos;a ayarlayın.
+
+Tıklayana kadar görünür kalması için -1 olarak ayarlayın.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="173"/>
+        <source>Num&amp;ber of lines for clipboard notification:</source>
+        <translation type="unfinished">Bildirim satır sayısı:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="185"/>
+        <source>Number of lines to show for new clipboard content.
+
+Set to 0 to disable.</source>
+        <translation type="unfinished">Yeni pano içeriğinin gösterileceği satır sayısı.
+
+Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="214"/>
+        <source>Notification Geometry (in screen points)</source>
+        <translation type="unfinished">Bildirim Pozisyonu (ekran pikseli)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="220"/>
+        <source>Hori&amp;zontal offset:</source>
+        <translation type="unfinished">&amp;Yatay kaydırma:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="232"/>
+        <source>Notification distance from left or right screen edge in screen points</source>
+        <translation type="unfinished">Bildirimlerin sağ ve sol ekran konumlarına olan uzaklık</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="260"/>
+        <source>&amp;Vertical offset:</source>
+        <translation type="unfinished">&amp;Dikey kaydırma:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="272"/>
+        <source>Notification distance from top or bottom screen edge in screen points</source>
+        <translation type="unfinished">Ekran üst veya alt ekran kenarından bildirim mesafesi</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="300"/>
+        <source>Maximum &amp;width:</source>
+        <translation type="unfinished">Maksimum &amp;genişlik:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="312"/>
+        <source>Maximum width for notification in screen points</source>
+        <translation type="unfinished">Ekran noktalarında bildirim için maksimum genişlik</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="337"/>
+        <source>Ma&amp;ximum height:</source>
+        <translation type="unfinished">Ma&amp;ksimum yükseklik:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabnotifications.ui" line="349"/>
+        <source>Maximum height for notification in screen points</source>
+        <translation type="unfinished">Ekran noktalarında bildirim için maksimum yükseklik</translation>
+    </message>
+</context>
+<context>
     <name>ConfigTabShortcuts</name>
     <message>
-        <location filename="../src/tests/tests.cpp" line="2423"/>
         <source>Ctrl+P</source>
-        <translation>Ctrl+P</translation>
+        <translation type="vanished">Ctrl+P</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabTray</name>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="60"/>
+        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <translation type="unfinished">Tepsi simgesini gösterme; kapatıldığında pencereyi küçült</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="63"/>
+        <source>Disabl&amp;e tray</source>
+        <translation type="unfinished">&amp;Tepsiyi devre dışı bırak</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="70"/>
+        <source>Show command for current clipboard content in tray menu</source>
+        <translation type="unfinished">Geçerli komut pano içeriğini menüde göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="73"/>
+        <source>Sho&amp;w commands for clipboard content</source>
+        <translation type="unfinished">&amp;Pano içeriği için komutları göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="82"/>
+        <source>N&amp;umber of items in tray menu:</source>
+        <translation type="unfinished">Sistem tepsi menüsündeki öğelerin sayısı:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="92"/>
+        <source>Number of items in tray menu</source>
+        <translation type="unfinished">Öğe sayılarını sistem tepsisinde göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="119"/>
+        <source>Show items from current tab in tray menu</source>
+        <translation type="unfinished">Geçerli menüdeki öğeleri sistem tepsisinde göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="122"/>
+        <source>Show cu&amp;rrent tab in menu,</source>
+        <translation type="unfinished">&amp;Menüdeki geçerli sekmeyi göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="129"/>
+        <source>or &amp;choose other tab:</source>
+        <translation type="unfinished">veya &amp;diğer sekmeyi seçin:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="145"/>
+        <source>Name of tab to show in tray menu (empty for the first tab)</source>
+        <translation type="unfinished">Sistem tepsisinde gösterilecek sekmenin adı (ilk sekme için boş)</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="170"/>
+        <source>Paste item to current window after selecting it in menu</source>
+        <translation type="unfinished">Öğeyi menüde seçtikten sonra geçerli pencereye yapıştır</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="173"/>
+        <source>&amp;Paste activated item to current window</source>
+        <translation type="unfinished">&amp;Etkin öğeyi geçerli pencereye yapıştır</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="180"/>
+        <source>Show image preview next to menu items</source>
+        <translation type="unfinished">Menü öğelerinin yanında resimlerin önizlemesini göster</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabtray.ui" line="183"/>
+        <source>Sh&amp;ow image preview as menu item icon</source>
+        <translation type="unfinished">&amp;Görüntü önizlemesini menü öğesi simgesi olarak göster</translation>
     </message>
 </context>
 <context>
@@ -1099,214 +1695,172 @@ düzenlemek için F2&apos;ye basın.</translation>
         <translation>CopyQ Ayarları</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="39"/>
         <source>&amp;General</source>
-        <translation>&amp;Genel</translation>
+        <translation type="vanished">&amp;Genel</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="96"/>
         <source>&amp;Language:</source>
-        <translation>&amp;Dil:</translation>
+        <translation type="vanished">&amp;Dil:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="124"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation>Satıra sığmayan metini kes</translation>
+        <translation type="vanished">Satıra sığmayan metini kes</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="127"/>
         <source>Wrap l&amp;ong text</source>
-        <translation>&amp;Uzun metni kaydır</translation>
+        <translation type="vanished">&amp;Uzun metni kaydır</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="134"/>
         <source>Keep main window above other windows</source>
-        <translation>Ana pencereyi diğer pencereler üzerinde tut</translation>
+        <translation type="vanished">Ana pencereyi diğer pencereler üzerinde tut</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="137"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation>Her Zaman Üstte</translation>
+        <translation type="vanished">Her Zaman Üstte</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="144"/>
         <source>Close main window when other application has focus</source>
-        <translation>Başka uygulamaya geçince ana pencereyi kapat</translation>
+        <translation type="vanished">Başka uygulamaya geçince ana pencereyi kapat</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="147"/>
         <source>Close When Unfocused</source>
-        <translation>Başka uygulamaya geçince ana pencereyi kapat</translation>
+        <translation type="vanished">Başka uygulamaya geçince ana pencereyi kapat</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="154"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation>Geçerli ekranda pencereleri açmak için etkinleştirin. En son kapatıldıkları pencereleri açmak için devre dışı bırakın</translation>
+        <translation type="vanished">Geçerli ekranda pencereleri açmak için etkinleştirin. En son kapatıldıkları pencereleri açmak için devre dışı bırakın</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="157"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation>Penreleri mevcut ekranda aç</translation>
+        <translation type="vanished">Penreleri mevcut ekranda aç</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="164"/>
         <source>Confirm application exit</source>
-        <translation>Çıkarken onayla</translation>
+        <translation type="vanished">Çıkarken onayla</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="167"/>
         <source>Confirm application e&amp;xit</source>
-        <translation>Çıkarken o&amp;nayla</translation>
+        <translation type="vanished">Çıkarken o&amp;nayla</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="177"/>
         <source>Run the application on system startup</source>
-        <translation>Sistem başlangıcında başlat</translation>
+        <translation type="vanished">Sistem başlangıcında başlat</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="180"/>
         <source>&amp;Autostart</source>
-        <translation>&amp;Otomatik Başlat</translation>
+        <translation type="vanished">&amp;Otomatik Başlat</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="187"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation>Vi gezinme tuşlarını destekle (H, J, K, L and more), arama için (/)</translation>
+        <translation type="vanished">Vi gezinme tuşlarını destekle (H, J, K, L and more), arama için (/)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="190"/>
         <source>&amp;Vi style navigation</source>
-        <translation>&amp;Vi tipi gezinme</translation>
+        <translation type="vanished">&amp;Vi tipi gezinme</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="197"/>
         <source>Save and restore history of item filters</source>
-        <translation>Öğe filtrelerinin geçmişini kaydet ve düzenle</translation>
+        <translation type="vanished">Öğe filtrelerinin geçmişini kaydet ve düzenle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="200"/>
         <source>Save Filter History</source>
-        <translation>Filtreleme Geçmişini Kaydet</translation>
+        <translation type="vanished">Filtreleme Geçmişini Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation>Komutlarda işlevi, türü ve değişken adlarını tamamlamak için otomatik olarak açılır pencereleri göster</translation>
+        <translation type="vanished">Komutlarda işlevi, türü ve değişken adlarını tamamlamak için otomatik olarak açılır pencereleri göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="210"/>
         <source>Auto-complete Commands</source>
-        <translation>Komutları Otomatik Tamamla</translation>
+        <translation type="vanished">Komutları Otomatik Tamamla</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="217"/>
         <source>Clipboard Manipulation</source>
-        <translation>Pano Manipülasyonu</translation>
+        <translation type="vanished">Pano Manipülasyonu</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="262"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation>Geçmişe fare ile seçilen ilk seçimi kaydet</translation>
+        <translation type="vanished">Geçmişe fare ile seçilen ilk seçimi kaydet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="265"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation>(&amp;2) Fareyi kullanarak seçilen metni saklayın</translation>
+        <translation type="vanished">(&amp;2) Fareyi kullanarak seçilen metni saklayın</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="239"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation>Kısayol kullanarak fare seçimlerini yapıştırmaya izin ver (genellikle Ctrl+V veya Shift+Insert)</translation>
+        <translation type="vanished">Kısayol kullanarak fare seçimlerini yapıştırmaya izin ver (genellikle Ctrl+V veya Shift+Insert)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="242"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation>(&amp;4) Klavye ile fare seçimini yapıştırın</translation>
+        <translation type="vanished">(&amp;4) Klavye ile fare seçimini yapıştırın</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="249"/>
         <source>Save clipboard in history</source>
-        <translation>Geçmişte panoya kaydet</translation>
+        <translation type="vanished">Geçmişte panoya kaydet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="252"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation>(&amp;1) Panoya aktar</translation>
+        <translation type="vanished">(&amp;1) Panoya aktar</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="229"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation>Kopyalanan içeriği fare ile yapıştırmaya izin ver ( genellikle orta fare tuşu)</translation>
+        <translation type="vanished">Kopyalanan içeriği fare ile yapıştırmaya izin ver ( genellikle orta fare tuşu)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="232"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation>(&amp;3) Fare ile yapıştır</translation>
+        <translation type="vanished">(&amp;3) Fare ile yapıştır</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="315"/>
         <source>&amp;Layout</source>
-        <translation>&amp;Düzen</translation>
+        <translation type="vanished">&amp;Düzen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="369"/>
         <source>Show/Hide</source>
-        <translation>Göster/Gizle</translation>
+        <translation type="vanished">Göster/Gizle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="375"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation>Sekmeleri gizle (göstermek için Alt tuşuna basın)</translation>
+        <translation type="vanished">Sekmeleri gizle (göstermek için Alt tuşuna basın)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="378"/>
         <source>Hi&amp;de tabs</source>
-        <translation>&amp;Sekmeleri gizle</translation>
+        <translation type="vanished">&amp;Sekmeleri gizle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="385"/>
         <source>Hide toolbar</source>
-        <translation>Araç çubuğunu gizle</translation>
+        <translation type="vanished">Araç çubuğunu gizle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="388"/>
         <source>Hide too&amp;lbar</source>
-        <translation>&amp;Araç çubuğunu gizle</translation>
+        <translation type="vanished">&amp;Araç çubuğunu gizle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="395"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation>&amp;Araç çubuğu etiketlerini gizle</translation>
+        <translation type="vanished">&amp;Araç çubuğu etiketlerini gizle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="402"/>
         <source>Hide main window when closed</source>
-        <translation>Kapatıldığında ana pencereyi gizle</translation>
+        <translation type="vanished">Kapatıldığında ana pencereyi gizle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="405"/>
         <source>Hide &amp;main window</source>
-        <translation>&amp;Ana pencereyi gizle</translation>
+        <translation type="vanished">&amp;Ana pencereyi gizle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="415"/>
         <source>Layout and Transparency</source>
-        <translation>Düzen ve Şeffaflık</translation>
+        <translation type="vanished">Düzen ve Şeffaflık</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="424"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation>Sekme çubuğu yerine sekmeli ağacı göster</translation>
+        <translation type="vanished">Sekme çubuğu yerine sekmeli ağacı göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="427"/>
         <source>Tab T&amp;ree</source>
-        <translation>&amp;Sekme ağacı</translation>
+        <translation type="vanished">&amp;Sekme ağacı</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="434"/>
         <source>&amp;Focused transparency:</source>
-        <translation>&amp;Odaklanmış şeffaflık:</translation>
+        <translation type="vanished">&amp;Odaklanmış şeffaflık:</translation>
     </message>
     <message>
         <source>Transparency of main window if focused.
@@ -1317,9 +1871,8 @@ Note: This is not be supported on all systems.</source>
 Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="476"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation>&amp;Odaklanmamış şeffaflık:</translation>
+        <translation type="vanished">&amp;Odaklanmamış şeffaflık:</translation>
     </message>
     <message>
         <source>Transparency of main window if unfocused.
@@ -1330,63 +1883,53 @@ Note: This is not be supported on all systems.</source>
 Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="518"/>
         <source>Show number of items in tabs</source>
-        <translation>Sekmelerdeki öğe sayısını göster</translation>
+        <translation type="vanished">Sekmelerdeki öğe sayısını göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="521"/>
         <source>Sho&amp;w Item Count</source>
-        <translation>&amp;Öğe Sayısını Göster</translation>
+        <translation type="vanished">&amp;Öğe Sayısını Göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="566"/>
         <source>&amp;History</source>
-        <translation>&amp;Geçmiş</translation>
+        <translation type="vanished">&amp;Geçmiş</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="623"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation>Geçmişte maksimum öğe sayısı:</translation>
+        <translation type="vanished">Geçmişte maksimum öğe sayısı:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="635"/>
         <source>Maximum number of items in each tab</source>
-        <translation>Her sekmedeki maksimum öğe sayısı</translation>
+        <translation type="vanished">Her sekmedeki maksimum öğe sayısı</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="663"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation>Sekmeyi dakikalar sonra verilen aralıktan sonra kaldır:</translation>
+        <translation type="vanished">Sekmeyi dakikalar sonra verilen aralıktan sonra kaldır:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="675"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation>Her bir sekmeyi, belirli sayıda etkinlik dışı kaldıktan sonra bellekten çıkarın.
+        <translation type="vanished">Her bir sekmeyi, belirli sayıda etkinlik dışı kaldıktan sonra bellekten çıkarın.
 
 Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="702"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation>Harici editör komutu (%&amp;1 düzenlemek için dosya):</translation>
+        <translation type="vanished">Harici editör komutu (%&amp;1 düzenlemek için dosya):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1294"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation>&amp;Yatay kaydırma:</translation>
+        <translation type="vanished">&amp;Yatay kaydırma:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="712"/>
         <source>External editor command (%1 is file to edit).
   Examples:
     gedit %1
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation>Harici editör komutu (%1 düzenlenecek dosya).
+        <translation type="vanished">Harici editör komutu (%1 düzenlenecek dosya).
   Örnekler:
     gedit %1
     notepad %1
@@ -1394,368 +1937,344 @@ Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
     xterm -e vim %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="272"/>
-        <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="446"/>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation>Odaklandığında ana pencerenin şeffaflığı.
+        <translation type="vanished">Odaklandığında ana pencerenin şeffaflığı.
 
 Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="488"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation>Odaklanmadığında ana pencerenin şeffaflığı.
+        <translation type="vanished">Odaklanmadığında ana pencerenin şeffaflığı.
 
 Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="727"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation>Pano aktarması için sekme:</translation>
+        <translation type="vanished">Pano aktarması için sekme:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="737"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation>Yeni pano içeriğini otomatik olarak depolayacak sekmenin adı.
+        <translation type="vanished">Yeni pano içeriğini otomatik olarak depolayacak sekmenin adı.
 
 Otomatik depolamayı devre dışı bırakmak için boş bırakın.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="751"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>Düzenlenen öğeyi kaydetmek için Return tuşunun işaretini kaldırın ve Ctrl+Return ile yeni bir satır oluşturun.
+        <translation type="vanished">Düzenlenen öğeyi kaydetmek için Return tuşunun işaretini kaldırın ve Ctrl+Return ile yeni bir satır oluşturun.
 
 Not: Düzenlenmiş öğeler, bu seçenek dikkate alınmadan F2 ile kaydedilebilir.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="756"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>&amp;Düzenlenen öğeyi Ctrl+Return ile kaydet ve Return tuşuyla yeni satır oluştur</translation>
+        <translation type="vanished">&amp;Düzenlenen öğeyi Ctrl+Return ile kaydet ve Return tuşuyla yeni satır oluştur</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="763"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation>Her bir öğenin tek satır açıklamasını göster.
+        <translation type="vanished">Her bir öğenin tek satır açıklamasını göster.
 
 Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="768"/>
         <source>Sho&amp;w simple items</source>
-        <translation>&amp;Basit öğeleri göster</translation>
+        <translation type="vanished">&amp;Basit öğeleri göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="775"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation>Numara aramayı etkinleştirin, aksi halde bir rakam tuşuna basılması, bu konumdaki öğeyi etkinleştirir</translation>
+        <translation type="vanished">Numara aramayı etkinleştirin, aksi halde bir rakam tuşuna basılması, bu konumdaki öğeyi etkinleştirir</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="778"/>
         <source>S&amp;earch for numbers</source>
-        <translation>&amp;Sayılar için Ara</translation>
+        <translation type="vanished">&amp;Sayılar için Ara</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="785"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Öğe etkinleştirildikten sonra (çift tıklayın veya Enter tuşuna basın), panoya kopyalayın ve ...</translation>
+        <translation type="vanished">Öğe etkinleştirildikten sonra (çift tıklayın veya Enter tuşuna basın), panoya kopyalayın ve ...</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="791"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation>Öğeyi etkinleştirildikten sonra listenin en üstüne taşı</translation>
+        <translation type="vanished">Öğeyi etkinleştirildikten sonra listenin en üstüne taşı</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="794"/>
         <source>Move item to the t&amp;op</source>
-        <translation>&amp;Öğeyi en üste taşı</translation>
+        <translation type="vanished">&amp;Öğeyi en üste taşı</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="801"/>
         <source>Close main window after item is activated</source>
-        <translation>Öğe etkinleştirildikten sonra ana pencereyi kapat</translation>
+        <translation type="vanished">Öğe etkinleştirildikten sonra ana pencereyi kapat</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="804"/>
         <source>&amp;Close main window</source>
-        <translation>&amp;Ana pencereyi kapat</translation>
+        <translation type="vanished">&amp;Ana pencereyi kapat</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="811"/>
         <source>Focus last window after item is activated</source>
-        <translation>Öğe etkinleştirildikten sonra son pencereye odaklan</translation>
+        <translation type="vanished">Öğe etkinleştirildikten sonra son pencereye odaklan</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="814"/>
         <source>&amp;Focus last window</source>
-        <translation>&amp;Son pencereye odaklan</translation>
+        <translation type="vanished">&amp;Son pencereye odaklan</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="821"/>
         <source>Paste to current window after item is activated</source>
-        <translation>Öğe aktif edildikten sonra geçerli pencereye yapıştır</translation>
+        <translation type="vanished">Öğe aktif edildikten sonra geçerli pencereye yapıştır</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="824"/>
         <source>&amp;Paste to current window</source>
-        <translation>&amp;Geçerli pencereye yapıştır</translation>
+        <translation type="vanished">&amp;Geçerli pencereye yapıştır</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="867"/>
         <source>&amp;Tray</source>
-        <translation>&amp;Tepsi</translation>
+        <translation type="vanished">&amp;Tepsi</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="919"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation>Tepsi simgesini gösterme; kapatıldığında pencereyi küçült</translation>
+        <translation type="vanished">Tepsi simgesini gösterme; kapatıldığında pencereyi küçült</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="922"/>
         <source>Disabl&amp;e tray</source>
-        <translation>&amp;Tepsiyi devre dışı bırak</translation>
+        <translation type="vanished">&amp;Tepsiyi devre dışı bırak</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="929"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation>Geçerli komut pano içeriğini menüde göster</translation>
+        <translation type="vanished">Geçerli komut pano içeriğini menüde göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="932"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>&amp;Pano içeriği için komutları göster</translation>
+        <translation type="vanished">&amp;Pano içeriği için komutları göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="941"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>Sistem tepsi menüsündeki öğelerin sayısı:</translation>
+        <translation type="vanished">Sistem tepsi menüsündeki öğelerin sayısı:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="951"/>
         <source>Number of items in tray menu</source>
-        <translation>Öğe sayılarını sistem tepsisinde göster</translation>
+        <translation type="vanished">Öğe sayılarını sistem tepsisinde göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="978"/>
         <source>Show items from current tab in tray menu</source>
-        <translation>Geçerli menüdeki öğeleri sistem tepsisinde göster</translation>
+        <translation type="vanished">Geçerli menüdeki öğeleri sistem tepsisinde göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="981"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>&amp;Menüdeki geçerli sekmeyi göster</translation>
+        <translation type="vanished">&amp;Menüdeki geçerli sekmeyi göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="988"/>
         <source>or &amp;choose other tab:</source>
-        <translation>veya &amp;diğer sekmeyi seçin:</translation>
+        <translation type="vanished">veya &amp;diğer sekmeyi seçin:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1004"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation>Sistem tepsisinde gösterilecek sekmenin adı (ilk sekme için boş)</translation>
+        <translation type="vanished">Sistem tepsisinde gösterilecek sekmenin adı (ilk sekme için boş)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1029"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation>Öğeyi menüde seçtikten sonra geçerli pencereye yapıştır</translation>
+        <translation type="vanished">Öğeyi menüde seçtikten sonra geçerli pencereye yapıştır</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1032"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation>&amp;Etkin öğeyi geçerli pencereye yapıştır</translation>
+        <translation type="vanished">&amp;Etkin öğeyi geçerli pencereye yapıştır</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1039"/>
         <source>Show image preview next to menu items</source>
-        <translation>Menü öğelerinin yanında resimlerin önizlemesini göster</translation>
+        <translation type="vanished">Menü öğelerinin yanında resimlerin önizlemesini göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1042"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation>&amp;Görüntü önizlemesini menü öğesi simgesi olarak göster</translation>
+        <translation type="vanished">&amp;Görüntü önizlemesini menü öğesi simgesi olarak göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1082"/>
         <source>&amp;Notifications</source>
-        <translation>&amp;Bildirimler</translation>
+        <translation type="vanished">&amp;Bildirimler</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1139"/>
         <source>&amp;Notification position:</source>
-        <translation>&amp;Bildirimlerin konumu:</translation>
+        <translation type="vanished">&amp;Bildirimlerin konumu:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1151"/>
         <source>Position on screen for notifications</source>
-        <translation>Bildirimler için ekran konumu</translation>
+        <translation type="vanished">Bildirimler için ekran konumu</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1155"/>
         <source>Top</source>
-        <translation>Üst</translation>
+        <translation type="vanished">Üst</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1160"/>
         <source>Bottom</source>
-        <translation>Alt</translation>
+        <translation type="vanished">Alt</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1165"/>
         <source>Top Right</source>
-        <translation>Üst Sağ</translation>
+        <translation type="vanished">Üst Sağ</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1170"/>
         <source>Bottom Right</source>
-        <translation>Alt Sağ</translation>
+        <translation type="vanished">Alt Sağ</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1175"/>
         <source>Bottom Left</source>
-        <translation>Alt Sol</translation>
+        <translation type="vanished">Alt Sol</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1180"/>
         <source>Top Left</source>
-        <translation>Üst Sol</translation>
+        <translation type="vanished">Üst Sol</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1203"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>&amp;Bildirimleri görüntülemek için saniye cinsinden aralıklar:</translation>
+        <translation type="vanished">&amp;Bildirimleri görüntülemek için saniye cinsinden aralıklar:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1215"/>
         <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Yeni pano bildirimleri için saniye cinsinden zaman (yalnızca ana pencere kapalıysa)
+        <translation type="vanished">Yeni pano bildirimleri için saniye cinsinden zaman (yalnızca ana pencere kapalıysa)
 
 Bunu devre dışı bırakmak için 0&apos;a ayarlayın.
 
 Tıklayana kadar görünür kalması için -1 olarak ayarlayın.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1247"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation>Bildirim satır sayısı:</translation>
+        <translation type="vanished">Bildirim satır sayısı:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1259"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation>Yeni pano içeriğinin gösterileceği satır sayısı.
+        <translation type="vanished">Yeni pano içeriğinin gösterileceği satır sayısı.
 
 Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1288"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation>Bildirim Pozisyonu (ekran pikseli)</translation>
+        <translation type="vanished">Bildirim Pozisyonu (ekran pikseli)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1306"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation>Bildirimlerin sağ ve sol ekran konumlarına olan uzaklık</translation>
+        <translation type="vanished">Bildirimlerin sağ ve sol ekran konumlarına olan uzaklık</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1334"/>
         <source>&amp;Vertical offset:</source>
-        <translation>&amp;Dikey kaydırma:</translation>
+        <translation type="vanished">&amp;Dikey kaydırma:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1346"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation>Ekran üst veya alt ekran kenarından bildirim mesafesi</translation>
+        <translation type="vanished">Ekran üst veya alt ekran kenarından bildirim mesafesi</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1374"/>
         <source>Maximum &amp;width:</source>
-        <translation>Maksimum &amp;genişlik:</translation>
+        <translation type="vanished">Maksimum &amp;genişlik:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1386"/>
         <source>Maximum width for notification in screen points</source>
-        <translation>Ekran noktalarında bildirim için maksimum genişlik</translation>
+        <translation type="vanished">Ekran noktalarında bildirim için maksimum genişlik</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1411"/>
         <source>Ma&amp;ximum height:</source>
-        <translation>Ma&amp;ksimum yükseklik:</translation>
+        <translation type="vanished">Ma&amp;ksimum yükseklik:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1423"/>
         <source>Maximum height for notification in screen points</source>
-        <translation>Ekran noktalarında bildirim için maksimum yükseklik</translation>
+        <translation type="vanished">Ekran noktalarında bildirim için maksimum yükseklik</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1484"/>
-        <source>Ta&amp;bs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1494"/>
         <source>&amp;Items</source>
-        <translation>&amp;Öğeler</translation>
+        <translation type="vanished">&amp;Öğeler</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1506"/>
         <source>You can change priority of formats to display by reordering items below.</source>
-        <translation>Aşağıdaki öğeleri yeniden sıralayıp görüntülemek için biçimlerin önceliğini değiştirebilirsiniz.</translation>
+        <translation type="vanished">Aşağıdaki öğeleri yeniden sıralayıp görüntülemek için biçimlerin önceliğini değiştirebilirsiniz.</translation>
     </message>
     <message>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
         <translation type="vanished">Seçilen öğenin geçmişindeki görüntüleme biçimi &lt;b&gt;Ctrl+Sol&lt;/b&gt; veya &lt;b&gt;Ctrl+Sağ&lt;/b&gt; tuşlarına basılarak değiştirilebilir. Aşağıdaki öğeleri yeniden sıralayarak görüntülemek için biçimlerin önceliğini değiştirebilirsiniz.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1524"/>
         <source>&amp;Shortcuts</source>
-        <translation>&amp;Kısayollar</translation>
+        <translation type="vanished">&amp;Kısayollar</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1534"/>
         <source>&amp;Appearance</source>
-        <translation>&amp;Görünüm</translation>
+        <translation type="vanished">&amp;Görünüm</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="372"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="177"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="178"/>
+        <source>Layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="179"/>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="180"/>
+        <source>Tray</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="181"/>
+        <source>Notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="182"/>
+        <source>Tabs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="183"/>
+        <source>Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="184"/>
+        <source>Shortcuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="185"/>
+        <source>Appearance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="419"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Seçenek için geçersiz değer &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="415"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="462"/>
         <source>Reset preferences?</source>
         <translation>Tercihleri sıfırla?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="416"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="463"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Bu işlem, tüm tercihlerinizi (tüm sekmelerde) varsayılan değerlere sıfırlar.&lt;br/&gt;&lt;br/&gt;Gerçekten &lt;strong&gt;tüm tercihleri sıfırlamak&lt;/strong&gt; istiyor musunuz?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="520"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="566"/>
         <source>Restart Required</source>
         <translation>Yeniden Başlatma Gerekli</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="521"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="567"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Uygulama yeniden başlatıldıktan sonra dil değişecektir.</translation>
     </message>
@@ -1763,7 +2282,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="611"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="630"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Senkronizasyon dizini oluşturulamadı &quot;%1&quot;!</translation>
     </message>
@@ -1780,9 +2299,13 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
 <context>
     <name>IconSelectButton</name>
     <message>
-        <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon...</source>
-        <translation>Ikon Seç...</translation>
+        <translation type="vanished">Ikon Seç...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
+        <source>Select Icon…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
@@ -2248,22 +2771,22 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <translation>Öğeleri kaldırmak için önce işaretini kaldırın.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="379"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="384"/>
         <source>Pin</source>
         <translation>İşaretle</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="386"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="391"/>
         <source>Unpin</source>
         <translation>İşareti kaldır</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="99"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="101"/>
         <source>Pinned Items</source>
         <translation>İşaretli Öğeler</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="102"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="104"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Geçerli satırda kilitlemek için öğeleri işaretleyin ve silmeyi önlemeyin (işaretlenmemişse).&lt;/p&gt;&lt;p&gt;Kısayollar ve komut dosyası işlevselliği sağlar.&lt;/p&gt;</translation>
     </message>
@@ -2277,22 +2800,22 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <translation>Gözat...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="817"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="826"/>
         <source>Open Directory for Synchronization</source>
         <translation>Eşitleme için klasörü açın</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="831"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="840"/>
         <source>Failed to create synchronization directory</source>
         <translation>Eşitleme dizini oluşturulamadı</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="145"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="147"/>
         <source>Synchronize</source>
         <translation>Eşitleme</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="147"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="149"/>
         <source>Synchronize items and notes with a directory on disk.</source>
         <translation>Öğeleri ve notları diskteki bir klasörle eşitle.</translation>
     </message>
@@ -2512,149 +3035,149 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <translation>CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="510"/>
+        <location filename="../src/gui/mainwindow.cpp" line="525"/>
         <source>Exit?</source>
         <translation>Çıkış?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="511"/>
+        <location filename="../src/gui/mainwindow.cpp" line="526"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>CopyQ&apos;dan &lt;strong&gt;çıkmak&lt;/strong&gt; ister misiniz?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="558"/>
+        <location filename="../src/gui/mainwindow.cpp" line="573"/>
         <source>&amp;File</source>
         <translation>&amp;Dosya</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="600"/>
+        <location filename="../src/gui/mainwindow.cpp" line="615"/>
         <source>&amp;Edit</source>
         <translation>&amp;Düzenle</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="624"/>
+        <location filename="../src/gui/mainwindow.cpp" line="639"/>
         <source>&amp;Item</source>
         <translation>&amp;Öğe</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="628"/>
+        <location filename="../src/gui/mainwindow.cpp" line="643"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Sekmeler</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="653"/>
+        <location filename="../src/gui/mainwindow.cpp" line="668"/>
         <source>&amp;Help</source>
         <translation>Yardım</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="678"/>
+        <location filename="../src/gui/mainwindow.cpp" line="693"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Yeni Sekme</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="680"/>
+        <location filename="../src/gui/mainwindow.cpp" line="695"/>
         <source>Rename &amp;Group %1</source>
         <translation>Yeniden Adlandır &amp;Grup %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="682"/>
+        <location filename="../src/gui/mainwindow.cpp" line="697"/>
         <source>Re&amp;name Tab %1</source>
         <translation>&amp;Ad değiştir Sekme %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="684"/>
+        <location filename="../src/gui/mainwindow.cpp" line="699"/>
         <source>Re&amp;move Tab %1</source>
         <translation>&amp;Kaldır Sekme %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="686"/>
+        <location filename="../src/gui/mainwindow.cpp" line="701"/>
         <source>Remove Group %1</source>
         <translation>Kaldır Grup %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="688"/>
+        <location filename="../src/gui/mainwindow.cpp" line="703"/>
         <source>&amp;Change Tab Icon</source>
         <translation>&amp;Sekme Simgesini Değiştir</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1204"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1222"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>&amp;Pano Depolamasını Etkinleştir</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1205"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1223"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>&amp;Pano Depolamayı Devre Dışı Bırak</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1760"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1777"/>
         <source>CopyQ Options for Import</source>
         <translation>İçe aktarma için CopyQ Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1995"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2013"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Hata</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3007"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3045"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Göster/Gizle</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3263"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3307"/>
         <source>CopyQ Options for Export</source>
         <translation>Dışa aktarma için CopyQ Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3284"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3328"/>
         <source>CopyQ Export Error</source>
         <translation>CopyQ Dışa Aktarma Hatası</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3285"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3329"/>
         <source>Failed to export file %1!</source>
         <translation>%1 dosyası dışa aktarılamadı!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="729"/>
+        <location filename="../src/gui/mainwindow.cpp" line="744"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Pano: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="301"/>
+        <location filename="../src/gui/mainwindow.cpp" line="313"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ öğeler (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3373"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3417"/>
         <source>CopyQ Import Error</source>
         <translation>CopyQ İçe Aktarma Hatası</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3374"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3418"/>
         <source>Failed to import file %1!</source>
         <translation>%1 dosyası içe aktarılamadı!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3526"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3570"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Gruptaki Tüm Sekmeleri Kaldır?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3527"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3571"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>&lt;strong&gt;%1&lt;/strong&gt; grubundaki &lt;strong&gt;tüm sekmeleri&lt;/strong&gt; kaldırmak istiyor musun?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3574"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3618"/>
         <source>Remove Tab?</source>
         <translation>Sekmeleri Kaldır?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3575"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3619"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>&lt;strong&gt;%1&lt;/strong&gt; sekmesini kaldırmak istiyor musunuz?</translation>
     </message>
@@ -2719,13 +3242,13 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <translation>&amp;pano</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="432"/>
+        <location filename="../src/common/common.cpp" line="506"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;HIDDEN&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="438"/>
+        <location filename="../src/common/common.cpp" line="512"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2733,25 +3256,25 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="448"/>
+        <location filename="../src/common/common.cpp" line="522"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;IMAGE&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="450"/>
+        <location filename="../src/common/common.cpp" line="524"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;ITEMS&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="452"/>
+        <location filename="../src/common/common.cpp" line="526"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;EMPTY&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="454"/>
+        <location filename="../src/common/common.cpp" line="528"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
@@ -3108,7 +3631,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <translation>&amp;Yardım</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2036"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2048"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -3116,18 +3639,17 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2039"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2051"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../src/item/serialize.cpp" line="180"/>
         <source>Data deserialization failed: %1</source>
-        <translation>Veri seri kaldırma başarısız oldu: %1</translation>
+        <translation type="vanished">Veri seri kaldırma başarısız oldu: %1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="209"/>
+        <location filename="../src/main.cpp" line="215"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Oturum adı, harf, rakam, &apos;-&apos; veya &apos;_&apos; olabilen
@@ -3373,7 +3895,7 @@ Varsayılan ayar ilk sekmedir.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
         <source>COMMAND</source>
         <translation>KOMUT</translation>
     </message>
@@ -3485,86 +4007,86 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
         <translation>Uygulama testlerini çalıştırın (ekleme daha fazla bilgi için --help argümanı).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="77"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
         <source>Usage: copyq [%1]</source>
         <translation>Kullanımı: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="78"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="79"/>
         <source>Starts server if no command is specified.</source>
         <translation>Hiçbir komut belirtilmezse sunucuyu başlatır.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="79"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="80"/>
         <source>  COMMANDs:</source>
         <translation>  KOMUTlar:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="84"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="85"/>
         <source>NOTES:</source>
         <translation>NOTLAR:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="85"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="86"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Standart girişteki verileri okumak için çizgi (-) argümanını kullanın.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="86"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="87"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Kaçış dizilerini genişletmeden aşağıdaki tüm argümanları okumak için
     çift çizgi argümanını (--) kullanın (yani, \n, \t ve diğerleri).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="88"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="89"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - MIME&apos;nin kullanılabilir MIME türlerini yazdırması için ? kullan (varsayılan &quot;text/plain&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="93"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="94"/>
         <source>Invalid number of arguments!</source>
         <translation>Geçersiz sayıda argüman!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="808"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="787"/>
         <source>Command not found!</source>
         <translation>Komut bulunamadı!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="908"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="887"/>
         <source>Terminating server.
 </source>
         <translation>Sunucu sonlandırılıyor.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="710"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="689"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>&quot;%1&quot; dosyasına kaydedilemiyor!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="715"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="694"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>&quot;%1&quot; dosyası içe aktarılamıyor!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1371"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1350"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Geçersiz seçenek &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2640"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2661"/>
         <source>Exception</source>
         <translation>İstisna</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2641"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2662"/>
         <source>Exception in %1</source>
         <translation>%1’de İstisna</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2683"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2704"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Panoya kopyalanamadı!</translation>
     </message>
@@ -3587,13 +4109,13 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
         <translation>Verilen adla sekme zaten var!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1972"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1984"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1975"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1987"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
@@ -3638,14 +4160,33 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
         <translation>&amp;Bul:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="243"/>
+        <location filename="../src/ui/shortcutswidget.ui" line="50"/>
+        <source>Gl&amp;obal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/shortcutswidget.ui" line="56"/>
+        <source>Global shortcuts can be triggered from any application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/shortcutswidget.ui" line="77"/>
+        <source>A&amp;pplication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/shortcutswidget.ui" line="83"/>
+        <source>Application shortcuts can be triggered only from the main window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
         <translation>Kısayol zaten var!</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="300"/>
         <source>Shortcut can be triggered from any application</source>
-        <translation>Kısayol herhangi bir uygulamadan tetiklenebilir</translation>
+        <translation type="vanished">Kısayol herhangi bir uygulamadan tetiklenebilir</translation>
     </message>
 </context>
 <context>
