@@ -331,21 +331,22 @@ QVariant ActionDialog::createCurrentItemData()
 void ActionDialog::saveCurrentCommandToHistory()
 {
     const QString cmd = ui->commandEdit->command();
-    if (cmd.isEmpty())
-        return;
-
     const QVariant itemData = createCurrentItemData();
     ui->comboBoxCommands->setCurrentIndex(0);
 
     for (int i = ui->comboBoxCommands->count() - 1; i >= 1; --i) {
         const QVariant itemData2 = ui->comboBoxCommands->itemData(i);
         const QString cmd2 = itemData2.toMap().value("cmd").toString();
-        if (cmd == cmd2)
+        if (cmd2.isEmpty() || cmd == cmd2)
             ui->comboBoxCommands->removeItem(i);
     }
 
-    ui->comboBoxCommands->insertItem(1, commandToLabel(cmd), itemData);
-    ui->comboBoxCommands->setCurrentIndex(1);
+    if ( cmd.isEmpty() ) {
+        ui->comboBoxCommands->setItemData(0, itemData);
+    } else {
+        ui->comboBoxCommands->insertItem(1, commandToLabel(cmd), itemData);
+        ui->comboBoxCommands->setCurrentIndex(1);
+    }
 
     saveHistory();
 }
