@@ -274,8 +274,7 @@ public:
 
     void setTrayTooltip(const QString &tooltip);
 
-    QStringList menuItemMatchCommands(int actionId);
-    bool setMenuItemEnabled(int actionId, int menuItemMatchCommandIndex, bool enabled);
+    bool setMenuItemEnabled(int actionId, int currentRun, int menuItemMatchCommandIndex, bool enabled);
 
     QVariantMap setDisplayData(int actionId, const QVariantMap &data);
 
@@ -425,6 +424,8 @@ signals:
 
     void disableClipboardStoringRequest(bool disable);
 
+    void sendActionData(int actionId, const QByteArray &bytes);
+
 protected:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
@@ -506,8 +507,6 @@ private:
 
     void onItemWidgetCreated(const PersistentDisplayItem &item);
 
-    void onDisplayActionFinished();
-
     void onActionDialogAccepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
 
     void updateEnabledCommands();
@@ -527,6 +526,7 @@ private:
     };
 
     struct MenuMatchCommands {
+        int currentRun = 0;
         int actionId = -1;
         QStringList matchCommands;
         QVector< QPointer<QAction> > actions;
@@ -599,6 +599,10 @@ private:
     void addCommandsToTrayMenu(const QVariantMap &clipboardData);
     void addMenuMatchCommand(MenuMatchCommands *menuMatchCommands, const QString &matchCommand, QAction *act);
     void runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, const QVariantMap &data);
+    void interruptMenuCommandFilters(MenuMatchCommands *menuMatchCommands);
+    void stopMenuCommandFilters(MenuMatchCommands *menuMatchCommands);
+
+    void terminateAction(int *actionId);
 
     bool isItemMenuDefaultActionValid() const;
 
@@ -691,7 +695,7 @@ private:
 
     QList<PersistentDisplayItem> m_displayItemList;
     PersistentDisplayItem m_currentDisplayItem;
-    QPointer<Action> m_currentDisplayAction;
+    int m_displayActionId = -1;
 
     MenuMatchCommands m_trayMenuMatchCommands;
     MenuMatchCommands m_itemMenuMatchCommands;

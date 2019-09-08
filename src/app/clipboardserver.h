@@ -124,6 +124,10 @@ private:
 
     void callback(const QString &scriptFunction);
 
+    ClientSocketPtr findClient(int actionId);
+
+    void sendActionData(int actionId, const QByteArray &bytes);
+
     Server *m_server = nullptr;
     MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;
@@ -133,6 +137,9 @@ private:
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;
     uint m_monitorCommandsStateHash = 0;
+
+    QMap<int, QByteArray> m_actionDataToSend;
+    QTimer m_timerClearUnsentActionData;
 
     struct ClientData {
         ClientData() = default;

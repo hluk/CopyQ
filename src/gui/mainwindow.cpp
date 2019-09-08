@@ -721,7 +721,7 @@ void MainWindow::popupTabBarMenu(QPoint pos, const QString &tab)
 
 void MainWindow::updateContextMenu(int intervalMsec)
 {
-    m_itemMenuMatchCommands = MenuMatchCommands();
+    interruptMenuCommandFilters(&m_itemMenuMatchCommands);
 
     clearActions(m_menuItem);
     // Omit tool bar flickering.
@@ -855,8 +855,9 @@ void MainWindow::onAboutToQuit()
     if (m_tray)
         m_tray->hide();
 
-    m_itemMenuMatchCommands = MenuMatchCommands();
-    m_trayMenuMatchCommands = MenuMatchCommands();
+    stopMenuCommandFilters(&m_itemMenuMatchCommands);
+    stopMenuCommandFilters(&m_trayMenuMatchCommands);
+    terminateAction(&m_displayActionId);
 }
 
 void MainWindow::onSaveCommand(const Command &command)
@@ -1089,13 +1090,6 @@ void MainWindow::onItemWidgetCreated(const PersistentDisplayItem &item)
         return;
 
     m_displayItemList.append(item);
-    if (!m_currentDisplayAction)
-        runDisplayCommands();
-}
-
-void MainWindow::onDisplayActionFinished()
-{
-    clearHiddenDisplayData();
     runDisplayCommands();
 }
 
@@ -1122,11 +1116,13 @@ void MainWindow::runDisplayCommands()
     if ( m_displayItemList.isEmpty() )
         return;
 
-    m_currentDisplayItem = m_displayItemList.takeFirst();
+    if ( !isInternalActionId(m_displayActionId) ) {
+        m_currentDisplayItem = m_displayItemList.takeFirst();
+        const auto action = runScript("runDisplayCommands()", m_currentDisplayItem.data());
+        m_displayActionId = action->id();
+    }
 
-    m_currentDisplayAction = runScript("runDisplayCommands()", m_currentDisplayItem.data());
-    connect( m_currentDisplayAction.data(), &QObject::destroyed,
-             this, &MainWindow::onDisplayActionFinished );
+    emit sendActionData(m_displayActionId, QByteArray());
 }
 
 void MainWindow::clearHiddenDisplayData()
@@ -1335,10 +1331,10 @@ QVector<Command> MainWindow::commandsForMenu(const QVariantMap &data, const QStr
 
 void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
 {
-    m_itemMenuMatchCommands = MenuMatchCommands();
-
-    if ( m_menuCommands.isEmpty() )
+    if ( m_menuCommands.isEmpty() ) {
+        interruptMenuCommandFilters(&m_itemMenuMatchCommands);
         return;
+    }
 
     const auto data = addSelectionData(*c);
     const auto commands = commandsForMenu(data, c->tabName(), m_menuCommands);
@@ -1360,10 +1356,10 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
 
 void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
 {
-    m_trayMenuMatchCommands = MenuMatchCommands();
-
-    if ( m_trayMenuCommands.isEmpty() )
+    if ( m_trayMenuCommands.isEmpty() ) {
+        interruptMenuCommandFilters(&m_trayMenuMatchCommands);
         return;
+    }
 
     ClipboardBrowserPlaceholder *placeholder = getPlaceholderForTrayMenu();
     if (!placeholder)
@@ -1401,10 +1397,52 @@ void MainWindow::addMenuMatchCommand(MenuMatchCommands *menuMatchCommands, const
 
 void MainWindow::runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, const QVariantMap &data)
 {
-    if ( !menuMatchCommands->actions.isEmpty() ) {
+    if ( menuMatchCommands->actions.isEmpty() ) {
+        interruptMenuCommandFilters(menuMatchCommands);
+        return;
+    }
+
+    const bool isRunning = isInternalActionId(menuMatchCommands->actionId);
+    if (!isRunning) {
         const auto act = runScript("runMenuCommandFilters()", data);
         menuMatchCommands->actionId = act->id();
     }
+
+    QByteArray bytes;
+    QDataStream out(&bytes, QIODevice::WriteOnly);
+    out << ++menuMatchCommands->currentRun;
+    out << menuMatchCommands->matchCommands;
+    serializeData(&out, data);
+    emit sendActionData(menuMatchCommands->actionId, bytes);
+}
+
+void MainWindow::interruptMenuCommandFilters(MainWindow::MenuMatchCommands *menuMatchCommands)
+{
+    ++menuMatchCommands->currentRun;
+    menuMatchCommands->matchCommands.clear();
+    menuMatchCommands->actions.clear();
+
+    const bool isRunning = isInternalActionId(menuMatchCommands->actionId);
+    if (isRunning)
+        emit sendActionData(menuMatchCommands->actionId, QByteArray());
+}
+
+void MainWindow::stopMenuCommandFilters(MainWindow::MenuMatchCommands *menuMatchCommands)
+{
+    ++menuMatchCommands->currentRun;
+    menuMatchCommands->matchCommands.clear();
+    menuMatchCommands->actions.clear();
+    terminateAction(&menuMatchCommands->actionId);
+}
+
+void MainWindow::terminateAction(int *actionId)
+{
+    if (*actionId == -1)
+        return;
+
+    const int id = *actionId;
+    *actionId = -1;
+    m_actionHandler->terminateAction(id);
 }
 
 bool MainWindow::isItemMenuDefaultActionValid() const
@@ -2197,6 +2235,10 @@ void MainWindow::loadSettings()
 {
     COPYQ_LOG("Loading configuration");
 
+    stopMenuCommandFilters(&m_itemMenuMatchCommands);
+    stopMenuCommandFilters(&m_trayMenuMatchCommands);
+    terminateAction(&m_displayActionId);
+
     QSettings settings;
     m_sharedData->itemFactory->loadItemFactorySettings(&settings);
 
@@ -2718,18 +2760,7 @@ void MainWindow::setTrayTooltip(const QString &tooltip)
         m_tray->setToolTip(tooltip);
 }
 
-QStringList MainWindow::menuItemMatchCommands(int actionId)
-{
-    if (actionId == m_itemMenuMatchCommands.actionId)
-        return m_itemMenuMatchCommands.matchCommands;
-
-    if (actionId == m_trayMenuMatchCommands.actionId)
-        return m_trayMenuMatchCommands.matchCommands;
-
-    return QStringList();
-}
-
-bool MainWindow::setMenuItemEnabled(int actionId, int menuItemMatchCommandIndex, bool enabled)
+bool MainWindow::setMenuItemEnabled(int actionId, int currentRun, int menuItemMatchCommandIndex, bool enabled)
 {
     if (actionId != m_trayMenuMatchCommands.actionId && actionId != m_itemMenuMatchCommands.actionId)
         return false;
@@ -2737,6 +2768,9 @@ bool MainWindow::setMenuItemEnabled(int actionId, int menuItemMatchCommandIndex,
     const auto &menuMatchCommands = actionId == m_trayMenuMatchCommands.actionId
             ? m_trayMenuMatchCommands
             : m_itemMenuMatchCommands;
+
+    if (currentRun != menuMatchCommands.currentRun)
+        return false;
 
     if (menuMatchCommands.actions.size() <= menuItemMatchCommandIndex)
         return false;
@@ -2761,7 +2795,7 @@ bool MainWindow::setMenuItemEnabled(int actionId, int menuItemMatchCommandIndex,
 
 QVariantMap MainWindow::setDisplayData(int actionId, const QVariantMap &data)
 {
-    if (!m_currentDisplayAction || m_currentDisplayAction->id() != actionId)
+    if (m_displayActionId != actionId)
         return QVariantMap();
 
     m_currentDisplayItem.setData(data);
@@ -3039,7 +3073,7 @@ void MainWindow::updateTrayMenuTimeout()
 
     WidgetSizeGuard sizeGuard(m_trayMenu);
 
-    m_trayMenuMatchCommands = MenuMatchCommands();
+    interruptMenuCommandFilters(&m_trayMenuMatchCommands);
     m_trayMenu->clearAllActions();
 
     QAction *act = m_trayMenu->addAction( appIcon(), tr("&Show/Hide") );
@@ -3476,7 +3510,7 @@ void MainWindow::runInternalAction(Action *action)
 
 bool MainWindow::isInternalActionId(int id) const
 {
-    return m_actionHandler->isInternalActionId(id);
+    return id != -1 && m_actionHandler->isInternalActionId(id);
 }
 
 void MainWindow::openNewTabDialog(const QString &name)
@@ -3675,8 +3709,6 @@ MainWindow::~MainWindow()
 {
     // Fix calling onDisplayActionFinished slot after main window is destroyed.
     m_displayItemList.clear();
-    if (m_currentDisplayAction)
-        m_currentDisplayAction->disconnect();
-
+    terminateAction(&m_displayActionId);
     delete ui;
 }

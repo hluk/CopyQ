@@ -40,6 +40,10 @@ enum CommandStatus {
     CommandStop = 10,
 
     CommandInputDialogFinished = 11,
+
+    CommandData = 12,
+
+    CommandReceiveData = 13,
 };
 
 #endif // COMMANDSTATUS_H

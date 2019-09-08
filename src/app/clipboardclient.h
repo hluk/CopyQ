@@ -44,6 +44,7 @@ public:
 signals:
     void functionCallResultReceived(const QByteArray &returnValue);
     void inputDialogFinished(const QByteArray &data);
+    void dataReceived(const QByteArray &data);
 
 private:
     void onMessageReceived(const QByteArray &data, int messageCode);

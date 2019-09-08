@@ -1452,7 +1452,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         const int h = viewport()->contentsRect().height();
 
         // Preload next and previous pages so that up/down and page up/down keys scroll correctly.
-        {
+        if ( !m_timerPreload.isActive() ) {
             if (key == Qt::Key_PageDown || key == Qt::Key_PageUp)
                 preload(h, (key == Qt::Key_PageUp), current);
             else if (key == Qt::Key_Down || key == Qt::Key_Up)

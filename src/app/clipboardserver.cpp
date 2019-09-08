@@ -28,6 +28,7 @@
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"
 #include "common/sleeptimer.h"
+#include "common/timer.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/commanddialog.h"
 #include "gui/iconfactory.h"
@@ -119,6 +120,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
              this, &ClipboardServer::maybeQuit );
     connect( m_wnd, &MainWindow::disableClipboardStoringRequest,
              this, &ClipboardServer::onDisableClipboardStoringRequest );
+    connect( m_wnd, &MainWindow::sendActionData,
+             this, &ClipboardServer::sendActionData );
 
     loadSettings();
 
@@ -141,6 +144,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     m_ignoreKeysTimer.setInterval(100);
     m_ignoreKeysTimer.setSingleShot(true);
 
+    initSingleShotTimer(&m_timerClearUnsentActionData, 2000, this, [&]() {
+        m_actionDataToSend.clear();
+    });
+
     startMonitoring();
 
     callback("onStart");
@@ -159,17 +166,9 @@ void ClipboardServer::stopMonitoring()
 
     COPYQ_LOG("Terminating monitor");
 
-    for (auto it = m_clients.constBegin(); it != m_clients.constEnd(); ++it) {
-        const auto &clientData = it.value();
-        if (!clientData.isValid())
-            continue;
-
-        const auto actionId = clientData.proxy->actionId();
-        if ( actionId == m_monitor->id() ) {
-            clientData.client->sendMessage(QByteArray(), CommandStop);
-            break;
-        }
-    }
+    const auto client = findClient(m_monitor->id());
+    if (client)
+        client->sendMessage(QByteArray(), CommandStop);
 }
 
 void ClipboardServer::startMonitoring()
@@ -379,6 +378,28 @@ void ClipboardServer::callback(const QString &scriptFunction)
     m_wnd->runInternalAction(m_callback);
 }
 
+ClientSocketPtr ClipboardServer::findClient(int actionId)
+{
+    for (auto it = m_clients.constBegin(); it != m_clients.constEnd(); ++it) {
+        const auto &clientData = it.value();
+        if ( clientData.isValid() && clientData.proxy->actionId() == actionId )
+            return clientData.client;
+    }
+
+    return nullptr;
+}
+
+void ClipboardServer::sendActionData(int actionId, const QByteArray &bytes)
+{
+    const auto client = findClient(actionId);
+    if (client) {
+        client->sendMessage(bytes, CommandData);
+    } else {
+        m_actionDataToSend[actionId] = bytes;
+        m_timerClearUnsentActionData.start();
+    }
+}
+
 void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 {
     auto proxy = new ScriptableProxy(m_wnd);
@@ -416,6 +437,16 @@ void ClipboardServer::onClientMessageReceived(
             return;
 
         clientData.proxy->callFunction(message);
+        break;
+    }
+    case CommandReceiveData: {
+        const auto &clientData = m_clients.value(clientId);
+        if (!clientData.isValid())
+            return;
+
+        const int actionId = clientData.proxy->actionId();
+        const QByteArray bytes = m_actionDataToSend.take(actionId);
+        clientData.client->sendMessage(bytes, CommandData);
         break;
     }
     default:

@@ -2389,19 +2389,97 @@ QScriptValue Scriptable::runAutomaticCommands()
 
 void Scriptable::runDisplayCommands()
 {
-    while ( !m_data.isEmpty() && runCommands(CommandType::Display) )
-        m_data = m_proxy->setDisplayData(m_actionId, m_data);
+    QEventLoop loop;
+    connect(this, &Scriptable::finished, &loop, [&]() {
+        if (m_abort == Abort::AllEvaluations)
+            loop.exit();
+    });
+
+    QTimer timer;
+    timer.setSingleShot(true);
+    timer.setInterval(0);
+    connect(this, &Scriptable::dataReceived, &loop, [&]() {
+        timer.start();
+    });
+
+    bool running = false;
+    connect(&timer, &QTimer::timeout, &loop, [&]() {
+        if (running)
+            return;
+        running = true;
+
+        if ( m_data.isEmpty() )
+            m_data = m_proxy->setDisplayData(m_actionId, m_data);
+
+        while ( !m_data.isEmpty() && runCommands(CommandType::Display) ) {
+            m_data = m_proxy->setDisplayData(m_actionId, m_data);
+        }
+
+        m_data.clear();
+        running = false;
+    });
+
+    emit receiveData();
+
+    loop.exec();
+
 }
 
 void Scriptable::runMenuCommandFilters()
 {
-    const auto matchCommands = m_proxy->menuItemMatchCommands(m_actionId);
+    QEventLoop loop;
+    connect(this, &Scriptable::finished, &loop, [&]() {
+        if (m_abort == Abort::AllEvaluations)
+            loop.exit();
+    });
 
-    for (int i = 0; i < matchCommands.length(); ++i) {
-        const bool enabled = canExecuteCommandFilter(matchCommands[i]);
-        if ( !m_proxy->enableMenuItem(m_actionId, i, enabled) )
+    QByteArray bytes;
+    QTimer timer;
+    timer.setSingleShot(true);
+    timer.setInterval(0);
+
+    connect(this, &Scriptable::dataReceived, &loop, [&](const QByteArray &receivedBytes) {
+        bytes = receivedBytes;
+        if ( !bytes.isEmpty() )
+            timer.start();
+    });
+
+    connect(&timer, &QTimer::timeout, &loop, [&]() {
+        if ( bytes.isEmpty() )
             return;
-    }
+
+        QDataStream in(bytes);
+
+        int currentRun;
+        in >> currentRun;
+        if ( in.status() != QDataStream::Ok ) {
+            log("Failed to deserialize counter for menu item filter", LogError);
+            return;
+        }
+
+        QStringList matchCommands;
+        in >> matchCommands;
+        if ( in.status() != QDataStream::Ok ) {
+            log("Failed to deserialize commands for menu item filter", LogError);
+            return;
+        }
+
+        m_data.clear();
+        if ( !deserializeData(&in, &m_data) ) {
+            log("Failed to deserialize data for menu item filter", LogError);
+            return;
+        }
+
+        for (int i = 0; i < matchCommands.length(); ++i) {
+            const bool enabled = canExecuteCommandFilter(matchCommands[i]);
+            if ( !m_proxy->enableMenuItem(m_actionId, currentRun, i, enabled) )
+                return;
+        }
+    });
+
+    emit receiveData();
+
+    loop.exec();
 }
 
 void Scriptable::monitorClipboard()
@@ -2892,6 +2970,10 @@ bool Scriptable::runAction(Action *action)
         action->setExitCode(exitCode);
         m_failed = false;
         m_engine->clearExceptions();
+        if (m_abort == Abort::AllEvaluations)
+            abortEvaluation(Abort::AllEvaluations);
+        else
+            m_abort = Abort::None;
 
         engine()->popContext();
         m_action = oldAction;

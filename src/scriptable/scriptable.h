@@ -377,6 +377,8 @@ public slots:
 
 signals:
     void finished();
+    void dataReceived(const QByteArray &data);
+    void receiveData();
 
 private:
     void onExecuteOutput(const QByteArray &output);

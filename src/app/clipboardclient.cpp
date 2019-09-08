@@ -48,6 +48,8 @@ QString messageCodeToString(int code)
         return "CommandInputDialogFinished";
     case CommandStop:
         return "CommandStop";
+    case CommandData:
+        return "CommandData";
     default:
         return QString("Unknown(%1)").arg(code);
     }
@@ -103,6 +105,10 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         break;
     }
 
+    case CommandData:
+        emit dataReceived(data);
+        break;
+
     default:
         log( "Unhandled message: " + messageCodeToString(messageCode), LogError );
         break;
@@ -156,6 +162,13 @@ void ClipboardClient::start(const QStringList &arguments)
 
     connect( &scriptable, &Scriptable::finished,
              &scriptableProxy, &ScriptableProxy::clientDisconnected );
+
+    connect( this, &ClipboardClient::dataReceived,
+             &scriptable, &Scriptable::dataReceived, Qt::QueuedConnection );
+    connect( &scriptable, &Scriptable::receiveData,
+             &socket, [&]() {
+                socket.sendMessage(QByteArray(), CommandReceiveData);
+             });
 
     bool hasActionId;
 #if QT_VERSION < QT_VERSION_CHECK(5,5,0)
