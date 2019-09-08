@@ -63,36 +63,6 @@ enum class MoveType {
     Relative
 };
 
-class UpdatesLocker final {
-public:
-    explicit UpdatesLocker(QWidget *widget)
-        : m_widget(widget)
-    {
-    }
-
-    UpdatesLocker(const UpdatesLocker &) = delete;
-    UpdatesLocker &operator =(const UpdatesLocker &) = delete;
-
-    ~UpdatesLocker()
-    {
-        if (m_updatesDisabled)
-            m_widget->setUpdatesEnabled(true);
-    }
-
-    void lock() {
-        if (m_updatesDisabled)
-            return;
-
-        m_updatesDisabled = m_widget->updatesEnabled();
-        if (m_updatesDisabled)
-            m_widget->setUpdatesEnabled(false);
-    }
-
-private:
-    QWidget *m_widget;
-    bool m_updatesDisabled = false;
-};
-
 /// Save drag'n'drop image data in temporary file (required by some applications).
 class TemporaryDragAndDropImage final : public QObject {
 public:
@@ -1483,9 +1453,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
         // Preload next and previous pages so that up/down and page up/down keys scroll correctly.
         {
-            UpdatesLocker locker(this);
-            locker.lock();
-
             if (key == Qt::Key_PageDown || key == Qt::Key_PageUp)
                 preload(h, (key == Qt::Key_PageUp), current);
             else if (key == Qt::Key_Down || key == Qt::Key_Up)
