@@ -172,8 +172,6 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
     if (m_isRichText)
         sanitizeTextDocument(&m_textDocument);
 
-    setDocument(&m_textDocument);
-
     connect( this, &QTextEdit::selectionChanged,
              this, &ItemText::onSelectionChanged );
 }
@@ -228,6 +226,10 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
         option.setWrapMode(wrapMode);
         m_textDocument.setDefaultTextOption(option);
     }
+
+    // setDocument() is slow, so postpone this after resized properly
+    if (document() != &m_textDocument)
+        setDocument(&m_textDocument);
 
     const QRectF rect = m_textDocument.documentLayout()->frameBoundingRect(m_textDocument.rootFrame());
     setFixedWidth( static_cast<int>(rect.right()) );
