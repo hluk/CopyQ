@@ -771,7 +771,7 @@ void MainWindow::updateIconSnipTimeout()
 
 void MainWindow::updateContextMenuTimeout()
 {
-    auto c = browser();
+    auto c = browserOrNull();
     if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
         clearActions(ui->toolBar);
         ui->toolBar->setUpdatesEnabled(true);
