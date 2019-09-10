@@ -73,6 +73,42 @@ namespace {
 const char *const programName = "CopyQ Clipboard Manager";
 const char *const mimeIgnore = COPYQ_MIME_PREFIX "ignore";
 
+class PerformanceLogger {
+public:
+    explicit PerformanceLogger(const QString &label)
+        : m_label(label)
+    {
+        m_timer.start();
+    }
+
+    ~PerformanceLogger()
+    {
+        const qint64 ms = m_timer.elapsed();
+        if (ms >= 5000)
+            log(ms, LogWarning);
+        else if (ms >= 500)
+            log(ms, LogNote);
+        else if (ms >= 150)
+            log(ms, LogDebug);
+        else
+            log(ms, LogTrace);
+    }
+
+private:
+    void log(qint64 ms, LogLevel level) const
+    {
+        if ( !hasLogLevel(level) )
+            return;
+
+        ::log( QString("%1: %2")
+               .arg(m_label, "Finished in %1 ms")
+               .arg(ms) );
+    }
+
+    QString m_label;
+    QElapsedTimer m_timer;
+};
+
 QString helpHead()
 {
     return Scriptable::tr("Usage: copyq [%1]").arg(Scriptable::tr("COMMAND")) + "\n\n"
@@ -2470,6 +2506,8 @@ void Scriptable::runMenuCommandFilters()
             return;
         }
 
+        PerformanceLogger logger( QLatin1String("Menu item filters") );
+
         for (int i = 0; i < matchCommands.length(); ++i) {
             const bool enabled = canExecuteCommandFilter(matchCommands[i]);
             if ( !m_proxy->enableMenuItem(m_actionId, currentRun, i, enabled) )
@@ -3015,6 +3053,8 @@ bool Scriptable::runCommands(CommandType::CommandType type)
     const QString tabName = getTextData(m_data, mimeCurrentTab);
 
     for (auto &command : commands) {
+        PerformanceLogger logger( QString("Command \"%1\"").arg(command.name) );
+
         if ( command.outputTab.isEmpty() )
             command.outputTab = tabName;
 
