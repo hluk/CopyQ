@@ -2002,8 +2002,10 @@ void MainWindow::enableHideWindowOnUnfocus()
 
 void MainWindow::hideWindowIfNotActive()
 {
-    if ( isVisible() && !hasDialogOpen(this) && !isAnyApplicationWindowActive() )
+    if ( isVisible() && !hasDialogOpen(this) && !isAnyApplicationWindowActive() ) {
+        COPYQ_LOG("Auto-hiding unfocused main window");
         hideWindow();
+    }
 }
 
 const Theme &MainWindow::theme() const
