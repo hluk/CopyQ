@@ -467,7 +467,7 @@ private:
 
     void updateContextMenuTimeout();
 
-    void updateTrayMenuTimeout();
+    void updateTrayMenuItemsTimeout();
 
     void updateItemPreviewAfterMs(int ms);
 
@@ -551,9 +551,8 @@ private:
 
     void updateContextMenu(int intervalMsec);
 
-    void updateTrayMenu();
-
-    void updateTrayMenuClipboard();
+    void updateTrayMenuItems();
+    void updateTrayMenuCommands();
 
     void updateNotifications();
 
@@ -640,7 +639,6 @@ private:
 
     QMenu *m_menuItem;
     TrayMenu *m_trayMenu;
-    QPointer<QAction> m_trayMenuClipboardAction;
 
     QSystemTrayIcon *m_tray;
 
@@ -661,7 +659,7 @@ private:
 
     QTimer m_timerUpdateFocusWindows;
     QTimer m_timerUpdateContextMenu;
-    QTimer m_timerUpdateTrayMenu;
+    QTimer m_timerUpdateTrayMenuItems;
     QTimer m_timerUpdatePreview;
     QTimer m_timerTrayAvailable;
     QTimer m_timerTrayIconSnip;

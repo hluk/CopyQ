@@ -35,6 +35,9 @@
 
 namespace {
 
+const char propertyCustomAction[] = "CopyQ_tray_menu_custom_action";
+const char propertyClipboardItemAction[] = "CopyQ_tray_menu_clipboard_item";
+
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 
 bool canActivate(const QAction &action)
@@ -89,6 +92,7 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
 
     const QVariantMap data = index.data(contentType::data).toMap();
     QAction *act = addAction(QString());
+    act->setProperty(propertyClipboardItemAction, true);
 
     act->setData(index.data(contentType::data));
 
@@ -139,14 +143,8 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
 
 void TrayMenu::clearClipboardItems()
 {
-    resetSeparators();
+    clearActionsWithProperty(propertyClipboardItemAction);
 
-    for ( auto action : actions() ) {
-        if (action->isSeparator())
-            break;
-        if (action != m_searchAction)
-            removeAction(action);
-    }
     m_clipboardItemActionCount = 0;
 
     // Show search text at top of the menu.
@@ -154,9 +152,15 @@ void TrayMenu::clearClipboardItems()
         setSearchMenuItem(m_searchText);
 }
 
+void TrayMenu::clearCustomActions()
+{
+    clearActionsWithProperty(propertyCustomAction);
+}
+
 void TrayMenu::addCustomAction(QAction *action)
 {
     resetSeparators();
+    action->setProperty(propertyCustomAction, true);
     insertAction(m_customActionsSeparator, action);
 }
 
@@ -280,6 +284,14 @@ void TrayMenu::leaveEvent(QEvent *event)
     auto action = activeAction();
     QMenu::leaveEvent(event);
     setActiveAction(action);
+}
+
+void TrayMenu::clearActionsWithProperty(const char *property)
+{
+    for ( auto action : actions() ) {
+        if ( action->property(property).toBool() )
+            removeAction(action);
+    }
 }
 
 void TrayMenu::resetSeparators()

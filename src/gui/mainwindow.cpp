@@ -488,7 +488,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
 
     initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, &MainWindow::updateFocusWindows );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, &MainWindow::updateContextMenuTimeout );
-    initSingleShotTimer( &m_timerUpdateTrayMenu, trayMenuUpdateIntervalMsec, this, &MainWindow::updateTrayMenuTimeout );
+    initSingleShotTimer( &m_timerUpdateTrayMenuItems, trayMenuUpdateIntervalMsec, this, &MainWindow::updateTrayMenuItemsTimeout );
     initSingleShotTimer( &m_timerUpdatePreview, 0, this, &MainWindow::updateItemPreviewTimeout );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, [this]() { setTrayEnabled(); } );
     initSingleShotTimer( &m_timerTrayIconSnip, 500, this, &MainWindow::updateIconSnipTimeout );
@@ -731,23 +731,35 @@ void MainWindow::updateContextMenu(int intervalMsec)
     m_timerUpdateContextMenu.start(intervalMsec);
 }
 
-void MainWindow::updateTrayMenu()
+void MainWindow::updateTrayMenuItems()
 {
-    if ( !m_timerUpdateTrayMenu.isActive() )
-        m_timerUpdateTrayMenu.start();
-    updateTrayMenuClipboard();
+    if ( !m_timerUpdateTrayMenuItems.isActive() )
+        m_timerUpdateTrayMenuItems.start();
 }
 
-void MainWindow::updateTrayMenuClipboard()
+void MainWindow::updateTrayMenuCommands()
 {
-    if (m_trayMenuClipboardAction) {
-        const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
-        const auto font = m_trayMenuClipboardAction->font();
-        const auto clipboardLabel = textLabelForData(m_clipboardData, font, format, true);
-        m_trayMenuClipboardAction->setText(clipboardLabel);
-    }
+    m_trayMenu->clearCustomActions();
+
+    if (!m_options.trayCommands)
+        return;
+
+    const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
+    const auto font = m_trayMenu->font();
+    const auto clipboardLabel = textLabelForData(m_clipboardData, font, format, true);
+
+    QAction *clipboardAction = m_trayMenu->addAction( iconClipboard(), clipboardLabel );
+    connect(clipboardAction, &QAction::triggered,
+            this, &MainWindow::showClipboardContent);
+    m_trayMenu->addCustomAction(clipboardAction);
 
     m_trayMenu->markItemInClipboard(m_clipboardData);
+
+    int i = m_trayMenu->actions().size();
+    addCommandsToTrayMenu(m_clipboardData);
+    QList<QAction *> actions = m_trayMenu->actions();
+    for ( ; i < actions.size(); ++i )
+        m_trayMenu->addCustomAction(actions[i]);
 }
 
 void MainWindow::updateIcon()
@@ -1059,7 +1071,7 @@ void MainWindow::onItemsChanged(const ClipboardBrowser *browser)
 
     const ClipboardBrowserPlaceholder *placeholder = getPlaceholderForTrayMenu();
     if (placeholder && placeholder->browser() == browser)
-        updateTrayMenu();
+        updateTrayMenuItems();
 }
 
 void MainWindow::onInternalEditorStateChanged(const ClipboardBrowser *browser)
@@ -1156,7 +1168,7 @@ void MainWindow::setClipboardData(const QVariantMap &data)
 {
     m_clipboardData = data;
     updateContextMenu(contextMenuUpdateIntervalMsec);
-    updateTrayMenu();
+    updateTrayMenuCommands();
 }
 
 void MainWindow::setFilter(const QString &text)
@@ -1975,8 +1987,7 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
     }
 
     updateContextMenu(contextMenuUpdateIntervalMsec);
-    if (m_options.trayCommands)
-        updateTrayMenu();
+    updateTrayMenuCommands();
     emit commandsSaved(commands);
 }
 
@@ -2367,7 +2378,8 @@ void MainWindow::loadSettings()
     m_menu->setStyleSheet( theme().getToolTipStyleSheet() );
 
     setTrayEnabled( !appConfig.option<Config::disable_tray>() );
-    updateTrayMenu();
+    updateTrayMenuItems();
+    updateTrayMenuCommands();
 
     updateNotifications();
 
@@ -2530,9 +2542,9 @@ bool MainWindow::toggleMenu()
 {
     m_trayMenu->search(QString());
 
-    if ( !m_trayMenu->isVisible() && m_timerUpdateTrayMenu.isActive() ) {
-        m_timerUpdateTrayMenu.stop();
-        updateTrayMenuTimeout();
+    if ( !m_trayMenu->isVisible() && m_timerUpdateTrayMenuItems.isActive() ) {
+        m_timerUpdateTrayMenuItems.stop();
+        updateTrayMenuItemsTimeout();
     }
 
     return toggleMenu(m_trayMenu);
@@ -2595,7 +2607,7 @@ void MainWindow::tabChanged(int current, int)
     updateContextMenu(0);
 
     if (m_options.trayCurrentTab)
-        updateTrayMenu();
+        updateTrayMenuItems();
 }
 
 void MainWindow::saveTabPositions()
@@ -3063,11 +3075,11 @@ void MainWindow::enterSearchMode(const QString &txt)
         c->filterItems( ui->searchBar->filter() );
 }
 
-void MainWindow::updateTrayMenuTimeout()
+void MainWindow::updateTrayMenuItemsTimeout()
 {
     // Update tray only if not currently visible.
     if ( m_trayMenu->isVisible() ) {
-        updateTrayMenu();
+        updateTrayMenuItems();
         return;
     }
 
@@ -3076,7 +3088,7 @@ void MainWindow::updateTrayMenuTimeout()
     WidgetSizeGuard sizeGuard(m_trayMenu);
 
     interruptMenuCommandFilters(&m_trayMenuMatchCommands);
-    m_trayMenu->clearAllActions();
+    m_trayMenu->clearClipboardItems();
 
     QAction *act = m_trayMenu->addAction( appIcon(), tr("&Show/Hide") );
     connect(act, &QAction::triggered, this, &MainWindow::toggleVisible);
@@ -3087,23 +3099,6 @@ void MainWindow::updateTrayMenuTimeout()
     addTrayAction(Actions::File_Exit);
 
     filterTrayMenuItems(QString());
-
-    // Add commands.
-    if (m_options.trayCommands) {
-        // Show clipboard content as disabled item.
-        m_trayMenuClipboardAction = m_trayMenu->addAction(iconClipboard(), QString());
-        connect(m_trayMenuClipboardAction.data(), &QAction::triggered,
-                this, &MainWindow::showClipboardContent);
-        m_trayMenu->addCustomAction(m_trayMenuClipboardAction);
-
-        int i = m_trayMenu->actions().size();
-        addCommandsToTrayMenu(m_clipboardData);
-        QList<QAction *> actions = m_trayMenu->actions();
-        for ( ; i < actions.size(); ++i )
-            m_trayMenu->addCustomAction(actions[i]);
-    }
-
-    updateTrayMenuClipboard();
 }
 
 void MainWindow::filterMenuItems(const QString &searchText)

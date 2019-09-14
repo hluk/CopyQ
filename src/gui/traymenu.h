@@ -42,6 +42,8 @@ public:
 
     void clearClipboardItems();
 
+    void clearCustomActions();
+
     /** Add custom action. */
     void addCustomAction(QAction *action);
 
@@ -76,6 +78,8 @@ protected:
     void leaveEvent(QEvent *event) override;
 
 private:
+    void clearActionsWithProperty(const char *property);
+
     void onClipboardItemActionTriggered();
 
     void updateActiveAction();
