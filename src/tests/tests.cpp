@@ -2628,6 +2628,8 @@ void Tests::configTrayTab()
 
     RUN("config" << "tray_tab_is_current" << "false", "false\n");
 
+    RUN("config" << "tray_item_paste" << "false", "false\n");
+
     RUN("config" << "tray_tab" << tab1, tab1 + "\n");
 
     RUN("menu", "");

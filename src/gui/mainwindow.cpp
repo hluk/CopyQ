@@ -1630,7 +1630,6 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowserPlaceholder *place
     if (!c)
         return;
 
-    const int current = c->currentIndex().row();
     int itemCount = 0;
     for ( int i = 0; i < c->length() && itemCount < maxItemCount; ++i ) {
         const QModelIndex index = c->model()->index(i, 0);
@@ -1639,7 +1638,7 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowserPlaceholder *place
             if ( !itemText.contains(searchText.toLower()) )
                 continue;
         }
-        menu->addClipboardItemAction(index, m_options.trayImages, i == current);
+        menu->addClipboardItemAction(index, m_options.trayImages);
         ++itemCount;
     }
 }

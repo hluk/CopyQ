@@ -82,7 +82,7 @@ TrayMenu::TrayMenu(QWidget *parent)
     initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, &TrayMenu::updateActiveAction );
 }
 
-void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent)
+void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages)
 {
     resetSeparators();
 
@@ -137,8 +137,7 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
 
     connect(act, &QAction::triggered, this, &TrayMenu::onClipboardItemActionTriggered);
 
-    if (isCurrent)
-        setActiveAction(act);
+    updateActiveAction();
 }
 
 void TrayMenu::clearClipboardItems()
@@ -162,6 +161,7 @@ void TrayMenu::addCustomAction(QAction *action)
     resetSeparators();
     action->setProperty(propertyCustomAction, true);
     insertAction(m_customActionsSeparator, action);
+    updateActiveAction();
 }
 
 void TrayMenu::clearAllActions()

@@ -38,7 +38,7 @@ public:
      *
      * Triggering this action emits clipboardItemActionTriggered() signal.
      */
-    void addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent);
+    void addClipboardItemAction(const QModelIndex &index, bool showImages);
 
     void clearClipboardItems();
 
