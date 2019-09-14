@@ -2569,10 +2569,12 @@ void Tests::menu()
 
     RUN("tab" << tab << "add" << "D" << "C" << "B" << "A", "");
 
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu" << tab, "");
     ACTIVATE_MENU_ITEM(menuId, clipboardBrowserId, "A");
 
     // Show menu with 2 items from the tab and select last one.
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu" << tab << "2", "");
     RUN("keys" << menuId << "END", "");
     ACTIVATE_MENU_ITEM(menuId, clipboardBrowserId, "B");
@@ -2582,6 +2584,7 @@ void Tests::traySearch()
 {
     RUN("add" << "C" << "B" << "A", "");
 
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu", "");
     RUN("keys" << trayMenuId << "B", "");
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
@@ -2598,6 +2601,7 @@ void Tests::trayPaste()
         << editorId << ":NEW ", "");
 
     RUN("add" << "TEST", "");
+    RUN("keys" << editorId, "");
     RUN("menu", "");
     ACTIVATE_MENU_ITEM(trayMenuId, editorId, "TEST");
     waitFor(waitMsPasteClipboard);
@@ -2611,6 +2615,7 @@ void Tests::trayPaste()
 
     RUN("config" << "tray_item_paste" << "false", "false\n");
     RUN("add" << "TEST2", "");
+    RUN("keys" << editorId, "");
     RUN("menu", "");
     ACTIVATE_MENU_ITEM(trayMenuId, editorId, "TEST2");
 
@@ -2632,11 +2637,13 @@ void Tests::configTrayTab()
 
     RUN("config" << "tray_tab" << tab1, tab1 + "\n");
 
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu", "");
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "A");
 
     RUN("config" << "tray_tab" << tab2, tab2 + "\n");
 
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu", "");
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
 }
@@ -2651,6 +2658,7 @@ void Tests::configMove()
 
     RUN("config" << "move" << "true", "true\n");
 
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu", "");
     RUN("keys" << trayMenuId << "DOWN", "");
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
@@ -2658,6 +2666,7 @@ void Tests::configMove()
 
     RUN("config" << "move" << "false", "false\n");
 
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu", "");
     RUN("keys" << trayMenuId << "DOWN", "");
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "A");
@@ -2675,10 +2684,12 @@ void Tests::configTrayTabIsCurrent()
     RUN("config" << "tray_tab_is_current" << "true", "true\n");
 
     RUN("setCurrentTab" << tab1, "");
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu", "");
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "A");
 
     RUN("setCurrentTab" << tab2, "");
+    RUN("keys" << clipboardBrowserId, "");
     RUN("menu", "");
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
 }
