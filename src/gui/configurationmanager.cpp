@@ -396,7 +396,6 @@ bool ConfigurationManager::setOptionValue(const QString &name, const QString &va
         return false;
 
     AppConfig().setOption(name, m_options[name].value());
-    emit configurationChanged();
     return true;
 }
 
