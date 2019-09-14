@@ -3071,6 +3071,8 @@ void MainWindow::updateTrayMenuTimeout()
         return;
     }
 
+    COPYQ_LOG("Updating tray menu");
+
     WidgetSizeGuard sizeGuard(m_trayMenu);
 
     interruptMenuCommandFilters(&m_trayMenuMatchCommands);
