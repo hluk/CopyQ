@@ -1517,6 +1517,11 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         const QItemSelectionModel::SelectionFlags flags = selectionCommand(index(row), event);
         const bool setCurrentOnly = flags.testFlag(QItemSelectionModel::NoUpdate);
         const bool keepSelection = setCurrentOnly || flags.testFlag(QItemSelectionModel::SelectCurrent);
+
+        // Use more stable page scrolling by keeping current item at top.
+        if (key == Qt::Key_PageDown || key == Qt::Key_PageUp)
+            scrollTo( index(row), QAbstractItemView::PositionAtTop );
+
         setCurrent(row, keepSelection, setCurrentOnly);
         break;
     }
