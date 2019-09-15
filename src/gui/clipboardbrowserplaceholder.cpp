@@ -211,6 +211,11 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
         return;
 
     COPYQ_LOG( QString("Tab \"%1\": Unloading").arg(m_tabName) );
+
+    // WORKAROUND: This is needed on macOS, to fix refocusing correct widget later.
+    m_browser->clearFocus();
+
+    m_browser->hide();
     m_browser->saveUnsavedItems();
     m_browser->deleteLater();
     m_browser = nullptr;
