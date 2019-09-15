@@ -1026,8 +1026,10 @@ void ClipboardBrowser::focusInEvent(QFocusEvent *event)
         m_itemSaver->setFocus(true);
 }
 
-void ClipboardBrowser::focusOutEvent(QFocusEvent *)
+void ClipboardBrowser::focusOutEvent(QFocusEvent *event)
 {
+    QListView::focusOutEvent(event);
+
     if (m_itemSaver)
         m_itemSaver->setFocus(false);
 }
