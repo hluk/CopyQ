@@ -129,7 +129,7 @@
     </message>
     <message>
         <source>Change item display format</source>
-        <translation type="vanished">Zmień&#xa0;format wyświetlania elementów</translation>
+        <translation type="vanished">Zmień format wyświetlania elementów</translation>
     </message>
     <message>
         <source>Ctrl+Left/Right</source>
@@ -266,7 +266,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
@@ -476,7 +476,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="817"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation>Karta jest pełna. Nie udało się&#xa0;usunąć żadnych elementów.</translation>
+        <translation>Karta jest pełna. Nie udało się usunąć żadnych elementów.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1892"/>
@@ -798,12 +798,12 @@ Pozostaw puste, aby wyłączyć.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zaawansowane</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
         <source>Script</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrypt</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
@@ -2061,7 +2061,7 @@ Użyj Podglądu, aby wyświetlić całe elementy.</translation>
     </message>
     <message>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="vanished">Przenieś&#xa0;aktywowany element do górnej części listy</translation>
+        <translation type="vanished">Przenieś aktywowany element do górnej części listy</translation>
     </message>
     <message>
         <source>Move item to the t&amp;op</source>

@@ -580,7 +580,7 @@ Příkaz je možné zmenit v nastavení.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="817"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation>Záložka je zaplněna. Nelpodařilo se odstranit žádné prvky.</translation>
+        <translation>Záložka je zaplněna. Nepodařilo se odstranit žádné prvky.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1892"/>
@@ -1004,7 +1004,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Pokud není políčko prázdné, použij příkaz pouze na prvky, u kterých se text schoduje s tímto regulárním výrazem.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Příklady:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Název PDF souborů    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Obsahuje pouze jeden znak    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Vzdálené multimediální soubory    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Pokud není políčko prázdné, použij příkaz pouze na prvky, u kterých se text shoduje s tímto regulárním výrazem.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Příklady:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Název PDF souborů    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Obsahuje pouze jeden znak    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Vzdálené multimediální soubory    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
@@ -1022,7 +1022,7 @@ Příkaz je možné zmenit v nastavení.</translation>
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
         <translation>&lt;p&gt;Použij příkaz jen pokud filtr uspěje.&lt;/p&gt;
 
-&lt;p&gt;Text prvku je přadán na &lt;b&gt;standardní vstup&lt;/b&gt; filtru. Příkaz se &lt;b&gt;provede pouze pokud filtr skončí z nulovým kódem&lt;/b&gt;.&lt;/p&gt;
+&lt;p&gt;Text prvku je předán na &lt;b&gt;standardní vstup&lt;/b&gt; filtru. Příkaz se &lt;b&gt;provede pouze pokud filtr skončí z nulovým kódem&lt;/b&gt;.&lt;/p&gt;
 
 &lt;p&gt;Výraz %1 bude nahrazen za text prvku a %2 až %9 za texty zachycenými pomocí regularního výrazu (části uzavřené v závorkách).&lt;/p&gt;
 

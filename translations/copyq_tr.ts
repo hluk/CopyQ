@@ -869,7 +869,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Komutu, yalnızca normal ifadeyle eşleşen başlık metniyle pencereden panoya kopyalanan öğeler için kullanın (herhangi bir pencereye uyması için boş bırakın). MacOS&apos;ta bu, uygulama adını ve ardından bir kısa çizgi (&amp;quot;-&amp;quot;) ve ardından pencere başlığını içerir. Örneğin: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
@@ -2236,7 +2236,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
         <source>Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sekmeler</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>
@@ -3003,12 +3003,12 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="90"/>
         <source>Web</source>
-        <translation type="unfinished">Web</translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Web sayfalarını göster.</translation>
     </message>
 </context>
 <context>
@@ -3016,7 +3016,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemweb/itemwebsettings.ui" line="19"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished">Piksel cinsinden maksimum yükseklik (0 = limitsiz):</translation>
+        <translation>Piksel cinsinden maksimum yükseklik (0 = limitsiz):</translation>
     </message>
 </context>
 <context>
@@ -3252,6 +3252,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
+            <numerusform>%1 (%n satır)</numerusform>
             <numerusform>%1 (%n satır)</numerusform>
         </translation>
     </message>
@@ -3635,6 +3636,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
@@ -4226,17 +4228,17 @@ Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; 
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maksimum öğe sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>varsayılan</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Store Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mağaza Öğeleri</translation>
     </message>
 </context>
 <context>
