@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Verilen ortam türünün verilerini standart komut girişine gönderin (kapatmak için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Programın standart çıktısından öğeler oluşturun (kapatmak için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -446,12 +446,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Komutları Yükle…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Seçileni Kaydet…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -966,137 +966,137 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">&amp;Dil:</translation>
+        <translation>&amp;Dil:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished">Satıra sığmayan metini kes</translation>
+        <translation>Satıra sığmayan metni kes</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished">&amp;Uzun metni kaydır</translation>
+        <translation>&amp;Uzun metni kaydır</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished">Ana pencereyi diğer pencereler üzerinde tut</translation>
+        <translation>Ana pencereyi diğer pencereler üzerinde tut</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">Her Zaman Üstte</translation>
+        <translation>Her Zaman Üstte</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished">Başka uygulamaya geçince ana pencereyi kapat</translation>
+        <translation>Başka uygulamaya geçince ana pencereyi kapat</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished">Başka uygulamaya geçince ana pencereyi kapat</translation>
+        <translation>Odaklanmadığında Kapat</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished">Geçerli ekranda pencereleri açmak için etkinleştirin. En son kapatıldıkları pencereleri açmak için devre dışı bırakın</translation>
+        <translation>Geçerli ekranda pencereleri açmak için etkinleştirin. En son kapatıldıkları pencereleri açmak için devre dışı bırakın</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished">Penreleri mevcut ekranda aç</translation>
+        <translation>&amp;Mevcut ekranda pencereleri aç</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished">Çıkarken onayla</translation>
+        <translation>Çıkarken onayla</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished">Çıkarken o&amp;nayla</translation>
+        <translation>Çıkarken o&amp;nayla</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished">Sistem başlangıcında başlat</translation>
+        <translation>Sistem başlangıcında başlat</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished">&amp;Otomatik Başlat</translation>
+        <translation>&amp;Otomatik Başlat</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished">Vi gezinme tuşlarını destekle (H, J, K, L and more), arama için (/)</translation>
+        <translation>Vi gezinme tuşlarını destekle (H, J, K, L ve dahası), arama için (/)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished">&amp;Vi tipi gezinme</translation>
+        <translation>&amp;Vi tipi gezinme</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">Öğe filtrelerinin geçmişini kaydet ve düzenle</translation>
+        <translation>Öğe filtrelerinin geçmişini kaydet ve geri yükle</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">Filtreleme Geçmişini Kaydet</translation>
+        <translation>Filtre Geçmişini Kaydet</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished">Komutlarda işlevi, türü ve değişken adlarını tamamlamak için otomatik olarak açılır pencereleri göster</translation>
+        <translation>Komutlarda işlev, tür ve değişken adlarını tamamlamak için açılır pencereyi otomatik olarak göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished">Komutları Otomatik Tamamla</translation>
+        <translation>Komutları Otomatik Tamamla</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished">Pano Manipülasyonu</translation>
+        <translation>Pano Manipülasyonu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished">Kopyalanan içeriği fare ile yapıştırmaya izin ver ( genellikle orta fare tuşu)</translation>
+        <translation>Kopyalanan içeriği, fare seçimleriyle aynı şekilde yapıştırmaya izin verin (genellikle orta fare düğmesine basarak)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished">(&amp;3) Fare ile yapıştır</translation>
+        <translation>(&amp;3) Panoyu fareyle yapıştır</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished">Kısayol kullanarak fare seçimlerini yapıştırmaya izin ver (genellikle Ctrl+V veya Shift+Insert)</translation>
+        <translation>Kısayol kullanarak fare seçimlerinin yapıştırılmasına izin ver (genellikle Ctrl+V veya Shift+Insert)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished">(&amp;4) Klavye ile fare seçimini yapıştırın</translation>
+        <translation>(&amp;4) Fare seçimini klavyeyle yapıştır</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished">Geçmişte panoya kaydet</translation>
+        <translation>Geçmişte panoya kaydet</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished">(&amp;1) Panoya aktar</translation>
+        <translation>(&amp;1) Panoya aktar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished">Geçmişe fare ile seçilen ilk seçimi kaydet</translation>
+        <translation>Fare ile seçilen metni (ana seçim) geçmişe kaydet</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
@@ -1114,7 +1114,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished">Geçmişte maksimum öğe sayısı:</translation>
+        <translation>&amp;Geçmişte maksimum öğe sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
@@ -1124,7 +1124,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished">Sekmeyi dakikalar sonra verilen aralıktan sonra kaldır:</translation>
+        <translation>&amp;Dakikadaki aralıklarla sekmeyi kaldır:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
