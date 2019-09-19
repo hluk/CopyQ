@@ -585,9 +585,9 @@ Příkaz je možné zmenit v nastavení.</translation>
 
 &lt;p&gt;Text prvku je předán na &lt;b&gt;standardní vstup&lt;/b&gt; filtru. Příkaz se &lt;b&gt;provede pouze pokud filtr skončí z nulovým kódem&lt;/b&gt;.&lt;/p&gt;
 
-&lt;p&gt;Výraz %1 bude nahrazen za text prvku a %2 až %9 za texty zachycenými pomocí regularního výrazu (části uzavřené v závorkách).&lt;/p&gt;
+&lt;p&gt;Výraz &lt;b&gt;%1&lt;/b&gt; bude nahrazen za text prvku a &lt;b&gt;%2&lt;/b&gt; až &lt;b&gt;%9&lt;/b&gt; za texty zachycenými pomocí regularního výrazu (části uzavřené v závorkách).&lt;/p&gt;
 
-&lt;p&gt;Požij &lt;b&gt;|&lt;/b&gt; pro zřetězení více příkazů (předání standardního výstupu do dalšího příkazu).&lt;/p&gt;</translation>
+&lt;p&gt;Použij &lt;b&gt;|&lt;/b&gt; pro zřetězení více příkazů (předání standardního výstupu do dalšího příkazu).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
