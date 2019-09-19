@@ -2313,8 +2313,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
         <source>Tabs</source>
-        <translation type="unfinished"></translation>
-        <translation>Faner</translation>
+        <translation type="unfinished">Faner</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>

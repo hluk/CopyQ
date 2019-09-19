@@ -182,7 +182,7 @@
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; im &lt;b&gt;Befehl&lt;/b&gt; ist der &lt;b&gt;Text&lt;/b&gt; der ausgewählten Elemente. Der Text kann ebenfalls angepasst und an die &lt;b&gt;Standardeingabe&lt;/b&gt;(stdin) weitergereicht werden. Es ist ebenfalls möglich, Befehle durch Pipes mit &lt;b&gt;|&lt;/b&gt; zu verketten (z. B. zur Weitergabe an die Standardausgabe -stdout).</translation>
+        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; im &lt;b&gt;Befehl&lt;/b&gt; ist der &lt;b&gt;Text&lt;/b&gt; der ausgewählten Elemente. Der Text kann ebenfalls angepasst und an die &lt;b&gt;Standardeingabe&lt;/b&gt;(stdin) weitergereicht werden. Es ist ebenfalls möglich, Befehle durch Pipes mit &lt;b&gt;|&lt;/b&gt; zu verketten (z.&#xa0;B. zur Weitergabe an die Standardausgabe -stdout).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
@@ -568,7 +568,7 @@ You can set up the command in preferences.</source>
     <message>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="vanished">Suche läuft %p % …</translation>
+        <translation type="vanished">Suche läuft %p&#xa0;% …</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="816"/>
@@ -3374,7 +3374,7 @@ Hinweis: Bearbeitete Elemente können mit F2 gespeichert werden, ungeachtet dies
     </message>
     <message>
         <source>Paste current clipboard content as plain text (i.e. remove formating).</source>
-        <translation type="vanished">Aktuellen Inhalt der Zwischenablage als reinen Text einfügen (z. B., um Formatierungen zu entfernen).</translation>
+        <translation type="vanished">Aktuellen Inhalt der Zwischenablage als reinen Text einfügen (z.&#xa0;B., um Formatierungen zu entfernen).</translation>
     </message>
     <message>
         <source>Disable clipboard storing</source>
@@ -4179,11 +4179,11 @@ Strg+↑ (hoch) oder Strg+↓ (runter) verschieben.</translation>
     </message>
     <message>
         <source>List of URI (e.g. copied files, URLs)</source>
-        <translation type="vanished">Liste von URI (z. B. kopierte Dateien, URLs)</translation>
+        <translation type="vanished">Liste von URI (z.&#xa0;B. kopierte Dateien, URLs)</translation>
     </message>
     <message>
         <source>List of URI (e.g. copied files)</source>
-        <translation type="vanished">Liste von URI (z. B. kopierte Dateien)</translation>
+        <translation type="vanished">Liste von URI (z.&#xa0;B. kopierte Dateien)</translation>
     </message>
     <message>
         <source>Images</source>
@@ -6503,7 +6503,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Doppelbindestrichargument (--) verwenden, um alle folgenden Argumente
-    zu lesen ohne die Escapesequenzen zu erweitern (z. B. \n, \t und weitere).</translation>
+    zu lesen ohne die Escapesequenzen zu erweitern (z.&#xa0;B. \n, \t und weitere).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="89"/>
