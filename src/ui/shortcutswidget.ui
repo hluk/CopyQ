@@ -80,7 +80,7 @@
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Application shortcuts can be triggered only from the main window.</string>
+          <string>Application shortcuts can only be triggered from the main window.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
