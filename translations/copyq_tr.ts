@@ -1101,12 +1101,12 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished">(&amp;2) Fareyi kullanarak seçilen metni saklayın</translation>
+        <translation>(&amp;2) Fareyi kullanarak seçilen metni saklayın</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) Seçimde otomatik komut çalıştır</translation>
     </message>
 </context>
 <context>
@@ -1119,7 +1119,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished">Her sekmedeki maksimum öğe sayısı</translation>
+        <translation>Her sekmedeki maksimum öğe sayısı</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
@@ -1131,14 +1131,14 @@ düzenlemek için F2&apos;ye basın.</translation>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished">Her bir sekmeyi, belirli sayıda etkinlik dışı kaldıktan sonra bellekten çıkarın.
+        <translation>Her bir sekmeyi, belirli dakika etkinlik dışı kaldıktan sonra bellekten çıkar.
 
 Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished">Harici editör komutu (%&amp;1 düzenlemek için dosya):</translation>
+        <translation>Harici editör komutu (düzenlenecek dosya %&amp;1):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1148,7 +1148,7 @@ Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished">Harici editör komutu (%1 düzenlenecek dosya).
+        <translation>Harici editör komutu (%1 düzenlenecek dosya).
   Örnekler:
     gedit %1
     notepad %1
@@ -2543,6 +2543,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
             <numerusform>%1 (%n satır)</numerusform>
+            <numerusform>%1 (%n satır)</numerusform>
         </translation>
     </message>
     <message>
@@ -2909,6 +2910,7 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
