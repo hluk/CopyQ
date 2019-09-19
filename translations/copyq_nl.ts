@@ -29,119 +29,9 @@
         <translation>Website</translation>
     </message>
     <message>
-        <source>Wiki</source>
-        <translation type="vanished">Wiki</translation>
-    </message>
-    <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>Doneren</translation>
-    </message>
-    <message>
-        <source>Development</source>
-        <translation type="vanished">Ontwikkeling</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>Qt library description</comment>
-        <translation type="vanished">Bibliotheek die wordt gebruikt in deze applicatie</translation>
-    </message>
-    <message>
-        <source>Free web-based translation management system</source>
-        <comment>Weblate description</comment>
-        <translation type="vanished">Gratis webgebaseerd vertaalbeheersysteem</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <comment>Font Awesome description</comment>
-        <translation type="vanished">Iconisch lettertype dat wordt gebruikt in deze applicatie</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation type="vanished">Bibliotheek die wordt gebruikt in deze applicatie</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <comment>Solarized palette/themes description</comment>
-        <translation type="vanished">Kleurenpalet dat wordt gebruikt voor thema&apos;s</translation>
-    </message>
-    <message>
-        <source>Keyboard</source>
-        <translation type="vanished">Toetsenbord</translation>
-    </message>
-    <message>
-        <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation type="vanished">Applicatie-snelkoppelingen kunnen worden gewijzigd in het Voorkeuren-venster.</translation>
-    </message>
-    <message>
-        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">Algemene sneltoetsen (systeembreed) kunnen worden ingesteld in het Opdracht-venster (standaard sneltoets is F6).</translation>
-    </message>
-    <message>
-        <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">Begin met typen om de klembordgeschiedenis te doorzoeken.</translation>
-    </message>
-    <message>
-        <source>Item list navigation</source>
-        <translation type="vanished">Itemlijst-navigatie</translation>
-    </message>
-    <message>
-        <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Omhoog/omlaag, Page Up/Down, Home/End</translation>
-    </message>
-    <message>
-        <source>Tab navigation</source>
-        <translation type="vanished">Tabblad-navigatie</translation>
-    </message>
-    <message>
-        <source>Left, Right, %1, %2</source>
-        <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="vanished">Links, rechts, %1, %2</translation>
-    </message>
-    <message>
-        <source>Move selected items</source>
-        <translation type="vanished">Geselecteerde items verplaatsen</translation>
-    </message>
-    <message>
-        <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="vanished">Ctrl + pijltje omhoog/omlaag, Ctrl + Home/End</translation>
-    </message>
-    <message>
-        <source>Reset search or hide window</source>
-        <translation type="vanished">Zoekopdracht wissen of venster verbergen</translation>
-    </message>
-    <message>
-        <source>Escape</source>
-        <translation type="vanished">Esc</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation type="vanished">Item verwijderen</translation>
-    </message>
-    <message>
-        <source>Put selected items into clipboard</source>
-        <translation type="vanished">Plaats geselecteerde items op het klembord</translation>
-    </message>
-    <message>
-        <source>Enter</source>
-        <translation type="vanished">Enter</translation>
-    </message>
-    <message>
-        <source>Change item display format</source>
-        <translation type="vanished">Opmaak itemweergave wijzigen</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left/Right</source>
-        <translation type="vanished">Ctrl + Links / Rechts</translation>
-    </message>
-    <message>
-        <source>Edit Item</source>
-        <translation type="vanished">Item bewerken</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -165,14 +55,6 @@
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
         <translation>Standaard ui&amp;tvoer opslaan:</translation>
-    </message>
-    <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="vanished">Gegevens van MIME-type versturen naar standaard invoer van opdracht (laat leeg om uit te schakelen)</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="vanished">Items creëren vanuit standaard uitvoer van de applicatie (laat leeg om uit te schakelen)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -227,18 +109,6 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
 <context>
     <name>ActionHandler</name>
     <message>
-        <source>Error: %1
-</source>
-        <translation type="vanished">Fout: %1
-</translation>
-    </message>
-    <message>
-        <source>Exit code: %1
-</source>
-        <translation type="vanished">Afsluitcode: %1
-</translation>
-    </message>
-    <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
         <translation>Fout: %1</translation>
@@ -278,11 +148,6 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
         <translation>CopyQ - Opdrachten toevoegen</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+1</source>
-        <comment>Global shortcut for some predefined commands</comment>
-        <translation type="vanished">Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -390,10 +255,6 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <translation>Plakken als platte tekst</translation>
     </message>
     <message>
-        <source>Shift+Return</source>
-        <translation type="vanished">Shift + Enter</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
         <translation>Video&apos;s automatisch afspelen</translation>
@@ -432,14 +293,6 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <translation>Verplaatsen naar tab %1</translation>
     </message>
     <message>
-        <source>Add to &amp;TODO tab</source>
-        <translation type="vanished">Toevoegen aan tabblad &amp;NOGTEDOEN</translation>
-    </message>
-    <message>
-        <source>Move to &amp;TODO tab</source>
-        <translation type="vanished">Verplaatsen naar tabblad &amp;NOGTEDOEN</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
         <translation>Gekopieerde bestanden negeren</translation>
@@ -466,19 +319,7 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     </message>
 </context>
 <context>
-    <name>ClientSocket</name>
-    <message>
-        <source>Failed to read message from client!</source>
-        <translation type="vanished">Het lezen van het applicatiebericht is mislukt!</translation>
-    </message>
-</context>
-<context>
     <name>ClipboardBrowser</name>
-    <message>
-        <source>Searching %p%...</source>
-        <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="vanished">Bezig met zoeken naar %p%...</translation>
-    </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="816"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1642"/>
@@ -612,14 +453,6 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Load Commands...</source>
-        <translation type="vanished">Opdrachten &amp;laden...</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="vanished">Geselecteerde opdrachten op&amp;slaan...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -776,14 +609,6 @@ Leave empty to disable this.</source>
 Laat leeg om uit te schakelen.</translation>
     </message>
     <message>
-        <source>F&amp;ormat:</source>
-        <translation type="vanished">&amp;Opmaak:</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;Opdracht alleen gebruiken voor naar het klembord gekopieerde items, afkomstig uit een venster met titeltekst die overeenkomt met deze reguliere expressie (laat leeg om elk venster overeen te laten komen). Op OS X omvat dit de applicatienaam, gevolgd door een streepje (&amp;quot;-&amp;quot;) en de venstertitel. Bijv.: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
         <source>&amp;Window:</source>
         <translation>&amp;Venster:</translation>
@@ -829,10 +654,6 @@ Laat leeg om uit te schakelen.</translation>
         <location filename="../src/ui/commandwidget.ui" line="400"/>
         <source>Action</source>
         <translation>Actie</translation>
-    </message>
-    <message>
-        <source>Co&amp;py to tab:</source>
-        <translation type="vanished">Ko&amp;piëren naar tabblad:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="433"/>
@@ -1103,16 +924,6 @@ Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatis
 press F2 to edit.</source>
         <translation>Selecteer een item en
 druk op F2 om te bewerken.</translation>
-    </message>
-    <message>
-        <source>Select items and move them with
-CTRL and up or down key.</source>
-        <translation type="vanished">Selecteer items en verplaats ze met
-CTRL en pijltje omhoog/omlaag.</translation>
-    </message>
-    <message>
-        <source>Remove item with Delete key.</source>
-        <translation type="vanished">Verwijder een item met de Delete-toets.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="483"/>
@@ -1656,21 +1467,6 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     </message>
 </context>
 <context>
-    <name>ConfigTabShortcuts</name>
-    <message>
-        <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="vanished">Aangepaste a&amp;cties en algemene sneltoetsen...</translation>
-    </message>
-    <message>
-        <source>Ctrl+P</source>
-        <translation type="vanished">Ctrl+P</translation>
-    </message>
-    <message>
-        <source>&amp;Paste Items</source>
-        <translation type="vanished">&amp;Items plakken</translation>
-    </message>
-</context>
-<context>
     <name>ConfigTabTray</name>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
@@ -1749,504 +1545,6 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
         <translation>CopyQ-instellingen</translation>
-    </message>
-    <message>
-        <source>&amp;General</source>
-        <translation type="vanished">Al&amp;gemeen</translation>
-    </message>
-    <message>
-        <source>&amp;Language:</source>
-        <translation type="vanished">Taa&amp;l:</translation>
-    </message>
-    <message>
-        <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="vanished">Tekst afbreken als deze niet op één regel past</translation>
-    </message>
-    <message>
-        <source>Wrap l&amp;ong text</source>
-        <translation type="vanished">Lange tekst &amp;omslaan</translation>
-    </message>
-    <message>
-        <source>Keep main window above other windows</source>
-        <translation type="vanished">Hoofdvenster altijd boven andere vensters weergeven</translation>
-    </message>
-    <message>
-        <source>Alwa&amp;ys on Top</source>
-        <translation type="vanished">Alti&amp;jd bovenop</translation>
-    </message>
-    <message>
-        <source>Close main window when other application has focus</source>
-        <translation type="vanished">Sluit het hoofdvenster wanneer een andere toepassing focus heeft</translation>
-    </message>
-    <message>
-        <source>Close When Unfocused</source>
-        <translation type="vanished">Sluiten als venster niet actief is</translation>
-    </message>
-    <message>
-        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="vanished">Schakel in om vensters te openen op het huidige scherm. Schakel uit om vensters te openen op het scherm waar ze het laatst gesloten zijn</translation>
-    </message>
-    <message>
-        <source>O&amp;pen windows on current screen</source>
-        <translation type="vanished">Vensters o&amp;penen op huidig scherm</translation>
-    </message>
-    <message>
-        <source>Confirm application exit</source>
-        <translation type="vanished">Om bevestiging vragen bij afsluiten</translation>
-    </message>
-    <message>
-        <source>Confirm application e&amp;xit</source>
-        <translation type="vanished">Om bevestiging vragen bij af&amp;sluiten</translation>
-    </message>
-    <message>
-        <source>Run the application on system startup</source>
-        <translation type="vanished">Automatisch opstarten na inloggen</translation>
-    </message>
-    <message>
-        <source>&amp;Autostart</source>
-        <translation type="vanished">&amp;Automatisch opstarten</translation>
-    </message>
-    <message>
-        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="vanished">Ondersteuning voor Vi-navigatietoetsen (H, J, K, L enz.), schuine streep (/) om te zoeken</translation>
-    </message>
-    <message>
-        <source>&amp;Vi style navigation</source>
-        <translation type="vanished">Navigatie in &amp;Vi-stijl</translation>
-    </message>
-    <message>
-        <source>Save and restore history of item filters</source>
-        <translation type="vanished">Geschiedenis van itemfilters opslaan en herstellen</translation>
-    </message>
-    <message>
-        <source>Save Filter History</source>
-        <translation type="vanished">Filtergeschiedenis opslaan</translation>
-    </message>
-    <message>
-        <source>Clipboard Manipulation</source>
-        <translation type="vanished">Klembordmanipulatie</translation>
-    </message>
-    <message>
-        <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="vanished">Geselecteerde tekst (primaire selectie) opslaan in geschiedenis</translation>
-    </message>
-    <message>
-        <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="vanished">(&amp;2) Geselecteerde tekst opslaan</translation>
-    </message>
-    <message>
-        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="vanished">Muisselecties plakken via sneltoets (meestal Ctrl+V of Shift+Insert)</translation>
-    </message>
-    <message>
-        <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="vanished">(&amp;4) Muisselectie plakken via toetsenbord</translation>
-    </message>
-    <message>
-        <source>Save clipboard in history</source>
-        <translation type="vanished">Klembord bewaren in geschiedenis</translation>
-    </message>
-    <message>
-        <source>(&amp;1) Store clipboard</source>
-        <translation type="vanished">(&amp;1) Klembord bewaren</translation>
-    </message>
-    <message>
-        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="vanished">Gekopieerde inhoud plakken op dezelfde manier als muisselecties (meestal door de middelste muisknop te gebruiken)</translation>
-    </message>
-    <message>
-        <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="vanished">(&amp;3) Klembord plakken met muis</translation>
-    </message>
-    <message>
-        <source>Layout and Transparency</source>
-        <translation type="vanished">Uiterlijk en doorzichtigheid</translation>
-    </message>
-    <message>
-        <source>Show tree with tabs instead of tab bar</source>
-        <translation type="vanished">Boomstructuur met tabbladen weergeven i.p.v. tabbladbalk</translation>
-    </message>
-    <message>
-        <source>Tab T&amp;ree</source>
-        <translation type="vanished">Boomst&amp;ructuur met tabbladen</translation>
-    </message>
-    <message>
-        <source>&amp;Focused transparency:</source>
-        <translation type="vanished">Doorzichtigheid bij &amp;focus:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Doorzichtigheid van het hoofdvenster wanneer deze focus heeft.
-
-Let op: dit wordt niet op alle systemen ondersteund.</translation>
-    </message>
-    <message>
-        <source>&amp;Unfocused transparency:</source>
-        <translation type="vanished">Doorzichtigheid bij ontfoc&amp;us:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Doorzichtigheid van het hoofdvenster wanneer deze geen focus heeft.
-
-Let op: dit wordt niet op alle systemen ondersteund.</translation>
-    </message>
-    <message>
-        <source>Show number of items in tabs</source>
-        <translation type="vanished">Itemaantal weergeven op tabbladen</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w Item Count</source>
-        <translation type="vanished">Itemaantal &amp;weergeven</translation>
-    </message>
-    <message>
-        <source>Show/Hide</source>
-        <translation type="vanished">Weergeven/Verbergen</translation>
-    </message>
-    <message>
-        <source>&amp;Layout</source>
-        <translation type="vanished">Uiter&amp;lijk</translation>
-    </message>
-    <message>
-        <source>Hide tabs (press Alt key to show)</source>
-        <translation type="vanished">Tabbladen verbergen (druk op de Alt-toets om ze te weergeven)</translation>
-    </message>
-    <message>
-        <source>Hi&amp;de tabs</source>
-        <translation type="vanished">Tabbla&amp;den verbergen</translation>
-    </message>
-    <message>
-        <source>Hide toolbar</source>
-        <translation type="vanished">Werkbalk verbergen</translation>
-    </message>
-    <message>
-        <source>Hide too&amp;lbar</source>
-        <translation type="vanished">Werkba&amp;lk verbergen</translation>
-    </message>
-    <message>
-        <source>Hide tool&amp;bar labels</source>
-        <translation type="vanished">Werkba&amp;lk-labels verbergen</translation>
-    </message>
-    <message>
-        <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="vanished">Opdracht geven aan een externe bewerker (%&amp;1 is het bestand dat bewerkt gaat worden):</translation>
-    </message>
-    <message>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="vanished">Systeemvakpictogram verbergen; minimaliseer venster na sluiten</translation>
-    </message>
-    <message>
-        <source>Disabl&amp;e tray</source>
-        <translation type="vanished">Systeemvakpictogram verberg&amp;en</translation>
-    </message>
-    <message>
-        <source>Hide main window when closed</source>
-        <translation type="vanished">Hoofdvenster verbergen na sluiten</translation>
-    </message>
-    <message>
-        <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="vanished">Toon automatisch een popup om functie, type en variabele namen in te geven en commando&apos;s te voltooien</translation>
-    </message>
-    <message>
-        <source>Auto-complete Commands</source>
-        <translation type="vanished">Automatisch uitvoeren van opdrachten</translation>
-    </message>
-    <message>
-        <source>Hide &amp;main window</source>
-        <translation type="vanished">Hoofdvenster &amp;verbergen</translation>
-    </message>
-    <message>
-        <source>&amp;History</source>
-        <translation type="vanished">Gesc&amp;hiedenis</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;number of items in history:</source>
-        <translation type="vanished">Maximaal aa&amp;ntal items in geschiedenis:</translation>
-    </message>
-    <message>
-        <source>Maximum number of items in each tab</source>
-        <translation type="vanished">Maximum aantal items per tabblad</translation>
-    </message>
-    <message>
-        <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="vanished">Tabblad in slaapsta&amp;nd zetten na (in minuten):</translation>
-    </message>
-    <message>
-        <source>Unload each tab from memory after specified number of minutes of inactivity.
-
-Set to 0 not to unload tabs.</source>
-        <translation type="vanished">Elk tabblad uit het geheugen verwijderen na een opgegeven aantal minuten van inactiviteit.
-
-Stel in op 0 om tabbladen nooit in de slaapstand te zetten.</translation>
-    </message>
-    <message>
-        <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="vanished">Externe t&amp;ekstverwerker-opdracht (%1 is het te bewerken bestand):</translation>
-    </message>
-    <message>
-        <source>External editor command (%1 is file to edit).
-  Examples:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</source>
-        <translation type="vanished">Externe tekstverwerker-opdracht (%1 is het te bewerken bestand).
-  Voorbeelden:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</translation>
-    </message>
-    <message>
-        <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="vanished">Ta&amp;bblad voor het bewaren van het klembord:</translation>
-    </message>
-    <message>
-        <source>Name of tab that will automatically store new clipboard content.
-
-Leave empty to disable automatic storing.</source>
-        <translation type="vanished">Naam van het tabblad dat automatisch nieuwe klembordinhoud zal bewaren.
-
-Laat leeg om automatische opslag uit te schakelen.</translation>
-    </message>
-    <message>
-        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="vanished">Vink niet aan om de Enter-toets in te stellen voor het opslaan van een bewerkt item en Ctrl+Enter voor het creëren van een nieuwe regel.
-
-Let op: bewerkte items kunnen sowieso altijd worden opgeslagen met de F2-toets.</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="vanished">Ctrl+Enter instellen om bestanden op te slaan en Enter om nieuwe regel te creëren</translation>
-    </message>
-    <message>
-        <source>Show single line description of each item.
-
-Use Item Preview to display whole items.</source>
-        <translation type="vanished">Enkele regelomschrijving weergeven voor elk item.
-
-Gebruik Itemvoorbeeld om gehele items weer te geven.</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w simple items</source>
-        <translation type="vanished">Simpele items &amp;weergeven</translation>
-    </message>
-    <message>
-        <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="vanished">Activeer het zoeken naar nummers, anders wordt het item op deze positie geactiveerd door op een cijfertoets te drukken</translation>
-    </message>
-    <message>
-        <source>S&amp;earch for numbers</source>
-        <translation type="vanished">Z&amp;oeken naar nummers</translation>
-    </message>
-    <message>
-        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="vanished">Na het activeren van een item (dubbelklik of Enter-toets), kopieer het naar het klembord en ...</translation>
-    </message>
-    <message>
-        <source>Move item to the top of the list after it is activated</source>
-        <translation type="vanished">Item naar bovenkant van de lijst verplaatsen na activeren</translation>
-    </message>
-    <message>
-        <source>Move item to the t&amp;op</source>
-        <translation type="vanished">Item naar b&amp;oven verplaatsen</translation>
-    </message>
-    <message>
-        <source>Close main window after item is activated</source>
-        <translation type="vanished">Hoofdvenster sluiten na activeren van item</translation>
-    </message>
-    <message>
-        <source>&amp;Close main window</source>
-        <translation type="vanished">Hoofdvenster &amp;sluiten</translation>
-    </message>
-    <message>
-        <source>Focus last window after item is activated</source>
-        <translation type="vanished">Laatstgebruikte venster focussen na activeren van item</translation>
-    </message>
-    <message>
-        <source>&amp;Focus last window</source>
-        <translation type="vanished">Laatstgebruikte venster &amp;focussen</translation>
-    </message>
-    <message>
-        <source>Paste to current window after item is activated</source>
-        <translation type="vanished">Plakken in huidig venster na activeren van item</translation>
-    </message>
-    <message>
-        <source>&amp;Paste to current window</source>
-        <translation type="vanished">&amp;Plakken in huidig venster</translation>
-    </message>
-    <message>
-        <source>&amp;Tray</source>
-        <translation type="vanished">Sys&amp;teemvak</translation>
-    </message>
-    <message>
-        <source>Show command for current clipboard content in tray menu</source>
-        <translation type="vanished">Opdracht voor huidige klembordinhoud weergeven in systeemvakmenu</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="vanished">Opdrachten voor klembordinhoud &amp;weergeven</translation>
-    </message>
-    <message>
-        <source>N&amp;umber of items in tray menu:</source>
-        <translation type="vanished">Aa&amp;ntal items in systeemvakmenu:</translation>
-    </message>
-    <message>
-        <source>Number of items in tray menu</source>
-        <translation type="vanished">Aantal items in systeemvakmenu</translation>
-    </message>
-    <message>
-        <source>Show items from current tab in tray menu</source>
-        <translation type="vanished">Items van huidig tabblad weergeven in systeemvakmenu</translation>
-    </message>
-    <message>
-        <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="vanished">Huidig tabblad wee&amp;rgeven in systeemvakmenu,</translation>
-    </message>
-    <message>
-        <source>or &amp;choose other tab:</source>
-        <translation type="vanished">of &amp;kies een ander tabblad:</translation>
-    </message>
-    <message>
-        <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="vanished">Naam van het tabblad om in het tray menu te tonen (leeg voor het eerste tabblad)</translation>
-    </message>
-    <message>
-        <source>Paste item to current window after selecting it in menu</source>
-        <translation type="vanished">Plakken in het huidige venster na selectie in het menu</translation>
-    </message>
-    <message>
-        <source>&amp;Paste activated item to current window</source>
-        <translation type="vanished">&amp;Plakken actief item in het huidige venster</translation>
-    </message>
-    <message>
-        <source>Show image preview next to menu items</source>
-        <translation type="vanished">Afbeeldingsvoorbeeld naast menu-items weergeven</translation>
-    </message>
-    <message>
-        <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="vanished">Afbeeldingsvoorbeeld als een menupictogram weergeven</translation>
-    </message>
-    <message>
-        <source>&amp;Notifications</source>
-        <translation type="vanished">&amp;Meldingen</translation>
-    </message>
-    <message>
-        <source>&amp;Notification position:</source>
-        <translation type="vanished">&amp;Notificatie positie:</translation>
-    </message>
-    <message>
-        <source>Position on screen for notifications</source>
-        <translation type="vanished">Plaats op scherm voor meldingen</translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="vanished">Bovenkant</translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="vanished">Onderkant</translation>
-    </message>
-    <message>
-        <source>Top Right</source>
-        <translation type="vanished">Rechtsboven</translation>
-    </message>
-    <message>
-        <source>Bottom Right</source>
-        <translation type="vanished">Rechtsonder</translation>
-    </message>
-    <message>
-        <source>Bottom Left</source>
-        <translation type="vanished">Linksonder</translation>
-    </message>
-    <message>
-        <source>Top Left</source>
-        <translation type="vanished">Linksboven</translation>
-    </message>
-    <message>
-        <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="vanished">Het aantal seconden dat meldingen worden weer gegeven:</translation>
-    </message>
-    <message>
-        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
-
-Set to 0 to disable this.
-
-Set to -1 to keep visible until clicked.</source>
-        <translation type="vanished">Interval in seconden dat de inhoud van een nieuwe toevoeging word weergeven. (word allen gebruikt wanneer het hoofdscherm gesloten is.) 
-
-Zet op 0 om uit te schakelen.
-
-Stel in op -1 om zichtbaar te blijven tot erop wordt geklikt.</translation>
-    </message>
-    <message>
-        <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="vanished">Aantal regels voor klembordmeldingen:</translation>
-    </message>
-    <message>
-        <source>Number of lines to show for new clipboard content.
-
-Set to 0 to disable.</source>
-        <translation type="vanished">Aantal regels dat wordt weergegeven bij een nieuwe item op het klembord.
-
-Deze op 0 zetten om dit uit te schakelen.</translation>
-    </message>
-    <message>
-        <source>Notification Geometry (in screen points)</source>
-        <translation type="vanished">Afmetingen (in pixels)</translation>
-    </message>
-    <message>
-        <source>Hori&amp;zontal offset:</source>
-        <translation type="vanished">Hori&amp;horizontale verschuiving:</translation>
-    </message>
-    <message>
-        <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="vanished">Afstand van rechter tot linkerkant scherm in pixels</translation>
-    </message>
-    <message>
-        <source>&amp;Vertical offset:</source>
-        <translation type="vanished">Verticale verschuiving:</translation>
-    </message>
-    <message>
-        <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="vanished">Afstand tussen boven- of onderrand van het scherm in pixels</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;width:</source>
-        <translation type="vanished">Maximale &amp;breedte:</translation>
-    </message>
-    <message>
-        <source>Maximum width for notification in screen points</source>
-        <translation type="vanished">Maximale breedte voor melding in pixels</translation>
-    </message>
-    <message>
-        <source>Ma&amp;ximum height:</source>
-        <translation type="vanished">Ma&amp;ximum hoogte:</translation>
-    </message>
-    <message>
-        <source>Maximum height for notification in screen points</source>
-        <translation type="vanished">Maximale breedte voor melding in pixels</translation>
-    </message>
-    <message>
-        <source>&amp;Items</source>
-        <translation type="vanished">&amp;Artikelen</translation>
-    </message>
-    <message>
-        <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">Het weergaveformaat van het geselecteerde item in de geschiedenis kan worden gewijzigd door te drukken op &lt;b&gt;Ctrl+Links&lt;/b&gt; of &lt;b&gt;Ctrl+Right&lt;/b&gt;. U kunt de prioriteit van de weer te geven formaten wijzigen door de items hieronder opnieuw te ordenen.</translation>
-    </message>
-    <message>
-        <source>&amp;Shortcuts</source>
-        <translation type="vanished">&amp;Snelkoppelingen</translation>
-    </message>
-    <message>
-        <source>&amp;Appearance</source>
-        <translation type="vanished">&amp;Vormgeving</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -2338,10 +1636,6 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
 </context>
 <context>
     <name>IconSelectButton</name>
-    <message>
-        <source>Select Icon...</source>
-        <translation type="vanished">Een pictogram selecteren...</translation>
-    </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
@@ -2777,10 +2071,6 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
         <translation>&amp;Toevoegen</translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation type="vanished">+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="63"/>
@@ -3220,49 +2510,6 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="3619"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wilt u het tabblad &lt;strong&gt;%1&lt;/strong&gt; verwijderen?</translation>
-    </message>
-</context>
-<context>
-    <name>ProcessManagerDialog</name>
-    <message>
-        <source>CopyQ Process Manager</source>
-        <translation type="vanished">CopyQ Proces Manager</translation>
-    </message>
-    <message>
-        <source>Started</source>
-        <translation type="vanished">Gestart</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <translation type="vanished">Voltooid</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Naam</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="vanished">Status</translation>
-    </message>
-    <message>
-        <source>Running</source>
-        <translation type="vanished">Actief</translation>
-    </message>
-    <message>
-        <source>Failed</source>
-        <translation type="vanished">Mislukt</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Verwijderen</translation>
-    </message>
-    <message>
-        <source>Starting</source>
-        <translation type="vanished">Start</translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="vanished">Beëindigen</translation>
     </message>
 </context>
 <context>
@@ -4270,13 +3517,6 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <location filename="../src/gui/filterlineedit.cpp" line="120"/>
         <source>Case Insensitive</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>detail::ScriptableProxyHelper</name>
-    <message>
-        <source>Tab with given name already exists!</source>
-        <translation type="vanished">Er bestaat al een tabblad met deze naam!</translation>
     </message>
 </context>
 </TS>

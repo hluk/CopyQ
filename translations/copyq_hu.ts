@@ -29,119 +29,9 @@
         <translation>Web</translation>
     </message>
     <message>
-        <source>Wiki</source>
-        <translation type="vanished">Wiki</translation>
-    </message>
-    <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>Adományozás</translation>
-    </message>
-    <message>
-        <source>Development</source>
-        <translation type="vanished">Fejlesztés</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>Qt library description</comment>
-        <translation type="vanished">Az alkalmazásban használt erőforrástár</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation type="vanished">Az alkalmazásban használt erőforrástár</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <comment>Font Awesome description</comment>
-        <translation type="vanished">Az alkalmazásban használt ikonikus betűtípus</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <comment>Solarized palette/themes description</comment>
-        <translation type="vanished">A témákhoz használt színpaletta</translation>
-    </message>
-    <message>
-        <source>Free web-based translation management system</source>
-        <comment>Weblate description</comment>
-        <translation type="vanished">Ingyenes webalapú fordításkezelési rendszer</translation>
-    </message>
-    <message>
-        <source>Keyboard</source>
-        <translation type="vanished">Billentyűzet</translation>
-    </message>
-    <message>
-        <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation type="vanished">Az alkalmazás gyorsbillentyűi a Beállítások párbeszédablakban módosíthatók.</translation>
-    </message>
-    <message>
-        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">A globális (rendszerszintű) gyorsbillentyűk a Parancs párbeszédablakban állíthatók be (alapértelmezett gyorsbillentyű az F6).</translation>
-    </message>
-    <message>
-        <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">Írjon be bármilyen szöveget a vágólap előzmények kereséséhez.</translation>
-    </message>
-    <message>
-        <source>Item list navigation</source>
-        <translation type="vanished">Elemlista navigáció</translation>
-    </message>
-    <message>
-        <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="obsolete">Fel/Le, Page Up/Down, Home/End</translation>
-    </message>
-    <message>
-        <source>Tab navigation</source>
-        <translation type="vanished">Lapfül navigáció</translation>
-    </message>
-    <message>
-        <source>Left, Right, %1, %2</source>
-        <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="obsolete">Jobbra, balra, %1, %2</translation>
-    </message>
-    <message>
-        <source>Move selected items</source>
-        <translation type="vanished">Kijelölt elemek áthelyezése</translation>
-    </message>
-    <message>
-        <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="obsolete">Ctrl+Fel/Le, Ctrl+Home/End</translation>
-    </message>
-    <message>
-        <source>Reset search or hide window</source>
-        <translation type="vanished">Keresés alaphelyzetbe állítása vagy ablak elrejtése</translation>
-    </message>
-    <message>
-        <source>Escape</source>
-        <translation type="vanished">Escape</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation type="vanished">Elem törlése</translation>
-    </message>
-    <message>
-        <source>Put selected items into clipboard</source>
-        <translation type="vanished">Kijelölt elemek vágólapra helyezése</translation>
-    </message>
-    <message>
-        <source>Enter</source>
-        <translation type="vanished">Enter</translation>
-    </message>
-    <message>
-        <source>Change item display format</source>
-        <translation type="vanished">Elem megjelenítési formátumának módosítása</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left/Right</source>
-        <translation type="vanished">Ctrl+Balra/Jobbra</translation>
-    </message>
-    <message>
-        <source>Edit Item</source>
-        <translation type="vanished">Elem szerkesztése</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -1543,29 +1433,6 @@ Set to 0 to disable.</source>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ConfigTabShortcuts</name>
-    <message>
-        <source>F6</source>
-        <translation type="obsolete">F6</translation>
-    </message>
-    <message>
-        <source>F4</source>
-        <translation type="obsolete">F4</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="obsolete">F2</translation>
-    </message>
-    <message>
-        <source>F5</source>
-        <translation type="obsolete">F5</translation>
-    </message>
-    <message>
-        <source>F12</source>
-        <translation type="obsolete">F12</translation>
     </message>
 </context>
 <context>

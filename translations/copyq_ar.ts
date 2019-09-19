@@ -29,119 +29,9 @@
         <translation>الموقع الإلكتروني</translation>
     </message>
     <message>
-        <source>Wiki</source>
-        <translation type="vanished">ويكي</translation>
-    </message>
-    <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>تبرع</translation>
-    </message>
-    <message>
-        <source>Development</source>
-        <translation type="vanished">المطورين</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>Qt library description</comment>
-        <translation type="vanished">المكتبة المستخدمة في التطبيق</translation>
-    </message>
-    <message>
-        <source>Free web-based translation management system</source>
-        <comment>Weblate description</comment>
-        <translation type="vanished">نظام إدارة الترجمة على الإنترنت مجاناً</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <comment>Font Awesome description</comment>
-        <translation type="vanished">خط Iconic تم إستعماله في التطبيق</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation type="vanished">المكتبة المستخدمة في التطبيق</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <comment>Solarized palette/themes description</comment>
-        <translation type="vanished">الالوان المستعملة في الانماط</translation>
-    </message>
-    <message>
-        <source>Keyboard</source>
-        <translation type="vanished">لوحة المفاتيح</translation>
-    </message>
-    <message>
-        <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation type="vanished">إختصارات التطبيق بإمكانك تغييرها في مربع حوار التفضيلات.</translation>
-    </message>
-    <message>
-        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">الإختصارات العامة (الإختصارات الخاصة بالنظام) يمكنك تعيينها في مربع حوار الأوامر (الإختصار الإفتراضي هو F6).</translation>
-    </message>
-    <message>
-        <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">اكتب أي نص للبحث في سجل الحافظة.</translation>
-    </message>
-    <message>
-        <source>Item list navigation</source>
-        <translation type="vanished">توجيه قائمة العناصر</translation>
-    </message>
-    <message>
-        <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Up/Down, Page Up/Down, Home/End</translation>
-    </message>
-    <message>
-        <source>Tab navigation</source>
-        <translation type="vanished">توجيه اللسان</translation>
-    </message>
-    <message>
-        <source>Left, Right, %1, %2</source>
-        <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="vanished">Left, Right, %1, %2</translation>
-    </message>
-    <message>
-        <source>Move selected items</source>
-        <translation type="vanished">نقل العناصر المحددة</translation>
-    </message>
-    <message>
-        <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="vanished">Ctrl+Up/Down, Ctrl+Home/End</translation>
-    </message>
-    <message>
-        <source>Reset search or hide window</source>
-        <translation type="vanished">إعادة تعيين البحث أو إخفاء النافذة</translation>
-    </message>
-    <message>
-        <source>Escape</source>
-        <translation type="vanished">Escape</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation type="vanished">إزالة العنصر</translation>
-    </message>
-    <message>
-        <source>Put selected items into clipboard</source>
-        <translation type="vanished">وضع العناصر المختارة في الحافظة</translation>
-    </message>
-    <message>
-        <source>Enter</source>
-        <translation type="vanished">Enter</translation>
-    </message>
-    <message>
-        <source>Change item display format</source>
-        <translation type="vanished">تغيير طريقة عرض العنصر</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left/Right</source>
-        <translation type="vanished">Ctrl+Left/Right</translation>
-    </message>
-    <message>
-        <source>Edit Item</source>
-        <translation type="vanished">تعديل العنصر</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -165,14 +55,6 @@
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
         <translation>تخزين الخرج القياسي:</translation>
-    </message>
-    <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="vanished">ارسل المعلومة ذات نوع MIME معين الى الدخل القياسي للامر (اترك فارغا للتعطيل)</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="vanished">انتج عنصرا من الدخل القياسي للبرنامج (اترك فارغا للتعطيل)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -227,18 +109,6 @@ You can set up the command in preferences.</source>
 <context>
     <name>ActionHandler</name>
     <message>
-        <source>Error: %1
-</source>
-        <translation type="vanished">خطأ: %1
-</translation>
-    </message>
-    <message>
-        <source>Exit code: %1
-</source>
-        <translation type="vanished">رمز الخروج: %1
-</translation>
-    </message>
-    <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
         <translation>خطأ: %1</translation>
@@ -278,11 +148,6 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
         <translation>CopyQ اضف امر</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+1</source>
-        <comment>Global shortcut for some predefined commands</comment>
-        <translation type="vanished">Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -390,10 +255,6 @@ You can set up the command in preferences.</source>
         <translation>الصق كنص عادي</translation>
     </message>
     <message>
-        <source>Shift+Return</source>
-        <translation type="vanished">Shift+Return</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
         <translation>شغل الفيديو تلقائيا</translation>
@@ -432,14 +293,6 @@ You can set up the command in preferences.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add to &amp;TODO tab</source>
-        <translation type="vanished">اضف الى لسان &amp;TODO</translation>
-    </message>
-    <message>
-        <source>Move to &amp;TODO tab</source>
-        <translation type="vanished">انقل الى لسان &amp;TODO</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
         <translation>تجاهل الملفات المسوخة</translation>
@@ -466,19 +319,7 @@ You can set up the command in preferences.</source>
     </message>
 </context>
 <context>
-    <name>ClientSocket</name>
-    <message>
-        <source>Failed to read message from client!</source>
-        <translation type="obsolete">فشل في قراءة الرسالة من العميل</translation>
-    </message>
-</context>
-<context>
     <name>ClipboardBrowser</name>
-    <message>
-        <source>Searching %p%...</source>
-        <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="vanished">البحث % p %...</translation>
-    </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="816"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1642"/>
@@ -3651,13 +3492,6 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <location filename="../src/gui/filterlineedit.cpp" line="120"/>
         <source>Case Insensitive</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>detail::ScriptableProxyHelper</name>
-    <message>
-        <source>Tab name cannot be empty!</source>
-        <translation type="vanished">أسم اللسان لا يمكن أن يكون فارغ!</translation>
     </message>
 </context>
 </TS>

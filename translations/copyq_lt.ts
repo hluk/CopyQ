@@ -29,61 +29,9 @@
         <translation>Svetainė</translation>
     </message>
     <message>
-        <source>Wiki</source>
-        <translation type="vanished">Wiki</translation>
-    </message>
-    <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>Paremti</translation>
-    </message>
-    <message>
-        <source>Development</source>
-        <translation type="vanished">Kūrimas</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>Qt library description</comment>
-        <translation type="vanished">Biblioteka naudota programoje</translation>
-    </message>
-    <message>
-        <source>Free web-based translation management system</source>
-        <comment>Weblate description</comment>
-        <translation type="vanished">Nemokama web paremta vertimo tvarkymo sistema</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation type="vanished">Biblioteka naudota programoje</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <comment>Solarized palette/themes description</comment>
-        <translation type="vanished">Spalvų paletė naudota temoms</translation>
-    </message>
-    <message>
-        <source>Keyboard</source>
-        <translation type="vanished">Klaviatūra</translation>
-    </message>
-    <message>
-        <source>Escape</source>
-        <translation type="vanished">Išeiti</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation type="vanished">Ištrinti elementą</translation>
-    </message>
-    <message>
-        <source>Enter</source>
-        <translation type="vanished">Enter</translation>
-    </message>
-    <message>
-        <source>Edit Item</source>
-        <translation type="vanished">Keisti elementą</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -159,12 +107,6 @@ You can set up the command in preferences.</source>
 <context>
     <name>ActionHandler</name>
     <message>
-        <source>Error: %1
-</source>
-        <translation type="vanished">Klaida: %1
-</translation>
-    </message>
-    <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
         <translation type="unfinished">Klaida: %1
@@ -205,11 +147,6 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+1</source>
-        <comment>Global shortcut for some predefined commands</comment>
-        <translation type="vanished">Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -315,10 +252,6 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shift+Return</source>
-        <translation type="vanished">Shift+Return</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
@@ -2475,13 +2408,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Clipboard:
-%1</source>
-        <comment>Tray tooltip format</comment>
-        <translation type="vanished">Iškarpinė:
-%1</translation>
-    </message>
-    <message>
         <location filename="../src/gui/mainwindow.cpp" line="1777"/>
         <source>CopyQ Options for Import</source>
         <translation type="unfinished"></translation>
@@ -2552,52 +2478,6 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/mainwindow.cpp" line="3619"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Notification</name>
-    <message>
-        <source>&amp;Copy</source>
-        <translation type="vanished">Kopijuoti</translation>
-    </message>
-</context>
-<context>
-    <name>ProcessManagerDialog</name>
-    <message>
-        <source>Started</source>
-        <translation type="vanished">Pradėta</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <translation type="vanished">Užbaigta</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Pavadinimas</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="vanished">Būsena</translation>
-    </message>
-    <message>
-        <source>Running</source>
-        <translation type="vanished">Veikia</translation>
-    </message>
-    <message>
-        <source>Failed</source>
-        <translation type="vanished">Nepavyko</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Pašalinti</translation>
-    </message>
-    <message>
-        <source>Starting</source>
-        <translation type="vanished">Pradedama</translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="vanished">Sustabdyti</translation>
     </message>
 </context>
 <context>
@@ -2859,14 +2739,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished">F5</translation>
     </message>
     <message>
-        <source>Next Format</source>
-        <translation type="vanished">Kitas formatas</translation>
-    </message>
-    <message>
-        <source>Previous Format</source>
-        <translation type="vanished">Ankstesnis formatas</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Move Up</source>
         <translation type="unfinished"></translation>
@@ -2975,17 +2847,9 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Right</source>
-        <translation type="vanished">Dešinė</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>&amp;Previous Tab</source>
         <translation>Ankstesnė kortelė</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="vanished">Kairė</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>

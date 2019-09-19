@@ -29,120 +29,9 @@
         <translation>Web</translation>
     </message>
     <message>
-        <source>Wiki</source>
-        <translation type="vanished">Wiki</translation>
-    </message>
-    <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>Donere</translation>
-    </message>
-    <message>
-        <source>Development</source>
-        <translation type="vanished">Utviklling</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>Qt library description</comment>
-        <translation type="vanished">Bibliotek brukt i programmet</translation>
-    </message>
-    <message>
-        <source>Free web-based translation management system</source>
-        <comment>Weblate description</comment>
-        <translation type="vanished">Gratis web-basert administrasjonssystem for oversetting</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <comment>Font Awesome description</comment>
-        <translation type="vanished">Ikonisk skrifttype brukt i programmet</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation type="vanished">Bibliotek brukt i programmet</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <comment>Solarized palette/themes description</comment>
-        <translation type="vanished">Fargepalett brukt i programmet</translation>
-    </message>
-    <message>
-        <source>Keyboard</source>
-        <translation type="vanished">Tastatur</translation>
-    </message>
-    <message>
-        <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation type="vanished">Programsnarveier kan endres i innstillinger.</translation>
-    </message>
-    <message>
-        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">Globale (systemomfattende) snarveier kan endres i dialogen &apos;Kommando\Globale snarveier&apos;
-(standard snarvei F6).</translation>
-    </message>
-    <message>
-        <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">Skriv inn tekst for å søke i utklippstavle-historikken.</translation>
-    </message>
-    <message>
-        <source>Item list navigation</source>
-        <translation type="vanished">Navigering i elementliste</translation>
-    </message>
-    <message>
-        <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Opp/Ned, Side Opp/Ned, Home/End</translation>
-    </message>
-    <message>
-        <source>Tab navigation</source>
-        <translation type="vanished">Navigering i faner</translation>
-    </message>
-    <message>
-        <source>Left, Right, %1, %2</source>
-        <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="vanished">Venstre, Høyre, %1, %2</translation>
-    </message>
-    <message>
-        <source>Move selected items</source>
-        <translation type="vanished">Flytt markerte elementer</translation>
-    </message>
-    <message>
-        <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="vanished">Ctrl+Opp/Ned, Ctrl+Home/End</translation>
-    </message>
-    <message>
-        <source>Reset search or hide window</source>
-        <translation type="vanished">Tilbakestill søk eller skjul vindu</translation>
-    </message>
-    <message>
-        <source>Escape</source>
-        <translation type="vanished">Esc</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation type="vanished">Slett element</translation>
-    </message>
-    <message>
-        <source>Put selected items into clipboard</source>
-        <translation type="vanished">Plasser valgte elementer på utklippstavlen</translation>
-    </message>
-    <message>
-        <source>Enter</source>
-        <translation type="vanished">Enter</translation>
-    </message>
-    <message>
-        <source>Change item display format</source>
-        <translation type="vanished">Endre visningsformat for element</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left/Right</source>
-        <translation type="vanished">Ctrl+Venstre/Høyre</translation>
-    </message>
-    <message>
-        <source>Edit Item</source>
-        <translation type="vanished">Rediger element</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -166,14 +55,6 @@
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
         <translation>Lagre standard &amp;utdata:</translation>
-    </message>
-    <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="vanished">Send data som valgt MIME-type til standard inndata for kommandoen (tom for å deaktivere)</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="vanished">Opprett elementer fra programmets standard utdata (tom for å deaktivere)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -228,18 +109,6 @@ Du kan sette opp kommandoen i innstillinger.</translation>
 <context>
     <name>ActionHandler</name>
     <message>
-        <source>Error: %1
-</source>
-        <translation type="vanished">Feil: %1
-</translation>
-    </message>
-    <message>
-        <source>Exit code: %1
-</source>
-        <translation type="vanished">Avsluttningskode: %1
-</translation>
-    </message>
-    <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
         <translation type="unfinished">Feil: %1</translation>
@@ -279,11 +148,6 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
         <translation>CopyQ Legg til Kommandoer</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+1</source>
-        <comment>Global shortcut for some predefined commands</comment>
-        <translation type="vanished">Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -391,10 +255,6 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation>Lim inn som Ren Tekst</translation>
     </message>
     <message>
-        <source>Shift+Return</source>
-        <translation type="vanished">Skift+Enter</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
         <translation>Autoavspilling av videoer</translation>
@@ -433,14 +293,6 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation>Flytt til %1-fane</translation>
     </message>
     <message>
-        <source>Add to &amp;TODO tab</source>
-        <translation type="vanished">Legg til i &amp;TODO-fane</translation>
-    </message>
-    <message>
-        <source>Move to &amp;TODO tab</source>
-        <translation type="vanished">Flytt til &amp;TODO-fane</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
         <translation>Ignorer kopierte filer</translation>
@@ -467,19 +319,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     </message>
 </context>
 <context>
-    <name>ClientSocket</name>
-    <message>
-        <source>Failed to read message from client!</source>
-        <translation type="vanished">Kunne ikke lese melding fra klient!</translation>
-    </message>
-</context>
-<context>
     <name>ClipboardBrowser</name>
-    <message>
-        <source>Searching %p%...</source>
-        <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="vanished">Søker %p%...</translation>
-    </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="816"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1642"/>
@@ -613,18 +453,6 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Load Commands...</source>
-        <translation type="vanished">&amp;Last Kommandoer…</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve Selected...</source>
-        <translation type="obsolete">La&amp;gre valgte…</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="vanished">Lagre valgte kommandoer…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -781,14 +609,6 @@ Leave empty to disable this.</source>
 (tom for å deaktivere).</translation>
     </message>
     <message>
-        <source>F&amp;ormat:</source>
-        <translation type="vanished">F&amp;ormat:</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt; Bruk kommandoen kun for elementer kopiert til utklippstavlen fra vindu med tittel-tekst som samsvarer med dette regulære utrykket (ingen for å matche alle vinduer). På OS X vil dette være programnavnet fulgt av en bindestrek (&amp;quot;-&amp;quot;) og vinduets tittel. F.eks. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
         <source>&amp;Window:</source>
         <translation>&amp;Vindu:</translation>
@@ -834,10 +654,6 @@ Leave empty to disable this.</source>
         <location filename="../src/ui/commandwidget.ui" line="400"/>
         <source>Action</source>
         <translation>Handling</translation>
-    </message>
-    <message>
-        <source>Co&amp;py to tab:</source>
-        <translation type="vanished">Ko&amp;pier til fane:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="433"/>
@@ -917,10 +733,6 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
         <translation type="unfinished">Vis</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;Bruk kommandoen kun for elementer kopiert til utklippstavlen med titteltekst som samsvarer med dette regulære uttrykket (la stå tomt for å samsvare med ethvert vindu). På macOS inneholder dette programnavnet etterfulgt av en bindestrek (&amp;quot;-&amp;quot;) og så vindustittelen. F.eks. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
@@ -1112,16 +924,6 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
 press F2 to edit.</source>
         <translation>Velg et element og
 trykk F2 for å redigere.</translation>
-    </message>
-    <message>
-        <source>Select items and move them with
-CTRL and up or down key.</source>
-        <translation type="vanished">Velg elementer, og flytt dem med
-CTRL og opp- eller ned-tasten.</translation>
-    </message>
-    <message>
-        <source>Remove item with Delete key.</source>
-        <translation type="vanished">Fjern elementer med slettetasten.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="483"/>
@@ -1671,17 +1473,6 @@ Settes til 0 for å deaktivere.</translation>
     </message>
 </context>
 <context>
-    <name>ConfigTabShortcuts</name>
-    <message>
-        <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="vanished">Brukertilpassede Handlinger og Globale Snarveier...</translation>
-    </message>
-    <message>
-        <source>Ctrl+P</source>
-        <translation type="vanished">Ctrl+P</translation>
-    </message>
-</context>
-<context>
     <name>ConfigTabTray</name>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
@@ -1762,530 +1553,6 @@ Settes til 0 for å deaktivere.</translation>
         <translation>CopyQ Konfigurasjon</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation type="vanished">&amp;Generelt</translation>
-    </message>
-    <message>
-        <source>&amp;Language:</source>
-        <translation type="vanished">Språk:</translation>
-    </message>
-    <message>
-        <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="vanished">Bryt teksten hvis den er for å lang til å passe på linjen</translation>
-    </message>
-    <message>
-        <source>Wrap l&amp;ong text</source>
-        <translation type="vanished">Tekstbryting</translation>
-    </message>
-    <message>
-        <source>Keep main window above other windows</source>
-        <translation type="vanished">Behold hovedvinduet over andre vinduer</translation>
-    </message>
-    <message>
-        <source>Alwa&amp;ys on Top</source>
-        <translation type="vanished">Alltid Øverst</translation>
-    </message>
-    <message>
-        <source>Close main window when other application has focus</source>
-        <translation type="vanished">Lukk hovedvindu når et annet program er i fokus</translation>
-    </message>
-    <message>
-        <source>Close When Unfocused</source>
-        <translation type="vanished">Lukk når ute av fokus</translation>
-    </message>
-    <message>
-        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="vanished">Aktiver for å åpne vinduer på skjerm med fokus. Deaktiver for å åpne vinduer der de ble lukket sist</translation>
-    </message>
-    <message>
-        <source>O&amp;pen windows on current screen</source>
-        <translation type="vanished">Å&amp;pne vinduer på skjerm med fokus</translation>
-    </message>
-    <message>
-        <source>Confirm application exit</source>
-        <translation type="vanished">Bekreft avslutning av programmet</translation>
-    </message>
-    <message>
-        <source>Confirm application e&amp;xit</source>
-        <translation type="vanished">Bekreft Avslutning</translation>
-    </message>
-    <message>
-        <source>Run the application on system startup</source>
-        <translation type="vanished">Starter programmet ved systemstart</translation>
-    </message>
-    <message>
-        <source>&amp;Autostart</source>
-        <translation type="vanished">&amp;Autostart</translation>
-    </message>
-    <message>
-        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="vanished">Støtte for Vi navigasjons-taster (H, J, K og flere), skråstrek (/) for å søke</translation>
-    </message>
-    <message>
-        <source>&amp;Vi style navigation</source>
-        <translation type="vanished">Naviger i &amp;Vi stil</translation>
-    </message>
-    <message>
-        <source>Save and restore history of item filters</source>
-        <translation type="vanished">Lagrings- og opprettingshistorikk for elementfiltre</translation>
-    </message>
-    <message>
-        <source>Save Filter History</source>
-        <translation type="vanished">Lagre Filterhistorikk</translation>
-    </message>
-    <message>
-        <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="vanished">Vis et oppsprettsvindu automatisk for fullførelse av funksjon, type og variabelnavn i kommandoer</translation>
-    </message>
-    <message>
-        <source>Auto-complete Commands</source>
-        <translation type="vanished">Auto-fullfør kommandoer</translation>
-    </message>
-    <message>
-        <source>Clipboard Manipulation</source>
-        <translation type="vanished">Manipulasjon av Utklippstavle</translation>
-    </message>
-    <message>
-        <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="vanished">Lagre tekst markert med musen (primærvalg) i historikken</translation>
-    </message>
-    <message>
-        <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="vanished">(&amp;2) Lagre tekst markert med musen</translation>
-    </message>
-    <message>
-        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="vanished">Tillater å lime inn musemarkeringer ved hjelp av snarveier (vanligvis Ctrl+V eller Shift+Insert)</translation>
-    </message>
-    <message>
-        <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="vanished">(&amp;4) Lim inn musemarkeringer med tastaturet</translation>
-    </message>
-    <message>
-        <source>Save clipboard in history</source>
-        <translation type="vanished">Lagre utklippstavlen i historikk</translation>
-    </message>
-    <message>
-        <source>(&amp;1) Store clipboard</source>
-        <translation type="vanished">(&amp;1) Lagre utklippstavle</translation>
-    </message>
-    <message>
-        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="vanished">Tillat å lime inn kopiert innhold på samme måte som musemarkeringer (vanligvis med å trykke på midtre museknapp)</translation>
-    </message>
-    <message>
-        <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="vanished">(&amp;3) Lim inn uklippstavle med musen</translation>
-    </message>
-    <message>
-        <source>&amp;Layout</source>
-        <translation type="vanished">&amp;Oppsett</translation>
-    </message>
-    <message>
-        <source>Show/Hide</source>
-        <translation type="vanished">Vis/Skjul</translation>
-    </message>
-    <message>
-        <source>Hide tabs (press Alt key to show)</source>
-        <translation type="vanished">Skjul faner (trykk Alt-tasten for å vise)</translation>
-    </message>
-    <message>
-        <source>Hi&amp;de tabs</source>
-        <translation type="vanished">Skjul faner</translation>
-    </message>
-    <message>
-        <source>Hide toolbar</source>
-        <translation type="vanished">Skjul verktøyslinjen</translation>
-    </message>
-    <message>
-        <source>Hide too&amp;lbar</source>
-        <translation type="vanished">Skju&amp;l verktøyslinjen</translation>
-    </message>
-    <message>
-        <source>Hide tool&amp;bar labels</source>
-        <translation type="vanished">Skjul tekst på verktøyslinjen</translation>
-    </message>
-    <message>
-        <source>Hide main window when closed</source>
-        <translation type="vanished">Skjul hovedvinduet når lukket</translation>
-    </message>
-    <message>
-        <source>Hide &amp;main window</source>
-        <translation type="vanished">Skjul &amp;hovedvinduet</translation>
-    </message>
-    <message>
-        <source>Layout and Transparency</source>
-        <translation type="vanished">Oppsett og Gjennomsiktighet</translation>
-    </message>
-    <message>
-        <source>Show tree with tabs instead of tab bar</source>
-        <translation type="vanished">Vis tre med faner i stedet for fanelinje</translation>
-    </message>
-    <message>
-        <source>Tab T&amp;ree</source>
-        <translation type="vanished">Fanet&amp;re</translation>
-    </message>
-    <message>
-        <source>&amp;Focused transparency:</source>
-        <translation type="vanished">Gjennomsiktighet ved &amp;fokus:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Hovedvinduets gjennomsiktighet ved fokus.
-
-Merk: Dette støttes ikke av alle systemer.</translation>
-    </message>
-    <message>
-        <source>&amp;Unfocused transparency:</source>
-        <translation type="vanished">Gjennomsiktighet &amp;uten fokus:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Gjennomsiktighet når hovedvinduet ikke har fokus.
-
-Merk: Dette støttes ikke av alle systemer.</translation>
-    </message>
-    <message>
-        <source>Show number of items in tabs</source>
-        <translation type="vanished">Vis antall elementer i faner</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w Item Count</source>
-        <translation type="vanished">Vis Antall Elementer</translation>
-    </message>
-    <message>
-        <source>&amp;History</source>
-        <translation type="vanished">&amp;Historikk</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;number of items in history:</source>
-        <translation type="vanished">Maksimalt antall elementer i historikk:</translation>
-    </message>
-    <message>
-        <source>Maximum number of items in each tab</source>
-        <translation type="vanished">Makimalt antall elementer i hver fane</translation>
-    </message>
-    <message>
-        <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="vanished">L&amp;ukk fane etter et intervall i minutter:</translation>
-    </message>
-    <message>
-        <source>Unload each tab from memory after specified number of minutes of inactivity.
-
-Set to 0 not to unload tabs.</source>
-        <translation type="vanished">Fjern hver fane fra minnet etter et spesifisert antall minutter med inaktivitet.
-
-Sett til 0 for ikke å fjerne faner.</translation>
-    </message>
-    <message>
-        <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="vanished">Ekstern tekstbehandlerkommando (%1&amp;1 er filen å redigere):</translation>
-    </message>
-    <message>
-        <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="obsolete">Skru på søk etter nummer, ellers vil det å trykke en tall-tast aktivere enheten på den posisjonen</translation>
-    </message>
-    <message>
-        <source>S&amp;earch for numbers</source>
-        <translation type="vanished">S&amp;øk etter nummer</translation>
-    </message>
-    <message>
-        <source>Hori&amp;zontal offset:</source>
-        <translation type="vanished">Vann&amp;rett forskyvning:</translation>
-    </message>
-    <message>
-        <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="vanished">Kommando for ekstern redigering (%1 er filen som skal redigeres):</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="vanished">Gjennomsiktighet for hovedvinduet, hvis i fokus.
-
-Merk: Dette støttes ikke på alle systemer.</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="vanished">Gjennomsiktighet for hovedvinduet, hvis ute av fokus.
-
-Merk: Dette støttes ikke på alle systemer.</translation>
-    </message>
-    <message>
-        <source>External editor command (%1 is file to edit).
-  Examples:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</source>
-        <translation type="vanished">Kommando for eksternt redigeringsprogram -
- (%1 er filen som skal redigeres).
-  Eksempler:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</translation>
-    </message>
-    <message>
-        <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="vanished">Fane for lagring av utklippstavle:</translation>
-    </message>
-    <message>
-        <source>Name of tab that will automatically store new clipboard content.
-
-Leave empty to disable automatic storing.</source>
-        <translation type="vanished">Navn på fane som automatisk lagrer nytt utklippstavle-innhold.
-
-La være tom for å deaktivere automatisk lagring.</translation>
-    </message>
-    <message>
-        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="vanished">La være umarkert for å la Enter-tasten lagre redigerte elementer og Ctrl+Enter opprette ny linje.
-
-Merk: Redigerte elementer kan lagres med F2 uansett.</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="vanished">Lagre redigerte elementer med Ctrl+Enter og opprett ny linje med Enter-tasten</translation>
-    </message>
-    <message>
-        <source>Show single line description of each item.
-
-Use Item Preview to display whole items.</source>
-        <translation type="vanished">Vis beskrivelse på enkeltlinje for hvert element.
-
-Bruk Forhåndsvisning av Element for å vise hele elementer.</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w simple items</source>
-        <translation type="vanished">Vis enkle elementer</translation>
-    </message>
-    <message>
-        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="vanished">Etter element er aktivert (dobbelklikk eller Enter-tast), kopier til utklippstavle og...</translation>
-    </message>
-    <message>
-        <source>Move item to the top of the list after it is activated</source>
-        <translation type="vanished">Flytt element til toppen av listen etter at det er aktivert</translation>
-    </message>
-    <message>
-        <source>Move item to the t&amp;op</source>
-        <translation type="vanished">Flytt element til t&amp;oppen</translation>
-    </message>
-    <message>
-        <source>Close main window after item is activated</source>
-        <translation type="vanished">Lukk hovedvinduet etter at element er aktivert</translation>
-    </message>
-    <message>
-        <source>&amp;Close main window</source>
-        <translation type="vanished">Lukk hovedvinduet</translation>
-    </message>
-    <message>
-        <source>Focus last window after item is activated</source>
-        <translation type="vanished">Sett fokus på siste vindu etter at element er aktivert</translation>
-    </message>
-    <message>
-        <source>&amp;Focus last window</source>
-        <translation type="vanished">&amp;Fokus på siste vindu</translation>
-    </message>
-    <message>
-        <source>Paste to current window after item is activated</source>
-        <translation type="vanished">Lim inn i vindu med fokus etter at element er aktivert</translation>
-    </message>
-    <message>
-        <source>&amp;Paste to current window</source>
-        <translation type="vanished">Lim inn i vindu med fokus</translation>
-    </message>
-    <message>
-        <source>&amp;Tray</source>
-        <translation type="vanished">S&amp;tatusfelt</translation>
-    </message>
-    <message>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="vanished">Ikke vis ikon i systemstatusfeltet; minimer vindu når lukket</translation>
-    </message>
-    <message>
-        <source>Disabl&amp;e tray</source>
-        <translation type="vanished">Deaktiv&amp;er i systemstatusfelt</translation>
-    </message>
-    <message>
-        <source>Show command for current clipboard content in tray menu</source>
-        <translation type="vanished">Vis kommando for nåværende utklippstavle-innhold i systemstatusfelt-menyen</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="vanished">Vis kommandoer for utklippstavle-innhold</translation>
-    </message>
-    <message>
-        <source>N&amp;umber of items in tray menu:</source>
-        <translation type="vanished">Antall elementer i systemstat&amp;usfelt-menyen:</translation>
-    </message>
-    <message>
-        <source>Number of items in tray menu</source>
-        <translation type="vanished">Antall elementer i systemstatusfelt-menyen</translation>
-    </message>
-    <message>
-        <source>Show items from current tab in tray menu</source>
-        <translation type="vanished">Vis elementer fra aktiv fane i systemstatusfelt-menyen</translation>
-    </message>
-    <message>
-        <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="vanished">Vis aktiv fane i menyen,</translation>
-    </message>
-    <message>
-        <source>or &amp;choose other tab:</source>
-        <translation type="vanished">eller velg en annen fane:</translation>
-    </message>
-    <message>
-        <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="vanished">Navn på fane som skal vises i systemstatusfelt-meny (tomt for første fane)</translation>
-    </message>
-    <message>
-        <source>Paste item to current window after selecting it in menu</source>
-        <translation type="vanished">Lim inn element i vindu med fokus etter å ha valgt det i menyen</translation>
-    </message>
-    <message>
-        <source>&amp;Paste activated item to current window</source>
-        <translation type="vanished">Lim inn aktivert element i vindu med fokus</translation>
-    </message>
-    <message>
-        <source>Show image preview next to menu items</source>
-        <translation type="vanished">Forhåndsvisning av bilder ved siden av meny-elementer</translation>
-    </message>
-    <message>
-        <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="vanished">Forhåndsvis bilder som menyelement-ikon</translation>
-    </message>
-    <message>
-        <source>&amp;Notifications</source>
-        <translation type="vanished">Meldi&amp;nger</translation>
-    </message>
-    <message>
-        <source>&amp;Notification position:</source>
-        <translation type="vanished">Plassering av meldi&amp;nger:</translation>
-    </message>
-    <message>
-        <source>Position on screen for notifications</source>
-        <translation type="vanished">Skjermposisjon for meldinger</translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="vanished">Topp</translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="vanished">Bunn</translation>
-    </message>
-    <message>
-        <source>Top Right</source>
-        <translation type="vanished">Høyre Topp</translation>
-    </message>
-    <message>
-        <source>Bottom Right</source>
-        <translation type="vanished">Høyre Bunn</translation>
-    </message>
-    <message>
-        <source>Bottom Left</source>
-        <translation type="vanished">Venstre Bunn</translation>
-    </message>
-    <message>
-        <source>Top Left</source>
-        <translation type="vanished">Venstre Topp</translation>
-    </message>
-    <message>
-        <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="vanished">Int&amp;ervall i sekunder for visning av meldinger:</translation>
-    </message>
-    <message>
-        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
-
-Set to 0 to disable this.
-
-Set to -1 to keep visible until clicked.</source>
-        <translation type="vanished">Intervall i sekunder for visning av melding om nytt innhold i utklippstavlen eller hvis element er kopiert til utklippstavlen
-(bare hvis hovedvindu er lukket).
-
-Settes til 0 for å deaktivere.
-
-Settes til -1 for å vises til den klikkes på.</translation>
-    </message>
-    <message>
-        <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="vanished">Antall linjer i melding for utklippstavle:</translation>
-    </message>
-    <message>
-        <source>Number of lines to show for new clipboard content.
-
-Set to 0 to disable.</source>
-        <translation type="vanished">Antall linjer som vises for nytt innhold i utklippstavlen.
-
-Settes til 0 for å deaktivere.</translation>
-    </message>
-    <message>
-        <source>Notification Geometry (in screen points)</source>
-        <translation type="vanished">Meldingsgeometri (i skjermpunkter)</translation>
-    </message>
-    <message>
-        <source>You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">Du kan endre formatprioritet ved å vise ved å stokke om på elementene nedenfor.</translation>
-    </message>
-    <message>
-        <source>Ho&amp;rizontal offset:</source>
-        <translation type="vanished">Ho&amp;risontal forskyvning:</translation>
-    </message>
-    <message>
-        <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="vanished">Meldingens avstand til skjermens høyre eller venstre kant oppgitt i skjermpunkter</translation>
-    </message>
-    <message>
-        <source>&amp;Vertical offset:</source>
-        <translation type="vanished">&amp;Vertikal forskyvning:</translation>
-    </message>
-    <message>
-        <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="vanished">Meldingens avstand til skjermens topp eller bunn oppgitt i skjermpunkter</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;width:</source>
-        <translation type="vanished">Maksimal bredde:</translation>
-    </message>
-    <message>
-        <source>Maximum width for notification in screen points</source>
-        <translation type="vanished">Maksimal bredde for meldingen oppgitt i skjermpunkter</translation>
-    </message>
-    <message>
-        <source>Ma&amp;ximum height:</source>
-        <translation type="vanished">Maksimal høyde:</translation>
-    </message>
-    <message>
-        <source>Maximum height for notification in screen points</source>
-        <translation type="vanished">Maksimal høyde for meldingen oppgitt i skjermpunkter</translation>
-    </message>
-    <message>
-        <source>&amp;Items</source>
-        <translation type="vanished">Elementer</translation>
-    </message>
-    <message>
-        <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">Visningsformat for valgte elementer i historikken kan endres med å trykke &lt;b&gt;Ctrl+Venstre&lt;/b&gt; eller &lt;b&gt;Ctrl+Høyre&lt;/b&gt;. Du kan endre prioritet eller format som vises ved å reorganisere elementer nedenfor.</translation>
-    </message>
-    <message>
-        <source>&amp;Shortcuts</source>
-        <translation type="vanished">&amp;Snarveier</translation>
-    </message>
-    <message>
-        <source>&amp;Appearance</source>
-        <translation type="vanished">Utseende</translation>
-    </message>
-    <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
         <translation type="unfinished"></translation>
@@ -2357,174 +1624,6 @@ Settes til 0 for å deaktivere.</translation>
     </message>
 </context>
 <context>
-    <name>FakeVim::Internal</name>
-    <message>
-        <source>Use Vim-style Editing</source>
-        <translation type="vanished">Bruk Vim-stil Redigering</translation>
-    </message>
-    <message>
-        <source>Read .vimrc</source>
-        <translation type="vanished">Les .vimrc</translation>
-    </message>
-    <message>
-        <source>Path to .vimrc</source>
-        <translation type="vanished">Sti til .vimrc</translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler</name>
-    <message>
-        <source>Unknown option: %1</source>
-        <translation type="vanished">Ukjent valg: %1</translation>
-    </message>
-    <message>
-        <source>Argument must be positive: %1=%2</source>
-        <translation type="vanished">Argumentet må være positivt: %1=%2</translation>
-    </message>
-    <message>
-        <source>Mark &quot;%1&quot; not set.</source>
-        <translation type="vanished">Merke %1 er ikke satt.</translation>
-    </message>
-    <message>
-        <source>%1%2%</source>
-        <translation type="vanished">%1%2%</translation>
-    </message>
-    <message>
-        <source>%1All</source>
-        <translation type="vanished">%1Alle</translation>
-    </message>
-    <message>
-        <source>Not implemented in FakeVim.</source>
-        <translation type="vanished">Ikke implementert i FakeVim.</translation>
-    </message>
-    <message>
-        <source>Unknown option:</source>
-        <translation type="vanished">Ukjent valg:</translation>
-    </message>
-    <message>
-        <source>Invalid argument:</source>
-        <translation type="vanished">Ugyldig argument:</translation>
-    </message>
-    <message>
-        <source>Trailing characters:</source>
-        <translation type="vanished">Etterfølgende tegn:</translation>
-    </message>
-    <message>
-        <source>Move lines into themselves.</source>
-        <translation type="vanished">Flytte linjer inn i seg selv.</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines moved.</source>
-        <translation type="vanished">
-            <numerusform>%n linje flyttet.</numerusform>
-            <numerusform>%n linjer flyttet.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation type="vanished">Filen &quot;%1&quot; eksisterer (tilføy ! for å overstyre)</translation>
-    </message>
-    <message>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation type="vanished">Kan ikke åpne filen &quot;%1&quot; for skriving</translation>
-    </message>
-    <message>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation type="vanished">&quot;%1&quot; %2 %3L, %4C skrevet.</translation>
-    </message>
-    <message>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation type="vanished">Kan ikke åpne filen &quot;%1&quot; for lesing</translation>
-    </message>
-    <message>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation type="vanished">&quot;%1&quot; %2L, %3C</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines filtered.</source>
-        <translation type="vanished">
-            <numerusform>%n linje filtrert.</numerusform>
-            <numerusform>%n linjer filtrert.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Cannot open file %1</source>
-        <translation type="vanished">Kan ikke åpne filen %1</translation>
-    </message>
-    <message>
-        <source>Invalid regular expression: %1</source>
-        <translation type="vanished">Uglyldig regulært uttrykk: %1</translation>
-    </message>
-    <message>
-        <source>Pattern not found: %1</source>
-        <translation type="vanished">Mønster ikke funnet: %1</translation>
-    </message>
-    <message>
-        <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation type="vanished">Søket nådde BUNN, fortsett fra TOPP.</translation>
-    </message>
-    <message>
-        <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation type="vanished">Søket nådde TOPP, fortsett fra BUNN.</translation>
-    </message>
-    <message>
-        <source>Search hit BOTTOM without match for: %1</source>
-        <translation type="vanished">Søket traff BUNN uten treff for: %1</translation>
-    </message>
-    <message>
-        <source>Search hit TOP without match for: %1</source>
-        <translation type="vanished">Søket traff TOPP uten treff for: %1</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines indented.</source>
-        <translation type="vanished">
-            <numerusform>%n linje innrykket.</numerusform>
-            <numerusform>%n linjer innrykket.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines %1ed %2 time.</source>
-        <translation type="vanished">
-            <numerusform>%n linje %1et %2 gang(er).</numerusform>
-            <numerusform>%n linjer %1et %2 gang(er).</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines yanked.</source>
-        <translation type="vanished">
-            <numerusform>%n linje kopiert.</numerusform>
-            <numerusform>%n linjer kopiert.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Already at oldest change.</source>
-        <translation type="vanished">Allerede ved eldste endring.</translation>
-    </message>
-    <message>
-        <source>Already at newest change.</source>
-        <translation type="vanished">Allerede ved nyeste endring.</translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler::Private</name>
-    <message>
-        <source>Recursive mapping</source>
-        <translation type="vanished">Rekursiv tilordning</translation>
-    </message>
-    <message>
-        <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation type="vanished">Skriv Alt-V, Alt-V for å avslutte FakeVim-modus.</translation>
-    </message>
-    <message>
-        <source> [New] </source>
-        <translation type="vanished"> [Ny] </translation>
-    </message>
-    <message>
-        <source>Not an editor command: %1</source>
-        <translation type="vanished">Ikke en redigeringskommando: %1</translation>
-    </message>
-</context>
-<context>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="630"/>
@@ -2543,10 +1642,6 @@ Settes til 0 for å deaktivere.</translation>
 </context>
 <context>
     <name>IconSelectButton</name>
-    <message>
-        <source>Select Icon...</source>
-        <translation type="vanished">Velg ikon…</translation>
-    </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
@@ -2603,80 +1698,6 @@ Settes til 0 for å deaktivere.</translation>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
         <translation>Ko&amp;mmandoer</translation>
-    </message>
-</context>
-<context>
-    <name>ItemDataLoader</name>
-    <message>
-        <source>Data</source>
-        <translation type="vanished">Data</translation>
-    </message>
-    <message>
-        <source>Various data to save.</source>
-        <translation type="vanished">Forskjellig data som skal lagres.</translation>
-    </message>
-</context>
-<context>
-    <name>ItemDataSettings</name>
-    <message>
-        <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation type="vanished">Velg format for lagring i historikk. Du kan legge til et format fra eksempler nedenfor eller skrive inn andre (et pr. linje).</translation>
-    </message>
-    <message>
-        <source>Active &amp;Formats:</source>
-        <translation type="vanished">Aktive &amp;formater:</translation>
-    </message>
-    <message>
-        <source>&amp;Examples (double click to add to active formats):</source>
-        <translation type="vanished">&amp;Eksempler (Dobbeltklik for å legge til i aktive formater):</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Tekst</translation>
-    </message>
-    <message>
-        <source>Unformatted simple text</source>
-        <translation type="vanished">Uformatert enkel tekst</translation>
-    </message>
-    <message>
-        <source>Formatted text, web pages</source>
-        <translation type="vanished">Formatert tekst, websider</translation>
-    </message>
-    <message>
-        <source>XML</source>
-        <translation type="vanished">XML</translation>
-    </message>
-    <message>
-        <source>List of URI (e.g. copied files, URLs)</source>
-        <translation type="vanished">Liste over URI (f.eks. kopierte filer, URL&apos;er)</translation>
-    </message>
-    <message>
-        <source>Images</source>
-        <translation type="vanished">Bilder</translation>
-    </message>
-    <message>
-        <source>Bitmap image</source>
-        <translation type="vanished">Bitmap-bilde</translation>
-    </message>
-    <message>
-        <source>Vector graphics</source>
-        <translation type="vanished">Vektorgrafikk</translation>
-    </message>
-    <message>
-        <source>Web image formats</source>
-        <translation type="vanished">Web-bildeformater</translation>
-    </message>
-    <message>
-        <source>Other</source>
-        <translation type="vanished">Andre</translation>
-    </message>
-    <message>
-        <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation type="vanished">Liste over utklippstavle MIME-typer som vil lagres i historikk (i gitt visnings-rekkefølge)</translation>
-    </message>
-    <message>
-        <source>&amp;Maximum number of characters per format to display:</source>
-        <translation type="vanished">&amp;Maksimum antall tegn per format som skal vises:</translation>
     </message>
 </context>
 <context>
@@ -2905,10 +1926,6 @@ Settes til 0 for å deaktivere.</translation>
         <translation>For å kryptere og dekryptere elementer tilføy relevante kommandoer under fanen Kommandoer.</translation>
     </message>
     <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">Legg til handlinger i meny og verktøyslinje</translation>
-    </message>
-    <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
         <translation>Deling av Krypterte Elementer og Faner</translation>
@@ -3049,18 +2066,6 @@ Settes til 0 for å deaktivere.</translation>
         <translation>Ved siden av ele&amp;ment</translation>
     </message>
     <message>
-        <source>A&amp;bove Item</source>
-        <translation type="vanished">Over Element</translation>
-    </message>
-    <message>
-        <source>B&amp;elow Item</source>
-        <translation type="vanished">Unde&amp;r Element</translation>
-    </message>
-    <message>
-        <source>&amp;Icon Only</source>
-        <translation type="vanished">Kun &amp;Ikon</translation>
-    </message>
-    <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
         <translation>Vis Verktøytips</translation>
@@ -3072,10 +2077,6 @@ Settes til 0 for å deaktivere.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
         <translation>Legg Til</translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation type="vanished">+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="63"/>
@@ -3095,11 +2096,6 @@ Settes til 0 for å deaktivere.</translation>
 </context>
 <context>
     <name>ItemPinnedLoader</name>
-    <message>
-        <source>Ctrl+Shift+P</source>
-        <comment>Shortcut to pin and unpin items</comment>
-        <translation type="vanished">Ctrl+Shift+P</translation>
-    </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Cannot Remove Pinned Items</source>
@@ -3130,17 +2126,6 @@ Settes til 0 for å deaktivere.</translation>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Fest elementer for å låse dem i nåværende rad og unngå sletting (med mindre de avhektes).&lt;/p&gt;&lt;p&gt;Medfører snarveis- og skriptings-funksjonalitet.&lt;/p&gt;</translation>
     </message>
-    <message>
-        <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
-        <translation type="vanished">Fest emner for å låse dem i nåværende rad og forhindre sletting (om de ikke løsnes).</translation>
-    </message>
-</context>
-<context>
-    <name>ItemPinnedSettings</name>
-    <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">Legg til handlinger i meny og verktøyslinje</translation>
-    </message>
 </context>
 <context>
     <name>ItemSyncLoader</name>
@@ -3149,18 +2134,6 @@ Settes til 0 for å deaktivere.</translation>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
         <translation>Bla Gjennom...</translation>
-    </message>
-    <message>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="vanished">Kunne ikke synkronisere fanen &quot;%1&quot; med katalogen &quot;%2&quot;!</translation>
-    </message>
-    <message>
-        <source>Remove Items?</source>
-        <translation type="vanished">Fjerne elementer?</translation>
-    </message>
-    <message>
-        <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="vanished">Ønsker du virkelig å &lt;strong&gt;fjerne elementer og tilhørende filer&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="826"/>
@@ -3329,10 +2302,6 @@ Settes til 0 for å deaktivere.</translation>
         <source>Icon</source>
         <translation>Ikon</translation>
     </message>
-    <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">Legg til handlinger i meny og verktøyslinje</translation>
-    </message>
 </context>
 <context>
     <name>ItemTextLoader</name>
@@ -3477,23 +2446,6 @@ Settes til 0 for å deaktivere.</translation>
         <translation>Deaktiv&amp;er Lagring av Utklippstavle</translation>
     </message>
     <message>
-        <source>%1 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="vanished">%1 - CopyQ</translation>
-    </message>
-    <message>
-        <source>%1 - %2 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="vanished">%1 - %2 - CopyQ</translation>
-    </message>
-    <message>
-        <source>Clipboard:
-%1</source>
-        <comment>Tray tooltip format</comment>
-        <translation type="vanished">Utklippstavle:
-%1</translation>
-    </message>
-    <message>
         <location filename="../src/gui/mainwindow.cpp" line="1777"/>
         <source>CopyQ Options for Import</source>
         <translation>CopyQ-innstillinger for import</translation>
@@ -3535,10 +2487,6 @@ Settes til 0 for å deaktivere.</translation>
         <translation>Klarte ikke å importere fila %1.</translation>
     </message>
     <message>
-        <source>Open action dialog</source>
-        <translation type="vanished">Åpne handlingsdialog</translation>
-    </message>
-    <message>
         <location filename="../src/gui/mainwindow.cpp" line="744"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
@@ -3548,22 +2496,6 @@ Settes til 0 for å deaktivere.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="313"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ Elementer (*.cpq)</translation>
-    </message>
-    <message>
-        <source>CopyQ Error Saving File</source>
-        <translation type="vanished">CopyQ Feil ved Lagring av Fil</translation>
-    </message>
-    <message>
-        <source>Cannot save file %1!</source>
-        <translation type="vanished">Kan ikke lagre filen %1!</translation>
-    </message>
-    <message>
-        <source>CopyQ Error Opening File</source>
-        <translation type="vanished">CopyQ Feil ved Åpning av Fil</translation>
-    </message>
-    <message>
-        <source>Cannot open file %1!</source>
-        <translation type="vanished">Kan ikke åpne filen %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3570"/>
@@ -3584,64 +2516,6 @@ Settes til 0 for å deaktivere.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="3619"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vil du fjerne fanen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
-    </message>
-</context>
-<context>
-    <name>Notification</name>
-    <message>
-        <source>CopyQ Inspect Notification</source>
-        <translation type="vanished">CopyQ Inspeksjonsmelding</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation type="vanished">Kopier</translation>
-    </message>
-    <message>
-        <source>Right click to show</source>
-        <translation type="vanished">Høyreklikk for å vise</translation>
-    </message>
-</context>
-<context>
-    <name>ProcessManagerDialog</name>
-    <message>
-        <source>CopyQ Process Manager</source>
-        <translation type="vanished">CopyQ Prosessmanager</translation>
-    </message>
-    <message>
-        <source>Started</source>
-        <translation type="vanished">Startet</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <translation type="vanished">Avsluttet</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Navn</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="vanished">Status</translation>
-    </message>
-    <message>
-        <source>Running</source>
-        <translation type="vanished">Kjører</translation>
-    </message>
-    <message>
-        <source>Failed</source>
-        <translation type="vanished">Mislykkes</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Fjern</translation>
-    </message>
-    <message>
-        <source>Starting</source>
-        <translation type="vanished">Starter</translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="vanished">Avslutt</translation>
     </message>
 </context>
 <context>
@@ -3688,11 +2562,6 @@ Settes til 0 for å deaktivere.</translation>
         <translation>&lt;UTKLIPP&gt;</translation>
     </message>
     <message>
-        <source>&lt;FILES&gt;</source>
-        <comment>Label for URLs/files in clipboard</comment>
-        <translation type="vanished">&lt;FILER&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/common/common.cpp" line="526"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
@@ -3722,17 +2591,9 @@ Settes til 0 for å deaktivere.</translation>
         <translation>&amp;Nytt Element</translation>
     </message>
     <message>
-        <source>&amp;Import Tab...</source>
-        <translation type="vanished">&amp;Importer Fane...</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
-    </message>
-    <message>
-        <source>&amp;Export Tab...</source>
-        <translation type="vanished">&amp;Eksporter Fane...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -3915,22 +2776,6 @@ Settes til 0 for å deaktivere.</translation>
         <translation>F5</translation>
     </message>
     <message>
-        <source>Next Format</source>
-        <translation type="vanished">Neste Format</translation>
-    </message>
-    <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+Høyre</translation>
-    </message>
-    <message>
-        <source>Previous Format</source>
-        <translation type="vanished">Forrige Format</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Venstre</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Move Up</source>
         <translation>Flytt Opp</translation>
@@ -4039,17 +2884,9 @@ Settes til 0 for å deaktivere.</translation>
         <translation type="unfinished">Shift+F10</translation>
     </message>
     <message>
-        <source>Right</source>
-        <translation type="vanished">Høyre</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>&amp;Previous Tab</source>
         <translation>Fo&amp;rrige Fane</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="vanished">Venstre</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
@@ -4085,30 +2922,6 @@ Settes til 0 for å deaktivere.</translation>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
-    </message>
-    <message>
-        <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="vanished">Elementfilen %1 er korrupt, eller så mangler CopyQ noen utvidelser!</translation>
-    </message>
-    <message>
-        <source>No plugins loaded</source>
-        <translation type="vanished">Ingen udvidelser lastet</translation>
-    </message>
-    <message>
-        <source>Loading plugin: %1</source>
-        <translation type="vanished">Laster utvidelse: %1</translation>
-    </message>
-    <message>
-        <source>Cannot create directory for settings %1!</source>
-        <translation type="vanished">Kan ikke opprette katalog for innstillinger %1!</translation>
-    </message>
-    <message>
-        <source>Cannot save tab %1 to %2 (%3)!</source>
-        <translation type="vanished">Kan ikke lagre fane %1 til %2 (%3)!</translation>
-    </message>
-    <message>
-        <source>Data deserialization failed: %1</source>
-        <translation type="vanished">Deserialisering av data mislyktes: %1</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="215"/>
@@ -4489,10 +3302,6 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation>NOTATER:</translation>
     </message>
     <message>
-        <source>  - Use dash argument (-) to read data from stdandard input.</source>
-        <translation type="vanished">  - Bruk bindestrek-argument (-) for å lese data fra standard inndata.</translation>
-    </message>
-    <message>
         <location filename="../src/scriptable/scriptable.cpp" line="87"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
@@ -4520,17 +3329,9 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation>Klarte ikke å kopiere til utklippstavle.</translation>
     </message>
     <message>
-        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
-        <translation type="vanished">Navnet &quot;%1&quot; refererer ikke til en funksjon.</translation>
-    </message>
-    <message>
         <location filename="../src/scriptable/scriptable.cpp" line="86"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Bruk bindestrek-argument (-) for å lese data fra standard inndata.</translation>
-    </message>
-    <message>
-        <source>Built with: </source>
-        <translation type="vanished">Bygget med: </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="787"/>
@@ -4563,10 +3364,6 @@ Skriv ut programversjon og biblioteker.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="2662"/>
         <source>Exception in %1</source>
         <translation>Unntak i %1</translation>
-    </message>
-    <message>
-        <source>Failed to set clipboard!</source>
-        <translation type="vanished">Angi utklippstavle feilet!</translation>
     </message>
 </context>
 <context>
@@ -4658,17 +3455,9 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There is command overriding this shortcut.</source>
-        <translation type="vanished">Det er en kommando som overstyrer denne snarveien.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
         <translation>Snarveien finnes allerede!</translation>
-    </message>
-    <message>
-        <source>Shortcut can be triggered from any application</source>
-        <translation type="vanished">Snarvei kan utløses fra ethvert program</translation>
     </message>
 </context>
 <context>
@@ -4751,21 +3540,6 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
         <location filename="../src/gui/filterlineedit.cpp" line="120"/>
         <source>Case Insensitive</source>
         <translation>Ikke skill mellom små og store bokstaver</translation>
-    </message>
-</context>
-<context>
-    <name>detail::ScriptableProxyHelper</name>
-    <message>
-        <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="vanished">Fanen med oppgitt navn eksisterer ikke!</translation>
-    </message>
-    <message>
-        <source>Tab name cannot be empty!</source>
-        <translation type="vanished">Fanenavnet kan ikke være tomt!</translation>
-    </message>
-    <message>
-        <source>Tab with given name already exists!</source>
-        <translation type="vanished">Fanen med angitt navn eksisterer allerede!</translation>
     </message>
 </context>
 </TS>

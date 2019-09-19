@@ -57,14 +57,6 @@
         <translation>Lagra standard &amp;ut:</translation>
     </message>
     <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="vanished">Skicka data av angiven MIME-typ till standard in för kommando (lämna tomt för att inaktivera)</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="vanished">Skapa objekt från programmets standard ut (lämna tomt för att inaktivera)</translation>
-    </message>
-    <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
         <translation type="unfinished"></translation>
@@ -117,18 +109,6 @@ Du kan konfigurera kommandot i inställningar.</translation>
 <context>
     <name>ActionHandler</name>
     <message>
-        <source>Error: %1
-</source>
-        <translation type="vanished">Fel: %1
-</translation>
-    </message>
-    <message>
-        <source>Exit code: %1
-</source>
-        <translation type="vanished">Slutstatus: %1
-</translation>
-    </message>
-    <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
         <translation type="unfinished">Fel: %1</translation>
@@ -169,11 +149,6 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
         <translation>CopyQ Lägg till kommandon</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+1</source>
-        <comment>Global shortcut for some predefined commands</comment>
-        <translation type="vanished">Ctrl+Skift+1</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -279,10 +254,6 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
         <translation>Klistra in som vanlig text</translation>
-    </message>
-    <message>
-        <source>Shift+Return</source>
-        <translation type="vanished">Skift+Retur</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
@@ -485,14 +456,6 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Load Commands...</source>
-        <translation type="vanished">&amp;Läs in kommandon…</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="vanished">S&amp;para valda kommandon…</translation>
-    </message>
-    <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
         <translation>Kopiera valda</translation>
@@ -640,10 +603,6 @@ Du kan konfigurera kommandot i inställningar.</translation>
 Leave empty to disable this.</source>
         <translation>Data av denna MIME-typ kommer sändas till standard in för kommando.
 Lämna tomt för att inaktivera detta.</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;Använd kommando endast för objekt som kopierats till urklipp från fönster vars titeltext matchar detta reguljära uttryck (lämna tomt för alla fönster). På OS X innehåller detta programnamnet följt av ett bindestreck (&amp;quot;-&amp;quot;) och sedan fönstertiteln. T.ex. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
@@ -966,16 +925,6 @@ Observera: Om detta verkställs automatiskt körs inga andra automatiska kommand
 press F2 to edit.</source>
         <translation>Välj ett objekt och tryck
 F2 för att redigera.</translation>
-    </message>
-    <message>
-        <source>Select items and move them with
-CTRL and up or down key.</source>
-        <translation type="vanished">Välj objekt och flytta dem med
-CTRL samt upp- eller ned-tangenten.</translation>
-    </message>
-    <message>
-        <source>Remove item with Delete key.</source>
-        <translation type="vanished">Ta bort objekt med Delete.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="483"/>
@@ -1519,17 +1468,6 @@ Ställ in till 0 för att inaktivera.</translation>
     </message>
 </context>
 <context>
-    <name>ConfigTabShortcuts</name>
-    <message>
-        <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="vanished">An&amp;passade åtgärder och globala genvägar…</translation>
-    </message>
-    <message>
-        <source>Ctrl+P</source>
-        <translation type="vanished">Ctrl+P</translation>
-    </message>
-</context>
-<context>
     <name>ConfigTabTray</name>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
@@ -1610,484 +1548,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>CopyQ-konfiguration</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation type="vanished">All&amp;mänt</translation>
-    </message>
-    <message>
-        <source>&amp;Language:</source>
-        <translation type="vanished">&amp;Språk:</translation>
-    </message>
-    <message>
-        <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="vanished">Radbryt text om den är för lång för att rymmas på raden</translation>
-    </message>
-    <message>
-        <source>Wrap l&amp;ong text</source>
-        <translation type="vanished">Radbr&amp;yt lång text</translation>
-    </message>
-    <message>
-        <source>Keep main window above other windows</source>
-        <translation type="vanished">Behåll huvudfönstret ovanför andra fönster</translation>
-    </message>
-    <message>
-        <source>Alwa&amp;ys on Top</source>
-        <translation type="vanished">Allt&amp;id överst</translation>
-    </message>
-    <message>
-        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="vanished">Aktivera för att öppna fönster på aktuell skärm. Inaktivera för att öppna fönster där de senast stängdes</translation>
-    </message>
-    <message>
-        <source>O&amp;pen windows on current screen</source>
-        <translation type="vanished">Ö&amp;ppna fönster på aktuell skärm</translation>
-    </message>
-    <message>
-        <source>Confirm application exit</source>
-        <translation type="vanished">Bekräfta avslutande av program</translation>
-    </message>
-    <message>
-        <source>Confirm application e&amp;xit</source>
-        <translation type="vanished">Bekräfta a&amp;vslutande av program</translation>
-    </message>
-    <message>
-        <source>Run the application on system startup</source>
-        <translation type="vanished">Kör programmet vid systemets uppstart</translation>
-    </message>
-    <message>
-        <source>&amp;Autostart</source>
-        <translation type="vanished">&amp;Autostart</translation>
-    </message>
-    <message>
-        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="vanished">Stöd för Vi-navigeringstangenter (H, J, K, L med mera), snedstreck (/) för att söka</translation>
-    </message>
-    <message>
-        <source>&amp;Vi style navigation</source>
-        <translation type="vanished">Navigering som i &amp;Vi</translation>
-    </message>
-    <message>
-        <source>Save and restore history of item filters</source>
-        <translation type="vanished">Spara och återställ historik för objektfilter</translation>
-    </message>
-    <message>
-        <source>Save Filter History</source>
-        <translation type="vanished">Spara filterhistorik</translation>
-    </message>
-    <message>
-        <source>Clipboard Manipulation</source>
-        <translation type="vanished">Urklippsmanipulering</translation>
-    </message>
-    <message>
-        <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="vanished">Spara text markerad med musen (primär markering) i historik</translation>
-    </message>
-    <message>
-        <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="vanished">(&amp;2) Lagra text markerad med musen</translation>
-    </message>
-    <message>
-        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="vanished">Tillåt inklistring av musmarkering med genväg (vanligen Ctrl+V eller Skift+Insert)</translation>
-    </message>
-    <message>
-        <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="vanished">(&amp;4) Klistra in musmarkering med tangentbord</translation>
-    </message>
-    <message>
-        <source>Save clipboard in history</source>
-        <translation type="vanished">Spara urklipp i historik</translation>
-    </message>
-    <message>
-        <source>(&amp;1) Store clipboard</source>
-        <translation type="vanished">(&amp;1) Lagra urklipp</translation>
-    </message>
-    <message>
-        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="vanished">Tillåt inklistring av kopierat innehåll på samma sätt som musmarkeringar (vanligen genom att trycka ned musens mittknapp)</translation>
-    </message>
-    <message>
-        <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="vanished">(&amp;3) Klistra in urklipp med musen</translation>
-    </message>
-    <message>
-        <source>&amp;Layout</source>
-        <translation type="vanished">&amp;Layout</translation>
-    </message>
-    <message>
-        <source>Show/Hide</source>
-        <translation type="vanished">Visa/dölj</translation>
-    </message>
-    <message>
-        <source>Hide tabs (press Alt key to show)</source>
-        <translation type="vanished">Dölj flikar (tryck Alt för att visa)</translation>
-    </message>
-    <message>
-        <source>Hi&amp;de tabs</source>
-        <translation type="vanished">&amp;Dölj flikar</translation>
-    </message>
-    <message>
-        <source>Hide toolbar</source>
-        <translation type="vanished">Dölj verktygsfält</translation>
-    </message>
-    <message>
-        <source>Hide too&amp;lbar</source>
-        <translation type="vanished">Dö&amp;lj verktygsfält</translation>
-    </message>
-    <message>
-        <source>Hide tool&amp;bar labels</source>
-        <translation type="vanished">Dölj verk&amp;tygsfältsetiketter</translation>
-    </message>
-    <message>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="vanished">Visa inte aktivitetsfältsikon, minimera fönster då det stängs</translation>
-    </message>
-    <message>
-        <source>Disabl&amp;e tray</source>
-        <translation type="vanished">Inaktiv&amp;era systemfält</translation>
-    </message>
-    <message>
-        <source>Hide main window when closed</source>
-        <translation type="vanished">Dölj huvudfönster då det stängs</translation>
-    </message>
-    <message>
-        <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="vanished">Visa automatiskt en ruta för att komplettera funktions-, typ- och variabelnamn i kommandon</translation>
-    </message>
-    <message>
-        <source>Auto-complete Commands</source>
-        <translation type="vanished">Komplettera kommandon automatiskt</translation>
-    </message>
-    <message>
-        <source>Hide &amp;main window</source>
-        <translation type="vanished">Döl&amp;j huvudfönster</translation>
-    </message>
-    <message>
-        <source>Layout and Transparency</source>
-        <translation type="vanished">Layout och transparens</translation>
-    </message>
-    <message>
-        <source>Show tree with tabs instead of tab bar</source>
-        <translation type="vanished">Visa träd med flikar istället för flikrad</translation>
-    </message>
-    <message>
-        <source>Tab T&amp;ree</source>
-        <translation type="vanished">Flikt&amp;räd</translation>
-    </message>
-    <message>
-        <source>&amp;Focused transparency:</source>
-        <translation type="vanished">&amp;Fokuserad transparens:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Transparens för huvudfönster då det har fokus.
-
-Observera: Detta stöds inte på alla system.</translation>
-    </message>
-    <message>
-        <source>&amp;Unfocused transparency:</source>
-        <translation type="vanished">Ofok&amp;userad transparens:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Transparens för huvudfönster då det inte har fokus.
-
-Observera: Detta stöds inte på alla system.</translation>
-    </message>
-    <message>
-        <source>Show number of items in tabs</source>
-        <translation type="vanished">Visa antal objekt i flikar</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w Item Count</source>
-        <translation type="vanished">&amp;Visa objektantal</translation>
-    </message>
-    <message>
-        <source>&amp;History</source>
-        <translation type="vanished">&amp;Historik</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;number of items in history:</source>
-        <translation type="vanished">Maximalt a&amp;ntal objekt i historik:</translation>
-    </message>
-    <message>
-        <source>Maximum number of items in each tab</source>
-        <translation type="vanished">Maximalt antal objekt i varje flik</translation>
-    </message>
-    <message>
-        <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="vanished">&amp;Glöm flik efter ett visst antal minuter:</translation>
-    </message>
-    <message>
-        <source>Unload each tab from memory after specified number of minutes of inactivity.
-
-Set to 0 not to unload tabs.</source>
-        <translation type="vanished">Glöm varje flik i minnet efter ett angivet antal minuter av inaktivitet.
-
-Ställ in till 0 för att inte glömma flikar.</translation>
-    </message>
-    <message>
-        <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="vanished">Kommando för extern r&amp;edigerare (%1 är filen som ska redigeras):</translation>
-    </message>
-    <message>
-        <source>External editor command (%1 is file to edit).
-  Examples:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</source>
-        <translation type="vanished">Kommando för extern redigerare (%1 är filen som ska redigeras):
-  Exempel:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</translation>
-    </message>
-    <message>
-        <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="vanished">Fli&amp;k för att lagra urklipp:</translation>
-    </message>
-    <message>
-        <source>Name of tab that will automatically store new clipboard content.
-
-Leave empty to disable automatic storing.</source>
-        <translation type="vanished">Namn på flik som automatiskt kommer att lagra nytt urklippsinnehåll.
-
-Lämna tomt för att inaktivera automatisk lagring.</translation>
-    </message>
-    <message>
-        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="vanished">Lämna okryssad för att Retur ska spara redigerat objekt och Ctrl+Retur skapa en ny rad.
-
-Observera: Redigerade objekt kan sparas med F2 oavsett detta alternativ.</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="vanished">Spa&amp;ra redigerat objekt med Ctrl+Retur och skapa ny rad med Retur</translation>
-    </message>
-    <message>
-        <source>Show single line description of each item.
-
-Use Item Preview to display whole items.</source>
-        <translation type="vanished">Visa enradsbeskrivning för varje objekt.
-
-Använd objektförhandsvisning för att visa hela objekt.</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w simple items</source>
-        <translation type="vanished">Vis&amp;a enkla objekt</translation>
-    </message>
-    <message>
-        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="vanished">Efter att ett objekt har aktiverats (dubbelklick eller Retur), kopiera det till urklipp och…</translation>
-    </message>
-    <message>
-        <source>Move item to the top of the list after it is activated</source>
-        <translation type="vanished">Flytta objekt överst i listan efter att det har aktiverats</translation>
-    </message>
-    <message>
-        <source>Move item to the t&amp;op</source>
-        <translation type="vanished">Flytta objekt ö&amp;verst</translation>
-    </message>
-    <message>
-        <source>Close main window after item is activated</source>
-        <translation type="vanished">Stäng huvudfönster efter objekt aktiverats</translation>
-    </message>
-    <message>
-        <source>&amp;Close main window</source>
-        <translation type="vanished">S&amp;täng huvudfönster</translation>
-    </message>
-    <message>
-        <source>Focus last window after item is activated</source>
-        <translation type="vanished">Fokusera senaste fönster efter objekt har aktiverats</translation>
-    </message>
-    <message>
-        <source>&amp;Focus last window</source>
-        <translation type="vanished">&amp;Fokusera senaste fönster</translation>
-    </message>
-    <message>
-        <source>Paste to current window after item is activated</source>
-        <translation type="vanished">Klistra in till aktuellt fönster efter objekt har aktiverats</translation>
-    </message>
-    <message>
-        <source>&amp;Paste to current window</source>
-        <translation type="vanished">&amp;Klistra in till aktuellt fönster</translation>
-    </message>
-    <message>
-        <source>&amp;Tray</source>
-        <translation type="vanished">Ak&amp;tivitetsfält</translation>
-    </message>
-    <message>
-        <source>Show command for current clipboard content in tray menu</source>
-        <translation type="vanished">Visa kommando för aktuellt urklippsinnehåll i aktivitetsfältsmeny</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="vanished">Vis&amp;a kommandon för urklippsinnehåll</translation>
-    </message>
-    <message>
-        <source>N&amp;umber of items in tray menu:</source>
-        <translation type="vanished">An&amp;tal objekt i aktivitetsfältsmeny:</translation>
-    </message>
-    <message>
-        <source>Number of items in tray menu</source>
-        <translation type="vanished">Antal objekt i aktivitetsfältsmeny</translation>
-    </message>
-    <message>
-        <source>Show items from current tab in tray menu</source>
-        <translation type="vanished">Visa objekt från aktuell flik i aktivitetsfältsmeny</translation>
-    </message>
-    <message>
-        <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="vanished">Visa ak&amp;tuell flik i meny,</translation>
-    </message>
-    <message>
-        <source>or &amp;choose other tab:</source>
-        <translation type="vanished">eller &amp;välj en annan flik:</translation>
-    </message>
-    <message>
-        <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="vanished">Namn på flik att visa i aktivitetsfältsmeny (tomt för den första fliken)</translation>
-    </message>
-    <message>
-        <source>Paste item to current window after selecting it in menu</source>
-        <translation type="vanished">Klistra in objekt i aktuellt fönster efter att ha valt det i menyn</translation>
-    </message>
-    <message>
-        <source>&amp;Paste activated item to current window</source>
-        <translation type="vanished">&amp;Klistra in aktiverat objekt till aktuellt fönster</translation>
-    </message>
-    <message>
-        <source>Show image preview next to menu items</source>
-        <translation type="vanished">Visa bildförhandsvisning intill menyobjekt</translation>
-    </message>
-    <message>
-        <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="vanished">Vi&amp;sa bildförhandsvisning som menyobjektsikon</translation>
-    </message>
-    <message>
-        <source>&amp;Notifications</source>
-        <translation type="vanished">&amp;Aviseringar</translation>
-    </message>
-    <message>
-        <source>&amp;Notification position:</source>
-        <translation type="vanished">&amp;Aviseringsposition:</translation>
-    </message>
-    <message>
-        <source>Position on screen for notifications</source>
-        <translation type="vanished">Aviseringars position på skärmen</translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="vanished">Överst</translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="vanished">Nederst</translation>
-    </message>
-    <message>
-        <source>Top Right</source>
-        <translation type="vanished">Överst till höger</translation>
-    </message>
-    <message>
-        <source>Bottom Right</source>
-        <translation type="vanished">Nederst till höger</translation>
-    </message>
-    <message>
-        <source>Bottom Left</source>
-        <translation type="vanished">Nederst till vänster</translation>
-    </message>
-    <message>
-        <source>Top Left</source>
-        <translation type="vanished">Överst till vänster</translation>
-    </message>
-    <message>
-        <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="vanished">Int&amp;ervall i sekunder som aviseringar ska visas:</translation>
-    </message>
-    <message>
-        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
-
-Set to 0 to disable this.
-
-Set to -1 to keep visible until clicked.</source>
-        <translation type="vanished">Intervall i sekunder att visa avisering för nytt urklippsinnehåll eller om objekt kopieras till urklipp (endast om huvudfönstret är stängt).
-
-Ställ in till 0 för att inaktivera detta.
-
-Ställ in till -1 för att hålla synlig tills klickad.</translation>
-    </message>
-    <message>
-        <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="vanished">An&amp;tal rader för urklippsavisering:</translation>
-    </message>
-    <message>
-        <source>Number of lines to show for new clipboard content.
-
-Set to 0 to disable.</source>
-        <translation type="vanished">Antal rader att visa för nytt urklippsinnehåll.
-
-Ställ in till 0 för att inaktivera.</translation>
-    </message>
-    <message>
-        <source>Notification Geometry (in screen points)</source>
-        <translation type="vanished">Aviseringsgeometri (i skärmpunkter)</translation>
-    </message>
-    <message>
-        <source>Ho&amp;rizontal offset:</source>
-        <translation type="vanished">Ho&amp;risontell position:</translation>
-    </message>
-    <message>
-        <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="vanished">Aviseringsavstånd från vänster eller höger skärmkant i bildpunkter</translation>
-    </message>
-    <message>
-        <source>&amp;Vertical offset:</source>
-        <translation type="vanished">&amp;Vertikal position:</translation>
-    </message>
-    <message>
-        <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="vanished">Aviseringsavstånd från övre eller nedre skärmkant i bildpunkter</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;width:</source>
-        <translation type="vanished">Maximal &amp;bredd:</translation>
-    </message>
-    <message>
-        <source>Maximum width for notification in screen points</source>
-        <translation type="vanished">Maximal bredd för avisering i bildpunkter</translation>
-    </message>
-    <message>
-        <source>Ma&amp;ximum height:</source>
-        <translation type="vanished">Ma&amp;ximal höjd:</translation>
-    </message>
-    <message>
-        <source>Maximum height for notification in screen points</source>
-        <translation type="vanished">Maximal höjd för avisering i bildpunkter</translation>
-    </message>
-    <message>
-        <source>&amp;Items</source>
-        <translation type="vanished">&amp;Objekt</translation>
-    </message>
-    <message>
-        <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">Visningsformat för valt objekt i historik kan ändras genom att trycka &lt;b&gt;Ctrl+Vänster&lt;/b&gt; eller &lt;b&gt;Ctrl+Höger&lt;/b&gt;. Du kan ändra prioritet på format som ska visas genom att ändra ordning på objekt nedan.</translation>
-    </message>
-    <message>
-        <source>&amp;Shortcuts</source>
-        <translation type="vanished">&amp;Genvägar</translation>
-    </message>
-    <message>
-        <source>&amp;Appearance</source>
-        <translation type="vanished">&amp;Utseende</translation>
-    </message>
-    <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
         <translation type="unfinished"></translation>
@@ -2159,31 +1619,6 @@ Ställ in till 0 för att inaktivera.</translation>
     </message>
 </context>
 <context>
-    <name>FakeVim::Internal</name>
-    <message>
-        <source>Path to .vimrc</source>
-        <translation type="vanished">Sökväg till .vimrc</translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler</name>
-    <message>
-        <source>Not implemented in FakeVim.</source>
-        <translation type="vanished">Inte implementerat i FakeVim.</translation>
-    </message>
-    <message>
-        <source>Invalid argument:</source>
-        <translation type="vanished">Ogiltigt argument:</translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler::Private</name>
-    <message>
-        <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation type="vanished">Tryck Alt-V, Alt-V för att avsluta FakeVim-läge.</translation>
-    </message>
-</context>
-<context>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="630"/>
@@ -2202,10 +1637,6 @@ Ställ in till 0 för att inaktivera.</translation>
 </context>
 <context>
     <name>IconSelectButton</name>
-    <message>
-        <source>Select Icon...</source>
-        <translation type="vanished">Välj ikon…</translation>
-    </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
@@ -2262,80 +1693,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
         <translation>Ko&amp;mmandon</translation>
-    </message>
-</context>
-<context>
-    <name>ItemDataLoader</name>
-    <message>
-        <source>Data</source>
-        <translation type="vanished">Data</translation>
-    </message>
-    <message>
-        <source>Various data to save.</source>
-        <translation type="vanished">Diverse data att spara.</translation>
-    </message>
-</context>
-<context>
-    <name>ItemDataSettings</name>
-    <message>
-        <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation type="vanished">Välj format att spara i historik. Du kan lägga till ett format från exempel nedan eller skriva in andra (ett per rad).</translation>
-    </message>
-    <message>
-        <source>Active &amp;Formats:</source>
-        <translation type="vanished">Aktiva &amp;format:</translation>
-    </message>
-    <message>
-        <source>&amp;Examples (double click to add to active formats):</source>
-        <translation type="vanished">&amp;Exempel (dubbelklicka för att lägga till bland aktiva format):</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Text</translation>
-    </message>
-    <message>
-        <source>Unformatted simple text</source>
-        <translation type="vanished">Oformaterad enkel text</translation>
-    </message>
-    <message>
-        <source>Formatted text, web pages</source>
-        <translation type="vanished">Formaterad text, webbsidor</translation>
-    </message>
-    <message>
-        <source>XML</source>
-        <translation type="vanished">XML</translation>
-    </message>
-    <message>
-        <source>List of URI (e.g. copied files, URLs)</source>
-        <translation type="vanished">URI-lista (t.ex. kopierade filer, URL:er)</translation>
-    </message>
-    <message>
-        <source>Images</source>
-        <translation type="vanished">Bilder</translation>
-    </message>
-    <message>
-        <source>Bitmap image</source>
-        <translation type="vanished">Bitmappsbild</translation>
-    </message>
-    <message>
-        <source>Vector graphics</source>
-        <translation type="vanished">Vektorgrafik</translation>
-    </message>
-    <message>
-        <source>Web image formats</source>
-        <translation type="vanished">Webbildformat</translation>
-    </message>
-    <message>
-        <source>Other</source>
-        <translation type="vanished">Övriga</translation>
-    </message>
-    <message>
-        <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation type="vanished">Lista över urklipps-MIME-typer som kommer att lagras i historik (i angiven visningsordning)</translation>
-    </message>
-    <message>
-        <source>&amp;Maximum number of characters per format to display:</source>
-        <translation type="vanished">&amp;Maximalt antal tecken per format att visa:</translation>
     </message>
 </context>
 <context>
@@ -2564,10 +1921,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>För att kryptera och dekryptera objekt, lägg till lämpliga kommandon under kommandofliken.</translation>
     </message>
     <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">Lägg till åtgärder till meny och verktygsfält</translation>
-    </message>
-    <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
         <translation>Delning av krypterade objekt och flikar</translation>
@@ -2708,18 +2061,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>A&amp;bove Item</source>
-        <translation type="vanished">O&amp;vanför objekt</translation>
-    </message>
-    <message>
-        <source>B&amp;elow Item</source>
-        <translation type="vanished">Und&amp;er objekt</translation>
-    </message>
-    <message>
-        <source>&amp;Icon Only</source>
-        <translation type="vanished">Endast &amp;ikon</translation>
-    </message>
-    <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
         <translation>Visa inf&amp;oruta</translation>
@@ -2731,10 +2072,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
         <translation>&amp;Lägg till</translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation type="vanished">+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="63"/>
@@ -2754,11 +2091,6 @@ Ställ in till 0 för att inaktivera.</translation>
 </context>
 <context>
     <name>ItemPinnedLoader</name>
-    <message>
-        <source>Ctrl+Shift+P</source>
-        <comment>Shortcut to pin and unpin items</comment>
-        <translation type="vanished">Ctrl+Skift+P</translation>
-    </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Cannot Remove Pinned Items</source>
@@ -2788,17 +2120,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../plugins/itempinned/itempinned.h" line="104"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
-        <translation type="vanished">Nåla objekt för att låsa dem på aktuell rad och förhindra borttagning (om de inte avnålas).</translation>
-    </message>
-</context>
-<context>
-    <name>ItemPinnedSettings</name>
-    <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">Lägg till åtgärder till meny och verktygsfält</translation>
     </message>
 </context>
 <context>
@@ -2976,10 +2297,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <source>Icon</source>
         <translation>Ikon</translation>
     </message>
-    <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">Lägg till åtgärder till meny och verktygsfält</translation>
-    </message>
 </context>
 <context>
     <name>ItemTextLoader</name>
@@ -3124,23 +2441,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>&amp;Inaktivera urklippslagring</translation>
     </message>
     <message>
-        <source>%1 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="vanished">%1 — CopyQ</translation>
-    </message>
-    <message>
-        <source>%1 - %2 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="vanished">%1 — %2 — CopyQ</translation>
-    </message>
-    <message>
-        <source>Clipboard:
-%1</source>
-        <comment>Tray tooltip format</comment>
-        <translation type="vanished">Urklipp:
-%1</translation>
-    </message>
-    <message>
         <location filename="../src/gui/mainwindow.cpp" line="1777"/>
         <source>CopyQ Options for Import</source>
         <translation>CopyQ-alternativ för import</translation>
@@ -3214,49 +2514,6 @@ Ställ in till 0 för att inaktivera.</translation>
     </message>
 </context>
 <context>
-    <name>ProcessManagerDialog</name>
-    <message>
-        <source>CopyQ Process Manager</source>
-        <translation type="vanished">CopyQ-processhanterare</translation>
-    </message>
-    <message>
-        <source>Started</source>
-        <translation type="vanished">Startad</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <translation type="vanished">Klar</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Namn</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="vanished">Status</translation>
-    </message>
-    <message>
-        <source>Running</source>
-        <translation type="vanished">Kör</translation>
-    </message>
-    <message>
-        <source>Failed</source>
-        <translation type="vanished">Misslyckades</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Ta bort</translation>
-    </message>
-    <message>
-        <source>Starting</source>
-        <translation type="vanished">Startar</translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="vanished">Stoppa</translation>
-    </message>
-</context>
-<context>
     <name>Proxy</name>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="451"/>
@@ -3298,11 +2555,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;FILES&gt;</source>
-        <comment>Label for URLs/files in clipboard</comment>
-        <translation type="vanished">&lt;FILER&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="526"/>
@@ -3519,22 +2771,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>F5</translation>
     </message>
     <message>
-        <source>Next Format</source>
-        <translation type="vanished">Nästa format</translation>
-    </message>
-    <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+Höger</translation>
-    </message>
-    <message>
-        <source>Previous Format</source>
-        <translation type="vanished">Föregående format</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Vänster</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Move Up</source>
         <translation>Flytta upp</translation>
@@ -3643,17 +2879,9 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="unfinished">Skift+F10</translation>
     </message>
     <message>
-        <source>Right</source>
-        <translation type="vanished">Höger</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>&amp;Previous Tab</source>
         <translation>&amp;Föregående flik</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="vanished">Vänster</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
@@ -3689,22 +2917,6 @@ Ställ in till 0 för att inaktivera.</translation>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
-    </message>
-    <message>
-        <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="vanished">Objektfilen %1 är trasig eller så saknas några CopyQ-insticksmoduler!</translation>
-    </message>
-    <message>
-        <source>No plugins loaded</source>
-        <translation type="vanished">Inga insticksmoduler inlästa</translation>
-    </message>
-    <message>
-        <source>Loading plugin: %1</source>
-        <translation type="vanished">Läser in insticksmodul: %1</translation>
-    </message>
-    <message>
-        <source>Data deserialization failed: %1</source>
-        <translation type="vanished">Deserialisering av data misslyckades: %1</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="215"/>
@@ -4107,10 +3319,6 @@ Skriv ut version på program och bibliotek.</translation>
         <translation>Ogiltigt antal argument!</translation>
     </message>
     <message>
-        <source>Built with: </source>
-        <translation type="vanished">Byggt med: </translation>
-    </message>
-    <message>
         <location filename="../src/scriptable/scriptable.cpp" line="787"/>
         <source>Command not found!</source>
         <translation>Kommando hittades inte!</translation>
@@ -4151,10 +3359,6 @@ Skriv ut version på program och bibliotek.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="2704"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Misslyckades med att kopiera till urklipp!</translation>
-    </message>
-    <message>
-        <source>Failed to set clipboard!</source>
-        <translation type="vanished">Misslyckades med att ställa in urklipp!</translation>
     </message>
 </context>
 <context>
@@ -4244,10 +3448,6 @@ Skriv ut version på program och bibliotek.</translation>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can be triggered only from the main window.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There is command overriding this shortcut.</source>
-        <translation type="vanished">Det finns ett kommando som åsidosätter denna genväg.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>

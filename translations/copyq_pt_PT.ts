@@ -29,119 +29,9 @@
         <translation>Web</translation>
     </message>
     <message>
-        <source>Wiki</source>
-        <translation type="vanished">Wiki</translation>
-    </message>
-    <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>Doar</translation>
-    </message>
-    <message>
-        <source>Development</source>
-        <translation type="vanished">Desenvolvimento</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>Qt library description</comment>
-        <translation type="vanished">Biblioteca usada na aplicação</translation>
-    </message>
-    <message>
-        <source>Free web-based translation management system</source>
-        <comment>Weblate description</comment>
-        <translation type="vanished">Sistema grátis de gestão de tradução baseado na web</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <comment>Font Awesome description</comment>
-        <translation type="vanished">Letra icónica usada na aplicação</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation type="vanished">Biblioteca usada na aplicação</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <comment>Solarized palette/themes description</comment>
-        <translation type="vanished">Paleta de cores usadas pelos temas</translation>
-    </message>
-    <message>
-        <source>Keyboard</source>
-        <translation type="vanished">Teclado</translation>
-    </message>
-    <message>
-        <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation type="vanished">Pode alterar os atalhos da aplicação no diálogo Preferências.</translation>
-    </message>
-    <message>
-        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">Pode definir atalhos globais (atalhos em todo o sistema) no diálogo Comando (predefinição: F6).</translation>
-    </message>
-    <message>
-        <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">Digite qualquer texto para procurar no histórico.</translation>
-    </message>
-    <message>
-        <source>Item list navigation</source>
-        <translation type="vanished">Navegação da lista de itens</translation>
-    </message>
-    <message>
-        <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Cima/Baixo, Page Up/Down, Home/End</translation>
-    </message>
-    <message>
-        <source>Tab navigation</source>
-        <translation type="vanished">Navegação de separador</translation>
-    </message>
-    <message>
-        <source>Left, Right, %1, %2</source>
-        <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="vanished">Esquerda, Direita, %1, %2</translation>
-    </message>
-    <message>
-        <source>Move selected items</source>
-        <translation type="vanished">Mover itens selecionados</translation>
-    </message>
-    <message>
-        <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="vanished">Ctrl+Cima/Baixo, Ctrl+Home/End</translation>
-    </message>
-    <message>
-        <source>Reset search or hide window</source>
-        <translation type="vanished">Repor procura ou ocultar janela</translation>
-    </message>
-    <message>
-        <source>Escape</source>
-        <translation type="vanished">Escape</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation type="vanished">Eliminar item</translation>
-    </message>
-    <message>
-        <source>Put selected items into clipboard</source>
-        <translation type="vanished">Pôr itens selecionados na área de transferência</translation>
-    </message>
-    <message>
-        <source>Enter</source>
-        <translation type="vanished">Enter</translation>
-    </message>
-    <message>
-        <source>Change item display format</source>
-        <translation type="vanished">Alterar formato de visualização do item</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left/Right</source>
-        <translation type="vanished">Ctrl+Esquerda/Direita</translation>
-    </message>
-    <message>
-        <source>Edit Item</source>
-        <translation type="vanished">Editar item</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -165,14 +55,6 @@
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
         <translation>G&amp;uardar saída padrão:</translation>
-    </message>
-    <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="vanished">Enviar dados do tipo MIME indicado para inserção padrão de comando (deixar vazio para desativar)</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="vanished">Criar itens a partir da saída padrão do programa (deixar vazio para desativar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -227,18 +109,6 @@ Pode definir o comando nas preferências.</translation>
 <context>
     <name>ActionHandler</name>
     <message>
-        <source>Error: %1
-</source>
-        <translation type="vanished">Erro: %1
-</translation>
-    </message>
-    <message>
-        <source>Exit code: %1
-</source>
-        <translation type="vanished">Código de saída: %1
-</translation>
-    </message>
-    <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
         <translation>Erro: %1</translation>
@@ -279,11 +149,6 @@ Pode definir o comando nas preferências.</translation>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
         <translation>Adicionar comandos CopyQ</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+1</source>
-        <comment>Global shortcut for some predefined commands</comment>
-        <translation type="vanished">Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -391,10 +256,6 @@ Pode definir o comando nas preferências.</translation>
         <translation>Colar como texto simples</translation>
     </message>
     <message>
-        <source>Shift+Return</source>
-        <translation type="vanished">Shift+Enter</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
         <translation>Reproduzir vídeos automaticamente</translation>
@@ -433,14 +294,6 @@ Pode definir o comando nas preferências.</translation>
         <translation>Mover para o separador %1</translation>
     </message>
     <message>
-        <source>Add to &amp;TODO tab</source>
-        <translation type="vanished">Adicionar a separador &amp;AFAZER</translation>
-    </message>
-    <message>
-        <source>Move to &amp;TODO tab</source>
-        <translation type="vanished">Mover para separador &amp;AFAZER</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
         <translation>Ignorar ficheiros copiados</translation>
@@ -467,19 +320,7 @@ Pode definir o comando nas preferências.</translation>
     </message>
 </context>
 <context>
-    <name>ClientSocket</name>
-    <message>
-        <source>Failed to read message from client!</source>
-        <translation type="vanished">Falha ao ler mensagem do cliente!</translation>
-    </message>
-</context>
-<context>
     <name>ClipboardBrowser</name>
-    <message>
-        <source>Searching %p%...</source>
-        <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="vanished">A pesquisar %p%...</translation>
-    </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="816"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1642"/>
@@ -613,18 +454,6 @@ Pode definir o comando nas preferências.</translation>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Load Commands...</source>
-        <translation type="vanished">&amp;Carregar comandos...</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve Selected...</source>
-        <translation type="vanished">Gra&amp;var selecionados...</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="vanished">Gra&amp;var comandos selecionados...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -781,14 +610,6 @@ Leave empty to disable this.</source>
 Deixe vazio para desativar.</translation>
     </message>
     <message>
-        <source>F&amp;ormat:</source>
-        <translation type="vanished">F&amp;ormato:</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;Use o comando só para itens copiados a partir de janelas com texto de título que corresponda à expressão regular (vazio para corresponder a qualquer janela). Em OS X, isto contém o nome da aplicação seguida de hífen (&amp;quot;-&amp;quot;) e do título da janela. Por exemplo &amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
         <source>&amp;Window:</source>
         <translation>&amp;Janela:</translation>
@@ -834,10 +655,6 @@ Deixe vazio para desativar.</translation>
         <location filename="../src/ui/commandwidget.ui" line="400"/>
         <source>Action</source>
         <translation>Ação</translation>
-    </message>
-    <message>
-        <source>Co&amp;py to tab:</source>
-        <translation type="vanished">Co&amp;piar para separador:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="433"/>
@@ -917,10 +734,6 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
         <translation>Exibir</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;Use o comando apenas para itens copiados para a área de transferência com o texto de título que corresponde a esta expressão regular (deixar em branco para corresponder a qualquer janela). No OS X, isto contém o nome da aplicação seguido de um traço (&amp;quot;-&amp;quot;) e depois o título da janela. Por exemplo &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
@@ -1112,16 +925,6 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
 press F2 to edit.</source>
         <translation>Selecione um item e
 prima F2 para editar.</translation>
-    </message>
-    <message>
-        <source>Select items and move them with
-CTRL and up or down key.</source>
-        <translation type="vanished">Selecione itens e mova-os com
-CTRL e seta acima ou abaixo.</translation>
-    </message>
-    <message>
-        <source>Remove item with Delete key.</source>
-        <translation type="vanished">Remover item com tecla Delete.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="483"/>
@@ -1669,37 +1472,6 @@ Defina como 0 para desativar.</translation>
     </message>
 </context>
 <context>
-    <name>ConfigTabShortcuts</name>
-    <message>
-        <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="vanished">&amp;Ações personalizadas e atalhos globais...</translation>
-    </message>
-    <message>
-        <source>Ctrl+P</source>
-        <translation type="vanished">Ctrl+P</translation>
-    </message>
-    <message>
-        <source>F6</source>
-        <translation type="obsolete">F6</translation>
-    </message>
-    <message>
-        <source>F4</source>
-        <translation type="obsolete">F4</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="obsolete">F2</translation>
-    </message>
-    <message>
-        <source>F5</source>
-        <translation type="obsolete">F5</translation>
-    </message>
-    <message>
-        <source>F12</source>
-        <translation type="obsolete">F12</translation>
-    </message>
-</context>
-<context>
     <name>ConfigTabTray</name>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
@@ -1780,528 +1552,6 @@ Defina como 0 para desativar.</translation>
         <translation>Configuração CopyQ</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation type="vanished">&amp;Geral</translation>
-    </message>
-    <message>
-        <source>&amp;Language:</source>
-        <translation type="vanished">&amp;Idioma:</translation>
-    </message>
-    <message>
-        <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="vanished">Quebrar texto se for demasiado longo para uma só linha</translation>
-    </message>
-    <message>
-        <source>Wrap l&amp;ong text</source>
-        <translation type="vanished">Quebrar texto l&amp;ongo</translation>
-    </message>
-    <message>
-        <source>Keep main window above other windows</source>
-        <translation type="vanished">Manter janela principal acima de outras janelas</translation>
-    </message>
-    <message>
-        <source>Alwa&amp;ys on Top</source>
-        <translation type="vanished">Semp&amp;re no topo</translation>
-    </message>
-    <message>
-        <source>Close main window when other application has focus</source>
-        <translation type="vanished">Fechar janela principal quando outra aplicação estiver focada</translation>
-    </message>
-    <message>
-        <source>Close When Unfocused</source>
-        <translation type="vanished">Fechar quando não estiver focado</translation>
-    </message>
-    <message>
-        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="vanished">Ativar para abrir janelas no ecrã atual. Desativar para abrir janelas onde foram fechadas pela última vez</translation>
-    </message>
-    <message>
-        <source>O&amp;pen windows on current screen</source>
-        <translation type="vanished">A&amp;brir janelas no ecrã atual</translation>
-    </message>
-    <message>
-        <source>Confirm application exit</source>
-        <translation type="vanished">Confirmar saída da aplicação</translation>
-    </message>
-    <message>
-        <source>Confirm application e&amp;xit</source>
-        <translation type="vanished">Confirmar s&amp;aída da aplicação</translation>
-    </message>
-    <message>
-        <source>Run the application on system startup</source>
-        <translation type="vanished">Executar a aplicação ao iniciar o sistema</translation>
-    </message>
-    <message>
-        <source>&amp;Autostart</source>
-        <translation type="vanished">Início &amp;automático</translation>
-    </message>
-    <message>
-        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="vanished">Suporte para teclas de navegação Vi (H, J, K, L e mais), barra (/) para procurar</translation>
-    </message>
-    <message>
-        <source>&amp;Vi style navigation</source>
-        <translation type="vanished">Navegação estilo &amp;Vi</translation>
-    </message>
-    <message>
-        <source>Save and restore history of item filters</source>
-        <translation type="vanished">Gravar e restaurar histórico de filtros de item</translation>
-    </message>
-    <message>
-        <source>Save Filter History</source>
-        <translation type="vanished">Gravar histórico de filtros</translation>
-    </message>
-    <message>
-        <source>Clipboard Manipulation</source>
-        <translation type="vanished">Manipulação da área de transferência</translation>
-    </message>
-    <message>
-        <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="vanished">Gravar texto selecionado com o rato (seleção primária) no histórico</translation>
-    </message>
-    <message>
-        <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="vanished">(&amp;2) Gravar texto selecionado usando o rato</translation>
-    </message>
-    <message>
-        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="vanished">Permitir colar seleções do rato usando atalho (normalmente Ctrl+V ou Shift+Insert)</translation>
-    </message>
-    <message>
-        <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="vanished">(&amp;4) Colar seleção de rato com teclado</translation>
-    </message>
-    <message>
-        <source>Save clipboard in history</source>
-        <translation type="vanished">Guardar área de transferência no histórico</translation>
-    </message>
-    <message>
-        <source>(&amp;1) Store clipboard</source>
-        <translation type="vanished">(&amp;1) Guardar área de transferência</translation>
-    </message>
-    <message>
-        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="vanished">Permitir colar conteúdo copiado como seleções com o rato (normalmente clicando no botão do meio do rato)</translation>
-    </message>
-    <message>
-        <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="vanished">(&amp;3) Colar área de transferência com o rato</translation>
-    </message>
-    <message>
-        <source>&amp;Layout</source>
-        <translation type="vanished">&amp;Esquema</translation>
-    </message>
-    <message>
-        <source>Show/Hide</source>
-        <translation type="vanished">Mostrar/Ocultar</translation>
-    </message>
-    <message>
-        <source>Hide tabs (press Alt key to show)</source>
-        <translation type="vanished">Ocultar separadores (prima Alt para mostrar)</translation>
-    </message>
-    <message>
-        <source>Hi&amp;de tabs</source>
-        <translation type="vanished">Ocultar separa&amp;dores</translation>
-    </message>
-    <message>
-        <source>Hide toolbar</source>
-        <translation type="vanished">Ocultar barra de ferramentas</translation>
-    </message>
-    <message>
-        <source>Hide too&amp;lbar</source>
-        <translation type="vanished">Ocu&amp;ltar barra de ferramentas</translation>
-    </message>
-    <message>
-        <source>Hide tool&amp;bar labels</source>
-        <translation type="vanished">Ocultar rótulos da &amp;barra de ferramentas</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="vanished">Transparência da janela principal é focada.
-
-Nota: isto não é suportado em todos os sistemas.</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="vanished">Transparência da janela principal deixa de estar focada.
-
-Nota: isto não é suportado em todos os sistemas.</translation>
-    </message>
-    <message>
-        <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="vanished">Comando de edito externo (%&amp;1 é o ficheiro para editar):</translation>
-    </message>
-    <message>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="vanished">Não mostrar ícone na bandeja; minimizar janela quando fechado</translation>
-    </message>
-    <message>
-        <source>Disabl&amp;e tray</source>
-        <translation type="vanished">Desati&amp;var bandeja</translation>
-    </message>
-    <message>
-        <source>Hide main window when closed</source>
-        <translation type="vanished">Ocultar janela principal quando fechada</translation>
-    </message>
-    <message>
-        <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="vanished">Mostrar automaticamente o balão para completar a função, tipo e nomes de variável nos comandos</translation>
-    </message>
-    <message>
-        <source>Auto-complete Commands</source>
-        <translation type="vanished">Completar Comandos Automaticamente</translation>
-    </message>
-    <message>
-        <source>Hide &amp;main window</source>
-        <translation type="vanished">Ocultar &amp;janela principal</translation>
-    </message>
-    <message>
-        <source>Layout and Transparency</source>
-        <translation type="vanished">Esquema e transparência</translation>
-    </message>
-    <message>
-        <source>Show tree with tabs instead of tab bar</source>
-        <translation type="vanished">Mostrar árvore com separadores em vez de barra de separadores</translation>
-    </message>
-    <message>
-        <source>Tab T&amp;ree</source>
-        <translation type="vanished">Á&amp;rvore de separadores</translation>
-    </message>
-    <message>
-        <source>&amp;Focused transparency:</source>
-        <translation type="vanished">Transparência &amp;focada:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Transparência da janela principal se focada.
-
-Nota: não é suportado em todos os sistemas.</translation>
-    </message>
-    <message>
-        <source>&amp;Unfocused transparency:</source>
-        <translation type="vanished">Transparência &amp;não focada:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Transparência da janela principal se não focada.
-
-Nota: pode não ser suportado em todos os sistemas.</translation>
-    </message>
-    <message>
-        <source>Show number of items in tabs</source>
-        <translation type="vanished">Mostrar número de itens nos separadores</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w Item Count</source>
-        <translation type="vanished">Most&amp;rar total de itens</translation>
-    </message>
-    <message>
-        <source>&amp;History</source>
-        <translation type="vanished">&amp;Histórico</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;number of items in history:</source>
-        <translation type="vanished">&amp;Número máximo de itens no histórico:</translation>
-    </message>
-    <message>
-        <source>Maximum number of items in each tab</source>
-        <translation type="vanished">Número máximo de itens em cada separador</translation>
-    </message>
-    <message>
-        <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="vanished">&amp;Descarregar separador após intervalo em minutos:</translation>
-    </message>
-    <message>
-        <source>Unload each tab from memory after specified number of minutes of inactivity.
-
-Set to 0 not to unload tabs.</source>
-        <translation type="vanished">Descarregar cada separador da memória depois de um número de minutos especificado de inatividade.
-
-Defina para 0 para não descarregar os separadores.</translation>
-    </message>
-    <message>
-        <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="vanished">Comando do editor &amp;externo (%1 é o ficheiro a editar):</translation>
-    </message>
-    <message>
-        <source>External editor command (%1 is file to edit).
-  Examples:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</source>
-        <translation type="vanished">Comando de editor externo (%1 é o ficheiro a editar).
-  Exemplos:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</translation>
-    </message>
-    <message>
-        <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="vanished">Se&amp;parador para gravar área de transferência:</translation>
-    </message>
-    <message>
-        <source>Name of tab that will automatically store new clipboard content.
-
-Leave empty to disable automatic storing.</source>
-        <translation type="vanished">Nome do separador que gravará automaticamente o novo conteúdo da área de transferência.
-
-Deixe vazio para desativar o armazenamento automático.</translation>
-    </message>
-    <message>
-        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="vanished">Deixe desmarcado para gravar item editado com Enter e criar nova linha com Ctrl+Enter.
-
-Nota: itens editados pode ser gravados com F2, descartando esta opção.</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="vanished">Gra&amp;var item editado com Ctrl+Enter e criar nova linha com Enter</translation>
-    </message>
-    <message>
-        <source>Show single line description of each item.
-
-Use Item Preview to display whole items.</source>
-        <translation type="vanished">Mostrar descrição de cada item em linha única.
-
-Use a antevisão dos itens para os ver completos.</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w simple items</source>
-        <translation type="vanished">&amp;Mostrar itens simples</translation>
-    </message>
-    <message>
-        <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="vanished">Permitir a pesquisa por números, caso contrário, pressionar uma tecla numérica ativa o item nessa posição</translation>
-    </message>
-    <message>
-        <source>S&amp;earch for numbers</source>
-        <translation type="vanished">Procurar núm&amp;eros</translation>
-    </message>
-    <message>
-        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="vanished">Depois de ativado o item (duplo clique ou tecla Enter), copia-o para a área de transferência e ...</translation>
-    </message>
-    <message>
-        <source>Move item to the top of the list after it is activated</source>
-        <translation type="vanished">Mover item para o topo da lista depois de ativado</translation>
-    </message>
-    <message>
-        <source>Move item to the t&amp;op</source>
-        <translation type="vanished">Mover item para o t&amp;opo</translation>
-    </message>
-    <message>
-        <source>Close main window after item is activated</source>
-        <translation type="vanished">Fechar janela principal após ativar o item</translation>
-    </message>
-    <message>
-        <source>&amp;Close main window</source>
-        <translation type="vanished">Fe&amp;char janela principal</translation>
-    </message>
-    <message>
-        <source>Focus last window after item is activated</source>
-        <translation type="vanished">Focar última janela após ativar o item</translation>
-    </message>
-    <message>
-        <source>&amp;Focus last window</source>
-        <translation type="vanished">&amp;Focar última janela</translation>
-    </message>
-    <message>
-        <source>Paste to current window after item is activated</source>
-        <translation type="vanished">Colar para janela atual após ativar o item</translation>
-    </message>
-    <message>
-        <source>&amp;Paste to current window</source>
-        <translation type="vanished">&amp;Colar na janela atual</translation>
-    </message>
-    <message>
-        <source>&amp;Tray</source>
-        <translation type="vanished">&amp;Tabuleiro</translation>
-    </message>
-    <message>
-        <source>Show command for current clipboard content in tray menu</source>
-        <translation type="vanished">Mostrar comando do atual conteúdo no menu do tabuleiro</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="vanished">&amp;Mostrar comandos do conteúdo da área de transferência</translation>
-    </message>
-    <message>
-        <source>N&amp;umber of items in tray menu:</source>
-        <translation type="vanished">Número de itens no men&amp;u do tabuleiro:</translation>
-    </message>
-    <message>
-        <source>Number of items in tray menu</source>
-        <translation type="vanished">Número de itens no menu do tabuleiro</translation>
-    </message>
-    <message>
-        <source>Show items from current tab in tray menu</source>
-        <translation type="vanished">Mostrar itens do separador atual no menu do tabuleiro</translation>
-    </message>
-    <message>
-        <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="vanished">Most&amp;rar separador atual no menu,</translation>
-    </message>
-    <message>
-        <source>or &amp;choose other tab:</source>
-        <translation type="vanished">ou es&amp;colher outro separador:</translation>
-    </message>
-    <message>
-        <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="vanished">Nome do separador a mostrar no menu do tabuleiro (vazio para o 1º separador)</translation>
-    </message>
-    <message>
-        <source>Paste item to current window after selecting it in menu</source>
-        <translation type="vanished">Colar item na janela atual após selecioná-lo no menu</translation>
-    </message>
-    <message>
-        <source>&amp;Paste activated item to current window</source>
-        <translation type="vanished">Colar item ativado na &amp;janela atual</translation>
-    </message>
-    <message>
-        <source>Show image preview next to menu items</source>
-        <translation type="vanished">Mostrar imagem junto aos itens de menu</translation>
-    </message>
-    <message>
-        <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="vanished">M&amp;ostrar imagem como ícone do item de menu</translation>
-    </message>
-    <message>
-        <source>&amp;Notifications</source>
-        <translation type="vanished">&amp;Notificações</translation>
-    </message>
-    <message>
-        <source>&amp;Notification position:</source>
-        <translation type="vanished">Posição da &amp;notificação:</translation>
-    </message>
-    <message>
-        <source>Position on screen for notifications</source>
-        <translation type="vanished">Posição da notificação no ecrã</translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="vanished">Acima</translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="vanished">Abaixo</translation>
-    </message>
-    <message>
-        <source>Top Right</source>
-        <translation type="vanished">Acima à direita</translation>
-    </message>
-    <message>
-        <source>Bottom Right</source>
-        <translation type="vanished">Abaixo à direita</translation>
-    </message>
-    <message>
-        <source>Bottom Left</source>
-        <translation type="vanished">Abaixo à esquerda</translation>
-    </message>
-    <message>
-        <source>Top Left</source>
-        <translation type="vanished">Acima à esquerda</translation>
-    </message>
-    <message>
-        <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="vanished">Int&amp;ervalo em segundos para ver notificações:</translation>
-    </message>
-    <message>
-        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
-
-Set to 0 to disable this.
-
-Set to -1 to keep visible until clicked.</source>
-        <translation type="vanished">Intervalo em segundos para mostrar a notificação de novo conteúdo na área de transferência ou se um item foi copiado para a área de transferência (só se a janela principal estiver fechada).
-
-Defina como 0 para desativar.
-
-Defina como -1 para manter visível até ser clicada.</translation>
-    </message>
-    <message>
-        <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="vanished">Número de lin&amp;has da notificação:</translation>
-    </message>
-    <message>
-        <source>Number of lines to show for new clipboard content.
-
-Set to 0 to disable.</source>
-        <translation type="vanished">Número de linhas do conteúdo da área de transferência.
-
-Defina como 0 para desativar.</translation>
-    </message>
-    <message>
-        <source>Notification Geometry (in screen points)</source>
-        <translation type="vanished">Geometria da notificação (em pontos de ecrã)</translation>
-    </message>
-    <message>
-        <source>Hori&amp;zontal offset:</source>
-        <translation type="vanished">Desvio hori&amp;zontal:</translation>
-    </message>
-    <message>
-        <source>You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">Pode alterar a prioridade dos formatos a mostrar reordenando os itens abaixo.</translation>
-    </message>
-    <message>
-        <source>Ho&amp;rizontal offset:</source>
-        <translation type="vanished">Desvio ho&amp;rizontal:</translation>
-    </message>
-    <message>
-        <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="vanished">Distância da notificação da margem direita/esquerda em pontos de ecrã</translation>
-    </message>
-    <message>
-        <source>&amp;Vertical offset:</source>
-        <translation type="vanished">Desvio &amp;vertical:</translation>
-    </message>
-    <message>
-        <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="vanished">Distância da notificação à margem superior/inferior em pontos do ecrã</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;width:</source>
-        <translation type="vanished">&amp;Largura máxima:</translation>
-    </message>
-    <message>
-        <source>Maximum width for notification in screen points</source>
-        <translation type="vanished">Largura máxima da notificação em pontos de ecrã</translation>
-    </message>
-    <message>
-        <source>Ma&amp;ximum height:</source>
-        <translation type="vanished">Altura má&amp;xima:</translation>
-    </message>
-    <message>
-        <source>Maximum height for notification in screen points</source>
-        <translation type="vanished">Altura máxima da notificação em pontos de ecrã</translation>
-    </message>
-    <message>
-        <source>&amp;Items</source>
-        <translation type="vanished">&amp;Itens</translation>
-    </message>
-    <message>
-        <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">O formato de exibição do item selecionado no histórico pode ser alterado premindo &lt;b&gt;Ctrl+Esquerda&lt;/b&gt; ou &lt;b&gt;Ctrl+Direita&lt;/b&gt;. Pode alterar a prioridade dos formatos a mostrar, reordenando os itens abaixo.</translation>
-    </message>
-    <message>
-        <source>&amp;Shortcuts</source>
-        <translation type="vanished">Atalho&amp;s</translation>
-    </message>
-    <message>
-        <source>&amp;Appearance</source>
-        <translation type="vanished">&amp;Aparência</translation>
-    </message>
-    <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
         <translation type="unfinished"></translation>
@@ -2373,174 +1623,6 @@ Defina como 0 para desativar.</translation>
     </message>
 </context>
 <context>
-    <name>FakeVim::Internal</name>
-    <message>
-        <source>Use Vim-style Editing</source>
-        <translation type="vanished">Usar estilo de edição Vim</translation>
-    </message>
-    <message>
-        <source>Read .vimrc</source>
-        <translation type="vanished">Ler .vimrc</translation>
-    </message>
-    <message>
-        <source>Path to .vimrc</source>
-        <translation type="vanished">Caminho para .vimrc</translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler</name>
-    <message>
-        <source>Unknown option: %1</source>
-        <translation type="vanished">Opção desconhecida: %1</translation>
-    </message>
-    <message>
-        <source>Argument must be positive: %1=%2</source>
-        <translation type="vanished">Argumento deve ser positivo: %1=%2</translation>
-    </message>
-    <message>
-        <source>Mark &quot;%1&quot; not set.</source>
-        <translation type="vanished">Marca &quot;%1&quot; não definida.</translation>
-    </message>
-    <message>
-        <source>%1%2%</source>
-        <translation type="vanished">%1%2%</translation>
-    </message>
-    <message>
-        <source>%1All</source>
-        <translation type="vanished">%1Tudo</translation>
-    </message>
-    <message>
-        <source>Not implemented in FakeVim.</source>
-        <translation type="vanished">Não implementado no FakeVim.</translation>
-    </message>
-    <message>
-        <source>Unknown option:</source>
-        <translation type="vanished">Opção desconhecida:</translation>
-    </message>
-    <message>
-        <source>Invalid argument:</source>
-        <translation type="vanished">Argumento inválido:</translation>
-    </message>
-    <message>
-        <source>Trailing characters:</source>
-        <translation type="vanished">Caracteres finais:</translation>
-    </message>
-    <message>
-        <source>Move lines into themselves.</source>
-        <translation type="vanished">Mover linhas para si próprias.</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines moved.</source>
-        <translation type="vanished">
-            <numerusform>%n linha movida.</numerusform>
-            <numerusform>%n linhas movidas.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation type="vanished">Ficheiro &quot;%1&quot; já existe (adicione ! para forçar)</translation>
-    </message>
-    <message>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation type="vanished">Impossível abrir &quot;%1&quot; para escrita</translation>
-    </message>
-    <message>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation type="vanished">&quot;%1&quot; %2 %3L, %4C escrito.</translation>
-    </message>
-    <message>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation type="vanished">Impossível abrir &quot;%1&quot; para leitura</translation>
-    </message>
-    <message>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation type="vanished">&quot;%1&quot; %2L, %3C</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines filtered.</source>
-        <translation type="vanished">
-            <numerusform>%n linha filtrada.</numerusform>
-            <numerusform>%n linhas filtradas.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Cannot open file %1</source>
-        <translation type="vanished">Impossível abrir %1</translation>
-    </message>
-    <message>
-        <source>Invalid regular expression: %1</source>
-        <translation type="vanished">Expressão regular inválida: %1</translation>
-    </message>
-    <message>
-        <source>Pattern not found: %1</source>
-        <translation type="vanished">Padrão não encontrado: %1</translation>
-    </message>
-    <message>
-        <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation type="vanished">Procura chegou ao FIM, a continuar no INÍCIO.</translation>
-    </message>
-    <message>
-        <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation type="vanished">Procura chegou ao INÍCIO, a continuar no FIM.</translation>
-    </message>
-    <message>
-        <source>Search hit BOTTOM without match for: %1</source>
-        <translation type="vanished">Procura chegou ao FIM sem resultados para %1</translation>
-    </message>
-    <message>
-        <source>Search hit TOP without match for: %1</source>
-        <translation type="vanished">Procura chegou ao INÍCIO sem resultados para %1</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines indented.</source>
-        <translation type="vanished">
-            <numerusform>%n linha indentada.</numerusform>
-            <numerusform>%n linhas indentadas.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines %1ed %2 time.</source>
-        <translation type="vanished">
-            <numerusform>%n linhas %1das %2 vez.</numerusform>
-            <numerusform>%n linhas %1das %2 vezes.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines yanked.</source>
-        <translation type="vanished">
-            <numerusform>%n linha extraída.</numerusform>
-            <numerusform>%n linhas extraídas.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Already at oldest change.</source>
-        <translation type="vanished">Já está na alteração mais antiga.</translation>
-    </message>
-    <message>
-        <source>Already at newest change.</source>
-        <translation type="vanished">Já está na alteração mais recente.</translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler::Private</name>
-    <message>
-        <source>Recursive mapping</source>
-        <translation type="vanished">Mapeamento recursivo</translation>
-    </message>
-    <message>
-        <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation type="vanished">Prima Alt+V, Alt+V para sair do modo FakeVim.</translation>
-    </message>
-    <message>
-        <source> [New] </source>
-        <translation type="vanished"> [Novo] </translation>
-    </message>
-    <message>
-        <source>Not an editor command: %1</source>
-        <translation type="vanished">Não é comando do editor: %1</translation>
-    </message>
-</context>
-<context>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="630"/>
@@ -2559,10 +1641,6 @@ Defina como 0 para desativar.</translation>
 </context>
 <context>
     <name>IconSelectButton</name>
-    <message>
-        <source>Select Icon...</source>
-        <translation type="vanished">Selecionar ícone...</translation>
-    </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
@@ -2619,80 +1697,6 @@ Defina como 0 para desativar.</translation>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
         <translation>Co&amp;mandos</translation>
-    </message>
-</context>
-<context>
-    <name>ItemDataLoader</name>
-    <message>
-        <source>Data</source>
-        <translation type="vanished">Dados</translation>
-    </message>
-    <message>
-        <source>Various data to save.</source>
-        <translation type="vanished">Dados vários a gravar.</translation>
-    </message>
-</context>
-<context>
-    <name>ItemDataSettings</name>
-    <message>
-        <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation type="vanished">Selecione formatos a gravar no histórico. Pode adicionar um formato dos exemplos abaixo ou digitar outro (um por linha).</translation>
-    </message>
-    <message>
-        <source>Active &amp;Formats:</source>
-        <translation type="vanished">&amp;Formatos ativos:</translation>
-    </message>
-    <message>
-        <source>&amp;Examples (double click to add to active formats):</source>
-        <translation type="vanished">&amp;Exemplos (duplo clique para adicionar aos formatos ativos):</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Texto</translation>
-    </message>
-    <message>
-        <source>Unformatted simple text</source>
-        <translation type="vanished">Texto simples não formatado</translation>
-    </message>
-    <message>
-        <source>Formatted text, web pages</source>
-        <translation type="vanished">Texto formatado, páginas web</translation>
-    </message>
-    <message>
-        <source>XML</source>
-        <translation type="vanished">XML</translation>
-    </message>
-    <message>
-        <source>List of URI (e.g. copied files, URLs)</source>
-        <translation type="vanished">Lista de URI (por ex. ficheiros copiados, URLs)</translation>
-    </message>
-    <message>
-        <source>Images</source>
-        <translation type="vanished">Imagens</translation>
-    </message>
-    <message>
-        <source>Bitmap image</source>
-        <translation type="vanished">Mapa de bits</translation>
-    </message>
-    <message>
-        <source>Vector graphics</source>
-        <translation type="vanished">Gráficos vetoriais</translation>
-    </message>
-    <message>
-        <source>Web image formats</source>
-        <translation type="vanished">Formatos de imagens web</translation>
-    </message>
-    <message>
-        <source>Other</source>
-        <translation type="vanished">Outros</translation>
-    </message>
-    <message>
-        <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation type="vanished">Lista de tipos MIME da área de transferência que serão armazenados no histórico (na ordem indicada)</translation>
-    </message>
-    <message>
-        <source>&amp;Maximum number of characters per format to display:</source>
-        <translation type="vanished">Número &amp;máximo de caracteres por formato a mostrar:</translation>
     </message>
 </context>
 <context>
@@ -2921,10 +1925,6 @@ Defina como 0 para desativar.</translation>
         <translation>Para encriptar e desencriptar itens, adicione os comandos apropriados sob o separador Comandos.</translation>
     </message>
     <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">Adicionar ações ao menu e barra de ferramentas</translation>
-    </message>
-    <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
         <translation>Partilhar itens e separadores encriptados</translation>
@@ -3065,18 +2065,6 @@ Defina como 0 para desativar.</translation>
         <translation>Ao lado do Ite&amp;m</translation>
     </message>
     <message>
-        <source>A&amp;bove Item</source>
-        <translation type="vanished">A&amp;cima do item</translation>
-    </message>
-    <message>
-        <source>B&amp;elow Item</source>
-        <translation type="vanished">A&amp;baixo do item</translation>
-    </message>
-    <message>
-        <source>&amp;Icon Only</source>
-        <translation type="vanished">&amp;Só ícone</translation>
-    </message>
-    <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
         <translation>Mostrar &amp;dica</translation>
@@ -3088,10 +2076,6 @@ Defina como 0 para desativar.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
         <translation>&amp;Adicionar</translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation type="vanished">+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="63"/>
@@ -3111,11 +2095,6 @@ Defina como 0 para desativar.</translation>
 </context>
 <context>
     <name>ItemPinnedLoader</name>
-    <message>
-        <source>Ctrl+Shift+P</source>
-        <comment>Shortcut to pin and unpin items</comment>
-        <translation type="vanished">Ctrl+Shift+P</translation>
-    </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Cannot Remove Pinned Items</source>
@@ -3145,17 +2124,6 @@ Defina como 0 para desativar.</translation>
         <location filename="../plugins/itempinned/itempinned.h" line="104"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Fixe itens para bloqueá-los na linha atual e evitar a eliminação (a não ser que sejam desafixados).&lt;/p&gt;&lt;p&gt;Fornece atalhos e funcionalidade de scripting.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
-        <translation type="vanished">Fixe os itens para os bloquear na linha atual e evitar a eliminação (a não ser que estejam desafiados).</translation>
-    </message>
-</context>
-<context>
-    <name>ItemPinnedSettings</name>
-    <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">Adicionar ações ao menu e barra de ferramentas</translation>
     </message>
 </context>
 <context>
@@ -3333,10 +2301,6 @@ Defina como 0 para desativar.</translation>
         <source>Icon</source>
         <translation>Ícone</translation>
     </message>
-    <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">Adicionar ações ao menu e barra de ferramentas</translation>
-    </message>
 </context>
 <context>
     <name>ItemTextLoader</name>
@@ -3481,23 +2445,6 @@ Defina como 0 para desativar.</translation>
         <translation>Desativar armaz&amp;enamento na área de transferência</translation>
     </message>
     <message>
-        <source>%1 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="vanished">%1 - CopyQ</translation>
-    </message>
-    <message>
-        <source>%1 - %2 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="vanished">%1 - %2 - CopyQ</translation>
-    </message>
-    <message>
-        <source>Clipboard:
-%1</source>
-        <comment>Tray tooltip format</comment>
-        <translation type="vanished">Área de transferência:
-%1</translation>
-    </message>
-    <message>
         <location filename="../src/gui/mainwindow.cpp" line="1777"/>
         <source>CopyQ Options for Import</source>
         <translation>Opções do CopyQ para importar</translation>
@@ -3571,64 +2518,6 @@ Defina como 0 para desativar.</translation>
     </message>
 </context>
 <context>
-    <name>Notification</name>
-    <message>
-        <source>CopyQ Inspect Notification</source>
-        <translation type="vanished">Notificação de inspeção CopyQ</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation type="vanished">&amp;Copiar</translation>
-    </message>
-    <message>
-        <source>Right click to show</source>
-        <translation type="vanished">Clique direito paa mostrar</translation>
-    </message>
-</context>
-<context>
-    <name>ProcessManagerDialog</name>
-    <message>
-        <source>CopyQ Process Manager</source>
-        <translation type="vanished">Gestor de processos do CopyQ</translation>
-    </message>
-    <message>
-        <source>Started</source>
-        <translation type="vanished">Iniciado</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <translation type="vanished">Terminado</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Nome</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="vanished">Estado</translation>
-    </message>
-    <message>
-        <source>Running</source>
-        <translation type="vanished">Em execução</translation>
-    </message>
-    <message>
-        <source>Failed</source>
-        <translation type="vanished">Falha</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Remover</translation>
-    </message>
-    <message>
-        <source>Starting</source>
-        <translation type="vanished">A iniciar</translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="vanished">Terminar</translation>
-    </message>
-</context>
-<context>
     <name>Proxy</name>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="451"/>
@@ -3664,11 +2553,6 @@ Defina como 0 para desativar.</translation>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;ITEMS&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;FILES&gt;</source>
-        <comment>Label for URLs/files in clipboard</comment>
-        <translation type="vanished">&lt;FICHEIROS&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="526"/>
@@ -3708,22 +2592,6 @@ Defina como 0 para desativar.</translation>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
-    </message>
-    <message>
-        <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="vanished">O ficheiro de itens %1 está corrompido ou há extensões do CopyQ em falta!</translation>
-    </message>
-    <message>
-        <source>No plugins loaded</source>
-        <translation type="vanished">Sem extensões carregadas</translation>
-    </message>
-    <message>
-        <source>Loading plugin: %1</source>
-        <translation type="vanished">A carregar extensão: %1</translation>
-    </message>
-    <message>
-        <source>Data deserialization failed: %1</source>
-        <translation type="vanished">De-serialização de dados falhou: %1</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="215"/>
@@ -3929,22 +2797,6 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
         <translation>F5</translation>
     </message>
     <message>
-        <source>Next Format</source>
-        <translation type="vanished">Formato seguinte</translation>
-    </message>
-    <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+Direita</translation>
-    </message>
-    <message>
-        <source>Previous Format</source>
-        <translation type="vanished">Formato anterior</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Esquerda</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Move Up</source>
         <translation>Mover acima</translation>
@@ -4053,17 +2905,9 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
         <translation>Shift+F10</translation>
     </message>
     <message>
-        <source>Right</source>
-        <translation type="vanished">Direita</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>&amp;Previous Tab</source>
         <translation>Se&amp;parador anterior</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="vanished">Esquerda</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
@@ -4457,10 +3301,6 @@ Imprimir versão do programa e bibliotecas.</translation>
         <translation>NOTAS:</translation>
     </message>
     <message>
-        <source>  - Use dash argument (-) to read data from stdandard input.</source>
-        <translation type="vanished">  - usar argumento hífen (-) para ler dados da entrada padrão.</translation>
-    </message>
-    <message>
         <location filename="../src/scriptable/scriptable.cpp" line="86"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Usar argumento (-) para ler dados da entrada padrão.</translation>
@@ -4481,10 +3321,6 @@ Imprimir versão do programa e bibliotecas.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="94"/>
         <source>Invalid number of arguments!</source>
         <translation>Número de argumentos inválido!</translation>
-    </message>
-    <message>
-        <source>Built with: </source>
-        <translation type="vanished">Construído com: </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="787"/>
@@ -4527,10 +3363,6 @@ Imprimir versão do programa e bibliotecas.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="2704"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Falha ao copiar para a memória!</translation>
-    </message>
-    <message>
-        <source>Failed to set clipboard!</source>
-        <translation type="vanished">Falha ao definir área de transferência!</translation>
     </message>
 </context>
 <context>
@@ -4622,17 +3454,9 @@ Imprimir versão do programa e bibliotecas.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There is command overriding this shortcut.</source>
-        <translation type="vanished">Há um comando a usar o atalho indicado.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
         <translation>O atalho já existe!</translation>
-    </message>
-    <message>
-        <source>Shortcut can be triggered from any application</source>
-        <translation type="vanished">Atalho pode ser acionado de qualquer aplicativo</translation>
     </message>
 </context>
 <context>

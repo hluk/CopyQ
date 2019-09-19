@@ -29,131 +29,9 @@
         <translation>Інтернет</translation>
     </message>
     <message>
-        <source>Wiki</source>
-        <translation type="vanished">Вікі</translation>
-    </message>
-    <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>Пожертвувати</translation>
-    </message>
-    <message>
-        <source>Development</source>
-        <translation type="vanished">Розробка</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <translation type="vanished">Бібліотека, використана в застосунку</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <translation type="vanished">Знаковий шрифт, використаний у застосунку</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <translation type="vanished">Палітра кольорів, використана для тем</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>Qt library description</comment>
-        <translation type="vanished">Бібліотека, використана в застосунку</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation type="vanished">Бібліотека, використана в застосунку</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <comment>Font Awesome description</comment>
-        <translation type="vanished">Знаковий шрифт, використаний у застосунку</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <comment>Solarized palette/themes description</comment>
-        <translation type="vanished">Палітра кольорів, використана для тем</translation>
-    </message>
-    <message>
-        <source>Free web-based translation management system</source>
-        <comment>Weblate description</comment>
-        <translation type="vanished">Вільна веб-система управління перекладами</translation>
-    </message>
-    <message>
-        <source>Keyboard</source>
-        <translation type="vanished">Клавіатура</translation>
-    </message>
-    <message>
-        <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation type="vanished">Сполучення клавіш програми можна змінювати у діалозі налаштувань.</translation>
-    </message>
-    <message>
-        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">Загальні (системні) клавіатурні скорочення можуть бути встановлені у діалоговому вікні Команди (за замовчуванням - F6).</translation>
-    </message>
-    <message>
-        <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">Введіть текст для пошуку в історії буфера обміну.</translation>
-    </message>
-    <message>
-        <source>Item list navigation</source>
-        <translation type="vanished">Перехід у переліку елементів</translation>
-    </message>
-    <message>
-        <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Стрілки вгору/вниз, клавіші PgUp/PgDn, Home/End</translation>
-    </message>
-    <message>
-        <source>Tab navigation</source>
-        <translation type="vanished">Навігація між вкладками</translation>
-    </message>
-    <message>
-        <source>Left, Right, %1, %2</source>
-        <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="vanished">Вліво, вправо, %1, %2</translation>
-    </message>
-    <message>
-        <source>Move selected items</source>
-        <translation type="vanished">Переміщення вибраних елементів</translation>
-    </message>
-    <message>
-        <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="vanished">Ctrl+Вгору/Вниз, Ctrl+Home/End</translation>
-    </message>
-    <message>
-        <source>Reset search or hide window</source>
-        <translation type="vanished">Скинути пошук або приховати вікно</translation>
-    </message>
-    <message>
-        <source>Escape</source>
-        <translation type="vanished">Esc</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation type="vanished">Видалити елемент</translation>
-    </message>
-    <message>
-        <source>Put selected items into clipboard</source>
-        <translation type="vanished">Помістити вибрані об&apos;єкти в буфер обміну</translation>
-    </message>
-    <message>
-        <source>Enter</source>
-        <translation type="vanished">Enter</translation>
-    </message>
-    <message>
-        <source>Change item display format</source>
-        <translation type="vanished">Змінити формат зображеного елементу</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left/Right</source>
-        <translation type="vanished">Ctrl+Вліво/Вправо</translation>
-    </message>
-    <message>
-        <source>Edit Item</source>
-        <translation type="vanished">Редагувати елемент</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -177,14 +55,6 @@
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
         <translation>Зберегти стандартний в&amp;ивід:</translation>
-    </message>
-    <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="vanished">Надсилати дані вказаного типу MIME на стандартний ввід команди (залиште порожнім, щоб вимкнути)</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="vanished">Створювати елементи зі стандартного виводу команди (залиште порожнім, щоб вимкнути)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -239,24 +109,6 @@ You can set up the command in preferences.</source>
 <context>
     <name>ActionHandler</name>
     <message>
-        <source>Executing: %1</source>
-        <translation type="vanished">Виконується %s</translation>
-    </message>
-    <message>
-        <source>KILL</source>
-        <translation type="vanished">ВБИТИ</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;COMMAND:&lt;/b&gt;</source>
-        <translation type="vanished">&lt;b&gt;КОМАНДА:&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Error: %1
-</source>
-        <translation type="vanished">Помилка: %1↵
-</translation>
-    </message>
-    <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
         <translation>Помилка: %1</translation>
@@ -296,11 +148,6 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
         <translation>CopyQ Додати Команду</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+1</source>
-        <comment>Global shortcut for some predefined commands</comment>
-        <translation type="vanished">Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -408,10 +255,6 @@ You can set up the command in preferences.</source>
         <translation>Вставити як звичайний текст</translation>
     </message>
     <message>
-        <source>Shift+Return</source>
-        <translation type="vanished">Shift+Return</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
         <translation>Автовідтворення відео</translation>
@@ -473,13 +316,6 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
         <source>(trash)</source>
         <translation>(кошик)</translation>
-    </message>
-</context>
-<context>
-    <name>ClientSocket</name>
-    <message>
-        <source>Failed to read message from client!</source>
-        <translation type="vanished">Не вдалося прочитати повідомлення від клієнта!</translation>
     </message>
 </context>
 <context>
@@ -619,10 +455,6 @@ You can set up the command in preferences.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="vanished">Зберегти вибрані команди...</translation>
-    </message>
-    <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
         <translation>Копіювати виділене</translation>
@@ -661,14 +493,6 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commanddialog.cpp" line="306"/>
         <source>Commands (*.ini)</source>
         <translation>Файли команд (*.ini)</translation>
-    </message>
-    <message>
-        <source>Ctrl+L</source>
-        <translation type="vanished">Ctrl+L</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+L</source>
-        <translation type="vanished">Ctrl+Shift+L</translation>
     </message>
 </context>
 <context>
@@ -1637,81 +1461,6 @@ Set to 0 to disable.</source>
     </message>
 </context>
 <context>
-    <name>ConfigTabShortcuts</name>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="vanished">Ctrl+I</translation>
-    </message>
-    <message>
-        <source>Ctrl+P</source>
-        <translation type="vanished">Ctrl+P</translation>
-    </message>
-    <message>
-        <source>F6</source>
-        <translation type="vanished">F6</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+C</source>
-        <translation type="vanished">Ctrl+Shift+C</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+X</source>
-        <translation type="vanished">Ctrl+Shift+X</translation>
-    </message>
-    <message>
-        <source>Ctrl+Q</source>
-        <translation type="vanished">Ctrl+Q</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+S</source>
-        <translation type="vanished">Ctrl+Shift+S</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+R</source>
-        <translation type="vanished">Ctrl+Shift+R</translation>
-    </message>
-    <message>
-        <source>F4</source>
-        <translation type="vanished">F4</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
-    </message>
-    <message>
-        <source>Ctrl+E</source>
-        <translation type="vanished">Ctrl+E</translation>
-    </message>
-    <message>
-        <source>F5</source>
-        <translation type="vanished">F5</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+N</source>
-        <translation type="vanished">Ctrl+Shift+N</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+P</source>
-        <translation type="vanished">Ctrl+Shift+P</translation>
-    </message>
-    <message>
-        <source>Ctrl+T</source>
-        <translation type="vanished">Ctrl+T</translation>
-    </message>
-    <message>
-        <source>Ctrl+F2</source>
-        <translation type="vanished">Ctrl+F2</translation>
-    </message>
-    <message>
-        <source>Ctrl+W</source>
-        <translation type="vanished">Ctrl+W</translation>
-    </message>
-    <message>
-        <source>F12</source>
-        <translation type="obsolete">F12</translation>
-    </message>
-</context>
-<context>
     <name>ConfigTabTray</name>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
@@ -1790,333 +1539,6 @@ Set to 0 to disable.</source>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
         <translation>Конфігурація CopyQ</translation>
-    </message>
-    <message>
-        <source>Keep main window above other windows</source>
-        <translation type="vanished">Тримати головне вікно поверх інших вікон</translation>
-    </message>
-    <message>
-        <source>Close main window when other application has focus</source>
-        <translation type="vanished">Закрити головне вікно, коли інша програма в фокусі</translation>
-    </message>
-    <message>
-        <source>Close When Unfocused</source>
-        <translation type="vanished">Закрити коли не активне</translation>
-    </message>
-    <message>
-        <source>Confirm application exit</source>
-        <translation type="vanished">Підтверджувати вихід з програми</translation>
-    </message>
-    <message>
-        <source>Run the application on system startup</source>
-        <translation type="vanished">Запуск програми при старті системи</translation>
-    </message>
-    <message>
-        <source>&amp;Autostart</source>
-        <translation type="vanished">Автоматичний запуск</translation>
-    </message>
-    <message>
-        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="vanished">Підтримка навігаційних клавіш Vi (Н, J, K, L та інші), клавіша слеш (/) для пошуку</translation>
-    </message>
-    <message>
-        <source>&amp;Vi style navigation</source>
-        <translation type="vanished">(&amp;v) Стиль навігації Vi</translation>
-    </message>
-    <message>
-        <source>Clipboard Manipulation</source>
-        <translation type="vanished">Маніпуляції з буфером обміну</translation>
-    </message>
-    <message>
-        <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="vanished">Зберегти виділений мишкою текст (первинний відбір) в історії</translation>
-    </message>
-    <message>
-        <source>Save clipboard in history</source>
-        <translation type="vanished">Зберігати буфер обміну в історії</translation>
-    </message>
-    <message>
-        <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="vanished">Розділити текст якщо він занадто довгий для тог,о щоб поміститися в стрічці</translation>
-    </message>
-    <message>
-        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="vanished">Увімкнути відкривання вікна на поточному екрані. Виключити відкривання вікон там, де вони були закриті раніше</translation>
-    </message>
-    <message>
-        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="vanished">Дозволити вставку виділеного мишкою з використанням клавіш (зазвичай Ctrl+V чи Shift+Insert)</translation>
-    </message>
-    <message>
-        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="vanished">Дозволити вставляти скопійований вміст таким же способом, як  вибір миші (як правило, натиснувши середню кнопку миші)</translation>
-    </message>
-    <message>
-        <source>Layout and Transparency</source>
-        <translation type="vanished">Макет та прозорість</translation>
-    </message>
-    <message>
-        <source>Show tree with tabs instead of tab bar</source>
-        <translation type="vanished">Показувати дерево вкладок замість панелі вкладок</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Прозорість головного вікна, коли воно у фокусі.
-
-Примітка: Підтримується не у всі системах.</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Прозорість головного вікна, коли воно не у фокусі.
-
-Примітка: Підтримується не у всіх системах.</translation>
-    </message>
-    <message>
-        <source>Show number of items in tabs</source>
-        <translation type="vanished">Показувати кількість елементів у вкладках</translation>
-    </message>
-    <message>
-        <source>Show/Hide</source>
-        <translation type="vanished">Показати/Сховати</translation>
-    </message>
-    <message>
-        <source>Hide tabs (press Alt key to show)</source>
-        <translation type="vanished">Приховати вкладки (натисніть клавішу Alt, щоб відобразити)</translation>
-    </message>
-    <message>
-        <source>Hide toolbar</source>
-        <translation type="vanished">Сховати панель інструментів</translation>
-    </message>
-    <message>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="vanished">Не показувати іконку в треї; згорнути вікно при закритті</translation>
-    </message>
-    <message>
-        <source>Move item to the top of the list after it is activated</source>
-        <translation type="vanished">Перемістити елемент до верхньої частини списку після його активації</translation>
-    </message>
-    <message>
-        <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="vanished">Команда зовнішнього редактора (%&amp;1 файл для редагування):</translation>
-    </message>
-    <message>
-        <source>Close main window after item is activated</source>
-        <translation type="vanished">Закрити основне вікно після активації елемента</translation>
-    </message>
-    <message>
-        <source>Focus last window after item is activated</source>
-        <translation type="vanished">Фокус на останньому вікні після активації елемента</translation>
-    </message>
-    <message>
-        <source>Paste to current window after item is activated</source>
-        <translation type="vanished">Вставити в поточне вікно після активації елемента</translation>
-    </message>
-    <message>
-        <source>Show command for current clipboard content in tray menu</source>
-        <translation type="vanished">Показувати команду для поточного вмісту буферу обміну в меню трея</translation>
-    </message>
-    <message>
-        <source>Show items from current tab in tray menu</source>
-        <translation type="vanished">Показувати елементи з поточної вкладки в меню  в треї</translation>
-    </message>
-    <message>
-        <source>Paste item to current window after selecting it in menu</source>
-        <translation type="vanished">Вставити елемент до поточного вікна після вибору його в меню</translation>
-    </message>
-    <message>
-        <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="vanished">Відстань сповіщення від лівого та правого країв екрану в точках екрану</translation>
-    </message>
-    <message>
-        <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="vanished">Відстань сповіщення від верхнього та нижнього країв екрану в точках екрану</translation>
-    </message>
-    <message>
-        <source>Maximum width for notification in screen points</source>
-        <translation type="vanished">Максимальна ширина для повідомлень в точках екрану</translation>
-    </message>
-    <message>
-        <source>Maximum height for notification in screen points</source>
-        <translation type="vanished">Максимальна висота для сповіщень в точках екрану</translation>
-    </message>
-    <message>
-        <source>&amp;History</source>
-        <translation type="vanished">Історія</translation>
-    </message>
-    <message>
-        <source>&amp;Language:</source>
-        <translation type="vanished">&amp;Мова:</translation>
-    </message>
-    <message>
-        <source>Save and restore history of item filters</source>
-        <translation type="vanished">Зберігати та відновлювати історію фільтрування елементів</translation>
-    </message>
-    <message>
-        <source>Save Filter History</source>
-        <translation type="vanished">Зберегти історію фільтрування</translation>
-    </message>
-    <message>
-        <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="vanished">Автоматично відображувати спливні вікна для завершення вводу функцій, типів та перемінних в командах</translation>
-    </message>
-    <message>
-        <source>Auto-complete Commands</source>
-        <translation type="vanished">Авто-завершення команд</translation>
-    </message>
-    <message>
-        <source>Hide main window when closed</source>
-        <translation type="vanished">Сховати головне вікно при закритті</translation>
-    </message>
-    <message>
-        <source>Maximum number of items in each tab</source>
-        <translation type="vanished">Максимальна кількість елементів у кожній вкладці</translation>
-    </message>
-    <message>
-        <source>Unload each tab from memory after specified number of minutes of inactivity.
-
-Set to 0 not to unload tabs.</source>
-        <translation type="vanished">Вивантажувати кожну вкладку з пам’яті при бездіяльності після вказаної кількості хвилин.
-
-Встановіть 0, щоб не вивантажувати вкладки.</translation>
-    </message>
-    <message>
-        <source>External editor command (%1 is file to edit).
-  Examples:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</source>
-        <translation type="vanished">Команди зовнішнього редактора (%1 файлів для редагування).
-  Приклади:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</translation>
-    </message>
-    <message>
-        <source>Name of tab that will automatically store new clipboard content.
-
-Leave empty to disable automatic storing.</source>
-        <translation type="vanished">Ім’я вкладки, яка буде автоматично зберігати новий вміст буферу обміну.
-
-Залишіть порожнім, щоб вимкнути автоматичне запам’ятовування.</translation>
-    </message>
-    <message>
-        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="vanished">Не залишати прапорець  на клавіші Return, щоб зберегти відредагований елемент і Ctrl+Enter для створення нової лінії.
-
-Примітка: Редаговані елементи можуть бути збережені з F2, що ігнорує цей параметр.</translation>
-    </message>
-    <message>
-        <source>Show single line description of each item.
-
-Use Item Preview to display whole items.</source>
-        <translation type="vanished">Показувати однорядковий опис кожного елемента.
-
-Використовуйте попередній перегляд елементу, щоб повністю відобразити на екрані елементи.</translation>
-    </message>
-    <message>
-        <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="vanished">Увімкнути пошук цифр, в іншому разі натискання цифрової клавіші активує  елемент в цій позиції</translation>
-    </message>
-    <message>
-        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="vanished">Після активації елементу (подвійний клік чи клавіша Enter ), скопіювати його до буфера обміну та ...</translation>
-    </message>
-    <message>
-        <source>Number of items in tray menu</source>
-        <translation type="vanished">Кількість елементів в меню трея</translation>
-    </message>
-    <message>
-        <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="vanished">Ім’я вкладки для відображення в меню трея (порожнє для першої вкладки)</translation>
-    </message>
-    <message>
-        <source>Show image preview next to menu items</source>
-        <translation type="vanished">Показати попередній перегляд зображення поряд з пунктами меню</translation>
-    </message>
-    <message>
-        <source>Position on screen for notifications</source>
-        <translation type="vanished">Розташування повідомлень на екрані</translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="vanished">Зверху</translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="vanished">Знизу</translation>
-    </message>
-    <message>
-        <source>Top Right</source>
-        <translation type="vanished">Вгорі праворуч</translation>
-    </message>
-    <message>
-        <source>Bottom Right</source>
-        <translation type="vanished">Внизу праворуч</translation>
-    </message>
-    <message>
-        <source>Bottom Left</source>
-        <translation type="vanished">Внизу ліворуч</translation>
-    </message>
-    <message>
-        <source>Top Left</source>
-        <translation type="vanished">Вгорі ліворуч</translation>
-    </message>
-    <message>
-        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
-
-Set to 0 to disable this.
-
-Set to -1 to keep visible until clicked.</source>
-        <translation type="vanished">Інтервал в секундах для показу сповіщень для нового вмісту буферу обміну (тільки якщо головне вікно закрите).
-
-Встановіть 0, щоб вимкнути.
-
-Встановіть -1, щоб показувати до моменту кліку мишкою.</translation>
-    </message>
-    <message>
-        <source>Number of lines to show for new clipboard content.
-
-Set to 0 to disable.</source>
-        <translation type="vanished">Кількість рядків для показу для нового вмісту буферу обміну.
-
-Встановіть 0 для вимкнення.</translation>
-    </message>
-    <message>
-        <source>Notification Geometry (in screen points)</source>
-        <translation type="vanished">Розміри вікна сповіщень (в точках екрана)</translation>
-    </message>
-    <message>
-        <source>&amp;Items</source>
-        <translation type="vanished">(&amp;i) Елементи</translation>
-    </message>
-    <message>
-        <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">Формат показу вибраного елементу в історії можна змінити натиснувши &lt;b&gt;Ctrl+Left&lt;/b&gt; або &lt;b&gt;Ctrl+Right&lt;/b&gt;. Ви можете змінити пріоритет форматів для показу змінивши порядок розташування елементів нижче.</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+1</source>
-        <comment>Global shortcut for some predefined commands</comment>
-        <translation type="vanished">Ctrl+Shift+1</translation>
-    </message>
-    <message>
-        <source>Ctrl+R</source>
-        <translation type="vanished">Ctrl+R</translation>
-    </message>
-    <message>
-        <source>Ctrl+L</source>
-        <translation type="vanished">Ctrl+L</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+L</source>
-        <translation type="vanished">Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -2209,10 +1631,6 @@ Set to 0 to disable.</source>
 <context>
     <name>IconSelectButton</name>
     <message>
-        <source>Select Icon...</source>
-        <translation type="vanished">Оберіть піктограму...</translation>
-    </message>
-    <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
         <translation type="unfinished"></translation>
@@ -2268,13 +1686,6 @@ Set to 0 to disable.</source>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ItemDataSettings</name>
-    <message>
-        <source>XML</source>
-        <translation type="vanished">XML</translation>
     </message>
 </context>
 <context>
@@ -2655,10 +2066,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>+</source>
-        <translation type="vanished">+</translation>
-    </message>
-    <message>
         <location filename="../src/ui/itemorderlist.ui" line="63"/>
         <source>&amp;Remove</source>
         <translation>(&amp;r) Видалити</translation>
@@ -2676,11 +2083,6 @@ Set to 0 to disable.</source>
 </context>
 <context>
     <name>ItemPinnedLoader</name>
-    <message>
-        <source>Ctrl+Shift+P</source>
-        <comment>Shortcut to pin and unpin items</comment>
-        <translation type="vanished">Ctrl+Shift+P</translation>
-    </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Cannot Remove Pinned Items</source>
@@ -4106,17 +3508,6 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <location filename="../src/gui/filterlineedit.cpp" line="120"/>
         <source>Case Insensitive</source>
         <translation>Чутливість до регістру</translation>
-    </message>
-</context>
-<context>
-    <name>detail::ScriptableProxyHelper</name>
-    <message>
-        <source>Tab name cannot be empty!</source>
-        <translation type="vanished">Ім&apos;я вкладки не може бути порожнім!</translation>
-    </message>
-    <message>
-        <source>Tab with given name already exists!</source>
-        <translation type="vanished">Вкладку із заданим ім&apos;ям уже існує!</translation>
     </message>
 </context>
 </TS>

@@ -29,119 +29,9 @@
         <translation>Web</translation>
     </message>
     <message>
-        <source>Wiki</source>
-        <translation type="vanished">Wiki</translation>
-    </message>
-    <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>Bağış</translation>
-    </message>
-    <message>
-        <source>Development</source>
-        <translation type="obsolete">Gelişim</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>Qt library description</comment>
-        <translation type="vanished">Kullanılan kitaplık</translation>
-    </message>
-    <message>
-        <source>Free web-based translation management system</source>
-        <comment>Weblate description</comment>
-        <translation type="vanished">Ücretsiz web tabanlı çeviri yönetim sistemi</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <comment>Font Awesome description</comment>
-        <translation type="vanished">Kullanılan ikonik yazı tipi</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation type="vanished">Kullanılan kitaplık</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <comment>Solarized palette/themes description</comment>
-        <translation type="vanished">Tema için kullanılan renk paleti</translation>
-    </message>
-    <message>
-        <source>Keyboard</source>
-        <translation type="vanished">Klavye</translation>
-    </message>
-    <message>
-        <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation type="vanished">Tercihler sekmesinden kısayollar değiştirilebilir.</translation>
-    </message>
-    <message>
-        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">Genel kısayollar (sistem çapında) komut kutusundan (F6) ayarlanabilir.</translation>
-    </message>
-    <message>
-        <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">Pano geçmişinde arama yapmak için metin yazın.</translation>
-    </message>
-    <message>
-        <source>Item list navigation</source>
-        <translation type="vanished">Listede gezintisi</translation>
-    </message>
-    <message>
-        <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Yukarı/Aşağı, Sayfa Yukarı/Aşağı, Home/End</translation>
-    </message>
-    <message>
-        <source>Tab navigation</source>
-        <translation type="vanished">Sekme gezintisi</translation>
-    </message>
-    <message>
-        <source>Left, Right, %1, %2</source>
-        <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="vanished">Sol, Sağ, %1, %2</translation>
-    </message>
-    <message>
-        <source>Move selected items</source>
-        <translation type="vanished">Seçili öğeleri taşı</translation>
-    </message>
-    <message>
-        <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="vanished">Ctrl+Yukarı/Aşağı, Ctrl+Home/End</translation>
-    </message>
-    <message>
-        <source>Reset search or hide window</source>
-        <translation type="vanished">Aramayı sıfırla veya pencereyi gizle</translation>
-    </message>
-    <message>
-        <source>Escape</source>
-        <translation type="vanished">Escape</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation type="vanished">Öğeyi sil</translation>
-    </message>
-    <message>
-        <source>Put selected items into clipboard</source>
-        <translation type="vanished">Seçili öğeyi panoya yerleştir</translation>
-    </message>
-    <message>
-        <source>Enter</source>
-        <translation type="vanished">Enter</translation>
-    </message>
-    <message>
-        <source>Change item display format</source>
-        <translation type="vanished">Öğenin görünüm biçimini değiştir</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left/Right</source>
-        <translation type="vanished">Ctrl+Sol/Sağ</translation>
-    </message>
-    <message>
-        <source>Edit Item</source>
-        <translation type="vanished">Öğeyi düzenle</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -165,14 +55,6 @@
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
         <translation>Standart çıktıyı saklayın:</translation>
-    </message>
-    <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="vanished">Verilen MIME türünün verilerini komutun standart girdisine gönderin (devre dışı bırakmak için boş bırakın)</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="vanished">Programın standart çıkışından öğeleri oluşturun (devre dışı bırakmak için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -572,18 +454,6 @@ You can set up the command in preferences.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Load Commands...</source>
-        <translation type="vanished">&amp;Komutlar Yükleniyor...</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve Selected...</source>
-        <translation type="vanished">S&amp;eçileni Kaydet ...</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="vanished">Seçili Komutu Kaydet...</translation>
-    </message>
-    <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
         <translation>Seçileni kopyala</translation>
@@ -732,10 +602,6 @@ Leave empty to disable this.</source>
         <translation>Bu MIME tipinde veriler standart komut girişine gönderilecektir. Bunu devredışı bırakmak için boş bırakın.</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;Komutu yalnızca panoya kopyalanan öğeler için bu normal ifadeyle eşleşen başlık metnini içeren pencerelerde kullanın (herhangi bir pencereyle eşleşmek için boş bırakın). OS X&apos;te bu, uygulama adını ve ardından kısa çizgi (&quot;-&quot;), ardından pencere başlığını içerir. Örneğin. &amp;quot;Safari - GitHub &amp;quot;.&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
         <source>&amp;Window:</source>
         <translation>&gt;&amp;Pencere:</translation>
@@ -792,10 +658,6 @@ Leave empty to disable this.</source>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
         <translation>&amp;İleri</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;Komutu yalnızca panoya kopyalanan öğeler için bu normal ifadeyle eşleşen başlık metnini içeren pencerelerde kullanın (herhangi bir pencereyle eşleşmek için boş bırakın). OS X&apos;te bu, uygulama adını ve ardından bir kısa çizgi (&amp;quot;-&amp;quot;), ardından pencere başlığını içerir. Örneğin. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="400"/>
@@ -1608,13 +1470,6 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     </message>
 </context>
 <context>
-    <name>ConfigTabShortcuts</name>
-    <message>
-        <source>Ctrl+P</source>
-        <translation type="vanished">Ctrl+P</translation>
-    </message>
-</context>
-<context>
     <name>ConfigTabTray</name>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
@@ -1693,520 +1548,6 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
         <translation>CopyQ Ayarları</translation>
-    </message>
-    <message>
-        <source>&amp;General</source>
-        <translation type="vanished">&amp;Genel</translation>
-    </message>
-    <message>
-        <source>&amp;Language:</source>
-        <translation type="vanished">&amp;Dil:</translation>
-    </message>
-    <message>
-        <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="vanished">Satıra sığmayan metini kes</translation>
-    </message>
-    <message>
-        <source>Wrap l&amp;ong text</source>
-        <translation type="vanished">&amp;Uzun metni kaydır</translation>
-    </message>
-    <message>
-        <source>Keep main window above other windows</source>
-        <translation type="vanished">Ana pencereyi diğer pencereler üzerinde tut</translation>
-    </message>
-    <message>
-        <source>Alwa&amp;ys on Top</source>
-        <translation type="vanished">Her Zaman Üstte</translation>
-    </message>
-    <message>
-        <source>Close main window when other application has focus</source>
-        <translation type="vanished">Başka uygulamaya geçince ana pencereyi kapat</translation>
-    </message>
-    <message>
-        <source>Close When Unfocused</source>
-        <translation type="vanished">Başka uygulamaya geçince ana pencereyi kapat</translation>
-    </message>
-    <message>
-        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="vanished">Geçerli ekranda pencereleri açmak için etkinleştirin. En son kapatıldıkları pencereleri açmak için devre dışı bırakın</translation>
-    </message>
-    <message>
-        <source>O&amp;pen windows on current screen</source>
-        <translation type="vanished">Penreleri mevcut ekranda aç</translation>
-    </message>
-    <message>
-        <source>Confirm application exit</source>
-        <translation type="vanished">Çıkarken onayla</translation>
-    </message>
-    <message>
-        <source>Confirm application e&amp;xit</source>
-        <translation type="vanished">Çıkarken o&amp;nayla</translation>
-    </message>
-    <message>
-        <source>Run the application on system startup</source>
-        <translation type="vanished">Sistem başlangıcında başlat</translation>
-    </message>
-    <message>
-        <source>&amp;Autostart</source>
-        <translation type="vanished">&amp;Otomatik Başlat</translation>
-    </message>
-    <message>
-        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="vanished">Vi gezinme tuşlarını destekle (H, J, K, L and more), arama için (/)</translation>
-    </message>
-    <message>
-        <source>&amp;Vi style navigation</source>
-        <translation type="vanished">&amp;Vi tipi gezinme</translation>
-    </message>
-    <message>
-        <source>Save and restore history of item filters</source>
-        <translation type="vanished">Öğe filtrelerinin geçmişini kaydet ve düzenle</translation>
-    </message>
-    <message>
-        <source>Save Filter History</source>
-        <translation type="vanished">Filtreleme Geçmişini Kaydet</translation>
-    </message>
-    <message>
-        <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="vanished">Komutlarda işlevi, türü ve değişken adlarını tamamlamak için otomatik olarak açılır pencereleri göster</translation>
-    </message>
-    <message>
-        <source>Auto-complete Commands</source>
-        <translation type="vanished">Komutları Otomatik Tamamla</translation>
-    </message>
-    <message>
-        <source>Clipboard Manipulation</source>
-        <translation type="vanished">Pano Manipülasyonu</translation>
-    </message>
-    <message>
-        <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="vanished">Geçmişe fare ile seçilen ilk seçimi kaydet</translation>
-    </message>
-    <message>
-        <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="vanished">(&amp;2) Fareyi kullanarak seçilen metni saklayın</translation>
-    </message>
-    <message>
-        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="vanished">Kısayol kullanarak fare seçimlerini yapıştırmaya izin ver (genellikle Ctrl+V veya Shift+Insert)</translation>
-    </message>
-    <message>
-        <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="vanished">(&amp;4) Klavye ile fare seçimini yapıştırın</translation>
-    </message>
-    <message>
-        <source>Save clipboard in history</source>
-        <translation type="vanished">Geçmişte panoya kaydet</translation>
-    </message>
-    <message>
-        <source>(&amp;1) Store clipboard</source>
-        <translation type="vanished">(&amp;1) Panoya aktar</translation>
-    </message>
-    <message>
-        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="vanished">Kopyalanan içeriği fare ile yapıştırmaya izin ver ( genellikle orta fare tuşu)</translation>
-    </message>
-    <message>
-        <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="vanished">(&amp;3) Fare ile yapıştır</translation>
-    </message>
-    <message>
-        <source>&amp;Layout</source>
-        <translation type="vanished">&amp;Düzen</translation>
-    </message>
-    <message>
-        <source>Show/Hide</source>
-        <translation type="vanished">Göster/Gizle</translation>
-    </message>
-    <message>
-        <source>Hide tabs (press Alt key to show)</source>
-        <translation type="vanished">Sekmeleri gizle (göstermek için Alt tuşuna basın)</translation>
-    </message>
-    <message>
-        <source>Hi&amp;de tabs</source>
-        <translation type="vanished">&amp;Sekmeleri gizle</translation>
-    </message>
-    <message>
-        <source>Hide toolbar</source>
-        <translation type="vanished">Araç çubuğunu gizle</translation>
-    </message>
-    <message>
-        <source>Hide too&amp;lbar</source>
-        <translation type="vanished">&amp;Araç çubuğunu gizle</translation>
-    </message>
-    <message>
-        <source>Hide tool&amp;bar labels</source>
-        <translation type="vanished">&amp;Araç çubuğu etiketlerini gizle</translation>
-    </message>
-    <message>
-        <source>Hide main window when closed</source>
-        <translation type="vanished">Kapatıldığında ana pencereyi gizle</translation>
-    </message>
-    <message>
-        <source>Hide &amp;main window</source>
-        <translation type="vanished">&amp;Ana pencereyi gizle</translation>
-    </message>
-    <message>
-        <source>Layout and Transparency</source>
-        <translation type="vanished">Düzen ve Şeffaflık</translation>
-    </message>
-    <message>
-        <source>Show tree with tabs instead of tab bar</source>
-        <translation type="vanished">Sekme çubuğu yerine sekmeli ağacı göster</translation>
-    </message>
-    <message>
-        <source>Tab T&amp;ree</source>
-        <translation type="vanished">&amp;Sekme ağacı</translation>
-    </message>
-    <message>
-        <source>&amp;Focused transparency:</source>
-        <translation type="vanished">&amp;Odaklanmış şeffaflık:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Odaklandığı takdirde ana pencerenin şeffaflığı.
-
-Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
-    </message>
-    <message>
-        <source>&amp;Unfocused transparency:</source>
-        <translation type="vanished">&amp;Odaklanmamış şeffaflık:</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">Odaklanmadığında ana pencerenin şeffaflığı.
-
-Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
-    </message>
-    <message>
-        <source>Show number of items in tabs</source>
-        <translation type="vanished">Sekmelerdeki öğe sayısını göster</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w Item Count</source>
-        <translation type="vanished">&amp;Öğe Sayısını Göster</translation>
-    </message>
-    <message>
-        <source>&amp;History</source>
-        <translation type="vanished">&amp;Geçmiş</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;number of items in history:</source>
-        <translation type="vanished">Geçmişte maksimum öğe sayısı:</translation>
-    </message>
-    <message>
-        <source>Maximum number of items in each tab</source>
-        <translation type="vanished">Her sekmedeki maksimum öğe sayısı</translation>
-    </message>
-    <message>
-        <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="vanished">Sekmeyi dakikalar sonra verilen aralıktan sonra kaldır:</translation>
-    </message>
-    <message>
-        <source>Unload each tab from memory after specified number of minutes of inactivity.
-
-Set to 0 not to unload tabs.</source>
-        <translation type="vanished">Her bir sekmeyi, belirli sayıda etkinlik dışı kaldıktan sonra bellekten çıkarın.
-
-Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
-    </message>
-    <message>
-        <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="vanished">Harici editör komutu (%&amp;1 düzenlemek için dosya):</translation>
-    </message>
-    <message>
-        <source>Hori&amp;zontal offset:</source>
-        <translation type="vanished">&amp;Yatay kaydırma:</translation>
-    </message>
-    <message>
-        <source>External editor command (%1 is file to edit).
-  Examples:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</source>
-        <translation type="vanished">Harici editör komutu (%1 düzenlenecek dosya).
-  Örnekler:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="vanished">Odaklandığında ana pencerenin şeffaflığı.
-
-Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not supported on all systems.</source>
-        <translation type="vanished">Odaklanmadığında ana pencerenin şeffaflığı.
-
-Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
-    </message>
-    <message>
-        <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="vanished">Pano aktarması için sekme:</translation>
-    </message>
-    <message>
-        <source>Name of tab that will automatically store new clipboard content.
-
-Leave empty to disable automatic storing.</source>
-        <translation type="vanished">Yeni pano içeriğini otomatik olarak depolayacak sekmenin adı.
-
-Otomatik depolamayı devre dışı bırakmak için boş bırakın.</translation>
-    </message>
-    <message>
-        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="vanished">Düzenlenen öğeyi kaydetmek için Return tuşunun işaretini kaldırın ve Ctrl+Return ile yeni bir satır oluşturun.
-
-Not: Düzenlenmiş öğeler, bu seçenek dikkate alınmadan F2 ile kaydedilebilir.</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="vanished">&amp;Düzenlenen öğeyi Ctrl+Return ile kaydet ve Return tuşuyla yeni satır oluştur</translation>
-    </message>
-    <message>
-        <source>Show single line description of each item.
-
-Use Item Preview to display whole items.</source>
-        <translation type="vanished">Her bir öğenin tek satır açıklamasını göster.
-
-Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w simple items</source>
-        <translation type="vanished">&amp;Basit öğeleri göster</translation>
-    </message>
-    <message>
-        <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="vanished">Numara aramayı etkinleştirin, aksi halde bir rakam tuşuna basılması, bu konumdaki öğeyi etkinleştirir</translation>
-    </message>
-    <message>
-        <source>S&amp;earch for numbers</source>
-        <translation type="vanished">&amp;Sayılar için Ara</translation>
-    </message>
-    <message>
-        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="vanished">Öğe etkinleştirildikten sonra (çift tıklayın veya Enter tuşuna basın), panoya kopyalayın ve ...</translation>
-    </message>
-    <message>
-        <source>Move item to the top of the list after it is activated</source>
-        <translation type="vanished">Öğeyi etkinleştirildikten sonra listenin en üstüne taşı</translation>
-    </message>
-    <message>
-        <source>Move item to the t&amp;op</source>
-        <translation type="vanished">&amp;Öğeyi en üste taşı</translation>
-    </message>
-    <message>
-        <source>Close main window after item is activated</source>
-        <translation type="vanished">Öğe etkinleştirildikten sonra ana pencereyi kapat</translation>
-    </message>
-    <message>
-        <source>&amp;Close main window</source>
-        <translation type="vanished">&amp;Ana pencereyi kapat</translation>
-    </message>
-    <message>
-        <source>Focus last window after item is activated</source>
-        <translation type="vanished">Öğe etkinleştirildikten sonra son pencereye odaklan</translation>
-    </message>
-    <message>
-        <source>&amp;Focus last window</source>
-        <translation type="vanished">&amp;Son pencereye odaklan</translation>
-    </message>
-    <message>
-        <source>Paste to current window after item is activated</source>
-        <translation type="vanished">Öğe aktif edildikten sonra geçerli pencereye yapıştır</translation>
-    </message>
-    <message>
-        <source>&amp;Paste to current window</source>
-        <translation type="vanished">&amp;Geçerli pencereye yapıştır</translation>
-    </message>
-    <message>
-        <source>&amp;Tray</source>
-        <translation type="vanished">&amp;Tepsi</translation>
-    </message>
-    <message>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="vanished">Tepsi simgesini gösterme; kapatıldığında pencereyi küçült</translation>
-    </message>
-    <message>
-        <source>Disabl&amp;e tray</source>
-        <translation type="vanished">&amp;Tepsiyi devre dışı bırak</translation>
-    </message>
-    <message>
-        <source>Show command for current clipboard content in tray menu</source>
-        <translation type="vanished">Geçerli komut pano içeriğini menüde göster</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="vanished">&amp;Pano içeriği için komutları göster</translation>
-    </message>
-    <message>
-        <source>N&amp;umber of items in tray menu:</source>
-        <translation type="vanished">Sistem tepsi menüsündeki öğelerin sayısı:</translation>
-    </message>
-    <message>
-        <source>Number of items in tray menu</source>
-        <translation type="vanished">Öğe sayılarını sistem tepsisinde göster</translation>
-    </message>
-    <message>
-        <source>Show items from current tab in tray menu</source>
-        <translation type="vanished">Geçerli menüdeki öğeleri sistem tepsisinde göster</translation>
-    </message>
-    <message>
-        <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="vanished">&amp;Menüdeki geçerli sekmeyi göster</translation>
-    </message>
-    <message>
-        <source>or &amp;choose other tab:</source>
-        <translation type="vanished">veya &amp;diğer sekmeyi seçin:</translation>
-    </message>
-    <message>
-        <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="vanished">Sistem tepsisinde gösterilecek sekmenin adı (ilk sekme için boş)</translation>
-    </message>
-    <message>
-        <source>Paste item to current window after selecting it in menu</source>
-        <translation type="vanished">Öğeyi menüde seçtikten sonra geçerli pencereye yapıştır</translation>
-    </message>
-    <message>
-        <source>&amp;Paste activated item to current window</source>
-        <translation type="vanished">&amp;Etkin öğeyi geçerli pencereye yapıştır</translation>
-    </message>
-    <message>
-        <source>Show image preview next to menu items</source>
-        <translation type="vanished">Menü öğelerinin yanında resimlerin önizlemesini göster</translation>
-    </message>
-    <message>
-        <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="vanished">&amp;Görüntü önizlemesini menü öğesi simgesi olarak göster</translation>
-    </message>
-    <message>
-        <source>&amp;Notifications</source>
-        <translation type="vanished">&amp;Bildirimler</translation>
-    </message>
-    <message>
-        <source>&amp;Notification position:</source>
-        <translation type="vanished">&amp;Bildirimlerin konumu:</translation>
-    </message>
-    <message>
-        <source>Position on screen for notifications</source>
-        <translation type="vanished">Bildirimler için ekran konumu</translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="vanished">Üst</translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="vanished">Alt</translation>
-    </message>
-    <message>
-        <source>Top Right</source>
-        <translation type="vanished">Üst Sağ</translation>
-    </message>
-    <message>
-        <source>Bottom Right</source>
-        <translation type="vanished">Alt Sağ</translation>
-    </message>
-    <message>
-        <source>Bottom Left</source>
-        <translation type="vanished">Alt Sol</translation>
-    </message>
-    <message>
-        <source>Top Left</source>
-        <translation type="vanished">Üst Sol</translation>
-    </message>
-    <message>
-        <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="vanished">&amp;Bildirimleri görüntülemek için saniye cinsinden aralıklar:</translation>
-    </message>
-    <message>
-        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
-
-Set to 0 to disable this.
-
-Set to -1 to keep visible until clicked.</source>
-        <translation type="vanished">Yeni pano bildirimleri için saniye cinsinden zaman (yalnızca ana pencere kapalıysa)
-
-Bunu devre dışı bırakmak için 0&apos;a ayarlayın.
-
-Tıklayana kadar görünür kalması için -1 olarak ayarlayın.</translation>
-    </message>
-    <message>
-        <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="vanished">Bildirim satır sayısı:</translation>
-    </message>
-    <message>
-        <source>Number of lines to show for new clipboard content.
-
-Set to 0 to disable.</source>
-        <translation type="vanished">Yeni pano içeriğinin gösterileceği satır sayısı.
-
-Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
-    </message>
-    <message>
-        <source>Notification Geometry (in screen points)</source>
-        <translation type="vanished">Bildirim Pozisyonu (ekran pikseli)</translation>
-    </message>
-    <message>
-        <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="vanished">Bildirimlerin sağ ve sol ekran konumlarına olan uzaklık</translation>
-    </message>
-    <message>
-        <source>&amp;Vertical offset:</source>
-        <translation type="vanished">&amp;Dikey kaydırma:</translation>
-    </message>
-    <message>
-        <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="vanished">Ekran üst veya alt ekran kenarından bildirim mesafesi</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;width:</source>
-        <translation type="vanished">Maksimum &amp;genişlik:</translation>
-    </message>
-    <message>
-        <source>Maximum width for notification in screen points</source>
-        <translation type="vanished">Ekran noktalarında bildirim için maksimum genişlik</translation>
-    </message>
-    <message>
-        <source>Ma&amp;ximum height:</source>
-        <translation type="vanished">Ma&amp;ksimum yükseklik:</translation>
-    </message>
-    <message>
-        <source>Maximum height for notification in screen points</source>
-        <translation type="vanished">Ekran noktalarında bildirim için maksimum yükseklik</translation>
-    </message>
-    <message>
-        <source>&amp;Items</source>
-        <translation type="vanished">&amp;Öğeler</translation>
-    </message>
-    <message>
-        <source>You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">Aşağıdaki öğeleri yeniden sıralayıp görüntülemek için biçimlerin önceliğini değiştirebilirsiniz.</translation>
-    </message>
-    <message>
-        <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">Seçilen öğenin geçmişindeki görüntüleme biçimi &lt;b&gt;Ctrl+Sol&lt;/b&gt; veya &lt;b&gt;Ctrl+Sağ&lt;/b&gt; tuşlarına basılarak değiştirilebilir. Aşağıdaki öğeleri yeniden sıralayarak görüntülemek için biçimlerin önceliğini değiştirebilirsiniz.</translation>
-    </message>
-    <message>
-        <source>&amp;Shortcuts</source>
-        <translation type="vanished">&amp;Kısayollar</translation>
-    </message>
-    <message>
-        <source>&amp;Appearance</source>
-        <translation type="vanished">&amp;Görünüm</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -2298,10 +1639,6 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
 </context>
 <context>
     <name>IconSelectButton</name>
-    <message>
-        <source>Select Icon...</source>
-        <translation type="vanished">Ikon Seç...</translation>
-    </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
@@ -2737,10 +2074,6 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
         <translation>&amp;Ekle</translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation type="vanished">+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="63"/>
@@ -3183,49 +2516,6 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
     </message>
 </context>
 <context>
-    <name>ProcessManagerDialog</name>
-    <message>
-        <source>CopyQ Process Manager</source>
-        <translation type="vanished">CopyQ İşlem Yöneticisi</translation>
-    </message>
-    <message>
-        <source>Started</source>
-        <translation type="vanished">Başladı</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <translation type="vanished">Bitti</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">Adı</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="vanished">Durum</translation>
-    </message>
-    <message>
-        <source>Running</source>
-        <translation type="vanished">Çalışan</translation>
-    </message>
-    <message>
-        <source>Failed</source>
-        <translation type="vanished">Başarısız</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Kaldır</translation>
-    </message>
-    <message>
-        <source>Starting</source>
-        <translation type="vanished">Başlıyor</translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="vanished">Sonlandır</translation>
-    </message>
-</context>
-<context>
     <name>Proxy</name>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="451"/>
@@ -3482,22 +2772,6 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <translation>F5</translation>
     </message>
     <message>
-        <source>Next Format</source>
-        <translation type="vanished">Sonraki Biçim</translation>
-    </message>
-    <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl+Sağ</translation>
-    </message>
-    <message>
-        <source>Previous Format</source>
-        <translation type="vanished">Önceki Biçim</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Sol</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Move Up</source>
         <translation>Yukarı Taşı</translation>
@@ -3643,10 +2917,6 @@ Devre dışı bırakmak için 0&apos;a ayarlayın.</translation>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
-    </message>
-    <message>
-        <source>Data deserialization failed: %1</source>
-        <translation type="vanished">Veri seri kaldırma başarısız oldu: %1</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="215"/>
@@ -4183,10 +3453,6 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
         <translation>Kısayol zaten var!</translation>
-    </message>
-    <message>
-        <source>Shortcut can be triggered from any application</source>
-        <translation type="vanished">Kısayol herhangi bir uygulamadan tetiklenebilir</translation>
     </message>
 </context>
 <context>

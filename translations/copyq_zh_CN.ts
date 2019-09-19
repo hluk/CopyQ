@@ -29,127 +29,9 @@
         <translation>主页</translation>
     </message>
     <message>
-        <source>Wiki</source>
-        <translation type="vanished">Wiki</translation>
-    </message>
-    <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
         <translation>捐赠</translation>
-    </message>
-    <message>
-        <source>Development</source>
-        <translation type="vanished">开发</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <translation type="vanished">本软件使用的库</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <translation type="vanished">本软件使用的图标字体</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <translation type="vanished">主题使用的色板</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>Qt library description</comment>
-        <translation type="vanished">本软件使用的库</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <comment>LibQxt library description</comment>
-        <translation type="vanished">本软件使用的库</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <comment>Font Awesome description</comment>
-        <translation type="vanished">本软件使用的图标字体</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <comment>Solarized palette/themes description</comment>
-        <translation type="vanished">主题使用的色板</translation>
-    </message>
-    <message>
-        <source>Free web-based translation management system</source>
-        <comment>Weblate description</comment>
-        <translation type="vanished">免费在线翻译管理系统</translation>
-    </message>
-    <message>
-        <source>Keyboard</source>
-        <translation type="vanished">快捷键</translation>
-    </message>
-    <message>
-        <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation type="vanished">本程序的快捷键可以在首选项对话框中更改。</translation>
-    </message>
-    <message>
-        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="vanished">全局快捷键（系统快捷键）可以在命令对话框中设置（默认的快捷键是 F6）。</translation>
-    </message>
-    <message>
-        <source>Type any text to search the clipboard history.</source>
-        <translation type="vanished">在剪贴板历史列表中直接键入任意文本可以进行即时搜索。</translation>
-    </message>
-    <message>
-        <source>Item list navigation</source>
-        <translation type="vanished">剪贴板条目切换</translation>
-    </message>
-    <message>
-        <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="vanished">Up/Down, Page Up/Down, Home/End</translation>
-    </message>
-    <message>
-        <source>Tab navigation</source>
-        <translation type="vanished">标签页切换</translation>
-    </message>
-    <message>
-        <source>Left, Right, %1, %2</source>
-        <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="vanished">Left, Right, %1, %2</translation>
-    </message>
-    <message>
-        <source>Move selected items</source>
-        <translation type="vanished">移动选中条目</translation>
-    </message>
-    <message>
-        <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="vanished">Ctrl+Up/Down, Ctrl+Home/End</translation>
-    </message>
-    <message>
-        <source>Reset search or hide window</source>
-        <translation type="vanished">重置搜索或隐藏窗口</translation>
-    </message>
-    <message>
-        <source>Escape</source>
-        <translation type="vanished">Esc</translation>
-    </message>
-    <message>
-        <source>Delete item</source>
-        <translation type="vanished">删除条目</translation>
-    </message>
-    <message>
-        <source>Put selected items into clipboard</source>
-        <translation type="vanished">将选中条目放入剪贴板</translation>
-    </message>
-    <message>
-        <source>Enter</source>
-        <translation type="vanished">Enter</translation>
-    </message>
-    <message>
-        <source>Change item display format</source>
-        <translation type="vanished">更改条目显示格式</translation>
-    </message>
-    <message>
-        <source>Edit Item</source>
-        <translation type="vanished">编辑条目</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
     </message>
 </context>
 <context>
@@ -160,10 +42,6 @@
         <translation>CopyQ 动作对话框</translation>
     </message>
     <message>
-        <source>Co&amp;mmand (%1 is text of selected items):</source>
-        <translation type="vanished">命令（%1 文本为选中条目）(&amp;M):</translation>
-    </message>
-    <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
         <translation>标准输入(&amp;I):</translation>
@@ -172,22 +50,6 @@
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
         <translation>存储标准输出(&amp;U):</translation>
-    </message>
-    <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="vanished">使用给定 MIME 类型的命令向标准输入发送数据（留空则禁用）</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="vanished">从程序的标准输出中创建条目(留空则禁用)</translation>
-    </message>
-    <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable).</source>
-        <translation type="vanished">使用给定 MIME 类型的命令向标准输入发送数据（留空则禁用）。</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation type="vanished">从程序的标准输出中创建条目(留空则禁用)。</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -247,38 +109,6 @@ You can set up the command in preferences.</source>
 <context>
     <name>ActionHandler</name>
     <message>
-        <source>Co&amp;mmands</source>
-        <translation type="obsolete">命令 &amp;</translation>
-    </message>
-    <message>
-        <source>Executing: %1</source>
-        <translation type="vanished">执行: %1</translation>
-    </message>
-    <message>
-        <source>KILL</source>
-        <translation type="vanished">结束</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;COMMAND:&lt;/b&gt;</source>
-        <translation type="vanished">&lt;b&gt;命令:&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;INPUT:&lt;/b&gt;</source>
-        <translation type="vanished">&lt;b&gt;输入:&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Error: %1
-</source>
-        <translation type="vanished">错误: %1
-</translation>
-    </message>
-    <message>
-        <source>Exit code: %1
-</source>
-        <translation type="vanished">退出代码: %1
-</translation>
-    </message>
-    <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
         <translation>错误：%1</translation>
@@ -318,11 +148,6 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
         <translation>CopyQ 添加命令</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+1</source>
-        <comment>Global shortcut for some predefined commands</comment>
-        <translation type="vanished">Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -430,10 +255,6 @@ You can set up the command in preferences.</source>
         <translation>粘贴为纯文本</translation>
     </message>
     <message>
-        <source>Shift+Return</source>
-        <translation type="vanished">Shift+Enter</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
         <translation>自动播放视频</translation>
@@ -472,14 +293,6 @@ You can set up the command in preferences.</source>
         <translation>移动到%1标签页</translation>
     </message>
     <message>
-        <source>Add to &amp;TODO tab</source>
-        <translation type="vanished">添加到待办标签页(&amp;T)</translation>
-    </message>
-    <message>
-        <source>Move to &amp;TODO tab</source>
-        <translation type="vanished">移动到待办标签页(&amp;T)</translation>
-    </message>
-    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
         <translation>忽略已复制的文件</translation>
@@ -506,19 +319,7 @@ You can set up the command in preferences.</source>
     </message>
 </context>
 <context>
-    <name>ClientSocket</name>
-    <message>
-        <source>Failed to read message from client!</source>
-        <translation type="vanished">从客户端读取消息失败！</translation>
-    </message>
-</context>
-<context>
     <name>ClipboardBrowser</name>
-    <message>
-        <source>Searching %p%...</source>
-        <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="vanished">正在搜索 %p%...</translation>
-    </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="816"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1642"/>
@@ -588,28 +389,9 @@ You can set up the command in preferences.</source>
         <comment>Size of data in bytes</comment>
         <translation>&lt;strong&gt;大小:&lt;/strong&gt; %1 字节</translation>
     </message>
-    <message>
-        <source>&lt;strong&gt; mime:&lt;/strong&gt; %1 &lt;strong&gt;size:&lt;/strong&gt; %2 bytes</source>
-        <translation type="vanished">&lt;strong&gt;MIME:&lt;/strong&gt; %1 &lt;strong&gt;大小:&lt;/strong&gt; %2 字节</translation>
-    </message>
-</context>
-<context>
-    <name>ClipboardMonitor</name>
-    <message>
-        <source>Cannot access clipboard data!</source>
-        <translation type="vanished">无法访问剪贴板数据！</translation>
-    </message>
 </context>
 <context>
     <name>ClipboardServer</name>
-    <message>
-        <source>Clipboard Monitor: Terminating</source>
-        <translation type="vanished">剪贴板监视器：正在终止</translation>
-    </message>
-    <message>
-        <source>Clipboard Monitor: Terminated</source>
-        <translation type="vanished">剪贴板监视器：已终止</translation>
-    </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="90"/>
         <source>CopyQ server is already running.</source>
@@ -634,10 +416,6 @@ You can set up the command in preferences.</source>
         <location filename="../src/app/clipboardserver.cpp" line="313"/>
         <source>Exit Anyway</source>
         <translation>强制退出</translation>
-    </message>
-    <message>
-        <source>Failed to read message from monitor.</source>
-        <translation type="vanished">无法从监视器中读取消息。</translation>
     </message>
 </context>
 <context>
@@ -675,14 +453,6 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
         <translation>保存所选</translation>
-    </message>
-    <message>
-        <source>&amp;Load Commands...</source>
-        <translation type="vanished">载入命令(&amp;L)...</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="vanished">保存选中的命令(&amp;V)...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -849,17 +619,9 @@ Leave empty to disable this.</source>
 留空则禁用。</translation>
     </message>
     <message>
-        <source>F&amp;ormat:</source>
-        <translation type="vanished">格式(&amp;O):</translation>
-    </message>
-    <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
         <source>Comman&amp;d</source>
         <translation>命令(&amp;D)</translation>
-    </message>
-    <message>
-        <source>Co&amp;py to tab:</source>
-        <translation type="vanished">复制到标签页(&amp;P):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="481"/>
@@ -885,14 +647,6 @@ Leave empty to disable this.</source>
         <location filename="../src/ui/commandwidget.ui" line="675"/>
         <source>Show Advanced</source>
         <translation>显示高级</translation>
-    </message>
-    <message>
-        <source>&amp;Format:</source>
-        <translation type="vanished">格式(&amp;F):</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;仅对复制到剪贴板中的且与窗口标题文本匹配的正则表达式的项目使用命令（留空则匹配所有窗口）。在 OS X 上这包含窗口标题跟一个破折号 （&amp;quot;-&amp;quot;） 后面加上应用程序名称。例如&amp;quot;Safari - GitHub&amp;quot;。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
@@ -932,25 +686,9 @@ Leave empty to disable this.</source>
 &lt;p&gt;使用 &lt;b&gt;|&lt;/b&gt; 链接命令（将标准输出传递到下一个命令）。&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>Comma&amp;nd</source>
-        <translation type="vanished">命令(&amp;N)</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
-
-&lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;命令来运行。使用 &lt;b&gt;%1&lt;/b&gt; 作为参数，&lt;b&gt;%2&lt;/b&gt; 传递给参数由 (括在括号中的部分) 的正则表达式捕获 &lt;b&gt;%9&lt;/b&gt; 项文本。&lt;/p&gt;
-
-&lt;p&gt;使用 &lt;b&gt;|&lt;/b&gt; 链接命令（将标准输出传递到下一个命令）。&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/ui/commandwidget.ui" line="400"/>
         <source>Action</source>
         <translation>动作</translation>
-    </message>
-    <message>
-        <source>Copy to &amp;tab:</source>
-        <translation type="vanished">复制到标签页(&amp;T):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="433"/>
@@ -1015,10 +753,6 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/ui/commandwidget.ui" line="523"/>
         <source>O&amp;utput:</source>
         <translation>输出(&amp;U):</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation type="obsolete">从标准输出中创建项目 (留空则禁用)。</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="543"/>
@@ -1190,16 +924,6 @@ Note: If this is applied automatically, no other automatic commands are executed
 press F2 to edit.</source>
         <translation>选定一条然后
 按 F2 键来编辑。</translation>
-    </message>
-    <message>
-        <source>Select items and move them with
-CTRL and up or down key.</source>
-        <translation type="vanished">选中 条目 可以按 CTRL+UP 或 DOWN 键
-来交换它们的位置。</translation>
-    </message>
-    <message>
-        <source>Remove item with Delete key.</source>
-        <translation type="vanished">用 Delete 键删除 条目。</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="483"/>
@@ -1737,209 +1461,6 @@ Set to 0 to disable.</source>
     </message>
 </context>
 <context>
-    <name>ConfigTabShortcuts</name>
-    <message>
-        <source>&amp;New Item</source>
-        <translation type="vanished">新建条目(&amp;N)</translation>
-    </message>
-    <message>
-        <source>&amp;Import Tab...</source>
-        <translation type="vanished">导入标签页(&amp;I)...</translation>
-    </message>
-    <message>
-        <source>Ctrl+I</source>
-        <translation type="vanished">Ctrl+I</translation>
-    </message>
-    <message>
-        <source>&amp;Export Tab...</source>
-        <translation type="vanished">导出标签页(&amp;E)...</translation>
-    </message>
-    <message>
-        <source>&amp;Preferences...</source>
-        <translation type="vanished">首选项(&amp;P)...</translation>
-    </message>
-    <message>
-        <source>Ctrl+P</source>
-        <translation type="vanished">Ctrl+P</translation>
-    </message>
-    <message>
-        <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="vanished">命令/全局快捷键(&amp;O)...</translation>
-    </message>
-    <message>
-        <source>C&amp;ommands...</source>
-        <translation type="vanished">命令(&amp;O)...</translation>
-    </message>
-    <message>
-        <source>F6</source>
-        <translation type="vanished">F6</translation>
-    </message>
-    <message>
-        <source>Show &amp;Clipboard Content</source>
-        <translation type="vanished">显示剪贴板内容(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+C</source>
-        <translation type="vanished">Ctrl+Shift+C</translation>
-    </message>
-    <message>
-        <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="vanished">切换剪贴板存储内容(&amp;T)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+X</source>
-        <translation type="vanished">Ctrl+Shift+X</translation>
-    </message>
-    <message>
-        <source>P&amp;rocess Manager</source>
-        <translation type="vanished">进程管理器(&amp;R)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+Z</source>
-        <translation type="vanished">Ctrl+Shift+Z</translation>
-    </message>
-    <message>
-        <source>E&amp;xit</source>
-        <translation type="vanished">退出(&amp;X)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Q</source>
-        <translation type="vanished">Ctrl+Q</translation>
-    </message>
-    <message>
-        <source>&amp;Sort Selected Items</source>
-        <translation type="vanished">排序所选条目(&amp;S)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+S</source>
-        <translation type="vanished">Ctrl+Shift+S</translation>
-    </message>
-    <message>
-        <source>&amp;Reverse Selected Items</source>
-        <translation type="vanished">反选条目(&amp;R)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+R</source>
-        <translation type="vanished">Ctrl+Shift+R</translation>
-    </message>
-    <message>
-        <source>&amp;Paste Items</source>
-        <translation type="vanished">粘贴条目(&amp;P)</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Selected Items</source>
-        <translation type="vanished">复制所选条目(&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Find</source>
-        <translation type="vanished">查找(&amp;F)</translation>
-    </message>
-    <message>
-        <source>Move to &amp;Clipboard</source>
-        <translation type="vanished">移动到剪贴板(&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Show Content...</source>
-        <translation type="vanished">显示内容(&amp;S)...</translation>
-    </message>
-    <message>
-        <source>F4</source>
-        <translation type="vanished">F4</translation>
-    </message>
-    <message>
-        <source>&amp;Edit</source>
-        <translation type="vanished">编辑(&amp;E)</translation>
-    </message>
-    <message>
-        <source>F2</source>
-        <translation type="vanished">F2</translation>
-    </message>
-    <message>
-        <source>Shift+F2</source>
-        <translation type="vanished">Shift+F2</translation>
-    </message>
-    <message>
-        <source>Edit &amp;Notes</source>
-        <translation type="vanished">编辑备注(&amp;N)</translation>
-    </message>
-    <message>
-        <source>E&amp;dit with editor</source>
-        <translation type="vanished">使用编辑器编辑(&amp;D)</translation>
-    </message>
-    <message>
-        <source>Ctrl+E</source>
-        <translation type="vanished">Ctrl+E</translation>
-    </message>
-    <message>
-        <source>&amp;Action...</source>
-        <translation type="vanished">动作(&amp;A)...</translation>
-    </message>
-    <message>
-        <source>F5</source>
-        <translation type="vanished">F5</translation>
-    </message>
-    <message>
-        <source>Next Format</source>
-        <translation type="vanished">下一个格式</translation>
-    </message>
-    <message>
-        <source>Previous Format</source>
-        <translation type="vanished">上一个格式</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl+Left</translation>
-    </message>
-    <message>
-        <source>&amp;Remove</source>
-        <translation type="vanished">删除(&amp;R)</translation>
-    </message>
-    <message>
-        <source>&amp;New Tab</source>
-        <translation type="vanished">新建标签页(&amp;N)</translation>
-    </message>
-    <message>
-        <source>Ctrl+T</source>
-        <translation type="vanished">Ctrl+T</translation>
-    </message>
-    <message>
-        <source>Ctrl+F2</source>
-        <translation type="vanished">Ctrl+F2</translation>
-    </message>
-    <message>
-        <source>R&amp;ename Tab</source>
-        <translation type="vanished">重命名标签页(&amp;E)</translation>
-    </message>
-    <message>
-        <source>Ctrl+W</source>
-        <translation type="vanished">Ctrl+W</translation>
-    </message>
-    <message>
-        <source>Re&amp;move Tab</source>
-        <translation type="vanished">删除标签页(&amp;M)</translation>
-    </message>
-    <message>
-        <source>&amp;Change Tab Icon</source>
-        <translation type="vanished">更改标签页图标(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Ctrl+Shift+T</source>
-        <translation type="vanished">Ctrl+Shift+T</translation>
-    </message>
-    <message>
-        <source>F12</source>
-        <translation type="obsolete">F12</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation type="vanished">帮助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="vanished">自定义动作和全局快捷键(&amp;C)...</translation>
-    </message>
-</context>
-<context>
     <name>ConfigTabTray</name>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
@@ -2020,508 +1541,6 @@ Set to 0 to disable.</source>
         <translation>CopyQ 配置</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation type="vanished">常规(&amp;G)</translation>
-    </message>
-    <message>
-        <source>Keep main window above other windows</source>
-        <translation type="vanished">保持主窗口在其他窗口之上</translation>
-    </message>
-    <message>
-        <source>O&amp;pen windows on current screen</source>
-        <translation type="vanished">在当前屏幕打开窗口(&amp;P)</translation>
-    </message>
-    <message>
-        <source>Confirm application exit</source>
-        <translation type="vanished">退出本程序需要确认</translation>
-    </message>
-    <message>
-        <source>Confirm application e&amp;xit</source>
-        <translation type="vanished">退出程序需确认(&amp;X)</translation>
-    </message>
-    <message>
-        <source>Run the application on system startup</source>
-        <translation type="vanished">系统启动时自动运行</translation>
-    </message>
-    <message>
-        <source>&amp;Autostart</source>
-        <translation type="vanished">自动启动(&amp;A)</translation>
-    </message>
-    <message>
-        <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="vanished">支持 Vi 风格导航键 (H, J, K, L 及其他)，使用斜杠 (/) 键进行搜索</translation>
-    </message>
-    <message>
-        <source>&amp;Vi style navigation</source>
-        <translation type="vanished">Vi 风格导航键(&amp;V)</translation>
-    </message>
-    <message>
-        <source>Clipboard Manipulation</source>
-        <translation type="vanished">剪贴板操作</translation>
-    </message>
-    <message>
-        <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="vanished">在历史中用鼠标保存选择文本（首选）</translation>
-    </message>
-    <message>
-        <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="vanished">(&amp;2) 用鼠标选择存储文本</translation>
-    </message>
-    <message>
-        <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="vanished">(&amp;4) 用键盘粘贴鼠标选择</translation>
-    </message>
-    <message>
-        <source>Save clipboard in history</source>
-        <translation type="vanished">在历史中保存剪贴板</translation>
-    </message>
-    <message>
-        <source>(&amp;1) Store clipboard</source>
-        <translation type="vanished">(&amp;1) 存储剪贴板</translation>
-    </message>
-    <message>
-        <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="vanished">如文本过长，则在窗口边缘折行</translation>
-    </message>
-    <message>
-        <source>Wrap l&amp;ong text</source>
-        <translation type="vanished">长文本折行(&amp;O)</translation>
-    </message>
-    <message>
-        <source>Alwa&amp;ys on Top</source>
-        <translation type="vanished">总在最前(&amp;Y)</translation>
-    </message>
-    <message>
-        <source>Close main window when other application has focus</source>
-        <translation type="vanished">其他应用程序获得焦点时关闭主窗口</translation>
-    </message>
-    <message>
-        <source>Close When Unfocused</source>
-        <translation type="vanished">失去焦点时关闭</translation>
-    </message>
-    <message>
-        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="vanished">选中时在当前屏幕打开窗口，否则在上次关闭的位置打开</translation>
-    </message>
-    <message>
-        <source>Save and restore history of item filters</source>
-        <translation type="vanished">保存并还原历史记录的项目筛选器</translation>
-    </message>
-    <message>
-        <source>Save Filter History</source>
-        <translation type="vanished">保存筛选器历史</translation>
-    </message>
-    <message>
-        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="vanished">允许使用快捷键（通常是Ctrl+V或Shift+Insert）粘贴所选项</translation>
-    </message>
-    <message>
-        <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="vanished">允许使用鼠标（例如鼠标中键）粘贴剪贴库里的内容</translation>
-    </message>
-    <message>
-        <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="vanished">(&amp;3) 用鼠标粘贴剪贴板</translation>
-    </message>
-    <message>
-        <source>Layout and Transparency</source>
-        <translation type="vanished">布局和透明度</translation>
-    </message>
-    <message>
-        <source>Show tree with tabs instead of tab bar</source>
-        <translation type="vanished">显示为标签页树而不是标签页栏</translation>
-    </message>
-    <message>
-        <source>Tab T&amp;ree</source>
-        <translation type="vanished">标签页树(&amp;R)</translation>
-    </message>
-    <message>
-        <source>&amp;Focused transparency:</source>
-        <translation type="vanished">焦点透明度(&amp;F):</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if focused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">焦点主窗口的透明度。
-
-注意：该功能不被所有系统支持。</translation>
-    </message>
-    <message>
-        <source>&amp;Unfocused transparency:</source>
-        <translation type="vanished">非焦点透明度(&amp;U):</translation>
-    </message>
-    <message>
-        <source>Transparency of main window if unfocused.
-
-Note: This is not be supported on all systems.</source>
-        <translation type="vanished">非焦点主窗口的透明度。
-
-注意：该功能不被所有系统支持。</translation>
-    </message>
-    <message>
-        <source>Show number of items in tabs</source>
-        <translation type="vanished">显示标签页中的条目数</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w Item Count</source>
-        <translation type="vanished">显示条目计数(&amp;W)</translation>
-    </message>
-    <message>
-        <source>Show/Hide</source>
-        <translation type="vanished">显示/隐藏</translation>
-    </message>
-    <message>
-        <source>Hide tabs (press Alt key to show)</source>
-        <translation type="vanished">隐藏标签页（按 Alt 键显示）</translation>
-    </message>
-    <message>
-        <source>Hi&amp;de tabs</source>
-        <translation type="vanished">隐藏标签页(&amp;D)</translation>
-    </message>
-    <message>
-        <source>Hide toolbar</source>
-        <translation type="vanished">隐藏工具栏</translation>
-    </message>
-    <message>
-        <source>Hide too&amp;lbar</source>
-        <translation type="vanished">隐藏工具栏(&amp;L)</translation>
-    </message>
-    <message>
-        <source>Hide tool&amp;bar labels</source>
-        <translation type="vanished">隐藏工具栏文字(&amp;B)</translation>
-    </message>
-    <message>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="vanished">不显示托盘图标；关闭窗口时最小化到任务栏</translation>
-    </message>
-    <message>
-        <source>Disabl&amp;e tray</source>
-        <translation type="vanished">禁用托盘图标(&amp;E)</translation>
-    </message>
-    <message>
-        <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="vanished">存储剪贴板的标签页(&amp;B):</translation>
-    </message>
-    <message>
-        <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="vanished">外部编辑器命令（%&amp;1 表示要编辑的文件）：</translation>
-    </message>
-    <message>
-        <source>Name of tab that will automatically store new clipboard content.
-
-Leave empty to disable automatic storing.</source>
-        <translation type="vanished">自动存储新的剪贴板内容的标签页名称。
-
-留空则禁用自动存储。</translation>
-    </message>
-    <message>
-        <source>Move item to the top of the list after it is activated</source>
-        <translation type="vanished">将激活条目移到列表顶端</translation>
-    </message>
-    <message>
-        <source>Move item to the t&amp;op</source>
-        <translation type="vanished">移动条目到顶端</translation>
-    </message>
-    <message>
-        <source>Close main window after item is activated</source>
-        <translation type="vanished">激活条目后，关闭主窗口</translation>
-    </message>
-    <message>
-        <source>Focus last window after item is activated</source>
-        <translation type="vanished">激活条目后，将焦点放到最后的窗口</translation>
-    </message>
-    <message>
-        <source>Paste to current window after item is activated</source>
-        <translation type="vanished">激活条目后，粘贴到当前窗口</translation>
-    </message>
-    <message>
-        <source>Show command for current clipboard content in tray menu</source>
-        <translation type="vanished">在托盘菜单中显示当前剪贴板中的内容</translation>
-    </message>
-    <message>
-        <source>Show items from current tab in tray menu</source>
-        <translation type="vanished">在托盘菜单中显示当前标签页条目</translation>
-    </message>
-    <message>
-        <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="vanished">在菜单中显示当前标签页条目(&amp;R),</translation>
-    </message>
-    <message>
-        <source>or &amp;choose other tab:</source>
-        <translation type="vanished">或选择其他标签页条目(&amp;C):</translation>
-    </message>
-    <message>
-        <source>Paste item to current window after selecting it in menu</source>
-        <translation type="vanished">在菜单中选中条目后粘贴到当前窗口</translation>
-    </message>
-    <message>
-        <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="vanished">在菜单粘贴条目中使用预览图像作为图标(&amp;O)</translation>
-    </message>
-    <message>
-        <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="vanished">显示通知的间隔：</translation>
-    </message>
-    <message>
-        <source>Hori&amp;zontal offset:</source>
-        <translation type="vanished">水平偏移(&amp;Z)：</translation>
-    </message>
-    <message>
-        <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="vanished">通知与屏幕左右边缘的距离</translation>
-    </message>
-    <message>
-        <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="vanished">通知与屏幕上下边缘的距离</translation>
-    </message>
-    <message>
-        <source>Maximum width for notification in screen points</source>
-        <translation type="vanished">通知在屏幕上的最大宽度</translation>
-    </message>
-    <message>
-        <source>Maximum height for notification in screen points</source>
-        <translation type="vanished">通知在屏幕上的最大高度</translation>
-    </message>
-    <message>
-        <source>&amp;History</source>
-        <translation type="vanished">历史(&amp;H)</translation>
-    </message>
-    <message>
-        <source>&amp;Language:</source>
-        <translation type="vanished">语言(&amp;L):</translation>
-    </message>
-    <message>
-        <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="vanished">自动显示弹出窗口以补全命令中的函数、类型和变量名</translation>
-    </message>
-    <message>
-        <source>Auto-complete Commands</source>
-        <translation type="vanished">自动完成的命令</translation>
-    </message>
-    <message>
-        <source>&amp;Layout</source>
-        <translation type="vanished">布局(&amp;L)</translation>
-    </message>
-    <message>
-        <source>Hide main window when closed</source>
-        <translation type="vanished">关闭时隐藏主窗口</translation>
-    </message>
-    <message>
-        <source>Hide &amp;main window</source>
-        <translation type="vanished">隐藏主窗口(&amp;M)</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;number of items in history:</source>
-        <translation type="vanished">历史条目数量上限(&amp;N):</translation>
-    </message>
-    <message>
-        <source>Maximum number of items in each tab</source>
-        <translation type="vanished">每个标签页条目数量上限</translation>
-    </message>
-    <message>
-        <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="vanished">于若干分钟后卸载标签页(&amp;U):</translation>
-    </message>
-    <message>
-        <source>Unload each tab from memory after specified number of minutes of inactivity.
-
-Set to 0 not to unload tabs.</source>
-        <translation type="vanished">从内存中卸载每一个不活动的标签页于指定分钟后。
-设置为 0 不卸载标签页。</translation>
-    </message>
-    <message>
-        <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="vanished">外部编辑器命令行(%1 代表需编辑的文件)(&amp;E):</translation>
-    </message>
-    <message>
-        <source>External editor command (%1 is file to edit).
-  Examples:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</source>
-        <translation type="vanished">外部编辑器命令行(%1 代表需编辑的文件)。
-例如：
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</translation>
-    </message>
-    <message>
-        <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="vanished">未选择的状态下，按 Return 保存，按 Ctrl+Return 换行。
-注意: 正在编辑的条目可以使用 F2 保存而忽略本选项。</translation>
-    </message>
-    <message>
-        <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="vanished">按 Ctrl+Return 保存，按 Return 换行</translation>
-    </message>
-    <message>
-        <source>Show single line description of each item.
-
-Use Item Preview to display whole items.</source>
-        <translation type="vanished">为每个条目只显示单行描述。
-使用条目预览显示整个条目内容。</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w simple items</source>
-        <translation type="vanished">条目以单行显示</translation>
-    </message>
-    <message>
-        <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="vanished">当条目激活以后(鼠标双击或回车)，复制条目到剪贴板，并...</translation>
-    </message>
-    <message>
-        <source>&amp;Close main window</source>
-        <translation type="vanished">关闭主窗口(&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Focus last window</source>
-        <translation type="vanished">聚焦上一窗口(&amp;F)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste to current window</source>
-        <translation type="vanished">粘贴到当前窗口(&amp;P)</translation>
-    </message>
-    <message>
-        <source>&amp;Tray</source>
-        <translation type="vanished">托盘(&amp;T)</translation>
-    </message>
-    <message>
-        <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="vanished">显示剪贴板内容命令(&amp;W)</translation>
-    </message>
-    <message>
-        <source>N&amp;umber of items in tray menu:</source>
-        <translation type="vanished">托盘中条目数量:</translation>
-    </message>
-    <message>
-        <source>Number of items in tray menu</source>
-        <translation type="vanished">托盘菜单显示的条目数量</translation>
-    </message>
-    <message>
-        <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="vanished">需要在系统托盘显示的标签页的名称(留空显示第一个标签页)</translation>
-    </message>
-    <message>
-        <source>&amp;Paste activated item to current window</source>
-        <translation type="vanished">粘贴选中条目到当前窗口(&amp;P)</translation>
-    </message>
-    <message>
-        <source>Show image preview next to menu items</source>
-        <translation type="vanished">在菜单项旁边显示图像预览</translation>
-    </message>
-    <message>
-        <source>&amp;Notifications</source>
-        <translation type="vanished">通知(&amp;N)</translation>
-    </message>
-    <message>
-        <source>&amp;Notification position:</source>
-        <translation type="vanished">通知位置(&amp;N):</translation>
-    </message>
-    <message>
-        <source>Position on screen for notifications</source>
-        <translation type="vanished">通知在屏幕上的位置</translation>
-    </message>
-    <message>
-        <source>Top</source>
-        <translation type="vanished">顶部</translation>
-    </message>
-    <message>
-        <source>Bottom</source>
-        <translation type="vanished">底部</translation>
-    </message>
-    <message>
-        <source>Top Right</source>
-        <translation type="vanished">右上</translation>
-    </message>
-    <message>
-        <source>Bottom Right</source>
-        <translation type="vanished">右下</translation>
-    </message>
-    <message>
-        <source>Bottom Left</source>
-        <translation type="vanished">左下</translation>
-    </message>
-    <message>
-        <source>Top Left</source>
-        <translation type="vanished">左上</translation>
-    </message>
-    <message>
-        <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
-
-Set to 0 to disable this.
-
-Set to -1 to keep visible until clicked.</source>
-        <translation type="vanished">为新增的剪贴板内容，或者当主窗口关闭时条目复制到剪贴板后显示通知的间隔秒数。
-设置为 0 禁用本选项。
-设置为 -1 保持可见直到点击为止。</translation>
-    </message>
-    <message>
-        <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="vanished">剪贴板通知行数(&amp;B):</translation>
-    </message>
-    <message>
-        <source>Number of lines to show for new clipboard content.
-
-Set to 0 to disable.</source>
-        <translation type="vanished">新的剪贴板内容要显示的行数。
-设置为 0 时禁用。</translation>
-    </message>
-    <message>
-        <source>Notification Geometry (in screen points)</source>
-        <translation type="vanished">通知位置和大小(在屏幕中)</translation>
-    </message>
-    <message>
-        <source>Ho&amp;rizontal offset:</source>
-        <translation type="vanished">水平偏移(&amp;R):</translation>
-    </message>
-    <message>
-        <source>&amp;Vertical offset:</source>
-        <translation type="vanished">垂直偏移(&amp;V):</translation>
-    </message>
-    <message>
-        <source>Maximum &amp;width:</source>
-        <translation type="vanished">最大宽度(&amp;W):</translation>
-    </message>
-    <message>
-        <source>Ma&amp;ximum height:</source>
-        <translation type="vanished">最大高度(&amp;X):</translation>
-    </message>
-    <message>
-        <source>&amp;Items</source>
-        <translation type="vanished">项目(&amp;E)</translation>
-    </message>
-    <message>
-        <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="vanished">使用 &lt;b&gt;Ctrl+Left&lt;/b&gt; 或 &lt;b&gt;Ctrl+Right&lt;/b&gt; 来改变已选择条目的显示格式。
-您可以通过改变下列项目的优先级来显示不同的格式。</translation>
-    </message>
-    <message>
-        <source>Co&amp;mmands</source>
-        <translation type="obsolete">命令 &amp;</translation>
-    </message>
-    <message>
-        <source>&amp;Find:</source>
-        <translation type="obsolete">&amp; 查找：</translation>
-    </message>
-    <message>
-        <source>&amp;Shortcuts</source>
-        <translation type="vanished">快捷键(&amp;S)</translation>
-    </message>
-    <message>
-        <source>&amp;Appearance</source>
-        <translation type="vanished">外观(&amp;A)</translation>
-    </message>
-    <message>
-        <source>&amp;clipboard</source>
-        <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="vanished">&amp;Clipboard</translation>
-    </message>
-    <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
         <translation type="unfinished"></translation>
@@ -2593,169 +1612,6 @@ Set to 0 to disable.</source>
     </message>
 </context>
 <context>
-    <name>FakeVim::Internal</name>
-    <message>
-        <source>Use Vim-style Editing</source>
-        <translation type="vanished">使用 Vim 方式编辑</translation>
-    </message>
-    <message>
-        <source>Read .vimrc</source>
-        <translation type="vanished">读取 .vimrc</translation>
-    </message>
-    <message>
-        <source>Path to .vimrc</source>
-        <translation type="vanished">.vimrc 路径</translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler</name>
-    <message>
-        <source>Unknown option: %1</source>
-        <translation type="vanished">未知选项：%1</translation>
-    </message>
-    <message>
-        <source>Argument must be positive: %1=%2</source>
-        <translation type="vanished">参数必须是正数：%1 = %2</translation>
-    </message>
-    <message>
-        <source>Mark &quot;%1&quot; not set.</source>
-        <translation type="vanished">标记“%1”未设置。</translation>
-    </message>
-    <message>
-        <source>%1%2%</source>
-        <translation type="vanished">%1%2%</translation>
-    </message>
-    <message>
-        <source>%1All</source>
-        <translation type="vanished">%1全部</translation>
-    </message>
-    <message>
-        <source>Not implemented in FakeVim.</source>
-        <translation type="vanished">FakeVim 中没有实现。</translation>
-    </message>
-    <message>
-        <source>Unknown option:</source>
-        <translation type="vanished">未知选项：</translation>
-    </message>
-    <message>
-        <source>Invalid argument:</source>
-        <translation type="vanished">无效参数：</translation>
-    </message>
-    <message>
-        <source>Trailing characters:</source>
-        <translation type="vanished">尾随字符：</translation>
-    </message>
-    <message>
-        <source>Move lines into themselves.</source>
-        <translation type="vanished">移动行到它们自身。</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines moved.</source>
-        <translation type="vanished">
-            <numerusform>已移动 %n 行。</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation type="vanished">文件 &quot;%1&quot; 已存在（添加 ! 来覆盖）</translation>
-    </message>
-    <message>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation type="vanished">无法写入文件&quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation type="vanished">&quot;%1&quot; %2 %3L，%4C 已写入。</translation>
-    </message>
-    <message>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation type="vanished">无法读取文件&quot;%1&quot;</translation>
-    </message>
-    <message>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation type="vanished">&quot;%1&quot; %2L，%3C</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines filtered.</source>
-        <translation type="vanished">
-            <numerusform>已过滤 %n 行。</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Cannot open file %1</source>
-        <translation type="vanished">无法打开文件 %1</translation>
-    </message>
-    <message>
-        <source>Invalid regular expression: %1</source>
-        <translation type="vanished">无效的正则表达式: %1</translation>
-    </message>
-    <message>
-        <source>Pattern not found: %1</source>
-        <translation type="vanished">无匹配项: %1</translation>
-    </message>
-    <message>
-        <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation type="vanished">搜索已达底部,从顶部继续.</translation>
-    </message>
-    <message>
-        <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation type="vanished">搜索已达顶部,从底部继续.</translation>
-    </message>
-    <message>
-        <source>Search hit BOTTOM without match for: %1</source>
-        <translation type="vanished">搜索已达底部但未找到匹配项: %1</translation>
-    </message>
-    <message>
-        <source>Search hit TOP without match for: %1</source>
-        <translation type="vanished">搜索已达顶部但未找到匹配项: %1</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines indented.</source>
-        <translation type="vanished">
-            <numerusform>%n 行已缩进.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines %1ed %2 time.</source>
-        <translation type="vanished">
-            <numerusform>%n 行 %1ed %2 次。</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n lines yanked.</source>
-        <translation type="vanished">
-            <numerusform>%n 行已复制。</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Already at oldest change.</source>
-        <translation type="vanished">已经位于最久的变更。</translation>
-    </message>
-    <message>
-        <source>Already at newest change.</source>
-        <translation type="vanished">已经位于最新的变更。</translation>
-    </message>
-</context>
-<context>
-    <name>FakeVim::Internal::FakeVimHandler::Private</name>
-    <message>
-        <source>Recursive mapping</source>
-        <translation type="vanished">递归映射</translation>
-    </message>
-    <message>
-        <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation type="vanished">输入 Alt-V, Alt-V 退出 FakeVim 模式.</translation>
-    </message>
-    <message>
-        <source> [New] </source>
-        <translation type="vanished"> [新] </translation>
-    </message>
-    <message>
-        <source>Not an editor command: %1</source>
-        <translation type="vanished">非编辑器命令: %1</translation>
-    </message>
-</context>
-<context>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="630"/>
@@ -2774,10 +1630,6 @@ Set to 0 to disable.</source>
 </context>
 <context>
     <name>IconSelectButton</name>
-    <message>
-        <source>Select Icon...</source>
-        <translation type="vanished">选择图标...</translation>
-    </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
@@ -2834,84 +1686,6 @@ Set to 0 to disable.</source>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
         <translation>命令(&amp;M)</translation>
-    </message>
-</context>
-<context>
-    <name>ItemDataLoader</name>
-    <message>
-        <source>Data</source>
-        <translation type="vanished">数据</translation>
-    </message>
-    <message>
-        <source>Various data to save.</source>
-        <translation type="vanished">可存储各种数据。</translation>
-    </message>
-</context>
-<context>
-    <name>ItemDataSettings</name>
-    <message>
-        <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation type="vanished">选择要存储到历史中的格式。您可以从示例中添加格式，或者输入其他格式(每行一个)。</translation>
-    </message>
-    <message>
-        <source>Active &amp;Formats:</source>
-        <translation type="vanished">启用格式(&amp;F):</translation>
-    </message>
-    <message>
-        <source>&amp;Examples (double click to add to active formats):</source>
-        <translation type="vanished">例子(&amp;E) (双击添加到激活的格式中):</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">文本</translation>
-    </message>
-    <message>
-        <source>Unformatted simple text</source>
-        <translation type="vanished">无格式文本</translation>
-    </message>
-    <message>
-        <source>Formatted text, web pages</source>
-        <translation type="vanished">有格式文本，网页</translation>
-    </message>
-    <message>
-        <source>XML</source>
-        <translation type="vanished">XML</translation>
-    </message>
-    <message>
-        <source>List of URI (e.g. copied files, URLs)</source>
-        <translation type="vanished">列出的 URI (例如: 复制的文件地址、网址等)</translation>
-    </message>
-    <message>
-        <source>List of URI (e.g. copied files)</source>
-        <translation type="vanished">URI 列表（例如已复制的文件）</translation>
-    </message>
-    <message>
-        <source>Images</source>
-        <translation type="vanished">图片</translation>
-    </message>
-    <message>
-        <source>Bitmap image</source>
-        <translation type="vanished">位图</translation>
-    </message>
-    <message>
-        <source>Vector graphics</source>
-        <translation type="vanished">矢量图形</translation>
-    </message>
-    <message>
-        <source>Web image formats</source>
-        <translation type="vanished">网络图片格式</translation>
-    </message>
-    <message>
-        <source>Other</source>
-        <translation type="vanished">其他</translation>
-    </message>
-    <message>
-        <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation type="vanished">将存储于剪贴板历史中的 MIME 类型 (以给定的显示顺序)</translation>
-    </message>
-    <message>
-        <source>&amp;Maximum number of characters per format to display:</source>
-        <translation type="vanished">每种格式显示的最大字符数量(&amp;M):</translation>
     </message>
 </context>
 <context>
@@ -3140,10 +1914,6 @@ Set to 0 to disable.</source>
         <translation>要加密解密条目，需要在本标签页添加合适的命令。</translation>
     </message>
     <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">添加操作到菜单栏和工具栏</translation>
-    </message>
-    <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
         <translation>共享加密条目和标签页</translation>
@@ -3284,18 +2054,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>A&amp;bove Item</source>
-        <translation type="vanished">条目之上(&amp;B)</translation>
-    </message>
-    <message>
-        <source>B&amp;elow Item</source>
-        <translation type="vanished">条目之下(&amp;E)</translation>
-    </message>
-    <message>
-        <source>&amp;Icon Only</source>
-        <translation type="vanished">只有图标(&amp;I)</translation>
-    </message>
-    <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
         <translation>显示工具提示(&amp;L)</translation>
@@ -3307,10 +2065,6 @@ Set to 0 to disable.</source>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
         <translation>添加(&amp;A)</translation>
-    </message>
-    <message>
-        <source>+</source>
-        <translation type="vanished">+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="63"/>
@@ -3330,11 +2084,6 @@ Set to 0 to disable.</source>
 </context>
 <context>
     <name>ItemPinnedLoader</name>
-    <message>
-        <source>Ctrl+Shift+P</source>
-        <comment>Shortcut to pin and unpin items</comment>
-        <translation type="vanished">Ctrl+Shift+P</translation>
-    </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Cannot Remove Pinned Items</source>
@@ -3365,17 +2114,6 @@ Set to 0 to disable.</source>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Pin items to lock them in current row and avoid deletion (unless unpinned).</source>
-        <translation type="vanished">固定条目来锁定到当前行并避免被删除，除非被解除固定。</translation>
-    </message>
-</context>
-<context>
-    <name>ItemPinnedSettings</name>
-    <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">添加操作到菜单栏和工具栏</translation>
-    </message>
 </context>
 <context>
     <name>ItemSyncLoader</name>
@@ -3384,18 +2122,6 @@ Set to 0 to disable.</source>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
         <translation>浏览...</translation>
-    </message>
-    <message>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="vanished">在文件夹 &quot;%2&quot; 中同步标签页 &quot;%1&quot; 失败！</translation>
-    </message>
-    <message>
-        <source>Remove Items?</source>
-        <translation type="vanished">确认移除条目？</translation>
-    </message>
-    <message>
-        <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="vanished">您确定想&lt;strong&gt;移除&lt;/strong&gt;条目和其关联的文件？</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="826"/>
@@ -3564,10 +2290,6 @@ Set to 0 to disable.</source>
         <source>Icon</source>
         <translation>图标</translation>
     </message>
-    <message>
-        <source>Add Actions to Menu and Toolbar</source>
-        <translation type="vanished">添加操作到菜单栏和工具栏</translation>
-    </message>
 </context>
 <context>
     <name>ItemTextLoader</name>
@@ -3707,10 +2429,6 @@ Set to 0 to disable.</source>
         <translation>导入文件 %1 失败！</translation>
     </message>
     <message>
-        <source>Open action dialog</source>
-        <translation type="vanished">打开动作对话框</translation>
-    </message>
-    <message>
         <location filename="../src/gui/mainwindow.cpp" line="1222"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>启用剪贴板存储(&amp;E)</translation>
@@ -3757,23 +2475,6 @@ Set to 0 to disable.</source>
         <translation>更改标签页图标(&amp;C)</translation>
     </message>
     <message>
-        <source>Clipboard:
-%1</source>
-        <comment>Tray tooltip format</comment>
-        <translation type="vanished">剪贴板:
-%1</translation>
-    </message>
-    <message>
-        <source>%1 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="vanished">%1 - CopyQ</translation>
-    </message>
-    <message>
-        <source>%1 - %2 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="vanished">%1 - %2 - CopyQ</translation>
-    </message>
-    <message>
         <location filename="../src/gui/mainwindow.cpp" line="744"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
@@ -3783,22 +2484,6 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/mainwindow.cpp" line="313"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ 项目 (*.cpq)</translation>
-    </message>
-    <message>
-        <source>CopyQ Error Saving File</source>
-        <translation type="vanished">保存文件时 CopyQ 出错</translation>
-    </message>
-    <message>
-        <source>Cannot save file %1!</source>
-        <translation type="vanished">无法保存文件 %1！</translation>
-    </message>
-    <message>
-        <source>CopyQ Error Opening File</source>
-        <translation type="vanished">打开文件时 CopyQ 出错</translation>
-    </message>
-    <message>
-        <source>Cannot open file %1!</source>
-        <translation type="vanished">无法打开文件 %1！</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3570"/>
@@ -3819,64 +2504,6 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/mainwindow.cpp" line="3619"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>你想要删除 &lt;strong&gt;%1&lt;/strong&gt; 标签页吗？</translation>
-    </message>
-</context>
-<context>
-    <name>Notification</name>
-    <message>
-        <source>CopyQ Inspect Notification</source>
-        <translation type="vanished">CopyQ 检查通知</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation type="vanished">复制(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Right click to show</source>
-        <translation type="vanished">右键点击显示</translation>
-    </message>
-</context>
-<context>
-    <name>ProcessManagerDialog</name>
-    <message>
-        <source>CopyQ Process Manager</source>
-        <translation type="vanished">CopyQ 进程管理器</translation>
-    </message>
-    <message>
-        <source>Started</source>
-        <translation type="vanished">开始</translation>
-    </message>
-    <message>
-        <source>Finished</source>
-        <translation type="vanished">完成</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation type="vanished">名称</translation>
-    </message>
-    <message>
-        <source>Status</source>
-        <translation type="vanished">状态</translation>
-    </message>
-    <message>
-        <source>Starting</source>
-        <translation type="vanished">开始</translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="vanished">终止</translation>
-    </message>
-    <message>
-        <source>Running</source>
-        <translation type="vanished">运行中</translation>
-    </message>
-    <message>
-        <source>Failed</source>
-        <translation type="vanished">失败</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">删除</translation>
     </message>
 </context>
 <context>
@@ -3916,11 +2543,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;FILES&gt;</source>
-        <comment>Label for URLs/files in clipboard</comment>
-        <translation type="vanished">&lt;文件&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/common/common.cpp" line="526"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
@@ -3944,14 +2566,6 @@ Set to 0 to disable.</source>
         <comment>Key to remove item or MIME</comment>
         <translation>Delete</translation>
     </message>
-    <message>
-        <source>warning: %1</source>
-        <translation type="vanished">警告: %1</translation>
-    </message>
-    <message>
-        <source>ERROR: %1</source>
-        <translation type="vanished">错误: %1</translation>
-    </message>
     <message numerus="yes">
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2048"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
@@ -3965,22 +2579,6 @@ Set to 0 to disable.</source>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
-    </message>
-    <message>
-        <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="vanished">项目文件 %1 损坏，或 CopyQ 的插件丢失！</translation>
-    </message>
-    <message>
-        <source>No plugins loaded</source>
-        <translation type="vanished">未加载插件</translation>
-    </message>
-    <message>
-        <source>Loading plugin: %1</source>
-        <translation type="vanished">加载插件: %1</translation>
-    </message>
-    <message>
-        <source>Data deserialization failed: %1</source>
-        <translation type="vanished">数据反序列化失败: %1</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="215"/>
@@ -4001,17 +2599,9 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>新建条目(&amp;N)</translation>
     </message>
     <message>
-        <source>&amp;Import Tab...</source>
-        <translation type="vanished">导入标签页(&amp;I)...</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
-    </message>
-    <message>
-        <source>&amp;Export Tab...</source>
-        <translation type="vanished">导出标签页(&amp;E)...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -4194,22 +2784,6 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>F5</translation>
     </message>
     <message>
-        <source>Next Format</source>
-        <translation type="vanished">下一个格式</translation>
-    </message>
-    <message>
-        <source>Ctrl+Right</source>
-        <translation type="vanished">Ctrl + →</translation>
-    </message>
-    <message>
-        <source>Previous Format</source>
-        <translation type="vanished">上一个格式</translation>
-    </message>
-    <message>
-        <source>Ctrl+Left</source>
-        <translation type="vanished">Ctrl + ←</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Move Up</source>
         <translation>上移</translation>
@@ -4318,17 +2892,9 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation type="unfinished">Shift+F10</translation>
     </message>
     <message>
-        <source>Right</source>
-        <translation type="vanished">右</translation>
-    </message>
-    <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>&amp;Previous Tab</source>
         <translation>上一个标签页(&amp;P)</translation>
-    </message>
-    <message>
-        <source>Left</source>
-        <translation type="vanished">左</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
@@ -4349,14 +2915,6 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="139"/>
         <source>&amp;Help</source>
         <translation>帮助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>Cannot create directory for settings %1!</source>
-        <translation type="vanished">不能为设置 %1 创建文件夹！</translation>
-    </message>
-    <message>
-        <source>Cannot save tab %1 to %2 (%3)!</source>
-        <translation type="vanished">无法保存标签页 %1 到 %2 (%3)！</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="389"/>
@@ -4730,10 +3288,6 @@ Print version of program and libraries.</source>
         <translation>注意事项：</translation>
     </message>
     <message>
-        <source>  - Use dash argument (-) to read data from stdandard input.</source>
-        <translation type="vanished">  - 使用 &quot;-&quot; 参数从标准输入读取数据。</translation>
-    </message>
-    <message>
         <location filename="../src/scriptable/scriptable.cpp" line="87"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
@@ -4760,14 +3314,6 @@ Print version of program and libraries.</source>
         <translation>无法复制到剪贴板！</translation>
     </message>
     <message>
-        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
-        <translation type="vanished">&quot;%1&quot; 不能作为函数名。</translation>
-    </message>
-    <message>
-        <source>Built with: </source>
-        <translation type="vanished">构建: </translation>
-    </message>
-    <message>
         <location filename="../src/scriptable/scriptable.cpp" line="787"/>
         <source>Command not found!</source>
         <translation>命令未找到！</translation>
@@ -4783,10 +3329,6 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="2662"/>
         <source>Exception in %1</source>
         <translation>异常发生在 %1</translation>
-    </message>
-    <message>
-        <source>Failed to set clipboard!</source>
-        <translation type="vanished">设置剪贴板失败！</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="689"/>
@@ -4898,10 +3440,6 @@ Print version of program and libraries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There is command overriding this shortcut.</source>
-        <translation type="vanished">有命令对当前快捷方式进行重置。</translation>
-    </message>
-    <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
         <translation>快捷方式已存在！</translation>
@@ -4922,10 +3460,6 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
         <translation>名称(&amp;N):</translation>
-    </message>
-    <message>
-        <source>&amp;name:</source>
-        <translation type="vanished">名称(&amp;N):</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
@@ -4991,21 +3525,6 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <location filename="../src/gui/filterlineedit.cpp" line="120"/>
         <source>Case Insensitive</source>
         <translation>区分大小写</translation>
-    </message>
-</context>
-<context>
-    <name>detail::ScriptableProxyHelper</name>
-    <message>
-        <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="vanished">不存在该名称的标签页！</translation>
-    </message>
-    <message>
-        <source>Tab name cannot be empty!</source>
-        <translation type="vanished">标签页名称不能为空 ！</translation>
-    </message>
-    <message>
-        <source>Tab with given name already exists!</source>
-        <translation type="vanished">已存在同名标签页！</translation>
     </message>
 </context>
 </TS>
