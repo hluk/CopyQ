@@ -96,6 +96,8 @@ else()
     add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE ${copyq_COMPILE})
 endif()
 
+add_dependencies(${COPYQ_EXECUTABLE_NAME} generate_version_header)
+
 # Qt modules
 list(APPEND copyq_qt_modules Network Svg Xml Script)
 foreach (copyq_qt_module ${copyq_qt_modules})

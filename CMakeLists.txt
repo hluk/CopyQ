@@ -136,32 +136,21 @@ if(WITH_TESTS)
     list(APPEND copyq_LIBRARIES Qt5::Test)
 endif()
 
-# Get application version.
-if (EXISTS "version.txt")
-    file(STRINGS "version.txt" copyq_version)
-endif()
-
-if (NOT copyq_version)
-    find_package(Git)
-    if(GIT_FOUND)
-        execute_process(COMMAND
-            "${GIT_EXECUTABLE}" describe
-            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-            RESULT_VARIABLE copyq_git_describe_result
-            OUTPUT_VARIABLE copyq_git_describe_output
-            ERROR_QUIET
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-            )
-        if(copyq_git_describe_result EQUAL 0)
-            set(copyq_version "${copyq_git_describe_output}")
-        endif()
-    endif()
-endif()
-
-if (copyq_version)
-    message(STATUS "Building CopyQ version ${copyq_version}.")
-    add_definitions( -DCOPYQ_VERSION="${copyq_version}" )
-endif()
+# Generate version.h from current git commit if available.
+add_custom_target(
+    generate_version_header
+    ALL
+    COMMAND ${CMAKE_COMMAND}
+        -D INPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/src/common/version.h.in
+        -D OUTPUT_FILE=${CMAKE_CURRENT_BINARY_DIR}/src/common/version.h
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
+    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/src/common/version.h
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+set_source_files_properties(
+    ${CMAKE_CURRENT_BINARY_DIR}/src/common/version.h
+    PROPERTIES GENERATED TRUE
+)
 
 if (UNIX AND NOT APPLE)
     install(FILES ${copyq_ICON_NORMAL} DESTINATION ${ICON_INSTALL_PREFIX} RENAME ${ICON_NAME}.svg)

@@ -15,7 +15,7 @@ set -euo pipefail
 
 version=$1
 
-version_file=src/common/version.h
+version_file=version.cmake
 appdata_file=shared/com.github.hluk.copyq.appdata.xml
 itemwidget_file=src/item/itemwidget.h
 changes_file=CHANGES
@@ -35,26 +35,28 @@ check_changes() {
     fi
 }
 
-fix_header() {
+fix_file() {
     file=$1
-    prefix=$2
+    format=$2
 
-    sed -i 's#\('"$prefix"'\).*#\1'"$version"'"#' "$file"
+    pattern=$(printf "$format" '[0-9]\.[0-9]\.[0-9]')
+    text=$(printf "$format" "$version")
+    sed -i "s|$pattern|$text|" "$file"
 
-    new_version=$(grep -o "$prefix"'[0-9]\.[0-9]\.[0-9]"$' "$file")
-    if [[ "$new_version" != "$prefix$version\"" ]]; then
+    new_version=$(grep -o "$pattern" "$file")
+    if [[ "$new_version" != "$text" ]]; then
         echo "Failed to replace version in $file"
         exit 1
     fi
 }
 
-fix_version_header() {
-    fix_header "$version_file" 'define COPYQ_VERSION "v'
+fix_version_file() {
+    fix_file "$version_file" 'set(copyq_version "v%s")'
 }
 
 fix_itemwidget() {
-    fix_header "$itemwidget_file" \
-        'define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/'
+    fix_file "$itemwidget_file" \
+        '#define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/%s"'
 }
 
 fix_appdata() {
@@ -79,7 +81,7 @@ fix_appdata() {
 
 check_version_format
 check_changes
-fix_version_header
+fix_version_file
 fix_itemwidget
 fix_appdata
 git commit -a -m "v$version"
