@@ -2434,7 +2434,12 @@ void Scriptable::runDisplayCommands()
     QTimer timer;
     timer.setSingleShot(true);
     timer.setInterval(0);
-    connect(this, &Scriptable::dataReceived, &loop, [&]() {
+    connect(this, &Scriptable::dataReceived, &loop, [&](const QByteArray &receivedBytes) {
+        if (receivedBytes == "ABORT") {
+            abortEvaluation(Abort::AllEvaluations);
+            return;
+        }
+
         timer.start();
     });
 
@@ -2457,8 +2462,8 @@ void Scriptable::runDisplayCommands()
 
     emit receiveData();
 
-    loop.exec();
-
+    if (m_abort == Abort::None)
+        loop.exec();
 }
 
 void Scriptable::runMenuCommandFilters()
@@ -2475,6 +2480,11 @@ void Scriptable::runMenuCommandFilters()
     timer.setInterval(0);
 
     connect(this, &Scriptable::dataReceived, &loop, [&](const QByteArray &receivedBytes) {
+        if (receivedBytes == "ABORT") {
+            abortEvaluation(Abort::AllEvaluations);
+            return;
+        }
+
         bytes = receivedBytes;
         if ( !bytes.isEmpty() )
             timer.start();
@@ -2517,7 +2527,8 @@ void Scriptable::runMenuCommandFilters()
 
     emit receiveData();
 
-    loop.exec();
+    if (m_abort == Abort::None)
+        loop.exec();
 }
 
 void Scriptable::monitorClipboard()

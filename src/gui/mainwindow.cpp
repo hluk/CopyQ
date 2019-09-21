@@ -1454,7 +1454,7 @@ void MainWindow::terminateAction(int *actionId)
 
     const int id = *actionId;
     *actionId = -1;
-    m_actionHandler->terminateAction(id);
+    emit sendActionData(id, "ABORT");
 }
 
 bool MainWindow::isItemMenuDefaultActionValid() const
