@@ -91,7 +91,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>入力された名前のタブにアイテムを保存します (現在のタブに出力する場合は空欄に)</translation>
+        <translation>入力された名前のタブにアイテムを保存します (現在のタブに保存する場合は空にしてください)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="217"/>
@@ -103,6 +103,7 @@
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>保存されたコマンドは、アイテムメニューからアクセスできます。
+
 設定画面でコマンドを設定できます。</translation>
     </message>
 </context>
@@ -139,7 +140,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>選択したものを終了(&amp;T)</translation>
     </message>
 </context>
 <context>
@@ -247,7 +248,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
-        <translation>ブラウザで開く(&amp;B)</translation>
+        <translation>ブラウザーで開く(&amp;B)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
@@ -257,7 +258,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
-        <translation>ビデオを自動再生</translation>
+        <translation>動画を自動再生</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="97"/>
@@ -447,12 +448,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation>コマンドを読み込む(&amp;L)…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>選択したコマンドを保存(&amp;V)…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -500,7 +501,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
         <source>Show command help (F1)</source>
-        <translation>コマンドヘルプを表示 (F1)</translation>
+        <translation>コマンドのヘルプを表示します (F1)</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
@@ -616,7 +617,7 @@ You can set up the command in preferences.</source>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
         <translation>ここで設定した MIME タイプのデータをコマンドの標準入力に送ります。
-無効にする場合は空欄にしてください。</translation>
+無効にする場合は空にしてください。</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
@@ -641,7 +642,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="533"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>プログラムの標準出力からアイテムを作成します (無効の場合は空欄に)</translation>
+        <translation>プログラムの標準出力からアイテムを作成します (無効にする場合は空にしてください)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="675"/>
@@ -656,7 +657,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;設定した正規表現にマッチするテキストを持つアイテムに対してのみコマンドを使用します (全てにマッチさせるには空欄にしてください)。&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;例:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;   URL にマッチ    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  PDF ファイル名にマッチ    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  1個の文字にマッチ    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  リモートのマルチメディアにマッチ    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;設定した正規表現にマッチするテキストを持つアイテムに対してのみコマンドを使用します (全てにマッチさせるには空にしてください)。&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;例:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;   URL にマッチ    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  PDF ファイル名にマッチ    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  1個の文字にマッチ    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  リモートのマルチメディアにマッチ    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="317"/>
@@ -693,7 +694,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="433"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation>新しいアイテムをコピーするタブ名を設定 (無効の場合は空欄に)</translation>
+        <translation>新しいアイテムをコピーするタブ名を設定 (無効にする場合は空にしてください)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="445"/>
@@ -742,7 +743,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="590"/>
         <source>Show action dialog before executing the command</source>
-        <translation>コマンドが実行される前にアクションダイアログを表示</translation>
+        <translation>コマンドが実行される前にアクションダイアログを表示します</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="593"/>
@@ -762,7 +763,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="553"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation>出力を複数のアイテムに分割する際にマッチさせるセパレータ</translation>
+        <translation>出力を複数のアイテムに分割する際にマッチさせるセパレータです</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="556"/>
@@ -777,7 +778,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="573"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation>入力された名前のタブにアイテムを保存します (最初のタブに出力する場合は空欄に)</translation>
+        <translation>入力された名前のタブにアイテムを保存します (最初のタブに保存する場合は空にしてください)</translation>
     </message>
 </context>
 <context>
@@ -815,7 +816,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation>エディタ</translation>
+        <translation>エディター</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
@@ -895,7 +896,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation>外部エディタで現在のテーマを編集します</translation>
+        <translation>外部エディターで現在のテーマを編集します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
@@ -948,12 +949,12 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="176"/>
         <source>No External Editor</source>
-        <translation>外部エディタが設定されていません</translation>
+        <translation>外部エディターが設定されていません</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="177"/>
         <source>Set external editor command first!</source>
-        <translation>外部エディタコマンドを最初に設定してください!</translation>
+        <translation>外部エディターコマンドを最初に設定してください!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="391"/>
@@ -967,148 +968,148 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">言語(&amp;L):</translation>
+        <translation>言語(&amp;L):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished">行に収まりきらない場合にテキストを折り返します</translation>
+        <translation>行に収まりきらない場合にテキストを折り返します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished">長いテキストを折り返す(&amp;O)</translation>
+        <translation>長いテキストを折り返す(&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished">メインウィンドウを他のウィンドウの前面に表示し続けます</translation>
+        <translation>メインウィンドウを他のウィンドウの前面に表示し続けます</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">常に最前面表示(&amp;Y)</translation>
+        <translation>常に最前面に表示する(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished">他のアプリケーションにフォーカスがある場合はメインウィンドウを閉じます</translation>
+        <translation>他のアプリケーションにフォーカスがある場合はメインウィンドウを閉じます</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished">非フォーカス時に閉じる</translation>
+        <translation>非フォーカス時に閉じる</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished">有効にすると現在のスクリーンにウィンドウを開きます。
+        <translation>有効にすると現在のスクリーンにウィンドウを開きます。
 無効にすると最後にウィンドウを閉じたスクリーンにウィンドウを開きます</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished">現在のスクリーンにウィンドウを開く(&amp;P)</translation>
+        <translation>現在のスクリーンにウィンドウを開く(&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished">アプリケーション終了時に確認します</translation>
+        <translation>アプリケーション終了時に確認します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished">終了時に確認する(&amp;X)</translation>
+        <translation>終了時に確認する(&amp;X)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished">システム起動時にアプリケーションを実行します</translation>
+        <translation>システム起動時にアプリケーションを実行します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished">自動起動(&amp;A)</translation>
+        <translation>自動的に起動する(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished">Vi のナビゲーションキー (H, J, K, L など) や、検索に使うスラッシュ (/) キーをサポートします</translation>
+        <translation>Vi のナビゲーションキー (H, J, K, L など) や、検索に使うスラッシュ (/) キーをサポートします</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished">Vi スタイルナビゲーション(&amp;V)</translation>
+        <translation>Vi スタイルナビゲーション(&amp;V)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">アイテムフィルターの履歴を保存し復元します</translation>
+        <translation>アイテムフィルターの履歴を保存/復元します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">フィルター履歴を保存</translation>
+        <translation>フィルターの履歴を保存する</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished">コマンドの関数、型、変数名を補完するポップアップを自動的に表示します</translation>
+        <translation>コマンドの関数、型、変数名を補完するポップアップを自動的に表示します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished">コマンドの自動補完</translation>
+        <translation>コマンドを自動的に補完する</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished">クリップボードの操作</translation>
+        <translation>クリップボードの操作</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished">マウスで選択するのと同様の方法でコピーした内容を貼り付けます (大抵の場合マウスの中クリック)</translation>
+        <translation>マウスで選択するのと同様の方法でコピーした内容を貼り付けます (大抵の場合マウスの中クリック)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished">(&amp;3) マウスを使ってクリップボードを貼り付け</translation>
+        <translation>(&amp;3) マウスを使ってクリップボードを貼り付け</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished">ショートカット (大抵の場合 Ctrl+V や Shift+Insert) を使用してマウスで選択した部分に貼り付けます</translation>
+        <translation>ショートカット (Ctrl + V や Shift + Insert など) を使ってマウスで選択した部分に貼り付けます</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished">(&amp;4) マウスで選択したところにキーボードで貼り付け</translation>
+        <translation>(&amp;4) マウスで選択したところにキーボードで貼り付け</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished">履歴にクリップボードを保存します</translation>
+        <translation>履歴にクリップボードを保存します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished">(&amp;1) クリップボードを記録</translation>
+        <translation>(&amp;1) クリップボードを記録する</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished">マウスで選択したテキスト (プライマリーセレクション) を履歴に保存します</translation>
+        <translation>マウスで選択したテキスト (プライマリーセレクション) を履歴に保存します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished">(&amp;2) マウスで選択したテキストを記録</translation>
+        <translation>(&amp;2) マウスで選択したテキストを記録する</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) 選択したら自動的にコマンドを実行する</translation>
     </message>
 </context>
 <context>
@@ -1116,31 +1117,31 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished">履歴内のアイテム最大数(&amp;N):</translation>
+        <translation>履歴内の最大アイテム数(&amp;N):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished">各タブの最大アイテム数</translation>
+        <translation>各タブの最大アイテム数です</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished">タブをメモリから開放する間隔 (分)(&amp;U):</translation>
+        <translation>タブをメモリから開放する間隔 (分)(&amp;U):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished">非アクティブ状態が指定時間継続されたら各タブをメモリーから開放します。
+        <translation>非アクティブ状態が指定時間継続したら各タブをメモリーから開放します。
 
-タブを開放しない場合は値を 0 にしてください。</translation>
+開放しない場合は値を 0 にしてください。</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished">外部エディタコマンド (%1 は編集ファイル)(&amp;1):</translation>
+        <translation>外部エディターコマンド (%1 は編集するファイル)(&amp;1):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1150,7 +1151,7 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished">外部エディタコマンド (%1 は編集ファイル)。
+        <translation>外部エディターコマンド (%1 は編集するファイル) です。
   使用例:
     gedit %1
     notepad %1
@@ -1160,99 +1161,99 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished">クリップボード記録用タブ(&amp;B):</translation>
+        <translation>クリップボード記録用タブ(&amp;B):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished">新規クリップボードの内容を自動的に記録するタブ名を指定します。
+        <translation>クリップボードの内容を自動的に記録するタブ名を指定します。
 
-自動記録を無効にする場合は空欄にしてください。</translation>
+自動記録を無効にする場合は空にしてください。</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="193"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished">Return でアイテムを保存し Ctrl+Return で改行したい場合は無効にしてください。
+        <translation>Return (Enter) でアイテムを保存し Ctrl + Return (Enter) で改行したい場合は無効にしてください。
 
 注意: このオプションに関係なく、編集したアイテムは F2 で保存できます。</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished">Ctrl+Return でアイテムを保存し Return キーで改行する(&amp;V)</translation>
+        <translation>Ctrl + Return でアイテムを保存し Return で改行する(&amp;V)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished">各アイテムの内容を1行で表示します。
+        <translation>各アイテムの内容を一行で表示します。
 
-アイテムの全ての内容を表示するにはアイテムのプレビューを使用します。</translation>
+アイテムの全内容を表示するにはアイテムのプレビューを使用します。</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished">アイテムをシンプルに表示(&amp;W)</translation>
+        <translation>アイテムをシンプルに表示する(&amp;W)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished">番号による検索と数字キー押下による対象アイテムのアクティブ化を有効にします</translation>
+        <translation>番号による検索と数字キー押下による対象アイテムのアクティブ化を有効にします</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished">番号の検索(&amp;E)</translation>
+        <translation>番号の検索(&amp;E)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="227"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished">ダブルクリックまたは Enter キーでアイテムをクリップボードにコピーした後...</translation>
+        <translation>ダブルクリックまたは Enter キーでアイテムをクリップボードにコピーした後...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="233"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">アイテムを使用後に履歴リストの最上位に移動します</translation>
+        <translation>アイテムを使用後に履歴リストの最上位へ移動します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="236"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished">アイテムを最上位に移動(&amp;O)</translation>
+        <translation>アイテムを最上位に移動する(&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="243"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished">アイテムを使用後にメインウィンドウを閉じます</translation>
+        <translation>アイテムを使用後にメインウィンドウを閉じます</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished">メインウィンドウを閉じる(&amp;C)</translation>
+        <translation>メインウィンドウを閉じる(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="253"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished">アイテムを使用する際、直前に使用していたウィンドウにフォーカスを移動します</translation>
+        <translation>アイテムを使用する際、直前に使用していたウィンドウにフォーカスを移動します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished">直前のウィンドウにフォーカス(&amp;F)</translation>
+        <translation>直前のウィンドウにフォーカスする(&amp;F)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="263"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished">アイテムを使用する際、現在のウィンドウにアイテムを貼り付けます</translation>
+        <translation>アイテムを使用する際、現在のウィンドウにアイテムを貼り付けます</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished">現在のウィンドウに貼り付け(&amp;P)</translation>
+        <translation>現在のウィンドウに貼り付け(&amp;P)</translation>
     </message>
 </context>
 <context>
@@ -1260,95 +1261,95 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished">表示切り替え</translation>
+        <translation>表示切り替え</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished">タブを隠します (Alt キーで表示)</translation>
+        <translation>タブを隠します (Alt キーで表示)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished">タブを隠す(&amp;D)</translation>
+        <translation>タブを隠す(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished">ツールバーを隠します</translation>
+        <translation>ツールバーを隠します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished">ツールバーを隠す(&amp;L)</translation>
+        <translation>ツールバーを隠す(&amp;L)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished">ツールバーのラベルを隠す(&amp;B)</translation>
+        <translation>ツールバーのラベルを隠す(&amp;B)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished">閉じた場合メインウィンドウを隠します</translation>
+        <translation>閉じた時にメインウィンドウを隠します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished">メインウィンドウを隠す(&amp;M)</translation>
+        <translation>メインウィンドウを隠す(&amp;M)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished">レイアウトと透過</translation>
+        <translation>レイアウトと透過</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished">タブバーの代わりにタブツリーを表示します</translation>
+        <translation>タブバーの代わりにタブツリーを表示します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished">タブツリー(&amp;R)</translation>
+        <translation>タブツリー(&amp;R)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished">フォーカス時の透過度(&amp;F):</translation>
+        <translation>フォーカス時の透過度(&amp;F):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished">フォーカスがある場合のメインウィンドウの透過度です。
+        <translation>フォーカスがある場合のメインウィンドウの透過度です。
 
-メモ: これは全てのシステムでサポートされているわけではありません。</translation>
+メモ: この機能は環境によっては動作しません。</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished">非フォーカス時の透過度(&amp;U):</translation>
+        <translation>非フォーカス時の透過度(&amp;U):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished">フォーカスがない場合のメインウィンドウの透過度です。
+        <translation>フォーカスがない場合のメインウィンドウの透過度です。
 
-メモ: これは全てのシステムでサポートされているわけではありません。</translation>
+メモ: この機能は環境によっては動作しません。</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished">タブのアイテム数を表示します</translation>
+        <translation>タブのアイテム数を表示します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished">アイテム数を表示(&amp;W)</translation>
+        <translation>アイテム数を表示する(&amp;W)</translation>
     </message>
 </context>
 <context>
@@ -1356,47 +1357,47 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished">通知の表示位置(&amp;N):</translation>
+        <translation>通知の表示位置(&amp;N):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished">画面上に通知を表示する位置を設定します</translation>
+        <translation>通知を表示する画面上の位置を設定します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished">上</translation>
+        <translation>上</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation type="unfinished">下</translation>
+        <translation>下</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished">右上</translation>
+        <translation>右上</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished">右下</translation>
+        <translation>右下</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished">左下</translation>
+        <translation>左下</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished">左上</translation>
+        <translation>左上</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished">通知の表示時間(秒)(&amp;E):</translation>
+        <translation>通知の表示時間 (秒)(&amp;E):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1405,7 +1406,8 @@ Note: This is not supported on all systems.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished">クリップボードの内容が新しくなった時、またはアイテムがクリップボードにコピーされた時 (ただしメインウィンドウが閉じている場合) に通知を表示する時間を秒単位で指定します。
+        <translation>クリップボードの内容が新しくなった時、またはアイテムをクリップボードにコピーした時 
+(ただしメインウィンドウが閉じている場合) に、通知を表示する時間を秒単位で指定します。
 
 無効にする場合は値を 0 にしてください。
 
@@ -1414,61 +1416,61 @@ Set to -1 to keep visible until clicked.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished">クリップボード通知の行数(&amp;B):</translation>
+        <translation>クリップボード通知の行数(&amp;B):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished">新しいクリップボードの内容を表示する行数。
+        <translation>新しいクリップボードの内容を表示する行数です。
 
 無効にする場合は値を 0 にしてください。</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="214"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished">通知の配置</translation>
+        <translation>通知の配置</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="220"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished">水平オフセット(&amp;Z):</translation>
+        <translation>水平オフセット(&amp;Z):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="232"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished">画面の右端または左端からの通知の距離</translation>
+        <translation>画面の右端または左端からの通知の距離です</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="260"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished">垂直オフセット(&amp;V):</translation>
+        <translation>垂直オフセット(&amp;V):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="272"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished">画面の上部または下部からの通知の距離</translation>
+        <translation>画面の上部または下部からの通知の距離です</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="300"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished">最大の幅(&amp;W):</translation>
+        <translation>最大の幅(&amp;W):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="312"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished">通知の最大横幅</translation>
+        <translation>通知の最大横幅です</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="337"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished">最大の高さ(&amp;X):</translation>
+        <translation>最大の高さ(&amp;X):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished">通知の最大縦幅</translation>
+        <translation>通知の最大縦幅です</translation>
     </message>
 </context>
 <context>
@@ -1476,72 +1478,72 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished">トレイアイコンを表示せずウィンドウを閉じる代わりに最小化します</translation>
+        <translation>トレイアイコンを表示せずウィンドウを閉じる代わりに最小化します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished">トレイを無効(&amp;E)</translation>
+        <translation>トレイを無効にする(&amp;E)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished">トレイメニューにクリップボードの内容を確認するコマンドを表示します</translation>
+        <translation>トレイメニューにクリップボードの内容を確認するコマンドを表示します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished">クリップボードの内容を確認するコマンドを表示(&amp;W)</translation>
+        <translation>クリップボードの内容を確認するコマンドを表示する(&amp;W)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished">トレイメニューのアイテム数(&amp;U):</translation>
+        <translation>トレイメニューのアイテム数(&amp;U):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished">トレイメニューに表示されるアイテムの個数</translation>
+        <translation>トレイメニューに表示されるアイテムの数です</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished">トレイメニューに現在のタブのアイテムを表示します</translation>
+        <translation>トレイメニューに現在のタブのアイテムを表示します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished">メニューに現在のタブを表示(&amp;R)、</translation>
+        <translation>メニューに現在のタブを表示する(&amp;R)、</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished">または他のタブを選択(&amp;C):</translation>
+        <translation>または他のタブを選択する(&amp;C):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished">トレイメニューに表示するタブの名前 (最初のタブにしたい場合は空欄に)</translation>
+        <translation>トレイメニューに表示するタブ名です (最初のタブにしたい場合は空にしてください)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished">メニューでアイテムを選択後、現在のウィンドウにアイテムを貼り付けます</translation>
+        <translation>メニューでアイテムを選択後、現在のウィンドウにアイテムを貼り付けます</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished">アクティブ化したアイテムを現在のウィンドウに貼り付け(&amp;P)</translation>
+        <translation>アクティブ化したアイテムを現在のウィンドウに貼り付け(&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished">メニューのアイテムの隣に画像プレビューを表示します</translation>
+        <translation>メニューのアイテムの隣に画像プレビューを表示します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished">メニューアイテムのアイコンとして画像プレビューを表示(&amp;O)</translation>
+        <translation>メニューアイテムのアイコンとして画像プレビューを表示する(&amp;O)</translation>
     </message>
 </context>
 <context>
@@ -1554,47 +1556,47 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>全般</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="178"/>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>レイアウト</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="179"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>履歴</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
         <source>Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>トレイ</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>通知</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
         <source>Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>タブ</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>
         <source>Items</source>
-        <translation type="unfinished"></translation>
+        <translation>アイテム</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="184"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>ショートカット</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="185"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>外観</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="419"/>
@@ -1614,7 +1616,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="566"/>
         <source>Restart Required</source>
-        <translation>再起動が必要</translation>
+        <translation>再起動が必要です</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="567"/>
@@ -1644,7 +1646,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
-        <translation type="unfinished"></translation>
+        <translation>アイコンを選択…</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
@@ -1704,12 +1706,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="149"/>
         <source>editor exit code is %1</source>
-        <translation>エディタ終了コードは %1 です</translation>
+        <translation>エディターの終了コードは %1 です</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="192"/>
         <source>Editor command: %1</source>
-        <translation>エディタコマンド: %1</translation>
+        <translation>エディターコマンド: %1</translation>
     </message>
 </context>
 <context>
@@ -1722,7 +1724,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="283"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation>アイテムを保存 (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
+        <translation>アイテムを保存します (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="284"/>
@@ -1738,7 +1740,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="290"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation>編集をキャンセルし変更を取り消す</translation>
+        <translation>編集をキャンセルし変更を取り消します</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="291"/>
@@ -1799,7 +1801,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="306"/>
         <source>Redo</source>
-        <translation>やり直し</translation>
+        <translation>やり直す</translation>
     </message>
 </context>
 <context>
@@ -1996,7 +1998,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation>履歴に表示される画像の最大の幅 (オリジナルサイズで表示の場合は0に設定)</translation>
+        <translation>履歴に表示される画像の最大幅です (元のサイズで表示する場合は0にしてください)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
@@ -2006,27 +2008,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation>履歴に表示される画像の最大の高さ (オリジナルサイズで表示の場合は0に設定)</translation>
+        <translation>履歴に表示される画像の最大縦幅です (元のサイズで表示する場合は0にしてください)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation>画像エディタコマンド(&amp;I):</translation>
+        <translation>画像エディターコマンド(&amp;I):</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation>SVG 以外の画像フォーマットをサポートするエディタコマンドを入力してください。</translation>
+        <translation>SVG 以外の画像フォーマットをサポートするエディターコマンドを入力してください。</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation>SVG エディタコマンド(&amp;S):</translation>
+        <translation>SVG エディターコマンド(&amp;S):</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation>SVG 画像フォーマット用のエディタコマンドを入力してください。</translation>
+        <translation>SVG 画像フォーマット用のエディターコマンドを入力してください。</translation>
     </message>
 </context>
 <context>
@@ -2067,7 +2069,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation>ツールチップを表示(&amp;L)</translation>
+        <translation>ツールチップを表示する(&amp;L)</translation>
     </message>
 </context>
 <context>
@@ -2185,7 +2187,7 @@ Set to 0 to disable.</source>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;strong&gt;タブ&lt;/strong&gt;の内容を、入力された&lt;strong&gt;パス&lt;/strong&gt;のディレクトリに同期します。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;タブ&lt;/strong&gt;のアイテムを保存したくない時は&lt;strong&gt;パスを空欄に&lt;/strong&gt;設定してください。&lt;/p&gt;</translation>
+&lt;p&gt;&lt;strong&gt;タブ&lt;/strong&gt;のアイテムを保存したくない時は&lt;strong&gt;パスを空に&lt;/strong&gt;設定してください。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
@@ -2274,7 +2276,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation>より詳しい情報は &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;Wiki ページ&lt;/a&gt;をご覧ください。</translation>
+        <translation>より詳しい情報は &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;Wiki ページ&lt;/a&gt; をご覧ください。</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
@@ -2343,7 +2345,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>ウェブページを表示します。</translation>
     </message>
 </context>
 <context>
@@ -2417,12 +2419,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="695"/>
         <source>Rename &amp;Group %1</source>
-        <translation>グループ %1 をリネーム(&amp;G)</translation>
+        <translation>グループ %1 の名前を変更(&amp;G)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="697"/>
         <source>Re&amp;name Tab %1</source>
-        <translation>タブ %1 をリネーム(&amp;N)</translation>
+        <translation>タブ %1 の名前を変更(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="699"/>
@@ -2777,7 +2779,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>E&amp;dit with editor</source>
-        <translation>エディタで編集(&amp;D)</translation>
+        <translation>エディターで編集(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
@@ -2847,7 +2849,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>R&amp;ename Tab</source>
-        <translation>タブをリネーム(&amp;E)</translation>
+        <translation>タブ名を変更(&amp;E)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
@@ -2979,7 +2981,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
         <source>Print X11 selection content.</source>
-        <translation>X11セレクションの内容を出力します。</translation>
+        <translation>X11 セレクションの内容を出力します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
@@ -3065,7 +3067,7 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation>アイテムを編集、またはアイテムを新しく作成します。
+        <translation>アイテムを編集、またはアイテムを新規作成します。
 -1 を指定すると現在クリップボード内にあるテキストを編集します。</translation>
     </message>
     <message>
@@ -3082,7 +3084,7 @@ Value -1 is for current text in clipboard.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation>クリップボードか指定された履歴番号のアイテムのデータを出力します。</translation>
+        <translation>クリップボードか指定した履歴番号のアイテムのデータを出力します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="124"/>
@@ -3193,7 +3195,7 @@ ECMAScript プログラムを診断します。
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>Rename tab.</source>
-        <translation>タブをリネームします。</translation>
+        <translation>タブ名を変更します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
@@ -3269,7 +3271,7 @@ Starts or connects to application instance with given session name.</source>
         <source>
 Print help for COMMAND or all commands.</source>
         <translation>
-コマンドのヘルプ、あるいは全てのコマンドを表示します。</translation>
+コマンドのヘルプ、または全てのコマンドを表示します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
@@ -3434,22 +3436,22 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished"></translation>
+        <translation>グローバル(&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation>グローバルショートカットはどのアプリケーションがアクティブでも使用できます。</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーション(&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can be triggered only from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションショートカットはメインウィンドウがアクティブな場合に使用できます。</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
@@ -3480,12 +3482,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>CopyQ Rename Tab</source>
-        <translation>CopyQ タブをリネーム</translation>
+        <translation>CopyQ タブ名を変更</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>CopyQ Rename Tab Group</source>
-        <translation>CopyQ タブグループをリネーム</translation>
+        <translation>CopyQ タブグループ名を変更</translation>
     </message>
 </context>
 <context>
@@ -3511,12 +3513,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="88"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation>&apos;/&apos; を押して検索</translation>
+        <translation>&apos;/&apos; を押すと検索を開始します</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="88"/>
         <source>Type to search</source>
-        <translation>入力して検索</translation>
+        <translation>キー入力で検索を開始します</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="101"/>
