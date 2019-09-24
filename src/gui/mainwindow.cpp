@@ -3091,9 +3091,14 @@ void MainWindow::updateTrayMenuItemsTimeout()
     interruptMenuCommandFilters(&m_trayMenuMatchCommands);
     m_trayMenu->clearClipboardItems();
 
-    QAction *act = m_trayMenu->addAction( appIcon(), tr("&Show/Hide") );
-    connect(act, &QAction::triggered, this, &MainWindow::toggleVisible);
-    m_trayMenu->setDefaultAction(act);
+    if (m_showHideAction) {
+        m_trayMenu->addAction(m_showHideAction);
+    } else {
+        m_showHideAction = m_trayMenu->addAction( appIcon(), tr("&Show/Hide") );
+        connect(m_showHideAction.data(), &QAction::triggered, this, &MainWindow::toggleVisible);
+    }
+
+    m_trayMenu->setDefaultAction(m_showHideAction);
     addTrayAction(Actions::File_Preferences);
     addTrayAction(Actions::File_ToggleClipboardStoring);
     m_trayMenu->addSeparator();
