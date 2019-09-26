@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Daten dieses MIME-Type an die Standardeingabe weiterleiten (zum Deaktivieren leer lassen)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Elemente anhand der Standardausgabe erstellen (zum Deaktivieren leer lassen)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -329,7 +329,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="817"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation>Für diesen Reiter ist die maximale Element-Anzahl erreicht. Es konnten keine Elemente entfernt werden.</translation>
+        <translation>Reiter ist voll. Es konnten keine Elemente entfernt werden.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1892"/>
@@ -446,12 +446,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Lade Befehle…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausgewählte Befehle speichern…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -967,142 +967,142 @@ F2 zum Bearbeiten drücken.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">Sprache:</translation>
+        <translation>Sprache:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished">Text umbrechen, falls für Zeile zu lang</translation>
+        <translation>Text umbrechen, falls für Zeile zu lang</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished">Lange Texte umbrechen</translation>
+        <translation>Langen Text umbrechen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished">Hauptfenster immer im Vordergrund anzeigen</translation>
+        <translation>Hauptfenster immer im Vordergrund anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">Immer im Vordergrund</translation>
+        <translation>Immer im Vordergrund</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished">Hauptfenster schließen, wenn eine andere Anwendung fokussiert ist</translation>
+        <translation>Hauptfenster schließen falls ein andere Anwendung fokussiert wird</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished">Schließen bei Verlust des Fokus</translation>
+        <translation>Bei Verlust des Fokus schließen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished">Aktivieren, um Fenster immer auf aktuellem Bildschirm zu öffnen. Deaktivieren, um Fenster dort zu öffnen, wo diese zuletzt geschlossen wurden.</translation>
+        <translation>Aktivieren, um Fenster immer auf aktuellem Bildschirm zu öffnen. Deaktivieren, um Fenster dort zu öffnen, wo diese zuletzt geschlossen wurden.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished">Fenster auf aktuellem Bildschirm öffnen</translation>
+        <translation>Fenster auf aktuellem Bildschirm öffnen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished">Bei Beenden der Anwendung nachfragen</translation>
+        <translation>Bestätigung vor dem Beenden der Anwendung</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished">Beenden be&amp;stätigen</translation>
+        <translation>Be&amp;stätigung vor dem Beenden der Anwendung</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished">Anwendung beim Systemstart laden</translation>
+        <translation>Anwendung beim Systemstart ausführen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished">&amp;Autostart</translation>
+        <translation>&amp;Autostart</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished">Unterstützung für Vi-Navigationstasten (H, J, K, L und weitere), Schrägstrich (/) um zu suchen</translation>
+        <translation>Unterstützung für Vi-Navigationstasten (H, J, K, L und weitere), Schrägstrich (/) um zu suchen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished">&amp;Vi-ähnliche Navigation</translation>
+        <translation>&amp;Vi-ähnliche Navigation</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">Filterverlauf für Elemente speichern und wiederherstellen</translation>
+        <translation>Filterverlauf für Elemente speichern</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">Filterverlauf speichern</translation>
+        <translation>Filterverlauf speichern</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished">Popup für die Autovervollständigung von Funktionen, Typen und Variablen in Befehlen anzeigen</translation>
+        <translation>Popup für die Autovervollständigung von Funktionen, Typen und Variablen bei Befehlen anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished">Befehle automatisch vervollständigen</translation>
+        <translation>Befehle automatisch vervollständigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished">Zwischenablage verändern</translation>
+        <translation>Zwischenablage verändern</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished">Erlauben, kopierte Inhalte auf dieselbe Weise wie bei Mausauswahl einzufügen (meist über die mittlere Maustaste)</translation>
+        <translation>Erlauben, kopierte Inhalte auf dieselbe Weise wie bei Mausauswahl einzufügen (meist über die mittlere Maustaste)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished">(&amp;3) Zwischenablage mit der Maus einfügen</translation>
+        <translation>(&amp;3) Zwischenablage mit der Maus einfügen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished">Erlauben, per Maus ausgewählte Inhalte über Tastenkombinationen einzufügen (meist Strg+V oder Umschalt+Einf)</translation>
+        <translation>Erlauben, per Maus ausgewählte Inhalte über Tastenkombinationen einzufügen (meist Strg+V oder Umschalt+Einf)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished">(&amp;4) Einfügen der primären Auswahl mit der Tastatur</translation>
+        <translation>(&amp;4) Einfügen der Maus-Auswahl per Tastatur</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished">Zwischenablage in Verlauf speichern</translation>
+        <translation>Zwischenablage in Verlauf speichern</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished">(&amp;1) Speicher Zwischenablage</translation>
+        <translation>(&amp;1) Zwischenablage speichern</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished">Mit der Maus ausgewählten Text (primäre Auswahl) im Verlauf speichern</translation>
+        <translation>Mit der Maus ausgewählten Text (primäre Auswahl) im Verlauf speichern</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished">(&amp;2) Mit der Maus ausgewählten Text speichern</translation>
+        <translation>(&amp;2) Mit der Maus ausgewählten Text speichern</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
@@ -1115,31 +1115,31 @@ F2 zum Bearbeiten drücken.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished">&amp;Maximale Anzahl von Elementen im Verlauf:</translation>
+        <translation>&amp;Maximale Anzahl von Elementen im Verlauf:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished">Maximale Anzahl von Elementen in jedem Reiter</translation>
+        <translation>Maximale Anzahl von Elementen in jedem Reiter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished">Reiter nach einem Inter&amp;vall entladen (Minuten):</translation>
+        <translation>Reiter nach einem Inter&amp;vall entladen (Minuten):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished">Bei Inaktivität eines Reiters wird dieser nach der angegeben Anzahl von Minuten aus dem Speicher entladen.
+        <translation>Bei Inaktivität eines Reiters wird dieser nach der angegeben Anzahl von Minuten aus dem Speicher entladen.
 
 Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished">Befehl für externen Editor (%&amp;1 ist die zu bearbeitende Datei):</translation>
+        <translation>Befehl für externen Editor (%&amp;1 ist die zu bearbeitende Datei):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1149,7 +1149,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished">Befehl für externen Texteditor (%1 für zu öffnende Datei).
+        <translation>Befehl für externen Texteditor (%1 ist die zu bearbeitende Datei).
   Beispiele:
     gedit %1
     notepad %1
@@ -1159,14 +1159,14 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished">Reiter zum Speichern der Zwischenablage:</translation>
+        <translation>Reiter zum Speichern der Zwischenablage:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished">Name des Reiters, in dem automatisch neue Inhalte der Zwischenablage gespeichert werden sollen.
+        <translation>Name des Reiters, in dem automatisch neue Inhalte der Zwischenablage gespeichert werden sollen.
 
 Leerlassen, um die automatische Speicherung zu deaktivieren.</translation>
     </message>
@@ -1175,83 +1175,83 @@ Leerlassen, um die automatische Speicherung zu deaktivieren.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished">Nicht auswählen, um mit der Eingabetaste bearbeitete Elemente zu speichern und mit Strg+Eingabe neue Zeilen zu erstellen.
+        <translation>Nicht auswählen, um mit der Eingabetaste bearbeitete Elemente zu speichern und mit Strg+Eingabe neue Zeilen zu erstellen.
 
 Hinweis: Bearbeitete Elemente können mit F2 gespeichert werden, ungeachtet dieser Option.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished">Be&amp;arbeitete Elemente mit Strg+Eingabe speichern und neue Zeile mit Eingabetaste erstellen</translation>
+        <translation>Be&amp;arbeitete Elemente mit Strg+Eingabe speichern und neue Zeile mit Eingabetaste erstellen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished">Nur eine einzeilige Beschreibung des Elements anzeigen.
+        <translation>Nur eine einzeilige Beschreibung des Elements anzeigen.
 
 Über die Elementvorschau wird das komplette Element angezeigt.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished">Einfache Elemente anzeigen</translation>
+        <translation>Einfache Elemente anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished">Ermöglicht das Suchen nach Zahlen. Falls diese Option deaktiviert ist, wird durch Drücken einer Ziffer das Element an dieser Position aktiviert</translation>
+        <translation>Ermöglicht das Suchen nach Zahlen. Falls diese Option deaktiviert ist, wird durch Drücken einer Ziffer das Element an dieser Position aktiviert</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished">Nach Zahlen such&amp;en</translation>
+        <translation>Nach Zahlen such&amp;en</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="227"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished">Nachdem Element aktiviert wurde (Doppelklick oder Eingabetaste), dieses in die Zwischenablage kopieren und …</translation>
+        <translation>Nachdem Element aktiviert wurde (Doppelklick oder Eingabetaste), dieses in die Zwischenablage kopieren und …</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="233"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">Element zum Anfang der Liste verschieben, nachdem es aktiviert ist</translation>
+        <translation>Element an den Anfang der Liste verschieben, nachdem es aktiviert wurde</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="236"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished">Eintrag zum Anfang verschieben</translation>
+        <translation>Eintrag an den Anfang verschieben</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="243"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished">Hauptfenster schließen, nachdem Element aktiviert wurde</translation>
+        <translation>Hauptfenster schließen nachdem ein Element aktiviert wurde</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished">Hauptfenster s&amp;chließen</translation>
+        <translation>Hauptfenster s&amp;chließen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="253"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished">Letztes Fenster fokussieren, nachdem Element aktiviert wurde</translation>
+        <translation>Letztes Fenster fokussieren nachdem ein Element aktiviert wurde</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished">Letztes Fenster &amp;fokussieren</translation>
+        <translation>Letztes Fenster &amp;fokussieren</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="263"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished">In aktuelles Fenster einfügen, nachdem das Element aktiviert wurde</translation>
+        <translation>Im aktuellen Fenster einfügen nachdem das Element aktiviert wurde</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished">In aktuelles Fenster einfügen</translation>
+        <translation>Im aktuellen Fenster einfügen</translation>
     </message>
 </context>
 <context>
@@ -1259,95 +1259,95 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished">Zeigen/Ausblenden</translation>
+        <translation>Zeigen/Ausblenden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished">Reiter ausblenden (zum Anzeigen die Alt-Taste drücken)</translation>
+        <translation>Reiter ausblenden (zum Anzeigen die Alt-Taste drücken)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished">Reiter ausblen&amp;den</translation>
+        <translation>Reiter ausblen&amp;den</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished">Symbolleiste ausblenden</translation>
+        <translation>Symbolleiste ausblenden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished">Symbol&amp;leiste ausblenden</translation>
+        <translation>Symbol&amp;leiste ausblenden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished">Bezeichnung von Sym&amp;bolleisten verbergen</translation>
+        <translation>Bezeichnungen von Sym&amp;bolleisten verbergen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished">Hauptfenster nach dem Schließen ausblenden</translation>
+        <translation>Hauptfenster nach dem Schließen ausblenden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished">Hauptfenster ausblenden</translation>
+        <translation>Hauptfenster ausblenden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished">Layout und Transparenz</translation>
+        <translation>Layout und Transparenz</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished">Verwende zur Anzeige der Reiter einen Baum anstatt einer Leiste</translation>
+        <translation>Verwende zur Anzeige der Reiter einen Baum anstatt einer Leiste</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished">&amp;Reiter in einem Baum darstellen</translation>
+        <translation>&amp;Reiter in einem Baum darstellen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished">Transparenz, wenn &amp;fokussiert:</translation>
+        <translation>Transparenz, wenn &amp;fokussiert:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished">Transparenz des Hauptfensters, wenn es fokussiert ist.
+        <translation>Transparenz des Hauptfensters wenn es fokussiert ist.
 
 Hinweis: Dies wird nicht von allen Systemen unterstützt.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished">Transparenz, wenn nicht fok&amp;ussiert:</translation>
+        <translation>Transparenz wenn nicht fok&amp;ussiert:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished">Transparenz des Hauptfensters, wenn es nicht fokussiert ist.
+        <translation>Transparenz des Hauptfensters, wenn es nicht fokussiert ist.
 
 Hinweis: Dies wird nicht von allen Systemen unterstützt.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished">In Reitern die Anzahl der Elemente anzeigen</translation>
+        <translation>In Reitern die Anzahl der Elemente anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished">Anzahl der Elemente anzeigen</translation>
+        <translation>Anzahl der Elemente anzeigen</translation>
     </message>
 </context>
 <context>
@@ -1355,47 +1355,47 @@ Hinweis: Dies wird nicht von allen Systemen unterstützt.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished">Position der Be&amp;nachrichtigung:</translation>
+        <translation>Position für Be&amp;nachrichtigungen:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished">Position auf dem Bildschirm für Benachrichtgungen</translation>
+        <translation>Position auf dem Bildschirm für Benachrichtgungen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished">Oben</translation>
+        <translation>Oben</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation type="unfinished">Unten</translation>
+        <translation>Unten</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished">Oben rechts</translation>
+        <translation>Oben rechts</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished">Unten rechts</translation>
+        <translation>Unten rechts</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished">Unten links</translation>
+        <translation>Unten links</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished">Oben links</translation>
+        <translation>Oben links</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished">Int&amp;erval in Sekunden um Benachrichtigungen anzuzeigen:</translation>
+        <translation>Anzeigedauer von Benachrichtigungen in Sekunden:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1404,7 +1404,7 @@ Hinweis: Dies wird nicht von allen Systemen unterstützt.</translation>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished">Dauer in Sekunden zum Anzeigen von Benachrichtigungen für neue Inhalte in der Zwischenablage oder wenn ein Eintrag in die Zwischenablage kopiert wurde (nur wenn das Hauptfenster geschlossen ist).
+        <translation>Dauer in Sekunden zum Anzeigen von Benachrichtigungen für neue Inhalte in der Zwischenablage oder wenn ein Eintrag in die Zwischenablage kopiert wurde (nur wenn das Hauptfenster geschlossen ist).
 
 Auf 0 setzen, um die Anzeige zu deaktivieren.
 
@@ -1413,61 +1413,61 @@ Auf -1 setzen, um Benachrichtigung bis zum Klicken sichtbar zu halten.</translat
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished">Zeilenanzahl für eine &amp;Benachrichtigung:</translation>
+        <translation>Anzuzeigende Zeilenanzahl bei &amp;Benachrichtigungen:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished">Anzahl an Zeilen die bei neuen Inhalten der Zwischenablage angezeigt werden sollen.
+        <translation>Anzahl der Zeilen die bei neuen Inhalten der Zwischenablage angezeigt werden sollen.
 
 Zum Deaktivieren auf 0 setzen.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="214"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished">Geometrie der Benachrichtigungen (in Bildschirmpunkten)</translation>
+        <translation>Geometrie der Benachrichtigungen (in Bildschirmpunkten)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="220"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished">Hori&amp;zontaler Versatz:</translation>
+        <translation>Hori&amp;zontaler Versatz:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="232"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished">Abstand der Benachrichtigungen zum linken oder rechten Bildschirmrand in Bildschirmpunkten</translation>
+        <translation>Abstand der Benachrichtigungen zum linken oder rechten Bildschirmrand in Bildschirmpunkten</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="260"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished">&amp;Vertikaler Offset:</translation>
+        <translation>&amp;Vertikaler Offset:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="272"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished">Abstand der Benachrichtigungen zum oberen oder unteren Bildschirmrand in Bildschirmpunkten</translation>
+        <translation>Abstand der Benachrichtigungen zum oberen oder unteren Bildschirmrand in Bildschirmpunkten</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="300"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished">Maximale Breite:</translation>
+        <translation>Maximale Breite:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="312"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished">Maximale Breite für Benachrichtigungen in Bildschirmpunkten</translation>
+        <translation>Maximale Breite für Benachrichtigungen in Bildschirmpunkten</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="337"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished">Ma&amp;ximale Höhe:</translation>
+        <translation>Ma&amp;ximale Höhe:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished">Maximale Höhe für Benachrichtigungen in Bildschirmpunkten</translation>
+        <translation>Maximale Höhe für Benachrichtigungen in Bildschirmpunkten</translation>
     </message>
 </context>
 <context>
@@ -1475,72 +1475,72 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished">Kein Tray-Icon anzeigen; Fenster minimieren wenn geschlossen</translation>
+        <translation>Kein Tray-Icon anzeigen; Fenster minimieren wenn geschlossen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished">Tray-Symbol &amp;deaktivieren</translation>
+        <translation>Tray-Symbol &amp;deaktivieren</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished">Befehl für aktuellen Inhalt der Zwischenablage im Tray-Menü anzeigen</translation>
+        <translation>Befehl für aktuellen Inhalt der Zwischenablage im Tray-Menü anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished">Befehle für Inha&amp;lte der Zwischenablage anzeigen</translation>
+        <translation>Befehle für Inha&amp;lte der Zwischenablage anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished">N&amp;ummer von Elementen im Tray-Menü:</translation>
+        <translation>Anzahl von Elementen im Tray-Menü:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished">Nummer von Elementen im Tray-Menü</translation>
+        <translation>Anzahl von Elementen im Tray-Menü</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished">Elemente des aktiven Reiters im Tray-Menü anzeigen</translation>
+        <translation>Elemente des aktiven Reiters im Tray-Menü anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished">Aktuellen &amp;Reiter in Menü anzeigen,</translation>
+        <translation>Aktuellen &amp;Reiter in Menü anzeigen,</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished">oder einen anderen Reiter &amp;wählen:</translation>
+        <translation>oder einen anderen Reiter aus&amp;wählen:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished">Name des Reiters, der im Tray-Menü gezeigt werden soll (leerlassen für ersten Reiter)</translation>
+        <translation>Name des Reiters, der im Tray-Menü gezeigt werden soll (leerlassen für ersten Reiter)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished">Element, nach dessen Auswahl im Menü, in aktuelles Fenster einfügen</translation>
+        <translation>Element, nach dessen Auswahl im Menü, im aktuellen Fenster einfügen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished">Einfügen des ausgewählten Elements in aktuelles Fenster</translation>
+        <translation>Einfügen des ausgewählten Elements im aktuellen Fenster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished">Bildvorschau neben Menüelementen anzeigen</translation>
+        <translation>Bildvorschau neben Menüelementen anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished">Bildvorschau als Symbol des Menüeintrags anzeigen</translation>
+        <translation>Bildvorschau als Symbol des Menüeintrags anzeigen</translation>
     </message>
 </context>
 <context>
@@ -1563,22 +1563,22 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Allgemein</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="178"/>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Layout</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="179"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlauf</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
         <source>Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Tray</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
@@ -1588,17 +1588,17 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>
         <source>Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Elemente</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="184"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Tastenkombinationen</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="185"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Erscheinungsbild</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="566"/>
@@ -1643,7 +1643,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
-        <translation type="unfinished"></translation>
+        <translation>Symbol auswählen…</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
@@ -2205,7 +2205,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;MIME-Typ auf &lt;strong&gt;-&lt;/strong&gt;(Minus) setzen, um Dateien zu ignorieren. Andere unbekannte oder versteckte Dateien werden ignoriert.&lt;/p&gt;
+        <translation>&lt;p&gt;MIME-Typ auf &lt;strong&gt;-&lt;/strong&gt;(Bindestrich) setzen, um Dateien zu ignorieren. Andere unbekannte oder versteckte Dateien werden ignoriert.&lt;/p&gt;
 &lt;p&gt;Beispiel: &lt;strong&gt;txt&lt;/strong&gt;-Dateierweiterung als &lt;strong&gt;text/plain&lt;/strong&gt; MIME-Typ laden.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -3327,7 +3327,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Doppelbindestrichargument (--) verwenden, um alle folgenden Argumente
-    zu lesen ohne die Escapesequenzen zu erweitern (z.&#xa0;B. \n, \t und weitere).</translation>
+    zu lesen ohne die Escapesequenzen zu erweitern (z. B. \n, \t und weitere).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="89"/>
@@ -3433,27 +3433,27 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished"></translation>
+        <translation>Gl&amp;obal</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Globale Tastenkombinationen können aus jeder Anwendung heraus ausgelöst werden.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendung</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can be triggered only from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendungsweite Tastenkombinationen können nur innerhalb des Hauptfensters ausgelöst werden.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
-        <translation>Die Tastenkombination existiert bereits!</translation>
+        <translation>Diese Tastenkombination existiert bereits!</translation>
     </message>
 </context>
 <context>
