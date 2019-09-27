@@ -130,7 +130,7 @@ public:
     /**
      * Adds commands from scripts for command dialog.
      */
-    QVector<Command> commands() const;
+    QVector<Command> commands(bool enabled = true) const;
 
     void emitError(const QString &errorString);
 
@@ -153,7 +153,7 @@ private:
     void loaderChildDestroyed(QObject *obj);
 
     /** Return enabled plugins with dummy item loader. */
-    ItemLoaderList enabledLoaders() const;
+    ItemLoaderList enabledLoaders(bool enabled = true) const;
 
     /** Calls ItemLoaderInterface::transform() for all plugins in reverse order. */
     ItemWidget *transformItem(ItemWidget *item, const QVariantMap &data);

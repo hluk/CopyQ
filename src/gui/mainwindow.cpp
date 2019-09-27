@@ -389,6 +389,13 @@ void clearActions(QToolBar *toolBar)
     toolBar->clear();
 }
 
+bool hasCommandFuzzy(const QVector<Command> &commands, const Command &command)
+{
+    return std::any_of(std::begin(commands), std::end(commands), [&command](const Command &cmd){
+        return command.name == cmd.name || command.cmd == cmd.cmd;
+    });
+}
+
 } // namespace
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
@@ -1937,26 +1944,13 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
 
     QVector<Command> displayCommands;
 
-    QSet<QString> commandNames;
-    QSet<QString> commandCmds;
-    for (const auto &command : allCommands) {
-        commandNames.insert(command.name);
-        commandCmds.insert(command.cmd);
-    }
-
-    for ( const auto &command : m_sharedData->itemFactory->commands() ) {
-        if ( !commandNames.contains(command.name) && !commandCmds.contains(command.cmd) ) {
-            allCommands.append(command);
-            forceSave = true;
-        }
-    }
-
-    if (forceSave)
+    if ( addPluginCommands(&allCommands) || forceSave )
         saveCommands(allCommands);
 
+    const auto disabledPluginCommands = m_sharedData->itemFactory->commands(false);
     Commands commands;
     for (const auto &command : allCommands) {
-        if (command.enable)
+        if ( command.enable && !hasCommandFuzzy(disabledPluginCommands, command) )
             commands.append(command);
     }
 
@@ -1988,6 +1982,18 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
     updateContextMenu(contextMenuUpdateIntervalMsec);
     updateTrayMenuCommands();
     emit commandsSaved(commands);
+}
+
+bool MainWindow::addPluginCommands(QVector<Command> *allCommands)
+{
+    const auto oldSize = allCommands->size();
+
+    for ( const auto &command : m_sharedData->itemFactory->commands() ) {
+        if ( !hasCommandFuzzy(*allCommands, command) )
+            allCommands->append(command);
+    }
+
+    return oldSize != allCommands->size();
 }
 
 void MainWindow::disableHideWindowOnUnfocus()

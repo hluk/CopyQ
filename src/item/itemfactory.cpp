@@ -440,12 +440,12 @@ QList<ItemScriptable*> ItemFactory::scriptableObjects() const
     return scriptables;
 }
 
-QVector<Command> ItemFactory::commands() const
+QVector<Command> ItemFactory::commands(bool enabled) const
 {
 #ifdef HAS_TESTS
     const QString id = qApp->property("CopyQ_test_id").toString();
     if ( !id.isEmpty() ) {
-        for ( const auto &loader : enabledLoaders() ) {
+        for ( const auto &loader : enabledLoaders(enabled) ) {
             if (loader->id() == id)
                 return loader->commands();
         }
@@ -455,7 +455,7 @@ QVector<Command> ItemFactory::commands() const
 
     QVector<Command> commands;
 
-    for ( const auto &loader : enabledLoaders() )
+    for ( const auto &loader : enabledLoaders(enabled) )
         commands << loader->commands();
 
     return commands;
@@ -562,18 +562,19 @@ bool ItemFactory::setData(const QVariantMap &data, const QModelIndex &index, QAb
     return model->setData(index, data, contentType::updateData);
 }
 
-ItemLoaderList ItemFactory::enabledLoaders() const
+ItemLoaderList ItemFactory::enabledLoaders(bool enabled) const
 {
-    ItemLoaderList enabledLoaders;
+    ItemLoaderList loaders;
 
     for (auto &loader : m_loaders) {
-        if ( isLoaderEnabled(loader) )
-            enabledLoaders.append(loader);
+        if ( isLoaderEnabled(loader) == enabled )
+            loaders.append(loader);
     }
 
-    enabledLoaders.append(m_dummyLoader);
+    if (enabled)
+        loaders.append(m_dummyLoader);
 
-    return enabledLoaders;
+    return loaders;
 }
 
 ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QVariantMap &data)

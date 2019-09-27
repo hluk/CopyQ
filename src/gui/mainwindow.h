@@ -512,6 +512,7 @@ private:
     void updateEnabledCommands();
 
     void updateCommands(QVector<Command> allCommands, bool forceSave);
+    bool addPluginCommands(QVector<Command> *allCommands);
 
     void disableHideWindowOnUnfocus();
     void enableHideWindowOnUnfocus();
