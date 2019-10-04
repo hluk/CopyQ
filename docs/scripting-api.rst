@@ -1154,7 +1154,7 @@ Types
 
        var f = new File('README.md')
        if (!f.openReadOnly())
-         raise 'Failed to open the file: ' + f.errorString()
+         throw 'Failed to open the file: ' + f.errorString()
        var bytes = f.readAll()
 
    Following code writes to a file in home directory.
@@ -1165,7 +1165,7 @@ Types
        var filePath = Dir().homePath() + '/copyq.txt'
        var f = new File(filePath)
        if (!f.openWriteOnly() || f.write(dataToWrite) == -1)
-         raise 'Failed to save the file: ' + f.errorString()
+         throw 'Failed to save the file: ' + f.errorString()
 
        // Always flush the data and close the file,
        // before opening the file in other application.
