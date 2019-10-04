@@ -14,7 +14,7 @@ cmake \
 
 cmake --build . --target all
 
-cpack
+cpack --verbose
 
 app_bundle_path="_CPack_Packages/Darwin/DragNDrop/copyq-*/CopyQ.app"
 executable="$(ls ${PWD}/${app_bundle_path}/Contents/MacOS/CopyQ)"

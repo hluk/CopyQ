@@ -1,6 +1,4 @@
 file(GLOB copyq_plugin_itemfakevim_SOURCES
-    ${copyq_plugin_itemfakevim_SOURCES}
-    ../../src/item/itemwidgetwrapper.cpp
     fakevim/*.cpp
     fakevim/utils/*.cpp
     )

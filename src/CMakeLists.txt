@@ -1,6 +1,5 @@
 # Project files
 file(GLOB copyq_SOURCES
-    main.cpp
     app/*.cpp
     common/*.cpp
     gui/*.cpp
@@ -18,7 +17,7 @@ set(copyq_RESOURCES copyq.qrc)
 
 # Qt include paths and definitions
 include_directories(${CMAKE_CURRENT_BINARY_DIR} .)
-include_directories(${Qt5Widgets_INCLUDES})
+include_directories(SYSTEM ${Qt5Widgets_INCLUDES})
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
 include(platform/platform.cmake)
@@ -29,7 +28,7 @@ if (USE_QXT)
         ../qxt/qxtglobalshortcut.cpp
         )
     add_definitions( -DQXT_STATIC )
-    include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+    include_directories(SYSTEM ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 endif()
 
 # Compile with tests?
@@ -50,16 +49,27 @@ qt5_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
-set(copyq_COMPILE
-    ${copyq_COMPILE}
-    ${copyq_SOURCES}
-    ${copyq_FORMS_HEADERS}
-    ${copyq_RESOURCES_RCC}
+list(APPEND copyq_COMPILE_EXE
+    main.cpp
     ${copyq_QM}
     )
 
+list(APPEND copyq_COMPILE
+    ${copyq_SOURCES}
+    ${copyq_FORMS_HEADERS}
+    ${copyq_RESOURCES_RCC}
+    )
+
+# rpath
 if (NOT APPLE)
-    add_executable(${COPYQ_EXECUTABLE_NAME} ${copyq_COMPILE})
+    set(CMAKE_SKIP_BUILD_RPATH FALSE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif()
+
+if (NOT APPLE)
+    add_executable(${COPYQ_EXECUTABLE_NAME} ${copyq_COMPILE_EXE})
 else()
     # On Macs we must ensure Carbon and Cocoa are linked
     FIND_LIBRARY(CARBON_LIBRARY "Carbon")
@@ -91,12 +101,14 @@ else()
     set(MACOSX_BUNDLE_BUNDLE_VERSION "${copyq_version}")
 
     set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-    set(copyq_COMPILE ${copyq_COMPILE} "${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns")
+    list(APPEND copyq_COMPILE_EXE "${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns")
 
-    add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE ${copyq_COMPILE})
+    add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE ${copyq_COMPILE_EXE})
 endif()
 
-add_dependencies(${COPYQ_EXECUTABLE_NAME} generate_version_header)
+add_library(${COPYQ_LIB} SHARED ${copyq_COMPILE})
+set_target_properties(${COPYQ_LIB} PROPERTIES FRAMEWORK TRUE)
+add_dependencies(${COPYQ_LIB} generate_version_header)
 
 # Qt modules
 list(APPEND copyq_qt_modules Network Svg Xml Script)
@@ -105,12 +117,16 @@ foreach (copyq_qt_module ${copyq_qt_modules})
     list(APPEND copyq_LIBRARIES Qt5::${copyq_qt_module})
 endforeach()
 
-# macros definitions for preprocessor and moc
-set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
+set_target_properties(
+    ${COPYQ_LIB} PROPERTIES
+    COMPILE_DEFINITIONS "${copyq_DEFINITIONS}"
+    ${copyq_PROPERTIES_LIB}
+)
 
 # link
-set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS}")
-target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${copyq_LIBRARIES})
+target_link_libraries(${COPYQ_LIB} ${copyq_LIBRARIES})
+target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${COPYQ_LIB})
+set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS_EXE}")
 
 # install
 install(TARGETS ${COPYQ_EXECUTABLE_NAME}
@@ -119,6 +135,10 @@ install(TARGETS ${COPYQ_EXECUTABLE_NAME}
     )
 
 if (NOT APPLE)
+    install(TARGETS ${COPYQ_LIB}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT Runtime
+    )
+
     if (TRANSLATION_INSTALL_PREFIX)
         install(FILES ${copyq_QM} DESTINATION "${TRANSLATION_INSTALL_PREFIX}")
     endif()
@@ -166,7 +186,7 @@ else()
     get_property(_copyq_installed_plugins GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS)
 
     # Directories to look for dependencies
-    set(FIXUP_BUNDLE_DEP_DIRS "${CMAKE_BINARY_DIR};${QT_LIBRARY_DIRS}")
+    set(FIXUP_BUNDLE_DEP_DIRS "${CMAKE_BINARY_DIR};${CMAKE_BINARY_DIR}/src;${QT_LIBRARY_DIRS}")
 
     install(CODE "
         include(BundleUtilities)

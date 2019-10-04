@@ -105,6 +105,7 @@ Name: "startup"; Description: {cm:AutoStartProgram,CopyQ}; Flags: unchecked
 
 [Files]
 Source: "{#Root}\copyq.exe"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "{#Root}\*copyq-core.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Root}\AUTHORS"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Root}\LICENSE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Root}\README.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion

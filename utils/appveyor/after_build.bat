@@ -11,9 +11,17 @@ set Executable=%Destination%\copyq.exe
 
 if [%VC_VARS_ARCH%] == [] (set Build=%BuildRoot%) else (set Build=%BuildRoot%\Release)
 if [%VC_VARS_ARCH%] == [] (set BuildPlugins=%BuildRoot%\plugins) else (set BuildPlugins=%BuildRoot%\plugins\Release)
+if [%VC_VARS_ARCH%] == [] (set LibPrefix=lib) else (set LibPrefix=)
+
+set Library=%Destination%\%LibPrefix%copyq-core.dll
+
+dir "%BuildRoot%"
+dir "%BuildRoot%\Release"
+dir "%Build%\src"
 
 mkdir "%Destination%"
 xcopy /F "%Build%\copyq.exe" "%Destination%" || goto :error
+xcopy /F "%Build%\src\*copyq-core.dll" "%Destination%" || goto :error
 
 xcopy /F "%Source%\AUTHORS" "%Destination%" || goto :error
 xcopy /F "%Source%\LICENSE" "%Destination%" || goto :error
@@ -29,6 +37,7 @@ mkdir "%Destination%\plugins"
 xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins" || goto :error
 
 %QTDIR%\bin\windeployqt --release --no-system-d3d-compiler --no-angle --no-opengl-sw "%Executable%" || goto :error
+%QTDIR%\bin\windeployqt --release --no-system-d3d-compiler --no-angle --no-opengl-sw "%Library%" || goto :error
 
 7z a "%Name%.zip" -r "%Destination%" || goto :error
 

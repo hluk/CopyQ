@@ -30,7 +30,7 @@ macro (copyq_add_plugin copyq_pkg)
     set_target_properties(${copyq_pkg} PROPERTIES
         COMPILE_DEFINITIONS "${copyq_plugin_${copyq_pkg}_DEFINITIONS}")
 
-    target_link_libraries(${copyq_pkg} ${copyq_LIBRARIES} ${copyq_plugin_${copyq_pkg}_LIBRARIES})
+    target_link_libraries(${copyq_pkg} ${copyq_LIBRARIES} ${copyq_plugin_${copyq_pkg}_LIBRARIES} ${COPYQ_LIB})
 
     if (UNIX AND NOT APPLE)
         install(TARGETS ${copyq_pkg} DESTINATION ${PLUGIN_INSTALL_PREFIX})

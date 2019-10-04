@@ -13,12 +13,14 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
 set(USE_QXT TRUE)
 
 # Omit opening extra console window on Windows.
-set(copyq_COMPILE
+set(copyq_COMPILE_EXE
     WIN32
-    ${copyq_COMPILE}
+    ${copyq_COMPILE_EXE}
     ${copyq_RC}
     )
 
+set(copyq_PROPERTIES_LIB WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+
 if (MSVC)
-    set(copyq_LINK_FLAGS ${copyq_LINK_FLAGS} "/ENTRY:mainCRTStartup")
+    set(copyq_LINK_FLAGS_EXE ${copyq_LINK_FLAGS_EXE} "/ENTRY:mainCRTStartup")
 endif()
