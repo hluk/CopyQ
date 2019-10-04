@@ -158,6 +158,15 @@ Add and modify automatic command to ignore text copied from the window:
     automatic commands are executed in order they appear in the list and we
     don't want to process sensitive data in any way.
 
+In some cases, e.g. the password manager is an extension of a web browser or a
+password is copied from a menu instead of a window, the command above won't
+work. You can try setting "Window" text box to ``^$`` which usually matches
+popup menus.
+
+For more reliable way, use `a command to blacklist texts
+<https://github.com/hluk/copyq-commands/tree/master/Scripts#blacklisted-texts>`__
+(it stores just a salted hash, the text itself is not stored anywhere).
+
 .. _faq-logging:
 
 How to enable logging?
