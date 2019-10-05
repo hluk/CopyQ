@@ -20,6 +20,5 @@ else()
     file(GLOB copyq_SOURCES ${copyq_SOURCES}
         platform/dummy/*.cpp
         )
-    set(USE_QXT FALSE)
 endif()
 

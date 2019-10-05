@@ -5,6 +5,6 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
     ../qxt/qxtglobalshortcut_mac.cpp
     )
 
-set(USE_QXT TRUE)
+include(platform/qxt.cmake)
 
 list(APPEND copyq_qt_modules MacExtras)

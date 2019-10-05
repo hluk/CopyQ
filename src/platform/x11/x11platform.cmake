@@ -27,7 +27,7 @@ if (WITH_QT5)
     include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 endif()
 
-set(USE_QXT TRUE)
+include(platform/qxt.cmake)
 
 set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
 

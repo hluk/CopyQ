@@ -10,7 +10,7 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
     ../qxt/qxtglobalshortcut_win.cpp
     )
 
-set(USE_QXT TRUE)
+include(platform/qxt.cmake)
 
 # Omit opening extra console window on Windows.
 set(copyq_COMPILE_EXE

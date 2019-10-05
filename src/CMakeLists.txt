@@ -22,15 +22,6 @@ add_definitions(${Qt5Widgets_DEFINITIONS})
 
 include(platform/platform.cmake)
 
-# Qxt - global shortcuts
-if (USE_QXT)
-    set(copyq_SOURCES ${copyq_SOURCES}
-        ../qxt/qxtglobalshortcut.cpp
-        )
-    add_definitions( -DQXT_STATIC )
-    include_directories(SYSTEM ${Qt5Gui_PRIVATE_INCLUDE_DIRS})
-endif()
-
 # Compile with tests?
 if (WITH_TESTS)
     file(GLOB copyq_SOURCES ${copyq_SOURCES} tests/*.cpp)
