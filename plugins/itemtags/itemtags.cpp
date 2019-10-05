@@ -22,6 +22,7 @@
 
 #include "common/command.h"
 #include "common/contenttype.h"
+#include "common/mimetypes.h"
 #include "common/textdata.h"
 #include "gui/iconfont.h"
 #include "gui/iconselectbutton.h"
@@ -45,7 +46,7 @@ Q_DECLARE_METATYPE(ItemTags::Tag)
 
 namespace {
 
-const char mimeTags[] = "application/x-copyq-tags";
+const char mimeTags[] = COPYQ_MIME_PREFIX "tags";
 
 const char configTags[] = "tags";
 

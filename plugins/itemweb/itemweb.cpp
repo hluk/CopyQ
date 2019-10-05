@@ -232,7 +232,7 @@ ItemWidget *ItemWebLoader::create(const QVariantMap &data, QWidget *parent, bool
 
 QStringList ItemWebLoader::formatsToSave() const
 {
-    return QStringList("text/plain") << QString("text/html");
+    return QStringList{mimeText, mimeHtml};
 }
 
 QVariantMap ItemWebLoader::applySettings()

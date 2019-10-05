@@ -47,7 +47,7 @@
 
 namespace {
 
-const char mimeEncryptedData[] = "application/x-copyq-encrypted";
+const char mimeEncryptedData[] = COPYQ_MIME_PREFIX "encrypted";
 
 const char dataFileHeader[] = "CopyQ_encrypted_tab";
 const char dataFileHeaderV2[] = "CopyQ_encrypted_tab v2";

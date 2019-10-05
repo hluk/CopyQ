@@ -22,6 +22,7 @@
 #include "common/command.h"
 #include "common/contenttype.h"
 #include "common/display.h"
+#include "common/mimetypes.h"
 
 #ifdef HAS_TESTS
 #   include "tests/itempinnedtests.h"
@@ -38,7 +39,7 @@
 
 namespace {
 
-const char mimePinned[] = "application/x-copyq-item-pinned";
+const char mimePinned[] = COPYQ_MIME_PREFIX "item-pinned";
 
 bool isPinned(const QModelIndex &index)
 {
