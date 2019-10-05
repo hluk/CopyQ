@@ -19,7 +19,8 @@ set(copyq_COMPILE_EXE
     ${copyq_RC}
     )
 
-set(copyq_PROPERTIES_LIB WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+cmake_minimum_required(VERSION 3.4)
+list(APPEND copyq_PROPERTIES_LIB WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 if (MSVC)
     set(copyq_LINK_FLAGS_EXE ${copyq_LINK_FLAGS_EXE} "/ENTRY:mainCRTStartup")

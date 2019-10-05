@@ -94,11 +94,18 @@ else()
     set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
     list(APPEND copyq_COMPILE_EXE "${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns")
 
+    list(APPEND copyq_PROPERTIES_LIB FRAMEWORK TRUE)
+
     add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE ${copyq_COMPILE_EXE})
 endif()
 
 add_library(${COPYQ_LIB} SHARED ${copyq_COMPILE})
-set_target_properties(${COPYQ_LIB} PROPERTIES FRAMEWORK TRUE)
+if (copyq_PROPERTIES_LIB)
+    set_target_properties(
+        ${COPYQ_LIB} PROPERTIES
+        ${copyq_PROPERTIES_LIB}
+    )
+endif()
 add_dependencies(${COPYQ_LIB} generate_version_header)
 
 # Qt modules
@@ -108,11 +115,8 @@ foreach (copyq_qt_module ${copyq_qt_modules})
     list(APPEND copyq_LIBRARIES Qt5::${copyq_qt_module})
 endforeach()
 
-set_target_properties(
-    ${COPYQ_LIB} PROPERTIES
-    COMPILE_DEFINITIONS "${copyq_DEFINITIONS}"
-    ${copyq_PROPERTIES_LIB}
-)
+# macros definitions for preprocessor and moc
+set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
 
 # link
 target_link_libraries(${COPYQ_LIB} ${copyq_LIBRARIES})

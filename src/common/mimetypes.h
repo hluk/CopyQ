@@ -21,20 +21,20 @@
 #define MIMETYPES_H
 
 #define COPYQ_MIME_PREFIX "application/x-copyq-"
-extern const char mimeText[];
-extern const char mimeHtml[];
-extern const char mimeUriList[];
-extern const char mimeWindowTitle[];
-extern const char mimeItems[];
-extern const char mimeItemNotes[];
-extern const char mimeOwner[];
-extern const char mimeClipboardMode[];
-extern const char mimeCurrentTab[];
-extern const char mimeSelectedItems[];
-extern const char mimeCurrentItem[];
-extern const char mimeHidden[];
-extern const char mimeShortcut[];
-extern const char mimeColor[];
-extern const char mimeOutputTab[];
+constexpr auto mimeText = "text/plain";
+constexpr auto mimeHtml = "text/html";
+constexpr auto mimeUriList = "text/uri-list";
+constexpr auto mimeWindowTitle = COPYQ_MIME_PREFIX "owner-window-title";
+constexpr auto mimeItems = COPYQ_MIME_PREFIX "item";
+constexpr auto mimeItemNotes = COPYQ_MIME_PREFIX "item-notes";
+constexpr auto mimeOwner = COPYQ_MIME_PREFIX "owner";
+constexpr auto mimeClipboardMode = COPYQ_MIME_PREFIX "clipboard-mode";
+constexpr auto mimeCurrentTab = COPYQ_MIME_PREFIX "current-tab";
+constexpr auto mimeSelectedItems = COPYQ_MIME_PREFIX "selected-items";
+constexpr auto mimeCurrentItem = COPYQ_MIME_PREFIX "current-item";
+constexpr auto mimeHidden = COPYQ_MIME_PREFIX "hidden";
+constexpr auto mimeShortcut = COPYQ_MIME_PREFIX "shortcut";
+constexpr auto mimeColor = COPYQ_MIME_PREFIX "color";
+constexpr auto mimeOutputTab = COPYQ_MIME_PREFIX "output-tab";
 
 #endif // MIMETYPES_H
