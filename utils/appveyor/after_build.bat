@@ -1,4 +1,6 @@
-git describe --tags --always HEAD > _git_tag.tmp
+@echo on
+
+git describe --tags --always HEAD > _git_tag.tmp || goto :error
 set /p AppVersion=<_git_tag.tmp
 del _git_tag.tmp
 
@@ -8,9 +10,8 @@ set Name=copyq-%AppVersion%
 set Destination=%APPVEYOR_BUILD_FOLDER%\%Name%
 set BuildRoot=%APPVEYOR_BUILD_FOLDER%\build
 set Executable=%Destination%\copyq.exe
-
-if [%VC_VARS_ARCH%] == [] (set Build=%BuildRoot%) else (set Build=%BuildRoot%\Release)
-if [%VC_VARS_ARCH%] == [] (set BuildPlugins=%BuildRoot%\plugins) else (set BuildPlugins=%BuildRoot%\plugins\Release)
+set Build=%BuildRoot%\%BUILD_SUB_DIR%
+set BuildPlugins=%BuildRoot%\plugins\%BUILD_SUB_DIR%
 
 mkdir "%Destination%"
 xcopy /F "%Build%\copyq.exe" "%Destination%" || goto :error
@@ -35,6 +36,7 @@ xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins" || goto :error
 choco install -y InnoSetup
 "C:\Program Files (x86)\Inno Setup 5\iscc" "/O%APPVEYOR_BUILD_FOLDER%" "/DAppVersion=%AppVersion%" "/DRoot=%Destination%" "/DSource=%Source%" "%Source%\Shared\copyq.iss" || goto :error
 
+set QT_LOGGING_TO_CONSOLE=1
 "%Executable%" --help || goto :error
 "%Executable%" --version || goto :error
 "%Executable%" --info || goto :error

@@ -1,1 +1,3 @@
-cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -G "%CMAKE_GENERATOR%" -DWITH_TESTS=ON
+@echo on
+
+cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "%CMAKE_GENERATOR%" -DWITH_TESTS=ON

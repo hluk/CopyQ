@@ -1,1 +1,3 @@
-cmake --build build/ --config Release
+@echo on
+
+cmake --build build/
