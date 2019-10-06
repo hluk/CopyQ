@@ -24,7 +24,6 @@
 
 #include <QByteArray>
 #include <QElapsedTimer>
-#include <QFile>
 #include <QString>
 #include <QStringList>
 #include <QTest>
@@ -47,21 +46,14 @@ private:
     QElapsedTimer m_timer;
 };
 
+#define NO_ERRORS(ERRORS_OR_EMPTY) !m_test->writeOutErrors(ERRORS_OR_EMPTY)
+
 /**
  * Verify that method call (TestInterface::startServer(), TestInterface::runClient() etc.)
  * didn't fail or print error.
  */
 #define TEST(ERRORS_OR_EMPTY) \
-do { \
-    QByteArray errors_ = (ERRORS_OR_EMPTY); \
-    if (!errors_.isEmpty()) { \
-      QFile ferr; \
-      ferr.open(stderr, QIODevice::WriteOnly); \
-      ferr.write(errors_ + "\n"); \
-      ferr.close(); \
-      QFAIL("Failed with errors above."); \
-    } \
-} while (false)
+    QVERIFY2( NO_ERRORS(ERRORS_OR_EMPTY), "Failed with errors above." );
 
 #define RUN(ARGUMENTS, STDOUT_EXPECTED) \
     TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) );
@@ -99,7 +91,7 @@ do { \
         TEST( m_test->getClientOutput((Args() << ARGUMENTS), (&STDOUT_ACTUAL)) ); \
     } while (!(finished_ = (CONDITION)) && t_.sleep()); \
     if (!finished_) \
-        TEST("Operation timeout!"); \
+        QFAIL("Operation timeout!"); \
 } while(false)
 
 #define WAIT_ON_OUTPUT(ARGUMENTS, OUTPUT) \

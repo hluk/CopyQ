@@ -566,6 +566,19 @@ public:
         m_env.insert(name, value);
     }
 
+    bool writeOutErrors(const QByteArray &errors) override
+    {
+        if (errors.isEmpty())
+            return false;
+
+        QFile ferr;
+        ferr.open(stderr, QIODevice::WriteOnly);
+        ferr.write(errors);
+        ferr.write("\n");
+        ferr.close();
+        return true;
+    }
+
     void setupTest(const QString &id, const QVariant &settings)
     {
         m_testId = id;

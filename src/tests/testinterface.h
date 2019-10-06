@@ -109,6 +109,8 @@ public:
     /// Set environment variable for test.
     virtual void setEnv(const QString &name, const QString &value) = 0;
 
+    virtual bool writeOutErrors(const QByteArray &errors) = 0;
+
     TestInterface(const TestInterface &) = delete;
     TestInterface &operator=(const TestInterface &) = delete;
 };
