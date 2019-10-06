@@ -23,28 +23,10 @@
 #include "common/commandstatus.h"
 
 #include <QByteArray>
-#include <QElapsedTimer>
 #include <QString>
 #include <QStringList>
 #include <QTest>
 #include <QVariantMap>
-
-class PerformanceTimer final {
-public:
-    PerformanceTimer() {
-        m_timer.start();
-    }
-
-    void printPerformance(const char *label, const QStringList &arguments = QStringList()) {
-        const auto elapsedMs = m_timer.elapsed();
-        if (elapsedMs > 500)
-            qWarning() << "--- PERFORMANCE ---" << elapsedMs << "ms:" << label << arguments;
-        m_timer.start();
-    }
-
-private:
-    QElapsedTimer m_timer;
-};
 
 #define NO_ERRORS(ERRORS_OR_EMPTY) !m_test->writeOutErrors(ERRORS_OR_EMPTY)
 

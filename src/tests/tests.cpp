@@ -94,6 +94,23 @@ const auto clipboardDialogId = "focus:ClipboardDialog";
 const auto clipboardDialogFormatListId = "focus:listWidgetFormats";
 const auto confirmExitDialogId = "focus::QPushButton in :QMessageBox";
 
+class PerformanceTimer final {
+public:
+    PerformanceTimer() {
+        m_timer.start();
+    }
+
+    void printPerformance(const char *label, const QStringList &arguments = QStringList()) {
+        const auto elapsedMs = m_timer.elapsed();
+        if (elapsedMs > 500)
+            qWarning() << "--- PERFORMANCE ---" << elapsedMs << "ms:" << label << arguments;
+        m_timer.start();
+    }
+
+private:
+    QElapsedTimer m_timer;
+};
+
 template <typename Fn1, typename Fn2>
 void runMultiple(Fn1 f1, Fn2 f2)
 {
