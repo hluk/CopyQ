@@ -31,6 +31,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
+#include "common/sleeptimer.h"
 #include "common/textdata.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/filedialog.h"

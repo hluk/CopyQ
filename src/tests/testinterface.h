@@ -21,7 +21,6 @@
 #define TESTINTERFACE_H
 
 #include "common/clipboardmode.h"
-#include "common/sleeptimer.h"
 
 #include <QStringList>
 

@@ -28,6 +28,7 @@
 #include "common/mimetypes.h"
 #include "common/settings.h"
 #include "common/shortcuts.h"
+#include "common/sleeptimer.h"
 #include "common/textdata.h"
 #include "common/version.h"
 #include "item/itemfactory.h"
