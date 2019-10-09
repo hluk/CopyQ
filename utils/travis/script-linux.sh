@@ -35,9 +35,9 @@ DISPLAY="" ./copyq --version
 DISPLAY="" ./copyq --info
 
 # Start X11 and window manager.
-export DISPLAY=:99.0
-sh -e /etc/init.d/xvfb start
-sleep 4
+export DISPLAY=':99.0'
+Xvfb :99 -screen 0 1280x960x24 &
+sleep 5
 openbox &
 sleep 8
 

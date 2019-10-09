@@ -1,4 +1,3 @@
-dist: trusty
 sudo: required
 language: cpp
 
@@ -8,15 +7,19 @@ matrix:
       compiler: clang
 
     - os: linux
+      dist: bionic
       compiler: gcc
       env:
         - COMPILER=g++
         - GCOV=gcov
 
     - os: linux
+      dist: xenial
       compiler: clang
       env:
         - COMPILER=clang++
+        # Disable encryption tests because exporting GPG key asks for password.
+        - COPYQ_TESTS_SKIP_ITEMENCRYPT=1
 
 cache:
     apt: true

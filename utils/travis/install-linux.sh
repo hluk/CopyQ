@@ -26,6 +26,7 @@ packages=(
     gnupg2
 
     # tests
+    xvfb
     openbox
 )
 
