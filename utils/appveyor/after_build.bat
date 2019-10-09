@@ -36,7 +36,7 @@ xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins" || goto :error
 choco install -y InnoSetup || goto :error
 "C:\ProgramData\chocolatey\bin\ISCC.exe" "/O%APPVEYOR_BUILD_FOLDER%" "/DAppVersion=%AppVersion%" "/DRoot=%Destination%" "/DSource=%Source%" "%Source%\Shared\copyq.iss" || goto :error
 
-set QT_LOGGING_TO_CONSOLE=1
+set QT_FORCE_STDERR_LOGGING=1
 "%Executable%" --help || goto :error
 "%Executable%" --version || goto :error
 "%Executable%" --info || goto :error
