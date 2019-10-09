@@ -571,6 +571,7 @@ public:
 
     QByteArray cleanup() override
     {
+        addFailedTest();
         return QByteArray();
     }
 
@@ -604,7 +605,33 @@ public:
         m_env.insert("COPYQ_TEST_ID", id);
     }
 
+    int runTests(QObject *testObject, int argc = 0, char **argv = nullptr)
+    {
+        int exitCode = QTest::qExec(testObject, argc, argv);
+
+        const int maxRuns = m_env.value("COPYQ_TESTS_RERUN_FAILED", "0").toInt();
+        for (int runCounter = 0; exitCode != 0 && !m_failed.isEmpty() && runCounter < maxRuns; ++runCounter) {
+            qInfo() << QString("Rerunning %1 failed tests (%2/%3): %4")
+                       .arg(m_failed.size())
+                       .arg(runCounter + 1)
+                       .arg(maxRuns)
+                       .arg(m_failed.join(", "));
+            QStringList args = m_failed;
+            m_failed.clear();
+            args.prepend( QString::fromUtf8(argv[0]) );
+            exitCode = QTest::qExec(testObject, args);
+        }
+
+        return exitCode;
+    }
+
 private:
+    void addFailedTest()
+    {
+        if ( QTest::currentTestFailed() )
+            m_failed.append( QString::fromUtf8(QTest::currentTestFunction()) );
+    }
+
     void verifyConfiguration()
     {
         AppConfig appConfig;
@@ -652,6 +679,8 @@ private:
     QProcessEnvironment m_env;
     QString m_testId;
     QVariantMap m_settings;
+
+    QStringList m_failed;
 };
 
 QString keyNameFor(QKeySequence::StandardKey standardKey)
@@ -3523,7 +3552,7 @@ int runTests(int argc, char *argv[])
 
     if (onlyPlugins.isEmpty()) {
         test->setupTest("CORE", QVariant());
-        exitCode = QTest::qExec(&tc, argc, argv);
+        exitCode = test->runTests(&tc, argc, argv);
     }
 
     if (runPluginTests) {
@@ -3534,7 +3563,7 @@ int runTests(int argc, char *argv[])
                 std::unique_ptr<QObject> pluginTests( loader->tests(test) );
                 if ( pluginTests != nullptr ) {
                     test->setupTest(loader->id(), pluginTests->property("CopyQ_test_settings"));
-                    const int pluginTestsExitCode = QTest::qExec(pluginTests.get(), argc, argv);
+                    const int pluginTestsExitCode = test->runTests(pluginTests.get(), argc, argv);
                     exitCode = qMax(exitCode, pluginTestsExitCode);
                     test->stopServer();
                 }

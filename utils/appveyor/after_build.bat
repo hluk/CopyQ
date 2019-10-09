@@ -37,10 +37,11 @@ choco install -y InnoSetup || goto :error
 "C:\ProgramData\chocolatey\bin\ISCC.exe" "/O%APPVEYOR_BUILD_FOLDER%" "/DAppVersion=%AppVersion%" "/DRoot=%Destination%" "/DSource=%Source%" "%Source%\Shared\copyq.iss" || goto :error
 
 set QT_FORCE_STDERR_LOGGING=1
+set COPYQ_TESTS_RERUN_FAILED=1
 "%Executable%" --help || goto :error
 "%Executable%" --version || goto :error
 "%Executable%" --info || goto :error
-"%Executable%" tests || "%Executable%" tests || goto :error
+"%Executable%" tests || goto :error
 
 :error
 exit /b %errorlevel%

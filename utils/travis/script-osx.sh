@@ -36,8 +36,8 @@ brew uninstall --force qt5
 # Run tests (retry once on error).
 export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
 export COPYQ_TESTS_SKIP_CONFIG_MOVE=1
-"$executable" tests ||
-    "$executable" tests
+export COPYQ_TESTS_RERUN_FAILED=1
+"$executable" tests
 
 # Print dependencies to let us further make sure that we don't depend on local libraries
 otool -L $executable
