@@ -33,8 +33,8 @@ xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins" || goto :error
 
 7z a "%Name%.zip" -r "%Destination%" || goto :error
 
-choco install -y InnoSetup
-"C:\Program Files (x86)\Inno Setup 5\iscc" "/O%APPVEYOR_BUILD_FOLDER%" "/DAppVersion=%AppVersion%" "/DRoot=%Destination%" "/DSource=%Source%" "%Source%\Shared\copyq.iss" || goto :error
+choco install -y InnoSetup || goto :error
+"C:\ProgramData\chocolatey\bin\ISCC.exe" "/O%APPVEYOR_BUILD_FOLDER%" "/DAppVersion=%AppVersion%" "/DRoot=%Destination%" "/DSource=%Source%" "%Source%\Shared\copyq.iss" || goto :error
 
 set QT_LOGGING_TO_CONSOLE=1
 "%Executable%" --help || goto :error
