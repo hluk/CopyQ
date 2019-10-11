@@ -130,12 +130,12 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished">Gestionnaire de processus de CopyQ</translation>
+        <translation>Gestionnaire de processus de CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtre</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
@@ -970,12 +970,12 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">&amp;Langue :</translation>
+        <translation>&amp;Langue :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished">Couper le texte s&apos;il est trop long pour tenir sur une seule ligne</translation>
+        <translation>Tronquer le texte s&apos;il est trop long pour tenir sur une seule ligne</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
