@@ -1803,12 +1803,9 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
     QScreen *selectedScreen = nullptr;
     if ( screenName.isEmpty() ) {
         const auto mousePosition = QCursor::pos();
-        for ( const auto screen : QApplication::screens() ) {
-            if ( screen->geometry().contains(mousePosition) ) {
-                selectedScreen = screen;
-                break;
-            }
-        }
+        const int screenNumber = QApplication::desktop()->screenNumber(mousePosition);
+        if (screenNumber != -1)
+            selectedScreen = QGuiApplication::screens().value(screenNumber);
     } else {
         for ( const auto screen : QApplication::screens() ) {
             if (screen->name() == screenName) {
