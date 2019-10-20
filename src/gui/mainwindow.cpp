@@ -844,7 +844,7 @@ void MainWindow::updateItemPreviewTimeout()
     const bool showPreview = m_showItemPreview;
 
     auto c = browserOrNull();
-    if (c) {
+    if (c && c->length() > 0) {
         ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !c->isInternalEditorOpen());
 
         QWidget *w = ui->dockWidgetItemPreview->isVisible() && !ui->tabWidget->isTabGroupSelected()
@@ -2628,6 +2628,7 @@ void MainWindow::tabChanged(int current, int)
     }
 
     updateContextMenu(0);
+    updateItemPreviewAfterMs(0);
 
     if (m_options.trayCurrentTab)
         updateTrayMenuItems();
