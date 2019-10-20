@@ -848,7 +848,7 @@ void MainWindow::updateItemPreviewTimeout()
         ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !c->isInternalEditorOpen());
 
         QWidget *w = ui->dockWidgetItemPreview->isVisible() && !ui->tabWidget->isTabGroupSelected()
-                ? c->currentItemPreview()
+                ? c->currentItemPreview(ui->scrollAreaItemPreview)
                 : nullptr;
 
         ui->scrollAreaItemPreview->setVisible(w != nullptr);

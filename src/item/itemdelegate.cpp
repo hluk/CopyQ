@@ -145,6 +145,22 @@ bool ItemDelegate::showAt(const QModelIndex &index, QPoint pos)
     return true;
 }
 
+QWidget *ItemDelegate::createPreview(const QVariantMap &data, QWidget *parent)
+{
+    const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
+    ItemWidget *itemWidget =
+            m_sharedData->itemFactory->createItem(data, parent, antialiasing, false, true);
+
+    const QSize minSize = parent->contentsRect().size();
+    const auto maxSize = m_sharedData->textWrap ? minSize : QSize(2048, 2048);
+    const auto idealWidth = minSize.width();
+    itemWidget->updateSize(maxSize, idealWidth);
+
+    highlightMatches(itemWidget);
+
+    return itemWidget->widget();
+}
+
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
 {
     const auto count = static_cast<size_t>(end - start + 1);

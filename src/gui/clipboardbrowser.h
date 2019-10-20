@@ -192,7 +192,7 @@ class ClipboardBrowser final : public QListView
 
         void move(int key);
 
-        QWidget *currentItemPreview();
+        QWidget *currentItemPreview(QWidget *parent);
 
         void findNext();
 

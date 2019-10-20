@@ -1848,21 +1848,14 @@ void ClipboardBrowser::move(int key)
     scrollTo( currentIndex() );
 }
 
-QWidget *ClipboardBrowser::currentItemPreview()
+QWidget *ClipboardBrowser::currentItemPreview(QWidget *parent)
 {
     if (!isLoaded())
         return nullptr;
 
     const QModelIndex index = currentIndex();
-    const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
     const auto data = itemData(index);
-    ItemWidget *itemWidget =
-            m_sharedData->itemFactory->createItem(data, this, antialiasing, false, true);
-    QWidget *w = itemWidget->widget();
-
-    d.highlightMatches(itemWidget);
-
-    return w;
+    return d.createPreview(data, parent);
 }
 
 void ClipboardBrowser::findNext()

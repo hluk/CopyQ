@@ -118,6 +118,8 @@ class ItemDelegate final : public QItemDelegate
 
         bool showAt(const QModelIndex &index, QPoint pos);
 
+        QWidget *createPreview(const QVariantMap &data, QWidget *parent);
+
     signals:
         void itemWidgetCreated(const PersistentDisplayItem &selection);
 
