@@ -823,6 +823,13 @@ void MainWindow::updateContextMenuTimeout()
     connect( togglePreviewAction, &QAction::toggled,
              this, &MainWindow::setItemPreviewVisible, Qt::UniqueConnection );
 
+    // Disable the show-preview option when the preview dock is closed.
+    connect( ui->dockWidgetItemPreview, &QDockWidget::visibilityChanged,
+             this, [this]() {
+                if ( ui->dockWidgetItemPreview->isHidden() )
+                    setItemPreviewVisible(false);
+             }, Qt::UniqueConnection );
+
     updateToolBar();
     updateActionShortcuts();
 }
@@ -834,26 +841,35 @@ void MainWindow::updateItemPreviewAfterMs(int ms)
 
 void MainWindow::updateItemPreviewTimeout()
 {
+    const bool showPreview = m_showItemPreview;
+
     auto c = browserOrNull();
-    if (!c)
-        return;
+    if (c) {
+        ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !c->isInternalEditorOpen());
 
-    ui->dockWidgetItemPreview->setVisible(m_showItemPreview && !c->isInternalEditorOpen());
+        QWidget *w = ui->dockWidgetItemPreview->isVisible() && !ui->tabWidget->isTabGroupSelected()
+                ? c->currentItemPreview()
+                : nullptr;
 
-    QWidget *w = ui->dockWidgetItemPreview->isVisible() && !ui->tabWidget->isTabGroupSelected()
-            ? c->currentItemPreview()
-            : nullptr;
-
-    ui->scrollAreaItemPreview->setVisible(w != nullptr);
-    ui->scrollAreaItemPreview->setWidget(w);
-    if (w) {
-        ui->dockWidgetItemPreview->setStyleSheet( c->styleSheet() );
-        w->show();
+        ui->scrollAreaItemPreview->setVisible(w != nullptr);
+        ui->scrollAreaItemPreview->setWidget(w);
+        if (w) {
+            ui->dockWidgetItemPreview->setStyleSheet( c->styleSheet() );
+            w->show();
+        }
+    } else {
+        ui->dockWidgetItemPreview->hide();
     }
+
+    m_showItemPreview = showPreview;
+    m_timerUpdatePreview.stop();
 }
 
 void MainWindow::setItemPreviewVisible(bool visible)
 {
+    if (m_showItemPreview == visible)
+        return;
+
     m_showItemPreview = visible;
     updateItemPreviewAfterMs(0);
 }
