@@ -4,6 +4,15 @@ Backup
 This page describes how to back up tabs, configuration and commands in
 CopyQ.
 
+Back Up All Data Automatically on Exit
+--------------------------------------
+
+You can use `command that backs up all items, tabs and settings after exit
+<https://github.com/hluk/copyq-commands/tree/master/Scripts#backup-on-exit>`__.
+
+To install the command see `the description in the repository
+<https://github.com/hluk/copyq-commands/blob/master/README.md>`__.
+
 Back Up Manually
 ----------------
 
