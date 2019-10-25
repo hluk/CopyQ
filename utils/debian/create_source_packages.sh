@@ -6,6 +6,7 @@ distros=(
     xenial
     bionic
     disco
+    eoan
 )
 
 sed -i 's/quilt/native/' 'debian/source/format'
