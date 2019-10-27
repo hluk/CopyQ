@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation>Diálogo de ação CopyQ</translation>
+        <translation>Janela de Ação do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -76,7 +76,7 @@
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Expressão regular para dividir saída em múltiplos itens.&lt;\p&gt;
-&lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; para guardar cada linha num item separado.&lt;/p&gt;</translation>
+&lt;p&gt;Utilize &lt;b&gt;\n&lt;/b&gt; para guardar cada linha num item separado.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -96,13 +96,13 @@
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="217"/>
         <source>Command saved</source>
-        <translation>Comando gravado</translation>
+        <translation>Comando guardado</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="218"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>O comando foi gravado e pode ser acedido a partir do menu de itens.
+        <translation>O comando foi guardado e pode ser acedido no menu de itens.
 Pode definir o comando nas preferências.</translation>
     </message>
 </context>
@@ -130,7 +130,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation>Gestor de processos do CopyQ</translation>
+        <translation>Gestor de Processos do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -140,7 +140,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation>&amp;Terminar selecionados</translation>
+        <translation>&amp;Terminar Selecionados</translation>
     </message>
 </context>
 <context>
@@ -148,22 +148,22 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation>Adicionar comandos CopyQ</translation>
+        <translation>Adicionar Comandos do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Show/hide main window</source>
-        <translation>Mostrar/ocultar janela principal</translation>
+        <translation>Mostrar/ocultar a janela principal</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Show the tray menu</source>
-        <translation>Mostrar menu do tabuleiro</translation>
+        <translation>Mostrar o menu da bandeja</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
         <source>Show main window under mouse cursor</source>
-        <translation>Mostrar janela principal sob o cursor do rato</translation>
+        <translation>Mostrar a janela principal sob o cursor do rato</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
@@ -183,7 +183,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
         <source>Show action dialog</source>
-        <translation>Mostrar diálogo de ação</translation>
+        <translation>Mostrar janela de ação</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
@@ -248,12 +248,12 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
-        <translation>A&amp;brir no navegador</translation>
+        <translation>A&amp;brir no Navegador</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
-        <translation>Colar como texto simples</translation>
+        <translation>Colar como Texto Simples</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
@@ -263,17 +263,17 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="97"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation>Copiar URL (endereço web) para outro separador</translation>
+        <translation>Copiar URL (endereço da Web) para outro separador</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="104"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation>Criar imagem miniatura (necessita do ImageMagick)</translation>
+        <translation>Criar miniatura (necessário o ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="112"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation>Criar código QR da URL (necessita do qrencode)</translation>
+        <translation>Criar Código QR do URL (necessário o qrencode)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
@@ -311,7 +311,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="158"/>
         <source>Move to Trash</source>
-        <translation>Mover para o lixo</translation>
+        <translation>Mover para Lixo</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
@@ -336,12 +336,12 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1892"/>
         <source>Discard Changes?</source>
-        <translation>Descartar alterações?</translation>
+        <translation>Ignorar alterações?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1893"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation>Tem a certeza que quer &lt;strong&gt;descartar as alterações&lt;/strong&gt;?</translation>
+        <translation>Tem a certeza que deseja &lt;strong&gt;ignorar as alterações&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -349,7 +349,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="124"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Impossível ligar ao servidor! Primeiro inicie o servidor CopyQ.</translation>
+        <translation>Não é possível ligar ao servidor! Inicie primeiro o servidor do CopyQ.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="117"/>
@@ -377,12 +377,12 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation>Remover formato</translation>
+        <translation>Remover Formato</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>CopyQ Item Content</source>
-        <translation>Conteúdo do item CopyQ</translation>
+        <translation>Conteúdo do Item do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -433,12 +433,12 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation>Comandos CopyQ</translation>
+        <translation>Comandos do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation>Defina novos comandos que podem ser invocados quer automaticamente em novo conteúdo da área de transferência ou pelo utilizador a partir do menu ou usando um atalho de sistema.</translation>
+        <translation>Defina os novos comandos que podem ser invocados quer automaticamente no novo conteúdo da área de transferência ou pelo utilizador a partir do menu ou utilizando um atalho de sistema.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
@@ -448,37 +448,37 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Carregar Comandos…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Guardar Seleção…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
-        <translation>Copiar seleção</translation>
+        <translation>Copiar Seleção</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="94"/>
         <source>Paste Commands</source>
-        <translation>Colar comandos</translation>
+        <translation>Colar Comandos</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="215"/>
         <source>Unsaved Changes</source>
-        <translation>Alterações por gravar</translation>
+        <translation>Alterações não guardadas</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="215"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation>Diálogo Comando tem alterações não gravadas.</translation>
+        <translation>A janela de comando tem alterações não guardadas.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="293"/>
         <source>Open Files with Commands</source>
-        <translation>Abrir ficheiros com comandos</translation>
+        <translation>Abrir Ficheiros com Comandos</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="294"/>
@@ -501,7 +501,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation>Comando contém lista de programas com argumentos que serão executados. Por exemplo:</translation>
+        <translation>O comando contém a lista de programas com argumentos que serão executados. Por exemplo:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
@@ -532,7 +532,7 @@ Pode definir o comando nas preferências.</translation>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation>&amp;transferência</translation>
+        <translation>área de &amp;transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
@@ -555,12 +555,12 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"/>
         <source>Type of Action</source>
-        <translation>Tipo de ação</translation>
+        <translation>Tipo de Ação</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="237"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation>Executar comando automaticamente se houver novo conteúdo na área de transferência</translation>
+        <translation>Executar o comando automaticamente se a área de transferência tiver novo conteúdo</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="240"/>
@@ -590,7 +590,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
         <source>Global Shortcut</source>
-        <translation>Atalho global</translation>
+        <translation>Atalho Global</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="287"/>
@@ -673,22 +673,22 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/commandwidget.ui" line="450"/>
         <source>&amp;Remove Item</source>
-        <translation>&amp;Remover item</translation>
+        <translation>&amp;Remover Item</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="460"/>
         <source>Menu Action</source>
-        <translation>Menu de ação</translation>
+        <translation>Menu de Ação</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="481"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation>Ocultar janela depois de ativar o comando a partir do menu contextual de um item</translation>
+        <translation>Ocultar a janela depois de ativar o comando a partir do menu de contexto de um item</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="484"/>
         <source>&amp;Hide main window after activation</source>
-        <translation>&amp;Ocultar janela principal depois de ativar</translation>
+        <translation>&amp;Ocultar a janela principal depois de ativar</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="494"/>
@@ -698,12 +698,12 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/commandwidget.ui" line="590"/>
         <source>Show action dialog before executing the command</source>
-        <translation>Mostrar diálogo de ação antes de executar o comando</translation>
+        <translation>Mostrar a janela de ação antes de executar o comando</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="593"/>
         <source>&amp;Wait</source>
-        <translation>&amp;Esperar</translation>
+        <translation>&amp;Aguardar</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="600"/>
@@ -768,17 +768,17 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/commandwidget.ui" line="563"/>
         <source>Output &amp;tab:</source>
-        <translation>&amp;separador de saída:</translation>
+        <translation>&amp;Separador de saída:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="573"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation>Gravar itens no separador com nome indicado (vazio para gravar no 1º separador)</translation>
+        <translation>Guardar itens no separador com o nome indicado (deixar em branco para guardar no 1º separador)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="675"/>
         <source>Show Advanced</source>
-        <translation>Mostrar avançado</translation>
+        <translation>Mostrar Avançado</translation>
     </message>
 </context>
 <context>
@@ -831,7 +831,7 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation>1º plano</translation>
+        <translation>Primeiro plano</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
@@ -856,7 +856,7 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation>Usar ícones do ambiente de trabalho sempre que possível</translation>
+        <translation>Utilizar ícones do ambiente de trabalho sempre que possível</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
@@ -886,27 +886,27 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation>&amp;Carregar tema</translation>
+        <translation>&amp;Carregar Tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation>&amp;Gravar tema</translation>
+        <translation>&amp;Guardar Tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation>Editar tema atual num editor externo</translation>
+        <translation>Editar tema atual no editor externo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation>E&amp;ditar tema</translation>
+        <translation>E&amp;ditar Tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation>Antever:</translation>
+        <translation>Pré-visualizar:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="476"/>
@@ -939,12 +939,12 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="147"/>
         <source>Open Theme File</source>
-        <translation>Abrir ficheiro de tema</translation>
+        <translation>Abrir Ficheiro de Tema</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="157"/>
         <source>Save Theme File As</source>
-        <translation>Gravar ficheiro de tema como</translation>
+        <translation>Guardar Ficheiro de Tema Como</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="176"/>
@@ -954,7 +954,7 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="177"/>
         <source>Set external editor command first!</source>
-        <translation>Defina o comando para editor externo primeiro!</translation>
+        <translation>Defina primeiro o comando do editor externo!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="391"/>
@@ -968,7 +968,7 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">&amp;Idioma:</translation>
+        <translation>&amp;Idioma:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -983,17 +983,17 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished">Manter janela principal acima de outras janelas</translation>
+        <translation>Manter a janela principal por cima das outras janelas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">Semp&amp;re no topo</translation>
+        <translation>Semp&amp;re no Topo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished">Fechar janela principal quando outra aplicação estiver focada</translation>
+        <translation>Fechar a janela principal quando outra aplicação estiver focada</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
@@ -1008,27 +1008,27 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished">A&amp;brir janelas no ecrã atual</translation>
+        <translation>A&amp;brir as janelas no ecrã atual</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished">Confirmar saída da aplicação</translation>
+        <translation>Confirmar a saída da aplicação</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished">Confirmar s&amp;aída da aplicação</translation>
+        <translation>Confirmar a s&amp;aída da aplicação</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished">Executar a aplicação ao iniciar o sistema</translation>
+        <translation>Executar a aplicação ao iniciar o sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished">Início &amp;automático</translation>
+        <translation>Início &amp;automático</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
@@ -1038,17 +1038,17 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished">Navegação estilo &amp;Vi</translation>
+        <translation>Navegação de estilo &amp;Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">Gravar e restaurar histórico de filtros de item</translation>
+        <translation>Guardar e restaurar o histórico dos filtros de item</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">Gravar histórico de filtros</translation>
+        <translation>Guardar Histórico de Filtros</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
@@ -1063,7 +1063,7 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished">Manipulação da área de transferência</translation>
+        <translation>Manipulação da Área de Transferência</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
@@ -1554,27 +1554,27 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Geral</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="178"/>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Disposição</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="179"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Histórico</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
         <source>Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Bandeja</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Notificações</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
@@ -1584,17 +1584,17 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>
         <source>Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Itens</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="184"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Atalhos</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="185"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Aparência</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="419"/>
@@ -1644,7 +1644,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecionar Ícone…</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
@@ -3408,22 +3408,22 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>CopyQ New Shortcut</source>
-        <translation>Novo atalho CopyQ</translation>
+        <translation>Novo Atalho do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prima qualquer combinação de teclas. &lt;span style=&quot; font-weight:600;&quot;&gt;Esc&lt;/span&gt; para cancelar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pressione qualquer combinação de teclas. &lt;span style=&quot; font-weight:600;&quot;&gt;Esc&lt;/span&gt; para cancelar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation>Clique aqui e prima uma combinação de teclas</translation>
+        <translation>Clique aqui e pressione qualquer combinação de teclas</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation>Remover atalho</translation>
+        <translation>Remover Atalho</translation>
     </message>
 </context>
 <context>
@@ -3436,22 +3436,22 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished"></translation>
+        <translation>Gl&amp;obal</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Os atalhos globais podem ser acionados a partir de qualquer aplicação.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;plicação</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can be triggered only from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Os atalhos da aplicação só podem ser acionados a partir da janela principal.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
@@ -3478,17 +3478,17 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>CopyQ New Tab</source>
-        <translation>Novo separador CopyQ</translation>
+        <translation>Novo Separador do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>CopyQ Rename Tab</source>
-        <translation>Renomear separador CopyQ</translation>
+        <translation>Renomear Separador do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>CopyQ Rename Tab Group</source>
-        <translation>Renomear grupo de separadores CopyQ</translation>
+        <translation>Renomear Grupo de Separadores do CopyQ</translation>
     </message>
 </context>
 <context>
@@ -3506,7 +3506,7 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Store Items</source>
-        <translation>&amp;Guardar itens</translation>
+        <translation>&amp;Guardar Itens</translation>
     </message>
 </context>
 <context>
@@ -3533,12 +3533,12 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="117"/>
         <source>Regular Expression</source>
-        <translation>Expressão regular</translation>
+        <translation>Expressão Regular</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="120"/>
         <source>Case Insensitive</source>
-        <translation>Insensível a maiúsculas</translation>
+        <translation type="unfinished">Insensível a maiúsculas</translation>
     </message>
 </context>
 </TS>
