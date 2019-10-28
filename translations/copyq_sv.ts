@@ -452,7 +452,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara markerade…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -732,7 +732,7 @@ Observera: Om detta verkställs automatiskt körs inga andra automatiska kommand
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Använd kommando endast för objekt som kopieras till urklipp från fönster med titeltext som matchar detta vanliga uttryck (lämna tomt för att matcha vilket fönster som helst). På macOS innehåller detta applikationsnamnet följt av ett bindestreck (&amp;quot; -&amp;quot;) sedan fönstertiteln. T.ex. &amp;quot;Safari - GitHub &amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
@@ -1107,7 +1107,7 @@ F2 för att redigera.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) Kör automatiska kommandon vid val</translation>
     </message>
 </context>
 <context>
