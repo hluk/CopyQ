@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Envie dados do tipo de multimédia fornecido para a entrada de comando padrão (deixe em branco para desativar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crie itens a partir da saída padrão do programa (deixe em branco para desativar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -91,7 +91,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>Gravar itens no separador com o nome indicado (deixar vazio para gravar no separador atual)</translation>
+        <translation>Guardar itens no separador com o nome indicado (deixar em branco para guardar no separador atual)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="217"/>
@@ -748,7 +748,7 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/commandwidget.ui" line="533"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>Criar itens a partir da saída padrão do programa (vazio para desativar)</translation>
+        <translation>Criar itens a partir da saída padrão do programa (deixe em branco para desativar)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="543"/>
@@ -773,7 +773,7 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/commandwidget.ui" line="573"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation>Guardar itens no separador com o nome indicado (deixar em branco para guardar no 1º separador)</translation>
+        <translation>Guardar itens no separador com o nome indicado (deixar em branco para guardar no 1º. separador)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="675"/>
@@ -973,12 +973,12 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished">Quebrar texto se for demasiado longo para uma só linha</translation>
+        <translation>Quebrar texto se for muito longo para ajustar na linha</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished">Quebrar texto l&amp;ongo</translation>
+        <translation>Quebrar texto l&amp;ongo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
@@ -998,12 +998,12 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished">Fechar quando não estiver focado</translation>
+        <translation>Fechar quando não focado</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished">Ativar para abrir janelas no ecrã atual. Desativar para abrir janelas onde foram fechadas pela última vez</translation>
+        <translation>Ativar para abrir as janelas no ecrã atual. Desativar para abrir as janelas onde estas foram fechadas pela última vez</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
@@ -1033,7 +1033,7 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished">Suporte para teclas de navegação Vi (H, J, K, L e mais), barra (/) para procurar</translation>
+        <translation>Suporte para teclas de navegação Vi (H, J, K, L e mais), barra (/) para procurar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
@@ -1053,12 +1053,12 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished">Mostrar balão nos comandos automaticamente para completar nomes de função, tipo e variável</translation>
+        <translation>Mostrar automaticamente o balão para completar função, tipo e nomes de variável nos comandos</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished">Concluir comandos automaticamente</translation>
+        <translation>Concluir comandos automaticamente</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
@@ -1068,42 +1068,42 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished">Permitir colar conteúdo copiado como seleções com o rato (normalmente clicando no botão do meio do rato)</translation>
+        <translation>Permitir colar conteúdo copiado como as seleções com o rato (normalmente clicando no botão do meio do rato)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished">(&amp;3) Colar área de transferência com o rato</translation>
+        <translation>(&amp;3) Colar da área de transferência com o rato</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished">Permitir colar seleções do rato usando atalho (normalmente Ctrl+V ou Shift+Insert)</translation>
+        <translation>Permitir colar seleções do rato utilizando o atalho (normalmente Ctrl+V ou Shift+Insert)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished">(&amp;4) Colar seleção de rato com teclado</translation>
+        <translation>(&amp;4) Colar seleção de rato com teclado</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished">Gravar área de transferência no histórico</translation>
+        <translation>Guardar área de transferência no histórico</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished">(&amp;1) Gravar área de transferência</translation>
+        <translation>(&amp;1) Guardar área de transferência</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished">Gravar texto selecionado com o rato (seleção primária) no histórico</translation>
+        <translation>Guardar texto selecionado com o rato (seleção primária) no histórico</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished">(&amp;2) Gravar texto selecionado usando o rato</translation>
+        <translation>(&amp;2) Guardar texto selecionado utilizando o rato</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
@@ -1116,31 +1116,31 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished">&amp;Número máximo de itens no histórico:</translation>
+        <translation>&amp;Número máximo de itens no histórico:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished">Número máximo de itens em cada separador</translation>
+        <translation>Número máximo de itens em cada separador</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished">&amp;Descarregar separador após intervalo em minutos:</translation>
+        <translation>&amp;Descarregar separador depois de um intervalo em minutos:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished">Descarregar cada separador da memória depois de um número de minutos especificado de inatividade.
+        <translation>Descarregar cada separador da memória depois de um número de minutos especificado de inatividade.
 
 Defina para 0 para não descarregar os separadores.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished">Comando de edito externo (%&amp;1 é o ficheiro para editar):</translation>
+        <translation>Comando do editor externo (%&amp;1 é o ficheiro para editar):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1150,7 +1150,7 @@ Defina para 0 para não descarregar os separadores.</translation>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished">Comando de editor externo (%1 é o ficheiro a editar).
+        <translation>Comando do editor externo (%1 é o ficheiro a editar).
   Exemplos:
     gedit %1
     notepad %1
@@ -1160,99 +1160,99 @@ Defina para 0 para não descarregar os separadores.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished">Se&amp;parador para gravar área de transferência:</translation>
+        <translation>Se&amp;parador para guardar a área de transferência:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished">Nome do separador que gravará automaticamente o novo conteúdo da área de transferência.
+        <translation>Nome do separador que irá guardar automaticamente o novo conteúdo da área de transferência.
 
-Deixe vazio para desativar o armazenamento automático.</translation>
+Deixe em branco para desativar o guardar automático.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="193"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished">Deixe desmarcado para gravar item editado com Enter e criar nova linha com Ctrl+Enter.
+        <translation>Deixe desmarcado para guardar o item editado com a tecla &quot;Enter&quot; e criar a nova linha com Ctrl+Enter.
 
-Nota: itens editados pode ser gravados com F2, descartando esta opção.</translation>
+Nota: os itens editados podem ser guardados com F2, ignorando esta opção.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished">Gra&amp;var item editado com Ctrl+Enter e criar nova linha com Enter</translation>
+        <translation>Guar&amp;dar item editado com Ctrl+Enter e criar nova linha com a tela &quot;Enter&quot;</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished">Mostrar descrição de cada item em linha única.
+        <translation>Mostrar a descrição de uma linha de cada item.
 
-Use a antevisão dos itens para os ver completos.</translation>
+Utilize a &quot;Pré-visualização&quot; para exibir os itens completos.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished">&amp;Mostrar itens simples</translation>
+        <translation>&amp;Mostrar itens simples</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished">Permitir a pesquisa por números, caso contrário, pressionar uma tecla numérica ativa o item nessa posição</translation>
+        <translation>Permitir a procura por números, caso contrário, ao pressionar uma tecla numérica ativa o item nessa posição</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished">Procurar núm&amp;eros</translation>
+        <translation>Procurar por núm&amp;eros</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="227"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished">Depois de ativado o item (duplo clique ou tecla Enter), copia-o para a área de transferência e ...</translation>
+        <translation>Depois de o item ser ativado (duplo clique ou tecla &quot;Enter&quot;), copia-o para a área de transferência e...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="233"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">Mover item para o topo da lista depois de ativado</translation>
+        <translation>Mover item para o topo da lista depois de ser ativado</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="236"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished">Mover item para o t&amp;opo</translation>
+        <translation>Mover item para o t&amp;opo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="243"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished">Fechar janela principal após ativar o item</translation>
+        <translation>Fechar a janela principal depois de o item ser ativado</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished">Fe&amp;char janela principal</translation>
+        <translation>Fe&amp;char janela principal</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="253"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished">Focar última janela após ativar o item</translation>
+        <translation>Focar última janela depois de o item ser ativado</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished">&amp;Focar última janela</translation>
+        <translation>&amp;Focar última janela</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="263"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished">Colar para janela atual após ativar o item</translation>
+        <translation>Colar para a janela atual depois de o item ser ativado</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished">&amp;Colar na janela atual</translation>
+        <translation>&amp;Colar na janela atual</translation>
     </message>
 </context>
 <context>
@@ -1260,95 +1260,95 @@ Use a antevisão dos itens para os ver completos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished">Mostrar/ocultar</translation>
+        <translation>Mostrar/Ocultar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished">Ocultar separadores (prima Alt para mostrar)</translation>
+        <translation>Ocultar separadores (pressione Alt para mostrar)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished">Ocultar separa&amp;dores</translation>
+        <translation>Ocultar separa&amp;dores</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished">Ocultar barra de ferramentas</translation>
+        <translation>Ocultar barra de ferramentas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished">Ocu&amp;ltar barra de ferramentas</translation>
+        <translation>Ocu&amp;ltar barra de ferramentas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished">Ocultar rótulos da &amp;barra de ferramentas</translation>
+        <translation>Ocultar etiquetas da &amp;barra de ferramentas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished">Ocultar janela principal quando fechada</translation>
+        <translation>Ocultar janela principal quando fechada</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished">Ocultar &amp;janela principal</translation>
+        <translation>Ocultar &amp;janela principal</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished">Esquema e transparência</translation>
+        <translation>Disposição e Transparência</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished">Mostrar árvore com separadores em vez de barra de separadores</translation>
+        <translation>Mostrar árvore com separadores em vez da barra de separadores</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished">Á&amp;rvore de separadores</translation>
+        <translation>Á&amp;rvore de Separadores</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished">Transparência &amp;focada:</translation>
+        <translation>Transparência &amp;focada:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished">Transparência da janela principal é focada.
+        <translation>Transparência da janela principal se focada.
 
 Nota: isto não é suportado em todos os sistemas.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished">Transparência &amp;não focada:</translation>
+        <translation>Transparência &amp;não focada:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished">Transparência da janela principal deixa de estar focada.
+        <translation>Transparência da janela principal se não focada.
 
 Nota: isto não é suportado em todos os sistemas.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished">Mostrar número de itens nos separadores</translation>
+        <translation>Mostrar número de itens nos separadores</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished">Most&amp;rar total de itens</translation>
+        <translation>Most&amp;rar Total dos Itens</translation>
     </message>
 </context>
 <context>
@@ -1356,47 +1356,47 @@ Nota: isto não é suportado em todos os sistemas.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished">Posição da &amp;notificação:</translation>
+        <translation>Posição da &amp;notificação:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished">Posição da notificação no ecrã</translation>
+        <translation>Posição no ecrã para as notificações</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished">Acima</translation>
+        <translation>Topo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation type="unfinished">Abaixo</translation>
+        <translation>Base</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished">Acima à direita</translation>
+        <translation>Topo à Direita</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished">Abaixo à direita</translation>
+        <translation>Base à Direita</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished">Abaixo à esquerda</translation>
+        <translation>Base à Esquerda</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished">Acima à esquerda</translation>
+        <translation>Topo à Esquerda</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished">Int&amp;ervalo em segundos para ver notificações:</translation>
+        <translation>Int&amp;ervalo em segundos para exibir notificações:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1405,7 +1405,7 @@ Nota: isto não é suportado em todos os sistemas.</translation>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished">Intervalo em segundos para mostrar a notificação de novo conteúdo na área de transferência ou se um item foi copiado para a área de transferência (só se a janela principal estiver fechada).
+        <translation>Intervalo em segundos para mostrar a notificação de novo conteúdo na área de transferência ou se um item foi copiado para a área de transferência (só se a janela principal estiver fechada).
 
 Defina como 0 para desativar.
 
@@ -1414,61 +1414,61 @@ Defina como -1 para manter visível até ser clicada.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished">Número de lin&amp;has da notificação:</translation>
+        <translation>Número de lin&amp;has para a notificação da área de transferência:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished">Número de linhas do conteúdo da área de transferência.
+        <translation>Número de linhas do conteúdo da área de transferência.
 
 Defina como 0 para desativar.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="214"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished">Geometria da notificação (em pontos de ecrã)</translation>
+        <translation>Geometria da Notificação (em pontos de ecrã)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="220"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished">Desvio hori&amp;zontal:</translation>
+        <translation>Desvio hori&amp;zontal:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="232"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished">Distância da notificação da margem direita/esquerda em pontos de ecrã</translation>
+        <translation>Distância da notificação da margem direita/esquerda em pontos de ecrã</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="260"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished">Desvio &amp;vertical:</translation>
+        <translation>Desvio &amp;vertical:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="272"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished">Distância da notificação à margem superior/inferior em pontos do ecrã</translation>
+        <translation>Distância da notificação à margem superior/inferior em pontos do ecrã</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="300"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished">&amp;Largura máxima:</translation>
+        <translation>&amp;Largura máxima:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="312"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished">Largura máxima da notificação em pontos de ecrã</translation>
+        <translation>Largura máxima da notificação em pontos de ecrã</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="337"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished">Altura má&amp;xima:</translation>
+        <translation>Altura má&amp;xima:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished">Altura máxima da notificação em pontos de ecrã</translation>
+        <translation>Altura máxima da notificação em pontos de ecrã</translation>
     </message>
 </context>
 <context>
@@ -1476,72 +1476,72 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished">Não mostrar ícone no tabuleiro; minimizar janela quando fechado</translation>
+        <translation>Não mostrar ícone na bandeja; minimizar janela quando fechada</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished">Desati&amp;var tabuleiro</translation>
+        <translation>Desati&amp;var bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished">Mostrar comando do atual conteúdo no menu do tabuleiro</translation>
+        <translation>Mostrar comando do conteúdo da área de transferência atual no menu da bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished">&amp;Mostrar comandos do conteúdo da área de transferência</translation>
+        <translation>&amp;Mostrar comandos do conteúdo da área de transferência</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished">Número de itens no men&amp;u do tabuleiro:</translation>
+        <translation>Número de itens no men&amp;u da bandeja:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished">Número de itens no menu do tabuleiro</translation>
+        <translation>Número de itens no menu da bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished">Mostrar itens do separador atual no menu do tabuleiro</translation>
+        <translation>Mostrar itens do separador atual no menu da bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished">Most&amp;rar separador atual no menu,</translation>
+        <translation>Most&amp;rar separador atual no menu,</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished">ou es&amp;colher outro separador:</translation>
+        <translation>ou es&amp;colher outro separador:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished">Nome do separador a mostrar no menu do tabuleiro (vazio para o 1º separador)</translation>
+        <translation>Nome do separador para mostrar no menu da bandeja (em branco para o 1º separador)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished">Colar item na janela atual após selecioná-lo no menu</translation>
+        <translation>Colar item na janela atual depois de selecioná-lo no menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished">Colar item ativado na &amp;janela atual</translation>
+        <translation>Colar item ativado na &amp;janela atual</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished">Mostrar imagem junto aos itens de menu</translation>
+        <translation>Mostrar pré-visualização da imagem ao lado dos itens de menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished">M&amp;ostrar imagem como ícone do item de menu</translation>
+        <translation>M&amp;ostrar pré-visualização da imagem como ícone do item de menu</translation>
     </message>
 </context>
 <context>
@@ -1549,7 +1549,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
-        <translation>Configuração CopyQ</translation>
+        <translation>Configuração do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -1663,7 +1663,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
         <source>Browse...</source>
-        <translation>Navegar...</translation>
+        <translation>Explorar...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="221"/>
@@ -1717,12 +1717,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="281"/>
         <source>Save</source>
-        <translation>Gravar</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="283"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation>Gravar item (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
+        <translation>Guardar Item (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="284"/>
@@ -1774,12 +1774,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="345"/>
         <source>Foreground</source>
-        <translation>1º plano</translation>
+        <translation>Primeiro plano</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="350"/>
         <source>Background</source>
-        <translation>Fundo</translation>
+        <translation>Segundo plano</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="357"/>
@@ -1794,7 +1794,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="299"/>
         <source>Undo</source>
-        <translation>Desfazer</translation>
+        <translation>Anular</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="306"/>
@@ -1812,12 +1812,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="670"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation>GnuPG tem de estar instalado para ver separadores encriptados.</translation>
+        <translation>GnuPG tem de estar instalado para ver os separadores encriptados.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="774"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation>Encriptar (GnuPG requerido)</translation>
+        <translation>Encriptar (necessário GnuPG)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="780"/>
@@ -1833,7 +1833,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="794"/>
         <source>Decrypt and Copy</source>
-        <translation>Desencriptar e copiar</translation>
+        <translation>Desencriptar e Copiar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="799"/>
@@ -1858,17 +1858,17 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="865"/>
         <source>Failed to generate keys.</source>
-        <translation>Falha ao gerar as chaves.</translation>
+        <translation>Não foi possível gerar as chaves.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="882"/>
         <source>Done</source>
-        <translation>Feito</translation>
+        <translation>Concluído</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="898"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation>A criar novas chaves (pode levar alguns minutos)...</translation>
+        <translation>A criar as novas chaves (pode demorar alguns minutos)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="899"/>
@@ -1879,12 +1879,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
         <source>Setting new password...</source>
-        <translation>A definir nova senha...</translation>
+        <translation>A definir a nova palavra-passe...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation>&lt;strong&gt;Deve gerar&lt;/strong&gt; as chaves de encriptação para poder usar encriptação de itens.</translation>
+        <translation>As chaves de encriptação &lt;strong&gt;devem ser geradas&lt;/strong&gt; antes de poder utilizar a encriptação de itens.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
@@ -1894,17 +1894,17 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="909"/>
         <source>Change Password...</source>
-        <translation>Alterar senha...</translation>
+        <translation>Alterar palavra-passe...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="332"/>
         <source>Encryption failed!</source>
-        <translation>Falha ao encriptar!</translation>
+        <translation>A encriptação falhou!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="915"/>
         <source>Decryption failed!</source>
-        <translation>Falha ao desencriptar!</translation>
+        <translation>A desencriptação falhou!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="98"/>
@@ -1983,7 +1983,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="83"/>
         <source>Display images.</source>
-        <translation>Mostrar imagens.</translation>
+        <translation>Exibir imagens.</translation>
     </message>
 </context>
 <context>
@@ -2039,7 +2039,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="84"/>
         <source>Display notes for items.</source>
-        <translation>Mostrar notas dos itens.</translation>
+        <translation>Exibir notas dos itens.</translation>
     </message>
 </context>
 <context>
@@ -2047,7 +2047,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation>Posição das notas</translation>
+        <translation>Posição das Notas</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
@@ -2103,12 +2103,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="201"/>
         <source>Unpin items first to remove them.</source>
-        <translation>Desafixe os itens para os remover.</translation>
+        <translation>Desafixe primeiro os itens para os remover.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="384"/>
         <source>Pin</source>
-        <translation>Fixar</translation>
+        <translation>Afixar</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="391"/>
@@ -2118,12 +2118,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="101"/>
         <source>Pinned Items</source>
-        <translation>Itens fixos</translation>
+        <translation>Itens afixados</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="104"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Fixe itens para bloqueá-los na linha atual e evitar a eliminação (a não ser que sejam desafixados).&lt;/p&gt;&lt;p&gt;Fornece atalhos e funcionalidade de scripting.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Afixe os itens para bloqueá-los na linha atual e evitar a eliminação (a não ser que sejam desafixados).&lt;/p&gt;&lt;p&gt;Fornece atalhos e funcionalidade de scripting.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2132,12 +2132,12 @@ Defina como 0 para desativar.</translation>
         <location filename="../plugins/itemsync/itemsync.cpp" line="123"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation>Navegar...</translation>
+        <translation>Explorar...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="826"/>
         <source>Open Directory for Synchronization</source>
-        <translation>Abrir pasta para sincronização</translation>
+        <translation>Abrir Diretoria para Sincronização</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="840"/>
@@ -2160,7 +2160,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="481"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation>Falha ao sincronizar o separador &quot;%1&quot; com a pasta &quot;%2&quot;!</translation>
+        <translation>Não foi possível sincronizar o separador &quot;%1&quot; com a diretoria &quot;%2&quot;!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="516"/>
@@ -2170,7 +2170,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="517"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation>Quer realmente &lt;strong&gt;remover os itens e ficheiros associados&lt;/strong&gt;?</translation>
+        <translation>Deseja &lt;strong&gt;remover os itens e os ficheiros associados&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -2184,8 +2184,8 @@ Defina como 0 para desativar.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Sincronize conteúdo do &lt;strong&gt;separador&lt;/strong&gt; com a pasta &lt;strong&gt;indicada&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Defina um &lt;strong&gt;caminho vazio&lt;/strong&gt; para não gravar itens no &lt;strong&gt;separador&lt;/strong&gt;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Sincronize conteúdos do &lt;strong&gt;separador&lt;/strong&gt; com a diretoria com o &lt;strong&gt;caminho&lt;/strong&gt; indicado.&lt;/p&gt;
+&lt;p&gt;Defina um &lt;strong&gt;caminho vazio&lt;/strong&gt; para não guardar os itens no &lt;strong&gt;separador&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
@@ -2289,7 +2289,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation>Folha de estilo</translation>
+        <translation>Folha de Estilo</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
@@ -2320,7 +2320,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation>Gravar e mostrar HTML e Rich Text</translation>
+        <translation>Guardar e exibir HTML e Texto Rich</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
@@ -2407,47 +2407,47 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="693"/>
         <source>&amp;New Tab</source>
-        <translation>&amp;Novo separador</translation>
+        <translation>&amp;Novo Separador</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="695"/>
         <source>Rename &amp;Group %1</source>
-        <translation>Renomear &amp;grupo %1</translation>
+        <translation>Renomear &amp;Grupo %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="697"/>
         <source>Re&amp;name Tab %1</source>
-        <translation>Re&amp;nomear separador %1</translation>
+        <translation>Re&amp;nomear Separador %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="699"/>
         <source>Re&amp;move Tab %1</source>
-        <translation>Re&amp;mover separador %1</translation>
+        <translation>Re&amp;mover Separador %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="701"/>
         <source>Remove Group %1</source>
-        <translation>Remover grupo %1</translation>
+        <translation>Remover Grupo %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="703"/>
         <source>&amp;Change Tab Icon</source>
-        <translation>Alterar í&amp;cone do separador</translation>
+        <translation>Alterar Í&amp;cone do Separador</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1222"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation>Ativar armaz&amp;enamento na área de transferência</translation>
+        <translation>Ativar Guardar na Ár&amp;ea de Transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1223"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation>Desativar armaz&amp;enamento na área de transferência</translation>
+        <translation>Desativar &amp;Guardar na Área de Transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1777"/>
         <source>CopyQ Options for Import</source>
-        <translation>Opções do CopyQ para importar</translation>
+        <translation>Opções do CopyQ para Importar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2013"/>
@@ -2570,7 +2570,7 @@ Defina como 0 para desativar.</translation>
         <location filename="../src/common/shortcuts.cpp" line="49"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation>Recuo</translation>
+        <translation>Tecla de Retrocesso</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="51"/>
@@ -2597,19 +2597,19 @@ Defina como 0 para desativar.</translation>
         <location filename="../src/main.cpp" line="215"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
-        <translation>O nome da sessão tem de conter pelo menos 16 caracteres
+        <translation>O nome da sessão deve conter pelo menos 16 carateres
 que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     </message>
     <message>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation>&amp;transferência</translation>
+        <translation>área de &amp;transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>&amp;New Item</source>
-        <translation>&amp;Novo item</translation>
+        <translation>&amp;Novo Item</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2639,7 +2639,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation>C&amp;omandos/Atalhos gerais...</translation>
+        <translation>C&amp;omandos/Atalhos Gerais...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
@@ -2664,7 +2664,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation>Al&amp;ternar armazenamento</translation>
+        <translation>Al&amp;ternar Guardar Área de Transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
@@ -2674,7 +2674,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>P&amp;rocess Manager</source>
-        <translation>Gestor de p&amp;rocessos</translation>
+        <translation>Gestor de P&amp;rocessos</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
@@ -2769,7 +2769,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>Edit &amp;Notes</source>
-        <translation>Editar &amp;notas</translation>
+        <translation>Editar &amp;Notas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
@@ -2779,7 +2779,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>E&amp;dit with editor</source>
-        <translation>E&amp;ditar no editor</translation>
+        <translation>E&amp;ditar com o editor</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
@@ -2799,7 +2799,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Move Up</source>
-        <translation>Mover acima</translation>
+        <translation>Mover Acima</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
@@ -2809,7 +2809,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Move Down</source>
-        <translation>Mover abaixo</translation>
+        <translation>Mover Abaixo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="118"/>
@@ -2839,7 +2839,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="124"/>
         <source>&amp;New Tab</source>
-        <translation>&amp;Novo separador</translation>
+        <translation>&amp;Novo Separador</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="125"/>
@@ -2849,7 +2849,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>R&amp;ename Tab</source>
-        <translation>R&amp;enomear separador</translation>
+        <translation>R&amp;enomear Separador</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
@@ -2859,7 +2859,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>Re&amp;move Tab</source>
-        <translation>Re&amp;mover separador</translation>
+        <translation>Re&amp;mover Separador</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
@@ -2879,7 +2879,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>Ne&amp;xt Tab</source>
-        <translation>Separador se&amp;guinte</translation>
+        <translation>Separador Se&amp;guinte</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
@@ -2907,7 +2907,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>&amp;Previous Tab</source>
-        <translation>Se&amp;parador anterior</translation>
+        <translation>Se&amp;parador Anterior</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
@@ -2978,7 +2978,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="77"/>
         <source>Print clipboard content.</source>
-        <translation>Imprimir conteúdo.</translation>
+        <translation>Imprimir conteúdo da área de transferência.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="78"/>
@@ -3236,8 +3236,8 @@ A predefinição é o primeiro.</translation>
 Evaluate ECMAScript program.
 Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
         <translation>
-Avaliar programa ECMAScript.
-Argumentos acessíveis usando com &quot;arguments[0..N]&quot;.</translation>
+Avalie o programa ECMAScript.
+Os argumentos estão acessíveis ao utilizar com &quot;arguments[0..N]&quot;.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
@@ -3283,7 +3283,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="78"/>
         <source>Usage: copyq [%1]</source>
-        <translation>Uso: copyq [%1]</translation>
+        <translation>Utilização: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="79"/>
@@ -3303,19 +3303,19 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="86"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation>  - Usar argumento (-) para ler dados da entrada padrão.</translation>
+        <translation>  - Utilize argumento travessão (-) para ler dados da entrada padrão.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="87"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation>  - use argumento duplo-hífen (--) para ler todos os argumentos seguintes sem
+        <translation>  - Utilize argumento travessão duplo (--) para ler todos os argumentos seguintes sem
    expandir sequências de escape (i.e. \n, \t e outras).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="89"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation>  - use ? como MIME para imprimir todos os tipos MIME disponíveis (&quot;text/plain&quot; como predefinição).</translation>
+        <translation>  - Utilizar ? para MIME para imprimir todos os tipos MIME disponíveis (predefinição é &quot;text/plain&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="94"/>
@@ -3337,7 +3337,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="689"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation>Impossível gravar em &quot;%1&quot;!</translation>
+        <translation>Não é possível guardar no ficheiro &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="694"/>
@@ -3352,17 +3352,17 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2661"/>
         <source>Exception</source>
-        <translation>Excepção</translation>
+        <translation>Exceção</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2662"/>
         <source>Exception in %1</source>
-        <translation>Excepção em %1</translation>
+        <translation>Exceção em %1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2704"/>
         <source>Failed to copy to clipboard!</source>
-        <translation>Falha ao copiar para a memória!</translation>
+        <translation>Não foi possível copiar para a área de transferência!</translation>
     </message>
 </context>
 <context>
@@ -3514,7 +3514,7 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/gui/traymenu.cpp" line="88"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation>Prima &quot;/&quot; para procurar</translation>
+        <translation>Pressione &quot;/&quot; para procurar</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="88"/>
@@ -3538,7 +3538,7 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="120"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished">Insensível a maiúsculas</translation>
+        <translation>Não diferencia maiúsculas de minúsculas</translation>
     </message>
 </context>
 </TS>
