@@ -26,6 +26,8 @@
 #include "common/log.h"
 #include "common/timer.h"
 
+#include "systemclipboard/systemclipboard.h"
+
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
@@ -97,6 +99,12 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     } );
 
     DummyClipboard::startMonitoring(formats);
+
+    if ( !QX11Info::isPlatformX11() ) {
+        COPYQ_LOG("Using Wayland clipboard access");
+        connect(SystemClipboard::instance(), &SystemClipboard::changed,
+                this, [this](QClipboard::Mode mode){ onClipboardChanged(mode); });
+    }
 }
 
 void X11PlatformClipboard::setMonitoringEnabled(ClipboardMode mode, bool enable)
@@ -116,9 +124,13 @@ QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &) 
 
 void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
 {
-    // WORKAROUND: Avoid getting X11 warning "QXcbClipboard: SelectionRequest too old".
-    QCoreApplication::processEvents();
-    DummyClipboard::setData(mode, dataMap);
+    if ( QX11Info::isPlatformX11() ) {
+        // WORKAROUND: Avoid getting X11 warning "QXcbClipboard: SelectionRequest too old".
+        QCoreApplication::processEvents();
+        DummyClipboard::setData(mode, dataMap);
+    } else {
+        SystemClipboard::instance()->setMimeData( createMimeData(dataMap), modeToQClipboardMode(mode) );
+    }
 }
 
 void X11PlatformClipboard::onChanged(int mode)
@@ -205,7 +217,9 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
         return;
     }
 
-    const auto data = ::clipboardData(clipboardData->mode);
+    const auto data = QX11Info::isPlatformX11()
+        ? ::clipboardData(clipboardData->mode)
+        : SystemClipboard::instance()->mimeData( modeToQClipboardMode(clipboardData->mode) );
 
     // Retry to retrieve clipboard data few times.
     if (!data) {

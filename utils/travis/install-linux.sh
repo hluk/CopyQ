@@ -21,6 +21,10 @@ packages=(
     libxfixes-dev
     libxtst-dev
 
+    # Wayland support
+    extra-cmake-modules
+    libwayland-dev
+
     # encryption plugin
     gnupg2
 
