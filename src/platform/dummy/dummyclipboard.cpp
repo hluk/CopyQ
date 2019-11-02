@@ -24,8 +24,6 @@
 #include <QApplication>
 #include <QStringList>
 
-namespace {
-
 QClipboard::Mode modeToQClipboardMode(ClipboardMode mode)
 {
     switch (mode) {
@@ -38,8 +36,6 @@ QClipboard::Mode modeToQClipboardMode(ClipboardMode mode)
     Q_ASSERT(false);
     return QClipboard::Clipboard;
 }
-
-} // namespace
 
 void DummyClipboard::startMonitoring(const QStringList &)
 {

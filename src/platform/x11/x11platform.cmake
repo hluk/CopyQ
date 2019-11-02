@@ -29,3 +29,10 @@ set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
 
 list(APPEND copyq_qt_modules X11Extras)
 
+# Wayland clipboard
+find_package(ECM REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/platform/x11/systemclipboard)
+add_subdirectory(platform/x11/systemclipboard)
+set_target_properties(systemclipboard PROPERTIES COMPILE_FLAGS "-Wno-error")
+list(APPEND copyq_LIBRARIES systemclipboard)
