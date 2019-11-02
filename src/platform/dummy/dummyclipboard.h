@@ -26,6 +26,8 @@
 
 #include <QClipboard>
 
+QClipboard::Mode modeToQClipboardMode(ClipboardMode mode);
+
 class DummyClipboard : public PlatformClipboard
 {
 public:
@@ -41,8 +43,6 @@ public:
 
 protected:
     virtual void onChanged(int mode);
-
-private:
     void onClipboardChanged(QClipboard::Mode mode);
 
     ClipboardOwnerMonitor m_ownerMonitor;
