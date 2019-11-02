@@ -74,6 +74,11 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
     m_selectionData.formats.append(mimeText);
 
+    if ( m_selectionData.enabled && !qApp->clipboard()->supportsSelection() ) {
+        log("X11 selection is not supported, disabling.", LogWarning);
+        m_selectionData.enabled = false;
+    }
+
     for (auto clipboardData : {&m_clipboardData, &m_selectionData}) {
         clipboardData->owner.clear();
         clipboardData->newOwner.clear();
