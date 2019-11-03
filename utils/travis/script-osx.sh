@@ -31,6 +31,7 @@ ls "$("$executable" info translations)/"
 test "$("$executable" info has-global-shortcuts)" -eq "1"
 
 # Uninstall local Qt to make sure we only use libraries from the bundle
+"$(brew --repo kde-mac/kde)/tools/uninstall.sh"
 brew uninstall --ignore-dependencies --force qt5
 
 # Run tests (retry once on error).

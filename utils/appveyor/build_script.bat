@@ -1,3 +1,6 @@
 @echo on
 
-cmake --build build/
+cmake --build build/ || goto :error
+
+:error
+exit /b %errorlevel%

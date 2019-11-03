@@ -68,34 +68,14 @@ struct item_popup_interval : Config<int> {
     static QString name() { return "item_popup_interval"; }
 };
 
-struct notification_position : Config<int> {
-    static QString name() { return "notification_position"; }
-    static Value defaultValue() { return 3; }
-};
-
 struct clipboard_notification_lines : Config<int> {
     static QString name() { return "clipboard_notification_lines"; }
     static Value value(Value v) { return qBound(0, v, 10000); }
 };
 
-struct notification_horizontal_offset : Config<int> {
-    static QString name() { return "notification_horizontal_offset"; }
-    static Value defaultValue() { return 10; }
-};
-
-struct notification_vertical_offset : Config<int> {
-    static QString name() { return "notification_vertical_offset"; }
-    static Value defaultValue() { return 10; }
-};
-
 struct notification_maximum_width : Config<int> {
     static QString name() { return "notification_maximum_width"; }
     static Value defaultValue() { return 300; }
-};
-
-struct notification_maximum_height : Config<int> {
-    static QString name() { return "notification_maximum_height"; }
-    static Value defaultValue() { return 100; }
 };
 
 struct edit_ctrl_return : Config<bool> {

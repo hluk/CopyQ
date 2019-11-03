@@ -1,0 +1,8 @@
+set(KF5_MIN_VERSION "5.18.0")
+
+find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Notifications)
+
+list(APPEND copyq_LIBRARIES KF5::Notifications)

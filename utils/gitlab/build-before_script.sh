@@ -1,14 +1,38 @@
 #!/bin/bash
 set -ex
 
+packages=(
+    g++
+    cmake
+    make
+    git
+
+    qt5-default
+
+    qtscript5-dev
+    qttools5-dev
+    qttools5-dev-tools
+
+    libqt5x11extras5-dev
+
+    libqt5svg5-dev
+    libqt5svg5
+
+    # fixes some issues on X11
+    libxfixes-dev
+    libxtst-dev
+
+    # KDE Frameworks
+    libkf5notifications-dev
+    extra-cmake-modules
+
+    # encryption plugin
+    gnupg2
+
+    # tests
+    xvfb
+    openbox
+)
+
 apt update
-
-# Build dependencies
-apt -y install g++ cmake make git
-apt -y install qtscript5-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5x11extras5-dev
-
-# Optional: Better support for X11
-apt -y install libxfixes-dev libxtst-dev
-
-# Optional: CMake can get version from git
-apt -y install git
+apt -y install "${packages[@]}"

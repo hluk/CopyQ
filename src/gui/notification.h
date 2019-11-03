@@ -22,39 +22,40 @@
 
 #include "gui/notificationbutton.h"
 
+#include <QColor>
 #include <QTimer>
-#include <QWidget>
+#include <QObject>
+#include <QPixmap>
+#include <QPointer>
 
-class QLabel;
-class QGridLayout;
-class QHBoxLayout;
+#include <memory>
 
-class Notification final : public QWidget
+class KNotification;
+class QWidget;
+
+class Notification final : public QObject
 {
     Q_OBJECT
 
 public:
-    Notification();
+    static void initConfiguration();
+
+    explicit Notification(const QColor &iconColor, QObject *parent = nullptr);
+
+    ~Notification();
 
     void setTitle(const QString &title);
     void setMessage(const QString &msg, Qt::TextFormat format = Qt::AutoText);
     void setPixmap(const QPixmap &pixmap);
     void setIcon(const QString &icon);
     void setIcon(ushort icon);
+    void setIconColor(const QColor &color);
     void setInterval(int msec);
-    void setOpacity(qreal opacity);
     void setButtons(const NotificationButtons &buttons);
 
-    void updateIcon();
+    void show();
 
-    void adjust();
-
-    void mousePressEvent(QMouseEvent *event) override;
-    void enterEvent(QEvent *event) override;
-    void leaveEvent(QEvent *event) override;
-    void paintEvent(QPaintEvent *event) override;
-    void showEvent(QShowEvent *event) override;
-    void hideEvent(QHideEvent *event) override;
+    void close();
 
 signals:
     /** Emitted if notification needs to be closed. */
@@ -63,18 +64,28 @@ signals:
     void buttonClicked(const NotificationButton &button);
 
 private:
-    void onTimeout();
-    void onButtonClicked(const NotificationButton &button);
+    void onButtonClicked(unsigned int id);
+    void onDestroyed();
+    void onClosed();
+    void onIgnored();
+    void onActivated();
+    void update();
 
-    QGridLayout *m_layout = nullptr;
-    QHBoxLayout *m_buttonLayout = nullptr;
-    QLabel *m_titleLabel = nullptr;
-    QLabel *m_iconLabel = nullptr;
-    QLabel *m_msgLabel = nullptr;
+    void notificationLog(const char *message);
+
+    KNotification *dropNotification();
+
+    QPointer<KNotification> m_notification;
+    NotificationButtons m_buttons;
+
+    QColor m_iconColor;
     QTimer m_timer;
-    bool m_autoclose = false;
-    qreal m_opacity = 1.0;
+    int m_intervalMsec = -1;
+    QString m_title;
+    QString m_message;
     QString m_icon;
+    ushort m_iconId;
+    QPixmap m_pixmap;
 };
 
 #endif // NOTIFICATION_H

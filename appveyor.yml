@@ -1,52 +1,56 @@
-# Configuration file for AppVeyor CI
+---
 configuration: Release
 
 image:
-- Visual Studio 2019
+  - Visual Studio 2019
+
+cache:
+  - build
+  - dependencies\build
 
 environment:
-  matrix:
-    - QTDIR: C:\Qt\5.13\mingw73_32
-      CMAKE_GENERATOR: MinGW Makefiles
-      MINGW_PATH: C:\Qt\Tools\mingw730_32
-      # https://wiki.qt.io/Qt_5.13_Tools_and_Versions
-      # https://www.appveyor.com/docs/windows-images-software/#tools
-      OPENSSL_PATH: C:\OpenSSL-v111-Win32\bin
-      LIBSSL: libssl-1_1.dll
-      LIBCRYPTO: libcrypto-1_1.dll
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
+  KF5_VERSION: 5.75
+  KF5_PATCH: 0
+
+  matrix:
     - QTDIR: C:\Qt\5.13\mingw73_64
       CMAKE_GENERATOR: MinGW Makefiles
       MINGW_PATH: C:\Qt\Tools\mingw730_64
+      # https://wiki.qt.io/Qt_5.13_Tools_and_Versions
+      # https://www.appveyor.com/docs/windows-images-software/#tools
       OPENSSL_PATH: C:\OpenSSL-v111-Win64\bin
       LIBSSL: libssl-1_1-x64.dll
       LIBCRYPTO: libcrypto-1_1-x64.dll
+
+      MSYS_BASE_URL: https://repo.msys2.org/mingw/x86_64
+      PHONON: mingw-w64-x86_64-phonon-qt5-4.11.1-1-any
 
 # Parameters for default build commands (build_script is used instead).
 build:
 
 install:
-- utils\appveyor\install.bat
+  - utils\appveyor\install.bat
 
 before_build:
-- utils\appveyor\before_build.bat
+  - utils\appveyor\before_build.bat
 
 build_script:
-- utils\appveyor\build_script.bat
+  - utils\appveyor\build_script.bat
 
 after_build:
-- utils\appveyor\after_build.bat
+  - utils\appveyor\after_build.bat
 
 artifacts:
-- path: 'copyq*.zip'
-  name: CopyQ Portable
-
-- path: 'copyq-*-setup.exe'
-  name: CopyQ Setup
+  - path: 'copyq-*-setup.exe'
+    name: CopyQ Setup
 
 # Upload test log files.
 on_finish:
-- ps: Get-ChildItem -recurse -include copyq*.log* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: >-
+      Get-ChildItem -recurse -include copyq*.log*
+      | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 matrix:
-  fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
+  fast_finish: true

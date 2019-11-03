@@ -259,12 +259,8 @@ void ConfigurationManager::initOptions()
     bind<Config::expire_tab>(m_tabHistory->spinBoxExpireTab);
     bind<Config::editor>(m_tabHistory->lineEditEditor);
     bind<Config::item_popup_interval>(m_tabNotifications->spinBoxNotificationPopupInterval);
-    bind<Config::notification_position>(m_tabNotifications->comboBoxNotificationPosition);
     bind<Config::clipboard_notification_lines>(m_tabNotifications->spinBoxClipboardNotificationLines);
-    bind<Config::notification_horizontal_offset>(m_tabNotifications->spinBoxNotificationHorizontalOffset);
-    bind<Config::notification_vertical_offset>(m_tabNotifications->spinBoxNotificationVerticalOffset);
     bind<Config::notification_maximum_width>(m_tabNotifications->spinBoxNotificationMaximumWidth);
-    bind<Config::notification_maximum_height>(m_tabNotifications->spinBoxNotificationMaximumHeight);
     bind<Config::edit_ctrl_return>(m_tabHistory->checkBoxEditCtrlReturn);
     bind<Config::show_simple_items>(m_tabHistory->checkBoxShowSimpleItems);
     bind<Config::number_search>(m_tabHistory->checkBoxNumberSearch);

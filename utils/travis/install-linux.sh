@@ -29,6 +29,10 @@ packages=(
     qtwayland5
     qtwayland5-dev-tools
 
+    # KDE Frameworks
+    libkf5notifications-dev
+    extra-cmake-modules
+
     # encryption plugin
     gnupg2
 

@@ -20,78 +20,23 @@
 #include "gui/notificationdaemon.h"
 
 #include "common/common.h"
-#include "common/display.h"
-#include "common/mimetypes.h"
-#include "common/textdata.h"
-#include "common/timer.h"
 #include "gui/notification.h"
 #include "gui/screen.h"
 
 #include <QApplication>
 #include <QPixmap>
-#include <QPoint>
-#include <QVariant>
-
-namespace {
-
-const int notificationMarginPoints = 10;
-
-int notificationMargin()
-{
-    return pointsToPixels(notificationMarginPoints);
-}
-
-bool isNotificationUnderCursor(const Notification *notification, QPoint cursor) {
-    const QRect rect = notification->window()->geometry();
-    return rect.contains(cursor);
-}
-
-} // namespace
 
 NotificationDaemon::NotificationDaemon(QObject *parent)
     : QObject(parent)
-    , m_position(BottomRight)
-    , m_notifications()
-    , m_opacity(1.0)
-    , m_horizontalOffsetPoints(0)
-    , m_verticalOffsetPoints(0)
-    , m_maximumWidthPoints(300)
-    , m_maximumHeightPoints(100)
 {
-    initSingleShotTimer( &m_timerUpdate, 100, this, &NotificationDaemon::doUpdateNotifications );
+    Notification::initConfiguration();
 }
 
-void NotificationDaemon::setPosition(NotificationDaemon::Position position)
-{
-    m_position = position;
-}
+NotificationDaemon::~NotificationDaemon() = default;
 
-void NotificationDaemon::setOffset(int horizontalPoints, int verticalPoints)
+void NotificationDaemon::setIconColor(const QColor &color)
 {
-    m_horizontalOffsetPoints = horizontalPoints;
-    m_verticalOffsetPoints = verticalPoints;
-}
-
-void NotificationDaemon::setMaximumSize(int maximumWidthPoints, int maximumHeightPoints)
-{
-    m_maximumWidthPoints = maximumWidthPoints;
-    m_maximumHeightPoints = maximumHeightPoints;
-}
-
-void NotificationDaemon::updateNotifications()
-{
-    if ( !m_timerUpdate.isActive() )
-        m_timerUpdate.start();
-}
-
-void NotificationDaemon::setNotificationOpacity(qreal opacity)
-{
-    m_opacity = opacity;
-}
-
-void NotificationDaemon::setNotificationStyleSheet(const QString &styleSheet)
-{
-    m_styleSheet = styleSheet;
+    m_iconColor = color;
 }
 
 void NotificationDaemon::removeNotification(const QString &id)
@@ -111,58 +56,6 @@ void NotificationDaemon::onNotificationClose(Notification *notification)
     }
 
     notification->deleteLater();
-    updateNotifications();
-}
-
-void NotificationDaemon::doUpdateNotifications()
-{
-    const QPoint cursor = QCursor::pos();
-
-    // Postpone update if mouse cursor is over a notification.
-    for (auto &notificationData : m_notifications) {
-        auto notification = notificationData.notification;
-        if ( notification->isVisible() && isNotificationUnderCursor(notification, cursor) ) {
-            m_timerUpdate.start();
-            return;
-        }
-    }
-
-    const QRect screen = screenGeometry(0);
-
-    int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
-
-    for (auto &notificationData : m_notifications) {
-        auto notification = notificationData.notification;
-        notification->setOpacity(m_opacity);
-        notification->setStyleSheet(m_styleSheet);
-        notification->updateIcon();
-        notification->setMaximumSize( pointsToPixels(m_maximumWidthPoints), pointsToPixels(m_maximumHeightPoints) );
-        notification->adjust();
-
-        do {
-            int x;
-            if (m_position & Left)
-                x = offsetX();
-            else if (m_position & Right)
-                x = screen.right() - notification->width() - offsetX();
-            else
-                x = screen.right() / 2 - notification->width() / 2;
-
-            if (m_position & Bottom)
-                y -= notification->height();
-
-            notification->move(x, y);
-
-            if (m_position & Top)
-                y += notification->height() + notificationMargin();
-            else
-                y -= notificationMargin();
-
-            // Avoid positioning a notification under mouse cursor.
-        } while( isNotificationUnderCursor(notification, cursor) );
-
-        notification->show();
-    }
 }
 
 Notification *NotificationDaemon::findNotification(const QString &id)
@@ -182,7 +75,8 @@ Notification *NotificationDaemon::createNotification(const QString &id)
         notification = findNotification(id);
 
     if (notification == nullptr) {
-        notification = new Notification();
+        notification = new Notification(m_iconColor, this);
+
         connect(this, &QObject::destroyed, notification, &QObject::deleteLater);
         connect( notification, &Notification::closeNotification,
                  this, &NotificationDaemon::onNotificationClose );
@@ -192,17 +86,5 @@ Notification *NotificationDaemon::createNotification(const QString &id)
         m_notifications.append(NotificationData{id, notification});
     }
 
-    updateNotifications();
-
     return notification;
-}
-
-int NotificationDaemon::offsetX() const
-{
-    return pointsToPixels(m_horizontalOffsetPoints);
-}
-
-int NotificationDaemon::offsetY() const
-{
-    return pointsToPixels(m_verticalOffsetPoints);
 }

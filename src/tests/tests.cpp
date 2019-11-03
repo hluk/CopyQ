@@ -187,6 +187,8 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Monospace" with one that exists to avoid this cost.)");
     output.remove(reFontWarning);
 #endif
+    // KNotification bug
+    output.remove(R"(QtWarning: QLayout: Attempting to add QLayout "" to QWidget "", which already has a layout)");
 
     if ( output.indexOf(reFailure) != -1 )
         return false;

@@ -303,12 +303,6 @@ QString Theme::getToolTipStyleSheet() const
     return getStyleSheet(cssTemplate);
 }
 
-QString Theme::getNotificationStyleSheet() const
-{
-    const QString cssTemplate = value("css_template_notification").toString();
-    return getStyleSheet(cssTemplate);
-}
-
 Qt::ScrollBarPolicy Theme::scrollbarPolicy() const
 {
     return value("show_scrollbars").toBool()
@@ -360,7 +354,6 @@ void Theme::resetTheme()
     m_theme["notes_bg"]  = Option(name, "VALUE", ui ? ui->pushButtonColorNotesBg : nullptr);
     name = serializeColor( p.color(QPalette::ToolTipText) );
     m_theme["notes_fg"]  = Option(name, "VALUE", ui ? ui->pushButtonColorNotesFg : nullptr);
-    m_theme["notification_bg"]  = Option("#333", "VALUE", ui ? ui->pushButtonColorNotificationBg : nullptr);
     m_theme["notification_fg"]  = Option("#ddd", "VALUE", ui ? ui->pushButtonColorNotificationFg : nullptr);
 
     m_theme["font"]        = Option("", "VALUE", ui ? ui->pushButtonFont : nullptr);
@@ -368,7 +361,6 @@ void Theme::resetTheme()
     m_theme["find_font"]   = Option("", "VALUE", ui ? ui->pushButtonFoundFont : nullptr);
     m_theme["num_font"]    = Option("", "VALUE", ui ? ui->pushButtonNumberFont : nullptr);
     m_theme["notes_font"]  = Option("", "VALUE", ui ? ui->pushButtonNotesFont : nullptr);
-    m_theme["notification_font"]  = Option("", "VALUE", ui ? ui->pushButtonNotificationFont : nullptr);
     m_theme["show_number"] = Option(true, "checked", ui ? ui->checkBoxShowNumber : nullptr);
     m_theme["show_scrollbars"] = Option(true, "checked", ui ? ui->checkBoxScrollbars : nullptr);
 
@@ -484,7 +476,6 @@ void Theme::resetTheme()
 
     m_theme["css_template_items"] = Option("items");
     m_theme["css_template_main_window"] = Option("main_window");
-    m_theme["css_template_notification"] = Option("notification");
     m_theme["css_template_tooltip"] = Option("tooltip");
 }
 

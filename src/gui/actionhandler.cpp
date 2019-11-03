@@ -156,9 +156,8 @@ void ActionHandler::showActionErrors(Action *action, const QString &message, ush
 {
     m_actionModel->actionFailed(action, message);
     QtPrivate::QHashCombine hash;
-    const auto notificationId = hash( hash(0, action->commandLine()), message );
-    auto notification = m_notificationDaemon->createNotification( QString::number(notificationId) );
-    if ( notification->isVisible() )
+    const auto notificationId = QString::number( hash(hash(0, action->commandLine()), message) );
+    if ( m_notificationDaemon->findNotification(notificationId) )
         return;
 
     auto msg = message;
@@ -185,7 +184,9 @@ void ActionHandler::showActionErrors(Action *action, const QString &message, ush
 
     log(title + "\n" + msg);
 
+    auto notification = m_notificationDaemon->createNotification(notificationId);
     notification->setTitle(title);
     notification->setMessage(msg);
     notification->setIcon(icon);
+    notification->show();
 }

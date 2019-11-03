@@ -2306,6 +2306,7 @@ void MainWindow::showError(const QString &msg)
     notification->setTitle( tr("CopyQ Error", "Notification error message title") );
     notification->setMessage(msg);
     notification->setIcon(IconTimesCircle);
+    notification->show();
 }
 
 Notification *MainWindow::createNotification(const QString &id)
@@ -2604,6 +2605,8 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
     enterBrowseMode();
 
     updateEnabledCommands();
+
+    m_sharedData->notifications->setIconColor( theme().color("notification_fg") );
 }
 
 void MainWindow::loadTheme(const QSettings &themeSettings)

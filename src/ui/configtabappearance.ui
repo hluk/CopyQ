@@ -33,8 +33,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>272</width>
-        <height>482</height>
+        <width>271</width>
+        <height>484</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -252,22 +252,8 @@
            </property>
           </widget>
          </item>
-         <item row="8" column="1">
-          <widget class="QPushButton" name="pushButtonColorNotificationBg">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
          <item row="8" column="2">
           <widget class="QPushButton" name="pushButtonColorNotificationFg">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="3">
-          <widget class="QPushButton" name="pushButtonNotificationFont">
            <property name="text">
             <string/>
            </property>
@@ -416,9 +402,7 @@
   <tabstop>pushButtonNotesFont</tabstop>
   <tabstop>pushButtonColorNumberFg</tabstop>
   <tabstop>pushButtonNumberFont</tabstop>
-  <tabstop>pushButtonColorNotificationBg</tabstop>
   <tabstop>pushButtonColorNotificationFg</tabstop>
-  <tabstop>pushButtonNotificationFont</tabstop>
   <tabstop>checkBoxShowNumber</tabstop>
   <tabstop>checkBoxScrollbars</tabstop>
   <tabstop>checkBoxSystemIcons</tabstop>

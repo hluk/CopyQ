@@ -134,8 +134,6 @@ private:
 
     void sendActionData(int actionId, const QByteArray &bytes);
 
-    void updateNotifications();
-
     Server *m_server = nullptr;
     MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;

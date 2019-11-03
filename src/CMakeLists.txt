@@ -20,6 +20,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} .)
 include_directories(${Qt5Widgets_INCLUDES})
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
+include(notifications.cmake)
 include(platform/platform.cmake)
 
 # Qxt - global shortcuts

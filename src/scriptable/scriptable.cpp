@@ -1372,11 +1372,10 @@ void Scriptable::popup()
 
     const QString title = arg(0);
     const QString message = arg(1);
-    const auto icon = QString(QChar(IconInfoCircle));
     int msec;
     if ( !toInt(argument(2), &msec) )
         msec = 8000;
-    m_proxy->showMessage(title, message, icon, msec);
+    m_proxy->showMessage(title, message, QString(), msec);
 }
 
 QJSValue Scriptable::notification()
@@ -1386,7 +1385,7 @@ QJSValue Scriptable::notification()
     QString title;
     QString message;
     int msec = -1;
-    auto icon = QString(QChar(IconInfoCircle));
+    QString icon;
     QString notificationId;
     NotificationButtons buttons;
 
