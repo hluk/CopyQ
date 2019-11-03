@@ -1,190 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ConfigTabNotifications</class>
-  <widget class="QScrollArea" name="scrollArea_3">
+ <widget class="QScrollArea" name="scrollArea_3">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>639</width>
+    <height>523</height>
+   </rect>
+  </property>
+  <property name="frameShape">
+   <enum>QFrame::NoFrame</enum>
+  </property>
+  <property name="widgetResizable">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="scrollAreaWidgetContents_3">
    <property name="geometry">
     <rect>
-     <x>9</x>
-     <y>9</y>
+     <x>0</x>
+     <y>0</y>
      <width>639</width>
      <height>523</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::NoFrame</enum>
-   </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents_3">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>639</width>
-      <height>523</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_13">
-     <item>
-      <spacer name="horizontalSpacer_15">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <spacer name="verticalSpacer_8">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QFormLayout" name="formLayout_3">
-         <property name="fieldGrowthPolicy">
-          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>&amp;Notification position:</string>
-           </property>
-           <property name="buddy">
-            <cstring>comboBoxNotificationPosition</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_10">
-           <item>
-            <widget class="QComboBox" name="comboBoxNotificationPosition">
-             <property name="toolTip">
-              <string>Position on screen for notifications</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>Top</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Bottom</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Top Right</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Bottom Right</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Bottom Left</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Top Left</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_10">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_25">
-           <property name="text">
-            <string>Int&amp;erval in seconds to display notifications:</string>
-           </property>
-           <property name="buddy">
-            <cstring>spinBoxNotificationPopupInterval</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_9">
-           <item>
-            <widget class="QSpinBox" name="spinBoxNotificationPopupInterval">
-             <property name="toolTip">
-              <string>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
+   <layout class="QHBoxLayout" name="horizontalLayout_13">
+    <item>
+     <spacer name="horizontalSpacer_15">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <spacer name="verticalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_3">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_25">
+          <property name="text">
+           <string>Int&amp;erval in seconds to display notifications:</string>
+          </property>
+          <property name="buddy">
+           <cstring>spinBoxNotificationPopupInterval</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QSpinBox" name="spinBoxNotificationPopupInterval">
+            <property name="toolTip">
+             <string>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</string>
-             </property>
-             <property name="minimum">
-              <number>-1</number>
-             </property>
-             <property name="maximum">
-              <number>9999</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_12">
+            </property>
+            <property name="minimum">
+             <number>-1</number>
+            </property>
+            <property name="maximum">
+             <number>9999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>Num&amp;ber of lines for clipboard notification:</string>
+          </property>
+          <property name="buddy">
+           <cstring>spinBoxClipboardNotificationLines</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QSpinBox" name="spinBoxClipboardNotificationLines">
+            <property name="toolTip">
+             <string>Number of lines to show for new clipboard content.
+
+Set to 0 to disable.</string>
+            </property>
+            <property name="maximum">
+             <number>9999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>Notification Geometry (in screen points)</string>
+        </property>
+        <layout class="QFormLayout" name="formLayout_4">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_13">
            <property name="text">
-            <string>Num&amp;ber of lines for clipboard notification:</string>
+            <string>Maximum &amp;width:</string>
            </property>
            <property name="buddy">
-            <cstring>spinBoxClipboardNotificationLines</cstring>
+            <cstring>spinBoxNotificationMaximumWidth</cstring>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item row="0" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_21">
            <item>
-            <widget class="QSpinBox" name="spinBoxClipboardNotificationLines">
+            <widget class="QSpinBox" name="spinBoxNotificationMaximumWidth">
              <property name="toolTip">
-              <string>Number of lines to show for new clipboard content.
-
-Set to 0 to disable.</string>
+              <string>Maximum width for notification in screen points</string>
              </property>
              <property name="maximum">
               <number>9999</number>
@@ -192,7 +173,7 @@ Set to 0 to disable.</string>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_11">
+            <spacer name="horizontalSpacer_21">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -207,200 +188,39 @@ Set to 0 to disable.</string>
           </layout>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_2">
-         <property name="title">
-          <string>Notification Geometry (in screen points)</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_4">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Hori&amp;zontal offset:</string>
-            </property>
-            <property name="buddy">
-             <cstring>spinBoxNotificationHorizontalOffset</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_19">
-            <item>
-             <widget class="QSpinBox" name="spinBoxNotificationHorizontalOffset">
-              <property name="toolTip">
-               <string>Notification distance from left or right screen edge in screen points</string>
-              </property>
-              <property name="minimum">
-               <number>-99999</number>
-              </property>
-              <property name="maximum">
-               <number>99999</number>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_19">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>&amp;Vertical offset:</string>
-            </property>
-            <property name="buddy">
-             <cstring>spinBoxNotificationVerticalOffset</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_20">
-            <item>
-             <widget class="QSpinBox" name="spinBoxNotificationVerticalOffset">
-              <property name="toolTip">
-               <string>Notification distance from top or bottom screen edge in screen points</string>
-              </property>
-              <property name="minimum">
-               <number>-99999</number>
-              </property>
-              <property name="maximum">
-               <number>99999</number>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_20">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>Maximum &amp;width:</string>
-            </property>
-            <property name="buddy">
-             <cstring>spinBoxNotificationMaximumWidth</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_21">
-            <item>
-             <widget class="QSpinBox" name="spinBoxNotificationMaximumWidth">
-              <property name="toolTip">
-               <string>Maximum width for notification in screen points</string>
-              </property>
-              <property name="maximum">
-               <number>9999</number>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_21">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_14">
-            <property name="text">
-             <string>Ma&amp;ximum height:</string>
-            </property>
-            <property name="buddy">
-             <cstring>spinBoxNotificationMaximumHeight</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout_22">
-            <item>
-             <widget class="QSpinBox" name="spinBoxNotificationMaximumHeight">
-              <property name="toolTip">
-               <string>Maximum height for notification in screen points</string>
-              </property>
-              <property name="maximum">
-               <number>9999</number>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_22">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_16">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_16">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
   </widget>
+ </widget>
  <resources/>
+ <connections/>
 </ui>

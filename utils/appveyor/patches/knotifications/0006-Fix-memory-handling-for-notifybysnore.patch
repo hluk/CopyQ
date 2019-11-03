@@ -1,0 +1,138 @@
+From 91ffaaf3962715abe9bf2a67175b6a9954772dbe Mon Sep 17 00:00:00 2001
+From: Lukas Holecek <hluk@email.cz>
+Date: Sat, 31 Oct 2020 14:34:33 +0100
+Subject: [PATCH 6/6] Fix memory handling for notifybysnore
+
+---
+ src/notifybysnore.cpp | 67 +++++++++++++++++++++++++++++++------------
+ 1 file changed, 49 insertions(+), 18 deletions(-)
+
+diff --git a/src/notifybysnore.cpp b/src/notifybysnore.cpp
+index 36861c2..b3780e7 100644
+--- a/src/notifybysnore.cpp
++++ b/src/notifybysnore.cpp
+@@ -56,7 +56,7 @@ NotifyBySnore::NotifyBySnore(QObject* parent) :
+     m_server.listen(QString::number(qHash(qApp->applicationDirPath())));
+     connect(&m_server, &QLocalServer::newConnection, this, [this]() {
+         QLocalSocket* responseSocket = m_server.nextPendingConnection();
+-        connect(responseSocket, &QLocalSocket::readyRead, [this, responseSocket](){
++        connect(responseSocket, &QLocalSocket::readyRead, this, [this, responseSocket](){
+             const QByteArray rawNotificationResponse = responseSocket->readAll();
+             responseSocket->deleteLater();
+ 
+@@ -144,6 +144,8 @@ void NotifyBySnore::notify(KNotification *notification, KNotifyConfig *config)
+ 
+ void NotifyBySnore::notifyDeferred(KNotification* notification)
+ {
++    m_notifications.insert(notification->id(), notification);
++
+     const QString notificationTitle = ((!notification->title().isEmpty()) ? stripRichText(notification->title())
+                                                                           : qApp->applicationDisplayName());
+     QStringList snoretoastArgsList {
+@@ -158,9 +160,20 @@ void NotifyBySnore::notifyDeferred(KNotification* notification)
+ 
+     // handle the icon for toast notification
+     const QString iconPath = m_iconDir.path() + QLatin1Char('/') + QString::number(notification->id());
++    const bool deleteNewIcon = !QFile::exists(iconPath);
+     const bool hasIcon = (notification->pixmap().isNull()) ? qApp->windowIcon().pixmap(1024, 1024).save(iconPath, "PNG")
+                                                            : notification->pixmap().save(iconPath, "PNG");
+     if (hasIcon) {
++        qCDebug(LOG_KNOTIFICATIONS) << "Created temporary icon" << iconPath;
++        if (deleteNewIcon) {
++            connect(notification, &KNotification::destroyed, [iconPath](){
++                if (QFile::remove(iconPath)) {
++                    qCDebug(LOG_KNOTIFICATIONS) << "Created temporary icon" << iconPath;
++                } else {
++                    qCDebug(LOG_KNOTIFICATIONS) << "Failed to delete temporary icon" << iconPath;
++                }
++            });
++        }
+         snoretoastArgsList << QStringLiteral("-p") << iconPath;
+     }
+ 
+@@ -169,31 +182,55 @@ void NotifyBySnore::notifyDeferred(KNotification* notification)
+         snoretoastArgsList << QStringLiteral("-b") << notification->actions().join(QLatin1Char(';'));
+     }
+ 
+-    qCDebug(LOG_KNOTIFICATIONS) << snoretoastArgsList;
+-
++    QPointer<KNotification> maybeNotification = notification;
+     QProcess* snoretoastProcess = new QProcess();
+-    connect(snoretoastProcess, &QProcess::started, [this, notification]() {
+-        m_notifications.insert(notification->id(), notification); // TODO: handle failure of this call
+-        qCDebug(LOG_KNOTIFICATIONS) << "Inserted notification into m_notifications";
++    snoretoastProcess->closeWriteChannel();
++    connect(snoretoastProcess, &QProcess::readyReadStandardError,
++            [snoretoastProcess, snoretoastArgsList]() {
++                const auto data = snoretoastProcess->readAllStandardError();
++                qCDebug(LOG_KNOTIFICATIONS) << "SnoreToast process stderr:"
++                    << snoretoastArgsList << data;
+     });
+-
+-    connect(snoretoastProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+-            [this, snoretoastProcess, iconPath](int exitCode, QProcess::ExitStatus exitStatus) {
++    connect(snoretoastProcess, &QProcess::readyReadStandardOutput,
++            [snoretoastProcess, snoretoastArgsList]() {
++                const auto data = snoretoastProcess->readAllStandardOutput();
++                qCDebug(LOG_KNOTIFICATIONS) << "SnoreToast process stdout:"
++                    << snoretoastArgsList << data;
++    });
++    connect(snoretoastProcess, &QProcess::errorOccurred, this,
++            [this, snoretoastProcess, maybeNotification, snoretoastArgsList](QProcess::ProcessError error) {
++                qCWarning(LOG_KNOTIFICATIONS) << "SnoreToast process errored:"
++                    << snoretoastArgsList << error;
+                 snoretoastProcess->deleteLater();
+-                QFile::remove(iconPath);
++                close(maybeNotification);
++    });
++    connect(snoretoastProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this,
++            [this, snoretoastProcess, maybeNotification, snoretoastArgsList](int exitCode, QProcess::ExitStatus exitStatus) {
++                qCDebug(LOG_KNOTIFICATIONS) << "SnoreToast process finished:"
++                    << snoretoastArgsList << "code:" << exitCode << "status:" << exitStatus;
++                snoretoastProcess->deleteLater();
++                close(maybeNotification);
+     });
+ 
++    qCDebug(LOG_KNOTIFICATIONS) << "SnoreToast process starting:" << snoretoastArgsList;
+     snoretoastProcess->start(SnoreToastExecName(), snoretoastArgsList);
+ }
+ 
+ void NotifyBySnore::close(KNotification *notification)
+ {
++    if (notification == nullptr)
++        return;
++
+     qCDebug(LOG_KNOTIFICATIONS) << "Requested to close notification with ID:" << notification->id();
+     if (m_notifications.constFind(notification->id()) == m_notifications.constEnd()) {
+         qCDebug(LOG_KNOTIFICATIONS) << "Couldn't find the notification in m_notifications. Nothing to close.";
+         return;
+     }
+ 
++    qCDebug(LOG_KNOTIFICATIONS) << "SnoreToast closing notification with ID:" << notification->id();
++    const int removed = m_notifications.remove(notification->id());
++    qCDebug(LOG_KNOTIFICATIONS) << "Removed" << removed << "notifications from m_notifications";
++
+     const QStringList snoretoastArgsList{ QStringLiteral("-close"),
+                                           QString::number(notification->id()),
+                                           // Buttons don't show up if appID is set.
+@@ -201,15 +238,9 @@ void NotifyBySnore::close(KNotification *notification)
+                                           //qApp->applicationName()
+                                         };
+ 
+-    qCDebug(LOG_KNOTIFICATIONS) << "SnoreToast closing notification with ID:" << notification->id();
++    QProcess::startDetached(SnoreToastExecName(), snoretoastArgsList);
+ 
+-    QProcess* snoretoastProcess = new QProcess();
+-    connect(snoretoastProcess, &QProcess::started, [this, notification]() {
+-        qCDebug(LOG_KNOTIFICATIONS) << "Removed" << m_notifications.remove(notification->id()) << "notifications from m_notifications";
+-    });
+-
+-    connect(snoretoastProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), snoretoastProcess, &QProcess::deleteLater);
+-    snoretoastProcess->start(SnoreToastExecName(), snoretoastArgsList);
++    finish(notification);
+ }
+ 
+ void NotifyBySnore::update(KNotification *notification, KNotifyConfig *config)
+-- 
+2.26.2
+

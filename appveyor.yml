@@ -1,26 +1,29 @@
-# Configuration file for AppVeyor CI
+---
 configuration: Release
 
 image:
-- Visual Studio 2019
+  - Visual Studio 2019
+
+cache:
+  - usr
 
 # Build and test only once for a pull request.
 skip_branch_with_pr: true
 
 environment:
-  matrix:
-    - QTDIR: C:\Qt\5.15\mingw81_32
-      CMAKE_GENERATOR: MinGW Makefiles
-      MINGW_PATH: C:\Qt\Tools\mingw810_32
-      # https://wiki.qt.io/Qt_5.13_Tools_and_Versions
-      # https://www.appveyor.com/docs/windows-images-software/#tools
-      OPENSSL_PATH: C:\OpenSSL-v111-Win32\bin
-      LIBSSL: libssl-1_1.dll
-      LIBCRYPTO: libcrypto-1_1.dll
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
-    - QTDIR: C:\Qt\5.15\mingw81_64
-      CMAKE_GENERATOR: MinGW Makefiles
-      MINGW_PATH: C:\Qt\Tools\mingw810_64
+  KF5_VERSION: 5.75
+  KF5_PATCH: 0
+  SNORETOAST_VERSION: 0.7.0
+
+  matrix:
+    - QTDIR: C:\Qt\5.15\msvc2019_64
+      CMAKE_GENERATOR: Visual Studio 16 2019
+      CMAKE_GENERATOR_ARCH: x64
+      BUILD_SUB_DIR: Release
+      # https://wiki.qt.io/Qt_5.15_Tools_and_Versions
+      # https://www.appveyor.com/docs/windows-images-software/#tools
       OPENSSL_PATH: C:\OpenSSL-v111-Win64\bin
       LIBSSL: libssl-1_1-x64.dll
       LIBCRYPTO: libcrypto-1_1-x64.dll
@@ -29,24 +32,26 @@ environment:
 build:
 
 install:
-- utils\appveyor\install.bat
+  - utils\appveyor\install.bat
 
 before_build:
-- utils\appveyor\before_build.bat
+  - utils\appveyor\before_build.bat
 
 build_script:
-- utils\appveyor\build_script.bat
+  - utils\appveyor\build_script.bat
 
 after_build:
-- utils\appveyor\after_build.bat
+  - utils\appveyor\after_build.bat
 
 artifacts:
-- path: 'copyq-*-setup.exe'
-  name: CopyQ Setup
+  - path: 'copyq-*-setup.exe'
+    name: CopyQ Setup
 
 # Upload test log files.
 on_finish:
-- ps: Get-ChildItem -recurse -include copyq*.log* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: >-
+      Get-ChildItem -recurse -include copyq*.log*
+      | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 matrix:
-  fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
+  fast_finish: true

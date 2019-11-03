@@ -200,6 +200,9 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
         // New in Qt 5.15.0.
         regex(R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Monospace" with one that exists to avoid this cost.)"),
+
+        // KNotification bug
+        plain(R"(QtWarning: QLayout: Attempting to add QLayout "" to QWidget "", which already has a layout)"),
     };
     static QHash<QString, bool> ignoreLog;
 

@@ -11,7 +11,7 @@ dir "%OPENSSL_PATH%\%LIBCRYPTO%" || goto :error
 dir "%OPENSSL_PATH%\%LIBSSL%" || goto :error
 
 REM Note: Following removes sh.exe from PATH so that CMake can generate MinGW Makefile.
-PATH=%MINGW_PATH%\bin;%PATH:C:\Program Files\Git\usr\bin;=%
+if DEFINED MINGW_PATH set PATH=%MINGW_PATH%\bin;%PATH:C:\Program Files\Git\usr\bin;=%
 
 :error
 exit /b %errorlevel%

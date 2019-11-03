@@ -711,10 +711,11 @@ public:
 
         const auto popupMessage = QString::fromLatin1("%1 (%2)")
                 .arg( quoteString(keys), widgetName );
-        auto notification = m_wnd->createNotification();
+        auto notification = m_wnd->createNotification(QLatin1String("tests"));
         notification->setMessage(popupMessage);
         notification->setIcon(IconKeyboard);
         notification->setInterval(2000);
+        notification->show();
 
         if ( keys.startsWith(":") ) {
             const auto text = keys.mid(1);
@@ -1259,10 +1260,11 @@ void ScriptableProxy::showMessage(const QString &title,
 
     auto notification = m_wnd->createNotification(notificationId);
     notification->setTitle(title);
-    notification->setMessage(msg);
+    notification->setMessage(msg, Qt::AutoText);
     notification->setIcon(icon);
     notification->setInterval(msec);
     notification->setButtons(buttons);
+    notification->show();
 }
 
 QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
@@ -2115,7 +2117,7 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
         return;
 
     auto notification = m_wnd->createNotification("CopyQ_clipboard_notification");
-    notification->setIcon( QString(QChar(IconPaste)) );
+    notification->setIcon(IconPaste);
     notification->setInterval(intervalSeconds * 1000);
 
     const int maximumWidthPoints = appConfig.option<Config::notification_maximum_width>();
@@ -2123,8 +2125,10 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
 
     const QStringList formats = data.keys();
     const int imageIndex = formats.indexOf(QRegularExpression("^image/.*"));
-    const QFont &font = notification->font();
+    const QFont &font = qApp->font();
     const bool isHidden = data.contains(mimeHidden);
+
+    QString title;
 
     if (data.isEmpty()) {
         notification->setInterval(0);
@@ -2132,18 +2136,15 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
         QString text = getTextData(data);
         const int n = text.count('\n') + 1;
 
-        QString format;
         if (n > 1) {
-            format = QObject::tr("%1<div align=\"right\"><small>&mdash; %n lines &mdash;</small></div>",
-                                 "Notification label for multi-line text in clipboard", n);
+            title = QObject::tr("Text Copied (%n lines)",
+                                 "Notification title for multi-line text in clipboard", n);
         } else {
-            format = QObject::tr("%1", "Notification label for single-line text in clipboard");
+            title = QObject::tr("Text Copied", "Notification title for single-line text in clipboard");
         }
 
         text = elideText(text, font, QString(), false, width, maxLines);
-        text = escapeHtml(text);
-        text.replace( QLatin1String("\n"), QLatin1String("<br />") );
-        notification->setMessage( format.arg(text), Qt::RichText );
+        notification->setMessage(text);
     } else if (!isHidden && imageIndex != -1) {
         QPixmap pix;
         const QString &imageFormat = formats[imageIndex];
@@ -2155,9 +2156,13 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
 
         notification->setPixmap(pix);
     } else {
+        title = QObject::tr("Data Copied", "Notification title for a copied data in clipboard");
         const QString text = textLabelForData(data, font, QString(), false, width, maxLines);
-        notification->setMessage(text, Qt::PlainText);
+        notification->setMessage(text);
     }
+
+    notification->setTitle(title);
+    notification->show();
 }
 
 bool ScriptableProxy::enableMenuItem(int actionId, int currentRun, int menuItemMatchCommandIndex, const QVariantMap &menuItem)

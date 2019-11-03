@@ -37,32 +37,14 @@ class NotificationDaemon final : public QObject
 {
     Q_OBJECT
 public:
-    enum Position {
-        Top = 0x2,
-        Bottom = 0x4,
-        Right = 0x8,
-        Left = 0x10,
-        TopRight = Top | Right,
-        BottomRight = Bottom | Right,
-        BottomLeft = Bottom | Left,
-        TopLeft = Top | Left
-    };
-
     explicit NotificationDaemon(QObject *parent = nullptr);
 
+    ~NotificationDaemon();
+
     Notification *createNotification(const QString &id = QString());
+    Notification *findNotification(const QString &id);
 
-    void setPosition(Position position);
-
-    void setOffset(int horizontalPoints, int verticalPoints);
-
-    void setMaximumSize(int maximumWidthPoints, int maximumHeightPoints);
-
-    void updateNotifications();
-
-    void setNotificationOpacity(qreal opacity);
-
-    void setNotificationStyleSheet(const QString &styleSheet);
+    void setIconColor(const QColor &color);
 
     void removeNotification(const QString &id);
 
@@ -71,28 +53,16 @@ signals:
 
 private:
     void onNotificationClose(Notification *notification);
-    void doUpdateNotifications();
 
     struct NotificationData {
         QString id;
         Notification *notification;
     };
 
-    Notification *findNotification(const QString &id);
     Notification *findNotification(Notification *notification);
 
-    int offsetX() const;
-    int offsetY() const;
-
-    Position m_position;
     QList<NotificationData> m_notifications;
-    qreal m_opacity;
-    int m_horizontalOffsetPoints;
-    int m_verticalOffsetPoints;
-    int m_maximumWidthPoints;
-    int m_maximumHeightPoints;
-    QString m_styleSheet;
-    QTimer m_timerUpdate;
+    QColor m_iconColor;
 };
 
 #endif // NOTIFICATIONDAEMON_H

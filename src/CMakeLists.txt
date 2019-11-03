@@ -20,6 +20,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} .)
 include_directories(${Qt5Widgets_INCLUDES})
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
+include(notifications.cmake)
 include(platform/platform.cmake)
 
 # Compile with tests?
@@ -119,10 +120,17 @@ set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LI
 target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${copyq_LIBRARIES})
 
 # install
-install(TARGETS ${COPYQ_EXECUTABLE_NAME}
-    BUNDLE DESTINATION . COMPONENT Runtime
-    RUNTIME DESTINATION bin COMPONENT Runtime
-    )
+if (MSVC)
+    install(TARGETS ${COPYQ_EXECUTABLE_NAME}
+        RUNTIME DESTINATION . COMPONENT Runtime
+        LIBRARY DESTINATION . COMPONENT Runtime
+        )
+else()
+    install(TARGETS ${COPYQ_EXECUTABLE_NAME}
+        BUNDLE DESTINATION . COMPONENT Runtime
+        RUNTIME DESTINATION bin COMPONENT Runtime
+        )
+endif()
 
 if (NOT APPLE)
     if (TRANSLATION_INSTALL_PREFIX)

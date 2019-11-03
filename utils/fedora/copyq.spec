@@ -14,7 +14,9 @@ BuildRequires:	libXtst-devel, libXfixes-devel, desktop-file-utils
 BuildRequires:	kf5-rpm-macros, qt5-qtbase-devel, qt5-qtsvg-devel
 BuildRequires:	qt5-qttools-devel, qt5-qtscript-devel, qwt-qt5-devel, qt5-qtx11extras-devel
 BuildRequires:	extra-cmake-modules, appstream-qt-devel, libappstream-glib
+BuildRequires:	qt5-qtbase-private-devel
 BuildRequires:	qt5-qtwayland-devel wayland-devel
+BuildRequires:	kf5-knotifications-devel
 
 # Following line used to track qt5 private api usage
 %{?_qt5:Requires: %{_qt5}%{?_isa} = %{_qt5_version}}

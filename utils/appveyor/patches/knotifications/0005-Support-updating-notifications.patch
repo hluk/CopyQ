@@ -1,0 +1,26 @@
+From d410e0390e702625e46c123acade5ba952b14be3 Mon Sep 17 00:00:00 2001
+From: Lukas Holecek <hluk@email.cz>
+Date: Sat, 31 Oct 2020 14:11:51 +0100
+Subject: [PATCH 5/6] Support updating notifications
+
+---
+ src/notifybysnore.cpp | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/src/notifybysnore.cpp b/src/notifybysnore.cpp
+index 367fbbf..36861c2 100644
+--- a/src/notifybysnore.cpp
++++ b/src/notifybysnore.cpp
+@@ -214,8 +214,6 @@ void NotifyBySnore::close(KNotification *notification)
+ 
+ void NotifyBySnore::update(KNotification *notification, KNotifyConfig *config)
+ {
+-    Q_UNUSED(notification);
+-    Q_UNUSED(config);
+-    qCWarning(LOG_KNOTIFICATIONS) << "updating a notification is not supported yet.";
++    notify(notification, config);
+ }
+ 
+-- 
+2.26.2
+
