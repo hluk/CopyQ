@@ -55,9 +55,23 @@ const int lightThreshold = 100;
 
 QPointer<QObject> activePaintDevice;
 
+bool hasNormalIconHelper()
+{
+    // QIcon::hasThemeIcon() returns true even if icon "copyq-normal" is not available
+    // but "copyq" is.
+    const QString iconName = COPYQ_ICON_NAME "-normal";
+    const QIcon normalIcon = QIcon::fromTheme(COPYQ_ICON_NAME "-normal");
+    if ( normalIcon.isNull() )
+        return false;
+
+    const QIcon defaultIcon = QIcon::fromTheme(COPYQ_ICON_NAME);
+    return defaultIcon.pixmap(16).toImage() != normalIcon.pixmap(16).toImage();
+}
+
 bool hasNormalIcon()
 {
-    return QIcon::hasThemeIcon(COPYQ_ICON_NAME "-normal");
+    static const bool result = hasNormalIconHelper();
+    return result;
 }
 
 QString sessionName()
