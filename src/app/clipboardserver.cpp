@@ -224,6 +224,13 @@ void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
 
+    // Avoid calling onExit multiple times.
+    // (QCoreApplication::aboutToQuit() signal can be emitted multiple times
+    // when system is shutting down.)
+    if (m_exitting)
+        return;
+    m_exitting = true;
+
     callback("onExit");
     waitForCallbackToFinish();
 

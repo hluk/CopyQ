@@ -132,6 +132,7 @@ private:
     MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;
     QPointer<Action> m_callback;
+    bool m_exitting = false;
     bool m_ignoreNewConnections = false;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
