@@ -6,11 +6,11 @@ image:
 
 environment:
   matrix:
-    - QTDIR: C:\Qt\5.12.4\mingw73_32
+    - QTDIR: C:\Qt\5.12.5\mingw73_32
       CMAKE_GENERATOR: MinGW Makefiles
       MINGW_PATH: C:\Qt\Tools\mingw730_32
 
-    - QTDIR: C:\Qt\5.12.4\msvc2017_64
+    - QTDIR: C:\Qt\5.12.5\msvc2017_64
       CMAKE_GENERATOR: Visual Studio 15 2017
       CMAKE_GENERATOR_ARCH: x64
       CMD_VCVARS: 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat'
