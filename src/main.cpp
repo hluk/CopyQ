@@ -21,6 +21,7 @@
 #include "app/applicationexceptionhandler.h"
 #include "app/clipboardclient.h"
 #include "app/clipboardserver.h"
+#include "app/stacktrace.h"
 #include "common/commandstatus.h"
 #include "common/log.h"
 #include "common/messagehandlerforqt.h"
@@ -165,6 +166,11 @@ bool needsLogs(const QString &arg)
            arg == "logs";
 }
 
+bool needsStackTrace(const QString &arg)
+{
+    return arg == "--stacktrace";
+}
+
 #ifdef HAS_TESTS
 bool needsTests(const QString &arg)
 {
@@ -197,6 +203,7 @@ QString getSessionName(const QStringList &arguments, int *skipArguments)
 
 int startApplication(int argc, char **argv)
 {
+    registerCrashHandler();
     installMessageHandlerForQt();
 
 #ifdef Q_OS_UNIX
@@ -232,6 +239,9 @@ int startApplication(int argc, char **argv)
 
         if ( needsLogs(arg) )
             return evaluate( "logs", arguments.mid(skipArguments + 1), argc, argv, sessionName );
+
+        if ( needsStackTrace(arg) )
+            return printLastStackTrace();
 
 #ifdef HAS_TESTS
         if ( needsTests(arg) ) {

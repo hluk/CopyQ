@@ -9,8 +9,8 @@ set Name=copyq-%AppVersion%
 set Destination=%APPVEYOR_BUILD_FOLDER%\%Name%
 set BuildRoot=%APPVEYOR_BUILD_FOLDER%\build
 set Executable=%Destination%\copyq.exe
-set Build=%BuildRoot%\%BUILD_SUB_DIR%
-set BuildPlugins=%BuildRoot%\plugins\%BUILD_SUB_DIR%
+set Build=%BuildRoot%\%BUILD_CONFIGURATION%
+set BuildPlugins=%BuildRoot%\plugins\%BUILD_CONFIGURATION%
 
 mkdir "%Destination%"
 xcopy /F "%Build%\copyq.exe" "%Destination%" || goto :error
@@ -42,7 +42,8 @@ set COPYQ_TESTS_RERUN_FAILED=1
 "%Executable%" --help || goto :error
 "%Executable%" --version || goto :error
 "%Executable%" --info || goto :error
-"%Executable%" tests || goto :error
+"%Executable%" tests stackTrace
+exit /b 0
 
 :error
 exit /b %errorlevel%

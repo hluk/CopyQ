@@ -20,6 +20,7 @@
 #include "tests.h"
 #include "test_utils.h"
 
+#include "app/stacktrace.h"
 #include "common/appconfig.h"
 #include "common/client_server.h"
 #include "common/common.h"
@@ -452,7 +453,7 @@ public:
     {
         if (m_server) {
             QCoreApplication::processEvents();
-            const QByteArray output = readLogFile(maxReadLogSize).toUtf8();
+            const QByteArray output = readLogFile(maxReadLogSize).toUtf8() + lastStackTrace();
             if ( flag == ReadAllStderr || !testStderr(output, flag) )
               return decorateOutput("Server STDERR", output);
         }
@@ -608,6 +609,7 @@ public:
         m_testId = id;
         m_settings = settings.toMap();
         m_env.insert("COPYQ_TEST_ID", id);
+        m_env.insert("COPYQ_STACKTRACE", "1");
     }
 
     int runTests(QObject *testObject, int argc = 0, char **argv = nullptr)
@@ -756,6 +758,29 @@ void Tests::readLog()
 
     LOGGED_ONCE(
         R"(^.*<monitorClipboard-\d+>: Clipboard formats to save: .*$)");
+}
+
+void Tests::stackTrace()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    const int crashExitCode = run(Args("crash"), &stdoutActual, &stderrActual);
+    QVERIFY(crashExitCode != 0);
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QCOMPARE( stdoutActual, QByteArray() );
+
+    const int stackTraceExitCode = run(Args("--stacktrace"), &stdoutActual, &stderrActual);
+    QCOMPARE(stackTraceExitCode, 1);
+    QVERIFY2( !testStderr(stderrActual), stderrActual );
+    QVERIFY2( stderrActual.contains("ERROR: Found stacktrace of last crash:"), stderrActual );
+    QVERIFY2( stderrActual.contains("0# "), stderrActual );
+
+    if ( !stderrActual.contains("# ClipboardClient::")
+      || !stderrActual.contains("# Scriptable::") )
+    {
+        QWARN("Stacktraces may be incomplete (debug symbols are missing); actual stack trace:");
+        QWARN(stderrActual);
+    }
 }
 
 void Tests::commandHelp()

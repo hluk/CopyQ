@@ -13,6 +13,7 @@ Build-Depends:
  qtscript5-dev,
  qttools5-dev,
  qttools5-dev-tools,
+ libboost-dev,
 Standards-Version: 4.1.0
 Homepage: https://hluk.github.io/CopyQ/
 Vcs-Browser: https://github.com/hluk/CopyQ

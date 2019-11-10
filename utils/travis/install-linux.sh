@@ -18,6 +18,9 @@ packages=(
     # web plugin
     libqt5webkit5-dev
 
+    # stacktraces
+    libboost-dev
+
     # fixes some issues on X11
     libxfixes-dev
     libxtst-dev

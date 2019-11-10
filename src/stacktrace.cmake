@@ -1,0 +1,25 @@
+set(Boost_USE_STATIC_LIBS ON)
+
+if (DEFINED ENV{LIBDL_VERSION})
+    find_package(Boost REQUIRED)
+    find_package(dlfcn-win32 REQUIRED)
+    list(APPEND copyq_LIBRARIES dlfcn-win32::dl)
+elseif (MSVC)
+    set(Boost_STACKTRACE_USE_WINDBG ON)
+    add_definitions(-DBOOST_STACKTRACE_USE_WINDBG=1)
+    find_package(Boost REQUIRED COMPONENTS stacktrace_windbg)
+    list(APPEND copyq_LIBRARIES dbgeng ole32)
+else ()
+    find_package(Boost REQUIRED)
+    list(APPEND copyq_LIBRARIES dl)
+endif ()
+
+# Always generate debug symbols.
+if (MSVC)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zi")
+else ()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+endif ()
+
+list(APPEND copyq_LIBRARIES ${Boost_LIBRARIES})
+include_directories(${Boost_INCLUDE_DIRS})

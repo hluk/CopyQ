@@ -42,7 +42,8 @@ On **Ubuntu** you can install all build dependencies with:
       libqt5x11extras5-dev \
       libxfixes-dev \
       libxtst-dev \
-      libqt5svg5
+      libqt5svg5 \
+      libboost-dev
 
 Fedora / RHEL / Centos
 ^^^^^^^^^^^^^^^^^^^^^^

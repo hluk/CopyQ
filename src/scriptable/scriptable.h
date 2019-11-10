@@ -251,6 +251,7 @@ public slots:
     void print(const QScriptValue &value);
     void abort();
     void fail();
+    void crash();
 
     void keys();
     QScriptValue testSelected();

@@ -45,6 +45,9 @@ private slots:
     void cleanup();
 
     void readLog();
+
+    void stackTrace();
+
     void commandHelp();
     void commandVersion();
     void badCommand();

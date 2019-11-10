@@ -243,7 +243,8 @@ sudo apt install \
   libqt5x11extras5-dev \
   libxfixes-dev \
   libxtst-dev \
-  libqt5svg5
+  libqt5svg5 \
+  libboost-dev
 ```
 #### RHEL / CentOS
 
@@ -255,7 +256,8 @@ sudo yum install \
   qt5-qtsvg-devel \
   qt5-qttools-devel \
   qt5-qtscript-devel \
-  qt5-qtx11extras-devel
+  qt5-qtx11extras-devel \
+  boost-stacktrace
 ```
 
 ### Build the App
