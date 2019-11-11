@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Send data for gitt mediatype til standardinndata for kommando (la stå tom for å skru av)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opprett elementer fra standardutdata for programmet (la stå tom for å skru av)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -447,12 +447,12 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Last inn kommandoer…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>L&amp;gre valgte…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -1555,12 +1555,12 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Generelt</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="178"/>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Oppsett</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="179"/>
@@ -3437,12 +3437,12 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Global</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Globale snarveier kan utløses fra ethvert program.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
