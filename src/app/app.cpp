@@ -61,7 +61,7 @@ void initTests()
     if ( !isTesting() )
         return;
 
-    const QString session = QCoreApplication::organizationName() + ".test";
+    const QString session = "copyq.test";
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
 
