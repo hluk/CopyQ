@@ -52,6 +52,8 @@ private slots:
     void modifyItems();
     void modifyFiles();
 
+    void itemToClipboard();
+
     void notes();
 
     void customFormats();

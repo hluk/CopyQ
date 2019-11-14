@@ -433,6 +433,46 @@ void ItemSyncTests::modifyFiles()
     RUN(args << "size", "4\n");
 }
 
+void ItemSyncTests::itemToClipboard()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    RUN("show" << tab1, "");
+
+    const Args args = Args() << "tab" << tab1;
+
+    RUN(args << "add" << "TESTING2" << "TESTING1", "");
+    RUN(args << "read" << "0" << "1", "TESTING1\nTESTING2");
+
+    RUN("config"
+        << "activate_closes" << "false"
+        << "activate_focuses" << "false"
+        << "activate_pastes" << "false"
+        ,
+        "activate_closes=false\n"
+        "activate_focuses=false\n"
+        "activate_pastes=false\n"
+        );
+
+    // select second item and move to top
+    RUN("config" << "move" << "true", "true\n");
+    RUN(args << "selectItems" << "1", "true\n");
+    RUN(args << "keys" << "ENTER", "");
+    RUN(args << "read" << "0" << "1", "TESTING2\nTESTING1");
+
+    WAIT_FOR_CLIPBOARD("TESTING2");
+    RUN("clipboard", "TESTING2");
+
+    // select without moving
+    RUN("config" << "move" << "0", "false\n");
+    RUN(args << "selectItems" << "1", "true\n");
+    RUN(args << "keys" << "ENTER", "");
+    RUN(args << "read" << "0" << "1", "TESTING2\nTESTING1");
+
+    WAIT_FOR_CLIPBOARD("TESTING1");
+    RUN("clipboard", "TESTING1");
+}
+
 void ItemSyncTests::notes()
 {
     TestDir dir1(1);

@@ -519,13 +519,6 @@ bool ItemSyncSaver::canRemoveItems(const QList<QModelIndex> &indexList, QString 
                 QMessageBox::Yes ) == QMessageBox::Yes;
 }
 
-bool ItemSyncSaver::canMoveItems(const QList<QModelIndex> &)
-{
-    // Don't remove items if moved out of list.
-    // Items will be automatically removed if underlying files are deleted by the move operation.
-    return false;
-}
-
 void ItemSyncSaver::itemsRemovedByUser(const QList<QModelIndex> &indexList)
 {
     if ( m_tabPath.isEmpty() )
