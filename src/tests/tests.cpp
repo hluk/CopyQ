@@ -3279,19 +3279,12 @@ void Tests::showHideActionHandlerDialog()
 {
     RUN("keys" << clipboardBrowserId << "CTRL+SHIFT+Z" << actionHandlerDialogId, "");
 
-    RUN("keys" << actionHandlerFilterId << "TAB" << actionHandlerTableId, "");
-
-    RUN("keys" << actionHandlerTableId << "RIGHT" << "CTRL+C", "");
-    WAIT_FOR_CLIPBOARD("copyq --clipboard-access monitorClipboard");
-
-    RUN("keys" << actionHandlerDialogId << "ESCAPE" << clipboardBrowserId, "");
-
-    RUN("keys" << clipboardBrowserId << "CTRL+SHIFT+Z" << actionHandlerDialogId, "");
-
     RUN("keys" << actionHandlerFilterId << ":onstart" << "TAB" << actionHandlerTableId, "");
 
     RUN("keys" << actionHandlerTableId << "RIGHT" << "CTRL+C", "");
     WAIT_FOR_CLIPBOARD("copyq onStart");
+
+    RUN("keys" << actionHandlerDialogId << "ESCAPE" << clipboardBrowserId, "");
 }
 
 void Tests::shortcutDialogAddShortcut()
