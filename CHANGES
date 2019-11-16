@@ -1,3 +1,37 @@
+v3.9.3
+
+- New `loadTheme()` script function loads theme from INI file.
+
+- Currently selected item stays on top on PageUp/Down (less jittery list view
+  scrolling)
+
+- Performance improvements: Updates GUI only when necessary; dedicated
+  processes to run menu filters and display commands; reloads configuration
+  once when setting multiple options with `config()`
+
+- Skips using a command from a disabled plugin
+
+- Logs information on slow menu filters and display commands
+
+- Fix hiding item preview when disabled (caused an empty window to be shown)
+  and when no items are selected
+
+- Fix taking screenshots on multiple monitors
+
+- Fix duplicate show/hide tray menu items
+
+- Fix moving synchronized items to top when activated
+
+- Fix calling `onExit()` second time when on shutdown
+
+- Fix removing empty actions from history in Action dialog
+
+- Fix updating version from Git when rebuilding
+
+- OSX: Fix refocusing correct main window widget
+
+- Windows: Use Qt 5.12.5 builds (MinGW 7.3.0 32-bit, msvc2017 64-bit)
+
 v3.9.2
 
 - Fix unnecessary tab reloading after expired.
