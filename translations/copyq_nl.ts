@@ -86,7 +86,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation>Uitvoer-&amp;tabblad:</translation>
+        <translation>Uitvoer&amp;tabblad:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
