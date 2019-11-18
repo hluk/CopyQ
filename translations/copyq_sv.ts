@@ -1139,7 +1139,7 @@ Ställ in till 0 för att inte glömma flikar.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Externt redigerarkommando (%&amp;1 är fil att redigera):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1201,12 +1201,12 @@ Använd objektförhandsvisning för att visa hela objekt.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivera sökning efter nummer, annars trycker du på en sifferknapp för att aktivera objektet på den positionen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;ök efter nummer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="227"/>
@@ -1321,7 +1321,9 @@ Använd objektförhandsvisning för att visa hela objekt.</translation>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparens i huvudfönstret om det är fokuserat.
+
+Obs: detta stöds inte på alla system.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
@@ -1333,7 +1335,9 @@ Note: This is not supported on all systems.</source>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparens i huvudfönstret om ofokuserad.
+
+Obs: detta stöds inte på alla system.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
@@ -1428,7 +1432,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="220"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hori&amp;sontell offset:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="232"/>
@@ -1549,47 +1553,47 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Allmänt</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="178"/>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Layout</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="179"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Historik</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
         <source>Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivitetsfält</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Aviseringar</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
         <source>Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Flikar</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>
         <source>Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Objekt</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="184"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Genvägar</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="185"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Utseende</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="419"/>
@@ -1639,7 +1643,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj ikon…</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
@@ -2118,7 +2122,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="104"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Fäst objekt för att låsa dem i den aktuella raden och undvika borttagning (såvida det inte är ofäst).&lt;/p&gt;&lt;p&gt;Ger genvägar och skriptfunktioner.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2338,7 +2342,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa webbsidor.</translation>
     </message>
 </context>
 <context>
@@ -2553,7 +2557,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../src/common/common.cpp" line="524"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;OBJEKT&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="526"/>
@@ -2869,7 +2873,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="146"/>
         <source>Open Item Context Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Öppna menyn för kontext</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="147"/>
@@ -3431,22 +3435,22 @@ Skriv ut version på program och bibliotek.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished"></translation>
+        <translation>Gl&amp;obal</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Globala genvägar kan utlösas från alla program.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;pplikation</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can be triggered only from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Programgenvägar kan endast utlösas från huvudfönstret.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
@@ -3491,17 +3495,17 @@ Använd &lt;b&gt;/&lt;/b&gt; som sökvägsavskiljare i trädvyns fliklayout.</tr
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maximalt antal objekt:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>standard</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Store Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Lagra Objekt</translation>
     </message>
 </context>
 <context>
