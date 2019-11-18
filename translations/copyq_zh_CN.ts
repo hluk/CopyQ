@@ -2880,7 +2880,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="136"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation>Left</translation>
+        <translation>左</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="146"/>
