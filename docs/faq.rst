@@ -292,10 +292,10 @@ To fix this you can try following steps.
 
 1. Go to System Preferences -> Security & Privacy -> Privacy -> Accessibility
    (or just search for "Allow apps to use Accessibility"),
-2. click the unlock button,
-3. select CopyQ from the list and remove it (with the "-" button).
+2. Click the unlock button,
+3. Select CopyQ from the list and remove it (with the "-" button).
 
-See also `Issue #1030 <https://github.com/hluk/CopyQ/issues/1030>`__.
+See also Issues `#1030 <https://github.com/hluk/CopyQ/issues/1030>`__ and `#1245 <https://github.com/hluk/CopyQ/issues/1245>`__.
 
 Why does my external editor fail to edit items?
 -----------------------------------------------
