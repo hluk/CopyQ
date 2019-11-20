@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>指定したメディア形式のデータをコマンドの標準入力へ送信します (空のままにすると無効になります)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>プログラムの標準出力からアイテムを作成します (空のままにすると無効になります)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -605,7 +605,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="287"/>
         <source>Match Items</source>
-        <translation>マッチアイテム</translation>
+        <translation>一致するアイテム</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
@@ -728,7 +728,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;この正規表現に一致するタイトルのウィンドウからクリップボードにコピーされたアイテムにのみ、コマンドを使用します (空のままにすると任意のウィンドウが対象になります)。macOS では、ウィンドウタイトルの内容は、アプリケーション名、ダッシュ (&amp;quot;-&amp;quot;)、ウィンドウタイトル、の順になっています (例: &amp;quot;Safari - GitHub&amp;quot;)。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="423"/>
