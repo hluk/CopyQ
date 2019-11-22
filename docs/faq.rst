@@ -317,6 +317,7 @@ temporary file (and removes the file).
 
 Here is the correct command to use for some editors::
 
+    emacsclientw.exe --alternate-editor="" %1
     gvim --nofork %1
     sublime_text --wait %1
     code --wait %1
