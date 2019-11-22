@@ -123,7 +123,6 @@ Source: "{#Root}\plugins\*itempinned.dll"; DestDir: "{app}\plugins"; Components:
 Source: "{#Root}\bearer\*.dll"; DestDir: "{app}\bearer"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#Root}\imageformats\*.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#Root}\platforms\*.dll"; DestDir: "{app}\platforms"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#Root}\styles\*.dll"; DestDir: "{app}\styles"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#Root}\*.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 
 [Icons]
