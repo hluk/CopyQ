@@ -1285,10 +1285,7 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
     if ( !isLoaded() )
         return false;
 
-    auto data = m_sharedData->itemFactory->data(index);
-    if (m_itemSaver)
-        data = m_itemSaver->copyItem(m, data);
-
+    const auto data = m_sharedData->itemFactory->data(index);
     if ( data.isEmpty() )
         return false;
 
