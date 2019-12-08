@@ -129,7 +129,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished">Gerenciador de Processos do CopyQ</translation>
+        <translation>Gerenciador de Processos do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -966,12 +966,12 @@ pressione F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">&amp;Linguagem:</translation>
+        <translation>&amp;Idioma:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished">Quebre o texto se for muito grande para caber na linha</translation>
+        <translation>Insira uma quebra de linha caso o texto seja muito grande</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
@@ -981,72 +981,72 @@ pressione F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished">Mantenha janela principal das outras janelas</translation>
+        <translation>Mantenha a janela principal acima das outras janelas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">Sempre no &amp;Topo</translation>
+        <translation>Sempre no &amp;Topo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished">Fechar janela principal ao focalizar outro aplicativo</translation>
+        <translation>Fechar a janela principal ao focalizar outro aplicativo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished">Fechar ao Perder Foco</translation>
+        <translation>Fechar ao Perder Foco</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished">Ativar para abrir janelas na tela atual. Desativar para abrir janelas onde foram fechado pela última vez</translation>
+        <translation>Ativar para abrir janelas na tela atual. Desativar para abrir janelas na posição onde elas foram fechadas pela última vez</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished">A&amp;brir janelas na tela atual</translation>
+        <translation>A&amp;brir janelas na tela atual</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished">Confirmar saída do aplicativo</translation>
+        <translation>Confirmar o encerramento do aplicativo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished">Confirmar &amp;saída do aplicativo</translation>
+        <translation>Confirmar o en&amp;cerramento do aplicativo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished">Execute o aplicativo na inicialização do sistema</translation>
+        <translation>Executar o aplicativo durante a inicialização do sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished">Iniciar &amp;automaticamente</translation>
+        <translation>Iniciar &amp;automaticamente</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished">O suporte para teclas de navegação VI (H, J, K, L e mais), tecla de barra (/) para procurar</translation>
+        <translation>Compatibilidade para as teclas de navegação VI (H, J, K, L e mais), tecla de barra (/) para procurar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished">Navegação estilo &amp;Vi</translation>
+        <translation>Navegação estilo &amp;Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">Salve e restaure o histórico de filtros do item</translation>
+        <translation>Salve e restaure o histórico dos itens do filtros</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">Salvar histórico de filtros</translation>
+        <translation>Salvar o histórico dos filtros</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
