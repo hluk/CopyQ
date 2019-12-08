@@ -115,7 +115,9 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
     } else if (role == contentType::data) {
         ClipboardItem &item = m_clipboardList[row];
         const QVariantMap dataMap = value.toMap();
-        item.setData(dataMap);
+        // Emit dataChanged() only if really changed.
+        if ( !item.setData(dataMap) )
+            return true;
     } else if (role >= contentType::removeFormats) {
         if ( !m_clipboardList[row].removeData(value.toStringList()) )
             return false;

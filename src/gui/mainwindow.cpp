@@ -370,8 +370,13 @@ void deleteSubMenus(QObject *parent)
 
 void clearActions(QMenu *menu)
 {
-    for (QAction *action : menu->actions())
-        delete action;
+    for (QAction *action : menu->actions()) {
+        action->setVisible(false);
+        action->setDisabled(true);
+        action->setShortcuts({});
+        action->deleteLater();
+        menu->removeAction(action);
+    }
 
     deleteSubMenus(menu);
     menu->clear();
@@ -1625,6 +1630,11 @@ QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutCont
     m_actions.resize(m_menuItems.size());
 
     QPointer<QAction> &action = m_actions[id];
+    if (action && !action->isEnabled() && !action->isVisible()) {
+        action->deleteLater();
+        action = nullptr;
+    }
+
     const MenuItem &item = m_menuItems[id];
 
     if (!action) {
