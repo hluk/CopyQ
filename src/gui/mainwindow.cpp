@@ -363,18 +363,27 @@ bool hasDialogOpen(QWidget *parent)
 void deleteSubMenus(QObject *parent)
 {
     for (auto subMenu : parent->findChildren<QMenu*>()) {
-        if (subMenu->parent() == parent)
-            delete subMenu;
+        if (subMenu->parent() == parent) {
+            subMenu->setVisible(false);
+            subMenu->setDisabled(true);
+            subMenu->deleteLater();
+        }
     }
+}
+
+void deleteAction(QAction *action)
+{
+    action->setVisible(false);
+    action->setDisabled(true);
+    action->setShortcuts({});
+    action->setShortcut(QKeySequence());
+    action->deleteLater();
 }
 
 void clearActions(QMenu *menu)
 {
     for (QAction *action : menu->actions()) {
-        action->setVisible(false);
-        action->setDisabled(true);
-        action->setShortcuts({});
-        action->deleteLater();
+        deleteAction(action);
         menu->removeAction(action);
     }
 
@@ -387,7 +396,7 @@ void clearActions(QToolBar *toolBar)
     for (QAction *action : toolBar->actions()) {
         // Omit removing action from other menus.
         if (action->parent() == toolBar)
-            delete action;
+            deleteAction(action);
     }
 
     deleteSubMenus(toolBar);
