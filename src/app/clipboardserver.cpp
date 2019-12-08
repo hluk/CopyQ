@@ -512,6 +512,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
          || type == QEvent::ShortcutOverride )
     {
         if ( m_ignoreKeysTimer.isActive() ) {
+            COPYQ_LOG("Ignoring keys/shortcuts");
             ev->accept();
             return true;
         }

@@ -378,17 +378,9 @@ void deleteAction(QAction *action)
     action->setShortcuts({});
     action->setShortcut(QKeySequence());
     action->deleteLater();
-}
-
-void clearActions(QMenu *menu)
-{
-    for (QAction *action : menu->actions()) {
-        deleteAction(action);
-        menu->removeAction(action);
-    }
-
-    deleteSubMenus(menu);
-    menu->clear();
+    auto w = action->parentWidget();
+    if (w)
+        w->removeAction(action);
 }
 
 void clearActions(QToolBar *toolBar)
@@ -742,9 +734,20 @@ void MainWindow::popupTabBarMenu(QPoint pos, const QString &tab)
 
 void MainWindow::updateContextMenu(int intervalMsec)
 {
+    COPYQ_LOG( QString("Update context menu in %1 ms").arg(intervalMsec) );
+
     interruptMenuCommandFilters(&m_itemMenuMatchCommands);
 
-    clearActions(m_menuItem);
+    for (QAction *action : m_menuItem->actions()) {
+        const int id = m_actions.indexOf(action);
+        if (id != -1)
+            m_actions[id] = nullptr;
+        deleteAction(action);
+        m_menuItem->removeAction(action);
+    }
+    deleteSubMenus(m_menuItem);
+    m_menuItem->clear();
+
     // Omit tool bar flickering.
     ui->toolBar->setUpdatesEnabled(false);
     ui->toolBar->setEnabled(false);
@@ -806,10 +809,13 @@ void MainWindow::updateContextMenuTimeout()
 {
     auto c = browserOrNull();
     if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
+        COPYQ_LOG("Update context menu skipped");
         clearActions(ui->toolBar);
         ui->toolBar->setUpdatesEnabled(true);
         return;
     }
+
+    COPYQ_LOG("Update context menu");
 
     addCommandsToItemMenu(c);
 
@@ -1639,11 +1645,6 @@ QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutCont
     m_actions.resize(m_menuItems.size());
 
     QPointer<QAction> &action = m_actions[id];
-    if (action && !action->isEnabled() && !action->isVisible()) {
-        action->deleteLater();
-        action = nullptr;
-    }
-
     const MenuItem &item = m_menuItems[id];
 
     if (!action) {
@@ -3048,6 +3049,7 @@ void MainWindow::updateFocusWindows()
 void MainWindow::updateShortcuts()
 {
     if ( m_timerUpdateContextMenu.isActive() ) {
+        COPYQ_LOG("Updating shortcuts");
         m_timerUpdateContextMenu.stop();
         updateContextMenuTimeout();
     }

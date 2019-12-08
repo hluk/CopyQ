@@ -2948,7 +2948,6 @@ void Tests::shortcutCommandSelectedAndCurrent()
 
     const auto tab1 = testTab(1);
     RUN("tab" << tab1 << "add" << "C" << "B" << "A", "");
-
     RUN("tab" << tab1 << "setCurrentTab" << tab1 << "selectItems" << "1" << "2", "true\n");
     RUN("keys" << "CTRL+F1", "");
     WAIT_ON_OUTPUT("tab" << tab1 << "read(0)", "1,2|2|" + tab1.toUtf8());
