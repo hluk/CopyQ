@@ -200,6 +200,32 @@ in future, like join HTML, images or other formats.
 
 See `#165 <https://github.com/hluk/CopyQ/issues/165#issuecomment-34957089>`__.
 
+Why pasting from CopyQ doesn't work?
+--------------------------------------
+
+Pasting from the application works only on Windows, macOS and X11 on Linux.
+
+Specifically, this feature is not supported on Wayland, but you can use
+workaround from `#27
+<https://github.com/hluk/CopyQ/issues/27#issuecomment-549766568>`__.
+
+First, check if you have the appropriate options enabled.
+
+1. For pasting from main window, enable "Paste to current window" in "History"
+   configuration tab.
+2. For pasting from tray menu, enable "Paste activated item to current window"
+   in "Tray" configuration tab.
+
+If the pasting still doesn't work, check if ``Shift+Insert`` shortcut pastes to
+the target window. That's the shortcut CopyQ uses by default. To change this to
+``Ctrl+V`` see `#633
+<https://github.com/hluk/CopyQ/issues/633#issuecomment-278326916>`__.
+
+If pasting still doesn't work it could mean that:
+
+a. CopyQ fails to focus the window correctly,
+b. the format copied to clipboard is not supported by the target application,
+
 How to open the menu or context menu with only the keyboard?
 ------------------------------------------------------------
 
