@@ -977,7 +977,7 @@ F2 för att redigera.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished">Radbr&amp;yt lång text</translation>
+        <translation>Radbr&amp;yt lång text</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
@@ -987,7 +987,7 @@ F2 för att redigera.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">Allt&amp;id överst</translation>
+        <translation>Allt&amp;id överst</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
@@ -1002,107 +1002,107 @@ F2 för att redigera.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished">Aktivera för att öppna fönster på aktuell skärm. Inaktivera för att öppna fönster där de senast stängdes</translation>
+        <translation>Aktivera för att öppna fönster på aktuell skärm. Inaktivera för att öppna fönster där de senast stängdes</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished">Ö&amp;ppna fönster på aktuell skärm</translation>
+        <translation>Ö&amp;ppna fönster på aktuell skärm</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished">Bekräfta avslutande av program</translation>
+        <translation>Bekräfta programavslutning</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished">Bekräfta a&amp;vslutande av program</translation>
+        <translation>Bekräfta programa&amp;vslutning</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished">Kör programmet vid systemets uppstart</translation>
+        <translation>Kör programmet vid systemstart</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished">&amp;Autostart</translation>
+        <translation>&amp;Autostart</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished">Stöd för Vi-navigeringstangenter (H, J, K, L med mera), snedstreck (/) för att söka</translation>
+        <translation>Stöd för Vi-navigeringstangenter (H, J, K, L med mera), snedstreck (/) för att söka</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished">Navigering som i &amp;Vi</translation>
+        <translation>Navigering som i &amp;Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">Spara och återställ historik för objektfilter</translation>
+        <translation>Spara och återställ historik för objektfilter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">Spara filterhistorik</translation>
+        <translation>Spara filterhistorik</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished">Visa automatiskt en ruta för att komplettera funktions-, typ- och variabelnamn i kommandon</translation>
+        <translation>Visa automatiskt en ruta för att komplettera funktions-, typ- och variabelnamn i kommandon</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished">Komplettera kommandon automatiskt</translation>
+        <translation>Autokomplettera kommandon</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished">Urklippsmanipulering</translation>
+        <translation>Urklippsmanipulering</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished">Tillåt inklistring av kopierat innehåll på samma sätt som musmarkeringar (vanligen genom att trycka ned musens mittknapp)</translation>
+        <translation>Tillåt inklistring av kopierat innehåll på samma sätt som för musmarkeringar (vanligen genom nedtryckning av musens mittknapp)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished">(&amp;3) Klistra in urklipp med musen</translation>
+        <translation>(&amp;3) Klistra in urklipp med musen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished">Tillåt inklistring av musmarkering med genväg (vanligen Ctrl+V eller Skift+Insert)</translation>
+        <translation>Tillåt inklistring av musmarkering med genväg (vanligen Ctrl+V eller Skift+Insert)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished">(&amp;4) Klistra in musmarkering med tangentbord</translation>
+        <translation>(&amp;4) Klistra in musmarkering med tangentbord</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished">Spara urklipp i historik</translation>
+        <translation>Spara urklipp i historik</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished">(&amp;1) Lagra urklipp</translation>
+        <translation>(&amp;1) Lagra urklipp</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished">Spara text markerad med musen (primär markering) i historik</translation>
+        <translation>Spara text markerad med musen (primär markering) i historik</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished">(&amp;2) Lagra text markerad med musen</translation>
+        <translation>(&amp;2) Lagra text markerad med musen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
@@ -1115,12 +1115,12 @@ F2 för att redigera.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished">Maximalt a&amp;ntal objekt i historik:</translation>
+        <translation>Maximalt a&amp;ntal objekt i historik:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished">Maximalt antal objekt i varje flik</translation>
+        <translation>Maximalt antal objekt i varje flik</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
