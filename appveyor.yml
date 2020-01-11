@@ -10,12 +10,6 @@ environment:
       CMAKE_GENERATOR: MinGW Makefiles
       MINGW_PATH: C:\Qt\Tools\mingw730_32
 
-    - QTDIR: C:\Qt\5.12.6\msvc2017_64
-      CMAKE_GENERATOR: Visual Studio 16 2019
-      CMAKE_GENERATOR_ARCH: x64
-      CMD_VCVARS: 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat'
-      BUILD_SUB_DIR: Debug
-
 # Parameters for default build commands (build_script is used instead).
 build:
 
