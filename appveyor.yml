@@ -10,6 +10,10 @@ environment:
       CMAKE_GENERATOR: MinGW Makefiles
       MINGW_PATH: C:\Qt\Tools\mingw730_32
 
+    - QTDIR: C:\Qt\5.12.6\mingw73_64
+      CMAKE_GENERATOR: MinGW Makefiles
+      MINGW_PATH: C:\Qt\Tools\mingw730_64
+
 # Parameters for default build commands (build_script is used instead).
 build:
 
