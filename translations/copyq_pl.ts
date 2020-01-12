@@ -111,14 +111,12 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Błąd: %1
- {1?}</translation>
+        <translation>Błąd: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="151"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">Kod wyjścia: %1
- {1?}</translation>
+        <translation>Kod wyjścia: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="183"/>
@@ -131,7 +129,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished">CopyQ Menedżer procesów</translation>
+        <translation>Menedżer procesów CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -332,7 +330,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="817"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1643"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation>Karta jest pełna. Nie udało się&#xa0;usunąć żadnych elementów.</translation>
+        <translation>Karta jest pełna. Nie udało się usunąć żadnych elementów.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1892"/>
@@ -454,7 +452,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>Za&amp;pisz Wybrane…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -618,7 +616,7 @@ Pozostaw puste, aby wyłączyć.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="533"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished">Tworzenie elementów ze standardowego wyjścia programu (pozostaw puste, aby wyłączyć)</translation>
+        <translation>Utwórz elementy ze standardowego wyjścia programu (pozostaw puste, aby wyłączyć)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
@@ -648,7 +646,7 @@ Pozostaw puste, aby wyłączyć.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="317"/>
@@ -968,7 +966,7 @@ naciśnij klawisz F2, aby edytować.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished">Podziel tekst, jeżeli jest zbyt długi, by zmieścić go w jednej linii</translation>
+        <translation>Podziel tekst, jeżeli jest zbyt długi, by zmieścić go w jednej linii</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
@@ -978,7 +976,7 @@ naciśnij klawisz F2, aby edytować.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished">Umieść okno główne nad pozostałymi</translation>
+        <translation>Umieść okno główne nad pozostałymi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
@@ -1206,7 +1204,7 @@ Użyj Podglądu, aby wyświetlić całe elementy.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="233"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">Przenieś&#xa0;aktywowany element do górnej części listy</translation>
+        <translation type="unfinished">Przenieś aktywowany element do górnej części listy</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="236"/>
@@ -1447,7 +1445,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished">Maksymalna wysokość&#xa0;powiadomienia w pikselach</translation>
+        <translation type="unfinished">Maksymalna wysokość powiadomienia w pikselach</translation>
     </message>
 </context>
 <context>
