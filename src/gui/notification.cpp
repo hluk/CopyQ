@@ -25,6 +25,7 @@
 #include "common/timer.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/pixelratio.h"
 
 #include <QApplication>
 #include <QDialog>
@@ -187,7 +188,7 @@ void Notification::updateIcon()
     const auto height = static_cast<int>( m_msgLabel->fontMetrics().lineSpacing() * 1.2 );
     const auto iconId = toIconId(m_icon);
 
-    const auto ratio = devicePixelRatio();
+    const auto ratio = pixelRatio(this);
 
     auto pixmap = iconId == 0
             ? QPixmap(m_icon)

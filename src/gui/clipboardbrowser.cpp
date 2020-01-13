@@ -29,6 +29,7 @@
 #include "gui/clipboarddialog.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/pixelratio.h"
 #include "gui/theme.h"
 #include "item/itemeditor.h"
 #include "item/itemeditorwidget.h"
@@ -855,8 +856,8 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
     if (h == 0)
         return QPixmap();
 
-    const auto ratio = devicePixelRatio();
-    const auto frameLineWidth = 2 * ratio;
+    const auto ratio = pixelRatio(this);
+    const int frameLineWidth = std::ceil(2 * ratio);
 
     const auto height = qMin(maxHeight, h + s + 2 * frameLineWidth);
     const auto width = qMin(maxWidth, viewport()->contentsRect().width() + 2 * frameLineWidth);

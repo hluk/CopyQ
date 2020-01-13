@@ -39,6 +39,7 @@
 #include "gui/icons.h"
 #include "gui/mainwindow.h"
 #include "gui/notification.h"
+#include "gui/pixelratio.h"
 #include "gui/screen.h"
 #include "gui/tabicons.h"
 #include "gui/windowgeometryguard.h"
@@ -1834,7 +1835,7 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
             QCoreApplication::processEvents();
         const auto rect = rectWidget.selectionRect;
         if ( rect.isValid() ) {
-            const auto ratio = pixmap.devicePixelRatio();
+            const auto ratio = pixelRatio(&pixmap);
             const QRect rect2( rect.topLeft() * ratio, rect.size() * ratio );
             pixmap = pixmap.copy(rect2);
         }

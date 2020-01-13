@@ -23,6 +23,7 @@
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
 #include "item/itemeditor.h"
+#include "gui/pixelratio.h"
 
 #include <QBuffer>
 #include <QHBoxLayout>
@@ -120,7 +121,7 @@ ItemImage::ItemImage(
 void ItemImage::updateSize(QSize, int)
 {
     const auto m2 = 2 * margin();
-    const int ratio = devicePixelRatio();
+    const auto ratio = pixelRatio(this);
     const int w = (m_pixmap.width() + 1) / ratio + m2;
     const int h = (m_pixmap.height() + 1) / ratio + m2;
     setFixedSize( QSize(w, h) );
@@ -166,7 +167,7 @@ void ItemImage::paintEvent(QPaintEvent *event)
     if (movie()) {
         QPainter painter(this);
         auto pix = m_animation->currentPixmap();
-        pix.setDevicePixelRatio( devicePixelRatio() );
+        pix.setDevicePixelRatio( pixelRatio(this) );
         const auto m = margin();
         painter.drawPixmap(m, m, pix);
     } else {
@@ -202,7 +203,7 @@ ItemWidget *ItemImageLoader::create(const QVariantMap &data, QWidget *parent, bo
     if ( !getPixmapFromData(data, &pix) )
         return nullptr;
 
-    pix.setDevicePixelRatio( parent->devicePixelRatio() );
+    pix.setDevicePixelRatio( pixelRatio(parent) );
 
     // scale pixmap
     const int w = preview ? 0 : m_settings.value("max_image_width", 320).toInt();

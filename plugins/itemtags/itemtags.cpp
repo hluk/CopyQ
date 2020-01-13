@@ -26,6 +26,7 @@
 #include "common/textdata.h"
 #include "gui/iconfont.h"
 #include "gui/iconselectbutton.h"
+#include "gui/pixelratio.h"
 
 #ifdef HAS_TESTS
 #   include "tests/itemtagstests.h"
@@ -313,7 +314,7 @@ private:
             QWidget tagWidget;
             initTagWidget(&tagWidget, tag, smallerFont(QFont()));
 
-            const auto ratio = tagWidget.devicePixelRatio();
+            const auto ratio = pixelRatio(&tagWidget);
             m_pixmap = QPixmap( tagWidget.sizeHint() * ratio );
             m_pixmap.setDevicePixelRatio(ratio);
 

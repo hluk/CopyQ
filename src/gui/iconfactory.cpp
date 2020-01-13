@@ -22,6 +22,7 @@
 #include "gui/fix_icon_id.h"
 #include "gui/icons.h"
 #include "gui/iconfont.h"
+#include "gui/pixelratio.h"
 
 #include <QBitmap>
 #include <QCoreApplication>
@@ -295,7 +296,7 @@ void tagIcon(QPixmap *pix, const QString &tag, QColor color)
     if ( tag.isEmpty() )
         return;
 
-    const auto ratio = pix->devicePixelRatio();
+    const auto ratio = pixelRatio(pix);
     pix->setDevicePixelRatio(1);
 
     QPainter painter(pix);
@@ -364,7 +365,7 @@ public:
             size.scale(1024, 1024, Qt::KeepAspectRatio);
 
         if (painter)
-            size *= painter->paintEngine()->paintDevice()->devicePixelRatio();
+            size *= pixelRatio(painter->paintEngine()->paintDevice());
 
         auto pixmap = doCreatePixmap(size, mode, state, painter);
 

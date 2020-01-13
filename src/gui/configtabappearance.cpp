@@ -30,6 +30,7 @@
 #include "gui/clipboardbrowser.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/iconfont.h"
+#include "gui/pixelratio.h"
 #include "gui/theme.h"
 #include "item/itemeditor.h"
 #include "item/itemdelegate.h"
@@ -357,7 +358,7 @@ void ConfigTabAppearance::updateFontButtons()
     const int iconExtent = pointsToPixels(12);
     const QSize iconSize(iconExtent * 2, iconExtent);
 
-    const auto ratio = ui->scrollAreaTheme->devicePixelRatio();
+    const auto ratio = pixelRatio(ui->scrollAreaTheme);
     QPixmap pix(iconSize * ratio);
     pix.setDevicePixelRatio(ratio);
 

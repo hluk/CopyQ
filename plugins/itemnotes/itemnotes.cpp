@@ -25,6 +25,7 @@
 #include "common/textdata.h"
 #include "gui/iconfont.h"
 #include "gui/iconwidget.h"
+#include "gui/pixelratio.h"
 
 #include <QBoxLayout>
 #include <QLabel>
@@ -55,7 +56,7 @@ QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
     if (!icon.isEmpty()) {
         QPixmap p;
         if (p.loadFromData(icon)) {
-            const auto ratio = parent->devicePixelRatio();
+            const auto ratio = pixelRatio(parent);
             p.setDevicePixelRatio(ratio);
 
             const int side = ratio * (iconFontSizePixels() + 2);
