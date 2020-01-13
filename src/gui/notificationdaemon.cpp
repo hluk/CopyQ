@@ -25,9 +25,9 @@
 #include "common/textdata.h"
 #include "common/timer.h"
 #include "gui/notification.h"
+#include "gui/screen.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QPixmap>
 #include <QPoint>
 #include <QVariant>
@@ -111,7 +111,7 @@ void NotificationDaemon::onNotificationClose(Notification *notification)
 
 void NotificationDaemon::doUpdateNotifications()
 {
-    const QRect screen = QApplication::desktop()->screenGeometry();
+    const QRect screen = screenGeometry(0);
 
     int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
 

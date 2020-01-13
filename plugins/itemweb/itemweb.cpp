@@ -24,7 +24,6 @@
 #include "common/textdata.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QDesktopServices>
 #include <QMouseEvent>
 #include <QPalette>
@@ -71,8 +70,7 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *
     const QFont &defaultFont = font();
     settings()->setFontFamily(QWebSettings::StandardFont, defaultFont.family());
     // DPI resolution can be different than the one used by this widget.
-    QWidget* window = QApplication::desktop()->screen();
-    int dpi = window->logicalDpiX();
+    int dpi = logicalDpiX();
     int pt = defaultFont.pointSize();
     settings()->setFontSize(QWebSettings::DefaultFontSize, pt * dpi / 72);
 

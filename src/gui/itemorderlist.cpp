@@ -223,7 +223,7 @@ void ItemOrderList::setItemWidgetVisible(int row, bool visible)
 {
     QListWidgetItem *item = ui->listWidgetItems->item(row);
     Q_ASSERT(item);
-    ui->listWidgetItems->setItemHidden(item, !visible);
+    item->setHidden(!visible);
 }
 
 void ItemOrderList::setDragAndDropValidator(const QRegExp &re)

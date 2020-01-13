@@ -6,6 +6,7 @@ set(copyq_plugin_itemencrypted_SOURCES
     ../../src/common/textdata.cpp
     ../../src/gui/iconfont.cpp
     ../../src/gui/iconwidget.cpp
+    ../../src/gui/screen.cpp
     ../../src/item/serialize.cpp
     )
 

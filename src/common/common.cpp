@@ -457,7 +457,11 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     lines = lines.mid(firstLine, lastLine - firstLine + 1);
 
     QFontMetrics fm(font);
+#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+    const int formatWidth = format.isEmpty() ? 0 : fm.horizontalAdvance(format.arg(QString()));
+#else
     const int formatWidth = format.isEmpty() ? 0 : fm.width(format.arg(QString()));
+#endif
 
     // Remove redundant spaces from single line text.
     if (lines.size() == 1)

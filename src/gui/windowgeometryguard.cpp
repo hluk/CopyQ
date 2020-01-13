@@ -25,7 +25,6 @@
 #include "common/timer.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QEvent>
 #include <QMoveEvent>
 #include <QVariant>
@@ -79,8 +78,6 @@ WindowGeometryGuard::WindowGeometryGuard(QWidget *window)
     : QObject(window)
     , m_window(window)
 {
-    connect( QApplication::desktop(), &QDesktopWidget::resized, this, &WindowGeometryGuard::restoreWindowGeometry );
-    connect( QApplication::desktop(), &QDesktopWidget::workAreaResized, this, &WindowGeometryGuard::restoreWindowGeometry );
     initSingleShotTimer(&m_timerSaveGeometry, 250, this, &WindowGeometryGuard::saveWindowGeometry);
     initSingleShotTimer(&m_timerRestoreGeometry, 0, this, &WindowGeometryGuard::restoreWindowGeometry);
     initSingleShotTimer(&m_timerUnlockGeometry, 250, this, &WindowGeometryGuard::unlockWindowGeometry);

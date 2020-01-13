@@ -19,6 +19,8 @@
 
 #include "display.h"
 
+#include "gui/screen.h"
+
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QPoint>
@@ -37,7 +39,7 @@ QPoint toScreen(QPoint pos, QWidget *w)
     if (window)
         window->setPosition(pos);
 
-    const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
+    const QRect availableGeometry = screenAvailableGeometry(pos);
     const QSize size = window ? window->size() : w->size();
     return QPoint(
                 qMax(availableGeometry.left(), qMin(pos.x(), availableGeometry.right() - size.width())),

@@ -8,6 +8,7 @@ set(copyq_plugin_itemtags_SOURCES
     ../../src/gui/iconselectdialog.cpp
     ../../src/gui/iconwidget.cpp
     ../../src/gui/iconfont.cpp
+    ../../src/gui/screen.cpp
     )
 
 copyq_add_plugin(itemtags)

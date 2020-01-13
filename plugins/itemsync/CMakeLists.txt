@@ -7,6 +7,7 @@ set(copyq_plugin_itemsync_SOURCES
     ../../src/gui/iconselectbutton.cpp
     ../../src/gui/iconselectdialog.cpp
     ../../src/gui/iconwidget.cpp
+    ../../src/gui/screen.cpp
     ../../src/item/serialize.cpp
     )
 

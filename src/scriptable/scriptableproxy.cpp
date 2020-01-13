@@ -39,6 +39,7 @@
 #include "gui/icons.h"
 #include "gui/mainwindow.h"
 #include "gui/notification.h"
+#include "gui/screen.h"
 #include "gui/tabicons.h"
 #include "gui/windowgeometryguard.h"
 #include "item/serialize.h"
@@ -57,7 +58,6 @@
 #include <QCursor>
 #include <QDateTimeEdit>
 #include <QDesktopServices>
-#include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QFile>
 #include <QFileInfo>
@@ -1257,7 +1257,7 @@ QString ScriptableProxy::browserRemoveRows(const QString &tabName, QVector<int> 
     if (!c)
         return QString("Invalid tab");
 
-    qSort( rows.begin(), rows.end(), qGreater<int>() );
+    std::sort( rows.begin(), rows.end(), std::greater<int>() );
 
     QModelIndexList indexes;
     indexes.reserve(rows.size());
@@ -1625,7 +1625,7 @@ QString ScriptableProxy::testSelected()
     selectedRows.reserve( selectedIndexes.size() );
     for (const auto &index : selectedIndexes)
         selectedRows.append(index.row());
-    qSort(selectedRows);
+    std::sort( selectedRows.begin(), selectedRows.end() );
 
     for (int row : selectedRows)
         result.append(QString::number(row));
@@ -1803,7 +1803,7 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
     QScreen *selectedScreen = nullptr;
     if ( screenName.isEmpty() ) {
         const auto mousePosition = QCursor::pos();
-        const int screenNumber = QApplication::desktop()->screenNumber(mousePosition);
+        const int screenNumber = ::screenNumberAt(mousePosition);
         if (screenNumber != -1)
             selectedScreen = QGuiApplication::screens().value(screenNumber);
     } else {

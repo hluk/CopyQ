@@ -2693,9 +2693,17 @@ void FakeVimHandler::Private::updateEditor()
 
 void FakeVimHandler::Private::setTabSize(int tabSize)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+    const int charWidth = QFontMetrics(EDITOR(font())).horizontalAdvance(QLatin1Char(' '));
+#else
     const int charWidth = QFontMetrics(EDITOR(font())).width(QLatin1Char(' '));
+#endif
     const int width = charWidth * tabSize;
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
+    EDITOR(setTabStopDistance(width));
+#else
     EDITOR(setTabStopWidth(width));
+#endif
 }
 
 void FakeVimHandler::Private::restoreWidget(int tabSize)

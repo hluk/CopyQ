@@ -655,7 +655,7 @@ void TabTree::rowsInserted(const QModelIndex &parent, int start, int end)
 
     for (int row = start; row <= end; ++row) {
         items.clear();
-        items.append( parent.isValid() ? itemFromIndex(parent.child(row, 0))
+        items.append( parent.isValid() ? itemFromIndex(model()->index(row, 0, parent))
                                        : topLevelItem(row) );
         while ( !items.isEmpty() ) {
             QTreeWidgetItem *item = items.takeLast();

@@ -213,7 +213,7 @@ QVariantMap addSelectionData(
         selected.reserve(selectedIndexes.size());
         for (const auto &index : selectedIndexes)
             selected.append(index);
-        qSort(selected);
+        std::sort(selected.begin(), selected.end());
         result.insert(mimeSelectedItems, QVariant::fromValue(selected));
     }
 

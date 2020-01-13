@@ -562,7 +562,7 @@ void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
 
 FileWatcher::IndexDataList::iterator FileWatcher::findIndexData(const QModelIndex &index)
 {
-    return qFind(m_indexData.begin(), m_indexData.end(), index);
+    return std::find(m_indexData.begin(), m_indexData.end(), index);
 }
 
 FileWatcher::IndexData &FileWatcher::indexData(const QModelIndex &index)

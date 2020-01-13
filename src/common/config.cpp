@@ -20,6 +20,8 @@
 #include "config.h"
 #include "log.h"
 
+#include "gui/screen.h"
+
 #include <QApplication>
 #include <QByteArray>
 #include <QDesktopWidget>
@@ -57,7 +59,7 @@ int screenNumber(const QWidget &widget, GeometryAction geometryAction)
 {
     return geometryAction == GeometryAction::Save
             ? QApplication::desktop()->screenNumber(&widget)
-            : QApplication::desktop()->screenNumber(QCursor::pos());
+            : screenNumberAt(QCursor::pos());
 }
 
 QString geometryOptionName(const QWidget &widget, GeometryAction geometryAction, bool openOnCurrentScreen)
@@ -84,7 +86,7 @@ QString getGeometryConfigurationFilePath()
 
 QString resolutionTagForScreen(int i)
 {
-    const QRect screenGeometry = QApplication::desktop()->screenGeometry(i);
+    const QRect screenGeometry = ::screenGeometry(i);
     return QString("_%1x%2")
             .arg(screenGeometry.width())
             .arg(screenGeometry.height());
@@ -98,8 +100,7 @@ QString resolutionTag(const QWidget &widget, GeometryAction geometryAction, bool
     }
 
     QString tag;
-    const auto desktop = QApplication::desktop();
-    for ( int i = 0; i < desktop->screenCount(); ++i )
+    for ( int i = 0; i < screenCount(); ++i )
         tag.append( resolutionTagForScreen(i) );
 
     return tag;
@@ -108,7 +109,7 @@ QString resolutionTag(const QWidget &widget, GeometryAction geometryAction, bool
 /// Make top of the window always visible on screen so it's possible to move and resize the window.
 QPoint sanitizeWindowPosition(QPoint pos)
 {
-    const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
+    const QRect availableGeometry = screenAvailableGeometry(pos);
     const int x = qBound(availableGeometry.left(), pos.x(), availableGeometry.right() - 10);
     const int y = qBound(availableGeometry.top(), pos.y(), availableGeometry.bottom() - 10);
     return QPoint(x, y);
@@ -167,7 +168,7 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
         // If geometry for the screen doesn't exist, move window to the middle of the screen.
         if (geometry.isEmpty()) {
-            const QRect availableGeometry = QApplication::desktop()->availableGeometry(QCursor::pos());
+            const QRect availableGeometry = screenAvailableGeometry(QCursor::pos());
             const auto position = availableGeometry.center() - w->rect().center();
             w->move(position);
 
