@@ -132,8 +132,8 @@ Command CommandWidget::command() const
 {
     Command c;
     c.name   = ui->lineEditName->text();
-    c.re     = QRegExp( ui->lineEditMatch->text() );
-    c.wndre  = QRegExp( ui->lineEditWindow->text() );
+    c.re     = QRegularExpression( ui->lineEditMatch->text() );
+    c.wndre  = QRegularExpression( ui->lineEditWindow->text() );
     c.matchCmd = ui->lineEditMatchCmd->text();
     c.cmd    = ui->commandEdit->command();
     c.sep    = ui->lineEditSeparator->text();
@@ -294,12 +294,12 @@ QString CommandWidget::description() const
 
     const bool isAutomaticOrMenu = cmd.type() & (CommandType::Automatic | CommandType::Menu);
 
-    if ( !cmd.re.isEmpty() && isAutomaticOrMenu ) {
+    if ( !cmd.re.pattern().isEmpty() && isAutomaticOrMenu ) {
         description.append(
             QString("<div>if text matches <b>/%1/</b></div>").arg(cmd.re.pattern()) );
     }
 
-    if ( !cmd.wndre.isEmpty() && cmd.type() & CommandType::Automatic ) {
+    if ( !cmd.wndre.pattern().isEmpty() && cmd.type() & CommandType::Automatic ) {
         description.append(
             QString("<div>if current window title matches <b>/%1/</b></div>").arg(cmd.wndre.pattern()) );
     }

@@ -176,11 +176,11 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
              this, &ItemText::onSelectionChanged );
 }
 
-void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
+void ItemText::highlight(const QRegularExpression &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
     QList<QTextEdit::ExtraSelection> selections;
 
-    if ( !re.isEmpty() ) {
+    if ( re.isValid() && !re.pattern().isEmpty() ) {
         QTextEdit::ExtraSelection selection;
         selection.format.setBackground( highlightPalette.base() );
         selection.format.setForeground( highlightPalette.text() );

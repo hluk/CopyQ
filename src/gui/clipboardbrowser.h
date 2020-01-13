@@ -157,7 +157,7 @@ class ClipboardBrowser final : public QListView
         /** Move items to clipboard. */
         void moveToClipboard(const QModelIndexList &indexes);
         /** Show only items matching the regular expression. */
-        void filterItems(const QRegExp &re);
+        void filterItems(const QRegularExpression &re);
         /** Open editor. */
         bool openEditor(const QByteArray &textData, bool changeClipboard = false);
         /** Open editor for an item. */

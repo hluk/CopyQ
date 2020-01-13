@@ -2031,7 +2031,7 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
     const int width = pointsToPixels(maximumWidthPoints) - 16 - 8;
 
     const QStringList formats = data.keys();
-    const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
+    const int imageIndex = formats.indexOf(QRegularExpression("^image/.*"));
     const QFont &font = notification->font();
     const bool isHidden = data.contains(mimeHidden);
 

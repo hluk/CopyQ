@@ -38,6 +38,7 @@
 #include <QObject>
 #include <QPoint>
 #include <QProcess>
+#include <QRegularExpression>
 #include <QTextCodec>
 #include <QThread>
 #include <QUrl>
@@ -442,7 +443,7 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     QStringList lines = text.split('\n');
 
     // Ignore empty lines at beginning.
-    static const QRegExp reNonEmpty(".*\\S.*");
+    static const QRegularExpression reNonEmpty(".*\\S.*");
     const int firstLine = qMax(0, lines.indexOf(reNonEmpty));
     const int lastLine = qMax(0, lines.lastIndexOf(reNonEmpty, firstLine + maxLines - 1));
 
@@ -469,7 +470,7 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
 
     // Find common indentation.
     int commonIndent = lines.value(0).size();
-    static const QRegExp reNonSpace("\\S");
+    static const QRegularExpression reNonSpace("\\S");
     for (const auto &line : lines) {
         const int lineIndent = line.indexOf(reNonSpace);
         if (lineIndent != -1 && lineIndent < commonIndent) {

@@ -41,7 +41,7 @@ public:
     ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *parent);
 
 protected:
-    void highlight(const QRegExp &re, const QFont &highlightFont,
+    void highlight(const QRegularExpression &re, const QFont &highlightFont,
                    const QPalette &highlightPalette) override;
 
     void updateSize(QSize maximumSize, int idealWidth) override;

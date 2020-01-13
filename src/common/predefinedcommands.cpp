@@ -46,8 +46,8 @@ class AddCommandDialog final
 
 QVector<Command> predefinedCommands()
 {
-    const QRegExp reURL("^(https?|ftps?|file)://");
-    const QRegExp reNotURL("^(?!(http|ftp)s?://)");
+    const QRegularExpression reURL("^(https?|ftps?|file)://");
+    const QRegularExpression reNotURL("^(?!(http|ftp)s?://)");
 
     QVector<Command> commands = globalShortcutCommands();
     Command *c;
@@ -63,7 +63,7 @@ QVector<Command> predefinedCommands()
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore items with no or single character");
     c->input = mimeText;
-    c->re   = QRegExp("^\\s*\\S?\\s*$");
+    c->re   = QRegularExpression("^\\s*\\S?\\s*$");
     c->icon = QString(QChar(IconExclamationCircle));
     c->remove = true;
     c->automatic = true;
@@ -86,7 +86,7 @@ QVector<Command> predefinedCommands()
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Autoplay videos");
-    c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
+    c->re   = QRegularExpression("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
     c->icon = QString(QChar(IconPlayCircle));
     c->cmd  = "copyq open %1";
     c->automatic = true;
@@ -147,7 +147,7 @@ QVector<Command> predefinedCommands()
     if ( platformNativeInterface()->canGetWindowTitle() ) {
         c = newCommand(&commands);
         c->name = AddCommandDialog::tr("Ignore *\"Password\"* window");
-        c->wndre = QRegExp(AddCommandDialog::tr("Password"));
+        c->wndre = QRegularExpression(AddCommandDialog::tr("Password"));
         c->icon = QString(QChar(IconAsterisk));
         c->remove = true;
         c->automatic = true;

@@ -25,7 +25,7 @@
 #include <QMetaMethod>
 #include <QMetaObject>
 #include <QPalette>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QScriptEngine>
 #include <QScriptValue>
 #include <QScriptValueIterator>
@@ -46,9 +46,9 @@ QString methodName(const QMetaMethod &method)
     return name.remove(index, name.length() - index);
 }
 
-QRegExp commandLabelRegExp()
+QRegularExpression commandLabelRegExp()
 {
-    return QRegExp(
+    return QRegularExpression(
             "\\bcopyq:"
             "|\\bsh:"
             "|\\bbash:"
@@ -60,9 +60,9 @@ QRegExp commandLabelRegExp()
                 );
 }
 
-QRegExp createRegExp(const QStringList &list)
+QRegularExpression createRegExp(const QStringList &list)
 {
-    QRegExp re;
+    QRegularExpression re;
     re.setPattern("\\b" + list.join("\\b|\\b") + "\\b");
     return re;
 }
@@ -140,14 +140,12 @@ private:
         Comment
     };
 
-    void highlight(const QString &text, QRegExp &re, const QTextCharFormat &format)
+    void highlight(const QString &text, QRegularExpression &re, const QTextCharFormat &format)
     {
-        int index = text.indexOf(re);
-
-        while (index >= 0) {
-            const int length = re.matchedLength();
-            setFormat(index, length, format);
-            index = text.indexOf( re, index + qMax(1, length) );
+        auto it = re.globalMatch(text);
+        while (it.hasNext()) {
+            const auto m = it.next();
+            setFormat(m.capturedStart(), m.capturedLength(), format);
         }
     }
 
@@ -207,7 +205,7 @@ private:
             } else if (currentBlockState() == RegExp) {
                 if (c == '/') {
                     // Highlight paths outside code as regexps.
-                    i = text.indexOf(QRegExp("[^a-zA-Z0-9./_-]"), i);
+                    i = text.indexOf(QRegularExpression("[^a-zA-Z0-9./_-]"), i);
                     if (i == -1)
                         i = text.size();
 
@@ -242,12 +240,12 @@ private:
     }
 
     QWidget *m_editor;
-    QRegExp m_reObjects;
-    QRegExp m_reProperties;
-    QRegExp m_reFunctions;
-    QRegExp m_reKeywords;
-    QRegExp m_reLabels;
-    QRegExp m_reNumbers;
+    QRegularExpression m_reObjects;
+    QRegularExpression m_reProperties;
+    QRegularExpression m_reFunctions;
+    QRegularExpression m_reKeywords;
+    QRegularExpression m_reLabels;
+    QRegularExpression m_reNumbers;
     QColor m_bgColor;
 };
 

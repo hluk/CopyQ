@@ -47,7 +47,7 @@
 #include <QMap>
 #include <QMimeData>
 #include <QProcess>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTemporaryDir>
 #include <QTemporaryFile>
 #include <QTest>
@@ -125,8 +125,8 @@ void runMultiple(Fn1 f1, Fn2 f2)
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
-    static const QRegExp reFailure("Warning:|ERROR:|ASSERT", Qt::CaseInsensitive);
-    static const QRegExp reClient(
+    static const QRegularExpression reFailure("Warning:|ERROR:|ASSERT", QRegularExpression::CaseInsensitiveOption);
+    static const QRegularExpression reClient(
         R"(CopyQ Note \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Client-[^\n]*)");
 
     QString output = QString::fromUtf8(stderrData);
@@ -156,7 +156,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     if (flag == TestInterface::ReadErrorsWithoutScriptException)
         return true;
 
-    const QRegExp scriptExceptionError("ScriptError:");
+    const QRegularExpression scriptExceptionError("ScriptError:");
     return output.indexOf(scriptExceptionError) == -1;
 }
 
@@ -692,7 +692,7 @@ int count(const QStringList &items, const QString &pattern)
 {
     int from = -1;
     int count = 0;
-    const QRegExp re(pattern);
+    const QRegularExpression re(pattern);
     while ( (from = items.indexOf(re, from + 1)) != -1 )
         ++count;
     return count;
@@ -700,7 +700,7 @@ int count(const QStringList &items, const QString &pattern)
 
 QStringList splitLines(const QString &nativeText)
 {
-    return nativeText.split(QRegExp("\r\n|\n|\r"));
+    return nativeText.split(QRegularExpression("\r\n|\n|\r"));
 }
 
 } // namespace
@@ -781,7 +781,7 @@ void Tests::commandHelp()
         QVERIFY2( testStderr(stderrActual), stderrActual );
         QVERIFY( !stdoutActual.isEmpty() );
         const QString help = QString::fromUtf8(stdoutActual);
-        QVERIFY( help.contains(QRegExp("\\b" + QRegExp::escape(command) + "\\b")) );
+        QVERIFY( help.contains(QRegularExpression("\\b" + QRegularExpression::escape(command) + "\\b")) );
     }
 
     // Print error on unknown function name.
@@ -798,9 +798,9 @@ void Tests::commandVersion()
 
     const QString version = QString::fromUtf8(stdoutActual);
     // Version contains application name and version.
-    QVERIFY( version.contains(QRegExp("\\bCopyQ\\b.*" + QRegExp::escape(COPYQ_VERSION))) );
+    QVERIFY( version.contains(QRegularExpression("\\bCopyQ\\b.*" + QRegularExpression::escape(COPYQ_VERSION))) );
     // Version contains Qt version.
-    QVERIFY( version.contains(QRegExp("\\bQt:\\s+\\d")) );
+    QVERIFY( version.contains(QRegularExpression("\\bQt:\\s+\\d")) );
 }
 
 void Tests::badCommand()
@@ -814,7 +814,7 @@ void Tests::badCommand()
     QCOMPARE( run(Args("tab"), &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
     QVERIFY( !QString::fromUtf8(stdoutActual)
-             .contains(QRegExp("^" + QRegExp::escape(testTab(1)) + "$")) );
+             .contains(QRegularExpression("^" + QRegularExpression::escape(testTab(1)) + "$")) );
 }
 
 void Tests::badSessionName()
@@ -1652,7 +1652,7 @@ void Tests::commandForceUnload()
 void Tests::commandServerLogAndLogs()
 {
     const QByteArray data1 = generateData();
-    QRegExp re("CopyQ Note \\[[^]]+\\] <Server-[0-9]+>: " + QRegExp::escape(data1));
+    QRegularExpression re("CopyQ Note \\[[^]]+\\] <Server-[0-9]+>: " + QRegularExpression::escape(data1));
 
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -3511,15 +3511,14 @@ bool Tests::hasTab(const QString &tabName)
 
 int runTests(int argc, char *argv[])
 {
-    QRegExp onlyPlugins;
+    QRegularExpression onlyPlugins;
     bool runPluginTests = true;
 
     if (argc > 1) {
         QString arg = argv[1];
         if (arg.startsWith("PLUGINS:")) {
-            arg.remove(QRegExp("^PLUGINS:"));
-            onlyPlugins.setPattern(arg);
-            onlyPlugins.setCaseSensitivity(Qt::CaseInsensitive);
+            arg.remove(QRegularExpression("^PLUGINS:"));
+            onlyPlugins = QRegularExpression(arg, QRegularExpression::CaseInsensitiveOption);
             --argc;
             ++argv;
         } else {
@@ -3543,7 +3542,7 @@ int runTests(int argc, char *argv[])
     std::shared_ptr<TestInterfaceImpl> test(new TestInterfaceImpl);
     Tests tc(test);
 
-    if (onlyPlugins.isEmpty()) {
+    if (onlyPlugins.pattern().isEmpty()) {
         test->setupTest("CORE", QVariant());
         exitCode = test->runTests(&tc, argc, argv);
     }

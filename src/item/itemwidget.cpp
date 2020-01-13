@@ -66,7 +66,7 @@ ItemWidget::ItemWidget(QWidget *widget)
     widget->setAcceptDrops(false);
 }
 
-void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
+void ItemWidget::setHighlight(const QRegularExpression &re, const QFont &highlightFont,
                               const QPalette &highlightPalette)
 {
     if (m_re == re)
@@ -263,7 +263,7 @@ ItemSaverPtr ItemLoaderInterface::transformSaver(const ItemSaverPtr &saver, QAbs
     return saver;
 }
 
-bool ItemLoaderInterface::matches(const QModelIndex &, const QRegExp &) const
+bool ItemLoaderInterface::matches(const QModelIndex &, const QRegularExpression &) const
 {
     return false;
 }

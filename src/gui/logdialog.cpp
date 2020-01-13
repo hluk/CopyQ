@@ -25,7 +25,7 @@
 
 #include <QCheckBox>
 #include <QElapsedTimer>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextBlock>
 #include <QTextCharFormat>
 #include <QTextBlockFormat>
@@ -44,10 +44,10 @@ void showLogLines(QString *content, bool show, LogLevel level)
 
     const QString label = logLinePrefix + logLevelLabel(level);
 
-    const QRegExp re("\n" + label + "[^\n]*");
+    const QRegularExpression re("\n" + label + "[^\n]*");
     content->remove(re);
 
-    const QRegExp re2("^" + label + "[^\n]*\n");
+    const QRegularExpression re2("^" + label + "[^\n]*\n");
     content->remove(re2);
 }
 
@@ -57,7 +57,7 @@ void showLogLines(QString *content, bool show, LogLevel level)
 class Decorator : public QObject
 {
 public:
-    Decorator(const QRegExp &re, QObject *parent)
+    Decorator(const QRegularExpression &re, QObject *parent)
         : QObject(parent)
         , m_re(re)
     {
@@ -96,7 +96,7 @@ private:
 
     QTimer m_timerDecorate;
     QTextCursor m_tc;
-    QRegExp m_re;
+    QRegularExpression m_re;
 };
 
 namespace {
@@ -105,7 +105,7 @@ class LogDecorator final : public Decorator
 {
 public:
     LogDecorator(const QFont &font, QObject *parent)
-        : Decorator(QRegExp("^[^\\]]*\\]"), parent)
+        : Decorator(QRegularExpression("^[^\\]]*\\]"), parent)
         , m_labelNote(logLevelLabel(LogNote))
         , m_labelError(logLevelLabel(LogError))
         , m_labelWarning(logLevelLabel(LogWarning))
@@ -168,7 +168,7 @@ class StringDecorator final : public Decorator
 {
 public:
     explicit StringDecorator(QObject *parent)
-        : Decorator(QRegExp("\"[^\"]*\"|'[^']*'"), parent)
+        : Decorator(QRegularExpression("\"[^\"]*\"|'[^']*'"), parent)
     {
         m_stringFormat.setForeground(Qt::darkGreen);
     }
@@ -186,7 +186,7 @@ class ThreadNameDecorator final : public Decorator
 {
 public:
     explicit ThreadNameDecorator(const QFont &font, QObject *parent)
-        : Decorator(QRegExp("<[A-Za-z]+-[0-9-]+>"), parent)
+        : Decorator(QRegularExpression("<[A-Za-z]+-[0-9-]+>"), parent)
     {
         QFont boldFont = font;
         boldFont.setBold(true);

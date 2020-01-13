@@ -44,7 +44,7 @@ signals:
     void addCommands(const QVector<Command> &commands);
 
 private:
-    void onFilterLineEditFilterChanged(const QRegExp &re);
+    void onFilterLineEditFilterChanged(const QRegularExpression &re);
     void onListViewCommandsActivated();
 
     Ui::AddCommandDialog *ui;

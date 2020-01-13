@@ -38,6 +38,7 @@
 #include <QKeyEvent>
 #include <QMenu>
 #include <QPainter>
+#include <QRegularExpression>
 #include <QSettings>
 #include <QTimer>
 
@@ -121,23 +122,27 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
     m_actionCaseInsensitive->setCheckable(true);
 }
 
-QRegExp FilterLineEdit::filter() const
+QRegularExpression FilterLineEdit::filter() const
 {
-    Qt::CaseSensitivity sensitivity =
-            m_actionCaseInsensitive->isChecked() ? Qt::CaseInsensitive : Qt::CaseSensitive;
+    static const QRegularExpression reWhiteSpace("\\s+");
+
+    const auto sensitivity =
+        m_actionCaseInsensitive->isChecked()
+        ? QRegularExpression::CaseInsensitiveOption
+        : QRegularExpression::NoPatternOption;
 
     QString pattern;
     if (m_actionRe->isChecked()) {
         pattern = text();
     } else {
-        for ( const auto &str : text().split(QRegExp("\\s+"), QString::SkipEmptyParts) ) {
+        for ( const auto &str : text().split(reWhiteSpace, QString::SkipEmptyParts) ) {
             if ( !pattern.isEmpty() )
                 pattern.append(".*");
-            pattern.append( QRegExp::escape(str) );
+            pattern.append( QRegularExpression::escape(str) );
         }
     }
 
-    return QRegExp(pattern, sensitivity, QRegExp::RegExp2);
+    return QRegularExpression(pattern, sensitivity);
 }
 
 void FilterLineEdit::loadSettings()
@@ -224,8 +229,8 @@ void FilterLineEdit::onMenuAction()
     appConfig.setOption("filter_regular_expression", m_actionRe->isChecked());
     appConfig.setOption("filter_case_insensitive", m_actionCaseInsensitive->isChecked());
 
-    const QRegExp re = filter();
-    if ( !re.isEmpty() )
+    const QRegularExpression re = filter();
+    if ( re.isValid() && !re.pattern().isEmpty() )
         emit filterChanged(re);
 }
 

@@ -25,6 +25,7 @@
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/regexp.h"
 #include "common/textdata.h"
 #include "item/itemstore.h"
 #include "item/itemwidget.h"
@@ -205,10 +206,10 @@ public:
         return std::make_shared<DummySaver>();
     }
 
-    bool matches(const QModelIndex &index, const QRegExp &re) const override
+    bool matches(const QModelIndex &index, const QRegularExpression &re) const override
     {
         const QString text = index.data(contentType::text).toString();
-        return re.indexIn(text) != -1;
+        return text.contains(re);
     }
 };
 
@@ -406,13 +407,14 @@ ItemSaverPtr ItemFactory::initializeTab(const QString &tabName, QAbstractItemMod
     return nullptr;
 }
 
-bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
+bool ItemFactory::matches(const QModelIndex &index, const QRegularExpression &re) const
 {
     // Match formats if the filter expression contains single '/'.
     if (re.pattern().count('/') == 1) {
+        const auto re2 = anchoredRegExp(re.pattern());
         const QVariantMap data = index.data(contentType::data).toMap();
         for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
-            if ( re.exactMatch(it.key()) )
+            if ( it.key().contains(re2) )
                 return true;
         }
     }

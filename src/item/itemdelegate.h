@@ -23,7 +23,7 @@
 #include "gui/clipboardbrowsershared.h"
 
 #include <QItemDelegate>
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include <memory>
 #include <vector>
@@ -66,10 +66,10 @@ class ItemDelegate final : public QItemDelegate
         bool invalidateHidden(QWidget *widget);
 
         /** Set regular expression for highlighting. */
-        void setSearch(const QRegExp &re);
+        void setSearch(const QRegularExpression &re);
 
         /** Return regular expression for highlighting. */
-        const QRegExp &searchExpression() const { return m_re; }
+        const QRegularExpression &searchExpression() const { return m_re; }
 
         /** Return cached item, create it if it doesn't exist. */
         ItemWidget *cache(const QModelIndex &index);
@@ -141,7 +141,7 @@ class ItemDelegate final : public QItemDelegate
 
         ClipboardBrowser *m_view;
         ClipboardBrowserSharedPtr m_sharedData;
-        QRegExp m_re;
+        QRegularExpression m_re;
         QSize m_maxSize;
         int m_idealWidth;
 

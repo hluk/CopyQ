@@ -23,7 +23,7 @@ void ItemWidgetWrapper::setTagged(bool tagged)
     childItem()->setTagged(tagged);
 }
 
-void ItemWidgetWrapper::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
+void ItemWidgetWrapper::highlight(const QRegularExpression &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
     childItem()->setHighlight(re, highlightFont, highlightPalette);
 }

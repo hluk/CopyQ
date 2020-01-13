@@ -26,7 +26,7 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDir>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 #include <QVariant>
 #include <QWidget>
@@ -150,12 +150,13 @@ bool X11Platform::isAutostartEnabled()
     if ( !desktopFile.open(QIODevice::ReadOnly | QIODevice::Text) )
         return false;
 
-    QRegExp re("^Hidden\\s*=\\s*([a-zA-Z01]+)");
+    const QRegularExpression re("^Hidden\\s*=\\s*([a-zA-Z01]+)");
 
     while ( !desktopFile.atEnd() ) {
-        QString line = getTextData(desktopFile.readLine());
-        if ( re.indexIn(line) != -1 ) {
-            QString value = re.cap(1);
+        const QString line = getTextData(desktopFile.readLine());
+        const auto m = re.match(line);
+        if (m.hasMatch()) {
+            const QString value = m.captured(1);
             return !(value.startsWith("True") || value.startsWith("true") || value.startsWith("0"));
         }
     }
@@ -187,7 +188,7 @@ void X11Platform::setAutostartEnabled(bool enable)
         return;
     }
 
-    QRegExp re("^(Hidden|X-GNOME-Autostart-enabled|Exec)\\s*=\\s*");
+    const QRegularExpression re("^(Hidden|X-GNOME-Autostart-enabled|Exec)\\s*=\\s*");
 
     QFile desktopFile(filename);
     bool createUserDesktopFile = !desktopFile.exists();
@@ -196,8 +197,8 @@ void X11Platform::setAutostartEnabled(bool enable)
 
     if ( desktopFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
         while ( !desktopFile.atEnd() ) {
-            QString line = getTextData(desktopFile.readLine());
-            if ( re.indexIn(line) == -1 )
+            const QString line = getTextData(desktopFile.readLine());
+            if ( !line.contains(re) )
                 desktopFile2.write(line.toUtf8());
         }
         desktopFile.close();

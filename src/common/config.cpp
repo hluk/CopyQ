@@ -26,7 +26,7 @@
 #include <QByteArray>
 #include <QDesktopWidget>
 #include <QDir>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QScreen>
 #include <QSettings>
 #include <QString>
@@ -132,7 +132,7 @@ QString getConfigurationFilePath(const QString &suffix)
                 QCoreApplication::organizationName(),
                 QCoreApplication::applicationName() );
     QString path = settings.fileName();
-    return path.replace( QRegExp("\\.ini$"), suffix );
+    return path.replace( QRegularExpression("\\.ini$"), suffix );
 }
 
 QString settingsDirectoryPath()

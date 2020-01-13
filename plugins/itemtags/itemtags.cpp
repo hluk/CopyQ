@@ -22,6 +22,7 @@
 
 #include "common/command.h"
 #include "common/contenttype.h"
+#include "common/regexp.h"
 #include "common/textdata.h"
 #include "gui/iconfont.h"
 #include "gui/iconselectbutton.h"
@@ -268,8 +269,8 @@ ItemTags::Tag findMatchingTag(const QString &tagText, const ItemTags::Tags &tags
             if (tag.name == tagText)
                 return tag;
         } else {
-            const QRegExp re(tag.match);
-            if ( re.exactMatch(tagText) )
+            const auto re = anchoredRegExp(tag.match);
+            if (tagText.contains(re))
                 return tag;
         }
     }
@@ -653,12 +654,12 @@ ItemWidget *ItemTagsLoader::transform(ItemWidget *itemWidget, const QVariantMap 
     return new ItemTags(itemWidget, tags);
 }
 
-bool ItemTagsLoader::matches(const QModelIndex &index, const QRegExp &re) const
+bool ItemTagsLoader::matches(const QModelIndex &index, const QRegularExpression &re) const
 {
     const QByteArray tagsData =
             index.data(contentType::data).toMap().value(mimeTags).toByteArray();
     const auto tags = getTextData(tagsData);
-    return re.indexIn(tags) != -1;
+    return tags.contains(re);
 }
 
 QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
@@ -806,7 +807,7 @@ ItemTagsLoader::Tags ItemTagsLoader::toTags(const QStringList &tagList)
             if (tag.match.isEmpty()) {
                 tag.name = tagName;
             } else {
-                const QRegExp re(tag.match);
+                const QRegularExpression re(tag.match);
                 tag.name = QString(tagName).replace(re, tag.name);
             }
         } else {

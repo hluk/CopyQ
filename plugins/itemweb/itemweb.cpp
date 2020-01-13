@@ -101,13 +101,13 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, bool preview, QWidget *
              this, &ItemWeb::onItemChanged );
 }
 
-void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
+void ItemWeb::highlight(const QRegularExpression &re, const QFont &, const QPalette &)
 {
     // FIXME: Set hightlight color and font!
     // FIXME: Hightlight text matching regular expression!
     findText( QString(), QWebPage::HighlightAllOccurrences );
 
-    if ( !re.isEmpty() )
+    if ( !re.pattern().isEmpty() )
         findText( re.pattern(), QWebPage::HighlightAllOccurrences );
 }
 

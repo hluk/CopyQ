@@ -63,12 +63,13 @@ QStringList savedTabs()
     QStringList files = QDir(configPath).entryList(QStringList("*_tab_*.dat"));
     files.append( QDir(configPath).entryList(QStringList("*_tab_*.dat.tmp")) );
 
-    QRegExp re("_tab_([^.]*)");
+    QRegularExpression re("_tab_([^.]*)");
 
     for (const auto &fileName : files) {
-        if ( fileName.contains(re) ) {
+        const auto m = re.match(fileName);
+        if (m.hasMatch()) {
             const QString tabName =
-                    getTextData(tabNameFromFileSuffix(re.cap(1).toUtf8()));
+                    getTextData(tabNameFromFileSuffix(m.captured(1).toUtf8()));
             if ( !tabName.isEmpty() && !tabs.contains(tabName) )
                 tabs.append(tabName);
         }

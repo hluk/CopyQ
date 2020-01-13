@@ -123,7 +123,7 @@ public:
 
     ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data) override;
 
-    bool matches(const QModelIndex &index, const QRegExp &re) const override;
+    bool matches(const QModelIndex &index, const QRegularExpression &re) const override;
 
     QObject *tests(const TestInterfacePtr &test) const override;
 

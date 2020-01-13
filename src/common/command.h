@@ -22,7 +22,7 @@
 
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
 
 namespace CommandType {
 enum CommandType {
@@ -128,10 +128,10 @@ struct Command {
     QString name;
 
     /** Regular expression to match items (empty matches all). */
-    QRegExp re;
+    QRegularExpression re;
 
     /** Regular expression to match window titles (empty matches all). */
-    QRegExp wndre;
+    QRegularExpression wndre;
 
     /**
      * Program to execute to match items.

@@ -454,7 +454,7 @@ private:
     void tabBarMenuRequested(QPoint pos, int tab);
     void tabTreeMenuRequested(QPoint pos, const QString &groupPath);
     void tabCloseRequested(int tab);
-    void onFilterChanged(const QRegExp &re);
+    void onFilterChanged(const QRegularExpression &re);
 
     void raiseLastWindowAfterMenuClosed();
 

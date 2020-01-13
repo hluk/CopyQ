@@ -53,7 +53,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QPoint>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QScriptContext>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
@@ -284,17 +284,20 @@ struct ScriptValueFactory<QString> {
 };
 
 template <>
-struct ScriptValueFactory<QRegExp> {
-    static QScriptValue toScriptValue(const QRegExp &re, const Scriptable *scriptable)
+struct ScriptValueFactory<QRegularExpression> {
+    static QScriptValue toScriptValue(const QRegularExpression &re, const Scriptable *scriptable)
     {
-        return scriptable->engine()->newRegExp(re);
+        return scriptable->engine()->newVariant(re);
     }
 
-    static QRegExp fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
+    static QRegularExpression fromScriptValue(const QScriptValue &value, const Scriptable *scriptable)
     {
-        return value.isRegExp()
-                ? value.toRegExp()
-                : QRegExp( toString(value, scriptable) );
+        if (value.isVariant()) {
+            const auto variant = value.toVariant();
+            return variant.toRegularExpression();
+        }
+
+        return QRegularExpression( toString(value, scriptable) );
     }
 };
 
@@ -382,8 +385,9 @@ struct ScriptValueFactory<QVariant> {
         if (variant.type() == QVariant::Char)
             return ::toScriptValue(variant.toString(), scriptable);
 
-        if (variant.type() == QVariant::RegExp)
-            return ::toScriptValue(variant.toRegExp(), scriptable);
+        Q_ASSERT(variant.type() != QVariant::RegExp);
+        if (variant.type() == QVariant::RegularExpression)
+            return ::toScriptValue(variant.toRegularExpression(), scriptable);
 
         if (variant.canConvert<QVariantList>())
             return ::toScriptValue(variant.value<QVariantList>(), scriptable);
@@ -496,13 +500,13 @@ QString parseCommandLineArgument(const QString &arg)
     return result;
 }
 
-bool matchData(const QRegExp &re, const QVariantMap &data, const QString &format)
+bool matchData(const QRegularExpression &re, const QVariantMap &data, const QString &format)
 {
-    if ( re.isEmpty() )
+    if ( re.pattern().isEmpty() )
         return true;
 
     const QString text = getTextData(data, format);
-    return re.indexIn(text) != -1;
+    return text.contains(re);
 }
 
 bool isInternalDataFormat(const QString &format)
@@ -2742,7 +2746,7 @@ QString Scriptable::processUncaughtException(const QString &cmd)
         return QString();
 
     const auto exceptionName = m_engine->uncaughtException().toString()
-            .remove(QRegExp("^Error: "))
+            .remove(QRegularExpression("^Error: "))
             .trimmed();
 
     auto backtrace = m_engine->uncaughtExceptionBacktrace();
@@ -3081,7 +3085,7 @@ bool Scriptable::runCommands(CommandType::CommandType type)
 
             // FIXME: Handle automatic and display command output.
             //action.setOutputFormat(command.output);
-            //action.setItemSeparator(QRegExp(command.sep));
+            //action.setItemSeparator(QRegularExpression(command.sep));
             //action.setOutputTab(command.outputTab);
 
             if ( !runAction(&action) && canContinue() ) {

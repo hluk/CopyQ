@@ -23,7 +23,7 @@
 class Action;
 class MainWindow;
 class QString;
-class QRegExp;
+class QRegularExpression;
 class QModelIndex;
 
 void actionOutput(
@@ -31,7 +31,7 @@ void actionOutput(
         Action *action,
         const QString &outputItemFormat,
         const QString &outputTabName,
-        const QRegExp &itemSeparator
+        const QRegularExpression &itemSeparator
         );
 
 void actionOutput(

@@ -226,7 +226,7 @@ void ItemOrderList::setItemWidgetVisible(int row, bool visible)
     item->setHidden(!visible);
 }
 
-void ItemOrderList::setDragAndDropValidator(const QRegExp &re)
+void ItemOrderList::setDragAndDropValidator(const QRegularExpression &re)
 {
     m_dragAndDropRe = re;
     setAcceptDrops(m_dragAndDropRe.isValid());
@@ -259,7 +259,7 @@ void ItemOrderList::keyPressEvent(QKeyEvent *event)
 void ItemOrderList::dragEnterEvent(QDragEnterEvent *event)
 {
     const QString text = event->mimeData()->text();
-    if ( m_dragAndDropRe.indexIn(text) != -1 )
+    if ( text.contains(m_dragAndDropRe) )
         event->acceptProposedAction();
 }
 

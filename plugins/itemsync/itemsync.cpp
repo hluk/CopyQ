@@ -25,6 +25,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/contenttype.h"
+#include "common/regexp.h"
 #include "gui/iconselectbutton.h"
 #include "gui/icons.h"
 #include "gui/iconfont.h"
@@ -166,11 +167,12 @@ bool hasImageExtension(const QString &ext)
 
 bool hasArchiveExtension(const QString &ext)
 {
+    static const auto re = anchoredRegExp("r\\d\\d");
     return ext == "zip"
             || ext == "7z"
             || ext == "tar"
             || ext == "rar"
-            || QRegExp("r\\d\\d").exactMatch(ext)
+            || ext.contains(re)
             || ext == "arj";
 }
 
@@ -390,13 +392,13 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     m_label->setPlainText(label);
 }
 
-void ItemSync::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
+void ItemSync::highlight(const QRegularExpression &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
     ItemWidgetWrapper::highlight(re, highlightFont, highlightPalette);
 
     QList<QTextEdit::ExtraSelection> selections;
 
-    if ( !re.isEmpty() ) {
+    if ( re.isValid() && !re.pattern().isEmpty() ) {
         QTextEdit::ExtraSelection selection;
         selection.format.setBackground( highlightPalette.base() );
         selection.format.setForeground( highlightPalette.text() );
@@ -627,7 +629,7 @@ QVariantMap ItemSyncLoader::applySettings()
     for (int row = 0; row < t->rowCount(); ++row) {
         FileFormat fileFormat;
         fileFormat.extensions = t->item(row, formatSettingsTableColumns::formats)->text()
-                .split( QRegExp("[,;\\s]"), QString::SkipEmptyParts );
+                .split( QRegularExpression("[,;\\s]"), QString::SkipEmptyParts );
         fileFormat.itemMime = t->item(row, formatSettingsTableColumns::itemMime)->text();
         if ( fileFormat.extensions.isEmpty() && fileFormat.itemMime.isEmpty() )
             continue;
@@ -753,11 +755,11 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QVariantMap 
     return new ItemSync(baseName, icon, itemWidget);
 }
 
-bool ItemSyncLoader::matches(const QModelIndex &index, const QRegExp &re) const
+bool ItemSyncLoader::matches(const QModelIndex &index, const QRegularExpression &re) const
 {
     const QVariantMap dataMap = index.data(contentType::data).toMap();
     const QString text = dataMap.value(mimeBaseName).toString();
-    return re.indexIn(text) != -1;
+    return text.contains(re);
 }
 
 QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const

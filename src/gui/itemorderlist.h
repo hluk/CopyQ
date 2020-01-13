@@ -104,7 +104,7 @@ public:
 
     void setItemWidgetVisible(int row, bool visible);
 
-    void setDragAndDropValidator(const QRegExp &re);
+    void setDragAndDropValidator(const QRegularExpression &re);
 
     /// Make icons wider so icon tag can be bigger.
     void setWiderIconsEnabled(bool wider);
@@ -153,7 +153,7 @@ private:
     Ui::ItemOrderList *ui;
     QMap<QListWidgetItem*, ItemWidgetPair> m_items;
 
-    QRegExp m_dragAndDropRe;
+    QRegularExpression m_dragAndDropRe;
 };
 
 #endif // ITEMORDERLIST_H

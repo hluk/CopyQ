@@ -38,8 +38,8 @@ void loadCommand(const QSettings &settings, Commands *commands)
     c.enable = settings.value("Enable", true).toBool();
 
     c.name = settings.value("Name").toString();
-    c.re   = QRegExp( settings.value("Match").toString() );
-    c.wndre = QRegExp( settings.value("Window").toString() );
+    c.re   = QRegularExpression( settings.value("Match").toString() );
+    c.wndre = QRegularExpression( settings.value("Window").toString() );
     c.matchCmd = settings.value("MatchCommand").toString();
     c.cmd = settings.value("Command").toString();
     c.sep = settings.value("Separator").toString();
@@ -83,7 +83,7 @@ void loadCommand(const QSettings &settings, Commands *commands)
     commands->append(c);
 }
 
-void saveValue(const char *key, const QRegExp &re, QSettings *settings)
+void saveValue(const char *key, const QRegularExpression &re, QSettings *settings)
 {
     settings->setValue(key, re.pattern());
 }
@@ -233,11 +233,12 @@ QString exportCommands(const Commands &commands)
     // Replace ugly '\n' with indented lines.
     const QString data = getTextData( temporarySettings.content() );
     QString commandData;
-    QRegExp re(R"(^(\d+\\)?Command="?)");
+    QRegularExpression re(R"(^(\d+\\)?Command="?)");
 
     for (const auto &line : data.split('\n')) {
-        if (line.contains(re)) {
-            int i = re.matchedLength();
+        const auto m = re.match(line);
+        if (m.hasMatch()) {
+            int i = m.capturedLength();
             commandData.append(line.leftRef(i));
 
             const bool addQuotes = !commandData.endsWith('"');

@@ -23,7 +23,7 @@
 #include <QDialog>
 #include <QModelIndex>
 #include <QPersistentModelIndex>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QVariantMap>
 
 class QAbstractButton;

@@ -22,7 +22,7 @@
 
 #include "tests/testinterface.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 #include <QtPlugin>
 #include <QVariantMap>
@@ -37,7 +37,7 @@ class QIODevice;
 class QFont;
 class QModelIndex;
 class QPalette;
-class QRegExp;
+class QRegularExpression;
 struct Command;
 
 class ItemLoaderInterface;
@@ -64,7 +64,7 @@ public:
     /**
      * Set search and selections highlight color and font.
      */
-    void setHighlight(const QRegExp &re, const QFont &highlightFont,
+    void setHighlight(const QRegularExpression &re, const QFont &highlightFont,
                       const QPalette &highlightPalette);
 
     /**
@@ -97,7 +97,7 @@ protected:
      * Highlight matching text with given font and color.
      * Default implementation does nothing.
      */
-    virtual void highlight(const QRegExp &, const QFont &, const QPalette &) {}
+    virtual void highlight(const QRegularExpression &, const QFont &, const QPalette &) {}
 
     /**
      * Filter mouse events for QTextEdit widgets.
@@ -114,7 +114,7 @@ protected:
     bool filterMouseEvents(QTextEdit *edit, QEvent *event);
 
 private:
-    QRegExp m_re;
+    QRegularExpression m_re;
     QWidget *m_widget;
 };
 
@@ -367,7 +367,7 @@ public:
      * Return true if regular expression matches items content.
      * Returns false by default.
      */
-    virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
+    virtual bool matches(const QModelIndex &index, const QRegularExpression &re) const;
 
     /**
      * Return object with tests.

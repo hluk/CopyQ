@@ -171,7 +171,7 @@ CommandDialog::CommandDialog(
     act->setShortcut(QKeySequence::Copy);
     connect(act, &QAction::triggered, this, &CommandDialog::copySelectedCommandsToClipboard);
 
-    ui->itemOrderListCommands->setDragAndDropValidator(QRegExp("\\[Commands?\\]"));
+    ui->itemOrderListCommands->setDragAndDropValidator(QRegularExpression("\\[Commands?\\]"));
     connect( ui->itemOrderListCommands, &ItemOrderList::dropped,
              this, &CommandDialog::onCommandDropped );
 

@@ -19,7 +19,7 @@
 
 #include "tabs.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QSettings>
 
 constexpr auto settingsGroupTabs = "Tabs";
@@ -88,7 +88,7 @@ void Tabs::save(QSettings *settings, const QStringList &tabs)
 
         const bool isTab = tabs.contains(name);
         const bool isTabGroup =
-            !isTab && tabs.indexOf(QRegExp(QString("^%1/.*").arg(QRegExp::escape(name)))) != -1;
+            !isTab && tabs.indexOf(QRegularExpression(QString("^%1/.*").arg(QRegularExpression::escape(name)))) != -1;
 
         if (isTab || isTabGroup) {
             settings->setArrayIndex(row++);

@@ -161,14 +161,14 @@ void ItemNotes::setCurrent(bool current)
         m_timerShowToolTip->stop();
 }
 
-void ItemNotes::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
+void ItemNotes::highlight(const QRegularExpression &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
     ItemWidgetWrapper::highlight(re, highlightFont, highlightPalette);
 
     if (m_notes != nullptr) {
         QList<QTextEdit::ExtraSelection> selections;
 
-        if ( !re.isEmpty() ) {
+        if ( re.isValid() && !re.pattern().isEmpty() ) {
             QTextEdit::ExtraSelection selection;
             selection.format.setBackground( highlightPalette.base() );
             selection.format.setForeground( highlightPalette.text() );
@@ -315,8 +315,8 @@ ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QVariantMap
         m_settings["show_tooltip"].toBool() );
 }
 
-bool ItemNotesLoader::matches(const QModelIndex &index, const QRegExp &re) const
+bool ItemNotesLoader::matches(const QModelIndex &index, const QRegularExpression &re) const
 {
     const QString text = index.data(contentType::notes).toString();
-    return re.indexIn(text) != -1;
+    return text.contains(re);
 }

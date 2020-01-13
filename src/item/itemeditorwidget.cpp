@@ -122,9 +122,9 @@ QVariantMap ItemEditorWidget::data() const
     return data;
 }
 
-void ItemEditorWidget::search(const QRegExp &re)
+void ItemEditorWidget::search(const QRegularExpression &re)
 {
-    if ( !re.isValid() || re.isEmpty() )
+    if ( !re.isValid() || re.pattern().isEmpty() )
         return;
 
     auto tc = textCursor();
@@ -133,12 +133,12 @@ void ItemEditorWidget::search(const QRegExp &re)
     findNext(re);
 }
 
-void ItemEditorWidget::findNext(const QRegExp &re)
+void ItemEditorWidget::findNext(const QRegularExpression &re)
 {
     search(re, false);
 }
 
-void ItemEditorWidget::findPrevious(const QRegExp &re)
+void ItemEditorWidget::findPrevious(const QRegularExpression &re)
 {
     search(re, true);
 }
@@ -370,7 +370,7 @@ QWidget *ItemEditorWidget::createToolbar(QWidget *parent)
     return toolBar;
 }
 
-void ItemEditorWidget::search(const QRegExp &re, bool backwards)
+void ItemEditorWidget::search(const QRegularExpression &re, bool backwards)
 {
     if ( !re.isValid() )
         return;

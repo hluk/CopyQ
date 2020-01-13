@@ -58,7 +58,7 @@ QString commandToLabel(const QString &command)
 {
     QString label = command.size() > 48 ? command.left(48) + "..." : command;
     label.replace('\n', " ");
-    label.replace(QRegExp("\\s\\+"), " ");
+    label.replace(QRegularExpression("\\s\\+"), " ");
     return label;
 }
 
@@ -304,8 +304,8 @@ void ActionDialog::acceptCommand()
 
     auto re = command.re;
     const QString text = getTextData(m_data);
-    re.indexIn(text);
-    auto capturedTexts = re.capturedTexts();
+    const auto m = re.match(text);
+    auto capturedTexts = m.capturedTexts();
     if ( capturedTexts.isEmpty() )
         capturedTexts.append(QString());
     capturedTexts[0] = text;

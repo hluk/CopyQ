@@ -138,13 +138,13 @@ bool canPaste()
     return !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier);
 }
 
-bool matchData(const QRegExp &re, const QVariantMap &data, const QString &format)
+bool matchData(const QRegularExpression &re, const QVariantMap &data, const QString &format)
 {
-    if ( re.isEmpty() )
+    if ( re.pattern().isEmpty() )
         return true;
 
     const QString text = getTextData(data, format);
-    return re.indexIn(text) != -1;
+    return text.contains(re);
 }
 
 bool canExecuteCommand(const Command &command, const QVariantMap &data, const QString &sourceTabName)
@@ -1138,7 +1138,7 @@ void MainWindow::onActionDialogAccepted(const Command &command, const QStringLis
 
     if ( !command.output.isEmpty() ) {
         if ( !command.sep.isEmpty() )
-            actionOutput(this, act, command.output, command.outputTab, QRegExp(command.sep));
+            actionOutput(this, act, command.output, command.outputTab, QRegularExpression(command.sep));
         else
             actionOutput(this, act, command.output, command.outputTab);
     }
@@ -2615,7 +2615,7 @@ void MainWindow::tabChanged(int current, int)
         // update item menu (necessary for keyboard shortcuts to work)
         auto c = browserOrNull();
         if (c) {
-            c->filterItems( browseMode() ? QRegExp() : ui->searchBar->filter() );
+            c->filterItems( browseMode() ? QRegularExpression() : ui->searchBar->filter() );
 
             if ( current >= 0 ) {
                 if( !c->currentIndex().isValid() && isVisible() ) {
@@ -2989,9 +2989,9 @@ ClipboardBrowserPlaceholder *MainWindow::getPlaceholderForTrayMenu()
     return i != -1 ? getPlaceholder(i) : nullptr;
 }
 
-void MainWindow::onFilterChanged(const QRegExp &re)
+void MainWindow::onFilterChanged(const QRegularExpression &re)
 {
-    if (re.isEmpty())
+    if (re.pattern().isEmpty())
         enterBrowseMode();
     else if ( browseMode() )
         enterSearchMode();
@@ -3064,7 +3064,7 @@ void MainWindow::enterBrowseMode()
 
     auto c = browserOrNull();
     if (c)
-        c->filterItems(QRegExp());
+        c->filterItems(QRegularExpression());
 }
 
 void MainWindow::enterSearchMode()
@@ -3517,7 +3517,7 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
             if ( outputIndex.isValid() )
                 actionOutput(this, act, cmd.output, outputIndex);
             else if ( !cmd.sep.isEmpty() )
-                actionOutput(this, act, cmd.output, cmd.outputTab, QRegExp(cmd.sep));
+                actionOutput(this, act, cmd.output, cmd.outputTab, QRegularExpression(cmd.sep));
             else
                 actionOutput(this, act, cmd.output, cmd.outputTab);
         }

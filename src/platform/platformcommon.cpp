@@ -22,17 +22,18 @@
 
 #include "common/log.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QSettings>
 
 const char optionName[] = "paste_with_ctrl_v_windows";
 
 bool pasteWithCtrlV(PlatformWindow &window)
 {
-    const QRegExp re( QSettings().value(optionName).toString() );
-    if (re.isEmpty())
+    const auto pattern = QSettings().value(optionName).toString();
+    if (pattern.isEmpty())
         return false;
 
+    const QRegularExpression re(pattern);
     if (!re.isValid()) {
         log(QString("Invalid regular expression in option \"%1\": %2")
             .arg(optionName, re.errorString()), LogWarning);
@@ -41,7 +42,7 @@ bool pasteWithCtrlV(PlatformWindow &window)
 
     const QString windowTitle = window.getTitle();
 
-    if (re.indexIn(windowTitle) == -1) {
+    if ( !windowTitle.contains(re) ) {
         COPYQ_LOG(QString("Paste with standard shortcut to window \"%1\".")
                   .arg(windowTitle));
         return false;

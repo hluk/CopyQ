@@ -339,7 +339,7 @@ void ConfigTabAppearance::updateColorButtons()
     QPixmap pix(iconSize);
 
     QList<QPushButton *> buttons =
-            ui->scrollAreaTheme->findChildren<QPushButton *>(QRegExp("^pushButtonColor"));
+            ui->scrollAreaTheme->findChildren<QPushButton *>(QRegularExpression("^pushButtonColor"));
 
     for (auto button : buttons) {
         QColor color = evalColor( button->property("VALUE").toString(), m_theme );
@@ -363,14 +363,14 @@ void ConfigTabAppearance::updateFontButtons()
 
     const QRect textRect( QPoint(0, 0), iconSize );
 
-    const QRegExp re("^pushButton(.*)Font$");
+    const QRegularExpression re("^pushButton(.*)Font$");
     QList<QPushButton *> buttons = ui->scrollAreaTheme->findChildren<QPushButton *>(re);
 
     for (auto button : buttons) {
-        if ( re.indexIn(button->objectName()) == -1 )
-            Q_ASSERT(false);
+        const auto m = re.match(button->objectName());
+        Q_ASSERT(m.hasMatch());
 
-        const QString colorButtonName = "pushButtonColor" + re.cap(1);
+        const QString colorButtonName = "pushButtonColor" + m.captured(1);
 
         QPushButton *buttonFg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Fg");
         QColor colorFg = (buttonFg == nullptr) ? m_theme.color("fg")
@@ -489,7 +489,7 @@ void ConfigTabAppearance::decoratePreview()
     model->setData(index, dataMap, contentType::updateData);
 
     // Highlight found text but don't filter out any items.
-    c->filterItems( QRegExp(QString("|") + searchFor, Qt::CaseInsensitive) );
+    c->filterItems( QRegularExpression(QString("|") + searchFor, QRegularExpression::CaseInsensitiveOption) );
 
     QAction *act;
 

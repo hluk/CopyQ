@@ -356,13 +356,17 @@ bool ClipboardBrowser::eventFilter(QObject *obj, QEvent *event)
 
 bool ClipboardBrowser::isFiltered(int row) const
 {
-    if ( d.searchExpression().isEmpty() || !m_itemSaver)
+    const auto re = d.searchExpression();
+    if ( re.pattern().isEmpty() || !m_itemSaver)
         return false;
+
+    if ( !re.isValid() )
+        return true;
 
     const QModelIndex ind = m.index(row);
     return m_filterRow != row
             && m_sharedData->itemFactory
-            && !m_sharedData->itemFactory->matches( ind, d.searchExpression() );
+            && !m_sharedData->itemFactory->matches(ind, re);
 }
 
 QVariantMap ClipboardBrowser::itemData(const QModelIndex &index) const
@@ -451,7 +455,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
         } else {
             setFocus();
             maybeEmitEditingFinished();
-            if ( !d.searchExpression().isEmpty() )
+            if ( !d.searchExpression().pattern().isEmpty() )
                 emit searchRequest();
         }
 
@@ -1349,7 +1353,7 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
     }
 }
 
-void ClipboardBrowser::filterItems(const QRegExp &re)
+void ClipboardBrowser::filterItems(const QRegularExpression &re)
 {
     // Search in editor if open.
     if ( isInternalEditorOpen() ) {
@@ -1358,7 +1362,8 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
     }
 
     // Do nothing if same regexp was already set or both are empty (don't compare regexp options).
-    if ( (d.searchExpression().isEmpty() && re.isEmpty()) || d.searchExpression() == re )
+    const auto oldRe = d.searchExpression();
+    if ( (oldRe.pattern().isEmpty() && re.pattern().isEmpty()) || oldRe == re )
         return;
 
     d.setSearch(re);
@@ -1372,7 +1377,7 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
 
     int row = 0;
 
-    if ( re.isEmpty() ) {
+    if ( re.pattern().isEmpty() ) {
         for ( ; row < length(); ++row )
             hideFiltered(row);
 
@@ -1416,7 +1421,7 @@ void ClipboardBrowser::editNew(const QString &text, bool changeClipboard)
         return;
 
     emit searchHideRequest();
-    filterItems(QRegExp());
+    filterItems(QRegularExpression());
     if ( add(text) )
         editItem(currentIndex(), false, changeClipboard);
 }

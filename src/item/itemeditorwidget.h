@@ -23,7 +23,7 @@
 #include "item/itemwidget.h"
 
 #include <QPersistentModelIndex>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextEdit>
 
 #include <memory>
@@ -56,11 +56,11 @@ public:
 
     QModelIndex index() const { return m_index; }
 
-    void search(const QRegExp &re);
+    void search(const QRegularExpression &re);
 
-    void findNext(const QRegExp &re);
+    void findNext(const QRegularExpression &re);
 
-    void findPrevious(const QRegExp &re);
+    void findPrevious(const QRegularExpression &re);
 
     QWidget *createToolbar(QWidget *parent);
 
@@ -89,7 +89,7 @@ private:
     void setBackground();
     void eraseStyle();
 
-    void search(const QRegExp &re, bool backwards);
+    void search(const QRegularExpression &re, bool backwards);
 
     QPersistentModelIndex m_index;
     bool m_saveOnReturnKey;

@@ -21,6 +21,7 @@
 
 #include "common/contenttype.h"
 #include "common/log.h"
+#include "common/regexp.h"
 #include "item/serialize.h"
 
 #include <QAbstractItemModel>
@@ -28,6 +29,7 @@
 #include <QDateTime>
 #include <QDir>
 #include <QMimeData>
+#include <QRegularExpression>
 #include <QUrl>
 
 const char mimeExtensionMap[] = COPYQ_MIME_PREFIX_ITEMSYNC "mime-to-extension-map";
@@ -304,8 +306,8 @@ bool renameToUnique(
         *name = "copyq_0000";
     } else {
         // Replace/remove unsafe characters.
-        name->replace( QRegExp("/|\\\\|^\\."), QString("_") );
-        name->remove( QRegExp("\\n|\\r") );
+        name->replace( QRegularExpression("/|\\\\|^\\."), QString("_") );
+        name->remove( QRegularExpression("\\n|\\r") );
     }
 
     const QStringList fileNames = dir.entryList();
@@ -320,9 +322,10 @@ bool renameToUnique(
     int i = 0;
     int fieldWidth = 0;
 
-    QRegExp re("\\d+$");
-    if ( baseName.indexOf(re) != -1 ) {
-        const QString num = re.cap(0);
+    QRegularExpression re("\\d+$");
+    const auto m = re.match(baseName);
+    if (m.hasMatch()) {
+        const QString num = m.captured();
         i = num.toInt();
         fieldWidth = num.size();
         baseName = baseName.mid( 0, baseName.size() - fieldWidth );
@@ -356,8 +359,8 @@ QString FileWatcher::getBaseName(const QVariantMap &data)
 
 bool FileWatcher::isOwnBaseName(const QString &baseName)
 {
-    static const QRegExp re("copyq_\\d*");
-    return re.exactMatch(baseName);
+    static const auto re = anchoredRegExp("copyq_\\d*");
+    return baseName.contains(re);
 }
 
 void FileWatcher::removeFilesForRemovedIndex(const QString &tabPath, const QModelIndex &index)

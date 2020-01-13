@@ -32,6 +32,7 @@
 #include <QKeyEvent>
 #include <QModelIndex>
 #include <QPixmap>
+#include <QRegularExpression>
 
 namespace {
 
@@ -115,7 +116,8 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages)
     // Menu item icon from image.
     if (showImages) {
         const QStringList formats = data.keys();
-        const int imageIndex = formats.indexOf( QRegExp("^image/.*") );
+        static const QRegularExpression reImage("^image/.*");
+        const int imageIndex = formats.indexOf(reImage);
         if (imageIndex != -1) {
             const auto &mime = formats[imageIndex];
             QPixmap pix;

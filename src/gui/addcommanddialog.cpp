@@ -127,9 +127,17 @@ void AddCommandDialog::accept()
     QDialog::accept();
 }
 
-void AddCommandDialog::onFilterLineEditFilterChanged(const QRegExp &re)
+void AddCommandDialog::onFilterLineEditFilterChanged(const QRegularExpression &re)
 {
-    m_filterModel->setFilterRegExp(re);
+#if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
+    m_filterModel->setFilterRegularExpression(re);
+#else
+    const auto caseSensitivity = re.patternOptions().testFlag(QRegularExpression::CaseInsensitiveOption)
+        ? Qt::CaseSensitive
+        : Qt::CaseInsensitive;
+    const QRegExp re2(re.pattern(), caseSensitivity);
+    m_filterModel->setFilterRegExp(re2);
+#endif
 }
 
 void AddCommandDialog::onListViewCommandsActivated()

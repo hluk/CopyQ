@@ -260,7 +260,7 @@ public:
 
         // Highlight matches.
         QTextDocument *doc = document();
-        QRegExp re(pattern);
+        QRegularExpression re(pattern);
         cur = doc->find(re);
 
         m_searchSelection.clear();

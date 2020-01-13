@@ -51,7 +51,7 @@ public:
             Action *action,
             const QString &outputItemFormat,
             const QString &outputTabName,
-            const QRegExp &itemSeparator)
+            const QRegularExpression &itemSeparator)
         : QObject(action)
         , m_wnd(wnd)
         , m_outputFormat(outputItemFormat)
@@ -87,7 +87,7 @@ private:
     MainWindow *m_wnd;
     QString m_outputFormat;
     QString m_tab;
-    QRegExp m_sep;
+    QRegularExpression m_sep;
     QString m_lastOutput;
 };
 
@@ -197,7 +197,7 @@ void actionOutput(
         Action *action,
         const QString &outputItemFormat,
         const QString &outputTabName,
-        const QRegExp &itemSeparator
+        const QRegularExpression &itemSeparator
         )
 {
     new ActionOutputItems(wnd, action, outputItemFormat, outputTabName, itemSeparator);

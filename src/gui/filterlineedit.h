@@ -42,12 +42,12 @@ class FilterLineEdit final : public FancyLineEdit
 public:
     explicit FilterLineEdit(QWidget *parent = nullptr);
 
-    QRegExp filter() const;
+    QRegularExpression filter() const;
 
     void loadSettings();
 
 signals:
-    void filterChanged(const QRegExp &);
+    void filterChanged(const QRegularExpression &);
 
 protected:
     void keyPressEvent(QKeyEvent *ke) override;

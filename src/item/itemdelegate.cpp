@@ -402,7 +402,7 @@ bool ItemDelegate::invalidateHidden(QWidget *widget)
     return true;
 }
 
-void ItemDelegate::setSearch(const QRegExp &re)
+void ItemDelegate::setSearch(const QRegularExpression &re)
 {
     m_re = re;
 }

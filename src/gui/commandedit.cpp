@@ -23,6 +23,7 @@
 #include "gui/commandsyntaxhighlighter.h"
 #include "gui/commandcompleter.h"
 
+#include <QRegularExpression>
 #include <QScriptEngine>
 #include <QTextBlock>
 #include <QTextCursor>
@@ -89,11 +90,12 @@ void CommandEdit::onPlainTextEditCommandTextChanged()
     QList<QTextEdit::ExtraSelection> selections;
 
     const QString command = ui->plainTextEditCommand->toPlainText();
-    QRegExp scriptPrefix("(^|\\b)copyq:");
-    const int pos = command.indexOf(scriptPrefix);
+    const QRegularExpression scriptPrefix("(^|\\b)copyq:");
+    const auto m = scriptPrefix.match(command);
+    const int pos = m.capturedStart();
 
     if (pos != -1) {
-        const int scriptStartPos = pos + scriptPrefix.matchedLength();
+        const int scriptStartPos = pos + m.capturedLength();
 
         const QScriptSyntaxCheckResult result = QScriptEngine::checkSyntax(command.mid(scriptStartPos));
 
