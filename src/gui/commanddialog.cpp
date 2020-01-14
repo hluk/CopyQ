@@ -23,7 +23,6 @@
 #include "common/command.h"
 #include "common/commandstore.h"
 #include "common/common.h"
-#include "common/config.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
 #include "common/textdata.h"
@@ -180,8 +179,6 @@ CommandDialog::CommandDialog(
 
     connect(this, &QDialog::finished, this, &CommandDialog::onFinished);
 
-    restoreWindowGeometry(this, false);
-
     m_savedCommands = currentCommands();
 
     connect(QApplication::clipboard(), &QClipboard::dataChanged,
@@ -269,8 +266,6 @@ void CommandDialog::onFinished(int result)
 {
     if (result == QDialog::Accepted)
         apply();
-
-    saveWindowGeometry(this, false);
 }
 
 void CommandDialog::onItemOrderListCommandsAddButtonClicked()

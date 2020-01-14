@@ -26,7 +26,6 @@
 #include "common/mimetypes.h"
 #include "common/textdata.h"
 #include "item/serialize.h"
-#include "gui/windowgeometryguard.h"
 
 #include <QAbstractButton>
 #include <QFile>
@@ -90,8 +89,6 @@ ActionDialog::ActionDialog(QWidget *parent)
     onComboBoxInputFormatCurrentIndexChanged(QString());
     onComboBoxOutputFormatEditTextchanged(QString());
     loadSettings();
-
-    WindowGeometryGuard::create(this);
 }
 
 ActionDialog::~ActionDialog()

@@ -288,10 +288,10 @@ void setHideInTaskBar(QWidget *window, bool hideInTaskBar)
         window->setWindowFlags(flags ^ Qt::Tool);
 }
 
-template <typename Dialog>
-Dialog *openDialog(QWidget *dialogParent)
+template<typename Dialog, typename ...Ts>
+Dialog *openDialog(Ts... arguments)
 {
-    std::unique_ptr<Dialog> dialog( new Dialog(dialogParent) );
+    std::unique_ptr<Dialog> dialog( new Dialog(arguments...) );
     WindowGeometryGuard::create( dialog.get() );
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     dialog->setWindowIcon(appIcon());
@@ -802,7 +802,7 @@ void MainWindow::updateContextMenuTimeout()
     m_menuItem->addSeparator();
 
     addItemAction( Actions::Item_MoveToClipboard, c, &ClipboardBrowser::moveToClipboard );
-    addItemAction( Actions::Item_ShowContent, c, &ClipboardBrowser::showItemContent );
+    addItemAction( Actions::Item_ShowContent, this, &MainWindow::showItemContent );
     QAction *togglePreviewAction =
             addItemAction( Actions::Item_ShowPreview, this, &MainWindow::updateItemPreviewTimeout );
     addItemAction( Actions::Item_Remove, c, &ClipboardBrowser::remove );
@@ -3165,9 +3165,7 @@ void MainWindow::showProcessManagerDialog()
 
 ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
 {
-    auto actionDialog = new ActionDialog(this);
-    actionDialog->setAttribute(Qt::WA_DeleteOnClose, true);
-
+    auto actionDialog = openDialog<ActionDialog>(this);
     actionDialog->setInputData(data);
 
     const auto tabs = ui->tabWidget->tabs();
@@ -3185,7 +3183,6 @@ ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
     connect( actionDialog, &ActionDialog::saveCommand,
              this, &MainWindow::onSaveCommand );
 
-    actionDialog->show();
     stealFocus(*actionDialog);
 
     return actionDialog;
@@ -3196,6 +3193,17 @@ void MainWindow::openActionDialog()
     auto c = browser();
     const auto data = c ? addSelectionData(*c) : QVariantMap();
     openActionDialog(data);
+}
+
+void MainWindow::showItemContent()
+{
+    auto c = browser( ui->tabWidget->currentIndex() );
+    if (!c)
+        return;
+
+    const QModelIndex current = c->currentIndex();
+    if ( current.isValid() )
+        openDialog<ClipboardDialog>(current, c->model(), this);
 }
 
 void MainWindow::openPreferences()
@@ -3243,11 +3251,7 @@ void MainWindow::openCommands()
         if (cm)
             parent = cm;
 
-        m_commandDialog = new CommandDialog(pluginCommands, formats, parent);
-        if (windowFlags() & Qt::WindowStaysOnTopHint)
-            setAlwaysOnTop(m_commandDialog.data(), true);
-        m_commandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
-        m_commandDialog->show();
+        m_commandDialog = openDialog<CommandDialog>(pluginCommands, formats, parent);
         connect(this, &QObject::destroyed, m_commandDialog.data(), &QWidget::close);
         connect(m_commandDialog.data(), &CommandDialog::commandsSaved, this, &MainWindow::updateEnabledCommands);
     }

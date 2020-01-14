@@ -1317,18 +1317,6 @@ void ClipboardBrowser::addItems(const QStringList &items)
     }
 }
 
-void ClipboardBrowser::showItemContent()
-{
-    const QModelIndex current = currentIndex();
-    if ( current.isValid() ) {
-        std::unique_ptr<ClipboardDialog> clipboardDialog(
-                    new ClipboardDialog(currentIndex(), &m, this) );
-        clipboardDialog->setAttribute(Qt::WA_DeleteOnClose, true);
-        clipboardDialog->show();
-        clipboardDialog.release();
-    }
-}
-
 void ClipboardBrowser::editNotes()
 {
     QModelIndex ind = currentIndex();

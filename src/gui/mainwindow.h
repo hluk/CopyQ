@@ -313,6 +313,8 @@ public:
     /** Open action dialog with input data from selected items. */
     void openActionDialog();
 
+    void showItemContent();
+
     /** Open preferences dialog. */
     void openPreferences();
 

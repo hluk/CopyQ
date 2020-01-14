@@ -22,7 +22,6 @@
 
 #include "common/actionhandlerenums.h"
 #include "gui/actionhandler.h"
-#include "gui/windowgeometryguard.h"
 
 #include <QSortFilterProxyModel>
 #include <QSet>
@@ -98,8 +97,6 @@ ActionHandlerDialog::ActionHandlerDialog(ActionHandler *actionHandler, QAbstract
 
     connect( model, &QAbstractItemModel::dataChanged, this, updateTerminateButtonSlot );
     connect( selectionModel, &QItemSelectionModel::selectionChanged, this, updateTerminateButtonSlot );
-
-    WindowGeometryGuard::create(this);
 }
 
 ActionHandlerDialog::~ActionHandlerDialog()
