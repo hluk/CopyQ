@@ -463,6 +463,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
         emit internalEditorStateChanged(this);
     }
 
+    clearFocus();
     setFocusProxy(m_editor);
     setFocus();
 
