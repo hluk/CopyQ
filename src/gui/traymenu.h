@@ -84,7 +84,6 @@ private:
 
     void updateActiveAction();
 
-    void resetSeparators();
     void setSearchMenuItem(const QString &text);
 
     QPointer<QAction> m_clipboardItemActionsSeparator;

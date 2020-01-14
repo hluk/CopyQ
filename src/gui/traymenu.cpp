@@ -73,20 +73,18 @@ QAction *lastEnabledAction(QMenu *menu)
 
 TrayMenu::TrayMenu(QWidget *parent)
     : QMenu(parent)
-    , m_clipboardItemActionsSeparator()
-    , m_customActionsSeparator()
     , m_clipboardItemActionCount(0)
     , m_omitPaste(false)
     , m_viMode(false)
     , m_numberSearch(false)
 {
+    m_clipboardItemActionsSeparator = addSeparator();
+    m_customActionsSeparator = addSeparator();
     initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, &TrayMenu::updateActiveAction );
 }
 
 void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages)
 {
-    resetSeparators();
-
     // Show search text at top of the menu.
     if ( m_clipboardItemActionCount == 0 && m_searchText.isEmpty() )
         setSearchMenuItem( m_viMode ? tr("Press '/' to search") : tr("Type to search") );
@@ -160,7 +158,6 @@ void TrayMenu::clearCustomActions()
 
 void TrayMenu::addCustomAction(QAction *action)
 {
-    resetSeparators();
     action->setProperty(propertyCustomAction, true);
     insertAction(m_customActionsSeparator, action);
     updateActiveAction();
@@ -291,21 +288,11 @@ void TrayMenu::leaveEvent(QEvent *event)
 void TrayMenu::clearActionsWithProperty(const char *property)
 {
     for ( auto action : actions() ) {
-        if ( action->property(property).toBool() )
+        if ( action->property(property).toBool() ) {
             removeAction(action);
+            delete action;
+        }
     }
-}
-
-void TrayMenu::resetSeparators()
-{
-    if ( m_customActionsSeparator.isNull() ) {
-        QAction *firstAction = actions().value(0, nullptr);
-        m_customActionsSeparator = firstAction != nullptr ? insertSeparator(firstAction)
-                                                       : addSeparator();
-    }
-
-    if ( m_clipboardItemActionsSeparator.isNull() )
-        m_clipboardItemActionsSeparator = insertSeparator(m_customActionsSeparator);
 }
 
 void TrayMenu::search(const QString &text)
