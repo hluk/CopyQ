@@ -83,8 +83,8 @@ Q_DECLARE_METATYPE(SystemMutexPtr)
 namespace {
 
 // Avoid heap allocation for thread local variable.
-constexpr int maxThreadLabelSize = 32;
-THREAD_LOCAL char currentThreadLabel_[maxThreadLabelSize + 1] = "";
+constexpr int maxThreadLabelSize = 48;
+THREAD_LOCAL char currentThreadLabel_[maxThreadLabelSize] = "";
 
 
 const int logFileSize = 512 * 1024;
