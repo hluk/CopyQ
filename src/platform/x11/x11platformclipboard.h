@@ -55,6 +55,8 @@ private:
         QByteArray newDataTimestamp;
         ClipboardMode mode;
         bool enabled = true;
+        bool cloningData = false;
+        bool abortCloning = false;
         int retry = 0;
     };
 

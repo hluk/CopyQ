@@ -151,6 +151,15 @@ void X11PlatformClipboard::onChanged(int mode)
         }
     }
 
+    if (m_clipboardData.cloningData || m_selectionData.cloningData) {
+        if (clipboardData.cloningData && !clipboardData.abortCloning) {
+            COPYQ_LOG( QString("Aborting getting %1, the data changed again")
+                       .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection") );
+            clipboardData.abortCloning = true;
+        }
+        return;
+    }
+
     updateClipboardData(&clipboardData);
 
     checkAgainLater(true, 0);
@@ -158,6 +167,12 @@ void X11PlatformClipboard::onChanged(int mode)
 
 void X11PlatformClipboard::check()
 {
+    if (m_clipboardData.cloningData || m_selectionData.cloningData) {
+        m_timerCheckAgain.setInterval(minCheckAgainIntervalMs);
+        m_timerCheckAgain.start();
+        return;
+    }
+
     m_timerCheckAgain.stop();
 
     updateClipboardData(&m_clipboardData);
@@ -208,8 +223,18 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     if ( !newDataTimestamp.isEmpty() && clipboardData->newDataTimestamp == newDataTimestamp )
         return;
 
+    clipboardData->timerEmitChange.stop();
     clipboardData->newDataTimestamp = newDataTimestamp;
-    clipboardData->newData = cloneData(*data, clipboardData->formats);
+    clipboardData->abortCloning = false;
+    clipboardData->cloningData = true;
+    clipboardData->newData = cloneData(*data, clipboardData->formats, &clipboardData->abortCloning);
+    clipboardData->cloningData = false;
+    if (clipboardData->abortCloning) {
+        m_timerCheckAgain.setInterval(0);
+        m_timerCheckAgain.start();
+        return;
+    }
+
     // In case there is no timestamp, update only if the data changed.
     if ( newDataTimestamp.isEmpty() && clipboardData->data == clipboardData->newData )
         return;

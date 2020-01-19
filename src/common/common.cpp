@@ -119,8 +119,9 @@ public:
         QElapsedTimer m_elapsed;
     };
 
-    explicit ClipboardDataGuard(const QMimeData &data)
+    explicit ClipboardDataGuard(const QMimeData &data, bool *abortCloning = nullptr)
         : m_dataGuard(&data)
+        , m_abort(abortCloning)
     {
         m_timerExpire.start();
     }
@@ -182,6 +183,9 @@ public:
 private:
     bool refresh()
     {
+        if (m_abort && *m_abort)
+            return false;
+
         if (m_dataGuard.isNull())
             return false;
 
@@ -200,6 +204,7 @@ private:
 
     QPointer<const QMimeData> m_dataGuard;
     QElapsedTimer m_timerExpire;
+    bool *m_abort = nullptr;
 
 #ifdef COPYQ_WS_X11
     WakeUpThread m_wakeUpThread;
@@ -333,9 +338,9 @@ const QMimeData *clipboardData(ClipboardMode mode)
     return data;
 }
 
-QVariantMap cloneData(const QMimeData &rawData, QStringList formats)
+QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abortCloning)
 {
-    ClipboardDataGuard data(rawData);
+    ClipboardDataGuard data(rawData, abortCloning);
 
     const auto internalMimeTypes = {mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden};
 

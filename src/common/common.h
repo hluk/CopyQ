@@ -57,7 +57,7 @@ QByteArray makeClipboardOwnerData();
 QByteArray clipboardOwnerData(ClipboardMode mode);
 
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */
-QVariantMap cloneData(const QMimeData &data, QStringList formats);
+QVariantMap cloneData(const QMimeData &data, QStringList formats, bool *abortCloning = nullptr);
 
 /** Clone all data as is. */
 QVariantMap cloneData(const QMimeData &data);
