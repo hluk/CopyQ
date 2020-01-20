@@ -2623,10 +2623,16 @@ void Scriptable::onMonitorClipboardUnchanged(const QVariantMap &data)
     m_proxy->runInternalAction(data, "copyq onClipboardUnchanged");
 }
 
-void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash)
+void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text)
 {
 #ifdef HAS_MOUSE_SELECTIONS
     auto data = createDataMap(mimeText, text);
+    const auto targetMode = sourceMode == ClipboardMode::Clipboard
+        ? QClipboard::Selection
+        : QClipboard::Clipboard;
+    auto clipboard = QGuiApplication::clipboard();
+    const auto targetText = clipboard->text(targetMode);
+    const auto targetTextHash = qHash(targetText);
     data[COPYQ_MIME_PREFIX "target-text-hash"] = QByteArray::number(targetTextHash);
     const auto command = sourceMode == ClipboardMode::Clipboard
         ? "copyq --clipboard-access synchronizeToSelection"
@@ -2635,7 +2641,6 @@ void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString 
 #else
     Q_UNUSED(text);
     Q_UNUSED(sourceMode);
-    Q_UNUSED(targetTextHash);
 #endif
 }
 

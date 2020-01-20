@@ -120,12 +120,8 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
         && !data.contains(mimeOwner) )
     {
         const auto text = getTextData(data);
-        if ( !text.isEmpty() ) {
-            const auto targetData = mode == ClipboardMode::Clipboard
-                    ? &m_selectionData : &m_clipboardData;
-            const auto targetText = getTextData(*targetData);
-            emit synchronizeSelection(mode, text, qHash(targetText));
-        }
+        if ( !text.isEmpty() )
+            emit synchronizeSelection(mode, text);
     }
 
     // omit running run automatic commands when disabled
