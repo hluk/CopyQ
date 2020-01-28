@@ -25,25 +25,16 @@
 
 #include <Cocoa/Cocoa.h>
 
-MacActivity::MacActivity(ActivityType type, const QString &reason) :
-        m_activity(0)
+MacActivity::MacActivity(const QString &reason)
+    : m_activity(0)
 {
-    NSActivityOptions options = NSActivityBackground;;
-    switch (type) {
-        case User:
-            options = NSActivityUserInitiated;
-            break;
-        case Background:
-            options = NSActivityBackground;
-            break;
-    }
-
+    const NSActivityOptions options = NSActivityBackground;;
     id act = [[NSProcessInfo processInfo]
         beginActivityWithOptions:options
         reason:reason.toNSString()];
     if (act) {
         m_activity = reinterpret_cast<void*>(act);
-        ::log(QString("Started %1 activity for: %2").arg(type == User ? "User": "Background").arg(reason), LogNote);
+        ::log(QString("Started Background activity for: %1").arg(reason), LogNote);
     } else {
         ::log("Failed to create activity", LogWarning);
     }

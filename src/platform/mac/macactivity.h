@@ -28,13 +28,7 @@ class QString;
 class MacActivity
 {
 public:
-    enum ActivityType {
-        User,
-        Background
-    };
-
-public:
-    MacActivity(ActivityType type, const QString &reason);
+    explicit MacActivity(const QString &reason);
     ~MacActivity();
 private:
     void *m_activity;
