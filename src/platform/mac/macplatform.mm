@@ -151,8 +151,8 @@ namespace {
         , public ApplicationExceptionHandler<QtApplication>
     {
     public:
-        Activity(int &argc, char **argv, ActivityType type, const QString &reason)
-            : MacActivity(type, reason)
+        Activity(int &argc, char **argv, const QString &reason)
+            : MacActivity(reason)
             , ApplicationExceptionHandler<QtApplication>(argc, argv)
         {
             [NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
@@ -178,7 +178,7 @@ QCoreApplication *MacPlatform::createConsoleApplication(int &argc, char **argv)
 
 QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
 {
-    QApplication *app = new Activity<ClipboardApplication>(argc, argv, MacActivity::Background, "CopyQ Server");
+    QApplication *app = new Activity<ClipboardApplication>(argc, argv, "CopyQ Server");
 
     // Switch the app to foreground when in foreground
     ForegroundBackgroundFilter::installFilter(app);
@@ -188,22 +188,22 @@ QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
 
 QGuiApplication *MacPlatform::createMonitorApplication(int &argc, char **argv)
 {
-    return new Activity<ClipboardApplication>(argc, argv, MacActivity::Background, "CopyQ clipboard monitor");
+    return new Activity<ClipboardApplication>(argc, argv, "CopyQ clipboard monitor");
 }
 
 QGuiApplication *MacPlatform::createClipboardProviderApplication(int &argc, char **argv)
 {
-    return new Activity<ClipboardApplication>(argc, argv, MacActivity::Background, "CopyQ clipboard provider");
+    return new Activity<ClipboardApplication>(argc, argv, "CopyQ clipboard provider");
 }
 
 QCoreApplication *MacPlatform::createClientApplication(int &argc, char **argv)
 {
-    return new Activity<QCoreApplication>(argc, argv, MacActivity::User, "CopyQ Client");
+    return new Activity<QCoreApplication>(argc, argv, "CopyQ Client");
 }
 
 QGuiApplication *MacPlatform::createTestApplication(int &argc, char **argv)
 {
-    return new Activity<QGuiApplication>(argc, argv, MacActivity::Background, "CopyQ Tests");
+    return new Activity<QGuiApplication>(argc, argv, "CopyQ Tests");
 }
 
 PlatformClipboardPtr MacPlatform::clipboard()
