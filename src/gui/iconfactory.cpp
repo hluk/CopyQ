@@ -56,16 +56,24 @@ const int lightThreshold = 100;
 
 QPointer<QObject> activePaintDevice;
 
+QIcon fromTheme(const QString &name)
+{
+    if ( qEnvironmentVariableIsEmpty("COPYQ_DEFAULT_ICON") )
+        return QIcon::fromTheme(name);
+
+    return QIcon();
+}
+
 bool hasNormalIconHelper()
 {
     // QIcon::hasThemeIcon() returns true even if icon "copyq-normal" is not available
     // but "copyq" is.
     const QString iconName = COPYQ_ICON_NAME "-normal";
-    const QIcon normalIcon = QIcon::fromTheme(COPYQ_ICON_NAME "-normal");
+    const QIcon normalIcon = fromTheme(COPYQ_ICON_NAME "-normal");
     if ( normalIcon.isNull() )
         return false;
 
-    const QIcon defaultIcon = QIcon::fromTheme(COPYQ_ICON_NAME);
+    const QIcon defaultIcon = fromTheme(COPYQ_ICON_NAME);
     return defaultIcon.pixmap(16).toImage() != normalIcon.pixmap(16).toImage();
 }
 
@@ -199,7 +207,7 @@ QPixmap appPixmap(const QString &iconSuffix, QSize size)
     if ( iconSuffix.isEmpty() && hasNormalIcon() )
         return appPixmap("-normal", size);
 
-    const auto icon = QIcon::fromTheme(COPYQ_ICON_NAME + iconSuffix);
+    const auto icon = fromTheme(COPYQ_ICON_NAME + iconSuffix);
 
     QPixmap pix;
 
@@ -485,7 +493,7 @@ public:
 
         QIcon icon = pixmapFromFile(m_iconName, size);
         if ( icon.isNull() )
-            icon = QIcon::fromTheme(m_iconName);
+            icon = fromTheme(m_iconName);
         if ( !icon.isNull() ) {
             auto pixmap = icon.pixmap(size, mode, state);
             if (pixmap.size() != size) {
