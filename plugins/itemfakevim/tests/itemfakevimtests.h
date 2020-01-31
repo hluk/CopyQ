@@ -44,6 +44,8 @@ private slots:
 
     void search();
 
+    void incDecNumbers();
+
 private:
     TestInterfacePtr m_test;
 };

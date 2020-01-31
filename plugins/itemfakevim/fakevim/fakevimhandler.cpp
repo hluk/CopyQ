@@ -8400,11 +8400,16 @@ bool FakeVimHandler::Private::changeNumberTextObject(int count)
     // find first decimal, hexadecimal or octal number under or after cursor position
     QRegularExpression re("(0[xX])(0*[0-9a-fA-F]+)|(0)(0*[0-7]+)(?=\\D|$)|(\\d+)");
     QRegularExpressionMatch m;
-    int pos = 0;
-    while ((m = re.match(lineText, pos)).isValid() && pos + m.capturedLength() < posMin)
-        ++pos;
-    if (!m.hasMatch())
-        return false;
+    QRegularExpressionMatchIterator it = re.globalMatch(lineText);
+    while (true) {
+        if (!it.hasNext())
+            return false;
+        m = it.next();
+        if (m.capturedEnd() >= posMin)
+            break;
+    }
+
+    int pos = m.capturedStart();
     int len = m.capturedLength();
     QString prefix = m.captured(1) + m.captured(3);
     bool hex = prefix.length() >= 2 && (prefix[1].toLower() == 'x');
