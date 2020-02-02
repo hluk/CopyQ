@@ -1,3 +1,27 @@
+v3.10.0
+
+- Use environment variable `COPYQ_DEFAULT_ICON=1` to show the original
+  application icon instead of the one from current icon theme.
+
+- Avoid updating menu too unnecessarily
+
+- Drop using deprecated Qt API and require at least Qt 5.5 (meaning Ubuntu
+  14.04 and Debian 8 are no longer supported)
+
+- Use non-native color and font dialogs which fixes showing these in Gnome/Gtk
+
+- Fix GUI with fractional scaling
+
+- Fix updating tray menu (remove empty sections)
+
+- Fix editing synchronized file content instead of its path
+
+- OSX: Omit preventing system from entering the sleep mode
+
+- X11: Improve clipboard/selection synchronization
+
+- X11: Avoid reading clipboard in parallel in the monitor process
+
 v3.9.3
 
 - New `loadTheme()` script function loads theme from INI file.
