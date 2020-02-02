@@ -16,7 +16,7 @@ pkg="${project}_${version}"
 pkg_deb="amd64/${pkg}${xdeb}"
 pkg_deb_i386="i386/${pkg}${xdeb_i386}"
 pkg_rpm="x86_64/${project}-${version}-${rpm_version}${xrpm}"
-pkg_rpm_lp15="x86_64/${project}-${version}-lp151.${rpm_version}${xrpm}"
+pkg_rpm_lp15="x86_64/${project}-${version}-lp152.${rpm_version}${xrpm}"
 
 failed=""
 
