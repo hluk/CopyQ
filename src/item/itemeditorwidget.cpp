@@ -194,6 +194,7 @@ void ItemEditorWidget::changeSelectionFont()
     QTextCharFormat format = tc.charFormat();
 
     QFontDialog dialog(this);
+    dialog.setOptions(dialog.options() | QFontDialog::DontUseNativeDialog);
     dialog.setCurrentFont( format.font() );
 
     if ( dialog.exec() == QDialog::Accepted ) {
@@ -242,7 +243,7 @@ void ItemEditorWidget::setForeground()
     QTextCharFormat format = tc.charFormat();
 
     QColorDialog dialog(this);
-    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel);
+    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel | QColorDialog::DontUseNativeDialog);
     dialog.setCurrentColor( format.foreground().color() );
 
     if ( dialog.exec() == QDialog::Accepted ) {
@@ -258,7 +259,7 @@ void ItemEditorWidget::setBackground()
     QTextCharFormat format = tc.charFormat();
 
     QColorDialog dialog(this);
-    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel);
+    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel | QColorDialog::DontUseNativeDialog);
     dialog.setCurrentColor( format.background().color() );
 
     if ( dialog.exec() == QDialog::Accepted ) {

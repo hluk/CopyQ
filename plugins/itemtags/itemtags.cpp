@@ -742,7 +742,7 @@ void ItemTagsLoader::onColorButtonClicked()
 
     const QColor color = button->property(propertyColor).value<QColor>();
     QColorDialog dialog(button->window());
-    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel);
+    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel | QColorDialog::DontUseNativeDialog);
     dialog.setCurrentColor(color);
 
     if ( dialog.exec() == QDialog::Accepted )
