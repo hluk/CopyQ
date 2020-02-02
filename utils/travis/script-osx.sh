@@ -37,7 +37,7 @@ brew uninstall --ignore-dependencies --force qt5
 export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
 export COPYQ_TESTS_SKIP_CONFIG_MOVE=1
 export COPYQ_TESTS_RERUN_FAILED=1
-"$executable" tests
+"$executable" tests PLUGINS:vim incDecNumbers
 
 # Print dependencies to let us further make sure that we don't depend on local libraries
 otool -L $executable

@@ -148,9 +148,6 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 #ifdef Q_OS_MAC
     output.remove("QtWarning: Failed to get QCocoaScreen for NSObject(0x0)");
     output.remove("ERROR: Failed to open session mutex: QSystemSemaphore::handle:: ftok failed");
-
-    static const QRegularExpression reBadPos(R"(QtWarning: Window position.* outside any known screen.*)");
-    output.remove(reBadPos);
 #endif
 
     if ( output.indexOf(reFailure) != -1 )
