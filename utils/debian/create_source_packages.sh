@@ -2,7 +2,6 @@
 set -e
 
 distros=(
-    trusty
     xenial
     bionic
     disco
