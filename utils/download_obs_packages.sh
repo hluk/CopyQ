@@ -36,9 +36,7 @@ if [ -z "$version" ]; then
 fi
 
 fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pkg_rpm}"
-fetch_package "${pkg}_openSUSE_Leap_15.1${xrpm}"  "$url/openSUSE_Leap_15.1/${pkg_rpm_lp15}"
-fetch_package "${pkg}_Debian_8.0${xdeb_i386}"     "$url/Debian_8.0/${pkg_deb_i386}"
-fetch_package "${pkg}_Debian_8.0${xdeb}"          "$url/Debian_8.0/${pkg_deb}"
+fetch_package "${pkg}_openSUSE_Leap_15.2${xrpm}"  "$url/openSUSE_Leap_15.2/${pkg_rpm_lp15}"
 fetch_package "${pkg}_Debian_9.0${xdeb_i386}"     "$url/Debian_9.0/${pkg_deb_i386}"
 fetch_package "${pkg}_Debian_9.0${xdeb}"          "$url/Debian_9.0/${pkg_deb}"
 fetch_package "${pkg}_Debian_10${xdeb}"           "$url/Debian_10/${pkg_deb}"
