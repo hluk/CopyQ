@@ -456,8 +456,11 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
         } else {
             setFocus();
             maybeEmitEditingFinished();
-            if ( !d.searchExpression().pattern().isEmpty() )
-                emit searchRequest();
+            const auto oldSearch = d.searchExpression().pattern();
+            if ( oldSearch.isEmpty() )
+                emit searchHideRequest();
+            else
+                emit searchShowRequest(d.searchExpression().pattern());
         }
 
         emit internalEditorStateChanged(this);
@@ -1853,13 +1856,13 @@ QWidget *ClipboardBrowser::currentItemPreview(QWidget *parent)
 void ClipboardBrowser::findNext()
 {
     if (isInternalEditorOpen())
-        m_editor->findNext(d.searchExpression());
+        m_editor->findNext();
 }
 
 void ClipboardBrowser::findPrevious()
 {
     if (isInternalEditorOpen())
-        m_editor->findPrevious(d.searchExpression());
+        m_editor->findPrevious();
 }
 
 bool ClipboardBrowser::isInternalEditorOpen() const

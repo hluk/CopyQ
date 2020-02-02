@@ -130,17 +130,18 @@ void ItemEditorWidget::search(const QRegularExpression &re)
     auto tc = textCursor();
     tc.setPosition(tc.selectionStart());
     setTextCursor(tc);
-    findNext(re);
+    m_re = re;
+    findNext();
 }
 
-void ItemEditorWidget::findNext(const QRegularExpression &re)
+void ItemEditorWidget::findNext()
 {
-    search(re, false);
+    search(false);
 }
 
-void ItemEditorWidget::findPrevious(const QRegularExpression &re)
+void ItemEditorWidget::findPrevious()
 {
-    search(re, true);
+    search(true);
 }
 
 void ItemEditorWidget::keyPressEvent(QKeyEvent *event)
@@ -371,9 +372,9 @@ QWidget *ItemEditorWidget::createToolbar(QWidget *parent)
     return toolBar;
 }
 
-void ItemEditorWidget::search(const QRegularExpression &re, bool backwards)
+void ItemEditorWidget::search(bool backwards)
 {
-    if ( !re.isValid() )
+    if ( !m_re.isValid() )
         return;
 
     auto tc = textCursor();
@@ -384,14 +385,14 @@ void ItemEditorWidget::search(const QRegularExpression &re, bool backwards)
     if (backwards)
         flags = QTextDocument::FindBackward;
 
-    auto tc2 = tc.document()->find(re, tc, flags);
+    auto tc2 = tc.document()->find(m_re, tc, flags);
     if (tc2.isNull()) {
         tc2 = tc;
         if (backwards)
             tc2.movePosition(QTextCursor::End);
         else
             tc2.movePosition(QTextCursor::Start);
-        tc2 = tc.document()->find(re, tc2, flags);
+        tc2 = tc.document()->find(m_re, tc2, flags);
     }
 
     if (!tc2.isNull())

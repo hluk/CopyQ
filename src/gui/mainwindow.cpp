@@ -1068,6 +1068,8 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              this, &MainWindow::findNextOrPrevious );
     connect( browser, &ClipboardBrowser::searchHideRequest,
              ui->searchBar, &Utils::FilterLineEdit::hide );
+    connect( browser, &ClipboardBrowser::searchShowRequest,
+             ui->searchBar, &Utils::FilterLineEdit::setText );
     connect( browser, &ClipboardBrowser::itemWidgetCreated,
              this, &MainWindow::onItemWidgetCreated );
 

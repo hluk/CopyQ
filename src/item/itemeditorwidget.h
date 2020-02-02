@@ -58,9 +58,9 @@ public:
 
     void search(const QRegularExpression &re);
 
-    void findNext(const QRegularExpression &re);
+    void findNext();
 
-    void findPrevious(const QRegularExpression &re);
+    void findPrevious();
 
     QWidget *createToolbar(QWidget *parent);
 
@@ -89,11 +89,12 @@ private:
     void setBackground();
     void eraseStyle();
 
-    void search(const QRegularExpression &re, bool backwards);
+    void search(bool backwards);
 
     QPersistentModelIndex m_index;
     bool m_saveOnReturnKey;
     bool m_editNotes;
+    QRegularExpression m_re;
 };
 
 #endif // ITEMEDITORWIDGET_H

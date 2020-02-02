@@ -265,6 +265,7 @@ class ClipboardBrowser final : public QListView
 
         void searchRequest();
         void searchHideRequest();
+        void searchShowRequest(const QString &pattern);
 
         void closeExternalEditors();
 
