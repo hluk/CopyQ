@@ -21,7 +21,7 @@ itemwidget_file=src/item/itemwidget.h
 changes_file=CHANGES
 
 check_version_format() {
-    if ! grep -q '^[0-9]\.[0-9]\.[0-9]$' <<< "$version"; then
+    if ! grep -q '^[0-9]\+\.[0-9]\+\.[0-9]\+$' <<< "$version"; then
         echo "Expected version format is MAJOR.MINOR.PATCH"
         exit 1
     fi
@@ -39,7 +39,7 @@ fix_file() {
     file=$1
     format=$2
 
-    pattern=$(printf "$format" '[0-9]\.[0-9]\.[0-9]')
+    pattern=$(printf "$format" '[0-9]\+\.[0-9]\+\.[0-9]\+')
     text=$(printf "$format" "$version")
     sed -i "s|$pattern|$text|" "$file"
 
