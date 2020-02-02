@@ -301,6 +301,7 @@ void ConfigTabAppearance::fontButtonClicked(QObject *button)
 {
     QFont font = m_theme.themeFontFromString( button->property("VALUE").toString() );
     QFontDialog dialog(font, this);
+    dialog.setOptions(dialog.options() | QFontDialog::DontUseNativeDialog);
     if ( dialog.exec() == QDialog::Accepted ) {
         font = dialog.selectedFont();
         button->setProperty( "VALUE", font.toString() );
@@ -313,7 +314,7 @@ void ConfigTabAppearance::colorButtonClicked(QObject *button)
 {
     QColor color = evalColor( button->property("VALUE").toString(), m_theme );
     QColorDialog dialog(this);
-    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel);
+    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel | QColorDialog::DontUseNativeDialog);
     dialog.setCurrentColor(color);
 
     if ( dialog.exec() == QDialog::Accepted ) {
