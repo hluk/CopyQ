@@ -1,6 +1,5 @@
 #!/bin/bash
 lupdate_args=(
-    -no-obsolete
     src/
     plugins/*/*.{cpp,h,ui}
     -ts
