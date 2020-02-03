@@ -2055,17 +2055,17 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation>Sopra l&apos;articolo</translation>
+        <translation>Elemento soprastante</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation>Sotto l&apos;articolo</translation>
+        <translation>Ele&amp;mento sottostante</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation>Accanto all&apos;articolo</translation>
+        <translation>Ele&amp;mento vicino</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -3453,7 +3453,7 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>I collegamenti alle applicazioni possono essere attivati solo dalla finestra principale.</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
