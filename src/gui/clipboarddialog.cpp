@@ -103,7 +103,7 @@ ClipboardDialog::ClipboardDialog(
 {
     init();
 
-    setWindowTitle( tr("CopyQ Item Content") );
+    setWindowTitle( tr("Item Content") );
     connect( m_model.data(), &QAbstractItemModel::dataChanged,
              this, &ClipboardDialog::onDataChanged );
     onDataChanged(m_index, m_index);

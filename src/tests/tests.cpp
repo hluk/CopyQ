@@ -1976,7 +1976,7 @@ void Tests::keysAndFocusing()
     RUN("disable", "");
     RUN("keys" << clipboardBrowserId << "CTRL+T", "");
 
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ New Tab\n");
+    WAIT_ON_OUTPUT("currentWindowTitle", "New Tab — CopyQ\n");
 
     RUN("keys" << tabDialogLineEditId << "ESC", "");
     WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");

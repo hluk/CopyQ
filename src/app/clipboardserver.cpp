@@ -93,6 +93,13 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         return;
     }
 
+    if ( sessionName.isEmpty() ) {
+        QGuiApplication::setApplicationDisplayName("CopyQ");
+    } else {
+        QGuiApplication::setApplicationDisplayName(
+            QString("CopyQ-%1").arg(sessionName));
+    }
+
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
     QApplication::setQuitOnLastWindowClosed(false);

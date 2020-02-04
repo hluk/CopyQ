@@ -31,13 +31,13 @@ TabDialog::TabDialog(TabDialog::TabDialogType type, QWidget *parent)
     ui->setupUi(this);
 
     if (type == TabNew) {
-        setWindowTitle( tr("CopyQ New Tab") );
+        setWindowTitle( tr("New Tab") );
         setWindowIcon( QIcon(":/images/tab_new") );
     } else if (type == TabRename) {
-        setWindowTitle( tr("CopyQ Rename Tab") );
+        setWindowTitle( tr("Rename Tab") );
         setWindowIcon( QIcon(":/images/tab_rename") );
     } else {
-        setWindowTitle( tr("CopyQ Rename Tab Group") );
+        setWindowTitle( tr("Rename Tab Group") );
         setWindowIcon( QIcon(":/images/tab_rename") );
     }
 

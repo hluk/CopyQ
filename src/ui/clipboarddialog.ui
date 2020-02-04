@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>CopyQ Clipboard Content</string>
+   <string>Clipboard Content</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="0">

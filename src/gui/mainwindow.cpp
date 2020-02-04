@@ -1856,7 +1856,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
     if (options == ImportOptions::Select) {
         ImportExportDialog importDialog(this);
-        importDialog.setWindowTitle( tr("CopyQ Options for Import") );
+        importDialog.setWindowTitle( tr("Options for Import") );
         importDialog.setTabs(tabs);
         importDialog.setHasConfiguration( !settingsMap.isEmpty() );
         importDialog.setHasCommands( !commandsList.isEmpty() );
@@ -3365,7 +3365,7 @@ bool MainWindow::saveTab(const QString &fileName, int tabIndex)
 bool MainWindow::exportData()
 {
     ImportExportDialog exportDialog(this);
-    exportDialog.setWindowTitle( tr("CopyQ Options for Export") );
+    exportDialog.setWindowTitle( tr("Options for Export") );
     exportDialog.setTabs( ui->tabWidget->tabs() );
     if ( !ui->tabWidget->isTabGroupSelected() )
         exportDialog.setCurrentTab( getPlaceholder()->tabName() );
@@ -3386,7 +3386,7 @@ bool MainWindow::exportData()
 
     if ( !exportDataFrom(fileName, tabs, exportConfiguration, exportCommands) ) {
         QMessageBox::critical(
-                    this, tr("CopyQ Export Error"),
+                    this, tr("Export Error"),
                     tr("Failed to export file %1!")
                     .arg(quoteString(fileName)) );
         return false;
@@ -3475,7 +3475,7 @@ bool MainWindow::importData()
 
     if ( !importDataFrom(fileName, ImportOptions::Select) ) {
         QMessageBox::critical(
-                    this, tr("CopyQ Import Error"),
+                    this, tr("Import Error"),
                     tr("Failed to import file %1!")
                     .arg(quoteString(fileName)) );
         return false;

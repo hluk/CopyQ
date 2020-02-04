@@ -165,7 +165,7 @@ IconSelectDialog::IconSelectDialog(const QString &defaultIcon, QWidget *parent)
     , m_iconList(new IconListWidget(this))
     , m_selectedIcon(defaultIcon)
 {
-    setWindowTitle( tr("CopyQ Select Icon") );
+    setWindowTitle( tr("Select Icon") );
 
     connect( m_iconList, &QAbstractItemView::activated,
              this, &IconSelectDialog::onIconListItemActivated );

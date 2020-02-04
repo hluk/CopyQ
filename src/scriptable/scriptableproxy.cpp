@@ -1974,21 +1974,12 @@ void ScriptableProxy::setTitle(const QString &title)
 {
     INVOKE2(setTitle, (title));
 
-    const QString sessionName = qApp->property("CopyQ_session_name").toString();
     if (title.isEmpty()) {
-        m_wnd->setWindowTitle("CopyQ");
-        m_wnd->setTrayTooltip("CopyQ");
+        m_wnd->setWindowTitle(QString());
+        m_wnd->setTrayTooltip(QGuiApplication::applicationDisplayName());
     } else {
-        const QString fullTitle = sessionName.isEmpty()
-                ? tr("%1 - CopyQ",
-                     "Main window title format (%1 is clipboard content label)")
-                  .arg(title)
-                : tr("%1 - %2 - CopyQ",
-                     "Main window title format (%1 is clipboard content label, %2 is session name)")
-                  .arg(title, sessionName);
-
-        m_wnd->setWindowTitle(fullTitle);
-        m_wnd->setTrayTooltip(fullTitle);
+        m_wnd->setWindowTitle(title);
+        m_wnd->setTrayTooltip(title);
     }
 }
 
