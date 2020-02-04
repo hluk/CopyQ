@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">O aplikaci</translation>
+        <translation>O aplikaci</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Dialog Akcí</translation>
+        <translation>Dialog akcí</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -129,7 +129,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">Správce procesů</translation>
+        <translation>Správce procesů</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -147,7 +147,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Přidat příkazy</translation>
+        <translation>Přidat příkazy</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -361,7 +361,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Obsah schránky</translation>
+        <translation>Obsah schránky</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -381,7 +381,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Obsah prvku</translation>
+        <translation>Obsah prvku</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -432,7 +432,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">Příkazy</translation>
+        <translation>Příkazy</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1549,7 +1549,7 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished">Nastavení</translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
@@ -1658,7 +1658,7 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">Výběr ikony</translation>
+        <translation>Výběr ikony</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2359,7 +2359,7 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">Záznam běhu</translation>
+        <translation>Záznam běhu</translation>
     </message>
 </context>
 <context>
@@ -2465,17 +2465,17 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
         <source>Options for Import</source>
-        <translation type="unfinished">Nastavení pro import</translation>
+        <translation>Nastavení pro import</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
         <source>Options for Export</source>
-        <translation type="unfinished">Nastavení pro export</translation>
+        <translation>Nastavení pro export</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
         <source>Export Error</source>
-        <translation type="unfinished">Chyba exportu</translation>
+        <translation>Chyba exportu</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2485,7 +2485,7 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
         <source>Import Error</source>
-        <translation type="unfinished">Chyba importu</translation>
+        <translation>Chyba importu</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
@@ -3394,7 +3394,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">Nová klávesová zkratka</translation>
+        <translation>Nová klávesová zkratka</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3468,17 +3468,17 @@ Pouožij &lt;b&gt;/&lt;/b&gt; jako rozdělovník pro cestu ve stromu záložek.<
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">Nová záložka</translation>
+        <translation>Nová záložka</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">Přejmenovat záložku</translation>
+        <translation>Přejmenovat záložku</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">Přejmenovat skupinu záložek</translation>
+        <translation>Přejmenovat skupinu záložek</translation>
     </message>
 </context>
 <context>
