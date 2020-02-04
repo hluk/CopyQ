@@ -5,8 +5,8 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
-        <source>CopyQ About</source>
-        <translation>Om CopyQ</translation>
+        <source>About</source>
+        <translation type="unfinished">Om</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -38,8 +38,8 @@
     <name>ActionDialog</name>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
-        <source>CopyQ Action Dialog</source>
-        <translation>CopyQ Handlingsdialog</translation>
+        <source>Action Dialog</source>
+        <translation type="unfinished">Handlingsdialog</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -128,8 +128,8 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <name>ActionHandlerDialog</name>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
-        <source>CopyQ Process Manager</source>
-        <translation type="unfinished">CopyQ Prosessmanager</translation>
+        <source>Process Manager</source>
+        <translation type="unfinished">Prosessmanager</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -146,8 +146,8 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <name>AddCommandDialog</name>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
-        <source>CopyQ Add Commands</source>
-        <translation>CopyQ Legg til Kommandoer</translation>
+        <source>Add Commands</source>
+        <translation type="unfinished">Legg til Kommandoer</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -360,8 +360,8 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <name>ClipboardDialog</name>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
-        <source>CopyQ Clipboard Content</source>
-        <translation>CopyQ Utklippstavle-innhold</translation>
+        <source>Clipboard Content</source>
+        <translation type="unfinished">Utklippstavle-innhold</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -380,8 +380,8 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
-        <source>CopyQ Item Content</source>
-        <translation>CopyQ Element-innhold</translation>
+        <source>Item Content</source>
+        <translation type="unfinished">Element-innhold</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -398,22 +398,22 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation>CopyQ-tjeneren kjører allerede.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="314"/>
+        <location filename="../src/app/clipboardserver.cpp" line="321"/>
         <source>Cancel Active Commands</source>
         <translation>Avbryt aktive kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="315"/>
+        <location filename="../src/app/clipboardserver.cpp" line="322"/>
         <source>Cancel active commands and exit?</source>
         <translation>Avbryt aktive kommandoer og avslutt?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="318"/>
+        <location filename="../src/app/clipboardserver.cpp" line="325"/>
         <source>Cancel Exiting</source>
         <translation>Avbryt avslutting</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="319"/>
+        <location filename="../src/app/clipboardserver.cpp" line="326"/>
         <source>Exit Anyway</source>
         <translation>Avslutt likevel</translation>
     </message>
@@ -431,8 +431,8 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <name>CommandDialog</name>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
-        <source>CopyQ Commands</source>
-        <translation>CopyQ-kommandoer</translation>
+        <source>Commands</source>
+        <translation type="unfinished">-kommandoer</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1549,8 +1549,8 @@ Settes til 0 for å deaktivere.</translation>
     <name>ConfigurationManager</name>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
-        <source>CopyQ Configuration</source>
-        <translation>CopyQ Konfigurasjon</translation>
+        <source>Configuration</source>
+        <translation type="unfinished">Konfigurasjon</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -1658,8 +1658,8 @@ Settes til 0 for å deaktivere.</translation>
     <name>IconSelectDialog</name>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
-        <source>CopyQ Select Icon</source>
-        <translation>CopyQ Velg Ikon</translation>
+        <source>Select Icon</source>
+        <translation type="unfinished">Velg Ikon</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2359,16 +2359,15 @@ Settes til 0 for å deaktivere.</translation>
     <name>LogDialog</name>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
-        <source>CopyQ Log</source>
-        <translation>CopyQ Logg</translation>
+        <source>Log</source>
+        <translation type="unfinished">Logg</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation>CopyQ</translation>
+        <translation type="vanished">CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="540"/>
@@ -2447,8 +2446,8 @@ Settes til 0 for å deaktivere.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
-        <source>CopyQ Options for Import</source>
-        <translation>CopyQ-innstillinger for import</translation>
+        <source>Options for Import</source>
+        <translation type="unfinished">-innstillinger for import</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2095"/>
@@ -2463,13 +2462,13 @@ Settes til 0 for å deaktivere.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
-        <source>CopyQ Options for Export</source>
-        <translation>CopyQ-alternativ for eksport</translation>
+        <source>Options for Export</source>
+        <translation type="unfinished">-alternativ for eksport</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
-        <source>CopyQ Export Error</source>
-        <translation>CopyQ-eksportfeil</translation>
+        <source>Export Error</source>
+        <translation type="unfinished">-eksportfeil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2478,8 +2477,8 @@ Settes til 0 for å deaktivere.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
-        <source>CopyQ Import Error</source>
-        <translation>CopyQ-importfeil</translation>
+        <source>Import Error</source>
+        <translation type="unfinished">-importfeil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
@@ -2909,7 +2908,7 @@ Settes til 0 for å deaktivere.</translation>
         <translation>&amp;Hjelp</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2047"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2038"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2918,7 +2917,7 @@ Settes til 0 for å deaktivere.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2041"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3384,16 +3383,14 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation type="unfinished">Fane med angitt navn eksisterer allerede!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1983"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation>%1 - CopyQ</translation>
+        <translation type="vanished">%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1986"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation>%1 - %2 - CopyQ</translation>
+        <translation type="vanished">%1 - %2 - CopyQ</translation>
     </message>
 </context>
 <context>
@@ -3408,8 +3405,8 @@ Skriv ut programversjon og biblioteker.</translation>
     <name>ShortcutDialog</name>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
-        <source>CopyQ New Shortcut</source>
-        <translation>CopyQ Ny Snarvei</translation>
+        <source>New Shortcut</source>
+        <translation type="unfinished">Ny Snarvei</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3482,18 +3479,18 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
-        <source>CopyQ New Tab</source>
-        <translation>CopyQ Ny Fane</translation>
+        <source>New Tab</source>
+        <translation type="unfinished">Ny Fane</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
-        <source>CopyQ Rename Tab</source>
-        <translation>CopyQ Gi Fane Nytt Navn</translation>
+        <source>Rename Tab</source>
+        <translation type="unfinished">Gi Fane Nytt Navn</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
-        <source>CopyQ Rename Tab Group</source>
-        <translation>CopyQ Gi Fanegruppe Nytt Navn</translation>
+        <source>Rename Tab Group</source>
+        <translation type="unfinished">Gi Fanegruppe Nytt Navn</translation>
     </message>
 </context>
 <context>

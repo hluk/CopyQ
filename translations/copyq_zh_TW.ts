@@ -5,8 +5,8 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
-        <source>CopyQ About</source>
-        <translation>關於 CopyQ</translation>
+        <source>About</source>
+        <translation type="unfinished">關於</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -38,8 +38,8 @@
     <name>ActionDialog</name>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
-        <source>CopyQ Action Dialog</source>
-        <translation>CopyQ 動作對話框</translation>
+        <source>Action Dialog</source>
+        <translation type="unfinished">動作對話框</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -128,8 +128,8 @@ You can set up the command in preferences.</source>
     <name>ActionHandlerDialog</name>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
-        <source>CopyQ Process Manager</source>
-        <translation>CopyQ 程序管理器</translation>
+        <source>Process Manager</source>
+        <translation type="unfinished">程序管理器</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -146,8 +146,8 @@ You can set up the command in preferences.</source>
     <name>AddCommandDialog</name>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
-        <source>CopyQ Add Commands</source>
-        <translation>CopyQ 增加命令</translation>
+        <source>Add Commands</source>
+        <translation type="unfinished">增加命令</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -360,8 +360,8 @@ You can set up the command in preferences.</source>
     <name>ClipboardDialog</name>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
-        <source>CopyQ Clipboard Content</source>
-        <translation>CopyQ 剪貼簿內容</translation>
+        <source>Clipboard Content</source>
+        <translation type="unfinished">剪貼簿內容</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -380,8 +380,8 @@ You can set up the command in preferences.</source>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
-        <source>CopyQ Item Content</source>
-        <translation>CopyQ 項目內容</translation>
+        <source>Item Content</source>
+        <translation type="unfinished">項目內容</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -398,22 +398,22 @@ You can set up the command in preferences.</source>
         <translation>CopyQ 伺服器已運行。</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="314"/>
+        <location filename="../src/app/clipboardserver.cpp" line="321"/>
         <source>Cancel Active Commands</source>
         <translation>取消目前命令</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="315"/>
+        <location filename="../src/app/clipboardserver.cpp" line="322"/>
         <source>Cancel active commands and exit?</source>
         <translation>取消目前命令並退出？</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="318"/>
+        <location filename="../src/app/clipboardserver.cpp" line="325"/>
         <source>Cancel Exiting</source>
         <translation>取消退出</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="319"/>
+        <location filename="../src/app/clipboardserver.cpp" line="326"/>
         <source>Exit Anyway</source>
         <translation>退出</translation>
     </message>
@@ -431,8 +431,8 @@ You can set up the command in preferences.</source>
     <name>CommandDialog</name>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
-        <source>CopyQ Commands</source>
-        <translation>CopyQ 命令</translation>
+        <source>Commands</source>
+        <translation type="unfinished">命令</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1547,8 +1547,8 @@ Set to 0 to disable.</source>
     <name>ConfigurationManager</name>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
-        <source>CopyQ Configuration</source>
-        <translation>CopyQ 設定</translation>
+        <source>Configuration</source>
+        <translation type="unfinished">設定</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -1656,8 +1656,8 @@ Set to 0 to disable.</source>
     <name>IconSelectDialog</name>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
-        <source>CopyQ Select Icon</source>
-        <translation>CopyQ 選擇圖示</translation>
+        <source>Select Icon</source>
+        <translation type="unfinished">選擇圖示</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2357,16 +2357,15 @@ Set to 0 to disable.</source>
     <name>LogDialog</name>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
-        <source>CopyQ Log</source>
-        <translation>CopyQ 紀錄</translation>
+        <source>Log</source>
+        <translation type="unfinished">紀錄</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation>CopyQ</translation>
+        <translation type="vanished">CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="540"/>
@@ -2445,8 +2444,8 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
-        <source>CopyQ Options for Import</source>
-        <translation>匯入 CopyQ 的選項</translation>
+        <source>Options for Import</source>
+        <translation type="unfinished">匯入 CopyQ 的選項</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2095"/>
@@ -2461,13 +2460,13 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
-        <source>CopyQ Options for Export</source>
-        <translation>用於匯出 CopyQ 的選項</translation>
+        <source>Options for Export</source>
+        <translation type="unfinished">用於匯出 CopyQ 的選項</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
-        <source>CopyQ Export Error</source>
-        <translation>匯出 CopyQ 錯誤</translation>
+        <source>Export Error</source>
+        <translation type="unfinished">匯出 CopyQ 錯誤</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2476,8 +2475,8 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
-        <source>CopyQ Import Error</source>
-        <translation>匯入 CopyQ 錯誤</translation>
+        <source>Import Error</source>
+        <translation type="unfinished">匯入 CopyQ 錯誤</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
@@ -2577,7 +2576,7 @@ Set to 0 to disable.</source>
         <translation>Delete</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2047"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2038"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2585,7 +2584,7 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2041"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3379,16 +3378,14 @@ Print version of program and libraries.</source>
         <translation>有給定名稱的分頁已存在！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1983"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation>%1 - CopyQ</translation>
+        <translation type="vanished">%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1986"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation>%1 - %2 - CopyQ</translation>
+        <translation type="vanished">%1 - %2 - CopyQ</translation>
     </message>
 </context>
 <context>
@@ -3403,8 +3400,8 @@ Print version of program and libraries.</source>
     <name>ShortcutDialog</name>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
-        <source>CopyQ New Shortcut</source>
-        <translation>CopyQ 新快鍵</translation>
+        <source>New Shortcut</source>
+        <translation type="unfinished">新快鍵</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3477,18 +3474,18 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
-        <source>CopyQ New Tab</source>
-        <translation>CopyQ 新分頁</translation>
+        <source>New Tab</source>
+        <translation type="unfinished">新分頁</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
-        <source>CopyQ Rename Tab</source>
-        <translation>CopyQ 重新命名分頁</translation>
+        <source>Rename Tab</source>
+        <translation type="unfinished">重新命名分頁</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
-        <source>CopyQ Rename Tab Group</source>
-        <translation>CopyQ 重新命名分頁群組</translation>
+        <source>Rename Tab Group</source>
+        <translation type="unfinished">重新命名分頁群組</translation>
     </message>
 </context>
 <context>

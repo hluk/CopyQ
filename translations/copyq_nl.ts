@@ -5,8 +5,8 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
-        <source>CopyQ About</source>
-        <translation>Over CopyQ</translation>
+        <source>About</source>
+        <translation type="unfinished">Over</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -38,8 +38,8 @@
     <name>ActionDialog</name>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
-        <source>CopyQ Action Dialog</source>
-        <translation>CopyQ Actie-venster</translation>
+        <source>Action Dialog</source>
+        <translation type="unfinished">Actie-venster</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -128,8 +128,8 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <name>ActionHandlerDialog</name>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
-        <source>CopyQ Process Manager</source>
-        <translation type="unfinished">CopyQ Proces Manager</translation>
+        <source>Process Manager</source>
+        <translation type="unfinished">Proces Manager</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -146,8 +146,8 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <name>AddCommandDialog</name>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
-        <source>CopyQ Add Commands</source>
-        <translation>CopyQ - Opdrachten toevoegen</translation>
+        <source>Add Commands</source>
+        <translation type="unfinished">- Opdrachten toevoegen</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -360,8 +360,8 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <name>ClipboardDialog</name>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
-        <source>CopyQ Clipboard Content</source>
-        <translation>CopyQ-klembordinhoud</translation>
+        <source>Clipboard Content</source>
+        <translation type="unfinished">-klembordinhoud</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -380,8 +380,8 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
-        <source>CopyQ Item Content</source>
-        <translation>CopyQ-iteminhoud</translation>
+        <source>Item Content</source>
+        <translation type="unfinished">-iteminhoud</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -398,22 +398,22 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <translation>De CopyQ-server draait al.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="314"/>
+        <location filename="../src/app/clipboardserver.cpp" line="321"/>
         <source>Cancel Active Commands</source>
         <translation>Actieve opdrachten annuleren</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="315"/>
+        <location filename="../src/app/clipboardserver.cpp" line="322"/>
         <source>Cancel active commands and exit?</source>
         <translation>Wilt u de actieve opdrachten annuleren en afsluiten?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="318"/>
+        <location filename="../src/app/clipboardserver.cpp" line="325"/>
         <source>Cancel Exiting</source>
         <translation>Afsluiten annuleren</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="319"/>
+        <location filename="../src/app/clipboardserver.cpp" line="326"/>
         <source>Exit Anyway</source>
         <translation>Tóch afsluiten</translation>
     </message>
@@ -431,8 +431,8 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
     <name>CommandDialog</name>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
-        <source>CopyQ Commands</source>
-        <translation>CopyQ-opdrachten</translation>
+        <source>Commands</source>
+        <translation type="unfinished">-opdrachten</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1543,8 +1543,8 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <name>ConfigurationManager</name>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
-        <source>CopyQ Configuration</source>
-        <translation>CopyQ-instellingen</translation>
+        <source>Configuration</source>
+        <translation type="unfinished">-instellingen</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -1652,8 +1652,8 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <name>IconSelectDialog</name>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
-        <source>CopyQ Select Icon</source>
-        <translation>CopyQ Pictogram Selecteren</translation>
+        <source>Select Icon</source>
+        <translation type="unfinished">Pictogram Selecteren</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2353,16 +2353,15 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     <name>LogDialog</name>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
-        <source>CopyQ Log</source>
-        <translation>CopyQ logboek</translation>
+        <source>Log</source>
+        <translation type="unfinished">Logboek</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation>CopyQ</translation>
+        <translation type="vanished">CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="540"/>
@@ -2441,8 +2440,8 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
-        <source>CopyQ Options for Import</source>
-        <translation>CopyQ Opties voor Importeren</translation>
+        <source>Options for Import</source>
+        <translation type="unfinished">Opties voor Importeren</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2095"/>
@@ -2457,13 +2456,13 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
-        <source>CopyQ Options for Export</source>
-        <translation>CopyQ opties voor exporteren</translation>
+        <source>Options for Export</source>
+        <translation type="unfinished">Opties voor exporteren</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
-        <source>CopyQ Export Error</source>
-        <translation>CopyQ Export Fout</translation>
+        <source>Export Error</source>
+        <translation type="unfinished">Export Fout</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2483,8 +2482,8 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
-        <source>CopyQ Import Error</source>
-        <translation>CopyQ Fout Bij Importeren</translation>
+        <source>Import Error</source>
+        <translation type="unfinished">Fout Bij Importeren</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
@@ -2574,7 +2573,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <translation>Verwijderen</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2047"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2038"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -2583,7 +2582,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2041"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3362,18 +3361,6 @@ Print version of program and libraries.</source>
         <source>Tab with given name already exists!</source>
         <translation>Er bestaat al een tabblad met deze naam!</translation>
     </message>
-    <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1983"/>
-        <source>%1 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1986"/>
-        <source>%1 - %2 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ShortcutButton</name>
@@ -3387,7 +3374,7 @@ Print version of program and libraries.</source>
     <name>ShortcutDialog</name>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
-        <source>CopyQ New Shortcut</source>
+        <source>New Shortcut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3455,17 +3442,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
-        <source>CopyQ New Tab</source>
+        <source>New Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
-        <source>CopyQ Rename Tab</source>
+        <source>Rename Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
-        <source>CopyQ Rename Tab Group</source>
+        <source>Rename Tab Group</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

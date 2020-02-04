@@ -5,8 +5,8 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
-        <source>CopyQ About</source>
-        <translation>حول CopyQ</translation>
+        <source>About</source>
+        <translation type="unfinished">حول</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -38,8 +38,8 @@
     <name>ActionDialog</name>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
-        <source>CopyQ Action Dialog</source>
-        <translation>حوار إجرائات CopyQ</translation>
+        <source>Action Dialog</source>
+        <translation type="unfinished">حوار إجرائات</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -128,7 +128,7 @@ You can set up the command in preferences.</source>
     <name>ActionHandlerDialog</name>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
-        <source>CopyQ Process Manager</source>
+        <source>Process Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -146,8 +146,8 @@ You can set up the command in preferences.</source>
     <name>AddCommandDialog</name>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
-        <source>CopyQ Add Commands</source>
-        <translation>CopyQ اضف امر</translation>
+        <source>Add Commands</source>
+        <translation type="unfinished">اضف امر</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -360,8 +360,8 @@ You can set up the command in preferences.</source>
     <name>ClipboardDialog</name>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
-        <source>CopyQ Clipboard Content</source>
-        <translation>محتوى حافظة CopyQ</translation>
+        <source>Clipboard Content</source>
+        <translation type="unfinished">محتوى حافظة</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -380,8 +380,8 @@ You can set up the command in preferences.</source>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
-        <source>CopyQ Item Content</source>
-        <translation>محتوى عنصر CopyQ</translation>
+        <source>Item Content</source>
+        <translation type="unfinished">محتوى عنصر</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -398,22 +398,22 @@ You can set up the command in preferences.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="314"/>
+        <location filename="../src/app/clipboardserver.cpp" line="321"/>
         <source>Cancel Active Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="315"/>
+        <location filename="../src/app/clipboardserver.cpp" line="322"/>
         <source>Cancel active commands and exit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="318"/>
+        <location filename="../src/app/clipboardserver.cpp" line="325"/>
         <source>Cancel Exiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="319"/>
+        <location filename="../src/app/clipboardserver.cpp" line="326"/>
         <source>Exit Anyway</source>
         <translation type="unfinished"></translation>
     </message>
@@ -431,7 +431,7 @@ You can set up the command in preferences.</source>
     <name>CommandDialog</name>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
-        <source>CopyQ Commands</source>
+        <source>Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1513,11 +1513,6 @@ Set to 0 to disable.</source>
 <context>
     <name>ConfigurationManager</name>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="20"/>
-        <source>CopyQ Configuration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
         <translation type="unfinished"></translation>
@@ -1587,6 +1582,11 @@ Set to 0 to disable.</source>
         <source>Language will be changed after application is restarted.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="20"/>
+        <source>Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FileWatcher</name>
@@ -1623,7 +1623,7 @@ Set to 0 to disable.</source>
     <name>IconSelectDialog</name>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
-        <source>CopyQ Select Icon</source>
+        <source>Select Icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2322,17 +2322,12 @@ Set to 0 to disable.</source>
     <name>LogDialog</name>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
-        <source>CopyQ Log</source>
+        <source>Log</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
-    <message>
-        <location filename="../src/ui/mainwindow.ui" line="17"/>
-        <source>CopyQ</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="540"/>
         <source>Exit?</source>
@@ -2410,7 +2405,22 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
-        <source>CopyQ Options for Import</source>
+        <source>Options for Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="3368"/>
+        <source>Options for Export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="3389"/>
+        <source>Export Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="3478"/>
+        <source>Import Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2422,16 +2432,6 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="509"/>
         <source>&amp;Show/Hide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3368"/>
-        <source>CopyQ Options for Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3389"/>
-        <source>CopyQ Export Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2448,11 +2448,6 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="313"/>
         <source>CopyQ Items (*.cpq)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3478"/>
-        <source>CopyQ Import Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2876,7 +2871,7 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2047"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2038"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -2889,7 +2884,7 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2041"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation type="unfinished"></translation>
@@ -3337,18 +3332,6 @@ Print version of program and libraries.</source>
         <source>Tab with given name already exists!</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1983"/>
-        <source>%1 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1986"/>
-        <source>%1 - %2 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ShortcutButton</name>
@@ -3362,7 +3345,7 @@ Print version of program and libraries.</source>
     <name>ShortcutDialog</name>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
-        <source>CopyQ New Shortcut</source>
+        <source>New Shortcut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3430,17 +3413,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
-        <source>CopyQ New Tab</source>
+        <source>New Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
-        <source>CopyQ Rename Tab</source>
+        <source>Rename Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
-        <source>CopyQ Rename Tab Group</source>
+        <source>Rename Tab Group</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

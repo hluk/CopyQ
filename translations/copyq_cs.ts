@@ -5,8 +5,8 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
-        <source>CopyQ About</source>
-        <translation>CopyQ O aplikaci</translation>
+        <source>About</source>
+        <translation type="unfinished">O aplikaci</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -38,8 +38,8 @@
     <name>ActionDialog</name>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
-        <source>CopyQ Action Dialog</source>
-        <translation>CopyQ Dialog Akcí</translation>
+        <source>Action Dialog</source>
+        <translation type="unfinished">Dialog Akcí</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -128,8 +128,8 @@ Příkaz je možné zmenit v nastavení.</translation>
     <name>ActionHandlerDialog</name>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
-        <source>CopyQ Process Manager</source>
-        <translation>CopyQ Správce procesů</translation>
+        <source>Process Manager</source>
+        <translation type="unfinished">Správce procesů</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -146,8 +146,8 @@ Příkaz je možné zmenit v nastavení.</translation>
     <name>AddCommandDialog</name>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
-        <source>CopyQ Add Commands</source>
-        <translation>CopyQ Přidat příkazy</translation>
+        <source>Add Commands</source>
+        <translation type="unfinished">Přidat příkazy</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -360,8 +360,8 @@ Příkaz je možné zmenit v nastavení.</translation>
     <name>ClipboardDialog</name>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
-        <source>CopyQ Clipboard Content</source>
-        <translation>CopyQ Obsah schránky</translation>
+        <source>Clipboard Content</source>
+        <translation type="unfinished">Obsah schránky</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -380,8 +380,8 @@ Příkaz je možné zmenit v nastavení.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
-        <source>CopyQ Item Content</source>
-        <translation>CopyQ Obsah prvku</translation>
+        <source>Item Content</source>
+        <translation type="unfinished">Obsah prvku</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -398,22 +398,22 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation>CopyQ server již běží.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="314"/>
+        <location filename="../src/app/clipboardserver.cpp" line="321"/>
         <source>Cancel Active Commands</source>
         <translation>Zrušit aktivní příkazy</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="315"/>
+        <location filename="../src/app/clipboardserver.cpp" line="322"/>
         <source>Cancel active commands and exit?</source>
         <translation>Zrušit aktivní příkazy a ukončit?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="318"/>
+        <location filename="../src/app/clipboardserver.cpp" line="325"/>
         <source>Cancel Exiting</source>
         <translation>Přerušit ukončování</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="319"/>
+        <location filename="../src/app/clipboardserver.cpp" line="326"/>
         <source>Exit Anyway</source>
         <translation>Pokračovat v ukončování</translation>
     </message>
@@ -431,8 +431,8 @@ Příkaz je možné zmenit v nastavení.</translation>
     <name>CommandDialog</name>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
-        <source>CopyQ Commands</source>
-        <translation>CopyQ Příkazy</translation>
+        <source>Commands</source>
+        <translation type="unfinished">Příkazy</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1548,8 +1548,8 @@ Nastav na 0 pro vypnutí.</translation>
     <name>ConfigurationManager</name>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
-        <source>CopyQ Configuration</source>
-        <translation>CopyQ Nastavení</translation>
+        <source>Configuration</source>
+        <translation type="unfinished">Nastavení</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
@@ -1657,8 +1657,8 @@ Nastav na 0 pro vypnutí.</translation>
     <name>IconSelectDialog</name>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
-        <source>CopyQ Select Icon</source>
-        <translation>CopyQ Výběr ikony</translation>
+        <source>Select Icon</source>
+        <translation type="unfinished">Výběr ikony</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2358,17 +2358,12 @@ Nastav na 0 pro vypnutí.</translation>
     <name>LogDialog</name>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
-        <source>CopyQ Log</source>
-        <translation>CopyQ Záznam běhu</translation>
+        <source>Log</source>
+        <translation type="unfinished">Záznam běhu</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
-    <message>
-        <location filename="../src/ui/mainwindow.ui" line="17"/>
-        <source>CopyQ</source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="540"/>
         <source>Exit?</source>
@@ -2469,18 +2464,18 @@ Nastav na 0 pro vypnutí.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
-        <source>CopyQ Options for Import</source>
-        <translation>CopyQ Nastavení pro import</translation>
+        <source>Options for Import</source>
+        <translation type="unfinished">Nastavení pro import</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
-        <source>CopyQ Options for Export</source>
-        <translation>CopyQ Nastavení pro export</translation>
+        <source>Options for Export</source>
+        <translation type="unfinished">Nastavení pro export</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
-        <source>CopyQ Export Error</source>
-        <translation>CopyQ Chyba exportu</translation>
+        <source>Export Error</source>
+        <translation type="unfinished">Chyba exportu</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2489,8 +2484,8 @@ Nastav na 0 pro vypnutí.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
-        <source>CopyQ Import Error</source>
-        <translation>CopyQ Chyba importu</translation>
+        <source>Import Error</source>
+        <translation type="unfinished">Chyba importu</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
@@ -2588,7 +2583,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &apos;_&apos;!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2047"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2038"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2598,7 +2593,7 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2041"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3385,18 +3380,6 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <source>Tab with given name already exists!</source>
         <translation>Záložka se stejným jménem již existuje!</translation>
     </message>
-    <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1983"/>
-        <source>%1 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1986"/>
-        <source>%1 - %2 - CopyQ</source>
-        <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation></translation>
-    </message>
 </context>
 <context>
     <name>ShortcutButton</name>
@@ -3410,8 +3393,8 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <name>ShortcutDialog</name>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
-        <source>CopyQ New Shortcut</source>
-        <translation>CopyQ Nová klávesová zkratka</translation>
+        <source>New Shortcut</source>
+        <translation type="unfinished">Nová klávesová zkratka</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3484,18 +3467,18 @@ Pouožij &lt;b&gt;/&lt;/b&gt; jako rozdělovník pro cestu ve stromu záložek.<
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
-        <source>CopyQ New Tab</source>
-        <translation>CopyQ Nová záložka</translation>
+        <source>New Tab</source>
+        <translation type="unfinished">Nová záložka</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
-        <source>CopyQ Rename Tab</source>
-        <translation>CopyQ Přejmenovat záložku</translation>
+        <source>Rename Tab</source>
+        <translation type="unfinished">Přejmenovat záložku</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
-        <source>CopyQ Rename Tab Group</source>
-        <translation>CopyQ Přejmenovat skupinu záložek</translation>
+        <source>Rename Tab Group</source>
+        <translation type="unfinished">Přejmenovat skupinu záložek</translation>
     </message>
 </context>
 <context>
