@@ -3441,7 +3441,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation>グローバルショートカットはどのアプリケーションがアクティブでも使用できます。</translation>
+        <translation>グローバルショートカットは、どのアプリケーションがアクティブでも使用できます。</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
@@ -3451,7 +3451,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションショートカットは、メインウィンドウがアクティブな場合のみ使用できます。</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
@@ -3460,7 +3460,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
-        <translation>ショートカットは既に存在しています!</translation>
+        <translation>ショートカットは既に存在します!</translation>
     </message>
 </context>
 <context>
