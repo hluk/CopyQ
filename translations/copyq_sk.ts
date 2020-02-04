@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">O programe</translation>
+        <translation>O programe</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Akcia</translation>
+        <translation>Akcia</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -64,7 +64,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslať dáta daného MIME typu na štandardný vstup príkazu (pre vypnutie ponechať prázdne)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
@@ -134,7 +134,7 @@ Príkaz je možné zmeniť v nastaveniach.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">Správca procesov</translation>
+        <translation>Správca procesov</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -152,7 +152,7 @@ Príkaz je možné zmeniť v nastaveniach.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Pridať príkazy</translation>
+        <translation>Pridať príkazy</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -366,7 +366,7 @@ Príkaz je možné zmeniť v nastaveniach.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Obsah schránky</translation>
+        <translation>Obsah schránky</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -386,7 +386,7 @@ Príkaz je možné zmeniť v nastaveniach.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Obsah položky</translation>
+        <translation>Obsah položky</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -437,7 +437,7 @@ Príkaz je možné zmeniť v nastaveniach.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">Príkazy</translation>
+        <translation>Príkazy</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -651,7 +651,7 @@ Pre vypnutie ponechať prázdne.</translation>
 
 &lt;p&gt;Text prvku je odoslaný na &lt;b&gt;štandardný vstup&lt;/b&gt; filtra. Príkaz sa &lt;b&gt;vykoná iba ak filter skončí z nulovým kódom&lt;/b&gt;.&lt;/p&gt;
 
-&lt;p&gt;Výraz %1 bude nahradený za text prvku a %2 až %9 za texty zachytené pomocou regulárneho výrazu (časti uzatvorené v zátvorkách).&lt;/p&gt;
+&lt;p&gt;Výraz &lt;b&gt;%1&lt;/b&gt; bude nahradený za text prvku a &lt;b&gt;%2&lt;/b&gt; až &lt;b&gt;%9&lt;/b&gt; za texty zachytené pomocou regulárneho výrazu (časti uzatvorené v zátvorkách).&lt;/p&gt;
 
 &lt;p&gt;Použite &lt;b&gt;|&lt;/b&gt; na zreťazenie viacerých príkazov (odovzdanie štandardného výstupu do ďalšieho príkazu).&lt;/p&gt;</translation>
     </message>
@@ -782,7 +782,7 @@ Poznámka: Ak sa aplikuje automaticky, nie sú vykonané žiadne ďalšie automa
     <message>
         <location filename="../src/ui/commandwidget.ui" line="675"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť rozšírené</translation>
     </message>
 </context>
 <context>
@@ -790,180 +790,181 @@ Poznámka: Ak sa aplikuje automaticky, nie sú vykonané žiadne ďalšie automa
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozadie</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámky</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nájdené</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrané</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Číslo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normálne</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Písmo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternatívne</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Popredí</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Upozornenie</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
         <source>Show &amp;Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobra&amp;ziť číslo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť posuvníky</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>S&amp;crollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Posuvníky</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"></translation>
+        <translation>Použiť ikony z desktopového prostredie, kedykoľvek je to možné</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Systémové ikony</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
         <source>&amp;Antialias</source>
-        <translation type="unfinished"></translation>
+        <translation>V&amp;yhladzovanie</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastaviť &amp;farby pre karty, panely nástrojov a ponuky</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>O&amp;bnoviť tému</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Téma:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Načítať tému</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uložiť tému</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Upraviť aktuálnu tému v externom editore</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Up&amp;raviť tému</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhľad:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="478"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>položka</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="481"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyhľadávací reťazec je %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="482"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte položku a
+stlačte F2 pre editáciu.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="485"/>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Príklad položky %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="490"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhodné poznámky (Shift+F2 pro úpravu)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="148"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>Otvorte súbor tém</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="158"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložiť súbor s témou ako</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="177"/>
         <source>No External Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Žiadny externý editor</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="178"/>
         <source>Set external editor command first!</source>
-        <translation type="unfinished"></translation>
+        <translation>Najskôr nastavte príkaz externého editora!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="393"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Abc</translation>
     </message>
 </context>
 <context>
@@ -971,37 +972,37 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Jazyk:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished"></translation>
+        <translation>Zalomiť text, ak je príliš dlhý na to, aby sa zmestil na riadok</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"></translation>
+        <translation>Zalomiť &amp;dlhý text</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponechať hlavné okno nad ostatnými oknami</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ponechať nad ostatnými oknami</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>Po aktivácii inej aplikácie zavrieť hlavné okno</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>Zatvoriť pri deaktivácii</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
@@ -1011,107 +1012,107 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished"></translation>
+        <translation>O&amp;tvárať okná na aktuálnej obrazovke</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Potvrdzovať ukončenie aplikácie</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Potvrdzovať &amp;ukončenie aplikácie</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustiť aplikáciu po prihlasení do systému</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Automaticky spustiť</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpora pre Vi navigáciu (klávesy H, J, K, L atď.), lomítko (/) pre vyhľadávanie</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vi navigácia</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukladať a načítať históriu filtrov pre prvky</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukladať históriu filtrovania prvkov</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaticky zobrazí menu pre dokončenie názvu funkcií, typov a premenných v príkazoch</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaticky dokončovať príkazy</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Manipulácia so schránkou</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoliť vkladanie skopírovaného textu pomocou myši (obvykle stredné tlačidlo myši)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;3) Vkladať schránku pomocou myši</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoliť vkladanie textu vybraného pomocou myši (zvyčajne Ctrl+V alebo Shift+Insert)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;4) Vkladať text vybraný myší pomocou klaves</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložiť schránku v histórii</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;1) Ukladať schránku</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukladať text vybraný myšou do histórie</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;2) Ukladať text vybraný myšou</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) Spúšťať automatické príkazy pre výber myši</translation>
     </message>
 </context>
 <context>
@@ -1119,29 +1120,31 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maximálny počet prvkov v histórii:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximálny počet prvkov v každej záložke</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Interval v minútach pre odstránenie prvkov z pamäte:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstráň načítané záložky z pamäti po ubehnutí daného intervalu v minútach.
+
+Nastav na 0 pre zachovanie záložiek v pamäti.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Príkaz pre editor (%&amp;1 je názov súboru):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1151,12 +1154,17 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Príkaz pre externý editor (%1 je názov súboru).
+   Príklady:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>Záložk&amp;a pre ukladanie schránky:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
@@ -1833,7 +1841,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Chyba: %1</translation>
+        <translation>Chyba: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="865"/>
@@ -2315,7 +2323,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="90"/>
         <source>Web</source>
-        <translation type="unfinished">Web</translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
@@ -2503,7 +2511,7 @@ Set to 0 to disable.</source>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished">&amp;schránka</translation>
+        <translation>&amp;schránka</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="516"/>
@@ -3376,7 +3384,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished">&amp;Hľadať:</translation>
+        <translation>&amp;Hľadať:</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
@@ -3416,7 +3424,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished">&amp;Názov:</translation>
+        <translation>&amp;Názov:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
