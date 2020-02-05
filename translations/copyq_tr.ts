@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Hakkında</translation>
+        <translation>Hakkında</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Hareket Dökümü</translation>
+        <translation>Eylem İletişim Kutusu</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -128,7 +128,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">İşlem Yöneticisi</translation>
+        <translation>İşlem Yöneticisi</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -146,7 +146,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Komut ekle</translation>
+        <translation>Komut Ekle</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -360,7 +360,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Pano İçeriği</translation>
+        <translation>Pano İçeriği</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -380,7 +380,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Öğe İçerik</translation>
+        <translation>Öğe İçeriği</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -431,7 +431,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">Komutları</translation>
+        <translation>Komutlar</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1547,7 +1547,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished">Ayarları</translation>
+        <translation>Yapılandırma</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -1656,7 +1656,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">İkon Seç</translation>
+        <translation>Simge Seç</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2357,7 +2357,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">Günlüğü</translation>
+        <translation>Günlük</translation>
     </message>
 </context>
 <context>
@@ -2444,7 +2444,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
         <source>Options for Import</source>
-        <translation type="unfinished">İçe aktarma için CopyQ Seçenekleri</translation>
+        <translation>İçe Aktarma Seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2095"/>
@@ -2460,12 +2460,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
         <source>Options for Export</source>
-        <translation type="unfinished">Dışa aktarma için CopyQ Seçenekleri</translation>
+        <translation>Dışa Aktarma Seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
         <source>Export Error</source>
-        <translation type="unfinished">Dışa Aktarma Hatası</translation>
+        <translation>Dışa Aktarma Hatası</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2486,7 +2486,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
         <source>Import Error</source>
-        <translation type="unfinished">İçe Aktarma Hatası</translation>
+        <translation>İçe Aktarma Hatası</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
@@ -3403,7 +3403,7 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">Yeni Kısayol</translation>
+        <translation>Yeni Kısayol</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3477,17 +3477,17 @@ Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; 
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">Yeni Sekme</translation>
+        <translation>Yeni Sekme</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">Yeniden Adlandır Sekmesi</translation>
+        <translation>Yeniden Adlandır Sekmesi</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">Yeniden Adlandır Sekme Grubu</translation>
+        <translation>Sekme Grubunu Yeniden Adlandır</translation>
     </message>
 </context>
 <context>
