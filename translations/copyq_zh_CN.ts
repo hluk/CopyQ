@@ -3514,7 +3514,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <location filename="../src/gui/traymenu.cpp" line="104"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
-        <translation>%1. %2</translation>
+        <translation>&amp;%1. %2</translation>
     </message>
 </context>
 <context>
