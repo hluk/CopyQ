@@ -539,12 +539,9 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
     QVariantMap copiedItemData = itemData;
     copiedItemData.insert(mimeSyncPath, m_tabPath);
 
-    // Add text/plain and text/uri-list if not present.
-    bool updateUriData = !copiedItemData.contains(mimeUriList);
-    bool updateTextData = !copiedItemData.contains(mimeText);
-    if (updateUriData || updateTextData) {
+    // Add text/uri-list if not present.
+    if ( !copiedItemData.contains(mimeUriList) ) {
         QByteArray uriData;
-        QByteArray textData;
 
         const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
         const QString basePath = m_tabPath + '/' + itemData.value(mimeBaseName).toString();
@@ -552,31 +549,14 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
         for (const auto &extension : mimeToExtension) {
             const QString filePath = basePath + extension.toString();
 
-            if (updateUriData) {
-                if ( !uriData.isEmpty() )
-                    uriData.append("\n");
-                uriData.append( QUrl::fromLocalFile(filePath).toEncoded() );
-            }
-
-            if (updateTextData) {
-                if ( !textData.isEmpty() )
-                    textData.append("\n");
-                textData.append( filePath.toUtf8()
-                                 .replace('\\', "\\\\")
-                                 .replace('\n', "\\n")
-                                 .replace('\r', "\\r") );
-            }
+            if ( !uriData.isEmpty() )
+                uriData.append("\n");
+            uriData.append( QUrl::fromLocalFile(filePath).toEncoded() );
         }
 
         QVariantMap noSaveData;
-        if (updateUriData) {
-            noSaveData.insert(mimeUriList, FileWatcher::calculateHash(uriData));
-            copiedItemData.insert(mimeUriList, uriData);
-        }
-        if (updateTextData) {
-            noSaveData.insert(mimeText, FileWatcher::calculateHash(textData));
-            copiedItemData.insert(mimeText, textData);
-        }
+        noSaveData.insert(mimeUriList, FileWatcher::calculateHash(uriData));
+        copiedItemData.insert(mimeUriList, uriData);
         copiedItemData.insert(mimeNoSave, noSaveData);
     }
 
