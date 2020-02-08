@@ -41,6 +41,11 @@ int notificationMargin()
     return pointsToPixels(notificationMarginPoints);
 }
 
+bool isNotificationUnderCursor(const Notification *notification, QPoint cursor) {
+    const QRect rect = notification->window()->geometry();
+    return rect.contains(cursor);
+}
+
 } // namespace
 
 NotificationDaemon::NotificationDaemon(QObject *parent)
@@ -111,6 +116,17 @@ void NotificationDaemon::onNotificationClose(Notification *notification)
 
 void NotificationDaemon::doUpdateNotifications()
 {
+    const QPoint cursor = QCursor::pos();
+
+    // Postpone update if mouse cursor is over a notification.
+    for (auto &notificationData : m_notifications) {
+        auto notification = notificationData.notification;
+        if ( isNotificationUnderCursor(notification, cursor) ) {
+            m_timerUpdate.start();
+            return;
+        }
+    }
+
     const QRect screen = screenGeometry(0);
 
     int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
@@ -123,23 +139,27 @@ void NotificationDaemon::doUpdateNotifications()
         notification->adjust();
         notification->setMaximumSize( pointsToPixels(m_maximumWidthPoints), pointsToPixels(m_maximumHeightPoints) );
 
-        int x;
-        if (m_position & Left)
-            x = offsetX();
-        else if (m_position & Right)
-            x = screen.right() - notification->width() - offsetX();
-        else
-            x = screen.right() / 2 - notification->width() / 2;
+        do {
+            int x;
+            if (m_position & Left)
+                x = offsetX();
+            else if (m_position & Right)
+                x = screen.right() - notification->width() - offsetX();
+            else
+                x = screen.right() / 2 - notification->width() / 2;
 
-        if (m_position & Bottom)
-            y -= notification->height();
+            if (m_position & Bottom)
+                y -= notification->height();
 
-        notification->move(x, y);
+            notification->move(x, y);
 
-        if (m_position & Top)
-            y += notification->height() + notificationMargin();
-        else
-            y -= notificationMargin();
+            if (m_position & Top)
+                y += notification->height() + notificationMargin();
+            else
+                y -= notificationMargin();
+
+            // Avoid positioning a notification under mouse cursor.
+        } while( isNotificationUnderCursor(notification, cursor) );
 
         notification->show();
     }

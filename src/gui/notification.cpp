@@ -146,7 +146,6 @@ void Notification::setInterval(int msec)
 {
     if (msec >= 0) {
         initSingleShotTimer( &m_timer, msec, this, &Notification::onTimeout );
-        m_timer.start();
     } else {
         m_timer.stop();
     }
@@ -245,6 +244,9 @@ void Notification::paintEvent(QPaintEvent *event)
 
 void Notification::showEvent(QShowEvent *event)
 {
+    if ( m_timer.interval() > 0 )
+        m_timer.start();
+
     // QTBUG-33078: Window opacity must be set after show event.
     setWindowOpacity(m_opacity);
     QWidget::showEvent(event);
