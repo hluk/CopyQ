@@ -94,6 +94,8 @@ Notification::Notification()
     setWindowFlags(Qt::ToolTip);
     setWindowOpacity(m_opacity);
     setAttribute(Qt::WA_ShowWithoutActivating);
+
+    initSingleShotTimer( &m_timer, 0, this, &Notification::onTimeout );
 }
 
 void Notification::setTitle(const QString &title)
@@ -145,9 +147,12 @@ void Notification::setIcon(ushort icon)
 void Notification::setInterval(int msec)
 {
     if (msec >= 0) {
-        initSingleShotTimer( &m_timer, msec, this, &Notification::onTimeout );
+        m_autoclose = true;
+        m_timer.setInterval(msec);
+        if (isVisible())
+            m_timer.start();
     } else {
-        m_timer.stop();
+        m_autoclose = false;
     }
 }
 
@@ -222,8 +227,7 @@ void Notification::enterEvent(QEvent *event)
 void Notification::leaveEvent(QEvent *event)
 {
     setWindowOpacity(m_opacity);
-    if ( m_timer.interval() > 0 )
-        m_timer.start();
+    m_timer.start();
     QWidget::leaveEvent(event);
 }
 
@@ -244,8 +248,7 @@ void Notification::paintEvent(QPaintEvent *event)
 
 void Notification::showEvent(QShowEvent *event)
 {
-    if ( m_timer.interval() > 0 )
-        m_timer.start();
+    m_timer.start();
 
     // QTBUG-33078: Window opacity must be set after show event.
     setWindowOpacity(m_opacity);
@@ -260,7 +263,8 @@ void Notification::hideEvent(QHideEvent *event)
 
 void Notification::onTimeout()
 {
-    emit closeNotification(this);
+    if (m_autoclose)
+        emit closeNotification(this);
 }
 
 void Notification::onButtonClicked(const NotificationButton &button)

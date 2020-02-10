@@ -73,6 +73,7 @@ private:
     QLabel *m_iconLabel = nullptr;
     QLabel *m_msgLabel = nullptr;
     QTimer m_timer;
+    bool m_autoclose = false;
     qreal m_opacity = 1.0;
     QString m_icon;
 };
