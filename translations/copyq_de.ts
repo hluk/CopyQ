@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Über</translation>
+        <translation>Info</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -3326,7 +3326,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Doppelbindestrichargument (--) verwenden, um alle folgenden Argumente
-    zu lesen ohne die Escapesequenzen zu erweitern (z.&#xa0;B. \n, \t und weitere).</translation>
+    zu lesen ohne die Escapesequenzen zu erweitern (z. B. \n, \t und weitere).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
@@ -3445,7 +3445,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendungsweite Tastenkombinationen können nur innerhalb des Hauptfensters ausgelöst werden.</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
