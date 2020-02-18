@@ -77,6 +77,8 @@ protected:
 
     void leaveEvent(QEvent *event) override;
 
+    void inputMethodEvent(QInputMethodEvent *event) override;
+
 private:
     void clearActionsWithProperty(const char *property);
 

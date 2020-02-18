@@ -81,6 +81,7 @@ TrayMenu::TrayMenu(QWidget *parent)
     m_clipboardItemActionsSeparator = addSeparator();
     m_customActionsSeparator = addSeparator();
     initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, &TrayMenu::updateActiveAction );
+    setAttribute(Qt::WA_InputMethodEnabled);
 }
 
 void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages)
@@ -285,6 +286,13 @@ void TrayMenu::leaveEvent(QEvent *event)
     auto action = activeAction();
     QMenu::leaveEvent(event);
     setActiveAction(action);
+}
+
+void TrayMenu::inputMethodEvent(QInputMethodEvent *event)
+{
+    if (!event->commitString().isEmpty())
+        search(m_searchText + event->commitString());
+    event->ignore();
 }
 
 void TrayMenu::clearActionsWithProperty(const char *property)
