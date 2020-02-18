@@ -254,6 +254,8 @@ void TrayMenu::mousePressEvent(QMouseEvent *event)
 
 void TrayMenu::showEvent(QShowEvent *event)
 {
+    search(QString());
+
     // If appmenu is used to handle the menu, most events won't be received
     // so search won't work.
     // This shows the search menu item only if show event is received.
