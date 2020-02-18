@@ -109,7 +109,7 @@ class ClipboardBrowser final : public QListView
         /**
          * Override to disable default QAbstractItemView search.
          */
-        void keyboardSearch(const QString &) override {}
+        void keyboardSearch(const QString &text) override;
 
         QVariantMap copyIndex(const QModelIndex &index) const;
 

@@ -511,6 +511,8 @@ private:
 
     void onActionDialogAccepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
 
+    void onSearchShowRequest(const QString &text);
+
     void updateEnabledCommands();
 
     void updateCommands(QVector<Command> allCommands, bool forceSave);

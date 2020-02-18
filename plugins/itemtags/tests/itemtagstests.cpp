@@ -199,17 +199,17 @@ void ItemTagsTests::searchTags()
     RUN(args << "-e" << "plugins.itemtags.tags(2)", "tag2\ntag3\n");
 
     RUN(args << "keys" << "RIGHT", "");
-    RUN(args << "keys" << ":tag1", "");
+    RUN(args << "keys" << "t" << "a" << "g" << "1", "");
     RUN(args << "keys" << "TAB" << "CTRL+A", "");
     RUN(args << "testSelected", tab1 + " 0 0 1\n");
 
     RUN(args << "keys" << "ESCAPE", "");
-    RUN(args << "keys" << ":tag2", "");
+    RUN(args << "keys" << "t" << "a" << "g" << "2", "");
     RUN(args << "keys" << "TAB" << "CTRL+A", "");
     RUN(args << "testSelected", tab1 + " 1 1 2\n");
 
     RUN(args << "keys" << "ESCAPE", "");
-    RUN(args << "keys" << ":tag3", "");
+    RUN(args << "keys" << "t" << "a" << "g" << "3", "");
     RUN(args << "keys" << "TAB" << "CTRL+A", "");
     RUN(args << "testSelected", tab1 + " 2 2\n");
 }

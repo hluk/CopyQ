@@ -1900,3 +1900,8 @@ bool ClipboardBrowser::maybeCloseEditors()
 
     return true;
 }
+
+void ClipboardBrowser::keyboardSearch(const QString &text)
+{
+    emit searchShowRequest(text);
+}

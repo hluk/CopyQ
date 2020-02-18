@@ -1069,7 +1069,7 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
     connect( browser, &ClipboardBrowser::searchHideRequest,
              ui->searchBar, &Utils::FilterLineEdit::hide );
     connect( browser, &ClipboardBrowser::searchShowRequest,
-             ui->searchBar, &Utils::FilterLineEdit::setText );
+             this, &MainWindow::onSearchShowRequest );
     connect( browser, &ClipboardBrowser::itemWidgetCreated,
              this, &MainWindow::onItemWidgetCreated );
 
@@ -1154,6 +1154,12 @@ void MainWindow::onActionDialogAccepted(const Command &command, const QStringLis
     }
 
     m_actionHandler->action(act);
+}
+
+void MainWindow::onSearchShowRequest(const QString &text)
+{
+    ui->searchBar->setText(text);
+    ui->searchBar->end(false);
 }
 
 void MainWindow::runDisplayCommands()
@@ -2224,11 +2230,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         default:
             QMainWindow::keyPressEvent(event);
-            if ( !event->isAccepted() ) {
-                const auto txt = event->text();
-                if ( !txt.isEmpty() && txt[0].isPrint() )
-                    enterSearchMode(txt);
-            }
             break;
     }
 }
