@@ -40,6 +40,7 @@
 namespace {
 
 const char propertySelectedItem[] = "CopyQ_selected";
+const char propertySizeUpdated[] = "CopyQ_sizeUpdated";
 
 } // namespace
 
@@ -139,8 +140,10 @@ bool ItemDelegate::showAt(const QModelIndex &index, QPoint pos)
 
     ww->show();
 
-    if (m_idealWidth > 0)
+    if ( m_idealWidth > 0 && !ww->property(propertySizeUpdated).toBool() ) {
+        ww->setProperty(propertySizeUpdated, true);
         w->updateSize(m_maxSize, m_idealWidth);
+    }
 
     return true;
 }
