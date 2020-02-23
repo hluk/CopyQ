@@ -460,7 +460,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
             if ( oldSearch.isEmpty() )
                 emit searchHideRequest();
             else
-                emit searchShowRequest(d.searchExpression().pattern());
+                emit searchShowRequest(oldSearch);
         }
 
         emit internalEditorStateChanged(this);

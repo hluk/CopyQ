@@ -1158,6 +1158,7 @@ void MainWindow::onActionDialogAccepted(const Command &command, const QStringLis
 
 void MainWindow::onSearchShowRequest(const QString &text)
 {
+    enterSearchMode();
     ui->searchBar->setText(text);
     ui->searchBar->end(false);
 }
