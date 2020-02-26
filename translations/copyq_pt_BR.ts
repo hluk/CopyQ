@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Sobre o</translation>
+        <translation>Sobre</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Diálogo de Ação do</translation>
+        <translation>Diálogo de Ação</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -129,7 +129,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">Gerenciador de Processos do</translation>
+        <translation>Gerente de Processos</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -147,7 +147,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Adicionar Comandos</translation>
+        <translation>Adicionar Comandos</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -361,7 +361,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Conteúdo de área de transferência do</translation>
+        <translation>Conteúdo da Área de Transferência</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -381,7 +381,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Conteúdo do Item</translation>
+        <translation>Teor dos itens</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -432,7 +432,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">Comandos</translation>
+        <translation>Comandos</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1547,7 +1547,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished">Configuração do</translation>
+        <translation>Configuração</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -1656,7 +1656,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">Seleção de Ícone do</translation>
+        <translation>Ícone selecionado</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2357,7 +2357,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">Log do</translation>
+        <translation>Log</translation>
     </message>
 </context>
 <context>
@@ -2449,7 +2449,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
         <source>Options for Import</source>
-        <translation type="unfinished">Opções de Importação do</translation>
+        <translation>Opções de Importação</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2095"/>
@@ -2460,12 +2460,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
         <source>Options for Export</source>
-        <translation type="unfinished">Opções de Exportação do</translation>
+        <translation>Opções para Exportação</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
         <source>Export Error</source>
-        <translation type="unfinished">Erro de Exportação do</translation>
+        <translation>Erro de Exportação</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2486,7 +2486,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
         <source>Import Error</source>
-        <translation type="unfinished">Erro de Importação do</translation>
+        <translation>Erro de Importação</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
@@ -3151,8 +3151,8 @@ O padrão é a primeira aba.</translation>
 Evaluate ECMAScript program.
 Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
         <translation>
-Avaliar programa ECMAScript.
-Argumentos são acessíveis usando com &quot;argumentos[0..N]&quot;.</translation>
+Avaliar o programa ECMAScript.
+Os argumentos são acessíveis usando &quot;argumentos[0..N]&quot;.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
@@ -3403,7 +3403,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">Novo Atalho do</translation>
+        <translation>Novo Atalho</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3446,7 +3446,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Os atalhos de aplicação só podem ser acionados a partir da janela principal.</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
@@ -3477,17 +3477,17 @@ Use &lt;b&gt;/&lt;/b&gt; como serapador de caminho na visualização em árvore 
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">Nova aba do</translation>
+        <translation>Nova Aba</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">Renomear aba do</translation>
+        <translation>Renomear a Aba</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">Renomear grupo de abas do</translation>
+        <translation>Renomear o Grupo de Abas</translation>
     </message>
 </context>
 <context>
