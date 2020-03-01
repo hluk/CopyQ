@@ -45,7 +45,7 @@ QRect screenAvailableGeometry(const QPoint &pos)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
     auto screen = QGuiApplication::screenAt(pos);
-    return screen ? screen->availableGeometry() : QRect();
+    return screen ? screen->availableGeometry() : screenGeometry(0);
 #else
     return QApplication::desktop()->availableGeometry(pos);
 #endif
