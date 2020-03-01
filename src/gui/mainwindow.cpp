@@ -2465,7 +2465,6 @@ void MainWindow::showWindow()
 
     updateFocusWindows();
 
-    restoreWindowGeometry(this, true);
     moveToCurrentWorkspace(this);
 
     if (m_wasMaximized || isMaximized())
