@@ -106,21 +106,48 @@ QString resolutionTag(const QWidget &widget, GeometryAction geometryAction, bool
     return tag;
 }
 
-/// Make top of the window always visible on screen so it's possible to move and resize the window.
-QPoint sanitizeWindowPosition(QPoint pos)
+void ensureWindowOnScreen(QWidget *widget, QPoint pos)
 {
+    const QSize size = widget->size();
     const QRect availableGeometry = screenAvailableGeometry(pos);
-    const int x = qBound(availableGeometry.left(), pos.x(), availableGeometry.right() - 10);
-    const int y = qBound(availableGeometry.top(), pos.y(), availableGeometry.bottom() - 10);
-    return QPoint(x, y);
+
+    int x = pos.x();
+    int y = pos.y();
+    int w = size.width();
+    int h = size.height();
+
+    // Ensure that the window fits the screen, otherwise it may be moved
+    // to a neighboring screen.
+    w = qMin(w, availableGeometry.width());
+    h = qMin(h, availableGeometry.height());
+
+    if ( x + w > availableGeometry.right() )
+        x = availableGeometry.right() - w;
+
+    if ( x < availableGeometry.left() )
+        x = availableGeometry.left();
+
+    if ( y + h > availableGeometry.bottom() )
+        y = availableGeometry.bottom() - h;
+
+    if ( y < availableGeometry.top())
+        y = availableGeometry.top();
+
+    if ( size != QSize(w, h) ) {
+        GEOMETRY_LOG( widget, QString("Resize window: %1x%2").arg(w).arg(h) );
+        widget->resize(w, h);
+    }
+
+    if ( widget->pos() != QPoint(x, y) ) {
+        GEOMETRY_LOG( widget, QString("Move window: %1, %2").arg(x).arg(y) );
+        widget->move(x, y);
+    }
 }
 
 void ensureWindowOnScreen(QWidget *w)
 {
     const QPoint pos = w->pos();
-    const QPoint newPos = sanitizeWindowPosition(pos);
-    if (pos != newPos)
-        w->move(pos);
+    ensureWindowOnScreen(w, pos);
 }
 
 } // namespace
@@ -248,11 +275,7 @@ void moveToCurrentWorkspace(QWidget *w)
 
 void moveWindowOnScreen(QWidget *w, QPoint pos)
 {
-    const QPoint newPos = sanitizeWindowPosition(pos);
-    GEOMETRY_LOG( w, QString("Move window [%1, %2]")
-                  .arg(newPos.x())
-                  .arg(newPos.y()) );
-    w->move(newPos);
+    ensureWindowOnScreen(w, pos);
     moveToCurrentWorkspace(w);
 }
 
