@@ -147,7 +147,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Comandi aggiungi</translation>
+        <translation type="unfinished">Aggiungi comandi</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -361,7 +361,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Contenuto Appunti di</translation>
+        <translation type="unfinished">Contenuto degli Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -381,7 +381,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Contenuto elemento</translation>
+        <translation type="unfinished">Contenuto dell&apos;elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -1661,7 +1661,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">Icona selezione</translation>
+        <translation>Scegli l&apos;icona</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2419,7 +2419,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
         <source>Options for Export</source>
-        <translation type="unfinished">Opzioni esportazionei</translation>
+        <translation>Opzioni esportazione</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
@@ -3491,7 +3491,7 @@ Usa &lt;b&gt;/&lt;/b&gt;  come separatore percorso nella vista struttura.</trans
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">Rinomina gruppo scheda</translation>
+        <translation>Rinomina gruppo schede</translation>
     </message>
 </context>
 <context>
