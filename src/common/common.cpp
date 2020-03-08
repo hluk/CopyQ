@@ -144,6 +144,18 @@ public:
         return refresh() ? m_dataGuard->urls() : QList<QUrl>();
     }
 
+    QString text()
+    {
+        ElapsedGuard _("text");
+        return refresh() ? m_dataGuard->text() : QString();
+    }
+
+    bool hasText()
+    {
+        ElapsedGuard _("hasText");
+        return refresh() && m_dataGuard->hasText();
+    }
+
     QImage getImageData()
     {
         ElapsedGuard _("imageData");
@@ -173,6 +185,9 @@ public:
             }
             return bytes;
         }
+
+        if ( format == mimeText && !hasFormat(mimeText) )
+            return text().toUtf8();
 
         if ( format.startsWith("text/") )
             return dataToText( data(format), format ).toUtf8();
@@ -355,7 +370,7 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abort
      Images in SVG and other XML formats are expected to be relatively small
      so these doesn't have to be ignored.
      */
-    if ( formats.contains(mimeText) && data.hasFormat(mimeText) ) {
+    if ( formats.contains(mimeText) && data.hasText() ) {
         const QString mimeImagePrefix = "image/";
         const auto first = std::remove_if(
                     std::begin(formats), std::end(formats),
@@ -405,6 +420,19 @@ QVariantMap cloneData(const QMimeData &data)
         // and internal type to check clipboard owner
         if ( !mime.isEmpty() && mime[0].isLower() )
             formats.append(mime);
+    }
+
+    if ( !formats.contains(mimeText) ) {
+        const QString textPrefix(QLatin1String(mimeText) + ";");
+        bool containsText = false;
+        for (int i = formats.size() - 1; i >= 0; --i) {
+            if ( formats[i].startsWith(textPrefix) ) {
+                formats.removeAt(i);
+                containsText = true;
+            }
+        }
+        if (containsText)
+            formats.append(mimeText);
     }
 
     return cloneData(data, formats);
