@@ -130,8 +130,6 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
 
-    setContextMenuPolicy(Qt::NoContextMenu);
-
     if ( !richText.isEmpty() ) {
         m_textDocument.setHtml(richText);
         // Use plain text instead if rendering HTML fails or result is empty.
@@ -320,6 +318,7 @@ ItemWidget *ItemTextLoader::create(const QVariantMap &data, QWidget *parent, boo
         const int maxHeight = m_settings.value(optionMaximumHeight, 0).toInt();
         item = new ItemText(text, richText, maxLines, maxLineLength, maxHeight, parent);
         item->viewport()->installEventFilter(item);
+        item->setContextMenuPolicy(Qt::NoContextMenu);
     }
 
     return item;
