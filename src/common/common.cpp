@@ -609,6 +609,9 @@ bool handleViKey(QKeyEvent *event, QObject *eventReceiver)
             return false;
         }
         break;
+    case Qt::Key_X:
+        key = Qt::Key_Delete;
+        break;
     case Qt::Key_BracketLeft:
         if (mods & Qt::ControlModifier) {
             key = Qt::Key_Escape;
