@@ -2789,6 +2789,42 @@ void Tests::configPathEnvVariable()
     QCOMPARE( out.left(expectedOut.size()), expectedOut );
 }
 
+void Tests::configVi()
+{
+    RUN("config" << "vi", "false\n");
+
+    RUN("config" << "vi" << "true", "true\n");
+
+    const auto tab1 = testTab(1);
+    const Args args = Args("tab") << tab1;
+    RUN("setCurrentTab" << tab1, "");
+    RUN(args << "add" << "A" << "B", "");
+
+    RUN("testSelected", tab1 + " 0 0\n");
+    RUN("keys" << clipboardBrowserId << "j", "");
+    RUN("testSelected", tab1 + " 1 1\n");
+    RUN("keys" << clipboardBrowserId << "k", "");
+    RUN("testSelected", tab1 + " 0 0\n");
+
+    RUN(args << "read" << "0" << "1", "B\nA");
+    RUN("keys" << clipboardBrowserId << "CTRL+J", "");
+    RUN(args << "read" << "0" << "1", "A\nB");
+    RUN("testSelected", tab1 + " 1 1\n");
+    RUN("keys" << clipboardBrowserId << "CTRL+K", "");
+    RUN(args << "read" << "0" << "1", "B\nA");
+    RUN("testSelected", tab1 + " 0 0\n");
+
+    RUN("keys" << clipboardBrowserId << "SHIFT+J", "");
+    RUN("testSelected", tab1 + " 1 0 1\n");
+    RUN("keys" << clipboardBrowserId << "SHIFT+K", "");
+    RUN("testSelected", tab1 + " 0 0\n");
+
+    RUN(args << "read" << "0" << "1", "B\nA");
+    RUN("keys" << clipboardBrowserId << ":jx", "");
+    RUN(args << "read" << "0" << "1", "B\n");
+    RUN("testSelected", tab1 + " 0 0\n");
+}
+
 void Tests::shortcutCommand()
 {
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Ctrl+F1'], cmd: 'copyq add OK'}])", "");

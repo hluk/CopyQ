@@ -638,7 +638,11 @@ bool handleViKey(QKeyEvent *event, QObject *eventReceiver)
         }
         break;
     case Qt::Key_X:
+#ifdef Q_OS_MAC
+        key = Qt::Key_Backspace;
+#else
         key = Qt::Key_Delete;
+#endif
         break;
     case Qt::Key_BracketLeft:
         if (mods & Qt::ControlModifier) {

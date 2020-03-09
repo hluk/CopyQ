@@ -211,6 +211,8 @@ private slots:
 
     void configPathEnvVariable();
 
+    void configVi();
+
     void shortcutCommand();
     void shortcutCommandOverrideEnter();
     void shortcutCommandMatchInput();
