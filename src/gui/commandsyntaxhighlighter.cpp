@@ -56,7 +56,6 @@ QRegularExpression commandLabelRegExp()
             "|\\bperl:"
             "|\\bpython:"
             "|\\bruby:"
-            "|\\bpowershell:"
                 );
 }
 
