@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">关于</translation>
+        <translation>关于</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">动作对话框</translation>
+        <translation>动作对话框</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
@@ -129,7 +129,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">进程管理器</translation>
+        <translation>进程管理器</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -147,7 +147,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">添加命令</translation>
+        <translation>添加 命令</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -361,7 +361,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">剪贴板内容</translation>
+        <translation>剪贴板内容</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -381,7 +381,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">条目内容</translation>
+        <translation>条目内容</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -432,7 +432,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">命令</translation>
+        <translation>命令</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1540,7 +1540,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished">配置</translation>
+        <translation>配置</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -1649,7 +1649,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">选择图标</translation>
+        <translation>选择图标</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2350,7 +2350,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">日志</translation>
+        <translation>日志</translation>
     </message>
 </context>
 <context>
@@ -2397,7 +2397,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
         <source>Options for Import</source>
-        <translation type="unfinished">的导入选项</translation>
+        <translation>导入选项</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="509"/>
@@ -2407,12 +2407,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
         <source>Options for Export</source>
-        <translation type="unfinished">的导出选项</translation>
+        <translation>导出选项</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
         <source>Export Error</source>
-        <translation type="unfinished">导出错误</translation>
+        <translation>导出错误</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2422,7 +2422,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
         <source>Import Error</source>
-        <translation type="unfinished">导入错误</translation>
+        <translation>导入错误</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
@@ -3393,7 +3393,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">新建快捷键</translation>
+        <translation>新建快捷键</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3436,7 +3436,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>应用程序快捷方式只能从主窗口中触发。</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
@@ -3467,17 +3467,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">新建标签页</translation>
+        <translation>新建标签页</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">重命名标签页</translation>
+        <translation>重命名标签页</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">重命名标签页组</translation>
+        <translation>重命名标签页组</translation>
     </message>
 </context>
 <context>
