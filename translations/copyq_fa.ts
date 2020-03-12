@@ -6,32 +6,32 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>مدیریت حافظه‌ی موقت</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>سازنده</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>ایمیل</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>وب</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>کمک مالی</translation>
     </message>
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>درباره ما</translation>
     </message>
 </context>
 <context>
@@ -39,12 +39,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">پیام ها و خطا ها</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>دستور:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
