@@ -536,6 +536,21 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
                 else
                     m_wnd->enterSearchMode();
             }
+        // Omit overriding arrow keys in text editors.
+        } else if ( type == QEvent::ShortcutOverride &&
+                    object->property("textInteractionFlags")
+                    .value<Qt::TextInteractionFlags>()
+                    .testFlag(Qt::TextSelectableByKeyboard) )
+        {
+            QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
+            if ( keyevent->key() == Qt::Key_Left
+                 || keyevent->key() == Qt::Key_Right
+                 || keyevent->key() == Qt::Key_Up
+                 || keyevent->key() == Qt::Key_Down)
+            {
+                ev->accept();
+                return true;
+            }
         }
     } else if (type == QEvent::Paint) {
         setActivePaintDevice(object);
