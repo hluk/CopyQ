@@ -192,6 +192,8 @@ private slots:
 
     void nextPreviousTab();
 
+    void itemPreview();
+
     void openAndSavePreferences();
 
     void pasteFromMainWindow();

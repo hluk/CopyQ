@@ -94,6 +94,7 @@ const auto actionHandlerTableId = "focus:tableView";
 const auto clipboardDialogId = "focus:ClipboardDialog";
 const auto clipboardDialogFormatListId = "focus:listWidgetFormats";
 const auto confirmExitDialogId = "focus::QPushButton in :QMessageBox";
+const auto itemPreviewId = "focus:in dockWidgetItemPreviewContents";
 
 class PerformanceTimer final {
 public:
@@ -2574,6 +2575,22 @@ void Tests::nextPreviousTab()
             RUN("keys" << keyPair.second, "");
         }
     }
+}
+
+void Tests::itemPreview()
+{
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "add" << "def" << "abc", "");
+    RUN("setCurrentTab" << tab1, "");
+
+    RUN("keys" << clipboardBrowserId << "F7", "")
+    RUN("keys" << clipboardBrowserId << "TAB" << itemPreviewId, "")
+    RUN("keys" << itemPreviewId << "HOME", "")
+    RUN("keys" << itemPreviewId << "RIGHT", "")
+    RUN("keys" << itemPreviewId << "SHIFT+RIGHT", "")
+    RUN("keys" << itemPreviewId << keyNameFor(QKeySequence::Copy), "")
+    WAIT_FOR_CLIPBOARD("b");
+    RUN("keys" << itemPreviewId << "F7" << clipboardBrowserId, "")
 }
 
 void Tests::openAndSavePreferences()
