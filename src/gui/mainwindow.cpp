@@ -1597,8 +1597,13 @@ bool MainWindow::isWindowVisible() const
 void MainWindow::onEscape()
 {
     if ( browseMode() ) {
-        hideWindow();
         auto c = browser();
+        if (c && !c->hasFocus()) {
+            enterBrowseMode();
+            return;
+        }
+
+        hideWindow();
         if (c)
             c->setCurrent(0);
     } else {
