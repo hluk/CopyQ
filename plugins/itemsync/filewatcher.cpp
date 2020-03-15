@@ -554,9 +554,13 @@ void FileWatcher::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
 {
     for ( const auto &index : indexList(first, last) ) {
-        Q_ASSERT(index.isValid());
+        if ( !index.isValid() )
+            continue;
+
         IndexDataList::iterator it = findIndexData(index);
-        Q_ASSERT( it != m_indexData.end() );
+        if ( it == m_indexData.end() )
+            continue;
+
         if ( isOwnBaseName(it->baseName) )
             removeFilesForRemovedIndex(m_path, index);
         m_indexData.erase(it);
@@ -594,7 +598,8 @@ void FileWatcher::updateIndexData(const QModelIndex &index, const QVariantMap &i
 
     // Item base name is non-empty.
     const QString baseName = getBaseName(index);
-    Q_ASSERT( !baseName.isEmpty() );
+    if ( baseName.isEmpty() )
+        return;
 
     const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
 
@@ -767,7 +772,8 @@ void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensio
     const QString basePath = dir.absoluteFilePath(baseNameWithExts.baseName);
 
     for (const auto &ext : baseNameWithExts.exts) {
-        Q_ASSERT( !ext.format.isEmpty() );
+        if ( ext.format.isEmpty() )
+            continue;
 
         const QString fileName = basePath + ext.extension;
 

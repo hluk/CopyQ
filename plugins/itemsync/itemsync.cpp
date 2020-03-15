@@ -787,14 +787,17 @@ ItemScriptable *ItemSyncLoader::scriptableObject()
 
 void ItemSyncLoader::onBrowseButtonClicked()
 {
-    QTableWidget *t = ui->tableWidgetSyncTabs;
-
     QObject *button = sender();
-    Q_ASSERT(button != nullptr);
+    if (button == nullptr)
+        return;
+
+    QTableWidget *t = ui->tableWidgetSyncTabs;
 
     int row = 0;
     for ( ; row < t->rowCount() && t->cellWidget(row, syncTabsTableColumns::browse) != button; ++row ) {}
-    Q_ASSERT(row != t->rowCount());
+    Q_ASSERT( row == t->rowCount() );
+    if ( row == t->rowCount() )
+        return;
 
     QTableWidgetItem *item = t->item(row, syncTabsTableColumns::path);
     const QString path =
