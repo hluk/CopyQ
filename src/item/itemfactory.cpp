@@ -114,6 +114,7 @@ public:
         , ItemWidget(this)
         , m_hasText( data.contains(mimeText) || data.contains(mimeUriList) )
         , m_data(data)
+        , m_preview(preview)
     {
         setMargin(0);
         setWordWrap(true);
@@ -130,6 +131,13 @@ public:
         }
 
         if (preview && !pixmap()) {
+            setTextInteractionFlags(
+                    textInteractionFlags()
+                    | Qt::TextSelectableByMouse
+                    | Qt::TextSelectableByKeyboard
+                    | Qt::LinksAccessibleByMouse
+                    | Qt::LinksAccessibleByKeyboard
+                    );
             setAlignment(Qt::AlignLeft | Qt::AlignTop);
             QString label = getTextData(m_data);
             if (label.isEmpty())
@@ -144,7 +152,7 @@ public:
     {
         setFixedWidth(idealWidth);
 
-        if (!pixmap()) {
+        if (!m_preview && !pixmap()) {
             const int width = contentsRect().width();
             const QString label =
                     textLabelForData(m_data, font(), QString(), false, width, 1);
@@ -161,6 +169,7 @@ private:
     bool m_hasText;
     QVariantMap m_data;
     QString m_imageFormat;
+    bool m_preview;
 };
 
 class DummySaver final : public ItemSaverInterface

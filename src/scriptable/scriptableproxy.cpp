@@ -754,14 +754,26 @@ private:
 
         const auto className = widget->metaObject()->className();
 
-        const auto widgetName = QString("%1:%2")
+        auto widgetName = QString("%1:%2")
                 .arg(widget->objectName(), className);
 
         const auto window = widget->window();
         if (window && widget != window) {
-            return widgetName
-                + QString(" in %1:%2")
-                    .arg(window->objectName(), window->metaObject()->className());
+            widgetName.append(
+                QString(" in %1:%2")
+                    .arg(window->objectName(), window->metaObject()->className())
+            );
+        }
+
+        auto parent = widget->parentWidget();
+        while (parent) {
+            if ( parent != window && !parent->objectName().startsWith("qt_") ) {
+                widgetName.append(
+                    QString(" in %1:%2")
+                        .arg(parent->objectName(), parent->metaObject()->className())
+                );
+            }
+            parent = parent->parentWidget();
         }
 
         return widgetName;
