@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Om</translation>
+        <translation>Om</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">-åtgärdsdialog</translation>
+        <translation>Åtgärdsdialog</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -129,7 +129,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">-processhanterare</translation>
+        <translation>Processhanterare</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -147,7 +147,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Lägg till kommandon</translation>
+        <translation>Lägg till kommandon</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -361,7 +361,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">-urklippsinnehåll</translation>
+        <translation>Urklippsinnehåll</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -381,7 +381,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">-objektinnehåll</translation>
+        <translation>Objektinnehåll</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -432,7 +432,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">-kommandon</translation>
+        <translation>Kommandon</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1125,14 +1125,14 @@ F2 för att redigera.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished">&amp;Glöm flik efter ett visst antal minuter:</translation>
+        <translation>&amp;Glöm flik efter ett visst antal minuter:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished">Glöm varje flik i minnet efter ett angivet antal minuter av inaktivitet.
+        <translation>Glöm varje flik i minnet efter ett angivet antal minuter av inaktivitet.
 
 Ställ in till 0 för att inte glömma flikar.</translation>
     </message>
@@ -1149,7 +1149,7 @@ Ställ in till 0 för att inte glömma flikar.</translation>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished">Kommando för extern redigerare (%1 är filen som ska redigeras):
+        <translation>Kommando för extern redigerare (%1 är filen som ska redigeras).
   Exempel:
     gedit %1
     notepad %1
@@ -1159,14 +1159,14 @@ Ställ in till 0 för att inte glömma flikar.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished">Fli&amp;k för att lagra urklipp:</translation>
+        <translation>Fli&amp;k för att lagra urklipp:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished">Namn på flik som automatiskt kommer att lagra nytt urklippsinnehåll.
+        <translation>Namn på flik som automatiskt kommer att lagra nytt urklippsinnehåll.
 
 Lämna tomt för att inaktivera automatisk lagring.</translation>
     </message>
@@ -1175,28 +1175,28 @@ Lämna tomt för att inaktivera automatisk lagring.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished">Lämna okryssad för att Retur ska spara redigerat objekt och Ctrl+Retur skapa en ny rad.
+        <translation>Lämna okryssad för att Retur ska spara redigerat objekt och Ctrl+Retur skapa en ny rad.
 
 Observera: Redigerade objekt kan sparas med F2 oavsett detta alternativ.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished">Spa&amp;ra redigerat objekt med Ctrl+Retur och skapa ny rad med Retur</translation>
+        <translation>Spa&amp;ra redigerat objekt med Ctrl+Retur och skapa ny rad med Retur</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished">Visa enradsbeskrivning för varje objekt.
+        <translation>Visa enradsbeskrivning för varje objekt.
 
 Använd objektförhandsvisning för att visa hela objekt.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished">Vis&amp;a enkla objekt</translation>
+        <translation>Vis&amp;a enkla objekt</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
@@ -1211,47 +1211,47 @@ Använd objektförhandsvisning för att visa hela objekt.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="227"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished">Efter att ett objekt har aktiverats (dubbelklick eller Retur), kopiera det till urklipp och…</translation>
+        <translation>Efter att ett objekt har aktiverats (dubbelklick eller Retur), kopiera det till urklipp och…</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="233"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">Flytta objekt överst i listan efter att det har aktiverats</translation>
+        <translation>Flytta objekt överst i listan efter att det har aktiverats</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="236"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished">Flytta objekt ö&amp;verst</translation>
+        <translation>Flytta objekt ö&amp;verst</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="243"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished">Stäng huvudfönster efter objekt aktiverats</translation>
+        <translation>Stäng huvudfönster efter objekt aktiverats</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished">S&amp;täng huvudfönster</translation>
+        <translation>S&amp;täng huvudfönster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="253"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished">Fokusera senaste fönster efter objekt har aktiverats</translation>
+        <translation>Fokusera senaste fönster efter objekt har aktiverats</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished">&amp;Fokusera senaste fönster</translation>
+        <translation>&amp;Fokusera senaste fönster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="263"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished">Klistra in till aktuellt fönster efter objekt har aktiverats</translation>
+        <translation>Klistra in till aktuellt fönster efter objekt har aktiverats</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished">&amp;Klistra in till aktuellt fönster</translation>
+        <translation>&amp;Klistra in till aktuellt fönster</translation>
     </message>
 </context>
 <context>
@@ -1259,62 +1259,62 @@ Använd objektförhandsvisning för att visa hela objekt.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished">Visa/dölj</translation>
+        <translation>Visa/dölj</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished">Dölj flikar (tryck Alt för att visa)</translation>
+        <translation>Dölj flikar (tryck Alt för att visa)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished">&amp;Dölj flikar</translation>
+        <translation>&amp;Dölj flikar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished">Dölj verktygsfält</translation>
+        <translation>Dölj verktygsfält</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished">Dö&amp;lj verktygsfält</translation>
+        <translation>Dö&amp;lj verktygsfält</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished">Dölj verk&amp;tygsfältsetiketter</translation>
+        <translation>Dölj verk&amp;tygsfältsetiketter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished">Dölj huvudfönster då det stängs</translation>
+        <translation>Dölj huvudfönster då det stängs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished">Döl&amp;j huvudfönster</translation>
+        <translation>Döl&amp;j huvudfönster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished">Layout och transparens</translation>
+        <translation>Layout och transparens</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished">Visa träd med flikar istället för flikrad</translation>
+        <translation>Visa träd med flikar istället för flikrad</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished">Flikt&amp;räd</translation>
+        <translation>Flikt&amp;räd</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished">&amp;Fokuserad transparens:</translation>
+        <translation>&amp;Fokuserad transparens:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
@@ -1328,7 +1328,7 @@ Obs: detta stöds inte på alla system.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished">Ofok&amp;userad transparens:</translation>
+        <translation>Ofok&amp;userad transparens:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
@@ -1342,12 +1342,12 @@ Obs: detta stöds inte på alla system.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished">Visa antal objekt i flikar</translation>
+        <translation>Visa antal objekt i flikar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished">&amp;Visa objektantal</translation>
+        <translation>&amp;Visa objektantal</translation>
     </message>
 </context>
 <context>
@@ -1355,47 +1355,47 @@ Obs: detta stöds inte på alla system.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished">&amp;Aviseringsposition:</translation>
+        <translation>&amp;Aviseringsposition:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished">Aviseringars position på skärmen</translation>
+        <translation>Aviseringars position på skärmen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished">Överst</translation>
+        <translation>Överst</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation type="unfinished">Nederst</translation>
+        <translation>Nederst</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished">Överst till höger</translation>
+        <translation>Överst till höger</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished">Nederst till höger</translation>
+        <translation>Nederst till höger</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished">Nederst till vänster</translation>
+        <translation>Nederst till vänster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished">Överst till vänster</translation>
+        <translation>Överst till vänster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished">Int&amp;ervall i sekunder som aviseringar ska visas:</translation>
+        <translation>Int&amp;ervall i sekunder som aviseringar ska visas:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1404,7 +1404,7 @@ Obs: detta stöds inte på alla system.</translation>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished">Intervall i sekunder att visa avisering för nytt urklippsinnehåll eller om objekt kopieras till urklipp (endast om huvudfönstret är stängt).
+        <translation>Intervall i sekunder att visa avisering för nytt urklippsinnehåll eller om objekt kopieras till urklipp (endast om huvudfönstret är stängt).
 
 Ställ in till 0 för att inaktivera detta.
 
@@ -1413,14 +1413,14 @@ Ställ in till -1 för att hålla synlig tills klickad.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished">An&amp;tal rader för urklippsavisering:</translation>
+        <translation>An&amp;tal rader för urklippsavisering:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished">Antal rader att visa för nytt urklippsinnehåll.
+        <translation>Antal rader att visa för nytt urklippsinnehåll.
 
 Ställ in till 0 för att inaktivera.</translation>
     </message>
@@ -1442,7 +1442,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="260"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished">&amp;Vertikal position:</translation>
+        <translation>&amp;Vertikal position:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="272"/>
@@ -1452,7 +1452,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="300"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished">Maximal &amp;bredd:</translation>
+        <translation>Maximal &amp;bredd:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="312"/>
@@ -1462,7 +1462,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="337"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished">Ma&amp;ximal höjd:</translation>
+        <translation>Ma&amp;ximal höjd:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
@@ -1475,72 +1475,72 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished">Visa inte aktivitetsfältsikon, minimera fönster då det stängs</translation>
+        <translation>Visa inte aktivitetsfältsikon, minimera fönster då det stängs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished">Inaktiv&amp;era systemfält</translation>
+        <translation>Inaktiv&amp;era aktivitetsfält</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished">Visa kommando för aktuellt urklippsinnehåll i aktivitetsfältsmeny</translation>
+        <translation>Visa kommando för aktuellt urklippsinnehåll i aktivitetsfältsmeny</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished">Vis&amp;a kommandon för urklippsinnehåll</translation>
+        <translation>Vis&amp;a kommandon för urklippsinnehåll</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished">An&amp;tal objekt i aktivitetsfältsmeny:</translation>
+        <translation>An&amp;tal objekt i aktivitetsfältsmeny:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished">Antal objekt i aktivitetsfältsmeny</translation>
+        <translation>Antal objekt i aktivitetsfältsmeny</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished">Visa objekt från aktuell flik i aktivitetsfältsmeny</translation>
+        <translation>Visa objekt från aktuell flik i aktivitetsfältsmeny</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished">Visa ak&amp;tuell flik i meny,</translation>
+        <translation>Visa ak&amp;tuell flik i meny,</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished">eller &amp;välj en annan flik:</translation>
+        <translation>eller &amp;välj en annan flik:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished">Namn på flik att visa i aktivitetsfältsmeny (tomt för den första fliken)</translation>
+        <translation>Namn på flik att visa i aktivitetsfältsmeny (tomt för den första fliken)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished">Klistra in objekt i aktuellt fönster efter att ha valt det i menyn</translation>
+        <translation>Klistra in objekt i aktuellt fönster efter att ha valt det i menyn</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished">&amp;Klistra in aktiverat objekt till aktuellt fönster</translation>
+        <translation>&amp;Klistra in aktiverat objekt till aktuellt fönster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished">Visa bildförhandsvisning intill menyobjekt</translation>
+        <translation>Visa bildförhandsvisning intill menyobjekt</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished">Vi&amp;sa bildförhandsvisning som menyobjektsikon</translation>
+        <translation>Vi&amp;sa bildförhandsvisning som menyobjektsikon</translation>
     </message>
 </context>
 <context>
@@ -1548,7 +1548,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished">-konfiguration</translation>
+        <translation>Konfiguration</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -1657,7 +1657,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">Välj ikon</translation>
+        <translation>Välj ikon</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2337,7 +2337,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="90"/>
         <source>Web</source>
-        <translation type="unfinished">Webb</translation>
+        <translation>Webb</translation>
     </message>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
@@ -2350,7 +2350,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemweb/itemwebsettings.ui" line="19"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished">Maximal höjd i bildpunkter (0 för ingen gräns):</translation>
+        <translation>Maximal höjd i bildpunkter (0 för ingen gräns):</translation>
     </message>
 </context>
 <context>
@@ -2358,7 +2358,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">-logg</translation>
+        <translation>Logg</translation>
     </message>
 </context>
 <context>
@@ -2445,7 +2445,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
         <source>Options for Import</source>
-        <translation type="unfinished">-alternativ för import</translation>
+        <translation>Alternativ för import</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2095"/>
@@ -2461,12 +2461,12 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
         <source>Options for Export</source>
-        <translation type="unfinished">-alternativ för Export</translation>
+        <translation>Alternativ för Export</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
         <source>Export Error</source>
-        <translation type="unfinished">-exportfel</translation>
+        <translation>Exportfel</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2487,7 +2487,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
         <source>Import Error</source>
-        <translation type="unfinished">-importfel</translation>
+        <translation>Importfel</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
@@ -2861,13 +2861,13 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished">Höger</translation>
+        <translation>Höger</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="136"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished">Vänster</translation>
+        <translation>Vänster</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="146"/>
@@ -2878,7 +2878,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../src/gui/menuitems.cpp" line="147"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation type="unfinished">Skift+F10</translation>
+        <translation>Skift+F10</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
@@ -3404,7 +3404,7 @@ Skriv ut version på program och bibliotek.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">Ny genväg</translation>
+        <translation>Ny genväg</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3447,7 +3447,7 @@ Skriv ut version på program och bibliotek.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Programgenvägar kan endast lösas ut från huvudfönstret.</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
@@ -3478,17 +3478,17 @@ Använd &lt;b&gt;/&lt;/b&gt; som sökvägsavskiljare i trädvyns fliklayout.</tr
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">Ny flik</translation>
+        <translation>Ny flik</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">Byt namn på flik</translation>
+        <translation>Byt namn på flik</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">Byt namn på flikgrupp</translation>
+        <translation>Byt namn på flikgrupp</translation>
     </message>
 </context>
 <context>
