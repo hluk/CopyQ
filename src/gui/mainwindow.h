@@ -589,7 +589,7 @@ private:
     bool closeMinimizes() const;
 
     template <typename SlotReturnType>
-    QAction *createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu);
+    QAction *createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent = nullptr);
 
     QAction *addTrayAction(int id);
 

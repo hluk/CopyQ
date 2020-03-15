@@ -124,8 +124,6 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
 
     setReadOnly(true);
     setUndoRedoEnabled(false);
-    setTextInteractionFlags(
-                textInteractionFlags() | Qt::LinksAccessibleByMouse);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
@@ -308,9 +306,14 @@ ItemWidget *ItemTextLoader::create(const QVariantMap &data, QWidget *parent, boo
     text = normalizeText(text);
 
     ItemText *item = nullptr;
+    Qt::TextInteractionFlags interactionFlags(Qt::LinksAccessibleByMouse);
     // Always limit text size for performance reasons.
     if (preview) {
         item = new ItemText(text, richText, maxLineCountInPreview, maxLineLengthInPreview, 0, parent);
+        item->setFocusPolicy(Qt::StrongFocus);
+        interactionFlags = interactionFlags
+                | Qt::TextSelectableByKeyboard
+                | Qt::LinksAccessibleByKeyboard;
     } else {
         int maxLines = m_settings.value(optionMaximumLines, maxLineCount).toInt();
         if (maxLines <= 0 || maxLines > maxLineCount)
@@ -320,6 +323,7 @@ ItemWidget *ItemTextLoader::create(const QVariantMap &data, QWidget *parent, boo
         item->viewport()->installEventFilter(item);
         item->setContextMenuPolicy(Qt::NoContextMenu);
     }
+    item->setTextInteractionFlags(item->textInteractionFlags() | interactionFlags);
 
     return item;
 }

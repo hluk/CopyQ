@@ -161,6 +161,8 @@ QWidget *ItemDelegate::createPreview(const QVariantMap &data, QWidget *parent)
 
     highlightMatches(itemWidget);
 
+    parent->setFocusProxy( itemWidget->widget() );
+
     return itemWidget->widget();
 }
 

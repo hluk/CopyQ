@@ -430,6 +430,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     ui->tabWidget->addToolBars(this);
     addToolBar(Qt::RightToolBarArea, ui->toolBar);
 
+    ui->dockWidgetItemPreview->setFocusProxy(ui->scrollAreaItemPreview);
     ui->dockWidgetItemPreview->hide();
 
     WindowGeometryGuard::create(this);
@@ -582,6 +583,9 @@ void MainWindow::createMenu()
     QMenu *menu;
     QAction *act;
 
+    // Some action should not be triggered from tab widget or preview dock.
+    QWidget *actionParent = centralWidget();
+
     menubar->clear();
 
     // File
@@ -630,25 +634,25 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&Edit") );
 
     // - find
-    createAction( Actions::Edit_FindItems, &MainWindow::findNextOrPrevious, menu );
+    createAction( Actions::Edit_FindItems, &MainWindow::findNextOrPrevious, menu, actionParent );
 
     // - separator
     menu->addSeparator();
 
     // - sort
-    createAction( Actions::Edit_SortSelectedItems, &MainWindow::sortSelectedItems, menu );
+    createAction( Actions::Edit_SortSelectedItems, &MainWindow::sortSelectedItems, menu, actionParent );
 
     // - reverse order
-    createAction( Actions::Edit_ReverseSelectedItems, &MainWindow::reverseSelectedItems, menu );
+    createAction( Actions::Edit_ReverseSelectedItems, &MainWindow::reverseSelectedItems, menu, actionParent );
 
     // - separator
     menu->addSeparator();
 
     // - paste items
-    createAction( Actions::Edit_PasteItems, &MainWindow::pasteItems, menu );
+    createAction( Actions::Edit_PasteItems, &MainWindow::pasteItems, menu, actionParent );
 
     // - copy items
-    createAction( Actions::Edit_CopySelectedItems, &MainWindow::copyItems, menu );
+    createAction( Actions::Edit_CopySelectedItems, &MainWindow::copyItems, menu, actionParent );
 
     // Items
     m_menuItem = menubar->addMenu( tr("&Item") );
@@ -1334,9 +1338,11 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(
 }
 
 template <typename SlotReturnType>
-QAction *MainWindow::createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu)
+QAction *MainWindow::createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent)
 {
-    QAction *act = actionForMenuItem(id, this, Qt::WindowShortcut);
+    QAction *act = parent
+        ? actionForMenuItem(id, parent, Qt::WidgetWithChildrenShortcut)
+        : actionForMenuItem(id, this, Qt::WindowShortcut);
     connect(act, &QAction::triggered, this, slot, Qt::UniqueConnection);
     if (menu)
         menu->addAction(act);
