@@ -584,7 +584,7 @@ void MainWindow::createMenu()
     QAction *act;
 
     // Some action should not be triggered from tab widget or preview dock.
-    QWidget *actionParent = centralWidget();
+    QWidget *actionParent = ui->tabWidget;
 
     menubar->clear();
 
@@ -615,6 +615,12 @@ void MainWindow::createMenu()
 
     // - show clipboard content
     createAction( Actions::File_ShowClipboardContent, &MainWindow::showClipboardContent, menu );
+
+    // - show preview
+    QAction *togglePreviewAction =
+            createAction( Actions::File_ShowPreview, &MainWindow::toggleItemPreviewVisible, menu );
+    togglePreviewAction->setCheckable(true);
+    togglePreviewAction->setChecked(m_showItemPreview);
 
     // - active commands
     createAction( Actions::File_ProcessManager, &MainWindow::showProcessManagerDialog, menu );
@@ -815,8 +821,6 @@ void MainWindow::updateContextMenuTimeout()
 
     addItemAction( Actions::Item_MoveToClipboard, c, &ClipboardBrowser::moveToClipboard );
     addItemAction( Actions::Item_ShowContent, this, &MainWindow::showItemContent );
-    QAction *togglePreviewAction =
-            addItemAction( Actions::Item_ShowPreview, this, &MainWindow::updateItemPreviewTimeout );
     addItemAction( Actions::Item_Remove, c, &ClipboardBrowser::remove );
     addItemAction( Actions::Item_Edit, c, &ClipboardBrowser::editSelected );
     addItemAction( Actions::Item_EditNotes, c, &ClipboardBrowser::editNotes );
@@ -829,11 +833,6 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveDown, this, &MainWindow::moveDown );
     addItemAction( Actions::Item_MoveToTop, this, &MainWindow::moveToTop );
     addItemAction( Actions::Item_MoveToBottom, this, &MainWindow::moveToBottom );
-
-    togglePreviewAction->setCheckable(true);
-    togglePreviewAction->setChecked(m_showItemPreview);
-    connect( togglePreviewAction, &QAction::toggled,
-             this, &MainWindow::setItemPreviewVisible, Qt::UniqueConnection );
 
     // Disable the show-preview option when the preview dock is closed.
     connect( ui->dockWidgetItemPreview, &QDockWidget::visibilityChanged,
@@ -875,6 +874,11 @@ void MainWindow::updateItemPreviewTimeout()
 
     m_showItemPreview = showPreview;
     m_timerUpdatePreview.stop();
+}
+
+void MainWindow::toggleItemPreviewVisible()
+{
+    setItemPreviewVisible(!m_showItemPreview);
 }
 
 void MainWindow::setItemPreviewVisible(bool visible)

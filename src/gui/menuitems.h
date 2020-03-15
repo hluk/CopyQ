@@ -34,6 +34,7 @@ enum Id {
     File_Preferences,
     File_Commands,
     File_ShowClipboardContent,
+    File_ShowPreview,
     File_ToggleClipboardStoring,
     File_ProcessManager,
     File_Exit,
@@ -46,7 +47,6 @@ enum Id {
 
     Item_MoveToClipboard,
     Item_ShowContent,
-    Item_ShowPreview,
     Item_Remove,
     Item_Edit,
     Item_EditNotes,

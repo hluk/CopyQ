@@ -475,6 +475,7 @@ private:
 
     void updateItemPreviewTimeout();
 
+    void toggleItemPreviewVisible();
     void setItemPreviewVisible(bool visible);
 
     /** Update icon snip animation. */

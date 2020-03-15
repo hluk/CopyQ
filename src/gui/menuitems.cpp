@@ -75,6 +75,8 @@ MenuItems menuItems()
 
     addMenuItem( items, Actions::File_ShowClipboardContent, QObject::tr("Show &Clipboard Content"),
                   "show_clipboard_content", QObject::tr("Ctrl+Shift+C"), "dialog-information", IconPaste );
+    addMenuItem( items, Actions::File_ShowPreview, QObject::tr("&Show Preview"),
+                 "show_item_preview", QObject::tr("F7"), "document-print-preview", IconEye );
     addMenuItem( items, Actions::File_ToggleClipboardStoring, QObject::tr("&Toggle Clipboard Storing"),
                   "toggle_clipboard_storing", QObject::tr("Ctrl+Shift+X"), "" );
     addMenuItem( items, Actions::File_ProcessManager, QObject::tr("P&rocess Manager"),
@@ -99,8 +101,6 @@ MenuItems menuItems()
                   "move_to_clipboard", QKeySequence(), "clipboard", IconPaste );
     addMenuItem( items, Actions::Item_ShowContent, QObject::tr("&Show Content..."),
                   "show_item_content", QObject::tr("F4"), "dialog-information", IconInfoCircle );
-    addMenuItem( items, Actions::Item_ShowPreview, QObject::tr("&Show Preview"),
-                 "show_item_preview", QObject::tr("F7"), "document-print-preview", IconEye );
     addMenuItem( items, Actions::Item_Remove, QObject::tr("&Remove"),
                   "delete_item",  shortcutToRemove(), "list-remove", IconTrash );
     addMenuItem( items, Actions::Item_Edit, QObject::tr("&Edit"), "edit", QObject::tr("F2"),
