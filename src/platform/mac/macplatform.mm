@@ -155,7 +155,7 @@ namespace {
             : MacActivity(reason)
             , ApplicationExceptionHandler<QtApplication>(argc, argv)
         {
-            [NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
+            [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
         }
     };
 
