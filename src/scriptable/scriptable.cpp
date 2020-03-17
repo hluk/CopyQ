@@ -2514,19 +2514,21 @@ void Scriptable::runMenuCommandFilters()
             return;
         }
 
-        m_data.clear();
-        if ( !deserializeData(&in, &m_data) ) {
-            log("Failed to deserialize data for menu item filter", LogError);
-            return;
-        }
+        getActionData();
 
         PerformanceLogger logger( QLatin1String("Menu item filters") );
 
+        // Avoid modifying menu filter data.
+        const int actionId = m_actionId;
+        m_actionId = -1;
+
         for (int i = 0; i < matchCommands.length(); ++i) {
             const bool enabled = canExecuteCommandFilter(matchCommands[i]);
-            if ( !m_proxy->enableMenuItem(m_actionId, currentRun, i, enabled) )
-                return;
+            if ( !m_proxy->enableMenuItem(actionId, currentRun, i, enabled) )
+                break;
         }
+
+        m_actionId = actionId;
     });
 
     emit receiveData();

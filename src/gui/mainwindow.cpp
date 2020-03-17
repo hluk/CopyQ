@@ -1465,7 +1465,9 @@ void MainWindow::runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, con
     }
 
     const bool isRunning = isInternalActionId(menuMatchCommands->actionId);
-    if (!isRunning) {
+    if (isRunning) {
+        m_actionHandler->setActionData(menuMatchCommands->actionId, data);
+    } else {
         const auto act = runScript("runMenuCommandFilters()", data);
         menuMatchCommands->actionId = act->id();
     }
@@ -1474,7 +1476,6 @@ void MainWindow::runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, con
     QDataStream out(&bytes, QIODevice::WriteOnly);
     out << ++menuMatchCommands->currentRun;
     out << menuMatchCommands->matchCommands;
-    serializeData(&out, data);
     emit sendActionData(menuMatchCommands->actionId, bytes);
 }
 
