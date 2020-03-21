@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">À propos de</translation>
+        <translation>À propos</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -26,12 +26,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>Web</source>
-        <translation>Site Internet</translation>
+        <translation>Site web</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
-        <translation>Faire un Don</translation>
+        <translation>Faire un don</translation>
     </message>
 </context>
 <context>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Gestionnaire d&apos;actions de</translation>
+        <translation>Gestionnaire d&apos;actions</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -253,7 +253,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
-        <translation>Coller en tant que Texte Brut</translation>
+        <translation>Coller en tant que texte brut</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
