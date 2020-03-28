@@ -104,6 +104,8 @@ private:
 
 class FakeVimHandler final : public QObject
 {
+    Q_OBJECT
+
 public:
     explicit FakeVimHandler(QWidget *widget, QObject *parent = nullptr);
     ~FakeVimHandler() override;

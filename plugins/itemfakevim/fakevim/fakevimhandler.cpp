@@ -321,7 +321,6 @@ private:
     QString m_fileName;
 };
 using Marks = QHash<QChar, Mark>;
-using MarksIterator = QHashIterator<QChar, Mark>;
 
 struct State
 {
@@ -2069,7 +2068,7 @@ public:
 
     void pasteText(bool afterCursor);
 
-    void cutSelectedText();
+    void cutSelectedText(int reg = 0);
 
     void joinLines(int count, bool preserveSpace = false);
 
@@ -3621,8 +3620,7 @@ void FakeVimHandler::Private::updateSelection()
 {
     QList<QTextEdit::ExtraSelection> selections = m_extraSelections;
     if (hasConfig(ConfigShowMarks)) {
-        for (MarksIterator it(m_buffer->marks); it.hasNext(); ) {
-            it.next();
+        for (auto it = m_buffer->marks.cbegin(), end = m_buffer->marks.cend(); it != end; ++it) {
             QTextEdit::ExtraSelection sel;
             sel.cursor = m_cursor;
             setCursorPosition(&sel.cursor, it.value().position(document()));
@@ -4155,6 +4153,8 @@ EventResult FakeVimHandler::Private::handleCommandMode(const Input &input)
     // Process input for a sub-mode.
     if (input.isEscape()) {
         handled = handleEscape();
+    } else if (m_wasReadOnly) {
+        return EventUnhandled;
     } else if (g.subsubmode != NoSubSubMode) {
         handled = handleCommandSubSubMode(input);
     } else if (g.submode == NoSubMode) {
@@ -5738,9 +5738,7 @@ bool FakeVimHandler::Private::handleExRegisterCommand(const ExCommand &cmd)
     QByteArray regs = cmd.args.toLatin1();
     if (regs.isEmpty()) {
         regs = "\"0123456789";
-        QHashIterator<int, Register> it(g.registers);
-        while (it.hasNext()) {
-            it.next();
+        for (auto it = g.registers.cbegin(), end = g.registers.cend(); it != end; ++it) {
             if (it.key() > '9')
                 regs += char(it.key());
         }
@@ -6684,7 +6682,7 @@ static int someInt(const QString &str)
 {
     if (str.toInt())
         return str.toInt();
-    if (str.size())
+    if (!str.isEmpty())
         return str.at(0).unicode();
     return 0;
 }
@@ -7253,7 +7251,7 @@ void FakeVimHandler::Private::pasteText(bool afterCursor)
     bool pasteAfter = isVisualMode() ? false : afterCursor;
 
     if (isVisualMode())
-        cutSelectedText();
+        cutSelectedText('"');
 
     switch (rangeMode) {
         case RangeCharMode: {
@@ -7334,7 +7332,7 @@ void FakeVimHandler::Private::pasteText(bool afterCursor)
     endEditBlock();
 }
 
-void FakeVimHandler::Private::cutSelectedText()
+void FakeVimHandler::Private::cutSelectedText(int reg)
 {
     pushUndoState();
 
@@ -7345,8 +7343,11 @@ void FakeVimHandler::Private::cutSelectedText()
     if (visualMode && g.rangemode == RangeCharMode)
         ++range.endPos;
 
+    if (!reg)
+        reg = m_register;
+
     g.submode = DeleteSubMode;
-    yankText(range, m_register);
+    yankText(range, reg);
     removeText(range);
     g.submode = NoSubMode;
 
@@ -8274,7 +8275,7 @@ void FakeVimHandler::Private::selectWORDTextObject(bool inner)
 
 void FakeVimHandler::Private::selectSentenceTextObject(bool inner)
 {
-    Q_UNUSED(inner);
+    Q_UNUSED(inner)
 }
 
 void FakeVimHandler::Private::selectParagraphTextObject(bool inner)
@@ -8552,10 +8553,8 @@ bool FakeVimHandler::Private::jumpToMark(QChar mark, bool backTickMode)
 
 void FakeVimHandler::Private::updateMarks(const Marks &newMarks)
 {
-    for (MarksIterator it(newMarks); it.hasNext(); ) {
-        it.next();
+    for (auto it = newMarks.cbegin(), end = newMarks.cend(); it != end; ++it)
         m_buffer->marks[it.key()] = it.value();
-    }
 }
 
 RangeMode FakeVimHandler::Private::registerRangeMode(int reg) const
