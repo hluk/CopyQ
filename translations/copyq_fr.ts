@@ -130,7 +130,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">Gestionnaire de processus de</translation>
+        <translation>Gestionnaire de processus</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -148,7 +148,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Ajouter des commandes dans</translation>
+        <translation>Ajouter des commandes</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -363,7 +363,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Contenu du presse-papier de</translation>
+        <translation>Contenu du presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -383,7 +383,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Contenu d&apos;élément de</translation>
+        <translation>Contenu de l&apos;élément</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -434,7 +434,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">Commandes de</translation>
+        <translation>Commandes</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -980,92 +980,92 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished">Ret&amp;our à la ligne pour les textes trop longs</translation>
+        <translation>Revenir à la ligne pour les textes trop longs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished">Garder la fenêtre principale au-dessus des autres fenêtres</translation>
+        <translation>Conserver la fenêtre principale au-dessus des autres fenêtres</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">Tou&amp;jours visible</translation>
+        <translation>Toujours au premier plan</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished">Fermer la fenêtre principale lorsqu&apos;une autre application a le focus</translation>
+        <translation>Fermer la fenêtre principale lorsqu&apos;une autre application est sélectionnée</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished">Fermer quand le focus est perdu</translation>
+        <translation>Fermer en cas de désélection</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished">Activer pour ouvrir des fenêtres sur l&apos;écran actuel. Désactiver pour ouvrir les fenêtres là où elles ont été fermées la dernière fois</translation>
+        <translation>Activer pour ouvrir des fenêtres sur l&apos;écran actuel. Désactiver pour ouvrir les fenêtres là où elles ont été fermées la dernière fois</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished">O&amp;uvrir les fenêtres sur l&apos;écran actuel</translation>
+        <translation>Ouvrir les fenêtres sur l&apos;écran actuel</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished">Confirmer la sortie de l&apos;application</translation>
+        <translation>Confirmer la sortie de l&apos;application</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished">Confirmer la &amp;sortie de l&apos;application</translation>
+        <translation>Confirmer la sortie de l&apos;application</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished">Exécuter l&apos;application au démarrage du système</translation>
+        <translation>Exécuter l&apos;application au démarrage du système</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished">&amp;Démarrage automatique</translation>
+        <translation>Démarrage automatique</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished">Prise en charge des raccourcis clavier de Vi (touches H, J, K, L etc.), touche (/) pour rechercher</translation>
+        <translation>Prise en charge des raccourcis clavier de Vi (touches H, J, K, L etc.), touche (/) pour rechercher</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished">Navigation de type &amp;Vi</translation>
+        <translation>Navigation de type Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">Sauvegarder et restaurer l&apos;historique des filtres</translation>
+        <translation>Sauvegarder et restaurer l&apos;historique des filtres</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">Sauvegarder l&apos;historique des filtres</translation>
+        <translation>Sauvegarder l&apos;historique des filtres</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished">Afficher automatiquement une infobulle pour compléter la fonction, le type et les noms de variables dans les commandes</translation>
+        <translation>Afficher automatiquement une infobulle pour compléter la fonction, le type et les noms de variables dans les commandes</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished">Auto-complétion des commandes</translation>
+        <translation>Auto-complétion des commandes</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished">Manipulation du presse-papier</translation>
+        <translation>Manipulation du presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
