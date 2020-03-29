@@ -380,7 +380,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Inhalt des Elements</translation>
+        <translation type="unfinished">Elementeinhalt</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -431,7 +431,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">-Befehle</translation>
+        <translation type="unfinished">Befehle</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1548,7 +1548,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished">Einstellungen</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
@@ -1657,7 +1657,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">Symbol auswählen</translation>
+        <translation>Wähle Symbol</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2358,7 +2358,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">Log</translation>
+        <translation>Protokoll</translation>
     </message>
 </context>
 <context>
@@ -2381,7 +2381,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1859"/>
         <source>Options for Import</source>
-        <translation type="unfinished">-Optionen für den Import</translation>
+        <translation>Importoptionen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="509"/>
@@ -2442,12 +2442,12 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3368"/>
         <source>Options for Export</source>
-        <translation type="unfinished">-Optionen für den Export</translation>
+        <translation>Importoptionen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3389"/>
         <source>Export Error</source>
-        <translation type="unfinished">-Exportfehler</translation>
+        <translation>Exportfehler</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3390"/>
@@ -2457,7 +2457,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3478"/>
         <source>Import Error</source>
-        <translation type="unfinished">-Importfehler</translation>
+        <translation>Importfehler</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3479"/>
