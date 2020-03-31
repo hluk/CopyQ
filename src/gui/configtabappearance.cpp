@@ -300,8 +300,10 @@ void ConfigTabAppearance::updateStyle()
 void ConfigTabAppearance::fontButtonClicked(QObject *button)
 {
     QFont font = m_theme.themeFontFromString( button->property("VALUE").toString() );
-    QFontDialog dialog(font, this);
-    dialog.setOptions(dialog.options() | QFontDialog::DontUseNativeDialog);
+    QFontDialog dialog(this);
+    dialog.setOption(QFontDialog::DontUseNativeDialog);
+    // WORKAROUND: DontUseNativeDialog must be set before current font (QTBUG-79637).
+    dialog.setCurrentFont(font);
     if ( dialog.exec() == QDialog::Accepted ) {
         font = dialog.selectedFont();
         button->setProperty( "VALUE", font.toString() );
