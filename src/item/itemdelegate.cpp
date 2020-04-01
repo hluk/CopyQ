@@ -329,8 +329,6 @@ void ItemDelegate::setItemWidgetSelected(const QModelIndex &index, bool isSelect
 
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 {
-    const QSize oldSize = sizeHint(index);
-
     const int row = index.row();
     m_cache[row].reset(w);
     if (w == nullptr)
@@ -348,9 +346,6 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     setWidgetSelected(ww, isSelected);
 
     ww->installEventFilter(this);
-
-    if ( oldSize != sizeHint(index) )
-        emit sizeHintChanged(index);
 }
 
 void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
