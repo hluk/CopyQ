@@ -643,7 +643,7 @@ void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &start)
 
     const auto margins = m_sharedData->theme.margins();
     const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-    const auto padding = QPoint(rowNumberSize.width() + margins.width() - s, margins.height() - s);
+    const auto padding = QPoint(rowNumberSize.width() + margins.width() - s, margins.height());
 
     int items = 0;
     bool anyShown = false;

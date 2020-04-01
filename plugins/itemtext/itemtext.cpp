@@ -137,8 +137,6 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
     if (!m_isRichText)
         m_textDocument.setPlainText(text);
 
-    m_textDocument.setDocumentMargin(0);
-
     if (maxLines > 0) {
         QTextBlock block = m_textDocument.findBlockByLineNumber(maxLines);
         if (block.isValid()) {
@@ -210,6 +208,11 @@ void ItemText::highlight(const QRegularExpression &re, const QFont &highlightFon
 
 void ItemText::updateSize(QSize maximumSize, int idealWidth)
 {
+    if ( m_textDocument.isEmpty() ) {
+        setFixedSize(0, 0);
+        return;
+    }
+
     const int scrollBarWidth = verticalScrollBar()->isVisible() ? verticalScrollBar()->width() : 0;
     setMaximumHeight( maximumSize.height() );
     setFixedWidth(idealWidth);

@@ -160,7 +160,7 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
 int itemMargin()
 {
     const int dpi = QApplication::desktop()->physicalDpiX();
-    return std::max(4, dpi / 30);
+    return std::max(2, dpi / 72);
 }
 
 } // namespace
