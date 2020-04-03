@@ -314,7 +314,7 @@ Otherwise you can check it in command:
 Why can I no longer paste from the application on macOS?
 --------------------------------------------------------
 
-To fix this you can try following steps.
+To fix this you can try following steps:
 
 1. Go to System Preferences -> Security & Privacy -> Privacy -> Accessibility
    (or just search for "Allow apps to use Accessibility").
@@ -445,7 +445,7 @@ details in a comment.
 If you cannot find any such issue, `report a new bug
 <https://github.com/hluk/CopyQ/issues/new>`__.
 
-Try to provide following details.
+Try to provide following details:
 
 - application version
 - operating System (desktop environment, window manager etc.)

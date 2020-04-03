@@ -4,13 +4,13 @@ Writing Commands and Adding Functionality
 =========================================
 
 CopyQ allows you to extend its functionality through commands in
-following ways.
+following ways:
 
-1. Add custom commands to context menu for selected items in history.
-2. Run custom commands automatically when clipboard changes.
-3. Assign global/system-wide shortcuts to custom commands.
+- Add custom commands to context menu for selected items in history.
+- Run custom commands automatically when clipboard changes.
+- Assign global/system-wide shortcuts to custom commands.
 
-Here are some examples what can be achieved by using commands.
+Here are some examples what can be achieved by using commands:
 
 -  Automatically store web links or other types of clipboard content in
    special tabs to keep the history clean.

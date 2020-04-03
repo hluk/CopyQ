@@ -2,11 +2,11 @@ Installation
 ============
 
 Packages and installation files are available at `Releases page <https://github.com/hluk/CopyQ/releases>`__.
-Alternatively you can install the app with one of the following methods.
 
-On **Windows** you can install `Chocolatey package <https://chocolatey.org/packages/copyq>`__.
+Alternatively, you can install the app with one of the following methods:
 
-On **OS X** you can use `Homebrew <https://brew.sh/>`__ to install the app.
+a. On **Windows**, you can install `Chocolatey package <https://chocolatey.org/packages/copyq>`__.
+b. On **OS X**, you can use `Homebrew <https://brew.sh/>`__ to install the app.
 
 .. code-block:: bash
 
@@ -20,7 +20,7 @@ install stable version from official repositories:
     sudo apt install copyq
     # copyq-plugins and copyq-doc is splitted out and can be installed independently
 
-On **Ubuntu** set up the official PPA repository and install the app from terminal.
+On **Ubuntu** set up the official PPA repository and install the app from terminal:
 
 .. code-block:: bash
 
@@ -29,14 +29,14 @@ On **Ubuntu** set up the official PPA repository and install the app from termin
     sudo apt update
     sudo apt install copyq
 
-On **Fedora**, install "copyq" package.
+On **Fedora**, install "copyq" package:
 
 .. code-block:: bash
 
     sudo dnf install copyq
 
 On other Linux distributions, you can use `Flapak <https://www.flatpak.org/>`__
-to install the app.
+to install the app:
 
 .. code-block:: bash
 

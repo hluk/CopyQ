@@ -16,7 +16,7 @@ Extending Command Line Interface
 --------------------------------
 
 By adding following script command you can use ``hello()`` from other script
-or on command line (``copyq hello``).
+or on command line (``copyq hello``):
 
 .. code-block:: js
 
@@ -41,7 +41,7 @@ Specifically :any:`onClipboardChanged` and functions it calls can be
 overridden to customize handling of new clipboard content.
 
 E.g. following command saves only textual clipboard data and removes any
-formatted text.
+formatted text:
 
 .. code-block:: js
 
@@ -58,7 +58,7 @@ formatted text.
     }
 
 E.g. following command overrides ``paste()`` to use an external utility for
-pasting clipboard.
+pasting clipboard:
 
 .. code-block:: js
 

@@ -245,7 +245,7 @@ omitted.
 
    Sets current tab for the script.
 
-   E.g. following script selects third item (index is 2) from tab "Notes".
+   E.g. following script selects third item (index is 2) from tab "Notes":
 
    .. code-block:: js
 
@@ -463,7 +463,7 @@ omitted.
 
    Returns paths and flags used by the application.
 
-   E.g. following command prints path to configuration file.
+   E.g. following command prints path to configuration file:
 
    .. code-block:: bash
 
@@ -544,7 +544,7 @@ omitted.
    This is also the data used to create new item from clipboard.
 
    E.g. following automatic command will add creation time data and tag to
-   new items.
+   new items:
 
    ::
 
@@ -553,7 +553,7 @@ omitted.
        setData('application/x-copyq-user-copy-time', dateString(timeFormat))
        setData(mimeTags, 'copied: ' + time)
 
-   E.g. following menu command will add tag to selected items.
+   E.g. following menu command will add tag to selected items:
 
    ::
 
@@ -1148,7 +1148,7 @@ Types
    - `openAppend()` - write only, appends to the file
 
    Following code reads contents of "README.md" file from current
-   directory.
+   directory:
 
    .. code-block:: js
 
@@ -1157,7 +1157,7 @@ Types
          throw 'Failed to open the file: ' + f.errorString()
        var bytes = f.readAll()
 
-   Following code writes to a file in home directory.
+   Following code writes to a file in home directory:
 
    .. code-block:: js
 
@@ -1307,7 +1307,7 @@ These MIME types values are assigned to global variables prefixed with
 
    Current tab name when invoking command from main window.
 
-   Following command print the tab name when invoked from main window.
+   Following command print the tab name when invoked from main window:
 
    ::
 
@@ -1328,7 +1328,7 @@ These MIME types values are assigned to global variables prefixed with
 
    This won't hide notes and tags.
 
-   E.g. if you run following, window title and tool tip will be cleared.
+   E.g. if you run following, window title and tool tip will be cleared:
 
    ::
 
@@ -1360,7 +1360,7 @@ These MIME types values are assigned to global variables prefixed with
    Clear or remove the format to omit storing the data.
 
    E.g. to omit storing the clipboard data use following in an automatic
-   command.
+   command:
 
    .. code-block:: js
 

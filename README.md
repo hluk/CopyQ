@@ -113,7 +113,7 @@ Install [Flatpak](https://www.flatpak.org/) and `com.github.hluk.copyq` from
 flatpak install flathub com.github.hluk.copyq
 ```
 
-Start the application from menu or with following command.
+Start the application from menu or with following command:
 
 ```bash
 flatpak run com.github.hluk.copyq

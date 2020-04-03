@@ -109,7 +109,7 @@ On OS X, required Qt 5 libraries and utilities can be easily installed with `Hom
 
     brew install qt5
 
-Build with the following commands.
+Build with the following commands:
 
 ::
 
