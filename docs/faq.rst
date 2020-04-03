@@ -8,13 +8,13 @@ How to open application window or tray menu using shortcut?
 
 Add new command to open window or menu with global shortcut:
 
-1. open "Command" dialog (``F6`` shortcut),
-2. click "Add" button in the dialog,
-3. select "Show/hide main window" or "Show the tray menu" from the list
-   and click "OK" button,
-4. click the button next to "Global Shortcut" label and set the
-   shortcut,
-5. click "OK" button to save the changes.
+1. Open "Command" dialog (``F6`` shortcut).
+2. Click "Add" button in the dialog.
+3. Select "Show/hide main window" or "Show the tray menu" from the list
+   and click "OK" button.
+4. Click the button next to "Global Shortcut" label and set the
+   shortcut.
+5. Click "OK" button to save the changes.
 
 For more information about commands see :ref:`writing-commands`.
 
@@ -23,9 +23,9 @@ For more information about commands see :ref:`writing-commands`.
 How to paste double-clicked item from application window?
 ---------------------------------------------------------
 
-1. Open "Preferences" (``Ctrl+P`` shortcut),
-2. go to "History" tab,
-3. enable "Paste to current window" option.
+1. Open "Preferences" (``Ctrl+P`` shortcut).
+2. Go to "History" tab.
+3. Enable "Paste to current window" option.
 
 Next time you open main window and activate an item it should be pasted.
 
@@ -36,11 +36,11 @@ How to paste as plain text?
 
 To **paste clipboard as plain text**:
 
-1. open "Command" dialog (``F6`` shortcut),
-2. click "Add" button in the dialog,
-3. select "Paste clipboard as plain text" from the list and click "OK" button,
-4. click the button next to "Global Shortcut" label and set the shortcut,
-5. click "OK" button to save the changes.
+1. Open "Command" dialog (``F6`` shortcut).
+2. Click "Add" button in the dialog.
+3. Select "Paste clipboard as plain text" from the list and click "OK" button.
+4. Click the button next to "Global Shortcut" label and set the shortcut.
+5. Click "OK" button to save the changes.
 
 To **paste selected items as plain text** (from application window) follow the steps above
 but add "Paste as Plain Text" command instead and change "Shortcut".
@@ -52,21 +52,21 @@ How to store only plain text?
 
 To **disallow storing HTML and rich text**:
 
-1. Open "Preferences" (``Ctrl+P`` shortcut),
-2. go to "Items" tab,
-3. disable "Web" item in the list,
-4. select "Text" item,
-5. and disable "Save and display HTML and rich text".
+1. Open "Preferences" (``Ctrl+P`` shortcut).
+2. Go to "Items" tab.
+3. Disable "Web" item in the list.
+4. Select "Text" item.
+5. Disable "Save and display HTML and rich text".
 
 Similarly you can also disable "Images" in the list to avoid storing and
 rendering images.
 
 Existing items won't be affected but **any data formats can be removed**:
 
-1. Select an item,
-2. press ``F4`` shortcut ("Item - Show Content..." in menu),
-3. select format from list,
-4. press ``Delete`` key.
+1. Select an item.
+2. Press ``F4`` shortcut ("Item - Show Content..." in menu).
+3. Select format from list.
+4. Press ``Delete`` key.
 
 .. _faq-disable-clipboard-storing:
 
@@ -79,9 +79,9 @@ To re-enable the functionality select "File - Enable Clipboard Storing" (same sh
 
 To permanently disable storing clipboard:
 
-1. Open "Preferences" (``Ctrl+P`` shortcut),
-2. go to "History" tab,
-3. clear "Tab for storing clipboard" field.
+1. And pen "Preferences" (``Ctrl+P`` shortcut).
+2. Go to "History" tab.
+3. Clear "Tab for storing clipboard" field.
 
 How to back up tabs, configuration and commands?
 ------------------------------------------------
@@ -101,11 +101,11 @@ How to enable or disable displaying notification when clipboard changes?
 
 To enable displaying the notifications:
 
-1. open "Preferences" (``Ctrl+P`` shortcut),
-2. go to "Notifications" tab,
-3. set non-zero value for "Interval in seconds to display notifications",
-4. set non-zero value for "Number of lines for clipboard notification",
-5. click "OK" button.
+1. Open "Preferences" (``Ctrl+P`` shortcut).
+2. Go to "Notifications" tab.
+3. Set non-zero value for "Interval in seconds to display notifications".
+4. Set non-zero value for "Number of lines for clipboard notification".
+5. Click "OK" button.
 
 To enable displaying the notifications, set either of the options
 mentioned above to zero.
@@ -128,10 +128,10 @@ You can stumble upon code that looks like this.
 This code represents a command that can used in CopyQ (specifically it
 opens main window on Ctrl+Shift+1). To use the command in CopyQ:
 
-1. copy the code above,
-2. open "Command" dialog (``F6`` shortcut),
-3. click "Paste Commands" button at the bottom of the dialog,
-4. click OK button.
+1. Copy the code above.
+2. Open "Command" dialog (``F6`` shortcut).
+3. Click "Paste Commands" button at the bottom of the dialog.
+4. Click OK button.
 
 (Now you should be able to open main window with Ctrl+Shift+1.)
 
@@ -143,14 +143,14 @@ How to omit storing text copied from specific windows like a password manager?
 
 Add and modify automatic command to ignore text copied from the window:
 
-1. open "Command" dialog (``F6`` shortcut),
-2. click "Add" button in the dialog,
-3. select "Ignore *Password* window" from the list and click "OK"
-   button,
-4. select "Show Advanced"
-5. change "Window" text box to match the title (or part of it) of the
-   window to ignore (e.g. ``KeePass``),
-6. click "OK" button to save the changes.
+1. Open "Command" dialog (``F6`` shortcut).
+2. Click "Add" button in the dialog.
+3. Select "Ignore *Password* window" from the list and click "OK"
+   Button.
+4. Select "Show Advanced"
+5. Change "Window" text box to match the title (or part of it) of the
+   Window to ignore (e.g. ``KeePass``).
+6. Click "OK" button to save the changes.
 
 .. note::
 
@@ -181,8 +181,8 @@ by entering command ``copyq 'copy(info("log"))'``. Alternatively, press ``F12`` 
 How to preserve the order of copied items on copy or pasting multiple items?
 ----------------------------------------------------------------------------
 
-a. Reverse order of selected items with ``Ctrl+Shift+R`` and copy them or
-b. select items in reverse order and copy.
+a. Reverse order of selected items with ``Ctrl+Shift+R`` and copy them.
+b. Alternatively, select items in reverse order and copy.
 
 See `#165 <https://github.com/hluk/CopyQ/issues/165#issuecomment-34745058>`__.
 
@@ -211,9 +211,9 @@ workaround from `#27
 
 First, check if you have the appropriate options enabled.
 
-1. For pasting from main window, enable "Paste to current window" in "History"
+a. For pasting from main window, enable "Paste to current window" in "History"
    configuration tab.
-2. For pasting from tray menu, enable "Paste activated item to current window"
+b. For pasting from tray menu, enable "Paste activated item to current window"
    in "Tray" configuration tab.
 
 If the pasting still doesn't work, check if ``Shift+Insert`` shortcut pastes to
@@ -221,10 +221,10 @@ the target window. That's the shortcut CopyQ uses by default. To change this to
 ``Ctrl+V`` see `#633
 <https://github.com/hluk/CopyQ/issues/633#issuecomment-278326916>`__.
 
-If pasting still doesn't work it could mean that:
+If pasting still doesn't work, it could be caused by any of these problems:
 
-a. CopyQ fails to focus the window correctly,
-b. the format copied to clipboard is not supported by the target application,
+- CopyQ fails to focus the window correctly.
+- The format copied to clipboard is not supported by the target application.
 
 How to open the menu or context menu with only the keyboard?
 ------------------------------------------------------------
@@ -237,11 +237,11 @@ How to hide menu bar in main window?
 
 Menu bar can be hidden by modifying style sheet of current theme.
 
-1. Open "Preferences" (``Ctrl+P`` shortcut),
-2. go to "Appearance" tab,
-3. enable checkbox "Set colors for tabs, tool bar and menus",
-4. click "Edit Theme" button,
-5. find ``menu_bar_css`` option and add ``height: 0``:
+1. Open "Preferences" (``Ctrl+P`` shortcut).
+2. Go to "Appearance" tab.
+3. Enable checkbox "Set colors for tabs, tool bar and menus".
+4. Click "Edit Theme" button.
+5. Find ``menu_bar_css`` option and add ``height: 0``:
 
 .. code-block:: ini
 
@@ -317,8 +317,8 @@ Why can I no longer paste from the application on macOS?
 To fix this you can try following steps.
 
 1. Go to System Preferences -> Security & Privacy -> Privacy -> Accessibility
-   (or just search for "Allow apps to use Accessibility"),
-2. Click the unlock button,
+   (or just search for "Allow apps to use Accessibility").
+2. Click the unlock button.
 3. Select CopyQ from the list and remove it (with the "-" button).
 
 See also Issues `#1030 <https://github.com/hluk/CopyQ/issues/1030>`__ and `#1245 <https://github.com/hluk/CopyQ/issues/1245>`__.
@@ -332,9 +332,9 @@ modified.
 
 Usual issues are:
 
-- external editor opens an empty file,
-- external editor warns that the file is missing or
-- saving the file doesn't have any effect on the origin item.
+- External editor opens an empty file.
+- External editor warns that the file is missing.
+- Saving the file doesn't have any effect on the origin item.
 
 This happens if **the command to launch editor exits but the editor
 application itself is still running**. Since the command exited, CopyQ assumes
@@ -354,9 +354,10 @@ Where to find saved items and configuration?
 
 You can find configuration and saved items in:
 
-- Windows folder ``%APPDATA%\copyq`` for installed version of the app or ``config``
-  folder in unzipped portable version,
-- Linux directory ``~/.config/copyq``.
+a. Windows folder ``%APPDATA%\copyq`` for installed version of the app or
+   ``config`` folder in unzipped portable version.
+b. Windows sub-folder ``config`` in unzipped portable version.
+c. Linux directory ``~/.config/copyq``.
 
 Run ``copyq info config`` to get absolute path to the configuration file
 (parent directory contains saved items).
@@ -379,10 +380,10 @@ As a workaround, you can try to assign the shortcuts in your system settings.
 
 To get the command to launch for a shortcut:
 
-1. open Command dialog (F6 from main window),
-2. in left panel, click on the command with the global shortcut,
-3. enable "Show Advanced" checkbox,
-4. copy the content of "Command" text field.
+1. Open Command dialog (F6 from main window).
+2. Click on the command with the global shortcut in the left panel.
+3. Enable "Show Advanced" checkbox.
+4. Copy the content of "Command" text field.
 
 .. note::
 
@@ -444,10 +445,10 @@ details in a comment.
 If you cannot find any such issue, `report a new bug
 <https://github.com/hluk/CopyQ/issues/new>`__.
 
-Try to provide following detail.
+Try to provide following details.
 
-1. Application version
-2. Operating System (desktop environment, window manager etc.)
-3. Steps to reproduce the issue.
-4. Application log (see :ref:`faq-share-commands`)
-5. Back trace if available (e.g. on Linux ``coredumpctl dump --reverse copyq``)
+- application version
+- operating System (desktop environment, window manager etc.)
+- steps to reproduce the issue
+- application log (see :ref:`faq-share-commands`)
+- stacktrace if available (e.g. on Linux ``coredumpctl dump --reverse copyq``)

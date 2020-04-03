@@ -12,24 +12,24 @@ In addition to features provided by Qt Script there are following
 Execute Script
 --------------
 
-The scripts can be executed:
+The scripts can be executed from:
 
--  from commands (in Action or Command dialogs -- F5, F6 shortcuts) if
-   the first line starts with ``copyq:``,
--  from command line as ``copyq eval '<SCRIPT>'``,
--  from command line as ``cat script.js | copyq eval -``,
--  from command line as
-   ``copyq <SCRIPT_FUNCTION> <FUNCTION_ARGUMENT_1> <FUNCTION_ARGUMENT_2> ...``.
+a.  Action or Command dialogs (F5, F6 shortcuts), if
+    the first line starts with ``copyq:``
+b.  command line as ``copyq eval '<SCRIPT>'``
+c.  command line as ``cat script.js | copyq eval -``
+d.  command line as
+    ``copyq <SCRIPT_FUNCTION> <FUNCTION_ARGUMENT_1> <FUNCTION_ARGUMENT_2> ...``
 
 When run from command line, result of last expression is printed on
 stdout.
 
 Command exit values are:
 
--  0 - script finished without error,
--  1 - ``fail()`` was called,
--  2 - bad syntax,
--  3 - exception was thrown.
+-  0 - script finished without error
+-  1 - ``fail()`` was called
+-  2 - bad syntax
+-  3 - exception was thrown
 
 Command Line
 ------------

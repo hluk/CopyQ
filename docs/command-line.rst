@@ -38,10 +38,10 @@ This will print:
 
 Among other things that are possible with CopyQ are:
 
-* open video player if text copied in clipboard is URL with multimedia,
-* store text copied from a code editor in "code" tab,
-* store URLs in different tab,
-* save screenshots (print-screen),
-* load all files from directory to items (create image gallery),
-* replace a text in all matching items,
-* run item as a Python script.
+* open video player if text copied in clipboard is URL with multimedia
+* store text copied from a code editor in "code" tab
+* store URLs in different tab
+* save screenshots (print-screen)
+* load all files from directory to items (create image gallery)
+* replace a text in all matching items
+* run item as a Python script

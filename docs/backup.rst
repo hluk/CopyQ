@@ -28,8 +28,8 @@ Path to configuration is usually:
 
 To copy the configuration path to clipboard from CopyQ:
 
-1. open Action dialog (``F5`` shortcut),
-2. enter command
+1. Open Action dialog (``F5`` shortcut).
+2. Enter the command:
 
 .. code-block:: js
 
@@ -37,7 +37,7 @@ To copy the configuration path to clipboard from CopyQ:
     dir = Dir(info('config') + '/..')
     copy(dir.absolutePath())
 
-3. click OK dialog button.
+3. Click OK dialog button.
 
 To restore the backup, exit the application and replace the
 configuration directory.

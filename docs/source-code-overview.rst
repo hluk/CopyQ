@@ -27,9 +27,9 @@ Application Processes
 
 There are these system processes:
 
--  main GUI application,
--  clipboard monitor (started from main application),
--  multiple clients (run scripts in main application).
+-  main GUI application
+-  clipboard monitor (started from main application)
+-  multiple clients (run scripts in main application)
 
 Main GUI Application
 ~~~~~~~~~~~~~~~~~~~~
@@ -156,13 +156,13 @@ and ``platformNativeInterface()``.
 
 The implementations can contain:
 
--  creating Qt application objects,
--  clipboard handling (for clipboard monitor),
--  focusing window and getting window titles,
--  getting system paths,
--  setting "autostart" option,
+-  creating Qt application objects
+-  clipboard handling (for clipboard monitor)
+-  focusing window and getting window titles
+-  getting system paths
+-  setting "autostart" option
 -  handling global shortcuts (**note:** this part is in
-   `qxt/ <https://github.com/hluk/CopyQ/tree/master/qxt>`__).
+   `qxt/ <https://github.com/hluk/CopyQ/tree/master/qxt>`__)
 
 For unsupported platforms there is `simple
 implementation <https://github.com/hluk/CopyQ/tree/master/src/platform/dummy>`__

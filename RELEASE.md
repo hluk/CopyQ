@@ -36,19 +36,20 @@ Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt
 
 Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
 
-- update "tag" and "commit" in "com.github.hluk.copyq.json" file,
-- push to fork,
-- [create pull request](https://github.com/flathub/com.github.hluk.copyq/compare/master...hluk:master),
-- wait for build to finish (flathubbot will add comments),
-- [verify the build](https://flathub.org/builds/#/),
-- merge the changes if build is OK.
+1. Update "tag" and "commit" in "com.github.hluk.copyq.json" file.
+2. Push to your fork.
+3. [Create pull request](https://github.com/flathub/com.github.hluk.copyq/compare/master...hluk:master).
+4. Wait for build to finish (flathubbot will add comments).
+5. [Verify the build](https://flathub.org/builds/#/).
+6. Merge the changes if build is OK.
 
 # Publish Release
 
 Download:
-- binaries for Windows from [AppVeyor](https://ci.appveyor.com/project/hluk/copyq).
-- binary for OS X from [github](https://github.com/hluk/CopyQ/releases).
-- source package from [github](https://github.com/hluk/CopyQ/releases).
+
+- binaries for Windows from [AppVeyor](https://ci.appveyor.com/project/hluk/copyq)
+- binary for OS X from [github](https://github.com/hluk/CopyQ/releases)
+- source package from [github](https://github.com/hluk/CopyQ/releases)
 - OBS packages
 
       utils/download_obs_packages.sh 3.3.1 1.1
@@ -56,6 +57,7 @@ Download:
 Create [release on github](https://github.com/hluk/CopyQ/releases) for the new version tag.
 
 Upload packages and binaries to:
+
 - [github](https://github.com/hluk/CopyQ/releases)
 - [sourceforge](https://sourceforge.net/projects/copyq/files/)
 - [fosshub](https://www.fosshub.com/CopyQ.html)

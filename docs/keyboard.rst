@@ -40,11 +40,11 @@ Change Shortcuts
 
 To change the shortcuts:
 
-- open "File - Preferences",
-- select "Shortcuts" tab,
-- click the button next to action you need to change,
-- press a shortcut on keyboard,
-- click OK to save the dialog.
+1. Open "File - Preferences".
+2. Select "Shortcuts" tab.
+3. Click the button next to action you need to change.
+4. Press a shortcut on keyboard.
+5. Click OK to save the dialog.
 
 Create new Shortcut
 -------------------
@@ -52,8 +52,8 @@ Create new Shortcut
 If and action with shortcut is missing in the Shortcuts configuration
 tab, you can use predefined ones:
 
-- open "File - Commands/Global Shortcuts...",
-- click "Add" button,
-- select command (e.g. "Show/hide main window"),
-- press a shortcut on keyboard,
-- click OK to save the dialog.
+1. Open "File - Commands/Global Shortcuts...".
+2. Click "Add" button.
+3. Select command (e.g. "Show/hide main window").
+4. Press a shortcut on keyboard.
+5. Click OK to save the dialog.
