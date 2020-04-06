@@ -323,6 +323,7 @@ void ConfigurationManager::initOptions()
     bind<Config::hide_main_window_in_task_bar>();
     bind<Config::max_process_manager_rows>();
     bind<Config::show_advanced_command_settings>();
+    bind<Config::text_tab_width>();
 }
 
 template <typename Config, typename Widget>

@@ -20,6 +20,7 @@
 #include "clipboardserver.h"
 
 #include "common/action.h"
+#include "common/appconfig.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
 #include "common/commandstatus.h"
@@ -44,6 +45,7 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QSessionManager>
+#include <QTextEdit>
 
 #ifdef NO_GLOBAL_SHORTCUTS
 class QxtGlobalShortcut final {};
@@ -65,6 +67,24 @@ uint monitorCommandStateHash(const QVector<Command> &commands)
     }
 
     return hash;
+}
+
+void setTabWidth(QTextEdit *editor, int spaces)
+{
+    const QLatin1Char space(' ');
+    const QFontMetricsF metrics(editor->fontMetrics());
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
+    const qreal width = metrics.horizontalAdvance(QString(spaces, space));
+#else
+    const qreal width = metrics.width(space) * spaces;
+#endif
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
+    editor->setTabStopDistance(width);
+#else
+    editor->setTabStopWidth(width);
+#endif
 }
 
 } // namespace
@@ -554,6 +574,10 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
         }
     } else if (type == QEvent::Paint) {
         setActivePaintDevice(object);
+    } else if (type == QEvent::FontChange) {
+        QTextEdit *editor = qobject_cast<QTextEdit*>(object);
+        if (editor)
+            setTabWidth(editor, m_textTabSize);
     }
 
     return false;
@@ -561,6 +585,8 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 
 void ClipboardServer::loadSettings()
 {
+    m_textTabSize = AppConfig().option<Config::text_tab_width>();
+
     if (m_monitor) {
         stopMonitoring();
         startMonitoring();

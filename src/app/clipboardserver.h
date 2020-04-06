@@ -138,6 +138,7 @@ private:
     QTimer m_ignoreKeysTimer;
     ItemFactory *m_itemFactory;
     uint m_monitorCommandsStateHash = 0;
+    int m_textTabSize = 8;
 
     QMap<int, QByteArray> m_actionDataToSend;
     QTimer m_timerClearUnsentActionData;

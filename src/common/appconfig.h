@@ -199,6 +199,11 @@ struct text_wrap : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
+struct text_tab_width : Config<int> {
+    static QString name() { return "text_tab_width"; }
+    static Value defaultValue() { return 8; }
+};
+
 struct activate_closes : Config<bool> {
     static QString name() { return "activate_closes"; }
     static Value defaultValue() { return true; }

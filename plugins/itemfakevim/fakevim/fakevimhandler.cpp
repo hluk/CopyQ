@@ -2700,12 +2700,15 @@ void FakeVimHandler::Private::updateEditor()
 
 void FakeVimHandler::Private::setTabSize(int tabSize)
 {
+    const QLatin1Char space(' ');
+    const QFontMetricsF metrics(EDITOR(fontMetrics()));
+
 #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
-    const int charWidth = QFontMetrics(EDITOR(font())).horizontalAdvance(QLatin1Char(' '));
+    const qreal width = metrics.horizontalAdvance(QString(tabSize, space));
 #else
-    const int charWidth = QFontMetrics(EDITOR(font())).width(QLatin1Char(' '));
+    const qreal width = metrics.width(space) * tabSize;
 #endif
-    const int width = charWidth * tabSize;
+
 #if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
     EDITOR(setTabStopDistance(width));
 #else
