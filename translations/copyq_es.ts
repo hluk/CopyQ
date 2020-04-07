@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Acerca de</translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Diálogo de acción de</translation>
+        <translation>Diálogo de acción</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -64,7 +64,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crear items de la salida estándar del programa (dejar vacío para desactivar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -111,13 +111,12 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Error: %1</translation>
+        <translation>Error: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="151"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">Código de salida: %1
- {1?}</translation>
+        <translation>Código de salida: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="183"/>
@@ -130,7 +129,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">Administrador de procesos</translation>
+        <translation>Administrador de procesos</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -140,7 +139,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Terminar seleccionado</translation>
     </message>
 </context>
 <context>
@@ -148,7 +147,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Añadir comandos</translation>
+        <translation>Agregar comandos</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -158,7 +157,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished">Mostrar el menú de la bandeja</translation>
+        <translation>Mostrar el menú de la bandeja</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
@@ -168,17 +167,17 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished">Editar portapapeles</translation>
+        <translation>Editar portapapeles</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
         <source>Edit first item</source>
-        <translation type="unfinished">Editar el primer elemento</translation>
+        <translation>Editar el primer elemento</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="83"/>
         <source>Copy second item</source>
-        <translation type="unfinished">Copiar el segundo elemento</translation>
+        <translation>Copiar el segundo elemento</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
@@ -188,7 +187,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
         <source>Create new item</source>
-        <translation type="unfinished">Crear un nuevo elemento</translation>
+        <translation>Crear nuevo elemento</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="86"/>
@@ -218,12 +217,12 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished">Pegar y copiar el siguiente</translation>
+        <translation>Pegar y copiar el siguiente</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished">Pegar y copiar el anterior</translation>
+        <translation>Pegar y copiar el anterior</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
@@ -285,23 +284,23 @@ Puede configurar la orden desde las preferencias.</translation>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished">Agregar a %1 tab</translation>
+        <translation>Agregar a pestaña %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished">Mover a %1 tab</translation>
+        <translation>Mover a pestaña %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished">Ignorar archivos copiados</translation>
+        <translation>Ignorar archivos copiados</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished">Ignorar ventana *&quot;Contraseña&quot;*</translation>
+        <translation>Ignorar ventana *&quot;Contraseña&quot;*</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
@@ -325,7 +324,7 @@ Puede configurar la orden desde las preferencias.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="836"/>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1652"/>
         <source>Cannot Add New Items</source>
-        <translation type="unfinished">No puedo Agregar Nuevos Elementos</translation>
+        <translation>No se pueden agregar nuevos elementos</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="837"/>
@@ -362,7 +361,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Contenido del portapapeles</translation>
+        <translation>Contenido del portapapeles</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -372,7 +371,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished">C&amp;ontenido:</translation>
+        <translation>C&amp;ontenido:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
@@ -382,7 +381,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Contenido del Elemento</translation>
+        <translation>Contenido del Elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -433,7 +432,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">Órdenes</translation>
+        <translation>Comandos</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -448,7 +447,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cargar comandos…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
