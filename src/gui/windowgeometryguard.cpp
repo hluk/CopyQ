@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2019, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
