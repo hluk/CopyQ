@@ -245,12 +245,14 @@ BaseNameExtensionsList listFiles(const QStringList &files,
 }
 
 /// Load hash of all existing files to map (hash -> filename).
-QStringList listFiles(const QDir &dir, QDir::SortFlags sortFlags = QDir::NoSort)
+QStringList listFiles(const QDir &dir)
 {
     QStringList files;
 
     const QDir::Filters itemFileFilter = QDir::Files | QDir::Readable | QDir::Writable;
-    for ( const auto &info : dir.entryInfoList(itemFileFilter, sortFlags) ) {
+    // Get files ordered by name to achive same result on multiple platforms.
+    // NOTE: Sorting by modification time can be slow.
+    for ( const auto &info : dir.entryInfoList(itemFileFilter, QDir::Name) ) {
         if ( canUseFile(info) )
             files.append(info.absoluteFilePath());
     }
@@ -485,7 +487,7 @@ void FileWatcher::updateItems()
     m_lastUpdateTimeMs = QDateTime::currentMSecsSinceEpoch();
 
     const QDir dir(m_path);
-    const QStringList files = listFiles(dir, QDir::Time | QDir::Reversed);
+    const QStringList files = listFiles(dir);
     BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
 
     if ( t.elapsed() > 100 )
