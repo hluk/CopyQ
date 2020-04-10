@@ -449,7 +449,7 @@ void FileWatcher::unlock()
     m_valid = true;
 }
 
-bool FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow)
+void FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow)
 {
     QVariantMap dataMap;
     QVariantMap mimeToExtension;
@@ -459,22 +459,17 @@ bool FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions 
     if ( !mimeToExtension.isEmpty() ) {
         dataMap.insert( mimeBaseName, QFileInfo(baseNameWithExts.baseName).fileName() );
         dataMap.insert(mimeExtensionMap, mimeToExtension);
-
-        if ( !createItem(dataMap, targetRow) )
-            return false;
+        createItem(dataMap, targetRow);
     }
-
-    return true;
 }
 
 void FileWatcher::createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
 {
     for (const auto &baseNameWithExts : fileList) {
-        if ( !createItemFromFiles(dir, baseNameWithExts, 0)
-             || m_model->rowCount() >= m_maxItems )
-        {
+        if ( m_model->rowCount() >= m_maxItems )
             break;
-        }
+
+        createItemFromFiles(dir, baseNameWithExts, 0);
     }
 }
 
@@ -494,6 +489,8 @@ void FileWatcher::updateItems()
     for ( int row = 0; row < m_model->rowCount(); ++row ) {
         const QModelIndex index = m_model->index(row, 0);
         const QString baseName = getBaseName(index);
+        if ( baseName.isEmpty() )
+            continue;
 
         int i = 0;
         for ( i = 0; i < fileList.size() && fileList[i].baseName != baseName; ++i ) {}
@@ -580,16 +577,22 @@ FileWatcher::IndexData &FileWatcher::indexData(const QModelIndex &index)
     return *it;
 }
 
-bool FileWatcher::createItem(const QVariantMap &dataMap, int targetRow)
+void FileWatcher::createItem(const QVariantMap &dataMap, int targetRow)
 {
     const int row = qMax( 0, qMin(targetRow, m_model->rowCount()) );
-    if ( m_model->insertRow(row) ) {
-        const QModelIndex &index = m_model->index(row, 0);
-        updateIndexData(index, dataMap);
-        return true;
-    }
+    if ( !m_model->insertRow(row) )
+        return;
 
-    return false;
+    // Find index if it was moved after inserted.
+    const int rows = m_model->rowCount();
+    for ( int i = 0; i < rows; ++i ) {
+        const int row2 = (row + i) % rows;
+        auto index = m_model->index(row2, 0);
+        if ( getBaseName(index).isEmpty() ) {
+            updateIndexData(index, dataMap);
+            return;
+        }
+    }
 }
 
 void FileWatcher::updateIndexData(const QModelIndex &index, const QVariantMap &itemData)

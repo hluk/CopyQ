@@ -79,7 +79,7 @@ public:
 
     void unlock();
 
-    bool createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow);
+    void createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow);
 
     void createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList);
 
@@ -115,7 +115,7 @@ private:
 
     IndexData &indexData(const QModelIndex &index);
 
-    bool createItem(const QVariantMap &dataMap, int targetRow);
+    void createItem(const QVariantMap &dataMap, int targetRow);
 
     void updateIndexData(const QModelIndex &index, const QVariantMap &itemData);
 
