@@ -340,6 +340,16 @@ void setNormalStretchFixedColumns(QTableWidget *table, int normalColumn, int str
     table->resizeColumnToContents(normalColumn);
 }
 
+bool hasOnlyInternalData(const QVariantMap &data)
+{
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const auto &format = it.key();
+        if ( !format.startsWith(COPYQ_MIME_PREFIX) )
+            return false;
+    }
+    return true;
+}
+
 } // namespace
 
 ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childItem)
@@ -539,8 +549,8 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
     QVariantMap copiedItemData = itemData;
     copiedItemData.insert(mimeSyncPath, m_tabPath);
 
-    // Add text/uri-list if not present.
-    if ( !copiedItemData.contains(mimeUriList) ) {
+    // Add text/uri-list if no data are present.
+    if ( hasOnlyInternalData(copiedItemData) ) {
         QByteArray uriData;
 
         const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
