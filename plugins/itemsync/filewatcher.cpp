@@ -28,6 +28,7 @@
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QDir>
+#include <QElapsedTimer>
 #include <QMimeData>
 #include <QRegularExpression>
 #include <QUrl>
@@ -478,11 +479,17 @@ void FileWatcher::updateItems()
         return;
     }
 
+    QElapsedTimer t;
+    t.start();
+
     m_lastUpdateTimeMs = QDateTime::currentMSecsSinceEpoch();
 
     const QDir dir(m_path);
     const QStringList files = listFiles(dir, QDir::Time | QDir::Reversed);
     BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
+
+    if ( t.elapsed() > 100 )
+        log( QString("ItemSync: Files listed in %1 ms").arg(t.elapsed()) );
 
     for ( int row = 0; row < m_model->rowCount(); ++row ) {
         const QModelIndex index = m_model->index(row, 0);
@@ -511,6 +518,9 @@ void FileWatcher::updateItems()
     }
 
     createItemsFromFiles(dir, fileList);
+
+    if ( t.elapsed() > 200 )
+        log( QString("ItemSync: Items updated in %1 ms").arg(t.elapsed()) );
 
     unlock();
 
