@@ -784,8 +784,9 @@ void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensio
         if ( !f.open(QIODevice::ReadOnly) )
             continue;
 
-        if ( ext.extension == dataFileSuffix && deserializeData(dataMap, f.readAll()) ) {
-            mimeToExtension->insert(mimeUnknownFormats, dataFileSuffix);
+        if ( ext.extension == dataFileSuffix ) {
+            if ( deserializeData(dataMap, f.readAll()) )
+                mimeToExtension->insert(mimeUnknownFormats, dataFileSuffix);
         } else if ( f.size() > sizeLimit || ext.format.startsWith(mimeNoFormat)
                     || dataMap->contains(ext.format) )
         {
