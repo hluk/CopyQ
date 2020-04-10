@@ -197,7 +197,7 @@ bool saveItemFile(const QString &filePath, const QByteArray &bytes,
     return true;
 }
 
-bool canUseFile(QFileInfo &info)
+bool canUseFile(const QFileInfo &info)
 {
     return !info.isHidden() && !info.fileName().startsWith('.') && info.isReadable();
 }
@@ -249,11 +249,9 @@ QStringList listFiles(const QDir &dir, QDir::SortFlags sortFlags = QDir::NoSort)
     QStringList files;
 
     const QDir::Filters itemFileFilter = QDir::Files | QDir::Readable | QDir::Writable;
-    for ( const auto &fileName : dir.entryList(itemFileFilter, sortFlags) ) {
-        const QString path = dir.absoluteFilePath(fileName);
-        QFileInfo info(path);
+    for ( const auto &info : dir.entryInfoList(itemFileFilter, sortFlags) ) {
         if ( canUseFile(info) )
-            files.append(path);
+            files.append(info.absoluteFilePath());
     }
 
     return files;
