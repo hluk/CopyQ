@@ -8715,6 +8715,8 @@ bool FakeVimHandler::eventFilter(QObject *ob, QEvent *ev)
          || (Private::g.mode == ExMode || Private::g.subsubmode == SearchSubSubMode))) {
         auto kev = static_cast<QKeyEvent *>(ev);
         KEY_DEBUG("KEYPRESS" << kev->key() << kev->text() << QChar(kev->key()));
+        if ( kev->key() == Key_Escape && !d->wantsOverride(kev) )
+            return false;
         EventResult res = d->handleEvent(kev);
         //if (Private::g.mode == InsertMode)
         //    completionRequested();
