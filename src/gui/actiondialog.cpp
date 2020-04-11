@@ -30,6 +30,7 @@
 #include <QAbstractButton>
 #include <QFile>
 #include <QMessageBox>
+#include <QShortcut>
 
 #include <memory>
 
@@ -72,6 +73,11 @@ ActionDialog::ActionDialog(QWidget *parent)
     ui->setupUi(this);
     ui->comboBoxCommands->setFont( ui->commandEdit->commandFont() );
     ui->commandEdit->setFocus();
+
+    auto shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_P), this);
+    connect(shortcut, &QShortcut::activated, this, &ActionDialog::previousCommand);
+    shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_N), this);
+    connect(shortcut, &QShortcut::activated, this, &ActionDialog::nextCommand);
 
     connect(ui->buttonBox, &QDialogButtonBox::clicked,
             this, &ActionDialog::onButtonBoxClicked);
@@ -293,6 +299,18 @@ void ActionDialog::onComboBoxOutputTabEditTextChanged(const QString &)
 void ActionDialog::onSeparatorEditTextEdited(const QString &)
 {
     setChangedByUser(ui->separatorEdit);
+}
+
+void ActionDialog::nextCommand()
+{
+    const int index = ui->comboBoxCommands->currentIndex();
+    ui->comboBoxCommands->setCurrentIndex(index - 1);
+}
+
+void ActionDialog::previousCommand()
+{
+    const int index = ui->comboBoxCommands->currentIndex();
+    ui->comboBoxCommands->setCurrentIndex(index + 1);
 }
 
 void ActionDialog::acceptCommand()

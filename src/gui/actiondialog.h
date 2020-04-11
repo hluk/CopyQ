@@ -78,6 +78,9 @@ private:
     void onComboBoxOutputTabEditTextChanged(const QString &text);
     void onSeparatorEditTextEdited(const QString &text);
 
+    void previousCommand();
+    void nextCommand();
+
     void acceptCommand();
     QVariant createCurrentItemData();
     void saveCurrentCommandToHistory();
