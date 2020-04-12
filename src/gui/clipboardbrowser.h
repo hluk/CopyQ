@@ -162,8 +162,6 @@ class ClipboardBrowser final : public QListView
         bool openEditor(const QByteArray &textData, bool changeClipboard = false);
         /** Open editor for an item. */
         bool openEditor(const QModelIndex &index);
-        /** Add items. */
-        void addItems(const QStringList &items);
 
         /** Set current item. */
         void setCurrent(int row, bool keepSelection = false, bool setCurrentOnly = false);

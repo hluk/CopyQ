@@ -1314,13 +1314,6 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
     return false;
 }
 
-void ClipboardBrowser::addItems(const QStringList &items)
-{
-    for(int i=items.count()-1; i>=0; --i) {
-        add(items[i]);
-    }
-}
-
 void ClipboardBrowser::editNotes()
 {
     QModelIndex ind = currentIndex();

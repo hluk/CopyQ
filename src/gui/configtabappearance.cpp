@@ -479,10 +479,8 @@ void ConfigTabAppearance::decoratePreview()
 
     const QString searchFor = tr("item", "Search expression in preview in Appearance tab.");
 
-    c->addItems( QStringList()
-                 << tr("Search string is %1.").arg( quoteString(searchFor) )
-                 << tr("Select an item and\n"
-                       "press F2 to edit.") );
+    c->add( tr("Search string is %1.").arg(quoteString(searchFor)) );
+    c->add( tr("Select an item and\npress F2 to edit.") );
     for (int i = 1; i <= 20; ++i)
         c->add( tr("Example item %1").arg(i), -1 );
 
