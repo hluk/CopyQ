@@ -491,7 +491,7 @@ void ConfigTabAppearance::decoratePreview()
     model->setData(index, dataMap, contentType::updateData);
 
     // Highlight found text but don't filter out any items.
-    c->filterItems( QRegularExpression(QString("|") + searchFor, QRegularExpression::CaseInsensitiveOption) );
+    c->filterItems( QRegularExpression(QString("^|") + searchFor, QRegularExpression::CaseInsensitiveOption) );
 
     QAction *act;
 
