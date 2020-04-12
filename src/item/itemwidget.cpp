@@ -210,6 +210,11 @@ bool ItemSaverInterface::canRemoveItems(const QList<QModelIndex> &, QString *)
     return true;
 }
 
+bool ItemSaverInterface::canDropItem(const QModelIndex &)
+{
+    return true;
+}
+
 bool ItemSaverInterface::canMoveItems(const QList<QModelIndex> &)
 {
     return true;

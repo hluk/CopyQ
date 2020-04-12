@@ -60,6 +60,10 @@ private slots:
 
     void getAbsoluteFilePath();
 
+    void addItemsWhenFull();
+
+    void addItemsWhenFullOmitDeletingNotOwned();
+
 private:
     TestInterfacePtr m_test;
 };

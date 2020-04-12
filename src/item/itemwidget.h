@@ -218,6 +218,12 @@ public:
     virtual bool canRemoveItems(const QList<QModelIndex> &indexList, QString *error);
 
     /**
+     * Called before item is deleted from end so new items can be inserted.
+     * @return true if item can be dropped, false to disallow the drop
+     */
+    virtual bool canDropItem(const QModelIndex &index);
+
+    /**
      * Called before items are moved out of list (i.e. deleted) by user.
      * @return true if items can be moved, false to cancel the removal
      */

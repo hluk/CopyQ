@@ -1612,10 +1612,9 @@ bool ClipboardBrowser::allocateSpaceForNewItems(int newItemCount)
         return true;
 
     QModelIndexList indexesToRemove;
-    QString error;
     for (int row = m.rowCount() - 1; row >= 0 && indexesToRemove.size() < toRemove; --row) {
         const auto index = m.index(row);
-        if ( m_itemSaver->canRemoveItems(QModelIndexList() << index, &error) )
+        if ( m_itemSaver->canDropItem(index) )
             indexesToRemove.append(index);
     }
 

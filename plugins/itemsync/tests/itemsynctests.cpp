@@ -639,3 +639,42 @@ void ItemSyncTests::getAbsoluteFilePath()
 
     RUN(args << code, dir1.filePath("test1"));
 }
+
+void ItemSyncTests::addItemsWhenFull()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "separator" << ";" << "tab" << tab1;
+    RUN(args << "show" << tab1, "");
+
+    RUN("config" << "maxitems" << "2", "2\n");
+    RUN(args << "add" << "A" << "B", "");
+    RUN(args << "read" << "0" << "1" << "2", "B;A;");
+    RUN(args << "add" << "C", "");
+    RUN(args << "read" << "0" << "1" << "2", "C;B;");
+}
+
+void ItemSyncTests::addItemsWhenFullOmitDeletingNotOwned()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "separator" << ";" << "tab" << tab1;
+    RUN(args << "show" << tab1, "");
+
+    RUN("config" << "maxitems" << "1", "1\n");
+
+    const QString testFileName1 = "test1.txt";
+    createFile(dir1, testFileName1, "NOT-OWNED");
+    WAIT_ON_OUTPUT(args << "size", "1\n");
+    RUN(args << "read" << "0" << "1", "NOT-OWNED;");
+
+    RUN(args << "add" << "A", "");
+    RUN(args << "read" << "0" << "1", "A;");
+    RUN(args << "remove" << "0", "");
+
+    WAIT_ON_OUTPUT(args << "size", "1\n");
+    RUN(args << "read" << "0" << "1", "NOT-OWNED;");
+
+    FilePtr f1(dir1.file(testFileName1));
+    QVERIFY(f1->exists());
+}

@@ -202,6 +202,11 @@ bool ItemPinnedSaver::canRemoveItems(const QList<QModelIndex> &indexList, QStrin
     return false;
 }
 
+bool ItemPinnedSaver::canDropItem(const QModelIndex &index)
+{
+    return !isPinned(index) && m_saver->canDropItem(index);
+}
+
 bool ItemPinnedSaver::canMoveItems(const QList<QModelIndex> &indexList)
 {
     return !containsPinnedItems(indexList)

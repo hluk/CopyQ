@@ -62,6 +62,8 @@ public:
 
     bool canRemoveItems(const QList<QModelIndex> &indexList, QString *error) override;
 
+    bool canDropItem(const QModelIndex &index) override;
+
     bool canMoveItems(const QList<QModelIndex> &indexList) override;
 
     void itemsRemovedByUser(const QList<QModelIndex> &indexList) override;
