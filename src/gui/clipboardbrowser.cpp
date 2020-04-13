@@ -810,44 +810,6 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *err
     return dropIndexes(indexes);
 }
 
-void ClipboardBrowser::paste(const QVariantMap &data, int destinationRow)
-{
-    if ( !isLoaded() ) {
-        loadItems();
-        if ( !isLoaded() )
-            return;
-    }
-
-    // Insert items from clipboard or just clipboard content.
-    if ( data.contains(mimeItems) ) {
-        const QByteArray bytes = data[mimeItems].toByteArray();
-        QDataStream stream(bytes);
-
-        QList<QVariantMap> dataList;
-        while ( !stream.atEnd() ) {
-            QVariantMap dataMap;
-            stream >> dataMap;
-            dataList.append(dataMap);
-        }
-
-        // list size limit
-        if ( !allocateSpaceForNewItems(dataList.size()) ) {
-            QMessageBox::information(
-                        this, tr("Cannot Add New Items"),
-                        tr("Tab is full. Failed to remove any items.") );
-            return;
-        }
-
-        // create new item
-        const int newRow = destinationRow < 0 ? m.rowCount() : qMin(destinationRow, m.rowCount());
-        m.insertItems(dataList, newRow);
-    } else {
-        add(data, destinationRow);
-    }
-
-    saveItems();
-}
-
 QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight)
 {
     int h = 0;
@@ -1077,7 +1039,7 @@ void ClipboardBrowser::dropEvent(QDropEvent *event)
         return; // handled in mouseMoveEvent()
 
     const QVariantMap data = cloneData( *event->mimeData() );
-    paste(data, m_dragTargetRow);
+    add(data, m_dragTargetRow);
     m_dragTargetRow = -1;
 }
 
@@ -1618,8 +1580,14 @@ bool ClipboardBrowser::allocateSpaceForNewItems(int newItemCount)
             indexesToRemove.append(index);
     }
 
-    if (indexesToRemove.size() < toRemove)
+    if (indexesToRemove.size() < toRemove) {
+        log( QString("Cannot add new items. Tab \"%1\" reached the maximum number of items.")
+             .arg(m_tabName), LogWarning );
+        emit error(
+            tr("Cannot Add New Items. Tab %1 reached the maximum number of items. Please remove items manually to make space.")
+            .arg(quoteString(m_tabName)) );
         return false;
+    }
 
     dropIndexes(indexesToRemove);
     return true;
@@ -1634,22 +1602,37 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
 {
     if ( !isLoaded() ) {
         loadItems();
-        if ( !isLoaded() )
+        if ( !isLoaded() ) {
+            log( QString("Cannot add new items. Tab %1 is not loaded.").arg(m_tabName), LogWarning );
             return false;
+        }
     }
 
-    // list size limit
-    if ( !allocateSpaceForNewItems(1) ) {
-        QMessageBox::information(
-                    this, tr("Cannot Add New Items"),
-                    tr("Tab is full. Failed to remove any items.") );
-        return false;
-    }
-
-    // create new item
     const int newRow = row < 0 ? m.rowCount() : qMin(row, m.rowCount());
-    m.insertItem(data, newRow);
 
+    if ( data.contains(mimeItems) ) {
+        const QByteArray bytes = data[mimeItems].toByteArray();
+        QDataStream stream(bytes);
+
+        QList<QVariantMap> dataList;
+        while ( !stream.atEnd() ) {
+            QVariantMap dataMap;
+            stream >> dataMap;
+            dataList.append(dataMap);
+        }
+
+        if ( !allocateSpaceForNewItems(dataList.size()) )
+            return false;
+
+        m.insertItems(dataList, newRow);
+    } else {
+        if ( !allocateSpaceForNewItems(1) )
+            return false;
+
+        m.insertItem(data, newRow);
+    }
+
+    saveItems();
     return true;
 }
 

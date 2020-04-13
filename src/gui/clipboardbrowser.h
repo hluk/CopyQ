@@ -118,9 +118,6 @@ class ClipboardBrowser final : public QListView
         /** Remove items and return smallest row number (new current item if selection was removed). */
         int removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
 
-        /** Paste items. */
-        void paste(const QVariantMap &data, int destinationRow);
-
         /** Render preview image with items. */
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
 

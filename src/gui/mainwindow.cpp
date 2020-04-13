@@ -988,7 +988,7 @@ void MainWindow::onTabWidgetDropItems(const QString &tabName, const QMimeData *d
     if (browser) {
         const QVariantMap dataMap = data->hasFormat(mimeItems)
                 ? cloneData(*data, QStringList() << mimeItems) : cloneData(*data);
-        browser->paste(dataMap, 0);
+        browser->add(dataMap, 0);
     }
 }
 
@@ -3341,7 +3341,7 @@ void MainWindow::pasteItems()
     QModelIndexList list = c->selectionModel()->selectedIndexes();
     std::sort( list.begin(), list.end() );
     const int row = list.isEmpty() ? 0 : list.first().row();
-    c->paste( cloneData(*data), row );
+    c->add( cloneData(*data), row );
 }
 
 void MainWindow::copyItems()
