@@ -237,7 +237,7 @@
                    <string>Run the command automatically if clipboard has new content</string>
                   </property>
                   <property name="text">
-                   <string>Auto&amp;matic</string>
+                   <string extracomment="Type of command; triggered by whenever clipboard changes">Auto&amp;matic</string>
                   </property>
                  </widget>
                 </item>
@@ -247,28 +247,28 @@
                    <string>Show command in context menu of matching items</string>
                   </property>
                   <property name="text">
-                   <string>In M&amp;enu</string>
+                   <string extracomment="Type of command; triggered by a custom application shortcut">In M&amp;enu</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBoxGlobalShortcut">
                   <property name="text">
-                   <string>Global Shortcut</string>
+                   <string extracomment="Type of command; triggered by a custom global/system shortcut">Global Shortcut</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBoxIsScript">
                   <property name="text">
-                   <string>Script</string>
+                   <string extracomment="Type of command; allows to extend scripting capabilities">Script</string>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBoxDisplay">
                   <property name="text">
-                   <string>Display</string>
+                   <string extracomment="Type of command; triggered by whenever clipboard changes">Display</string>
                   </property>
                  </widget>
                 </item>

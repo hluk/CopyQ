@@ -81,7 +81,7 @@
    <item>
     <widget class="QCheckBox" name="storeItems">
      <property name="text">
-      <string>&amp;Store Items</string>
+      <string>&amp;Save Items</string>
      </property>
     </widget>
    </item>
