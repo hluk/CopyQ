@@ -88,6 +88,7 @@ Notification::Notification()
 
     m_msgLabel = new QLabel(this);
     m_msgLabel->setAlignment(Qt::AlignTop | Qt::AlignAbsolute);
+    m_msgLabel->setWordWrap(true);
 
     setTitle(QString());
 
