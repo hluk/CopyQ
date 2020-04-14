@@ -3449,7 +3449,7 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Programsnarveier kan kun utløses fra hovedvinduet.</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
