@@ -102,7 +102,7 @@ private:
 
         ::log( QString("%1: %2")
                .arg(m_label, "Finished in %1 ms")
-               .arg(ms) );
+               .arg(ms), level );
     }
 
     QString m_label;
