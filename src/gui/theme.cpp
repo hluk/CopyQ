@@ -440,6 +440,7 @@ void Theme::resetTheme()
     m_theme["item_css"] = Option("");
     m_theme["alt_item_css"] = Option("");
     m_theme["sel_item_css"] = Option("");
+    m_theme["hover_item_css"] = Option("");
     m_theme["cur_item_css"] = Option(
                 "\n    ;border: 0.1em solid ${sel_bg}"
                 );
@@ -576,7 +577,7 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
           "background:" + themeColorString("bg") + ";"
         "}"
 
-        "#ClipboardBrowser::item:alternate{"
+        "#ClipboardBrowser::item:alternate:!hover{"
           "color:" + themeColorString("alt_fg") + ";"
           "background:" + themeColorString("alt_bg") + ";"
         "}"
@@ -595,6 +596,10 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
           + unfocusedTheme.themeStyleSheet("sel_item_css") +
         "}"
 
+        "#ClipboardBrowser::item:hover{"
+          "background:" + serializeColor( evalColor("sel_bg", unfocusedTheme) ) + ";"
+        "}"
+
         // Omit showing current item outline.
         "#ClipboardBrowser::focus{outline:0}"
 
@@ -606,8 +611,9 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
 
         // Allow user to change CSS.
         "#ClipboardBrowser{" + themeStyleSheet("item_css") + "}"
-        "#ClipboardBrowser::item:alternate{" + themeStyleSheet("alt_item_css") + "}"
+        "#ClipboardBrowser::item:alternate:!hover{" + themeStyleSheet("alt_item_css") + "}"
         "#ClipboardBrowser::item:selected{" + themeStyleSheet("sel_item_css") + "}"
+        "#ClipboardBrowser::item:hover{" + themeStyleSheet("hover_item_css") + "}"
 
         "#item_child[CopyQ_item_type=\"notes\"] {"
           + getFontStyleSheet( value("notes_font").toString() ) +
