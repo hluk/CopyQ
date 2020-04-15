@@ -96,7 +96,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     , m_shortcutActions()
     , m_ignoreKeysTimer()
 {
-    setCurrentThreadName("Server");
+    setLogLabel("Server");
 
     const QString serverName = clipboardServerName();
     m_server = new Server(serverName, this);

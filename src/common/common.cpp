@@ -696,7 +696,7 @@ QByteArray makeClipboardOwnerData()
 {
     static int id = 0;
     return qgetenv("COPYQ_SESSION_NAME")
-           + " " + currentThreadLabel()
+           + " " + logLabel()
            + "/" + QByteArray::number(++id);
 }
 

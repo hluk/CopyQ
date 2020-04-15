@@ -49,8 +49,8 @@ QByteArray logLevelLabel(LogLevel level);
 
 void log(const QString &text, LogLevel level = LogNote);
 
-void setCurrentThreadName(const QString &name);
+void setLogLabel(const QByteArray &name);
 
-QByteArray currentThreadLabel();
+QByteArray &logLabel();
 
 #endif // LOG_H

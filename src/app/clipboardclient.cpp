@@ -62,12 +62,12 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
         QGuiApplication::setDesktopSettingsAware(false);
         const auto app = platformNativeInterface()
                 ->createClipboardProviderApplication(argc, argv);
-        setCurrentThreadName(arguments[1]);
+        setLogLabel(arguments[1].toUtf8());
         return app;
     }
 
     const auto app = platformNativeInterface()->createClientApplication(argc, argv);
-    setCurrentThreadName("Client");
+    setLogLabel("Client");
     return app;
 }
 

@@ -52,7 +52,7 @@ int evaluate(
         const QString &sessionName)
 {
     App app( platformNativeInterface()->createConsoleApplication(argc, argv), sessionName );
-    setCurrentThreadName("Prompt");
+    setLogLabel("Prompt");
 
     QScriptEngine engine;
     Scriptable scriptable(&engine, nullptr);
