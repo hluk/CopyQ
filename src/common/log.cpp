@@ -231,7 +231,7 @@ bool writeLogFile(const QByteArray &message)
     if ( !f.open(QIODevice::Append) )
         return false;
 
-    if ( !f.write(message) )
+    if ( f.write(message) <= 0 )
         return false;
 
     f.close();
