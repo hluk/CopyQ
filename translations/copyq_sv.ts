@@ -94,12 +94,12 @@
         <translation>Spara objekt i flik med angivet namn (lämna tomt för att spara i aktuell flik)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="214"/>
+        <location filename="../src/gui/actiondialog.cpp" line="220"/>
         <source>Command saved</source>
         <translation>Kommandot sparat</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="215"/>
+        <location filename="../src/gui/actiondialog.cpp" line="221"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>Kommandot sparades och kan kommas åt från objektmenyn.
@@ -321,24 +321,25 @@ Du kan konfigurera kommandot i inställningar.</translation>
 <context>
     <name>ClipboardBrowser</name>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="836"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1652"/>
         <source>Cannot Add New Items</source>
-        <translation>Det går inte att lägga till nya objekt</translation>
+        <translation type="vanished">Det går inte att lägga till nya objekt</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="837"/>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1653"/>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation>Fliken är full. Kunde inte ta bort några objekt.</translation>
+        <translation type="vanished">Fliken är full. Kunde inte ta bort några objekt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1889"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1587"/>
+        <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
         <source>Discard Changes?</source>
         <translation>Förkasta ändringar?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1890"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Vill du verkligen &lt;strong&gt;förkasta ändringar&lt;/strong&gt;?</translation>
     </message>
@@ -393,27 +394,27 @@ Du kan konfigurera kommandot i inställningar.</translation>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="91"/>
+        <location filename="../src/app/clipboardserver.cpp" line="111"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ-servern körs redan.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="321"/>
+        <location filename="../src/app/clipboardserver.cpp" line="341"/>
         <source>Cancel Active Commands</source>
         <translation>Avbryt aktiva kommandon</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="322"/>
+        <location filename="../src/app/clipboardserver.cpp" line="342"/>
         <source>Cancel active commands and exit?</source>
         <translation>Avbryt aktiva kommandon och avsluta?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="325"/>
+        <location filename="../src/app/clipboardserver.cpp" line="345"/>
         <source>Cancel Exiting</source>
         <translation>Avbryt avslutande</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="326"/>
+        <location filename="../src/app/clipboardserver.cpp" line="346"/>
         <source>Exit Anyway</source>
         <translation>Avsluta i alla fall</translation>
     </message>
@@ -564,6 +565,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="240"/>
         <source>Auto&amp;matic</source>
+        <extracomment>Type of command; triggered by whenever clipboard changes</extracomment>
         <translation>Auto&amp;matiskt</translation>
     </message>
     <message>
@@ -574,6 +576,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="250"/>
         <source>In M&amp;enu</source>
+        <extracomment>Type of command; triggered by a custom application shortcut</extracomment>
         <translation>I m&amp;eny</translation>
     </message>
     <message>
@@ -589,6 +592,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
         <source>Global Shortcut</source>
+        <extracomment>Type of command; triggered by a custom global/system shortcut</extracomment>
         <translation>Global genväg</translation>
     </message>
     <message>
@@ -616,11 +620,13 @@ Lämna tomt för att inaktivera detta.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
         <source>Script</source>
+        <extracomment>Type of command; allows to extend scripting capabilities</extracomment>
         <translation>Skript</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
+        <extracomment>Type of command; triggered by whenever clipboard changes</extracomment>
         <translation>Visa</translation>
     </message>
     <message>
@@ -908,18 +914,18 @@ Observera: Om detta verkställs automatiskt körs inga andra automatiska kommand
         <translation>Förhandsvisning:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="478"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="480"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>objekt</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="481"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="482"/>
         <source>Search string is %1.</source>
         <translation>Söksträngen är %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="482"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="483"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Välj ett objekt och tryck
@@ -956,7 +962,7 @@ F2 för att redigera.</translation>
         <translation>Ställ in kommando för extern redigerare först!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="393"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="395"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Abc</translation>
@@ -1596,27 +1602,27 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Utseende</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="418"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="419"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Ogiltigt värde för alternativet ”%1”</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="461"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="462"/>
         <source>Reset preferences?</source>
         <translation>Återställ inställningar?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="462"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="463"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Denna åtgärd kommer återställa alla dina inställningar (i alla flikar) till standardvärdena.&lt;br /&gt;&lt;br /&gt;Vill du verkligen &lt;strong&gt;återställa alla inställningar&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="565"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="566"/>
         <source>Restart Required</source>
         <translation>Omstart krävs</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="566"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="567"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Språk kommer att ändras efter att programmet har startats om.</translation>
     </message>
@@ -1624,7 +1630,7 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="633"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="651"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Misslyckades med att skapa synkroniseringskatalogen ”%1”!</translation>
     </message>
@@ -2105,22 +2111,22 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Avnåla objekt först för att ta bort dem.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="384"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="389"/>
         <source>Pin</source>
         <translation>Nåla</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="391"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="396"/>
         <source>Unpin</source>
         <translation>Avnåla</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="101"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="103"/>
         <source>Pinned Items</source>
         <translation>Nålade objekt</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="104"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="106"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Fäst objekt för att låsa dem i den aktuella raden och undvika borttagning (såvida det inte är ofäst).&lt;/p&gt;&lt;p&gt;Ger genvägar och skriptfunktioner.&lt;/p&gt;</translation>
     </message>
@@ -2134,12 +2140,12 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Bläddra…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="821"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="814"/>
         <source>Open Directory for Synchronization</source>
         <translation>Öppna katalog för synkronisering</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="835"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="828"/>
         <source>Failed to create synchronization directory</source>
         <translation>Misslyckades med att skapa synkroniseringskatalog</translation>
     </message>
@@ -2157,17 +2163,17 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="483"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="493"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation>Misslyckades med att synkronisera fliken ”%1” med katalogen ”%2”!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="518"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="528"/>
         <source>Remove Items?</source>
         <translation>Ta bort objekt?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="519"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Vill du verkligen &lt;strong&gt;ta bort objekt och associerade filer&lt;/strong&gt;?</translation>
     </message>
@@ -2203,9 +2209,14 @@ Ställ in till 0 för att inaktivera.</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
+        <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
+&lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Ställ in MIME-typ till &lt;strong&gt;-&lt;/strong&gt; (bindestreck) för att ignorera filer. Alla andra okända eller dolda filer ignoreras.&lt;/p&gt;
+        <translation type="vanished">&lt;p&gt;Ställ in MIME-typ till &lt;strong&gt;-&lt;/strong&gt; (bindestreck) för att ignorera filer. Alla andra okända eller dolda filer ignoreras.&lt;/p&gt;
 &lt;p&gt;Exempel: Läs in filändelsen &lt;strong&gt;txt&lt;/strong&gt; som MIME-typen &lt;strong&gt;text/plain&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -2368,113 +2379,113 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="vanished">CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="540"/>
+        <location filename="../src/gui/mainwindow.cpp" line="541"/>
         <source>Exit?</source>
         <translation>Avsluta?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="541"/>
+        <location filename="../src/gui/mainwindow.cpp" line="542"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>Vill du &lt;strong&gt;avsluta&lt;/strong&gt; CopyQ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="588"/>
+        <location filename="../src/gui/mainwindow.cpp" line="592"/>
         <source>&amp;File</source>
         <translation>&amp;Arkiv</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="630"/>
+        <location filename="../src/gui/mainwindow.cpp" line="640"/>
         <source>&amp;Edit</source>
         <translation>R&amp;edigera</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="654"/>
+        <location filename="../src/gui/mainwindow.cpp" line="664"/>
         <source>&amp;Item</source>
         <translation>&amp;Objekt</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="658"/>
+        <location filename="../src/gui/mainwindow.cpp" line="668"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Flikar</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="683"/>
+        <location filename="../src/gui/mainwindow.cpp" line="693"/>
         <source>&amp;Help</source>
         <translation>&amp;Hjälp</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="708"/>
+        <location filename="../src/gui/mainwindow.cpp" line="718"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Ny flik</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="710"/>
+        <location filename="../src/gui/mainwindow.cpp" line="720"/>
         <source>Rename &amp;Group %1</source>
         <translation>Byt namn på &amp;gruppen %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="712"/>
+        <location filename="../src/gui/mainwindow.cpp" line="722"/>
         <source>Re&amp;name Tab %1</source>
         <translation>B&amp;yt namn på flik %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="714"/>
+        <location filename="../src/gui/mainwindow.cpp" line="724"/>
         <source>Re&amp;move Tab %1</source>
         <translation>Ta &amp;bort fliken %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="716"/>
+        <location filename="../src/gui/mainwindow.cpp" line="726"/>
         <source>Remove Group %1</source>
         <translation>Ta bort gruppen %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="718"/>
+        <location filename="../src/gui/mainwindow.cpp" line="728"/>
         <source>&amp;Change Tab Icon</source>
         <translation>Än&amp;dra flikikon</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1263"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1278"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>&amp;Aktivera urklippslagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1264"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1279"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>&amp;Inaktivera urklippslagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1859"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1882"/>
         <source>Options for Import</source>
         <translation>Alternativ för import</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2095"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2119"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ-fel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="509"/>
+        <location filename="../src/gui/mainwindow.cpp" line="510"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Visa/dölj</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3368"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3386"/>
         <source>Options for Export</source>
         <translation>Alternativ för Export</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3389"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3407"/>
         <source>Export Error</source>
         <translation>Exportfel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3390"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
         <source>Failed to export file %1!</source>
         <translation>Misslyckades med att exportera filen %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="762"/>
+        <location filename="../src/gui/mainwindow.cpp" line="772"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Urklipp: %1</translation>
@@ -2485,32 +2496,32 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>CopyQ-objekt (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3478"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3496"/>
         <source>Import Error</source>
         <translation>Importfel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3479"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
         <source>Failed to import file %1!</source>
         <translation>Misslyckades med att importera filen %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3631"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3649"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Ta bort alla flikar i grupp?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3632"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vill du ta bort &lt;strong&gt;alla flikar&lt;/strong&gt; i gruppen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3679"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3697"/>
         <source>Remove Tab?</source>
         <translation>Ta bort flik?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3680"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vill du ta bort fliken &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2532,13 +2543,13 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>&amp;urklipp</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="516"/>
+        <location filename="../src/common/common.cpp" line="544"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;DOLD&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="522"/>
+        <location filename="../src/common/common.cpp" line="550"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2547,25 +2558,25 @@ Ställ in till 0 för att inaktivera.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="532"/>
+        <location filename="../src/common/common.cpp" line="560"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;BILD&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="534"/>
+        <location filename="../src/common/common.cpp" line="562"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;OBJEKT&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="536"/>
+        <location filename="../src/common/common.cpp" line="564"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;TOM&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="538"/>
+        <location filename="../src/common/common.cpp" line="566"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
@@ -2638,92 +2649,92 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Ctrl+Skift+C</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="78"/>
+        <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>&amp;Toggle Clipboard Storing</source>
         <translation>&amp;Växla urklippslagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="79"/>
+        <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Ctrl+Shift+X</source>
         <translation>Ctrl+Skift+X</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="80"/>
+        <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>P&amp;rocess Manager</source>
         <translation>P&amp;rocesshanterare</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="81"/>
+        <location filename="../src/gui/menuitems.cpp" line="83"/>
         <source>Ctrl+Shift+Z</source>
         <translation>Ctrl+Skift+Z</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="82"/>
+        <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>E&amp;xit</source>
         <translation>A&amp;vsluta</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="82"/>
+        <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="85"/>
+        <location filename="../src/gui/menuitems.cpp" line="87"/>
         <source>&amp;Sort Selected Items</source>
         <translation>&amp;Sortera valda objekt</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="86"/>
+        <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Skift+S</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="88"/>
+        <location filename="../src/gui/menuitems.cpp" line="90"/>
         <source>&amp;Reverse Selected Items</source>
         <translation>&amp;Vänd valda objekt</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="89"/>
+        <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>Ctrl+Shift+R</source>
         <translation>Ctrl+Skift+R</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="91"/>
+        <location filename="../src/gui/menuitems.cpp" line="93"/>
         <source>&amp;Paste Items</source>
         <translation>&amp;Klistra in objekt</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="93"/>
+        <location filename="../src/gui/menuitems.cpp" line="95"/>
         <source>&amp;Copy Selected Items</source>
         <translation>&amp;Kopiera valda objekt</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="95"/>
+        <location filename="../src/gui/menuitems.cpp" line="97"/>
         <source>&amp;Find</source>
         <translation>&amp;Sök</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="98"/>
+        <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>Move to &amp;Clipboard</source>
         <translation>Flytta till &amp;urklipp</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="100"/>
+        <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>&amp;Show Content...</source>
         <translation>Vi&amp;sa innehåll…</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="101"/>
+        <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="102"/>
+        <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>&amp;Show Preview</source>
         <translation>Vi&amp;sa förhandsvisning</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="103"/>
+        <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
@@ -2906,7 +2917,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>&amp;Hjälp</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2038"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2915,7 +2926,7 @@ Ställ in till 0 för att inaktivera.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2041"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2053"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -2928,7 +2939,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="390"/>
+        <location filename="../src/item/itemfactory.cpp" line="399"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation>Fliken %1 är skadad eller några CopyQ-plugins saknas!</translation>
     </message>
@@ -2936,227 +2947,250 @@ vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
 <context>
     <name>Scriptable</name>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="71"/>
         <source>Show main window and optionally open tab with given name.</source>
         <translation>Visa huvudfönster och öppna valfritt fliken med angivet namn.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="64"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="154"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="157"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="161"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>NAME</source>
         <translation>NAMN</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="66"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
         <source>Hide main window.</source>
         <translation>Dölj huvudfönster.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="76"/>
         <source>Show or hide main window.</source>
         <translation>Visa eller dölj huvudfönster.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="70"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="78"/>
         <source>Open context menu.</source>
         <translation>Öppna snabbvalsmeny.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="80"/>
         <source>Exit server.</source>
         <translation>Lämna server.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="82"/>
         <source>Disable or enable clipboard content storing.</source>
         <translation>Inaktivera eller aktivera lagring av urklippsinnehåll.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="77"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
         <source>Print clipboard content.</source>
         <translation>Skriv ut urklippsinnehåll.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="78"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="82"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="86"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="90"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="92"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="126"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="101"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="103"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>MIME</source>
         <translation>MIME</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
         <source>Print X11 selection content.</source>
         <translation>Skriv ut X11-markeringsinnehåll.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="93"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
         <translation>Kopiera urklipp till aktuellt fönster
 (fungerar kanske inte med vissa program).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="87"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
+        <source>Copy clipboard from current window
+(may not work with some applications).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
         <source>Set clipboard text.</source>
         <translation>Ställ in urklippstext.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="88"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="105"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="109"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="116"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="120"/>
         <source>TEXT</source>
         <translation>TEXT</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
         <source>
 Set clipboard content.</source>
-        <translation>
+        <translation type="vanished">
 Ställ in urklippsinnehåll.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="92"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="102"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="103"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="138"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>DATA</source>
         <translation>DATA</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="95"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
         <source>Print amount of items in current tab.</source>
         <translation>Skriv ut antal objekt i aktuell flik.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
         <source>Copy item in the row to clipboard.</source>
         <translation>Kopiera objekt i raden till urklipp.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="116"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="109"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="119"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>ROW</source>
         <translation>RAD</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
         <source>Copy next item from current tab to clipboard.</source>
         <translation>Kopiera nästa objekt från aktuell flik till urklipp.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="102"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="113"/>
         <source>Copy previous item from current tab to clipboard.</source>
         <translation>Kopiera föregående objekt från aktuell flik till urklipp.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="104"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="115"/>
         <source>Add text into clipboard.</source>
         <translation>Lägg till text till urklipp.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="107"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="118"/>
         <source>Insert text into given row.</source>
         <translation>Infoga text i angiven rad.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>Remove items in given rows.</source>
         <translation>Ta bort objekt i angivna rader.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="112"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="132"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="143"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>ROWS</source>
         <translation>RADER</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
         <translation>Redigera objekt eller redigera ett nytt.
 Värdet -1 är för aktuell text i urklipp.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="119"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
         <source>Set separator for items on output.</source>
         <translation>Ställ in avskiljare för objekt vid utmatning.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="120"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <source>SEPARATOR</source>
         <translation>AVSKILJARE</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Print raw data of clipboard or item in row.</source>
         <translation>Skriv ut rådata för urklipp eller objekt i rad.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="124"/>
         <source>
 Write raw data to given row.</source>
-        <translation>
+        <translation type="vanished">
 Skriv rådata till angiven rad.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="142"/>
         <source>Show action dialog.</source>
         <translation>Visa åtgärdsdialog.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
         <source>
 Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation>
+        <translation type="vanished">
 Kör PROGRAM på objekttext i raderna.
 Använd %1 i PROGRAM för att skicka text som argument.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <source>PROGRAM</source>
         <translation>PROGRAM</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>
 Show tray popup message for TIME milliseconds.</source>
-        <translation>
+        <translation type="vanished">
 Visa aktivitetsfältsmeddelande under TID millisekunder.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="140"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
+        <source>Set clipboard content.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
+        <source>Write raw data to given row.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
+        <source>Run PROGRAM on item text in the rows.
+Use %1 in PROGRAM to pass text as argument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
+        <source>Show tray popup message for TIME milliseconds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <source>TITLE</source>
         <translation>TITEL</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="152"/>
         <source>MESSAGE</source>
         <translation>MEDDELANDE</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="142"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
         <source>TIME</source>
         <translation>TID</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>List available tab names.</source>
         <translation>Lista tillgängliga fliknamn.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
@@ -3165,116 +3199,132 @@ Fliken skapas om den inte finns.
 Standard är den första fliken.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="196"/>
         <location filename="../src/scriptable/scriptable.cpp" line="114"/>
         <source>COMMAND</source>
         <translation>KOMMANDO</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Remove tab.</source>
         <translation>Ta bort flik.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
         <source>Rename tab.</source>
         <translation>Byt namn på flik.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
         <source>NEW_NAME</source>
         <translation>NYTT_NAMN</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="161"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>Export items to file.</source>
         <translation>Exportera objekt till fil.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="176"/>
         <source>FILE_NAME</source>
         <translation>FILNAMN</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>Import items from file.</source>
         <translation>Importera objekt från fil.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <source>List all options.</source>
         <translation>Lista alla flaggor.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="170"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
         <source>Get option value.</source>
         <translation>Erhåll värde på flagga.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="171"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="174"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="182"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="185"/>
         <source>OPTION</source>
         <translation>FLAGGA</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>Set option value.</source>
         <translation>Ställ in värde på flagga.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
         <source>VALUE</source>
         <translation>VÄRDE</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
+        <source>Evaluate script.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
+        <source>Starts or connects to application instance with given session name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
+        <source>Print help for COMMAND or all commands.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
+        <source>Print version of program and libraries.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>
 Evaluate ECMAScript program.
 Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
-        <translation>
+        <translation type="vanished">
 Evaluera ECMAScript-program.
 Argument är åtkomliga med &quot;arguments[0..N]&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
         <source>SCRIPT</source>
         <translation>SKRIPT</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="190"/>
         <source>ARGUMENTS</source>
         <translation>ARGUMENT</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
         <source>
 Starts or connects to application instance with given session name.</source>
-        <translation>
+        <translation type="vanished">
 Startar eller ansluter till programinstans med angivet sessionsnamn.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="193"/>
         <source>SESSION</source>
         <translation>SESSION</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
         <source>
 Print help for COMMAND or all commands.</source>
-        <translation>
+        <translation type="vanished">
 Skriv ut hjälp för KOMMANDO eller alla kommandon.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
         <source>
 Print version of program and libraries.</source>
-        <translation>
+        <translation type="vanished">
 Skriv ut version på program och bibliotek.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="201"/>
         <source>Run application tests (append --help argument for more info).</source>
         <translation>Kör programtest (lägg till flaggan --help för mer info).</translation>
     </message>
@@ -3348,17 +3398,17 @@ Skriv ut version på program och bibliotek.</translation>
         <translation>Ogiltigt alternativ ”%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2797"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2799"/>
         <source>Exception</source>
         <translation>Undantag</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2798"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2800"/>
         <source>Exception in %1</source>
         <translation>Undantag i %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2840"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2842"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Misslyckades med att kopiera till urklipp!</translation>
     </message>
@@ -3376,7 +3426,7 @@ Skriv ut version på program och bibliotek.</translation>
         <translation>Fliknamn kan inte vara tomt!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1092"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1104"/>
         <source>Tab with given name already exists!</source>
         <translation>Det finns redan en flik med det angivna namnet!</translation>
     </message>
@@ -3505,24 +3555,28 @@ Använd &lt;b&gt;/&lt;/b&gt; som sökvägsavskiljare i trädvyns fliklayout.</tr
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
+        <source>&amp;Save Items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&amp;Store Items</source>
-        <translation>&amp;Lagra Objekt</translation>
+        <translation type="vanished">&amp;Lagra Objekt</translation>
     </message>
 </context>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="90"/>
+        <location filename="../src/gui/traymenu.cpp" line="91"/>
         <source>Press &apos;/&apos; to search</source>
         <translation>Tryck ”/” för att söka</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="90"/>
+        <location filename="../src/gui/traymenu.cpp" line="91"/>
         <source>Type to search</source>
         <translation>Skriv för att söka</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="104"/>
+        <location filename="../src/gui/traymenu.cpp" line="105"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
         <translation>&amp;%1. %2</translation>
