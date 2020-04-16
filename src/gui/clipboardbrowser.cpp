@@ -1584,7 +1584,7 @@ bool ClipboardBrowser::allocateSpaceForNewItems(int newItemCount)
         log( QString("Cannot add new items. Tab \"%1\" reached the maximum number of items.")
              .arg(m_tabName), LogWarning );
         emit error(
-            tr("Cannot Add New Items. Tab %1 reached the maximum number of items. Please remove items manually to make space.")
+            tr("Cannot add new items to tab %1. Please remove items manually to make space.")
             .arg(quoteString(m_tabName)) );
         return false;
     }
