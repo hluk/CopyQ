@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer les données d&apos;un type de support donné à l&apos;entrée de commande standard (laisser vide pour éteindre)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer des éléments à partir de la sortie standard du programme (laisser vide pour éteindre)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
