@@ -268,7 +268,7 @@
                 <item>
                  <widget class="QCheckBox" name="checkBoxDisplay">
                   <property name="text">
-                   <string extracomment="Type of command; triggered by whenever clipboard changes">Display</string>
+                   <string extracomment="Type of command; allows change how items are displayed">Display</string>
                   </property>
                  </widget>
                 </item>

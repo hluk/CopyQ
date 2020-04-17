@@ -617,7 +617,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
-        <extracomment>Type of command; triggered by whenever clipboard changes</extracomment>
+        <extracomment>Type of command; allows change how items are displayed</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>

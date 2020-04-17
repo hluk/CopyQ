@@ -737,7 +737,7 @@ Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatis
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
-        <extracomment>Type of command; triggered by whenever clipboard changes</extracomment>
+        <extracomment>Type of command; allows change how items are displayed</extracomment>
         <translation>Weergave</translation>
     </message>
     <message>
