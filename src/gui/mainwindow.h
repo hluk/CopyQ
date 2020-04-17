@@ -523,6 +523,8 @@ private:
     void enableHideWindowOnUnfocus();
     void hideWindowIfNotActive();
 
+    void hideTray();
+
     template <typename SlotReturnType>
     using MainWindowActionSlot = SlotReturnType (MainWindow::*)();
 

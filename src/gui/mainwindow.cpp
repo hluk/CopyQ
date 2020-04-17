@@ -1567,6 +1567,7 @@ void MainWindow::setTrayEnabled(bool enable)
     if (enable) {
         if ( QSystemTrayIcon::isSystemTrayAvailable() ) {
             m_tray = new QSystemTrayIcon(this);
+            m_tray->setToolTip(QLatin1String("CopyQ"));
             connect( m_tray, &QSystemTrayIcon::activated,
                      this, &MainWindow::trayActivated );
             updateIcon();
@@ -1579,11 +1580,7 @@ void MainWindow::setTrayEnabled(bool enable)
             m_timerTrayAvailable.start();
         }
     } else {
-        // Hide tray on Ubuntu (buggy sni-qt) before disabling.
-        m_tray->hide();
-
-        delete m_tray;
-        m_tray = nullptr;
+        hideTray();
 
         if ( isHidden() && !isMinimized() )
             minimizeWindow();
@@ -2061,6 +2058,22 @@ void MainWindow::hideWindowIfNotActive()
         COPYQ_LOG("Auto-hiding unfocused main window");
         hideWindow();
     }
+}
+
+void MainWindow::hideTray()
+{
+    if (m_tray == nullptr)
+        return;
+
+    // Reset tooltip to store correct visibility state on Windows with Qt > 5.9.
+    // See: https://github.com/hluk/CopyQ/issues/1258#issuecomment-614949117
+    m_tray->setToolTip(QLatin1String("CopyQ"));
+
+    // Hide tray on Ubuntu (buggy sni-qt) before disabling.
+    m_tray->hide();
+
+    delete m_tray;
+    m_tray = nullptr;
 }
 
 const Theme &MainWindow::theme() const
@@ -3752,6 +3765,8 @@ void MainWindow::forceUnloadTab(const QString &tabName)
 
 MainWindow::~MainWindow()
 {
+    hideTray();
+
     // Fix calling onDisplayActionFinished slot after main window is destroyed.
     m_displayItemList.clear();
     terminateAction(&m_displayActionId);
