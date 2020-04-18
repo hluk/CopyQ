@@ -577,7 +577,7 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
           "background:" + themeColorString("bg") + ";"
         "}"
 
-        "#ClipboardBrowser::item:alternate:!hover{"
+        "#ClipboardBrowser::item:alternate:!hover:!selected{"
           "color:" + themeColorString("alt_fg") + ";"
           "background:" + themeColorString("alt_bg") + ";"
         "}"
@@ -611,7 +611,7 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
 
         // Allow user to change CSS.
         "#ClipboardBrowser{" + themeStyleSheet("item_css") + "}"
-        "#ClipboardBrowser::item:alternate:!hover{" + themeStyleSheet("alt_item_css") + "}"
+        "#ClipboardBrowser::item:alternate:!hover:!selected{" + themeStyleSheet("alt_item_css") + "}"
         "#ClipboardBrowser::item:selected{" + themeStyleSheet("sel_item_css") + "}"
         "#ClipboardBrowser::item:hover{" + themeStyleSheet("hover_item_css") + "}"
 
