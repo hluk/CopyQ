@@ -1,0 +1,8 @@
+#item QToolTip, QMenu QToolTip {
+    ;${notes_font}
+    ;background: ${notes_bg}
+    ;color: ${fg}
+    /* Reseting border helps in some cases to set correct background color. */
+    ;border: 1px solid ${fg}
+    ;${notes_css}
+}

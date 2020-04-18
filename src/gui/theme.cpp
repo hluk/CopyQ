@@ -21,10 +21,14 @@
 
 #include "ui_configtabappearance.h"
 
+#include "common/log.h"
 #include "gui/iconfont.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QDir>
+#include <QFile>
 #include <QListView>
 #include <QSettings>
 #include <QStyleFactory>
@@ -48,7 +52,7 @@ int addColor(int c1, float multiply, int c2)
 
 void addColor(
         const QString &color, float multiply, int *r, int *g, int *b, int *a,
-        const Theme &theme, int maxRecursion)
+        const Theme &theme, const Values &values, int maxRecursion)
 {
     if (color.isEmpty())
         return;
@@ -64,8 +68,12 @@ void addColor(
         toAdd = QColor(1, 1, 1);
     } else if ( color.startsWith('#') || color.startsWith("rgba(") ) {
         toAdd = deserializeColor(color);
+        if ( !toAdd.isValid() )
+            toAdd = QColor(Qt::black);
     } else if (maxRecursion > 0) {
-        toAdd = evalColor(theme.value(color).toString(), theme, maxRecursion - 1);
+        const QVariant v = values.contains(color)
+                ? values.value(color) : theme.value(color);
+        toAdd = evalColor(v.toString(), theme, values, maxRecursion - 1);
     }
 
     *r = normalizeColorValue( addColor(*r, x, toAdd.red()) );
@@ -133,6 +141,7 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
         size = font.pixelSize() * scale;
         sizeUnits = "px";
     }
+    size = qBound(0.1, size, 50.0);
 
     QString result;
     result.append( QString(";font-family: \"%1\"").arg(font.family()) );
@@ -161,6 +170,22 @@ int itemMargin()
 {
     const int dpi = QApplication::desktop()->physicalDpiX();
     return std::max(2, dpi / 72);
+}
+
+QString themePrefix()
+{
+#ifdef COPYQ_THEME_PREFIX
+    return COPYQ_THEME_PREFIX;
+#else
+    return platformNativeInterface()->themePrefix();
+#endif
+}
+
+double getFactor(const QString &name, const QHash<QString, QVariant> &values)
+{
+    bool ok;
+    const double scale = values.value(name).toDouble(&ok);
+    return ok ? scale : 1.0;
 }
 
 } // namespace
@@ -251,59 +276,8 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
     palette.setColor( QPalette::HighlightedText, color("sel_fg") );
 
     mainWindow->setPalette(palette);
-    mainWindow->setStyleSheet(
-        "#searchBar{"
-        + themeStyleSheet("search_bar") +
-        "}"
-
-        "#searchBar:focus{"
-        + themeStyleSheet("search_bar_focused") +
-        "}"
-
-        "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
-        "#tab_bar::tab:selected{" + themeStyleSheet("tab_bar_tab_selected_css") + "}"
-        "#tab_bar::tab:!selected{" + themeStyleSheet("tab_bar_tab_unselected_css") + "}"
-        "#tab_bar #tab_item_counter{" + themeStyleSheet("tab_bar_item_counter") + "}"
-        "#tab_bar #tab_item_counter[CopyQ_selected=\"true\"]{"
-        + themeStyleSheet("tab_bar_sel_item_counter") +
-        "}"
-
-        "#tab_bar QToolButton{" + themeStyleSheet("tab_bar_scroll_buttons_css") + "}"
-
-        "#tab_tree, #tab_tree_item{" + themeStyleSheet("tab_tree_css") + "}"
-
-        "#tab_tree::item:selected"
-        ",#tab_tree_item[CopyQ_selected=\"true\"]"
-        "{"
-        + themeStyleSheet("tab_tree_sel_item_css") +
-        "}"
-
-        "#tab_tree_item[CopyQ_selected=\"false\"]"
-        ",#tab_tree_item[CopyQ_selected=\"true\"]"
-        "{background:transparent}"
-
-        "#tab_tree #tab_item_counter{" + themeStyleSheet("tab_tree_item_counter") + "}"
-        "#tab_tree #tab_item_counter[CopyQ_selected=\"true\"]{"
-        + themeStyleSheet("tab_tree_sel_item_counter") +
-        "}"
-
-        // Remove border in toolbars.
-        "QToolBar{" + themeStyleSheet("tool_bar_css") + "}"
-        "QToolBar QToolButton{" + themeStyleSheet("tool_button_css") + "}"
-        "QToolBar QToolButton:hover{" + themeStyleSheet("tool_button_selected_css") + "}"
-        "QToolBar QToolButton:pressed{" + themeStyleSheet("tool_button_pressed_css") + "}"
-
-        "#menu_bar, #menu_bar::item {"
-          + themeStyleSheet("menu_bar_css") + "}"
-        "#menu_bar::item:selected {"
-          + themeStyleSheet("menu_bar_selected_css") + "}"
-        "#menu_bar::item:disabled {"
-          + themeStyleSheet("menu_bar_disabled_css") + "}"
-
-        + getMenuStyleSheet()
-
-        + themeStyleSheet("css")
-    );
+    const QString cssTemplate = value("css_template_main_window").toString();
+    mainWindow->setStyleSheet(getStyleSheet(cssTemplate));
 }
 
 void Theme::decorateScrollArea(QAbstractScrollArea *scrollArea) const
@@ -320,40 +294,14 @@ void Theme::decorateItemPreview(QAbstractScrollArea *itemPreview) const
 
 QString Theme::getToolTipStyleSheet() const
 {
-    const QString fg = themeColorString("notes_fg");
-    return QString("#item QToolTip, QMenu QToolTip {")
-            + getFontStyleSheet( value("notes_font").toString() )
-            + ";background:" + themeColorString("notes_bg")
-            + ";color:" + fg
-            // Reseting border helps in some cases to set correct backgroung color.
-            + ";border:1px solid " + fg
-            + ";" + themeStyleSheet("notes_css")
-            + "}";
+    const QString cssTemplate = value("css_template_tooltip").toString();
+    return getStyleSheet(cssTemplate);
 }
 
 QString Theme::getNotificationStyleSheet() const
 {
-    // Notification style sheet.
-    QColor notificationBg = color("notification_bg");
-    // Notification opacity should be set with NotificationDaemon::setNotificationOpacity().
-    notificationBg.setAlpha(255);
-
-    const QString fontString = value("notification_font").toString();
-
-    return "Notification, Notification QWidget{"
-           "background:" + serializeColor(notificationBg) + ";"
-           "}"
-           "Notification QWidget{"
-           "color:" + themeColorString("notification_fg") + ";"
-           + getFontStyleSheet(fontString) +
-           "}"
-           "Notification #NotificationTitle{"
-           + getFontStyleSheet(fontString, 1.2) +
-           "}"
-           "Notification #NotificationTip{"
-           "font-style: italic"
-           "}"
-            ;
+    const QString cssTemplate = value("css_template_notification").toString();
+    return getStyleSheet(cssTemplate);
 }
 
 Qt::ScrollBarPolicy Theme::scrollbarPolicy() const
@@ -418,9 +366,6 @@ void Theme::resetTheme()
     m_theme["notification_font"]  = Option("", "VALUE", ui ? ui->pushButtonNotificationFont : nullptr);
     m_theme["show_number"] = Option(true, "checked", ui ? ui->checkBoxShowNumber : nullptr);
     m_theme["show_scrollbars"] = Option(true, "checked", ui ? ui->checkBoxScrollbars : nullptr);
-
-    m_theme["scrollbar_fg"] = m_theme["num_fg"];
-    m_theme["scrollbar_bg"] = m_theme["bg"];
 
     m_theme["css"] = Option("");
     m_theme["menu_css"] = Option(
@@ -528,6 +473,14 @@ void Theme::resetTheme()
     m_theme["use_system_icons"] = Option(false, "checked", ui ? ui->checkBoxSystemIcons : nullptr);
     m_theme["font_antialiasing"] = Option(true, "checked", ui ? ui->checkBoxAntialias : nullptr);
     m_theme["style_main_window"] = Option(false, "checked", ui ? ui->checkBoxStyleMainWindow : nullptr);
+
+    const int iconSize = iconFontSizePixels();
+    m_theme["icon_size"] = Option( QString::number(iconSize) );
+
+    m_theme["css_template_items"] = Option("items");
+    m_theme["css_template_main_window"] = Option("main_window");
+    m_theme["css_template_notification"] = Option("notification");
+    m_theme["css_template_tooltip"] = Option("tooltip");
 }
 
 void Theme::updateTheme()
@@ -558,99 +511,8 @@ void Theme::updateTheme()
 void Theme::decorateBrowser(QAbstractScrollArea *c) const
 {
     decorateScrollArea(c);
-
-    const QColor bg = color("bg");
-    QColor unfocusedSelectedBg = color("sel_bg");
-    unfocusedSelectedBg.setRgb(
-                (bg.red() + unfocusedSelectedBg.red()) / 2,
-                (bg.green() + unfocusedSelectedBg.green()) / 2,
-                (bg.blue() + unfocusedSelectedBg.blue()) / 2
-                );
-
-    Theme unfocusedTheme;
-    for (auto it = m_theme.constBegin(); it != m_theme.constEnd(); ++it)
-        unfocusedTheme.m_theme[it.key()] = Option(it.value().value());
-    const auto unfocusedSelBg = serializeColor(unfocusedSelectedBg);
-    unfocusedTheme.m_theme["sel_bg"].setValue(unfocusedSelBg);
-
-    // colors and font
-    c->setStyleSheet(
-        "QScrollBar{"
-            ";border:0"
-            ";margin:0"
-            ";background:" + themeColorString("scrollbar_bg") +
-        "}"
-        "QScrollBar::handle{"
-            ";border:0"
-            ";margin:0"
-            ";min-width:4px"
-            ";min-height:4px"
-            ";background:" + themeColorString("scrollbar_fg") +
-        "}"
-        "QScrollBar:horizontal {height:4px}"
-        "QScrollBar:vertical {width:4px}"
-        "QScrollBar::left-arrow,"
-        "QScrollBar::right-arrow,"
-        "QScrollBar::up-arrow,"
-        "QScrollBar::down-arrow,"
-        "QScrollBar::add-page,"
-        "QScrollBar::sub-page"
-        "{"
-            ";border:0"
-            ";margin:0"
-            ";width:0"
-            ";height:0"
-            ";background:" + themeColorString("bg") +
-        "}"
-
-        "#ClipboardBrowser,#item,#item_child{"
-          + getFontStyleSheet( value("font").toString() ) +
-          "color:" + themeColorString("fg") + ";"
-          "background:" + themeColorString("bg") + ";"
-        "}"
-
-        "#ClipboardBrowser::item:alternate:!hover:!selected{"
-          "color:" + themeColorString("alt_fg") + ";"
-          "background:" + themeColorString("alt_bg") + ";"
-        "}"
-
-        "#ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{"
-          "color:" + themeColorString("sel_fg") + ";"
-          "background:" + themeColorString("sel_bg") + ";"
-        "}"
-
-        "#item #item_child{background:transparent}"
-        "#item[CopyQ_selected=\"true\"] #item_child{background:transparent}"
-
-        // Desaturate selected item background if item list is not focused.
-        "#ClipboardBrowser::item:selected:!active{"
-          "background:" + unfocusedSelBg + ";"
-          + unfocusedTheme.themeStyleSheet("sel_item_css") +
-        "}"
-
-        "#ClipboardBrowser::item:hover{"
-          "background:" + unfocusedSelBg + ";"
-        "}"
-
-        // Omit showing current item outline.
-        "#ClipboardBrowser::focus{outline:0}"
-
-        "#ClipboardBrowser::item:focus{"
-          + themeStyleSheet("cur_item_css") +
-        "}"
-
-        + getToolTipStyleSheet() +
-
-        // Allow user to change CSS.
-        "#ClipboardBrowser{" + themeStyleSheet("item_css") + "}"
-        "#ClipboardBrowser::item:alternate:!hover:!selected{" + themeStyleSheet("alt_item_css") + "}"
-        "#ClipboardBrowser::item:selected{" + themeStyleSheet("sel_item_css") + "}"
-        "#ClipboardBrowser::item:hover{" + themeStyleSheet("hover_item_css") + "}"
-
-        "#item_child[CopyQ_item_type=\"notes\"] {"
-          + getFontStyleSheet( value("notes_font").toString() ) +
-        "}"
-    );
+    const QString cssTemplate = value("css_template_items").toString();
+    c->setStyleSheet(getStyleSheet(cssTemplate));
 }
 
 bool Theme::isMainWindowThemeEnabled() const
@@ -658,57 +520,116 @@ bool Theme::isMainWindowThemeEnabled() const
     return m_theme.value("style_main_window").value().toBool();
 }
 
-QString Theme::themeStyleSheet(const QString &name) const
-{
-    QString css = value(name).toString();
-    int i = 0;
-
-    forever {
-        i = css.indexOf("${", i);
-        if (i == -1)
-            break;
-        int j = css.indexOf('}', i + 2);
-        if (j == -1)
-            break;
-
-        const QString var = css.mid(i + 2, j - i - 2);
-
-        const QString colorName = serializeColor( evalColor(var, *this) );
-        css.replace(i, j - i + 1, colorName);
-        i += colorName.size();
-    }
-
-    return css;
-}
-
 QString Theme::themeColorString(const QString &name) const
 {
     return serializeColor( color(name) );
 }
 
-QString Theme::getMenuStyleSheet() const
+QString Theme::getStyleSheet(const QString &name, Values values, int maxRecursion) const
 {
-    const int iconSize = iconFontSizePixels();
-    return
-        // Remove icon border in menus.
-        "#MainWindow QMenu::item:selected{border:none}"
-        "#MainWindow QMenu::item{"
-          ";padding:0.2em 1em 0.2em 1em"
-          ";padding-left:" + QString::number(iconSize * 2) + "px}"
-        + "#MainWindow QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
+    const QString fileName = findThemeFile(name + ".css");
 
-        // Keep default item highlighted (removing icon border resets the style).
-        + "#MainWindow QMenu::item:default{font-weight:bold}"
+    if ( fileName.isEmpty() )
+        return QString();
 
-        + "#MainWindow QMenu {" + themeStyleSheet("menu_css") + "}"
+    QFile file(fileName);
+    if ( !file.open(QIODevice::ReadOnly) ) {
+        log( QString("Failed to open stylesheet \"%1\": %2")
+             .arg(fileName)
+             .arg(file.errorString()), LogError );
+        return QString();
+    }
 
-        + "#MainWindow QMenu::item,"
-        + "#MainWindow QMenu::separator {"
-          + themeStyleSheet("menu_bar_css") + "}"
-        + "#MainWindow QMenu::item:selected {"
-          + themeStyleSheet("menu_bar_selected_css") + "}"
-        + "#MainWindow  QMenu::item:disabled {"
-          + themeStyleSheet("menu_bar_disabled_css") + "}";
+    const QString css = QString::fromUtf8( file.readAll() );
+    return parseStyleSheet(css, values, maxRecursion - 1);
+}
+
+QString Theme::parseStyleSheet(const QString &css, Values values, int maxRecursion) const
+{
+    QString output;
+    const QString variableBegin("${");
+    const QString variableEnd("}");
+    for ( int i = 0; i < css.size(); ++i ) {
+        const int a = css.indexOf(variableBegin, i);
+        if (a == -1) {
+            output.append(css.mid(i));
+            break;
+        }
+
+        const int b = css.indexOf(variableEnd, a + variableBegin.size());
+        if (b == -1) {
+            output.append(css.mid(i));
+            break;
+        }
+
+        output.append(css.mid(i, a - i));
+        i = b + variableEnd.size() - 1;
+
+        const QString name = css
+                .mid(a + variableBegin.size(), b - a - variableBegin.size())
+                .trimmed();
+        const QString result = parsePlaceholder(name, &values, maxRecursion);
+        output.append(result);
+    }
+
+    return output;
+}
+
+QString Theme::parsePlaceholder(const QString &name, Values *values, int maxRecursion) const
+{
+    if (maxRecursion < 0) {
+        log("Max recursion reached when parsing style sheet", LogError);
+        return QString();
+    }
+
+    if ( name.contains("=") ) {
+        const int i = name.indexOf('=');
+        const QString k = name.mid(0, i).trimmed();
+        const QString v = name.mid(i + 1).trimmed();
+        if (k == "scale")
+            (*values)[k] = 1.0;
+        (*values)[k] = parsePlaceholder(v, values, maxRecursion - 1);
+        return QString();
+    }
+
+    if ( name.startsWith("css:") )
+        return getStyleSheet(name.mid(4), *values, maxRecursion - 1);
+
+    const double scale = getFactor("scale", *values);
+
+    const QString value = this->value(name).toString();
+    if (name.contains("font"))
+        return getFontStyleSheet(value, scale);
+
+    if (name.contains("css") || value.contains(":"))
+        return parseStyleSheet(value, *values, maxRecursion - 1);
+
+    {
+        bool ok;
+        const double v = name.toDouble(&ok);
+        if (ok)
+            return QString::number(v * scale);
+    }
+
+    {
+        bool ok;
+        const double v = value.toDouble(&ok);
+        if (ok)
+            return QString::number(v * scale);
+    }
+
+    QColor color = evalColor(name, *this, *values);
+    const double saturationF = getFactor("hsv_saturation_factor", *values);
+    const double valueF = getFactor("hsv_value_factor", *values);
+    if ( !qFuzzyCompare(saturationF, 1.0) || !qFuzzyCompare(valueF, 1.0) ) {
+        color.setHsvF(
+            color.hueF(),
+            color.saturationF() * saturationF,
+            color.valueF() * valueF,
+            color.alphaF()
+        );
+    }
+    return serializeColor(color);
 }
 
 QString serializeColor(const QColor &color)
@@ -725,6 +646,8 @@ QString serializeColor(const QColor &color)
 
 QColor deserializeColor(const QString &colorName)
 {
+    QColor color;
+
     if ( colorName.startsWith("rgba(") ) {
         QStringList list = colorName.mid(5, colorName.indexOf(')') - 5).split(',');
         int r = list.value(0).toInt();
@@ -732,13 +655,18 @@ QColor deserializeColor(const QString &colorName)
         int b = list.value(2).toInt();
         int a = static_cast<int>( list.value(3).toDouble() * 255 );
 
-        return QColor(r, g, b, a > 255 ? a / 255 : a);
+        color = QColor(r, g, b, a > 255 ? a / 255 : a);
+    } else {
+        color = QColor(colorName);
     }
 
-    return QColor(colorName);
+    if ( !color.isValid() )
+        log( QString("Failed to deserialize color \"%1\"").arg(colorName) );
+
+    return color;
 }
 
-QColor evalColor(const QString &expression, const Theme &theme, int maxRecursion)
+QColor evalColor(const QString &expression, const Theme &theme, const Values &values, int maxRecursion)
 {
     int r = 0;
     int g = 0;
@@ -750,10 +678,48 @@ QColor evalColor(const QString &expression, const Theme &theme, int maxRecursion
         QStringList subList = add.split('-');
         float multiply = 1;
         for (const auto &sub : subList) {
-            addColor(sub, multiply, &r, &g, &b, &a, theme, maxRecursion);
+            addColor(sub, multiply, &r, &g, &b, &a, theme, values, maxRecursion);
             multiply = -1;
         }
     }
 
     return QColor(r, g, b, a);
+}
+
+QString defaultUserThemePath()
+{
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
+                       QCoreApplication::organizationName(),
+                       QCoreApplication::applicationName());
+    return QDir::cleanPath(settings.fileName() + "/../themes");
+}
+
+QStringList themePaths()
+{
+    QStringList paths;
+
+    const QByteArray customThemsPath = qgetenv("COPYQ_THEME_PREFIX");
+    if ( !customThemsPath.isEmpty() )
+        paths.append(QString::fromLocal8Bit(customThemsPath));
+
+    const QString userThemesPath = defaultUserThemePath();
+    QDir themesDir(userThemesPath);
+    if ( themesDir.mkpath(".") )
+        paths.append(userThemesPath);
+
+    const QString themesPath = themePrefix();
+    if ( !themesPath.isEmpty() )
+        paths.append(themesPath);
+
+    return paths;
+}
+
+QString findThemeFile(const QString &fileName)
+{
+    for (const QString &path : themePaths()) {
+        const QDir dir(path);
+        if ( dir.exists(fileName) )
+            return dir.absoluteFilePath(fileName);
+    }
+    return QString();
 }

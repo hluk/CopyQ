@@ -172,7 +172,7 @@ if (UNIX AND NOT APPLE)
     endforeach()
 
     set(copyq_THEME_INSTALL_PREFIX ${THEME_INSTALL_PREFIX})
-    file(GLOB copyq_THEMES shared/themes/*.ini)
+    file(GLOB copyq_THEMES shared/themes/*.css shared/themes/*.ini)
     install(FILES ${copyq_THEMES} DESTINATION ${THEME_INSTALL_PREFIX})
 
     add_definitions( -DCOPYQ_ICON_PREFIX="${ICON_INSTALL_PREFIX}/${ICON_NAME}" )
@@ -188,7 +188,7 @@ if (UNIX AND NOT APPLE)
     endif()
 elseif (APPLE)
     set(copyq_themes_dest_dir "${COPYQ_EXECUTABLE_NAME}.app/Contents/Resources/themes")
-    file(GLOB copyq_THEMES shared/themes/*.ini)
+    file(GLOB copyq_THEMES shared/themes/*.css shared/themes/*.ini)
     install(FILES ${copyq_THEMES} DESTINATION "${copyq_themes_dest_dir}" COMPONENT Runtime)
 endif()
 

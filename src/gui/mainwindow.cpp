@@ -2426,8 +2426,9 @@ void MainWindow::loadSettings()
     m_options.trayMenuOpenOnLeftClick = appConfig.option<Config::tray_menu_open_on_left_click>();
     m_options.clipboardTab = appConfig.option<Config::clipboard_tab>();
 
-    m_trayMenu->setStyleSheet( theme().getToolTipStyleSheet() );
-    m_menu->setStyleSheet( theme().getToolTipStyleSheet() );
+    const auto toolTipStyleSheet = theme().getToolTipStyleSheet();
+    m_trayMenu->setStyleSheet(toolTipStyleSheet);
+    m_menu->setStyleSheet(toolTipStyleSheet);
 
     setTrayEnabled( !appConfig.option<Config::disable_tray>() );
     updateTrayMenuItems();

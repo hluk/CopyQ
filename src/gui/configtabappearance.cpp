@@ -34,7 +34,6 @@
 #include "gui/theme.h"
 #include "item/itemeditor.h"
 #include "item/itemdelegate.h"
-#include "platform/platformnativeinterface.h"
 
 #include <QAbstractScrollArea>
 #include <QAction>
@@ -46,19 +45,6 @@
 #include <QScrollBar>
 #include <QSettings>
 #include <QTemporaryFile>
-
-namespace {
-
-QString themePrefix()
-{
-#ifdef COPYQ_THEME_PREFIX
-    return COPYQ_THEME_PREFIX;
-#else
-    return platformNativeInterface()->themePrefix();
-#endif
-}
-
-} // namespace
 
 ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     : QWidget(parent)
@@ -225,14 +211,7 @@ void ConfigTabAppearance::onComboBoxThemesActivated(const QString &text)
     if ( text.isEmpty() )
         return;
 
-    QString fileName = defaultUserThemePath() + "/" + text + ".ini";
-    if ( !QFile(fileName).exists() ) {
-        fileName = themePrefix();
-        if ( fileName.isEmpty() || !QFile(fileName).exists() )
-            return;
-        fileName.append("/" + text + ".ini");
-    }
-
+    const QString fileName = findThemeFile(text + ".ini");
     QSettings settings(fileName, QSettings::IniFormat);
     loadTheme(settings);
 }
@@ -256,18 +235,8 @@ void ConfigTabAppearance::updateThemes()
     ui->comboBoxThemes->clear();
     ui->comboBoxThemes->addItem(QString());
 
-    const QString userThemesPath = defaultUserThemePath();
-    QDir themesDir(userThemesPath);
-    if ( themesDir.mkpath(".") )
-        addThemes(userThemesPath);
-
-    const QByteArray customThemsPath = qgetenv("COPYQ_THEME_PREFIX");
-    if ( !customThemsPath.isEmpty() )
-        addThemes(QString::fromLocal8Bit(customThemsPath));
-
-    const QString themesPath = themePrefix();
-    if ( !themesPath.isEmpty() )
-        addThemes(themesPath);
+    for (const QString &path : themePaths())
+        addThemes(path);
 }
 
 void ConfigTabAppearance::addThemes(const QString &path)
@@ -397,14 +366,6 @@ void ConfigTabAppearance::updateFontButtons()
         button->setIcon(pix);
         button->setIconSize(iconSize);
     }
-}
-
-QString ConfigTabAppearance::defaultUserThemePath() const
-{
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(),
-                       QCoreApplication::applicationName());
-    return QDir::cleanPath(settings.fileName() + "/../themes");
 }
 
 QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)

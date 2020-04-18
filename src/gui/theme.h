@@ -25,6 +25,7 @@
 #include <QFont>
 #include <QHash>
 #include <QPalette>
+#include <QStringList>
 
 namespace Ui {
 class ConfigTabAppearance;
@@ -37,6 +38,8 @@ class QString;
 class QVariant;
 
 struct ClipboardBrowserShared;
+
+using Values = QHash<QString, QVariant>;
 
 class Theme final {
 public:
@@ -115,7 +118,9 @@ private:
     /** Return parsed color name. */
     QString themeColorString(const QString &name) const;
 
-    QString getMenuStyleSheet() const;
+    QString getStyleSheet(const QString &name, Values values = Values(), int maxRecursion = 8) const;
+    QString parseStyleSheet(const QString &css, Values values, int maxRecursion) const;
+    QString parsePlaceholder(const QString &name, Values *values, int maxRecursion) const;
 
     QHash<QString, Option> m_theme;
     Ui::ConfigTabAppearance *ui = nullptr;
@@ -139,6 +144,12 @@ QString serializeColor(const QColor &color);
 
 QColor deserializeColor(const QString &colorName);
 
-QColor evalColor(const QString &expression, const Theme &theme, int maxRecursion = 8);
+QColor evalColor(const QString &expression, const Theme &theme, const Values &values = Values(), int maxRecursion = 8);
+
+QString findThemeFile(const QString &fileName);
+
+QString defaultUserThemePath();
+
+QStringList themePaths();
 
 #endif // THEME_H

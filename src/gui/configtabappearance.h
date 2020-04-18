@@ -79,7 +79,6 @@ private:
     void updateColorButtons();
     void updateFontButtons();
 
-    QString defaultUserThemePath() const;
     QIcon createThemeIcon(const QString &fileName);
 
     void decoratePreview();

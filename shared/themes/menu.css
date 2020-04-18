@@ -1,0 +1,34 @@
+/* Remove icon border in menus. */
+#MainWindow QMenu::item:selected{border:none}
+
+#MainWindow QMenu::item
+{
+    ;padding: 0.2em 1em 0.2em 1em
+    ;padding-left: ${scale=2}${icon_size}${scale=1}px
+}
+
+#MainWindow QMenu::icon
+{
+    ;padding-left: ${scale=0.5}${icon_size}${scale=1}px
+}
+
+/* Keep default item highlighted (removing icon border resets the style). */
+#MainWindow QMenu::item:default{font-weight:bold}
+
+#MainWindow QMenu{${menu_css}}
+
+#MainWindow QMenu::item,
+#MainWindow QMenu::separator
+{
+    ${menu_bar_css}
+}
+
+#MainWindow QMenu::item:selected
+{
+    ${menu_bar_selected_css}
+}
+
+#MainWindow QMenu::item:disabled
+{
+    ${menu_bar_disabled_css}
+}

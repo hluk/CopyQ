@@ -13,7 +13,7 @@ update() {
 }
 
 update "$src"/{README.md,AUTHORS,HACKING,LICENSE} "$dst"
-update "$src"/shared/themes/*.ini "$dst/themes"
+update "$src"/shared/themes/*.{css,ini} "$dst/themes"
 update "$build"/copyq.exe "$dst"
 update "$build"/plugins/*.dll "$dst/plugins"
 update "$build"/src/*.qm "$dst/translations"

@@ -1,0 +1,56 @@
+#ClipboardBrowser,#item,#item_child{
+    ;${font}
+    ;color: ${fg}
+    ;background: ${bg}
+}
+
+#ClipboardBrowser::item:alternate:!hover:!selected{
+    ;color: ${alt_fg}
+    ;background: ${alt_bg}
+}
+
+#ClipboardBrowser::item:selected
+,#item[CopyQ_selected="true"]
+,#item[CopyQ_selected="true"] #item_child
+{
+    ;color: ${sel_fg}
+    ;background: ${sel_bg}
+}
+
+#item #item_child
+,#item[CopyQ_selected="true"] #item_child
+{
+    ;background: transparent
+}
+
+${hsv_saturation_factor = 0.3}
+    #ClipboardBrowser::item:selected:!active
+    {
+        ;background:${sel_bg}
+        ;${sel_item_css}
+    }
+    #ClipboardBrowser::item:hover
+    {
+        ;background:${sel_bg}
+    }
+${hsv_saturation_factor = 1}
+
+/* Omit showing current item outline. */
+#ClipboardBrowser::focus{outline:0}
+
+#ClipboardBrowser::item:focus{ ${cur_item_css} }
+
+/* Allow user to change CSS. */
+#ClipboardBrowser{ ${item_css} }
+#ClipboardBrowser::item:alternate:!hover:!selected{ ${alt_item_css} }
+#ClipboardBrowser::item:selected{ ${sel_item_css} }
+#ClipboardBrowser::item:hover{ ${hover_item_css} }
+
+#item_child[CopyQ_item_type="notes"] {
+    ;${notes_font}
+    ;background: ${notes_bg}
+    ;color: ${notes_fg}
+}
+
+${css:scrollbar}
+${css:tooltip}
