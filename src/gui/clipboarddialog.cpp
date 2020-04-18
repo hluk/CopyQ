@@ -168,8 +168,13 @@ void ClipboardDialog::onListWidgetFormatsCurrentItemChanged(
         addText();
     }
 
-    ui->labelProperties->setText(
-                tr("<strong>Size:</strong> %1 bytes", "Size of data in bytes").arg(bytes.size()) );
+    if (current) {
+        ui->labelProperties->setText(
+                tr("<strong>Size:</strong> %1 bytes", "Size of clipboard/item data in bytes")
+                .arg(bytes.size()) );
+    } else {
+        ui->labelProperties->setText(QString());
+    }
 }
 
 void ClipboardDialog::onActionRemoveFormatTriggered()
