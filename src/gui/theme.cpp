@@ -419,6 +419,9 @@ void Theme::resetTheme()
     m_theme["show_number"] = Option(true, "checked", ui ? ui->checkBoxShowNumber : nullptr);
     m_theme["show_scrollbars"] = Option(true, "checked", ui ? ui->checkBoxScrollbars : nullptr);
 
+    m_theme["scrollbar_fg"] = m_theme["num_fg"];
+    m_theme["scrollbar_bg"] = m_theme["bg"];
+
     m_theme["css"] = Option("");
     m_theme["menu_css"] = Option(
                 "\n    ;border: 1px solid ${sel_bg}"
@@ -567,10 +570,39 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
     Theme unfocusedTheme;
     for (auto it = m_theme.constBegin(); it != m_theme.constEnd(); ++it)
         unfocusedTheme.m_theme[it.key()] = Option(it.value().value());
-    unfocusedTheme.m_theme["sel_bg"].setValue( serializeColor(unfocusedSelectedBg) );
+    const auto unfocusedSelBg = serializeColor(unfocusedSelectedBg);
+    unfocusedTheme.m_theme["sel_bg"].setValue(unfocusedSelBg);
 
     // colors and font
     c->setStyleSheet(
+        "QScrollBar{"
+            ";border:0"
+            ";margin:0"
+            ";background:" + themeColorString("scrollbar_bg") +
+        "}"
+        "QScrollBar::handle{"
+            ";border:0"
+            ";margin:0"
+            ";min-width:4px"
+            ";min-height:4px"
+            ";background:" + themeColorString("scrollbar_fg") +
+        "}"
+        "QScrollBar:horizontal {height:4px}"
+        "QScrollBar:vertical {width:4px}"
+        "QScrollBar::left-arrow,"
+        "QScrollBar::right-arrow,"
+        "QScrollBar::up-arrow,"
+        "QScrollBar::down-arrow,"
+        "QScrollBar::add-page,"
+        "QScrollBar::sub-page"
+        "{"
+            ";border:0"
+            ";margin:0"
+            ";width:0"
+            ";height:0"
+            ";background:" + themeColorString("bg") +
+        "}"
+
         "#ClipboardBrowser,#item,#item_child{"
           + getFontStyleSheet( value("font").toString() ) +
           "color:" + themeColorString("fg") + ";"
@@ -592,12 +624,12 @@ void Theme::decorateBrowser(QAbstractScrollArea *c) const
 
         // Desaturate selected item background if item list is not focused.
         "#ClipboardBrowser::item:selected:!active{"
-          "background:" + serializeColor( evalColor("sel_bg", unfocusedTheme) ) + ";"
+          "background:" + unfocusedSelBg + ";"
           + unfocusedTheme.themeStyleSheet("sel_item_css") +
         "}"
 
         "#ClipboardBrowser::item:hover{"
-          "background:" + serializeColor( evalColor("sel_bg", unfocusedTheme) ) + ";"
+          "background:" + unfocusedSelBg + ";"
         "}"
 
         // Omit showing current item outline.

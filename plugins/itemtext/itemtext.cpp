@@ -213,7 +213,7 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
         return;
     }
 
-    const int scrollBarWidth = verticalScrollBar()->isVisible() ? verticalScrollBar()->width() : 0;
+    const int scrollBarWidth = verticalScrollBar()->width();
     setMaximumHeight( maximumSize.height() );
     setFixedWidth(idealWidth);
     m_textDocument.setTextWidth(idealWidth - scrollBarWidth);
@@ -229,9 +229,6 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
     // setDocument() is slow, so postpone this after resized properly
     if (document() != &m_textDocument)
         setDocument(&m_textDocument);
-
-    const QRectF rect = m_textDocument.documentLayout()->frameBoundingRect(m_textDocument.rootFrame());
-    setFixedWidth( static_cast<int>(rect.right()) );
 
     QTextCursor tc(&m_textDocument);
     tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
