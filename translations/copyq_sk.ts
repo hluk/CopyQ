@@ -336,7 +336,7 @@ Príkaz je možné zmeniť v nastaveniach.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1587"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>Na kartu %1 nie je možné pridať nové položky. Vyberte miesto ručne, aby ste uvoľnili miesto.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
@@ -1177,7 +1177,9 @@ Nastav na 0 pre zachovanie záložiek v pamäti.</translation>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Názov karty, ktorá bude automaticky ukladať nový obsah schránky.
+
+Nechajte prázdne, ak chcete vypnúť automatické ukladanie.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="193"/>
