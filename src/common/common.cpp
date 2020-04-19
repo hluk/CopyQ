@@ -484,6 +484,9 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     if (firstLine != 0)
         lines[firstLine].prepend("...");
 
+    if (lastLine == -1)
+        return QString("...");
+
     // If there are too many lines, append triple dot.
     if (lastLine + 1 != lines.size())
         lines[lastLine].append("...");
