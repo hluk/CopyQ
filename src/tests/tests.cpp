@@ -1553,6 +1553,16 @@ void Tests::commandLoadTheme()
         tmp.close();
         RUN("loadTheme" << tmp.fileName(), "");
     }
+
+    // Verify default stylesheets - if there is a syntax error,
+    // application prints a warning which should be captured by tests.
+    {
+        QTemporaryFile tmp;
+        QVERIFY(tmp.open());
+        tmp.write("[General]\nstyle_main_window=true");
+        tmp.close();
+        RUN("loadTheme" << tmp.fileName(), "");
+    }
 }
 
 void Tests::commandDateString()
