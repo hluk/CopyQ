@@ -121,7 +121,7 @@ void NotificationDaemon::doUpdateNotifications()
     // Postpone update if mouse cursor is over a notification.
     for (auto &notificationData : m_notifications) {
         auto notification = notificationData.notification;
-        if ( isNotificationUnderCursor(notification, cursor) ) {
+        if ( notification->isVisible() && isNotificationUnderCursor(notification, cursor) ) {
             m_timerUpdate.start();
             return;
         }
