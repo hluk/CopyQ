@@ -144,6 +144,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     output.remove("QtWarning: libpng warning: iCCP: known incorrect sRGB profile");
     output.remove("QtWarning: QMime::convertToMime: unhandled mimetype: text/plain");
     output.remove("QtWarning: QWindowsWindow::setGeometry: Unable to set geometry");
+    output.remove("QtWarning: setGeometry: Unable to set geometry");
     output.remove("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)");
     output.remove("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)");
 #ifdef Q_OS_MAC
