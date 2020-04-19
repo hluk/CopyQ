@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">關於</translation>
+        <translation>關於</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">動作對話框</translation>
+        <translation>動作對話框</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -129,7 +129,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">程序管理器</translation>
+        <translation>程序管理器</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -147,7 +147,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">增加命令</translation>
+        <translation>加入命令</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -331,7 +331,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1587"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>無法再加入新項目至分頁 %1。請手工移除一些項目以騰出空位。</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
@@ -362,7 +362,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">剪貼簿內容</translation>
+        <translation>剪貼簿內容</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -382,7 +382,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">項目內容</translation>
+        <translation>項目內容</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
@@ -433,7 +433,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">命令</translation>
+        <translation>命令</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -1554,7 +1554,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished">設定</translation>
+        <translation>設定</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -1663,7 +1663,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">選擇圖示</translation>
+        <translation>選擇圖示</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2211,7 +2211,8 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt;將 MIME 類型設成 &lt;strong&gt;-&lt;/strong&gt; (減號字元) 以忽略檔案。任何其他未知或隱藏檔會被忽略。&lt;/p&gt;
+&lt;p&gt;例如，載入 &lt;strong&gt;txt&lt;/strong&gt; 副檔名成 &lt;strong&gt;text/plain&lt;/strong&gt; MIME 類型。&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -2245,12 +2246,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="180"/>
         <source>Tag as %1</source>
-        <translation>加上標籤 %1</translation>
+        <translation>加上 %1 標籤</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="186"/>
         <source>Remove tag %1</source>
-        <translation>移除標籤 %1</translation>
+        <translation>移除 %1 標籤</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="699"/>
@@ -2369,7 +2370,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">紀錄</translation>
+        <translation>紀錄</translation>
     </message>
 </context>
 <context>
@@ -2456,13 +2457,13 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1882"/>
         <source>Options for Import</source>
-        <translation type="unfinished">匯入 CopyQ 的選項</translation>
+        <translation>用於匯入 CopyQ 的選項</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2119"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation>Copyq 出錯</translation>
+        <translation>Copyq 錯誤</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="510"/>
@@ -2472,12 +2473,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3386"/>
         <source>Options for Export</source>
-        <translation type="unfinished">用於匯出 CopyQ 的選項</translation>
+        <translation>用於匯出 CopyQ 的選項</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3407"/>
         <source>Export Error</source>
-        <translation type="unfinished">匯出 CopyQ 錯誤</translation>
+        <translation>匯出 CopyQ 錯誤</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3408"/>
@@ -2487,7 +2488,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3496"/>
         <source>Import Error</source>
-        <translation type="unfinished">匯入 CopyQ 錯誤</translation>
+        <translation>匯入 CopyQ 錯誤</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3497"/>
@@ -3014,7 +3015,8 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">將目前窗格內容貼到系統剪貼簿
+(在某些應用程式可能無作用)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
@@ -3149,23 +3151,24 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">設定剪貼簿內容。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>將原始資料寫入指定行。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">對行中項目文字執行 PROGRAM。
+於 PROGRAM 中用 %1，可將文字作為參元傳入 PROGRAM。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">於 TIME 微秒顯示系統匣彈出訊息。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
@@ -3248,7 +3251,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="182"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="185"/>
         <source>OPTION</source>
-        <translation>選項</translation>
+        <translation>OPTION</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
@@ -3263,22 +3266,22 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">執行隨意即行碼。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">以指定的工作(session)名稱，啟動或連接到應用程式實例。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>於螢幕印出 COMMAND 的說明或全部命令的說明。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>於螢幕印出程式與程式庫的版本。</translation>
     </message>
     <message>
         <source>
@@ -3494,7 +3497,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">應用程式快鍵只在主窗取得焦點時有作用。</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
@@ -3525,12 +3528,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">新分頁</translation>
+        <translation type="unfinished">新增分頁</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">重新命名分頁</translation>
+        <translation>重新命名分頁</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
@@ -3553,7 +3556,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存項目(&amp;S)</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
