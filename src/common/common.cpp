@@ -470,19 +470,34 @@ bool anySessionOwnsClipboardData(const QVariantMap &data)
 QString elideText(const QString &text, const QFont &font, const QString &format,
                   bool escapeAmpersands, int maxWidthPixels, int maxLines)
 {
+    if ( text.isEmpty() )
+        return QString();
+
     if (maxWidthPixels <= 0)
         maxWidthPixels = smallIconSize() * 20;
 
     QStringList lines = text.split('\n');
 
-    // Ignore empty lines at beginning.
-    static const QRegularExpression reNonEmpty(".*\\S.*");
-    const int firstLine = qMax(0, lines.indexOf(reNonEmpty));
-    const int lastLine = qMax(0, lines.lastIndexOf(reNonEmpty, firstLine + maxLines - 1));
+    int firstLine = -1;
+    int lastLine = -1;
+    int commonIndent = text.size();
+    static const QRegularExpression reNonSpace("\\S");
+    for (int i = 0; i < lines.size(); ++i) {
+        const auto &line = lines[i];
+        const int lineIndent = line.indexOf(reNonSpace);
+        if (lineIndent == -1)
+            continue;
 
-    // If empty lines are at beginning, prepend triple dot.
-    if (firstLine != 0)
-        lines[firstLine].prepend("...");
+        if (firstLine == -1)
+            firstLine = i;
+
+        lastLine = i;
+        if (lineIndent < commonIndent)
+            commonIndent = lineIndent;
+
+        if (firstLine - lastLine + 1 >= maxLines)
+            break;
+    }
 
     if (lastLine == -1)
         return QString("...");
@@ -501,19 +516,9 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
 #endif
 
     // Remove redundant spaces from single line text.
-    if (lines.size() == 1)
+    if (lines.size() == 1) {
         lines[0] = lines[0].simplified();
-
-    // Find common indentation.
-    int commonIndent = lines.value(0).size();
-    static const QRegularExpression reNonSpace("\\S");
-    for (const auto &line : lines) {
-        const int lineIndent = line.indexOf(reNonSpace);
-        if (lineIndent != -1 && lineIndent < commonIndent) {
-            commonIndent = lineIndent;
-            if (commonIndent == 0)
-                break;
-        }
+        commonIndent = 0;
     }
 
     // Remove common indentation each line and elide text if too long.
@@ -525,6 +530,14 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
             line = line.left(maxElidedTextLineLength) + "...";
 
         line = fm.elidedText(line, Qt::ElideMiddle, maxWidthPixels - formatWidth);
+    }
+
+    // If empty lines are at beginning, prepend triple dot.
+    if (firstLine != 0) {
+        if (lines.size() == 1)
+            lines.first().prepend("...");
+        else
+            lines.prepend("...");
     }
 
     QString result = lines.join("\n");
