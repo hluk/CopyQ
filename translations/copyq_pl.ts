@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">O programie</translation>
+        <translation>O programie</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -326,7 +326,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     </message>
     <message>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation type="vanished">Karta jest pełna. Nie udało się&#xa0;usunąć żadnych elementów.</translation>
+        <translation type="vanished">Karta jest pełna. Nie udało się usunąć żadnych elementów.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1587"/>
@@ -1210,7 +1210,7 @@ Użyj Podglądu, aby wyświetlić całe elementy.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="233"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">Przenieś&#xa0;aktywowany element do górnej części listy</translation>
+        <translation type="unfinished">Przenieś aktywowany element do górnej części listy</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="236"/>
@@ -1451,7 +1451,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished">Maksymalna wysokość&#xa0;powiadomienia w pikselach</translation>
+        <translation type="unfinished">Maksymalna wysokość powiadomienia w pikselach</translation>
     </message>
 </context>
 <context>
