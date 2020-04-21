@@ -415,6 +415,7 @@ private:
     void printError(const QByteArray &message);
 
     void getActionData();
+    void getActionData(int actionId);
     void setActionData();
 
     QByteArray getClipboardData(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);

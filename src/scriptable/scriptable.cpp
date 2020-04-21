@@ -2494,6 +2494,10 @@ void Scriptable::runMenuCommandFilters()
             timer.start();
     });
 
+    // Avoid modifying menu filter data.
+    const int actionId = m_actionId;
+    m_actionId = -1;
+
     connect(&timer, &QTimer::timeout, &loop, [&]() {
         if ( bytes.isEmpty() )
             return;
@@ -2514,21 +2518,15 @@ void Scriptable::runMenuCommandFilters()
             return;
         }
 
-        getActionData();
+        getActionData(actionId);
 
         PerformanceLogger logger( QLatin1String("Menu item filters") );
-
-        // Avoid modifying menu filter data.
-        const int actionId = m_actionId;
-        m_actionId = -1;
 
         for (int i = 0; i < matchCommands.length(); ++i) {
             const bool enabled = canExecuteCommandFilter(matchCommands[i]);
             if ( !m_proxy->enableMenuItem(actionId, currentRun, i, enabled) )
                 break;
         }
-
-        m_actionId = actionId;
     });
 
     emit receiveData();
@@ -3282,8 +3280,13 @@ void Scriptable::printError(const QByteArray &message)
 
 void Scriptable::getActionData()
 {
-    if (m_actionId != -1)
-        m_data = m_oldData = m_proxy->getActionData(m_actionId);
+    getActionData(m_actionId);
+}
+
+void Scriptable::getActionData(int actionId)
+{
+    if (actionId != -1)
+        m_data = m_oldData = m_proxy->getActionData(actionId);
 }
 
 void Scriptable::setActionData()
