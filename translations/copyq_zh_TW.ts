@@ -75,7 +75,7 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;將輸出分解成多個項目的類型表達式。&lt;\p&gt;
+        <translation>&lt;p&gt;將輸出分解成多個項目的類型式。&lt;\p&gt;
 &lt;p&gt;使用 &lt;b&gt;\n&lt;/b&gt;儲存每行成分解項目。&lt;/p&gt;</translation>
     </message>
     <message>
@@ -284,13 +284,13 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation>增加到 %1 分頁</translation>
+        <translation>加到 %1 分頁</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation>移動到 %1 分頁</translation>
+        <translation>移到 %1 分頁</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
@@ -331,7 +331,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1587"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation>無法再加入新項目至分頁 %1。請手工移除一些項目以騰出空位。</translation>
+        <translation>無法再加入新項目至 %1 分頁。請手工移除一些項目以騰出空位。</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
@@ -506,7 +506,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation>項目文會替換程式參元 %1，符合類型表達式的文字則替換參數 %2 至 %9。</translation>
+        <translation>項目文會替換程式參元 %1，符合類型式的文字則替換參元 %2 至 %9。</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -631,13 +631,13 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation>&lt;p&gt;只當轉換命令成功才使用命令。&lt;/p&gt;
+        <translation type="unfinished">&lt;p&gt;只當轉換命令成功才使用命令。&lt;/p&gt;
 
 &lt;p&gt;項目文被傳送到轉換器命令的&lt;b&gt;標準輸入&lt;/b&gt;。The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
 
-&lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
+&lt;p&gt;用 &lt;b&gt;%1&lt;/b&gt; 作為參元接收傳送的項目文，並用 &lt;b&gt;%2&lt;/b&gt; 至 &lt;b&gt;%9&lt;/b&gt; 作為參元接收類型式(regular expression)抓出的文 (括在括號中的部分)。&lt;/p&gt;
 
-&lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</translation>
+&lt;p&gt;用 &lt;b&gt;|&lt;/b&gt; 去串接命令 (將標準輸出傳給下一命令)。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
@@ -2165,7 +2165,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="493"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation>無法同步(雙向更新)分頁 &quot;%1&quot; 與目錄 &quot;%2&quot;！</translation>
+        <translation>無法同步(雙向更新)&quot;%1&quot;分頁與&quot;%2&quot;目錄！</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="528"/>
@@ -2211,8 +2211,8 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;將 MIME 類型設成 &lt;strong&gt;-&lt;/strong&gt; (減號字元) 以忽略檔案。任何其他未知或隱藏檔會被忽略。&lt;/p&gt;
-&lt;p&gt;例如，載入 &lt;strong&gt;txt&lt;/strong&gt; 副檔名成 &lt;strong&gt;text/plain&lt;/strong&gt; MIME 類型。&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;將 MIME 類型設成 &lt;strong&gt;-&lt;/strong&gt; (短橫線字元)以忽略有此類型的檔案的雙向更新。會忽略其他未知副檔名與類型的檔案或隱藏檔。&lt;/p&gt;
+&lt;p&gt;例如，設定  &lt;strong&gt;txt&lt;/strong&gt; (副檔名的)檔對應 &lt;strong&gt;text/plain&lt;/strong&gt; (MIME 項目類型) 的項目。&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -2427,12 +2427,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="722"/>
         <source>Re&amp;name Tab %1</source>
-        <translation>重新命名分頁 %1(&amp;N)</translation>
+        <translation>重新命名 %1 分頁(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="724"/>
         <source>Re&amp;move Tab %1</source>
-        <translation>移除分頁 %1(&amp;M)</translation>
+        <translation>移除 %1 分頁(&amp;M)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="726"/>
@@ -2514,7 +2514,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3650"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>想移除群組 &lt;strong&gt;%1&lt;/strong&gt; 中的&lt;strong&gt;所有分頁&lt;/strong&gt;？</translation>
+        <translation>想移除&lt;strong&gt;%1&lt;/strong&gt;群組中的&lt;strong&gt;所有分頁&lt;/strong&gt;？</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3697"/>
@@ -2524,7 +2524,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3698"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>想要移除分頁 &lt;strong&gt;%1&lt;/strong&gt;？</translation>
+        <translation>想要移除&lt;strong&gt;%1&lt;/strong&gt;分頁？</translation>
     </message>
 </context>
 <context>
@@ -2940,7 +2940,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="399"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation>分頁 %1 已損壞或某些 CopyQ 外掛遺失！</translation>
+        <translation>%1 分頁已損壞或某些 CopyQ 外掛遺失！</translation>
     </message>
 </context>
 <context>
@@ -3587,7 +3587,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="118"/>
         <source>Regular Expression</source>
-        <translation>類型表達式</translation>
+        <translation>類型式(regular expression)</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="121"/>
