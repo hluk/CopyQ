@@ -224,7 +224,6 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
         return;
 
     clipboardData->timerEmitChange.stop();
-    clipboardData->newDataTimestamp = newDataTimestamp;
     clipboardData->abortCloning = false;
     clipboardData->cloningData = true;
     clipboardData->newData = cloneData(*data, clipboardData->formats, &clipboardData->abortCloning);
@@ -239,6 +238,7 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     if ( newDataTimestamp.isEmpty() && clipboardData->data == clipboardData->newData )
         return;
 
+    clipboardData->newDataTimestamp = newDataTimestamp;
     clipboardData->timerEmitChange.start();
 }
 
