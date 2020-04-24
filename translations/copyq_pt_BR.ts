@@ -331,7 +331,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1587"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível adicionar novos itens à guia % 1. Remova itens manualmente para liberar espaço.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
@@ -2210,7 +2210,8 @@ Defina como 0 para desativar.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt; Defina o tipo MIME como &lt;strong&gt; - &lt;/strong&gt; (caractere de menos) para ignorar arquivos.
+Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&gt; &lt;p&gt; Exemplo: Carregue a extensão de arquivo &lt;strong&gt; txt &lt;/strong&gt; como o tipo MIME &lt;strong&gt; text / plain &lt;/strong&gt;. &lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
