@@ -939,15 +939,8 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
-
     // WORKAROUND: Omit calling resizeEvent() recursively.
-    if (m_resizing) {
-        m_timerUpdateSizes.start();
-    } else {
-        m_resizing = true;
-        updateSizes();
-        m_resizing = false;
-    }
+    m_timerUpdateSizes.start();
 }
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
@@ -1732,8 +1725,15 @@ void ClipboardBrowser::delayedSaveItems()
 
 void ClipboardBrowser::updateSizes()
 {
+    if (m_resizing) {
+        m_timerUpdateSizes.start();
+        return;
+    }
+
+    m_resizing = true;
     updateItemMaximumSize();
     updateEditorGeometry();
+    m_resizing = false;
 }
 
 void ClipboardBrowser::updateCurrent()
