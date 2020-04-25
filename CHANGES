@@ -1,3 +1,79 @@
+v3.11.0
+
+- Tab character size can now be set (number of spaces) and maps more accurately
+  to space character width (#1341). The default value is 8 spaces which is
+  smaller than before. This can be changed on command line:
+
+      copyq config text_tab_width 4
+
+- Consistent window and dialog titles in application (" - CopyQ" suffix)
+
+- CSS stylesheet files to fully customize appearance
+
+- Allow keyboard navigation in item preview dock
+
+- "Show Preview" is now available in File menu instead of Item menu
+
+- Shortcuts Ctrl+P and Ctrl+N selects previous/next action in Action dialog.
+
+- New synchronized item/files are now added to item list ordered alphabetically
+  by filename which is faster and more consistent on multiple platforms than
+  ordering by modification-time (#833).
+
+- Improved performance when synchronizing items/files
+
+- Non-owned synchronized files at the end of item list are now dropped (but not
+  deleted) if the list is full.
+
+- Updated icons (Font Awesome 5.13.0)
+
+- Simpler item scrollbar style
+
+- Omit showing new notification under mouse pointer (#1310)
+
+- Duplicate "CopyQ Error" notification are not shown
+
+- Bind x to Delete in Vi style navigation mode
+
+- Left/Right arrow keys now work in FakeVim editor mode by default
+
+- FakeVim editor mode now supports cutting text to given register
+
+- If FakeVim editor mode is active in a dialog, Esc key allows to close the
+  dialog.
+
+- Fix opening tray menu with empty search
+
+- Fix search in main window and tray with different keyboard layouts (#1316)
+
+- Fix restoring search when closing internal editor
+
+- Fix crash when synchronizing pinned items/files (#1311)
+
+- Fix pasting synchronized file instead of its content (#1309)
+
+- Fix enabling menu items with filters in commands (#1284)
+
+- Fix commands for removing tags from items (#1332)
+
+- Fix copying from item preview dock (#1326)
+
+- Fix position of main window on current screen (#1216)
+
+- Fix copying "text/plain;charset=utf-8" format as a text (#1324)
+
+- Fix preview search highlight in Appearance configuration (#1354)
+
+- Fix hover/mouse-over style for items (#1347)
+
+- Fix wrapping long notification text
+
+- Fix jitter when scrolling in item list
+
+- X11: Fix re-getting clipboard content after aborted (#1356)
+
+- Windows: Use builds with Qt 5.13
+
 v3.10.0
 
 - Use environment variable `COPYQ_DEFAULT_ICON=1` to show the original
