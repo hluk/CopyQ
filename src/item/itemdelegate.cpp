@@ -66,8 +66,8 @@ QSize ItemDelegate::sizeHint(const QModelIndex &index) const
             QWidget *ww = w->widget();
             const auto margins = m_sharedData->theme.margins();
             const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-            return QSize( ww->width() + 2 * margins.width() + rowNumberSize.width(),
-                          qMax(ww->height() + 2 * margins.height(), rowNumberSize.height()) );
+            const int width = ww->isVisible() ? ww->width() + 2 * margins.width() + rowNumberSize.width() : 0;
+            return QSize( width, qMax(ww->height() + 2 * margins.height(), rowNumberSize.height()) );
         }
     }
     return QSize(0, 100);
