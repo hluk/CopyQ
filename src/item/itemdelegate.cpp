@@ -209,7 +209,7 @@ void ItemDelegate::setItemSizes(QSize size, int idealWidth)
 {
     const auto margins = m_sharedData->theme.margins();
     const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-    const int margin = 2 * margins.width() + rowNumberSize.width() + m_view->spacing();
+    const int margin = 2 * margins.width() + rowNumberSize.width() + 2 * m_view->spacing();
     m_maxSize.setWidth(size.width() - margin);
     m_idealWidth = idealWidth - margin;
 
