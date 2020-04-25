@@ -67,6 +67,7 @@ const char dataFileSuffix[] = "_copyq.dat";
 const char noteFileSuffix[] = "_note.txt";
 
 const int defaultUpdateFocusItemsIntervalMs = 10000;
+const int batchItemUpdateIntervalMs = 100;
 
 const qint64 sizeLimit = 10 << 20;
 
@@ -418,7 +419,7 @@ FileWatcher::FileWatcher(
 
     bool ok;
     const int interval = qgetenv("COPYQ_SYNC_UPDATE_INTERVAL_MS").toInt(&ok);
-    m_updateTimer.setInterval(ok && interval > 0 ? interval : defaultUpdateFocusItemsIntervalMs);
+    m_interval = ok && interval > 0 ? interval : defaultUpdateFocusItemsIntervalMs;
 
     connect( &m_updateTimer, &QTimer::timeout,
              this, &FileWatcher::updateItems );
@@ -477,7 +478,7 @@ void FileWatcher::createItemsFromFiles(const QDir &dir, const BaseNameExtensions
 void FileWatcher::updateItems()
 {
     if ( !lock() ) {
-        m_updateTimer.start();
+        m_updateTimer.start(m_interval);
         return;
     }
 
@@ -487,53 +488,76 @@ void FileWatcher::updateItems()
     m_lastUpdateTimeMs = QDateTime::currentMSecsSinceEpoch();
 
     const QDir dir(m_path);
-    const QStringList files = listFiles(dir);
-    BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
 
-    if ( t.elapsed() > 100 )
-        log( QString("ItemSync: Files listed in %1 ms").arg(t.elapsed()) );
+    if ( m_batchIndexData.isEmpty() ) {
+        const QStringList files = listFiles(dir);
+        m_fileList = listFiles(files, m_formatSettings);
+        m_batchIndexData = m_indexData;
+        m_lastBatchIndex = -1;
+        if ( t.elapsed() > 100 )
+            log( QString("ItemSync: Files listed in %1 ms").arg(t.elapsed()) );
+    }
 
-    for ( int row = 0; row < m_model->rowCount(); ++row ) {
-        const QModelIndex index = m_model->index(row, 0);
-        const QString baseName = getBaseName(index);
+    for ( int i = m_lastBatchIndex + 1; i < m_batchIndexData.size(); ++i ) {
+        const IndexData &indexData = m_batchIndexData[i];
+        const QPersistentModelIndex &index = indexData.index;
+        if ( !index.isValid() )
+            continue;
+        const QString baseName = indexData.baseName;
         if ( baseName.isEmpty() )
             continue;
 
-        int i = 0;
-        for ( i = 0; i < fileList.size() && fileList[i].baseName != baseName; ++i ) {}
+        int j = 0;
+        for ( j = 0; j < m_fileList.size() && m_fileList[j].baseName != baseName; ++j ) {}
 
         QVariantMap dataMap;
         QVariantMap mimeToExtension;
 
-        if ( i < fileList.size() ) {
-            updateDataAndWatchFile(dir, fileList[i], &dataMap, &mimeToExtension);
-            fileList.removeAt(i);
+        if ( j < m_fileList.size() ) {
+            updateDataAndWatchFile(dir, m_fileList[j], &dataMap, &mimeToExtension);
+            m_fileList.removeAt(j);
         }
 
         if ( mimeToExtension.isEmpty() ) {
-            m_model->removeRow(row--);
+            m_model->removeRow(index.row());
         } else {
             dataMap.insert(mimeBaseName, baseName);
             dataMap.insert(mimeExtensionMap, mimeToExtension);
             updateIndexData(index, dataMap);
         }
+
+        if ( t.elapsed() > 20 ) {
+            COPYQ_LOG_VERBOSE( QString("ItemSync: Items updated in %1 ms, last row %2/%3")
+                 .arg(t.elapsed())
+                 .arg(i + 1)
+                 .arg(m_batchIndexData.size()) );
+            m_lastBatchIndex = i;
+            unlock();
+            m_updateTimer.start(batchItemUpdateIntervalMs);
+            return;
+        }
     }
 
-    createItemsFromFiles(dir, fileList);
+    t.restart();
 
-    if ( t.elapsed() > 200 )
-        log( QString("ItemSync: Items updated in %1 ms").arg(t.elapsed()) );
+    createItemsFromFiles(dir, m_fileList);
+
+    if ( t.elapsed() > 100 )
+        log( QString("ItemSync: Items created in %1 ms").arg(t.elapsed()) );
+
+    m_fileList.clear();
+    m_batchIndexData.clear();
 
     unlock();
 
     if (m_updatesEnabled)
-        m_updateTimer.start();
+        m_updateTimer.start(m_interval);
 }
 
 void FileWatcher::updateItemsIfNeeded()
 {
     const auto time = QDateTime::currentMSecsSinceEpoch();
-    if (time < m_lastUpdateTimeMs + m_updateTimer.interval())
+    if (time < m_lastUpdateTimeMs + m_interval)
         return;
 
     updateItems();
@@ -544,7 +568,7 @@ void FileWatcher::setUpdatesEnabled(bool enabled)
     m_updatesEnabled = enabled;
     if (enabled)
         updateItems();
-    else
+    else if ( m_batchIndexData.isEmpty() )
         m_updateTimer.stop();
 }
 

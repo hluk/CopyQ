@@ -133,6 +133,7 @@ private:
 
     QAbstractItemModel *m_model;
     QTimer m_updateTimer;
+    int m_interval = 0;
     const QList<FileFormat> &m_formatSettings;
     QString m_path;
     bool m_valid;
@@ -140,6 +141,10 @@ private:
     int m_maxItems;
     bool m_updatesEnabled = false;
     qint64 m_lastUpdateTimeMs = 0;
+
+    IndexDataList m_batchIndexData;
+    BaseNameExtensionsList m_fileList;
+    int m_lastBatchIndex = -1;
 };
 
 #endif // FILEWATCHER_H
