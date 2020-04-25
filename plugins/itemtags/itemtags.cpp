@@ -347,19 +347,16 @@ ItemTags::ItemTags(ItemWidget *childItem, const Tags &tags)
     layout->setMargin(0);
     layout->setSpacing(0);
 
-    layout->addWidget(m_tagWidget);
-    layout->addWidget( childItem->widget() );
+    layout->addWidget(m_tagWidget, 0);
+    layout->addWidget( childItem->widget(), 1 );
 }
 
 void ItemTags::updateSize(QSize maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
-
-    m_tagWidget->adjustSize();
     m_tagWidget->setFixedWidth(idealWidth);
-    setFixedWidth(idealWidth);
-
     ItemWidgetWrapper::updateSize(maximumSize, idealWidth);
+    adjustSize();
 }
 
 QStringList ItemTagsScriptable::getUserTags() const
