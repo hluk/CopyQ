@@ -629,6 +629,7 @@ bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName,
     wrapper->setTextCursor( QTextCursor(wrapper->document()) );
 
     QStatusBar *statusBar = new QStatusBar(textEdit);
+    statusBar->setObjectName("item_child");
 
     const auto layout = textEdit->parentWidget()->layout();
     if (layout)
