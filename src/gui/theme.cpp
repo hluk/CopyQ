@@ -257,8 +257,8 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
     QPalette palette = QApplication::palette();
 
     // This seems to properly reset icon colors.
-    mainWindow->setPalette(palette);
     mainWindow->setStyleSheet(QString());
+    mainWindow->setPalette(palette);
 
     if ( !isMainWindowThemeEnabled() )
         return;
