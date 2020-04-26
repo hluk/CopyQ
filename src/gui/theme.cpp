@@ -37,6 +37,11 @@
 
 namespace {
 
+double normalizeFactor(double value)
+{
+    return qBound( 0.0, value, 1.0 );
+}
+
 int normalizeColorValue(float value)
 {
     return qBound( 0, static_cast<int>(value), 255 );
@@ -624,8 +629,8 @@ QString Theme::parsePlaceholder(const QString &name, Values *values, int maxRecu
     if ( !qFuzzyCompare(saturationF, 1.0) || !qFuzzyCompare(valueF, 1.0) ) {
         color.setHsvF(
             color.hueF(),
-            color.saturationF() * saturationF,
-            color.valueF() * valueF,
+            normalizeFactor(color.saturationF() * saturationF),
+            normalizeFactor(color.valueF() * valueF),
             color.alphaF()
         );
     }
