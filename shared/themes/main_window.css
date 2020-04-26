@@ -31,15 +31,14 @@
     ;${tab_tree_sel_item_counter}
 }
 
-/* Remove border in toolbars. */
+QToolBar QToolButton{
+    ;color: ${fg}
+    ;background: ${bg}
+}
 QToolBar{${tool_bar_css}}
 QToolBar QToolButton{${tool_button_css}}
 QToolBar QToolButton:hover{${tool_button_selected_css}}
 QToolBar QToolButton:pressed{${tool_button_pressed_css}}
-
-#menu_bar, #menu_bar::item{${menu_bar_css}}
-#menu_bar::item:selected{${menu_bar_selected_css}}
-#menu_bar::item:disabled{${menu_bar_disabled_css}}
 
 ${css:menu}
 

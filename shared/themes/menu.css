@@ -28,7 +28,6 @@
     ${menu_bar_selected_css}
 }
 
-#MainWindow QMenu::item:disabled
-{
-    ${menu_bar_disabled_css}
-}
+#menu_bar, #menu_bar::item{${menu_bar_css}}
+#menu_bar::item:selected{${menu_bar_selected_css}}
+#menu_bar::item:disabled{${menu_bar_disabled_css}}
