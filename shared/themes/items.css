@@ -23,17 +23,24 @@
     ;background: transparent
 }
 
-${hsv_saturation_factor = 0.3}
+${hsv_saturation_factor = 0.5}
     #ClipboardBrowser::item:selected:!active
     {
         ;background:${sel_bg}
         ;${sel_item_css}
     }
-    #ClipboardBrowser::item:hover
+${hsv_saturation_factor = 2}
+${hsv_value_factor = 0.9}
+    #ClipboardBrowser::item:hover:selected
     {
         ;background:${sel_bg}
     }
+    #ClipboardBrowser::item:hover:!selected
+    {
+        ;background:${bg}
+    }
 ${hsv_saturation_factor = 1}
+${hsv_value_factor = 1}
 
 /* Omit showing current item outline. */
 #ClipboardBrowser::focus{outline:0}
