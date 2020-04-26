@@ -329,17 +329,17 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation type="vanished">Fanen er full. Kan ikke fjerne noen elementer.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1587"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1578"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Kan ikke legge til nye elementer i fane %1. Fjern elementer manuelt for å frigjøre plass.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1860"/>
         <source>Discard Changes?</source>
         <translation>Forkaste Endringer?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1861"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Ønsker du virkelig å &lt;strong&gt;forkaste endringer&lt;/strong&gt;?</translation>
     </message>
@@ -385,10 +385,15 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation type="unfinished">Element-innhold</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
+        <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
+        <comment>Size of clipboard/item data in bytes</comment>
+        <translation type="unfinished">&lt;strong&gt;Størrelse:&lt;/strong&gt; %1 bytes</translation>
+    </message>
+    <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
-        <translation>&lt;strong&gt;Størrelse:&lt;/strong&gt; %1 bytes</translation>
+        <translation type="vanished">&lt;strong&gt;Størrelse:&lt;/strong&gt; %1 bytes</translation>
     </message>
 </context>
 <context>
@@ -914,55 +919,55 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
         <translation>Forhåndsvisning:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="480"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="441"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>element</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="482"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="443"/>
         <source>Search string is %1.</source>
         <translation>Søkestrengen er %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="483"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="444"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Velg et element og
 trykk F2 for å redigere.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="485"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="446"/>
         <source>Example item %1</source>
         <translation>Eksempel-element %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="490"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="451"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>Noen tilfeldige notater (Shift+F2 for å redigere)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="148"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="134"/>
         <source>Open Theme File</source>
         <translation>Åpne Tema-fil</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="158"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="144"/>
         <source>Save Theme File As</source>
         <translation>Lagre Tema-fil Som</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="177"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="163"/>
         <source>No External Editor</source>
         <translation>Inget Eksternt Redigeringsprogram</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="178"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="164"/>
         <source>Set external editor command first!</source>
         <translation>Oppgi eksternt redigeringsprogram først!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="395"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="364"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Abc</translation>
@@ -1632,7 +1637,7 @@ Settes til 0 for å deaktivere.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="651"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="683"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Kunne ikke opprette synkroniseringsmappen &quot;%1&quot;!</translation>
     </message>
@@ -2211,8 +2216,13 @@ Settes til 0 for å deaktivere.</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
-        <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
-&lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
+&lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
+        <source>Item Media Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2227,9 +2237,8 @@ Settes til 0 for å deaktivere.</translation>
         <translation>Utvidelser</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item MIME Type</source>
-        <translation>MIME-type for Element</translation>
+        <translation type="vanished">MIME-type for Element</translation>
     </message>
 </context>
 <context>
@@ -2255,13 +2264,13 @@ Settes til 0 for å deaktivere.</translation>
         <translation>Fjern etiketten %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="699"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="696"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Viktig</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="720"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="717"/>
         <source>Clear all tags</source>
         <translation>Fjern alle etiketter</translation>
     </message>
@@ -2545,13 +2554,13 @@ Settes til 0 for å deaktivere.</translation>
         <translation>&amp;utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="544"/>
+        <location filename="../src/common/common.cpp" line="560"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;SKJULT&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="550"/>
+        <location filename="../src/common/common.cpp" line="566"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2560,25 +2569,25 @@ Settes til 0 for å deaktivere.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="560"/>
+        <location filename="../src/common/common.cpp" line="576"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;BILDE&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="562"/>
+        <location filename="../src/common/common.cpp" line="578"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;UTKLIPP&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="564"/>
+        <location filename="../src/common/common.cpp" line="580"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;TOM&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="566"/>
+        <location filename="../src/common/common.cpp" line="582"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
@@ -3368,12 +3377,12 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation>Ugyldig antall argumenter!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2799"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2797"/>
         <source>Exception</source>
         <translation>Unntak</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2842"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2840"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Klarte ikke å kopiere til utklippstavle.</translation>
     </message>
@@ -3410,7 +3419,7 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation>Ugyldig parameter &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2800"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2798"/>
         <source>Exception in %1</source>
         <translation>Unntak i %1</translation>
     </message>

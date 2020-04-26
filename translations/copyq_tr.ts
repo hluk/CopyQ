@@ -328,17 +328,17 @@ You can set up the command in preferences.</source>
         <translation type="vanished">Sekme dolu. Herhangi bir öğe kaldırılamadı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1587"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1578"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation type="unfinished">%1 sekmesine yeni öğeler eklenemiyor. Yer açmak için lütfen öğeleri el ile kaldırın.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1860"/>
         <source>Discard Changes?</source>
         <translation>Değişikliklerden vazgeç?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1861"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Gerçekten &lt;strong&gt;değişiklerden vazgeçmek&lt;/strong&gt; istiyor musunuz?</translation>
     </message>
@@ -384,10 +384,15 @@ You can set up the command in preferences.</source>
         <translation>Öğe İçeriği</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="172"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
+        <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
+        <comment>Size of clipboard/item data in bytes</comment>
+        <translation type="unfinished">&lt;strong&gt;Boyut:&lt;/strong&gt; %1 bytes</translation>
+    </message>
+    <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
-        <translation>&lt;strong&gt;Boyut:&lt;/strong&gt; %1 bytes</translation>
+        <translation type="vanished">&lt;strong&gt;Boyut:&lt;/strong&gt; %1 bytes</translation>
     </message>
 </context>
 <context>
@@ -913,55 +918,55 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
         <translation>Önizleme:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="480"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="441"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>öğe</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="482"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="443"/>
         <source>Search string is %1.</source>
         <translation>Arama dizesi %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="483"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="444"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Bir öğe seçin ve
 düzenlemek için F2&apos;ye basın.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="485"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="446"/>
         <source>Example item %1</source>
         <translation>Örnek öğe %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="490"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="451"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>Bazı rastgele notlar (düzenlemek için Shift+F2)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="148"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="134"/>
         <source>Open Theme File</source>
         <translation>Tema Dosyası Aç</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="158"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="144"/>
         <source>Save Theme File As</source>
         <translation>Temayı Farklı Kaydet</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="177"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="163"/>
         <source>No External Editor</source>
         <translation>Editör Yok</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="178"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="164"/>
         <source>Set external editor command first!</source>
         <translation>Önce harici düzenleyici komutunu seçin!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="395"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="364"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Abc</translation>
@@ -1629,7 +1634,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="651"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="683"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Senkronizasyon dizini oluşturulamadı &quot;%1&quot;!</translation>
     </message>
@@ -2208,9 +2213,19 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
+        <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
+&lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
+        <source>Item Media Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Dosyaları yok saymak için MIME tipini &lt;strong&gt;-&lt;/strong&gt; (eksi karakteri) olarak ayarlayın. Diğer tüm bilinmeyen veya gizli dosyalar yok sayıldı.&lt;/p&gt;
+        <translation type="obsolete">&lt;p&gt;Dosyaları yok saymak için MIME tipini &lt;strong&gt;-&lt;/strong&gt; (eksi karakteri) olarak ayarlayın. Diğer tüm bilinmeyen veya gizli dosyalar yok sayıldı.&lt;/p&gt;
 &lt;p&gt;Örnek: &lt;strong&gt;txt&lt;/strong&gt; dosya uzantısını &lt;strong&gt;text/plain&lt;/strong&gt; MIME tipi olarak yükleyin.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -2225,9 +2240,8 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <translation>Uzantılar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item MIME Type</source>
-        <translation>Öğe MIME Tipi</translation>
+        <translation type="vanished">Öğe MIME Tipi</translation>
     </message>
 </context>
 <context>
@@ -2253,13 +2267,13 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <translation>%1 etiketini kaldır</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="699"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="696"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Önemli</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="720"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="717"/>
         <source>Clear all tags</source>
         <translation>Tüm etiketleri temizle</translation>
     </message>
@@ -2543,40 +2557,39 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <translation>&amp;pano</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="544"/>
+        <location filename="../src/common/common.cpp" line="560"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;HIDDEN&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="550"/>
+        <location filename="../src/common/common.cpp" line="566"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
             <numerusform>%1 (%n satır)</numerusform>
-            <numerusform>%1 (%n satırlar)</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="560"/>
+        <location filename="../src/common/common.cpp" line="576"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;IMAGE&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="562"/>
+        <location filename="../src/common/common.cpp" line="578"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;ITEMS&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="564"/>
+        <location filename="../src/common/common.cpp" line="580"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;EMPTY&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="566"/>
+        <location filename="../src/common/common.cpp" line="582"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
@@ -2922,7 +2935,6 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
-            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satırlar &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
     <message>
@@ -3400,17 +3412,17 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
         <translation>Geçersiz seçenek &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2799"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2797"/>
         <source>Exception</source>
         <translation>İstisna</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2800"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2798"/>
         <source>Exception in %1</source>
         <translation>%1’de İstisna</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2842"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2840"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Panoya kopyalanamadı!</translation>
     </message>
