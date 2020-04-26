@@ -493,6 +493,14 @@ void FileWatcher::updateItems()
         const QStringList files = listFiles(dir);
         m_fileList = listFiles(files, m_formatSettings);
         m_batchIndexData = m_indexData;
+
+        // Sort so that top rows get updated first.
+        std::sort(
+            std::begin(m_batchIndexData), std::end(m_batchIndexData),
+            [](const IndexData &lhs, const IndexData &rhs){
+                return lhs.index.row() < rhs.index.row();
+            });
+
         m_lastBatchIndex = -1;
         if ( t.elapsed() > 100 )
             log( QString("ItemSync: Files listed in %1 ms").arg(t.elapsed()) );
