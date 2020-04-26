@@ -1650,15 +1650,13 @@ void ClipboardBrowser::addUnique(const QVariantMap &data, ClipboardMode mode)
             const auto oldText = getTextData(previousData);
             if ( (mode == ClipboardMode::Clipboard)
                  ? (newText == oldText)
-                 : getTextData(data).contains(getTextData(previousData)) )
+                 : newText.contains(oldText) )
             {
                 COPYQ_LOG("New item: Merging with top item");
 
-                const QSet<QString> formatsToAdd = previousData.keys().toSet() - data.keys().toSet();
-
-                auto newData = data;
-                for (const auto &format : formatsToAdd)
-                    newData.insert(format, previousData[format]);
+                auto newData = previousData;
+                for (auto it = data.constBegin(); it != data.constEnd(); ++it)
+                    newData.insert(it.key(), it.value());
 
                 m.setData(firstIndex, newData, contentType::data);
 

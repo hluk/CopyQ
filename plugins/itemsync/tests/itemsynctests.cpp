@@ -502,9 +502,14 @@ void ItemSyncTests::notes()
 
     // One new file for notes.
     const QStringList files2 = dir1.files();
-    const QSet<QString> filesDiff = files2.toSet() - files1.toSet();
-    QCOMPARE( filesDiff.size(), 1 );
-    const QString fileNote = *filesDiff.begin();
+    QCOMPARE( files2.size(), files1.size() + 1 );
+    QString fileNote;
+    for (const auto &file : files2) {
+        if ( !files1.contains(file) ) {
+            fileNote = file;
+            break;
+        }
+    }
 
     // Read file with the notes.
     FilePtr file = dir1.file(fileNote);

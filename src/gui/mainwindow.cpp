@@ -2679,7 +2679,6 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
     const QStringList tabs = ui->tabWidget->tabs();
     Q_ASSERT( oldPrefix == newPrefix || !tabs.contains(oldPrefix) );
     Q_ASSERT( !tabs.contains(QString()) );
-    Q_ASSERT( tabs.toSet().size() == tabs.size() );
 
     const QString prefix = oldPrefix + '/';
 
