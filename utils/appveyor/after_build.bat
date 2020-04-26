@@ -4,7 +4,6 @@ git describe --tags --always HEAD > _git_tag.tmp || goto :error
 set /p AppVersion=<_git_tag.tmp
 del _git_tag.tmp
 
-set QtRoot=%QTDIR%
 set Source=%APPVEYOR_BUILD_FOLDER%
 set Name=copyq-%AppVersion%
 set Destination=%APPVEYOR_BUILD_FOLDER%\%Name%
@@ -29,6 +28,8 @@ xcopy /F "%BuildRoot%\src\*.qm" "%Destination%\translations" || goto :error
 mkdir "%Destination%\plugins"
 xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins" || goto :error
 
+%QTDIR%\bin\windeployqt --version
+%QTDIR%\bin\windeployqt --help
 %QTDIR%\bin\windeployqt --release --no-system-d3d-compiler --no-angle --no-opengl-sw "%Executable%" || goto :error
 
 7z a "%Name%.zip" -r "%Destination%" || goto :error
