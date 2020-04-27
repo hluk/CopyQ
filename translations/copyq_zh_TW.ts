@@ -134,7 +134,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation>篩選</translation>
+        <translation type="unfinished">篩選</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
@@ -625,7 +625,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
         <source>&amp;Filter:</source>
-        <translation>轉換器(&amp;F):</translation>
+        <translation type="unfinished">篩選器(&amp;F):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="361"/>
@@ -636,9 +636,9 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;只當轉換命令成功才使用命令。&lt;/p&gt;
+        <translation type="unfinished">&lt;p&gt;只當篩選命令成功才使用命令。&lt;/p&gt;
 
-&lt;p&gt;項目文被傳送到轉換器命令的&lt;b&gt;標準輸入&lt;/b&gt;。The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
+&lt;p&gt;項目文被傳送到篩選器命令的&lt;b&gt;標準輸入&lt;/b&gt;。該項目 &lt;b&gt;只在篩選器命令的結束碼為 0 時，才被挑出&lt;/b&gt;。&lt;/p&gt;
 
 &lt;p&gt;用 &lt;b&gt;%1&lt;/b&gt; 作為參元接收傳送的項目文，並用 &lt;b&gt;%2&lt;/b&gt; 至 &lt;b&gt;%9&lt;/b&gt; 作為參元接收類型式(regular expression)抓出的文 (括在括號中的部分)。&lt;/p&gt;
 
@@ -1053,12 +1053,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation>儲存和還原項目處理器的歷史記錄</translation>
+        <translation type="unfinished">儲存和還原項目篩選器的歷史記錄</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation>儲存處理器歷史</translation>
+        <translation type="unfinished">儲存篩選器歷史</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
@@ -2216,12 +2216,13 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt;媒體類型設成 &lt;strong&gt;-&lt;/strong&gt; (減號字元) 以忽略檔案。任何其他未知或隱藏檔會被忽略。&lt;/p&gt;
+&lt;p&gt;例如: 若採用 &lt;strong&gt;text/plain&lt;/strong&gt; 媒體類型，則會載入以 &lt;strong&gt;txt&lt;/strong&gt; 為附檔名的檔案。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>項目媒體類型</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -2751,7 +2752,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>Move to &amp;Clipboard</source>
-        <translation>移到剪貼簿(&amp;C)</translation>
+        <translation>複製到剪貼簿(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -3029,7 +3030,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished">將目前窗格內容貼到系統剪貼簿
+        <translation type="unfinished">將目前窗格內容複製到系統剪貼簿
 (在某些應用程式可能無作用)。</translation>
     </message>
     <message>
@@ -3468,7 +3469,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">新快鍵</translation>
+        <translation type="unfinished">新增快鍵</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3511,7 +3512,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished">應用程式快鍵只在主窗取得焦點時有作用。</translation>
+        <translation>應用程式快鍵只在CopyQ主窗取得焦點時有作用。</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
@@ -3542,7 +3543,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">新增分頁</translation>
+        <translation>新增分頁</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
@@ -3587,7 +3588,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="91"/>
         <source>Type to search</source>
-        <translation>搜尋類型</translation>
+        <translation type="unfinished">打字搜尋</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="105"/>
