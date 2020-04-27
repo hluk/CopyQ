@@ -389,7 +389,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;サイズ:&lt;/strong&gt; %1 バイト</translation>
+        <translation>&lt;strong&gt;サイズ:&lt;/strong&gt; %1 バイト</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -2219,12 +2219,13 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;メディア形式に &lt;strong&gt;-&lt;/strong&gt; (マイナス文字) を設定するとファイルを無視します。不明なファイル形式や隠しファイルも無視します。&lt;/p&gt;
+&lt;p&gt;例: 拡張子が &lt;strong&gt;txt&lt;/strong&gt; のファイルを &lt;strong&gt;text/plain&lt;/strong&gt; メディア形式として読み込みます。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>アイテムのメディア形式</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
