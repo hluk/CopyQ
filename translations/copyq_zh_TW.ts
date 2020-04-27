@@ -388,7 +388,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;大小:&lt;/strong&gt; %1 bytes</translation>
+        <translation>&lt;strong&gt;大小:&lt;/strong&gt; %1 bytes</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -636,7 +636,7 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;只當篩選命令成功才使用命令。&lt;/p&gt;
+        <translation>&lt;p&gt;只當篩選命令成功才使用命令。&lt;/p&gt;
 
 &lt;p&gt;項目文被傳送到篩選器命令的&lt;b&gt;標準輸入&lt;/b&gt;。該項目 &lt;b&gt;只在篩選器命令的結束碼為 0 時，才被挑出&lt;/b&gt;。&lt;/p&gt;
 
@@ -1053,7 +1053,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">儲存和還原項目篩選器的歷史記錄</translation>
+        <translation>儲存和還原項目篩選器的歷史記錄</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
@@ -1521,7 +1521,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>顯示功能表中的目前分頁(&amp;R)，</translation>
+        <translation>顯示功能表中的目前分頁(&amp;R)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
@@ -1541,7 +1541,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation>將啟用的項目貼到目前窗格(&amp;P)</translation>
+        <translation>雙點項目以貼到目前窗格(&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
@@ -2216,7 +2216,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;媒體類型設成 &lt;strong&gt;-&lt;/strong&gt; (減號字元) 以忽略檔案。任何其他未知或隱藏檔會被忽略。&lt;/p&gt;
+        <translation>&lt;p&gt;媒體類型設成 &lt;strong&gt;-&lt;/strong&gt; (減號字元) 以忽略檔案。任何其他未知或隱藏檔會被忽略。&lt;/p&gt;
 &lt;p&gt;例如: 若採用 &lt;strong&gt;text/plain&lt;/strong&gt; 媒體類型，則會載入以 &lt;strong&gt;txt&lt;/strong&gt; 為附檔名的檔案。&lt;/p&gt;</translation>
     </message>
     <message>
@@ -3030,7 +3030,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished">將目前窗格內容複製到系統剪貼簿
+        <translation>將目前窗格內容複製到系統剪貼簿
 (在某些應用程式可能無作用)。</translation>
     </message>
     <message>
@@ -3166,7 +3166,7 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished">設定剪貼簿內容。</translation>
+        <translation>設定剪貼簿內容。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
@@ -3177,13 +3177,13 @@ Show tray popup message for TIME milliseconds.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished">對行中項目文字執行 PROGRAM。
+        <translation>對行中項目文字執行 PROGRAM。
 於 PROGRAM 中用 %1，可將文字作為參元傳入 PROGRAM。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished">於 TIME 微秒顯示系統匣彈出訊息。</translation>
+        <translation>於 TIME 微秒顯示系統匣彈出訊息。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
@@ -3281,7 +3281,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished">執行隨意即行碼。</translation>
+        <translation>執行隨意即行碼。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
@@ -3469,7 +3469,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">新增快鍵</translation>
+        <translation>新增快鍵</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3553,7 +3553,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">重新命名分頁群組</translation>
+        <translation>重新命名分頁群組</translation>
     </message>
 </context>
 <context>
@@ -3588,7 +3588,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="91"/>
         <source>Type to search</source>
-        <translation type="unfinished">打字搜尋</translation>
+        <translation>打字搜尋</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="105"/>
