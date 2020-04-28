@@ -48,6 +48,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("add", "add(text|item...)", "Same as `insert(0, ...)`.");
     addDocumentation("insert", "insert(row, text|item...)", "Inserts new items to current tab.");
     addDocumentation("remove", "remove(row, ...)", "Removes items in current tab.");
+    addDocumentation("move", "move(row)", "Moves selected items to given row in same tab.");
     addDocumentation("edit", "edit([row|text] ...)", "Edits items in current tab.");
     addDocumentation("read", "ByteArray read([mimeType])", "Same as `clipboard()`.");
     addDocumentation("read", "ByteArray read(mimeType, row, ...)", "Returns concatenated data from items, or clipboard if row is negative.");

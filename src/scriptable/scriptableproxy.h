@@ -138,6 +138,7 @@ public slots:
     void browserMoveToClipboard(const QString &tabName, int row);
     void browserSetCurrent(const QString &tabName, int arg1);
     QString browserRemoveRows(const QString &tabName, QVector<int> rows);
+    void browserMoveSelected(int targetRow);
 
     void browserEditRow(const QString &tabName, int arg1);
     void browserEditNew(const QString &tabName, const QString &arg1, bool changeClipboard);

@@ -2989,6 +2989,48 @@ void Tests::shortcutCommandSelectedAndCurrent()
     WAIT_ON_OUTPUT("tab" << tab1 << "read(0)", "1,2|2|" + tab1.toUtf8());
 }
 
+void Tests::shortcutCommandMoveSelected()
+{
+    const QString script = R"(
+        setCommands([{
+            name: 'Move Selected',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            output: 'text/plain',
+            cmd: 'copyq: move(%1)'
+        }])
+        )";
+    RUN(script.arg(1), "");
+
+    const Args args = Args("tab") << testTab(1) << "separator" << ",";
+    RUN("setCurrentTab" << testTab(1), "");
+    RUN(args << "add" << "4" << "3" << "2" << "1", "");
+
+    RUN(args << "selectItems" << "1" << "2", "true\n");
+    RUN("keys" << "CTRL+F1", "");
+    RUN(args << "read(0,1,2,3,4)", "1,2,3,4,");
+
+    RUN(args << "selectItems" << "2" << "3", "true\n");
+    RUN("keys" << "CTRL+F1", "");
+    RUN(args << "read(0,1,2,3,4)", "1,3,4,2,");
+
+    RUN(script.arg(5), "");
+    RUN("keys" << "CTRL+F1", "");
+    RUN(args << "read(0,1,2,3,4)", "1,3,4,2,");
+
+    RUN(script.arg(-1), "");
+    RUN("keys" << "CTRL+F1", "");
+    RUN(args << "read(0,1,2,3,4)", "1,3,4,2,");
+
+    RUN(script.arg(4), "");
+    RUN("keys" << "CTRL+F1", "");
+    RUN(args << "read(0,1,2,3,4)", "1,2,3,4,");
+
+    RUN(script.arg(0), "");
+    RUN("keys" << "CTRL+F1", "");
+    RUN(args << "read(0,1,2,3,4)", "3,4,1,2,");
+}
+
 void Tests::automaticCommandIgnore()
 {
     const auto script = R"(

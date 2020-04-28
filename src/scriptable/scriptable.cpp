@@ -1150,6 +1150,19 @@ void Scriptable::remove()
         throwError(error);
 }
 
+void Scriptable::move()
+{
+    m_skipArguments = 1;
+
+    int row;
+    if ( !toInt(argument(0), &row) ) {
+        throwError(argumentError());
+        return;
+    }
+
+    m_proxy->browserMoveSelected(row);
+}
+
 void Scriptable::edit()
 {
     m_skipArguments = -1;

@@ -1814,6 +1814,11 @@ void ClipboardBrowser::move(int key)
     scrollTo( currentIndex() );
 }
 
+void ClipboardBrowser::move(const QModelIndexList &indexes, int targetRow)
+{
+    moveIndexes( indexes, targetRow, &m, MoveType::Absolute );
+}
+
 QWidget *ClipboardBrowser::currentItemPreview(QWidget *parent)
 {
     if (!isLoaded())

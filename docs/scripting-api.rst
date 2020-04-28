@@ -324,6 +324,10 @@ omitted.
 
    Throws an exception if some items cannot be removed.
 
+.. js:function:: move(row)
+
+    Moves selected items to given row in same tab.
+
 .. js:function:: edit([row|text] ...)
 
    Edits items in current tab.

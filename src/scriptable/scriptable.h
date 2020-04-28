@@ -209,6 +209,7 @@ public slots:
     void insert();
     void remove();
     void edit();
+    void move();
 
     QScriptValue read();
     void write();

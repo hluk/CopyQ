@@ -1297,6 +1297,25 @@ QString ScriptableProxy::browserRemoveRows(const QString &tabName, QVector<int> 
     return QString();
 }
 
+void ScriptableProxy::browserMoveSelected(int targetRow)
+{
+    INVOKE2(browserMoveSelected, (targetRow));
+
+    QVector<int> selectedRows;
+    const QList<QPersistentModelIndex> selected = selectedIndexes();
+    if ( selected.isEmpty() )
+        return;
+
+    ClipboardBrowser *c = m_wnd->browserForItem(selected.first());
+    if (c == nullptr)
+        return;
+
+    QModelIndexList indexes;
+    for (const auto index : selected)
+        indexes.append(index);
+    c->move(indexes, targetRow);
+}
+
 void ScriptableProxy::browserEditRow(const QString &tabName, int arg1)
 {
     INVOKE2(browserEditRow, (tabName, arg1));

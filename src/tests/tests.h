@@ -223,6 +223,7 @@ private slots:
     void shortcutCommandSelectedItemsData();
     void shortcutCommandSetSelectedItemsData();
     void shortcutCommandSelectedAndCurrent();
+    void shortcutCommandMoveSelected();
 
     void automaticCommandIgnore();
     void automaticCommandRemove();
