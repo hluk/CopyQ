@@ -2025,6 +2025,27 @@ QScriptValue Scriptable::dialog()
     return result;
 }
 
+QScriptValue Scriptable::menuItems()
+{
+    const auto arg = argument(0);
+    if ( arg.isString() ) {
+        m_skipArguments = -1;
+        QVector<QVariantMap> items;
+        for (const auto &arg : arguments())
+            items.append(createDataMap(mimeText, arg));
+        const int i = m_proxy->menuItems(items);
+        if (i == -1 || i >= items.size())
+            return QString();
+        return getTextData(items[i]);
+    }
+
+    m_skipArguments = 1;
+    const auto items = fromScriptValue<QVector<QVariantMap>>( arg, this );
+    if ( items.isEmpty() )
+        return -1;
+    return m_proxy->menuItems(items);
+}
+
 QScriptValue Scriptable::settings()
 {
     m_skipArguments = 2;

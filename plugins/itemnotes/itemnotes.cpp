@@ -46,9 +46,6 @@ namespace {
 // Limit number of characters for performance reasons.
 const int defaultMaxBytes = 10*1024;
 
-const char mimeNotes[] = "application/x-copyq-item-notes";
-const char mimeIcon[] = "application/x-copyq-item-icon";
-
 const int notesIndent = 16;
 
 QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
@@ -269,7 +266,7 @@ ItemNotesLoader::~ItemNotesLoader() = default;
 
 QStringList ItemNotesLoader::formatsToSave() const
 {
-    return QStringList() << mimeNotes << mimeIcon;
+    return QStringList() << mimeItemNotes << mimeIcon;
 }
 
 QVariantMap ItemNotesLoader::applySettings()

@@ -112,6 +112,8 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("execute", "FinishedCommand execute(argument, ..., null, stdinData, ...)", "Executes a command.");
     addDocumentation("currentWindowTitle", "String currentWindowTitle()", "Returns window title of currently focused window.");
     addDocumentation("dialog", "Value dialog(...)", "Shows messages or asks user for input.");
+    addDocumentation("menuItems", "String menuItems(text...)", "Opens menu with given items and returns selected item or undefined.");
+    addDocumentation("menuItems", "int menuItems(items[])", "Opens menu with given items and returns index of selected item or -1.");
     addDocumentation("settings", "String[] settings()", "Returns array with names of all custom user options.");
     addDocumentation("settings", "Value settings(optionName)", "Returns value for a custom user option.");
     addDocumentation("settings", "settings(optionName, value)", "Sets value for a new custom user option or overrides existing one.");
@@ -170,6 +172,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("mimeWindowTitle", "(application/x-copyq-owner-window-title)", "Current window title for copied clipboard.");
     addDocumentation("mimeItems", "(application/x-copyq-item)", "Serialized items.");
     addDocumentation("mimeItemNotes", "(application/x-copyq-item-notes)", "Data contains notes for item.");
+    addDocumentation("mimeIcon", "(application/x-copyq-item-icon)", "Data contains icon for item.");
     addDocumentation("mimeOwner", "(application/x-copyq-owner)", "If available, the clipboard was set from CopyQ (from script or copied items).");
     addDocumentation("mimeClipboardMode", "(application/x-copyq-clipboard-mode)", "Contains `selection` if data is from X11 mouse selection.");
     addDocumentation("mimeCurrentTab", "(application/x-copyq-current-tab)", "Current tab name when invoking command from main window.");

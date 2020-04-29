@@ -42,6 +42,7 @@
 #include "gui/pixelratio.h"
 #include "gui/screen.h"
 #include "gui/tabicons.h"
+#include "gui/traymenu.h"
 #include "gui/windowgeometryguard.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
@@ -1356,6 +1357,33 @@ int ScriptableProxy::findTabIndex(const QString &arg1)
 {
     INVOKE(findTabIndex, (arg1));
     return m_wnd->findTabIndex(arg1);
+}
+
+int ScriptableProxy::menuItems(const QVector<QVariantMap> &items)
+{
+    INVOKE(menuItems, (items));
+
+    TrayMenu menu;
+    menu.setObjectName("CustomMenu");
+
+    const auto addMenuItems = [&](const QString &searchText) {
+        menu.clearClipboardItems();
+        for (const QVariantMap &data : items) {
+            const QString text = getTextData(data);
+            if ( text.contains(searchText, Qt::CaseInsensitive) )
+                menu.addClipboardItemAction(data, true);
+        }
+    };
+    addMenuItems(QString());
+
+    connect(&menu, &TrayMenu::searchRequest, addMenuItems);
+
+    const QPoint pos = QCursor::pos();
+    QAction *act = menu.exec(pos);
+    if (act == nullptr)
+        return -1;
+
+    return items.indexOf(act->data().toMap());
 }
 
 void ScriptableProxy::openActionDialog(const QVariantMap &arg1)

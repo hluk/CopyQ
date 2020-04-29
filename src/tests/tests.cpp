@@ -78,6 +78,7 @@ const auto clipboardBrowserRefreshButtonId = "focus:ClipboardBrowserRefreshButto
 const auto filterEditId = "focus:Utils::FilterLineEdit";
 const auto trayMenuId = "focus:TrayMenu";
 const auto menuId = "focus:Menu";
+const auto customMenuId = "focus:CustomMenu";
 const auto editorId = "focus::ItemEditorWidget";
 const auto tabDialogLineEditId = "focus:lineEditTabName";
 const auto commandDialogId = "focus:CommandDialog";
@@ -1113,6 +1114,47 @@ void Tests::commandDialog()
 void Tests::commandDialogCloseOnDisconnect()
 {
     RUN("afterMilliseconds(0, abort); dialog()", "");
+}
+
+void Tests::commandMenuItems()
+{
+    RUN(Args() << "keys" << clipboardBrowserId, "");
+    runMultiple(
+        [&]() { RUN(WITH_TIMEOUT "menuItems('a', 'b', 'c')", "a\n"); },
+        [&]() { RUN(Args() << "keys" << customMenuId << "ENTER", ""); }
+    );
+
+    RUN(Args() << "keys" << clipboardBrowserId, "");
+    runMultiple(
+        [&]() { RUN(WITH_TIMEOUT "menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "0\n"); },
+        [&]() { RUN(Args() << "keys" << customMenuId << "ENTER", ""); }
+    );
+
+    RUN(Args() << "keys" << clipboardBrowserId, "");
+    runMultiple(
+        [&]() { RUN(WITH_TIMEOUT "menuItems('a', 'b', 'c')", "\n"); },
+        [&]() { RUN(Args() << "keys" << customMenuId << "ESCAPE", ""); }
+    );
+
+    RUN(Args() << "keys" << clipboardBrowserId, "");
+    runMultiple(
+        [&]() { RUN(WITH_TIMEOUT "menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "-1\n"); },
+        [&]() { RUN(Args() << "keys" << customMenuId << "ESCAPE", ""); }
+    );
+
+    RUN(Args() << "keys" << clipboardBrowserId, "");
+    runMultiple(
+        [&]() { RUN(WITH_TIMEOUT "menuItems('a', 'b', 'c')", "b\n"); },
+        [&]() { RUN(Args() << "keys" << customMenuId << ":b" << "ENTER", ""); }
+    );
+
+    RUN(Args() << "keys" << clipboardBrowserId, "");
+    runMultiple(
+        [&]() { RUN(WITH_TIMEOUT "menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "1\n"); },
+        [&]() { RUN(Args() << "keys" << customMenuId << ":b" << "ENTER", ""); }
+    );
+
+    RUN("afterMilliseconds(0, abort); menuItems('a', 'b', 'c')", "");
 }
 
 void Tests::commandsPackUnpack()

@@ -81,6 +81,8 @@ private slots:
     void commandDialog();
     void commandDialogCloseOnDisconnect();
 
+    void commandMenuItems();
+
     void commandsPackUnpack();
     void commandsBase64();
     void commandsGetSetItem();

@@ -149,6 +149,8 @@ public slots:
     bool toggleCurrentMenu();
     int findTabIndex(const QString &arg1);
 
+    int menuItems(const QVector<QVariantMap> &items);
+
     void openActionDialog(const QVariantMap &arg1);
 
     bool loadTab(const QString &arg1);

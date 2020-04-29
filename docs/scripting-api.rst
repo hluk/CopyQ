@@ -795,6 +795,17 @@ omitted.
          'Search', ''
          )
 
+.. js:function:: String menuItems(text...)
+
+    Opens menu with given items and returns selected item or an empty string.
+
+.. js:function:: int menuItems(items[])
+
+    Opens menu with given items and returns index of selected item or -1.
+
+    Menu item label is taken from ``mimeText`` format an icon is taken from
+    ``mimeIcon`` format.
+
 .. js:function:: String[] settings()
 
    Returns array with names of all custom user options.
@@ -1295,6 +1306,10 @@ These MIME types values are assigned to global variables prefixed with
 .. js:data:: mimeItemNotes (application/x-copyq-item-notes)
 
    Data contains notes for item.
+
+.. js:data:: mimeIcon (application/x-copyq-item-icon)
+
+   Data contains icon for item.
 
 .. js:data:: mimeOwner (application/x-copyq-owner)
 

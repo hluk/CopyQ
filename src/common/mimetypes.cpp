@@ -25,6 +25,7 @@ const char mimeUriList[] = "text/uri-list";
 const char mimeWindowTitle[] = COPYQ_MIME_PREFIX "owner-window-title";
 const char mimeItems[] = COPYQ_MIME_PREFIX "item";
 const char mimeItemNotes[] = COPYQ_MIME_PREFIX "item-notes";
+const char mimeIcon[] = COPYQ_MIME_PREFIX "item-icon";
 const char mimeOwner[] = COPYQ_MIME_PREFIX "owner";
 const char mimeClipboardMode[] = COPYQ_MIME_PREFIX "clipboard-mode";
 const char mimeCurrentTab[] = COPYQ_MIME_PREFIX "current-tab";

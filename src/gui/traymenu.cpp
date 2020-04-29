@@ -22,6 +22,7 @@
 #include "common/contenttype.h"
 #include "common/common.h"
 #include "common/display.h"
+#include "common/mimetypes.h"
 #include "common/textdata.h"
 #include "common/timer.h"
 #include "gui/icons.h"
@@ -84,17 +85,16 @@ TrayMenu::TrayMenu(QWidget *parent)
     setAttribute(Qt::WA_InputMethodEnabled);
 }
 
-void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages)
+void TrayMenu::addClipboardItemAction(const QVariantMap &data, bool showImages)
 {
     // Show search text at top of the menu.
     if ( m_clipboardItemActionCount == 0 && m_searchText.isEmpty() )
         setSearchMenuItem( m_viMode ? tr("Press '/' to search") : tr("Type to search") );
 
-    const QVariantMap data = index.data(contentType::data).toMap();
     QAction *act = addAction(QString());
     act->setProperty(propertyClipboardItemAction, true);
 
-    act->setData(index.data(contentType::data));
+    act->setData(data);
 
     insertAction(m_clipboardItemActionsSeparator, act);
 
@@ -133,6 +133,15 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages)
             }
             pix = pix.copy(x, y, iconSize, iconSize);
             act->setIcon(pix);
+        }
+    }
+
+    if ( act->icon().isNull() ) {
+        const QString icon = data.value(mimeIcon).toString();
+        if ( !icon.isEmpty() ) {
+            const QColor color = getDefaultIconColor(*this);
+            const QString tag = data.value(COPYQ_MIME_PREFIX "item-tag").toString();
+            act->setIcon( iconFromFile(icon, tag, color) );
         }
     }
 

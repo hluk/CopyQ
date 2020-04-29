@@ -27,6 +27,7 @@ extern const char mimeUriList[];
 extern const char mimeWindowTitle[];
 extern const char mimeItems[];
 extern const char mimeItemNotes[];
+extern const char mimeIcon[];
 extern const char mimeOwner[];
 extern const char mimeClipboardMode[];
 extern const char mimeCurrentTab[];

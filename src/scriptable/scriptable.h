@@ -58,6 +58,7 @@ class Scriptable final : public QObject, protected QScriptable
     Q_PROPERTY(QScriptValue mimeWindowTitle READ getMimeWindowTitle CONSTANT)
     Q_PROPERTY(QScriptValue mimeItems READ getMimeItems CONSTANT)
     Q_PROPERTY(QScriptValue mimeItemNotes READ getMimeItemNotes CONSTANT)
+    Q_PROPERTY(QScriptValue mimeIcon READ getMimeIcon CONSTANT)
     Q_PROPERTY(QScriptValue mimeOwner READ getMimeOwner CONSTANT)
     Q_PROPERTY(QScriptValue mimeClipboardMode READ getMimeClipboardMode CONSTANT)
     Q_PROPERTY(QScriptValue mimeCurrentTab READ getMimeCurrentTab CONSTANT)
@@ -132,6 +133,7 @@ public:
     QScriptValue getMimeWindowTitle() const { return mimeWindowTitle; }
     QScriptValue getMimeItems() const { return mimeItems; }
     QScriptValue getMimeItemNotes() const { return mimeItemNotes; }
+    QScriptValue getMimeIcon() const { return mimeIcon; }
     QScriptValue getMimeOwner() const { return mimeOwner; }
     QScriptValue getMimeClipboardMode() const { return mimeClipboardMode; }
     QScriptValue getMimeCurrentTab() const { return mimeCurrentTab; }
@@ -303,6 +305,8 @@ public slots:
     QScriptValue currentWindowTitle();
 
     QScriptValue dialog();
+
+    QScriptValue menuItems();
 
     QScriptValue settings();
 

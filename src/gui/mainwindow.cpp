@@ -1694,7 +1694,8 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowserPlaceholder *place
             if ( !itemText.contains(searchText.toLower()) )
                 continue;
         }
-        menu->addClipboardItemAction(index, m_options.trayImages);
+        const QVariantMap data = index.data(contentType::data).toMap();
+        menu->addClipboardItemAction(data, m_options.trayImages);
         ++itemCount;
     }
 }
