@@ -6,7 +6,9 @@ v3.11.0
 
       copyq config text_tab_width 4
 
-- Consistent window and dialog titles in application (" - CopyQ" suffix)
+- New `move()` script function moves selected items within tab.
+
+- New `menuItems()` script function creates custom menus.
 
 - CSS stylesheet files to fully customize appearance
 
@@ -40,6 +42,8 @@ v3.11.0
 - FakeVim editor mode now supports cutting text to given register
 
 - If FakeVim editor mode is active in a dialog, Esc key allows to close the
+
+- Consistent window and dialog titles in application (" - CopyQ" suffix)
   dialog.
 
 - Fix opening tray menu with empty search
@@ -69,6 +73,8 @@ v3.11.0
 - Fix wrapping long notification text
 
 - Fix jitter when scrolling in item list
+
+- Fix item width
 
 - X11: Fix re-getting clipboard content after aborted (#1356)
 
