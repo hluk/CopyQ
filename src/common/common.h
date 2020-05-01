@@ -62,6 +62,8 @@ QVariantMap cloneData(const QMimeData &data, QStringList formats, bool *abortClo
 /** Clone all data as is. */
 QVariantMap cloneData(const QMimeData &data);
 
+QString cloneText(const QMimeData &data);
+
 QMimeData* createMimeData(const QVariantMap &data);
 
 /** Return true if clipboard content was created by any session of this application. */

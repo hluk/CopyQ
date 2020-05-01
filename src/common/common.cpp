@@ -721,3 +721,9 @@ QByteArray clipboardOwnerData(ClipboardMode mode)
     const auto data = clipboardData(mode);
     return data ? data->data(mimeOwner) : QByteArray();
 }
+
+QString cloneText(const QMimeData &data)
+{
+    const auto text = dataToText( data.data(mimeText), mimeText );
+    return text.isEmpty() ? data.text() : text;
+}

@@ -120,8 +120,14 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
         && !data.contains(mimeOwner) )
     {
         const auto text = getTextData(data);
-        if ( !text.isEmpty() )
-            emit synchronizeSelection(mode, text);
+        if ( !text.isEmpty() ) {
+            const auto targetMode = mode == ClipboardMode::Clipboard
+                ? ClipboardMode::Selection
+                : ClipboardMode::Clipboard;
+            const QVariantMap targetData = m_clipboard->data(targetMode, QStringList(mimeText));
+            const uint targetTextHash = qHash( getTextData(targetData, mimeText) );
+            emit synchronizeSelection(mode, text, targetTextHash);
+        }
     }
 
     // omit running run automatic commands when disabled

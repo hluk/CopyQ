@@ -2657,16 +2657,10 @@ void Scriptable::onMonitorClipboardUnchanged(const QVariantMap &data)
     m_proxy->runInternalAction(data, "copyq onClipboardUnchanged");
 }
 
-void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text)
+void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash)
 {
 #ifdef HAS_MOUSE_SELECTIONS
     auto data = createDataMap(mimeText, text);
-    const auto targetMode = sourceMode == ClipboardMode::Clipboard
-        ? QClipboard::Selection
-        : QClipboard::Clipboard;
-    auto clipboard = QGuiApplication::clipboard();
-    const auto targetText = clipboard->text(targetMode);
-    const auto targetTextHash = qHash(targetText);
     data[COPYQ_MIME_PREFIX "target-text-hash"] = QByteArray::number(targetTextHash);
     const auto command = sourceMode == ClipboardMode::Clipboard
         ? "copyq --clipboard-access synchronizeToSelection"
@@ -3384,22 +3378,26 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
                 return;
         }
 
-        const auto target = targetMode == ClipboardMode::Clipboard ? QClipboard::Clipboard : QClipboard::Selection;
-        const auto source = targetMode == ClipboardMode::Selection ? QClipboard::Clipboard : QClipboard::Selection;
+        const auto sourceMode = targetMode == ClipboardMode::Selection ? ClipboardMode::Clipboard : ClipboardMode::Selection;
 
         // Wait at least few milliseconds before synchronization
         // to avoid overriding just changed clipboard/selection.
         while ( tMin.sleep() ) {}
 
         // Stop if the clipboard/selection text already changed again.
-        auto clipboard = QGuiApplication::clipboard();
-        const auto sourceText = clipboard->text(source);
+        const auto sourceData = clipboardData(sourceMode);
+        if (!sourceData)
+            return;
+        const QString sourceText = cloneText(*sourceData);
         if (sourceText != getTextData(m_data)) {
             COPYQ_SYNC_LOG("Cancelled (source text changed)");
             return;
         }
 
-        const auto targetText = clipboard->text(target);
+        const auto targetData = clipboardData(targetMode);
+        if (!targetData)
+            return;
+        const QString targetText = cloneText(*targetData);
         if ( clipboardOwnerData(targetMode).isEmpty() && !targetText.isEmpty() ) {
             const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
             if (targetTextHash != qHash(targetText)) {
