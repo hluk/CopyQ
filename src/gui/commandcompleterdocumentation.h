@@ -112,7 +112,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("execute", "FinishedCommand execute(argument, ..., null, stdinData, ...)", "Executes a command.");
     addDocumentation("currentWindowTitle", "String currentWindowTitle()", "Returns window title of currently focused window.");
     addDocumentation("dialog", "Value dialog(...)", "Shows messages or asks user for input.");
-    addDocumentation("menuItems", "String menuItems(text...)", "Opens menu with given items and returns selected item or undefined.");
+    addDocumentation("menuItems", "String menuItems(text...)", "Opens menu with given items and returns selected item or an empty string.");
     addDocumentation("menuItems", "int menuItems(items[])", "Opens menu with given items and returns index of selected item or -1.");
     addDocumentation("settings", "String[] settings()", "Returns array with names of all custom user options.");
     addDocumentation("settings", "Value settings(optionName)", "Returns value for a custom user option.");
